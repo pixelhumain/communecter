@@ -11,6 +11,12 @@
 	
 	$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
 	   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+
+	$regionNameCommunexion = isset( Yii::app()->request->cookies['regionNameCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['regionNameCommunexion'] : "";
+
+	$countryCommunexion = isset( Yii::app()->request->cookies['countryCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['countryCommunexion'] : "";
 ?>
 
 <style>
@@ -21,7 +27,7 @@
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
 	.menu-button, .menu-info-profil, .globale-announce {
-		display:none !important;
+		display:none;
 	}
 	#TSR-conf-communected, #step2{
 		display:none;
@@ -192,6 +198,7 @@
 				Saisissez le nom de votre commune, ou votre code postal ...
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
+			<h3 class="text-dark search-loader"></div>
 		</div>	
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
 		</div>
@@ -199,7 +206,7 @@
 			<h1 class="no-margin text-dark">
 				<i class="fa fa-thumbs-up fa-2x"></i> 
 				<span class="homestead">Commune identifiée : <span id="tsr-commune-name-cp" class="text-red"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span> </span>
-				<button class="btn btn-sm bg-dark tooltips" onclick="showTwoStep('communexion'); $('#TSR-conf-communected').hide(300);" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></button>
+				<button class="btn btn-sm bg-dark tooltips" onclick="backToSetCity();" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></button>
 			</h1>
 		</div>
 		<div class="col-md-12 center section-tsr bg-azure-light-2" style="padding:0px;" id="TSR-street">
@@ -212,7 +219,7 @@
 					Saisissez le nom de votre rue ...
 				</h3>
 				<input type="text" class="input-street-twostep" placeholder="ex : 11, rue des peupliers"/>
-				<button class="btn bg-dark btn-start-street-search tooltips" onclick="startStreetSearch();" data-toggle="tooltip" data-placement="right" title="Positionnement manuel">
+				<button class="btn bg-dark btn-start-street-search tooltips" onclick="startMarkerPosManuel();" data-toggle="tooltip" data-placement="right" title="Positionnement manuel">
 					<i class="fa fa-map-marker"></i>
 				</button>
 				<h4 class="center text-red" id="error_street"></h4>
@@ -271,11 +278,17 @@
 	inseeCommunexion 	= "<?php echo $inseeCommunexion; ?>";
 	cpCommunexion 		= "<?php echo $cpCommunexion; ?>";
 	cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+	countryCommunexion = "<?php echo $countryCommunexion; ?>";
 
 	jQuery(document).ready(function() {
-		console.log("userConnected");
+		console.log("userConnected", countryCommunexion);
 		console.dir(userConnected);
 	
+		if(countryCommunexion != ""){
+			//$("#addressCountry").val(countryCommunexion);
+			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
+		}
+
 		Sig.clearMap();
 		$('.tooltips').tooltip();
 
@@ -308,7 +321,7 @@
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
       			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...")
-      			startNewCommunexion(); 
+      			startNewCommunexion($("#addressCountry").val()); 
       		}, 1200);
   		});
   	});
@@ -358,8 +371,8 @@
 						userConnected["geo"] = obj["geo"]; //{ latitude : obj.lat, longitude : obj.lon };
 						showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 					}else{
-						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");
-					
+						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");
+						
 					}
 
 					$.unblockUI();
@@ -373,7 +386,11 @@
 		
   		}else{
 			
-			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html();
+			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html(); // + ", " + $("#addressCountry").val();
+			requestPart = transformNominatimUrl(requestPart);
+			//findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
+			//return;
+
 	  		console.log("requestPart", requestPart);
 	  		$.blockUI({
 				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
@@ -402,8 +419,8 @@
 						userConnected["geo"] = { latitude : obj.lat, longitude : obj.lon };
 						showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 					}else{
-						$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue. Recherche google");
-					
+						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue. Recherche google");
+						findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
 					}
 					$.unblockUI();
 				},
@@ -421,15 +438,12 @@
 
 
   	function achiveTSRAddress(){ 
+  		//return;
   		console.log("achiveTSR", "<?php echo Yii::app()->session['userId']; ?>");
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
-  		var addressCountry = $("#addressCountry").val();
+  		var addressCountry = countryCommunexion; //$("#addressCountry").val();
   		
-  		//if(streetAddress == "" || streetAddress.length <= 2){
-  		//	Sig.saveNewGeoposition("<?php echo Yii::app()->session['userId']; ?>", "person", latCommunexion, lngCommunexion);
-  		//}
-		//showStep2(); return;
   		$.ajax({
 			url: baseUrl+"/"+moduleId+"/person/update",
 			type: 'POST',
@@ -438,8 +452,8 @@
 				  "&postalCode="+cpCommunexion+
 				  "&addressLocality="+cityNameCommunexion+
 				  "&addressCountry="+addressCountry+
-				  "&codeInsee="+inseeCommunexion+
-				  "&two_steps_register=false",
+				  "&codeInsee="+inseeCommunexion,
+				  //"&two_steps_register=false",
     		success: function (obj){
     			showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
@@ -473,10 +487,46 @@
   	function showStep2(){
   		showTwoStep("");
   		$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
-  		$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
+  		$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
   		$('#menu-step-2').removeClass("selected");
   		$('#menu-step-3').addClass("selected");
   		$("#step1").hide(400);
   		$("#step2").show(400);
+  	}
+
+  	function backToSetCity(){
+  		showTwoStep('communexion'); 
+  		$('#TSR-conf-communected').hide(300); 
+  		$('#step2').hide(300); 
+  	}
+
+  	function startMarkerPosManuel(){
+  		$(".input-street-twostep").val("");
+  		startStreetSearch();
+  	}
+
+  	function callbackGoogleMapsSuccess(result){
+  		console.log("callbackGoogleMapsSuccess");
+  		console.dir(result);
+
+  		if(result.status == "OK"){
+  			//showMap(true);
+  			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+
+			//var obj = null;
+			$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
+			var obj = result.results[0];
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			var coords = L.latLng(obj.geometry.location.lat, obj.geometry.location.lng);
+			userConnected["geo"] = { latitude : obj.geometry.location.lat, longitude : obj.geometry.location.lng };
+			showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+			
+  		}else{
+  			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
+  		}
+
+		$.unblockUI();
   	}
 </script>

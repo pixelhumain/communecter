@@ -203,7 +203,7 @@
 		
 		setTimeout(function() { 
 			Sig.map.panTo(coords);
-			Sig.map.setZoom(13);
+			Sig.map.setZoom(15);
 			Sig.map.invalidateSize(false);
 			toastr.success('mise à jour de la carte ok');
 		
@@ -235,13 +235,13 @@
 	}
 
 
-	function findGeoposByGoogleMaps(requestPart){
-		var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
+	function findGeoposByGoogleMaps(requestPart, keyApp){
+		//var keyApp = "";
 		var objnominatim = {} ;
-		console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
+		console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart); // + "&key="+keyApp);
 		showLoadingMsg("Recherche de la position en cours");
 		$.ajax({
-			url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp,
+			url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart,// + "&key="+keyApp,
 			type: 'POST',
 			dataType: 'json',
 			async:false,

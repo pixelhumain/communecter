@@ -438,13 +438,13 @@ jQuery(document).ready(function() {
 	checkScroll();
 });
 
-function startNewCommunexion(){
+function startNewCommunexion(country){
 	var locality = $('#searchBarPostalCode').val();
 	locality = locality.replace(/[^\w\s-']/gi, '');
 
 	$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
 
-	var data = {"name" : name, "locality" : locality, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
+	var data = {"name" : name, "locality" : locality, "country" : country, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
     var countData = 0;
     var oneElement = null;
 
@@ -584,6 +584,8 @@ function showMap(show)
 		$(".btn-menu5, .btn-menu-add").hide();
 		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
+		$("#btn-toogle-map").css("display","inline !important");
+		$("#btn-toogle-map").show();
 		$(".my-main-container").animate({
      							top: -1000,
      							opacity:0,
