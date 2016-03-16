@@ -51,6 +51,7 @@ print(timeEnd-timeStart);
 //adding countries to cities
 db.cities.find().forEach(function(doc)
 {
+  if(typeof doc.insee != "undefined"){
     if(doc.insee.indexOf("971")>=0 )
         db.cities.update({"_id":doc._id},{'$set':{'country':'GP'}});
     else if(doc.insee.indexOf("972")==0 )
@@ -67,6 +68,16 @@ db.cities.find().forEach(function(doc)
         db.cities.update({"_id":doc._id},{'$set':{'country':'NC'}});
     else
         db.cities.update({"_id":doc._id},{'$set':{'country':'FR'}});
+  }
+});
+----------------------------------------------------
+//adding regionName to cities Nouvelle-Caledonie
+db.cities.find().forEach(function(doc)
+{
+    if(typeof doc.insee != "undefined"){
+        if(doc.insee.indexOf("988")==0 )
+            db.cities.update({"_id":doc._id},{'$set':{'regionName':'Nouvelle-Calédonie'}});
+    }
 });
 ----------------------------------------------------
 Update username on citizen collection.

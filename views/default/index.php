@@ -54,6 +54,12 @@
 		
 		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
 		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+
+		$regionNameCommunexion = isset( Yii::app()->request->cookies['regionNameCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['regionNameCommunexion'] : "";
+
+		$countryCommunexion = isset( Yii::app()->request->cookies['countryCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['countryCommunexion'] : "";
 	}
 	//si l'utilisateur est connecté
 	else{
@@ -66,6 +72,12 @@
 		
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
+		
+		$regionNameCommunexion = isset( $me['address']['regionName'] ) ? 
+		   			    			  $me['address']['regionName'] : "";
+		
+		$countryCommunexion = isset( $me['address']['country'] ) ? 
+		   			    			  $me['address']['country'] : "";
 
 
 		if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
@@ -295,6 +307,8 @@ var typesLabels = {
 var inseeCommunexion = "<?php echo $inseeCommunexion; ?>";
 var cpCommunexion = "<?php echo $cpCommunexion; ?>";
 var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
+var regionNameCommunexion = "<?php echo $regionNameCommunexion; ?>";
+var countryCommunexion = "<?php echo $countryCommunexion; ?>";
 var latCommunexion = 0;
 var lngCommunexion = 0;
 
@@ -318,9 +332,11 @@ jQuery(document).ready(function() {
 		var path = "/";
 		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
 
-		$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
-		$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-		$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
+		$.cookie('inseeCommunexion',   		inseeCommunexion,  		{ expires: 365, path: path });
+		$.cookie('cityNameCommunexion', 	cityNameCommunexion,	{ expires: 365, path: path });
+		$.cookie('cpCommunexion',   		cpCommunexion,  		{ expires: 365, path: path });
+		$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+		$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
 		
 	<?php } ?>
 
@@ -613,6 +629,8 @@ function setScopeValue(btn){
 		inseeCommunexion = btn.attr("insee-com");
 		cityNameCommunexion = btn.attr("name-com");
 		cpCommunexion = btn.attr("cp-com");
+		regionNameCommunexion = btn.attr("reg-com");
+		countryCommunexion = btn.attr("ctry-com");
 		latCommunexion = btn.attr("lat-com");
 		lngCommunexion = btn.attr("lng-com");
 
@@ -625,8 +643,9 @@ function setScopeValue(btn){
 		
 			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
 			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
-			
+			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
+			$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+			$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
 			
 			//$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
@@ -670,12 +689,14 @@ function setScopeValue(btn){
 
 			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
 			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });
-			
+			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });	
+			$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+			$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+
 			$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
 			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
-
+			$(".lbl-btn-menu-name-city").html('<span class="lbl-btn-menu-name">'+cityNameCommunexion + ", </span>" + cpCommunexion);
 			setTimeout(function(){ showTwoStep('conf-communected'); showTwoStep("street");  }, 3000);
 			//showMap(false);
 		}else{

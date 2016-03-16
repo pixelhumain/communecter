@@ -525,6 +525,8 @@
 			var cityName = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
+			var reg = data["regionName"];
+			var cntry = data["country"];
 			var lat = data["geo"]["latitude"];
 			var lng = data["geo"]["longitude"];
 
@@ -535,7 +537,7 @@
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
 									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
-											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" + 
+											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'" + 
 											 "onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
 									"</button>";
