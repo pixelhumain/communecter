@@ -365,7 +365,7 @@ function runProjectFormValidation(el) {
 		    })
 		    .done(function (data) {
 		        if (data &&  data.result) {               
-		        	toastr.success("<?php echo Yii::t("common",'Project created succesfully') ?>");
+		        	toastr.success("<?php echo Yii::t("common",'Project created successfully') ?>");
 		        	$.unblockUI();
 	        		addFloopEntity(data.id, "projects", newProject);
 	        		loadByHash("#project.detail.id."+data.id.$id);
