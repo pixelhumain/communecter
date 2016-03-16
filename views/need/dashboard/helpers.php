@@ -140,7 +140,7 @@ jQuery(document).ready(function(){
 function helpProposal(){
 $(".new-proposal").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        bootbox.confirm("Are you sure you want to help for this need <span class='text-red'><?php echo $name; ?></span>?", 
+	        bootbox.confirm("Are you sure you want to help for this need <span class='text-red'><?php echo addslashes($name); ?></span>?", 
 			function(result) {
 					if (result) {
 						$.ajax({

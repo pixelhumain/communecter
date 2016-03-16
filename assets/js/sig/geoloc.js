@@ -86,6 +86,9 @@
 	//insee
 	function callbackFindByInseeSuccess(obj){}
 	function callbackFindByInseeError(error){}
+	//google maps
+	function callbackGoogleMapsSuccess(obj){}
+	function callbackGoogleMapsError(error){}
 
 	//ajoute un élément de l'addresse à la requete
 	function addToRequest(request, dataStr){
@@ -229,4 +232,28 @@
 				setTimeout( "hideLoadingMsg()", 3000);
 			}
 		});
+	}
+
+
+	function findGeoposByGoogleMaps(requestPart){
+		var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
+		var objnominatim = {} ;
+		console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
+		showLoadingMsg("Recherche de la position en cours");
+		$.ajax({
+			url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp,
+			type: 'POST',
+			dataType: 'json',
+			async:false,
+			crossDomain:true,
+			complete: function () {},
+			success: function (obj){
+				hideLoadingMsg();
+				callbackGoogleMapsSuccess(obj);
+			},
+			error: function (error) {
+				callbackGoogleMapsError(error);
+			}
+		});
+		return objnominatim ;
 	}
