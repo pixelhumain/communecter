@@ -285,9 +285,9 @@ h3{	font-weight: 300;}
 .caretExplain{position: relative;top: 0px;color:#656565;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
 </style>
-<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
-	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
-</div>
+	<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+		<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
+	</div>
 <script>
 
 function removeExplainations(){
