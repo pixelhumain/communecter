@@ -79,7 +79,7 @@ class DataController extends Controller {
   }
   
 
-  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
+  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags = null, $key = null, $insee = null) 
   {
     $bindMap = null;
     $data = null;
@@ -111,8 +111,11 @@ class DataController extends Controller {
         }
 
         if( @$tags ) {
-          $tagsArray = explode(",", $tags);
-          $params["tags"] =  array('$in' => $tagsArray) ;
+          $tagsArray = explode(",", $tags);     
+          if($multiTags == true)
+            $params["tags"] =  array('$eq' => $tagsArray) ;
+          else
+            $params["tags"] =  array('$in' => $tagsArray) ;
         }
 
         if( @$key )
