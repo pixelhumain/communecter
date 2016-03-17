@@ -386,6 +386,8 @@ var loadableUrls = {
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
+    "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
@@ -404,7 +406,8 @@ var loadableUrls = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
-	"#default.view.page" : {title:'', icon : ''},
+	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
+	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -661,6 +664,7 @@ function showDefinition( id ){
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	$(".hover-info").css("display" , "inline");
 	toggle( "."+id , ".explain" );
+	$("."+id+" .explainDesc").removeClass("hide");
 	return false;
 }
 

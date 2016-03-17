@@ -29,7 +29,6 @@ class EventController extends CommunecterController {
           'eventsv' 					    => 'citizenToolKit.controllers.event.EventSVAction',
           'calendarview'				  => 'citizenToolKit.controllers.event.CalendarViewAction',
           'removeattendee'			 	=> 'citizenToolKit.controllers.event.RemoveAttendeeAction',
-          //'saveattendee'          => 'citizenToolKit.controllers.link.SaveAttendeeAction',
           'directory'             => 'citizenToolKit.controllers.event.DirectoryAction',
           'addattendeesv'         => 'citizenToolKit.controllers.event.AddAttendeeSvAction',
       );

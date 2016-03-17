@@ -152,11 +152,6 @@
 
 			var onclick = "";
 			var url = '#'+typeElement+'.detail.id.'+id;
-				//var title = data.typeSig + ' : ' + data.name;
-				//title = title.replace("'", "");
-				//title = title.replace('"', "");
-
-				//onclick = 'openMainPanel("'+url+'","' + title + '","' + icon + '", "'+id+'");';
 			onclick = 'loadByHash("'+url+'");';
 			
 
@@ -257,7 +252,7 @@
 						}
 					}
 				}
-				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</button>';
 
 
@@ -530,21 +525,29 @@
 			var cityName = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
+			var reg = data["regionName"];
+			var cntry = data["country"];
+			var lat = data["geo"]["latitude"];
+			var lng = data["geo"]["longitude"];
+
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
 										"<i class='fa fa-university'></i> "+cityName+
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
-									"<button class='margin-top-10 btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
-											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + 
+									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
+											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'" + 
 											 "onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
-									"</button>" +
-									"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
+									"</button>";
+
+			if(location.hash != "#default.twostepregister")
+			popupContent +=			"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
 										"<i class='fa fa-plus'></i> En savoir plus"+
-									"</button>" +
-								'</div>';
+									"</button>";
+
+			popupContent +=		'</div>';
 			return popupContent;
 		};
 
@@ -604,7 +607,7 @@
 			var hStyle = "margin-bottom: 5px !important; width:100%; font-weight: 500; border:0px solid rgba(0, 0, 0, 0.2); border-top-width:1px; border-radius:0px; margin-top:5px !important;";
 			popupContent += "<div id='btn-bounce-marker-modify' class='alert pull-left no-margin padding-10' style='"+hStyle+"'><i class='fa fa-question-circle'></i> Déplacez l'icon sur sa nouvelle position</div>";
 			
-			popupContent += '<div id="btn-validate-new-position" class="btn btn-sm btn-success center col-md-12">'+
+			popupContent += '<div id="btn-validate-new-position" class="btn btn-sm btn-success center col-md-12" style="width:100% !important;">'+
 								'<i class="fa fa-check" style="float:none !important;"></i> Valider'+
 							'</div>';
 

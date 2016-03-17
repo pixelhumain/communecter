@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../default/panels/toolbar'); 
 
 ?>
-<div id="editTimesheet">
+<div id="editTimesheet" class="col-md-12 col-xs-12">
 
 <h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
 
@@ -123,6 +123,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <script type="text/javascript">
 var parentId = $('.parentId').val();
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-tasks'></i> Editer la timeline</a>");
 	bindSubViewTimesheet();
 	initValidationTaskTable();
 	bindBtnRemoveTask();
@@ -152,7 +153,7 @@ function bindBtnRemoveTask(){
 					dataType: "json",
 					success: function(data){
 						if ( data && data.result ) {               
-							toastr.info("TASK REMOVED SUCCESFULLY!!");
+							toastr.success("<?php echo Yii::t("common","TASK REMOVED SUCCESFULLY!!") ?>");
 							$(".task"+idTask).remove();
 							if ($(".newTaskAdded tr").length == 1) {
 								$(".newTasksAddedTable").addClass("hide");
@@ -248,7 +249,7 @@ function initFormAddTask(){
 		            	if(!data.result){
 		            		toastr.error(data.msg);
 		            	}else{
-		            		toastr.success("Project's task added successfully ");
+		            		toastr.success("<?php echo Yii::t("common","Task added successfully")?>");
 							setValidationTaskTable(data.idTask);
 							bindBtnRemoveTask();
 							$("#editTimesheet .task-name").val("");
@@ -282,11 +283,6 @@ function bindSubViewTimesheet() {
 			}*/
 		});
 	});
-	/*$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prinviteDefault();
-		alert();
-	});*/
 };
 
 //var subViewElement, subViewContent, subViewIndex;
@@ -314,9 +310,9 @@ function initValidationTaskTable(){
 				+"<td><?php echo $val["endDate"];?></td>"
 				+"<td style='background-color:"+color+";'>"
 				+"</td><td>"+
-				"<span class='label label-info'>already</span>"
+				"<span class='label label-info'><?php echo Yii::t("common","already") ?></span>"
 				+"<div class='label'>"
-					+"<a href='#' class='removeTask btn btn-xs btn-red tooltips delBtn' data-id='<?php echo $val["key"] ?>' data-name='<?php echo $val["name"];?>' data-placement='left' data-original-title='Remove'>"
+					+"<a href='javascript:;' class='removeTask btn btn-xs btn-red tooltips delBtn' data-id='<?php echo $val["key"] ?>' data-name='<?php echo $val["name"];?>' data-placement='left' data-original-title='Remove'>"
 						+"<i class='fa fa-times fa fa-white'></i>"
 					+"</a>"
 				+"</div></td><tr>";
@@ -333,7 +329,7 @@ function setValidationTaskTable(id){
         +startDateSubmitTask+"</td><td>"
 		+endDateSubmitTask+"</td><td style='background-color:"+$("#editTimesheet select[name='colorpicker']").val()+";'>"
 		+"</td><td>"+
-		"<span class='label label-info'>added</span>"+
+		"<span class='label label-info'><?php echo Yii::t("common","added") ?></span>"+
 		"<div class='label'>"
 					+"<a href='#' class='removeTask btn btn-xs btn-red tooltips delBtn' data-id='"+id.$id+"' data-name='"+$("#editTimesheet .task-name").val()+"' data-placement='left' data-original-title='Remove'>"
 						+"<i class='fa fa-times fa fa-white'></i>"

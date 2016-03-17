@@ -2,7 +2,7 @@
       {
       	$me = Person::getById(Yii::app()->session['userId']);
         if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-          $urlPhotoProfil = $me['profilImageUrl'];
+          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
         else
           $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       }
@@ -136,7 +136,8 @@
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
-          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$urlPhotoProfil); ?>" alt="image" >
+
+          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <?php //echo $me["name"]; ?>
           <span class="caret"></span>
         </button>
@@ -342,11 +343,25 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
               console.log("DATA GS");
               console.dir(data);
 
+              
               var countData = 0;
               $.each(data, function(i, v) { if(v.length!=0){ countData++; } });
               
               totalDataGS += countData;
             
+              if(isMapEnd){
+                //var contextMap = { "data" : new Array() };
+                //$.each(data, function(i, v) { if(v.length!=0){ countData++; } });
+              
+                Sig.showMapElements(Sig.map, {"data":data});
+                showMap(true);
+                loadingDataGS = false;
+                $(".dropdown-result-global-search").html("");
+                showDropDownGS(false);
+                return;
+              }
+
+
               str = "";
               var city, postalCode = "";
               

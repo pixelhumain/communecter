@@ -114,6 +114,7 @@ class CommunecterController extends Controller
       "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
       "add"                   => array("href" => "/ph/communecter/default/add"),
       "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
+      "twostepregister"       => array("href" => "/ph/communecter/default/twostepregister"),
     ),
 
     "city"=> array(
@@ -202,6 +203,7 @@ class CommunecterController extends Controller
         "invite"          => array("href" => "/ph/communecter/person/invite"),
         "invitation"      => array("href" => "/ph/communecter/person/invitation"),
         "updatefield"     => array("href" => "/person/updatefield"),
+        "update"          => array("href" => "/person/update"),
         "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
         'checklinkmailwithuser'   => array("href" => "/ph/communecter/checklinkmailwithuser"),
         'getuseridbymail'   => array("href" => "/ph/communecter/getuseridbymail"),

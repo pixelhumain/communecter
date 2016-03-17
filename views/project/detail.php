@@ -18,10 +18,9 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 
 
-			<div class="col-md-4 no-padding pull-right">
+			<div class="col-md-4 col-xs-12 no-padding pull-right">
 				<div class="col-md-12 col-xs-12">
-					<?php  //print_r($attending); 
-						$this->renderPartial('../pod/usersList', array(  "project"=> $project,
+					<?php  	$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
 															"followers" => $followers,																													"contentType" => Project::COLLECTION,

@@ -28,6 +28,11 @@ class DefaultController extends CommunecterController {
     $this->render("index");
   }
 
+  public function actionTwoStepRegister() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->renderPartial("two_step_register");
+  }
   public function actionAgenda() 
   {
     $this->layout = "//layouts/mainSearch";

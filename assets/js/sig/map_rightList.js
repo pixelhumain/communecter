@@ -42,7 +42,7 @@
 				$(thisSig.cssModuleName + " #element-right-list-" + objectId).css({ "display" : "none" });
 			});
 
-			var showElementOutOfMapView = !$(this.cssModuleName + " #chk-scope").is(':checked');
+			var showElementOutOfMapView = true; // !$(this.cssModuleName + " #chk-scope").is(':checked');
 			
 			//var paginationIndex = this.paginationMin;
 			var nbElement = 0;
@@ -57,16 +57,43 @@
 							//|| 
 							showElementOutOfMapView)
 							{
+								var showThis = false;
 								//si le champ de recherche par userName est rempli (n'est pas vide)
 								if(this.name != null && $(thisSig.cssModuleName + ' #input_name_filter').val() != "") {
 									//on affiche l'élément seulement s'il correspond à la recherche
+										
+										console.log("SEARCH IN RIGHT LIST", nbVisible, nbElement);
+										console.dir(this);
+
 										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
+											showThis = true;
+										}
+
+										if(typeof this.address != "undefined")
+										if(typeof this.address.addressLocality != "undefined")
+										if(this.address.addressLocality.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
+											showThis = true;
+										}
+
+										if(typeof this.tags != "undefined" && this.tags != null){
+											$.each(this.tags, function() {
+												var tag = this;
+												if(tag.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
+													showThis = true;
+												}		
+											});
+										}
+
+										console.log("showThis", showThis);
+
+										if(showThis == true){
 											if(thisSig.inPagination(nbElement)){
-												$(thisSig.cssModuleName + " #element-right-list-" + this._id.$id.toString()).css({ "display" : "inline" });							
+												$(thisSig.cssModuleName + " #element-right-list-" + Sig.getObjectId(this)).css({ "display" : "inline" });							
 												nbVisible++;
 											}
 											nbElement++;
-										}									
+										}
+																	
 								}
 								else //si le champs de recherche est vide, on affiche l'élément
 								{
@@ -186,10 +213,12 @@
 						if("undefined" != typeof allElement['tags'] && allElement['tags'] != null){
 							button	+= 	"<div class='info_item items_map_list'>";
 							var totalTags = 0;
-							$.each(allElement['tags'], function(index, value){ totalTags++;
-								if(totalTags<4)
-								button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
-							});
+							if(typeof allElement['tags'] != "undefined" && allElement['tags'] != null){
+								$.each(allElement['tags'], function(index, value){ totalTags++;
+									if(totalTags<4)
+									button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
+								});
+							}
 							button	+= 	"</div>";
 						}
 

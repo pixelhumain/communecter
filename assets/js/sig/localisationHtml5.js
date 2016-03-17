@@ -2,15 +2,30 @@
 /* géolocalisation HTML5 */
 var currentRoleLoc = "";
 var locationHTML5Found = false;
+var positionFound = false;
+
 function initHTML5Localisation(role){
+
+	if(!locationHTML5Found)
+	$.blockUI({
+		message : 	"<h1 class='homestead text-dark padding-20'><i class='fa fa-hand-pointer-o'></i> Merci d'autoriser le partage de localisation</span></h1>" +
+					"<button class='btn btn-info margin-bottom-15' onclick='$.unblockUI();showMap(false);'>Annuler</button>"
+	});
+	
+
 	if (navigator.geolocation)
 	{
-	  if(!locationHTML5Found)
+	  if(!locationHTML5Found){
 	  navigator.geolocation.getCurrentPosition(
 		function(position){ //success
 			//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
 	  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
 			//$("#main-title-public1").show(400);
+			positionFound = position;
+			$.blockUI({
+				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+			});
+			
 			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			locationHTML5Found = true;
 			$(".box-discover").hide(400);
@@ -47,6 +62,28 @@ function initHTML5Localisation(role){
 			}
 			toastr.error(info);
 		});
+		}else{
+			$.blockUI({
+				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+			});
+			
+			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
+			$(".box-discover").hide(400);
+			$(".box-menu").hide(400);
+			// var position = {
+			// 		coords : {
+			// 		 latitude : -20.9190923,
+			// 		 longitude : 55.4859363
+			// 		}
+			// 	};
+			// console.log(position.coords);
+		    mapBg.panTo([positionFound.coords.latitude, positionFound.coords.longitude], {animate:false});
+		    mapBg.setZoom(13, {animate:false});
+		    
+		    //toastr.info("Votre position géographique a été trouvée");
+		    currentRoleLoc = role;
+		    getCityInseeByGeoPos(positionFound.coords);
+		}
 	}
 	else{
 	  toastr.error("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
@@ -56,7 +93,7 @@ function initHTML5Localisation(role){
 
 function getCityInseeByGeoPos(coords){
 	//toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche des données de votre commune");
-	showLoadingMsg("Identification de votre commune");
+	//showLoadingMsg("Identification de votre commune");
 				
 	$.ajax({
 		url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
@@ -113,13 +150,26 @@ function getCityInseeByGeoPos(coords){
 					console.log("cities found : ");
 					console.dir(obj);
 				
-					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune en cliquant sur <b>Communecter</b> ...");
 		        	Sig.showMapElements(Sig.map, obj);
+				}
+				else if(currentRoleLoc == "communexion_tsr"){ // && typeof obj.name != "undefined"){
+					$.each(obj, function(key, value){ obj[key]["typeSig"] = "city"; });
+					console.log("cities found : ");
+					console.dir(obj);
+					showMap(true);
+					//$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
+		        	showMapLegende("crosshairs", "Sélectionnez votre commune en cliquant sur <b>Communecter</b> ...");
+
+  					Sig.showMapElements(Sig.map, obj);
 				}
 			}else{
 				toastr.info("Nous n'avons pas trouvé votre code postal");// : merci de vous localiser manuellement en remplissant le formulaire.");
 				//getCityByLatLngNominatim(coords.latitude, coords.longitude);
 			}
+
+			$.unblockUI();
+		        	
 		},
 		error: function (error) {
 			console.dir(error);

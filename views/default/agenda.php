@@ -11,6 +11,10 @@
 		width: 24px;
 		margin-top: 4px;
 	}
+  
+  .btn-scope{
+    display: inline;
+  }
 
 @media screen and (max-width: 1024px) {
   button.btn-start-search {

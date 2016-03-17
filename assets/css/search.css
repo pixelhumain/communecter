@@ -649,7 +649,7 @@ button.btn-infos{
   .lbl-scope-list{
     position: absolute;
     left: 52%;
-    z-index: 3;
+    z-index: 1;
     top: 145px;
     font-size: 25px;
     font-weight: 300;
@@ -876,8 +876,8 @@ button.btn-infos{
 
 	.blockMsg {
 	    width: 80% !important;
-	    top: 2% !important;
-	    left: 10% !important;
+		top: 2% !important;
+		left: 10% !important;
 	}
 	
 }

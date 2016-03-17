@@ -83,11 +83,12 @@
 		//affiche la liste des items dans le panel
 		//et initialise l'événement click pour chaque item
 		this.Sig.updatePanel = function(thisMap){ //alert("updatePanel : " + JSON.stringify(this.listPanel));
-			//console.warn("--------------- updatePanel ---------------------");
+			console.warn("--------------- updatePanel ---------------------");
 			////console.log(this.listPanel);
 			var thisSig = this;
 			////console.log(thisSig.listPanel["tags"].length);
-			$.each(thisSig.listPanel["tags"], function(key, value){
+			if("undefined" != typeof thisSig.listPanel["tags"] && thisSig.listPanel["tags"] != null)
+				$.each(thisSig.listPanel["tags"], function(key, value){
 				////console.warn("--------------- each tags ---------------------" + value);
 			
 				var valueId = value.replace(/[^A-Za-z0-9]/g,"");

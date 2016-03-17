@@ -247,12 +247,11 @@ function runChartFormValidation() {
 		    .done(function (data,myNewChart) 
 		    {
 			   if (data.result==true) {   
-		        	toastr.success('Project properties succesfully update');
+		        	toastr.success("<?php echo Yii::t("common",'Properties updated successfully') ?>");
 		        	$.unblockUI();
-					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-					
+		        	loadByHash("#project.detail.id."+projectId);
 		        } else {
-		           toastr.error('Something Went Wrong');
+		           toastr.error('<?php echo Yii::t("common","Something Went Wrong")?>');
 		        }
 		   	});	
 		}
@@ -276,23 +275,9 @@ function bindprojectSubViewchart() {
 			}
 		});
 	});
-	$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prinviteDefault();
-	});
 };
 
-var subViewElement, subViewContent, subViewIndex;
-function hideEditChart() {
-	openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
-		
-};
-// enables the edit form 
-function editChart() {
-	$(".close-chart-edit").off().on("click", function() {
-		$(".back-subviews").trigger("click");
-	});
-};
+
 function addNewProperties(){
 	$newProperty='<div class="col-md-4 form-property">'+
 				'<h4 style="text-align:center;width:200px;">Nouvelle propriété</h4>'+

@@ -5,33 +5,28 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 Yii::import('ext.timesheetphp.sources.timesheet', true); 
-if(isset($_GET["isDetailView"]))
-	$isDetailView=$_GET["isDetailView"];
 ?>
 
 <style>
 	.lightgray{
 		background-color: rgba(0, 0, 0, 0.15);
 	}
-	<?php if (isset($isDetailView)){?>
 	.hoverScale div{
 		font-size:small;
 	}
-	<?php } ?>
 </style>
 <div class="parentTimeline">
-<div class="<?php if (!isset($isDetailView)){ ?>panel<?php } ?> panel panel-white">
-	<div class="panel-heading border-light bg-dark" <?php if (isset($isDetailView)){ ?> style="" <?php } ?>>
+<div class="panel panel-white">
+	<div class="panel-heading border-light bg-dark">
 		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if ($edit) {
-			if (@$isDetailView){
 			$tasksSerialize = base64_encode(serialize($tasks));
 			$tasksSerialize = str_replace('"','/"',$tasksSerialize);
 			$urlArray = '&tasks={'.$tasksSerialize.'}';
-		} ?> 
-		<a href="#editTimesheet" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" <?php if (isset($isDetailView)){ ?> onclick="showAjaxPanel('/gantt/addtimesheetsv/id/<?php echo $_GET["id"] ?>/type/<?php echo $_GET["type"] ?><?php echo $urlArray ?>', 'EDIT TIMELINE','tasks' )" <?php } ?>
+		?> 
+		<a href="javascript:;" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" onclick="loadByHash('#gantt.addtimesheetsv.id.<?php echo $_GET["id"] ?>.type.<?php echo $_GET["type"] ?>')">
 			<i class="fa fa-pencil"></i> Ajouter / modifier des tâches
 		</a>
 		<?php } ?>
@@ -134,11 +129,6 @@ if(isset($_GET["isDetailView"]))
 	<?php } ?>
 </div>
 </div>
-<?php
-	if (!isset($isDetailView))
-		$this->renderPartial('addTimesheetSV', array("tasks"=>$tasks));
-?>
-
 <script type="text/javascript">
 var booleanYearMonth= "<?php echo $period; ?>";
 var edit = "<?php echo $edit; ?>";
@@ -152,7 +142,7 @@ jQuery(document).ready(function() {
 		$('.scale section div').click(function(){
 			$("#year").fadeOut("slow");	
 			year=$(this).html();
-			getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"/isAdmin/"+edit+"<?php if (isset($isDetailView)) echo "/isDetailView/1"; ?>",null,"html");
+			getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/year/"+year+"/isAdmin/"+edit,null,"html");
 		});
 	}
 	
@@ -160,7 +150,7 @@ jQuery(document).ready(function() {
 		
 	$(".back").click(function(){
 		$("#year").fadeOut("slow");	
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/isAdmin/"+edit+"<?php if (isset($isDetailView)) echo "/isDetailView/1"; ?>",null,"html");
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo $_GET["type"];?>/id/<?php echo $_GET["id"];?>/isAdmin/"+edit,null,"html");
 	});
 	
 });
