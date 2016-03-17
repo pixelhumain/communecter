@@ -340,7 +340,7 @@ max-height: 250px !important;
 			<div class="form-actions" style="display: block;">
 				<?php if(@$type && $type==Person::COLLECTION){ ?>
 				<div class="dropdown">
-					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down"></i></a>
+					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li>
 							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
@@ -519,6 +519,7 @@ var scopesFilterListHTML = "";
 var loadingData = false;
 jQuery(document).ready(function() 
 {
+	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
@@ -539,30 +540,22 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	},100);
-	setTimeout(function(){
 		$(".my-main-container").scroll(function(){
 	    if(!loadingData && !scrollEnd){
-		    //alert(loadingData);
-	        //var heightContainer = $(".my-main-container")[0].scrollHeight;
-	        //var heightWindow = $(window).height();
-	        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
-	        //if(scrollEnd == false){
 	          var heightContainer = $(".my-main-container")[0].scrollHeight;
 	          var heightWindow = $(window).height();
 	          if( ($(this).scrollTop() + heightWindow) == heightContainer){
-	            console.log("scroll MAX");
+	            console.log("scroll in news/index MAX");
 	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 	          }
-	        //}
 	    }
 	});
-	},4000);
+	},100);
 		
 	getUrlContent();
 	setTimeout(function(){
 		saveNews();
-	},5000);
+	},500);
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
@@ -1065,7 +1058,7 @@ function bindEvent(){
 	$(".scopeShare").click(function() {
 		console.log(this);
 		replaceText=$(this).find("h4").html();
-		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down"></i>');
+		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
 		scopeChange=$(this).data("value");
 		$("input[name='scope']").val(scopeChange);
 	});
