@@ -58,7 +58,9 @@ $optionsLabels = array(
 
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<?php if (@$me && Role::isDeveloper($me['roles'])){ ?>
+			<?php 
+			$currentUser = Yii::app()->session["user"];
+			if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
