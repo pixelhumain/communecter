@@ -432,18 +432,31 @@ class CommunecterController extends Controller
       Yii::app()->assetManager->forceCopy = true;
     }
 
+    $this->manageLog();
+
+    return parent::beforeAction($action);
+  }
+
+  protected function manageLog(){
     //Bring back logs needed
     $actionsToLog = Log::getActionsToLog();
     $actionInProcess = Yii::app()->controller->id.'/'.Yii::app()->controller->action->id;
 
-    //Manage logs if necessary
-    if(isset($actionsToLog[$actionInProcess])){
-      $logId = Log::pushBeforeAction($actionInProcess);
-      if($actionsToLog[$actionInProcess]['waitForResult']){
-        Yii::app()->session["LogInProcess"] = $logId;
+    //Start logs if necessary
+    if(isset($actionsToLog[$actionInProcess])) {
+
+      //To let several actions log in the same time
+      if(!$actionsToLog[$actionInProcess]['waitForResult']){
+        Log::save(Log::setLogBeforeAction($actionInProcess));
+      }else if(isset(Yii::app()->session["logsInProcess"]) && is_array(Yii::app()->session["logsInProcess"])){
+        Yii::app()->session["logsInProcess"] = array_merge(
+          Yii::app()->session["logsInProcess"],
+          array($actionInProcess => Log::setLogBeforeAction($actionInProcess))
+        );
+      }//just on action logging
+      else{
+         Yii::app()->session["logsInProcess"] = array($actionInProcess => Log::setLogBeforeAction($actionInProcess));
       }
     }
-
-    return parent::beforeAction($action);
   }
 }

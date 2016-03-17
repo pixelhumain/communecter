@@ -54,6 +54,14 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
+          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#logs.monitoring')">
+              <i class="fa fa-plus fa-2x"></i>
+                
+              <?php echo Yii::t("admin", "Logs", null, Yii::app()->controller->module->id); ?>
+              
+            </div>
+          </li>
 
           <?php }
             if( Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){ 
