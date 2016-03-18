@@ -5,7 +5,6 @@
 // $cs = Yii::app()->getClientScript();
 echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js');
 
-
 date_default_timezone_set('UTC');
 $displayResult[] = 'false';
 $displayResult[null] = 'false';
