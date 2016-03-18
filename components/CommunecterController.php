@@ -114,7 +114,6 @@ class CommunecterController extends Controller
       "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
       "add"                   => array("href" => "/ph/communecter/default/add"),
       "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
-      "twostepregister"       => array("href" => "/ph/communecter/default/twostepregister"),
     ),
 
     "city"=> array(
@@ -203,7 +202,6 @@ class CommunecterController extends Controller
         "invite"          => array("href" => "/ph/communecter/person/invite"),
         "invitation"      => array("href" => "/ph/communecter/person/invitation"),
         "updatefield"     => array("href" => "/person/updatefield"),
-        "update"          => array("href" => "/person/update"),
         "getuserautocomplete" => array('href' => "/person/getUserAutoComplete"),
         'checklinkmailwithuser'   => array("href" => "/ph/communecter/checklinkmailwithuser"),
         'getuseridbymail'   => array("href" => "/ph/communecter/getuseridbymail"),
@@ -367,6 +365,9 @@ class CommunecterController extends Controller
     "graph"=> array(
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
+    "log"=> array(
+      "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+    ),
 
   );
 
@@ -438,6 +439,41 @@ class CommunecterController extends Controller
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
     }
+
+    $this->manageLog();
+
     return parent::beforeAction($action);
+  }
+
+  protected function afterAction($action){
+    return parent::afterAction($action);
+  }
+
+  /**
+   * Start the log process
+   * Bring back log parameters, then set object before action and save it if there is no return
+   * If there is return, the method save in session the log object which will be finished and save in db during the method afteraction
+   */
+  protected function manageLog(){
+    //Bring back logs needed
+    $actionsToLog = Log::getActionsToLog();
+    $actionInProcess = Yii::app()->controller->id.'/'.Yii::app()->controller->action->id;
+
+    //Start logs if necessary
+    if(isset($actionsToLog[$actionInProcess])) {
+
+      //To let several actions log in the same time
+      if(!$actionsToLog[$actionInProcess]['waitForResult']){
+        Log::save(Log::setLogBeforeAction($actionInProcess));
+      }else if(isset(Yii::app()->session["logsInProcess"]) && is_array(Yii::app()->session["logsInProcess"])){
+        Yii::app()->session["logsInProcess"] = array_merge(
+          Yii::app()->session["logsInProcess"],
+          array($actionInProcess => Log::setLogBeforeAction($actionInProcess))
+        );
+      }//just on action logging
+      else{
+         Yii::app()->session["logsInProcess"] = array($actionInProcess => Log::setLogBeforeAction($actionInProcess));
+      }
+    }
   }
 }

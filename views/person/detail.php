@@ -40,36 +40,14 @@ $this->renderPartial('../default/panels/toolbar');
 <script>
 
 jQuery(document).ready(function() {
-	bindBtnFollow();
 	var images = <?php echo json_encode($images) ?>;
 	
-	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo $person["name"] ?>");
+	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo addslashes($person["name"]) ?>");
 
 	$("#btn-center-person").click(function(){
 		showMap(true);
 	    $(".item_map_list_<?php echo $person['_id'] ?>").click();
 	});
 });
-
-function bindBtnFollow() {
-	$(".followBtn").off().on("click", function() {
-		var id = $(this).data("id");
-		connectPerson($(this).data("id"), function(user) {
-			console.log(user);
-			addFloopEntity(id, "people", user);
-			loadByHash(location.hash);
-		});
-	});
-
-	$(".unfollowBtn").off().on("click", function() {
-		var id = $(this).data("id");
-		var type = $(this).data("type");
-		var name = $(this).data("name");
-		disconnectPerson(id, type,name, function(id, type, name) {
-			removeFloopEntity(id, "people");
-			loadByHash(location.hash);
-		});
-	});
-}
 
 </script>

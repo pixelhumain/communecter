@@ -447,7 +447,7 @@ var events = <?php echo json_encode($events) ?>;
 
 jQuery(document).ready(function() {
   $(".main-col-search").addClass("cityHeadSection");
-	bindBtnFollow();
+
   var iconCity = "<i class='fa fa-university'></i>";
   var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
   var mineBool = (city["insee"] == inseeCommunexion) ? true : false;
@@ -588,71 +588,6 @@ function initCityMap(){
   
   Sig.allowMouseoverMaker = true;
 }
-
-function bindBtnFollow(){
-
-	$(".disconnectBtn").off().on("click",function () {
-        
-        $(this).empty();
-        $(this).html('<i class=" disconnectBtnIcon fa fa-spinnner fa-spinn"></i>');
-        var btnClick = $(this);
-        var idToDisconnect = $(this).data("id");
-        var typeToDisconnect = $(this).data("type");
-        bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> connection ?",
-        	function(result) {
-				if (!result) {
-					btnClick.empty();
-			        btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
-					return;
-				}
-				$.ajax({
-			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect,
-			        dataType : "json"
-			    })
-			    .done(function (data) 
-			    {
-			        if ( data && data.result ) {               
-			        	toastr.info("LINK DIVORCED SUCCESFULLY!!");
-			        	$("#"+typeToDisconnect+idToDisconnect).remove();
-			        } else {
-			           toastr.info("something went wrong!! please try again.");
-			           btnClick.empty();
-			           btnClick.html('<i class=" disconnectBtnIcon fa fa-unlink"></i>');
-			        }
-			    });
-		});
-	});
-
-	$(".connectBtn").off().on("click",function () {
-		$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinnner fa-spinn");
-		var idConnect = "<?php echo (string)$person['_id'] ?>";
-		if('undefined' != typeof $("#inviteId") && $("#inviteId").val()!= ""){
-			idConnect = $("#inviteId").val();
-		}
-
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/person/follows/id/"+idConnect+"/type/<?php echo PHType::TYPE_CITOYEN ?>",
-	        dataType : "json"
-	    })
-	    .done(function (data)
-	    {
-	        if ( data && data.result ) {               
-	        	toastr.info("REALTION APPLIED SUCCESFULLY!! ");
-	        	$(".connectBtn").fadeOut();
-	        	$("#btnTools").empty();
-	        	$("#btnTools").html('<a href="javascript:;" class="disconnectBtn btn btn-red tooltips pull-right btn-xs" data-placement="top" data-original-title="Remove this person as a relation" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>');
-	        	bindBtnFollow();
-	        } else {
-	           toastr.info("something went wrong!! please try again.");
-	           $(".connectBtnIcon").removeClass("fa-spinnner fa-spinn").addClass("fa-link");
-	        }
-	    });
-        
-	});
-};
-
 
 function discover(hash){
   $("#btn-communecter").click();
