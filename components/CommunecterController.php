@@ -338,13 +338,9 @@ class CommunecterController extends Controller
     "graph"=> array(
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
-<<<<<<< HEAD
-=======
     "log"=> array(
       "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
     ),
-
->>>>>>> b8bda3f5ee743a48ab160ef25630ffa4dda5ef8d
   );
   function initPage(){
     
@@ -410,9 +406,7 @@ class CommunecterController extends Controller
 
     return parent::beforeAction($action);
   }
-<<<<<<< HEAD
-}
-=======
+
 
   protected function afterAction($action){
     return parent::afterAction($action);
@@ -446,4 +440,4 @@ class CommunecterController extends Controller
     }
   }
 }
->>>>>>> b8bda3f5ee743a48ab160ef25630ffa4dda5ef8d
+
