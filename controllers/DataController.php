@@ -79,7 +79,7 @@ class DataController extends Controller {
   }
   
 
-  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $key = null, $insee = null) 
+  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags=null , $key = null, $insee = null) 
   {
     $bindMap = null;
     $data = null;
@@ -112,11 +112,14 @@ class DataController extends Controller {
 
         if( @$tags ) {
           $tagsArray = explode(",", $tags);
-          $params["tags"] =  array('$in' => $tagsArray) ;
+          if( $multiTags == true)
+            $params["tags"] =  array('$eq' => $tagsArray) ;
+          else
+            $params["tags"] =  array('$in' => $tagsArray) ;
         }
 
         if( @$key )
-          $params["source.sourceKey"] = $key ;
+          $params["source.key"] = $key ;
 
         if( @$insee )
           $params["address.codeInsee"] = $insee ;
@@ -135,6 +138,8 @@ class DataController extends Controller {
         //if( @$id || @$_GET["insee"] )
         //{
             //$data = PHDB::find( $type , $params );
+
+            
             $data = PHDB::findAndLimitAndIndex( $type , $params, $limit, $index);
 
             $meta["limit"] = $limit;

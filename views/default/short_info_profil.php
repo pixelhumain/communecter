@@ -153,6 +153,17 @@
           <li role="separator" class="divider"></li>
           <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer une organisation</a></li>
           <li role="separator" class="divider"></li>
+          <?php
+            if(Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))){
+              $sourceAdmin = Person::getSourceAdmin(Yii::app()->session['userId']);
+              foreach ($sourceAdmin as $key => $value) {
+                ?>
+                  <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-cog text-blue"></i> <?php echo $value ; ?></a></li>
+                <?php
+              }
+            }
+          ?>
+          <li role="separator" class="divider"></li>
           <li>
             <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
                id="btn-menu-dropdown-logout" class="text-red">

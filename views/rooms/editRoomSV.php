@@ -126,7 +126,7 @@ function editRoomSV (roomObj) {
       },
       onHide : function() {
         $("#ajaxSV").html('');
-        $.hideSubview();
+        //$.hideSubview();
       },
       onSave: function() {
         $("#ajaxForm").submit();
@@ -165,7 +165,7 @@ function readEntrySV(data,type) {
         },
         onHide : function() {
           $("#ajaxSV").html('');
-          $.hideSubview();
+          //$.hideSubview();
         }
       });
 }

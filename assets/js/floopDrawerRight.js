@@ -42,7 +42,7 @@ function buildListContactHtml(contacts, myId){
 							//compte le nombre d'élément à afficher
 							$.each(contacts[type.name], function(key2, value){ n++; });
 							//si aucun élément, on affiche pas cette section
-							if(n > 0){
+							//if(n > 0){
 							var urlBtnAdd = "";
 							if(type.name == "people") 		 urlBtnAdd = "loadByHash( '#person.invite')";
 							if(type.name == "organizations") urlBtnAdd = "loadByHash( '#organization.addorganizationform')";
@@ -78,7 +78,6 @@ function buildListContactHtml(contacts, myId){
 									'</div>'+	
 								'</div>'+
 							'</div>';
-							}
 							});									
 		HTML += 		'</div>' +
 						'</div>'+
@@ -222,14 +221,17 @@ function addFloopEntity(entityId, entityType, entityValue){
 	//console.log("getFloopContactTypes", entityType, type);
 	var html = getFloopItem(entityId, type, entityValue);
 	$("ul#floopType-"+entityType).prepend(html);
-	
+	$("ul#floopType-"+entityType+" .no-element").hide();
+
 	floopShowLock = true;
     showFloopDrawer(true);
 
     setTimeout(function(){
-		var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
-						$(".floopScroll #scroll-type-"+entityType).position().top;
-		$('.floopScroll').scrollTop(scrollTOP);
+    	if ($('.floopScroll').position().top != null ) {
+			var scrollTOP = $('.floopScroll').scrollTop() - $('.floopScroll').position().top +
+							$(".floopScroll #scroll-type-"+entityType).position().top;
+			$('.floopScroll').scrollTop(scrollTOP);
+		}
 	}, 1000);
 
 	timeoutShowFloopDrawer = setTimeout(function(){

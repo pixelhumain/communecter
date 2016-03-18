@@ -7,6 +7,17 @@ $userId = Yii::app()->session["userId"] ;
 		<div class="panel-heading border-light">
 			<h4 class="panel-title">Import Data</h4>
 		</div>
+		<!-- <div class="panel-body" >
+			<div id="authorize-div" style="">
+				<span>Authorize access to Drive API</span>
+				
+				<button id="authorize-button" onclick="handleAuthClick(event)">
+					Authorize
+				</button>
+		    </div>
+		    <pre id="output"></pre>
+
+		</div> -->
 		<div class="panel-body">
 			<?php //var_dump($city); ?>
 			<div class="col-sm-12 col-xs-12">
@@ -25,11 +36,13 @@ $userId = Yii::app()->session["userId"] ;
 				</div>
 			</div>
 			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-4 col-xs-12">
+				<div class="col-sm-12 col-xs-12">
 					<label for="pathFolderImage">Path dossier image :</label>
 					<input type="text" id="pathFolderImage" name="pathFolderImage" value="">
-				</div>
-				<div class="col-sm-4 col-xs-12">
+				</div>	
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-5 col-xs-12">
 					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 				</div>
 			</div>
@@ -55,14 +68,29 @@ $userId = Yii::app()->session["userId"] ;
 			</div>
 		</div>
 	</div>
+	
 </div>
+
 <script type="text/javascript">
 var file = "";
+var CLIENT_ID = "<?php echo Yii::app()->params['google']['client_id']; ?>"; 
+var SCOPES = ['https://www.googleapis.com/auth/drive'];
+//var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+
+
 jQuery(document).ready(function() 
 {
 	bind();
 
 });
+
+
+
+
+
+
+
+
 
 function bind()
 {
@@ -145,4 +173,149 @@ function bind()
   		
   	});
 }
+
+
+/**
+* Check if current user has authorized this application.
+*/
+/*function checkAuth() {
+	console.log("checkAuth");
+	gapi.auth.authorize({
+		'client_id': CLIENT_ID,
+		'scope': SCOPES.join(' '),
+		'immediate': true
+	}, handleAuthResult);
+}
+
+/**
+* Handle response from authorization server.
+*
+* @param {Object} authResult Authorization result.
+*/
+/*function handleAuthResult(authResult) {
+	console.log("handleAuthResult", authResult);
+	var authorizeDiv = document.getElementById('authorize-div');
+	if (authResult && !authResult.error) {
+		// Hide auth UI, then load client library.
+		authorizeDiv.style.display = 'none';
+		loadDriveApi();
+	} else {
+		// Show auth UI, allowing the user to initiate authorization by
+		// clicking authorize button.
+		authorizeDiv.style.display = 'inline';
+	}
+}
+
+
+ /**
+* Initiate auth flow in response to user clicking authorize button.
+*
+* @param {Event} event Button click event.
+*/
+/*function handleAuthClick(event) {
+	console.log("handleAuthClick", event);
+	gapi.auth.authorize({
+		client_id: CLIENT_ID, 
+		scope: SCOPES, 
+		immediate: false}, handleAuthResult);
+	return false;
+}
+
+/**
+* Load Drive API client library.
+*/
+/*function loadDriveApi() {
+	console.log("loadDriveApi");
+	gapi.client.load('drive', 'v3', listFiles);
+}
+
+/**
+* Print files.
+*/
+/*function listFiles() {
+	console.log("listFiles");
+	var request = gapi.client.drive.files.list({
+    	'pageSize': 10,
+    	'fields': "nextPageToken, files(id, name)"
+  	});
+
+  	request.execute(function(resp) {
+    	appendPre('Files:');
+    	console.log(resp);
+    	var files = resp.files;
+    	if (files && files.length > 0) {
+      		for (var i = 0; i < files.length; i++) {
+        		var file = files[i];
+        		appendPre(file.name + ' (' + file.id + ')');
+        		//auth();
+        		
+      		}
+    	} else {
+      		appendPre('No files found.');
+    	}
+  	});
+}
+
+/**
+* Append a pre element to the body containing the given message
+* as its text node.
+*
+* @param {string} message Text to be placed in pre element.
+*/
+/*function appendPre(message) {
+	console.log("appendPre", message);
+	var pre = document.getElementById('output');
+	var textContent = document.createTextNode(message + '\n');
+	pre.appendChild(textContent);
+
+	
+}
+
+
+
+
+
+function auth() {
+	var config = {
+		'client_id': CLIENT_ID,
+		'scope': SCOPES
+	};
+	gapi.auth.authorize(config, function() {
+		getToken();
+
+		//fetch(gapi.auth.getToken());
+	});
+}
+
+function getToken(stop) {
+	console.log("getToken", token);
+	var token = gapi.auth.getToken();
+	if(typeof token != "undefined"){
+		fetch2(token);
+	}
+	else {
+		if(stop == false)
+			getToken(true) ;
+		else
+			toastr.error("Veuillez réessayer plus taSrd.");
+	}
+}
+
+function fetch2(token){
+	console.log("fetch", token);
+	var urlGmail = "https://www.googleapis.com/drive/v3/files/0B9tVDVlaccMsU3lqbXJiQkh6aVU?alt=media&access_token=" + token.access_token ;
+	$.ajax({
+  		url: urlGmail,
+  		dataType: "html",
+  		success:function(data){
+    		console.log("dataFetch", data);
+    		
+  		},
+  		error:function(data){
+  			console.log("error",data)
+  		}
+	});
+
+	bindInviteSubViewInvites();
+}*/
 </script>

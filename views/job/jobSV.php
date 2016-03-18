@@ -256,7 +256,7 @@ function saveJob() {
 			   console.log("data.job => "+data.job);
 			   if('undefined' != typeof updateJob && typeof updateJob == "function")
 						updateJob( data.job,  data.id);
-			   $.hideSubview();
+			   //$.hideSubview();
 		   } else if(data && data.errors){ 
 			   //server-side validation error, response like {"errors": {"username": "username already exist"} }
 			   config.error.call(this, data.errors);

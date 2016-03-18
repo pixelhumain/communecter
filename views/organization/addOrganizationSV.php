@@ -337,7 +337,7 @@ var formValidator = function() {
 	                        toastr.success(data.msg);
                         	addFloopEntity(data.id, "organizations", data.newOrganization);
 							loadByHash('#organization.detail.id.'+data.id);
-							$.hideSubview();
+							//$.hideSubview();
 							$.unblockUI();
 	                    }
 		    	  },

@@ -1,51 +1,5 @@
 <?php 
-  /* COOKIE GEO POSITION */
-
-  /*  LISTE DES COOKIES
-    -----------------
-    -user_geo_latitude
-    -user_geo_longitude
-    -insee
-    -cityName
-  */
-  if(isset(Yii::app()->session['userId'])){
-    
-    $user = Person::getById(Yii::app()->session['userId']);
-
-    $cookies = Yii::app()->request->cookies;
-    $coockieDuration = time() + (3600*24*365);
-
-    if(isset($user["geo"]) && 
-       isset($user["geo"]["latitude"]) && isset($user["geo"]["longitude"]))
-    {
-      setcookie('user_geo_latitude', $user["geo"]["latitude"], $coockieDuration, "/ph/");
-      setcookie('user_geo_longitude', $user["geo"]["longitude"], $coockieDuration, "/ph/");
-    }
-
-    if(isset($user["address"]) && isset($user["address"]["codeInsee"]))
-      setcookie('insee', $user["address"]["codeInsee"], $coockieDuration, "/ph/");
-    
-
-    if(isset($user["address"]) && isset($user["address"]["addressLocality"]))
-      setcookie('cityName', $user["address"]["addressLocality"], $coockieDuration, "/ph/");
-
-  }else{ //user not connected
-    if(isset($cookies['user_geo_longitude'])){
-        $sigParams["firstView"] = array(  "coordinates" => array( $cookies['user_geo_latitude']->value, 
-                                      $cookies['user_geo_longitude']->value),
-                          "zoom" => 13);
-      
-    }else{
-      //error_log("aucun cookie geopos trouvé");
-    }
-  }
-
-?>
-
-
-<?php 
 	
-
 $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/css/bootstrap-editable.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
@@ -282,23 +236,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-				
-					
 			</div>
 			<div class="col-sm-6 col-md-7 margin-top-20">
 				<div class="padding-10 entityDetails text-dark">
+
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
-						<a href="#" id="username" data-type="text" data-original-title="Enter your username" data-emptytext="Enter your username" class="editable-person editable editable-click">
-							<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
+							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
 						</a>
 					</h2>
 					<?php 
 					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
 					?>
 					<i class="fa fa-smile-o fa_name hidden"></i> 
-					<a href="#" id="name" data-type="text" data-original-title="Enter your first name" class="editable-person editable editable-click">
-						<?php if(isset($person["username"]))echo $person["username"]; else echo "";?>
+					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
+						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
 					<br>
 
@@ -360,7 +313,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
 				<!-- Description -->
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
-					<?php //echo Person::showField("shortDescription",$person)?>
+					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
 				</a>
 			</div>
 		</div>

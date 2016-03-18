@@ -34,7 +34,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	height:250px;
 }
 .btn-scope{
-  display: none;
+  /*display: none;*/
 }
 
 @media screen and (max-width: 1024px) {

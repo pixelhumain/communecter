@@ -1,16 +1,10 @@
 <?php 
-if (!@$isDetailView){
+
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/Chart.js/Chart.min.js',
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
-}
-else{
-	$cssAnsScriptFilesModule = array(
 	'/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-}
+
 ?>
 
 <style>
@@ -27,16 +21,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	</div>
 	<div class="panel-tools">
 			
-				<?php if ($admin){
-					if (@$isDetailView){
-						$propertiesSerialize = base64_encode(serialize($properties));
-						$propertiesSerialize = str_replace('"','/"',$propertiesSerialize);
-						$urlArray = '&properties={'.$propertiesSerialize.'}';
-					} 
-				?>
-				<a href="#editProjectChart" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
-					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" <?php if (isset($isDetailView)){ ?> 
-					onclick="showAjaxPanel( '/project/addchartsv/id/<?php echo $itemId ?>?<?php echo $urlArray ?>&projectName=<?php if(@$itemName) echo addslashes($itemName) ?>', 'EDIT CHARTE','charte' )" <?php } ?>>
+				<?php if ($admin){	?>
+				<a href="javascript:;" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
+					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>"
+					onclick="loadByHash('#project.addchartsv.id.<?php echo $itemId ?>')">
 					<i class="fa fa-pencil"></i> Editer la charte 
 				</a>
 				<?php } ?>
@@ -57,15 +45,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			</blockquote>
 		</div>
 		<div class="panel-body no-padding contentChart hide">
-			<!--<canvas id="myChart" width="" height=""></canvas>-->
 		</div>
 	<?php } ?>
 </div>
-<?php
-	if (!@$isDetailView){
-		$this->renderPartial('addChartSV', array( "properties" => $properties, "itemId" => $itemId));
-	}
-?>
+
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
 var countProperties=numAttrs(properties);

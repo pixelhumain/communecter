@@ -207,6 +207,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	text-decoration-line: underline !important;;
 	text-decoration-style : dotted !important;;
 }
+
+.home_page h1{
+	margin-top:5px;
+}
 </style>
 
 <div class="home_page">
@@ -445,13 +449,16 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
-	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
+	<div class="col-md-12 no-padding" id="valueSection" style="width:100%; float:left;">
 		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
 		</div>
 		<div class="col-md-12" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
+		<center>
+			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
+		</center>
 
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
@@ -477,66 +484,16 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur09.png"/>Société 2.2.main</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Biens Communs</div>
             </div>
+            <div class="space20"></div>
 	</div>
 
-	<div class="col-md-12" id="dicoSection" style="background-color:#293A46;color:white;padding-bottom:40px; float:left; margin-top:50px; ">
-		<div class="col-md-6 col-sm-12">
-			<center>
-				<div class="keysUsages">
-					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera " ></i> USAGES</h1>
-					<div class="space20"></div>
-					<div class="buttonArea">
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainPeriscolaire" >Périscolaire</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAssociatif" >Associatif</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEconomie" > Economie</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTerritoire" >Territoire</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTourisme" > Tourisme</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAlimentation" >Alimentation</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAgriculture" > Agriculture</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainCulture" > Culture</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEmploi" > Emploi</a>
-					</div>
-				</div>
-				<div class="keywordExplain" style="margin-top:40px"></div>
-			</center>
+	
+	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
+		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.explain')">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
 		</div>
-		<div class="col-md-6 col-sm-12">
-			<center>
-				<div class="usageExplain"></div>
-				<div class="keysKeyWords">
-					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key "></i> MOTS CLEFS</h1>
-					<div class="space20"></div>
-					<div class="buttonArea">
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecteur" > Communecteur</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeReseau" > Cartographie de réseau</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
-					</div>
-				</div>
-			</center>
-		</div>
-	</div>
-
-	<div class="col-sm-12" style="background-color:#fff; float:left;" id="friendsSection">
 		<center>
-			<i class="fa fa-caret-down" style="color:#293A46;"></i>
+			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 		</center>
 
 		<div class="col-sm-6 col-xs-12 ">
@@ -600,7 +557,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
-			<br/><a href="javascript:;" target="_blanck" >Mentions Légales</a>
+			<br/><a href="javascript:loadByHash('#default.view.page.mention');" >Mentions Légales</a>
 		<center>
 	</div>
 </div>

@@ -376,9 +376,9 @@ var loadableUrls = {
 	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
 	"#event.eventsv": {title:'ADD AN EVENT', icon : "calendar","login":true},
 	"#project.projectsv": {title:'ADD A PROJECT', icon : 'lightbulb-o','urlExtra':'/id/'+userId+'/type/citoyen',"login":true},
-	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt","urlExtraParam":"tpl=directory2"},
-	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users","urlExtraParam":"tpl=directory2"},
-	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users","urlExtraParam":"tpl=directory2"},
+	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
+	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
+	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
@@ -386,6 +386,8 @@ var loadableUrls = {
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
+    "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
@@ -400,10 +402,12 @@ var loadableUrls = {
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
+    "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
+	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
@@ -661,6 +665,7 @@ function showDefinition( id ){
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	$(".hover-info").css("display" , "inline");
 	toggle( "."+id , ".explain" );
+	$("."+id+" .explainDesc").removeClass("hide");
 	return false;
 }
 

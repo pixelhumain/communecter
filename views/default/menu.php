@@ -195,18 +195,19 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 @media screen and (max-width: 767px) {
 	#searchBarPostalCode{
-		position: relative;
-		left: 2% !important;
-		bottom: 45px;
+		position: absolute;
+		left: 40px !important;
+		bottom: 39px;
 		margin-top: 10px;
-		width: 96%;
+		width: 80% !important;
 		margin-left: 0px;
 		font-family: "homestead";
 		font-size: 22px !important;
 		border-radius: 0px !important;
-		height: 50px;
+		height: 45px;
 		text-align: center;
-		padding-left: 15px !important;
+		margin: 0px !important;
+		padding-left: 0px !important;
 	}
 
 	#input-communexion {
@@ -214,16 +215,21 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	}
 
 	#input-communexion .search-loader {
-	    position: absolute;
-	    left: 2%;
-	    bottom: 95px;
-	    width: 96%;
-	    font-weight: 600;
-	    font-size: 12px;
-	    background-color: rgb(255, 255, 255);
-	    padding: 5px;
-	    border-radius:5px 5px 0px 0px;
-	    text-align: center;
+	    position: relative;
+		left: 41px !important;
+		bottom: 88px;
+		width: 96%;
+		font-weight: 600;
+		font-size: 12px;
+		background-color: rgb(255, 255, 255);
+		padding: 5px;
+		border-radius: 0px 5px 0px 0px;
+		text-align: center;
+		-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+		box-shadow: 0px -2px 5px -2px #353535 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 	}
 
 	#menu-bottom .input-global-search{
@@ -267,11 +273,41 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 
 <?php 
     if(isset(Yii::app()->session['userId']))
-    $me = Person::getById(Yii::app()->session['userId']);
-   	echo $this->renderPartial('explainPanels');
+    	$me = Person::getById(Yii::app()->session['userId']);
 ?>
 
+<style>
+ul{	font-weight: 300;	font-size:14px;	color:#3C5665 !important;}
+h3{	font-weight: 300;}
+.explainTitle{cursor:pointer; background-color: #656565; padding: 10px; text-align: center; color: #fff; margin:0px;border-top: 1px solid #666;}
+.explainTitle:hover{opacity: 0.8}
+.explainDesc{ padding: 10px; }
+.caretExplain{position: relative;top: 0px;color:#656565;}
+.fa-caret-down{font-size:56px;line-height: 10px;}
+</style>
+	<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+		<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
+	</div>
+<script>
 
+function removeExplainations(){
+	$(".removeExplanation").replaceWith("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/"+moduleId+"/person/updatesettings",
+		dataType: "json",
+		success: function(data) {
+		if(data.result){
+			toastr.success(data.msg);	
+			showMenuExplanation = false;
+			loadByHash(location.hash);
+		}
+		else
+		toastr.error(data.msg);
+		},
+	});
+}
+</script>
 <div class="hover-menu hidden-xs">
 	
 
@@ -355,10 +391,12 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	</div>*/?>
 
 	<div class="infoVersion">
+		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
+		<br/>
 		update <?php echo $this->versionDate ?>
 		<br/>
 		<span class="homestead" style="font-size: 1.5em">version <a href="javascript:;" data-id="explainBeta" class="explainLink text-red">Béta</a></span>
-		<br/><span >Tests et améliorations en continu</span>
+		<br/><span >Tests et améliorations continu</span>
 	</div>
 </div>
 <!-- 
@@ -518,7 +556,7 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	realTimeKKBB();
+	//realTimeKKBB();
 	
 	setTimeout(function(){ 
 		$(".globale-announce").css("width", 250);
@@ -552,7 +590,12 @@ jQuery(document).ready(function() {
 		
 	});
 
-	$('.btn-menu0').click( function(e){ loadByHash("#default.home")} );
+	$('.btn-menu0').click( function(e){ 
+		if(location.hash != "#default.twostepregister")
+			loadByHash("#default.home");
+		else
+			loadByHash("#default.twostepregister");
+	} );
 
     $('.btn-menu2')
     .click(function(e){ 

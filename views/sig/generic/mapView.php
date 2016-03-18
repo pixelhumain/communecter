@@ -150,6 +150,9 @@
 			
 			
 		</div>
+
+		<div id="mapLegende" class="text-azure">Legende</div>
+
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">
 			<button type="button" class="btn btn-map " id="btn-full-screen"><i class="fa fa-expand"></i></button>
