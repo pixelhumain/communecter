@@ -61,7 +61,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	}
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
-
 ?>
 <style>
 #btnCitoyens:hover{
@@ -103,7 +102,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 }
 
 #newsHistory{
-	overflow: scroll;
 	overflow-x: hidden;
 
 	/*padding-top:100px !important;*/
