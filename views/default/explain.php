@@ -14,13 +14,15 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 .yellowph{color:#F6E201;}
 .information{font-size:15px;color:#8b91a0;}
 .explainTitle{cursor:pointer; background-color: #449D44; padding: 10px; text-align: center; color: #fff;margin:0px;border-top: 1px solid #666;}
+.explainTitle.blue{background-color: #32454E}
 .explainTitle:hover{opacity: 0.8}
 .explainDesc{ padding: 10px; background-color: white; }
 .caretExplain{position: relative;top: 0px;background-color: white;color:#449D44;}
+.caretExplain.blue{background-color: white; color:#32454E}
 </style>
 
 
-<div class="home_page">
+<div class="home_page"  style="margin-top:50px">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain2")); ?>
 </div>
 

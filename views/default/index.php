@@ -167,6 +167,16 @@
 	}
 
 
+	.my-main-container{
+		min-height:1000px;
+	}
+
+	.main-col-search{
+		min-height:1000px;
+	}
+
+
+
 @media screen and (max-width: 767px) {
 	.btn-scope{
 		display: none;
@@ -193,6 +203,7 @@
 	.btn-scope-niv-5{
 		height: 163px;
 	}
+
 }
 	
 </style>
@@ -346,7 +357,7 @@ jQuery(document).ready(function() {
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
   	}
 
-	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
+  	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
     $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 
     $('#btn-toogle-map').click(function(e){ showMap();  	});
@@ -687,6 +698,9 @@ function setScopeValue(btn){
 			
 			showMap(false);
 			$("#tsr-commune-name-cp").html(cityNameCommunexion + ", " + cpCommunexion);
+
+			$("#conf-commune").html(cityNameCommunexion + ", " + cpCommunexion);
+
 			$("#TSR-load-conf-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
 			showTwoStep("load-conf-communexion");
 
@@ -700,7 +714,7 @@ function setScopeValue(btn){
 			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".lbl-btn-menu-name-city").html('<span class="lbl-btn-menu-name">'+cityNameCommunexion + ", </span>" + cpCommunexion);
-			setTimeout(function(){ showTwoStep('conf-communected'); showTwoStep("street");  }, 3000);
+			setTimeout(function(){ showTwoStep("street");  }, 2000);
 			//showMap(false);
 		}else{
 			if(inseeCommunexion != ""){

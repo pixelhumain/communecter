@@ -490,7 +490,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	
 	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
 		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
-			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.explain')">Comprende</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
+			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.explain')">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
 		</div>
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
@@ -557,7 +557,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
-			<br/><a href="javascript:loadByHash('#define.MentionLegal');" >Mentions Légales</a>
+			<br/><a href="javascript:loadByHash('#default.view.page.mention');" >Mentions Légales</a>
 		<center>
 	</div>
 </div>

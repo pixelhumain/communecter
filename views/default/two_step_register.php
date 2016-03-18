@@ -40,6 +40,7 @@
 		 width:100%;
 		 padding:1px 0px 1px 0%; 
 		 padding-bottom:15px;
+		 float:left;
 	}
 	.bg-azure-light-1{
 		background-color: rgba(43, 176, 198, 0.3) !important;
@@ -93,6 +94,38 @@
 		margin-left: 5px;
 		width: 40px;
 	}
+
+	#menu-step-addr-1, #menu-step-addr-2, #menu-step-addr-3{
+		height: 35px;
+		padding: 10px;
+		font-weight: 200;
+		color: white;
+		font-size: 17px;
+		float: left;
+		width: 29%;
+		margin-left: 3%;
+		margin-bottom: 20px;
+		margin-top: 10px;
+	    background-color: rgba(0, 0, 0, 0);
+	}
+	#menu-step-addr-1.checked, #menu-step-addr-2.checked, #menu-step-addr-3.checked{
+		background-color: rgba(44, 162, 42, 0.58);
+	}
+
+	#menu-step-addr-1.current, #menu-step-addr-2.current, #menu-step-addr-3.current{
+		background-color: rgba(42, 149, 162, 0.6);
+	}
+
+	#conf-country, #conf-commune, #conf-street{
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	#btn-go-photo:hover{
+		background-color: #5cb85c !important;
+		color:white !important;
+	}
+
+
 </style>
 <div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
 
@@ -110,50 +143,42 @@
 
 	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
 		<div class="homestead text-white" id="menu-step-1">
-			<i class="fa fa-2x fa-check-circle"></i><br>1 - Inscription
+			<i class="fa fa-2x fa-check-circle"></i><br>Inscription
 		</div>
 		<div class="homestead text-white selected" id="menu-step-2">
-			<i class="fa fa-2x fa-circle"></i><br>2 - Addresse
+			<i class="fa fa-2x fa-circle"></i><br>Addresse<br>
+			<span id="conf-address"></span>
 		</div>
 		<div class="homestead text-white" id="menu-step-3">
-			<i class="fa fa-2x fa-circle-o"></i><br>3 - Photo
+			<i class="fa fa-2x fa-circle-o"></i><br>Photo
 		</div>
 		<!-- <div class="homestead"  style="color:#7ACF5B;">
 			<i class="fa fa-2x fa-sign-in"></i> GO !
 		</div> -->
 	</div>
 
-	<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step1">
-		<h1 class="homestead text-white">
-			<i class="fa fa-circle"></i>
-			 Étape 2 : Votre addresse
-		</h1>
-		<div class="col-md-8 col-md-offset-2">
-		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
-			nous aurions besoin de quelques informations sur votre position géographique ...
-			<!-- <br><br>
-			Rassurez-vous ! Ces informations ne seront jamais utilisées à d'autres fins que le bon fonctionnement du réseau <strong>Communecter</strong>.
-			 -->
-			 <br><a href="javascript:" class="text-dark strong">En savoir + sur l'utilisation de vos données</a>
-			<!-- <br><br>
-			Ces informations serviront à vous positionner plus précisément sur notre carte partagée, <br>
-			et ainsi donner à chacun la possibilité de visualiser son réseau local.
- -->
-			<!-- <br><br>Votre position finale sur la carte reste libre, 
-			<br>vous pourrez (à tout moment) déplacer votre icône sur la position de votre choix.
+	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
+		<div class="badge badge-success text-white current" id="menu-step-addr-1">
+			1 - Mon pays<br><br>
+			<span id="conf-country"></span>
+		</div>
+		<div class="badge text-white" id="menu-step-addr-2">
+			2 - Ma commune<br><br>
+			<span id="conf-commune" class="text-red">
+				<?php echo $cityNameCommunexion.", ".$cpCommunexion; ?>
+			</span>
 
-			<br><br>Merci de rester fidèle (autant que possible) à la réalité ! -->
-
-		</span>
+		</div>
+		<div class="badge text-white" id="menu-step-addr-3">
+			3 - Ma rue<br><br>
+			<span id="conf-street"></span>
 		</div>
 	</div>
 
 
 	<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
-			<h1 class="homestead text-dark">Pour commencer :</h1>
 			<h3 class=" text-dark">
-				Dans quelle zone vous situez-vous ? 
+				Dans quel pays vous situez-vous ? 
 			</h3>
 
 			<div class="col-md-6 col-md-offset-3">
@@ -171,7 +196,10 @@
 			<div class="col-md-12">
 				<button class="btn btn-success margin-top-15" onclick="validateZone()">Continuer <i class="fa fa-angle-right"></i></button>
 			</div>
+
+			
 	</div>
+
 
 	<?php if(!isset($inseeCommunexion)){ ?>
 		<!-- <div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
@@ -180,19 +208,19 @@
 		</div> -->
 	<?php }else{ ?>
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-communexion">
-			<h1 class="homestead text-dark">Continuons :</h1>
+			<!-- <h1 class="homestead text-dark">Continuons :</h1> -->
 			<h3 class=" text-dark">
 				Vous êtes actuellement communecté à <span class="text-red"><?php echo $cityNameCommunexion.", ".$cpCommunexion; ?></span>
 			</h3>
 			<h3 class=" text-dark">
 				Souhaitez-vous conserver cette commune dans votre addresse ?<br><br>
-				<button class="btn btn-success" onclick="showTwoStep('conf-communected'); showTwoStep('street');">Oui, j'habite ici</button>
+				<button class="btn btn-success" onclick="showTwoStep('street');">Oui, j'habite ici</button>
 				<button class="btn btn-danger" onclick="showTwoStep('communexion');">Non, j'habite ailleurs</button>
 			</h3>
 		</div>	
 	<?php } ?>
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-communexion">
-			<h1 class="homestead text-dark">Où habitez-vous ?</h1>
+			<h1 class="homestead text-dark">Ma commune</h1>
 			<button class="btn btn-danger" onclick="geolocAutoTSR();"><i class="fa fa-crosshairs"></i> Localisation automatique</button>
 			<h3 class=" text-dark">
 				Saisissez le nom de votre commune, ou votre code postal ...
@@ -209,12 +237,8 @@
 				<button class="btn btn-sm bg-dark tooltips" onclick="backToSetCity();" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></button>
 			</h1>
 		</div>
-		<div class="col-md-12 center section-tsr bg-azure-light-2" style="padding:0px;" id="TSR-street">
-			<div class="col-md-8 col-md-offset-2" style="padding:30px;">
-				<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-					Tout l'intéret du réseau Communecter réside dans les liens proximité qui existent entre les acteurs d'une même commune. 
-					C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
-				</span><br>
+		<div class="col-md-12 center section-tsr bg-azure-light-1" style="padding:0px;" id="TSR-street">
+			<div class="col-md-8 col-md-offset-2" style="padding:30px;padding-top:0px;">
 				<h3 class=" text-dark">
 					Saisissez le nom de votre rue ...
 				</h3>
@@ -227,13 +251,30 @@
 				<button class="btn btn-success" onclick="startStreetSearch();" style="margin-bottom:15px;">
 					<i class="fa fa-search"></i> Rechercher ma rue
 				</button> <br>
-				<button class="btn btn-success homestead"  style="padding:15px; font-size:22px;" style="margin-top:15px;" onclick="achiveTSRAddress();">
-					<i class="fa fa-chevron-right"></i> Étape 3
-				</button>	
+				
+				
+					
 			</div>	
+			<button class="btn bg-white text-dark homestead" id="btn-go-photo" style="width:100%; padding:15px; font-size:22px; border-radius: 0px;" style="margin-top:15px;" onclick="achiveTSRAddress();">
+				<i class="fa fa-chevron-right"></i> Étape suivante : Ma Photo
+			</button>
+
 		</div>	
 	
-		
+	
+	
+	<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px;">
+		Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
+		nous aurions besoin de quelques informations sur votre position géographique ...
+		<br><a href="javascript:" class="bold strong">En savoir + sur l'utilisation de vos données</a>
+	<br><br>
+		<span class="text-center text-dark" style="font-size:15px; font-weight:300;">
+			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
+			C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
+		</span>
+	</div>	
+
+
 		<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step2">
 			<h1 class="homestead text-white">
 				<i class="fa fa-circle"></i>
@@ -335,6 +376,13 @@
   			$("#TSR-"+id).show(400); 
   			//$(".my-main-container").scrollTop(2000); 
   		}, 300);
+
+  		if(id == "street"){
+  			$("#menu-step-addr-2").removeClass("current");
+	  		$("#menu-step-addr-2").addClass("checked");
+	  		$("#menu-step-addr-3").addClass("current");
+	  		$("#conf-commune").append(' <a href="javascript:" class="text-dark tooltips" onclick="backToSetCity();" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></a>');
+  		}
 
   	}
 
@@ -476,7 +524,11 @@
 
   	function validateZone(){
   		$("#congrats").hide(300);
-  		
+  		$("#conf-country").html($("#addressCountry option:selected" ).text());
+  		$("#menu-step-addr-1").removeClass("current");
+  		$("#menu-step-addr-1").addClass("checked");
+  		$("#menu-step-addr-2").addClass("current");
+
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
   		}else{
@@ -486,17 +538,19 @@
 
   	function showStep2(){
   		showTwoStep("");
+  		$("#txt-info-geopos").hide(200);
   		$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
   		$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
   		$('#menu-step-2').removeClass("selected");
   		$('#menu-step-3').addClass("selected");
+  		$("#menu-step-addr").hide(400);
   		$("#step1").hide(400);
   		$("#step2").show(400);
   	}
 
   	function backToSetCity(){
   		showTwoStep('communexion'); 
-  		$('#TSR-conf-communected').hide(300); 
+  		//$('#TSR-conf-communected').hide(300); 
   		$('#step2').hide(300); 
   	}
 

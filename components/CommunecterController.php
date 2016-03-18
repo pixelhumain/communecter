@@ -99,7 +99,7 @@ class CommunecterController extends Controller
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
     "default" => array(
-      "index"     => array("href" => "/ph/communecter/default/index", "public" => true),
+      "index"               => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"             => array("href" => "/ph/communecter/default/directory", "public" => true),
       "agenda"                => array("href" => "/ph/communecter/default/agenda", "public" => true),
       "news"                  => array("href" => "/ph/communecter/default/news", "public" => true),
@@ -338,6 +338,13 @@ class CommunecterController extends Controller
     "graph"=> array(
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
+<<<<<<< HEAD
+=======
+    "log"=> array(
+      "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+    ),
+
+>>>>>>> b8bda3f5ee743a48ab160ef25630ffa4dda5ef8d
   );
   function initPage(){
     
@@ -398,6 +405,45 @@ class CommunecterController extends Controller
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
     }
+
+    $this->manageLog();
+
     return parent::beforeAction($action);
   }
+<<<<<<< HEAD
 }
+=======
+
+  protected function afterAction($action){
+    return parent::afterAction($action);
+  }
+
+  /**
+   * Start the log process
+   * Bring back log parameters, then set object before action and save it if there is no return
+   * If there is return, the method save in session the log object which will be finished and save in db during the method afteraction
+   */
+  protected function manageLog(){
+    //Bring back logs needed
+    $actionsToLog = Log::getActionsToLog();
+    $actionInProcess = Yii::app()->controller->id.'/'.Yii::app()->controller->action->id;
+
+    //Start logs if necessary
+    if(isset($actionsToLog[$actionInProcess])) {
+
+      //To let several actions log in the same time
+      if(!$actionsToLog[$actionInProcess]['waitForResult']){
+        Log::save(Log::setLogBeforeAction($actionInProcess));
+      }else if(isset(Yii::app()->session["logsInProcess"]) && is_array(Yii::app()->session["logsInProcess"])){
+        Yii::app()->session["logsInProcess"] = array_merge(
+          Yii::app()->session["logsInProcess"],
+          array($actionInProcess => Log::setLogBeforeAction($actionInProcess))
+        );
+      }//just on action logging
+      else{
+         Yii::app()->session["logsInProcess"] = array($actionInProcess => Log::setLogBeforeAction($actionInProcess));
+      }
+    }
+  }
+}
+>>>>>>> b8bda3f5ee743a48ab160ef25630ffa4dda5ef8d

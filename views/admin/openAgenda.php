@@ -49,6 +49,7 @@
 			<div class="col-xs-12 col-sm-12 text-center">
 				<a href="#" class="btn btn-primary col-sm-2" id="importOpenAgenda"> <?php echo Yii::t("common", "IMPORT"); ?></a>
 			</div>
+			
 		</div>
 	</div>
 </div>
@@ -62,58 +63,66 @@ jQuery(document).ready(function() {
 	bindEvents();
 });
 
+
 function bindEvents(){
 	$("#collectOpenAgenda").off().on('click', function(e){
+		rand = Math.floor((Math.random() * 8) + 1);
+		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+				});
+
+		var dateToday  = "<?php echo date('d').'/'.date('m').'/'.date('Y') ;?>";
+		var date50  = "<?php echo date('d').'/'.date('m').'/'.(date('Y')+50) ;?>";
+		var page = 1 ;
+		var url = "";
+
+		//https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0
+
+		url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
+		
 		$.ajax({
-			url: "//api.openagenda.com/v1/events?uids[]=39616433&uids[]=76959109&uids[]=26938900&key=36528cb9cc14c9c3920000fd0d5890f8",
+			url: url,
 			type: 'POST',
 			dataType: 'jsonp',
 			json: "callback",
-			crossDomain:true,
-			complete: function () {},
+			async:false,
 			success: function (obj){
-				console.log('success', obj);
+				var x = obj.total;
+				var y = 100;
+				var d = 0
+				if(x%y > 0) 
+					d = 1 ;
+					s = Number((x / y).toFixed(0)) ;
+				var z =  d + s;
 
-				var allEvents = checkEventsOpenAgendaInDB(obj);
-				$.each(allEvents, function( stateEvent, arrayEvents ) {
-					var ligne = "";
-					var nbEvents = 0;
+				var finish = {};
+				finish["arrayAdd"]  = [];
+				finish["arrayUpdate"]  = [];
+				finish["arrayDelete"]  = [];
 
-					$.each(arrayEvents, function( keyEvent, Event ) {
-						console.log(stateEvent, keyEvent, Event);
-						nbEvents++;
-						ligne += "<tr><td>"+Event.title.fr+"</td></tr>" ;
-					});
-
-					if(stateEvent == "Add"){
-						$("#nbAdd").html(nbEvents + " Event(s)");
-						$("#EventsAdd").html(ligne);
-						$("#jsonEventsAdd").val(JSON.stringify(allEvents.Add));
-					}	
-					else if(stateEvent == "Update"){
-						$("#nbUpdate").html(nbEvents + " Event(s)");
-						$("#EventsUpdate").html(ligne);
-						$("#jsonEventsUpdate").val(JSON.stringify(allEvents.Update));
-					}
-					else if(stateEvent == "Delete"){
-						$("#nbDelete").html(nbEvents + " Event(s)");
-						$("#EventsDelete").html(ligne);
-						$("#jsonEventsDelete").val(JSON.stringify(allEvents.Delete));
-					}
-
-					
-				});
-				$("#divCheckEvents").fadeIn("slow", function() {});
+				finish["ligneAdd"]  = "";
+				finish["ligneUpdate"]  = "" ;
+				finish["ligneDelete"]  = "" ;
+				
+				check(z, 1, dateToday, date50, finish);
+				console.log("res", res);
 
 			},
 			error: function (error) {
 				console.log('error', error);
 			}
 		});
+		
 	});
 
 
 	$("#importOpenAgenda").off().on('click', function(e){
+		rand = Math.floor((Math.random() * 8) + 1);
+		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+				});
 		$.ajax({
 			url: baseUrl+'/communecter/admin/importeventsopenagendaindb/',
 			type: 'POST',
@@ -125,6 +134,8 @@ function bindEvents(){
 			},
 			success: function (data){
 				console.log('success', data);
+				$.unblockUI();
+				toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
 			},
 			error: function (error) {
 				console.log('error', error);
@@ -141,40 +152,112 @@ function checkEventsOpenAgendaInDB(data){
 	var arrayUpdate = [] ;
 	var arrayDelete = [] ;
 	var arrayEvents = {} ;
-	$.each(data.data, function( key, val ) {
-		//console.log(data.data.location);
-		$.ajax({
-			url: baseUrl+'/communecter/admin/checkventsopenagendaindb/',
-			type: 'POST',
-			dataType: 'json',
-			data : {
-				OpenAgendaID : val.uid,
-				modified : val.updatedAt,
-				location : val.locations
-			},
-			async:false,
-			complete: function () {},
-			success: function (result){
-				console.log('success', result);
-				if(result.state == "Add")
-					arrayAdd.push(val);
-				else if(result.state == "Update")
-					arrayUpdate.push(val);
-				else if(result.state == "Delete")
-					arrayDelete.push(val);
-			},
-			error: function (error) {
-				console.log('error', error);
-			}
-		});
+	
+	$.ajax({
+		url: baseUrl+'/communecter/admin/checkventsopenagendaindb/',
+		type: 'POST',
+		dataType: 'json',
+		data : {
+			events : data
+		},
+		async:false,
+		complete: function () {},
+		success: function (result){
+			console.log('result', result);
+			console.log('Add', result.Add.length);
+			console.log('Update', result.Update.length);
+			console.log('Delete', result.Delete.length);
+			arrayEvents["Add"] = result.Add;
+			arrayEvents["Update"] = result.Update;
+			arrayEvents["Delete"] = result.Delete;
+		},
+		error: function (error) {
+			console.log('error', error);
+		}
 	});
-	arrayEvents["Add"] = arrayAdd;
-	arrayEvents["Update"] = arrayUpdate;
-	arrayEvents["Delete"] = arrayDelete;
-	console.log("arrayAdd", arrayAdd);
+	
  	return arrayEvents ;
 }
 
+function check (nbpage, page, dateToday, date50, finish){
+	
+	var url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
+	console.log('url', url);
+	
+	$.ajax({
+		url: url,
+		type: 'POST',
+		dataType: 'jsonp',
+		async:false,
+		success: function (obj){
+			console.log('success', obj);
+			
+			var allEvents = checkEventsOpenAgendaInDB(obj);
+			$.each(allEvents, function( stateEvent, arrayEvents ) {
+				var nbEvents = 0;
+				$.each(arrayEvents, function( keyEvent, Event ) {
+					//console.log(stateEvent, keyEvent, Event);
+					nbEvents++;
+					if(stateEvent == "Add"){
+						finish["arrayAdd"].push(Event);
+						finish["ligneAdd"] += "<tr><td>"+Event.title.fr+"</td></tr>" ;
+					}	
+					else if(stateEvent == "Update"){
+						finish["arrayUpdate"].push(Event);
+						finish["ligneUpdate"] += "<tr><td>"+Event.title.fr+"</td></tr>" ;
+					}
+					else if(stateEvent == "Delete"){
+						finish["arrayDelete"].push(Event);
+						finish["ligneDelete"] += "<tr><td>"+Event.title.fr+"</td></tr>" ;
+					}
+				
+				});
+			});
+
+			/*finish["arrayAdd"]  = arrayAdd.concat(finish["arrayAdd"]);
+			finish["arrayUpdate"]  = arrayUpdate.concat(finish["arrayUpdate"]);
+			finish["arrayDelete"]  = arrayDelete.concat(finish["arrayDelete"]);
+
+			finish["ligneAdd"]  = ligneAdd + finish["ligneAdd"];
+			finish["ligneUpdate"]  = ligneUpdate + finish["ligneUpdate"] ;
+			finish["ligneDelete"]  = ligneDelete + finish["ligneDelete"] ;*/
+
+			if(nbpage > page){
+				page++;
+				check(nbpage, page, dateToday, date50, finish);
+			}else{
+				callbackF(finish);
+			}
+		},
+		error: function (error) {
+			console.log('error', error);
+		}
+	});
+	
+
+
+	
+}
+
+
+function callbackF(finish){
+
+	$("#nbAdd").html(finish["arrayAdd"].length + " Event(s)");
+	$("#EventsAdd").html(finish["ligneAdd"]);
+	$("#jsonEventsAdd").val(JSON.stringify(finish["arrayAdd"]));
+
+	$("#nbUpdate").html(finish["arrayUpdate"].length + " Event(s)");
+	$("#EventsUpdate").html(finish["ligneUpdate"]);
+	$("#jsonEventsUpdate").val(JSON.stringify(finish["arrayUpdate"]));
+
+	$("#nbDelete").html(finish["arrayDelete"].length + " Event(s)");
+	$("#EventsDelete").html(finish["ligneDelete"]);
+	$("#jsonEventsDelete").val(JSON.stringify(finish["arrayDelete"]));
+
+	$("#divCheckEvents").fadeIn("slow", function() {});
+	$.unblockUI();
+	console.log('---------FINISH---------------', finish);
+}
 
 
 </script>
