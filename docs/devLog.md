@@ -1,4 +1,3 @@
-
 // This file helps any devlopper to update his environment in order to make it work
 // according to the new development
 // Add a datetime or better a commit id linked to the modification
@@ -15,7 +14,15 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+---------------------------------------------------
+2016/03/18
+
+Mettre en cron les statistiques
+communecter/stat/createglobalstat
+
 ----------------------------------------------------
+
+
 2016/03/01
 @Raphael
 Add "'isOpendata': true" for all projects which have sourceKey == "patapouf"
@@ -227,3 +234,4 @@ db.organizations.find().forEach(function(doc){
         }) 
     } 
 });
+
