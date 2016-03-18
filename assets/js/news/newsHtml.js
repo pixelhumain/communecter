@@ -142,7 +142,7 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if( (author != null && typeof author.address != "undefined") || newsObj.type == "activityStream")
+	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
 		if(newsObj.type != "activityStream"){
 			postalCode=author.address.postalCode;
@@ -216,7 +216,7 @@ function buildLineHTML(newsObj,idSession,update)
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						manageMenu+
-						//scopes+
+						scopes+
 						'<div class="space1"></div>'+ 
 						imageBackground+
 						'<div class="timeline_author_block">'+
