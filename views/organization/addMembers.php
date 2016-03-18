@@ -153,26 +153,26 @@ Menu::organization($organization);
         		</blockquote>
         	</div>
         	<div class="panel-body">
+		    	 <div class="form-group" id="searchMemberSection" style="margin:0px;">
+	    	    	<div class='row'>
+						<div class="col-md-1">	
+			           		<i class="fa fa-search fa-2x"></i> 
+			           	</div>
+			           	<div class="col-md-11">
+			           		<span class="input-icon input-icon-right">
+					           	<input class="member-search form-control" placeholder="<?php echo Yii::t("organisation","Search by name, email",null,Yii::app()->controller->module->id) ?>" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
+					           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
+					        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:200px;overflow:scroll;">
+										<li class="li-dropdown-scope">-</li>
+									</ul>
+								</input>
+							</span>
+						</div>
+					</div>
+				</div>
 		    	<form id="addMemberForm" style="line-height:40px; padding:0px;" autocomplete="off" submit='false'>
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
-		    	    <div class="form-group" id="searchMemberSection" style="margin:0px;">
-		    	    	<div class='row'>
-							<div class="col-md-1">	
-				           		<i class="fa fa-search fa-2x"></i> 
-				           	</div>
-				           	<div class="col-md-11">
-				           		<span class="input-icon input-icon-right">
-						           	<input class="member-search form-control" placeholder="<?php echo Yii::t("organisation","Search by name, email",null,Yii::app()->controller->module->id) ?>" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
-						           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-						        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:200px;overflow:scroll;">
-											<li class="li-dropdown-scope">-</li>
-										</ul>
-									</input>
-								</span>
-							</div>
-						</div>
-					</div>
 		            <div class="form-group" id="addMemberSection">
 		            	<div class='row center'>
 		            		<h4>Est-ce un citoyen ou une association ?</h4>
@@ -314,18 +314,10 @@ Menu::organization($organization);
 	var totalMails = 0;
 	var organization = <?php echo json_encode($organization) ?>;
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANIZATION : <?php echo addslashes($organization["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
-		 /*$(window).keydown(function(event){
-		    if(event.keyCode == 13) {
-		      event.preventDefault();
-		      return false;
-		    }
-		  });*/
+		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANISATION : <?php echo addslashes($organization["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 		initFormAddMember();
 		
 		bindTEST();
-
-
 	});
 	
 
@@ -555,8 +547,8 @@ Menu::organization($organization);
 	    	});
 	    });
 
-		$('#addMembers #memberSearch').keyup(function(e){
-		    var searchValue = $('#addMembers #memberSearch').val();
+		$('#memberSearch').keyup(function(e){
+		    var searchValue = $('#memberSearch').val();
 		    if(searchValue.length>2){
 		    	clearTimeout(timeout);
 			    timeout = setTimeout($("#iconeChargement").css("visibility", "visible"), 500);
@@ -583,7 +575,7 @@ Menu::organization($organization);
 
 	function setMemberInputAddMember(id, name, email, type, organizationType){
 		$("#iconeChargement").css("visibility", "hidden")
-		$("#addMembers #memberSearch").val(name);
+		$("#memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
 		$('#addMembers #memberEmail').val(email);
@@ -602,7 +594,7 @@ Menu::organization($organization);
 		}
 		$("#addMembers #dropdown_search").css({"display" : "none" });
 		$("#addMembers #addMemberSection").css("display", "block");
-		$("#addMembers #searchMemberSection").css("display", "none");
+		$("#searchMemberSection").css("display", "none");
 
 	}
 
@@ -672,7 +664,7 @@ Menu::organization($organization);
 
 	function openNewMemberForm(){
 		$("#addMembers #addMemberSection").css("display", "block");
-		$("#addMembers #searchMemberSection").css("display", "none");
+		$("#searchMemberSection").css("display", "none");
 		$("#addMembers #memberName").val("");
 		$("#addMembers #memberName").removeAttr("disabled");
 		$("#addMembers #memberId").val("");
@@ -682,7 +674,7 @@ Menu::organization($organization);
 		$("#addMembers #memberIsAdmin").val("0");
 		$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-  		if(emailReg.test( $("#addMembers #memberSearch").val() )){
+  		if(emailReg.test( $("#memberSearch").val() )){
   			$('#addMembers #memberEmail').val( $("#addMembers #memberSearch").val());
   		}else{
   			$("#addMembers #memberName").val($("#addMembers #memberSearch").val());
@@ -693,10 +685,10 @@ Menu::organization($organization);
 		$("#addMembers #btnOrganization").removeClass("disabled btn-dark-green").addClass("btn-green");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
-		$("#addMembers #searchMemberSection").css("display", "block");
+		$("#searchMemberSection").css("display", "block");
 		$("#addMembers #divAdmin").css("display", "none");
 		$("#iconeChargement").css("visibility", "hidden")
-		$("#addMembers #memberSearch").val("");
+		$("#memberSearch").val("");
 		$("#addMembers #dropdown_search").css({"display" : "none" });
 	}
 
