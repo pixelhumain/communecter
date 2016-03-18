@@ -176,6 +176,7 @@ function checkEventsOpenAgendaInDB(data){
 		}
 	});
 	
+	
  	return arrayEvents ;
 }
 
