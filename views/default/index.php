@@ -167,6 +167,16 @@
 	}
 
 
+	.my-main-container{
+		min-height:1000px;
+	}
+
+	.main-col-search{
+		min-height:1000px;
+	}
+
+
+
 @media screen and (max-width: 767px) {
 	.btn-scope{
 		display: none;
@@ -193,6 +203,7 @@
 	.btn-scope-niv-5{
 		height: 163px;
 	}
+
 }
 	
 </style>
@@ -346,7 +357,7 @@ jQuery(document).ready(function() {
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
   	}
 
-	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
+  	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
     $(".main-col-search").css("min-height", $(".sigModuleBg").height());
 
     $('#btn-toogle-map').click(function(e){ showMap();  	});
