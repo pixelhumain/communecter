@@ -60,7 +60,9 @@ $displayResult[1] = 'true';
 <script type="text/javascript">
 	
 	$(document).ready(function() {
+		$(".moduleLabel").html("<i class='fa fa-cog'></i> <span id='main-title-menu'>Espace administrateur");
 	    $('#summary').DataTable({
+	    	"paging":   false,
 	    	"language": {
 				"lengthMenu": "Afficher _MENU_ lignes par page",
 				"zeroRecords": "Pas de résultat",
