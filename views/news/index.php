@@ -829,12 +829,13 @@ function buildLineHTML(newsObj,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if( (author != null && typeof author.address != "undefined") || newsObj.type == "activityStream")
+	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
 		if(newsObj.type != "activityStream"){
 			postalCode=author.address.postalCode;
 			city=author.address.addressLocality;			
 		}else{
+			console.log(newsObj.scope);
 			if (newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
@@ -908,7 +909,7 @@ function buildLineHTML(newsObj,update)
 					'<div class="timeline_element partition-'+color+'">'+
 						tags+
 						manageMenu+
-						//scopes+
+						scopes+
 						'<div class="space1"></div>'+ 
 						imageBackground+
 						'<div class="timeline_author_block">'+
