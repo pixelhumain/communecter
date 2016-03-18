@@ -136,7 +136,7 @@
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
-          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$urlPhotoProfil); ?>" alt="image" >
+          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <?php //echo $me["name"]; ?>
           <span class="caret"></span>
         </button>
