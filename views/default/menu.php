@@ -392,6 +392,11 @@ function removeExplainations(){
 
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
+			<?php if (isset(Yii::app()->session["userId"])){ ?>
+				<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
+			<?php } ?>
+
+
 		<br/>
 		update <?php echo $this->versionDate ?>
 		<br/>
