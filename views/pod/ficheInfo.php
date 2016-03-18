@@ -158,9 +158,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							</a>
 						</h2>						
 					</div>
-					<div class="row info-shortDescription">
+					<div class="row info-shortDescription" style="word-wrap:break-word;">
 						<a href="#" id="shortDescription" data-placement="bottom" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
-							data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable-context editable editable-click text-dark">
+							data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable editable-click">
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
@@ -431,6 +431,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
+			$('#shortDescription').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
@@ -445,6 +446,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
+			$('#shortDescription').editable('option', 'pk', contextId);
 			$('#description').editable('option', 'pk', contextId);
 			$('#type').editable('option', 'pk', contextId);
 			$('#address').editable('option', 'pk', contextId);
@@ -456,6 +458,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
+			$('#shortDescription').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
@@ -498,6 +501,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return types;
 			},
+		});
+
+		$('#shortDescription').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield",
+			wysihtml5: {
+				color: false,
+				html: false,
+				video: false,
+				image: false,
+				table : false
+			},
+			validate: function(value) {
+			    console.log(value);
+			    if($.trim(value).length > 140) {
+			        return 'La description courte ne doit pas dépasser 140 caractères.';
+			    }
+			}
 		});
 
 		//Select2 tags

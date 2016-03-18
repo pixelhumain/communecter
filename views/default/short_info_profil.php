@@ -159,11 +159,9 @@
               foreach ($sourceAdmin as $key => $value) {
                 ?>
                   <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-cog text-blue"></i> <?php echo $value ; ?></a></li>
-                <?php
-              }
-            }
-          ?>
-          <li role="separator" class="divider"></li>
+              <?php } ?>
+              <li role="separator" class="divider"></li>
+              <?php } ?>
           <li>
             <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
                id="btn-menu-dropdown-logout" class="text-red">

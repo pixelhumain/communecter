@@ -202,7 +202,7 @@
 			Sig.map.panTo(coords);
 			Sig.map.setZoom(15);
 			Sig.map.invalidateSize(false);
-			toastr.success('mise à jour de la carte ok');
+			//toastr.success('mise à jour de la carte ok');
 		
 		 },2000);
 		Sig.markerModifyPosition.dragging.enable();

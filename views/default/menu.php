@@ -502,11 +502,11 @@ function removeExplainations(){
 
 </style>
 <div class="globale-announce text-dark hidden-xs">
-	<div id="kkbb-min" style="display:none; margin-bottom: -12px;">
+	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
 		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
 	</div>
-	<div id="kkbb-big">
+	<div id="kkbb-big" style="display:none;">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
 		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
 			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
@@ -561,13 +561,13 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	//realTimeKKBB();
+	realTimeKKBB();
 	
-	setTimeout(function(){ 
+	//setTimeout(function(){ 
 		$(".globale-announce").css("width", 250);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
-	}, 5000);
+	//}, 5000);
 
 	$('#btn-close-globale-announce').click( function(e){ 
 		$(".globale-announce").css("width", 250);
