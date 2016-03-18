@@ -360,6 +360,9 @@ class CommunecterController extends Controller
     "graph"=> array(
       "viewer" => array("href" => "/ph/communecter/graph/viewer"),
     ),
+    "log"=> array(
+      "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+    ),
 
   );
 
@@ -437,6 +440,15 @@ class CommunecterController extends Controller
     return parent::beforeAction($action);
   }
 
+  protected function afterAction($action){
+    return parent::afterAction($action);
+  }
+
+  /**
+   * Start the log process
+   * Bring back log parameters, then set object before action and save it if there is no return
+   * If there is return, the method save in session the log object which will be finished and save in db during the method afteraction
+   */
   protected function manageLog(){
     //Bring back logs needed
     $actionsToLog = Log::getActionsToLog();

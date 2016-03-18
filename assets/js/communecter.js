@@ -399,6 +399,7 @@ var loadableUrls = {
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
