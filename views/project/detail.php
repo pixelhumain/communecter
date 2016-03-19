@@ -48,6 +48,7 @@ $this->renderPartial('../default/panels/toolbar');
 					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
 																	"contextType" => Project::CONTROLLER,
+																	"list" => $eventTypes,
 																	"authorised" => $admin
 																  )); ?>
 				</div>

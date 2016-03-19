@@ -46,7 +46,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
 						</td>
-						<td><?php if(isset($e["type"]))echo $e["type"]?></td>
+						<td><?php if(isset($e["type"])) echo $list[$e["type"]];?></td>
 						<td class="center">
 							<div class="visible-lg">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
