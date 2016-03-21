@@ -155,7 +155,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo $project["name"] ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo addslashes($project["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindprojectSubViewcontributor();
 	 	runContributorFormValidation();
 	 	$('#contributorEmail').keyup(function(e){
