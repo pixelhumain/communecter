@@ -464,6 +464,9 @@ jQuery(document).ready(function() {
   //si on est sur la page de MA commune, on change le texte du bouton "communecter"
   if(mineCity){
     $("#btn-communecter").html("<i class='fa fa-check'></i> COMMUNECTÉ");
+    $("#btn-communecter").tooltip({
+        title: 'Vous êtes communecté à cette commune.'
+    });
     $("#btn-communecter").attr("onclick", "");
   }
 
