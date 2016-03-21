@@ -6,14 +6,6 @@
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-	$countCitoyen 	= PHDB::count(Person::COLLECTION);
-	$countAsso 		= PHDB::count(Organization::COLLECTION, array("type" => "association"));
-	$countEntreprise = PHDB::count(Organization::COLLECTION, array("type" => "entreprise"));
-	$countProject 	= PHDB::count(Project::COLLECTION);
-	$countEvent 	= PHDB::count(Event::COLLECTION);
-
-	//error_log("countCitoyen : " . $countCitoyen);
-
 ?>
 <style>
 
@@ -314,7 +306,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $countCitoyen; ?> inscrits et <?php echo $countProject; ?> projets référencés</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
 				<br/>
 					Etre Acteur! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
 					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain.
@@ -324,7 +316,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $countAsso; ?> associations référencées</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['NGO']; ?> associations référencées</span>
 				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
 					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évènement...</span>
@@ -346,7 +338,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $countEntreprise; ?> entreprises référencées</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['LocalBusiness']; ?> entreprises référencées</span>
 				<br/>
 				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de services au citoyen
 				avec un vrai respect de la qualité, quel que soit son métier.
@@ -357,7 +349,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $countEvent; ?> événements partagés</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['events']['total']; ?> événements partagés</span>
 				<br/>
 					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.
