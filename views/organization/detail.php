@@ -60,7 +60,9 @@
 				<?php } ?>
 				<?php if ($admin == 1 || !empty($events)){ ?>
 				<div class="col-md-12 col-xs-12">
-					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+					<?php 
+						if(!isset($eventTypes)) $eventTypes = array();
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $organization["_id"],
 																			"contextType" => Organization::CONTROLLER,
 																			"list" => $eventTypes,

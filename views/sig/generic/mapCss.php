@@ -140,6 +140,7 @@
 		top: 70px;
 		left: 19%;
 		width: 30%;
+		min-width: 200px;
 		max-height: 100px;
 		background-color: rgba(26, 33, 38, 0.93);
 		border-radius: 4px;
