@@ -279,7 +279,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> badge : <a href="javascript:loadByHash('#define.Gamification');"><span class="badge badge-warning"> <?php echo Gamification::badge( Yii::app()->session['userId'] )." : ".Gamification::calcPoints( Yii::app()->session['userId'] )." points"?></span>
+					<i class="fa fa-bookmark"></i> badge : <a href="javascript:loadByHash('#define.Gamification');"><span class="badge badge-warning"> 
+					<?php 
+						
+					echo Gamification::badge( (string)$person["_id"] )." : ".Gamification::calcPoints( (string)$person["_id"] )." points"?></span>
 					<hr style="margin:10px 0px 3px 0px;">
 					
 					<i class="fa fa-road fa_streetAddress hidden"></i> 

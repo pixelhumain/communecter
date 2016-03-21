@@ -997,7 +997,6 @@ function bindBtnEvents(){
 		var childId = $(this).data("id");
         var childType = $(this).data("type");
 		actionAdmin = $(this).data("admin");
-		console.log(params);
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
 				if (result) {
@@ -1012,6 +1011,7 @@ function bindBtnEvents(){
 			}
 		)
 	});
+	
 	$(".acceptAsMemberBtn").off().on("click",function () {
         //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
         var childId = $(this).data("id");

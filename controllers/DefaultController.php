@@ -54,7 +54,12 @@ class DefaultController extends CommunecterController {
   public function actionHome() 
   {
     //$this->layout = "//layouts/mainSearch";
-    $this->renderPartial("home");
+
+    //Get the last global statistics
+    $stats = Stat::getWhere(array(),null,1);
+    if(is_array($stats)) $stats = array_pop($stats);
+
+    $this->renderPartial("home", array("stats"=>$stats));
   }
   public function actionLogin() 
   {

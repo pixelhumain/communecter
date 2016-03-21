@@ -244,11 +244,22 @@ class Menu {
 	                        "follow('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
                        }
 	            }
-                self::entry("right", 'onclick',
-                        Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
-                        Yii::t( "common", "Become ".$connectAs),
-                        'fa fa-user-plus becomeAdminBtn',
-                        "connectTo('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($organization["name"])."')",null,null);                      
+
+                //Test if user has already asked to become an admin
+                if(!in_array(Yii::app()->session["userId"], Authorisation::listAdmins($id, Organization::COLLECTION,true))){
+                    self::entry("right", 'onclick',
+                            Yii::t( "common", "Declare me as ".$connectAs." of this organization"),
+                            Yii::t( "common", "Become ".$connectAs),
+                            'fa fa-user-plus becomeAdminBtn',
+                            "connectTo('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($organization["name"])."')",null,null);
+                }  
+                // else{
+                //     self::entry("right", 'onclick',
+                //         Yii::t( "common", "Wait for confirmation"),
+                //         Yii::t( "common", "Become ".$connectAs),
+                //         'fa fa-user-plus becomeAdminBtn',
+                //         "toastr.success('".Yii::t( "common", "Your request has been sent to other admins.")."')",null,null);
+                // }            
             }
         } 
     }
