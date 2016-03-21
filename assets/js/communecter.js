@@ -527,6 +527,8 @@ function showPanel(box,callback){
 
   	$(".box").hide(200);
   	showNotif(false);
+  	
+  	if(isMapEnd) showMap(false);
 			
 	console.log("showPanel");
 	//showTopMenu(false);
