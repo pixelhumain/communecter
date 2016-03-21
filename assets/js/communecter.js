@@ -271,7 +271,7 @@ function follow(parentType, parentId, childId, childType){
 		success: function(data) {
 			if(data.result){
 				if (formData.parentType)
-					addFloopEntity(formData.parentId, "people", data.parentEntity);
+					addFloopEntity(formData.parentId, formData.parentType, data.parentEntity);
 				toastr.success(data.msg);	
 				loadByHash(location.hash);
 			}
