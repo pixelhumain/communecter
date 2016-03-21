@@ -1001,13 +1001,12 @@ function bindBtnEvents(){
 			function(result) {
 				if (result) {
 					linkOption = "<?php echo Link::IS_ADMIN_PENDING; ?>";
-					alert($("#"+childId+",.acceptAsMemberBtn").length());
-					// validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
-					// 	function() {
-					// 		toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
-					// 		loadByHash(location.hash);
-					// 	}
-					// );
+					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
+						function() {
+							toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
+							loadByHash(location.hash);
+						}
+					);
 				}
 			}
 		)
