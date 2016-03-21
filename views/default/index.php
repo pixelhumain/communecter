@@ -159,12 +159,12 @@
 		border-radius: 50% 50% 50% 0%;
 		background-color: rgb(177, 194, 204) !important;
 	}
-	.btn-scope-niv-5:hover{
+	/*.btn-scope-niv-5:hover{
 		background-color: rgb(109, 120, 140) !important;
 	}
 	.btn-scope-niv-5.selected{
 		background-color: rgb(109, 120, 140) !important;
-	}
+	}*/
 
 
 	.my-main-container{
@@ -895,6 +895,15 @@ function showInputCommunexion(){
 var levelCommunexion = 1;
 function selectScopeLevelCommunexion(level){
 
+	var department = "";
+	console.log("selectScopeLevelCommunexion", countryCommunexion, $.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]));
+
+	if($.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]) >= 0){
+		department = cpCommunexion.substr(0, 3);
+	}else{
+		department = cpCommunexion.substr(0, 2);
+	}
+
 	var change = (level != levelCommunexion);
 
 	$(".btn-scope").removeClass("selected");
@@ -903,19 +912,20 @@ function selectScopeLevelCommunexion(level){
 
 	if(level == 1) endMsg = "à " + cityNameCommunexion + ", " + cpCommunexion;
 	if(level == 2) endMsg = "au code postal " + cpCommunexion;
-	if(level == 3) endMsg = "au département " + cpCommunexion.substr(0, 2);
-	if(level == 4) endMsg = "à votre région";
+	if(level == 3) endMsg = "au département " + department;
+	if(level == 4) endMsg = "à votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "à l'ensemble du réseau";
 
 	if(change){
-		toastr.success('Vous êtes connecté ' + endMsg);
+		toastr.success('Les données sont maintenant filtrées par rapport ' + endMsg);
 		$('.search-loader').html("<i class='fa fa-check'></i> Vous êtes connecté " + endMsg)
 	}
 
+	
 	if(level == 1) endMsg = cityNameCommunexion + ", " + cpCommunexion;
 	if(level == 2) endMsg = cpCommunexion;
-	if(level == 3) endMsg = "Département " + cpCommunexion.substr(0, 2);
-	if(level == 4) endMsg = "Votre région";
+	if(level == 3) endMsg = "Département " + department;
+	if(level == 4) endMsg = "Votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "Tout le réseau";
 	
 	if(!communexionActivated)
@@ -924,8 +934,8 @@ function selectScopeLevelCommunexion(level){
 	$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + endMsg);
 
 	$(".btn-scope-niv-5").attr("data-original-title", "Niveau 5 - Tout le réseau");
-	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région");
-	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + cpCommunexion.substr(0, 2));
+	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région " + regionNameCommunexion);
+	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + department);
 	$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Code postal : " + cpCommunexion);
 	$(".btn-scope-niv-1").attr("data-original-title", "Niveau 1 - " + cityNameCommunexion + ", " + cpCommunexion);
 	$('.tooltips').tooltip();
