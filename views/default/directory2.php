@@ -997,17 +997,17 @@ function bindBtnEvents(){
 		var childId = $(this).data("id");
         var childType = $(this).data("type");
 		actionAdmin = $(this).data("admin");
-		console.log(params);
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
 				if (result) {
 					linkOption = "<?php echo Link::IS_ADMIN_PENDING; ?>";
-					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
-						function() {
-							toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
-							loadByHash(location.hash);
-						}
-					);
+					alert($("#"+childId+",.acceptAsMemberBtn").length());
+					// validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
+					// 	function() {
+					// 		toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
+					// 		loadByHash(location.hash);
+					// 	}
+					// );
 				}
 			}
 		)
