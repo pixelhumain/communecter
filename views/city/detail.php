@@ -450,7 +450,7 @@ jQuery(document).ready(function() {
 
   var iconCity = "<i class='fa fa-university'></i>";
   var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
-  var mineBool = (city["insee"] == inseeCommunexion) ? true : false;
+  var mineCity = (city["insee"] == inseeCommunexion) ? true : false;
 
   <?php if( @$city["communected"] ){ ?>
   iconCity = "<span class='fa-stack'>"+
@@ -462,8 +462,9 @@ jQuery(document).ready(function() {
   $(".moduleLabel").html(iconCity + mine + " COMMUNE : <?php echo $city["name"] ?>");
   
   //si on est sur la page de MA commune, on change le texte du bouton "communecter"
-  if(mineBool){
+  if(mineCity){
     $("#btn-communecter").html("<i class='fa fa-check'></i> COMMUNECTÉ");
+    $("#btn-communecter").attr("onclick", "");
   }
 
   initCityMap();

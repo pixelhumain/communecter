@@ -692,6 +692,8 @@ function setScopeValue(btn){
 		}else
 		if(location.hash.indexOf("#city.detail") >= 0) {
 			showLocalActorsCityCommunexion();
+			$("#btn-communecter").html("<i class='fa fa-check'></i> COMMUNECTÉ");
+    		$("#btn-communecter").attr("onclick", "");
 			//showMap(false);
 		}else
 		if(location.hash.indexOf("#default.twostepregister") >= 0) {
