@@ -2,7 +2,7 @@
       {
       	$me = Person::getById(Yii::app()->session['userId']);
         if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-          $urlPhotoProfil = $me['profilImageUrl'];
+          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
         else
           $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       }
@@ -136,13 +136,13 @@
     <?php if( isset( Yii::app()->session['userId']) ){ ?>
       <div class="dropdown pull-right hidden-xs">
         <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
-          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$urlPhotoProfil); ?>" alt="image" >
+          <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
           <?php //echo $me["name"]; ?>
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
           <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');"            id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon profil <span class="badge badge-warning"><i class="fa fa-bookmark"></i>  <?php echo Gamification::badge( Yii::app()->session['userId'] ) ?></span> </a></li>
-          <li><a href="javascript:;" onclick="loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId']?>');"         id="btn-menu-dropdown-my-directory"><i class="fa fa-bookmark fa-rotate-270 text-dark"></i> Mon répertoire</a></li>
+          <li><a href="javascript:;" onclick="loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId']?>?tpl=directory2');"         id="btn-menu-dropdown-my-directory"><i class="fa fa-bookmark fa-rotate-270 text-dark"></i> Mon répertoire</a></li>
           <li><a href="javascript:;" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isSearchDesign=1');"         id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li>
           <!-- <li><a href="javascript:" onclick="loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-news"><i class="fa fa-rss text-dark"></i> Mon fil d'actualité</a></li> -->
           <li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');"             id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
@@ -159,11 +159,9 @@
               foreach ($sourceAdmin as $key => $value) {
                 ?>
                   <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-cog text-blue"></i> <?php echo $value ; ?></a></li>
-                <?php
-              }
-            }
-          ?>
-          <li role="separator" class="divider"></li>
+              <?php } ?>
+              <li role="separator" class="divider"></li>
+              <?php } ?>
           <li>
             <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
                id="btn-menu-dropdown-logout" class="text-red">

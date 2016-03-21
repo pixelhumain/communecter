@@ -204,8 +204,7 @@ if(@$event) {
 					"childEmail" : $('.form-attendees .attendees-email').val(),
 					"childType" : "<?php echo Person::COLLECTION; ?>", 
 					"parentType" : "<?php echo Event::COLLECTION;?>",
-					"parentId" : $(".attendees-parentId").val(),
-					"connectType" : "attendee"
+					"parentId" : $(".attendees-parentId").val()
 				};
 
 				//newAttendee.id = $(".form-attendees .attendees-id").val();

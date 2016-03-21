@@ -308,8 +308,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
 				<br/>
-					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
-					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain.
+					Etre Acteur! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
+					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain.
 			</div>
 
 			<div class="col-sm-8 information">
@@ -319,7 +319,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['NGO']; ?> associations référencées</span>
 				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
-					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
+					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évènement...</span>
 					Economie solidaire, Fablabs, jardins partagés, biens communs. L'innovation sociale c'est aussi ça.
 			</div>
 
@@ -329,7 +329,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 					<span class="text-azure">Retrouvez toutes les communes de France métropolitaine et des DOM-TOM</span>
 				<br/>
-					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
+					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de bâtir le futur</span>.
 					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités.
 					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
 			</div>
@@ -340,9 +340,9 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['LocalBusiness']; ?> entreprises référencées</span>
 				<br/>
-				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen
-				avec un vrai respect de la qualité, quelque soit son métier.
-				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
+				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de services au citoyen
+				avec un vrai respect de la qualité, quel que soit son métier.
+				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la plateforme Communecter.
 			</div>
 
 			<div class="col-sm-8 information">
@@ -386,14 +386,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink">bien commun</a>
 				fait pour et par chacun d’entre nous, porté par une association à but non lucratif.
 				<br/><br/>
-				Plus qu'une simple application Communecter se présente sous differentes formes :
+				Plus qu'une simple application Communecter se présente sous différentes formes :
 				<ul class="information" style="font-weight: normal;">
 				<li>Une projet <a href="javascript:;" data-id="explainOpenSource" class="explainLink">open source</a>
-				<li>Une communauté riche et diversifié</li>
+				<li>Une communauté riche et diversifiée</li>
 				<li>Un site web qui vous tend les bras</li>
-				<li>Une application mobile encore en court </li>
-				<li>Des interfaces tiers contribuant ou pas à une Base de donnée commune</li>
-				<li>Des instances indépendantes mais interopérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink">sémantiques</a> communes </li>
+				<li>Une application mobile encore en cours </li>
+				<li>Des interfaces tierces contribuant ou non à une base de donnée commune</li>
+				<li>Des instances indépendantes mais inter-opérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink">sémantiques</a> communes </li>
 				</ul>
 			</div>
 			<div class="col-md-6 col-sm-12 flexContainer">
@@ -421,7 +421,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
 					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
 					<br/>Pour <span class="text-red">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
-					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> sont conditionnées par la construction d'un outil simple et à destination de tous.
 					<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
 					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-red">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
 					<?php /* ?>
@@ -519,7 +519,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
 			<div class="col-sm-12 text-white">
-				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative.
+				Nous sommes en amélioration continue, cette plateforme est open source et construite de façon collaborative.
 				<h3 class="homestead">Rejoignez nous : </h3>
 
 				<a href="javascript:loadByHash('#showTagOnMap.tag.developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a>

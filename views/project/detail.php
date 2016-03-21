@@ -43,11 +43,14 @@ $this->renderPartial('../default/panels/toolbar');
 					  )); ?>
 				</div>
 				<?php } 
-					if((@$project["links"]["events"] && !empty($project["links"]["events"])) || $admin==true){ ?>
+				if((@$project["links"]["events"] && !empty($project["links"]["events"])) || $admin==true){ ?>
 				<div class="col-md-12 col-xs-12">
-					<?php $this->renderPartial('../pod/eventsList',array( "events" => $events, 
+					<?php 
+							if(!isset($eventTypes)) $eventTypes = array();
+							$this->renderPartial('../pod/eventsList',array( "events" => $events, 
 																	"contextId" => (String) $project["_id"],
 																	"contextType" => Project::CONTROLLER,
+																	"list" => $eventTypes,
 																	"authorised" => $admin
 																  )); ?>
 				</div>

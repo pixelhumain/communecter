@@ -2,8 +2,8 @@
 
 	<div class="explainCommunectMe <?php echo $class?> hide">
 		
-		<h1 class="homestead explainTitle"><i class="fa fa-home"></i> Communectez-moi</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue "><i class="fa fa-home"></i> Communectez-moi</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Ce n'est pas la technologie qui changera la société mais la philosophie bien outillée.
 			<br/>Me communecter me permet :  
@@ -97,19 +97,6 @@
 		</div>
 	</div>
 
-	<div class="explainOrganization <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Des organisations locales</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
-		<div class="explainDesc">
-			<ul>
-				<li>When something has meaning, we often find other people interested and build Organizations or simply join existing.</li>
-				<li>Alone we go faster, Together we go further.</li>
-				<li>Any Territory and all cities are full of organizations, by linking to them</li>
-				<li>we all contribute in promoting them. </li>
-			</ul>
-		</div>
-	</div>
-
 	<div class="explainCommune <?php echo $class?> hide">
 		<h1 class="homestead explainTitle">Les Communes</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
@@ -128,7 +115,7 @@
 	</div>
 	
 	<div class="explainCommuneJoin <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Devenir un Commune adhérente</h1>
+		<h1 class="homestead explainTitle">Devenir une Commune adhérente</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
@@ -170,7 +157,7 @@
 
 	<div class="explainConnect <?php echo $class?> hide">
 
-		<h1 class="homestead explainTitle"><i class="fa fa-sign-in"></i> Se connecter :</h1>
+		<h1 class="homestead explainTitle"><i class="fa fa-sign-in"></i> Se connecter</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<h3 class="text-azure margin-bottom-10"><i class="fa fa-info-circle"></i> Pourquoi se connecter ?</h3>
@@ -206,7 +193,7 @@
 
 	<div class="explainLinking <?php echo $class?> hide">
 
-		<h1 class="homestead explainTitle">Créer du lien localement :</h1>
+		<h1 class="homestead explainTitle">Créer du lien localement</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
@@ -218,56 +205,56 @@
 	</div>
 
 	<div class="explainAssociatif <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Associatif :</h1>
+		<h1 class="homestead explainTitle">Associatif</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Donner aux associations une vitrine et un outil de valorisation de leurs actions. Utiliser un outil de cartographie des compétence au sein d’un groupe...
 		</div>
 	</div>
 	<div class="explainEconomie <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Economie :</h1>
+		<h1 class="homestead explainTitle">Economie</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Référencement des entreprises et des compétences locales. La valorisation des circuits courts de distribution favorise l'économie locale...
 		</div>
 	</div>
 	<div class="explainTerritoire <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Territoire :</h1>
+		<h1 class="homestead explainTitle">Territoire</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Cartographie des compétences, des ressources, des projets, des acteurs d’un territoire, d’un groupe, d’une association ou d’une entreprise...
 		</div>
 	</div>
 	<div class="explainTourisme <?php echo $class?> hide"> 
-		<h1 class="homestead explainTitle">Tourisme :</h1>
+		<h1 class="homestead explainTitle">Tourisme</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc"> 
 			Les habitants d’une commune sont ceux qui la connaissent et la valorisent le mieux ...
 		</div>
 	</div>
 	<div class="explainAlimentation <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Alimentation :</h1>
+		<h1 class="homestead explainTitle">Alimentation</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Liens étroits avec les associations locales (permaculture…), créations de projets de fermes pédagogiques...
 		</div>
 	</div>
 	<div class="explainAgriculture <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Agriculture :</h1>
+		<h1 class="homestead explainTitle">Agriculture</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Mise en évidence des producteurs locaux, potager à la maison, création de projets de maraîchages collectifs / jardins participatifs ...
 		</div>
 	</div>
 	<div class="explainCulture <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Culture :</h1>
+		<h1 class="homestead explainTitle">Culture</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Partage d'informations sur l'animation du territoire, création d'événements, échanges de services (ex : cours de guitare contre des cours de chant) ...
 		</div>
 	</div>
 	<div class="explainEmploi <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Emploi :</h1>
+		<h1 class="homestead explainTitle">Emploi</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			Identification des manques d’offre de services pour favoriser des initiatives pouvant déboucher sur  des d'emplois et d'entreprises ...
@@ -321,11 +308,11 @@
 	</div>
 	
 	<div class="explainOpenSource <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Opensource</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Opensource</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
-				La désignation open source, ou « code source ouvert », s'applique aux logiciels dont la licence respecte des critères précisément établis par l'Open Source Initiative, c'est-à-dire les possibilités de libre redistribution, d'accès au code source et de création de travaux dérivés.
+				La désignation open source, ou « code source ouvert », s'applique aux logiciels dont la licence respecte des critères précisément établis par l'Open Source Initiative, c'est-à-dire les possibilités de libre blueistribution, d'accès au code source et de création de travaux dérivés.
 				<br/>
 				« Open source » désigne un logiciel dans lequel le code source est à la disposition du grand public, et c'est généralement un effort de collaboration où les programmeurs améliorent ensemble le code source et partagent les changements au sein de la communauté ainsi que d'autres membres peuvent contribuer. (CC BY-SA  Wikipedia, Linux, GPL, FSF, ...)
 			</ul>
@@ -353,8 +340,8 @@
 	</div>
 
 	<div class="explainConnectedTerritory <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Territoire Connecté</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Territoire Connecté</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Un territoire connecté est un territoire maillé par un réseau complet de moyens de communication. Communecter apporte sa touche au maillage en proposant des outils de communication directe entre les citoyens d’une même commune.
@@ -405,8 +392,8 @@
 	</div>
 
 	<div class="explainSocietyNetwork <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Réseau sociétal</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Réseau sociétal</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Il a fallu différencier les réseaux sociaux des réseaux sociétaux à cause de la place 
@@ -421,8 +408,8 @@
 	</div>
 
 	<div class="explainCTK <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Citizen Tool Kit</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Citizen Tool Kit</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Le Toolkit Citoyen est l'architecture modulaire sur laquelle repose Communecter.
@@ -473,8 +460,8 @@
 	</div>
 
 	<div class="explainCommunecteur <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Communecteur</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Communecteur</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Je suis communecteur quand j'ai envie de : 
@@ -501,8 +488,8 @@
 	</div>
 	
 	<div class="explainOpenAtlas <?php echo $class?> hide">
-		<h1 class="homestead">L'association Open Atlas</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">L'association Open Atlas</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				<li>Communecter est un projet actuellement porté par l’association Open Atlas mais dont les racines se trouvent dans une quinzaine d’années d'expérimentations, d’essais, de pertes de motivation, d’espoirs retrouvés, de rencontres, d’amitiés et d'innovation permanente pour l’ensemble des acteurs qui ont rejoint peu à peu l’aventure jusqu’à aujourd’hui.</li>
@@ -512,7 +499,7 @@
 
 				<li><b>2008 - Association Open Atlas</b> - création de l’association loi 1901 à La Réunion (suite au déménagement du porteur de projet). Son objectif initial était de tester l’outil Open Atlas sur le territoire réunionnais selon un modèle pensé pour être distribué. Malgré un bon démarrage avec quelques milliers d’utilisateurs, le projet s’est essoufflé et l’association s’est tournée vers d’autres activités.</li>
 
-				<li><b>2008 - Worldsouk</b> - projet de E-commerce d’artisanat équitable avec redistribution du profit pour construire des puits à Madagascar. </li>
+				<li><b>2008 - Worldsouk</b> - projet de E-commerce d’artisanat équitable avec blueistribution du profit pour construire des puits à Madagascar. </li>
 
 				<li><b>2012 - Pixel Humain</b> - Communauté et écosystème de concepteurs et de projets orientés vers l’innovation sociétale, amélioration continue, efficience d’un territoire. Ateliers et boite à outils citoyens</li>
 
@@ -635,8 +622,8 @@
 	</div>
 
 	<div class="explainPixelHumain <?php echo $class?> hide">
-		<h1 class="homestead explainTitle">Pixel Humain</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue">Pixel Humain</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -663,8 +650,8 @@
 	</div>
 
 	<div class="explainRoadMap <?php echo $class?> hide">
-		<h1 class="homestead explainTitle"> <i class="fa fa-sitemap"></i> Roadmap</h1>
-		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+		<h1 class="homestead explainTitle blue"> <i class="fa fa-sitemap"></i> Roadmap</h1>
+		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 			<ul>
 				La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.

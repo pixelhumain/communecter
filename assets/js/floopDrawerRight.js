@@ -219,10 +219,14 @@ function checkFloopSearch(thisElement, searchVal, type){
 function addFloopEntity(entityId, entityType, entityValue){
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);
-	var html = getFloopItem(entityId, type, entityValue);
-	$("ul#floopType-"+entityType).prepend(html);
-	$("ul#floopType-"+entityType+" .no-element").hide();
 
+	//We check if the element is already displayed
+	if(!$('#floopItem-'+type.name+'-'+entityId).length){
+		var html = getFloopItem(entityId, type, entityValue);
+		$("ul#floopType-"+entityType).prepend(html);
+	}
+	
+	$("ul#floopType-"+entityType+" .no-element").hide();
 	floopShowLock = true;
     showFloopDrawer(true);
 
