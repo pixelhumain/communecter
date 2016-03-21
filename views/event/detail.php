@@ -29,6 +29,8 @@ $admin = false;
 </div>
 <script type="text/javascript">
 	<?php $attending[] = $event; ?>
+	<?php $attending[] = $organizer; ?>
+	
 	var contextMap = <?php echo json_encode($attending)?>;
 	var thisEvent = <?php echo json_encode($event)?>;
 	
