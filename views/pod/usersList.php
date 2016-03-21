@@ -48,6 +48,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     color: white;
     border-radius: inherit;
 }
+.grayscale{
+	filter:grayscale(100%);
+	-webkit-filter:grayscale(100%);
+}
 </style>
 <?php if ($contentType == Project::COLLECTION){ 
 		$parentRedirect = "project";
@@ -105,11 +109,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					//print_r($e);
 					if (@$e["isAdmin"]){
 						$adminFlag='<div class="adminFlag"><i class="fa fa-bookmark-o fa-white"></i></div>';
-						$name=$e["name"]." (admin)";
+						if (@$e["isAdminPending"])
+							$name=$e["name"]." (".Yii::t("common","waiting for validation").")";
+						else
+							$name=$e["name"]." (admin)";
 					}
 					else {
 						$adminFlag="";
 						$name=$e["name"];
+						if (@$e["toBeValidated"])
+							$name.= " (".Yii::t("common","waiting for validation").")";
+
 					}
 					if ($e["type"]==Person::COLLECTION){
 						$icon='<img height="50" width="50" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
@@ -124,7 +134,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 				?>
 				
-					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg">
+					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php if (@$e["isAdminPending"] || @$e["toBeValidated"]) echo "grayscale" ?>">
 
 					<?php if($e && isset($e["imagePath"])) {
 						// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
