@@ -125,6 +125,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       }
     }
 
+    #panel-add {
+	    padding-bottom: 15px;
+	    padding-top: 10px;
+	    box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.37);
+	    border-radius: 3px;
+	}
+	#panel-add .btn{
+		margin-bottom: 4px;
+	}
+	#panel-add .btn:hover{
+		box-shadow: 0px 0px 6px 2px rgba(255, 255, 255, 0.48);
+	}
+
+	
 </style>
 
 <div class="panel panel-white">
@@ -369,6 +383,28 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<?php }*/ ?>
 				
 			</div>
+		</div>
+
+		<div class="col-md-12 center bg-dark" id="panel-add">
+			<h1 class="homestead text-white">
+				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
+			</h1>
+			<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+				<i class="fa fa-user"></i>
+				<span class="lbl-btn-menu-name-add">quelqu'un</span>
+			</button>
+			<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+				<i class="fa fa-group"></i>
+				<span class="lbl-btn-menu-name-add">une organisation</span>
+			</button>
+			<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+				<i class="fa fa-lightbulb-o"></i>
+				<span class="lbl-btn-menu-name-add">un projet</span>
+			</button>
+			<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+				<i class="fa fa-calendar"></i>
+				<span class="lbl-btn-menu-name-add">un événement</span>
+			</button>
 		</div>
 	</div>
 </div>

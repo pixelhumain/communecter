@@ -27,7 +27,7 @@ Menu::person($person);
 $this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-11 col-lg-9">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<?php $this->renderPartial('dashboard/profil', array("person" => $person, 
 															 "tags" => $tags, 
 															 "me" => $me,

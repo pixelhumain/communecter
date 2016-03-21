@@ -29,7 +29,7 @@
 	.menu-button, .menu-info-profil, .globale-announce {
 		display:none;
 	}
-	#TSR-conf-communected, #step2{
+	#TSR-conf-communected, #step2, #step3{
 		display:none;
 	}
 	.btn-menu0{
@@ -104,7 +104,7 @@
 		float: left;
 		width: 29%;
 		margin-left: 3%;
-		margin-bottom: 20px;
+		margin-bottom: 0px;
 		margin-top: 10px;
 	    background-color: rgba(0, 0, 0, 0);
 	}
@@ -123,6 +123,68 @@
 	#btn-go-photo:hover{
 		background-color: #5cb85c !important;
 		color:white !important;
+	}
+	#btn-go-photo {
+	    width: 100%;
+	    padding: 15px;
+	    border-radius: 0px;
+	}
+
+	#menu-step-addr-1, #menu-step-addr-2, #menu-step-addr-3 {
+		white-space:nowrap;
+		overflow:hidden; 
+		text-overflow:ellipsis;
+	}
+	#step3 .btn{
+		margin-bottom:4px;
+	}
+	
+	@media screen and (max-width: 767px) {
+		.menu-step-tsr div.homestead {
+		    font-size: 14px;
+		}
+		#menu-step-addr-1, #menu-step-addr-2, #menu-step-addr-3 {
+		    height: 23px;
+			padding: 6px;
+			font-weight: 300;
+			color: white;
+			font-size: 11px;
+			float: left;
+			width: 30%;
+			margin-left: 3%;
+			margin-bottom: 0px;
+			margin-top: 10px;
+		}
+		input.input-communexion-twostep, input.input-street-twostep {
+		    border-radius: 30px !important;
+		    width: 50%;
+		    min-width: 200px;
+		    padding: 15px;
+		    font-size: 14px;
+		    text-align: center;
+		    margin-left: 0px !important;
+		}
+		#btn-go-photo {
+		    width: 100%;
+		    padding: 15px;
+		    font-size: 17px !important;
+		    border-radius: 0px;
+		}
+		.lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city {
+		    font-size: 15px;
+		}
+		#congrats span.text-white{
+			font-size: 12px !important;
+		}
+		#menu-bottom{
+			display:none!important;
+		}		
+		.menuSmallMenu .item{
+			display: none !important;
+		}
+		.menuSmallMenu .item#btn-small-home{
+			display: inline-block !important;
+		}
 	}
 
 
@@ -159,12 +221,11 @@
 
 	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
 		<div class="badge badge-success text-white current" id="menu-step-addr-1">
-			1 - Mon pays<br><br>
-			<span id="conf-country"></span>
+			1 - Mon pays<br>
 		</div>
 		<div class="badge text-white" id="menu-step-addr-2">
-			2 - Ma commune<br><br>
-			<span id="conf-commune" class="text-red">
+			2 - Ma commune
+			<span id="conf-commune" class="text-red hidden">
 				<?php echo $cityNameCommunexion.", ".$cpCommunexion; ?>
 			</span>
 
@@ -263,7 +324,7 @@
 	
 	
 	
-	<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px;">
+	<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px; padding:10px;">
 		Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
 		nous aurions besoin de quelques informations sur votre position géographique ...
 		<br><a href="javascript:" class="bold strong">En savoir + sur l'utilisation de vos données</a>
@@ -301,6 +362,27 @@
 			</div>
 		</div>
 
+		<div class="col-md-12 center bg-dark section-tsr" id="step3">
+			<h1 class="homestead text-white">
+				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
+			</h1>
+			<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+				<i class="fa fa-user"></i>
+				<span class="lbl-btn-menu-name-add">quelqu'un</span>
+			</button>
+			<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+				<i class="fa fa-group"></i>
+				<span class="lbl-btn-menu-name-add">une organisation</span>
+			</button>
+			<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+				<i class="fa fa-lightbulb-o"></i>
+				<span class="lbl-btn-menu-name-add">un projet</span>
+			</button>
+			<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+				<i class="fa fa-calendar"></i>
+				<span class="lbl-btn-menu-name-add">un événement</span>
+			</button>
+		</div>
 </div>
 
 
@@ -372,12 +454,15 @@
   		console.log("showTwoStep(#TSR-"+id+")");
   		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion, #TSR-load-conf-communexion,#TSR-street").hide();
   		$("#TSR-"+id).show(400);
+  		$("#my-main-container").scrollTop(0);
   		setTimeout(function(){ 
   			$("#TSR-"+id).show(400); 
   			//$(".my-main-container").scrollTop(2000); 
   		}, 300);
 
   		if(id == "street"){
+  			$("#menu-step-addr-2").html($("#conf-commune").html());
+  			$("#conf-commune").html("");
   			$("#menu-step-addr-2").removeClass("current");
 	  		$("#menu-step-addr-2").addClass("checked");
 	  		$("#menu-step-addr-3").addClass("current");
@@ -503,6 +588,7 @@
 				  "&codeInsee="+inseeCommunexion,
 				  //"&two_steps_register=false",
     		success: function (obj){
+    			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
     			showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
     			//console.dir(obj);
@@ -524,7 +610,7 @@
 
   	function validateZone(){
   		$("#congrats").hide(300);
-  		$("#conf-country").html($("#addressCountry option:selected" ).text());
+  		$("#menu-step-addr-1").html($("#addressCountry option:selected" ).text());
   		$("#menu-step-addr-1").removeClass("current");
   		$("#menu-step-addr-1").addClass("checked");
   		$("#menu-step-addr-2").addClass("current");
@@ -546,6 +632,7 @@
   		$("#menu-step-addr").hide(400);
   		$("#step1").hide(400);
   		$("#step2").show(400);
+  		$("#step3").show(400);
   	}
 
   	function backToSetCity(){
