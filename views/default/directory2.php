@@ -1011,6 +1011,7 @@ function bindBtnEvents(){
 			}
 		)
 	});
+	
 	$(".acceptAsMemberBtn").off().on("click",function () {
         //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
         var childId = $(this).data("id");
