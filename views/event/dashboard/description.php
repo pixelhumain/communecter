@@ -210,24 +210,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
 				</div>
 				<div class="col-sm-12 entityDetails item_map_list">
-					<?php if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
+					<?php
+					if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
 						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
 						 $icon="fa-lightbulb-o";
-					} else { 
-						 //echo Yii::t("event","Organizer",null,Yii::app()->controller->module->id);
-						 if($organizer["type"]=="organization")
+					} else if(isset($organizer["type"]) && $organizer["type"]=="organization"){
 						 	$icon="fa-users";
-						 else 
+					} else {
 						 	$icon="fa-user";
 					}
+
 					$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-						if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
-							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
-						}else{
-							if(!empty($organizer["profilImageUrl"]))
-								$img = '<img class="thumbnail-profil" width="75" height="75" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$organizer['profilImageUrl']).'">';
-							else
-								$img = "<div class='thumbnail-profil'></div>";
+					if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
+						$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
+					}else{
+						if(!empty($organizer["profilImageUrl"]))
+							$img = '<img class="thumbnail-profil" width="75" height="75" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$organizer['profilImageUrl']).'">';
+						else
+							$img = "<div class='thumbnail-profil'></div>";
 					}
 					$color = "";
 					if($icon == "fa-users") $color = "green";
@@ -235,8 +235,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					if($icon == "fa-lightbulb-o") $color = "purple";
 					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo $organizer["type"]; ?>.detail.id.<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a><br/>
-					 <span><?php echo ucfirst(Yii::t("common", $organizer["type"])); if ($organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a><br/>
+					 <span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>
 			<div class="col-md-6" style="padding-right:0px !important;">
