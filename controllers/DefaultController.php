@@ -56,7 +56,7 @@ class DefaultController extends CommunecterController {
     //$this->layout = "//layouts/mainSearch";
 
     //Get the last global statistics
-    $stats = Stat::getWhere(array('type' => 'global'),null,1);
+    $stats = Stat::getWhere(array(),null,1);
     if(is_array($stats)) $stats = array_pop($stats);
 
     $this->renderPartial("home", array("stats"=>$stats));
