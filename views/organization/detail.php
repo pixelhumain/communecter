@@ -63,6 +63,7 @@
 					<?php $this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $organization["_id"],
 																			"contextType" => Organization::CONTROLLER,
+																			"list" => $eventTypes,
 																			"authorised" => $admin
 																		  )); ?>
 				</div>
