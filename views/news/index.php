@@ -24,8 +24,7 @@ $cssAnsScriptFilesModule = array(
 
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-$cs = Yii::app()->getClientScript();
-
+		$cs = Yii::app()->getClientScript();
 		//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(

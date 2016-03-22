@@ -346,15 +346,19 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news, action,method) {
+function actionOnNews(news,action,method,reason) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
 	params.collection=type,
 	params.action=action;
+	if(reason != ""){
+		params.reason=reason;
+	}
 	if(method){
 		params.unset=method;
 	}
+	console.log(params);
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: params,
@@ -371,11 +375,15 @@ function actionOnNews(news, action,method) {
                     	toastr.info(data.msg);
                     } else {
 						count = parseInt(news.data("count"));
-	                    if(count < count+data.inc)
-	                    	toastr.success("OK !");
-	                    else
-		                    toastr.success("OK !");
-	                    
+						if(action=="reportAbuse"){
+							toastr.success(trad["thanktosignalabuse"]);
+						}
+						else{
+		                    if(count < count+data.inc)
+		                    	toastr.success(trad["voteaddedsuccess"]);
+		                    else
+								toastr.success(trad["voteremovedsuccess"]);	 
+						}                   
 						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
 						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
@@ -495,9 +503,8 @@ function showComments(id){
 		},"html");
 }
 function newsVoteUp($this, id){
-	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange")
-		|| $(".newsReportAbuse[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-red"))
-			toastr.info("Remove your last opinion before");
+	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
+			toastr.info(trad["removeopinionbefore"]);
 		else{	
 		//toastr.info('This vote has been well registred');
 			if($($this).children(".label").hasClass("text-green")){
@@ -513,9 +520,8 @@ function newsVoteUp($this, id){
 	}
 }
 function newsVoteDown($this, id){
-	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green")
-		|| $(".newsReportAbuse[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-red"))
-			toastr.info("Remove your last opinion before");
+	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green"))
+			toastr.info(trad["removeopinionbefore"]);
 	else{	
 	//toastr.info('This vote has been well registred');
 		if($($this).children(".label").hasClass("text-orange")){
@@ -530,10 +536,7 @@ function newsVoteDown($this, id){
 	}
 }
 function newsReportAbuse($this, id){
-	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green")
-		|| $(".newsVoteDown[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-orange"))
-			toastr.info("Remove your last opinion before");
-	else{	
+	
 	//toastr.info('This vote has been well registred');
 		if($($this).children(".label").hasClass("text-red")){
 			method = true;
@@ -541,10 +544,26 @@ function newsReportAbuse($this, id){
 		else{
 			method = false;
 	}
-	actionOnNews($($this),'reportAbuse',method);
-	disableOtherAction($($this), '.commentReportAbuse', method);
+	reportAbuse($($this),'reportAbuse',method);
+	
+	
+	//disableOtherAction($($this), '.commentReportAbuse', method);
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
-	}
+}
+function reportAbuse($this,action, method) {
+	// console.log(contextId);
+	var box = bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
+		if (result != null) {			
+			if (result != "") {
+				actionOnNews($($this),action,method,result);
+			} else {
+				toastr.error("Please fill a reason");
+			}
+		}
+	});
+	box.on("shown.bs.modal", function() {
+	  $.unblockUI();
+	});
 }
 
 function disableOtherAction($this,action,method){
@@ -553,15 +572,15 @@ function disableOtherAction($this,action,method){
 			$this.children(".label").removeClass("text-green").addClass("text-dark");
 		if (action == ".commentVoteDown")
 			$this.children(".label").removeClass("text-orange").addClass("text-dark");
-		if (action == ".commentReportAbuse")
-			$this.children(".label").removeClass("text-red").addClass("text-dark");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
 	}
 	else{
 		if (action == ".commentVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
 		if (action == ".commentVoteDown")
 			$this.children(".label").removeClass("text-dark").addClass("text-orange");
-		if (action == ".commentReportAbuse")
-			$this.children(".label").removeClass("text-dark").addClass("text-red");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
 	}
 }

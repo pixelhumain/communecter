@@ -128,8 +128,8 @@ class Menu {
     
     public static function organization($organization)
     {
-        $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(Yii::app()->controller->module->assetsUrl.'/js/communecter.js');
+        //$cs = Yii::app()->getClientScript();
+        //$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl.'/js/communecter.js');
         
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();

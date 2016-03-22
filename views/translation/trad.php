@@ -14,5 +14,9 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"suretojoinevents" : "<?php echo Yii::t("common", "Are you sure to participate to the event") ?>",
 		"areyouadmin" : "<?php echo Yii::t("common", "Are you admin") ?>",
 		"yes" : "<?php echo Yii::t("common","Yes") ?>",
-		"no" : "<?php echo Yii::t("common","No") ?>"
+		"no" : "<?php echo Yii::t("common","No") ?>",
+		"removeopinionbefore" : "<?php echo Yii::t("common", "Remove your last opinion before") ?>",
+		"voteaddedsuccess" : "<?php echo Yii::t("common", "Your vote has been successfully added") ?>",
+		"voteremovedsuccess" : "<?php echo Yii::t("common","Your vote has been successfully removed") ?>",
+		"thanktosignalabuse" : "<?php echo Yii::t("common","Thank you to report abuse ! We are dealing it as quickly as possible.") ?>"
 };
