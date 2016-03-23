@@ -671,6 +671,7 @@ function setScopeValue(btn){
 
 		if(location.hash.indexOf("#default.twostepregister") == -1)
 		$("#searchBarPostalCode").val(cityNameCommunexion);
+
 		selectScopeLevelCommunexion(levelCommunexion);
 
   		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
