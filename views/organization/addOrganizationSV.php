@@ -621,6 +621,11 @@ jQuery(document).ready(function() {
 		}
 	}
 
+	function callbackGoogleMapsSuccess(obj){
+		console.log("callbackGoogleMapsSuccess");
+		console.dir(obj)
+	}
+
 	function manageOrganizationCategory(type) {
 		$(".organizationCategory").hide();
 		$(".category"+type).show();
