@@ -32,7 +32,9 @@ var keywords = [
 				"<br/> Auvergne, @ Chez Nous .coop"+
 				"<br/> Lilles, @Livin.coop or @Unissons"+
 				"<br/> in Noumea, New Caledonia, @PixelHumain"+
-				"<br/> in Berlin, Germany @PLP Elf Pavlic or Alex Corbi"
+				"<br/> in Berlin, Germany @PLP Elf Pavlic or Alex Corbi"+
+				"<br/> in Mauricius, Tony Lee Luen Len"+
+				"<br/> in Madagascar, Severine Berthet"+
 	},
 	{
 		"icon" : "fa-github",
@@ -58,17 +60,7 @@ var keywords = [
 		"icon" : "fa-twitter",
 		"size":"col-md-4 ",
 		"title":"<a href='https://www.twitter.com/pixelhumain/' target='_blank'>BY TWITTER</a> "
-	},
-	{
-		"icon" : "fa-bookmark-o",
-		"size":"col-md-4",
-		"title":"<a href='https://groups.diigo.com/group/pixelhumain' target='_blank'>BY DIIGO</a> "
-	},
-	{
-		"icon" : "fa-smile-o",
-		"size":"col-md-4 ",
-		"title":"<a href='https://ello.co/pixelhumain' target='_blank'>BY ELLO</a> "
-	},
+	}
 ];
 	
 jQuery(document).ready(function() 
