@@ -556,7 +556,7 @@ function reportAbuse($this,action, method) {
 		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-	var box = bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
+	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
 		if (result != null) {			
 			if (result != "") {
 				actionOnNews($($this),action,method,result);

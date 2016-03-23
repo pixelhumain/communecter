@@ -19,5 +19,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"voteaddedsuccess" : "<?php echo Yii::t("common", "Your vote has been successfully added") ?>",
 		"voteremovedsuccess" : "<?php echo Yii::t("common","Your vote has been successfully removed") ?>",
 		"thanktosignalabuse" : "<?php echo Yii::t("common","Thank you to report abuse ! We are dealing it as quickly as possible.") ?>",
-		"alreadyreportedabuse": "<?php echo Yii::t("common","You already reported this news as abuse") ?>" 
+		"alreadyreportedabuse": "<?php echo Yii::t("common","You already reported this news as abuse") ?>",
+		"askreasonreportabuse": "<?php echo Yii::t("common","You are going to declare an abuse : please fill the reason") ?>" 
+		
 };
