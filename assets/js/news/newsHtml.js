@@ -552,10 +552,15 @@ function newsReportAbuse($this, id){
 }
 function reportAbuse($this,action, method) {
 	// console.log(contextId);
+	if (method){
+		toastr.info(trad["alreadyreportedabuse"]+" !");
+	}
+	else{
 	var box = bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
 		if (result != null) {			
 			if (result != "") {
 				actionOnNews($($this),action,method,result);
+				$this.children(".label").removeClass("text-dark").addClass("text-red");
 			} else {
 				toastr.error("Please fill a reason");
 			}
@@ -564,6 +569,7 @@ function reportAbuse($this,action, method) {
 	box.on("shown.bs.modal", function() {
 	  $.unblockUI();
 	});
+	}
 }
 
 function disableOtherAction($this,action,method){
