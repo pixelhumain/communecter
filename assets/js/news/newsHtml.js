@@ -19,14 +19,25 @@ function buildLineHTML(newsObj,idSession,update)
 	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
 	manageMenu = "";
 	if (newsObj.author.id==idSession){
+
+		var reportLink = "";
+		if ("undefined" != typeof newsObj.reportAbuseCount){ 
+			if (newsObj.reportAbuse.indexOf(idSession) == -1){
+				reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+			}
+		}
+		else{
+			reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+		}
+
 		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
 			'<ul class="dropdown-menu">'+
-				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>';
+				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>'+reportLink;
 		if (newsObj.type != "activityStream"){
-		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>';
+		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
 		}
 		manageMenu +=	'</ul>'+
 		'</div>';
@@ -377,6 +388,9 @@ function actionOnNews(news,action,method,reason) {
 						count = parseInt(news.data("count"));
 						if(action=="reportAbuse"){
 							toastr.success(trad["thanktosignalabuse"]);
+
+							//to hide menu
+							$(".newsReport[data-id="+params.id+"]").hide();
 						}
 						else{
 		                    if(count < count+data.inc)
@@ -428,7 +442,7 @@ function voteCheckAction(idVote, newsObj) {
 	}
 	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
-			"<a href='javascript:;' class='newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
+			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
 	return voteHtml;
 }
 
@@ -556,7 +570,7 @@ function reportAbuse($this,action, method) {
 		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-	var box = bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
+	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
 		if (result != null) {			
 			if (result != "") {
 				actionOnNews($($this),action,method,result);
