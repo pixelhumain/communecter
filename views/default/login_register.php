@@ -321,9 +321,6 @@ var Login = function() {
 					break;
 			}
 		}
-		el.show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).removeClass("animated flipInX");
-		});
 	};
 		
 	//function to return the querystring parameter with a given name.
