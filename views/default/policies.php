@@ -33,7 +33,7 @@ var keywords = [
 				"<br/>why would does who can pay get more than does who can't ?"
 	},
 	{
-		"title":"You're not PRODUCT",
+		"title":"You're not a PRODUCT",
 		"body":"Your data is your and only your property."
 	},
 	{
@@ -45,6 +45,12 @@ var keywords = [
 		"body":"we build Opendata."+
 				"<br/> Data about cities"+
 				"<br/>..."
+	},
+	{
+		"title":"interoperable",
+		"body":"we build to share."+
+				"<br/> so we have APIs to connect"+
+				"<br/> to translate into many ontologies"
 	},
 	{
 		"title":"Connected Territories",

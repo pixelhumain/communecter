@@ -8,8 +8,8 @@
 			Ce n'est pas la technologie qui changera la société mais la philosophie bien outillée.
 			<br/>Me communecter me permet :  
 			<ul>
-				<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li>
-				<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auxquelles je crois ici et là</li>
+				<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li
+								<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auxquelles je crois ici et là</li>
 				<li><i class="fa fa-angle-right"></i> je peux ajouter à mon réseau 
 				<ul>
 					<li><i class="fa fa-user"></i> des personnes</li>
