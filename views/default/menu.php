@@ -326,7 +326,7 @@ function removeExplainations(){
 		<span class="lbl-btn-menu-name-city">
 			<?php if(isset( Yii::app()->request->cookies['cityNameCommunexion']) && isset( Yii::app()->request->cookies['cpCommunexion'] )){
 					   echo '<span class="lbl-btn-menu-name">'.Yii::app()->request->cookies['cityNameCommunexion'] . ", </span>" . Yii::app()->request->cookies['cpCommunexion'];
-				}else{ echo "Communectez-moi"; } ?>
+				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
 
