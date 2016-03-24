@@ -19,14 +19,25 @@ function buildLineHTML(newsObj,idSession,update)
 	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
 	manageMenu = "";
 	if (newsObj.author.id==idSession){
+
+		var reportLink = "";
+		if ("undefined" != typeof newsObj.reportAbuseCount){ 
+			if (newsObj.reportAbuse.indexOf(idSession) == -1){
+				reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+			}
+		}
+		else{
+			reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+		}
+
 		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
 			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
 				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
 			'</a>'+
 			'<ul class="dropdown-menu">'+
-				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>';
+				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>'+reportLink;
 		if (newsObj.type != "activityStream"){
-		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>';
+		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
 		}
 		manageMenu +=	'</ul>'+
 		'</div>';
@@ -350,15 +361,19 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news, action,method) {
+function actionOnNews(news,action,method,reason) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
 	params.collection=type,
 	params.action=action;
+	if(reason != ""){
+		params.reason=reason;
+	}
 	if(method){
 		params.unset=method;
 	}
+	console.log(params);
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: params,
@@ -369,18 +384,24 @@ function actionOnNews(news, action,method) {
 			function(data) {
     			if(!data.result){
                     toastr.error(data.msg);
-                    console.log(data);
                	}
                 else { 
                     if (data.userAllreadyDidAction) {
-                    	toastr.info("You already vote on this comment.");
+                    	toastr.info(data.msg);
                     } else {
 						count = parseInt(news.data("count"));
-	                    if(count < count+data.inc)
-	                    	toastr.success("Your vote has been succesfully added");
-	                    else
-		                    toastr.success("Your vote has been succesfully removed");
-	                    console.log(data);
+						if(action=="reportAbuse"){
+							toastr.success(trad["thanktosignalabuse"]);
+
+							//to hide menu
+							$(".newsReport[data-id="+params.id+"]").hide();
+						}
+						else{
+		                    if(count < count+data.inc)
+		                    	toastr.success(trad["voteaddedsuccess"]);
+		                    else
+								toastr.success(trad["voteremovedsuccess"]);	 
+						}                   
 						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
 						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
@@ -395,9 +416,11 @@ function actionOnNews(news, action,method) {
 }
 
 function voteCheckAction(idVote, newsObj) {
-	var voteUpCount = 0;
+	var voteUpCount = reportAbuseCount = voteDownCount = 0;
 	textUp="text-dark";
 	textDown="text-dark";
+	textReportAbuse="text-dark";
+
 	if ("undefined" != typeof newsObj.voteUpCount){ 
 		voteUpCount = newsObj.voteUpCount;
 		if (newsObj.voteUp.indexOf(idSession) != -1){
@@ -405,7 +428,7 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsVoteDown[data-id="+idVote+"]").off();
 		}
 	}
-	var voteDownCount = 0;
+
 	if ("undefined" != typeof newsObj.voteDownCount) {
 		voteDownCount = newsObj.voteDownCount;
 		if (newsObj.voteDown.indexOf(idSession) != -1){
@@ -413,8 +436,17 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsVoteUp[data-id="+idVote+"]").off();
 		}
 	}
+
+	if ("undefined" != typeof newsObj.reportAbuseCount) {
+		reportAbuseCount = newsObj.reportAbuseCount;
+		if (newsObj.reportAbuse.indexOf(idSession) != -1){
+			textReportAbuse= "text-red";
+			$(".newsReportAbuse[data-id="+idVote+"]").off();
+		}
+	}
 	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>";
+			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
+			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
 	return voteHtml;
 }
 
@@ -490,7 +522,7 @@ function showComments(id){
 }
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
-			toastr.info("Remove your negative vote before");
+			toastr.info(trad["removeopinionbefore"]);
 		else{	
 		//toastr.info('This vote has been well registred');
 			if($($this).children(".label").hasClass("text-green")){
@@ -503,11 +535,11 @@ function newsVoteUp($this, id){
 		disableOtherAction($($this), '.commentVoteUp', method);
 		count = parseInt($($this).data("count"));
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
-		}
+	}
 }
 function newsVoteDown($this, id){
 	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green"))
-			toastr.info("Remove your positive vote before");
+			toastr.info(trad["removeopinionbefore"]);
 	else{	
 	//toastr.info('This vote has been well registred');
 		if($($this).children(".label").hasClass("text-orange")){
@@ -521,17 +553,58 @@ function newsVoteDown($this, id){
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
-function disableOtherAction($this,action,method){
-	if(method){
-		if (action != ".commentVoteUp")
-			$this.children(".label").removeClass("text-orange").addClass("text-dark");
-		if (action != ".commentVoteDown")
-			$this.children(".label").removeClass("text-green").addClass("text-dark");
+function newsReportAbuse($this, id){
+	
+	//toastr.info('This vote has been well registred');
+		if($($this).children(".label").hasClass("text-red")){
+			method = true;
+		}
+		else{
+			method = false;
+	}
+	reportAbuse($($this),'reportAbuse',method);
+	
+	
+	//disableOtherAction($($this), '.commentReportAbuse', method);
+	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
+}
+function reportAbuse($this,action, method) {
+	// console.log(contextId);
+	if (method){
+		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-		if (action != ".commentVoteUp")
-			$this.children(".label").removeClass("text-dark").addClass("text-orange");
-		if (action != ".commentVoteDown")
+	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
+		if (result != null) {			
+			if (result != "") {
+				actionOnNews($($this),action,method,result);
+				$this.children(".label").removeClass("text-dark").addClass("text-red");
+			} else {
+				toastr.error("Please fill a reason");
+			}
+		}
+	});
+	box.on("shown.bs.modal", function() {
+	  $.unblockUI();
+	});
+	}
+}
+
+function disableOtherAction($this,action,method){
+	if(method){
+		if (action == ".commentVoteUp")
+			$this.children(".label").removeClass("text-green").addClass("text-dark");
+		if (action == ".commentVoteDown")
+			$this.children(".label").removeClass("text-orange").addClass("text-dark");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
+	}
+	else{
+		if (action == ".commentVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
+		if (action == ".commentVoteDown")
+			$this.children(".label").removeClass("text-dark").addClass("text-orange");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
 	}
 }
