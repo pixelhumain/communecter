@@ -116,7 +116,7 @@ function buildLineHTML(newsObj,idSession,update)
 			var iconBlank="fa-lightbulb-o";
 		else if (newsObj.target.objectType=="organizations")
 			var iconBlank="fa-group";
-		}
+	}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
@@ -196,9 +196,12 @@ function buildLineHTML(newsObj,idSession,update)
 		redirectTypeUrl=newsObj.target.objectType.substring(0,newsObj.target.objectType.length-1);
 		if (newsObj.target.objectType=="citoyens")
 			redirectTypeUrl="person";
-
+		if (newsObj.target.name.length > 25)
+			nameAuthor = newsObj.target.name.substr(0,25)+"...";
+		else
+			nameAuthor = newsObj.target.name;
 		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a> "+urlAction.titleAction;
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")
@@ -206,7 +209,11 @@ function buildLineHTML(newsObj,idSession,update)
 		else
 			authorId=newsObj.author._id.$id;
 			urlTarget = 'href="#" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a> "+urlAction.titleAction;
+		if (newsObj.author.name.length > 25)
+			nameAuthor = newsObj.author.name.substr(0,25)+"...";
+		else
+			nameAuthor = newsObj.author.name;
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
@@ -339,24 +346,24 @@ function builHtmlAuthorImageObject(obj){
 			var iconStr = "<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
 	}else{
-			var imgProfilPath =  "/images/news/profile_default_l.png";
+			var imgProfilPath =  assetPath+"/images/news/profile_default_l.png";
 			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined" && obj.type!="gantts"){
 				if(typeof obj.target.profilThumbImageUrl != "undefined" && obj.target.profilThumbImageUrl != ""){ 
 					imgProfilPath = obj.target.profilThumbImageUrl;
-					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl+imgProfilPath + "'></div>" + flag ; 
+					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl + imgProfilPath + "'></div>" + flag ; 
 				}else {
 					if(obj.object.objectType=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
-						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" +baseUrl+ imgProfilPath + "'></div>" + flag ; 
+						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 
 				}
 			}
 			else{	
 				if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
-					imgProfilPath =obj.author.profilThumbImageUrl;
+					imgProfilPath = baseUrl + obj.author.profilThumbImageUrl;
 				}
-				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ baseUrl+ imgProfilPath + "'></div>" + flag ;	 
+				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ imgProfilPath + "'></div>" + flag ;	 
 			}
 	}
 	return iconStr;
