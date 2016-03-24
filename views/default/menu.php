@@ -316,7 +316,7 @@ function removeExplainations(){
 			<i class="fa fa-sign-in"></i>
 	</button> -->
 	<?php }else{ ?>
-	<button class="menu-button btn-menu btn-logout bg-red tooltips" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+	<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 			<i class="fa fa-sign-out"></i>
 	</button>
 	<?php } ?>
@@ -326,7 +326,7 @@ function removeExplainations(){
 		<span class="lbl-btn-menu-name-city">
 			<?php if(isset( Yii::app()->request->cookies['cityNameCommunexion']) && isset( Yii::app()->request->cookies['cpCommunexion'] )){
 					   echo '<span class="lbl-btn-menu-name">'.Yii::app()->request->cookies['cityNameCommunexion'] . ", </span>" . Yii::app()->request->cookies['cpCommunexion'];
-				}else{ echo "Communectez-moi"; } ?>
+				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
 

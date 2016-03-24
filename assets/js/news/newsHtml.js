@@ -267,7 +267,11 @@ function buildHtmlUrlAndActionObject(obj){
 				color="green";
 			}else
 				color="purple";
-			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+obj.id+'\')"><span class="text-'+color+'">'+obj.postOn.name+"</span></a>";
+			if (obj.postOn.name.length > 25)
+				namePostOn = obj.postOn.name.substr(0,25)+"...";
+			else
+				namePostOn = obj.postOn.name;
+			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+obj.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(obj.text.length == 0 && obj.media.length)
 				titleAction = "a partagé un lien";

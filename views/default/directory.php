@@ -413,11 +413,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(indexMin == 0){
                     //ajout du footer   
                     var msg = "Aucun résultat";    
-                    if(name == "" && locality == "") msg = "Préciser votre recherche pour plus de résultats ..."; 
+                    if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
                     str += '<div class="center" id="footerDropdown">';
                     str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
                     str += "</div>";
                     $("#dropdown_search").html(str);
+                    $("#searchBarText").focus();
                   }
               }
               else

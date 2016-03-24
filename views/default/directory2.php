@@ -951,7 +951,7 @@ function bindBtnEvents(){
 	        var connectType = $("#connectType").val();
 
 	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
-	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your "+connectType+" ?", 
+	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {
 						$.ajax({
