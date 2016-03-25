@@ -399,7 +399,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.showCityOnMap = function(geoPosition, isNotSV, type){ 
-
+		console.log(geoPosition);
 		var thisSig = this;
 
 		var cp = $("#postalCode").val();
@@ -408,6 +408,16 @@ SigLoader.getSigFindPlace = function (Sig){
 		console.dir(geoPosition);
 		var position = null;
 		console.log("typof geoPosition.geo", typeof geoPosition.geo);
+		if(typeof geoPosition.lat != "undefined"){
+			lat=geoPosition.lat;
+			lon=geoPosition.lon;
+			latlon = new Object;
+			latlon = {"latitude":lat,"longitude":lon};
+			//latlon["geo"]["latitude"]=lat;
+			//latlon.geo.longitude=lon;
+			geoPosition["geo"]=latlon;
+			
+		}
 		if(typeof geoPosition.geo == "undefined"){
 			$.each(geoPosition, function (key, value){
 
