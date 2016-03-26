@@ -101,11 +101,11 @@ progress[value]::-moz-progress-bar {
     -webkit-linear-gradient( left, #09c, #ff0);
 }
 
-.panel-title{
-	font-weight: 200;
-	font-size: 21px;
-	font-family: "homestead";
-}
+	.panel-title{
+		font-weight: 200;
+		font-size: 21px;
+		font-family: "homestead";
+	}
 
 	.entityTitle{
       background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
@@ -143,7 +143,7 @@ progress[value]::-moz-progress-bar {
     .entityDetails i.fa{
       margin-right:7px;
       font-size: 17px;
-		margin-top: 5px;
+	  margin-top: 5px;
     }
     .panel-title{
     	font-weight: 200;
