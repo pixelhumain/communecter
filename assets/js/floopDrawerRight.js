@@ -221,7 +221,7 @@ function addFloopEntity(entityId, entityType, entityValue){
 	//console.log("getFloopContactTypes", entityType, type);
 
 	//We check if the element is already displayed
-	if(!$('#floopItem-'+type.name+'-'+entityId).length){
+	if($('#floopItem-'+type.name+'-'+entityId).length < 1){
 		var html = getFloopItem(entityId, type, entityValue);
 		$("ul#floopType-"+entityType).prepend(html);
 	}
