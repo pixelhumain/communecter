@@ -413,8 +413,6 @@ SigLoader.getSigFindPlace = function (Sig){
 			lon=geoPosition.lon;
 			latlon = new Object;
 			latlon = {"latitude":lat,"longitude":lon};
-			//latlon["geo"]["latitude"]=lat;
-			//latlon.geo.longitude=lon;
 			geoPosition["geo"]=latlon;
 			
 		}
@@ -553,7 +551,6 @@ SigLoader.getSigFindPlace = function (Sig){
 			showMap(false);
 		
 		}
-		
 		$("#alert-city-found").removeClass("hidden");
 		$("#iconeChargement").hide();
 		

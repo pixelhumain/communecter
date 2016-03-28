@@ -590,28 +590,18 @@ jQuery(document).ready(function() {
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#organizationForm #fullStreet').val();
-			//findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd,$('#postalCode').val());
 		if(streetAddress.length < 2){
-
   			$.ajax({
 				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 				type: 'POST',
 				data: "insee="+insee+"&postalCode="+postalCode,
 	    		success: function (obj){
-
 	    			//toastr.success("Votre addresse a été mise à jour avec succès");
 	    			console.log("res getlatlngbyinsee");
 	    			console.dir(obj);
-
-	    			//$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
-	    			//showMapLegende("info-circle", "Déplacer l'icône sur la position de votre choix,<br><strong>puis cliquez sur \"Valider\"</strong> ...")
-      			
-					//var obj = null;
-					if(typeof obj["geo"] != "undefined"){ 
-						//$("#error_street").html("");
-						//var obj = obj[0];
+	  				if(typeof obj["geo"] != "undefined"){ 
 						if(typeof obj.geoShape != "undefined") {
-					//on recherche avec une limit bounds
+							//on recherche avec une limit bounds
 							var polygon = L.polygon(obj.geoShape.coordinates);
 							var bounds = polygon.getBounds();
 							Sig.execFullSearchNominatim(0, bounds);
@@ -622,25 +612,19 @@ jQuery(document).ready(function() {
 						}					
 					
 					}else{
-						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");
-						
+						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 					}
 
-					//$.unblockUI();
 				},
 				error: function(error){
 					console.log("Une erreur est survenue pendant la recherche de la geopos city");
-					//$.unblockUI();
-					//console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 				}
 			});
 		
-  		}else{
+  		} else{
 			
 			var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
 			requestPart = transformNominatimUrl(requestPart);
-			//findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
-			//return;
 
 	  		console.log("requestPart", requestPart);
 	  		
@@ -654,25 +638,17 @@ jQuery(document).ready(function() {
 				success: function (result){
 					console.log("nominatim success", result.length);
 					console.dir(result);
-					//$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
-
-					//var obj = null;
 					if(result.length > 0){ 
-						//$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
 						var result = result[0];
 						var coords = Sig.getCoordinates(result, "markerSingle");
 						//si on a une geoShape on l'affiche
 						if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
 						var coords = L.latLng(result.lat, result.lon);
-						//userConnected["geo"] = { latitude : obj.lat, longitude : obj.lon };
 						Sig.showCityOnMap(result, true, "organization");
-						userConnected="";
-						//showGeoposFound(coords, Sig.getObjectId(userConnected), "organization", userConnected);
+
 					}else{
-						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue. Recherche google");
 						findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
 					}
-					//$.unblockUI();
 				},
 				error: function (error) {
 					console.log("nominatim error");
@@ -719,9 +695,28 @@ jQuery(document).ready(function() {
 		}
 	}
 
-	function callbackGoogleMapsSuccess(obj){
+	function callbackGoogleMapsSuccess(result){
 		console.log("callbackGoogleMapsSuccess");
-		console.dir(obj)
+		console.dir(result);
+		if(result.status == "OK"){
+  			//showMap(true);
+  			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+
+			//var obj = null;
+			$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
+						  			
+			var obj = result.results[0];
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			var coords = L.latLng(obj.geometry.location.lat, obj.geometry.location.lng);
+			obj["geo"] = { latitude : obj.geometry.location.lat, longitude : obj.geometry.location.lng };
+			Sig.showCityOnMap(obj, true, "organization");
+			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+			
+  		}else{
+  			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
+  		}
 	}
 
 	function manageOrganizationCategory(type) {
