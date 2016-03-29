@@ -344,6 +344,9 @@ class CommunecterController extends Controller
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
     ),
+    "directory"=> array(
+      "simply" => array("href" => "/ph/communecter/directory/simply"),
+    ),
   );
   function initPage(){
     
