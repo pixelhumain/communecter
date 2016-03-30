@@ -496,19 +496,13 @@ jQuery(document).ready(function() {
 		Sig.citiesByPostalCode = citiesByPostalCode;
 		
 		var oneValue = "";
-		//console.dir(citiesByPostalCode);
-		//console.table(citiesByPostalCode);
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
 	    	oneValue = value.value;
 		});
 		
-		//if (citiesByPostalCode.length == 1) {
-			//toastr.success("value city insee : " + oneValue);
-			$("#city").val(oneValue);
-			//$("#city [value='"+oneValue.value+"']").attr("selected", "selected");
-		//}
-
+		$("#city").val(oneValue);
+		
 		if (citiesByPostalCode.length >0) {
 	        $("#cityDiv").slideDown("medium");
 	      } else {
@@ -590,77 +584,76 @@ jQuery(document).ready(function() {
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#organizationForm #fullStreet').val();
-		if(streetAddress.length < 2){
-  			$.ajax({
-				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
-				type: 'POST',
-				data: "insee="+insee+"&postalCode="+postalCode,
-	    		success: function (obj){
-	    			//toastr.success("Votre addresse a été mise à jour avec succès");
-	    			console.log("res getlatlngbyinsee");
-	    			console.dir(obj);
-	  				if(typeof obj["geo"] != "undefined"){ 
-						if(typeof obj.geoShape != "undefined") {
-							//on recherche avec une limit bounds
-							var polygon = L.polygon(obj.geoShape.coordinates);
-							var bounds = polygon.getBounds();
-							Sig.execFullSearchNominatim(0, bounds);
+			if(streetAddress.length < 2){
+	  			$.ajax({
+					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
+					type: 'POST',
+					data: "insee="+insee+"&postalCode="+postalCode,
+		    		success: function (obj){
+		    			//toastr.success("Votre addresse a été mise à jour avec succès");
+		    			console.log("res getlatlngbyinsee");
+		    			console.dir(obj);
+		  				if(typeof obj["geo"] != "undefined"){ 
+							if(typeof obj.geoShape != "undefined") {
+								//on recherche avec une limit bounds
+								var polygon = L.polygon(obj.geoShape.coordinates);
+								var bounds = polygon.getBounds();
+								Sig.execFullSearchNominatim(0, bounds);
+							}
+							else{
+								//on recherche partout
+								Sig.execFullSearchNominatim(0);
+							}					
+						
+						}else{
+							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
-						else{
-							//on recherche partout
-							Sig.execFullSearchNominatim(0);
-						}					
-					
-					}else{
-						//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
+	
+					},
+					error: function(error){
+						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
-
-				},
-				error: function(error){
-					console.log("Une erreur est survenue pendant la recherche de la geopos city");
-				}
-			});
-		
-  		} else{
+				});
 			
-			var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
-			requestPart = transformNominatimUrl(requestPart);
-
-	  		console.log("requestPart", requestPart);
-	  		
-	  		$.ajax({
-				url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
-				type: 'POST',
-				dataType: 'json',
-				async:false,
-				crossDomain:true,
-				complete: function () {},
-				success: function (result){
-					console.log("nominatim success", result.length);
-					console.dir(result);
-					if(result.length > 0){ 
-						var result = result[0];
-						var coords = Sig.getCoordinates(result, "markerSingle");
-						//si on a une geoShape on l'affiche
-						if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
-						var coords = L.latLng(result.lat, result.lon);
-						Sig.showCityOnMap(result, true, "organization");
-
-					}else{
-						findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
+	  		} else{
+				
+				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				requestPart = transformNominatimUrl(requestPart);
+	
+		  		console.log("requestPart", requestPart);
+		  		
+		  		$.ajax({
+					url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
+					type: 'POST',
+					dataType: 'json',
+					async:false,
+					crossDomain:true,
+					complete: function () {},
+					success: function (result){
+						console.log("nominatim success", result.length);
+						console.dir(result);
+						if(result.length > 0){ 
+							var result = result[0];
+							var coords = Sig.getCoordinates(result, "markerSingle");
+							//si on a une geoShape on l'affiche
+							if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
+							var coords = L.latLng(result.lat, result.lon);
+							Sig.showCityOnMap(result, true, "organization");
+	
+						}else{
+							findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
+						}
+					},
+					error: function (error) {
+						console.log("nominatim error");
+						console.dir(obj);
+						$("#error_street").html("Aucun résultat");
+						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+						$.unblockUI();
 					}
-				},
-				error: function (error) {
-					console.log("nominatim error");
-					console.dir(obj);
-					$("#error_street").html("Aucun résultat");
-					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
-					$.unblockUI();
-				}
-			});
-
-		}
-
+				});
+	
+			}
 		}
 	}
 
