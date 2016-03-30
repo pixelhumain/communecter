@@ -526,7 +526,7 @@ jQuery(document).ready(function()
 	if(contextParentType!="city"){
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo addslashes(@$contextName); ?>");
 		Sig.restartMap();
-		Sig.showMapElements(Sig.map, news);
+		//Sig.showMapElements(Sig.map, news);
 	}else{
 		
 	}

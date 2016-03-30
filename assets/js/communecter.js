@@ -400,6 +400,7 @@ var loadableUrls = {
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
+    "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
