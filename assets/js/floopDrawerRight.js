@@ -217,6 +217,10 @@ function checkFloopSearch(thisElement, searchVal, type){
 
 //ajout d'un élément dans la liste
 function addFloopEntity(entityId, entityType, entityValue){
+	
+	//Exception with citoyens collection which is managed like people in display
+	if(entityType == "citoyens") entityType = "people";
+
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);
 
