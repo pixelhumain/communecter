@@ -320,9 +320,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</a>
 						<br>
 					
-						<i class="fa fa-desktop fa_url  hidden"></i> 
-						<a href="#" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
-							data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-context editable editable-click">
+						<?php //If there is no http:// in the url
+						$scheme = "";
+						if(isset($organization["url"])){
+							if (!preg_match("~^(?:f|ht)tps?://~i", $organization["url"])) $scheme = 'http://';
+						}?>
+
+						<i class="fa fa-desktop fa_url hidden"></i> 
+						<a href="<?php echo (isset($organization["url"])) ? $scheme.$organization['url'] : '#'; ?>" target="_blank" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
+							data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;" class="editable-context editable editable-click">
 							<?php echo (isset($organization["url"])) ? $organization["url"] : null; ?>
 						</a>
 
@@ -442,6 +448,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			$("#btn-update-geopos").addClass("hidden");
 			$("#add-phone").addClass("hidden");
+			$("#url").css('cursor', 'pointer');
 		
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -468,6 +475,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#add-phone").removeClass("hidden");
+			$("#url").css('cursor', 'default');
 		}
 		//alert($('#url').html() );
 		if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }

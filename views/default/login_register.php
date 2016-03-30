@@ -31,6 +31,22 @@
 </style>
 	
 	<div class="main-login col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+
+
+	<div class="modal fade" role="dialog" id="modalRegisterSuccess">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-dark">
+					<h4 class="modal-title"><i class="fa fa-check"></i> Inscription enregistrée !</h4>
+				</div>
+				<div class="modal-body center text-dark" id="modalRegisterSuccessContent"></div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 		<!-- <a class="byPHRight" href="#"><img style="" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/byPH.png"/></a> -->
 		
 			<div class="box-login box box-white-round no-padding pull-right">
@@ -46,7 +62,7 @@
 						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> Je me connecte</h2>
 						<div class="form-group">
 							<span class="input-icon">		
-								<input type="text" class="form-control radius-10" name="email" id="email-login" placeholder="<?php echo Yii::t("login","Email") ?>" >
+								<input type="text" class="form-control radius-10" name="email" id="email-login" placeholder="<?php echo Yii::t("login","E-mail / nom d'utilisateur") ?>" >
 								<i class="fa fa-user"></i> </span>
 						</div>
 						<div class="form-group form-actions">
@@ -124,7 +140,7 @@
 					<fieldset>
 						<div class="form-group">
 							<span class="input-icon">
-								<input type="email" class="form-control" id="email2" placeholder="Email">
+								<input type="email" class="form-control" id="email2" placeholder="E-mail / nom d'utilisateur">
 								<i class="fa fa-envelope"></i> </span>
 						</div>
 						<div class="form-actions">
@@ -168,7 +184,7 @@
 							</div>
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="email" class="form-control" id="email3" name="email3" placeholder="<?php echo Yii::t("login","Email") ?>">
+									<input type="email" class="form-control" id="email3" name="email3" placeholder="<?php echo Yii::t("login","E-mail") ?>">
 									<i class="fa fa-envelope"></i> </span>
 							</div>
 						</div>
@@ -221,6 +237,8 @@
 				<!-- end: COPYRIGHT -->
 			</div>
 	</div>
+
+
 <script>
 
 var email = '<?php echo @$_GET["email"]; ?>';
@@ -321,9 +339,9 @@ var Login = function() {
 					break;
 			}
 		}
-		el.show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-			$(this).removeClass("animated flipInX");
-		});
+		// el.show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+		// 	$(this).removeClass("animated flipInX");
+		// });
 	};
 		
 	//function to return the querystring parameter with a given name.
@@ -581,7 +599,10 @@ var Login = function() {
 		    	  data: params,
 		    	  success: function(data){
 		    		  if(data.result) {
-		        		toastr.success(data.msg);
+		    		  	$("#modalRegisterSuccessContent").html("<h3><i class='fa fa-smile-o fa-4x text-green'></i><br><br> "+data.msg+"</h3>");
+		    		  	$("#modalRegisterSuccess").modal({ show: 'true' }); 
+
+		        		//toastr.success(data.msg);
 		        		loadByHash("#default.directory");
 		    		  }
 		    		  else {

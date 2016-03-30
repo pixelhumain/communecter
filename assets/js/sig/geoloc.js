@@ -125,6 +125,11 @@
 			success: function (obj){
 				hideLoadingMsg();
 				callbackNominatimSuccess(obj);
+				// if(result.length > 0){ 
+				// 	callbackNominatimSuccess(obj);
+				// }else{
+				// 	findGeoposByGoogleMaps(requestPart);
+				// }
 			},
 			error: function (error) {
 				callbackNominatimError(error);

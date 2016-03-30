@@ -215,7 +215,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-locality inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> Public</button>
 		        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
 		        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
@@ -232,9 +232,35 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 	        </div>
 	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences["email"] = true;
+				$fieldPreferences["locality"] = true;
+				$fieldPreferences["phone"] = true;
+
+				//To checked private or public
+				foreach($typePreferences as $type){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+			?> 
+	     </script>
+
+
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-	        <button type="button" class="btn btn-success">Enregistrer</button>
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -381,10 +407,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 				<br/>
 				<?php }*/ ?>
-				
+		
 			</div>
 		</div>
 
+		<?php if(Yii::app()->session["userId"] == $person["_id"]){ ?> 
 		<div class="col-md-12 center bg-dark" id="panel-add">
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
@@ -406,6 +433,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<span class="lbl-btn-menu-name-add">un événement</span>
 			</button>
 		</div>
+		<?php } ?>
+
 	</div>
 </div>
 
@@ -455,8 +484,8 @@ jQuery(document).ready(function()
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
-			$(".btn-group-"+type + " .btn").removeClass("selected");
-			$(this).addClass("selected");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
 
 		});
 
@@ -612,9 +641,6 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
-			$.cookie("insee", 	 newValue.codeInsee, 	   { path : '/ph/' });
-			$.cookie("cityName", newValue.addressLocality, { path : '/ph/' });
-
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
 		},

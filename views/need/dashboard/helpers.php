@@ -27,11 +27,10 @@
 }
 </style>
 <div class="panel panel-white">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title"><i class="fa fa-users fa-2x text-green"></i> <?php echo Yii::t("need","HELPERS",null,Yii::app()->controller->module->id); ?></h4>
-				<?php $admin = false;
-					if(isset(Yii::app()->session["userId"]) && isset($parentId))
-						$admin = Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId);
+		<div class="panel-heading border-light text-white bg-yellow">
+			<h4 class="panel-title"><i class="fa fa-users"></i> <?php echo Yii::t("need","HELPERS",null,Yii::app()->controller->module->id); ?></h4>
+				<?php 
+					$needId = $id;
 				?>
 		</div>
 		<div class="panel-body no-padding">
@@ -99,7 +98,7 @@
 						} ?>
 
 					<div class="col-md-3 col-xs-4 center padding-10">
-						<strong class="nbValidated" style="font-size:25px;color:#27b3e2;"><?php echo $nbValidate; ?></strong> / <strong><?php echo $quantity;?></strong> <?php echo Yii::t("need","HELPERS",null,Yii::app()->controller->module->id); ?>
+						<strong class="nbValidated" style="font-size:25px;color:#27b3e2;"><?php echo $nbValidate; ?></strong> / <strong><?php echo $quantity;?></strong> <?php echo Yii::t("need","HELPER",null,Yii::app()->controller->module->id); if ($quantity > 1) echo "S" ?>
 					</div>
 					<?php if($quantity==($nbToConfirm+$nbValidate)){ ?>
 						<div class="col-md-12 center"> 
@@ -118,8 +117,8 @@
 		</div>
 	</div>
 <script type="text/javascript">
-var admin= <?php if(isset($admin) && !empty($admin))	echo $admin; else echo 0 ?>;
-var needId= "<?php echo $id; ?>";
+var admin= <?php if(isset($isAdmin) && !empty($isAdmin)) echo $isAdmin; else echo 0 ?>;
+var needId= "<?php echo $needId; ?>";
 var quantity = <?php echo $nbValidate ?>;
 
 jQuery(document).ready(function(){
@@ -140,7 +139,7 @@ jQuery(document).ready(function(){
 function helpProposal(){
 $(".new-proposal").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        bootbox.confirm("Are you sure you want to help for this need <span class='text-red'><?php echo $name; ?></span>?", 
+	        bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to help for this need")?> <span class='text-red'><?php echo $name; ?></span>?", 
 			function(result) {
 					if (result) {
 						$.ajax({
@@ -167,7 +166,7 @@ function acceptHelp(){
 $(".acceptHelp").off().on("click",function () {
 	var idHelper = $(this).data("id");
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        bootbox.confirm("Are you sure you want the help from <span class='text-red'>"+$(this).data("name")+"</span>?", 
+	        bootbox.confirm("<?php echo Yii::t("common","Are you sure to confirm the help from")?> <span class='text-red'>"+$(this).data("name")+"</span>?", 
 			function(result) {
 					if (result) {
 						$.ajax({
