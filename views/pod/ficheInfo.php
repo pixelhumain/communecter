@@ -575,6 +575,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 		$('#address').editable({
+			validate: function(value) {
+                value.streetAddress=$("#streetAddress").text();
+                console.log(value);
+            },
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
@@ -584,6 +588,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
+				//streetAddress : $("#streetAddress").val(),
             	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $organization["address"]["addressLocality"])) ? $organization["address"]["addressLocality"] : ""; ?>'
@@ -694,6 +699,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			//si la donné n'est pas geolocalisé
 			//on lui rajoute les coordonées trouvés
 			//if(typeof contextData["geo"] == "undefined")
+			console.log(obj);
 			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
 			showGeoposFound(coords, contextId, "organizations", contextData);

@@ -345,6 +345,7 @@ function runProjectFormValidation(el) {
 			newProject.startDate=startDateSubmitProj,
 			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),
+			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			

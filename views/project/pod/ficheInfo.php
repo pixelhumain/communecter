@@ -237,8 +237,17 @@ progress[value]::-moz-progress-bar {
 				</tr>
 				<tr>
 					<td>
+						<i class="fa fa-road fa_streetAddress hidden"></i> 
+						<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
+							
+							<?php echo (isset( $project["address"]["streetAddress"])) ? $project["address"]["streetAddress"] : null; ?>
+						</a>
+						<br>
 						<i class="fa fa-bullseye"></i> 
-						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>,<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
+						<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom"></a>
+						<br>
+						<i class="fa fa-globe fa_addressCountry  hidden"></i> 
+						<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click"></a>
 						<br>
 						<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 							<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
@@ -438,9 +447,9 @@ function initXEditable() {
 			
 		// },
 		value : {
-        	//postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
+        	postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',
         	codeInsee: '<?php echo (isset( $project["address"]["codeInsee"])) ? $project["address"]["codeInsee"] : ""; ?>',
-        	addressLocality : '<?php echo (isset( $project["address"]["addressLocality"])) ? $project["address"]["addressLocality"] : ""; ?>'
+        	addressLocality : '<?php echo (isset( $project["address"]["addressLocality"])) ? $project["address"]["addressLocality"] : ""; ?>',
     	},
     	success : function(data, newValue) {
 			if(data.result) {
@@ -506,10 +515,11 @@ function switchMode() {
 		mode ="view";
 		manageModeContext();
 	}
+	
 }
 
 function manageModeContext() {
-	listXeditables = ['#description', '#startDate', '#endDate', '#tags', '#address', '#addressCountry','#avancement'];
+	listXeditables = ['#description', '#startDate', '#endDate', '#tags', '#address', '#addressCountry','#avancement','#streetAddress'];
 	if (mode == "view") {
 		$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -534,6 +544,12 @@ function manageModeContext() {
 			$("#labelTo").addClass("hidden");
 		$("#btn-update-geopos").addClass("hidden");
 	}
+	if($('#streetAddress').html() != "")	{ 
+		$(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
+	if($('#postalCode').html() != "")		
+		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
+	if($('#addressCountry').html() != "")	
+		{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
 }
 
 	
