@@ -322,6 +322,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<div class="hidden" id="entity-insee-value" 
 						 insee-val="<?php echo (isset( $person["address"]["codeInsee"])) ? $person["address"]["codeInsee"] : ""; ?>">
 					</div>
+					<div class="hidden" id="entity-cp-value" 
+							 cp-val="<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : ""; ?>">
+						</div>
 				</div>
 			</div>
 		</div>
@@ -606,6 +609,10 @@ function initXEditable() {
 	$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
 
 	$('#address').editable({
+		validate: function(value) {
+            value.streetAddress=$("#streetAddress").text();
+            console.log(value);
+        },
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
 		mode: 'popup',
 		success: function(response, newValue) {
@@ -613,6 +620,7 @@ function initXEditable() {
 			console.dir(newValue);
 			
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
 		},
 		value : {
@@ -731,11 +739,13 @@ function manageSocialNetwork(iconObject, value) {
 		//si nominatim n'a pas trouvé de résultat
 		else {
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
 			console.log("recherche by insee", insee);
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee, null,postalCode);
 		}
 	}
 
