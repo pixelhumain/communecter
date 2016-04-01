@@ -41,12 +41,19 @@ ol.slats li p span.meta {
   color: #324553;
   
 }	
+.main-col-search{	padding:0px !important; }
+.explainTitle{cursor:pointer; background-color:#595959; padding: 10px; text-align: center; color: #fff;margin:0px;border-top: 1px solid #666;}
+.explainTitle.blue{background-color: #32454E}
+.explainTitle:hover{opacity: 0.8}
+.explainDesc{ padding: 10px; background-color: white; }
+.caretExplain{position: relative;top: 0px;background-color: white;color:#595959;}
+.caretExplain.blue{background-color: white; color:#32454E}
 </style>
-<div class="container graph">
-    <br/>
-    <div class="hero-unit">
-    
-        <h2>Open Data Locale : Les sources de données libres</h2>
+<div class="home_page" style="margin-top:50px">
+
+    	<h1 class="homestead explainTitle"></i> Open Data Locale : Les sources de données libres</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+
         <p>Toute les données qui permettent de faire tourner le PH sont ouverte est disponible a l'utilisation publique.<br/>
         Mais surtout elles sont crowd sourcer (rempli par les citoyens)
         </p>
@@ -66,7 +73,6 @@ ol.slats li p span.meta {
         	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/citoyens/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for a City</a></h3></li>
         </ol>	
     
-	</div>
 </div>	
 	
 <script type="text/javascript">

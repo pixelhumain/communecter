@@ -68,9 +68,9 @@ class CommunecterController extends Controller
           )
   );
   public $subviews = array(
-    "news.newsSV",
+    //"news.newsSV",
     //"person.invite",
-    "event.addAttendeesSV"
+    //"event.addAttendeesSV"
   );
   public $pages = array(
     "admin" => array(
