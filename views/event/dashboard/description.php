@@ -244,13 +244,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?
 				</div>
 				<div class="col-sm-12 entityDetails no-padding">
+					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-event editable editable-click">
 						<?php echo (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : null; ?>
 					</a>
 					<br>
+					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
+					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
@@ -260,6 +263,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="hidden" id="entity-insee-value" 
 						 insee-val="<?php echo isset($event["address"]["codeInsee"]) ? $event["address"]["codeInsee"] : ""; ?>">
 					</div>
+					<div class="hidden" id="entity-cp-value" 
+							 cp-val="<?php echo (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : ""; ?>">
+						</div>
+
 				</div>
 			</div>
 		</div>
@@ -275,9 +282,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 </div>
 
 <script type="text/javascript">
-	var itemId = "<?php echo $itemId ?>";
+	var itemId = "<?php echo $event["_id"] ?>";
 	var typeEvents = <?php echo json_encode($eventTypes) ?>;
-	var event = <?php echo json_encode($event) ?>;
+	var eventData = <?php echo json_encode($event) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	//By default : view mode
 	var mode = "view";
@@ -294,7 +301,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			switchMode();
 		})
 		$("#editGeoPosition").click(function(){
-			Sig.startModifyGeoposition(itemId, "events", event);
+			Sig.startModifyGeoposition(itemId, "events", eventData);
 			showMap(true);
 		});
 
@@ -377,11 +384,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		manageAllDayEvent(allDay);
 
 		$('#address').editable({
+			validate: function(value) {
+                value.streetAddress=$("#streetAddress").text();
+                console.log(value);
+            },
 			url: baseUrl+"/"+moduleId+"/event/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
 				if(debug)console.log("success update postal Code",newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				
 			},
 			value : {
@@ -468,6 +480,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 			$("#btn-update-geopos").removeClass("hidden");
 		}
+		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
+		if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
+		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
 	}
 
 	function manageAllDayEvent(isAllDay) {
@@ -609,17 +624,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
 			//met à jour la nouvelle position dans la donnée
-			event["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
+			eventData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
-			showGeoposFound(coords, itemId, "events", event);
+			console.log("-------obj lenght ok ---------");
+			console.log(eventData);
+			showGeoposFound(coords, itemId, "events", eventData);
 		}
 		//si nominatim n'a pas trouvé de résultat
 		else {
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee,null,postalCode);
 		}
 	}
 
@@ -633,9 +652,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
 			
-			event["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
+			eventData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
-			showGeoposFound(coords, itemId, "events", event);
+			showGeoposFound(coords, itemId, "events", eventData);
 		}
 		else {
 			console.log("Erreur getlatlngbyinsee vide");
