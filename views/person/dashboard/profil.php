@@ -384,7 +384,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				
 			</div>
 		</div>
-
+		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 		<div class="col-md-12 center bg-dark" id="panel-add">
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
@@ -406,6 +406,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<span class="lbl-btn-menu-name-add">un événement</span>
 			</button>
 		</div>
+		<?php } ?>
 	</div>
 </div>
 
