@@ -55,7 +55,6 @@ $optionsLabels = array(
 ?>
 <!-- start: PAGE CONTENT -->
 <div id="commentHistory">
-
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<?php 
@@ -68,7 +67,7 @@ $optionsLabels = array(
 				}?>
 			</div>
 			<?php } ?>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> Comments</h4>
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 			
 		</div>
 
@@ -79,18 +78,16 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								Comments <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
+								<?php echo Yii::t("comment","Comments") ?><span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								Popular <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<?php echo Yii::t("comment","Popular") ?><span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
-					<?php 
-						if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { 
-					?>
+					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
 								Abuse <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
@@ -103,7 +100,7 @@ $optionsLabels = array(
 							<div class="panel-scroll ps-container commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							<?php if ($canComment) {?>
 								<div class='saySomething padding-5'>
-									<input type="text" style="width:100%" value="Say Something"/>
+									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
 								</div>
 							<?php } ?>
 							</div>
@@ -197,7 +194,7 @@ function buildComments(commentsLevel, level, withActions) {
 }
 
 function buildCommentLineHTML(commentObj, withActions) {
-	console.log(commentObj, withActions);
+	// console.log(commentObj, withActions);
 	var id = commentObj["_id"]["$id"];
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.fromNow();
@@ -293,9 +290,14 @@ function commentActions(commentObj) {
 		classReportAbuse = "";
 	}
 
-	res += "<a href='javascript:;' title='Agree with that' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-		  "<a href='javascript:;' title='Disagree with that' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
-		  "<a href='javascript:;' title='Report an abuse' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
+	var titleVoteUp = "<?php echo addslashes(Yii::t('comment','Agree with that'))?>";
+	var titleVoteDown = "<?php echo addslashes(Yii::t('comment','Disagree with that'))?>";
+	var titleReportAbuse = "<?php echo addslashes(Yii::t('comment','Report an abuse'))?>";
+
+	// console.log(commentObj.contextId);
+	res += "<a href='javascript:;' title='"+titleVoteUp+"' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+		  "<a href='javascript:;' title='"+titleVoteDown+"' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
+		  "<a href='javascript:;' title='"+titleReportAbuse+"' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"' data-contextid='"+commentObj.contextId+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
 
 	return res;
 }
@@ -326,7 +328,7 @@ function bindEvent(){
 	//New comment actions
 	$('.saySomething').off().on("focusin",function(){
 		var backUrl = window.location.href.replace(window.location.origin, "");
-		console.log(backUrl);
+		// console.log(backUrl);
 		if (checkLoggued(backUrl)) {
 			$('.saySomething').hide();
 			addEmptyCommentOnTop();
@@ -355,7 +357,7 @@ function bindEvent(){
 
 	//Abuse process
 	$('.commentReportAbuse').off().on("click",function(){
-		reportAbuse($(this));
+		reportAbuse($(this), $(this).data("contextid"));
 	});
 	$('.deleteComment').off().on("click",function(){
 		actionAbuseComment($(this), "<?php echo Comment::STATUS_DELETED ?>", "");
@@ -405,8 +407,9 @@ function actionOnComment(comment, action) {
 		});
 }
 
-function reportAbuse(comment) {
-	bootbox.prompt("You are going to declare this comment as abuse : please fill the reason ?", function(result) {
+function reportAbuse(comment, contextId) {
+	// console.log(contextId);
+	var box = bootbox.prompt('<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>', function(result) {
 		if (result != null) {			
 			if (result != "") {
 				actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
@@ -414,9 +417,17 @@ function reportAbuse(comment) {
 				copyCommentOnAbuseTab(comment);
 				return true;
 			} else {
-				toastr.error("Please fill a reason");
+				toastr.error('<?php echo Yii::t("comment","Please fill a reason") ?>');
 			}
 		}
+	});
+
+	box.on("shown.bs.modal", function() {
+	  $.unblockUI();
+	});
+
+	box.on("hide.bs.modal", function() {
+	  showComments(contextId);
 	});
 }
 
@@ -439,7 +450,7 @@ function actionAbuseComment(comment, action, reason) {
                	}
                 else { 
                     if (data.userAllreadyDidAction) {
-                    	toastr.info("You already declare this comment as abused.");
+                    	toastr.info('<?php echo Yii::t("comment","You already declare this comment as abused.") ?>');
                     } else {
 	                    toastr.success(data.msg);
 	                    if (action == "<?php echo Action::ACTION_REPORT_ABUSE ?>") {
@@ -457,13 +468,13 @@ function actionAbuseComment(comment, action, reason) {
             },
         error: 
         	function(data) {
-        		toastr.error("Error calling the serveur : contact your administrator.");
+        		toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
         	}
 		});
 }
 
 function copyCommentOnAbuseTab(commentAbused) {
-	console.log("la", commentAbused.data("id"));
+	// console.log("la", commentAbused.data("id"));
 	var commentObj = comments[commentAbused.data("id")];
 	abusedComments[commentAbused.data("id")] = commentObj;
 
@@ -498,10 +509,10 @@ function replyComment(parentCommentId) {
 
 	//add a new line under the comment
 	var ulChildren = $('#comment'+parentCommentId).children('ul');
-	console.log(ulChildren);
+	// console.log(ulChildren);
 	
 	if (ulChildren.length == 0) {
-		console.log("pas de children");
+		// console.log("pas de children");
 		//add new ul entry
 		commentsTLLine = '<ul class="level list-unstyled" style="padding-left: 15px">'+commentsTLLine+'</ul>';
 		ulChildren = $('#comment'+parentCommentId);
@@ -541,8 +552,8 @@ function buildNewCommentLine(parentCommentId) {
 						text+	
 						'<div class="space10"></div>'+
 						"<div class='bar_tools_post'>"+
-						"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Submit</span></a> "+
-						"<a href='javascript:;' class='cancelComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'>Cancel</span></a> "+
+						"<a href='javascript:;' class='validateComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'><?php echo Yii::t("comment","Validate") ?></span></a> "+
+						"<a href='javascript:;' class='cancelComment' data-id='"+id+"' data-parentid='"+parentCommentId+"'><span class='label label-info'><?php echo Yii::t("comment","Cancel") ?></span></a> "+
 						"</div>"+
 					'</div></li>';
 	} else {
@@ -556,7 +567,7 @@ function buildNewCommentLine(parentCommentId) {
 
 function cancelComment(commentId) {
 	var parentId = $("#"+commentId).children().children(".bar_tools_post").children(".cancelComment").data("parentid");
-	console.log('Remove comment '+commentId, parentId);
+	// console.log('Remove comment '+commentId, parentId);
 	if (parentId == "") {
 		$('.saySomething').show();
 	} 
@@ -589,7 +600,7 @@ function validateComment(commentId, parentCommentId) {
 			},
 		error: 
 			function(data) {
-				toastr.error("Error calling the serveur : contact your administrator.");
+				toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
 			}
 	});
 
@@ -631,4 +642,5 @@ function getProfilImageUrl(imageURL) {
 	
 	return iconStr;
 }
+
 </script>

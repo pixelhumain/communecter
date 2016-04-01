@@ -8,25 +8,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>
 <style>
 
-.searchEntity{
-	margin-bottom:10px;
-	margin-left:5px;
-	display: inline-block;
-}
-.searchEntity .entityRight{
-	text-align: center;
-	padding: 10px 20px !important;
-	margin-left: -1%;
-	border-radius: 30px;
-}
-.searchEntity .entityRight .entityLocality{
-	color:white !important;
-	display: inline;
-}
-.searchEntity .entityRight .entityName{
-	color:white !important;
-	display: inline;
-}
 .lbl-title-newsstream{
 	display: none;
 }

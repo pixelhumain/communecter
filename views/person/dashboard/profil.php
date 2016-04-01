@@ -215,7 +215,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-locality inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> Public</button>
 		        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
 		        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
@@ -232,9 +232,35 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 	        </div>
 	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences["email"] = true;
+				$fieldPreferences["locality"] = true;
+				$fieldPreferences["phone"] = true;
+
+				//To checked private or public
+				foreach($typePreferences as $type){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+			?> 
+	     </script>
+
+
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-	        <button type="button" class="btn btn-success">Enregistrer</button>
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -381,7 +407,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 				<br/>
 				<?php }*/ ?>
-				
+		
 			</div>
 		</div>
 		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
@@ -456,8 +482,8 @@ jQuery(document).ready(function()
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
-			$(".btn-group-"+type + " .btn").removeClass("selected");
-			$(this).addClass("selected");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
 
 		});
 
@@ -631,10 +657,6 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
-
-	
-
-
 }
 
 function manageModeContext() {

@@ -94,7 +94,20 @@ class Menu {
         //                                                         "href"=>"<a  class='tooltips btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
         // }
     }
-	 public static function event($event)
+    public static function need($need,$parentType,$parentId){
+	    if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+
+	    if($parentType==Organization::COLLECTION)
+		    $controller = Organization::CONTROLLER;
+		else
+	    	$controller = Project::CONTROLLER;
+	    self::entry("right", 'onclick',
+        			Yii::t("common", $controller." detail"),
+        			Yii::t("common","Back to ".$controller),'home',
+        			"loadByHash('#".$controller.".detail.id.".$parentId."')",$controller, "detail");
+    }
+	public static function event($event)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
@@ -107,7 +120,7 @@ class Menu {
         if( isset($event["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
 	        self::entry("right", 'onclick',
                         Yii::t( "common", "Leave this event"),
-                        Yii::t( "common", "Leave"),
+                        Yii::t( "common", "Leave"), 
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
           /*array_push($controller->toolbarMBZ, array('position'=>'right', 
@@ -128,8 +141,8 @@ class Menu {
     
     public static function organization($organization)
     {
-        $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(Yii::app()->controller->module->assetsUrl.'/js/communecter.js');
+        //$cs = Yii::app()->getClientScript();
+        //$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl.'/js/communecter.js');
         
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
