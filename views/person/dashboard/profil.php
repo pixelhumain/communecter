@@ -612,9 +612,6 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
-			$.cookie("insee", 	 newValue.codeInsee, 	   { path : '/ph/' });
-			$.cookie("cityName", newValue.addressLocality, { path : '/ph/' });
-
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
 		},

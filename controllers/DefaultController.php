@@ -51,6 +51,12 @@ class DefaultController extends CommunecterController {
     $this->renderPartial("directory");
   }
 
+  public function actionLang() 
+  {
+    $this->layout = "//layouts/mainSearch";
+    $this->renderPartial("directory");
+  }
+
   public function actionHome() 
   {
     //$this->layout = "//layouts/mainSearch";

@@ -12,7 +12,8 @@ class DataController extends Controller {
    * avec la description des varialbes
    */
   public function actionIndex() {
-      $this->render("index");
+      $this->layout = "//layouts/mainSearch";
+      $this->renderPartial("index");
   }
   
   /**
@@ -159,6 +160,8 @@ class DataController extends Controller {
             $result["entities"] = $data ; 
             
         //}
+        //enabling CORS sharing
+        header("Access-Control-Allow-Origin: *");
         Rest::json($result, JSON_UNESCAPED_SLASHES);
   }
 

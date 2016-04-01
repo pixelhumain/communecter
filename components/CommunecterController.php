@@ -68,9 +68,9 @@ class CommunecterController extends Controller
           )
   );
   public $subviews = array(
-    "news.newsSV",
+    //"news.newsSV",
     //"person.invite",
-    "event.addAttendeesSV"
+    //"event.addAttendeesSV"
   );
   public $pages = array(
     "admin" => array(
@@ -142,8 +142,7 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
-      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true),
-      
+      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),

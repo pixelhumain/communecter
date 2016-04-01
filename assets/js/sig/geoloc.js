@@ -83,9 +83,13 @@
 	//nominatim
 	function callbackNominatimSuccess(obj){}
 	function callbackNominatimError(error){}
+	
 	//insee
 	function callbackFindByInseeSuccess(obj){}
 	function callbackFindByInseeError(error){}
+	//DataGouv
+	function callbackDataGouvSuccess(obj){}
+	function callbackDataGouvError(error){}
 
 	//ajoute un élément de l'addresse à la requete
 	function addToRequest(request, dataStr){
@@ -121,6 +125,11 @@
 			success: function (obj){
 				hideLoadingMsg();
 				callbackNominatimSuccess(obj);
+				// if(result.length > 0){ 
+				// 	callbackNominatimSuccess(obj);
+				// }else{
+				// 	findGeoposByGoogleMaps(requestPart);
+				// }
 			},
 			error: function (error) {
 				callbackNominatimError(error);
@@ -253,4 +262,24 @@
 			}
 		});
 		return objnominatim ;
+	}
+
+	function findGeoposByDataGouv(requestPart){
+		var objDataGouv = {} ;
+		$.ajax({  
+			url: "//api-adresse.data.gouv.fr/search/?q=" + requestPart ,
+			dataType: 'json',
+			async:false,
+			complete: function () {},
+			success: function (obj){
+				hideLoadingMsg();
+				callbackDataGouvSuccess(obj);
+			},
+			error: function (error) {
+				callbackDataGouvError(error);
+			}
+		});
+
+		return objDataGouv ;
+
 	}
