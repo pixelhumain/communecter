@@ -41,34 +41,42 @@ ol.slats li p span.meta {
   color: #324553;
   
 }	
+.main-col-search{	padding:0px !important; }
+.explainTitle{cursor:pointer; background-color:#595959; padding: 10px; text-align: center; color: #fff;margin:0px;border-top: 1px solid #666;}
+.explainTitle.blue{background-color: #32454E}
+.explainTitle:hover{opacity: 0.8}
+.explainDesc{ padding: 10px; background-color: white; }
+.caretExplain{position: relative;top: 0px;background-color: white;color:#595959;}
+.caretExplain.blue{background-color: white; color:#32454E}
 </style>
-<div class="container graph">
-    <br/>
-    <div class="hero-unit">
-    
-        <h2>Open Data Locale : Les sources de données libres</h2>
+<div class="home_page" style="margin-top:50px">
+
+    	<h1 class="homestead explainTitle"></i> Open Data Locale : Les sources de données libres</h1>
+		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+
         <p>Toute les données qui permettent de faire tourner le PH sont ouverte est disponible a l'utilisation publique.<br/>
         Mais surtout elles sont crowd sourcer (rempli par les citoyens)
         </p>
         
         <ol class="slats">
-        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/index.php/opendata/commune/ci/97411')?>">Structure Standard Json, de l'organisation d'une commune (ex:97411)</a></h3></li>
-        	<li class="group"><h3>Structure Standard Json, de l'organisation d'une agglomeration / intercommune (ex:CINOR)</h3></li>
-        	<li class="group"><h3>Structure Standard Json, de l'organisation d'une région (ex:974)</h3></li>
-        	<li class="group"><h3>Structure Standard Json, de l'organisation d'un département (ex:974)</h3></li>
-        	<li class="group"><h3>Json des pixels actifs par Code Postal</h3></li>
-        	<li class="group"><h3>Json des pixels actifs par Métier</h3></li>
-        	<li class="group"><h3>Json des pixels actifs par Centre D'interet</h3></li>
-        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/index.php/opendata/microformats')?>">Référence des collections et documents de la base MongoDB PH</a></h3></li>
+        	<li class="group"><h3> ODB : Open DataBase : what is it ?</h3></li>
+        	<li class="group"><h3> Restfull and API driven ?</h3></li>
+        	<li class="group"><h3> Semantic Data ?</h3></li>
+        	<li class="group"><h3> Is all this interoperable ?</h3></li>
+        	<li class="group"><h3> Can I host my own ODB ?</h3></li>
+        	<li class="group"><h3> Can I host a NotODB ?</h3></li>
+        	<li class="group"><h3> Semantic Translators ?</h3></li>
+        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/citoyens/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for a Person</a></h3></li>
+        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/organization/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for an Organization</a></h3></li>
+        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/citoyens/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for a Event</a></h3></li>
+        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/citoyens/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for a Project</a></h3></li>
+        	<li class="group"><h3><a href="<?php echo Yii::app()->createUrl('/communecter/data/get/type/citoyens/id/520931e2f6b95c5cd3003d6c/format/schema')?>">Structure Standard Json for a City</a></h3></li>
         </ol>	
     
-	</div>
 </div>	
 	
 <script type="text/javascript">
-initT['animInit'] = function(){
-(function ani(){
-	  TweenMax.staggerFromTo(".container h2", 4, {scaleX:0.4, scaleY:0.4}, {scaleX:1, scaleY:1},1);
-})();
-};
+jQuery(document).ready(function() {
+	$(".moduleLabel").html('<i class="fa fa-folder-open-o"></i> <?php echo Yii::t("common","Open Data") ?>');
+});
 </script>

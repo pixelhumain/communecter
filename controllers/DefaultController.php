@@ -27,6 +27,11 @@ class DefaultController extends CommunecterController {
     $this->layout = "//layouts/mainSearch";
     $this->render("index");
   }
+  public function actionDir() 
+  {
+    $this->layout = "//layouts/mainDirectory";
+    $this->render("dir/indexDirectory");
+  }
 
   public function actionTwoStepRegister() 
   {
@@ -49,6 +54,11 @@ class DefaultController extends CommunecterController {
   {
     $this->layout = "//layouts/mainSearch";
     $this->renderPartial("directory");
+  }
+
+  public function actionLang() 
+  {
+    $this->render("index");
   }
 
   public function actionHome() 
