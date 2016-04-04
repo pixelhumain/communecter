@@ -96,7 +96,7 @@
 	height: 40px;
 }*/
 /*input[type="text"].input-search:focus{
-	/*border-color: #3C5665 !important;*/
+	/*border-color: #3C5665 !important;* /
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -304,11 +304,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 			<div class="col-sm-8 information">
 				<br/>
-				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<span class="homestead text-dark text-extra-large">POUR MOI ... CITOYEN !</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> citoyens inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
 				<br/>
-					Etre Acteur! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
+					Etre Acteur ! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
 					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain.
 			</div>
 
@@ -340,7 +340,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['LocalBusiness']; ?> entreprises référencées</span>
 				<br/>
-				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de services au citoyen
+				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme une ressource</span> en terme de services au citoyen
 				avec un vrai respect de la qualité, quel que soit son métier.
 				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la plateforme Communecter.
 			</div>
