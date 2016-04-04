@@ -306,9 +306,55 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 					<i class="fa fa-bookmark"></i> badge : <a href="javascript:loadByHash('#define.Gamification');"><span class="badge badge-warning"> 
-					<?php 
+					</span>
+					
+					<style type="text/css">
+						.badgePH{ 
+							display: inline-block;
+							margin-right: 10px;
+							margin-bottom: 10px;
+							width: 150px;
+						}
+					</style>
+					<div class="row text-dark">
+						<div class="col-md-12 center">
+							<div class=" badgePH padding-15 center radius-15">
+								<span class="fa-stack" style="maring-bottom:5px">
+									<i class="fa fa-bookmark fa-2x fa-stack-1x" style="margin-left:10px;margin-top:12px"></i>
+									<i class="fa fa-euro  fa-stack-1x text-white"  style="margin-left:10px;margin-top:10px"></i>
+									<i class="fa fa-circle-o fa-4x stack-right-bottom text-green"></i>
+								</span> 
+								<br/><br/>
+								<a href="javascript:loadByHash('#define.Gamification');"><b style="padding-left:20px;"><?php echo Gamification::badge( (string)$person["_id"] )." <br/> ".Gamification::calcPoints( (string)$person["_id"] )." points"?></b></a>
+							</div>
+							<?php if(isset($person["tagsPH"])){?>
+								<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
+										<div class=" badgePH padding-15 center radius-15">
+											<span class="fa-stack" style="maring-bottom:5px">
+												<i class="fa fa-bookmark fa-2x fa-stack-1x" style="margin-left:10px;margin-top:12px"></i>
+												<i class="fa fa-euro  fa-stack-1x text-white"  style="margin-left:10px;margin-top:10px"></i>
+												<i class="fa fa-circle-o fa-4x stack-right-bottom text-green"></i>
+											</span> 
+											<br/><br/>
+											<b style="padding-left:20px;">CROWDFUNDER</b>
+										</div>
+								<?php } ?>
+								<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
+									<div class="center padding-15 radius-15 badgePH">
+										<span class="fa-stack" style="maring-bottom:5px">
+											<i class="fa fa-keyboard-o fa-2x fa-stack-1x" style="margin-left:8px;margin-top:12px"></i>
+											<i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>
+										</span>
+										<br/><br/>
+										<b style="padding-left:20px;">DEVELOPPER</b>
+									</div>
+								<?php } ?>
+							<?php } ?>
 						
-					echo Gamification::badge( (string)$person["_id"] )." : ".Gamification::calcPoints( (string)$person["_id"] )." points"?></span>
+				
+						</div>
+					</div>
+					
 					<hr style="margin:10px 0px 3px 0px;">
 					
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
@@ -396,41 +442,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>	
 			</div>
 		</div>
-		<div class="row text-dark">
-			<div class="col-md-12">
-				<?php 
-				/*
-				if ( $canEdit ) { ?>
-				<div class="dropdown">
-					<a href="#" data-close-others="true" class="dropdown-toggle btn btn-xs btn-default" data-hover="dropdown" data-toggle="dropdown" onclick="buildBgClassesList()">Backgrounds</a>	
-					<div class="dropdown-menu bgClassesContainer" style="display: none;"></div>
-				</div>
-				<br/>
-				<?php }*/ ?>
-		
-			</div>
-		</div>
+
 		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
-		<div class="col-md-12 center bg-dark" id="panel-add">
-			<h1 class="homestead text-white">
-				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
-			</h1>
-			<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
-				<i class="fa fa-user"></i>
-				<span class="lbl-btn-menu-name-add">quelqu'un</span>
-			</button>
-			<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
-				<i class="fa fa-group"></i>
-				<span class="lbl-btn-menu-name-add">une organisation</span>
-			</button>
-			<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
-				<i class="fa fa-lightbulb-o"></i>
-				<span class="lbl-btn-menu-name-add">un projet</span>
-			</button>
-			<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
-				<i class="fa fa-calendar"></i>
-				<span class="lbl-btn-menu-name-add">un événement</span>
-			</button>
+		<div class="row text-dark">
+			<div class="col-md-12 center bg-dark" id="panel-add">
+				<h1 class="homestead text-white">
+					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
+				</h1>
+				<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+					<i class="fa fa-user"></i>
+					<span class="lbl-btn-menu-name-add">quelqu'un</span>
+				</button>
+				<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+					<i class="fa fa-group"></i>
+					<span class="lbl-btn-menu-name-add">une organisation</span>
+				</button>
+				<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+					<i class="fa fa-lightbulb-o"></i>
+					<span class="lbl-btn-menu-name-add">un projet</span>
+				</button>
+				<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+					<i class="fa fa-calendar"></i>
+					<span class="lbl-btn-menu-name-add">un événement</span>
+				</button>
+			</div>
 		</div>
 		<?php } ?>
 	</div>
