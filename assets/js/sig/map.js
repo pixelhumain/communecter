@@ -484,9 +484,10 @@
 				var objectId = this.getObjectId(thisData);
 				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
+				console.log(thisData);
 				if(objectId != null)
 				{
-					if($.inArray(objectId, this.listId) == -1)
+					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
 					{			
 						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
 							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
@@ -619,7 +620,7 @@
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				console.warn("--------------- showMapElements ---------------------");
-
+				console.log(data);
 				if(data == null) return;
 
 				var filterPanelValue = "citoyens";
