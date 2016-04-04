@@ -410,8 +410,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		
 			</div>
 		</div>
-
-		<?php if(Yii::app()->session["userId"] == $person["_id"]){ ?> 
+		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 		<div class="col-md-12 center bg-dark" id="panel-add">
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
@@ -434,7 +433,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</button>
 		</div>
 		<?php } ?>
-
 	</div>
 </div>
 
@@ -659,10 +657,6 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
-
-	
-
-
 }
 
 function manageModeContext() {

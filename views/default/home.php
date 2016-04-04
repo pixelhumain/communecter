@@ -493,7 +493,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
 
-				<div class="col-sm-12">
+				<div class="col-sm-12">  
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
 					<img class="img-responsive img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
@@ -514,7 +514,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 
-	<div class="col-sm-12" style="background-color:#E33551;  float:left;" id="teamSection">
+	<div class="col-sm-12 no-padding" style="background-color:#E33551; max-width:100%; float:left;" id="teamSection">
+		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.partners')">Partenaires & Contributeurs</a> <i class="fa fa-share-alt fa-2x"></i></h1>
+		</div>
+		<center>
+			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
+		</center>
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>

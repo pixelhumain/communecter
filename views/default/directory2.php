@@ -919,8 +919,8 @@ function initGrid(){
 			callbacks: {
 				onMixEnd: function(state){
 					// console.log(state);
-					// if (state.activeFilter != ".followers")
-					// 	$(".followers").hide();
+					if (state.activeFilter != ".followers")
+						$(".followers").hide();
 				}	
 			}
 		});

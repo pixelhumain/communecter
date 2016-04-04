@@ -417,6 +417,8 @@ var loadableUrls = {
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
+	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
+	"#opendata" : {"alias":"#data.index"},
 };
 function jsController(hash){
 	console.log("jsController",hash);
