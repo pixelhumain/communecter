@@ -25,6 +25,7 @@ $userId = Yii::app()->session["userId"] ;
 						<label for="chooseEntity">Collection : </label>
 						<select id="chooseEntity" name="chooseEntity">
 							<option value="-1">Choisir</option>
+							<option value="invite">Invite</option>
 							<option value="organization">Organization</option>
 							<option value="person">Person</option>
 							<option value="project">Project</option>

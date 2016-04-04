@@ -22,7 +22,6 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Import Data</h4>
 		</div>
 		<div class="panel-body">
-			<!--<form id="formfile" method="POST" action="<?php //echo Yii::app()->getRequest()->getBaseUrl(true).'/communecter/admin/importData';?>" enctype="multipart/form-data"> -->
 				<div class="col-sm-12 col-xs-12 rows">
 					<div class="col-sm-3 col-xs-12">
 						<label for="chooseCollection">Collection : </label>
@@ -191,6 +190,19 @@ $userId = Yii::app()->session["userId"] ;
 					<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="">
 				</div>
 			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label>
+						Invite : <input type="checkbox" value="" id="checkboxInvite" name="checkboxInvite">
+					</label>
+					<label for="nameInvitor">Author : </label>
+					<input class="" placeholder="" id="nameInvitor" name="nameInvitor" value="">
+				</div>
+				<div class="col-sm-6 col-xs-12">
+					<label for="inputKey">Message  : </label>
+					<textarea id="msgInvite" class="form-control" rows="3"></textarea>
+				</div>
+			</div>
 			<div class="form-group col-sm-12">
 				<div class="form-group col-sm-2 col-sm-offset-5">
 					<a href="#" id="btnVisualisation" class="btn btn-primary col-sm-12">Visualisation</a>
@@ -271,9 +283,6 @@ jQuery(document).ready(function()
 
 function bindEvents()
 {
-
-	
-
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
     	//console.log("ext", ext, $.inArray(ext, "json"));
@@ -423,17 +432,6 @@ function bindEvents()
 
 
 
-	/*$("#selectRole").change( function (){
-		var role = $("#selectRole").val();
-		if(role == "creator")
-		{
-			$("#divSearchMember").hide();
-			$("#memberId").html(userId);
-		}	
-		else
-			$("#divSearchMember").show();
-	});*/
-
 	$("#selectTypeData").change( function (){
 		var typeDate = $("#selectTypeData").val();
 		if(typeDate == "url")
@@ -565,13 +563,6 @@ function bindEvents()
 				
 	  		}
 
-	  		/*var jsonFile = "" ;
-
-	  		if($("#typeFile").val() == "csv")
-	  			jsonFile = $("#jsonCSV").val() ;
-	  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js")
-	  			jsonFile = $("#jsonJSON").val() ;*/
-
 	  		if(infoCreateData != []){	
 	  			
 	  			var params = {
@@ -586,6 +577,13 @@ function bindEvents()
 			        key : $("#inputKey").val(),
 			        warnings : $("#checkboxWarnings").is(':checked')
 			    }
+
+			    
+			    if($("#checkboxInvite").is(':checked')){
+			    	params["invite"] = $("#checkboxInvite").is(':checked');
+			   		params["msgInvite"] = $("#msgInvite").val();
+					params["nameInvitor"] = $("#nameInvitor").val();
+				}
 
 
 	  			if($("#checkboxTest").is(':checked')){
@@ -669,9 +667,7 @@ function bindEvents()
 
   	$("#btnGeo").off().on('click', function()
   	{
-  		/*$.getJSON( pathTmp+$("#nameFile").val()+"/jsonImport.json", function( data ) {
-  			console.log(data);
-		});*/
+  		
 
   		var dataGood = [];
   		var dataBad = jQuery.parseJSON($('#jsonError').val()) ;
@@ -787,59 +783,6 @@ function resultAssignData(data){
 	});
 
 	$("#selectLinkCollection").html(chainePathMapping);
-
-	/*chaineNameSubFile = "" ;
-	$.each(data.subFiles, function(key, value){
-
-		if(value.indexOf(data.nameFile) != -1 )
-				chaineNameSubFile += '<option value="' + value+'">'+value+'</option>';
-	});
-
-	$("#subFile").html(chaineNameSubFile);*/
-
-	//console.log("JSON", JSON.stringify(data.arrayCSV));
-	/*chaineInputHidden = "" ;
-	chaineInputHidden += '<input type="hidden" id="idCollection" value="' + data.idCollection + '"/>';
-	chaineInputHidden += '<input type="hidden" id="nameFile" value="'+data.nameFile+'"/>';
-	chaineInputHidden += '<input type="hidden" id="typeFile" value="'+data.typeFile+'"/>';*/
-	/*console.log(data.json_origine);
-	console.log(JSON.stringify(data.json_origine));*/
-	/*if(data.typeFile == "csv")
-		chaineInputHidden += '<input type="hidden" id="jsonCSV" value="'+ JSON.stringify(data.arrayCSV) + '"/>';
-	if(data.typeFile == "json")
-		chaineInputHidden += '<input type="hidden" id="jsonJSON" value="'+ JSON.stringify(data.json_origine) + '"/>';*/
-		
-	/*if(typeof data.jsonData == "undefined")
-		file[0] = data.jsonData;
-
-	$("#divInputHidden").html(chaineInputHidden);
-
-	//console.log(("#jsonJSON").val());
-
-	chaineSelectCSVHidden = "" ;
-
-	if(data.typeFile == "csv"){
-		$.each(file.arrayCSV[0], function(key, value){
-			chaineSelectCSVHidden += '<option value="' + key+'">'+value+'</option>';
-			});
-	}else if(data.typeFile == "json"){
-		$.each(data.arbre, function(key, value){
-			chaineSelectCSVHidden += '<option value="' + value+'">'+value+'</option>';
-			});
-	}
-
-	$("#selectHeadCSV").html(chaineSelectCSVHidden);
-
-
-	//console.log("data.fieldsCollection",data.fieldsCollection);
-
-	chainePathMapping = "" ;
-	$.each(data.arrayPathMapping, function(key, value){
-		chainePathMapping += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
-	});
-
-	$("#selectLinkCollection").html(chainePathMapping);
-	bindEvents();*/
 }
 
 
