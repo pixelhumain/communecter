@@ -218,8 +218,13 @@ function startSearch(indexMin, indexMax){
     if(name.length>=3 || name.length == 0){
       var locality = "";
       if(communexionActivated){
-        if(levelCommunexion == 1) locality = inseeCommunexion;
-        if(levelCommunexion == 2) locality = cpCommunexion;
+	    if(typeof(cityInseeCommunexion) != "undefined"){
+			if(levelCommunexion == 1) locality = cpCommunexion;
+			if(levelCommunexion == 2) locality = inseeCommunexion;
+		}else{
+			if(levelCommunexion == 1) locality = inseeCommunexion;
+			if(levelCommunexion == 2) locality = cpCommunexion;
+		}
         if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
@@ -253,15 +258,23 @@ var mapElements = new Array();
 
 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
-    var levelCommunexionName = { 1 : "INSEE",
-                             2 : "CODE_POSTAL_INSEE",
-                             3 : "DEPARTEMENT",
-                             4 : "REGION"
-                           };
+	if(typeof(cityInseeCommunexion) != "undefined"){
+	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
+	                             2 : "INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}else{
+		var levelCommunexionName = { 1 : "INSEE",
+	                             2 : "CODE_POSTAL_INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}
     console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
-
+				
     //console.log("loadingData true");
     loadingData = true;
     
@@ -281,7 +294,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
       });
     //$(".moduleLabel").html("<i class='fa fa-circle-o-notch'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ</h1>");
-    
+    console.log(data);
     $.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -301,7 +314,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             
               str = "";
               var city, postalCode = "";
-              
+
               //parcours la liste des résultats de la recherche
               $.each(data, function(i, o) {
                   var typeIco = i;
@@ -409,6 +422,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               }); //end each
 
               if(str == "") { 
+	              $.unblockUI();
+	              showMap(false);
                   $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer   
@@ -420,6 +435,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     $("#dropdown_search").html(str);
                     $("#searchBarText").focus();
                   }
+                     
               }
               else
               {       
@@ -455,6 +471,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
                 $.unblockUI();
+				showMap(false);
                 //$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ</h1>");
     
                 //affiche la dropdown

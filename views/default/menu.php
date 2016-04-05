@@ -704,7 +704,7 @@ jQuery(document).ready(function() {
 	});
 	$(".btn-param-postal-code").click(function(e){
 		////console.log("cookie", $.cookie('inseeCommunexion'));
-		if(typeof $.cookie('inseeCommunexion') == "undefined"){
+		if(typeof $.cookie('inseeCommunexion') == "undefined" && typeof inseeCommunexion == "undefined"){
 			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			showMap(true);
     		initHTML5Localisation('communexion');
