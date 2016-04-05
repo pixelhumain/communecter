@@ -61,6 +61,16 @@
 
 		$countryCommunexion = isset( Yii::app()->request->cookies['countryCommunexion'] ) ? 
 		   			    			  Yii::app()->request->cookies['countryCommunexion'] : "";
+		/*if(@$inseeCommunexion && !empty($inseeCommunexion)){
+			$city=Sig::getCityByCodeInsee($inseeCommunexion);
+			$nbCpByInsee=count($city["postalCodes"]);
+			if($nbCpByInsee > 1){
+				$cityInsee=$city["name"];
+			}
+		}else{
+			$nbCpByInsee=0;
+		}*/
+
 	}
 	//si l'utilisateur est connecté
 	else{
@@ -79,8 +89,13 @@
 		
 		$countryCommunexion = isset( $me['address']['country'] ) ? 
 		   			    			  $me['address']['country'] : "";
-
-
+		if (@$inseeCommunexion){
+			$city=Sig::getCityByCodeInsee($inseeCommunexion);
+			$nbCpByInsee=count($city["postalCodes"]);
+			if($nbCpByInsee > 1){
+				$cityInsee=$city["name"];
+			}
+		}
 		if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
           $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
         else
@@ -334,6 +349,10 @@ var cpCommunexion = "<?php echo $cpCommunexion; ?>";
 var cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
 var regionNameCommunexion = "<?php echo $regionNameCommunexion; ?>";
 var countryCommunexion = "<?php echo $countryCommunexion; ?>";
+<?php if(@$nbCpByInsee && $nbCpByInsee > 1){ ?>
+	nbCpbyInseeCommunexion = "<?php echo $nbCpByInsee; ?>";
+	cityInseeCommunexion = "<?php echo $cityInsee; ?>";
+<?php } ?>
 var latCommunexion = 0;
 var lngCommunexion = 0;
 
@@ -354,14 +373,8 @@ jQuery(document).ready(function() {
 	<?php if(isset(Yii::app()->session['userId']) && //et que le two_step est terminé
 			(!isset($me["two_steps_register"]) || $me["two_steps_register"] != true)){ ?>
 		
-		var path = "/";
-		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
-
-		$.cookie('inseeCommunexion',   		inseeCommunexion,  		{ expires: 365, path: path });
-		$.cookie('cityNameCommunexion', 	cityNameCommunexion,	{ expires: 365, path: path });
-		$.cookie('cpCommunexion',   		cpCommunexion,  		{ expires: 365, path: path });
-		$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
-		$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+		//if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+		setCookies(location.pathname);
 		
 	<?php } ?>
 
@@ -471,7 +484,7 @@ function startNewCommunexion(country){
 	var data = {"name" : name, "locality" : locality, "country" : country, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
     var countData = 0;
     var oneElement = null;
-
+	console.log(data);
     $.blockUI({
 		message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h1>"
 	});
@@ -660,19 +673,23 @@ function setScopeValue(btn){
 		countryCommunexion = btn.attr("ctry-com");
 		latCommunexion = btn.attr("lat-com");
 		lngCommunexion = btn.attr("lng-com");
+		if(typeof(btn.attr("nbCpByInsee-com")) != "undefined"){
+			nbCpbyInseeCommunexion = btn.attr("nbCpByInsee-com");
+			cityInseeCommunexion = btn.attr("cityInsee-com");
+		} else {
+			nbCpbyInseeCommunexion = undefined;
+			cityInseeCommunexion = undefined;
 
+		}
+		//var path = location.pathname;
+		setCookies();
 		//definit le path du cookie selon si on est en local, ou en prod
-		var path = "/";
-		if(location.hostname.indexOf("localhost") >= 0) path = "/ph/";
+		
 
 		
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
 		
-			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
-			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
-			$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
-			$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+			setCookies(location.pathname);
 			
 			//$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
@@ -719,15 +736,9 @@ function setScopeValue(btn){
 
 			$("#TSR-load-conf-communexion").html("<h1><i class='fa fa-spin fa-circle-o-notch text-white'></i></h1>");
 			showTwoStep("load-conf-communexion");
-
-			$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
-			$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-			$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });	
-			$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
-			$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
-
+			setCookies();
 			$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
-			$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
+			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".lbl-btn-menu-name-city").html('<span class="lbl-btn-menu-name">'+cityNameCommunexion + ", </span>" + cpCommunexion);
 			setTimeout(function(){ showTwoStep("street");  }, 2000);
@@ -925,7 +936,12 @@ function selectScopeLevelCommunexion(level){
 	levelCommunexion = level;
 
 	if(level == 1) endMsg = "à " + cityNameCommunexion + ", " + cpCommunexion;
-	if(level == 2) endMsg = "au code postal " + cpCommunexion;
+	if(level == 2) {
+		if(typeof(cityInseeCommunexion)!="undefined")
+			endMsg = "à la ville de " + cityInseeCommunexion;
+		else
+			endMsg = "au code postal " + cpCommunexion;
+	}
 	if(level == 3) endMsg = "au département " + department;
 	if(level == 4) endMsg = "à votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "à l'ensemble du réseau";
@@ -937,7 +953,12 @@ function selectScopeLevelCommunexion(level){
 
 	
 	if(level == 1) endMsg = cityNameCommunexion + ", " + cpCommunexion;
-	if(level == 2) endMsg = cpCommunexion;
+	if(level == 2){ 
+		if(typeof(cityInseeCommunexion)!="undefined")
+			endMsg = cityInseeCommunexion;
+		else
+			endMsg = cpCommunexion;
+	}
 	if(level == 3) endMsg = "Département " + department;
 	if(level == 4) endMsg = "Votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "Tout le réseau";
@@ -950,14 +971,29 @@ function selectScopeLevelCommunexion(level){
 	$(".btn-scope-niv-5").attr("data-original-title", "Niveau 5 - Tout le réseau");
 	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région " + regionNameCommunexion);
 	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + department);
-	$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Code postal : " + cpCommunexion);
+	if(typeof(cityInseeCommunexion)!="undefined"){
+		$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Ville entière : " + cityInseeCommunexion);
+	}
+	else{
+		$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Code postal : " + cpCommunexion);
+	}
 	$(".btn-scope-niv-1").attr("data-original-title", "Niveau 1 - " + cityNameCommunexion + ", " + cpCommunexion);
 	$('.tooltips').tooltip();
 
 	if(typeof startSearch == "function")
 	startSearch();
 }
-
+function setCookies(path){
+	$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+	$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+	$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
+	$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+	$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+	if(typeof(nbCpbyInseeCommunexion) != "undefined"){
+		$.cookie('nbCpbyInseeCommunexion',   	nbCpbyInseeCommunexion,  	{ expires: 365, path: path });
+		$.cookie('cityInseeCommunexion',   	cityInseeCommunexion,  	{ expires: 365, path: path });
+	}
+}
 </script>
 
 

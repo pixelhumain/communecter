@@ -486,7 +486,7 @@
   			$.ajax({
 				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 				type: 'POST',
-				data: "insee="+inseeCommunexion,
+				data: "insee="+inseeCommunexion+"&postalCode="+cpCommunexion,
 	    		success: function (obj){
 
 	    			//toastr.success("Votre addresse a été mise à jour avec succès");

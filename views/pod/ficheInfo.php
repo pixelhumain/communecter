@@ -335,6 +335,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<div class="hidden" id="entity-insee-value" 
 							 insee-val="<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>">
 						</div>
+						<div class="hidden" id="entity-cp-value" 
+							 cp-val="<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : ""; ?>">
+						</div>
+
 					</div>			
 				</div>			
 			</div>
@@ -583,15 +587,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 		$('#address').editable({
+			validate: function(value) {
+                value.streetAddress=$("#streetAddress").text();
+                console.log(value);
+            },
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
 				console.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
+				//streetAddress : $("#streetAddress").val(),
             	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $organization["address"]["addressLocality"])) ? $organization["address"]["addressLocality"] : ""; ?>'
@@ -702,6 +712,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			//si la donné n'est pas geolocalisé
 			//on lui rajoute les coordonées trouvés
 			//if(typeof contextData["geo"] == "undefined")
+			console.log(obj);
 			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
 			showGeoposFound(coords, contextId, "organizations", contextData);
@@ -709,10 +720,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//si nominatim n'a pas trouvé de résultat
 		else {
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee, null,postalCode);
 		}
 	}
 
@@ -721,6 +734,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		console.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
+			console.log(obj);
 			//récupère les coordonnées
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
