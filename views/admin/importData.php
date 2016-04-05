@@ -17,11 +17,30 @@ $cs = Yii::app()->getClientScript();
 $userId = Yii::app()->session["userId"] ;
 ?>
 <div class="panel panel-white">
+	ici
 	<div id="config">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title">Import Data</h4>
+		lsl
+		<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
+			ffz
+			<div class="homestead text-white" id="menu-step-1">
+				<i class="fa fa-2x fa-check-circle"></i><br>Fichier
+			</div>
+			<div class="homestead text-white selected" id="menu-step-2">
+				<i class="fa fa-2x fa-circle"></i><br>Mapping<br>
+				<span id="conf-address"></span>
+			</div>
+			<div class="homestead text-white" id="menu-step-3">
+				<i class="fa fa-2x fa-circle-o"></i><br>Visualisation
+			</div>
+			<div class="homestead text-white" id="menu-step-3">
+				<i class="fa fa-2x fa-circle-o"></i><br>Création
+			</div>
 		</div>
+
+	</div>
+<!--
 		<div class="panel-body">
+			<div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
 				<div class="col-sm-12 col-xs-12 rows">
 					<div class="col-sm-3 col-xs-12">
 						<label for="chooseCollection">Collection : </label>
@@ -38,6 +57,19 @@ $userId = Yii::app()->session["userId"] ;
 								}
 							?>
 						</select>
+					</div>
+					<div class="col-sm-3 col-xs-12">
+						<label> Mapping :</label>
+						<select id="chooseMapping" name="chooseMapping">
+							<option value="-1">Pas de mappings</option>
+						<?php
+								$allMapping = Import::getMappings();
+								foreach ($allMapping as $key => $value){
+									echo '<option value="'.$key .'">'.$value["name"].'</option>';
+								}
+						?>
+						</select>
+						<?php //var_dump($allMapping) ?>
 					</div>
 					<div class="col-sm-3 col-xs-12">
 						<select id="selectTypeData" name="selectTypeData">
@@ -86,7 +118,6 @@ $userId = Yii::app()->session["userId"] ;
 						<a href="#" id="btnVerification" class="btn btn-primary col-sm-12">Vérification</a>
 					</div>
 				</div>
-			<!--</form>-->
 		</div>
 	</div>
 	<div id="createLink">
@@ -94,32 +125,11 @@ $userId = Yii::app()->session["userId"] ;
 			<h4 class="panel-title">Assignation des données</h4>
 		</div>
 		<div class="panel-body">
-			<!--<div class="col-sm-12 col-xs-12">
-				<label for="subFile">Fichier : </label>
-				<select id="subFile">
-					
-				</select>
-				
-			</div>
 
-			
-			<br/> <br/> -->
 			
 			<div class="col-sm-12 col-xs-12">
 				
-				<!--<div id="divSearchMember">
-					<div class="col-sm-3 col-xs-12">
-						<input class="invite-search form-control" placeholder="Choisir une personne qui sera relié au données" autocomplete = "off" id="inviteSearch" name="inviteSearch" value="">
-			        		<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
-								<li class="li-dropdown-scope">-</li>
-							</ul>
-						</input>
-						<input type="hidden" name="memberId" id="memberId" value=""/>
-					</div>
-					<div class="col-sm-4 col-xs-12">
-						People : <div id="namePeople"></div>
-					</div>
-				</div>-->
+
 			</div>
 			<div id="divtab" class="table-responsive">
 				<input type="hidden" id="nbLigneMapping" value="0"/>
@@ -252,7 +262,7 @@ $userId = Yii::app()->session["userId"] ;
 				<a href="#" class="btn btn-primary col-sm-2 col-md-offset-2" type="submit" id="btnImport">Import</a>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
 <script type="text/javascript">
 
@@ -368,6 +378,7 @@ function bindEvents()
 				        		typeFile : typeF,
 				        		file : file,
 				        		idMicroformat : $("#chooseCollection").val(),
+				        		idMapping : $("#chooseMapping").val(),
 				        		pathObject : $("#pathObject").val()
 				        	},
 				        url: baseUrl+'/communecter/admin/assigndata/',
@@ -405,7 +416,7 @@ function bindEvents()
 	  		nameF = nameFile[0];
   			typeF = nameFile[nameFile.length-1];
   			console.log("file2 :", file.length );
-  			assignData2($("#chooseCollection").val(), typeF);
+  			assignData2($("#chooseCollection").val(), typeF, $("#chooseMapping").val());
 	  		
 		}	
   		
@@ -550,7 +561,7 @@ function bindEvents()
 		}
 		else
 		{
-			for (i = 1; i <= nbLigneMapping; i++) 
+			for (i = 0; i <= nbLigneMapping; i++) 
 	  		{
 	  			if($('#lineMapping'+i).length)
 	  			{
@@ -777,12 +788,28 @@ function resultAssignData(data){
 	}
 	$("#selectHeadCSV").html(chaineSelectCSVHidden);
 
-	chainePathMapping = "" ;
-	$.each(data.arrayPathMapping, function(key, value){
-		chainePathMapping += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
+	chaineMicroformat = "" ;
+	$.each(data.arrayMicroformat, function(key, value){
+		chaineMicroformat += '<option name="optionLinkCollection" value="' + value+'">'+value+'</option>';
 	});
 
-	$("#selectLinkCollection").html(chainePathMapping);
+	$("#selectLinkCollection").html(chaineMicroformat);
+
+
+	var nbLigneMapping = $("#nbLigneMapping").val();
+	var i = 0 ;
+	$.each(data.arrayMapping, function(key, value){
+		ligne = '<tr id="lineMapping'+nbLigneMapping+'"> ';
+  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'">' + key + '</td>';
+  		ligne =	 ligne + '<td id="valueLinkCollection'+nbLigneMapping+'">' + value + '</td>';
+  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ i +'"/><a href="#" class="deleteLineMapping btn btn-danger">X</a></td></tr>';
+  		nbLigneMapping++;
+  		$("#LineAddMapping").before(ligne);
+  		i++;
+	});
+
+	$("#nbLigneMapping").val(nbLigneMapping);
+	bindEvents();
 }
 
 
@@ -1252,11 +1279,12 @@ function assignData(subfile, typeFile){
 }
 
 
-function assignData2(idMicroformat, typeFile){
+function assignData2(idMicroformat, typeFile, idMapping){
 	
 	var params = {
 		idMicroformat : idMicroformat,
-		typeFile : typeFile
+		typeFile : typeFile,
+		idMapping : idMapping
 	};
 
 	if(typeFile == "json" || typeFile == "js")
