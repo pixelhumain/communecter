@@ -600,6 +600,16 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
   }
 
+  public function actionTestValidation() {
+    $person = Person::getById("5703b8bd2336f250520041c2");
+    var_dump($person);
+    $params = array(   "person"   => $person ,
+                        "title" => Yii::app()->name ,
+                        "logo"  => "/images/logoLTxt.jpg");
+    
+    $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
+  }
+
   public function actionTestAddPersonAdmin() {
     $organizationId = "55797ceb2336f25c0c0041a8";
     $personId = "5577d525a1aa1458540041b0";
