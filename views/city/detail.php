@@ -255,7 +255,7 @@ $this->renderPartial('../default/panels/toolbar');
  <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
   <a href="javascript:;" class="btn homestead text-red no-margin"
-     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
+     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
      id="btn-communecter" onclick="setScopeValue($(this));">
      <i class="fa fa-crosshairs"></i> COMMUNECTER
   </a>
@@ -522,7 +522,7 @@ jQuery(document).ready(function() {
 
 function communecter(){ //toastr.info('TODO : redirect to form register || OR || slide to form register');
 
-    var cp = "<?php echo $city['cp']; ?>";
+    var cp = "<?php if(@$city['cp']) echo $city['cp']; ?>";
     $(".form-register #cp").val(cp);
     
     // $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
