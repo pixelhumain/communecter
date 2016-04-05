@@ -202,8 +202,13 @@ function startSearch(indexMin, indexMax){
     if(name.length>=3 || name.length == 0){
       var locality = "";
       if(communexionActivated){
-        if(levelCommunexion == 1) locality = inseeCommunexion;
-        if(levelCommunexion == 2) locality = cpCommunexion;
+        if(typeof(cityInseeCommunexion) != "undefined"){
+			if(levelCommunexion == 1) locality = cpCommunexion;
+			if(levelCommunexion == 2) locality = inseeCommunexion;
+		}else{
+			if(levelCommunexion == 1) locality = inseeCommunexion;
+			if(levelCommunexion == 2) locality = cpCommunexion;
+		}
         if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
@@ -234,12 +239,19 @@ function removeSearchType(type){
 var loadingData = false;
 var mapElements = new Array(); 
 function autoCompleteSearch(name, locality, indexMin, indexMax){
-    
-     var levelCommunexionName = { 1 : "INSEE",
-                             2 : "CODE_POSTAL_INSEE",
-                             3 : "DEPARTEMENT",
-                             4 : "REGION"
-                           };
+    if(typeof(cityInseeCommunexion) != "undefined"){
+	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
+	                             2 : "INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}else{
+		var levelCommunexionName = { 1 : "INSEE",
+	                             2 : "CODE_POSTAL_INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}
     console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
@@ -388,6 +400,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               }); //end each
 
               if(str == "") { 
+				  $.unblockUI();
+	              showMap(false);
+
                   $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer       
@@ -434,6 +449,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
                 $.unblockUI();
+				showMap(false);
                 
                 //affiche la dropdown
                 //$("#dropdown_search").css({"display" : "inline" });

@@ -286,6 +286,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								</select>
 							</span>		
 						</div>
+						<input type="hidden" name="cityName" id="cityName" value=""/>
+
 					</div>
 					<div class="col-md-12">
 						<div class="alert alert-success inline-block hidden" id="alert-city-found" style="font-family:inherit;">
@@ -371,10 +373,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
 	    	oneValue = value.value;
+	    	oneName = value.text;
+
 		});
 		
 		//if (citiesByPostalCode.length == 1) {
 			$("#city").val(oneValue);
+			$("#cityName").val(oneName);
+
 		//}
 
 		if (citiesByPostalCode.length >0) {
@@ -398,6 +404,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$('.form-event #city').change(function(e){ //toastr.info("city change");
 			clearTimeout(timeoutGeopos);
 			timeoutGeopos = setTimeout(function() {
+				$("#cityName").val($('#city option:selected').text());
 				searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 			}, 1500);
 		});
@@ -541,6 +548,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.streetAddress = $(".form-event #fullStreet ").val();
 				newEvent.city = $(".form-event #city ").val();
+				newEvent.cityName = $(".form-event #cityName").val();
 				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				

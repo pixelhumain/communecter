@@ -232,6 +232,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<select class="selectpicker form-control" id="city" name="city" title='<?php echo Yii::t("common","Select your City") ?>...'>
 									</select>
 								</div>
+								<input type="hidden" name="cityName" id="cityName" value=""/>
 							</div>
 							<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
 								<span class="pull-left" style="padding:6px;">Position géographique trouvée <i class="fa fa-smile-o"></i></span>
@@ -323,7 +324,6 @@ var formValidator = function() {
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
 			});
-
 	        $.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
@@ -492,16 +492,20 @@ jQuery(document).ready(function() {
 	function runShowCity(searchValue) {
 		
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
+		console.log(citiesByPostalCode);
 		citiesByPostalCode;
 		Sig.citiesByPostalCode = citiesByPostalCode;
 		
 		var oneValue = "";
 		$.each(citiesByPostalCode,function(i, value) {
-	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
+	    	$("#city").append('<option value=' + value.value + ' data-city="'+ value.text +'">' + value.text + '</option>');
 	    	oneValue = value.value;
+	    	oneName = value.text;
 		});
 		
 		$("#city").val(oneValue);
+		$("#cityName").val(oneName);
+		
 		
 		if (citiesByPostalCode.length >0) {
 	        $("#cityDiv").slideDown("medium");
@@ -535,6 +539,7 @@ jQuery(document).ready(function() {
 		$('#city').change(function(e){ //toastr.info("city change");
 			clearTimeout(timeoutGeopos);
 			timeoutGeopos = setTimeout(function() {
+				$("#cityName").val($('#city option:selected').text());
 				searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 			}, 1500);
 		});

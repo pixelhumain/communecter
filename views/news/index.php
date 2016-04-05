@@ -525,7 +525,7 @@ jQuery(document).ready(function()
 	if(contextParentType!="city"){
 		$(".moduleLabel").html("<i class='fa fa-<?php echo @$contextIcon ?>'></i> <?php echo addslashes(@$contextName); ?>");
 		Sig.restartMap();
-		Sig.showMapElements(Sig.map, news);
+		//Sig.showMapElements(Sig.map, news);
 	}else{
 		
 	}
@@ -1136,14 +1136,22 @@ function saveNews(){
 				type: "POST",
 		    })
 		    .done(function (data) {
-		        console.log(data);
 	    		if(data.result)
 	    		{
-		    			if( 'undefined' != typeof updateNews && typeof updateNews == "function" )	
-		            		updateNews(data.object);
+	    			//if the news is post in a different month than last news and current month
+	    			if(data.object.date.sec) {
+	    				var monthSection = new Date( parseInt(data.object.date.sec)*1000 );
+	    				
+	    				//if we need a month space to insert the news
+	    				if ( !$( "#"+'month'+monthSection.getMonth()+''+monthSection.getFullYear()).length ) {
+							loadByHash('#default.news');
+	    				}
+					}
+					
+					if( 'undefined' != typeof updateNews && typeof updateNews == "function" )updateNews(data.object);
 					$.unblockUI();
 					//$.hideSubview();
-						toastr.success("<?php echo Yii::t("common",'News added successfully!') ?>");
+					toastr.success("<?php echo Yii::t("common",'News added successfully!') ?>");
 	    		}
 	    		else 
 	    		{

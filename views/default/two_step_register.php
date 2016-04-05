@@ -32,6 +32,9 @@
 	#TSR-conf-communected, #step2, #step3{
 		display:none;
 	}
+	.btn-menu2, .btn-menu3, .btn-menu4{
+		display:none !important;
+	}
 	.btn-menu0{
 		display: inline !important;
 	}
@@ -519,7 +522,7 @@
 		
   		}else{
 			
-			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html(); // + ", " + $("#addressCountry").val();
+			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html() + ", " + $("#addressCountry option:selected" ).text(); // + ", " + $("#addressCountry").val();
 			requestPart = transformNominatimUrl(requestPart);
 			//findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
 			//return;

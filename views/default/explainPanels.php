@@ -124,7 +124,7 @@
 				<li>C'est Soutenir vos administrés et le tissu associatif et economique local dans les actions et projets</li>
 				<li>C'est officialiser le lien entre un outil citoyen et la commune, et interagir directement</li>
 				<li>C'est une possibilité de collaboration et de contribution</li>
-				<li>C'est porté un Badge Commune Adhérente !! </li>
+				<li>C'est porter un Badge Commune Adhérente !! </li>
 			</ul>
 		</div>
 	</div>
@@ -399,7 +399,7 @@
 				Il a fallu différencier les réseaux sociaux des réseaux sociétaux à cause de la place 
 				des premiers dans l'esprit des gens. Les réseaux sociaux sont orientés vers la création de liens entre amis, 
 				partager plus ou moins d'événement de son quotidien. 
-				Les réseaux sociétaux, comme Communecter, servent aussi à créer du lien, des évennements, des groupes, et des projets 
+				Les réseaux sociétaux, comme Communecter, servent aussi à créer du lien, des événements, des groupes, et des projets 
 				mais ont surtout pour objectif d'améliorer le fonctionnement de la société. L'objectif est de trouver un bon équilibre 
 				entre le jeu et le fonctionnement de la société pour reprendre plaisir à y participer.
 				Plus on sera nombreux à participer à ce genre de réseau plus nos actions auront un impact convainquant.

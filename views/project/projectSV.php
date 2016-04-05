@@ -189,6 +189,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<select class="selectpicker2 form-control" id="city" name="city" title='Select your City...'>
 								</select>
 							</div>
+							<input type="hidden" name="cityName" id="cityName" value=""/>
+
 						</div>
 						
 						<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
@@ -345,6 +347,7 @@ function runProjectFormValidation(el) {
 			newProject.startDate=startDateSubmitProj,
 			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),
+			newProject.cityName=$(".form-project #cityName").val(),
 			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
@@ -433,10 +436,14 @@ function runShowCity(searchValue) {
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;
+    	oneName = value.text;
+
 	});
 	
 	//if (citiesByPostalCode.length == 1) {
 	$("#city").val(oneValue);
+	$("#cityName").val(oneName);
+
 	//}
 
 	if (citiesByPostalCode.length >0) {
@@ -472,6 +479,7 @@ function bindPostalCodeAction() {
 	$('.form-project #city').change(function(e){ //toastr.info("city change");
 		clearTimeout(timeoutGeopos);
 		timeoutGeopos = setTimeout(function() {
+			$("#cityName").val($('#city option:selected').text());
 			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 		}, 1500);
 	});
