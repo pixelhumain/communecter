@@ -172,7 +172,7 @@
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Nom et Prénom">
+									<input type="text" class="form-control" id="name" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
 									<i class="fa fa-user"></i> </span>
 							</div>
 						</div>
@@ -198,6 +198,14 @@
 								<span class="input-icon">
 									<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="<?php echo Yii::t("login","Password again") ?>">
 									<i class="fa fa-lock"></i> </span>
+							</div>
+						</div>
+						<div class="col-md-12 padding-5">
+							<a href="javascript:;" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code") ?></a>
+							<div class="form-group hide inviteCodeForm">
+								<span class="input-icon">
+									<input type="text" class="form-control" id="inviteCode" name="inviteCode" placeholder="<?php echo Yii::t("login","Invitation Code") ?>">
+									<i class="fa fa-barcode  "></i> </span>
 							</div>
 						</div>
 						<div class="col-md-12 no-padding no-margin">
@@ -339,9 +347,6 @@ var Login = function() {
 					break;
 			}
 		}
-		// el.show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-		// 	$(this).removeClass("animated flipInX");
-		// });
 	};
 		
 	//function to return the querystring parameter with a given name.
@@ -592,7 +597,10 @@ var Login = function() {
                    "pendingUserId" : pendingUserId,
                    "mode" : "<?php echo Person::REGISTER_MODE_TWO_STEPS ?>"
                 };
-			      
+                
+                if( $("#inviteCode").val() )
+			      params.inviteCode = $("#inviteCode").val();
+
 		    	$.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",

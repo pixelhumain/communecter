@@ -354,7 +354,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   var ico = mapIconTop["default"];
                   var color = mapColorIconTop["default"];
 
-                  //mapElementsGS.push(o);
+                  mapElementsGS.push(o);
 
                   typeIco = o.type;
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
@@ -538,8 +538,11 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
               scrollEndGS = false;
             }
 
-            //affiche les éléments sur la carte
-            //Sig.showMapElements(Sig.map, mapElements);
+            if(isMapEnd){
+              //affiche les éléments sur la carte
+              showDropDownGS(false);
+              Sig.showMapElements(Sig.map, mapElementsGS);
+            }
           }
     });
 

@@ -400,6 +400,7 @@ var loadableUrls = {
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
+    "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
@@ -417,6 +418,8 @@ var loadableUrls = {
 	"#project.addcontributorsv" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#showTagOnMap.tag" : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showTagOnMap(hash.split('.')[2])	} },
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
+	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
+	"#opendata" : {"alias":"#data.index"},
 };
 function jsController(hash){
 	console.log("jsController",hash);

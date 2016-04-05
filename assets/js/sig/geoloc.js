@@ -138,6 +138,7 @@
 		});
 	}
 
+
 	//execute la requete nominatim 
 	//et appel les fonction callback en cas de success/error
 	//il faut définir les callback en fonction du context 
@@ -264,6 +265,7 @@
 		return objnominatim ;
 	}
 
+
 	function findGeoposByDataGouv(requestPart){
 		var objDataGouv = {} ;
 		$.ajax({  
@@ -283,3 +285,5 @@
 		return objDataGouv ;
 
 	}
+
+
