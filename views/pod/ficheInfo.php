@@ -672,10 +672,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee,null,postalCode);
 		//si on a une streetAddress
 		}else{
 			var request = "";
@@ -732,6 +734,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
 		console.log("callbackFindByInseeSuccess");
+		console.log(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			console.log(obj);
