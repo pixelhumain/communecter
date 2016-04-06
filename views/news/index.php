@@ -50,7 +50,7 @@ $cssAnsScriptFilesModule = array(
 		$contextIcon = "university";
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 	}
-	else if( (isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type) ){
+	else if( ((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)) && @$viewer){
 		Menu::person( $person );
 		$contextName = Yii::t("common","Person")." : ".$person["name"];
 		$contextIcon = "user";
@@ -475,6 +475,11 @@ foreach($news as $key => $oneNews){
 	- lastOffset => avoid repetition of scrolling event (unstable behavior)
 	- dateLimit => date to know until when get new news
 */
+<?php if(@$viewer){ ?>
+	viewer="<?php echo $viewer ?>";
+<?php } else{ ?>
+	viewer="";
+<?php } ?>
 var news = <?php echo json_encode($news)?>;
 var newsReferror={
 		"news":{
@@ -583,9 +588,13 @@ var loadStream = function(indexMin, indexMax){
       mapElements = new Array(); 
     }
     else{ if(scrollEnd) return; }
+    if(typeof viewer != "")
+    	simpleUserData="/viewer/"+viewer;
+    else
+    	simpleUserData="";
 	$.ajax({
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"?isFirst=1",
+        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
        	dataType: "json",
     	success: function(data){
 	    	console.log(data.news)

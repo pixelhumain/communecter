@@ -272,8 +272,11 @@ function buildHtmlUrlAndActionObject(obj){
 		if(typeof(obj.postOn) != "undefined" && obj.type != contextParentType){
 			if(obj.type == "organizations"){
 				color="green";
-			}else
+			}else if (obj.type == "projects")
 				color="purple";
+			else{
+				color="orange";
+			}
 			if (obj.postOn.name.length > 25)
 				namePostOn = obj.postOn.name.substr(0,25)+"...";
 			else

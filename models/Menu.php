@@ -38,6 +38,13 @@ class Menu {
                         'envelope-o',
                         "loadByHash( '#news.index.type.citoyens.id.".$id."')",null,null);
         }*/
+                //SEE TIMELINE
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                Yii::t( "common", 'Read all news publicated by this person'), 
+                Yii::t( "common", 'News Stream'), 
+                'rss',
+                "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id.".viewer.".Yii::app()->session["userId"]."?isSearchDesign=1')","news", "index");
         
         //DIRECTORY
         //-----------------------------
@@ -77,13 +84,7 @@ class Menu {
             }
         }
 
-        //SEE TIMELINE
-        //-----------------------------
-        self::entry("left", 'onclick', 
-                Yii::t( "common", 'Read all news publicated by this person'), 
-                Yii::t( "common", 'News Stream'), 
-                'rss',
-                "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+
 
         
 
