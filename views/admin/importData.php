@@ -1,43 +1,271 @@
 <?php
 $cs = Yii::app()->getClientScript();
-//if(!Yii::app()->request->isAjaxRequest)
-//{
-	$cssAnsScriptFilesModule = array(
+$cssAnsScriptFilesModule = array(
 		'/assets/plugins/jsonview/jquery.jsonview.js',
 		'/assets/plugins/jsonview/jquery.jsonview.css',
 		'/assets/js/sig/geoloc.js',
 		'/assets/js/dataHelpers.js',
-		//'/plugins/DataTables/media/css/DT_bootstrap.css',
-		//'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
-    	//'/plugins/DataTables/media/js/DT_bootstrap.js'
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
-//}
-
+		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 $userId = Yii::app()->session["userId"] ;
 ?>
+<style>
+	.bg-azure-light-1{
+		background-color: rgba(43, 176, 198, 0.3) !important;
+	}
+	.bg-azure-light-2{
+		background-color: rgba(43, 176, 198, 0.7) !important;
+	}
+	.bg-azure-light-3{
+		background-color: rgba(42, 135, 155, 0.8) !important;
+	}
+
+	.menu-step-tsr div{
+		margin-left: 20px;
+	    font-size: 18px;
+	    width: 15%;
+	    text-align: center;
+	    display: inline-block;
+	    margin-top:15px;
+	    margin-bottom:5px;
+	}
+	.menu-step-tsr div.homestead{
+		font-size:12px;
+	}
+	.menu-step-tsr div.selected {
+	    border-bottom: 7px solid white;
+	}
+
+	.block-step-tsr div{
+		font-size: 18px;
+	    text-align: center;
+	    display: inline-block;
+	    margin-top:15px;
+	    margin-bottom:15px;
+	}
+
+	.mapping-step-tsr{
+	    display: inline-block;
+	    margin-top:15px;
+	    margin-bottom:15px;
+	}
+
+
+
+	
+</style>
 <div class="panel panel-white">
-	ici
-	<div id="config">
-		lsl
-		<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
-			ffz
-			<div class="homestead text-white" id="menu-step-1">
-				<i class="fa fa-2x fa-check-circle"></i><br>Fichier
+	
+	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
+		<div class="homestead text-white selected" id="menu-step-1">
+			<i class="fa fa-2x fa-circle"></i><br>Source
+		</div>
+		<div class="homestead text-white" id="menu-step-2">
+			<i class="fa fa-2x fa-circle-o"></i><br>Lien<br>
+			
+		</div>
+		<div class="homestead text-white" id="menu-step-3">
+			<i class="fa fa-2x fa-circle-o"></i><br>Visualisation
+		</div>
+		<div class="homestead text-white" id="menu-step-4">
+			<i class="fa fa-2x fa-circle-o"></i><br>Création
+		</div>
+	</div>
+
+	<div class="col-md-12 center block-step-tsr section-tsr" id="menu-step-file">
+			<div class="col-sm-2 col-xs-12">
+				<h4 class=" text-dark">
+					Collection :
+				</h4>
+				<!--<label for="chooseCollection">Collection : </label>-->
+				<?php
+					$params = array();
+					$fields = array("_id", "key");
+					$listCollection = Import::getMicroFormats($params, $fields);
+				?>
+				<select id="chooseCollection" name="chooseCollection" class="form-control">
+					<option value="-1">Choisir</option>
+					<?php
+						foreach ($listCollection as $key => $value) {
+							echo '<option value="'.$value['_id']->{'$id'}.'">'.$value['key'].'</option>';
+						}
+					?>
+				</select>
 			</div>
-			<div class="homestead text-white selected" id="menu-step-2">
-				<i class="fa fa-2x fa-circle"></i><br>Mapping<br>
-				<span id="conf-address"></span>
+			<div class="col-sm-2 col-xs-12">
+				<h4 class=" text-dark">
+					Mapping :
+				</h4>
+				<select id="chooseMapping" name="chooseMapping" class="form-control">
+					<option value="-1">Pas de mappings</option>
+				<?php
+					$allMapping = Import::getMappings();
+					foreach ($allMapping as $key => $value){
+						echo '<option value="'.$key .'">'.$value["name"].'</option>';
+					}
+				?>
+				</select>
 			</div>
-			<div class="homestead text-white" id="menu-step-3">
-				<i class="fa fa-2x fa-circle-o"></i><br>Visualisation
+			<div class="col-sm-2 col-xs-12">
+				<h4 class=" text-dark">
+					Source :
+				</h4>
+				<select id="selectTypeData" name="selectTypeData" class="form-control">
+					<option value="-1">Choisir</option>
+					<option value="url">URL</option>
+					<option value="file">File</option>
+				</select>
 			</div>
-			<div class="homestead text-white" id="menu-step-3">
-				<i class="fa fa-2x fa-circle-o"></i><br>Création
+			<div class="col-sm-2 col-xs-12" id="divFile">
+				<h4 class=" text-dark">
+					Fichier (CSV,JSON) :
+				</h4>
+				<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js">
+			</div>
+			<div class="col-sm-2 col-xs-12" id="divUrl">
+				<h4 class=" text-dark">
+					URL (format JSON):
+				</h4>
+				<input type="text" id="textUrl" name="textUrl" value="">
+			</div>
+			<div class="col-sm-2 col-xs-12" id="divPathObject">
+				<h4 class=" text-dark">
+					Path Object :
+				</h4>
+				<input type="text" id="pathObject" name="pathObject" value="">
+			</div>
+
+			<div class="col-sm-12 col-xs-12">
+				<a href="#" id="btnVerification" class="btn btn-success margin-top-15">Vérification</a>
+			</div>
+			
+	</div>
+
+	<div class="col-md-12 mapping-step-tsr section-tsr" id="menu-step-mapping">
+			<input type="hidden" id="nbLigneMapping" value="0"/>
+			<div id="divInputHidden"></div>
+			<table id="tabcreatemapping" class="table table-striped table-bordered table-hover">
+	    		<thead>
+		    		<tr>
+		    			<th class="col-sm-5">Colonne CSV</th>
+		    			<th class="col-sm-5">Mapping</th>
+		    			<th class="col-sm-2">Ajouter/Supprimer</th>
+		    		</tr>
+	    		</thead>
+		    	<tbody class="directoryLines" id="bodyCreateMapping">
+			    	<tr id="LineAddMapping">
+		    			<td>
+		    				<select id="selectHeadCSV" class="col-sm-12"></select>
+		    			</td>
+		    			<td>
+		    				<select id="selectLinkCollection" class="col-sm-12"></select>
+		    			</td>
+		    			<td>
+		    				<input type="submit" id="addMapping" class="btn btn-primary col-sm-12" value="Ajouter"/>
+		    			</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="col-sm-6 col-xs-12">
+				<label for="selectCreator">Créateur : </label>
+				<select id="selectCreator">
+					<option value="you">Vous-même</option>
+					<option value="other">Autre</option>
+				</select>
+			</div>
+			<div id="divSearchCreator" class="col-sm-6 col-xs-12">
+					<input class="" placeholder="Saisir l'ID du creator de données" id="creatorID" name="creatorID" value="">
+					<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<label for="selectRole">Role : </label>
+				<select id="selectRole">
+					<option value="creator">Creator</option>
+					<option value="admin">Admin</option>
+					<option value="member">Member</option>
+				</select>
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<label for="inputKey">Key : </label>
+				<input class="" placeholder="Key attribuer a l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<label>
+					Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
+				</label>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label>
+						Test : <input class="hide" id="isTest" name="isTest"></input>
+					<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+					</label>
+					
+				</div>
+				<div class="col-sm-6 col-xs-12" id="divNbTest">
+					<label for="inputNbTest">Nombre d'entités à tester max(900) : </label>
+					<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="">
+				</div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+				<label>
+					Invite :
+					<input class="hide" id="isInvite" name="isInvite"></input>
+					<input id="checkboxInvite" name="checkboxInvite" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+					
+				</label>
+			</div>
+			<div class="col-sm-3 col-xs-12" id="divAuthor">
+				<label for="nameInvitor">Author : </label>
+				<input class="" placeholder="" id="nameInvitor" name="nameInvitor" value="">
+			</div>
+			<div class="col-sm-4 col-xs-12" id="divMessage">
+				<textarea id="msgInvite" class="form-control" rows="3">Message Invite</textarea>
+			</div>
+
+			<div class="col-sm-12 col-xs-12">
+				<a href="#" id="btnVisualisation" class="btn btn-success margin-top-15">Visualisation</a>
 			</div>
 		</div>
-
+		<div class="col-md-12 mapping-step-tsr section-tsr" id="menu-step-visualisation">
+			<div class="panel-scroll row-fluid height-300">
+				<table id="representation" class="table table-striped table-hover"></table>
+			</div>	
+			<!--<div class="col-xs-12 col-sm-12" id="affichageJSON"> -->
+			<div class="col-xs-12 col-sm-6">
+				<label>Données importés :</label>	
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div id="divJsonImport" class="panel-scroll height-300">
+							<input type="hidden" id="jsonImport" value="">
+						    <div class="col-sm-12" id="divJsonImportView"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label>Données rejetées :</label>	
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div id="divJsonError" class="panel-scroll height-300">
+							<input type="hidden" id="jsonError" value="">
+						    <div class="col-sm-12" id="divJsonErrorView"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12">
+				<button class="btn btn-danger margin-top-15" onclick="returnStep2()">Retour <i class="fa fa-reply"></i></button>
+				<a href="#" class="btn btn-primary col-sm-2 col-md-offset-2" type="submit" id="btnGeo">Geolocalisation</a>
+				<a href="#" class="btn btn-primary col-sm-2 col-md-offset-2" type="submit" id="btnImport">Import</a>
+			</div>
 	</div>
+		
+</div>
+
+	
 <!--
 		<div class="panel-body">
 			<div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
@@ -278,21 +506,54 @@ jQuery(document).ready(function()
 	
 
 	bindEvents();
-	var createLink = "<?php echo $createLink; ?>" ;
+	//var createLink = "<?php echo $createLink; ?>" ;
 
 	
-	if(createLink == false)
-		$("#createLink").hide();
+	//if(createLink == false)
+	$("#menu-step-mapping").hide();
+	$("#menu-step-visualisation").hide();
 	$("#verifBeforeImport").hide();
 	$("#divSearchCreator").hide();
-	$("#divUrl").hide();
 	$("#divFile").hide();
+	$("#divUrl").hide();
+	$("#divPathObject").hide();
+	$("#divAuthor").hide();
+	$("#divMessage").hide();
+	$("#divNbTest").hide();
 	//$("#representation").DataTable();
 
 });
 
 function bindEvents()
 {
+
+	$("#checkboxTest").bootstrapSwitch();
+	$("#checkboxTest").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isTest").val(state);
+		if(state == true){
+			$("#divNbTest").show();
+		}else{
+			$("#divNbTest").hide();
+		}
+	});
+
+	$("#checkboxInvite").bootstrapSwitch();
+	$("#checkboxInvite").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isInvite").val(state);
+		if(state == true){
+			$("#divAuthor").show();
+			$("#divMessage").show();
+		}else{
+			$("#divAuthor").hide();
+			$("#divMessage").hide();
+		}
+
+	});
+
+
+
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
     	//console.log("ext", ext, $.inArray(ext, "json"));
@@ -388,9 +649,8 @@ function bindEvents()
 				        {
 				        	console.log("btnVerification data",data.createLink);
 				        	if(data.createLink){
-
 				        		resultAssignData(data);
-				        		$("#createLink").show();
+				        		
 				        	}
 				        	else{
 
@@ -448,11 +708,13 @@ function bindEvents()
 		if(typeDate == "url")
 		{
 			$("#divUrl").show();
+			$("#divPathObject").show();
 			$("#divFile").hide();
 		}	
 		else if(typeDate == "file")
 		{
 			$("#divUrl").hide();
+			$("#divPathObject").hide();
 			$("#divFile").show();
 		}	
 	});
@@ -810,6 +1072,7 @@ function resultAssignData(data){
 
 	$("#nbLigneMapping").val(nbLigneMapping);
 	bindEvents();
+	showStep2();
 }
 
 
@@ -1367,7 +1630,7 @@ function visualisation(params){
 
 
 
-
+        		showStep3();
         		$.unblockUI();
         	}
         }
@@ -1411,12 +1674,47 @@ function createJson(params){
         		});
         		$("#representation").html(chaine);
         		$("#verifBeforeImport").show();
-        		$("#affichageJSON").show();
+        		//$("#affichageJSON").show();
 				$.unblockUI();
         	}
         	$.unblockUI();
         }
     });
 }
+
+function showStep2(){
+	console.log("showStep2")
+	$('#menu-step-2 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
+	$('#menu-step-1 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
+	$('#menu-step-1').removeClass("selected");
+	$('#menu-step-2').addClass("selected");
+	$("#menu-step-mapping").show(400);
+	$("#menu-step-file").hide(400);
+	$("#menu-step-visualisation").hide(400);
+}
+
+
+function showStep3(){
+	console.log("showStep3")
+	$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
+	$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
+	$('#menu-step-2').removeClass("selected");
+	$('#menu-step-3').addClass("selected");
+	$("#menu-step-mapping").hide(400);
+	$("#menu-step-file").hide(400);
+	$("#menu-step-visualisation").show(400);
+}
+
+function returnStep2(){
+	console.log("returnStep2")
+	$('#menu-step-3 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
+	$('#menu-step-2 i.fa').removeClass("fa-check-circle").addClass("fa-circle");
+	$('#menu-step-3').removeClass("selected");
+	$('#menu-step-2').addClass("selected");
+	$("#menu-step-mapping").show(400);
+	$("#menu-step-file").hide(400);
+	$("#menu-step-visualisation").hide(400);
+}
+
 
 </script>
