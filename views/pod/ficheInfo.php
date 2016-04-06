@@ -371,6 +371,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	var contextMap = <?php echo json_encode($contextMap)?>;
+	
+	console.log("conteXTMAP");
+	console.dir(contextMap);
+
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
@@ -393,8 +397,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//Sig.contextData = contextData;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
-		console.log("contextMap");
-		console.dir(contextMap);
+		
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});

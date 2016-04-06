@@ -176,8 +176,14 @@ progress[value]::-moz-progress-bar {
 	}
 	 
     
-    
-    
+    a.url-clickable{
+    	text-decoration: underline !important;
+    	cursor: pointer !important;
+    }
+    a.url-clickable:hover{
+    	text-decoration: none !important;
+    }
+
 </style>
 
 	<div class="panel-heading border-light">
@@ -284,7 +290,7 @@ progress[value]::-moz-progress-bar {
 					<i class="fa fa-file-text-o"></i>
 					<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project licence") ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a><br>
 					<i class="fa fa-desktop"></i> 
-					<a href="#" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-project editable editable-click"><?php if(isset($project["url"])) echo $project["url"];?></a>
+					<a href="<?php if(isset($project["url"])) echo $project["url"]; else echo "#";?>" target="_blank" id="url" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's url",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Website URL") ?>" class="editable-project editable editable-click <?php if(isset($project["url"])) echo "url-clickable";?>"><?php if(isset($project["url"])) echo $project["url"];?></a>
 				</div>
 			</div>
 		</div>

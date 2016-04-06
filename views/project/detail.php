@@ -63,6 +63,10 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 <?php 
 	//var_dump($project);
+	// $geoProject = $project["geo"];
+	// foreach ($contributors as $key => $value) {
+	// 	$contributors[$key]["geo"] = $geoProject;
+	// }
 	$contextMap = array_merge($events, $contributors);
 	$contextMap["thisProject"] = array($project);
 ?>
