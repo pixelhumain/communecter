@@ -61,6 +61,11 @@ $cssAnsScriptFilesModule = array(
 		$contextName = Yii::t("common","Project")." : ".$project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
+		Menu::event( $event );
+		$contextName = Yii::t("common","Event")." : ".$event["name"];
+		$contextIcon = "calendar";
+		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}else if( isset($type) && $type == "pixels"){
 		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
@@ -373,6 +378,11 @@ max-height: 250px !important;
 	 </div>
 </div>
 <div id="newsHistory" class="padding-10">
+
+	<button class="btn bg-red" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
+	<button class="btn bg-red" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
+	<button class="btn btn-default text-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler les filtres</button>
+
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
@@ -562,7 +572,7 @@ jQuery(document).ready(function()
 */
 var loadStream = function(indexMin, indexMax){
 	loadingData = true;
-    indexStep = 5;
+    indexStep = 20;//5;
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -1125,7 +1135,8 @@ function saveNews(){
 			newNews.type = $("#form-news #parentType").val(),
 			newNews.scope = $("input[name='scope']").val(),
 			newNews.text = $("#form-news #get_url").val();
-			if($("input[name='cityInsee']").length)
+			console.log("contextParentType", contextParentType);
+			if($("input[name='cityInsee']").length && contextParentType == "city")
 				newNews.codeInsee = $("input[name='cityInsee']").val();
 			console.log(newNews);
 			$.ajax({
@@ -1169,4 +1180,9 @@ function saveNews(){
 		<?php } ?>
 	});
 }
+
+	function showAllNews(){
+		$(".newsFeed").show();
+		$('.optionFilter').hide();
+	}
 </script>

@@ -1,3 +1,8 @@
+<?php 
+		//Menu::event($event);
+		$this->renderPartial('../default/panels/toolbar'); 
+?>
+
 <?php
 $admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"]))

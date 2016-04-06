@@ -529,7 +529,7 @@
 									//console.log("geoshapes ?");
 									//console.dir(thisData);	
 										
-									if(typeof thisData["geoShape"] != "undefined"){
+									if(typeof thisData["geoShape"] != "undefined" && typeof thisData["geoShape"]["coordinates"] != "undefined"){
 										var geoShape = Sig.inversePolygon(thisData["geoShape"]["coordinates"][0]);
 										this.addPolygon(geoShape);
 									}

@@ -90,7 +90,7 @@
 		$countryCommunexion = isset( $me['address']['country'] ) ? 
 		   			    			  $me['address']['country'] : "";
 		if (@$inseeCommunexion){
-			$city=Sig::getCityByCodeInsee($inseeCommunexion);
+			$city=SIG::getCityByCodeInsee($inseeCommunexion);
 			$nbCpByInsee=count($city["postalCodes"]);
 			if($nbCpByInsee > 1){
 				$cityInsee=$city["name"];

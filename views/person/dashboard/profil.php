@@ -305,54 +305,43 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> badge : <a href="javascript:loadByHash('#define.Gamification');"><span class="badge badge-warning"> 
-					</span>
+					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?></span>
 					
 					<style type="text/css">
 						.badgePH{ 
+							cursor: pointer;
 							display: inline-block;
 							margin-right: 10px;
 							margin-bottom: 10px;
-							width: 150px;
 						}
+						.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}
+						.badgePH .fa-stack .mainTop { margin-left:10px;margin-top:18px}
+						.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
 					</style>
 					<div class="row text-dark">
-						<div class="col-md-12 center">
-							<div class=" badgePH padding-15 center radius-15">
-								<span class="fa-stack" style="maring-bottom:5px">
-									<i class="fa fa-bookmark fa-2x fa-stack-1x" style="margin-left:10px;margin-top:12px"></i>
-									<i class="fa fa-euro  fa-stack-1x text-white"  style="margin-left:10px;margin-top:10px"></i>
-									<i class="fa fa-circle-o fa-4x stack-right-bottom text-green"></i>
-								</span> 
-								<br/><br/>
-								<a href="javascript:loadByHash('#define.Gamification');"><b style="padding-left:20px;"><?php echo Gamification::badge( (string)$person["_id"] )." <br/> ".Gamification::calcPoints( (string)$person["_id"] )." points"?></b></a>
-							</div>
-							<?php if(isset($person["tagsPH"])){?>
-								<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-										<div class=" badgePH padding-15 center radius-15">
-											<span class="fa-stack" style="maring-bottom:5px">
-												<i class="fa fa-bookmark fa-2x fa-stack-1x" style="margin-left:10px;margin-top:12px"></i>
-												<i class="fa fa-euro  fa-stack-1x text-white"  style="margin-left:10px;margin-top:10px"></i>
-												<i class="fa fa-circle-o fa-4x stack-right-bottom text-green"></i>
-											</span> 
-											<br/><br/>
-											<b style="padding-left:20px;">CROWDFUNDER</b>
-										</div>
-								<?php } ?>
-								<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-									<div class="center padding-15 radius-15 badgePH">
-										<span class="fa-stack" style="maring-bottom:5px">
-											<i class="fa fa-keyboard-o fa-2x fa-stack-1x" style="margin-left:8px;margin-top:12px"></i>
-											<i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>
-										</span>
-										<br/><br/>
-										<b style="padding-left:20px;">DEVELOPPER</b>
-									</div>
-								<?php } ?>
+						<!-- <div class=" badgePH " data-title="<?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?>">
+							<span class="fa-stack" style="maring-bottom:5px">
+								<i class="fa fa-bookmark main fa-2x fa-stack-1x"></i>
+							</span> 
+						</div> -->
+						<?php if(isset($person["tagsPH"])){?>
+							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
+								<div class=" badgePH " data-title="CROWDFUNDER">
+									<span class="fa-stack" style="maring-bottom:5px">
+										<i class="fa fa-bookmark main fa-2x fa-stack-1x text-green"></i>
+										<i class="fa fa-euro mainTop fa-stack-1x text-white"></i>
+									</span> 
+								</div>
 							<?php } ?>
-						
-				
-						</div>
+							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
+								<div class="badgePH" data-title="DEVELOPPER">
+									<span class="fa-stack">
+										<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
+										<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
+									</span>
+								</div>
+							<?php } ?>
+						<?php } ?>
 					</div>
 					
 					<hr style="margin:10px 0px 3px 0px;">
@@ -516,6 +505,11 @@ jQuery(document).ready(function()
 		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
+
+		$(".badgePH").hover(function(){
+			$(".badgeText").html($(this).data('title'));
+		});
+		
 
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
@@ -756,10 +750,12 @@ function manageSocialNetwork(iconObject, value) {
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee, null, postalCode);
 		//si on a une streetAddress
 		}else{
 			var request = "";
