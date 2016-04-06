@@ -319,11 +319,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
 					</style>
 					<div class="row text-dark">
-						<div class=" badgePH " data-title="<?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?>">
+						<!-- <div class=" badgePH " data-title="<?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?>">
 							<span class="fa-stack" style="maring-bottom:5px">
 								<i class="fa fa-bookmark main fa-2x fa-stack-1x"></i>
 							</span> 
-						</div>
+						</div> -->
 						<?php if(isset($person["tagsPH"])){?>
 							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
 								<div class=" badgePH " data-title="CROWDFUNDER">
