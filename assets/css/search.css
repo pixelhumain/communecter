@@ -1019,7 +1019,9 @@ button.btn-infos{
 	display:none !important;
 }
 
-
+.editable-pre-wrapped{
+	white-space:unset;
+}
 
 
 
