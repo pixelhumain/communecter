@@ -190,6 +190,10 @@
 		min-height:1000px;
 	}
 
+	#logo-main-menu:hover{
+		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
+	}
+
 
 @media screen and (min-width: 900px) and (max-width: 1120px) {
 	.box-ajaxTools{
@@ -256,9 +260,16 @@
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
+	<?php if(isset(Yii::app()->session['userId'])) { ?>
+	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>?isSearchDesign=1')" class="hidden-xs" >
+		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+	</a>
+	<?php }else{ ?> 
 	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" >
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
+	<?php } ?>
+
 	<?php 
 		if(!isset($urlPhotoProfil)) $urlPhotoProfil = "";
 	 	if(!isset($me)) $me = "";
