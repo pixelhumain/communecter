@@ -98,6 +98,7 @@ class CommunecterController extends Controller
     ),
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
+      "importdata"    => array("href" => "/ph/communecter/adminpublic/importdata"),
     ),
     "default" => array(
       "index"               => array("href" => "/ph/communecter/default/index", "public" => true),

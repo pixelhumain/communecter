@@ -159,9 +159,15 @@
               foreach ($sourceAdmin as $key => $value) {
                 ?>
                   <li><a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add"><i class="fa fa-cog text-blue"></i> <?php echo $value ; ?></a></li>
+                  
               <?php } ?>
+               <li role="separator" class="divider"></li> 
+            <?php } ?>
+          <?php
+            if(Role::isCanImport(Role::getRolesUserId(Yii::app()->session["userId"]))){ ?>
+              <li><a href="javascript:;" onclick="loadByHash('#adminpublic.importdata');" id="btn-menu-dropdown-add"><i class="fa fa-download text-blue"></i> Importer des données</a></li>
               <li role="separator" class="divider"></li>
-              <?php } ?>
+          <?php } ?>
           <li>
             <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
                id="btn-menu-dropdown-logout" class="text-red">
@@ -169,9 +175,7 @@
             </a>
           </li>  
         </ul>
-      </div>
-
-      
+      </div>      
       <button class="menu-button btn-menu btn-menu-notif tooltips text-dark hidden-xs" 
             data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
         <i class="fa fa-bell"></i>
