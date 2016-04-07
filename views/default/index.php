@@ -729,7 +729,7 @@ function setScopeValue(btn){
 			startSearch();
 		}else
 		if(location.hash == "#default.news"){
-			startSearch();
+			//startSearch();
 			showMap(false);
 		}else
 		if(location.hash.indexOf("#city.detail") >= 0) {
