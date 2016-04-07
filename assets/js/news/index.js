@@ -18,9 +18,13 @@ var loadStream = function(indexMin, indexMax){
       mapElements = new Array(); 
     }
     else{ if(scrollEnd) return; }
+        if(typeof viewer != "")
+    	simpleUserData="/viewer/"+viewer;
+    else
+    	simpleUserData="";
 	$.ajax({
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+"?isFirst=1",
+        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
        	dataType: "json",
     	success: function(data){
 	    	console.log(data.news)

@@ -49,7 +49,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
 	}
-	else if( (isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type) ){
+	else if( ((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)) && @$viewer ){
 		Menu::person( $person );
 		$contextName =$person["name"];
 		$contextIcon = "user";
