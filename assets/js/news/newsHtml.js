@@ -158,8 +158,13 @@ function buildLineHTML(newsObj,idSession,update)
 	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
 		if(newsObj.type != "activityStream"){
-			postalCode=author.address.postalCode;
-			city=author.address.addressLocality;			
+			if(newsObj.type=="citoyens"){
+				postalCode=author.address.postalCode;
+				city=author.address.addressLocality;			
+			}else {
+				postalCode=newsObj.postOn.address.postalCode;
+				city=newsObj.postOn.address.addressLocality;			
+			}
 		}else{
 			if (newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
