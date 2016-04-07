@@ -120,6 +120,7 @@ function buildLineHTML(newsObj,idSession,update)
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
+	text="";
 	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
@@ -131,9 +132,10 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 	else{
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
-		if(newsObj.text != "")
+		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-		text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+		}
 	}
 	tags = "", 
 	scopes = "",
