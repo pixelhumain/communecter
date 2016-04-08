@@ -138,20 +138,20 @@ class Menu {
                 'rss',
                 "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
-
-        if( isset($event["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
-	        self::entry("right", 'onclick',
-                        Yii::t( "common", "Leave this event"),
-                        Yii::t( "common", "Leave"), 
-                        'fa fa-unlink disconnectBtnIcon',
-                        "disconnectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
-          /*array_push($controller->toolbarMBZ, array('position'=>'right', 
-                                                    'label'=>Yii::t("common",'Leave'), 
-                                                    'tooltip' => Yii::t("event","Leave this Event"), 
-                                                    "parent"=>"span",
-                                                    "parentId"=>"linkBtns",
-                                                    "iconClass"=>"disconnectBtnIcon fa fa-unlink",
-                                                    "href"=>"<a href='javascript:;' class='disconnectBtn text-red tooltips btn btn-default'  data-name='".$event["name"]."' data-id='".$event["_id"]."' data-attendee-id='".Yii::app()->session['userId']."' data-type='".Event::COLLECTION."'") );*/
+        if(isset(Yii::app()->session["userId"])){
+            if( isset($event["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
+    	        self::entry("right", 'onclick',
+                            Yii::t( "common", "Leave this event"),
+                            Yii::t( "common", "Leave"), 
+                            'fa fa-unlink disconnectBtnIcon',
+                            "disconnectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
+              /*array_push($controller->toolbarMBZ, array('position'=>'right', 
+                                                        'label'=>Yii::t("common",'Leave'), 
+                                                        'tooltip' => Yii::t("event","Leave this Event"), 
+                                                        "parent"=>"span",
+                                                        "parentId"=>"linkBtns",
+                                                        "iconClass"=>"disconnectBtnIcon fa fa-unlink",
+                                                        "href"=>"<a href='javascript:;' class='disconnectBtn text-red tooltips btn btn-default'  data-name='".$event["name"]."' data-id='".$event["_id"]."' data-attendee-id='".Yii::app()->session['userId']."' data-type='".Event::COLLECTION."'") );*/
     		}else{
 	    		 self::entry("right", 'onclick',
                         Yii::t( "common", "Participate to this event"),
@@ -159,6 +159,7 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
+        }
      }
     
     public static function organization($organization)
