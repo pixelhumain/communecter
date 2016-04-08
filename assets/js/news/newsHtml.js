@@ -157,21 +157,20 @@ function buildLineHTML(newsObj,idSession,update)
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
+		postalCode = "NA";
+		city = "NA";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.type=="citoyens"){
 				postalCode=author.address.postalCode;
 				city=author.address.addressLocality;			
-			}else {
+			}else if(typeof(newsObj.postOn) != 'undefined' && typeof(newsObj.postOn.address) != 'undefined') {
 				postalCode=newsObj.postOn.address.postalCode;
 				city=newsObj.postOn.address.addressLocality;			
 			}
 		}else{
-			if (newsObj.scope != null && newsObj.scope.address != null) {
+			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
-			} else {
-				postalCode = "NA";
-				city = "NA";
 			}
 		}
 		
