@@ -120,6 +120,7 @@ function buildLineHTML(newsObj,idSession,update)
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
+	text="";
 	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
@@ -131,9 +132,10 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 	else{
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
-		if(newsObj.text != "")
+		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-		text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+		}
 	}
 	tags = "", 
 	scopes = "",
@@ -156,8 +158,13 @@ function buildLineHTML(newsObj,idSession,update)
 	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
 		if(newsObj.type != "activityStream"){
-			postalCode=author.address.postalCode;
-			city=author.address.addressLocality;			
+			if(newsObj.type=="citoyens"){
+				postalCode=author.address.postalCode;
+				city=author.address.addressLocality;			
+			}else {
+				postalCode=newsObj.postOn.address.postalCode;
+				city=newsObj.postOn.address.addressLocality;			
+			}
 		}else{
 			if (newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
@@ -283,7 +290,7 @@ function buildHtmlUrlAndActionObject(obj){
 				namePostOn = obj.postOn.name;
 			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
-			if(obj.text.length == 0 && obj.media.length)
+			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction = "a partagé un lien";
 			else 
 				titleAction = "";
