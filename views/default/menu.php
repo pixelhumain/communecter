@@ -151,9 +151,13 @@
 	position: absolute;
 	left: 170px;
 	bottom: 35px;
-	width: 350px;
 	font-weight: 600;
 	font-size: 14px;
+	overflow: hidden;
+	max-width: 450px;
+	width: 450px;
+	height: 20px;
+	max-height: 20px;
 }
 .homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }

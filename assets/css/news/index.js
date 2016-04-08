@@ -442,7 +442,6 @@ function getUrlContent(){
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
-                //alert(extracted_url);
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -529,7 +528,6 @@ function saveNews(){
 		}
 	};
 
-	//alert(userId);
 	if(userId != null){
 		validation = {
 			errorElement : "span", // contain the error msg in a span tag

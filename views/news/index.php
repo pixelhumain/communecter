@@ -37,7 +37,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
-	
+	$viewer = isset($_GET["viewer"]) ? true : false;
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
@@ -45,7 +45,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
 		Menu::organization( $organization );
 		$thisOrga = Organization::getById($organization["_id"]);
-		$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
+		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
 	}
@@ -134,9 +134,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="newsHistory" class="padding-10">
 
 	<div class="margin-top-10">
-		<button class="btn bg-red" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
-		<button class="btn bg-red" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
-		<button class="btn btn-default text-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler les filtres</button>
+		<button class="btn text-red btn-default" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
+		<button class="btn text-red btn-default" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
+		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
 	</div>
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
