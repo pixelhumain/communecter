@@ -152,7 +152,7 @@ class Menu {
                                                     "parentId"=>"linkBtns",
                                                     "iconClass"=>"disconnectBtnIcon fa fa-unlink",
                                                     "href"=>"<a href='javascript:;' class='disconnectBtn text-red tooltips btn btn-default'  data-name='".$event["name"]."' data-id='".$event["_id"]."' data-attendee-id='".Yii::app()->session['userId']."' data-type='".Event::COLLECTION."'") );*/
-    		}else{
+    		}else if (isset(Yii::app()->session["userId"])){
 	    		 self::entry("right", 'onclick',
                         Yii::t( "common", "Participate to this event"),
                         Yii::t( "common", "Participate"),
