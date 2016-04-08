@@ -122,7 +122,7 @@ $userId = Yii::app()->session["userId"] ;
 				<h4 class=" text-dark">
 					Fichier (CSV,JSON) :
 				</h4>
-				<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js">
+				<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js,.geojson">
 			</div>
 			<div class="col-sm-2 col-xs-12" id="divUrl">
 				<h4 class=" text-dark">
@@ -557,7 +557,7 @@ function bindEvents()
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
     	//console.log("ext", ext, $.inArray(ext, "json"));
-		if(ext != "csv" && ext !=  "json" && ext == "js") {
+		if(ext != "csv" && ext !=  "json" && ext == "js" && ext !=  "geojson") {
 			alert('Upload CSV or JSON');
 			return false;
 		}
@@ -591,7 +591,7 @@ function bindEvents()
 				reader.readAsText(e.target.files.item(0));
 			}
 		}
-		else if(ext == "json" || ext == "js") {
+		else if(ext == "json" || ext == "js" || ext == "geojson") {
 			if (e.target.files != undefined) {
 				var reader = new FileReader();
 				file = [];
@@ -668,7 +668,7 @@ function bindEvents()
 		{
 			var nameFile = $("#fileImport").val().split("."); 
 	  		console.log("type",nameFile[nameFile.length-1]);
-	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js" ){
+	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js"  && nameFile[nameFile.length-1] != "geojson"){
 	  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
 	  			return false ;
 	  		}
@@ -676,7 +676,7 @@ function bindEvents()
 	  		nameF = nameFile[0];
   			typeF = nameFile[nameFile.length-1];
   			console.log("file2 :", file.length );
-  			assignData2($("#chooseCollection").val(), typeF, $("#chooseMapping").val());
+  			assignData($("#chooseCollection").val(), typeF, $("#chooseMapping").val());
 	  		
 		}	
   		
@@ -864,7 +864,7 @@ function bindEvents()
 	  					var subFile = file.slice(0,$("#inputNbTest").val());
 	  					params["file"] = subFile;
 	  				}
-			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js"){
+			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js" || $("#typeFile").val() == "geojson"){
 			  			params["file"] = file;
 			  			params["nbTest"] = $("#inputNbTest").val();
 			  		}
@@ -893,7 +893,7 @@ function bindEvents()
 
 				  		}
 	  				}
-			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js"){
+			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js" || $("#typeFile").val() == "geojson"){
 			  			params["file"] = file;
 				  		visualisation(params);
 			  		}
@@ -1037,16 +1037,16 @@ function bindEvents()
 
 function resultAssignData(data){
 
-	//console.log(file[0]);
+	console.log("resultAssignData");
 	var chaineSelectCSVHidden = "" ;
 	if(data.typeFile == "csv"){
 		$.each(file[0], function(key, value){
-			chaineSelectCSVHidden += '<option value="' + key+'">'+value+'</option>';
-			});
+			chaineSelectCSVHidden += '<option value="'+key+'">'+value+'</option>';
+		});
 	}else if(data.typeFile == "json"){
 		$.each(data.arbre, function(key, value){
-			chaineSelectCSVHidden += '<option value="' + value+'">'+value+'</option>';
-			});
+			chaineSelectCSVHidden += '<option value="'+value+'">'+value+'</option>';
+		});
 	}
 	$("#selectHeadCSV").html(chaineSelectCSVHidden);
 
@@ -1057,20 +1057,21 @@ function resultAssignData(data){
 
 	$("#selectLinkCollection").html(chaineMicroformat);
 
+	if(typeof data.arrayMapping != "undefined"){
+		var nbLigneMapping = $("#nbLigneMapping").val();
+		var i = 0 ;
+		$.each(data.arrayMapping, function(key, value){
+			ligne = '<tr id="lineMapping'+nbLigneMapping+'"> ';
+	  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'">' + key + '</td>';
+	  		ligne =	 ligne + '<td id="valueLinkCollection'+nbLigneMapping+'">' + value + '</td>';
+	  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ i +'"/><a href="#" class="deleteLineMapping btn btn-danger">X</a></td></tr>';
+	  		nbLigneMapping++;
+	  		$("#LineAddMapping").before(ligne);
+	  		i++;
+		});
+		$("#nbLigneMapping").val(nbLigneMapping);
+	}
 
-	var nbLigneMapping = $("#nbLigneMapping").val();
-	var i = 0 ;
-	$.each(data.arrayMapping, function(key, value){
-		ligne = '<tr id="lineMapping'+nbLigneMapping+'"> ';
-  		ligne =	 ligne + '<td id="valueHeadCSV'+nbLigneMapping+'">' + key + '</td>';
-  		ligne =	 ligne + '<td id="valueLinkCollection'+nbLigneMapping+'">' + value + '</td>';
-  		ligne =	 ligne + '<td><input type="hidden" id="idHeadCSV'+nbLigneMapping+'" value="'+ i +'"/><a href="#" class="deleteLineMapping btn btn-danger">X</a></td></tr>';
-  		nbLigneMapping++;
-  		$("#LineAddMapping").before(ligne);
-  		i++;
-	});
-
-	$("#nbLigneMapping").val(nbLigneMapping);
 	bindEvents();
 	showStep2();
 }
@@ -1514,35 +1515,7 @@ function getGeo(org){
 }
 
 
-function assignData(subfile, typeFile){
-	console.log("typeFile", typeFile);
-	$.ajax({
-        type: 'POST',
-        data: {
-        		file : subfile,
-        		typeFile : typeFile
-        	},
-        url: baseUrl+'/communecter/admin/assigndata/',
-        dataType : 'json',
-        async : false,
-        success: function(data)
-        {
-        	console.log("data",data);
-        	if(data.createLink){
-
-        		resultAssignData(data);
-        		$("#createLink").show();
-        	}
-        	else{
-
-        	}
-
-        }
-	});
-}
-
-
-function assignData2(idMicroformat, typeFile, idMapping){
+function assignData(idMicroformat, typeFile, idMapping){
 	
 	var params = {
 		idMicroformat : idMicroformat,
@@ -1550,7 +1523,7 @@ function assignData2(idMicroformat, typeFile, idMapping){
 		idMapping : idMapping
 	};
 
-	if(typeFile == "json" || typeFile == "js")
+	if(typeFile == "json" || typeFile == "js" || typeFile == "geojson")
 		params["file"] = file ;
 
 	$.ajax({
@@ -1561,7 +1534,7 @@ function assignData2(idMicroformat, typeFile, idMapping){
         async : false,
         success: function(data)
         {
-        	console.log("assignData2 data",data.createLink);
+        	console.log("assignData data",data);
         	if(data.createLink){
         		resultAssignData(data);
         		$("#createLink").show();
