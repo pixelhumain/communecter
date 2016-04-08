@@ -874,5 +874,28 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			console.log("Erreur getlatlngbyinsee vide");
 		}
 	}
+	function callbackGoogleMapsSuccess(result){
+		console.log("callbackGoogleMapsSuccess");
+		console.dir(result);
+		if(result.status == "OK"){
+  			//showMap(true);
+  			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+
+			//var obj = null;
+			$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
+						  			
+			var obj = result.results[0];
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			var coords = L.latLng(obj.geometry.location.lat, obj.geometry.location.lng);
+			obj["geo"] = { latitude : obj.geometry.location.lat, longitude : obj.geometry.location.lng };
+			Sig.showCityOnMap(obj, true, "organization");
+			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+			
+  		}else{
+  			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
+  		}
+	}
 
 </script>
