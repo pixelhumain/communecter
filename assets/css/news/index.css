@@ -309,6 +309,6 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 }
 
 
-.main-title{
+#main-title{
 	margin-top: 13px;
 }

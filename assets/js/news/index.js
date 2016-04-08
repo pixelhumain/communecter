@@ -533,7 +533,6 @@ function saveNews(){
 		}
 	};
 
-	alert(userId);
 	if(userId != null){
 		validation = {
 			errorElement : "span", // contain the error msg in a span tag
