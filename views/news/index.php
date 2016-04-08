@@ -54,7 +54,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName =$person["name"];
 		$contextIcon = "user";
 		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];	
-		$imgProfil = isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
 		Menu::project( $project );
@@ -78,6 +77,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
 	}
+
+	$imgProfil = isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
@@ -121,11 +122,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</li>-->
 					</ul>
 				</div>	
+				<input type="hidden" name="scope" value="public"/>
+				
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
-					<div class="badge"><i class="fa fa-university"></i> <?php //echo $city["name"]; ?></div>
+					<div class="badge"><i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
+					<input type="hidden" name="scope" value="public"/>
+				
 				<?php } ?>
-				<input type="hidden" name="scope" value="public"/>
 				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
@@ -234,15 +238,6 @@ var scopesFilterListHTML = "";
 var loadingData = false;
 
 
-var trad = {
-	"No more news" : '<?php echo Yii::t("common", "No more news"); ?>',
-	"Are you sure you want to delete this news" : '<?php echo Yii::t("common", "Are you sure you want to delete this news"); ?>',
-	"News has been successfully delated" : '<?php echo Yii::t("common", "News has been successfully delated"); ?>',
-	"Something went wrong!" : '<?php echo Yii::t("common", "Something went wrong!"); ?>',
-	"Please try again" : "<?php echo Yii::t('common', 'Please try again'); ?>",
-	"Something went wrong with the url": "<?php echo Yii::t('common', 'Something went wrong with the url'); ?>",
-	"News added successfully!" : '<?php echo Yii::t("common", "News added successfully!"); ?>',
-};
 
 function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
@@ -272,8 +267,7 @@ jQuery(document).ready(function()
 		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus</span> <?php echo addslashes(@$contextName); ?>" + 
 								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
 		
-		Sig.restartMap();
-		//Sig.showMapElements(Sig.map, news);
+		
 	}else{
 		
 	}
@@ -296,6 +290,10 @@ jQuery(document).ready(function()
 	setTimeout(function(){
 		saveNews();
 	},500);
+
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, news);
+
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
