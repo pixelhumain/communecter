@@ -266,20 +266,26 @@ function buildLineHTML(newsObj,idSession,update)
 				'</div>';
 	return newsTLLine;
 }
+
 function buildHtmlUrlAndActionObject(obj){
+
 	console.log(obj);
 	if(typeof(obj.type) != "undefined")
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || obj.type !="activityStream"){
+
+	if( (obj.type == "citoyens" && typeof(obj.verb) == "undefined") || obj.type !="activityStream" ){
 		url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		
-		if(typeof(obj.postOn) != "undefined" && obj.type != contextParentType){
+		if(typeof(obj.postOn) != "undefined" && (obj.type != contextParentType || obj.id != obj.author.id)){
 			if(obj.type == "organizations"){
 				color="green";
-			}else if (obj.type == "projects")
+			}else if (obj.type == "projects"){
 				color="purple";
+			}else if (obj.type == "citoyens"){
+				color="azure";
+			}
 			else{
 				color="orange";
 			}
