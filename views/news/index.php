@@ -203,6 +203,7 @@ var newsReferror={
 	};
 var mode = "view";
 var canPostNews = <?php echo json_encode(@$canPostNews) ?>;
+var canManageNews = <?php echo json_encode(@$canManageNews) ?>;
 var idSession = "<?php echo Yii::app()->session["userId"] ?>";
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
@@ -234,7 +235,7 @@ var scopesFilterListHTML = "";
 var loadingData = false;
 
 
-var trad = {
+/*var trad = {
 	"No more news" : '<?php echo Yii::t("common", "No more news"); ?>',
 	"Are you sure you want to delete this news" : '<?php echo Yii::t("common", "Are you sure you want to delete this news"); ?>',
 	"News has been successfully delated" : '<?php echo Yii::t("common", "News has been successfully delated"); ?>',
@@ -248,7 +249,7 @@ function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
 	else return phrase;
-}
+}*/
 //var userId = <?php echo isset(Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "null"; ?>
 
 jQuery(document).ready(function() 

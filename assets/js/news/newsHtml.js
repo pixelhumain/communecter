@@ -18,30 +18,30 @@ function buildLineHTML(newsObj,idSession,update)
 	newsTLLine = "";
 	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
 	manageMenu = "";
-	if (newsObj.author.id==idSession){
+	
+	manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
+		'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
+			'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
+		'</a>'+
+		'<ul class="dropdown-menu">';
 
-		var reportLink = "";
-		if ("undefined" != typeof newsObj.reportAbuseCount){ 
-			if (newsObj.reportAbuse.indexOf(idSession) == -1){
-				reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
-			}
-		}
-		else{
+	var reportLink = "";
+	if ("undefined" != typeof newsObj.reportAbuseCount){ 
+		if (newsObj.reportAbuse.indexOf(idSession) == -1){
 			reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 		}
-
-		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
-			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
-				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
-			'</a>'+
-			'<ul class="dropdown-menu">'+
-				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>'+reportLink;
-		if (newsObj.type != "activityStream"){
-		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
-		}
-		manageMenu +=	'</ul>'+
-		'</div>';
 	}
+	else{
+		reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+	}
+	if (newsObj.author.id==idSession || canManageNews == 1){
+			manageMenu	+=		'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>';
+		if (newsObj.type != "activityStream" && newsObj.author.id==idSession){
+			manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
+		}
+	}	
+	manageMenu +=	reportLink+'</ul>'+
+		'</div>';
 	
 	if(typeof(newsObj.created) == "object")
 		var date = new Date( parseInt(newsObj.created.sec)*1000 );
@@ -157,8 +157,8 @@ function buildLineHTML(newsObj,idSession,update)
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
-		postalCode = "NA";
-		city = "NA";
+		postalCode = "";
+		city = "";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.type=="citoyens"){
 				postalCode=author.address.postalCode;
@@ -174,7 +174,7 @@ function buildLineHTML(newsObj,idSession,update)
 			}
 		}
 		
-		if( typeof postalCode != "undefined")
+		if( typeof postalCode != "undefined" && postalCode!="")
 		{
 			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
 			scopeClass += postalCode+" ";
@@ -182,7 +182,7 @@ function buildLineHTML(newsObj,idSession,update)
 				contextMap.scopes.codePostal.push(postalCode);
 			}
 		}
-		if( typeof city != "undefined")
+		if( typeof city != "undefined" && city != "")
 		{
 			scopes += "<span class='label label-danger'>"+city+"</span> ";
 			scopeClass += city+" ";
