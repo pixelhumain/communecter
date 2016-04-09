@@ -24,6 +24,7 @@
 	$cs->registerScriptFile($this->module->assetsUrl. '/js/sig/geoloc.js' , CClientScript::POS_END);
 
 	$cssAnsScriptFilesModule = array(
+		'/js/default/globalsearch.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
 		'/css/sig/sig.css'

@@ -167,7 +167,7 @@ input[type="text"].input-search{
 	border-radius: 50px !important;
 	height: 75px;
 	font-size: 20px !important;
-	padding: 10px !important;
+	padding: 10px 77px !important;
 	text-align: center;
 	font-weight: 300;
 	border-color: #C5C5C5 !important;
@@ -235,8 +235,8 @@ input[type="text"].input-search.postalCode:focus{
 button.btn-start-search{
 	position: relative;
 	margin-bottom: 5px;
-	top: 63px;
-	right: 4%;
+	top: 0px;
+	right: 11%;
 	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color: white;
@@ -470,8 +470,8 @@ button.btn-activate-communexion{
 button.btn-infos{
 	font-size: 17px;
 	position: absolute;
-	top: 147px;
-	left: 10%;
+	top: 125px;
+	left: 0%;
 	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
