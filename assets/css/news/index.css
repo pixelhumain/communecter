@@ -312,3 +312,6 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 #main-title{
 	margin-top: 13px;
 }
+.tools_bar{
+	border-bottom: 1px solid lightgrey;
+}

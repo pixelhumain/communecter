@@ -286,4 +286,7 @@
 	margin: 0;
 	margin-bottom: 10px;
 }
+.tools_bar{
+	border-bottom: 1px solid lightgrey;
+}
 /* MODAL */

@@ -23,5 +23,9 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"askreasonreportabuse": "<?php echo Yii::t("common", "You are going to declare an abuse : please fill the reason")?>",
 		"delete": "<?php echo Yii::t("common", "Delete")?>", 
 		"updatepublication": "<?php echo Yii::t("common", "Update publication")?>",
-		"reportanabuse": "<?php echo Yii::t("common", "Report an abuse")?>"
+		"reportanabuse": "<?php echo Yii::t("common", "Report an abuse")?>",
+		"suretodeletenews" : "<?php echo Yii::t("common","Are you sure you want to delete this news") ?>",
+		"successdeletenews":"<?php echo Yii::t("common","News has been successfully delated") ?>",
+		"successsavenews":"<?php echo Yii::t("common","News added successfully!") ?>"
+		
 };
