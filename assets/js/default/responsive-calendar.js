@@ -189,7 +189,7 @@
           countEvent++;
          });
 
-         var dropdown =     '<button class="btn bg-orange homestead dropdown-toggle hidden-xs" type="button" data-toggle="dropdown">'+countEvent+' <i class="fa fa-calendar hidden-sm"></i>'+
+         var dropdown =     '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown"><span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
                             ' <span class="caret"></span></button>'+
                             '<ul class="dropdown-menu date'+startDate+'">'+
                               items +

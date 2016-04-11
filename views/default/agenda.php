@@ -52,17 +52,39 @@
 
 
 @media screen and (max-width: 1024px) {
-  button.btn-start-search {
-    margin-top: -40px;
-    margin-left: 47%;
-    color: white;
-    border-radius: 30px;
-    font-weight: 300;
+  .btn-month-before{
+    position:absolute !important;
+    top:100px;
+    left:0%;
+    font-size:19px;
+  }
+  .btn-month-next{
+    position:absolute !important;
+    top:100px;
+    right:0%;
     font-size: 19px;
-    margin-bottom: 20px;
-    height: 45px;
-    width: 45px;
-    padding: 0px;
+  }
+  .lbl-scope-list {
+      /*left: 53%;*/
+      top: 210px !important;
+      font-size: 20px;
+    }
+    .img-logo {
+      height: 195px !important;
+    }
+  
+}
+
+@media screen and (max-width: 767px) {
+  .img-logo {
+    height: 125px !important;
+  }
+  .lbl-scope-list {
+    top: 150px !important;
+  }
+  .responsive-calendar .open > .dropdown-menu {
+
+    margin-left: -80px;
   }
 }
 </style>
@@ -86,17 +108,19 @@
 
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
 
-  <button class="btn-month-before menu-button bg-dark tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Mois précédent" alt="Mois précédent">
+  <button class="btn-month-before menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="right" title="Mois précédent" alt="Mois précédent">
     <i class="fa fa-arrow-left"></i>
   </button>
   
-  <button class="btn-month-next menu-button bg-dark tooltips hidden-xs" data-toggle="tooltip" data-placement="right" title="Mois suivant" alt="Mois suivant">
+  <button class="btn-month-next menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="left" title="Mois suivant" alt="Mois suivant">
     <i class="fa fa-arrow-right"></i>
   </button>
   
 
 </div>
 
+
+<?php //$this->renderPartial("first_step_agenda"); ?> 
 
 <div class="col-md-12 calendar">
 
@@ -259,14 +283,6 @@ function showResultInCalendar(mapElements){
           events: events
         });
 
-
-  $(".btn-month-next").click(function(){
-    $("#btn-month-next").click();
-  });
-
-  $(".btn-month-before").click(function(){
-    $("#btn-month-before").click();
-  });
 
   $(".responsive-calendar").show();
 

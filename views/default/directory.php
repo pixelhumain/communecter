@@ -31,6 +31,21 @@
   .btn-scope{
     display: inline;
   }
+  @media screen and (max-width: 1024px) {
+    #menu-directory-type .hidden-sm{
+     display:none;
+    }
+  }
+
+@media screen and (max-width: 767px) {
+  
+  .btn-add-to-directory {
+      position: absolute;
+      right: 0px;
+      z-index:9px !important;
+  }
+}
+
 </style>
 
 <!-- <h1 class="homestead text-dark text-center" id="main-title"
@@ -41,10 +56,10 @@
 
 <div class="lbl-scope-list text-red"></div>
 
-<button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
+<!-- <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
 		data-toggle="tooltip" data-placement="right" title="Carte">
 		<i class="fa fa-map-marker"></i>
-</button>
+</button> -->
 
 <div class="img-logo bgpixeltree_little">
 	
@@ -53,6 +68,8 @@
 	</button>
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search">
 	
+  <button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
+
 
   <div class="col-md-12 center" style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
     <div class="btn-group inline-block" id="menu-directory-type">
@@ -70,8 +87,6 @@
       </button>
     </div>
   </div>
-
-  <button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 
 </div>
 
