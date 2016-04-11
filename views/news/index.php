@@ -83,19 +83,32 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
 
+<style>
+	.tools_bar{
+		    border-bottom: 1px solid #E6E8E8;
+	}
+	.tools_bar .btn{
+		    border-right: 1px solid #E6E8E8;
+	}
 </style>
-
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
+			
 			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
+			<div class="tools_bar bg-white">
+				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
+					<i class="fa fa-picture-o fa-x"></i>
+				</button>
+			</div>
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
-					<div id="results" class="padding-10 bg-white"></div>
+					<div id="results" class="padding-10 bg-white">
+					</div>
 				</div>
 			</div>
 			<div class="form-group tagstags" style="">

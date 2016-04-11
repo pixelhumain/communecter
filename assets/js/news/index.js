@@ -207,7 +207,7 @@ function bindEvent(){
 	$(".deleteNews").off().on("click",function(){
 		var $this=$(this);
 		idNews=$(this).data("id");
-		bootbox.confirm(t("fr", "Are you sure you want to delete this news"), 
+		bootbox.confirm(trad["suretodeletenews"], 
 			function(result) {
 				if (result) {
 					$.ajax({
@@ -217,7 +217,7 @@ function bindEvent(){
 						//data: {"newsId": idNews},
 			        	success: function(data){
 				        	if (data) {               
-								toastr.success(t("News has been successfully delated") + "!!");
+								toastr.success(trad["successdeletenews"] + "!!");
 								liParent=$this.parents().eq(4);
 								offset.top = offset.top-liParent.height();
 					        	liParent.fadeOut();
@@ -606,7 +606,7 @@ function saveNews(){
 						if( 'undefined' != typeof updateNews && typeof updateNews == "function" )updateNews(data.object);
 						$.unblockUI();
 						//$.hideSubview();
-						toastr.success(("fr",'News added successfully!'));
+						toastr.success(trad["successsavenews"]);
 		    		}
 		    		else 
 		    		{
