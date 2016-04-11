@@ -114,8 +114,8 @@
 	width: 600px;
 	max-width: 600px;
 	min-width: 600px;
-	height: 295px;
-	top: -21px;
+	height: 255px;
+	top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	position:relative;
@@ -161,7 +161,7 @@
 }
 
 input[type="text"].input-search{
-	margin-top: 74px;
+	margin-top: 100px;
 	margin-left: 15%;
 	width: 70%;
 	border-radius: 50px !important;
@@ -470,8 +470,8 @@ button.btn-activate-communexion{
 button.btn-infos{
 	font-size: 17px;
 	position: absolute;
-	top: 125px;
-	left: 0%;
+	top: 118px;
+	left: 17%;
 	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
@@ -648,12 +648,14 @@ button.btn-infos{
 
   .lbl-scope-list{
     position: absolute;
-    left: 52%;
-    z-index: 1;
-    top: 145px;
-    font-size: 25px;
-    font-weight: 300;
-    text-transform: capitalize;
+	left: 25%;
+	z-index: 1;
+	top: 260px;
+	font-size: 20px;
+	font-weight: 300;
+	text-transform: capitalize;
+	width: 50%;
+	text-align: center;
   }
 
 

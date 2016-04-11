@@ -19,6 +19,12 @@
 		width: 24px;
 		margin-top: 4px;
 	}
+  .lbl-scope-list{
+    top:305px;
+  }
+  .img-logo {
+    height: 290px;
+  }
   .btn-filter-type{
     height:44px;
   }
@@ -27,11 +33,11 @@
   }
 </style>
 
-<h1 class="homestead text-dark text-center" id="main-title"
+<!-- <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-search"></i> Recherche</h1>
 
 <h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1>
+	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1> -->
 
 <div class="lbl-scope-list text-red"></div>
 
