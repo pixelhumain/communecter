@@ -16,8 +16,7 @@
 ?>
 
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
-<a href="" title="switch to English language">EN</a>
-    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
+    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     <div class="dropdown-result-global-search"></div>
     
     <div class="topMenuButtons pull-right">
