@@ -623,6 +623,7 @@ function bindInviteSubViewInvites() {
 		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
+		var thiselement = this;
 		var idToDisconnect = $('#newInvite #inviteId').val();
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $("#newInvite #ficheName").text();
