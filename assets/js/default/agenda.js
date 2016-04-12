@@ -220,8 +220,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                           isFollowed=true;
                         if(type!="city" && id != userId)
                         str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                              'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
-                              " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                              'data-toggle="tooltip" data-placement="left" data-original-title="Participer"'+
+                              " data-ownerlink='participate' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                                   "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                                 "</a>";
                       }
@@ -418,11 +418,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				dataType: "json",
 				success: function(data){
 					if ( data && data.result ) {
-						$(thiselement).html("<i class='fa fa-user-plus'></i>");
+						$(thiselement).html("<i class='fa fa-link'></i>");
 						$(thiselement).attr("data-ownerlink","participate");
 						$(thiselement).attr("data-original-title", "Suivre");
 						removeFloopEntity(data.parentId, type);
-						toastr.success(data.msg);	
+						toastr.success(trad["leaveeventsuccess"]);	
 					} else {
 					   toastr.error("You leave succesfully");
 					}
