@@ -346,7 +346,7 @@ if (isset($follows)){
 
 }
 ?>
-<div class="row">
+<div class="row pull-left">
 	<div class="col-md-12">
 		<div class="panel panel-transparent">
 			<div class="panel-body">
