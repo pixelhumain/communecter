@@ -132,6 +132,8 @@ jQuery(document).ready(function() {
   });
   
   $('#btn-start-search').click(function(e){
+      //signal que le chargement est terminé
+      loadingData = false;
       startSearch(0, 100);
   });
 

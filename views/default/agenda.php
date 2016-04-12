@@ -211,6 +211,8 @@ jQuery(document).ready(function() {
   //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
   // });
   $('#btn-start-search').click(function(e){
+      //signal que le chargement est terminé
+      loadingData = false;
       startSearch();
   });
   $('#link-start-search').click(function(e){

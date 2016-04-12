@@ -114,7 +114,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error autocomplete search"); console.dir(data);          
+             console.log("error autocomplete search"); console.dir(data);     
+             //signal que le chargement est terminé
+            loadingData = false;     
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
