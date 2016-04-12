@@ -293,7 +293,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //on affiche le résultat à l'écran
                   $("#dropdown_search").html(str);
                   //on scroll pour coller le haut de l'arbre au menuTop
-                  $(".my-main-container").scrollTop(95);
+                  //$(".my-main-container").scrollTop(95);
                 }
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-search'></i>");
