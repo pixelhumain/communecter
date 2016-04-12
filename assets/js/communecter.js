@@ -475,6 +475,7 @@ function jsController(hash){
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
 	allReadyLoad = true;
+	
 	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){

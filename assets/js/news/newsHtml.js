@@ -590,6 +590,7 @@ function newsReportAbuse($this, id){
 	//disableOtherAction($($this), '.commentReportAbuse', method);
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
 }
+
 function reportAbuse($this,action, method) {
 	// console.log(contextId);
 	if (method){
@@ -629,4 +630,7 @@ function disableOtherAction($this,action,method){
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
 	}
+}
+function blankNews(id){
+	window.open(baseUrl+'#news.detail.id.'+id,'_blank');
 }
