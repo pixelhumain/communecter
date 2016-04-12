@@ -300,13 +300,52 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
     right: -27px;
     top: 15px;
 }
-.timeline_element {padding: 10px;}
+
 
 .img-profil-parent{
 	height: 28px;
 	margin-left: 5px;
 	border-radius: 50%;
 }
+
+
+
+
+.timeline_element {
+    padding: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+    max-width: 325px;
+    
+}
+
+@media screen and (max-width: 1024px) {  
+  
+	.timeline_element {
+	    max-width: 350px;
+	}
+}
+
+
+@media screen and (min-width: 1300px) {  
+  
+	.timeline_element {
+	    max-width: 450px;
+	}
+}
+
+
+@media screen and (max-width: 767px) {
+  
+	.timeline_element {
+	    max-width: 200px;
+	}
+} 
+
+
+
+
 
 
 #main-title{
