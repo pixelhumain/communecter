@@ -97,13 +97,10 @@ class DefaultController extends CommunecterController {
     
   }
   
-
-    /*public function actionDirectory($type=null,$id=null) 
+    public function actionSwitch($lang)
     {
-      if( $type == "person" && !$id )
-        $id = Yii::app()->session['userId'];
-
-      $url = $type."/directory/id/".$id;
-      $this->redirect(Yii::app()->createUrl("/".$this->module->id."/".$url));
-    }*/
+        $this->layout = "//layouts/empty";
+        Yii::app()->session["lang"] = $lang;
+        $this->redirect(Yii::app()->createUrl("/".$this->module->id));
+    }
 }
