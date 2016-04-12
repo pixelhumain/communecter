@@ -726,3 +726,15 @@
 		</div>
 	</div>
 
+	<div class="explainYourData <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Vos Données</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				<li>Restent votre propriétés.</li>
+				<li>ne seront diffusé que si vous le décidez.</li>
+				<li>Vous pourrez configurer leur de visibilité publique.</li>
+			</ul>
+		</div>
+	</div>
+
