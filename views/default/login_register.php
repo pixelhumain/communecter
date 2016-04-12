@@ -4,11 +4,13 @@
 		position:absolute;
 		top:80px;
 	}
-	.box-login, .box-register, .box-email{
-		left: unset !important;
-		right: 14% !important;
-		border-radius:15px;
-		display:none;
+	@media screen and (min-width: 1025px) {
+		.box-login, .box-register, .box-email{
+			left: unset !important;
+			right: 14% !important;
+			border-radius:15px;
+			display:none;
+		}
 	}
 	.form-login, .form-register, .form-email{
 		left: unset !important;
@@ -55,7 +57,8 @@
 					$this->renderPartial('../default/menuTitle');
 				?>
 				<form class="form-login box-white-round" action="" method="POST">
-					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right hidden-xs" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right visible-xs" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					<br/>
 					<?php //echo Yii::app()->session["requestedUrl"]." - ".Yii::app()->request->url; ?>
 					<fieldset>

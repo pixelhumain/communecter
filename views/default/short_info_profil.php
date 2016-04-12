@@ -17,7 +17,7 @@
 
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
 <a href="" title="switch to English language">EN</a>
-    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="en rechercher ..."/>
+    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>
     
     <div class="topMenuButtons pull-right">
