@@ -98,11 +98,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
-			<div class="tools_bar bg-white">
+			<!--<div class="tools_bar bg-white">
 				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
 					<i class="fa fa-picture-o fa-x"></i>
 				</button>
-			</div>
+			</div>-->
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">

@@ -123,7 +123,7 @@ function buildTimeLine (news, indexMin, indexMax)
 				//$('.first')
 				titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
-							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> ' + t("fr", "No more news") + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
 					'</div>';
 					$(".newsTL").append(titleHTML);
@@ -223,7 +223,7 @@ function bindEvent(){
 					        	liParent.fadeOut();
 					        	
 							} else {
-					            toastr.error(t("fr", "Something went wrong!") + " " + t("fr","Please try again"));
+					            toastr.error(trad["somethingwrong"] + " " + trad["tryagain"]);
 					        }
 					    }
 					});
@@ -514,7 +514,7 @@ function getUrlContent(){
                 	},
 					error : function(){
 						$.unblockUI();
-						toastr.error(t("fr", "Something went wrong with the url") + " !");
+						toastr.error(trad["wrongwithurl"] + " !");
 						$("#loading_indicator").hide();
 					}	
                 });

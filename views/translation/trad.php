@@ -27,7 +27,11 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"You are not following" : "<?php echo Yii::t("common", "You are not following")?>",
 		"suretodeletenews" : "<?php echo Yii::t("common","Are you sure you want to delete this news") ?>",
 		"successdeletenews":"<?php echo Yii::t("common","News has been successfully delated") ?>",
-		"successsavenews":"<?php echo Yii::t("common","News added successfully!") ?>"
+		"successsavenews":"<?php echo Yii::t("common","News added successfully!") ?>",
+		"nomorenews":"<?php echo Yii::t("common","No more news") ?>",
+		"somethingwrong":"<?php echo Yii::t("common","Something went wrong!") ?>",
+		"tryagain":"<?php echo Yii::t("common","Please try again") ?>",
+		"wrongwithurl":"<?php echo Yii::t("common","Something went wrong with the url") ?>"
 		
 };
 
