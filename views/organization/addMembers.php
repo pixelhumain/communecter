@@ -536,6 +536,7 @@ Menu::organization($organization);
 		                $("#addMembers #memberIsAdmin").val("");
 		                $('#addMembers #organizationType').val("");
 						$("#addMembers #memberIsAdmin").val("false");
+						$('#addMembers #memberEmail').parents().eq(1).show();
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		                showSearch();
 	            	}
@@ -578,6 +579,9 @@ Menu::organization($organization);
 		$("#memberSearch").val(name);
 		$("#addMembers #memberName").val(name);
 		$("#addMembers #memberId").val(id);
+		if(email==""){
+			$('#addMembers #memberEmail').parents().eq(1).hide();
+		}
 		$('#addMembers #memberEmail').val(email);
 		
 		$('#addMembers #memberEmail').attr("disabled", 'disabled');
