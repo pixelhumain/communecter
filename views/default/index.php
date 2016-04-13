@@ -478,7 +478,7 @@ jQuery(document).ready(function() {
 		}
 		else{ 
 			//console.log("userConnected", userConnected);
-				loadByHash("#default.home");
+				loadByHash("#news.index.type.citoyens.id."+userId + "?isSearchDesign=1");
 			//}
 
 			//loadByHash("#default.home");
