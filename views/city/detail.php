@@ -402,7 +402,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
-        </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+        </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
