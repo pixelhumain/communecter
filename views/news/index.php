@@ -299,12 +299,13 @@ jQuery(document).ready(function()
 	}
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
-		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		buildTimeLine (news, 0, indexStep);
 		$(".my-main-container").scroll(function(){
 	    if(!loadingData && !scrollEnd){
 	          var heightContainer = $(".my-main-container")[0].scrollHeight;
 	          var heightWindow = $(window).height();
-	          if( ($(this).scrollTop() + heightWindow) == heightContainer){
+	          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
 	            console.log("scroll in news/index MAX");
 	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 	          }

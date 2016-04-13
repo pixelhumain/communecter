@@ -7,7 +7,7 @@
 */
 var loadStream = function(indexMin, indexMax){
 	loadingData = true;
-    indexStep = 20;//5;
+    indexStep = 15;//5;
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -27,15 +27,19 @@ var loadStream = function(indexMin, indexMax){
         url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
        	dataType: "json",
     	success: function(data){
-	    	console.log(data.news)
+	    	console.log("LOAD NEWS BY AJAX");
+	    	console.log(data.news);
 	    	if(data){
 				buildTimeLine (data.news, indexMin, indexMax);
 				if(typeof(data.limitDate.created) == "object")
 					dateLimit=data.limitDate.created.sec;
 				else
 					dateLimit=data.limitDate.created;
-				loadingData = false;
 			}
+			loadingData = false;
+		},
+		error: function(){
+			loadingData = false;
 		}
 	});
 }
@@ -63,7 +67,7 @@ function buildTimeLine (news, indexMin, indexMax)
 	totalEntries += countEntries;
 	
 	str = "";
-	console.log(news);
+	//console.log(news);
 	$.each( news , function(key,newsObj)
 	{
 		if(newsObj.created)
