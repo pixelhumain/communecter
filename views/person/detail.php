@@ -42,7 +42,7 @@ $this->renderPartial('../default/panels/toolbar');
 jQuery(document).ready(function() {
 	var images = <?php echo json_encode($images) ?>;
 	
-	$(".moduleLabel").html("<i class='fa fa-user'></i> <?php echo addslashes($person["name"]) ?>");
+	$(".moduleLabel").html("<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user'></i> <?php echo addslashes($person["name"]) ?>");
 
 	$("#btn-center-person").click(function(){
 		showMap(true);
