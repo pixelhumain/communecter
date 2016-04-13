@@ -253,6 +253,7 @@ if(@$event) {
 							$('.form-attendees .attendees-id').val("");
 							$('.form-attendees .attendees-email').val("");
 							$('.form-attendees .attendees-email').removeAttr("disabled");
+							$('#newAttendees #attendeesEmail').parents().eq(1).show();
 		        			showSearchAttendees();  
 				        	toastr.success(data.msg);
 				        } else {
@@ -333,8 +334,12 @@ if(@$event) {
 	function setMemberInputAddAttendees(id,name,email,key){
 		$("#newAttendees #step3").css("display", "block");
 		$("#newAttendees #step1").css("display", "none");
-		$("#newAttendees #attendeesName").val(name).attr("disabled");
-		$('#newAttendees #attendeesEmail').val(email).attr("disabled");
+		if(email==""){
+			$('#newAttendees #attendeesEmail').parents().eq(1).hide();
+		}
+
+		$("#newAttendees #attendeesName").val(name).attr("disabled","disabled");
+		$('#newAttendees #attendeesEmail').val(email).attr("disabled","disabled");
 		$('#newAttendees #attendeesId').val(id);
 
 	}

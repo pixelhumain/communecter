@@ -208,37 +208,6 @@ function bindEvent(){
 		showFormBlock(true);	
 	});
 	
-	$(".deleteNews").off().on("click",function(){
-		var $this=$(this);
-		idNews=$(this).data("id");
-		bootbox.confirm(trad["suretodeletenews"], 
-			function(result) {
-				if (result) {
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/news/delete/id/"+idNews,
-						dataType: "json",
-						//data: {"newsId": idNews},
-			        	success: function(data){
-				        	if (data) {               
-								toastr.success(trad["successdeletenews"] + "!!");
-								liParent=$this.parents().eq(4);
-								offset.top = offset.top-liParent.height();
-					        	liParent.fadeOut();
-					        	
-							} else {
-					            toastr.error(trad["somethingwrong"] + " " + trad["tryagain"]);
-					        }
-					    }
-					});
-				}
-			}
-		)
-	});
-	$(".modifyNews").off().on("click", function(){
-		idNews=$(this).data("id");
-		switchModeEdit(idNews);
-	});
 	$(".videoSignal").click(function(){
 		videoLink = $(this).find(".videoLink").val();
 		iframe='<div class="embed-responsive embed-responsive-16by9">'+
@@ -250,6 +219,37 @@ function bindEvent(){
 
 function smoothScroll(scroolTo){
 	$(".my-main-container").scrollTo(scroolTo,500,{over:-0.6});
+}
+
+function modifyNews(id){
+	switchModeEdit(id);
+}
+function deleteNews(id, $this){
+	//var $this=$(this);
+	bootbox.confirm(trad["suretodeletenews"], 
+		function(result) {
+			if (result) {
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/news/delete/id/"+id,
+					dataType: "json",
+					//data: {"newsId": idNews},
+		        	success: function(data){
+			        	if (data) {               
+							toastr.success(trad["successdeletenews"] + "!!");
+							liParent=$this.parents().eq(4);
+							if (typeof(offset) != "undefined")
+								offset.top = offset.top-liParent.height();
+				        	liParent.fadeOut();
+				        	
+						} else {
+				            toastr.error(trad["somethingwrong"] + " " + trad["tryagain"]);
+				        }
+				    }
+				});
+			}
+		}
+	)
 }
 
 function switchModeEdit(idNews){
@@ -586,6 +586,9 @@ function saveNews(){
 				console.log("contextParentType", contextParentType);
 				if($("input[name='cityInsee']").length && contextParentType == "city")
 					newNews.codeInsee = $("input[name='cityInsee']").val();
+				if($("input[name='cityPostalCode']").length && contextParentType == "city")
+					newNews.postalCode = $("input[name='cityPostalCode']").val();
+
 				console.log(newNews);
 				$.ajax({
 			        type: "POST",

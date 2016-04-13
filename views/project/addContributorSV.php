@@ -50,7 +50,7 @@ $this->renderPartial('../default/panels/toolbar');
 		           	</div>
 		           	<div class="col-md-11">
 		           		<span class="input-icon input-icon-right">
-				           	<input class="contributor-search form-control" placeholder="<?php echo Yii::t("common", "Search By name, email") ?>" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
+				           	<input class="contributor-search form-control" placeholder="<?php echo Yii::t("common", "Search by name or email") ?>" autocomplete = "off" id="contributorSearch" name="contributorSearch" value="">
 				           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
 				        		<ul class="dropdown-menu" id="dropdown_search" style="">
 									<li class="li-dropdown-scope">-</li>
@@ -337,9 +337,10 @@ $this->renderPartial('../default/panels/toolbar');
 							$('#newContributors #organizationType').removeAttr("disabled");
 							$("#newContributors #contributorRole").val("");
 							$("#newContributors #contributorIsAdmin").val("0");
+							$('#newContributors #contributorEmail').parents().eq(1).show();
 							$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		        			showSearchContributor();   
-				        	toastr.success('Invatation to project success');
+				        	toastr.success('<?php Yii::t("common","Invitation to project successfully sent")?>');
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -355,6 +356,9 @@ $this->renderPartial('../default/panels/toolbar');
 		$("#newContributors #contributorSearch").val(name);
 		$("#newContributors #contributorName").val(name);
 		$("#newContributors #contributorId").val(id);
+		if(email==""){
+			$('#newContributors #contributorEmail').parents().eq(1).hide();
+		}
 		$('#newContributors #contributorEmail').val(email);
 		$('#newContributors #contributorEmail').attr("disabled", 'disabled');
 		$("#newContributors #contributorName").attr("disabled", 'disabled');
