@@ -261,6 +261,7 @@ var loadingData = false;
 
 jQuery(document).ready(function() 
 {
+	canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
