@@ -32,7 +32,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
-		'/js/news/newsHtml.js'	);
+		'/js/news/newsHtml.js',
+		'/js/news/index.js',
+		'/css/news/index.css',
+	
+	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
@@ -242,6 +246,8 @@ div.timeline .newsTL > .newsFeed .timeline_element:before {
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var news = <?php echo json_encode($news) ?>;
+var canManageNews="";
+var mode="view";
 var idSession = "<?php echo Yii::app()->session["userId"] ?>";
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 jQuery(document).ready(function() 

@@ -99,8 +99,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
 			
-			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
-			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
+			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
+			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
 			<!--<div class="tools_bar bg-white">
 				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
 					<i class="fa fa-picture-o fa-x"></i>
@@ -118,7 +118,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$type && $type==Person::COLLECTION){ ?>
+				<?php if(@$type && $type==Person::COLLECTION && $contextParentId == Yii::app()->session["userId"]){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -137,14 +137,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
 					</ul>
-				</div>	
-				<input type="hidden" name="scope" value="public"/>
-				
+				</div>		
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
+					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
+
 					<div class="badge"><i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
 					<input type="hidden" name="scope" value="public"/>
 				
+				<?php } ?>
+				<?php if(@$type && $type==Person::COLLECTION && $contextParentId != Yii::app()->session["userId"]){ ?>
+					<input type="hidden" name="scope" value="private"/>
+				<?php }else{ ?>
+				<input type="hidden" name="scope" value="public"/>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
@@ -274,6 +279,9 @@ var loadingData = false;
 
 jQuery(document).ready(function() 
 {
+	if(contextParentType=="city"){
+		$("#cityPostalCode").val(cpCommunexion);
+	}
 	canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
