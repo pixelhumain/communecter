@@ -249,6 +249,8 @@ div.timeline .newsTL > .newsFeed .timeline_element:before {
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
+var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
+var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var news = <?php echo json_encode($news) ?>;
 var canManageNews="";
 var mode="view";
