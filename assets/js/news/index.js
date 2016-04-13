@@ -96,7 +96,7 @@ function buildTimeLine (news, indexMin, indexMax)
 	if( scopesFilterListHTML != "" )
 		$("#scopeFilters").html(scopesFilterListHTML);
 
-	if(!countEntries || countEntries < 5){
+	if(!countEntries || countEntries < 15){
 		if( dateLimit == 0 && countEntries == 0){
 			var date = new Date(); 
 			form ="";
