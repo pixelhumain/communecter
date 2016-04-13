@@ -435,6 +435,7 @@ var timeout;
 var tabObject = [];
 
 var listFollows = <?php echo json_encode($follows) ?>;
+var listFollowsId =<?php echo json_encode($listFollowsId) ?>;
 console.log("listFollowsazaza", listFollows);
 
 
@@ -614,7 +615,7 @@ function bindInviteSubViewInvites() {
 			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-link");			
 			$('.disconnectBtn').show();
 			$('.connectBtn').hide();
-
+			listFollowsId.push($("#newInvite #inviteId").val());
 			//$(thiselement).html("<i class='connectBtnIcon fa fa-link'></i><?php echo Yii::t("common","Follow this person") ?>");
 			//$(thiselement).attr("data-original-title", "<?php echo Yii::t("common","Unfollow this person") ?>");
 			$('#inviteSearch').val("");
@@ -623,15 +624,22 @@ function bindInviteSubViewInvites() {
 		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
+		var thiselement = this;
 		var idToDisconnect = $('#newInvite #inviteId').val();
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $("#newInvite #ficheName").text();
 		disconnectTo("<?php echo Person::COLLECTION ?>",idToDisconnect,userId,"<?php echo Person::COLLECTION ?>",'followers',function() {
 			console.log('callback disconnectPerson');
 			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			//// Find and remove item from an array
+			var i = listFollowsId.indexOf(idToDisconnect);
+			if(i != -1) {
+				listFollowsId.splice(i, 1);
+			}
 			$('.disconnectBtn').hide();
 			$('.connectBtn').show();
 			$('#inviteSearch').val("");
+		console.log(listFollowsId);
 			backToSearch();
 			//loadByHash( "#person.directory" );
 		});
@@ -833,6 +841,7 @@ function autoCompleteInviteSearch(search){
 			var city, postalCode = "";
 			$.each(data["citoyens"], function(k, v) { 
 				city = "";
+				console.log(v);
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 				if(v.id != userId) {
@@ -863,10 +872,11 @@ function autoCompleteInviteSearch(search){
 }
 
 function setInviteInput(num){
+	console.log(num);
 	var person = tabObject[num];
 	var personId = person["id"];
 	console.log(person, personId);
-
+	
 	$('#newInvite #inviteName').val(person["name"]);
 	$('#newInvite #inviteId').val(personId);
 	$("#newInvite #ficheName").text(person["name"]);
@@ -905,7 +915,7 @@ function setInviteInput(num){
 	}
 
 	//Already in the network of the current user
-	if (currentUser.links != null && currentUser.links.follows != null && currentUser.links.follows[personId] != null) {
+	if (listFollowsId.indexOf(personId) != -1) {
 		$('.disconnectBtn').show();
 		$('.connectBtn').hide();
 	} else {
