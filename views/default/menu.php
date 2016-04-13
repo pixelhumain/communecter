@@ -202,7 +202,7 @@
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
 			Du 2 Mars<br/>
-			Au 13 avril
+			Au 16 avril
 		</div>
 
 		

@@ -143,11 +143,11 @@ div.timeline .date_separator span{
 .get_url_input {
 	width: 100%;
 	border: 1px solid #8E9CA4;
-	height: 25px;
+	height: 80px;
 	padding-left: 10px;
 	font-family: Arial, Helvetica, sans-serif;
 	padding-right: 30px;
-	min-height: 50px;
+	min-height: 80px;
 }
 .extracted_thumb {
 	float: left;
@@ -314,7 +314,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 .timeline_element {
     padding: 10px;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     word-wrap: break-word;
     max-width: 325px;
     
@@ -344,9 +344,14 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 } 
 
 
+#btn-submit-form{
+	right: 15px;
+	position: absolute;
+}
 
-
-
+.main-top-menu .moduleLabel {
+	margin-top:12px !important;
+}
 
 #main-title{
 	margin-top: 13px;
