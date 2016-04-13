@@ -224,7 +224,7 @@ max-height: 250px !important;
 }
 
 div.timeline .newsTL > .newsFeed {
-    width: 70%;
+    width: 100% !important;
 	margin:auto;
 }
 
@@ -242,6 +242,10 @@ div.timeline .newsTL > .newsFeed .timeline_element:before {
 	display:none;
 }
 .timeline_element {padding: 10px;}
+
+.timeline_element {
+	    max-width: unset !important;
+	}
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
