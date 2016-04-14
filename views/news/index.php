@@ -268,8 +268,7 @@ var timeout = null;
 var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 var loadingData = false;
-
-
+var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
 /*function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
@@ -310,16 +309,22 @@ jQuery(document).ready(function()
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		buildTimeLine (news, 0, indexStep);
+		console.log(news);
+		if(typeof(initLimitDate.created) == "object")
+			dateLimit=initLimitDate.created.sec;
+		else
+			dateLimit=initLimitDate.created;
+
 		$(".my-main-container").scroll(function(){
-	    if(!loadingData && !scrollEnd){
-	          var heightContainer = $(".my-main-container")[0].scrollHeight;
-	          var heightWindow = $(window).height();
-	          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-	            console.log("scroll in news/index MAX");
-	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	          }
-	    }
-	});
+		    if(!loadingData && !scrollEnd){
+		          var heightContainer = $(".my-main-container")[0].scrollHeight;
+		          var heightWindow = $(window).height();
+		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+		            console.log("scroll in news/index MAX");
+		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		          }
+		    }
+		});
 	},100);
 		
 	getUrlContent();

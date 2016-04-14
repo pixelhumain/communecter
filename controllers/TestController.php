@@ -641,4 +641,11 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   public function actionTestIsAdminOrganization($id) {
     var_dump(Authorisation::isOrganizationAdmin("55c0c1a72336f213040041ee", $id));
   }
+
+  public function actionDisplayMail($id) {
+  	$cron = PHDB::findOne("cron", array( "_id" => new MongoId($id)));
+  	var_dump( $cron);
+  	$params = $cron["tplParams"];
+  	$this->renderPartial('application.views.emails.'.$cron["tpl"], $params);
+  }
 }
