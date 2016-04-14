@@ -190,7 +190,7 @@
 
 
 </style>
-<div class="globale-announce text-dark hidden-xs">
+<div class="globale-announce text-dark">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
 		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
