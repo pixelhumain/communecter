@@ -190,15 +190,15 @@
 
 
 </style>
-<!-- <div class="globale-announce text-dark hidden-xs">
+<div class="globale-announce text-dark">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
-		<img style="height: 25px; margin-top: -18px;" src="<?php //echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
-		<img style="height: 25px; margin-top: -18px;" src="<?php //echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
+		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
 	</div>
 	<div id="kkbb-big" style="display:none;">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
 		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
-			 src='<?php //echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
+			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
 		
 		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
 			Du 2 Mars<br/>
@@ -207,7 +207,7 @@
 
 		
 		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
-			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php //echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
+			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
 		</a>
 
 		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
@@ -221,15 +221,15 @@
 		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : <span id="collected"></span></div>
 		</div>
 	</div>
-</div> -->
+</div>
 
 <div id="iframe-kkbb" class="hidden">
 	<?php 
-		/*$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
+		$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
 		$start = strpos($kkbb_html, "<div class='widget'>");
 		$end = strpos($kkbb_html, "<div class='goal'>", $start);
 		$kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
-		echo $kkbb_html;*/
+		echo $kkbb_html;
 	?>
 </div>
 
@@ -248,7 +248,7 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()-> session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	//realTimeKKBB();
+	realTimeKKBB();
 	
 	var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	bindEventMenu();
