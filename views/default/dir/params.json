@@ -1,0 +1,37 @@
+{
+    "name" : "simply",
+    "mode" : "client",
+    "skin" : {
+        "logo" : false,
+        "title" : false,
+        "displayScope" : false,
+        "displayCommunexion" : false,
+        "profilBar" : true,
+        "displayButtonGridList" : true,
+         "class" : {
+            "mainContainer" : false
+        },
+        "iconeAdd" : true,
+        "iconeSearchPlus" : true,
+        "loginTitle":""
+    },
+    "filter" : {
+        "types" : true,
+        "tags" : true
+    },
+    "add" : {
+        "organization" : false,
+        "project" : true,
+        "event" : false
+    },
+    "result" : {
+        "displayImage" : false,
+        "displayType" : true,
+        "fullLocality" : true,
+        "datesEvent" : false
+    },
+    "request" : {
+        "sourcekey" : "patapouf",
+        "pagination" : 10000
+    }
+}
