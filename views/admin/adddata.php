@@ -1,5 +1,10 @@
 <?php
 $cs = Yii::app()->getClientScript();
+$cssAnsScriptFilesModule = array(
+		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 $userId = Yii::app()->session["userId"] ;
 ?>
 <div class="panel panel-white">
@@ -44,6 +49,22 @@ $userId = Yii::app()->session["userId"] ;
 				</div>	
 			</div>
 			<div class="col-sm-12 col-xs-12">
+				<div class="col-sm-6 col-xs-12">
+					<label>
+						Lier les entités : <input class="hide" id="isLink" name="isLink"></input>
+					<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+					</label>
+				</div>
+				<div class="col-sm-6 col-xs-12" id="divLink">
+					<select id="chooseTypeLink" name="chooseTypeLink">
+						<option value="Person">Person</option>
+						<option value="Organization">Organisation</option>
+					</select>
+					<label for="inputIdLink">Id de l'entité : </label>
+					<input class="" placeholder="" id="inputIdLink" name="inputIdLink" value="">
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12">
 				<div class="col-sm-5 col-xs-12">
 					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 				</div>
@@ -75,13 +96,14 @@ $userId = Yii::app()->session["userId"] ;
 
 <script type="text/javascript">
 var file = "";
-var CLIENT_ID = "<?php echo Yii::app()->params['google']['client_id']; ?>"; 
-var SCOPES = ['https://www.googleapis.com/auth/drive'];
+//var CLIENT_ID = "<?php echo Yii::app()->params['google']['client_id']; ?>"; 
+//var SCOPES = ['https://www.googleapis.com/auth/drive'];
 //var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
 
 
 jQuery(document).ready(function() 
 {
+	$("#divLink").hide();
 	bind();
 
 });
@@ -96,6 +118,18 @@ jQuery(document).ready(function()
 
 function bind()
 {
+
+	$("#checkboxLink").bootstrapSwitch();
+	$("#checkboxLink").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isLink").val(state);
+		if(state == true){
+			$("#divLink").show();
+		}else{
+			$("#divLink").hide();
+		}
+	});
+
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
     	console.log("ext", ext, $.inArray(ext, "json"));
@@ -128,19 +162,26 @@ function bind()
   			toastr.error("Vous devez sélectionner une collection");
   			return false ;
   		}
-  		/*rand = Math.floor((Math.random() * 8) + 1);
+  		rand = Math.floor((Math.random() * 8) + 1);
   		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-		});*/
+		});
   		console.log("file", file);
+  		var link = false ;
+  		if( $("#isLink").val(state) == "true" )
+  			link = true ;
+  			
   		$.ajax({
 	        type: 'POST',
 	        data: {
 	        		file : file,
 	        		chooseEntity : $("#chooseEntity").val(),
 	        		creatorID : "<?php echo $userId; ?>",
-	        		pathFolderImage : $("#pathFolderImage").val()
+	        		pathFolderImage : $("#pathFolderImage").val(),
+	        		link : link,
+	        		typeLink : $("#chooseTypeLink").val(),
+	        		idLink : $("#inputIdLink").val()
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
