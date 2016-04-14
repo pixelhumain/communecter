@@ -90,14 +90,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	.tools_bar .btn{
 		    border-right: 1px solid #E6E8E8;
 	}
+
 </style>
+
+
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<form id='form-news'>
 			
-			<input type="hidden" id="parentId" name="parentId" value="<?php echo $contextParentId ?>"/>
-			<input type="hidden" id="parentType" name="parentType" value="<?php echo $contextParentType ?>"/> 
+			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
+			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
 			<!--<div class="tools_bar bg-white">
 				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
 					<i class="fa fa-picture-o fa-x"></i>
@@ -115,7 +118,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$type && $type==Person::COLLECTION){ ?>
+				<?php if(@$type && $type==Person::COLLECTION && $contextParentId == Yii::app()->session["userId"]){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -134,25 +137,40 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
 					</ul>
-				</div>	
-				<input type="hidden" name="scope" value="public"/>
-				
+				</div>		
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
+					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
+
 					<div class="badge"><i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
 					<input type="hidden" name="scope" value="public"/>
 				
+				<?php } ?>
+				<?php if(@$type && $type==Person::COLLECTION && $contextParentId != Yii::app()->session["userId"]){ ?>
+					<input type="hidden" name="scope" value="private"/>
+				<?php }else{ ?>
+				<input type="hidden" name="scope" value="public"/>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
 	 </div>
 </div>
+
+
+<?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
+<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 0px; ">
+  <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
+  <!-- <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
+  <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button>  -->
+</div>
+<?php } ?>
+
 <div id="newsHistory" class="padding-10">
 
 	<div class="margin-top-10">
-		<button class="btn text-red btn-default" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
-		<button class="btn text-red btn-default" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
+		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
+		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
 	</div>
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
@@ -250,8 +268,7 @@ var timeout = null;
 var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 var loadingData = false;
-
-
+var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
 /*function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
@@ -261,6 +278,10 @@ var loadingData = false;
 
 jQuery(document).ready(function() 
 {
+	if(contextParentType=="city"){
+		$("#cityPostalCode").val(cpCommunexion);
+	}
+	canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
@@ -286,17 +307,24 @@ jQuery(document).ready(function()
 	}
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
-		loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		buildTimeLine (news, 0, indexStep);
+		console.log(news);
+		if(typeof(initLimitDate.created) == "object")
+			dateLimit=initLimitDate.created.sec;
+		else
+			dateLimit=initLimitDate.created;
+
 		$(".my-main-container").scroll(function(){
-	    if(!loadingData && !scrollEnd){
-	          var heightContainer = $(".my-main-container")[0].scrollHeight;
-	          var heightWindow = $(window).height();
-	          if( ($(this).scrollTop() + heightWindow) == heightContainer){
-	            console.log("scroll in news/index MAX");
-	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-	          }
-	    }
-	});
+		    if(!loadingData && !scrollEnd){
+		          var heightContainer = $(".my-main-container")[0].scrollHeight;
+		          var heightWindow = $(window).height();
+		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+		            console.log("scroll in news/index MAX");
+		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		          }
+		    }
+		});
 	},100);
 		
 	getUrlContent();

@@ -314,7 +314,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 .timeline_element {
     padding: 10px;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     word-wrap: break-word;
     max-width: 325px;
     
@@ -350,7 +350,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 }
 
 .main-top-menu .moduleLabel {
-	margin-top:12px !important;
+	/*margin-top:12px !important;*/
 }
 
 #main-title{
