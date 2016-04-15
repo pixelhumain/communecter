@@ -22,26 +22,28 @@ var loadStream = function(indexMin, indexMax){
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
-       	dataType: "json",
-    	success: function(data){
-	    	console.log("LOAD NEWS BY AJAX");
-	    	console.log(data.news);
-	    	if(data){
-				buildTimeLine (data.news, indexMin, indexMax);
-				if(typeof(data.limitDate.created) == "object")
-					dateLimit=data.limitDate.created.sec;
-				else
-					dateLimit=data.limitDate.created;
+    if(typeof(dateLimit)!="undefined"){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
+	       	dataType: "json",
+	    	success: function(data){
+		    	console.log("LOAD NEWS BY AJAX");
+		    	console.log(data.news);
+		    	if(data){
+					buildTimeLine (data.news, indexMin, indexMax);
+					if(typeof(data.limitDate.created) == "object")
+						dateLimit=data.limitDate.created.sec;
+					else
+						dateLimit=data.limitDate.created;
+				}
+				loadingData = false;
+			},
+			error: function(){
+				loadingData = false;
 			}
-			loadingData = false;
-		},
-		error: function(){
-			loadingData = false;
-		}
-	});
+		});
+	}
 }
 
 var tagsFilterListHTML = "";
