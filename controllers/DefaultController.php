@@ -63,6 +63,12 @@ class DefaultController extends CommunecterController {
     $this->render("dir/simplyDirectory");
   }
 
+  public function actionSimplyDirectory2() 
+  {
+    $this->layout = "//layouts/mainDirectory";
+    $this->render("dir/simplyDirectory2");
+  }
+
   public function actionHome() 
   {
     //$this->layout = "//layouts/mainSearch";

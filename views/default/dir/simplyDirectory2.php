@@ -38,16 +38,16 @@ $params = json_decode($json, true);
 }
 
 .btn-add-to-directory{
-  font-size: 14px;
-  margin-right: 0px;
-  border-radius: 6px;
-  color: #666;
-  border: 1px solid rgba(188, 185, 185, 0.69);
-  margin-left: 3px;
-  float: right;
-  padding: 1px;
-  width: 24px;
-  margin-top: 4px;
+	font-size: 14px;
+	margin-right: 0px;
+	border-radius: 6px;
+	color: #666;
+	border: 1px solid rgba(188, 185, 185, 0.69);
+	margin-left: 3px;
+	float: right;
+	padding: 1px;
+	width: 24px;
+	margin-top: 4px;
 }
 
 .btn-filter-type{
@@ -80,7 +80,7 @@ fieldset{
       <form class="controls" id="Filters" style="background-color:white">
         <!-- We can add an unlimited number of "filter groups" using the following format: -->
         <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
-          <center><button id="Reset" class="btn btn-default">Initialiser filtre</button></center><br>
+          <center><button id="Reset" class="btn btn-default" onclick="$('#dropdown_search').mixItUp('filter','')">Initialiser filtre</button></center><br>
         <?php } ?>
         <?php if(isset($params['filter']['types']) && $params['filter']['types']){ ?>
           <b>Statut juridique : </b>
@@ -114,6 +114,9 @@ fieldset{
 var searchType = [ "persons", "organizations", "projects" ];
 var allSearchType = [ "persons", "organizations", "projects" ];
 var allElement = new Array();
+var allTags = new Array();
+var allTypes = new Array();
+
 
 jQuery(document).ready(function() {
 
@@ -121,18 +124,18 @@ jQuery(document).ready(function() {
 
   searchType = [ "persons", "organizations", "projects" ];
   allSearchType = [ "persons", "organizations", "projects" ];
-  topMenuActivated = true;
-  hideScrollTop = true; 
-  checkScroll();
+	topMenuActivated = true;
+	hideScrollTop = true; 
+	checkScroll();
   var timeoutSearch = setTimeout(function(){ }, 100);
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-  $(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
+	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Annuaire</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
-  $('.tooltips').tooltip();
+	$('.tooltips').tooltip();
 
-  $('.main-btn-toogle-map').click(function(e){ showMap(); });
+	$('.main-btn-toogle-map').click(function(e){ showMap(); });
 
   <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
 
@@ -273,7 +276,7 @@ function startSearch(indexMin, indexMax){
     console.log("loadingData true");
     indexStep = indexStepInit;
 
-    var name = $('#searchBarText').val();
+	  var name = $('#searchBarText').val();
 
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
@@ -368,7 +371,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             else
             {
               var countData = 0;
-              $.each(data['res'], function(i, v) { if(v.length!=0){ countData++; } });
+            	$.each(data['res'], function(i, v) { if(v.length!=0){ countData++; } });
               
               totalData += countData;
             
@@ -385,12 +388,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   mapElements.push(o);
                   allElement.push(o);
 
-                  typeIco = o.type;
+  				        typeIco = o.type;
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                   
                   htmlIco ="<i class='fa "+ ico +" text-"+color+"'></i>";
-                  if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+                 	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
                     var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                   }
 
@@ -415,45 +418,46 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var target = " target='_blank'";
                   var dataId = "";
                   if(type == "city"){
-                    url = "javascript:"; //#main-col-search";
-                    onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                    onclickCp = 'setScopeValue($(this));';
-                    target = "";
+                  	url = "javascript:"; //#main-col-search";
+                  	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+                  	onclickCp = 'setScopeValue($(this));';
+                  	target = "";
                     dataId = o.name; //.replace("'", "\'");
                   }
 
                   var tags = "";
                   if(typeof o.tags != "undefined" && o.tags != null){
-                    $.each(o.tags, function(key, value){
-                      if(value != "")
-                      tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
+          					$.each(o.tags, function(key, value){
+          						if(value != "")
+  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
                       manageTagFilter("#"+value); 
                       tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
-                    });
+  		              });
                   }
-                  console.log(tagsClasses);
+                  // console.log(tagsClasses);
 
                   var name = typeof o.name != "undefined" ? o.name : "";
+                  var type = typeof o.type != "undefined" ? o.type : "";
                   var postalCode = (typeof o.address != "undefined" &&
-                            typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+                  				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
                   
                   if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
                   var cityName = (typeof o.address != "undefined" &&
-                          typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+                  				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
                   
                   var fullLocality = postalCode + " " + cityName;
 
                   var description = (typeof o.shortDescription != "undefined" &&
-                            o.shortDescription != null) ? o.shortDescription : "";
+                  					o.shortDescription != null) ? o.shortDescription : "";
                   if(description == "") description = (typeof o.description != "undefined" &&
-                                     o.description != null) ? o.description : "";
+                  									 o.description != null) ? o.description : "";
                   description = "";
 
                   var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
                   var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                   /***** VERSION SIMPLY *****/
-                  str += "<div id='"+id+"' class='col-md-3 col-lg-3 item searchEntity "+mix+" "+tagsClasses+" "+fullLocality+"' >";
+                  str += "<div id='"+id+"' class='col-md-3 col-lg-3 item searchEntity "+mix+" "+tagsClasses+" "+fullLocality+" "+type+"' >";
                     <?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
                     str += "<div class='row entityTop' onclick='"+onclick+"'>";
                         str += "<img class='image' src='http://paniersdumarais.weebly.com/uploads/1/4/6/5/1465996/5333680.jpg' />";
@@ -562,8 +566,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                 //On met à jour les filtres
                 <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+                  allTags = data['filters']['tags'];
                   loadClientFilters(data['filters']['types'], data['filters']['tags']);
                 <?php } else{ ?>
+                  allTypes = data['filters']['types'];
                   loadServerFilters(data['filters']['types'], data['filters']['tags']);
                 <?php } ?>                
 
@@ -578,7 +584,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
-                $("#btnShowMoreResult").mouseenter(function(){
+               	$("#btnShowMoreResult").mouseenter(function(){
                   if(!loadingData){
                     startSearch(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
@@ -588,21 +594,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
                 initBtnLink();
 
-              } //end else (str=="")
+    	        } //end else (str=="")
 
               //signal que le chargement est terminé
               console.log("loadingData false");
               loadingData = false;
 
               <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-               loadClientFeatures(true);
+               loadClientFeatures();
               <?php } else{ ?>
                 loadServerFeatures();
               <?php } ?>
 
               //quand la recherche est terminé, on remet la couleur normal du bouton search
-              $(".btn-start-search").removeClass("bg-azure");
-            }
+    	        $(".btn-start-search").removeClass("bg-azure");
+        	  }
 
             console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             
@@ -622,102 +628,102 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function initBtnLink(){
     $('.tooltips').tooltip();
-    //parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
-    $.each($(".followBtn"), function(index, value){
-      var id = $(value).attr("data-id");
-      var type = $(value).attr("data-type");
-      if(type == "person") type = "people";
-      else type = type + "s";
-      //console.log("#floopItem-"+type+"-"+id);
-      if($("#floopItem-"+type+"-"+id).length){
-        //console.log("I FOLLOW THIS");
-        if(type=="people"){
-          $(value).html("<i class='fa fa-unlink text-green'></i>");
-          $(value).attr("data-original-title", "Ne plus suivre cette personne");
-          $(value).attr("data-ownerlink","unfollow");
-        }
-        else{
-          $(value).html("<i class='fa fa-user-plus text-green'></i>");
-          
+  	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
+  	$.each($(".followBtn"), function(index, value){
+    	var id = $(value).attr("data-id");
+   		var type = $(value).attr("data-type");
+   		if(type == "person") type = "people";
+   		else type = type + "s";
+   		//console.log("#floopItem-"+type+"-"+id);
+   		if($("#floopItem-"+type+"-"+id).length){
+   			//console.log("I FOLLOW THIS");
+   			if(type=="people"){
+	   			$(value).html("<i class='fa fa-unlink text-green'></i>");
+	   			$(value).attr("data-original-title", "Ne plus suivre cette personne");
+	   			$(value).attr("data-ownerlink","unfollow");
+   			}
+   			else{
+	   			$(value).html("<i class='fa fa-user-plus text-green'></i>");
+	   			
           if(type == "organizations")
-            $(value).attr("data-original-title", "Vous êtes membre de cette organization");
-          else if(type == "projects")
-            $(value).attr("data-original-title", "Vous êtes contributeur de ce projet");
-          
+	   				$(value).attr("data-original-title", "Vous êtes membre de cette organization");
+	   			else if(type == "projects")
+	   				$(value).attr("data-original-title", "Vous êtes contributeur de ce projet");
+	   			
           //(value).attr("onclick", "");
-          $(value).removeClass("followBtn");
-        }
-      }
-      if($(value).attr("data-isFollowed")=="true"){
-        $(value).html("<i class='fa fa-unlink text-green'></i>");
-        $(value).attr("data-original-title", "Ne plus suivre");
-        $(value).attr("data-ownerlink","unfollow");
+	   			$(value).removeClass("followBtn");
+	   		}
+   		}
+   		if($(value).attr("data-isFollowed")=="true"){
+	   		$(value).html("<i class='fa fa-unlink text-green'></i>");
+	   		$(value).attr("data-original-title", "Ne plus suivre");
+			  $(value).attr("data-ownerlink","unfollow");
         $(value).addClass("followBtn");
-      }
-    });
+   		}
+   	});
 
-    //on click sur les boutons link
-    $(".followBtn").click(function(){
-      formData = new Object();
-      formData.parentId = $(this).attr("data-id");
-      formData.childId = "<?php echo Yii::app() -> session["userId"] ?>";
-      formData.childType = "<?php echo Person::COLLECTION ?>";
-      var type = $(this).attr("data-type");
-      var name = $(this).attr("data-name");
-      var id = $(this).attr("data-id");
-      //traduction du type pour le floopDrawer
-      var typeOrigine = type + "s";
-      if(typeOrigine == "persons"){ typeOrigine = "<?php echo Person::COLLECTION ?>";}
-      formData.parentType = typeOrigine;
-      if(type == "person") type = "people";
-      else type = type + "s";
+  	//on click sur les boutons link
+   	$(".followBtn").click(function(){
+	   	formData = new Object();
+   		formData.parentId = $(this).attr("data-id");
+   		formData.childId = "<?php echo Yii::app() -> session["userId"] ?>";
+   		formData.childType = "<?php echo Person::COLLECTION ?>";
+   		var type = $(this).attr("data-type");
+   		var name = $(this).attr("data-name");
+   		var id = $(this).attr("data-id");
+   		//traduction du type pour le floopDrawer
+   		var typeOrigine = type + "s";
+   		if(typeOrigine == "persons"){ typeOrigine = "<?php echo Person::COLLECTION ?>";}
+   		formData.parentType = typeOrigine;
+   		if(type == "person") type = "people";
+   		else type = type + "s";
 
-    var thiselement = this;
-    $(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-    //console.log(formData);
-    if ($(this).attr("data-ownerlink")=="follow"){
-      $.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/link/follow",
-        data: formData,
-        dataType: "json",
-        success: function(data) {
-          if(data.result){
-            //addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-            toastr.success(data.msg); 
-            $(thiselement).html("<i class='fa fa-unlink text-green'></i>");
-            $(thiselement).attr("data-ownerlink","unfollow");
-            $(thiselement).attr("data-original-title", "Ne plus suivre");
-            //if(type=="people"){
-              addFloopEntity(id, type, data.parentEntity);
-            //}
-          }
-          else
-            toastr.error(data.msg);
-        },
-      });
-    } else if ($(this).attr("data-ownerlink")=="unfollow"){
-      formData.connectType =  "followers";
-      console.log(formData);
-      $.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/link/disconnect",
-        data : formData,
-        dataType: "json",
-        success: function(data){
-          if ( data && data.result ) {
-            $(thiselement).html("<i class='fa fa-chain'></i>");
-            $(thiselement).attr("data-ownerlink","follow");
-            $(thiselement).attr("data-original-title", "Suivre");
-            removeFloopEntity(data.parentId, type);
-            toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name); //+" <?php echo Yii::t("common","anymore") ?>");  
-          } else {
-             toastr.error("You leave succesfully");
-          }
-        }
-      });
-    }
-    });
+		var thiselement = this;
+		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
+		//console.log(formData);
+		if ($(this).attr("data-ownerlink")=="follow"){
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/follow",
+				data: formData,
+				dataType: "json",
+				success: function(data) {
+					if(data.result){
+						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+						toastr.success(data.msg);	
+						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
+						$(thiselement).attr("data-ownerlink","unfollow");
+						$(thiselement).attr("data-original-title", "Ne plus suivre");
+						//if(type=="people"){
+							addFloopEntity(id, type, data.parentEntity);
+						//}
+					}
+					else
+						toastr.error(data.msg);
+				},
+			});
+		} else if ($(this).attr("data-ownerlink")=="unfollow"){
+			formData.connectType =  "followers";
+			console.log(formData);
+			$.ajax({
+				type: "POST",
+				url: baseUrl+"/"+moduleId+"/link/disconnect",
+				data : formData,
+				dataType: "json",
+				success: function(data){
+					if ( data && data.result ) {
+						$(thiselement).html("<i class='fa fa-chain'></i>");
+						$(thiselement).attr("data-ownerlink","follow");
+						$(thiselement).attr("data-original-title", "Suivre");
+						removeFloopEntity(data.parentId, type);
+						toastr.success("<?php echo Yii::t("common","You are not following") ?> "+data.parentEntity.name); //+" <?php echo Yii::t("common","anymore") ?>");	
+					} else {
+					   toastr.error("You leave succesfully");
+					}
+				}
+			});
+		}
+   	});
   }
 
   function setSearchValue(value){
@@ -737,7 +743,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     }
   }
 
-  function loadClientFeatures(execute){
+  function loadClientFeatures(){
 
     /*** EXTEND FUNCTION FOR CASE SENSITIVE ***/
     $.expr[":"].contains = $.expr.createPseudo(function (arg) {
@@ -912,68 +918,63 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
     // On document ready, initialise our code
-    if(execute == true){
-      $(function(){
-            
-        // Initialize multiFilter code
-        multiFilter.init();
-            
-        // Instantiate MixItUp 
-        $('#dropdown_search').mixItUp({
-          controls: {
-            enable: false // we won't be needing these
-          },
-          animation: {
-            easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
-            queueLimit: 3,
-            duration: 600
-          }
-        });
-
-        $('#dropdown_search').on('mixEnd', function(e, state){
-          //on met à jour le nombre de résultat
-          $("#countResult").html(state.totalShow+" résultats");
-
-          //On met à jour la map et les filtres
-          var mapData = new Array();
-          var tagsData = typesData = new Object();
-          $.each(state.$show, function(index, value){
-            $.each(allElement, function(index2, value2){
-              //Display
-              if(value['id'] == getObjectId(value2)){
-                
-                //map
-                mapData.push(value2);
-
-                //filtre
-                // if(typeof typesData[value2.type] == "undefined"){
-                //   typesData[value2.type] = 1;
-                // }else{
-                //   typesData[value2.type] = typesData[value2.type] + 1;
-                // }
-
-                //tags
-                // $.each(value2.tags, function(index3, value3){
-                //     // console.log(value3);
-                //     if(typeof tagsData[value3] == "undefined"){
-                //       tagsData[value3] = 1;
-                //     }else{
-                //       tagsData[value3] = tagsData[value3] + 1;
-                //     }
-                // });
-              }
-            });
-          });
-          Sig.restartMap();
-          Sig.showMapElements(Sig.map, mapData);
-          // console.log(typesData);
-          // loadClientFilters(typesData,tagsData);
+    $(function(){
           
-          //On remonte
-          $(".my-main-container").scrollTop(99);
-        });
+      // Initialize multiFilter code
+      multiFilter.init();
+          
+      // Instantiate MixItUp 
+      $('#dropdown_search').mixItUp({
+        controls: {
+         
+          toggleLogic: 'and'
+        }
       });
-    }
+
+      $('#dropdown_search').on('mixEnd', function(e, state){
+        //on met à jour le nombre de résultat
+        $("#countResult").html(state.totalShow+" résultats");
+
+        //On met à jour la map et les filtres
+        var mapData = new Array();
+        var tagsData = new Object();
+        var typesData = new Object();
+        console.log(state);
+        $.each(state.$show, function(index, value){
+          $.each(allElement, function(index2, value2){
+            //Display
+            if(value['id'] == getObjectId(value2)){
+              
+              //map
+              mapData.push(value2);
+
+              //filtre
+              if(typeof typesData[value2.type] == "undefined"){
+                typesData[value2.type] = 1;
+              }else{
+                typesData[value2.type] = typesData[value2.type] + 1;
+              }
+
+              //tags
+              $.each(value2.tags, function(index3, value3){
+                  // console.log(value3);
+                  if(typeof tagsData[value3] == "undefined"){
+                    tagsData[value3] = 1;
+                  }else{
+                    tagsData[value3] = tagsData[value3] + 1;
+                  }
+              });
+            }
+          });
+        });
+        Sig.restartMap();
+        Sig.showMapElements(Sig.map, mapData);
+        updateClientFilters(typesData, tagsData);
+        
+        //On remonte
+        $(".my-main-container").scrollTop(100);
+      });
+    });
   }
 
   function loadServerFeatures(){
@@ -1036,12 +1037,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function loadClientFilters(types,tags){
     var displayLimit = 10;
-    var classToHide = "";
+    var classToHide = check = "";
     var i = 0;
-    $("#listTypesClientFilter").html(' ');
+    i=0;
+    classToHide = "";
+    $("#listTypesClientFilter").empty();
     $.each(types, function(index, value){
       i+=1;
-      $("#listTypesClientFilter").append('<div class="checkbox typeHidden '+classToHide+'"><input type="checkbox" value=".'+index+'"/><label>'+index+' ('+value+')</label></div>');
+      $("#listTypesClientFilter").append('<div class="checkbox typeHidden '+classToHide+'" id="checkbox_'+index+'"><input type="checkbox" value=".'+index+'" /><label>#'+index+' ('+value+')</label></div>');
       if(i == displayLimit)classToHide = "hidden";
     });
     if(i > 10)$("#listTypesClientFilter").append('<div id="moreTypes"><i class="fa fa-plus fa-2x"></i></div>');
@@ -1049,13 +1052,24 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
        $(".typeHidden").removeClass("hidden");
        $("#moreTypes").hide();
     });
+    // $("#listTypesClientFilter").html(' ');
+    // $.each(types, function(index, value){
+    //   i+=1;
+    //   $("#listTypesClientFilter").append('<div class="checkbox typeHidden '+classToHide+'"><input type="checkbox" value=".'+index+'"/><label>'+index+' ('+value+')</label></div>');
+    //   if(i == displayLimit)classToHide = "hidden";
+    // });
+    // if(i > 10)$("#listTypesClientFilter").append('<div id="moreTypes"><i class="fa fa-plus fa-2x"></i></div>');
+    // $("#moreTypes").click(function(){
+    //    $(".typeHidden").removeClass("hidden");
+    //    $("#moreTypes").hide();
+    // });
 
     i=0;
     classToHide = "";
-    $("#listTagClientFilter").html(' ');
+    $("#listTagClientFilter").empty();
     $.each(tags, function(index, value){
       i+=1;
-      $("#listTagClientFilter").append('<div class="checkbox tagHidden '+classToHide+'"><input type="checkbox" value=".'+index+'"/><label>#'+index+' ('+value+')</label></div>');
+      $("#listTagClientFilter").append('<div class="checkbox tagHidden '+classToHide+'" id="checkbox_'+index+'"><input type="checkbox" value=".'+index+'" /><label>#'+index+' ('+value+')</label></div>');
       if(i == displayLimit)classToHide = "hidden";
     });
     if(i > 10)$("#listTagClientFilter").append('<div id="moreTag"><i class="fa fa-plus fa-2x"></i></div>');
@@ -1063,8 +1077,39 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
        $(".tagHidden").removeClass("hidden");
        $("#moreTag").hide();
     });
-    loadClientFeatures(false);
 
   }
-</script>
 
+  function updateClientFilters(types,tags){
+    var displayLimit = 10;
+    var classToHide = "";
+    var i = index = 0;
+
+    $.each(allTypes, function(index, value){
+      if(index!="ubiquitaire-&-iot" && index!="calcul-d'itinéraire"){
+        $("#checkbox_"+index).hide();
+      }
+    });
+
+    $.each(types, function(index, value){
+      if(index!="ubiquitaire-&-iot" && index!="calcul-d'itinéraire"){
+        $("#checkbox_"+index+" >label").text('#'+index+' ('+value+')');
+        $("#checkbox_"+index).show();
+      }
+    });
+
+    $.each(allTags, function(index, value){
+      if(index!="ubiquitaire-&-iot" && index!="calcul-d'itinéraire"){
+        $("#checkbox_"+index).hide();
+      }
+    });
+
+    $.each(tags, function(index, value){
+      if(index!="ubiquitaire-&-iot" && index!="calcul-d'itinéraire"){
+        $("#checkbox_"+index+" >label").text('#'+index+' ('+value+')');
+        $("#checkbox_"+index).show();
+      }
+    });
+  }
+</script>
+  
