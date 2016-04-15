@@ -51,6 +51,18 @@ class DefaultController extends CommunecterController {
     $this->renderPartial("directory");
   }
 
+  public function actionDir() 
+  {
+    $this->layout = "//layouts/mainDirectory";
+    $this->render("dir/indexDirectory");
+  }
+
+  public function actionSimplyDirectory() 
+  {
+    $this->layout = "//layouts/mainDirectory";
+    $this->render("dir/simplyDirectory");
+  }
+
   public function actionHome() 
   {
     //$this->layout = "//layouts/mainSearch";
@@ -84,7 +96,6 @@ class DefaultController extends CommunecterController {
       //$this->sidebar2 = Menu::$infoMenu;
       $this->render($page);
     }
-    
   }
   
 

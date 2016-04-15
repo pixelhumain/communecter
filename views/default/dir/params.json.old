@@ -1,6 +1,6 @@
 {
     "name" : "simply",
-    "mode" : "client",
+    "mode" : "server",
     "skin" : {
         "logo" : false,
         "title" : false,
@@ -8,7 +8,7 @@
         "displayCommunexion" : false,
         "profilBar" : true,
         "displayButtonGridList" : true,
-        "class" : {
+         "class" : {
             "mainContainer" : false
         },
         "iconeAdd" : true,
@@ -32,6 +32,6 @@
     },
     "request" : {
         "sourcekey" : "patapouf",
-        "pagination" : 1000
+        "pagination" : 100
     }
 }

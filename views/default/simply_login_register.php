@@ -1,4 +1,9 @@
-<?php //echo "hello !"; ?>
+<?php //echo "hello !"; 
+
+$pathParams = Yii::app()->controller->module->viewPath.'/default/dir/';
+$json = file_get_contents($pathParams."params.json");
+$params = json_decode($json, true);
+?>
 <style>
 	.main-login{
 		position:absolute;

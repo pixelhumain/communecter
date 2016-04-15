@@ -79,6 +79,9 @@ fieldset{
     
       <form class="controls" id="Filters" style="background-color:white">
         <!-- We can add an unlimited number of "filter groups" using the following format: -->
+        <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
+          <center><button id="Reset" class="btn btn-default">Initialiser filtre</button></center><br>
+        <?php } ?>
         <?php if(isset($params['filter']['types']) && $params['filter']['types']){ ?>
           <b>Statut juridique : </b>
           <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
@@ -525,10 +528,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               else
               {       
                 //ajout du footer     
-                str += '</div><div class="center col-md-12" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-dark'></label><br/>";
-                str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-                str += "</div>";
+              
+                  str += '</div><div class="center col-md-12" id="footerDropdown">';
+                  str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-dark'></label><br/>";
+                  <?php if(isset($params['mode']) && $params['mode'] != "client"){ ?>
+                    str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
+                    str += "</div>";
+                  <?php } ?>
 
                 //si on n'est pas sur une première recherche (chargement de la suite des résultat)
                 if(indexMin > 0){
@@ -555,7 +561,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 $("#countResult").html($( "div.searchEntity" ).length+" résultats");
 
                 //On met à jour les filtres
-                 <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+                <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
                   loadClientFilters(data['filters']['types'], data['filters']['tags']);
                 <?php } else{ ?>
                   loadServerFilters(data['filters']['types'], data['filters']['tags']);
@@ -589,7 +595,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               loadingData = false;
 
               <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-                loadClientFeatures();
+               loadClientFeatures(true);
               <?php } else{ ?>
                 loadServerFeatures();
               <?php } ?>
@@ -731,7 +737,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     }
   }
 
-  function loadClientFeatures(){
+  function loadClientFeatures(execute){
 
     /*** EXTEND FUNCTION FOR CASE SENSITIVE ***/
     $.expr[":"].contains = $.expr.createPseudo(function (arg) {
@@ -905,39 +911,69 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     };
 
 
-    // On document ready, initialise our code.
-    $(function(){
-          
-      // Initialize multiFilter code
-      multiFilter.init();
-          
-      // Instantiate MixItUp 
-      $('#dropdown_search').mixItUp({
-        controls: {
-          enable: false // we won't be needing these
-        },
-        animation: {
-          easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
-          queueLimit: 3,
-          duration: 600
-        }
-      });
-
-      $('#dropdown_search').on('mixEnd', function(e, state){
-        //on met à jour le nombre de résultat
-        $("#countResult").html(state.totalShow+" résultats");
-
-        //On met à jour la map
-        var mapData = new Array();
-        $.each(state.$show, function(index, value){
-          $.each(allElement, function(index2, value2){
-            if(value['id'] == getObjectId(value2))mapData.push(value2);
-          });
+    // On document ready, initialise our code
+    if(execute == true){
+      $(function(){
+            
+        // Initialize multiFilter code
+        multiFilter.init();
+            
+        // Instantiate MixItUp 
+        $('#dropdown_search').mixItUp({
+          controls: {
+            enable: false // we won't be needing these
+          },
+          animation: {
+            easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
+            queueLimit: 3,
+            duration: 600
+          }
         });
-        Sig.restartMap();
-        Sig.showMapElements(Sig.map, mapData);
+
+        $('#dropdown_search').on('mixEnd', function(e, state){
+          //on met à jour le nombre de résultat
+          $("#countResult").html(state.totalShow+" résultats");
+
+          //On met à jour la map et les filtres
+          var mapData = new Array();
+          var tagsData = typesData = new Object();
+          $.each(state.$show, function(index, value){
+            $.each(allElement, function(index2, value2){
+              //Display
+              if(value['id'] == getObjectId(value2)){
+                
+                //map
+                mapData.push(value2);
+
+                //filtre
+                // if(typeof typesData[value2.type] == "undefined"){
+                //   typesData[value2.type] = 1;
+                // }else{
+                //   typesData[value2.type] = typesData[value2.type] + 1;
+                // }
+
+                //tags
+                // $.each(value2.tags, function(index3, value3){
+                //     // console.log(value3);
+                //     if(typeof tagsData[value3] == "undefined"){
+                //       tagsData[value3] = 1;
+                //     }else{
+                //       tagsData[value3] = tagsData[value3] + 1;
+                //     }
+                // });
+              }
+            });
+          });
+          Sig.restartMap();
+          Sig.showMapElements(Sig.map, mapData);
+          // console.log(typesData);
+          // loadClientFilters(typesData,tagsData);
+          
+          //On remonte
+          $(".my-main-container").scrollTop(99);
+        });
       });
-    });
+    }
   }
 
   function loadServerFeatures(){
@@ -1008,7 +1044,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       $("#listTypesClientFilter").append('<div class="checkbox typeHidden '+classToHide+'"><input type="checkbox" value=".'+index+'"/><label>'+index+' ('+value+')</label></div>');
       if(i == displayLimit)classToHide = "hidden";
     });
-    if(i > 10)$("#listTagClientFilter").append('<div id="moreTypes"><i class="fa fa-plus fa-2x"></i></div>');
+    if(i > 10)$("#listTypesClientFilter").append('<div id="moreTypes"><i class="fa fa-plus fa-2x"></i></div>');
     $("#moreTypes").click(function(){
        $(".typeHidden").removeClass("hidden");
        $("#moreTypes").hide();
@@ -1027,6 +1063,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
        $(".tagHidden").removeClass("hidden");
        $("#moreTag").hide();
     });
+    loadClientFeatures(false);
 
   }
 </script>

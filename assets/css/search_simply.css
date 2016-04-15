@@ -752,10 +752,6 @@ button.btn-infos{
 		font-size:35px !important;
 	}
 
-	.bgpixeltree{
-		background-image: url("") !important;
-	}
-
 	.img-logo {
 	    width: 290px;
 		max-width: 290px;
@@ -1145,6 +1141,12 @@ button.btn-infos{
 
 .type-list-filter a:hover{
 	color: #fff;
+	background-color: gray;
+}
+
+.type-list-filter a:active{
+	color: #fff;
+	background-color: gray;
 }
 
 
@@ -1204,8 +1206,6 @@ display: none;
 .mix .text-xss{ font-size: 11px; }
 
 
-
-
 #dropdown_search{
   padding: 2%;
   min-height: 400px;
@@ -1228,3 +1228,6 @@ display: none;
 }
 
 
+#moreTag{
+	cursor: pointer;
+}

@@ -182,7 +182,6 @@
       </div>
     </div>
 
-   
     <div class="pull-left">
       <div class="dropdown pull-right hidden-xs">
          <?php if(isset($params['skin']['iconeSearchPlus']) && $params['skin']['iconeSearchPlus']) { ?>
