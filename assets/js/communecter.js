@@ -399,8 +399,11 @@ var loadableUrls = {
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
-    "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
+    "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
+
+    "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
     "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
     "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
     "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
@@ -492,10 +495,6 @@ function loadByHash( hash , back ) {
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
     } 
-    else if( hash.indexOf("#rooms.index.type") >= 0 ){
-        hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
-    }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );

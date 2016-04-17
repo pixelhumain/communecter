@@ -16,9 +16,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 		<ul class="panel-heading-tabs border-light">
     	<li>
     		<?php  
-    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? "/type/".$_GET["type"]."/id/".$_GET["id"] : "" ;
+    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? ".type/".$_GET["type"].".id.".$_GET["id"] : "" ;
     			?>
-    		<a class=" btn btn-info" href="#" onclick="openSubView('Add a Room', '/communecter/rooms/editroom<?php echo $urlParams ?>',null,function(){editRoomSV ();})" ><i class="fa fa-plus"></i> Room </a>
+    		<a class=" btn btn-info" href="#" onclick="loadByHash('#rooms.editroom<?php echo $urlParams ?>')" ><i class="fa fa-plus"></i> Room </a>
     	</li>
 		
 	</div>
@@ -53,19 +53,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 								<?php 
 								$type = "rooms";
 								if( $e["type"] == ActionRoom::TYPE_SURVEY ){
-									$type = "survey/entries";
+									$type = "survey.entries";
 									$icon = "check-square";
 								}else if( $e["type"] == ActionRoom::TYPE_DISCUSS ){
-									$type = "comment/index/type/actionRooms";
+									$type = "comment.index.type.actionRooms";
 									$icon = "comments";
 								} else if ( $e["type"] == ActionRoom::TYPE_BRAINSTORM ){
-									$type = "survey/entries";
+									$type = "survey.entries";
 									$icon = "lightbulb-o";
 								}
 								
-								$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+								//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+								$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+								$link = 'href="javascript:;" onclick="'.$link.'"';
 								?>
-								<a href="<?php echo $link;?>">
+								<a <?php echo $link;?> >
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
 									<?php } else { ?>
@@ -73,7 +75,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><a <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<td><?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?></td>
 							<td></td>
 							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
@@ -99,11 +101,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine">
 								<?php 
-								$type = "survey/entry";
+								$type = "survey.entry";
 								$icon = "bookmark";
-								$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+								//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"]);
+								$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+								$link = 'href="javascript:;" onclick="'.$link.'"';
 								?>
-								<a href="<?php echo $link;?>">
+								<a <?php echo $link;?>>
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
 									<?php } else { ?>
@@ -111,7 +115,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 									<?php } ?>
 								</a>
 							</td>
-							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+							<td ><a <?php echo $link;?>><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<?php 
 							$participantCount = 0;
 							if(isset( $e[Action::ACTION_VOTE_UP] ))

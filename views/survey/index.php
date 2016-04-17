@@ -1,12 +1,20 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile(Yii::app()->controller->module->assetsUrl. '/survey/css/mixitup/reset.css');
-$cs->registerCssFile(Yii::app()->controller->module->assetsUrl. '/survey/css/mixitup/style.css');
-$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/exporting.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->controller->module->assetsUrl. '/survey/js/jquery.mixitup.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
+
+$cssAnsScriptFilesModule = array(
+  '/survey/css/mixitup/reset.css',
+  '/survey/css/mixitup/style.css',
+  '/survey/js/highcharts.js' , 
+  '/survey/js/exporting.js' , 
+  '/survey/js/jquery.mixitup.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+$cssAnsScriptFilesModule = array(
+  '/assets/plugins/share-button/ShareButton.min.js' , 
+  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 $commentActive = true;
 ?>
@@ -266,8 +274,12 @@ $commentActive = true;
 *  Initialisation
 *
 ***************************************** */
+var layout = 'grid', // Store the current layout as a variable
+$container = $('#mixcontainer'), // Cache the MixItUp container
+$changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
 clickedVoteObject = null;
 jQuery(document).ready(function() {
+  $(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
   $container.mixItUp({
       load: {sort: 'vote:desc'},
       animation: {
@@ -292,9 +304,7 @@ jQuery(document).ready(function() {
 *  Mixit Up pluggin stuff
 *
 ***************************************** */
-var layout = 'grid', // Store the current layout as a variable
-$container = $('#mixcontainer'), // Cache the MixItUp container
-$changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
+
 
   $changeLayout.on('click', function()
   {
