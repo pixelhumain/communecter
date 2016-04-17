@@ -37,6 +37,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
+	$lomioTool = false;
+
 	$viewer = isset($_GET["viewer"]) ? true : false;
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
@@ -48,6 +50,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
+
+		if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+			$lomioTool = true;
+		}
 	}
 	else if( ((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)) && @$viewer ){
 		Menu::person( $person );
@@ -168,11 +174,34 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <div id="newsHistory" class="padding-10">
 
-	<div class="margin-top-10">
+
+
+	
+
+	<?php if($lomioTool == true){ ?>
+	<div class="col-md-12 text-left" style="margin-bottom:50px;">
+		<h1 class="homestead text-orange">
+			<a href="https://www.loomio.org/g/RsQc26TE/assemblee-citoyennes-communectee" target="_blank" class='btn btn-default'><img height=25 src="<?php echo $this->module->assetsUrl ?>/images/loomio-btn.png"></a>
+			Faire une proposition
+		</h1>
+		<label class="margin-bottom-10 text-dark">
+			<i class="fa fa-caret-right"></i> Utilisez Loomio pour créer des propositions, débattre et prendre des décisions collectives.
+			<br>
+			<i class="fa fa-caret-right"></i> Une fois créée, copiez / collez l'url de votre proposition Loomio dans le fil d'actualités, pour la rendre accessible à tous.
+			<!-- <button class="btn btn-success">Valider</button> -->
+		</label>
+		
+	</div>
+	<?php } ?>
+
+
+	<div class="margin-top-10 text-right">
 		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
 		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
 	</div>
+
+
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">

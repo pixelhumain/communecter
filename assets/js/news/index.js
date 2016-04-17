@@ -520,7 +520,13 @@ function getUrlContent(){
                 	},
 					error : function(){
 						$.unblockUI();
-						toastr.error(trad["wrongwithurl"] + " !");
+						//toastr.error(trad["wrongwithurl"] + " !");
+						//content to be loaded in #results element
+						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
+	                    //load results in the element
+	                    $("#results").html(content); //append received data into the element
+	                    $("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
 						$("#loading_indicator").hide();
 					}	
                 });
