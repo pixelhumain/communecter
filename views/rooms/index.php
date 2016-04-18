@@ -16,7 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 		<ul class="panel-heading-tabs border-light">
     	<li>
     		<?php  
-    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? ".type/".$_GET["type"].".id.".$_GET["id"] : "" ;
+    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? ".type.".$_GET["type"].".id.".$_GET["id"] : "" ;
     			?>
     		<a class=" btn btn-info" href="javascript:" onclick="loadByHash('#rooms.editroom<?php echo $urlParams ?>')" ><i class="fa fa-plus"></i> Room </a>
     	</li>
