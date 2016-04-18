@@ -81,7 +81,33 @@ class TestController extends CommunecterController {
 		}
 	
   }
-    public function actionAddExplain() {
+  public function actionRefactorNews(){
+	  $news=PHDB::find(News::COLLECTION);
+	  foreach($news as $key => $data){
+		  if(@$data["type"] && $data["type"]!="activityStream"){
+			  
+			  $parentType=$data["type"];
+			  $parentId=$data["id"];
+			  PHDB::update(News::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
+			);
+			 // print_r($data);
+		  }
+		  if(@$data["type"] && $data["type"]=="activityStream"){
+			  if(@$data["target"]){
+				  $parentType=$data["target"]["objectType"];
+				 // $parentId=$data["id"];
+					  PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("target.type" => $parentType),'$unset' => array("target.objectType"=>""))			
+					);
+				}
+			 // print_r($data);
+		  }
+	  }
+  }
+   public function actionAddExplain() {
 		$persons=PHDB::find(Person::COLLECTION);
 		foreach($persons as $key => $data){
 			PHDB::update(Person::COLLECTION,

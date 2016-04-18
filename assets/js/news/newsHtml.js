@@ -93,10 +93,7 @@ function buildLineHTML(newsObj,idSession,update)
 	var imageBackground = "";
 	if(typeof newsObj.author != "undefined"){
 		if(typeof newsObj.author.type == "undefined") {
-			newsObj.author.type = "people";
-		}
-		if (typeof newsObj.type == "events"){
-			newsObj.author.type = "";		
+			newsObj.author.type = "citoyens";
 		}
 	}
 	
@@ -111,10 +108,10 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
-	if(typeof(newsObj.target) != "undefined" && newsObj.target.type != "citoyens" && newsObj.type!="gantts"){
-	if(newsObj.target.objectType=="projects")
+	if(newsObj.type == "activityStream" && typeof(newsObj.target) != "undefined"){
+		if(newsObj.target.type=="projects")
 			var iconBlank="fa-lightbulb-o";
-		else if (newsObj.target.objectType=="organizations")
+		else if (newsObj.target.type=="organizations")
 			var iconBlank="fa-group";
 	}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
@@ -127,7 +124,12 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
-			media=newsObj.media;
+			if("object" != typeof newsObj.media)
+				media=newsObj.media;
+			else{
+				//// Fonction générant l'html
+			} 
+				
 		}
 	}
 	else{
@@ -160,12 +162,12 @@ function buildLineHTML(newsObj,idSession,update)
 		postalCode = "";
 		city = "";
 		if(newsObj.type != "activityStream"){
-			if(newsObj.type=="citoyens"){
+			if(newsObj.target.type=="citoyens"){
 				postalCode=author.address.postalCode;
 				city=author.address.addressLocality;			
-			}else if(typeof(newsObj.postOn) != 'undefined' && typeof(newsObj.postOn.address) != 'undefined') {
-				postalCode=newsObj.postOn.address.postalCode;
-				city=newsObj.postOn.address.addressLocality;			
+			}else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined') {
+				postalCode=newsObj.target.address.postalCode;
+				city=newsObj.target.address.addressLocality;			
 			}
 		}else{
 			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
@@ -198,9 +200,9 @@ function buildLineHTML(newsObj,idSession,update)
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+urlAction.url+'>'+iconStr+'</a>' : iconStr;
 	// HOST NAME AND REDIRECT URL
-	if (typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id  && newsObj.type!="needs" && newsObj.type!="gantts"){
-		redirectTypeUrl=newsObj.target.objectType.substring(0,newsObj.target.objectType.length-1);
-		if (newsObj.target.objectType=="citoyens")
+	if (newsObj.type=="activityStream" && typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id){
+		redirectTypeUrl=newsObj.target.type.substring(0,newsObj.target.type.length-1);
+		if (newsObj.target.type=="citoyens")
 			redirectTypeUrl="person";
 		if (newsObj.target.name.length > 25)
 			nameAuthor = newsObj.target.name.substr(0,25)+"...";
@@ -223,12 +225,12 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
-	if(typeof(newsObj.verb) != "undefined" && typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id){
+	/*if(typeof(newsObj.verb) != "undefined" && newsObj.target.id != newsObj.author.id){
 		urlAuthor = 'href="javascript:" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a> "+urlAction.titleAction;
 	}
 	else 
-		authorLine="";
+		authorLine="";*/
 	//END OF CREATED BY OR INVITED BY
 	var commentCount = 0;
 	idVote=newsObj._id['$id'];
@@ -258,7 +260,7 @@ function buildLineHTML(newsObj,idSession,update)
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
 						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
 							vote+
 						"</div>";
 						}
@@ -268,32 +270,37 @@ function buildLineHTML(newsObj,idSession,update)
 }
 
 function buildHtmlUrlAndActionObject(obj){
-
 	console.log(obj);
-	if(typeof(obj.type) != "undefined")
-		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
+	if(typeof(obj.target) != "undefined" && typeof(obj.target.type) != "undefined")
+		redirectTypeUrl=obj.target.type.substring(0,obj.target.type.length-1);
 	else 
 		redirectTypeUrl="news";
 
-	if( (obj.type == "citoyens" && typeof(obj.verb) == "undefined") || obj.type !="activityStream" ){
+	if(obj.type=="news"){
 		url = 'href="javascript:" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		
-		if(typeof(obj.postOn) != "undefined" && ((obj.type != contextParentType || obj.id != obj.author.id) && contextParentId != obj.id && (contextParentType !="city" || obj.type != "citoyens"))){
-			if(obj.type == "organizations"){
+		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
+			if(obj.target.type == "organizations"){
 				color="green";
-			}else if (obj.type == "projects"){
+			}else if (obj.target.type == "projects"){
 				color="purple";
-			}else if (obj.type == "citoyens"){
+			}else if (obj.target.type == "citoyens"){
 				color="azure";
 			}
 			else{
 				color="orange";
 			}
-			if (obj.postOn.name.length > 25)
-				namePostOn = obj.postOn.name.substr(0,25)+"...";
-			else
-				namePostOn = obj.postOn.name;
-			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			if(obj.target.type=="pixels"){
+				color="black";
+				redirectUrl="pixels";
+				namePostOn = "Bugs et idées";
+			}else{
+				if (obj.target.name.length > 25)
+					namePostOn = obj.target.name.substr(0,25)+"...";
+				else
+					namePostOn = obj.target.name;
+			}
+			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction = "a partagé un lien";
@@ -302,12 +309,7 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 	}
 	else{
-		if(obj.object.objectType=="needs"){
-			redirectTypeUrl=obj.type;
-			id=obj.object.id;
-			urlParent="/type/"+contextParentType+"/id/"+contextParentId;
-		}
-		else if(obj.object.objectType =="citoyens"){
+		if(obj.object.objectType =="citoyens"){
 			redirectTypeUrl="person";
 			id=obj.object.id;
 			urlParent="";
@@ -324,7 +326,7 @@ function buildHtmlUrlAndActionObject(obj){
 			urlParent="";
 			titleAction = "a posté un évènement";
 		} 
-		else if(obj.object.objectType == "gantts" || obj.object.objectType =="projects"){
+		else if(obj.object.objectType =="projects"){
 			redirectTypeUrl="project";
 			id=obj.object.id;
 			urlParent="";
@@ -349,10 +351,10 @@ function builHtmlAuthorImageObject(obj){
 	}
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
-	if(typeof(obj.target) != "undefined" && obj.target.objectType != "citoyens" && obj.type!="gantts"){
-		if(obj.target.objectType=="projects")
+	if(obj.type == "activityStream" && typeof(obj.target) != "undefined" && obj.target.type != "citoyens"){
+		if(obj.target.type=="projects")
 			var iconBlank="fa-lightbulb-o";
-		else if (obj.target.objectType=="organizations")
+		else if (obj.target.type=="organizations")
 			var iconBlank="fa-group";
 		if(typeof obj.target.profilThumbImageUrl !== "undefined" && obj.target.profilThumbImageUrl != ""){ 
 			imgProfilPath = obj.target.profilThumbImageUrl;
@@ -362,7 +364,7 @@ function builHtmlAuthorImageObject(obj){
 		}
 	}else{
 			var imgProfilPath =  assetPath+"/images/news/profile_default_l.png";
-			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined" && obj.type!="gantts"){
+			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined"){
 				if(typeof obj.target.profilThumbImageUrl != "undefined" && obj.target.profilThumbImageUrl != ""){ 
 					imgProfilPath = obj.target.profilThumbImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl + imgProfilPath + "'></div>" + flag ; 
@@ -466,9 +468,9 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsReportAbuse[data-id="+idVote+"]").off();
 		}
 	}
-	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
-			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
+	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
+			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
+			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
 	return voteHtml;
 }
 

@@ -110,8 +110,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
-					<div id="results" class="padding-10 bg-white">
-					</div>
+					<div id="results" class="padding-10 bg-white"></div>
 				</div>
 			</div>
 			<div class="form-group tagstags" style="">

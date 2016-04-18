@@ -52,13 +52,6 @@ function buildTimeLine (news, indexMin, indexMax)
 {
 	if (dateLimit==0){
 		$(".newsTL").html('<div class="spine"></div>');
-		if (streamType=="activity"){
-			btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
-				'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
-				'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
-				'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
-			$(".newsTLmonthsList"+streamType).html(btnFilterSpecific);
-		}
 	}
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp");
@@ -79,8 +72,8 @@ function buildTimeLine (news, indexMin, indexMax)
 			else
 				var date = new Date( parseInt(newsObj.created)*1000 );
 			var d = new Date();
-			
-			str += buildLineHTML(newsObj, idSession);
+			if(typeof(newsObj.target)!="undefined" && typeof(newsObj.target.type)!="undefined")
+				str += buildLineHTML(newsObj, idSession);
 		}
 	});
 	$(".newsTL").append(str);
@@ -461,58 +454,7 @@ function getUrlContent(){
 					dataType: 'json',
 					success: function(data){        
 	                console.log(data); 
-                    extracted_images = data.images;
-                    total_images = parseInt(data.images.length);
-                    //img_arr_pos = total_images;
-                    img_arr_pos=1;
-                    if(data.size){
-	                    if (data.video){
-		                		extractClass="extracted_thumb";
-			                    width="100";
-			                    height="100";
-			                    aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.video+'"/></a>';
-						}
-		                else{
-			                aVideo="";
-			                endAVideo="";
-		                    if(data.size[0] > 350 ){
-			                    extractClass="extracted_thumb_large";
-			                    width="100%";
-			                    height="";
-		                    }
-		                    else{
-			                    extractClass="extracted_thumb";
-			                    width="100";
-			                    height="100";
-		                    }
-						}
-                    }
-                    if (data.imageMedia!=""){
-	                    inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
-	                    countThumbail="";
-                    }
-                    else {
-	                    if(total_images > 0){
-		                    if(total_images > 1){
-			                    selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
-			                    countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
-		                    }
-		                    else{
-			                    selectThumb="";
-			                    countThumbail="";
-		                    }
-	                        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
-	                        
-	                    }else{
-	                        inc_image ='';
-		                    countThumbail='';
-	                    }
-                    }
-                    
-                    //content to be loaded in #results element
-					if(data.content==null)
-						data.content="";
-                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>';
+                    content = getMediaHtml(data,"save",extracted_url);
                     //load results in the element
                     $("#results").html(content); //append received data into the element
                     $("#results").slideDown(); //show results with slide down effect
@@ -527,6 +469,75 @@ function getUrlContent(){
 			}
         }
     });
+}
+function getMediaHtml(data,action,url){
+	extracted_images = data.images;
+    total_images = parseInt(data.images.length);
+    //img_arr_pos = total_images;
+    img_arr_pos=1;
+    inputToSave="";
+    if(data.size){
+        if (data.video){
+        		extractClass="extracted_thumb";
+                width="100";
+                height="100";
+                aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.video+'"/></a>';
+                inputToSave+="<input type='hidden' class='video_link_value' value='"+data.video+"'/>"+
+                "<input type='hidden' class='media_type' value='video_link' />";
+                
+		}
+        else{
+            aVideo="";
+            endAVideo="";
+            if(data.size[0] > 350 ){
+                extractClass="extracted_thumb_large";
+                width="100%";
+                height="";
+                size="large";
+            }
+            else{
+                extractClass="extracted_thumb";
+                width="100";
+                height="100";
+                size="small";
+            }
+            inputToSave+="<input type='hidden' class='size_img' value='"+size+"'/>"+
+               "<input type='hidden' class='media_type' value='img_link' />";
+		}
+    }
+    if (data.imageMedia!=""){
+        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
+        countThumbail="";
+        inputToSave+="<input type='hidden' class='img_link' value='"+data.imageMedia+"'/>";
+    }
+    else {
+        if(total_images > 0){
+            if(total_images > 1){
+                selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
+                countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
+            }
+            else{
+                selectThumb="";
+                countThumbail="";
+            }
+            inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+      		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";      
+        }else{
+            inc_image ='';
+            countThumbail='';
+        }
+    }
+    
+    //content to be loaded in #results element
+	if(data.content==null)
+		data.content="";
+	inputToSave+="<input type='hidden' class='description' value='"+data.content+"'/>"; 
+	inputToSave+="<input type='hidden' class='name' value='"+data.title+"'/>";
+	inputToSave+="<input type='hidden' class='url' value='"+url+"'/>";
+	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
+	    
+    content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+url+'" target="_blank" class="lastUrl">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>'+inputToSave;
+    return content;
 }
 function saveNews(){
 	var formNews = $('#form-news');
@@ -576,13 +587,22 @@ function saveNews(){
 				errorHandler2.hide();
 				newNews = new Object;
 				if($("#form-news #results").html() != ""){
-					newNews.mediaContent=$("#form-news #results").html();	
+					//newNews.mediaContent=$("#form-news #results").html();	
+					newNews.media.type=$("#form-news .type").val(),
+					newNews.media.name=$("#form-news .name").val(),
+					newNews.media.description=$("#form-news .description").val(),
+					newNews.media.content.type=$("#form-news .media_type").val(),
+					newNews.media.content.url=$("#form-news .url").val(),
+					newNews.media.content.image=$("#form-news .img_link").val();
+					if($("#form-news .video_link_value").length)
+						newNews.media.content.video_link=$("#form-news .media_type").val();
+					
 				}
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				newNews.typeId = $("#form-news #parentId").val(),
-				newNews.type = $("#form-news #parentType").val(),
+				newNews.parentId = $("#form-news #parentId").val(),
+				newNews.parentType = $("#form-news #parentType").val(),
 				newNews.scope = $("input[name='scope']").val(),
 				newNews.text = $("#form-news #get_url").val();
 				console.log("contextParentType", contextParentType);
