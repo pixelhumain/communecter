@@ -307,7 +307,7 @@ class Menu {
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."'')",null,null);
+					"loadByHash('#city.detail.insee.".$insee."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
