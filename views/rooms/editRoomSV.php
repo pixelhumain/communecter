@@ -1,3 +1,5 @@
+<div id="editRoomsContainer"></div>
+
 <script type="text/javascript">
 var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;
 var tagsList = <?php echo json_encode($tagsList)?>;
@@ -16,7 +18,7 @@ var roomFormDefinition = {
             },
             "roomType" :{
                 "inputType" : "select",
-                "placeholder" : "Type of Room",
+                "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, Yii::app()->controller->module->id)?>",
                 "options" : listRoomTypes
               },
             "name" :{
@@ -45,12 +47,91 @@ var dataBind = {
 
 jQuery(document).ready(function() {
   console.warn("--------------- newRoom ---------------------");
+
+  $(".moduleLabel").html("<i class='fa fa-comments'></i> Espace citoyen : <span class='text-red'>Créer un nouvel espace</span>");
+
+  //getAjax("#editRoomsContainer",baseUrl+"/"+moduleId+"/rooms/editRoom", "html");
+  editRoomSV();
   $(".newRoom").off().on("click",function() { 
     console.warn("--------------- newRoom CLIK---------------------");
-    openSubView('Add a Room', '/communecter/rooms/editRoom',null,function(){editRoomSV ();});
+    //openSubView('Add a Room', '/communecter/rooms/editRoom',null,function(){editRoomSV ();});
   });
 });
 
+function editRoomSV (roomObj) { 
+  console.warn("--------------- editEntrySV ---------------------");
+  $("#editRoomsContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
+              "<div class='space20'></div>"+
+              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, Yii::app()->controller->module->id)?></h1>"+
+              "<form id='ajaxForm'></form>"+
+              "<div class='space20'></div>"+
+                "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, Yii::app()->controller->module->id)?></div>"+ 
+              "</div>");
+    
+        var form = $.dynForm({
+          formId : "#ajaxForm",
+          formObj : roomFormDefinition,
+          onLoad : function  () {
+            if( roomObj ){
+              $("#name").val(data.title);
+            }
+          },
+          onSave : function(){
+            console.log("saving Room!!");
+            one = getRandomInt(0,10);
+            two = getRandomInt(0,10);
+            if( prompt("combien font "+one+"+"+two+" ?") == one+two )
+            {
+              $.blockUI({
+                    message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
+                          '<blockquote>'+
+                            '<p>each Time I plant a seed'+
+                              '<br/>they say kill it before it grows.</p>'+
+                            '<cite title="Bob Marley ">Bob Marley </cite>'+
+                          '</blockquote> '
+                  });
+              var params = { 
+                 "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
+                 "name" : $("#name").val() , 
+                 "tags" : $("#tags").val().split(","),
+                 <?php  
+                 //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
+                 ?>
+                 "type" : $("#roomType").select2("val"), 
+              };
+              if( $("#type").val() != "")
+                params.parentType = $("#type").val();
+              if( $("#id").val() != "")
+                params.parentId = $("#id").val();
+             console.dir(params);
+             $.ajax({
+                type: "POST",
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
+                data: params,
+                success: function(data){
+                  if(data.result){
+                      window.location.reload();
+                  }
+                  else {
+                    toastr.error(data.msg);
+                  }
+                  $.unblockUI();
+                },
+                dataType: "json"
+              });
+          } else 
+            alert("mauvaise réponse, etes vous humain ?");
+
+
+            return false;
+          }
+        });
+        console.dir(form);
+      
+   
+}
+
+/*
 function editRoomSV (roomObj) { 
   console.warn("--------------- editEntrySV ---------------------");
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
@@ -133,6 +214,8 @@ function editRoomSV (roomObj) {
       }
     });
 }
+*/
+
 function getUrls(){
     var urls = [];
     $.each($('.addmultifield'), function() {

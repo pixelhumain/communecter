@@ -427,7 +427,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
       </div>
       <div class="col-md-8 col-sm-8 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="loadByHash('#news.index.type.organizations.id.<?php echo $idCitizenAssembly; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
+        <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $idCitizenAssembly; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
           <i class="fa fa-group"></i>
         </a>
         <br/>Assemblée Citoyenne Virtuelle<br><span class='text-red'><?php echo $city["name"]; ?></span>

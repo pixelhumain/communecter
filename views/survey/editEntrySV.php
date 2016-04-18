@@ -1,3 +1,6 @@
+<div id="editEntryContainer"></div>
+<div id="readEntryContainer"></div>
+
 <script type="text/javascript">
 var organizerList = {};
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
@@ -114,7 +117,7 @@ jQuery(document).ready(function() {
 
 function editEntrySV (proposalObj) { 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
@@ -125,11 +128,7 @@ function editEntrySV (proposalObj) {
                 "Votre proposition sera publiée par l`administrateur du sondage. <br/>Ni votre adresse email ni votre nom n`apparaitront sur le site public."+
                 "Vous pouvez aussi nous faire part de toute remarque constructive, nous permettant d`améliorer ce site à votre service</div>"+ 
               "</div>");
-    $.subview({
-      content : "#ajaxSV",
-      onShow : function() 
-      {
-
+    
         var form = $.dynForm({
           formId : "#ajaxForm",
           formObj : proposalFormDefinition,
@@ -146,7 +145,7 @@ function editEntrySV (proposalObj) {
             console.log("saving Survey !!");
             //one = getRandomInt(0,10);
             //two = getRandomInt(0,10);
-            if( $("#ajaxSV #name").val()) //&& prompt("combien font "+one+"+"+two+" ?") == one+two )
+            if( $("#ajaxSV #name").val() && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
               $.blockUI({
                     message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -205,16 +204,7 @@ function editEntrySV (proposalObj) {
           }
         });
         console.dir(form);
-      },
-      onHide : function() {
-        console.log("on Hide Event");
-        $("#ajaxSV").html('');
-        //$.hideSubview();
-      },
-      onSave: function() {
-        $("#ajaxForm").submit();
-      }
-    });
+      
 }
 
 function getUrls()
@@ -235,26 +225,17 @@ function getRandomInt (min, max) {
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#readEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+
               //'<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
               "</div>");
-  $.subview({
-        content : "#ajaxSV",
-        onShow : function() 
-        {
+  
           $("#entryContent").html(data.content);
           $("#entryTitle").html(data.title);
           if(type=="graph")
             setUpGraph();
-        },
-        onHide : function() {
-          $("#ajaxSV").html('');
-          //$.hideSubview();
-        }
-      });
 }
 
 

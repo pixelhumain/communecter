@@ -8,7 +8,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
  ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS 
+		<h4 class="panel-title"><!-- <i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS  -->
 			<a href="javascript:;" onclick="applyStateFilter('survey')" class="btn btn-xs btn-default"> Rooms <span class="badge badge-warning"> <?php echo count(@$rooms) ?></span></a> 
 			<a href="javascript:;" onclick="applyStateFilter('entry')" class="btn btn-xs btn-default"> Actions <span class="badge badge-warning"> <?php echo count(@$actions) ?></span></a>  
 			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
@@ -18,7 +18,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
     		<?php  
     			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? ".type/".$_GET["type"].".id.".$_GET["id"] : "" ;
     			?>
-    		<a class=" btn btn-info" href="#" onclick="loadByHash('#rooms.editroom<?php echo $urlParams ?>')" ><i class="fa fa-plus"></i> Room </a>
+    		<a class=" btn btn-info" href="javascript:" onclick="loadByHash('#rooms.editroom<?php echo $urlParams ?>')" ><i class="fa fa-plus"></i> Room </a>
+    	</li>
+    	<li>
+    		<a class=" btn btn-success" href="javascript:" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </a>
     	</li>
 		
 	</div>
@@ -52,6 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 							<td class="center organizationLine">
 								<?php 
 								$type = "rooms";
+								error_log($e["type"]);
 								if( $e["type"] == ActionRoom::TYPE_SURVEY ){
 									$type = "survey.entries";
 									$icon = "check-square";
@@ -59,6 +63,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 									$type = "comment.index.type.actionRooms";
 									$icon = "comments";
 								} else if ( $e["type"] == ActionRoom::TYPE_BRAINSTORM ){
+									$type = "survey.entries";
+									$icon = "lightbulb-o";
+								} else if ( $e["type"] == ActionRoom::TYPE_VOTE ){
 									$type = "survey.entries";
 									$icon = "lightbulb-o";
 								}
@@ -172,11 +179,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 			?>
 				<div id="infoPodOrga" class="padding-10">
 					<blockquote> 
-						Create Room
-						<br>Discussions  
-						<br>Decisions
-						<br>Brainstorms
-						<br>to think, develop, build and decide collaboratively
+						<?php echo Yii::t('rooms', 'Create Room', null, Yii::app()->controller->module->id)?>
+						<br><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> 
+						<br><?php echo Yii::t('rooms', 'Decisions', null, Yii::app()->controller->module->id)?>
+						<br><?php echo Yii::t('rooms', 'Brainstorms', null, Yii::app()->controller->module->id)?>
+						<br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
 					</blockquote>
 				</div>
 			<?php 
@@ -189,6 +196,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace citoyen");
+
 	resetDirectoryTable() ;
 });	
 

@@ -257,7 +257,7 @@ $commentActive = true;
 
     <div id="mixcontainer" class="mixcontainer">
         <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
-                                              '<a href="#" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
+                                              '<a href="javascript:" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
                                              '</div>'; ?>
     </div>
 
