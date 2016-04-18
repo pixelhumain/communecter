@@ -136,16 +136,17 @@ function editEntrySV (proposalObj) {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-              $("#ajaxSV #name").val( proposalObj.title );
-              $("#ajaxSV #message").val( proposalObj.contentBrut );
+              $("#editEntryContainer #name").val( proposalObj.title );
+              $("#editEntryContainer #message").val( proposalObj.contentBrut );
               AutoGrowTextArea($("message"));
             }
           },
           onSave : function(){
             console.log("saving Survey !!");
+            console.log($("#editEntryContainer #name").val());
             //one = getRandomInt(0,10);
             //two = getRandomInt(0,10);
-            if( $("#ajaxSV #name").val() && prompt("combien font "+one+"+"+two+" ?") == one+two )
+            if( $("#editEntryContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
               $.blockUI({
                     message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -158,25 +159,25 @@ function editEntrySV (proposalObj) {
               var params = { 
                  "survey" : "<?php echo (string)$survey['_id']?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-                 "name" : $("#ajaxSV #name").val() , 
-                 "organizer" : $("#ajaxSV #organizer").val(),
-                 "message" : ($("#ajaxSV #message").code() ) ? $("#ajaxSV #message").code() : $("#ajaxSV #message").val(),
+                 "name" : $("#editEntryContainer #name").val() , 
+                 "organizer" : $("#editEntryContainer #organizer").val(),
+                 "message" : ($("#editEntryContainer #message").code() ) ? $("#editEntryContainer #message").code() : $("#editEntryContainer #message").val(),
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
-                   "<?php echo Comment::COMMENT_ON_TREE ?>" : $("#ajaxSV #<?php echo Comment::COMMENT_ON_TREE ?>").val(),
-                   "<?php echo Comment::COMMENT_ANONYMOUS ?>" : $("#ajaxSV #<?php echo Comment::COMMENT_ANONYMOUS ?>").val(),
-                   "<?php echo Comment::ONE_COMMENT_ONLY ?>" : $("#ajaxSV #<?php echo Comment::ONE_COMMENT_ONLY ?>").val()
+                   "<?php echo Comment::COMMENT_ON_TREE ?>" : $("#editEntryContainer #<?php echo Comment::COMMENT_ON_TREE ?>").val(),
+                   "<?php echo Comment::COMMENT_ANONYMOUS ?>" : $("#editEntryContainer #<?php echo Comment::COMMENT_ANONYMOUS ?>").val(),
+                   "<?php echo Comment::ONE_COMMENT_ONLY ?>" : $("#editEntryContainer #<?php echo Comment::ONE_COMMENT_ONLY ?>").val()
                  }
               };
               
               urls = getUrls();
               if( urls != null )
                 params.urls = urls;
-              if( $("#ajaxSV #tags").val() )
-                params.tags = $("#ajaxSV #tags").val().split(",");
-              if( $("#ajaxSV #dateEnd").val() )
-                params.dateEnd = $("#ajaxSV #dateEnd").val();
+              if( $("#editEntryContainer #tags").val() )
+                params.tags = $("#editEntryContainer #tags").val().split(",");
+              if( $("#editEntryContainer #dateEnd").val() )
+                params.dateEnd = $("#editEntryContainer #dateEnd").val();
 
              console.dir(params);
              $.ajax({

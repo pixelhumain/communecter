@@ -255,6 +255,9 @@ $commentActive = true;
 
     </div>
 
+    <a class="btn btn-success" href="javascript:" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </a>
+      
+
     <div id="mixcontainer" class="mixcontainer">
         <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
                                               '<a href="javascript:" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
