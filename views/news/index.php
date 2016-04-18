@@ -48,23 +48,40 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
+		$restricted = "Visible de tous (mais que sur ce mur)";
+		$titleRestricted = "Restreint";
+		$private = "Visible juste pour mes membres"; 
+		$titlePrivate = "Privé";
 	}
-	else if( ((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)) && @$viewer ){
-		Menu::person( $person );
-		$contextName =$person["name"];
-		$contextIcon = "user";
-		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];	
+	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
+		if(@$viewer){
+			Menu::person( $person );
+			$contextName =$person["name"];
+			$contextIcon = "user";
+			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+			if(@Yii::app()->session["userId"] && $id==Yii::app()->session["userId"]){
+				$restricted = "Visible que sur votre mur";
+				$private = "Visible que pour votre réseau";
+			}	
+		}
+		else{
+			$restricted = "Visible que sur votre mur";
+			$private = "Visible que pour votre réseau";
+		}
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
 		Menu::project( $project );
 		$contextName = $project["name"];
 		$contextIcon = "lightbulb-o";
-		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Contributors of project");
+		$restricted = "Visible de tous (mais que sur ce mur)";
+		$private = "Visible juste pour mes contributeurs"; 
 	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
 		Menu::event( $event );
 		$contextName = $event["name"];
 		$contextIcon = "calendar";
-		$contextTitle = Yii::t("common", "Contributors of event");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Contributors of event");
+		$restricted = "Visible de tous (mais que sur ce mur)";
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -117,21 +134,30 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$type && $type==Person::COLLECTION && $contextParentId == Yii::app()->session["userId"]){ ?>
+				<?php if(@$canManageNews && $canManageNews){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li>
 							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
 								<!--<div class="small" style="padding-left:12px;">-->
-							<p class="list-group-item-text small">Ouvert au public et votre localité</p><!--</div>-->
+							<p class="list-group-item-text small">Visible de tous + Posté sur le mur de la ville</p>
 							</a>
 						</li>
+						<?php if(@$restricted){ ?>
+							<li>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-unlock"></i> Restreint</h4>
+								<p class="list-group-item-text small"><?php echo $restricted ?></p>
+							</a>
+						</li>
+						<?php } ?>
+						<?php if (@$private){ ?>
 						<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
-								<p class="list-group-item-text small">Le réseau auquel vous êtes connecté</p>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> Privé</h4>
+								<p class="list-group-item-text small"><?php echo $private ?></p>
 							</a>
 						</li>
+						<?php } ?>
 						<!--<li>
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
