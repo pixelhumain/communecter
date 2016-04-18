@@ -1,9 +1,14 @@
+<?php 
+Menu::proposal( $survey );
+$this->renderPartial('../default/panels/toolbar');
+ ?>
 <div id="editEntryContainer"></div>
 <div id="readEntryContainer"></div>
 
 <script type="text/javascript">
 var organizerList = {};
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
+var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
 
 var proposalFormDefinition = {
     "jsonSchema" : {
@@ -54,9 +59,9 @@ var proposalFormDefinition = {
               "placeholder" : "Tags",
               "values" : [
                 "Sport",
-                    "Agricutlture",
-                    "Culture",
-                    "Urbanisme",
+                "Agricutlture",
+                "Culture",
+                "Urbanisme",
               ]
             },
               "separator1":{
@@ -94,9 +99,11 @@ var dataBind = {
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
-var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
+
 
 jQuery(document).ready(function() {
+  $(".moduleLabel").html('<?php echo "Add a proposal" ?>');
+  
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
 
@@ -108,11 +115,12 @@ jQuery(document).ready(function() {
     editEntrySV ();
   });
 
-  $('.voteIcon').off().on("click",function() { 
+  $('.voteIcon').off().on("click",function() {
     $(this).addClass("faa-bounce animated");
     clickedVoteObject = $(this).data("vote");
     console.log(clickedVoteObject);
-   });
+  });
+  editEntrySV ();
 });
 
 function editEntrySV (proposalObj) { 
@@ -186,7 +194,7 @@ function editEntrySV (proposalObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      window.location.reload();
+                      loadByHash("#survey.entries.id.<?php echo (string)$survey['_id']?>")
                   }
                   else {
                     toastr.error(data.msg);

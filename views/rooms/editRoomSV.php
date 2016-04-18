@@ -110,7 +110,7 @@ function editRoomSV (roomObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      window.location.reload();
+                      loadByHash("#rooms.index.type.citoyens.id."+userId);
                   }
                   else {
                     toastr.error(data.msg);

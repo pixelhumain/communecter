@@ -17,6 +17,9 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 $commentActive = true;
+
+Menu::survey( $where["survey"] );
+$this->renderPartial('../default/panels/toolbar');
 ?>
 
 <style type="text/css">
@@ -24,7 +27,7 @@ $commentActive = true;
   button.filter,button.sort{color:#000;}
   a.btn{margin:3px;}
   .mix{border-radius: 8px;}
-  
+  .home{margin-top: 50px;}
 
   /*.infolink{border-top:1px solid #fff}*/
 
@@ -447,7 +450,6 @@ function addaction(id,action)
 </script>
 <?php
 if($where["type"]==Survey::TYPE_ENTRY){
-  Yii::app()->controller->renderPartial('editEntrySV',array("survey"=>$where[Survey::TYPE_SURVEY]));
   Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.voterloiDesc');
   Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.cgu');
   if($commentActive){
