@@ -161,7 +161,7 @@ function editEntrySV (proposalObj) {
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
-                 "message" : ($("#editEntryContainer #message").code() ) ? $("#editEntryContainer #message").code() : $("#editEntryContainer #message").val(),
+                 "message" : ($("#editEntryContainer #message").val() ) ? $("#editEntryContainer #message").val() : $("#editEntryContainer #message").val(),
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
