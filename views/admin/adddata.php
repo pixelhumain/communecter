@@ -49,19 +49,23 @@ $userId = Yii::app()->session["userId"] ;
 				</div>	
 			</div>
 			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-6 col-xs-12">
+				<!--<div class="col-sm-3 col-xs-12">-->
 					<label>
 						Lier les entités : <input class="hide" id="isLink" name="isLink"></input>
-					<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+					<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
-				</div>
-				<div class="col-sm-6 col-xs-12" id="divLink">
-					<select id="chooseTypeLink" name="chooseTypeLink">
+				<!-- </div>-->
+				<div id="divLink">
+					<select id="chooseTypeLink" name="chooseTypeLink"> 
 						<option value="Person">Person</option>
 						<option value="Organization">Organisation</option>
 					</select>
 					<label for="inputIdLink">Id de l'entité : </label>
 					<input class="" placeholder="" id="inputIdLink" name="inputIdLink" value="">
+					<label>
+						Admin : <input class="hide" id="isAdmin" name="isAdmin"></input>
+					<input id="checkboxAdmin" name="checkboxAdmin" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
+					</label>
 				</div>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -118,6 +122,13 @@ jQuery(document).ready(function()
 
 function bind()
 {
+	$("#checkboxAdmin").bootstrapSwitch();
+	$("#checkboxAdmin").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isAdmin").val(state);
+		
+	});
+
 
 	$("#checkboxLink").bootstrapSwitch();
 	$("#checkboxLink").on("switchChange.bootstrapSwitch", function (event, state) {
@@ -129,6 +140,7 @@ function bind()
 			$("#divLink").hide();
 		}
 	});
+
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
@@ -169,8 +181,12 @@ function bind()
 		});
   		console.log("file", file);
   		var link = false ;
-  		if( $("#isLink").val(state) == "true" )
+  		if( $("#isLink").val() == "true" )
   			link = true ;
+
+  		var isAdmin = false ;
+  		if( $("#isAdmin").val() == "true" )
+  			isAdmin = true ;
   			
   		$.ajax({
 	        type: 'POST',
@@ -181,7 +197,8 @@ function bind()
 	        		pathFolderImage : $("#pathFolderImage").val(),
 	        		link : link,
 	        		typeLink : $("#chooseTypeLink").val(),
-	        		idLink : $("#inputIdLink").val()
+	        		idLink : $("#inputIdLink").val(),
+	        		isAdmin : isAdmin
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
