@@ -33,6 +33,7 @@ class ProjectController extends CommunecterController {
 		'update'					=> 'citizenToolKit.controllers.project.UpdateAction',
 		'dashboard'					=> 'citizenToolKit.controllers.project.DashboardAction',
 		'detail'					=> 'citizenToolKit.controllers.project.DetailAction',
+		'simply'					=> 'citizenToolKit.controllers.project.DetailAction',
 		'savecontributor'			=> 'citizenToolKit.controllers.project.SaveContributorAction',
 		'editchart'					=> 'citizenToolKit.controllers.project.EditChartAction',
 		'updatefield'				=> 'citizenToolKit.controllers.project.UpdateFieldAction',

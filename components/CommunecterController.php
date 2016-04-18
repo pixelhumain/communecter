@@ -261,6 +261,7 @@ class CommunecterController extends Controller
       "savecontributor" => array("href" => "/ph/communecter/project/savecontributor"),
       "dashboard"       => array("href" => "/ph/communecter/project/dashboard"),
       "detail"          => array("href" => "/ph/communecter/project/detail", "public" => true),
+      "simply"          => array("href" => "/ph/communecter/project/detail", "public" => true),
       "removeproject"   => array("href" => "/ph/communecter/project/removeproject"),
       "editchart"       => array("href" => "/ph/communecter/project/editchart"),
       "updatefield"     => array("href" => "/ph/communecter/project/updatefield"),

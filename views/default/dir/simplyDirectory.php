@@ -111,16 +111,14 @@ fieldset{
 
 <script type="text/javascript">
 
-var searchType = [ "persons", "organizations", "projects" ];
-var allSearchType = [ "persons", "organizations", "projects" ];
+var searchType = [ "projects" ];
+var allSearchType = [ "projects" ];
 var allElement = new Array();
 
 jQuery(document).ready(function() {
 
   selectScopeLevelCommunexion(levelCommunexion);
 
-  searchType = [ "persons", "organizations", "projects" ];
-  allSearchType = [ "persons", "organizations", "projects" ];
   topMenuActivated = true;
   hideScrollTop = true; 
   checkScroll();
@@ -361,7 +359,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);          
+             console.log("error");
+             console.dir(data);          
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
@@ -431,7 +430,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
                     });
                   }
-                  console.log(tagsClasses);
+                  // console.log(tagsClasses);
 
                   var name = typeof o.name != "undefined" ? o.name : "";
                   var postalCode = (typeof o.address != "undefined" &&
@@ -595,7 +594,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               loadingData = false;
 
               <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-               loadClientFeatures(true);
+               loadClientFeatures();
               <?php } else{ ?>
                 loadServerFeatures();
               <?php } ?>
@@ -698,7 +697,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       });
     } else if ($(this).attr("data-ownerlink")=="unfollow"){
       formData.connectType =  "followers";
-      console.log(formData);
+      // console.log(formData);
       $.ajax({
         type: "POST",
         url: baseUrl+"/"+moduleId+"/link/disconnect",
@@ -737,7 +736,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     }
   }
 
-  function loadClientFeatures(execute){
+  function loadClientFeatures(){
 
     /*** EXTEND FUNCTION FOR CASE SENSITIVE ***/
     $.expr[":"].contains = $.expr.createPseudo(function (arg) {
@@ -912,7 +911,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
     // On document ready, initialise our code
-    if(execute == true){
+    // if(execute == true){
       $(function(){
             
         // Initialize multiFilter code
@@ -924,9 +923,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             enable: false // we won't be needing these
           },
           animation: {
-            easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
-            queueLimit: 3,
-            duration: 600
+            // easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
+            // queueLimit: 3,
+            // duration: 600
+            enable: false
           }
         });
 
@@ -973,7 +973,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           $(".my-main-container").scrollTop(99);
         });
       });
-    }
+    // }
   }
 
   function loadServerFeatures(){
@@ -1063,7 +1063,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
        $(".tagHidden").removeClass("hidden");
        $("#moreTag").hide();
     });
-    loadClientFeatures(false);
+    loadClientFeatures();
 
   }
 </script>
