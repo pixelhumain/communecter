@@ -1565,16 +1565,40 @@ function visualisation(params){
         			$("#divJsonErrorView").JSONView(data.jsonError);
         		}
         		
-
-        		/*$("#jsonImport").val(data.jsonImport);
-        		$("#jsonError").val(data.jsonError);*/
+        		
 
 
-        		var importD = data.jsonImport + $("#jsonImport").val() ;
-        		var errorD = data.jsonError + $("#jsonError").val() ;
+        		/*var importD = data.jsonImport + $("#jsonImport").val() ;
+        		var errorD = data.jsonError + $("#jsonError").val() ;*/
+        		//$("#jsonImport").val().substring(0, $("#jsonImport").val().length-1)+ "," + data.jsonImport.substring(1, data.jsonImport.length);
+        		var importD = "" ;
+        		var errorD = "" ;
+        		if($("#jsonImport").val() == "")
+        			importD = data.jsonImport;
+        		else{
+        			if(data.jsonImport == "[]")
+        				importD = $("#jsonImport").val();
+        			else
+        				importD = $("#jsonImport").val().substring(0, $("#jsonImport").val().length-1) + "," + data.jsonImport.substring(1, data.jsonImport.length);
+
+        		}
+        			
+        		
+
+        		if($("#jsonError").val() == "")
+        			errorD = data.jsonError;
+        		else{
+
+        			if(data.jsonError == "[]")
+        				errorD = $("#jsonError").val();
+        			else
+        				errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.jsonError.substring(1, data.jsonError.length);
+        		}
+        			
 
         		$("#jsonImport").val(importD);
         		$("#jsonError").val(errorD);
+
 
 				var chaine = "" ;
         		$.each(data.listEntite, function(keyListEntite, valueListEntite){
