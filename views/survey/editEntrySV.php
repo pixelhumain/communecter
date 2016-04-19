@@ -1,5 +1,5 @@
 <?php 
-Menu::proposal( $survey );
+Menu::proposal( (string)$survey['_id'] );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>

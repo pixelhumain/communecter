@@ -25,7 +25,7 @@ $this->renderPartial('../default/panels/toolbar');
 <style type="text/css">
   .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
   button.filter,button.sort{color:#000;}
-  a.btn{margin:3px;}
+  /*a.btn{margin:3px;}*/
   .mix{border-radius: 8px;}
   .home{margin-top: 50px;}
 
@@ -52,6 +52,9 @@ $this->renderPartial('../default/panels/toolbar');
   .mixcontainer .mix{
     border-radius:0px;
     border-color: #CCC;
+    height:350px;
+    margin:-1px -3px !important;
+    float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     -o-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -59,6 +62,12 @@ $this->renderPartial('../default/panels/toolbar');
     filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
   }
 
+  .mixcontainer .mix a.titleMix{
+    margin-top: 4px !important;
+    float: left;
+    width: 100%;
+
+  }
   .mixcontainer .mix a.titleMix:hover{
     text-decoration: underline;
   }
@@ -72,9 +81,44 @@ $this->renderPartial('../default/panels/toolbar');
     background-color: #fff;
     border-color: #ccc;
   }
+  .mixcontainer .mix span{
+    height: 135px;
+  }
 
 
+    .assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
+      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-position: 0px -50px;
+      background-size: 100% auto;
+    }
+
+      h1.citizenAssembly-header{
+        background-color: rgba(255, 255, 255, 0.63);
+        padding: 30px;
+        margin-bottom: -3px;
+        font-size: 32px;
+        margin-top:90px;
+      }
+
+    .message-propostal{
+      font-size: 13px !important;
+      font-weight: 300 !important;
+      margin-top: 20px !important;
+      line-height: 1.3;
+      width:100%;
+    }
+
+    .lbl-info-survey{
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      margin-top:3px;
+      padding:4px;
+    }
 </style>
+
 
 <div id="surveyDetails"></div>
 
@@ -98,6 +142,7 @@ $this->renderPartial('../default/panels/toolbar');
         $tagBlock = "";
         $cpBlock = "";
         $name = $entry["name"];
+        $message = substr($entry["message"],0,300);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -149,13 +194,15 @@ $this->renderPartial('../default/panels/toolbar');
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
         
+        
         //title + Link
         if ( $entry["type"] == Survey::TYPE_SURVEY )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'.$name.' ('.$count.')</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-gavel'></i> ".$name.' ('.$count.')</a>' ;
         else if ( $entry["type"] == "entry" )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'.$name.'</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-gavel'></i> ".$name.'</a>' ;
         
-  
+        $message = "<span class='text-dark no-border message-propostal'><i class='fa fa-file-text fa-2x'></i> ".$message."</span>";
+
         //$infoslink bring visual detail about the entry
         $infoslink = "";
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
@@ -176,12 +223,12 @@ $this->renderPartial('../default/panels/toolbar');
         $commentCount = 0;
         //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$entry["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
         $totalVote = $voteLinksAndInfos["totalVote"];
-        $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> voter(s)</span><br/>':'<span class="info"></span><br/>';
+        $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> vote(s)</span><br/>':'<span class="info"></span>';
   
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
   
         $leftLinks = $voteLinksAndInfos["links"];
-        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> Result</a> ' : '';
+        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> '.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id).'</a> ' : '';
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
@@ -211,15 +258,22 @@ $this->renderPartial('../default/panels/toolbar');
         $closeBtn = "";
         $isClosed = "";
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
-          $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;'".
+          $closeBtn = "<a class='btn btn-xs btn-danger pull-right' href='javascript:;'".
                         " onclick='closeEntry(\"".$entry["_id"]."\")'>".
                         "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
                       "</a>";
         else
             $isClosed = " closed";
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
-        $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
-        $ends =  (!empty( $entry["dateEnd"] )) ? '<div class="space1"></div>'." end : ".date("d/m/y",$entry["dateEnd"]) : "";
+        
+        $createdInfo  = "<div class='text-red lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+        $createdInfo .= (!empty( $created )) ? " ".Yii::t("rooms", "created", null, Yii::app()->controller->module->id) . " : ".$created : "";
+        $createdInfo .= "</div>";
+
+        $ends  = "<div class='text-red lbl-info-survey'>";
+        $ends .=  (!empty( $entry["dateEnd"] )) ? '<div class="space1"></div>'." ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
+        $ends .= "</div>";
+
         $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "bg-white" : "bg-azure" ;
         $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
                         $meslois.' '.
@@ -229,20 +283,23 @@ $this->renderPartial('../default/panels/toolbar');
                         
                         'data-vote="'.$ordre.'"  data-time="'.
                         $created.'" style="display:inline-blocks"">'.
+                        $createdInfo.
                         $link.'<br/>'.
+                        $message.'<br/>'.
                         $info.
                         //$tags.
                         //$content.
-                        '<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
-                        //'<div class="space1"></div>'.$rightLinks.
-
-                       
-                        '<div class="space1"></div>'.$createdInfo.$views.
-                        $ends.
                         '<div class="space1"></div><div class="pull-left" >'.
                             $graphLink.$commentBtn.$closeBtn.$infoslink. 
                             $byInfo.
                         '</div>'.
+                        '<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
+                        //'<div class="space1"></div>'.$rightLinks.
+
+                       
+                        '<div class="space1"></div>'.$views.
+                        $ends.
+                        
                     '</div>';
 
         return array(
@@ -263,53 +320,69 @@ $this->renderPartial('../default/panels/toolbar');
     }
     ?>
     
+
+
+    <h1 class="homestead text-red center citizenAssembly-header">
+      <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
+      <small class="homestead text-dark center">
+        Propositions, Débats, Votes
+        </small>
+    </h1>
+
+    <div class="panel-white" style="display:inline-block;">
    
-    
-    <div class="controls col-md-12" style="border-radius: 8px;">
-          <!-- <label>Filtre:</label> -->
-          <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
-          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-          <a class="filter btn btn-orange" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
-          <a class="filter btn btn-orange" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
-          <a class="filter btn btn-orange" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
-          <a class="filter btn btn-orange" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
-          <?php } ?>
-          
-          <?php echo $tagBlock?>
+        
+        <div class="controls col-md-12" style="border-radius:0px;">
+              <!-- <label>Filtre:</label> -->
+              <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button>
+              <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
+              <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
+              <a class="filter btn bg-red" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+              <button class="btn btn-success pull-right" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
+              <button class="btn btn-success pull-right" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')" ><i class="fa fa-plus"></i></button>
+        
+              <?php } ?>
+              
+              <?php //echo $tagBlock?>
+        </div>
+
+        <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
+              
+              <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
+              <label>Participation : </label>
+              <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
+              <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
+              <?php } ?>
+              <label>Chronologie : </label>
+              <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
+              <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
+              <label>Affichage :</label>
+              <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
+              <br/>
+
+              <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
+              <label>Géographique : </label>
+              <?php echo $cpBlock; 
+              }?>
+              <br/>
+        </div>
+
+        <div id="mixcontainer" class="mixcontainer col-md-12">
+            <?php
+                 //echo count($list);
+                 echo (count($list) > 0) ? $blocks : "" ?>
+        </div>
+      </div>
+
     </div>
-    <div class="col-md-12 col-sm-12 pull-left" style="border-radius: 8px;">
-          
-          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
-          <label>Participation : </label>
-          <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
-          <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
-          <?php } ?>
-          <label>Chronologie : </label>
-          <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
-          <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
-          <label>Affichage :</label>
-          <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
-          <br/>
 
-          <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
-          <label>Géographique : </label>
-          <?php echo $cpBlock; 
-          }?>
-          <br/>
-    </div>
+    </section>
 
+    <div class="space20"></div>
 
-    <div id="mixcontainer" class="mixcontainer col-md-12">
-        <?php
-             //echo count($list);
-             echo (count($list) > 0) ? $blocks : "" ?>
-    </div>
-
-</div>
-
-</section>
-
-<div class="space20"></div>
 
 <script type="text/javascript">
 
@@ -323,7 +396,9 @@ $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
 clickedVoteObject = null;
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
+  //$(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
+  $(".moduleLabel").html("<i class='fa fa-gavel text-red'></i> " + "décider ensemble");
+  $(".main-col-search").addClass("assemblyHeadSection");
   $container.mixItUp({
       load: {sort: 'vote:desc'},
       animation: {

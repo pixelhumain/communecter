@@ -18,9 +18,9 @@
 		"Thank you for voting" => "Merci d'avoir voté",
 		"Feel Free to vote"=>"Voter est un droit, pas un devoir.",
 		"INVITATION TO VOTE" => "INVITATION A VOTER",
-		"VOTERS"=>"VOTEURS",
-		"Since"=>"Date début",
-		"Ends"=>"Date fin",
+		"VOTERS"=>"Nombre de votants",
+		"Since"=>"Début",
+		"Ends"=>"Fin",
 		"VISITORS"=>"Visiteurs"
 	)
 
