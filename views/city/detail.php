@@ -442,7 +442,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div style="" class="col-md-12" id="div-discover">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
-    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px; float: left; width: 100%;">
       <i class="fa fa-2x fa-angle-down"></i><br/>
       Découvrir
     </h2>

@@ -16,5 +16,14 @@ return array(
 	"Brainstorms" => "Echanger des idées",
 	"to think, develop, build and decide collaboratively" => "pour penser, développer, construire et décider de façon collaborative",
 
+	"To vote" => "A voter",
+	"My votes" => "Mes votes",
+	"My proposals" => "Mes propositions",
+	"Closed" => "Fermés",
+	"Edit" => "Modifier",
+	"Close" => "Fermer",
+	"Comment" => "Commenter",
+
+
 
 );

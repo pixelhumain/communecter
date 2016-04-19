@@ -39,7 +39,41 @@ $commentActive = true;
   a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   .step{ background-color: #182129;  opacity: 0.9;}
   .taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
+
+
+  .controls{
+    background: #E7E7E7;
+    border: 1px solid #BDBDBD;
+  }
+
+  .mixcontainer .mix{
+    border-radius:0px;
+    border-color: #CCC;
+    moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+    -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+    -o-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+    box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+  }
+
+  .mixcontainer .mix a.titleMix:hover{
+    text-decoration: underline;
+  }
+
+  .leftlinks a.btn {
+      border: 1px solid #9c9c9c !important;
+      width: 14%;
+  }
+
+  .mixcontainer .mix a, .mixcontainer .mix span{
+    background-color: #fff;
+    border-color: #ccc;
+  }
+
+
 </style>
+
+<div id="surveyDetails"></div>
 
 <section class="mt80 stepContainer">
   <div class=" home ">
@@ -114,21 +148,21 @@ $commentActive = true;
         
         //title + Link
         if ( $entry["type"] == Survey::TYPE_SURVEY )
-          $link = '<a class="titleMix '.$meslois.'" href="'.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entries/id/".(string)$entry["_id"]).'">'.$name.' ('.$count.')</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'.$name.' ('.$count.')</a>' ;
         else if ( $entry["type"] == "entry" )
-          $link = '<a class="titleMix '.$meslois.'" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\')" href="javascript:;">'.$name.'</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'.$name.'</a>' ;
         
   
         //$infoslink bring visual detail about the entry
         $infoslink = "";
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
   
-        $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> Edit</a> ' : '';                          
+        $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs btn-default filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> '.Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).'</a> ' : '';                          
+        
         if (Yii::app()->session["userIsAdmin"]) {
           $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
-          $infoslink .= "<a target='_blank' class='btn voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
+          $infoslink .= "<a target='_blank' class='btn btn-default voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
         }
-  
   
         /* **************************************
         Rendering Each block
@@ -170,17 +204,20 @@ $commentActive = true;
         }
 
         $contextType = ( $entry["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-        $commentBtn = "<a class='btn btn-xs voteAbstain' href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/comment/index/type/".$contextType."/id/".$entry["_id"])."'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> Comment</a>";
+        $commentBtn = "<a class='btn btn-xs btn-default voteAbstain' href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/comment/index/type/".$contextType."/id/".$entry["_id"])."'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> ".Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)."</a>";
         $closeBtn = "";
         $isClosed = "";
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
-          $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;' onclick='closeEntry(\"".$entry["_id"]."\")'><i class='fa fa-times'></i> CLOSE</a>";
+          $closeBtn = "<a class='btn btn-xs btn-danger' href='javascript:;'".
+                        " onclick='closeEntry(\"".$entry["_id"]."\")'>".
+                        "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
+                      "</a>";
         else
             $isClosed = " closed";
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
         $createdInfo =  (!empty( $created )) ? " created : ".$created : "";
         $ends =  (!empty( $entry["dateEnd"] )) ? '<div class="space1"></div>'." end : ".date("d/m/y",$entry["dateEnd"]) : "";
-        $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "boxColor1" : "boxColor2" ;
+        $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "bg-white" : "bg-azure" ;
         $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
                         $meslois.' '.
                         $followingEntry.' '.
@@ -193,14 +230,14 @@ $commentActive = true;
                         $info.
                         //$tags.
                         //$content.
-                        '<div class="space1"></div><div class="pull-right" >'.$leftLinks.'</div>'.
+                        '<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
                         //'<div class="space1"></div>'.$rightLinks.
 
                        
                         '<div class="space1"></div>'.$createdInfo.$views.
                         $ends.
                         '<div class="space1"></div><div class="pull-left" >'.
-                            $graphLink.$infoslink.$commentBtn.$closeBtn. 
+                            $graphLink.$commentBtn.$closeBtn.$infoslink. 
                             $byInfo.
                         '</div>'.
                     '</div>';
@@ -222,19 +259,36 @@ $commentActive = true;
         $cpBlock .= $entryMap["cpBlock"];
     }
     ?>
+    
     <div class="controls" style="border-radius: 8px;">
-          <button class="filter btn fr" data-filter="all">Tout</button>
+          <!-- <label>Filtre:</label> -->
+          <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
+          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
+          <a class="filter btn btn-orange" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
+          <a class="filter btn btn-orange" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
+          <a class="filter btn btn-orange" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
+          <a class="filter btn btn-orange" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+          <?php } ?>
+          
+          <?php echo $tagBlock?>
+    </div>
+    <div class="col-md-3 pull-left" style="border-radius: 8px;">
+      <button class="btn btn-primary" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> Retour</button>
+      <button class="btn btn-success" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
+    
+    </div>
+    <div class="col-md-9 pull-right" style="border-radius: 8px;">
           
           <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
           <label>Participation : </label>
-          <button class="sort " data-sort="vote:asc">Asc</button>
-          <button class="sort " data-sort="vote:desc">Desc</button>
+          <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
+          <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
           <?php } ?>
-          <label>Chronologique : </label>
-          <button class="sort " data-sort="time:asc">Asc</button>
-          <button class="sort " data-sort="time:desc">Desc</button>
-          <label>Affichage:</label>
-          <button id="ChangeLayout"><i class="fa fa-reorder"></i></button>
+          <label>Chronologie : </label>
+          <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
+          <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
+          <label>Affichage :</label>
+          <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
           <br/>
 
           <?php if(!isset($_GET["cp"]) && $where["type"]==Survey::TYPE_SURVEY){?> 
@@ -242,23 +296,11 @@ $commentActive = true;
           <?php echo $cpBlock; 
           }?>
           <br/>
-
-          <label>Filtre:</label>
-          <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-          <a class="filter btn btn-orange" data-filter=".avoter">To vote</a>
-          <a class="filter btn btn-orange" data-filter=".mesvotes">My votes</a>
-          <a class="filter btn btn-orange" data-filter=".myentries">My proposals</a>
-          <a class="filter btn btn-orange" data-filter=".closed">Closed</a>
-          <?php } ?>
-          
-          <?php echo $tagBlock?>
-
     </div>
 
-    <a class="btn btn-success" href="javascript:" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </a>
       
 
-    <div id="mixcontainer" class="mixcontainer">
+    <div id="mixcontainer" class="mixcontainer col-md-12">
         <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
                                               '<a href="javascript:" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
                                              '</div>'; ?>
@@ -335,11 +377,16 @@ jQuery(document).ready(function() {
   ***************************************** */
   function entryDetail(url,type){
     console.warn("--------------- entryDetail ---------------------",url);
-    getAjax( null , url , function(data){
+    getAjax( "surveyDetails" , url , function(data){
+      $("#surveyDetails").html(data);
+      //console.dir(data);
+      /*
+      console.log("type", type);
       if(type == "edit") 
         editEntrySV (data);
       else 
         readEntrySV (data,type);
+      */
     } );
   }
 
