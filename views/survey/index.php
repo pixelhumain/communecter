@@ -263,7 +263,9 @@ $this->renderPartial('../default/panels/toolbar');
     }
     ?>
     
-    <div class="controls" style="border-radius: 8px;">
+   
+    
+    <div class="controls col-md-12" style="border-radius: 8px;">
           <!-- <label>Filtre:</label> -->
           <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
           <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
@@ -275,12 +277,7 @@ $this->renderPartial('../default/panels/toolbar');
           
           <?php echo $tagBlock?>
     </div>
-    <div class="col-md-3 pull-left" style="border-radius: 8px;">
-      <button class="btn btn-primary" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> Retour</button>
-      <button class="btn btn-success" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
-    
-    </div>
-    <div class="col-md-9 pull-right" style="border-radius: 8px;">
+    <div class="col-md-12 col-sm-12 pull-left" style="border-radius: 8px;">
           
           <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
           <label>Participation : </label>
@@ -301,12 +298,17 @@ $this->renderPartial('../default/panels/toolbar');
           <br/>
     </div>
 
+     <div class="col-md-12 col-sm-12 pull-left" style="border-radius: 8px; margin-bottom:20px;">
+      <button class="btn btn-primary" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> Retour</button>
+      <button class="btn btn-success" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
+      <button class="btn btn-success" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')" ><i class="fa fa-plus"></i> Ajouter</button>
       
+    </div>
 
     <div id="mixcontainer" class="mixcontainer col-md-12">
-        <?php echo (count($list)) ? $blocks : '<div class="mix">aucun sondage'.
-                                              '<a href="javascript:" class="newVoteProposal btn btn-orange"><i class="fa fa-plus"></i></a>'.
-                                             '</div>'; ?>
+        <?php
+             //echo count($list);
+             echo (count($list) > 0) ? $blocks : "" ?>
     </div>
 
 </div>

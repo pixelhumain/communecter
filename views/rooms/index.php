@@ -6,7 +6,38 @@ $cssAnsScriptFilesTheme = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
  ?>
-<div class="panel panel-white">
+
+<style>
+		.assemblyHeadSection {  
+		  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
+		  /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+		  background-color: #fff;
+		  background-repeat: no-repeat;
+		  background-position: 0px -50px;
+		  background-size: 100% auto;
+		}
+
+		  h1.citizenAssembly-header{
+		    background-color: rgba(255, 255, 255, 0.63);
+		    padding: 30px;
+		    margin-bottom: -3px;
+		    font-size: 32px;
+		    margin-top:90px;
+		  }
+		#main-panel-room{
+			/*margin-top:100px;*/
+		}
+</style>
+
+
+<h1 class="homestead text-red center citizenAssembly-header">
+	<i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
+	<small class="homestead text-dark center">
+		Discussions, propositions, débats, sondages
+	</small>
+</h1>
+
+<div class="panel panel-white" id="main-panel-room">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title"><!-- <i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS  -->
 			<a href="javascript:;" onclick="applyStateFilter('survey')" class="btn btn-xs btn-default"> Rooms <span class="badge badge-warning"> <?php echo count(@$rooms) ?></span></a> 
@@ -195,9 +226,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme
 
 
 <script type="text/javascript">
+var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace citoyen");
-
+	$(".moduleLabel").html("<i class='fa fa-comments text-red'></i> " + "espace citoyen");
+	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 });	
 

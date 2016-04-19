@@ -490,7 +490,7 @@ class Menu {
         // Add a proposal
         //-----------------------------
         self::entry("right", 'onclick', 
-                    Yii::t( "common", 'Want send a proposal to your community'),
+                    Yii::t( "common", 'Send a proposal to your community'),
                     Yii::t( "common", 'Add a proposal'), 'plus',
                     "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
 

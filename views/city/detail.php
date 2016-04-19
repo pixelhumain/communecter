@@ -205,7 +205,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 .cityHeadSection {  
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg); 
-  background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);
+  /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: 0px 50px;
@@ -270,7 +270,7 @@ $this->renderPartial('../default/panels/toolbar');
 
   $countTotal = count($people) + count($organizations) + count($events);
 
-  $citizenAssembly = City::createCitizenAssembly();
+ // $citizenAssembly = array(); //City::createCitizenAssembly();
 ?>
 <!-- start: PAGE CONTENT -->
 
@@ -427,10 +427,11 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
       </div>
       <div class="col-md-8 col-sm-8 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <?php $completAssembly = Organization::getById($idCitizenAssembly); ?>
         <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $idCitizenAssembly; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
           <i class="fa fa-group"></i>
         </a>
-        <br/>Assemblée Citoyenne Virtuelle<br><span class='text-red'><?php echo $city["name"]; ?></span>
+        <br/><span class='text-red'><?php echo $completAssembly["name"]; ?></span>
       </div>
       <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <!-- <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
@@ -490,7 +491,9 @@ var city = <?php echo json_encode($city) ?>;
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
-var citizenAssembly = <?php echo json_encode($citizenAssembly) ?>;
+var citizenAssembly = <?php $citizenAssembly = array($completAssembly); 
+                            echo json_encode($citizenAssembly);
+                      ?>;
 
   console.log("citizenAssembly");
   console.dir(citizenAssembly);
