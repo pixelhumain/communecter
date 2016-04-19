@@ -8,6 +8,11 @@ $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClient
 
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
+
+if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
+	Menu::proposal( (string)$survey["survey"] );
+	$this->renderPartial('../default/panels/toolbar');
+}
 ?>
 <style type="text/css">
 

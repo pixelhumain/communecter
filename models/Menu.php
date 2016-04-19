@@ -481,10 +481,13 @@ class Menu {
         
         // Add a proposal
         //-----------------------------
-        $surveyLink = ( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) ? "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"] : "#rooms"; 
+        $surveyLink = "#rooms";
+        if( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) 
+            $surveyLink = "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"]; 
+
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'SURVEYS'), 'bars',
+                    Yii::t( "common", 'All Surveys'), 'bars',
                     "loadByHash('".$surveyLink."')",null,null);
         
         // Add a proposal
@@ -503,13 +506,11 @@ class Menu {
    
     }
 
-    public static function proposal($survey)
+    public static function proposal($id)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
-        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
-        $id = (string)$survey["_id"];
-        
+      
         // Add a proposal
         //-----------------------------
         self::entry("left", 'onclick', 

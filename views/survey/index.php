@@ -298,12 +298,6 @@ $this->renderPartial('../default/panels/toolbar');
           <br/>
     </div>
 
-     <div class="col-md-12 col-sm-12 pull-left" style="border-radius: 8px; margin-bottom:20px;">
-      <button class="btn btn-primary" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> Retour</button>
-      <button class="btn btn-success" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
-      <button class="btn btn-success" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')" ><i class="fa fa-plus"></i> Ajouter</button>
-      
-    </div>
 
     <div id="mixcontainer" class="mixcontainer col-md-12">
         <?php
