@@ -18,19 +18,30 @@ function buildLineHTML(newsObj,idSession,update)
 	newsTLLine = "";
 	// ManageMenu to the user de signaler un abus, de modifier ou supprimer ces news
 	manageMenu = "";
-	if (newsObj.author.id==idSession){
-		manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
-			'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
-				'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
-			'</a>'+
-			'<ul class="dropdown-menu">'+
-				'<li><a href="javascript:;" class="deleteNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> Supprimer</small></a></li>';
-		if (newsObj.type != "activityStream"){
-		manageMenu	+= '<li><a href="#" class="modifyNews" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>';
+	
+	manageMenu='<div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;">'+
+		'<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">'+
+			'<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>'+
+		'</a>'+
+		'<ul class="dropdown-menu">';
+
+	var reportLink = "";
+	if ("undefined" != typeof newsObj.reportAbuseCount){ 
+		if (newsObj.reportAbuse.indexOf(idSession) == -1){
+			reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 		}
-		manageMenu +=	'</ul>'+
-		'</div>';
 	}
+	else{
+		reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
+	}
+	if (newsObj.author.id==idSession || canManageNews == 1){
+			manageMenu	+=		'<li><a href="javascript:;" class="deleteNews" onclick="deleteNews(\''+newsObj._id.$id+'\', $(this))" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>';
+		if (newsObj.type != "activityStream" && newsObj.author.id==idSession){
+			manageMenu	+= '<li><a href="javascript:" class="modifyNews" onclick="modifyNews(\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
+		}
+	}	
+	manageMenu +=	reportLink+'</ul>'+
+		'</div>';
 	
 	if(typeof(newsObj.created) == "object")
 		var date = new Date( parseInt(newsObj.created.sec)*1000 );
@@ -105,24 +116,26 @@ function buildLineHTML(newsObj,idSession,update)
 			var iconBlank="fa-lightbulb-o";
 		else if (newsObj.target.objectType=="organizations")
 			var iconBlank="fa-group";
-		}
+	}
 	// END IMAGE AND FLAG POST BY HOSTED BY //
 	media="";
 	title="";
+	text="";
 	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
-			title='<a href="#" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
+			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
-		text='<a href="#" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
+		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
 			media=newsObj.media;
 		}
 	}
 	else{
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
-		if(newsObj.text != "")
+		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-		text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+		}
 	}
 	tags = "", 
 	scopes = "",
@@ -144,20 +157,24 @@ function buildLineHTML(newsObj,idSession,update)
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
 	{
+		postalCode = "";
+		city = "";
 		if(newsObj.type != "activityStream"){
-			postalCode=author.address.postalCode;
-			city=author.address.addressLocality;			
+			if(newsObj.type=="citoyens"){
+				postalCode=author.address.postalCode;
+				city=author.address.addressLocality;			
+			}else if(typeof(newsObj.postOn) != 'undefined' && typeof(newsObj.postOn.address) != 'undefined') {
+				postalCode=newsObj.postOn.address.postalCode;
+				city=newsObj.postOn.address.addressLocality;			
+			}
 		}else{
-			if (newsObj.scope != null && newsObj.scope.address != null) {
+			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
-			} else {
-				postalCode = "NA";
-				city = "NA";
 			}
 		}
 		
-		if( typeof postalCode != "undefined")
+		if( typeof postalCode != "undefined" && postalCode!="")
 		{
 			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
 			scopeClass += postalCode+" ";
@@ -165,7 +182,7 @@ function buildLineHTML(newsObj,idSession,update)
 				contextMap.scopes.codePostal.push(postalCode);
 			}
 		}
-		if( typeof city != "undefined")
+		if( typeof city != "undefined" && city != "")
 		{
 			scopes += "<span class='label label-danger'>"+city+"</span> ";
 			scopeClass += city+" ";
@@ -173,7 +190,7 @@ function buildLineHTML(newsObj,idSession,update)
 				cityFilter=city.replace(/\s/g, "");
 				console.log(city);
 				contextMap.scopes.addressLocality.push(cityFilter);
-				scopesFilterListHTML += ' <a href="#" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
+				scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
 			}
 		}
 		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
@@ -185,22 +202,29 @@ function buildLineHTML(newsObj,idSession,update)
 		redirectTypeUrl=newsObj.target.objectType.substring(0,newsObj.target.objectType.length-1);
 		if (newsObj.target.objectType=="citoyens")
 			redirectTypeUrl="person";
-
+		if (newsObj.target.name.length > 25)
+			nameAuthor = newsObj.target.name.substr(0,25)+"...";
+		else
+			nameAuthor = newsObj.target.name;
 		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.target.name+"</a> "+urlAction.titleAction;
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")
 			authorId=newsObj.author.id;
 		else
 			authorId=newsObj.author._id.$id;
-			urlTarget = 'href="#" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+newsObj.author.name+"</a> "+urlAction.titleAction;
+			urlTarget = 'href="javascript:" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
+		if (newsObj.author.name.length > 25)
+			nameAuthor = newsObj.author.name.substr(0,25)+"...";
+		else
+			nameAuthor = newsObj.author.name;
+		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
 	if(typeof(newsObj.verb) != "undefined" && typeof(newsObj.target) != "undefined" && newsObj.target.id != newsObj.author.id){
-		urlAuthor = 'href="#" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
+		urlAuthor = 'href="javascript:" onclick="openMainPanelFromPanel(\'/person/detail/id/'+newsObj.author.id+'\', \'person : '+newsObj.author.name+'\',\'fa-user\', \''+newsObj.author.id+'\')"';
 		authorLine=newsObj.verb+" by <a "+urlAuthor+">"+newsObj.author.name+"</a> "+urlAction.titleAction;
 	}
 	else 
@@ -242,27 +266,36 @@ function buildLineHTML(newsObj,idSession,update)
 				'</div>';
 	return newsTLLine;
 }
+
 function buildHtmlUrlAndActionObject(obj){
+
 	console.log(obj);
 	if(typeof(obj.type) != "undefined")
 		redirectTypeUrl=obj.type.substring(0,obj.type.length-1);
 	else 
 		redirectTypeUrl="news";
-	if(obj.type == "citoyens" && typeof(obj.verb) == "undefined" || obj.type !="activityStream"){
-		url = 'href="#" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
+
+	if( (obj.type == "citoyens" && typeof(obj.verb) == "undefined") || obj.type !="activityStream" ){
+		url = 'href="javascript:" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
 		
-		if(typeof(obj.postOn) != "undefined" && obj.type != contextParentType){
+		if(typeof(obj.postOn) != "undefined" && ((obj.type != contextParentType || obj.id != obj.author.id) && contextParentId != obj.id && (contextParentType !="city" || obj.type != "citoyens"))){
 			if(obj.type == "organizations"){
 				color="green";
-			}else
+			}else if (obj.type == "projects"){
 				color="purple";
+			}else if (obj.type == "citoyens"){
+				color="azure";
+			}
+			else{
+				color="orange";
+			}
 			if (obj.postOn.name.length > 25)
 				namePostOn = obj.postOn.name.substr(0,25)+"...";
 			else
 				namePostOn = obj.postOn.name;
-			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+obj.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
-			if(obj.text.length == 0 && obj.media.length)
+			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction = "a partagé un lien";
 			else 
 				titleAction = "";
@@ -328,37 +361,41 @@ function builHtmlAuthorImageObject(obj){
 			var iconStr = "<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
 		}
 	}else{
-			var imgProfilPath =  "/images/news/profile_default_l.png";
+			var imgProfilPath =  assetPath+"/images/news/profile_default_l.png";
 			if((contextParentType == "projects" || contextParentType == "organizations") && typeof(obj.verb) != "undefined" && obj.type!="gantts"){
 				if(typeof obj.target.profilThumbImageUrl != "undefined" && obj.target.profilThumbImageUrl != ""){ 
 					imgProfilPath = obj.target.profilThumbImageUrl;
-					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl+imgProfilPath + "'></div>" + flag ; 
+					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl + imgProfilPath + "'></div>" + flag ; 
 				}else {
 					if(obj.object.objectType=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
-						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" +baseUrl+ imgProfilPath + "'></div>" + flag ; 
+						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 
 
 				}
 			}
 			else{	
 				if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
-					imgProfilPath =obj.author.profilThumbImageUrl;
+					imgProfilPath = baseUrl + obj.author.profilThumbImageUrl;
 				}
-				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ baseUrl+ imgProfilPath + "'></div>" + flag ;	 
+				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ imgProfilPath + "'></div>" + flag ;	 
 			}
 	}
 	return iconStr;
 }
-function actionOnNews(news, action,method) {
+function actionOnNews(news,action,method,reason) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
 	params.collection=type,
 	params.action=action;
+	if(reason != ""){
+		params.reason=reason;
+	}
 	if(method){
 		params.unset=method;
 	}
+	console.log(params);
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: params,
@@ -369,18 +406,24 @@ function actionOnNews(news, action,method) {
 			function(data) {
     			if(!data.result){
                     toastr.error(data.msg);
-                    console.log(data);
                	}
                 else { 
                     if (data.userAllreadyDidAction) {
-                    	toastr.info("You already vote on this comment.");
+                    	toastr.info(data.msg);
                     } else {
 						count = parseInt(news.data("count"));
-	                    if(count < count+data.inc)
-	                    	toastr.success("Your vote has been succesfully added");
-	                    else
-		                    toastr.success("Your vote has been succesfully removed");
-	                    console.log(data);
+						if(action=="reportAbuse"){
+							toastr.success(trad["thanktosignalabuse"]);
+
+							//to hide menu
+							$(".newsReport[data-id="+params.id+"]").hide();
+						}
+						else{
+		                    if(count < count+data.inc)
+		                    	toastr.success(trad["voteaddedsuccess"]);
+		                    else
+								toastr.success(trad["voteremovedsuccess"]);	 
+						}                   
 						news.data( "count" , count+data.inc );
 						icon = news.children(".label").children(".fa").attr("class");
 						news.children(".label").html(news.data("count")+" <i class='"+icon+"'></i>");
@@ -395,9 +438,11 @@ function actionOnNews(news, action,method) {
 }
 
 function voteCheckAction(idVote, newsObj) {
-	var voteUpCount = 0;
+	var voteUpCount = reportAbuseCount = voteDownCount = 0;
 	textUp="text-dark";
 	textDown="text-dark";
+	textReportAbuse="text-dark";
+
 	if ("undefined" != typeof newsObj.voteUpCount){ 
 		voteUpCount = newsObj.voteUpCount;
 		if (newsObj.voteUp.indexOf(idSession) != -1){
@@ -405,7 +450,7 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsVoteDown[data-id="+idVote+"]").off();
 		}
 	}
-	var voteDownCount = 0;
+
 	if ("undefined" != typeof newsObj.voteDownCount) {
 		voteDownCount = newsObj.voteDownCount;
 		if (newsObj.voteDown.indexOf(idSession) != -1){
@@ -413,8 +458,17 @@ function voteCheckAction(idVote, newsObj) {
 			$(".newsVoteUp[data-id="+idVote+"]").off();
 		}
 	}
+
+	if ("undefined" != typeof newsObj.reportAbuseCount) {
+		reportAbuseCount = newsObj.reportAbuseCount;
+		if (newsObj.reportAbuse.indexOf(idSession) != -1){
+			textReportAbuse= "text-red";
+			$(".newsReportAbuse[data-id="+idVote+"]").off();
+		}
+	}
 	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
-			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>";
+			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
+			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
 	return voteHtml;
 }
 
@@ -490,7 +544,7 @@ function showComments(id){
 }
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
-			toastr.info("Remove your negative vote before");
+			toastr.info(trad["removeopinionbefore"]);
 		else{	
 		//toastr.info('This vote has been well registred');
 			if($($this).children(".label").hasClass("text-green")){
@@ -503,11 +557,11 @@ function newsVoteUp($this, id){
 		disableOtherAction($($this), '.commentVoteUp', method);
 		count = parseInt($($this).data("count"));
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
-		}
+	}
 }
 function newsVoteDown($this, id){
 	if($(".newsVoteUp[data-id='"+$($this).data("id")+"']").children(".label").hasClass("text-green"))
-			toastr.info("Remove your positive vote before");
+			toastr.info(trad["removeopinionbefore"]);
 	else{	
 	//toastr.info('This vote has been well registred');
 		if($($this).children(".label").hasClass("text-orange")){
@@ -521,17 +575,62 @@ function newsVoteDown($this, id){
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
-function disableOtherAction($this,action,method){
-	if(method){
-		if (action != ".commentVoteUp")
-			$this.children(".label").removeClass("text-orange").addClass("text-dark");
-		if (action != ".commentVoteDown")
-			$this.children(".label").removeClass("text-green").addClass("text-dark");
+function newsReportAbuse($this, id){
+	
+	//toastr.info('This vote has been well registred');
+		if($($this).children(".label").hasClass("text-red")){
+			method = true;
+		}
+		else{
+			method = false;
+	}
+	reportAbuse($($this),'reportAbuse',method);
+	
+	
+	//disableOtherAction($($this), '.commentReportAbuse', method);
+	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
+}
+
+function reportAbuse($this,action, method) {
+	// console.log(contextId);
+	if (method){
+		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-		if (action != ".commentVoteUp")
-			$this.children(".label").removeClass("text-dark").addClass("text-orange");
-		if (action != ".commentVoteDown")
-			$this.children(".label").removeClass("text-dark").addClass("text-green");
+	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
+		if (result != null) {			
+			if (result != "") {
+				actionOnNews($($this),action,method,result);
+				$this.children(".label").removeClass("text-dark").addClass("text-red");
+			} else {
+				toastr.error("Please fill a reason");
+			}
+		}
+	});
+	box.on("shown.bs.modal", function() {
+	  $.unblockUI();
+	});
 	}
+}
+
+function disableOtherAction($this,action,method){
+	if(method){
+		if (action == ".commentVoteUp")
+			$this.children(".label").removeClass("text-green").addClass("text-dark");
+		if (action == ".commentVoteDown")
+			$this.children(".label").removeClass("text-orange").addClass("text-dark");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
+	}
+	else{
+		if (action == ".commentVoteUp")
+			$this.children(".label").removeClass("text-dark").addClass("text-green");
+		if (action == ".commentVoteDown")
+			$this.children(".label").removeClass("text-dark").addClass("text-orange");
+		//if (action == ".commentReportAbuse")
+		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
+	}
+}
+function blankNews(id){
+	window.open(baseUrl+'#news.detail.id.'+id,'_blank');
 }

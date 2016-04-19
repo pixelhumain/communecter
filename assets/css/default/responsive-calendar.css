@@ -1,0 +1,94 @@
+.responsive-calendar .controls {
+  text-align: center;
+}
+.responsive-calendar .controls a {
+  cursor: pointer;
+}
+.responsive-calendar .controls a .btn{
+  height:40px;
+  width:40px;
+  border-radius:30px;
+}
+.responsive-calendar .controls h4 {
+  display: inline;
+}
+.responsive-calendar .day-headers,
+.responsive-calendar .days {
+  font-size: 0;
+}
+
+.responsive-calendar .day.header{
+  border-radius:0px;
+  height:35px;
+}
+.responsive-calendar .day {
+  display: inline-block;
+  position: relative;
+  font-size: 14px;
+  width: 14.285714285714286%;
+  height:70px;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 6px;
+}
+.responsive-calendar .day .dayNum {
+  color: #3C5665;
+  display: block;
+  cursor: pointer;
+  /*padding: 33% 0 5% 0;*/
+  font-family: "homestead";
+  font-size: 20px;
+}
+.responsive-calendar .day a:hover {
+  background-color: #eee;
+  text-decoration: none;
+}
+.responsive-calendar .day.header {
+  border-bottom: 1px gray solid;
+}
+.responsive-calendar .day.active {
+  background-color: #fbbb8d;
+  bottom:0px;
+  z-index:1;
+  /*color: #ffffff;*/
+}
+
+.responsive-calendar .day.active .btn{
+  position: absolute;
+  left:10%;
+  width:80%;
+  border-radius: 30px;
+}
+.responsive-calendar .day.active .not-current {
+  background-color: #8fcaef;
+  color: #ffffff;
+}
+.responsive-calendar .day.active .not-current:hover {
+  background-color: #bcdff5;
+}
+.responsive-calendar .day.not-current a {
+  color: #ddd;
+}
+.responsive-calendar .day .badge {
+  position: relative;
+  z-index: 1;
+  height: 26px;
+  width: 26px;
+  padding: 1px;
+  border-radius: 30px;
+  float: left;
+  margin: 2px;
+  margin-left: -6px;
+}
+.responsive-calendar .badge:empty{
+  display: inline !important;
+}
+.responsive-calendar .day i.badge{
+  padding-top:4px;
+}
+
+.dropdown-menu .info-event{
+  margin-top:5px;
+  padding-left:30px;
+}
+

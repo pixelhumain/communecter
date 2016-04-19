@@ -23,7 +23,7 @@ function realTimeKKBB(){
 
 	var contents    = $("#iframe-kkbb"); 
 	var collected 	= contents.find( ".collected" ).html();
-	var amount 		= contents.find( ".amount strong" ).html();
+	var amount 		= contents.find( ".amount .small .funded" ).html();
 
 	$("#kkbb-big #collected").html(collected);
 	$("#kkbb-big #collected small").html("");

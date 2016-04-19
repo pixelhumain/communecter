@@ -19,6 +19,7 @@ return array(
 	"Involve me" => "Se proposer",
 	"Need has enough helpers !!" => "Le besoin a trouvé ces volontaires !!",
 	"HELPERS" => "VOLONTAIRES",
+	"HELPER" => "VOLONTAIRE",
 	"NEED DESCRIPTION" => "DESCRIPTION DU BESOIN",
 	"NEED INFORMATIONS" => "INFORMATIONS DU BESOIN",
 	"Quantity" => "Quantité",

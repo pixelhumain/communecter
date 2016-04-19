@@ -114,8 +114,8 @@
 	width: 600px;
 	max-width: 600px;
 	min-width: 600px;
-	height: 295px;
-	top: -21px;
+	height: 255px;
+	top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	position:relative;
@@ -161,13 +161,13 @@
 }
 
 input[type="text"].input-search{
-	margin-top: 74px;
+	margin-top: 100px;
 	margin-left: 15%;
 	width: 70%;
 	border-radius: 50px !important;
 	height: 75px;
 	font-size: 20px !important;
-	padding: 10px !important;
+	padding: 10px 77px !important;
 	text-align: center;
 	font-weight: 300;
 	border-color: #C5C5C5 !important;
@@ -235,8 +235,8 @@ input[type="text"].input-search.postalCode:focus{
 button.btn-start-search{
 	position: relative;
 	margin-bottom: 5px;
-	top: 63px;
-	right: 4%;
+	top: 0px;
+	right: 11%;
 	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color: white;
@@ -470,8 +470,8 @@ button.btn-activate-communexion{
 button.btn-infos{
 	font-size: 17px;
 	position: absolute;
-	top: 147px;
-	left: 10%;
+	top: 118px;
+	left: 17%;
 	-moz-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #14424A !important;
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
@@ -648,12 +648,14 @@ button.btn-infos{
 
   .lbl-scope-list{
     position: absolute;
-    left: 52%;
-    z-index: 1;
-    top: 145px;
-    font-size: 25px;
-    font-weight: 300;
-    text-transform: capitalize;
+	left: 25%;
+	z-index: 1;
+	top: 260px;
+	font-size: 20px;
+	font-weight: 300;
+	text-transform: capitalize;
+	width: 50%;
+	text-align: center;
   }
 
 
@@ -696,7 +698,7 @@ button.btn-infos{
 		width: 400px;
 		max-width: 400px;
 		min-width: 400px;
-		height: 170px;
+		height: 215px !important;
 		/*top: 150px;*/
 		margin-left: auto;
 		margin-right: auto;
@@ -704,9 +706,9 @@ button.btn-infos{
 	}
 
 	input[type="text"].input-search{
-		margin-top: 55px;
+		margin-top: 68px;
 		margin-left: 14%;
-		width: 70%;
+		width: 72%;
 		border-radius: 50px !important;
 		height: 46px;
 		font-size: 17px !important;
@@ -727,15 +729,15 @@ button.btn-infos{
 
 
 	button.btn-start-search {
-	    margin-top: -60px;
-		margin-left: 46%;
+	    margin-top: -46px;
+		margin-left: 86%;
 		color: white;
 		border-radius: 30px;
 		font-weight: 300;
-		font-size: 19px;
+		font-size: 15px;
 		margin-bottom: 20px;
-		height: 45px;
-		width: 45px;
+		height: 37px;
+		width: 38px;
 		padding: 0px;
 	}
 
@@ -758,7 +760,8 @@ button.btn-infos{
 		min-width: 33px;
    	}
    	.lbl-scope-list {
-	    left: 53%;
+	    /*left: 53%;*/
+	    top: 255px !important;
 	    font-size: 20px;
    	}
 	
@@ -771,8 +774,8 @@ button.btn-infos{
 		font-size: 15px;
 	    height: 33px;
 		min-width: 33px;
-		top: 25px;
-		left: -2%;
+		top: 75px;
+		left: 16%;
 	}
 	.btn-filter-type {
 	    height: 35px !important;
@@ -846,8 +849,8 @@ button.btn-infos{
 	    width: 290px;
 		max-width: 290px;
 		min-width: 290px;
-		height: 170px;
-		top: 6px;
+		height: 170px !important;
+		top: -20px;
 		margin-left: auto;
 		margin-right: auto;
 		position: relative;
@@ -863,13 +866,12 @@ button.btn-infos{
 	}
 
 	.lbl-scope-list {
-	    left: 13%;
 	    font-size: 14px;
-	    top: 130px !important;
+		top: 214px !important;
 	}
 
 	input.input-search {
-	    margin-top: 30px !important;
+	    margin-top: 47px !important;
 	    margin-left: 8% !important;
 	    width: 81% !important;
 	}
@@ -879,6 +881,7 @@ button.btn-infos{
 		top: 2% !important;
 		left: 10% !important;
 	}
+
 	
 }
 
@@ -1019,7 +1022,9 @@ button.btn-infos{
 	display:none !important;
 }
 
-
+.editable-pre-wrapped{
+	white-space:unset;
+}
 
 
 

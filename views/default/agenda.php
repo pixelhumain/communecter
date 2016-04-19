@@ -1,3 +1,13 @@
+<?php 
+  $cssAnsScriptFilesModule = array(
+    //'/css/default/directory.css',
+    '/css/default/responsive-calendar.css',
+    '/js/default/responsive-calendar.js',
+    '/js/default/agenda.js',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+
 <style>
 	.btn-add-to-directory{
 		font-size: 14px;
@@ -16,27 +26,74 @@
     display: inline;
   }
 
-@media screen and (max-width: 1024px) {
-  button.btn-start-search {
-    margin-top: -40px;
-    margin-left: 47%;
-    color: white;
-    border-radius: 30px;
-    font-weight: 300;
+
+  .btn-month-before{
+    position:absolute !important;
+    top:160px;
+    left:0%;
+    font-size:19px;
+    -moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    -o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+  }
+  .btn-month-next{
+    position:absolute !important;
+    top:160px;
+    right:0%;
     font-size: 19px;
-    margin-bottom: 20px;
-    height: 45px;
-    width: 45px;
-    padding: 0px;
+    -moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    -o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+  }
+
+
+@media screen and (max-width: 1024px) {
+  .btn-month-before{
+    position:absolute !important;
+    top:100px;
+    left:0%;
+    font-size:19px;
+  }
+  .btn-month-next{
+    position:absolute !important;
+    top:100px;
+    right:0%;
+    font-size: 19px;
+  }
+  .lbl-scope-list {
+      /*left: 53%;*/
+      top: 210px !important;
+      font-size: 20px;
+    }
+    .img-logo {
+      height: 195px !important;
+    }
+  
+}
+
+@media screen and (max-width: 767px) {
+  .img-logo {
+    height: 125px !important;
+  }
+  .lbl-scope-list {
+    top: 150px !important;
+  }
+  .responsive-calendar .open > .dropdown-menu {
+
+    margin-left: -80px;
   }
 }
 </style>
 
-<h1 class="homestead text-dark text-center" id="main-title"
+<!-- <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-calendar"></i> L'Agenda</h1>
 
 <h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1>
+	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1> -->
 
 <div class="lbl-scope-list text-red"></div>
 
@@ -50,8 +107,48 @@
 	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
 
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
+
+  <button class="btn-month-before menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="right" title="Mois précédent" alt="Mois précédent">
+    <i class="fa fa-arrow-left"></i>
+  </button>
+  
+  <button class="btn-month-next menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="left" title="Mois suivant" alt="Mois suivant">
+    <i class="fa fa-arrow-right"></i>
+  </button>
+  
+
 </div>
 
+
+<?php //$this->renderPartial("first_step_agenda"); ?> 
+
+<div class="col-md-12 calendar">
+
+</div>
+
+
+<div class="responsive-calendar-init hidden"> 
+  <div class="responsive-calendar col-md-8 col-md-offset-2">
+      <div class="controls ">
+        <a id="btn-month-before" class="hidden" data-go="prev"><div class="btn bg-dark"><i class="fa fa-arrow-left"></i></div></a>
+        <h4 class="text-dark"><span data-head-month></span> <span data-head-year></span></h4>
+        <a id="btn-month-next" class="hidden" data-go="next"><div class="btn bg-dark"><i class="fa fa-arrow-right"></i></div></a>
+    </div>
+      <hr/>
+      <div class="day-headers">
+        <div class="day header">Lun</div>
+        <div class="day header">Mar</div>
+        <div class="day header">Mer</div>
+        <div class="day header">Jeu</div>
+        <div class="day header">Ven</div>
+        <div class="day header">Sam</div>
+        <div class="day header">Dim</div>
+      </div>
+      <div class="days" data-group="days"></div>
+    </div>
+    <!-- Responsive calendar - END -->
+  </div>
+</div>
 
 <div style="" id="dropdown_search"></div>
 
@@ -64,6 +161,8 @@
 
 var searchType = [ "events" ];
 var allSearchType = [ "events" ];
+var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
+var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
 
 
 jQuery(document).ready(function() {
@@ -76,12 +175,30 @@ jQuery(document).ready(function() {
   topMenuActivated = true;
   hideScrollTop = true; 
   checkScroll();
+
+
+  /*$(".responsive-calendar").responsiveCalendar({
+          time: '2013-05',
+          events: {
+            "2013-04-30": {"number": 5, "url": "http://w3widgets.com/responsive-slider"},
+            "2013-04-26": {"number": 1, "url": "http://w3widgets.com"}, 
+            "2013-05-03":{"number": 1}, 
+            "2013-06-12": {}}
+        });
+  */
   var timeoutSearch = setTimeout(function(){ }, 100);
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
   
-  $(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
+  $(".moduleLabel").html("<i class='fa fa-calendar'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
 
+  $(".btn-month-next").click(function(){
+    $("#btn-month-next").click();
+  });
+
+  $(".btn-month-before").click(function(){
+    $("#btn-month-before").click();
+  });
 
   $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
@@ -94,6 +211,8 @@ jQuery(document).ready(function() {
   //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
   // });
   $('#btn-start-search').click(function(e){
+      //signal que le chargement est terminé
+      loadingData = false;
       startSearch();
   });
   $('#link-start-search').click(function(e){
@@ -127,452 +246,52 @@ jQuery(document).ready(function() {
     }
   });
 
-  initBtnToogleCommunexion();
-  $(".btn-activate-communexion").click(function(){
-    toogleCommunexion();
-  });
-
-
-  // $(".btn-filter-type").click(function(e){
-  //   var type = $(this).attr("type");
-  //   var index = searchType.indexOf(type);
-
-  //   if(type == "all" && searchType.length > 1){
-  //     $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
-  //   }
-  //   if(type == "all" && searchType.length == 1){
-  //     $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
-  //   }
-
-  //   if (index > -1) removeSearchType(type);
-  //   else addSearchType(type);
-  // });
- 
-  //initBtnScopeList();
-  startSearch();
 });
 
-var indexStepInit = 100;
-var indexStep = indexStepInit;
-var currentIndexMin = 0;
-var currentIndexMax = indexStep;
-var scrollEnd = false;
-var totalData = 0;
+var calendarInit = false;
+function showResultInCalendar(mapElements){
+  console.log("showResultInCalendar");
+  console.dir(mapElements);
 
-var timeout = null;
-
-function startSearch(indexMin, indexMax){
-    console.log("startSearch", indexMin, indexMax, indexStep);
-
-    console.log("loadingData", loadingData);
-    if(loadingData) return;
-    loadingData = true;
+  var events = new Array();
+  $.each(mapElements, function(key, thisEvent){
     
+    var startDate = thisEvent["startDate"].substr(0, 10);
+    var endDate = thisEvent["endDate"].substr(0, 10);
 
-    console.log("loadingData true");
-    indexStep = indexStepInit;
+    var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
 
-    var name = $('#searchBarText').val();
-    //var locality = $('#searchBarPostalCode').val();
-    //inseeCommunexion = locality;
+    var name = (typeof thisEvent["name"] != "undefined") ? thisEvent["name"] : "";
+    var thumb_url = (typeof thisEvent["profilThumbImageUrl"] != "undefined" && thisEvent["profilThumbImageUrl"] != "") ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
     
-    //if(communexionActivated)
-    //$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
-      
-    if(typeof indexMin == "undefined") indexMin = 0;
-    if(typeof indexMax == "undefined") indexMax = indexStep;
+    if(typeof events[startDate] == "undefined") events[startDate] = new Array();
+    events[startDate].push({  "id" : thisEvent["_id"]["$id"],
+                              "thumb_url" : thumb_url, 
+                              "startDate": startDate,
+                              "endDate": endDate,
+                              "name" : name,
+                              "position" : position });
+  });
 
-    currentIndexMin = indexMin;
-    currentIndexMax = indexMax;
+  console.dir(events);
 
-    if(indexMin == 0 && indexMax == indexStep) {
-      totalData = 0;
-      mapElements = new Array(); 
-    }
-    else{ if(scrollEnd) return; }
-    
-    //name = name.replace(/[^\w\s']/gi, '');
-    ///locality = locality.replace(/[^\w\s']/gi, '');
-
-    //verification si c'est un nombre
-    //if(!isNaN(parseInt(locality))){
-    //    if(locality.length == 0 || locality.length > 5) locality = "";
-    //}
-
-    if(name.length>=3 || name.length == 0){
-      var locality = "";
-      if(communexionActivated){
-        if(levelCommunexion == 1) locality = inseeCommunexion;
-        if(levelCommunexion == 2) locality = cpCommunexion;
-        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
-        if(levelCommunexion == 4) locality = inseeCommunexion;
-        if(levelCommunexion == 5) locality = "";
-      } 
-      autoCompleteSearch(name, locality, indexMin, indexMax);
-    }else{
-      
-    }   
-}
-
-function addSearchType(type){
-  var index = searchType.indexOf(type);
-  if (index == -1) {
-    searchType.push(type);
-    $(".search_"+type).removeClass("fa-circle-o");
-    $(".search_"+type).addClass("fa-check-circle-o");
+  if(calendarInit == true) {
+    $(".calendar").html("");
   }
-}
-function removeSearchType(type){
-  var index = searchType.indexOf(type);
-  if (index > -1) {
-    searchType.splice(index, 1);
-    $(".search_"+type).removeClass("fa-check-circle-o");
-    $(".search_"+type).addClass("fa-circle-o");
-  }
-}
 
-var loadingData = false;
-var mapElements = new Array(); 
-function autoCompleteSearch(name, locality, indexMin, indexMax){
-    
-     var levelCommunexionName = { 1 : "INSEE",
-                             2 : "CODE_POSTAL_INSEE",
-                             3 : "DEPARTEMENT",
-                             4 : "REGION"
-                           };
-    console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
-                "indexMin" : indexMin, "indexMax" : indexMax  };
-
-
-    str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
-    $(".btn-start-search").html(str);
-    $(".btn-start-search").addClass("bg-azure");
-    $(".btn-start-search").removeClass("bg-dark");
-    //$("#dropdown_search").css({"display" : "inline" });
-
-    if(indexMin > 0)
-    $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
-    else
-    $("#dropdown_search").html("<center><span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
-      
-    if(isMapEnd)
-        $.blockUI({
-          message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+  $(".calendar").html($(".responsive-calendar-init").html());
+  $(".responsive-calendar").responsiveCalendar({
+          time: '2016-04',
+          events: events
         });
 
-    $.ajax({
-      type: "POST",
-          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
-          data: data,
-          dataType: "json",
-          error: function (data){
-             console.log("error"); console.dir(data);          
-          },
-          success: function(data){
-            if(!data){ toastr.error(data.content); }
-            else
-            {
-              var countData = 0;
-              $.each(data, function(i, v) { if(v.length!=0){ countData++; } });
-              
-              totalData += countData;
-            
-              str = "";
-              var city, postalCode = "";
-              
-              //parcours la liste des résultats de la recherche
-              $.each(data, function(i, o) {
-                  var typeIco = i;
-                  var ico = mapIconTop["default"];
-                  var color = mapColorIconTop["default"];
 
-                  mapElements.push(o);
+  $(".responsive-calendar").show();
 
-                  typeIco = o.type;
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                  
-                  htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-                  if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                  }
-
-                  city="";
-
-                  var postalCode = o.cp
-                  if (o.address != null) {
-                    city = o.address.addressLocality;
-                    postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                  }
-                  
-                  //console.dir(o);
-                  var id = getObjectId(o);
-                  var insee = o.insee ? o.insee : "";
-                  type = o.type;
-                  if(type=="citoyen") type = "person";
-                  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                  var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
-                  var onclickCp = "";
-                  var target = " target='_blank'";
-                  var dataId = "";
-                  if(type == "city"){
-                    url = "javascript:"; //#main-col-search";
-                    onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                    onclickCp = 'setScopeValue($(this));';
-                    target = "";
-                    dataId = o.name; //.replace("'", "\'");
-                  }
-
-                  var tags = "";
-                  if(typeof o.tags != "undefined" && o.tags != null){
-                    $.each(o.tags, function(key, value){
-                      if(value != "")
-                      tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
-                    });
-                  }
-
-                  var name = typeof o.name != "undefined" ? o.name : "";
-                  var postalCode = (typeof o.address != "undefined" &&
-                            typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                  
-                  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                  var cityName = (typeof o.address != "undefined" &&
-                          typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                  
-                  var fullLocality = postalCode + " " + cityName;
-
-                  var description = (typeof o.shortDescription != "undefined" &&
-                            o.shortDescription != null) ? o.shortDescription : "";
-                  if(description == "") description = (typeof o.description != "undefined" &&
-                                     o.description != null) ? o.description : "";
-           
-                  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
-                  //template principal
-                  str += "<div class='col-md-12 searchEntity'>";
-                    str += "<div class='col-md-5 col-sm-4 entityLeft'>";
-                      <?php if( isset( Yii::app()->session['userId'] ) ) { ?>
-                      isFollowed=false;
-                      if(typeof o.isFollowed != "undefined" )
-                        isFollowed=true;
-                      if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
-                      str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                            'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
-                            " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                                "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                              "</a>";
-                      <?php } ?>
-                      str += tags;
-              
-                    str += "</div>";
-
-                    str += "<div class='col-md-2 col-sm-2 entityCenter'>";
-                    str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
-                    str += "</div>";
-                     target = "";
-                    str += "<div class='col-md-5 col-sm-5 entityRight no-padding'>";
-                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
-                      if(fullLocality != "" && fullLocality != " ")
-                      str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-                      if(startDate != null)
-                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
-                      if(endDate != null)
-                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
-                      if(description != "")
-                      str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
-                    str += "</div>";
-                              
-                  str += "</div>";
-              }); //end each
-
-              if(str == "") { 
-                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
-                  if(indexMin == 0){
-                    //ajout du footer       
-                    var msg = "Aucun résultat";    
-                    if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
-                    str += '<div class="center" id="footerDropdown">';
-                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
-                    str += "</div>";
-                    $("#dropdown_search").html(str);
-                    $("#searchBarText").focus();
-                  }
-              }
-              else
-              {       
-                //ajout du footer       
-                str += '<div class="center" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
-                str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-                str += "</div>";
-
-                //si on n'est pas sur une première recherche (chargement de la suite des résultat)
-                if(indexMin > 0){
-                  //on supprime l'ancien bouton "afficher plus de résultat"
-                  $("#btnShowMoreResult").remove();
-                  //on supprimer le footer (avec nb résultats)
-                  $("#footerDropdown").remove();
-
-                  //on calcul la valeur du nouveau scrollTop
-                  var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
-                  //on affiche le résultat à l'écran
-                  $("#dropdown_search").append(str);
-                  //on scroll pour afficher le premier résultat de la dernière recherche
-                  $(".my-main-container").animate({"scrollTop" : heightContainer}, 1700);
-                  //$(".my-main-container").scrollTop(heightContainer);
-
-                  
-                //si on est sur une première recherche
-                }else{
-                  //on affiche le résultat à l'écran
-                  $("#dropdown_search").html(str);
-                  //on scroll pour coller le haut de l'arbre au menuTop
-                  $(".my-main-container").scrollTop(95);
-                }
-                //remet l'icon "loupe" du bouton search
-                $(".btn-start-search").html("<i class='fa fa-search'></i>");
-                $.unblockUI();
-                
-                //affiche la dropdown
-                //$("#dropdown_search").css({"display" : "inline" });
-
-                //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
-                //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
-                $("#btnShowMoreResult").mouseenter(function(){
-                  // if(!loadingData){
-                  //   startSearch(indexMin+indexStep, indexMax+indexStep);
-                  //   $("#btnShowMoreResult").mouseenter(function(){});
-                  // }
-                });
-                
-                //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
-                initBtnLink();
-
-              } //end else (str=="")
-
-              //signal que le chargement est terminé
-              console.log("loadingData false");
-              loadingData = false;
-
-              //quand la recherche est terminé, on remet la couleur normal du bouton search
-              $(".btn-start-search").removeClass("bg-azure");
-            }
-			 $('.tooltips').tooltip();
-            console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
-            //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
-            if(indexMax - countData > indexMin){
-              $("#btnShowMoreResult").remove(); 
-              scrollEnd = true;
-            }else{
-              scrollEnd = false;
-            }
-
-            //affiche les éléments sur la carte
-            Sig.showMapElements(Sig.map, mapElements);
-          }
-    });
-
-                    
-  }
-
-  function addEventOnSearch() {
-    $('.searchEntry').off().on("click", function(){
-      
-      //toastr.success($("#dropdown_search").position().top);
-      var top = $(this).position().top;// + $("#dropdown_search").position().top;
-
-      setSearchInput($(this).data("id"), $(this).data("type"),
-                     $(this).data("insee"), top );
-    });
-  }
-
-  function initBtnLink(){
-
-    //parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
-    $.each($(".followBtn"), function(index, value){
-      var id = $(value).attr("data-id");
-      var type = $(value).attr("data-type");
-	  type = type + "s";
-
-      //console.log("#floopItem-"+type+"-"+id);
-      if($("#floopItem-"+type+"-"+id).length){
-        //console.log("I FOLLOW THIS");
-        $(value).html("<i class='fa fa-unlink text-green'></i>");
-		$(value).attr("data-ownerlink","unparticipate");
-        $(value).attr("data-original-title","Ne plus participer à l\'évènement");
-      }
-    });
-    //on click sur les boutons link
-    $(".followBtn").click(function(){
-      formData = new Object();
-   		formData.parentId = $(this).attr("data-id");
-   		formData.parentType = $(this).attr("data-id");
-   		formData.childId = "<?php echo Yii::app() -> session["userId"] ?>";
-   		formData.childType = "<?php echo Person::COLLECTION ?>";
-   		var type = $(this).attr("data-type");
-   		var name = $(this).attr("data-name");
-   		var id = $(this).attr("data-id");
-   		//traduction du type pour le floopDrawer
-   		var typeOrigine = type + "s";
-   		formData.parentType = typeOrigine;
-   		type = type + "s";
-		var thiselement = this;
-		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-		console.log(formData);
-		if ($(this).attr("data-ownerlink")=="participate"){
-			formData.connectType =  "attendee";
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/connect",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						//addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
-						$(thiselement).attr("data-ownerlink","unparticipate");
-						$(thiselement).attr("data-original-title", "Ne plus particper à l'évènement");
-						addFloopEntity(id, type, data.parent);
-						showFloopDrawer(true);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});
-		} else if ($(this).attr("data-ownerlink")=="unparticipate"){
-			formData.connectType =  "attendees";
-			console.log(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/disconnect",
-				data : formData,
-				dataType: "json",
-				success: function(data){
-					if ( data && data.result ) {
-						$(thiselement).html("<i class='fa fa-user-plus'></i>");
-						$(thiselement).attr("data-ownerlink","participate");
-						$(thiselement).attr("data-original-title", "Suivre");
-						removeFloopEntity(data.parentId, type);
-						toastr.success(data.msg);	
-					} else {
-					   toastr.error("You leave succesfully");
-					}
-				}
-			});
-		}
-    });
-
-    $(".btn-tag").click(function(){
-      setSearchValue($(this).html());
-    });
-  }
+  calendarInit = true;
+}
 
 
-  function setSearchValue(value){
-    $("#searchBarText").val(value);
-    startSearch();
-  }
+
+
 </script>

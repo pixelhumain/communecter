@@ -448,7 +448,7 @@ function bindAdminBtnEvents(){
 				    {
 				        if ( data && data.result ) {
 				        	toastr.info("Switched user!!");
-				        	window.location.href = baseUrl+"/"+moduleId+"/person/dashboard";
+				        	window.location.href = baseUrl+"/"+moduleId;
 				        } else {
 				           toastr.error("something went wrong!! please try again.");
 				        }

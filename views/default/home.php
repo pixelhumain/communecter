@@ -96,7 +96,7 @@
 	height: 40px;
 }*/
 /*input[type="text"].input-search:focus{
-	/*border-color: #3C5665 !important;*/
+	/*border-color: #3C5665 !important;* /
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -304,11 +304,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 			<div class="col-sm-8 information">
 				<br/>
-				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<span class="homestead text-dark text-extra-large">POUR MOI ... CITOYEN !</span>
 				<br/>
-					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
+					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> citoyens inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
 				<br/>
-					Etre Acteur! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
+					Etre Acteur ! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
 					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain.
 			</div>
 
@@ -340,7 +340,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['LocalBusiness']; ?> entreprises référencées</span>
 				<br/>
-				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de services au citoyen
+				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme une ressource</span> en terme de services au citoyen
 				avec un vrai respect de la qualité, quel que soit son métier.
 				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la plateforme Communecter.
 			</div>
@@ -493,7 +493,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
 				<div class="space20"></div>
 
-				<div class="col-sm-12">
+				<div class="col-sm-12">  
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
 					<img class="img-responsive img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
@@ -514,7 +514,13 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 
-	<div class="col-sm-12" style="background-color:#E33551;  float:left;" id="teamSection">
+	<div class="col-sm-12 no-padding" style="background-color:#E33551; max-width:100%; float:left;" id="teamSection">
+		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.partners')">Partenaires & Contributeurs</a> <i class="fa fa-share-alt fa-2x"></i></h1>
+		</div>
+		<center>
+			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
+		</center>
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>

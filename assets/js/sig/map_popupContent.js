@@ -373,7 +373,7 @@
 				}
 					
 
-				popupContent += '<div class="btn btn-sm btn-info btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+				popupContent += '<button class="btn btn-sm btn-info btn-more col-md-12" onclick="' + "loadByHash('#')"+"><i class='fa fa-hand-pointer-o'></i> en savoir +";
 				popupContent += '</button>';
 
 			return popupContent;
@@ -529,7 +529,10 @@
 			var cntry = data["country"];
 			var lat = data["geo"]["latitude"];
 			var lng = data["geo"]["longitude"];
-
+			if(typeof(data["countCpByInsee"]) != "undefined"){
+				var nbCpByInsee = data["countCpByInsee"];
+				var cityInsee = data["cityInsee"];
+			}
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
@@ -537,8 +540,11 @@
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
 									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
-											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'" + 
-											 "onclick='javascript:setScopeValue($(this))'>"+
+											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
+				if (typeof(nbCpByInsee) != "undefined"){
+				popupContent += " nbCpByInsee-com='" + nbCpByInsee + "'" + "cityInsee-com='" + cityInsee + "'";
+				}						
+				popupContent += 			"onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
 									"</button>";
 

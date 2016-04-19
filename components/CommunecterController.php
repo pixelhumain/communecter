@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.097";
-  public $versionDate = "23/03/2016 15:00";
+  public $version = "v0.098";
+  public $versionDate = "13/04/2016 08:00";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -68,9 +68,9 @@ class CommunecterController extends Controller
           )
   );
   public $subviews = array(
-    "news.newsSV",
+    //"news.newsSV",
     //"person.invite",
-    "event.addAttendeesSV"
+    //"event.addAttendeesSV"
   );
   public $pages = array(
     "admin" => array(
@@ -94,6 +94,7 @@ class CommunecterController extends Controller
       "adddataindb"    => array("href" => "/ph/communecter/admin/adddataindb"),
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
+      "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
     ),
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
@@ -110,6 +111,7 @@ class CommunecterController extends Controller
       "add"                   => array("href" => "/ph/communecter/default/add"),
       "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
       "twostepregister"       => array("href" => "/ph/communecter/default/twostepregister"),
+      "switch"               => array("href" => "/ph/communecter/default/switch"),
     ),
     "city"=> array(
       "index"               => array("href" => "/ph/communecter/city/index", "public" => true),
@@ -145,8 +147,7 @@ class CommunecterController extends Controller
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
       "getshortdetailsentity" => array("href" => "/ph/communecter/search/getshortdetailsentity"),
       "index"                 => array("href" => "/ph/communecter/search/index"),
-      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true),
-      
+      "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),

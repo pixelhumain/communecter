@@ -91,9 +91,7 @@ class TestController extends CommunecterController {
 		}
     }
   public function actionTest() {
-
-  echo hash('sha256',"56cf45a0126e9a2e63b7acdbzezete@gmail.com");
-  echo  $this->module->id;
+  	echo hash('sha256', "mc420011@gmail.com"."communecter974");
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 
@@ -602,6 +600,16 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
   }
 
+  public function actionTestValidation() {
+    $person = Person::getById("5703b8bd2336f250520041c2");
+    var_dump($person);
+    $params = array(   "person"   => $person ,
+                        "title" => Yii::app()->name ,
+                        "logo"  => "/images/logoLTxt.jpg");
+    
+    $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
+  }
+
   public function actionTestAddPersonAdmin() {
     $organizationId = "55797ceb2336f25c0c0041a8";
     $personId = "5577d525a1aa1458540041b0";
@@ -632,5 +640,12 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
   public function actionTestIsAdminOrganization($id) {
     var_dump(Authorisation::isOrganizationAdmin("55c0c1a72336f213040041ee", $id));
+  }
+
+  public function actionDisplayMail($id) {
+  	$cron = PHDB::findOne("cron", array( "_id" => new MongoId($id)));
+  	var_dump( $cron);
+  	$params = $cron["tplParams"];
+  	$this->renderPartial('application.views.emails.'.$cron["tpl"], $params);
   }
 }

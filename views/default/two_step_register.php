@@ -32,6 +32,9 @@
 	#TSR-conf-communected, #step2, #step3{
 		display:none;
 	}
+	.btn-menu2, .btn-menu3, .btn-menu4{
+		display:none !important;
+	}
 	.btn-menu0{
 		display: inline !important;
 	}
@@ -327,7 +330,7 @@
 	<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px; padding:10px;">
 		Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
 		nous aurions besoin de quelques informations sur votre position géographique ...
-		<br><a href="javascript:" class="bold strong">En savoir + sur l'utilisation de vos données</a>
+		<br><a href="javascript:" data-id="explainYourData" class="explainLink bold strong">En savoir + sur l'utilisation de vos données</a>
 	<br><br>
 		<span class="text-center text-dark" style="font-size:15px; font-weight:300;">
 			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
@@ -422,6 +425,11 @@
 			return;
 		}
 		
+		$(".explainLink").click(function() {
+		    $(".removeExplanation").parent().hide();
+			showDefinition( $(this).data("id") );
+			return false;
+		});
 
 		location.hash = "#default.twostepregister";
 		//$('.btn-menu0').off().click( function(e){ loadByHash("#default.twostepregister")} );
@@ -483,7 +491,7 @@
   			$.ajax({
 				url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 				type: 'POST',
-				data: "insee="+inseeCommunexion,
+				data: "insee="+inseeCommunexion+"&postalCode="+cpCommunexion,
 	    		success: function (obj){
 
 	    			//toastr.success("Votre addresse a été mise à jour avec succès");
@@ -519,7 +527,7 @@
 		
   		}else{
 			
-			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html(); // + ", " + $("#addressCountry").val();
+			var requestPart = $(".input-street-twostep").val() + ", " + $("#tsr-commune-name-cp").html() + ", " + $("#addressCountry option:selected" ).text(); // + ", " + $("#addressCountry").val();
 			requestPart = transformNominatimUrl(requestPart);
 			//findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
 			//return;

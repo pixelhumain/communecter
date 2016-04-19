@@ -8,25 +8,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>
 <style>
 
-.searchEntity{
-	margin-bottom:10px;
-	margin-left:5px;
-	display: inline-block;
-}
-.searchEntity .entityRight{
-	text-align: center;
-	padding: 10px 20px !important;
-	margin-left: -1%;
-	border-radius: 30px;
-}
-.searchEntity .entityRight .entityLocality{
-	color:white !important;
-	display: inline;
-}
-.searchEntity .entityRight .entityName{
-	color:white !important;
-	display: inline;
-}
 .lbl-title-newsstream{
 	display: none;
 }
@@ -57,15 +38,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
   #newsHistory #timeline {
     margin-top: -50px;
   }
+
+
 }
+
+.lbl-scope-list{
+    top:130px !important;
+  }
+
+  #btn-filter-scope-news{
+    display:none;
+  }
 
 </style>
 
-<h1 class="homestead text-dark text-center" id="main-title"
+<!-- <h1 class="homestead text-dark text-center" id="main-title"
 	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-rss"></i> L'Actualité</h1>
 
 <h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1>
+	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1> -->
 
 <div class="lbl-scope-list text-red"></div>
 
@@ -88,13 +79,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
 
-<?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
-<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 40px; ">
-  <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
-  <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
-  <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button> 
-</div>
-<?php } ?>
 
 <div class="" id="dropdown_search"></div>
 <div class="col-md-12" id="newsstream"></div>

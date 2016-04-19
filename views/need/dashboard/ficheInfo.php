@@ -27,70 +27,167 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 ?>
 
 <style>
-</style>
+	.panel-title{
+	font-weight: 200;
+	font-size: 21px;
+	font-family: "homestead";
+}
+.entityTitle{
+      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: -10px;
+      font-weight: 200;
+    }
+    .entityTitle h2{
+    	font-size: 30px;
+    	font-weight: 200;
+      	margin:0px !important;
+      	text-align: left;
+    }
+    .entityDetails span{
+      font-weight: 300;
+      font-size:15px;
 
-	<div class="panel-heading border-light margin-bottom-10">
-		<h4 class="panel-title"><span><i class="fa fa-info fa-2x text-blue"></i> <?php echo Yii::t("need","NEED INFORMATIONS",null,Yii::app()->controller->module->id) ?></span></h4>
-		<div class="navigator padding-0 text-right">
-			<div class="panel-tools" style="border:inherit !important;">
+    }
+    .entityDetails{
+      padding-bottom:10px;
+      margin-bottom:10px;
+      border-bottom:0px solid #DDD;
+      font-size: 15px;
+	  font-weight: 300;
+    }
+    .entityDetails.bottom{
+      /*border-top:1px solid #DDD;*/
+      border-bottom:0px solid #DDD;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: -13px;
+    }
+    .entityDetails i.fa-tag{
+      margin-left:10px;
+    }
+    .entityDetails i.fa{
+      margin-right:7px;
+      font-size: 17px;
+		margin-top: 5px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 21px;
+    	font-family: "homestead";
+    }
+    #fileuploadContainer{
+    	z-index:0 !important;
+    }
+    .tag_group{
+    	font-size:14px;
+    	font-weight: 300;
+    }
+    .info-coordonnees{
+    	/*background-color: rgb(239, 239, 239);*/
+    }
+    .lbl-info-details{
+    	font-weight: 600;
+	    border-bottom: 1px solid lightgray;
+	    padding-bottom: 7px;
+	    margin-bottom: 5px;
+	    width:100%;
+	    float:left;
+	}
+	#fileuploadContainer{
+		margin:inherit !important;
+	}
+</style>
+<div class="panel-white">
+	<div class="panel-heading border-light">
+		<h4 class="panel-title text-dark"> 
+			<i class="fa fa-info-circle"></i> Infos générales		</h4>
+	</div>
+	<div class="panel-tools" style="">
 				<?php if ($isAdmin){ ?>
-					<a href="javascript:;" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt="" style="border:inherit !important;"><i class="fa fa-pencil"></i> Éditer le besoin</a>
+					<a href="javascript:;" id="editNeedDetail" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Editer le besoin" alt=""><i class="fa fa-pencil"></i> Éditer le besoin</a>
         		<?php } ?>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6 col-xs-12">
+				
+				<?php
+					if($parentType=="projects"){ 
+						$icon="fa-lightbulb-o";
+						$urlType = "project";
+					} else if($parentType=="organizations"){
+						$icon="fa-users";
+						$urlType = "organization";
+					} else {
+						 	$icon="fa-user";
+					}
+					$color = "";
+					if($icon == "fa-users") $color = "green";
+					if($icon == "fa-user") $color = "yellow";
+					if($icon == "fa-lightbulb-o") $color = "purple";
+				?> 
+				<div class="text-dark" style="margin-top:10px !important;">
+					<div class="entityTitle">
+						<h2 style="font-weight:100; font-size:19px;">
+							<i class="fa fa-angle-right"></i> 
+							<?php echo Yii::t("common","Émis par ") ?> 
+							<span><?php if (@$parentType=="organizations") 
+											echo Yii::t("common", "the ".$parent["type"]); 
+										else
+											echo Yii::t("common", "the ".$urlType);
+								?>
+							<a href="javascript:;" onclick="loadByHash('#<?php echo $urlType ?>.detail.id.<?php echo $parentId; ?>')" class="text-<?php echo $color ?>"><?php echo $parent["name"]; ?></a> 
+						</h2>					
+					</div>
+				</div>
+				<?php
+				$this->renderPartial('../pod/fileupload', 
+						array("itemId" => $parentId,
+							  "type" => $parentType,
+							  "resize" => false,
+							  "contentId" => Document::IMG_PROFIL,
+							  "editMode" => false,
+							  "image" => $imagesD)); 
+				?>
+			</div>
+			<div class="col-md-6">
+				<div class="text-dark" style="margin-top:10px !important;">
+					<div class="entityTitle">
+							<h2 style="font-weight:100; font-size:19px;">
+								<i class="fa fa-angle-right"></i> 
+								<a href="javascript:;" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a> , <a href="javascript:;" id="duration" data-type="select" data-original-title="Choose duration of need" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a>
+							</h2>
+							<h2><!-- <span> - </span> -->
+								<a href="javascript:;" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a>
+							</h2>						
+					</div>
+					<div class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
+						<i class="fa fa-calendar"></i> 
+							De <a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a>
+						<label id="labelTo">Au</label> <a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a>
+					</div>
+					<div class="col-md-6 no-padding">
+						<label class="control-label text-dark">
+	    	        		<i class="fa fa-angle-down"></i> <?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?>
+						</label><br>
+						<a href="#" id="quantity" data-type="number" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["quantity"]))echo $need["quantity"];?></a>
+					</div>
+					<div class="col-md-6 no-padding">
+						<label class="control-label text-dark">
+	    	        		<i class="fa fa-angle-down"></i> <?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?>
+						</label><br>
+						<a href="#" id="benefits" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["benefits"]))echo $need["benefits"];?></a>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="panel-body no-padding">
-	<div class="col-md-6">
-			<table class="table-condensed table-hover" >
-				<tbody>
-					<tr>
-						<td><?php echo Yii::t("common","Name") ?></td>
-						<td><a href="javascript:;" id="name" data-type="text" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["name"]))echo $need["name"];?></a></td>
-					</tr>
-					<tr>
-						<td>Type</td>
-						<td><a href="javascript:;" id="type" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["type"]))echo $need["type"];?></a></td>
-					</tr>
-					<tr>
-						<td><?php echo Yii::t("common","Duration") ?></td>
-						<td><a href="javascript:;" id="duration" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["duration"]))echo $need["duration"];?></a></td>
-					</tr>
-					<!--<tr>
-						<td>Description</td>
-						<td><a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click"></a></td>
-					</tr>-->
-					
-					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
-						<td><?php echo Yii::t("common","Start") ?></td>
-						<td><a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a></td>
-					</tr>
-					<tr class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
-						<td><?php echo Yii::t("common","End") ?></td>
-						<td><a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a></td>
-					</tr>
-					<tr>
-						<td><?php echo Yii::t("need","Quantity",null,Yii::app()->controller->module->id); ?></td>
-						<td><a href="#" id="quantity" data-type="number" data-original-title="Enter the need's name" class="editable-need editable editable-click"><?php if(isset($need["quantity"]))echo $need["quantity"];?></a></td>
-					</tr>
-					
-					
-					<tr>
-						<td><?php echo Yii::t("need","Benefits",null,Yii::app()->controller->module->id); ?></td>
-						<td><a href="#" id="benefits" data-type="select" data-original-title="Enter the need's name" class="editable editable-click"><?php if(isset($need["benefits"]))echo $need["benefits"];?></a></td>
-					</tr>
-				</tbody>
-			</table>
-	</div>
-<vr></vr>
-		<div class="col-md-6 padding-20">
-			<h3> Description</h3>
+		<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
+			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("need","Enter the need's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
 		</div>
-
-
-		
-
+	</div>
 	
 <script type="text/javascript">
 var needID="<?php echo $need["_id"]; ?>";
