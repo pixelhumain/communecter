@@ -111,8 +111,8 @@ fieldset{
 
 <script type="text/javascript">
 
-var searchType = [ "projects" ];
-var allSearchType = [ "projects" ];
+var searchType = [ "organizations", "projects" ];
+var allSearchType = [ "organizations", "projects" ];
 var allElement = new Array();
 
 jQuery(document).ready(function() {
