@@ -964,7 +964,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               }
             });
           });
-          Sig.restartMap();
+          // Sig.restartMap();
           Sig.showMapElements(Sig.map, mapData);
           // console.log(typesData);
           // loadClientFilters(typesData,tagsData);
