@@ -47,17 +47,6 @@ $this->renderPartial('../default/panels/toolbar');
 			<a href="javascript:;" onclick="applyStateFilter('entry')" class="btn btn-xs btn-default"> Actions <span class="badge badge-warning"> <?php echo count(@$actions) ?></span></a>  
 			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
 		</h4>
-		<ul class="panel-heading-tabs border-light">
-    	<li>
-    		<?php  
-    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? ".type.".$_GET["type"].".id.".$_GET["id"] : "" ;
-    			?>
-    		<a class=" btn btn-info" href="javascript:" onclick="loadByHash('#rooms.editroom<?php echo $urlParams ?>')" ><i class="fa fa-plus"></i> Room </a>
-    	</li>
-    	<li>
-    		<a class=" btn btn-success" href="javascript:" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </a>
-    	</li>
-		
 	</div>
 	<div class="panel-body">
 		<div>	
