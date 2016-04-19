@@ -183,22 +183,36 @@ class Menu {
 
          
         
-        //DIRECTORY
+        //ACTION ROOMS
         //-----------------------------
-        self::entry("left", 'onclick',
+        if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+            $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+            //error_log($actionRoom);
+            self::entry("left", 'onclick', 
+                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Vote'), 
+                    'gavel',
+                    "loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+        }
+        
+        /*self::entry("left", 'onclick',
         			Yii::t("common","Organization community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
         			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
-       
+        */
         //ACTION ROOMS
         //-----------------------------
-        /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
-        $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
-        array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
-                                                              "iconClass"=>"fa fa-legal",
-                                                              "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
-        */
+        // if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+
+        //     $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+
+        //     $onclick = "loadByHash( '#rooms.index.type.".Organization::COLLECTION.".id.".$id."')"; 
+        //     $active = (Yii::app()->controller->id == "rooms" && Yii::app()->controller->action->id == "index" ) ? "active" : ""; 
+        //     array_push( Yii::app()->controller->toolbarMBZ, array('tooltip' => "SURVEYS : Organization Action Room",
+        //                                                           "iconClass"=>"fa fa-legal",
+        //                                                           "href"=>"<a class='tooltips ".$active." btn btn-default' href='javascript:;' onclick=\"".$onclick."\"") );
+        // }
         // ADD MEMBER
         //-----------------------------
         if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
@@ -479,22 +493,22 @@ class Menu {
         //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
         $id = (string)$survey["_id"];
         
-        // Add a proposal
+        // List des survey
         //-----------------------------
         $surveyLink = ( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) ? "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"] : "#rooms"; 
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'SURVEYS'), 'bars',
+                    Yii::t( "common", ''), 'caret-left',
                     "loadByHash('".$surveyLink."')",null,null);
         
         // Add a proposal
         //-----------------------------
-        self::entry("right", 'onclick', 
+        self::entry("left", 'onclick', 
                     Yii::t( "common", 'Send a proposal to your community'),
                     Yii::t( "common", 'Add a proposal'), 'plus',
                     "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
 
-        // Add a proposal
+        // Help
         //-----------------------------
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
@@ -534,19 +548,19 @@ class Menu {
         // Add a proposal
         //-----------------------------
         $urlParams = ( isset( $type ) && isset($id)) ? ".type.".$type.".id.".$id : "" ;
-        self::entry("right", 'onclick', 
+        self::entry("left", 'onclick', 
                     Yii::t( "common", 'Add a new survey'),
                     Yii::t( "common", 'Add'), 'plus',
                     "loadByHash('#rooms.editroom".$urlParams."')",null,null);
 
-        self::entry("right", 'onclick', 
+        self::entry("left", 'onclick', 
                     Yii::t( "common", 'Relaod page'),
                     Yii::t( "common", 'Reload'), 'refresh',
                     "loadByHash(location.hash)",null,null);
         
         // Help
         //-----------------------------
-        self::entry("right", 'onclick', 
+        self::entry("left", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", 'Help'), 'question-circle',
                     "loadByHash('#define.Surveys')",null,null);

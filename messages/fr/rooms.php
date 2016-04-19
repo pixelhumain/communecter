@@ -24,6 +24,8 @@ return array(
 	"Close" => "Fermer",
 	"Comment" => "Commenter",
 
-
+	"created" => "Publié le",
+	"end" => "Fin le",
+	"Result" => "Résultats",
 
 );
