@@ -307,7 +307,7 @@ class Menu {
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."'')",null,null);
+					"loadByHash('#city.detail.insee.".$insee."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -470,6 +470,60 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
            }
+    }
+
+    public static function survey($survey)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
+        $id = (string)$survey["_id"];
+        
+        // Add a proposal
+        //-----------------------------
+        $surveyLink = ( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) ? "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"] : "#rooms"; 
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'List of all Surveys'),
+                    Yii::t( "common", 'SURVEYS'), 'bars',
+                    "loadByHash('".$surveyLink."')",null,null);
+        
+        // Add a proposal
+        //-----------------------------
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Want send a proposal to your community'),
+                    Yii::t( "common", 'Add a proposal'), 'plus',
+                    "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
+
+        // Add a proposal
+        //-----------------------------
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Understanding surveys and proposals'),
+                    Yii::t( "common", 'Help'), 'question-circle',
+                    "loadByHash('#define.Surveys')",null,null);
+   
+    }
+
+    public static function proposal($survey)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
+        $id = (string)$survey["_id"];
+        
+        // Add a proposal
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'Back to Parent Survey'),
+                    Yii::t( "common", 'Parent Survey'), 'chevron-circle-left',
+                    "loadByHash('#survey.entries.id.".$id."')",null,null);
+        
+        // Help
+        //-----------------------------
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Understanding surveys and proposals'),
+                    Yii::t( "common", 'Help'), 'question-circle',
+                    "loadByHash('#define.Surveys')",null,null);
+   
     }
 
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
