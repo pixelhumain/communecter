@@ -5,6 +5,9 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/DataTables/media/js/DT_bootstrap.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
+
+Menu::rooms($_GET["id"],$_GET["type"]);
+$this->renderPartial('../default/panels/toolbar');
  ?>
 
 <style>

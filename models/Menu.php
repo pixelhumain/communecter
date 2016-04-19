@@ -526,6 +526,32 @@ class Menu {
    
     }
 
+    public static function rooms($id,$type)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        // Add a proposal
+        //-----------------------------
+        $urlParams = ( isset( $type ) && isset($id)) ? ".type.".$type.".id.".$id : "" ;
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Add a new survey'),
+                    Yii::t( "common", 'Add'), 'plus',
+                    "loadByHash('#rooms.editroom".$urlParams."')",null,null);
+
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Relaod page'),
+                    Yii::t( "common", 'Reload'), 'refresh',
+                    "loadByHash(location.hash)",null,null);
+        
+        // Help
+        //-----------------------------
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Understanding surveys and proposals'),
+                    Yii::t( "common", 'Help'), 'question-circle',
+                    "loadByHash('#define.Surveys')",null,null);
+    }
+
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
     {
         if( $type == 'showAjaxPanel')
