@@ -102,6 +102,7 @@ var dataBind = {
 
 
 jQuery(document).ready(function() {
+  alert("editEntrySV userId <?php echo Yii::app()->session['userId']?>");
   $(".moduleLabel").html('<?php echo "Add a proposal" ?>');
   
   //add current user as the default value
