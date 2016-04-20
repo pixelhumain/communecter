@@ -13,7 +13,7 @@ $params = json_decode($json, true);
 ?>
 
 <div  class="col-md-2" id="dropdown_params" style="display: block;padding-left: 0px;padding-right: 0px;">
-  <!-- <center><button id="reset" class="btn btn-default">Initialiser filtre</button></center>-->
+  <!-- <center><button id="reset" class="btn btn-default">Initialiser filtre</button></center>--> 
   <label id='countResult' class='text-dark'></label>
   <!-- FILTER TEXT -->
   <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="form-control">
@@ -26,14 +26,18 @@ $params = json_decode($json, true);
             <!-- Title category -->
           <div class="panel-heading" style="background-color: <?php echo $listTag['background-color']; ?>">
             <h4 class="panel-title" onclick="manageCollapse('<?php echo $listTag['tagParent']; ?>')">
-              <a data-toggle="collapse" href="#<?php echo $listTag['tagParent']; ?>" style="color:#719FAB"><?php echo $category; ?><i class="fa fa-chevron-down" aria-hidden="true" id="fa_<?php echo $listTag['tagParent']; ?>"></i></a>
+              <input type="checkbox" class="checkbox categoryFilter" value="<?php echo $listTag['tagParent']; ?>"/>
+              <a data-toggle="collapse" href="#<?php echo $listTag['tagParent']; ?>" style="color:#719FAB">
+                <?php echo $category; ?>
+                <i class="fa fa-chevron-down" aria-hidden="true" id="fa_<?php echo $listTag['tagParent']; ?>"></i>
+              </a>
             </h4>
           </div>
           <div id="list_<?php echo $listTag['tagParent']; ?>" class="panel-collapse collapse">
             <ul class="list-group">
                <!-- Tags -->
               <?php foreach($listTag['tags'] as $tag){?>
-                <li class="list-group-item"><input type="checkbox" class="checkbox tagFilter" value="<?php echo $tag; ?>"/><?php echo $tag; ?></li>
+                <li class="list-group-item"><input type="checkbox" class="checkbox tagFilter" value="<?php echo $tag; ?>" data-parent="<?php echo $listTag['tagParent']; ?>"/><?php echo $tag; ?></li>
               <?php } ?>
             </ul>
           </div>
@@ -81,7 +85,7 @@ $params = json_decode($json, true);
     if($('.searchCategory[value="<?php echo $_GET['category']; ?>"]').length)$('.searchCategory[value="<?php echo $_GET['category']; ?>"]').addClass('active');
     location.hash = "#default.simplydirectory";
   <?php }else{ ?>
-    searchCategory = [];
+    searchCategory = ["création"];
   <?php } ?>  
 
   var allElement = new Array();
@@ -312,6 +316,8 @@ function addSearchCategory(category){
   if (index == -1) {
     searchCategory.push(category);
     $('.categoryFilter[value="'+category+'"]').addClass('active');
+    console.log($('.checkbox[data-parent="'+category+'"]'));
+    $('.checkbox[data-parent="'+category+'"]').prop( "checked", true );
   }
 }
 
@@ -321,6 +327,7 @@ function removeSearchCategory(category){
   if (index > -1) {
     searchCategory.splice(index, 1);
     $('.categoryFilter[value="'+category+'"]').removeClass('active');
+    $('.checkbox[data-parent="'+category+'"]').prop( "checked", false );
   }
 }
 

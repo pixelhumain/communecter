@@ -20,7 +20,7 @@
     ], 
     "filter" : {
         "types" : false,
-        "tags" : false,
+        "tags" : true,
         "linksTag" : {
             "Se nourrir" : {
                 "tagParent" : "Alimentation",
