@@ -26,7 +26,8 @@ $params = json_decode($json, true);
             <!-- Title category -->
           <div class="panel-heading" style="background-color: <?php echo $listTag['background-color']; ?>">
             <h4 class="panel-title" onclick="manageCollapse('<?php echo $listTag['tagParent']; ?>')">
-              <input type="checkbox" class="checkbox categoryFilter" value="<?php echo $listTag['tagParent']; ?>"/>
+              <input type="checkbox" class="checkbox categoryFilter" value="<?php echo $listTag['tagParent']; ?>" style="vertical-align: bottom;
+    display: inline-block"/>
               <a data-toggle="collapse" href="#<?php echo $listTag['tagParent']; ?>" style="color:#719FAB">
                 <?php echo $category; ?>
                 <i class="fa fa-chevron-down" aria-hidden="true" id="fa_<?php echo $listTag['tagParent']; ?>"></i>

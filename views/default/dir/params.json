@@ -165,7 +165,7 @@
         "datesEvent" : false
     },
     "request" : {
-        "sourcekey" : "patapouf2",
+        "sourcekey" : "patapouf",
         "pagination" : 1000
     }
 }
