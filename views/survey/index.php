@@ -251,11 +251,11 @@ $this->renderPartial('../default/panels/toolbar');
               $parentIcon = "university";
           }
           //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
-          $byInfo = "by <a href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/".$parentCtrler."/dashboard/id/".$entry["parentId"])."'><i class='fa fa-".$parentIcon."'></i></a>";
+          $byInfo = "by <a href='javascript:loadByHash(\"#".$parentCtrler.".detail.id.".$entry["parentId"]."\")'><i class='fa fa-".$parentIcon."'></i></a>";
         }
 
         $contextType = ( $entry["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-        $commentBtn = "<a class='btn btn-xs btn-default voteAbstain' href='".Yii::app()->createUrl(Yii::app()->controller->module->id."/comment/index/type/".$contextType."/id/".$entry["_id"])."'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> ".Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)."</a>";
+        $commentBtn = "<a class='btn btn-xs btn-default voteAbstain' href='javascript:loadByHash(\"#comment.index.type.".$contextType.".id.".$entry["_id"]."\")'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> ".Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)."</a>";
         $closeBtn = "";
         $isClosed = "";
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
