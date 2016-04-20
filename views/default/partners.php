@@ -26,7 +26,7 @@ var keywords = [
 	{
 		"icon" : "fa-users",
 		"title": "CHEZ NOUS.coop",
-		"link" : "cheznous.coop",
+		"link" : "http://www.cheznous.coop",
 		"class" : "partner"
 	},
 	{
@@ -53,6 +53,12 @@ var keywords = [
 		"link" : "http://www.virtual-assembly.org/",
 		"class" : "partner"
 	},
+	{
+		"icon" : "fa-users",
+		"title": "BROWSERSTACK",
+		"link" : "http://www.browserstak.com/",
+		"class" : "partner"
+	},
 	/* **************************************
 	*
 	*	FINANCERS
@@ -73,7 +79,7 @@ var keywords = [
 	{
 		"icon" : "fa-university",
 		"title": "GRANDDIR",
-		"link" : "",
+		"link" : "http://www.granddir.re",
 		"class" : "financer"
 	},
 	/* **************************************
@@ -652,12 +658,19 @@ var keywords = [
 	
 jQuery(document).ready(function() 
 {
+	var link, endlink;
 	$(".moduleLabel").html('<?php echo Yii::t("common","Project Partners") ?>');
 	$(".keywordList").html('');
 	$.each(keywords,function(i,obj) { 
 		icon = (obj.icon) ? obj.icon : "fa-tag" ;
 		icon = '<i class="fa '+icon+' faa-pulse animated-hover fa-2x"></i>';
-
+		if (typeof obj.link != undefined && obj.link != "") {
+			link = '<a href="'+obj.link+'">';
+			endlink = '</a>';
+		} else {
+			link="";
+			endlink="";
+		}
 		if( obj.class == "crowdfunder")
 			icon =  '<span class="fa-stack fa-lg"><i class="fa fa-user fa-stack-2x"></i><i class="fa fa-euro fa-stack-1x text-danger"></i></span>';
 			
@@ -665,7 +678,9 @@ jQuery(document).ready(function()
 		$(".keywordList").append(
 		'<div class="col-md-4 col-sm-12 networkActor '+obj.class+'"><div class="panel panel-white">'+
 			'<div class="panel-heading border-light ">'+
+				link+
 				'<span class="panel-title homestead"> '+icon+' <span style="font-size: 35px; color:'+color+';"> '+obj.title.toUpperCase()+'</span></span>'+
+				endlink+
 			'</div>'+
 			/*'<div class="panel-body">'+
 				'<blockquote class="space20">'+
