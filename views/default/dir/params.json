@@ -1,32 +1,166 @@
 {
     "name" : "simply",
-    "mode" : "client",
+    "mode" : "server",
     "skin" : {
         "logo" : false,
         "title" : false,
         "displayScope" : false,
         "displayCommunexion" : false,
-        "profilBar" : true,
-        "displayButtonGridList" : true,
+        "profilBar" : false,
+        "displayButtonGridList" : false,
         "class" : {
             "mainContainer" : false
         },
-        "iconeAdd" : true,
-        "iconeSearchPlus" : true,
+        "iconeAdd" : false,
+        "iconeSearchPlus" : false,
         "loginTitle":""
     },
+    "searchType" : [
+        "organizations"
+    ], 
     "filter" : {
-        "types" : true,
-        "tags" : true
+        "types" : false,
+        "tags" : false,
+        "linksTag" : {
+            "Se nourrir" : {
+                "tagParent" : "Alimentation",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Amap",
+                    "magasin de producteurs",
+                    "Groupement d'achat",
+                    "Jardin Partagé",
+                    "Grainothèque",
+                    "Groupe Facebook",
+                    "Incroyables Comestibles",
+                    "La Ruche qui dit Oui! ",
+                    "Livraison de paniers",
+                    "Groupement de producteur",
+                    "CoLunch"
+                ]
+            },
+            "Se financer" : {
+                "tagParent" : "financement",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "CIGALES",
+                    "Monnaie locale",
+                    "financement participatif",
+                    "budget participatif"
+                ]
+            },
+            "Se rendre service" : {
+                "tagParent" : "Service",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Troc",
+                    "RERS",
+                    "SEL",
+                    "Givebox",
+                    "Fournisseur d'accès à internet",
+                    "Réseau social de proximité",
+                    "Autre",
+                    "café associatif"
+                ]
+            },
+            "Se divertir" : {
+                "tagParent" : "Loisir",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Cinéma associatif",
+                    "Bibliothèque de rue",
+                    "Concert à domicile",
+                    "AMAP culturelle"
+                ]
+            },
+            "Bricoler/Réparer" : {
+                "tagParent" : "Réparation",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Atelier de réparation de vélo",
+                    "FabLab",
+                    "Repair Café",
+                    "compostage collectif",
+                    "Up Cycling"
+                ]
+            },
+            "Co-créer" : {
+                "tagParent" : "Création",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "MuséoMix",
+                    "MaisonMix"
+                ]
+            },
+            "S'équiper" : {
+                "tagParent" : "Equipement",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Recyclerie",
+                    "mutualisation de matériels",
+                    "Troc/don",
+                    "Freecycle",
+                    "Zone de gratuité",
+                    "ludothèque",
+                    "Outillothèque",
+                    "CUMA",
+                    "Instrumenthèque",
+                    "Autre"
+                ]
+            },
+            "S'informer" : {
+                "tagParent" : "Information",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Wiki territorial",
+                    "Greeters",
+                    "carte ouverte",
+                    "Autre"
+                ]
+            },
+            "Se déplacer" : {
+                "tagParent" : "Mobilité",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Covoiturage",
+                    "Pédibus",
+                    "autopartage",
+                    "bus cycliste",
+                    "VéloPartage",
+                    "AutoStop organisé",
+                    "CoBaturage"
+                ]
+            },
+            "Se loger" : {
+                "tagParent" : "Logement",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "habitat partagé",
+                    "Location de logement",
+                    "Maison Mix",
+                    "CoLocation"
+                ]
+            },
+             "Travailler" : {
+                "tagParent" : "Travail",
+                "background-color" : "#f5f5f5",
+                "tags" : [
+                    "Groupement d'employeur",
+                    "Coworking",
+                    "Tiers Lieu",
+                    "Autre"
+                ]
+            }
+        }
     },
     "add" : {
         "organization" : false,
-        "project" : true,
+        "project" : false,
         "event" : false
     },
     "result" : {
         "displayImage" : false,
-        "displayType" : true,
+        "displayType" : false,
         "fullLocality" : true,
         "datesEvent" : false
     },

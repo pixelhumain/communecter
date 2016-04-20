@@ -243,7 +243,7 @@
 <?php } ?>
 
 
-<div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 main-top-menu">
+<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu">
 	
 	<a href="javascript:loadByHash('#default.simplydirectory')" class="hidden-xs" >
 		<?php if(isset($params['skin']['logo']) && $params['skin']['logo']) echo $params['skin']['logo']; ?>
@@ -273,7 +273,7 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
-	<div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 main-col-search">
+	<div class="col-md-12 col-sm-12 col-xs-12 main-col-search">
 	</div>
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>

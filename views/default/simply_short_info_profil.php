@@ -21,7 +21,7 @@
   }
 
   .menu-info-simply{
-    margin-top: 8px;
+    /*margin-top: 8px;*/
     padding-right: 0px;
     position: relative;
     float: right;
@@ -54,7 +54,6 @@
     /*right: 20px;
     top: 9px;
     */
-    margin-top:8px;
     padding-right: 10px;
     position:relative;
     float:right;
@@ -231,16 +230,16 @@
           <!-- <div class="form-group" style="display:inline;"> -->
             <!-- <div class="input-group filter-group search" style="display:table;"> -->
               <!-- <span class="input-group-addon" style="width:1% ;background-color:#999"></span> -->
-              <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="form-control">
+              <!-- <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="form-control"> -->
             <!-- </div> -->
           <!-- </div> -->
       </form>
     </div>
     <div class="dropdown pull-left hidden-xs">
-      <button id="btn-start-search" class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
+      <!-- <button id="btn-start-search" class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" 
           data-toggle="tooltip" data-placement="left" title="Rechercher quelque chose" alt="Rechercher quelque chose">
        <i class="fa fa-search fa-2x"></i>
-      </button>
+      </button> -->
     </div>
 
      

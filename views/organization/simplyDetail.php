@@ -1,7 +1,7 @@
 <?php 
 	if(!$alone){
-		Menu::simplyOrganization($organization);
-		$this->renderPartial('../default/panels/toolbar'); 
+		// Menu::simplyOrganization($organization);
+		// $this->renderPartial('../default/panels/toolbar'); 
 	}
 ?>
 

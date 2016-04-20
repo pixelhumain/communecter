@@ -1,8 +1,66 @@
-
- html, body {
+html, body {
   min-height: 100%;
   height: 100%;
 }
+
+
+.container{
+  /*width:99%;*/
+  /*background-color: white;*/
+}
+
+.simply-button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #666;
+    background-color: #ccc;
+    border: 0px solid #666;
+}
+
+.navbar{
+  background-color: #CCC;
+}
+
+.panel-filter{
+  border-right:2px solid grey;
+}
+
+.btn-add-to-directory{
+  font-size: 14px;
+  margin-right: 0px;
+  border-radius: 6px;
+  color: #666;
+  border: 1px solid rgba(188, 185, 185, 0.69);
+  margin-left: 3px;
+  float: right;
+  padding: 1px;
+  width: 24px;
+  margin-top: 4px;
+}
+
+.btn-filter-type{
+  height:44px;
+}
+
+.btn-scope{
+  display: inline;
+}
+
+.simply-nav{
+  border:0px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.searchEntity hr{
+  margin:3px; 
+}
+
+fieldset{
+  width: 99%;
+  border: 10px solid white;
+}
+
 #mapCanvasBg {
     visibility: visible !important;
     /*z-index: -1;*/
@@ -13,6 +71,7 @@
 .my-main-container{
 	background-color: rgba(240, 240, 240, 0.93) !important;
 	margin-left: 0px !important;
+	padding-left: 1px;
 }
 /*.container-lbl-info-search{
 	position: absolute;
@@ -135,8 +194,7 @@ input[type="text"].input-search.postalCode{
 	padding: 0px !important;
 	
 }*/
-input[type="text"].input-search.postalCode:focus{
-	/*border-color: #CC3939 !important;*/
+/*input[type="text"].input-search.postalCode:focus{
 	-moz-box-shadow: 0px 0px 5px 0px #CC3939 !important;
 	-webkit-box-shadow: 0px 0px 5px 0px #CC3939 !important;
 	-o-box-shadow: 0px 0px 5px 0px #CC3939 !important;
@@ -149,7 +207,6 @@ button.btn-start-search{
 	margin-bottom: 5px;
 	top: 63px;
 	right: 4%;
-	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color: white;
 	border-color: rgba(180, 180, 180, 0.77) !important;
@@ -324,7 +381,7 @@ button.btn-menu-notif{
 }
 
 button#btn-toogle-map{
-	right: -31px;
+	right: 0px;
 	font-size: 24px;
 	width: 45px;
 	height: 51px;
@@ -391,7 +448,7 @@ button.btn-infos{
 	-o-box-shadow: 0px 0px 5px 0px #14424A !important;
 	box-shadow: 0px 0px 5px 0px #14424A !important;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-}
+}*/
 
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 
@@ -808,6 +865,8 @@ button.btn-infos{
 	min-height: 60px !important;
 	float: left;
 	width: 100%;
+	border:1px solid gray;
+	border-radius: 5px;
 }
 
 
@@ -1116,8 +1175,8 @@ button.btn-infos{
 }
 
 
-
-.type-list-filter span{
+/**** FILTER SIMPLY ******/
+.list-filter span{
 	display: inline-block;
     margin: 0 0.25em 0.5em 0;
     padding: 0.2em 1em 0.25em;
@@ -1128,33 +1187,30 @@ button.btn-infos{
     border-radius: 1px;
 }
 
-.type-list-filter a{
+.list-filter a{
 	display: inline-block;
     margin: 0 0.25em 0.5em 0;
     padding: 0.2em 1em 0.25em;
     color: #fff;
-    background-color: #2497d0;
+    background-color: darkgray;
     -moz-border-radius: 1px;
     -webkit-border-radius: 1px;
     border-radius: 1px;
 }
 
-.type-list-filter a:hover{
+.list-filter a:hover{
 	color: #fff;
-	background-color: gray;
+	background-color: #2497d0;
 }
 
-.type-list-filter a:active{
+.list-filter a.active{
 	color: #fff;
-	background-color: gray;
+	background-color: #2497d0;
 }
-
-
 
 /** MIX **/
-.mix{ 
+/*.mix{ 
 	min-height: 100px;
-	/*width: 31.5%;*/
 	background-color: white;
 	display: inline-block;
 	border:1px solid #bbb;
@@ -1172,7 +1228,6 @@ display: none;
 }
 .mix a{
 	color:black;
-	/*font-weight: bold;*/
 }
 .mix .imgDiv{
 	float:left;
@@ -1203,7 +1258,7 @@ display: none;
 	color:white;
 }
 
-.mix .text-xss{ font-size: 11px; }
+.mix .text-xss{ font-size: 11px; }*/
 
 
 #dropdown_search{
@@ -1211,7 +1266,15 @@ display: none;
   min-height: 400px;
   text-align: justify;
   position: relative;
+  background-color: white;
 }
+
+
+#dropdown_params{
+  min-height: 400px;
+  background-color: white;
+}
+
 
 #dropdown_search .mix,
 #dropdown_search .gap{
@@ -1230,4 +1293,16 @@ display: none;
 
 #moreTag{
 	cursor: pointer;
+}
+
+
+li input{
+   display: inline-block;
+   float: right;
+   margin-right: 10px;
+}
+
+.panel-title i{
+	display: inline-block;
+   	float: right;
 }
