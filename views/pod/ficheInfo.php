@@ -128,7 +128,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
 		<?php }} 
 				if(isset($organization["disabled"])){?>
-					<span class="label label-danger">DISABLED</span>
+					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
 		<?php } ?>
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">

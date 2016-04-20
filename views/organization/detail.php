@@ -101,7 +101,7 @@
 		$("#disableOrganization").off().on("click",function () {
 			console.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
-			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists)') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !')." " ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
 				function(result) {
 					if (!result) {
 						return;
