@@ -3,7 +3,6 @@ Menu::proposal( (string)$survey['_id'] );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
-<div id="readEntryContainer"></div>
 
 <script type="text/javascript">
 var organizerList = {};
@@ -232,21 +231,7 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function readEntrySV(data,type) { 
-  console.warn("--------------- readEntrySV ---------------------");
-  console.dir(data);
-  $("#readEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
-              "<div class='space20'></div>"+
-              "<h1 id='entryTitle' >Faites une proposition</h1>"+
-              "<div id='entryContent'></div>"+
-              //'<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
-              "</div>");
-  
-          $("#entryContent").html(data.content);
-          $("#entryTitle").html(data.title);
-          if(type=="graph")
-            setUpGraph();
-}
+
 
 
 </script>

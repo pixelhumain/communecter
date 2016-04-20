@@ -522,7 +522,7 @@ function loadByHash( hash , back ) {
 function checkIsLoggued(uId){
 	if( uId == "" ){
 		console.warn("PRIVATE SECTION LOGIN FIRST");
-		toastr.error("Secure Section <br/>You must be loggued to access");
+		toastr.error("<h1>Secure Section You must be loggued to access</h1>");
 		
 		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Secure Section");
 		//setTimeout(function(){
