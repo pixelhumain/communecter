@@ -139,7 +139,7 @@ function buildLineHTML(newsObj,idSession,update)
 			if("object" != typeof newsObj.media)
 				media="<div class='results'>"+newsObj.media+"</div>";
 			else{
-				media="<div class='results'>"+getMediaHtml(newsObj.media)+"</div>";
+				media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
 				//// Fonction générant l'html
 			} 
 				

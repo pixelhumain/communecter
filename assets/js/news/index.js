@@ -248,6 +248,7 @@ function deleteNews(id, $this){
 }
 
 function switchModeEdit(idNews){
+	//alert(mode);
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext(idNews);
@@ -287,6 +288,7 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
+				switchModeEdit(data.id);
 				console.log(data);
 	        }
 	        else{
@@ -307,9 +309,14 @@ function initXEditable() {
 			video: true,
 			image: true
 		},
+		width:100,
+		showbuttons: 'bottom',
 		success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
+		        switchModeEdit(data.id);
 	        	toastr.success(data.msg);
+	        	console.log(data);
+	        	}
 	        else
 	        	toastr.error(data.msg);  
 	    },
@@ -479,10 +486,11 @@ function getMediaHtml(data,action){
     inputToSave="";
     if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
         if (data.content.videoLink){
-    		extractClass="extracted_thumb";
+            extractClass="extracted_thumb";
             width="100";
             height="100";
-            aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
+
+            aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
             inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
             "<input type='hidden' class='media_type' value='video_link' />";   
 		}
@@ -529,12 +537,19 @@ function getMediaHtml(data,action){
     //content to be loaded in #results element
 	if(data.content==null)
 		data.content="";
+	
+	if(data.description !="" && data.name != ""){
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+	}
+	else{
+		contentMedia="";
+	}
 	inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 	inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
-    content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div></div>'+inputToSave;
+    content = '<div class="extracted_url">'+ inc_image +contentMedia+'</div>'+inputToSave;
     return content;
 }
 function saveNews(){
