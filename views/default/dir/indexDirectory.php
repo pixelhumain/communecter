@@ -42,6 +42,10 @@
         } else
           return array();
     }
+
+    $pathParams = Yii::app()->controller->module->viewPath.'/default/dir/';
+	$json = file_get_contents($pathParams."params.json");
+	$params = json_decode($json, true);
 ?>
 
 <?php 
@@ -271,9 +275,13 @@
 </div>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
+<div class="col-md-10 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
 
-	<div class="col-md-12 col-sm-12 col-xs-12 main-col-search">
+	<div class="col-md-2 col-sm-2 col-xs-2 menu-col-search" style="top: 50px;">
+		<?php $this->renderPartial("dir/menu", array("params" => $params)); ?>
+	</div>
+
+	<div class="col-md-10 col-sm-10 col-xs-10 main-col-search" style="top: 50px;">
 	</div>
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
@@ -354,7 +362,9 @@ var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
 
-	
+	//Simply load default
+	$('.bg-main-menu').html($('.menu-col-search').html());
+
 	<?php if(isset(Yii::app()->session['userId']) && //et que le two_step est terminé
 			(!isset($me["two_steps_register"]) || $me["two_steps_register"] != true)){ ?>
 		

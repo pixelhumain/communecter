@@ -1306,3 +1306,7 @@ li input{
 	display: inline-block;
    	float: right;
 }
+
+.entityName, .breadcum{
+	cursor: pointer;
+}

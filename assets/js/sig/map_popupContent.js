@@ -126,6 +126,8 @@
 
 		//##
 		//création du contenu de la popup d'un data
+		var action = "detail";
+		if(location.hash == "#default.simplydirectory") action = "simply";
 		Sig.getPopupSimple = function(data){
 			
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
@@ -151,7 +153,7 @@
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
-			var url = '#'+typeElement+'.detail.id.'+id;
+			var url = '#'+typeElement+'.'+action+'.id.'+id;
 			onclick = 'loadByHash("'+url+'");';
 			
 

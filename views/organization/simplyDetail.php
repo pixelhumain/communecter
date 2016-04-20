@@ -4,7 +4,9 @@
 		// $this->renderPartial('../default/panels/toolbar'); 
 	}
 ?>
-
+<script>
+	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo $organization["name"]; ?>');
+</script>
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 col-md-12">

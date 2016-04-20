@@ -12,52 +12,7 @@ $params = json_decode($json, true);
 
 ?>
 
-<div  class="col-md-2" id="dropdown_params" style="display: block;padding-left: 0px;padding-right: 0px;">
-  <!-- <center><button id="reset" class="btn btn-default">Initialiser filtre</button></center>--> 
-  <label id='countResult' class='text-dark'></label>
-  <!-- FILTER TEXT -->
-  <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="form-control">
-  
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <?php 
-      if(isset($params['filter']['linksTag']) && is_array($params['filter']['linksTag'])){
-        foreach($params['filter']['linksTag'] as $category => $listTag){ ?>
-            <!-- Title category -->
-          <div class="panel-heading" style="background-color: <?php echo $listTag['background-color']; ?>">
-            <h4 class="panel-title" onclick="manageCollapse('<?php echo $listTag['tagParent']; ?>')">
-              <input type="checkbox" class="checkbox categoryFilter" value="<?php echo $listTag['tagParent']; ?>" style="vertical-align: bottom;
-    display: inline-block"/>
-              <a data-toggle="collapse" href="#<?php echo $listTag['tagParent']; ?>" style="color:#719FAB">
-                <?php echo $category; ?>
-                <i class="fa fa-chevron-down" aria-hidden="true" id="fa_<?php echo $listTag['tagParent']; ?>"></i>
-              </a>
-            </h4>
-          </div>
-          <div id="list_<?php echo $listTag['tagParent']; ?>" class="panel-collapse collapse">
-            <ul class="list-group">
-               <!-- Tags -->
-              <?php foreach($listTag['tags'] as $tag){?>
-                <li class="list-group-item"><input type="checkbox" class="checkbox tagFilter" value="<?php echo $tag; ?>" data-parent="<?php echo $listTag['tagParent']; ?>"/><?php echo $tag; ?></li>
-              <?php } ?>
-            </ul>
-          </div>
-        <?php }
-      } 
-      ?>
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <center><a href="https://docs.google.com/forms/d/1HzoRFzt4iK2REVAI0_wRDHkKnU0sRWZD8W5PfGj0dC0/viewform?embedded=true#start=embed" target="_blank" ><i class="fa fa-plus fa-2x"></i>Ajouter un projet</a></center>
-        </h4>
-      </div>
-      <div class="panel-heading">
-         <h4 class="panel-title">
-          <center><a id="reset" ><i class="fa fa-refresh"></i>Réinitialiser</a></center>
-        </h4>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <div class="my-main-container col-md-10" >
   <div id="dropdown_search" class="container list-group-item"></div>
@@ -77,17 +32,17 @@ $params = json_decode($json, true);
   var searchTag = [];
   var allSearchTag = [];
 
-
   //********** FILTER CATEGORY **********
   var searchCategory = [];
-  var allsearchCategory = [];
+  var allsearchCategory = ["Travail"]; 
   <?php if(isset($_GET['category']) && $_GET['category'] != ""){ ?>
     searchCategory = ["<?php echo $_GET['category']; ?>"];
-    if($('.searchCategory[value="<?php echo $_GET['category']; ?>"]').length)$('.searchCategory[value="<?php echo $_GET['category']; ?>"]').addClass('active');
-    location.hash = "#default.simplydirectory";
-  <?php }else{ ?>
-    searchCategory = ["création"];
-  <?php } ?>  
+    // addSearchCategory("<?php echo $_GET['category']; ?>");
+    // if($('.searchCategory[value="<?php echo $_GET['category']; ?>"]').length)$('.searchCategory[value="<?php echo $_GET['category']; ?>"]').addClass('active');
+  <?php } ?> 
+
+  //Par défaut
+  location.hash = "#default.simplydirectory"; 
 
   var allElement = new Array();
   var allTags = new Object();
@@ -109,6 +64,10 @@ $params = json_decode($json, true);
 
 
   jQuery(document).ready(function() {
+
+    $('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><label id="countResult" class="text-dark"></label>');
+
+    showMap(true);
 
     selectScopeLevelCommunexion(levelCommunexion);
 
@@ -317,7 +276,7 @@ function addSearchCategory(category){
   if (index == -1) {
     searchCategory.push(category);
     $('.categoryFilter[value="'+category+'"]').addClass('active');
-    console.log($('.checkbox[data-parent="'+category+'"]'));
+    // console.log($('.checkbox[data-parent="'+category+'"]'));
     $('.checkbox[data-parent="'+category+'"]').prop( "checked", true );
   }
 }
@@ -392,7 +351,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+        message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i><span class='text-dark'> En cours ...</span></h1>"
       });
 
     $.ajax({
@@ -482,7 +441,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       if(value != ""){
 
                         //Display info in item
-                        tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
+                        tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter' value='"+ value +"'>#" + value + "</a>";
                         // manageTagFilter("#"+value); 
 
                         //Consolidate tags
@@ -528,7 +487,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     str += "</div>";
                    <?php } ?>
                     str += "<div class='entityMiddle col-md-5 name' onclick='"+onclick+"'>";
-                        str += "<a href='"+url+"' class='entityName text-dark'>" + name + "</a><br/>";
+                        str += "<a class='entityName text-dark'>" + name + "</a><br/>";
                         // if(website != "" && website != " ")
                         str += "<i class='fa fa-desktop fa_url'></i><a href='"+website+"' target='_blank'>"+website+"url à recup</a><br/>";
                         <?php if(isset($params['result']['fullLocality']) && $params['result']['fullLocality']) { ?>
@@ -627,7 +586,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 }
 
                 //on affiche le nombre de résultat en bas
-                $("#countResult").html($( "div.searchEntity" ).length+" résultats");
+                var s = "";
+                var length = ($( "div.searchEntity" ).length);
+                if(length > 1) s = "s";
+                $("#countResult").html(length+" résultat"+s);
 
                 //On met à jour les filtres
                 <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
@@ -1104,10 +1066,15 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
     //Display active
     $.each(searchTag, function(index, value){
-      $('.tagFilter[value="'+value+'"]').addClass('active')
+      $('.tagFilter[value="'+value+'"]').addClass('active');
+      $('.tagFilter[value="'+value+'"]').prop("checked", true );
+      manageCollapse(value,true);
+
     });
     $.each(searchCategory, function(index, value){
       $('.categoryFilter[value="'+value+'"]').addClass('active')
+      $('.categoryFilter[value="'+value+'"]').prop( "checked", true );
+      manageCollapse(value,true);
     });
     
 
@@ -1172,8 +1139,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
 
-  function manageCollapse(div){
-    $("#list_"+div).toggle();
+  function manageCollapse(div, forcer){
+    if(forcer == true){
+      $("#list_"+div).show();
+    }else{
+      $("#list_"+div).toggle();
+    }
     if($("#list_"+div).is(":visible")){
       $("#fa_"+div).removeClass('fa-chevron-down');
       $("#fa_"+div).addClass('fa-chevron-up');

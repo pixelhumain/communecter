@@ -169,6 +169,11 @@
     <!-- <input type="text" class="text-dark input-global-search hidden-xs" placeholder="rechercher ..."/>
     <div class="dropdown-result-global-search"></div>-->
     <div class="pull-left">
+
+      <label class="menu-button btn-menu btn-default btn-menu-global-search tooltips text-dark" onclick="loadByHash('#default.simplydirectory')" id="breadcum" style="cursor:pointer;">
+        <i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i>
+      </label>
+
       <div class="dropdown pull-right hidden-xs">
         <?php if(isset($params['skin']['displayButtonGridList']) && $params['skin']['displayButtonGridList']) { ?>
            <button id="grid" class="dropdown-toggle menu-name-profil text-dark" style="display:none">
