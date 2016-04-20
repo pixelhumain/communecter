@@ -199,7 +199,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 			<div class="col-md-12" style="margin-top:10px;">
 				<?php if( isset($organizer) ){ ?>
-					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="<?php echo @$organizer['link'] ?>" target="_blank" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br>
+					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition de <a style="font-size:14px;" href="<?php echo @$organizer['link'] ?>" target="_blank" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br>
 				<?php }	?>
 				<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
 				<br/><br/>
