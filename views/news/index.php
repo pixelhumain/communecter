@@ -29,9 +29,10 @@ $cs = Yii::app()->getClientScript();
 //$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
 //$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
+	'/css/news/index.css',	
 	'/js/news/index.js',
-	'/js/news/newsHtml.js',
-	'/css/news/index.css'	
+	'/js/news/newsHtml.js'
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
@@ -48,9 +49,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
-		$restricted = "Visible de tous (mais que sur ce mur)";
+		$restricted = Yii::t("common","Visible to all");
 		$titleRestricted = "Restreint";
-		$private = "Visible juste pour mes membres"; 
+		$private = Yii::t("common","Visible only to the members"); 
 		$titlePrivate = "Privé";
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
@@ -59,14 +60,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$contextName =$person["name"];
 			$contextIcon = "user";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
-			if(@Yii::app()->session["userId"] && $id==Yii::app()->session["userId"]){
-				$restricted = "Visible que sur votre mur";
-				$private = "Visible que pour votre réseau";
+			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
+				$restricted = Yii::t("common","Visible to all");
+				$private = Yii::t("common","Visible only to me");
 			}	
 		}
 		else{
-			$restricted = "Visible que sur votre mur";
-			$private = "Visible que pour votre réseau";
+			$restricted = Yii::t("common","Visible to all");
+			$private = Yii::t("common","Visible only to me");
 		}
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
@@ -74,14 +75,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
-		$restricted = "Visible de tous (mais que sur ce mur)";
-		$private = "Visible juste pour mes contributeurs"; 
+		$restricted = Yii::t("common","Visible to all");
+		$private = Yii::t("common","Visible only to the project's contributors"); 
 	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
 		Menu::event( $event );
 		$contextName = $event["name"];
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
-		$restricted = "Visible de tous (mais que sur ce mur)";
+		$restricted = Yii::t("common","Visible to all");
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -127,33 +128,33 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
-					<div id="results" class="padding-10 bg-white"></div>
+					<div id="results" class="bg-white results"></div>
 				</div>
 			</div>
 			<div class="form-group tagstags" style="">
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$canManageNews && $canManageNews){ ?>
+				<?php if(@$canManageNews && $canManageNews==true){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li>
-							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
+							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
 								<!--<div class="small" style="padding-left:12px;">-->
-							<p class="list-group-item-text small">Visible de tous + Posté sur le mur de la ville</p>
+							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all + Posted on the city's wall")?></p>
 							</a>
 						</li>
 						<?php if(@$restricted){ ?>
 							<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-unlock"></i> Restreint</h4>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-unlock"></i> <?php echo ucfirst(Yii::t("common", "restricted")) ?></h4>
 								<p class="list-group-item-text small"><?php echo $restricted ?></p>
 							</a>
 						</li>
 						<?php } ?>
 						<?php if (@$private){ ?>
 						<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> Privé</h4>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
 								<p class="list-group-item-text small"><?php echo $private ?></p>
 							</a>
 						</li>
@@ -171,10 +172,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
-				<?php if(@$type && $type==Person::COLLECTION && $contextParentId != Yii::app()->session["userId"]){ ?>
-					<input type="hidden" name="scope" value="private"/>
+				<?php if(@$canManageNews && $canManageNews=="true"){ ?>
+					<input type="hidden" name="scope" value="public"/>
 				<?php }else{ ?>
-				<input type="hidden" name="scope" value="public"/>
+					<input type="hidden" name="scope" value="private"/>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
@@ -350,8 +351,8 @@ jQuery(document).ready(function()
 		          }
 		    }
 		});
+		$('.tooltips').tooltip();
 	},100);
-		
 	getUrlContent();
 	setTimeout(function(){
 		saveNews();
