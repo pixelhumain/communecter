@@ -89,8 +89,75 @@
 <script>
 
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
-   	});
+
+		$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
+		//if($(".tooltips").length) {
+     	//	$('.tooltips').tooltip();
+   		//}
+   		bindFicheInfoBtn();
+	});
+	
+	function bindFicheInfoBtn(){
+		$("#disableOrganization").off().on("click",function () {
+			console.warn("disableOrganization",$(this).data("id"));
+			var id = $(this).data("id");
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists)') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+id ,
+							type: "POST",
+							success: function(data)
+							{
+								if(data.result)
+									toastr.success(data.msg);
+								else
+									toastr.error(data.msg);
+						  	},
+						});
+					}
+			});
+		});
+		$(".removeMemberBtn").off().on("click",function () {
+			$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+			 //$(this).html('<i class=" disconnectBtnIcon fa fa-spinner fa-spin"></i>');
+			var idMemberOf = $(this).data("memberof-id");
+			var idMember = $(this).data("member-id");
+			var typeMember = $(this).data("member-type");
+			bootbox.confirm("<?php echo Yii::t('organization','Are you sure you want to remove the connection with ') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if (!result) {
+					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+					return;
+				}
+
+				console.log(idMember);
+				$.ajax({
+					type: "POST",
+					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",
+					dataType: "json",
+					success: function(data){
+						if ( data && data.result ) {
+							$("#linkBtns").html('<a href="javascript:;" class="connectBtn tooltips " id="addMeAsMemberInfo" data-placement="top"'+
+												'data-original-title="<?php echo Yii::t('organization','Become a member of this organization') ?>" >'+
+												'<i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t('organization','I AM A MEMBER') ?></a>');
+							bindFicheInfoBtn();
+							toastr.success("<?php echo Yii::t('organization','The link has been removed successfully.') ?>");
+							$("#organizations"+idMemberOf).remove();
+							if ($("#organizations tr").length == 0) {
+								$("#info").show();
+							}
+							
+							removeFloopEntity(idMemberOf, "organizations");
+							loadByHash(location.hash);
+						} else {
+						   toastr.error("<?php echo Yii::t('organization','Error deleting the link : ') ?>"+data.msg);
+						}
+					}
+				});
+			});
 
 </script>
 <?php } ?>

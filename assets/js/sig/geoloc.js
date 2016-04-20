@@ -138,10 +138,11 @@
 		});
 	}
 
+
 	//execute la requete nominatim 
 	//et appel les fonction callback en cas de success/error
 	//il faut définir les callback en fonction du context 
-	function findGeoposByInsee(codeInsee, callbackSuccess){
+	function findGeoposByInsee(codeInsee, callbackSuccess, postalCode){
 		//toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
 		console.log("codeInsee", codeInsee);
 		showLoadingMsg("Recherche de la position en cours");
@@ -150,7 +151,7 @@
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
 			type: 'POST',
-			data: "insee="+codeInsee,
+			data: "insee="+codeInsee+"&postalCode="+postalCode,
 			async:false,
 			dataType: "json",
 			complete: function () {},
@@ -264,6 +265,7 @@
 		return objnominatim ;
 	}
 
+
 	function findGeoposByDataGouv(requestPart){
 		var objDataGouv = {} ;
 		$.ajax({  
@@ -283,3 +285,5 @@
 		return objDataGouv ;
 
 	}
+
+

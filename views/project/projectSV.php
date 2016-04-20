@@ -189,6 +189,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<select class="selectpicker2 form-control" id="city" name="city" title='Select your City...'>
 								</select>
 							</div>
+							<input type="hidden" name="cityName" id="cityName" value=""/>
+
 						</div>
 						
 						<div class="alert alert-success pull-left col-md-12 hidden" id="alert-city-found" style="font-family:inherit;">
@@ -345,6 +347,8 @@ function runProjectFormValidation(el) {
 			newProject.startDate=startDateSubmitProj,
 			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),
+			newProject.cityName=$(".form-project #cityName").val(),
+			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			newProject.description=$(".form-project .project-description").val(),
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
@@ -432,10 +436,14 @@ function runShowCity(searchValue) {
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;
+    	oneName = value.text;
+
 	});
 	
 	//if (citiesByPostalCode.length == 1) {
 	$("#city").val(oneValue);
+	$("#cityName").val(oneName);
+
 	//}
 
 	if (citiesByPostalCode.length >0) {
@@ -471,6 +479,7 @@ function bindPostalCodeAction() {
 	$('.form-project #city').change(function(e){ //toastr.info("city change");
 		clearTimeout(timeoutGeopos);
 		timeoutGeopos = setTimeout(function() {
+			$("#cityName").val($('#city option:selected').text());
 			searchAddressInGeoShape(); //Sig.execFullSearchNominatim(0);
 		}, 1500);
 	});
@@ -535,8 +544,84 @@ function convertDate2(date, num){
 	function searchAddressInGeoShape(){
 		if($('#postalCode').val() != "" && $('#postalCode').val() != null){
 			$("#iconeChargement").css("display", "inline-block");
-			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
+			insee=$('#city').val();
+			postalCode=$('#postalCode').val();
+			streetAddress=$('.form-project #fullStreet').val();
+			if(streetAddress.length < 2){
+	  			$.ajax({
+					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
+					type: 'POST',
+					data: "insee="+insee+"&postalCode="+postalCode,
+		    		success: function (obj){
+		    			//toastr.success("Votre addresse a été mise à jour avec succès");
+		    			console.log("res getlatlngbyinsee");
+		    			console.dir(obj);
+		  				if(typeof obj["geo"] != "undefined"){ 
+							if(typeof obj.geoShape != "undefined") {
+								//on recherche avec une limit bounds
+								var polygon = L.polygon(obj.geoShape.coordinates);
+								var bounds = polygon.getBounds();
+								Sig.execFullSearchNominatim(0, bounds);
+							}
+							else{
+								//on recherche partout
+								Sig.execFullSearchNominatim(0);
+							}					
+						
+						}else{
+							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
+						}
+	
+					},
+					error: function(error){
+						console.log("Une erreur est survenue pendant la recherche de la geopos city");
+					}
+				});
+			
+	  		} else{
+				
+				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				requestPart = transformNominatimUrl(requestPart);
+	
+		  		console.log("requestPart", requestPart);
+		  		
+		  		$.ajax({
+					url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
+					type: 'POST',
+					dataType: 'json',
+					async:false,
+					crossDomain:true,
+					complete: function () {},
+					success: function (result){
+						console.log("nominatim success", result.length);
+						console.dir(result);
+						if(result.length > 0){ 
+							var result = result[0];
+							var coords = Sig.getCoordinates(result, "markerSingle");
+							//si on a une geoShape on l'affiche
+							if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
+							var coords = L.latLng(result.lat, result.lon);
+							Sig.showCityOnMap(result, true, "organization");
+	
+						}else{
+							findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
+						}
+					},
+					error: function (error) {
+						console.log("nominatim error");
+						console.dir(obj);
+						$("#error_street").html("Aucun résultat");
+						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+						$.unblockUI();
+					}
+				});
+	
+			}
 		}
+		/*if($('#postalCode').val() != "" && $('#postalCode').val() != null){
+			$("#iconeChargement").css("display", "inline-block");
+			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
+		}*/
 	}
 
 	function callbackFindByInseeSuccessAdd(obj){
@@ -569,6 +654,28 @@ function convertDate2(date, num){
 			console.log("Erreur getlatlngbyinsee vide");
 		}
 	}
+	function callbackGoogleMapsSuccess(result){
+		console.log("callbackGoogleMapsSuccess");
+		console.dir(result);
+		if(result.status == "OK"){
+  			//showMap(true);
+  			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 
+			//var obj = null;
+			$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
+						  			
+			var obj = result.results[0];
+			var coords = Sig.getCoordinates(obj, "markerSingle");
+			//si on a une geoShape on l'affiche
+			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+			var coords = L.latLng(obj.geometry.location.lat, obj.geometry.location.lng);
+			obj["geo"] = { latitude : obj.geometry.location.lat, longitude : obj.geometry.location.lng };
+			Sig.showCityOnMap(obj, true, "organization");
+			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
+			
+  		}else{
+  			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
+  		}
+	}
 	
 </script>

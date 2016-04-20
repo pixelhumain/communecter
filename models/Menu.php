@@ -38,6 +38,13 @@ class Menu {
                         'envelope-o',
                         "loadByHash( '#news.index.type.citoyens.id.".$id."')",null,null);
         }*/
+                //SEE TIMELINE
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                Yii::t( "common", 'Read all news publicated by this person'), 
+                Yii::t( "common", 'News Stream'), 
+                'rss',
+                "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id.".viewer.".Yii::app()->session["userId"]."?isSearchDesign=1')","news", "index");
         
         //DIRECTORY
         //-----------------------------
@@ -76,6 +83,11 @@ class Menu {
                         "follow('".Person::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
             }
         }
+
+
+
+        
+
                 /*$htmlFollowBtn = array('tooltip' => Yii::t( "common", "Follow this Person"), 
                                        'position'   => "right",
                                        'label' => Yii::t( "common", "Follow"), 
@@ -117,19 +129,22 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry("left", 'showAjaxPanel', Yii::t("event","Contact information"), Yii::t("common","Details"),'home','/event/detail/id/'.$id,"event","detail");
-        if( isset($event["_id"]) && isset(Yii::app()->session["userId"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
-	        self::entry("right", 'onclick',
-                        Yii::t( "common", "Leave this event"),
-                        Yii::t( "common", "Leave"), 
-                        'fa fa-unlink disconnectBtnIcon',
-                        "disconnectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
-          /*array_push($controller->toolbarMBZ, array('position'=>'right', 
-                                                    'label'=>Yii::t("common",'Leave'), 
-                                                    'tooltip' => Yii::t("event","Leave this Event"), 
-                                                    "parent"=>"span",
-                                                    "parentId"=>"linkBtns",
-                                                    "iconClass"=>"disconnectBtnIcon fa fa-unlink",
-                                                    "href"=>"<a href='javascript:;' class='disconnectBtn text-red tooltips btn btn-default'  data-name='".$event["name"]."' data-id='".$event["_id"]."' data-attendee-id='".Yii::app()->session['userId']."' data-type='".Event::COLLECTION."'") );*/
+        
+        //SEE TIMELINE
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                Yii::t( "common", 'Read all news publicated by this event'), 
+                Yii::t( "common", 'News Stream'), 
+                'rss',
+                "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+
+        if(isset(Yii::app()->session["userId"])){
+            if( isset($event["_id"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
+    	        self::entry("right", 'onclick',
+                            Yii::t( "common", "Leave this event"),
+                            Yii::t( "common", "Leave"), 
+                            'fa fa-unlink disconnectBtnIcon',
+                            "disconnectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendees')",null,null,"text-red");
     		}else{
 	    		 self::entry("right", 'onclick',
                         Yii::t( "common", "Participate to this event"),
@@ -137,6 +152,7 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
+        }
      }
     
     public static function organization($organization) {
@@ -155,11 +171,13 @@ class Menu {
         //SEE TIMELINE
         //-----------------------------
         self::entry("left", 'onclick', 
-        		Yii::t( "common", 'Read all news publicated by this organization'), 
-        		Yii::t( "common", 'Activity'), 
-        		'rss',
-        		"loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+                Yii::t( "common", 'Read all news publicated by this organization'), 
+                Yii::t( "common", 'News Stream'), 
+                'rss',
+                "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
+         
+        
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'onclick',
@@ -167,7 +185,7 @@ class Menu {
         			Yii::t("common","Community") ,
         			'connectdevelop',
         			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
-        
+       
         //ACTION ROOMS
         //-----------------------------
         /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
@@ -261,7 +279,7 @@ class Menu {
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."'')",null,null);
+					"loadByHash('#city.detail.insee.".$insee."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -339,11 +357,11 @@ class Menu {
         //self::entry("left", 'filter',"SHOW ORGANIZATION ENTRIES ONLY",'users',null,"newsFeed",".organizations");
         //self::entry("left", 'filter',"SHOW EVENT ENTRIES ONLY",'calendar',null,"newsFeed",".events");
         //self::entry("left", 'filter',"SHOW PROJECT ENTRIES ONLY",'lightbulb-o',null,"newsFeed",".projects");
-			if ($type != Project::COLLECTION && $type != Organization::COLLECTION){
-	        self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null,"tagFilter");
-	        if ($type != "city")
-	        self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null,"scopeFilter");
-			}
+			// if ($type != Project::COLLECTION && $type != Organization::COLLECTION){
+	  //       self::entry("right", 'onclick',Yii::t( "common", "Show tag filters"), Yii::t( "common", 'Search by tag'),'tags',"toggleFilters('#tagFilters')",null,null,"tagFilter");
+	  //       if ($type != "city")
+	  //       self::entry("right", 'onclick',Yii::t( "common", "Show scope filters"), Yii::t( "common", 'Search by place'), 'circle-o',"toggleFilters('#scopeFilters')",null,null,"scopeFilter");
+			// }
         //}
     }
 
@@ -373,7 +391,7 @@ class Menu {
         //-----------------------------
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
-        			Yii::t( "common", 'Activity'), "rss",
+        			Yii::t( "common", 'News Stream'), "rss",
         			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
         //DIRECTORY
