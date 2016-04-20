@@ -1139,20 +1139,5 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
 
-  function manageCollapse(div, forcer){
-    if(forcer == true){
-      $("#list_"+div).show();
-    }else{
-      $("#list_"+div).toggle();
-    }
-    if($("#list_"+div).is(":visible")){
-      $("#fa_"+div).removeClass('fa-chevron-down');
-      $("#fa_"+div).addClass('fa-chevron-up');
-    }
-    else{
-      $("#fa_"+div).addClass('fa-chevron-down');
-      $("#fa_"+div).removeClass('fa-chevron-up');
-    }
-  }
 </script>
 

@@ -87,11 +87,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       font-size: 17px;
 		margin-top: 5px;
     }
-    .panel-title{
-    	font-weight: 200;
-    	font-size: 21px;
-    	font-family: "homestead";
-    }
+
     #fileuploadContainer{
     	z-index:0 !important;
     }
@@ -262,58 +258,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 
-							/*if(isset($organization["telephone"]))
-							{
-								$telephone = "" ;
-
-								if(is_array($organization["telephone"]))
-								{
-
-									if(@$organization["telephone"]["fixe"])
-									{
-										//.fixe.'.$nbFixe.'
-										foreach ($organization["telephone"]["fixe"] as $key => $value) {
-											$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
-														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
-							data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">';
-											$telephone .= $value . "</a><br>" ;
-											$nbFixe++;
-										}
-									}
-
-									if(@$organization["telephone"]["mobile"])
-									{
-										//telephone.mobile.'.$nbMobile.'
-										foreach ($organization["telephone"]["mobile"] as $key => $value) {
-											$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
-														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
-							data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">';
-											$telephone .= $value . "</a><br>" ;
-											$nbMobile++;
-										}
-									}
-								}
-								/*else
-								{
-									$telephone .='<i class="fa fa-phone fa_telephone  hidden"></i>
-														<a href="#" id="telephone" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
-							data-emptytext="'. Yii::t("common","Phone number") .'"" class="editable-context editable editable-click">';
-											$telephone .= $value . "</a><br>" ;
-								}
-
-								echo $telephone ;
-							}*/
-							
-
 						?>
-						<!-- <div id="add-phone">
-							<i class="fa fa-phone fa_telephone  hidden"></i>
-							<a href="#" id="telephone" data-type="text" data-title="<?php echo Yii::t("common","Phone number") ;?>" 
-							data-emptytext="<?php echo Yii::t("common","Phone number") ;?>" class="tel editable editable-click">
-							
-							</a>
-							<br>
-						</div> -->
+
 
 						<i class="fa fa-envelope fa_email  hidden"></i> 
 						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
@@ -384,7 +330,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		});
-		activateEditableContext();
+		// activateEditableContext();
 		manageModeContext();
 		debugMap.push(contextData);
 		
