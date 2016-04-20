@@ -48,7 +48,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		padding: 30px;
 		margin-bottom: -3px;
 		font-size: 32px;
-		top: 90px;
+		top: 115px;
 		z-index: 1;
 		position: absolute;
 		width: 96%;
@@ -86,7 +86,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center">
+<div class="padding-20 center" style="margin-top: 20px">
 	<?php /* ?>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
@@ -204,7 +204,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 			<div class="col-md-12" style="margin-top:10px;">
 				<?php if( isset($organizer) ){ ?>
-					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="<?php echo @$organizer['link'] ?>" target="_blank" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br>
+					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br>
 				<?php }	?>
 				<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
 				<br/><br/>
