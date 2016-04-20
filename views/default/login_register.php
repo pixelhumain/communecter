@@ -306,6 +306,7 @@ jQuery(document).ready(function() {
 	});
 
 });
+
 function userValidatedActions() { 
 	if (userValidated) {
 		$(".errorHandler").hide();
@@ -317,7 +318,7 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('#name').val(name);
+		$('.form-register #name').val(name);
 		$('#email3').prop('disabled', true);
 	}
 }
@@ -592,10 +593,10 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $("#name").val(),
-				   "username" : $("#username").val(),
-				   "email" : $("#email3").val(),
-                   "pwd" : $("#password3").val(),
+				   "name" : $('.form-register #name').val(),
+				   "username" : $(".form-register #username").val(),
+				   "email" : $(".form-register #email3").val(),
+                   "pwd" : $(".form-register #password3").val(),
                    "app" : "<?php echo $this->module->id?>",
                    "pendingUserId" : pendingUserId,
                    "mode" : "<?php echo Person::REGISTER_MODE_TWO_STEPS ?>"
