@@ -519,13 +519,23 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
-function checkIsLoggued(){
-	
+function checkIsLoggued(uId){
+	if( uId == "" ){
+		console.warn("PRIVATE SECTION LOGIN FIRST");
+		toastr.error("<h1>Secure Section You must be loggued to access</h1>");
+		
+		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Secure Section");
+		//setTimeout(function(){
+			loadByHash("default.home");
+		//}, 2000);
+    	
+    	resetUnlogguedTopBar();
+	}
 }
 function resetUnlogguedTopBar() { 
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
-									' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
+							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 
 /* ****************
@@ -573,10 +583,7 @@ function showAjaxPanel (url,title,icon) {
 		$(".hover-info").hide();
 		 $.blockUI({
 		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
-		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
 		 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
-		 	//"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
-		 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
 		 });
 		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
 		//$(".main-col-search").show();

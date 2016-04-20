@@ -228,7 +228,8 @@ $this->renderPartial('../default/panels/toolbar');
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
   
         $leftLinks = $voteLinksAndInfos["links"];
-        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-th-large"></i> '.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id).'</a> ' : '';
+        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id).'</a> ' : '';
+        
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
@@ -320,6 +321,7 @@ $this->renderPartial('../default/panels/toolbar');
     }
     ?>
     
+
 
     <h1 class="homestead text-red center citizenAssembly-header">
       <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
@@ -457,9 +459,9 @@ jQuery(document).ready(function() {
       console.log("type", type);
       if(type == "edit") 
         editEntrySV (data);
-      else 
+      else */
         readEntrySV (data,type);
-      */
+      
     } );
   }
 
@@ -562,9 +564,41 @@ function addaction(id,action)
       $(".loginFormToptxt2").html("Si vous n'avez pas de compte ce même formulaire vous créera un compte, sinon vous logguera.");
     }
 
+function readEntrySV(data,type) { 
+  console.warn("--------------- readEntrySV ---------------------");
+  console.dir(data);
+  $("#readEntryContainer").html("<div class='col-sm-8 col-sm-offset-2 '>"+
+              '<h1 class="homestead text-red center citizenAssembly-header">'+
+              '<i class="fa fa-pie-chart "></i>'+
+              '<br>'+
+              '<small class="homestead text-dark center"> Resultats du moment </small>'+
+             ' </h1>'+
+              "<div class='space20'></div>"+
+              "<a href='javascript:toggleGraph()' class='pull-left'><i class='fa fa-chevron-circle-left text-red fa-2x'></i></a>"+
+              // "<h1 id='entryTitle' ></h1>"+
+              "<div class='space20 center' id='entryContent'></div>"+
+              "</div>");
+  
+  $("#entryContent").html(data.content);
+  $("#entryTitle").html(data.title);
+  if(type=="graph")
+    setUpGraph();
+  toggleGraph()
+}
 
+function toggleGraph(){
+  if( $("#readEntryContainer").hasClass('hide') ){
+    $("#readEntryContainer").removeClass('hide');
+    $(".stepContainer").addClass('hide');
+  } else {
+    $(".stepContainer").removeClass('hide');
+    $("#readEntryContainer").addClass('hide');
+  }
+}
 
 </script>
+<div class="hide" id="readEntryContainer"></div>
+
 <?php
 if($where["type"]==Survey::TYPE_ENTRY){
   Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.voterloiDesc');

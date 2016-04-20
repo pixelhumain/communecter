@@ -15,6 +15,8 @@
 </style>
 
 <?php
+
+
 if( !isset($hideTexts) )
 {
 	if( @$survey["message"] || @$showName )
