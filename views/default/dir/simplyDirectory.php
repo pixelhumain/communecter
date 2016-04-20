@@ -493,8 +493,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                           allTags[value] = 1;
                         } 
 
-                        //Filter Client
-                        tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
+                        //Filter Client (Attention erreur firefox js)
+                        // tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
                       }
                     });
                   }
