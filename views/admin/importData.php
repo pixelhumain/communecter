@@ -1565,12 +1565,6 @@ function visualisation(params){
         			$("#divJsonErrorView").JSONView(data.jsonError);
         		}
         		
-        		
-
-
-        		/*var importD = data.jsonImport + $("#jsonImport").val() ;
-        		var errorD = data.jsonError + $("#jsonError").val() ;*/
-        		//$("#jsonImport").val().substring(0, $("#jsonImport").val().length-1)+ "," + data.jsonImport.substring(1, data.jsonImport.length);
         		var importD = "" ;
         		var errorD = "" ;
         		if($("#jsonImport").val() == "")
