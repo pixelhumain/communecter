@@ -54,6 +54,18 @@ function buildLineHTML(newsObj,idSession,update)
 	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+	if(typeof(newsObj.scope)!="undefined" && typeof(newsObj.scope.type)!="undefined"){
+		scopeTooltip=trad["visible"+newsObj.scope.type];
+		if(newsObj.scope.type=="public"){
+			scopeIcon="globe";
+		} 
+		else if (newsObj.scope.type=="restricted"){
+			scopeIcon="unlock";
+		}else{
+			scopeIcon="lock";
+		}
+		dateStr += " • <i class='fa fa-"+scopeIcon+" tooltips' data-toggle='tooltip' data-placement='bottom' data-original-title='"+scopeTooltip+"'></i>";
+	}
 	// if month of the current news is different than currentMonth
 	// Added new month link to the right sidebar and a new date separator in the timeline
 	// Check if inject the new's form
@@ -125,8 +137,9 @@ function buildLineHTML(newsObj,idSession,update)
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
 			if("object" != typeof newsObj.media)
-				media=newsObj.media;
+				media="<div class='results'>"+newsObj.media+"</div>";
 			else{
+				media="<div class='results'>"+getMediaHtml(newsObj.media)+"</div>";
 				//// Fonction générant l'html
 			} 
 				

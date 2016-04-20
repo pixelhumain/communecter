@@ -454,7 +454,7 @@ function getUrlContent(){
 					dataType: 'json',
 					success: function(data){        
 	                console.log(data); 
-                    content = getMediaHtml(data,"save",extracted_url);
+                    content = getMediaHtml(data,"save");
                     //load results in the element
                     $("#results").html(content); //append received data into the element
                     $("#results").slideDown(); //show results with slide down effect
@@ -470,48 +470,46 @@ function getUrlContent(){
         }
     });
 }
-function getMediaHtml(data,action,url){
-	extracted_images = data.images;
-    total_images = parseInt(data.images.length);
-    //img_arr_pos = total_images;
-    img_arr_pos=1;
+function getMediaHtml(data,action){
+	if(typeof(data.images)!="undefined"){
+		extracted_images = data.images;
+		total_images = parseInt(data.images.length);
+		img_arr_pos=1;
+    }
     inputToSave="";
-    if(data.size){
-        if (data.video){
-        		extractClass="extracted_thumb";
-                width="100";
-                height="100";
-                aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.video+'"/></a>';
-                inputToSave+="<input type='hidden' class='video_link_value' value='"+data.video+"'/>"+
-                "<input type='hidden' class='media_type' value='video_link' />";
-                
+    if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
+        if (data.content.videoLink){
+    		extractClass="extracted_thumb";
+            width="100";
+            height="100";
+            aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
+            inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
+            "<input type='hidden' class='media_type' value='video_link' />";   
 		}
         else{
             aVideo="";
             endAVideo="";
-            if(data.size[0] > 350 ){
+            if(data.content.imageSize =="large"){
                 extractClass="extracted_thumb_large";
                 width="100%";
                 height="";
-                size="large";
             }
             else{
                 extractClass="extracted_thumb";
                 width="100";
                 height="100";
-                size="small";
             }
-            inputToSave+="<input type='hidden' class='size_img' value='"+size+"'/>"+
-               "<input type='hidden' class='media_type' value='img_link' />";
+            inputToSave+="<input type='hidden' class='media_type' value='img_link' />";
 		}
+		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
     }
-    if (data.imageMedia!=""){
-        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
+    if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
+        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.content.image+'" width="'+width+'" height="'+height+'"></div>';
         countThumbail="";
-        inputToSave+="<input type='hidden' class='img_link' value='"+data.imageMedia+"'/>";
+        inputToSave+="<input type='hidden' class='img_link' value='"+data.content.image+"'/>";
     }
     else {
-        if(total_images > 0){
+        if(typeof(total_images)!="undefined" && total_images > 0){
             if(total_images > 1){
                 selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
                 countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
@@ -531,12 +529,12 @@ function getMediaHtml(data,action,url){
     //content to be loaded in #results element
 	if(data.content==null)
 		data.content="";
-	inputToSave+="<input type='hidden' class='description' value='"+data.content+"'/>"; 
-	inputToSave+="<input type='hidden' class='name' value='"+data.title+"'/>";
-	inputToSave+="<input type='hidden' class='url' value='"+url+"'/>";
+	inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+	inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
+	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
-    content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+url+'" target="_blank" class="lastUrl">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>'+inputToSave;
+    content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div></div>'+inputToSave;
     return content;
 }
 function saveNews(){
@@ -587,17 +585,21 @@ function saveNews(){
 				errorHandler2.hide();
 				newNews = new Object;
 				if($("#form-news #results").html() != ""){
-					//newNews.mediaContent=$("#form-news #results").html();	
-					newNews.media.type=$("#form-news .type").val(),
-					newNews.media.name=$("#form-news .name").val(),
-					newNews.media.description=$("#form-news .description").val(),
-					newNews.media.content.type=$("#form-news .media_type").val(),
-					newNews.media.content.url=$("#form-news .url").val(),
-					newNews.media.content.image=$("#form-news .img_link").val();
-					if($("#form-news .video_link_value").length)
-						newNews.media.content.video_link=$("#form-news .media_type").val();
+					newNews.media=new Object;	
+					newNews.media.type=$("#form-news #results .type").val(),
+					newNews.media.name=$("#form-news #results .name").val(),
+					newNews.media.description=$("#form-news #results .description").val();
+					newNews.media.content=new Object;
+					newNews.media.content.type=$("#form-news #results .media_type").val(),
+					newNews.media.content.url=$("#form-news #results .url").val(),
+					newNews.media.content.image=$("#form-news #results .img_link").val();
+					if($("#form-news #results .size_img").length)
+						newNews.media.content.imageSize=$("#form-news #results .size_img").val();
+					if($("#form-news #results .video_link_value").length)
+						newNews.media.content.videoLink=$("#form-news #results .video_link_value").val();
 					
 				}
+
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
@@ -632,7 +634,9 @@ function saveNews(){
 		    				}
 						}
 						
-						if( 'undefined' != typeof updateNews && typeof updateNews == "function" )updateNews(data.object);
+						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
+							updateNews(data.object);
+						}
 						$.unblockUI();
 						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);

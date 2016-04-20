@@ -131,7 +131,6 @@ div.timeline .date_separator span{
 }
 .extracted_url{
 	min-height:100px;
-	margin-top: 10px;
 }
 #get_url{
 	max-width:100%; 
@@ -159,6 +158,9 @@ div.timeline .date_separator span{
 	max-height: 250px;
 	overflow: hidden;
 }
+.extracted_content{
+	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4) inset;
+}
 #loading_indicator{
 	position: absolute;
     right: 10px;
@@ -167,7 +169,10 @@ div.timeline .date_separator span{
 }
 #results{
 	display:none;
+}
+.results{
     border: 1px solid #eee;
+    margin: 10px;
 }
 
 .videoSignal{
