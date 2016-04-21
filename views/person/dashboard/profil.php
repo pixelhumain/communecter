@@ -159,7 +159,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			{  /* ?>
 				<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
 			<?php */ } 
-			if (Person::logguedAndValid() && $canEdit) {
+			if (Yii::app()->session["userId"] && $canEdit) {
 			?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
@@ -178,9 +178,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			*/ 
 		?>
 
- 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+ 		<?php   
+	  		if (@Yii::app()->params['betaTest']) { ?>
+	  			<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i><?php echo empty($person["numberOfInvit"]) ? 0 : $person["numberOfInvit"] ?> invitation(s)</div>
+	  	<?php
+	  			
+ 				if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i>Beta Tester</div>
-		<?php 	} ?>
+		<?php 	} 
+			}
+		?>
   	</div>
 
   	<div class="modal fade" role="dialog" id="modal-confidentiality">
