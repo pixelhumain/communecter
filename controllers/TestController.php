@@ -663,4 +663,18 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+
+
+	public function actionSaveImage() {
+		$dir = "communecter" ;
+		$folder = Person::COLLECTION ;
+		$ownerId = "56eff58e94ef47451c7b23d6" ;
+		$input = "avatar" ;
+		$rename = false ;
+		$pathFile = "http://www.placetob.org/wp-content/uploads/2016/04/NuitDebout-sebM.jpg" ;
+		$nameFile = "NuitDebout-sebM.jpg" ;
+
+		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
+        var_dump($res);
+	}
 }
