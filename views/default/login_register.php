@@ -611,11 +611,16 @@ var Login = function() {
 		    	  data: params,
 		    	  success: function(data){
 		    		  if(data.result) {
+		    		  	createBtn.stop();
+
 		    		  	$("#modalRegisterSuccessContent").html("<h3><i class='fa fa-smile-o fa-4x text-green'></i><br><br> "+data.msg+"</h3>");
 		    		  	$("#modalRegisterSuccess").modal({ show: 'true' }); 
-
-		        		//toastr.success(data.msg);
-		        		loadByHash("#default.directory");
+		    		  	// Hide modal if "Okay" is pressed
+					    $('#modalRegisterSuccess .btn-default').click(function() {
+					        $('modalRegisterSuccess').modal('hide');
+					    	window.location.href = baseUrl+'#default.home';
+					    });
+		        		//loadByHash("#default.directory");
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
@@ -756,5 +761,13 @@ function callbackFindByInseeError(){
 	console.log("erreur getlatlngbyinsee");
 }
 
+function initRegister() {
+	$('.form-register #name').val("");
+	$(".form-register #username").val("");
+	$(".form-register #email3").val("");
+	$(".form-register #password3").val("");
+	$(".form-register #passwordAgain").val("");
+	$(".form-register #inviteCode").val("");
+}
 
 </script>
