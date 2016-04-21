@@ -180,7 +180,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
  		<?php   
 	  		if (@Yii::app()->params['betaTest']) { ?>
-	  			<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i><?php echo empty($person["numberOfInvit"]) ? 0 : $person["numberOfInvit"] ?> invitation(s)</div>
+	  			<div class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><i class="fa"></i><?php echo empty($person["numberOfInvit"]) ? 0 : $person["numberOfInvit"] ?> invitation(s)</div>
 	  	<?php
 	  			
  				if (Role::isUserBetaTester(@$person["roles"])) { ?>
