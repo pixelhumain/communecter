@@ -16,7 +16,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 ?>
 <style type="text/css">
 
-	a.btn{margin:3px;}
+	/*a.btn{margin:3px;}*/
 	a:hover.btn {background-color: pink;border solid #666;}
 
 	/*.infolink{border-top:1px solid #fff}*/
@@ -63,7 +63,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
     .row.vote-row {
 	   	position: absolute;
 		padding-top: 5px;
-		top: 255px;
+		top: 285px;
 		background-color: white;
 		width: 100%;
 		z-index: 0;
