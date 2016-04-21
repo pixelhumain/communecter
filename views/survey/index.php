@@ -37,12 +37,17 @@ $this->renderPartial('../default/panels/toolbar');
   a.btn.golink{background-color:green;color:white;border: 1px solid green;}
   a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
   a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
-  a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
+  a.btn.voteMoreInfo{background-color: #C1ABD4 !important;border: 1px solid #789289;}
   a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
   a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   .step{ background-color: #182129;  opacity: 0.9;}
   .taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
 
+  .progress-bar-green{background-color: #93C22C;}
+  .progress-bar-yellow{background-color: yellow;}
+  .progress-bar-white{background-color: #FFF;}
+  .progress-bar-purple{background-color: #C1ABD4;}
+  .progress-bar-red{background-color: #db254e;}
 
   .controls{
     background: #E7E7E7;
@@ -52,7 +57,7 @@ $this->renderPartial('../default/panels/toolbar');
   .mixcontainer .mix{
     border-radius:0px;
     border-color: #CCC;
-    height:350px;
+    height:340px;
     margin:-1px -3px !important;
     float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -66,23 +71,38 @@ $this->renderPartial('../default/panels/toolbar');
     margin-top: 4px !important;
     float: left;
     width: 100%;
-
+    overflow-y:hidden;
+    height:40px;
   }
   .mixcontainer .mix a.titleMix:hover{
     text-decoration: underline;
   }
 
-  .leftlinks a.btn {
-      border: 1px solid #9c9c9c !important;
-      width: 14%;
+  .leftlinks {
+      text-align: center;
+      padding: 15px 0px;
   }
+
+  .leftlinks a.btn{
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    border-radius: 20px;
+    font-size: 18px;
+    width:35px;
+    height:35px;
+  }
+
+  .leftlinks a.btn:hover{
+    color:#3C5665;
+  }
+
 
   .mixcontainer .mix a, .mixcontainer .mix span{
     background-color: #fff;
     border-color: #ccc;
   }
-  .mixcontainer .mix span{
+  .mixcontainer .mix span.message-propostal{
     height: 135px;
+    overflow-y: hidden;
   }
 
 
@@ -115,8 +135,15 @@ $this->renderPartial('../default/panels/toolbar');
       font-size: 12px !important;
       font-weight: 500 !important;
       margin-top:3px;
-      padding:4px;
+      /*padding:4px;*/
     }
+
+    .progress{
+      margin-bottom:5px;
+      margin-top:5px;
+    }
+
+
 </style>
 
 
@@ -199,7 +226,7 @@ $this->renderPartial('../default/panels/toolbar');
         if ( $entry["type"] == Survey::TYPE_SURVEY )
           $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-gavel'></i> ".$name.' ('.$count.')</a>' ;
         else if ( $entry["type"] == "entry" )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-gavel'></i> ".$name.'</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-gavel'></i> ".substr($name, 0, 70).'</a>' ;
         
         $message = "<span class='text-dark no-border message-propostal'><i class='fa fa-file-text fa-2x'></i> ".$message."</span>";
 
@@ -207,12 +234,17 @@ $this->renderPartial('../default/panels/toolbar');
         $infoslink = "";
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
   
-        $infoslink .= (!empty($meslois)) ? ' <a class="btn btn-xs btn-default filter" data-filter=".myentries" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')" href="javascript:;"><i class="fa fa-user infolink"></i> '.Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).'</a> ' : '';                          
+        $btnEdit = (!empty($meslois)) ? 
+                      ' <a class="btn btn-xs btn-default filter pull-right" data-filter=".myentries"'.
+                      ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')"'.
+                      ' href="javascript:;"><i class="fa fa-pencil infolink"></i> '.
+                                            Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).
+                      '</a> ' : '';                          
         
-        if (Yii::app()->session["userIsAdmin"]) {
-          $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
-          $infoslink .= "<a target='_blank' class='btn btn-default voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
-        }
+        // if (Yii::app()->session["userIsAdmin"]) {
+        //   $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
+        //   $infoslink .= "<a target='_blank' class='btn btn-default voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
+        // }
   
         /* **************************************
         Rendering Each block
@@ -223,19 +255,19 @@ $this->renderPartial('../default/panels/toolbar');
         $commentCount = 0;
         //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$entry["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
         $totalVote = $voteLinksAndInfos["totalVote"];
-        $info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> vote(s)</span><br/>':'<span class="info"></span>';
+        //$info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> vote(s)</span><br/>':'<span class="info"></span>';
   
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
   
-        $leftLinks = $voteLinksAndInfos["links"];
-        $graphLink = ($totalVote) ?' <a class="btn voteAbstain" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id).'</a> ' : '';
+        $leftLinks = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-default homestead col-md-12' style='font-size:20px;'><i class='fa fa-gavel'></i> Voter</button>"; //$voteLinksAndInfos["links"];
+        $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
         
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $ordre = $voteLinksAndInfos["ordre"];
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
-        $views = ( @$entry["viewCount"] ) ? ", views : ".$entry["viewCount"] : ""; 
+        $views = ( @$entry["viewCount"] ) ? "<span class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</span>" : ""; 
         $byInfo = "";
         if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
         {
@@ -255,11 +287,14 @@ $this->renderPartial('../default/panels/toolbar');
         }
 
         $contextType = ( $entry["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
-        $commentBtn = "<a class='btn btn-xs btn-default voteAbstain' href='javascript:loadByHash(\"#comment.index.type.".$contextType.".id.".$entry["_id"]."\")'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> ".Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)."</a>";
+
+        $commentBtn = "";
+        if(isset($entry["commentCount"]) && $entry["commentCount"] > 0)
+        $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
         $closeBtn = "";
         $isClosed = "";
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
-          $closeBtn = "<a class='btn btn-xs btn-danger pull-right' href='javascript:;'".
+          $closeBtn = "<a class='btn btn-xs pull-right' href='javascript:;' style='margin-right:5px;'".
                         " onclick='closeEntry(\"".$entry["_id"]."\")'>".
                         "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
                       "</a>";
@@ -267,13 +302,18 @@ $this->renderPartial('../default/panels/toolbar');
             $isClosed = " closed";
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
         
-        $createdInfo  = "<div class='text-red lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+        $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
         $createdInfo .= (!empty( $created )) ? " ".Yii::t("rooms", "created", null, Yii::app()->controller->module->id) . " : ".$created : "";
         $createdInfo .= "</div>";
 
-        $ends  = "<div class='text-red lbl-info-survey'>";
-        $ends .=  (!empty( $entry["dateEnd"] )) ? '<div class="space1"></div>'." ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
-        $ends .= "</div>";
+        $ends = "";
+        if( Yii::app()->session["userEmail"] == $entry["email"] ){
+          $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+          $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
+          $ends .= "</div>";
+        }
+
+        $chartBarResult = ($totalVote > 0) ? getChartBarResult($entry) : "";
 
         $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "bg-white" : "bg-azure" ;
         $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
@@ -284,22 +324,27 @@ $this->renderPartial('../default/panels/toolbar');
                         
                         'data-vote="'.$ordre.'"  data-time="'.
                         $created.'" style="display:inline-blocks"">'.
+                        $views.
                         $createdInfo.
+                        $ends.
                         $link.'<br/>'.
-                        $message.'<br/>'.
-                        $info.
+                        $message.//'<br/>'.
+                        //$info.
                         //$tags.
                         //$content.
-                        '<div class="space1"></div><div class="pull-left" >'.
-                            $graphLink.$commentBtn.$closeBtn.$infoslink. 
+                        '<div class="space1"></div><div class="pull-right" >'.
+                            $commentBtn.$infoslink. 
                             $byInfo.
                         '</div>'.
-                        '<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
+                        //'<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
                         //'<div class="space1"></div>'.$rightLinks.
 
-                       
-                        '<div class="space1"></div>'.$views.
-                        $ends.
+                        $chartBarResult.
+                        $leftLinks.
+                        //"<div class='col-md-12 text-dark' style='padding:10px 0px;'>".$views."</div>".
+                        
+                        //'<div class="space1"></div>'.$views.
+                        
                         
                     '</div>';
 
@@ -319,6 +364,61 @@ $this->renderPartial('../default/panels/toolbar');
         $tagBlock .= $entryMap["tagBlock"];
         $cpBlock .= $entryMap["cpBlock"];
     }
+
+
+
+    function getChartBarResult($survey){
+
+      $voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+      $voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+      $voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+      $voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+      $voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+      
+      $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+      
+      $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+      
+      $percentVoteDownCount     = $voteDownCount    * $oneVote;
+      $percentVoteAbstainCount  = $voteAbstainCount * $oneVote;
+      $percentVoteUpCount       = $voteUpCount      * $oneVote;
+      $percentVoteUnclearCount  = $voteUnclearCount * $oneVote;
+      $percentVoteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+
+      $html = "";
+
+      $html .= '<a class="btn btn-xs pull-left text-dark"'.
+                ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
+                ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
+
+      if($totalVotes > 1) $msgVote = "votes exprimés";
+      else                $msgVote = "vote exprimé"; 
+
+      $html .= "<div class='pull-left text-dark' style='margin-top:5px; margin-left:5px; font-size:13px;'>".$totalVotes." ".$msgVote."</div><div class='space1'></div>";
+      
+      $html .=  '<div class="progress">'.
+                  '<div class="progress-bar progress-bar-green progress-bar-striped" style="width: '.$percentVoteUpCount.'%">'.
+                    $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.$percentVoteUpCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-yellow progress-bar-striped" style="width: '.$percentVoteUnclearCount.'%">'.
+                    $voteUnclearCount.' <i class="fa fa-pen"></i> ('.$percentVoteUnclearCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentVoteAbstainCount.'%">'.
+                    $voteAbstainCount.' <i class="fa fa-circle"></i> ('.$percentVoteAbstainCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-purple progress-bar-striped" style="width: '.$percentVoteMoreInfoCount.'%">'.
+                    $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.$percentVoteMoreInfoCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
+                    $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.$percentVoteDownCount.'%)'.
+                  '</div>'.
+                '</div>';
+      
+      
+      
+      return $html;
+    }
+
     ?>
     
 
