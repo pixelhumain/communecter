@@ -257,12 +257,13 @@ $this->renderPartial('../default/panels/toolbar');
         $infoslink = "";
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
   
+
         $btnEdit = (!empty($meslois)) ? 
                       ' <a class="btn btn-xs btn-default filter pull-right" data-filter=".myentries"'.
-                      ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]).'\',\'edit\')"'.
+                      ' onclick="loadByHash(\'#survey.editEntry.survey.'.$entry["survey"].'.id.'.(string)$entry["_id"].'\')"'.
                       ' href="javascript:;"><i class="fa fa-pencil infolink"></i> '.
                                             Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).
-                      '</a> ' : '';                          
+                      '</a> ' : '';          
         
         // if (Yii::app()->session["userIsAdmin"]) {
         //   $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
@@ -370,6 +371,7 @@ $this->renderPartial('../default/panels/toolbar');
                             $commentBtn.$infoslink. 
                             $byInfo.
                         '</div>'.
+
                         //'<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
                         //'<div class="space1"></div>'.$rightLinks.
 
@@ -482,8 +484,6 @@ $this->renderPartial('../default/panels/toolbar');
               <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
-              <button class="btn btn-success pull-right" onclick="loadByHash(location.hash)" ><i class="fa fa-refresh"></i> </button>
-              <button class="btn btn-success pull-right" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')" ><i class="fa fa-plus"></i></button>
         
               <?php } ?>
               
@@ -597,11 +597,11 @@ jQuery(document).ready(function() {
     getAjax( "surveyDetails" , url , function(data){
       $("#surveyDetails").html(data);
       //console.dir(data);
-      /*
+      
       console.log("type", type);
       if(type == "edit") 
-        editEntrySV (data);
-      else */
+        loadByHash(url);
+      else 
         readEntrySV (data,type);
       
     } );

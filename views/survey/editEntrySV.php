@@ -1,5 +1,5 @@
 <?php 
-Menu::proposal( (string)$survey['_id'] );
+Menu::proposal( (string)$parentSurvey['_id'] );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
@@ -27,7 +27,8 @@ var proposalFormDefinition = {
               "placeholder" : "Titre de la proposition",
               "rules" : {
                 "required" : true
-              }
+              },
+              "value" : "<?php echo ( isset($survey) && isset($survey["name"]) ) ? $survey["name"] : '' ?>",
             },
             "organizer" : {
               "inputType" : "select",
@@ -68,7 +69,7 @@ var proposalFormDefinition = {
             },
             "<?php echo Comment::COMMENT_ON_TREE ?>" :{
               "inputType" : "checkbox",
-              "placeholder" : "Can I reply to a comment ?",
+              "placeholder" : "Can People reply to a comment ?",
               "checked" : true,
               "value" : 1
             },
@@ -98,10 +99,9 @@ var dataBind = {
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
-
+var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : null ?>;
 
 jQuery(document).ready(function() {
-  alert("editEntrySV userId <?php echo Yii::app()->session['userId']?>");
   $(".moduleLabel").html('<?php echo "Add a proposal" ?>');
   
   //add current user as the default value
@@ -123,7 +123,8 @@ jQuery(document).ready(function() {
   editEntrySV ();
 });
 
-function editEntrySV (proposalObj) { 
+function editEntrySV () {
+
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
@@ -144,9 +145,10 @@ function editEntrySV (proposalObj) {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-              $("#editEntryContainer #name").val( proposalObj.title );
-              $("#editEntryContainer #message").val( proposalObj.contentBrut );
+              $("#editEntryContainer #name").val( proposalObj.name );
+              $("#editEntryContainer #message").val( proposalObj.message );
               AutoGrowTextArea($("message"));
+              $("#editEntryContainer #message").val( proposalObj.message );
             }
           },
           onSave : function(){
@@ -165,7 +167,7 @@ function editEntrySV (proposalObj) {
                           '</blockquote> '
                   });
               var params = { 
-                 "survey" : "<?php echo (string)$survey['_id']?>", 
+                 "survey" : "<?php echo (string)$parentSurvey['_id']?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
@@ -194,7 +196,7 @@ function editEntrySV (proposalObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      loadByHash("#survey.entries.id.<?php echo (string)$survey['_id']?>")
+                      loadByHash("#survey.entries.id.<?php echo (string)$parentSurvey['_id']?>")
                   }
                   else {
                     toastr.error(data.msg);

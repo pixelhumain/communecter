@@ -430,7 +430,9 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
+	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ searchByHash(hash);} },
 };
+
 function jsController(hash){
 	console.log("jsController",hash);
 	res = false;
@@ -441,7 +443,7 @@ function jsController(hash){
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = loadableUrls[urlIndex];
-			//console.log("jsController 2",endPoint,"login",endPoint.login );
+			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
 				//alises are renaming of urls example default.home could be #home
 				if( endPoint.alias ){
@@ -455,8 +457,14 @@ function jsController(hash){
 					//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
-
-					showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+urlExtra+extraParams, endPoint.title,endPoint.icon );
+					//execute actions before teh ajax request
+					if( endPoint.preaction && typeof endPoint.preaction == "function")
+						endPoint.preaction(hash);
+					//hash can be iliased
+					if (endPoint.hash) 
+						hash = endPoint.hash;
+					path = hash.replace( "#","" ).replace( /\./g,"/" );
+					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
 
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
@@ -517,6 +525,28 @@ function loadByHash( hash , back ) {
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
 	}*/
+}
+function searchByHash (hash) 
+{ 
+	var searchT = hash.split(':');
+	var search = searchT[1]; 
+	scopeBtn = null;
+	if( searchT.length > 2 )
+	{
+		if( searchT[2] == "all" )
+			scopeBtn = ".btn-scope-niv-5" ;
+		else if( searchT[2] == "region" )
+			scopeBtn = ".btn-scope-niv-4" ;
+		else if( searchT[2] == "dep" )
+			scopeBtn = ".btn-scope-niv-3" ;
+		else if( searchT[2] == "quartier" )
+			scopeBtn = ".btn-scope-niv-2" ;
+	}
+	console.log("search : "+search,searchT, scopeBtn);
+	$(".input-global-search").val(search);
+	//startGlobalSearch();
+	if( scopeBtn )
+		$(scopeBtn).trigger("click"); 
 }
 
 function checkIsLoggued(uId){
