@@ -101,6 +101,11 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   .assemblyHeadSection {  
     background-position: 0px 50px;
   }
+  
+  .container-tool-vote {
+    font-size: 17px;
+    margin-top: 60px;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -116,10 +121,6 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   }
   .row.vote-row {
     top: 230px;
-  }
-  .container-tool-vote {
-    font-size: 17px;
-    margin-top: 60px;
   }
 }
 
