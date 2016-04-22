@@ -1,5 +1,5 @@
 <?php 
-Menu::proposal( (string)$parentSurvey['_id'] );
+Menu::proposal( $survey );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
@@ -43,7 +43,8 @@ var proposalFormDefinition = {
               "inputType" : "textarea",
               "placeholder" : "Texte de la proposition",
               "rules" : {
-                "required" : true
+                "required" : true,
+                "minlength" : 140
               }
             },
             "dateEnd" :{
@@ -168,7 +169,7 @@ function editEntrySV () {
                   });
               var params = { 
                  "survey" : "<?php echo (string)$parentSurvey['_id']?>", 
-                 "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
+                 "email" : "<?php echo Yii::app()->session['userEmail']?>" ,
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
                  "message" : ($("#editEntryContainer #message").val() ) ? $("#editEntryContainer #message").val() : $("#editEntryContainer #message").val(),
@@ -181,6 +182,8 @@ function editEntrySV () {
                  }
               };
               
+              if( $("#editEntryContainer #id").val() )
+                 params.id = $("#editEntryContainer #id").val();
               urls = getUrls();
               if( urls != null )
                 params.urls = urls;
@@ -188,7 +191,7 @@ function editEntrySV () {
                 params.tags = $("#editEntryContainer #tags").val().split(",");
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
-
+console.clear();
              console.dir(params);
              $.ajax({
                 type: "POST",

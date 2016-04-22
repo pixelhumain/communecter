@@ -211,8 +211,7 @@ $this->renderPartial('../default/panels/toolbar');
   
         $count = PHDB::count ( Survey::COLLECTION, array( "type"=>Survey::TYPE_ENTRY,
                                                           "survey"=>(string)$entry["_id"] ) );
-        $link = $name;
-  
+        
         /* **************************************
         //check if I wrote this law
         *************************************** */
@@ -220,15 +219,8 @@ $this->renderPartial('../default/panels/toolbar');
         
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
-        
-        
-        //title + Link
-        if ( $entry["type"] == Survey::TYPE_SURVEY )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-gavel'></i> ".$name.' ('.$count.')</a>' ;
-        else if ( $entry["type"] == "entry" )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-gavel'></i> ".substr($name, 0, 70).'</a>' ;
-        
-        $message = "<span class='text-dark no-border message-propostal'><i class='fa fa-file-text fa-2x'></i> ".$message."</span>";
+
+        $message = "<span class='text-dark no-border message-propostal'>".$message."</span>";
 
         //$infoslink bring visual detail about the entry
         $infoslink = "";
@@ -259,8 +251,7 @@ $this->renderPartial('../default/panels/toolbar');
         //$info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> vote(s)</span><br/>':'<span class="info"></span>';
   
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
-  
-        $leftLinks = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-default homestead col-md-12' style='font-size:20px;'><i class='fa fa-gavel'></i> Voter</button>"; //$voteLinksAndInfos["links"];
+
         $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
         
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
@@ -294,13 +285,30 @@ $this->renderPartial('../default/panels/toolbar');
         $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
         $closeBtn = "";
         $isClosed = "";
+        $stateLbl = "<i class='fa fa-gavel'></i> Voter";
+        $mainClick = 'loadByHash("#survey.entry.id.'.(string)$entry["_id"].'")';
+        $titleIcon = 'gavel';
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
           $closeBtn = "<a class='btn btn-xs pull-right' href='javascript:;' style='margin-right:5px;'".
                         " onclick='closeEntry(\"".$entry["_id"]."\")'>".
                         "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
                       "</a>";
-        else
+        else if(isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ){
             $isClosed = " closed";
+            $stateLbl = "<i class='fa fa-times text-red'></i> Fermé";
+            $titleIcon = "times text-red";
+        }else{
+          $stateLbl = "<i class='fa fa-sign-in text-red'></i> Login to vote";
+          $mainClick = 'showPanel("box-login")';
+        }
+        //title + Link
+        $link = $name;
+        if ( $entry["type"] == Survey::TYPE_SURVEY )
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-".$titleIcon."'></i> ".$name.' ('.$count.')</a>' ;
+        else if ( $entry["type"] == "entry" )
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
+
+        $leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
         
         $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
@@ -592,25 +600,6 @@ function addaction(id,action)
       });
  }
 
- function closeEntry(id)
-{
-    console.warn("--------------- closeEntry ---------------------");
-    
-      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
-          function(result) {
-            if (result) {
-              params = { 
-                 "id" : id 
-              };
-              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/close")?>',params,function(data){
-                if(data.result)
-                  window.location.reload();
-                else 
-                  toastr.error(data.msg);
-              });
-          } 
-      });
- }
 
   function dejaVote(){
     alert("Vous ne pouvez pas votez 2 fois, ni changer de vote.");

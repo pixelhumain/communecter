@@ -506,7 +506,7 @@ class Menu {
         
         // Add a proposal
         //-----------------------------
-        self::entry("left", 'onclick', 
+        self::entry("right", 'onclick', 
                     Yii::t( "common", 'Send a proposal to your community'),
                     Yii::t( "common", 'Add a proposal'), 'plus',
                     "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
@@ -520,17 +520,52 @@ class Menu {
    
     }
 
-    public static function proposal($id)
+    public static function proposal($survey)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
-      
+        
+        $id = (string)$survey["_id"];
+        $parentId = (string)$survey["survey"];
+        $organiserId = $survey['organizerId'];
+
         // Add a proposal
         //-----------------------------
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'Back to Parent Survey'),
                     Yii::t( "common", 'Parent Survey'), 'chevron-circle-left',
-                    "loadByHash('#survey.entries.id.".$id."')",null,null);
+                    "loadByHash('#survey.entries.id.".$parentId."')",null,null);
+        
+        if ( $organiserId == Yii::app()->session["userId"] ) 
+        {
+            // Edit proposal
+            //-----------------------------
+            if( Yii::app()->controller->action->id != "editentry"  )
+            {
+                self::entry("right", 'onclick', 
+                        Yii::t( "common", 'Edit this proposals'),
+                        Yii::t( "common", 'Edit'), 'pencil',
+                        "loadByHash('#survey.editEntry.survey.".$parentId.".id.".$id."')",null,null);
+            }
+
+            // Standalone Version
+            //-----------------------------
+           self::entry("right", 'href', 
+                    Yii::t( "common", 'standalone version proposals'),
+                    Yii::t( "common", 'Standalone'), 'file-o',
+                    Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".$id),null,null);
+       
+
+            // Close
+            //-----------------------------
+            if( Yii::app()->controller->action->id != "editentry" && !( ( @$survey["dateEnd"] && $survey["dateEnd"] < time()) )   )
+            {
+                self::entry("right", 'onclick', 
+                        Yii::t( "common", 'Close this proposals'),
+                        Yii::t( "common", 'Close'), 'times text-red',
+                        "closeEntry('".$id."')",null,null);
+            }
+        }
         
         // Help
         //-----------------------------
@@ -600,6 +635,19 @@ class Menu {
                             "badge"     => $badge,
                             "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."' href='javascript:;' onclick=\"".$onclick."\"");
 						
+
+        }
+        else if( $type == 'href')
+        { 
+            $onclick = $url;
+            $active = (Yii::app()->controller->id == $controllerid && Yii::app()->controller->action->id == $actionid ) ? "active" : "";
+            $entry = array( 'tooltip'    => $title,
+                            'position'   => $position,
+                            "iconClass" => "fa fa-".$icon,
+                            "label"     => $label,
+                            "badge"     => $badge,
+                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"");
+                        
 
         }
         else 
