@@ -882,7 +882,9 @@ button.btn-infos{
 		left: 10% !important;
 	}
 
-	
+	.box-ajaxTools {
+	    margin-top: -50px;
+	}
 }
 
 

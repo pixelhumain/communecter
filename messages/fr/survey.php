@@ -23,7 +23,7 @@
 		"Ends"=>"Fin",
 		"VISITORS"=>"Visiteurs",
 		"Voted" => "Vous avez voté",
-		"Not Voted" => "Vous n'avez pas encore voté",
+		"Not Voted" => "Vous n'avez pas voté",
 		"Closed" => "Fermée"
 	)
 

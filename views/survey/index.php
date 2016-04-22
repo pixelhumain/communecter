@@ -64,7 +64,7 @@ $this->renderPartial('../default/panels/toolbar');
     border-radius:0px;
     border-color: #CCC;
     height:360px;
-    margin:-1px -1px !important;
+    margin:1% 1% !important;
     float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -72,6 +72,7 @@ $this->renderPartial('../default/panels/toolbar');
     box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
   }
+
   .mixcontainer .mix a.active, .mixcontainer .mix span.active{
     background-color: transparent;
     color: #717E87;
@@ -125,7 +126,7 @@ $this->renderPartial('../default/panels/toolbar');
       /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
       background-color: #fff;
       background-repeat: no-repeat;
-      background-position: 0px -50px;
+      background-position: 0px -40px;
       background-size: 100% auto;
     }
 
@@ -167,6 +168,36 @@ $this->renderPartial('../default/panels/toolbar');
         float: left;
     }
 
+    .bar-btn-filters .btn{
+      margin-bottom: 6px;
+    }
+
+
+@media screen and (min-width: 1060px) {
+  .mixcontainer .mix, .mixcontainer .gap{
+    width: 31%;
+  }
+}
+@media screen and (max-width: 1060px) {
+  .mixcontainer .mix, .mixcontainer .gap{
+    width: 48%;
+  }
+  .assemblyHeadSection {  
+    background-position: 0px 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .assemblyHeadSection {  
+    background-position: 0px 0px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mixcontainer .mix, .mixcontainer .gap{
+    width: 98%;
+  }
+}
 </style>
 
 
@@ -339,11 +370,11 @@ $this->renderPartial('../default/panels/toolbar');
         $createdInfo .= "</div>";
 
         $ends = "";
-        if( Yii::app()->session["userEmail"] == $entry["email"] ){
+        //if( Yii::app()->session["userEmail"] == $entry["email"] ){
           $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
           $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
           $ends .= "</div>";
-        }
+        //}
 
         $chartBarResult = getChartBarResult($entry);
 
@@ -475,7 +506,7 @@ $this->renderPartial('../default/panels/toolbar');
     <div class="panel-white" style="display:inline-block;">
    
         
-        <div class="controls col-md-12" style="border-radius:0px;">
+        <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
               <!-- <label>Filtre:</label> -->
               <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button>
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>

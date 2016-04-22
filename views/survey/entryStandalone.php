@@ -74,6 +74,19 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		border-radius: 25px;
 		font-size: 25px;
     }
+
+    .progress-bar-green{background-color: #93C22C;}
+  .progress-bar-yellow{background-color: yellow;}
+  .progress-bar-white{background-color: #C9C9C9;}
+  .progress-bar-purple{background-color: #C1ABD4;}
+  .progress-bar-red{background-color: #db254e;}
+
+  .color-btnvote-green{color: #93C22C;}
+  .color-btnvote-yellow{color: yellow;}
+  .color-btnvote-white{color: #FFF;}
+  .color-btnvote-purple{color: #C1ABD4;}
+  .color-btnvote-red{color: #db254e;}
+
 </style>
 
 <?php /* ?>

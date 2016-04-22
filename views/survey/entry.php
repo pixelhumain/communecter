@@ -2,7 +2,7 @@
 <style type="text/css">
 .container-tool-vote{
 	font-size:2em;
-	color:red;
+	/*color:red;*/
 	padding:5px;
 	border:1px solid rgb(206, 206, 206); 
 	border-radius:50px;
