@@ -75,7 +75,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		font-size: 25px;
     }
 
-    .progress-bar-green{background-color: #93C22C;}
+  .progress-bar-green{background-color: #93C22C;}
   .progress-bar-yellow{background-color: yellow;}
   .progress-bar-white{background-color: #C9C9C9;}
   .progress-bar-purple{background-color: #C1ABD4;}
@@ -86,6 +86,46 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   .color-btnvote-white{color: #FFF;}
   .color-btnvote-purple{color: #C1ABD4;}
   .color-btnvote-red{color: #db254e;}
+
+  .msg-head-tool-vote{
+  	width:100%;
+  	font-size: 18px;
+  	font-weight: 300;
+  }
+
+@media screen and (min-width: 1060px) {
+  
+}
+@media screen and (max-width: 1060px) {
+  
+  .assemblyHeadSection {  
+    background-position: 0px 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .assemblyHeadSection {  
+    background-position: 0px 0px;
+  }
+  .citizenAssembly-header{
+  	top: 70px;
+  	height:160px;
+  }
+  .citizenAssembly-header h1 {
+	font-size: 24px;
+  }
+  .row.vote-row {
+    top: 230px;
+  }
+  .container-tool-vote {
+    font-size: 17px;
+    margin-top: 60px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  
+}
 
 </style>
 
@@ -168,12 +208,14 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 			</div> -->
 
 		<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
+			
+			<span class="pull-right"><?php echo Yii::t("survey","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("m/d/y",$survey["created"]) ?></span>
+			
 			<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("survey","VOTERS",null,Yii::app()->controller->module->id) ?> : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> </span>
 		 	<br>
 		 	<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("survey","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
-			<span class="pull-right"><?php echo Yii::t("survey","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("m/d/y",$survey["created"]) ?></span>
 			<?php if( @$survey["dateEnd"] ){ ?>
-			<br><span class="pull-right"><?php echo Yii::t("survey","Ends",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",@$survey["dateEnd"]) ?></span>
+			<span class="pull-right"><?php echo Yii::t("survey","Ends",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",@$survey["dateEnd"]) ?></span>
 			<?php } ?>
 			
 		</h4>

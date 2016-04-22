@@ -44,7 +44,7 @@ $this->renderPartial('../default/panels/toolbar');
   .taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
 
   .progress-bar-green{background-color: #93C22C;}
-  .progress-bar-yellow{background-color: yellow;}
+  .progress-bar-yellow{background-color: yellow; color:darkgrey;}
   .progress-bar-white{background-color: #C9C9C9;}
   .progress-bar-purple{background-color: #C1ABD4;}
   .progress-bar-red{background-color: #db254e;}
