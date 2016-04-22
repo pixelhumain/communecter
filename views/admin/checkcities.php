@@ -6,22 +6,27 @@
 		<h4 class="panel-title">Cities mal </h4>
 		<br/>
 		<div><span id="nbWarnings"></span></div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12">
-			
-		</table>
+		<!--<table id="tableEntity" class="col-sm-12 col-xs-12"> -->
+			<?php
+				//var_dump($cities);
+				foreach ($cities as $name => $find) {
+					echo $name."</br>";
+					var_dump($find);
+				}
+			?>
+		<!--</table>-->
 	</div>
 </div>
 
 <script type="text/javascript">
 $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 
-var cities = '<?php echo addslashes($cities) ; ?>' ;
 jQuery(document).ready(function() {
 	
-	init();
+	//init();
 });
 
-function init(){
+/*function init(){
 	//console.log("cities", jQuery.parseJSON(cities));
 
 	var obj = jQuery.parseJSON(cities) ;
@@ -78,7 +83,7 @@ function transformNominatimUrl(str){
 		res += (str.charAt(i) == " ") ? "+" : str.charAt(i);
 	}
 	return res;
-}
+}*/
 
 
 </script>
