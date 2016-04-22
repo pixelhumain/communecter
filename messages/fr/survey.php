@@ -21,7 +21,10 @@
 		"VOTERS"=>"Nombre de votants",
 		"Since"=>"Début",
 		"Ends"=>"Fin",
-		"VISITORS"=>"Visiteurs"
+		"VISITORS"=>"Visiteurs",
+		"Voted" => "Vous avez voté",
+		"Not Voted" => "Vous n'avez pas encore voté",
+		"Closed" => "Fermée"
 	)
 
 ?>

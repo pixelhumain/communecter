@@ -45,9 +45,15 @@ $this->renderPartial('../default/panels/toolbar');
 
   .progress-bar-green{background-color: #93C22C;}
   .progress-bar-yellow{background-color: yellow;}
-  .progress-bar-white{background-color: #FFF;}
+  .progress-bar-white{background-color: #C9C9C9;}
   .progress-bar-purple{background-color: #C1ABD4;}
   .progress-bar-red{background-color: #db254e;}
+
+  .color-btnvote-green{color: #93C22C;}
+  .color-btnvote-yellow{color: yellow;}
+  .color-btnvote-white{color: #FFF;}
+  .color-btnvote-purple{color: #C1ABD4;}
+  .color-btnvote-red{color: #db254e;}
 
   .controls{
     background: #E7E7E7;
@@ -57,8 +63,8 @@ $this->renderPartial('../default/panels/toolbar');
   .mixcontainer .mix{
     border-radius:0px;
     border-color: #CCC;
-    height:340px;
-    margin:-1px -3px !important;
+    height:360px;
+    margin:-1px -1px !important;
     float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -66,7 +72,14 @@ $this->renderPartial('../default/panels/toolbar');
     box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
     filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
   }
-
+  .mixcontainer .mix a.active, .mixcontainer .mix span.active{
+    background-color: transparent;
+    color: #717E87;
+    font-size: 13px;
+    margin: 0px;
+    float: left;
+    border: 0px;
+  }
   .mixcontainer .mix a.titleMix{
     margin-top: 4px !important;
     float: left;
@@ -75,12 +88,13 @@ $this->renderPartial('../default/panels/toolbar');
     height:40px;
   }
   .mixcontainer .mix a.titleMix:hover{
-    text-decoration: underline;
+    text-decoration: underline !important;
   }
 
   .leftlinks {
-      text-align: center;
-      padding: 15px 0px;
+      text-align: left;
+      float: left;
+      /*width: 100%;*/
   }
 
   .leftlinks a.btn{
@@ -143,6 +157,15 @@ $this->renderPartial('../default/panels/toolbar');
       margin-top:5px;
     }
 
+
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 0;
+        border-top: 1px solid #e6e6e6;
+        width: 100%;
+        float: left;
+    }
 
 </style>
 
@@ -259,7 +282,15 @@ $this->renderPartial('../default/panels/toolbar');
   
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
   
-        $leftLinks = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-default homestead col-md-12' style='font-size:20px;'><i class='fa fa-gavel'></i> Voter</button>"; //$voteLinksAndInfos["links"];
+        //var_dump($voteLinksAndInfos);
+        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-xs btn-default homestead pull-right text-bold tooltips' ".
+                  ' data-toggle="tooltip" data-placement="left" title="Lire et voter" alt="Se déconnecter"'.
+                  " style='width:30px !important;'><i class='fa fa-gavel'></i></button>"; //$voteLinksAndInfos["links"];
+        
+        $leftLinks = "<span class='text-bold active' style='color: #EC5D0F;'><i class='fa fa-caret-right'></i> ".Yii::t("survey","Not Voted", null, Yii::app()->controller->module->id)."</span>";
+        if($voteLinksAndInfos["hasVoted"] == true){
+            $leftLinks = $voteLinksAndInfos["links"]; //$voteLinksAndInfos["links"];
+        }
         $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
         
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
@@ -313,7 +344,7 @@ $this->renderPartial('../default/panels/toolbar');
           $ends .= "</div>";
         }
 
-        $chartBarResult = ($totalVote > 0) ? getChartBarResult($entry) : "";
+        $chartBarResult = getChartBarResult($entry);
 
         $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "bg-white" : "bg-azure" ;
         $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
@@ -327,6 +358,9 @@ $this->renderPartial('../default/panels/toolbar');
                         $views.
                         $createdInfo.
                         $ends.
+                        "<hr>".
+                        $leftLinks.$btnRead.
+                        "<hr>".
                         $link.'<br/>'.
                         $message.//'<br/>'.
                         //$info.
@@ -340,7 +374,7 @@ $this->renderPartial('../default/panels/toolbar');
                         //'<div class="space1"></div>'.$rightLinks.
 
                         $chartBarResult.
-                        $leftLinks.
+                        
                         //"<div class='col-md-12 text-dark' style='padding:10px 0px;'>".$views."</div>".
                         
                         //'<div class="space1"></div>'.$views.
@@ -387,6 +421,9 @@ $this->renderPartial('../default/panels/toolbar');
 
       $html = "";
 
+      $percentNoVote = "0";
+      if($totalVotes == 0) $percentNoVote = "100";
+
       $html .= '<a class="btn btn-xs pull-left text-dark"'.
                 ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
                 ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
@@ -411,6 +448,9 @@ $this->renderPartial('../default/panels/toolbar');
                   '</div>'.
                   '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
                     $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.$percentVoteDownCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentNoVote.'%">'.
+                   // $percentNoVote.' '.
                   '</div>'.
                 '</div>';
       
@@ -500,6 +540,8 @@ jQuery(document).ready(function() {
   //$(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
   $(".moduleLabel").html("<i class='fa fa-gavel text-red'></i> " + "décider ensemble");
   $(".main-col-search").addClass("assemblyHeadSection");
+  $('.tooltips').tooltip();
+
   $container.mixItUp({
       load: {sort: 'vote:desc'},
       animation: {
