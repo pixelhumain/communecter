@@ -161,13 +161,17 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 
 <div id="newInvite">
+	<?php   
+  		if (@Yii::app()->params['betaTest']) { ?>
+  			<div class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><i class="fa"></i><?php echo empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"] ?> invitation(s)</div>
+  	<?php
+		}
+	?>
 	<ul class="nav nav-tabs">
 		<li role="presentation">
 			<a href="javascript:" class="" id="menuInviteSomeone">
 				<div id="titleInviteSomeone" class='radius-10 padding-10 text-yellow text-dark'>
-					<!-- <i class="fa fa-plus"></i>  -->
 					<i class="fa fa-search fa-2x"></i> Rechercher ...
-					<?php //echo Yii::t("person","Add a Person") ?>
 				</div>
 			</a>
 		</li>
@@ -336,7 +340,7 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>
 		<div class="panel panel-white" id="divWriteMails">
         	<div class="panel-heading border-light">
-        		Copier vos emails, séparé par des points-virgules.
+        		Copier vos emails, séparés par des points-virgules.
 			</div>
 			<div class="panel-body">
 				<form class="form-writeMails" autocomplete="off">
@@ -602,9 +606,7 @@ function bindInviteSubViewInvites() {
 		}else{
 			toastr.error("Nous n'avons pas réussie à lire votre fichier.")
 		}
-		
-		
-		
+
 		return false;
 	});
 
