@@ -783,7 +783,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							success: function(data) {
 								if(data.result) {
 									//remove the organization from floopdrawer
-									removeFloopEntity(id, "organization");
+									removeFloopEntity(id, "organizations");
 									toastr.success(data.msg);
 								} else
 									toastr.error(data.msg);
