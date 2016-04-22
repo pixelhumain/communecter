@@ -100,7 +100,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
-
+<script type="text/javascript" src="https://github.com/sapegin/jquery.mosaicflow.git/jquery.mosaicflow.min.js"></script>
 <style>
 	.tools_bar{
 		    border-bottom: 1px solid #E6E8E8;
@@ -108,6 +108,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	.tools_bar .btn{
 		    border-right: 1px solid #E6E8E8;
 	}
+	.mosaicflow__column {
+    float:left;
+    }
+.mosaicflow__item img {
+    display:block;
+    width:100%;
+    height:auto;
+}
 /*.results{
     border: 1px solid #eee;
 }
@@ -144,15 +152,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
+		<div class="tools_bar bg-white">
+				<div class="user-image-buttons">
+					<form method="post" id="photoAddNews" enctype="multipart/form-data">
+						<span class="btn btn-white btn-file fileupload-new btn-sm" id="" ><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="" onchange="showMyImage(this);">
+						</span>
+					</form>
+				</div>
+				<!--<input type="file" accept=".gif, .jpg, .png" name="avatar">
+				<input class="btn bg-white" type="file" accept=".gif, .jpg, .png" onclick="loadImage(event);">
+					<i class="fa fa-picture-o fa-x"></i>
+				</input>-->
+			</div>
 		<form id='form-news'>
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
-			<!--<div class="tools_bar bg-white">
-				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
-					<i class="fa fa-picture-o fa-x"></i>
-				</button>
-			</div>-->
+			
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
@@ -324,6 +341,9 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 var loadingData = false;
 var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
+var docType="<?php echo Document::DOC_TYPE_IMAGE; ?>";
+var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
+var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 /*function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
@@ -389,11 +409,46 @@ jQuery(document).ready(function()
 
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
-
+	initFormImages();
+	/*$("#photoAddNews").on('submit',(function(e) {
+		e.preventDefault();
+		alert();
+		$.ajax({
+			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextParentType+"/ownerId/"+contextParentId+"/input/newsImage",
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			dataType: "json",
+			success: function(data){
+				if(debug)console.log(data);
+		  		if(data.success){
+		  			imageName = data.name;
+					var doc = { 
+						"id":contextParentId,
+						"type":contextParentType,
+						"folder":contextParentType+"/"+contextParentId,
+						"moduleId":moduleId,
+						"author" : userId  , 
+						"name" : data.name , 
+						"date" : new Date() , 
+						"size" : data.size ,
+						"doctype" : docType,
+						"contentKey" : contentKey
+					};
+					path = "/"+data.dir+data.name;
+					documentId=saveImageNews(doc, path);
+					return documentId;
+		  		}
+		  		else
+		  			toastr.error(data.msg);
+		  },
+		});
+	}));*/
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
-
 </script>

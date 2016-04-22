@@ -136,12 +136,16 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
 		if("undefined" != typeof newsObj.media){
-			if("object" != typeof newsObj.media)
-				media="<div class='results'>"+newsObj.media+"</div>";
-			else{
-				media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
-				//// Fonction générant l'html
-			} 
+			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
+				if("object" != typeof newsObj.media)
+					media="<div class='results'>"+newsObj.media+"</div>";
+				else{
+					media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
+					//// Fonction générant l'html
+				} 
+			} else if (newsObj.media.type=="galery_images"){
+				media=getMediaImages(newsObj.media);
+			}
 				
 		}
 	}
