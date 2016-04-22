@@ -2,7 +2,7 @@
 <style type="text/css">
 .container-tool-vote{
 	font-size:2em;
-	color:red;
+	/*color:red;*/
 	padding:5px;
 	border:1px solid rgb(206, 206, 206); 
 	border-radius:50px;
@@ -59,15 +59,17 @@ if( !isset($hideTexts) )
 
 		$voteLinksAndInfos = Action::voteLinksAndInfos( true , $survey );
 
-		if( $voteLinksAndInfos["hasVoted"] )
-			echo Yii::t("survey","Thank you for voting",null,Yii::app()->controller->module->id); 
-		else
-			echo Yii::t("survey","Feel Free to vote",null,Yii::app()->controller->module->id);
+		//echo "<span class='msg-head-tool-vote'>";
+		//if( $voteLinksAndInfos["hasVoted"] )
+		//	echo Yii::t("survey","Thank you for voting",null,Yii::app()->controller->module->id); 
+		//else
+		//	echo Yii::t("survey","Feel Free to vote",null,Yii::app()->controller->module->id);
+		//echo "</span>";
 
 		echo "<div class='container-tool-vote'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
 
-		if( $voteLinksAndInfos["totalVote"] )
-			echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("survey","people voted",null,Yii::app()->controller->module->id); 
+		//if( $voteLinksAndInfos["totalVote"] )
+			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("survey","people voted",null,Yii::app()->controller->module->id); 
 	 ?>
 </div>
 
