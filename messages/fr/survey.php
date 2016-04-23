@@ -6,7 +6,7 @@
 		"ACT" => "AGIR",
 		"YOU VOTED ALLREADY" => "VOUS AVEZ DEJA VOT",
 		"FEEL FREE TO VOTE" => "LIBRE A VOUS DE VOTER",
-		"THIS VOTE IS CLOSED" => "CETTE SESSION EST FERMÉ",
+		"THIS VOTE IS CLOSED" => "Ce vote est terminé",
 		"people voted" => "ont voté",
 		"You are Following this vote." => "Vous suivez cette session",
 		"You created this vote." => "Vous etes créateur de la session",

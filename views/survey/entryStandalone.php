@@ -81,11 +81,11 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   .progress-bar-purple{background-color: #C1ABD4;}
   .progress-bar-red{background-color: #db254e;}
 
-  .color-btnvote-green{color: #93C22C;}
-  .color-btnvote-yellow{color: yellow;}
-  .color-btnvote-white{color: #FFF;}
-  .color-btnvote-purple{color: #C1ABD4;}
-  .color-btnvote-red{color: #db254e;}
+  .color-btnvote-green{background-color: #93C22C;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-yellow{background-color: yellow;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-white{background-color: #FFF;color: black;	padding: 8px;border-radius: 30px;border: 1px solid #939393;}
+  .color-btnvote-purple{background-color: #C1ABD4;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-red{background-color: #db254e;color: black;		padding: 8px;border-radius: 30px;}
 
   .msg-head-tool-vote{
   	width:100%;
@@ -101,7 +101,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   .assemblyHeadSection {  
     background-position: 0px 50px;
   }
-  
+
   .container-tool-vote {
     font-size: 17px;
     margin-top: 60px;
@@ -165,6 +165,65 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
  			$orga = Organization::getById($parentId);
  			$nameParentTitle = $orga["name"];
 		}
+
+
+		function getChartBarResult($survey){
+
+      $voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+      $voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+      $voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+      $voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+      $voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+      
+      $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+      
+      $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+      
+      $percentVoteDownCount     = $voteDownCount    * $oneVote;
+      $percentVoteAbstainCount  = $voteAbstainCount * $oneVote;
+      $percentVoteUpCount       = $voteUpCount      * $oneVote;
+      $percentVoteUnclearCount  = $voteUnclearCount * $oneVote;
+      $percentVoteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+
+      $html = "";
+
+      $percentNoVote = "0";
+      if($totalVotes == 0) $percentNoVote = "100";
+
+      $html .= '<a class="btn btn-xs pull-left text-dark"'.
+                ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
+                ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
+
+      if($totalVotes > 1) $msgVote = "votes exprimés";
+      else                $msgVote = "vote exprimé"; 
+
+      $html .= "<div class='pull-left text-dark' style='margin-top:5px; margin-left:5px; font-size:13px;'>".$totalVotes." ".$msgVote."</div><div class='space1'></div>";
+      
+      $html .=  '<div class="progress">'.
+                  '<div class="progress-bar progress-bar-green progress-bar-striped" style="width: '.$percentVoteUpCount.'%">'.
+                    $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.$percentVoteUpCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-yellow progress-bar-striped" style="width: '.$percentVoteUnclearCount.'%">'.
+                    $voteUnclearCount.' <i class="fa fa-pen"></i> ('.$percentVoteUnclearCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentVoteAbstainCount.'%">'.
+                    $voteAbstainCount.' <i class="fa fa-circle"></i> ('.$percentVoteAbstainCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-purple progress-bar-striped" style="width: '.$percentVoteMoreInfoCount.'%">'.
+                    $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.$percentVoteMoreInfoCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
+                    $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.$percentVoteDownCount.'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentNoVote.'%">'.
+                   // $percentNoVote.' '.
+                  '</div>'.
+                '</div>';
+      
+      
+      
+      return $html;
+    }
  	?>
  	<div class=" text-red center citizenAssembly-header">
       <h1 class="homestead text-red center">
@@ -269,7 +328,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 			</div>
 		</div>
 	</div>
-
+	<?php //echo getChartBarResult($survey); ?>
 	<div class="col-md-12" >
 		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
@@ -414,7 +473,14 @@ var getColor = {
 	};
 function buildResults () { 
 
-	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time()){ ?>
+var getColor = {
+	    'Pou': '#93C22C',
+	    'Con': '#db254e',
+	    'Abs': 'white', 
+	    'Pac': 'yellow', 
+	    'Plu': '#789289'
+	};
+	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() && false){ ?>
 		console.log("buildResults");
 	
 		console.log("setUpGraph");

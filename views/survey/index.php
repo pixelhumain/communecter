@@ -49,12 +49,17 @@ $this->renderPartial('../default/panels/toolbar');
   .progress-bar-purple{background-color: #C1ABD4;}
   .progress-bar-red{background-color: #db254e;}
 
-  .color-btnvote-green{color: #93C22C;}
-  .color-btnvote-yellow{color: yellow;}
-  .color-btnvote-white{color: #FFF;}
-  .color-btnvote-purple{color: #C1ABD4;}
-  .color-btnvote-red{color: #db254e;}
+  .btnvote{
+    color: black; 
+    padding: 8px!important;
+    border-radius: 30px!important;
+  }
 
+  .color-btnvote-green{   background-color: #93C22C!important;}
+  .color-btnvote-yellow{  background-color: yellow!important;}
+  .color-btnvote-white{   background-color: #FFF!important; border: 1px solid #939393;}
+  .color-btnvote-purple{  background-color: #C1ABD4!important;}
+  .color-btnvote-red{   background-color: #db254e!important;}
   .controls{
     background: #E7E7E7;
     border: 1px solid #BDBDBD;
@@ -160,8 +165,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 
     hr {
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         border: 0;
         border-top: 1px solid #e6e6e6;
         width: 100%;
@@ -315,9 +320,9 @@ $this->renderPartial('../default/panels/toolbar');
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
   
         //var_dump($voteLinksAndInfos);
-        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-xs btn-default homestead pull-right text-bold tooltips' ".
+        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Lire et voter" alt="Se déconnecter"'.
-                  " style='width:30px !important;'><i class='fa fa-gavel'></i></button>"; //$voteLinksAndInfos["links"];
+                  " style='margin-top: -15px;margin-right: -5px;margin-bottom: 25px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
         
         $leftLinks = "<span class='text-bold active' style='color: #EC5D0F;'><i class='fa fa-caret-right'></i> ".Yii::t("survey","Not Voted", null, Yii::app()->controller->module->id)."</span>";
         if($voteLinksAndInfos["hasVoted"] == true){

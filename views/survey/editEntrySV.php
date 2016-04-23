@@ -1,5 +1,5 @@
 <?php 
-Menu::proposal( (string)$parentSurvey['_id'] );
+Menu::proposal( (string)$survey['_id'] );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
@@ -167,7 +167,7 @@ function editEntrySV () {
                           '</blockquote> '
                   });
               var params = { 
-                 "survey" : "<?php echo (string)$parentSurvey['_id']?>", 
+                 "survey" : "<?php echo (string)$survey['_id']?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
@@ -196,7 +196,7 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      loadByHash("#survey.entries.id.<?php echo (string)$parentSurvey['_id']?>")
+                      loadByHash("#survey.entries.id.<?php echo (string)$survey['_id']?>")
                   }
                   else {
                     toastr.error(data.msg);
