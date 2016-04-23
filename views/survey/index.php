@@ -68,7 +68,7 @@ $this->renderPartial('../default/panels/toolbar');
   .mixcontainer .mix{
     border-radius:0px;
     border-color: #CCC;
-    height:360px;
+    height:380px;
     margin:1% 1% !important;
     float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -365,9 +365,15 @@ $this->renderPartial('../default/panels/toolbar');
             $stateLbl = "<i class='fa fa-times text-red'></i> Fermé";
             $titleIcon = "times text-red";
         }else{
-          $stateLbl = "<i class='fa fa-sign-in text-red'></i> Login to vote";
+          $stateLbl = "<i class='fa fa-sign-in text-red'></i> ".Yii::t('rooms', 'Login to vote', null, Yii::app()->controller->module->id);
           $mainClick = 'showPanel("box-login")';
         }
+
+        // if($entry["hasVoted"]){
+        //   $stateLbl = "<i class='fa fa-sign-in text-red'></i> ".Yii::t('rooms', 'Login to vote', null, Yii::app()->controller->module->id);
+        //   $mainClick = 'showPanel("box-login")';
+        // }
+
         //title + Link
         $link = $name;
         if ( $entry["type"] == Survey::TYPE_SURVEY )
@@ -376,13 +382,13 @@ $this->renderPartial('../default/panels/toolbar');
           $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
 
         $leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
-        /*
-        TANGO : je t'ai mis ca là !!
+        
+        //TANGO : je t'ai mis ca là !!
         $leftLinks = "<span class='text-bold active' style='color: #EC5D0F;'><i class='fa fa-caret-right'></i> ".Yii::t("survey","Not Voted", null, Yii::app()->controller->module->id)."</span>";
-        if($voteLinksAndInfos["hasVoted"] == true){
+        if(isset($voteLinksAndInfos["hasVoted"])&&$voteLinksAndInfos["hasVoted"] == true){
             $leftLinks = $voteLinksAndInfos["links"]; //$voteLinksAndInfos["links"];
         }
-        */
+        
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
         
         $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
@@ -418,6 +424,7 @@ $this->renderPartial('../default/panels/toolbar');
                         //$info.
                         //$tags.
                         //$content.
+                        '<br/>'.
                         '<div class="space1"></div><div class="pull-right" >'.
                             $commentBtn.$infoslink. 
                             $byInfo.

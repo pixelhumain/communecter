@@ -28,4 +28,5 @@ return array(
 	"end" => "Fin le",
 	"Result" => "Résultats",
 
+	"Login to vote" => "Connectez-vous"
 );
