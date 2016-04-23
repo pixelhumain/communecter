@@ -119,4 +119,5 @@ jQuery(document).ready(function()
 {
 	$(".moduleLabel").html('<?php echo Yii::t("common","VOTE DECIDE ACT") ?>');
 });
+
 </script>

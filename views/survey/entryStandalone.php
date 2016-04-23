@@ -1,16 +1,17 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($this->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
-//Data helper
-$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
+$cssAnsScriptFilesModule = array(
+  '/survey/js/highcharts.js',
+  '/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
-	Menu::proposal( (string)$survey["survey"] );
+	Menu::proposal( $survey );
 	$this->renderPartial('../default/panels/toolbar');
 }
 ?>
@@ -482,7 +483,13 @@ var getColor = {
 	};
 	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() && false){ ?>
 		console.log("buildResults");
-	
+	var getColor = {
+	    'Pou': '#93C22C',
+	    'Con': '#db254e',
+	    'Abs': 'white', 
+	    'Pac': 'yellow', 
+	    'Plu': '#789289'
+	}; 
 		console.log("setUpGraph");
 		$('#container2').highcharts({
 		    chart: {
@@ -536,4 +543,25 @@ var getColor = {
 		});
 	<?php } ?>
 }
+
+
+function closeEntry(id)
+{
+    console.warn("--------------- closeEntry ---------------------");
+    
+      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
+          function(result) {
+            if (result) {
+              params = { 
+                 "id" : id 
+              };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/close")?>',params,function(data){
+                if(data.result)
+                  window.location.reload();
+                else 
+                  toastr.error(data.msg);
+              });
+          } 
+      });
+ }
 </script>
