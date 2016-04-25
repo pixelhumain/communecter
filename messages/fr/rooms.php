@@ -28,7 +28,7 @@ return array(
 	"end" => "Fin le",
 	"ended" => "Clôturé le",
 	"Result" => "Résultats",
-
+	"You did not vote" => "Vous n'avez pas voté",
 	"Login to vote" => "Connectez-vous",
 
 	"Type / Action" => "Type / Action",

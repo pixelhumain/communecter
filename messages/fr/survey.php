@@ -24,7 +24,8 @@
 		"VISITORS"=>"Visiteurs",
 		"Voted" => "Vous avez voté",
 		"Not Voted" => "Vous n'avez pas voté",
-		"Closed" => "Cloturé"
+		"Closed" => "Cloturé",
+		"You did not vote" => "Vous n'avez pas voté",
 	)
 
 ?>
