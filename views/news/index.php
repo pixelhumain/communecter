@@ -223,7 +223,11 @@ foreach($news as $key => $oneNews){
 <?php } else{ ?>
 	viewer="";
 <?php } ?>
+<?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
+<?php }else { ?>
+var news = "";
+<?php } ?>
 var newsReferror={
 		"news":{
 			"offset":"",
