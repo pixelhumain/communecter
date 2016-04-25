@@ -1,9 +1,27 @@
-<?php 
+<?php  
+
+$cssAnsScriptFiles = array(
+  '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
 Menu::proposal( $survey );
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
-
+<style type="text/css">
+  .addPropBtn{
+    width:100%;
+    background-color: #BBBB77;
+  }
+  .removePropLineBtn {
+      background-color: #E33551;
+      line-height: 32px;
+      width: 100%;
+  }
+</style>
 <script type="text/javascript">
 var organizerList = {};
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
@@ -44,11 +62,13 @@ var proposalFormDefinition = {
               "placeholder" : "Texte de la proposition",
               "rules" : {
                 "required" : true
-              }
+              },
+              "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '' ?>,
             },
             "dateEnd" :{
               "inputType" : "date",
-              "placeholder" : "Fin de la période de vote"
+              "placeholder" : "Fin de la période de vote",
+              "value":"<?php echo (isset($survey) && isset($survey['dateEnd'])) ? $survey['dateEnd'] : '' ?>",
             },
             "urls" : {
                   "inputType" : "array",
@@ -57,12 +77,8 @@ var proposalFormDefinition = {
             "tags" :{
               "inputType" : "tags",
               "placeholder" : "Tags",
-              "values" : [
-                "Sport",
-                "Agricutlture",
-                "Culture",
-                "Urbanisme",
-              ]
+              "value" : "<?php echo (isset($survey) && isset($survey['tags'])) ? implode(',', $survey['tags']) : '' ?>",
+              "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
             },
               "separator1":{
               "title":"Comment options"
@@ -145,20 +161,12 @@ function editEntrySV () {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-              $("#editEntryContainer #name").val( proposalObj.name );
-              $("#editEntryContainer #message").val( proposalObj.message );
               AutoGrowTextArea($("message"));
-              $("#editEntryContainer #message").val( proposalObj.message );
-              if(proposalObj.dateEnd){
-                date = new Date(proposalObj.dateEnd);
-                var day = date.getDate().toString();
-                var month = (date.getMonth()+1).toString();
-                var year = date.getFullYear().toString();
-                $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
-              }
+              
               if(proposalObj.urls){
 
               }
+             
             }
           },
           onSave : function(){
@@ -208,7 +216,7 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      loadByHash("#survey.entries.id.<?php echo (string)$survey['_id']?>")
+                      loadByHash( "#survey.entries.id."+data.parentId )
                   }
                   else {
                     toastr.error(data.msg);
@@ -245,17 +253,7 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function addfield(parentContainer) 
-{
-  if(debug)console.log("addfield",parentContainer);
-  if(!$.isEmptyObject($(parentContainer+' .inputs')))
-    {
-      $(propertyLineHTML( {"label":"","value":""} ) ).fadeIn('slow').appendTo(parentContainer+' .inputs');
-        $(parentContainer+' .addmultifield:last').focus();
-        initMultiFields(parentContainer);
-    }else 
-      if(debug)console.error("container doesn't seem to exist : "+parentContainer+' .inputs');
-}
+
 
 
 
