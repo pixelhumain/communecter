@@ -44,21 +44,22 @@ $this->renderPartial('../default/panels/toolbar');
   .taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
 
   .progress-bar-green{background-color: #93C22C;}
-  .progress-bar-yellow{background-color: yellow; color:darkgrey;}
-  .progress-bar-white{background-color: #C9C9C9;}
+  .progress-bar-yellow{background-color: yellow; color:black !important;}
+  .progress-bar-white{background-color: #C9C9C9; color:black !important;}
   .progress-bar-purple{background-color: #C1ABD4;}
   .progress-bar-red{background-color: #db254e;}
 
   .btnvote{
-    color: black; 
+    color: white !important; 
     padding: 8px!important;
+    font-weight: 500;
     border-radius: 30px!important;
     display: inline-block !important;
   }
 
   .color-btnvote-green{   background-color: #93C22C!important;}
-  .color-btnvote-yellow{  background-color: yellow!important;}
-  .color-btnvote-white{   background-color: #FFF!important; border: 1px solid #939393;}
+  .color-btnvote-yellow{  background-color: yellow!important; color:black !important;}
+  .color-btnvote-white{   background-color: #FFF!important;  color:black !important; border: 1px solid #939393;}
   .color-btnvote-purple{  background-color: #C1ABD4!important;}
   .color-btnvote-red{   background-color: #db254e!important;}
   .controls{
@@ -290,12 +291,12 @@ $this->renderPartial('../default/panels/toolbar');
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
   
 
-        $btnEdit = (!empty($meslois)) ? 
-                      ' <a class="btn btn-xs btn-default filter pull-right" data-filter=".myentries"'.
-                      ' onclick="loadByHash(\'#survey.editEntry.survey.'.$entry["survey"].'.id.'.(string)$entry["_id"].'\')"'.
-                      ' href="javascript:;"><i class="fa fa-pencil infolink"></i> '.
-                                            Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).
-                      '</a> ' : '';          
+        // $btnEdit = (!empty($meslois)) ? 
+        //               ' <a class="btn btn-xs btn-default filter pull-right" data-filter=".myentries"'.
+        //               ' onclick="loadByHash(\'#survey.editEntry.survey.'.$entry["survey"].'.id.'.(string)$entry["_id"].'\')"'.
+        //               ' href="javascript:;"><i class="fa fa-pencil infolink"></i> '.
+        //                                     Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).
+        //               '</a> ' : '';          
         
         // if (Yii::app()->session["userIsAdmin"]) {
         //   $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
@@ -313,6 +314,9 @@ $this->renderPartial('../default/panels/toolbar');
         $totalVote = $voteLinksAndInfos["totalVote"];
         //$info = ($totalVote) ? '<span class="info">'.$totalVote.' sur <span class="info voterTotal">'.$uniqueVoters.'</span> vote(s)</span><br/>':'<span class="info"></span>';
   
+        $surveyIsClosed = (isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ) ;
+        $surveyHasVoted = (isset($voteLinksAndInfos["hasVoted"]) && $voteLinksAndInfos["hasVoted"] == true) ? true : false;
+        
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
 
         $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
@@ -356,7 +360,7 @@ $this->renderPartial('../default/panels/toolbar');
                         " onclick='closeEntry(\"".$entry["_id"]."\")'>".
                         "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
                       "</a>";
-        else if(isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ){
+        else if($surveyIsClosed){
             $isClosed = " closed";
             $stateLbl = "<i class='fa fa-times text-red'></i> Fermé";
             $titleIcon = "times text-red";
@@ -369,15 +373,6 @@ $this->renderPartial('../default/panels/toolbar');
         //   $stateLbl = "<i class='fa fa-sign-in text-red'></i> ".Yii::t('rooms', 'Login to vote', null, Yii::app()->controller->module->id);
         //   $mainClick = 'showPanel("box-login")';
         // }
-
-        if(isset($voteLinksAndInfos["hasVoted"])&&$voteLinksAndInfos["hasVoted"] == true)
-        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
-                  ' data-toggle="tooltip" data-placement="left" title="Lire et voter"'.
-                  " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
-        else
-        $btnRead = "";
-        
-
         
         //title + Link
         $link = $name;
@@ -386,13 +381,28 @@ $this->renderPartial('../default/panels/toolbar');
         else if ( $entry["type"] == "entry" )
           $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
 
-        $leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
-        
-        $leftLinks = "<button class='col-md-12 btn btn-default homestead pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
-        if(isset($voteLinksAndInfos["hasVoted"])&&$voteLinksAndInfos["hasVoted"] == true){
+        //$leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
+
+
+        $btnRead = "";
+        $leftLinks = "";
+
+        if(!$surveyIsClosed && !$surveyHasVoted)        
+        $leftLinks = "<button class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
+        else{
+          $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
+                  ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
+                  " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
+        }
+        if($surveyHasVoted || $surveyIsClosed){
             $leftLinks = $voteLinksAndInfos["links"]; //$voteLinksAndInfos["links"];
         }
-        
+
+        // if( $surveyHasVoted || $surveyIsClosed) 
+        // $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
+        //           ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
+        //           " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
+
         $cpList = ( ( @$where["type"]==Survey::TYPE_SURVEY) ? $cpList : "");
         
         $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
@@ -401,9 +411,15 @@ $this->renderPartial('../default/panels/toolbar');
 
         $ends = "";
         //if( Yii::app()->session["userEmail"] == $entry["email"] ){
-          $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+        if($entry["type"]==Survey::TYPE_ENTRY && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) ){
+          $ends  = "<div class='text-green lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
           $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
           $ends .= "</div>";
+        }else{
+          $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+          $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "ended", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
+          $ends .= "</div>";
+        }
         //}
 
         $chartBarResult = getChartBarResult($entry);
@@ -531,7 +547,8 @@ $this->renderPartial('../default/panels/toolbar');
       <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
       <small class="homestead text-dark center">
         Propositions, Débats, Votes
-        </small>
+        </small><br>
+        <button class="btn btn-success" onclick="loadByHash(location.hash);"><i class="fa fa-refresh"></i></button>
     </h1>
 
     <div class="panel-white" style="display:inline-block;">

@@ -19,13 +19,14 @@ return array(
 	"To vote" => "A voter",
 	"My votes" => "Mes votes",
 	"My proposals" => "Mes propositions",
-	"Closed" => "Fermés",
+	"Closed" => "Cloturé",
 	"Edit" => "Modifier",
 	"Close" => "Fermer",
 	"Comment" => "Commenter",
 
 	"created" => "Publié le",
 	"end" => "Fin le",
+	"ended" => "Clôturé le",
 	"Result" => "Résultats",
 
 	"Login to vote" => "Connectez-vous",
@@ -37,6 +38,6 @@ return array(
 	"Start Date" => "Début",
 	"End Date" => "Fin",
 	"Actions" => "Actions",
-	
+
 	"propositions" => "propositions"
 );
