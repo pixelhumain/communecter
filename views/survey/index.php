@@ -177,6 +177,9 @@ $this->renderPartial('../default/panels/toolbar');
       margin-bottom: 6px;
     }
 
+    .caret {
+      display: inline;
+    }
 
 @media screen and (min-width: 1060px) {
   .mixcontainer .mix, .mixcontainer .gap{
@@ -567,6 +570,10 @@ $this->renderPartial('../default/panels/toolbar');
               <?php echo $cpBlock; 
               }?>
               <br/>
+
+              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
+                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
+              </h1>
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">
@@ -594,12 +601,16 @@ var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
 clickedVoteObject = null;
+
+var nbSurveyTotal = <?php echo count($list); ?>;
+
 jQuery(document).ready(function() {
   //$(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
   $(".moduleLabel").html("<i class='fa fa-gavel text-red'></i> " + "décider ensemble");
   $(".main-col-search").addClass("assemblyHeadSection");
   $('.tooltips').tooltip();
 
+  if(nbSurveyTotal > 0)
   $container.mixItUp({
       load: {sort: 'vote:desc'},
       animation: {
@@ -611,6 +622,7 @@ jQuery(document).ready(function() {
         containerClass: 'grid' // Add the class 'list' to the container on load
       }
     });
+
   moduleWording();
   $('.voteIcon').off().on("click",function() { 
     $(this).addClass("faa-bounce animated");

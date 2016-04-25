@@ -48,7 +48,7 @@ var dataBind = {
 jQuery(document).ready(function() {
   console.warn("--------------- newRoom ---------------------");
   
-  $(".moduleLabel").html("<i class='fa fa-comments'></i><span class='text-red'>Créer un nouvel espace citoyen</span>");
+  $(".moduleLabel").html("<i class='fa fa-comments'></i><span class='text-red'> Créer une nouvelle thématique</span>");
 
   //getAjax("#editRoomsContainer",baseUrl+"/"+moduleId+"/rooms/editRoom", "html");
   editRoomSV();

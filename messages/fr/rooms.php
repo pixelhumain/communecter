@@ -28,5 +28,15 @@ return array(
 	"end" => "Fin le",
 	"Result" => "Résultats",
 
-	"Login to vote" => "Connectez-vous"
+	"Login to vote" => "Connectez-vous",
+
+	"Type / Action" => "Type / Action",
+	"Name" => "Thématique",
+	"Entries" => "Nb propositions",
+	"Participants" => "Nb pariticpants",
+	"Start Date" => "Début",
+	"End Date" => "Fin",
+	"Actions" => "Actions",
+	
+	"propositions" => "propositions"
 );

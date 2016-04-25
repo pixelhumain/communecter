@@ -501,7 +501,7 @@ class Menu {
 
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'All Surveys'), 'bars',
+                    Yii::t( "common", 'All Surveys'), 'archive',
                     "loadByHash('".$surveyLink."')",null,null);
         
         // Add a proposal
