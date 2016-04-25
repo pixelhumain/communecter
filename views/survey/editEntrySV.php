@@ -149,6 +149,16 @@ function editEntrySV () {
               $("#editEntryContainer #message").val( proposalObj.message );
               AutoGrowTextArea($("message"));
               $("#editEntryContainer #message").val( proposalObj.message );
+              if(proposalObj.dateEnd){
+                date = new Date(proposalObj.dateEnd);
+                var day = date.getDate().toString();
+                var month = (date.getMonth()+1).toString();
+                var year = date.getFullYear().toString();
+                $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
+              }
+              if(proposalObj.urls){
+
+              }
             }
           },
           onSave : function(){
@@ -167,7 +177,7 @@ function editEntrySV () {
                           '</blockquote> '
                   });
               var params = { 
-                 "survey" : "<?php echo (string)$survey['_id']?>", 
+                 "survey" : "<?php echo (isset($_GET['survey'])) ? $_GET['survey'] : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
@@ -184,6 +194,8 @@ function editEntrySV () {
               urls = getUrls();
               if( urls != null )
                 params.urls = urls;
+              if( $("#editEntryContainer #id").val() != "" )
+                params.id = $("#editEntryContainer #id").val();
               if( $("#editEntryContainer #tags").val() )
                 params.tags = $("#editEntryContainer #tags").val().split(",");
               if( $("#editEntryContainer #dateEnd").val() )
@@ -233,6 +245,17 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function addfield(parentContainer) 
+{
+  if(debug)console.log("addfield",parentContainer);
+  if(!$.isEmptyObject($(parentContainer+' .inputs')))
+    {
+      $(propertyLineHTML( {"label":"","value":""} ) ).fadeIn('slow').appendTo(parentContainer+' .inputs');
+        $(parentContainer+' .addmultifield:last').focus();
+        initMultiFields(parentContainer);
+    }else 
+      if(debug)console.error("container doesn't seem to exist : "+parentContainer+' .inputs');
+}
 
 
 

@@ -556,7 +556,7 @@ function checkIsLoggued(uId){
 		
 		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Secure Section");
 		//setTimeout(function(){
-			loadByHash("default.home");
+			showPanel( "box-login" );
 		//}, 2000);
     	
     	resetUnlogguedTopBar();
