@@ -96,11 +96,12 @@
    		//}
    		bindFicheInfoBtn();
 	});
+	
 	function bindFicheInfoBtn(){
 		$("#disableOrganization").off().on("click",function () {
 			console.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
-			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists)') ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !')." " ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
 				function(result) {
 					if (!result) {
 						return;
@@ -157,55 +158,7 @@
 					}
 				});
 			});
-
-			//$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-		});
-		
-		
-		//Add Me as member Of Button --- A supprimer (refactor links)
-		/*$('#addMeAsMemberInfo').off().on("click", function(e) {
-			$(".connectBtnIcon").removeClass("fa-link").addClass("fa-spinner fa-spin");
-			e.preventDefault();
-			var formData = {
-				"childId" : "<?php echo Yii::app()->session["userId"] ?>",
-				"childType" : '<?php echo Person::COLLECTION ?>', 
-				"parentType" : "<?php echo Organization::COLLECTION;?>",
-				"parentId" : contextId,
-				"connectType" : false
-			};
-			bootbox.confirm("<?php echo Yii::t('organization','Do you really want to become a member of the organization : ') ?><span class='text-red'>"+contextData.name+"</span> ?", 
-			function(result) {
-				if (!result) {
-					$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-					return;
-				}
-		
-				$.ajax({
-					type: "POST",
-					url: baseUrl+"/"+moduleId+"/link/connect",
-					data: formData,
-					dataType: "json",
-					success: function(data) {
-						if(data.result){
-							console.log("saveMembre");
-							addFloopEntity(contextData["_id"]["$id"], "organizations", contextData);
-							$("#linkBtns").html('<a href="javascript:;" class="removeMemberBtn tooltips " data-name="'+contextData.name+'"'+ 
-												'data-memberof-id="'+contextData["_id"]["$id"]+'" data-member-type="<?php echo Person::COLLECTION ?>" data-member-id="<?php echo Yii::app()->session["userId"] ?>" data-placement="left" '+
-												'data-original-title="<?php echo Yii::t('organization','Remove from my Organizations') ?>" >'+
-												'<i class=" disconnectBtnIcon fa fa-unlink"></i><?php echo Yii::t('organization','NOT A MEMBER') ?></a>');
-							bindFicheInfoBtn();
-							if (data.notification && data.notification=="toBeValidated")
-								toastr.success("<?php echo Yii::t('common','Your request has been sent to other admins.')?>");	
-							else
-								toastr.success("<?php echo Yii::t('organization','You are now a member of the organization : ') ?>"+contextData.name);
-								loadByHash(location.hash);
-						}
-						else
-							toastr.error(data.msg);
-					},
-				});  
-			});             
-		});	*/
+		})
 	}
 </script>
 <?php } ?>

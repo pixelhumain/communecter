@@ -648,4 +648,19 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   	$params = $cron["tplParams"];
   	$this->renderPartial('application.views.emails.'.$cron["tpl"], $params);
   }
+
+
+
+  	public function actionUploadDocument() {
+		$dir = "communecter" ;
+		$folder = Person::COLLECTION ;
+		$ownerId = "56eff58e94ef47451c7b23d6" ;
+		$input = "avatar" ;
+		$rename = false ;
+		$pathFile = "http://www.lescolporteurs.info/medias/images/" ;
+		$nameFile = "nuit-debout-dijon.jpg" ;
+
+		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
+        var_dump($res);
+	}
 }

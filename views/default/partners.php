@@ -26,7 +26,7 @@ var keywords = [
 	{
 		"icon" : "fa-users",
 		"title": "CHEZ NOUS.coop",
-		"link" : "cheznous.coop",
+		"link" : "http://www.cheznous.coop",
 		"class" : "partner"
 	},
 	{
@@ -53,6 +53,12 @@ var keywords = [
 		"link" : "http://www.virtual-assembly.org/",
 		"class" : "partner"
 	},
+	{
+		"icon" : "fa-users",
+		"title": "BROWSERSTACK",
+		"link" : "http://www.browserstak.com/",
+		"class" : "partner"
+	},
 	/* **************************************
 	*
 	*	FINANCERS
@@ -73,7 +79,7 @@ var keywords = [
 	{
 		"icon" : "fa-university",
 		"title": "GRANDDIR",
-		"link" : "",
+		"link" : "http://www.granddir.re",
 		"class" : "financer"
 	},
 	/* **************************************
@@ -182,19 +188,100 @@ var keywords = [
 	*	CROWDFUNDERS
 	*
 	***************************************** */
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
-{"icon" : "fa-user","title": "","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Didier Hoareau","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Sylvie Bouclon","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Vianney Dhlln","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Carine Chateau","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Béata Delcourt","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Sophie Nicklaus","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Ghis Lambert","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "céline mislin","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Coralie Valdebouze","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "philippe kuhn","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Isabelle Slack","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Pierre Cariat","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Nicolas Schaub","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Laurence JURET","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Céline Da Silva","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "serge GONTIER","link" : "","class" : "crowdfunder"},
+	{"icon" : "fa-user","title": "mathieu rochier","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Sabine Legris","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Bertrand Mistretta","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Cécile Daunat","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Marie-Aude Denizot","link" : "","class" : "crowdfunder"},
+	{"icon" : "fa-user","title": "Khalil PATEL","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Marie Plessier","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Frédéric Dimey","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Fifi Ro","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Vetillart Maryvonne","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "chloe pothin","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Solen Raimbault","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Virginie Litzler","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Mel Go","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Alexis BOUILLET","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Violette Sarrazy","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "VERONIQUE GENET","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "cecile mosch-vignes","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Annick Tenchon","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Claude Gourbin","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Quentin DESVIGNE","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Anne-Sophie Bonora","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Timothy Duquesne","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "William Hogge","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Benjamin Demol","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Sarah Tsvetoukhine","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Moida Harouna","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Bruno JONZO","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Véronique Ribera","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "cathy saccomano","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Cécile Thiong-Ly","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Arielle SANDMEIER","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Isabelle Ochlust","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Fabien Marchesini","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Marie Rose JUINO","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Frederic Moine","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Virginie Sionkowski","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Armelle Lefebvre","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Karel HUSKA","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Francoise DONIN","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Didier Bourse","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Marie NICOLAS","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "suzy olivé","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Jean-Roger CAZABON","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Michel Samacoïts","link" : "","class" : "crowdfunder"},
+	{"icon" : "fa-user","title": "Emilie Ruby","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "MYRIAM KERMAGORET","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Stéphane Caillaud","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Joan Kaminka","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Mathias Vadot","link" : "","class" : "crowdfunder"},
+
+{"icon" : "fa-user","title": "Erwan L'Hostis","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "FREDERIC PAYEN","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Valérie Abella","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Bruno Bourgeon","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "carole paillart","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Arnaud Guerin","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Cédric Lecolier","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Denis Pansu","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Félix Koch","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Herve lamoureux","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Joëlle Ramaye","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Florence Balestrino","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Damien Clément","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Nora Benamara","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Sitti Harouna","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Adri Capenter","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Victor guillien","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Léonel Caro","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "sylvia Fredriksson","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "thibaud carpentier","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Agnès Loth","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "liliane meynard","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Jean-Paul Quentin","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "maeva lawwan","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Stéphanie Lorente","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "Jérôme Aressy","link" : "","class" : "crowdfunder"},
+{"icon" : "fa-user","title": "cedric dldc","link" : "","class" : "crowdfunder"},
 {"icon" : "fa-user","title": "Marie FARES","link" : "","class" : "crowdfunder"},
 {"icon" : "fa-user","title": "Thomas N'saispo","link" : "","class" : "crowdfunder"},
 {"icon" : "fa-user","title": "aurelie knafo","link" : "","class" : "crowdfunder"},
@@ -571,12 +658,19 @@ var keywords = [
 	
 jQuery(document).ready(function() 
 {
+	var link, endlink;
 	$(".moduleLabel").html('<?php echo Yii::t("common","Project Partners") ?>');
 	$(".keywordList").html('');
 	$.each(keywords,function(i,obj) { 
 		icon = (obj.icon) ? obj.icon : "fa-tag" ;
 		icon = '<i class="fa '+icon+' faa-pulse animated-hover fa-2x"></i>';
-
+		if (typeof obj.link != undefined && obj.link != "") {
+			link = '<a href="'+obj.link+'">';
+			endlink = '</a>';
+		} else {
+			link="";
+			endlink="";
+		}
 		if( obj.class == "crowdfunder")
 			icon =  '<span class="fa-stack fa-lg"><i class="fa fa-user fa-stack-2x"></i><i class="fa fa-euro fa-stack-1x text-danger"></i></span>';
 			
@@ -584,7 +678,9 @@ jQuery(document).ready(function()
 		$(".keywordList").append(
 		'<div class="col-md-4 col-sm-12 networkActor '+obj.class+'"><div class="panel panel-white">'+
 			'<div class="panel-heading border-light ">'+
+				link+
 				'<span class="panel-title homestead"> '+icon+' <span style="font-size: 35px; color:'+color+';"> '+obj.title.toUpperCase()+'</span></span>'+
+				endlink+
 			'</div>'+
 			/*'<div class="panel-body">'+
 				'<blockquote class="space20">'+
