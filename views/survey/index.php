@@ -53,6 +53,7 @@ $this->renderPartial('../default/panels/toolbar');
     color: black; 
     padding: 8px!important;
     border-radius: 30px!important;
+    display: inline-block !important;
   }
 
   .color-btnvote-green{   background-color: #93C22C!important;}
@@ -314,14 +315,6 @@ $this->renderPartial('../default/panels/toolbar');
   
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
 
-  
-        //var_dump($voteLinksAndInfos);
-        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
-                  ' data-toggle="tooltip" data-placement="left" title="Lire et voter" alt="Se déconnecter"'.
-                  " style='margin-top: -15px;margin-right: -5px;margin-bottom: 25px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
-        
-        
-
         $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
         
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
@@ -377,6 +370,15 @@ $this->renderPartial('../default/panels/toolbar');
         //   $mainClick = 'showPanel("box-login")';
         // }
 
+        if(isset($voteLinksAndInfos["hasVoted"])&&$voteLinksAndInfos["hasVoted"] == true)
+        $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
+                  ' data-toggle="tooltip" data-placement="left" title="Lire et voter"'.
+                  " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
+        else
+        $btnRead = "";
+        
+
+        
         //title + Link
         $link = $name;
         if ( $entry["type"] == Survey::TYPE_SURVEY )
@@ -386,8 +388,7 @@ $this->renderPartial('../default/panels/toolbar');
 
         $leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
         
-        //TANGO : je t'ai mis ca là !!
-        $leftLinks = "<span class='text-bold active' style='color: #EC5D0F;'><i class='fa fa-caret-right'></i> ".Yii::t("survey","Not Voted", null, Yii::app()->controller->module->id)."</span>";
+        $leftLinks = "<button class='col-md-12 btn btn-default homestead pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
         if(isset($voteLinksAndInfos["hasVoted"])&&$voteLinksAndInfos["hasVoted"] == true){
             $leftLinks = $voteLinksAndInfos["links"]; //$voteLinksAndInfos["links"];
         }
@@ -548,7 +549,7 @@ $this->renderPartial('../default/panels/toolbar');
         
               <?php } ?>
               
-              <?php //echo $tagBlock?>
+              <?php echo $tagBlock?>
         </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
