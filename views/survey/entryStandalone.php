@@ -301,8 +301,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 					<?php if( isset($organizer) ){ ?>
 						<p><?php echo Yii::t("survey","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
 					<?php }	?>
-					<!-- <div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div> -->
-
+					
 				</div>
 				
 		<?php } else { ?> 
@@ -317,13 +316,11 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 				</div>
 
 		<?php } ?>
-		<div class="col-md-12" >
-		<?php echo getChartBarResult($survey); ?>
-		</div>
+		
 		
 	</div>	
 
-			<div class="col-md-8" style="margin-top:10px;">
+			<div class="col-md-7" style="margin-top:10px;">
 				<?php if( isset($organizer) ){ ?>
 					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 				<?php }	?>
@@ -339,7 +336,13 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 				<?php echo $survey["message"]; ?>
 				<br/><br/>
 			</div>
-			<div id="container2" class="col-md-4" ></div>
+			<div  class="col-md-5">
+				
+				<div class="col-md-12" >
+					<?php echo getChartBarResult($survey); ?>
+				</div>
+				<div id="container2" ></div>
+			</div>
 		</div>
 	</div>
 	
@@ -498,10 +501,12 @@ function buildResults () {
 		    chart: {
 		        plotBackgroundColor: null,
 		        plotBorderWidth: null,
-		        plotShadow: false
+		        plotShadow: false,
+		        marginTop: -100,
+				
 		    },
 		    title: {
-		        text: "Results"
+		        text: "Resultats"
 		    },
 		    tooltip: {
 		      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -510,6 +515,7 @@ function buildResults () {
 		        pie: {
 		            allowPointSelect: true,
 		            cursor: 'pointer',
+		            //size: 200,
 		            dataLabels: {
 		                enabled: true,
 		                color: '#000000',
