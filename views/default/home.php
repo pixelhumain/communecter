@@ -556,6 +556,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
 			<br/><a href="javascript:loadByHash('#default.view.page.mention');" >Mentions Légales</a>
+			<br/><a href="javascript:loadByHash('#default.view.page.partners');" >Partenaires</a>
 		<center>
 	</div>
 </div>

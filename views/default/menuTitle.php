@@ -193,14 +193,14 @@ function gotToPrevNav()
 	}
 </script>
 <?php if(!isset($topTitleExists)){ ?>
+<div class="hidden-xs">
 	<span class="badge badge-danger" style="border-radius:10px 10px 0px 0px; font-weight:300; width:100%; line-height: 1.2;"> Ouverture totale prévue pour bientôt ! <br/> Restez informé en vous inscrivant. </span>
 	<div class="text-white text-extra-large text-bold center topLogoAnim " style="cursor: pointer" onclick="showPanel('box-communecter')">
-	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
-	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
-	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	
-	
-	<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
+		<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
+		<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
+		<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
+		<div class="subTitle" style="margin-top:-13px;">Se connecter à sa commune.</div>
+	</div>
 </div>
 <?php } ?>
 <!-- <div class="box-menu box">

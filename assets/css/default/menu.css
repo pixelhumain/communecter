@@ -1,0 +1,312 @@
+.lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
+    display: none;
+	font-size: 17px;
+	text-align: left;
+	padding: 2px 2px;
+	border-radius: 26px;
+	z-index: 0;
+	width: 100px;
+	font-weight: 300;
+	font-family: "homestead";
+}
+.lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
+    display: inline;
+}
+
+.text-green-success{
+	color:#7ACF5B;
+}
+.hover-menu{
+	width: 17%;
+	height: 400px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	overflow: visible;
+}
+
+.explain ul{
+	list-style: none;
+	font-size: 1.5em;
+}
+
+
+.drop-up-btn-add{
+	display:none;
+	position: fixed;
+	bottom: 75px;
+	right: 25px;
+	height: 220px;
+	background-color: transparent;
+	width: 300px;
+	z-index:10;
+}
+.drop-up-btn-add button{
+	padding-right:6px;
+}	
+.btn-menu-add1{
+	position:absolute !important;
+	top:15px;
+	right:15px;
+}
+.btn-menu-add2{
+	position:absolute !important;
+	top:65px;
+	right:15px;
+}
+.btn-menu-add3{
+	position:absolute !important;
+	top:115px;
+	right:15px;
+}
+.btn-menu-add4{
+	position:absolute !important;
+	top:165px;
+	right:15px;
+}
+.hover-info{
+	display: none;
+	margin-top: 130px;
+	position: fixed !important;
+	top: 0px;
+	left: 0px;
+	z-index: 12;
+	overflow: visible;
+	border: 0px solid #3C5665;
+	border-radius:5px;
+	background-color: white;
+	-moz-box-shadow: 0px 0px 5px 0px #353535 !important;
+	-webkit-box-shadow: 0px 0px 5px 0px #353535 !important;
+	-o-box-shadow: 0px 0px 5px 0px #353535 !important;
+	box-shadow: 0px 0px 5px 0px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+.explain ul{
+	list-style: none;
+	font-size: 1.3em;
+}
+.infoVersion{
+	display: none;
+	position: fixed;
+	bottom: 185px;
+	left : 20px;
+}
+
+
+.btn-param-postal-code{
+	left: 61px;
+	bottom: 57px;
+	width: 45px !important;
+	height: 45px !important;
+	border-radius: 50%;
+	z-index:2;
+	color: #FFF;
+	font-size: 19px;
+	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
+#btn-geoloc-auto-menu{
+	left: 105px;
+	top: 60px;
+	padding-bottom: 6px;
+	padding-top: 4px;
+	padding-right: 10px;
+	padding-left: 12px;
+}
+#btn-geoloc-auto-menu i.fa{
+	font-size: 16px;
+}
+
+#input-communexion{
+	display:none;
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	z-index: 1;
+}
+
+#searchBarPostalCode{
+	position: absolute;
+	left: 62px;
+	bottom: 57px;
+	height: 45px;
+	margin-top: 10px;
+	width: 350px;
+	margin-left: 0px;
+	font-family: "homestead";
+	font-size: 22px !important;
+	border-radius: 55px !important;
+	padding-left: 69px !important;
+	text-align: left;
+}
+
+#input-communexion .search-loader{
+	position: absolute;
+	left: 170px;
+	bottom: 35px;
+	font-weight: 600;
+	font-size: 14px;
+	overflow: hidden;
+	max-width: 450px;
+	width: 450px;
+	height: 20px;
+	max-height: 20px;
+}
+.homeShortcuts{position:absolute;top:420px;right:20px;}
+.homeShortcuts ul{list-style: none; }
+.homeShortcuts a{color: #9D9396;}
+.homeShortcuts a:hover{	color: #00B8EB;}
+
+<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
+		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
+?>
+button.btn-menu2, .btn-menu3, .btn-menu4{
+	display: none;
+}
+<?php } ?>
+
+
+#menu-bottom{
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	height:40px;
+	width:100%;
+	background-color:white;
+	z-index: 10;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
+#menu-bottom .btn-menu-add {
+	border-radius: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 40px;
+}
+
+
+
+@media screen and (max-width: 767px) {
+	#searchBarPostalCode{
+		position: absolute;
+		left: 40px !important;
+		bottom: 39px;
+		margin-top: 10px;
+		width: 80% !important;
+		margin-left: 0px;
+		font-family: "homestead";
+		font-size: 22px !important;
+		border-radius: 0px !important;
+		height: 45px;
+		text-align: center;
+		margin: 0px !important;
+		padding-left: 0px !important;
+	}
+
+	#input-communexion {
+	    width: 100%;
+	}
+
+	#input-communexion .search-loader {
+	    position: relative;
+		left: 41px !important;
+		bottom: 88px;
+		width: 96%;
+		font-weight: 600;
+		font-size: 12px;
+		background-color: rgb(255, 255, 255);
+		padding: 5px;
+		border-radius: 0px 5px 0px 0px;
+		text-align: center;
+		-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+		-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+		box-shadow: 0px -2px 5px -2px #353535 !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+	}
+
+	#menu-bottom .input-global-search{
+		left: 44px;
+		height: 40px;
+		position: relative;
+		width: 74%;
+		border: 0px;
+	}
+	.main-top-menu .dropdown-result-global-search {
+	    bottom: 40px;
+		right: 5%;
+		width: 90%;
+		top: unset;
+		border-radius: 10px 10px 0px 0px;
+		-moz-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		-webkit-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		-o-box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		box-shadow: 0px -9px 12px 3px rgba(66, 66, 66, 0.37) !important;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;		
+	}
+
+	.drop-up-btn-add {
+	    bottom: 40px;
+	    right: 0px;
+	    background-color: rgba(255, 255, 255, 0.8);
+	}
+}
+
+#iframe-kkbb {
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+}
+
+
+ul{	font-weight: 300;	font-size:14px;	color:#3C5665 !important;}
+h3{	font-weight: 300;}
+.explainTitle{cursor:pointer; background-color: #656565; padding: 10px; text-align: center; color: #fff; margin:0px;border-top: 1px solid #666;}
+.explainTitle:hover{opacity: 0.8}
+.explainDesc{ padding: 10px; }
+.caretExplain{position: relative;top: 0px;color:#656565;}
+.fa-caret-down{font-size:56px;line-height: 10px;}
+
+
+
+.globale-announce{
+	position: fixed;
+	bottom: 0px;
+	background-color: rgb(255, 255, 255);
+	z-index: 1;
+	width: 400px;
+	margin-left: 20%;
+	padding-top: 10px !important;
+	font-size: 16px;
+	border-radius: 10px 10px 0px 0px;
+	padding: 10px;
+	border-radius: 10px 10px 0px 0px;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
+#btn-close-globale-announce{
+	width: 30px;
+	height: 30px;
+	border-radius: 20px;
+	position: absolute;
+	right: 5px;
+	top: 4px;
+	text-align: center;
+	padding: 0px;
+}

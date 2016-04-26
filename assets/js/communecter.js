@@ -195,7 +195,7 @@ function connectPerson(connectUserId, callback)
 	);
 }*/
 
-function disconnectTo(parentType,parentId,childId,childType,connectType){
+function disconnectTo(parentType,parentId,childId,childType,connectType, callback){
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
@@ -222,7 +222,11 @@ function disconnectTo(parentType,parentId,childId,childType,connectType){
 					if(formData.parentType==  "citoyens")
 						type="people";
 					removeFloopEntity(data.parentId, type);
-					loadByHash(location.hash);
+					toastr.success("Le lien a été supprimé avec succès");
+					if (typeof callback == "function") 
+						callback();
+					else
+						loadByHash(location.hash);
 				} else {
 				   toastr.error("You leave succesfully");
 				}
@@ -255,7 +259,7 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		},
 	});  
 }
-function follow(parentType, parentId, childId, childType){
+function follow(parentType, parentId, childId, childType, callback){
 	$(".followBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
@@ -273,7 +277,10 @@ function follow(parentType, parentId, childId, childType){
 				if (formData.parentType)
 					addFloopEntity(formData.parentId, formData.parentType, data.parentEntity);
 				toastr.success(data.msg);	
-				loadByHash(location.hash);
+				if (typeof callback == "function") 
+					callback();
+				else
+					loadByHash(location.hash);
 			}
 			else
 				toastr.error(data.msg);
@@ -400,6 +407,7 @@ var loadableUrls = {
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
+    "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
@@ -468,6 +476,7 @@ function jsController(hash){
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
 	allReadyLoad = true;
+	$(".my-main-container").off(); 
 	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){

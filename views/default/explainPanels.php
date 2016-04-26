@@ -726,3 +726,15 @@
 		</div>
 	</div>
 
+	<div class="explainYourData <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Vos Données</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				<li>Elles restent votre propriété. Elles ne sont utilisées en aucun pour des fins commerciales ou pour vous afficher de la publicité ciblée. Les données personnelles peuvent être configurées dans votre profil pour qu'elles ne soient pas visible de tous. A tout moment vous pouvez nous contacter pour les supprimer</li>
+				<li>Le réseau Communecter marche sur un critère de localité. Pour vous donner une vision de tous les acteurs locaux, autour de chez vous.</li>
+				<li>L'outil a donc besoin de vos coordonnées géographiques pour vous permettre d'exploiter tout son potentiel</li>
+			</ul>
+		</div>
+	</div>
+

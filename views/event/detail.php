@@ -1,3 +1,8 @@
+<?php 
+		//Menu::event($event);
+		$this->renderPartial('../default/panels/toolbar'); 
+?>
+
 <?php
 $admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"]))
@@ -35,7 +40,7 @@ $admin = false;
 	var thisEvent = <?php echo json_encode($event)?>;
 	
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo addslashes($event["name"]) ?> ");
+		$(".moduleLabel").html("<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i> <?php echo addslashes($event["name"]) ?> ");
 		console.dir(contextMap);
 		
 		Sig.restartMap();

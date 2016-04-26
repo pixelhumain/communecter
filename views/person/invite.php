@@ -241,8 +241,8 @@ $this->renderPartial('../default/panels/toolbar');
 								<a class='pending btn btn-xs btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="This user has been already invited but has not connected yet.">Pending User</a>
 							</div>
 							<div class="col-md-7">
-								<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Follow this person" ><i class=" connectBtnIcon fa fa-link "></i>  Follow this person</a>
-								<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Unfollow this person" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  Unfollow this person</a>
+								<a href="javascript:;" class="connectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="<?php echo Yii::t("common","Follow this person") ?>" ><i class=" connectBtnIcon fa fa-link "></i>  <?php echo Yii::t("common","Follow this person") ?></a>
+								<a href="javascript:;" class="disconnectBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="<?php echo Yii::t("common","Unfollow this person")?>" ><i class=" disconnectBtnIcon fa fa-unlink "></i>  <?php echo Yii::t("common","Unfollow this person") ?></a>
 								<hr>
 								<h2 id="ficheName" name="ficheName"></h2>
 								<span id="email" name="email" ></span><br><br>
@@ -435,6 +435,7 @@ var timeout;
 var tabObject = [];
 
 var listFollows = <?php echo json_encode($follows) ?>;
+var listFollowsId =<?php echo json_encode($listFollowsId) ?>;
 console.log("listFollowsazaza", listFollows);
 
 
@@ -608,18 +609,39 @@ function bindInviteSubViewInvites() {
 	});
 
 	$(".connectBtn").off().on("click", function() {
-		connectPerson($('#newInvite #inviteId').val(), function(user){
-			console.log('callback connectPerson')
-			loadByHash( "#person.directory" );
+			var thiselement = this;
+			follow("<?php echo Person::COLLECTION ?>", $('#newInvite #inviteId').val(), userId, "<?php echo Person::COLLECTION ?>", function(){
+			console.log('callback connectPerson');
+			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-link");			
+			$('.disconnectBtn').show();
+			$('.connectBtn').hide();
+			listFollowsId.push($("#newInvite #inviteId").val());
+			//$(thiselement).html("<i class='connectBtnIcon fa fa-link'></i><?php echo Yii::t("common","Follow this person") ?>");
+			//$(thiselement).attr("data-original-title", "<?php echo Yii::t("common","Unfollow this person") ?>");
+			$('#inviteSearch').val("");
+			backToSearch();
+			//loadByHash( "#person.directory" );
 		});
 	});
 	$(".disconnectBtn").off().on("click", function() {
+		var thiselement = this;
 		var idToDisconnect = $('#newInvite #inviteId').val();
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $("#newInvite #ficheName").text();
-		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, function(id) {
-			console.log('callback disconnectPerson')
-			loadByHash( "#person.directory" );
+		disconnectTo("<?php echo Person::COLLECTION ?>",idToDisconnect,userId,"<?php echo Person::COLLECTION ?>",'followers',function() {
+			console.log('callback disconnectPerson');
+			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+			//// Find and remove item from an array
+			var i = listFollowsId.indexOf(idToDisconnect);
+			if(i != -1) {
+				listFollowsId.splice(i, 1);
+			}
+			$('.disconnectBtn').hide();
+			$('.connectBtn').show();
+			$('#inviteSearch').val("");
+		console.log(listFollowsId);
+			backToSearch();
+			//loadByHash( "#person.directory" );
 		});
 	});
 
@@ -673,7 +695,13 @@ function bindInviteSubViewInvites() {
 				        if (data &&  data.result) {               
 				        	toastr.success('L\'invitation a été envoyée avec succès!');
 				        	//$.hideSubview();
-				        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
+				        	
+				        	console.log(data);
+				        	addFloopEntity(formData.invitedUser._id.$id, <?php echo Person::COLLECTION ?>, data.invitedUser);
+				        	$('#inviteSearch').val("");
+							backToSearch();
+							
+				        	//showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 				        } else {
 				        	$.unblockUI();
 							toastr.error(data.msg);
@@ -767,7 +795,12 @@ function runinviteFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
 		        	//$.hideSubview();
-		        	showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
+		        	console.log(data);
+		        	addFloopEntity(data.invitedUser.id, "<?php echo Person::COLLECTION ?>", data.invitedUser);
+				      $('#inviteSearch').val("");
+					backToSearch();
+
+		        	//showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 		        } else {
 		        	$.unblockUI();
 					toastr.error(data.msg);
@@ -808,6 +841,7 @@ function autoCompleteInviteSearch(search){
 			var city, postalCode = "";
 			$.each(data["citoyens"], function(k, v) { 
 				city = "";
+				console.log(v);
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 				if(v.id != userId) {
@@ -838,10 +872,11 @@ function autoCompleteInviteSearch(search){
 }
 
 function setInviteInput(num){
+	console.log(num);
 	var person = tabObject[num];
 	var personId = person["id"];
 	console.log(person, personId);
-
+	
 	$('#newInvite #inviteName').val(person["name"]);
 	$('#newInvite #inviteId').val(personId);
 	$("#newInvite #ficheName").text(person["name"]);
@@ -880,7 +915,7 @@ function setInviteInput(num){
 	}
 
 	//Already in the network of the current user
-	if (currentUser.links != null && currentUser.links.knows != null && currentUser.links.knows[personId] != null) {
+	if (listFollowsId.indexOf(personId) != -1) {
 		$('.disconnectBtn').show();
 		$('.connectBtn').hide();
 	} else {
@@ -914,7 +949,6 @@ function backToSearch(){
 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 	$("#newInvite #step2").css({"display" : "none"});
 	$("#newInvite #step3").css({"display" : "none"});
-
 	autoCompleteInviteSearch($('#inviteSearch').val());
 }
 

@@ -4,11 +4,13 @@
 		position:absolute;
 		top:80px;
 	}
-	.box-login, .box-register, .box-email{
-		left: unset !important;
-		right: 14% !important;
-		border-radius:15px;
-		display:none;
+	@media screen and (min-width: 1025px) {
+		.box-login, .box-register, .box-email{
+			left: unset !important;
+			right: 14% !important;
+			border-radius:15px;
+			display:none;
+		}
 	}
 	.form-login, .form-register, .form-email{
 		left: unset !important;
@@ -37,7 +39,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-dark">
-					<h4 class="modal-title"><i class="fa fa-check"></i> Inscription enregistrée !</h4>
+					<h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("common","Account Created!!") ?></h4>
 				</div>
 				<div class="modal-body center text-dark" id="modalRegisterSuccessContent"></div>
 				<div class="modal-footer">
@@ -55,7 +57,8 @@
 					$this->renderPartial('../default/menuTitle');
 				?>
 				<form class="form-login box-white-round" action="" method="POST">
-					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right hidden-xs" src="<?php echo $this->module->assetsUrl?>/images/logoL.jpg"/>
+					<img style="width:100%; border: 10px solid white; border-bottom-width:0px;" class="pull-right visible-xs" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					<br/>
 					<?php //echo Yii::app()->session["requestedUrl"]." - ".Yii::app()->request->url; ?>
 					<fieldset>
@@ -172,7 +175,7 @@
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Nom et Prénom">
+									<input type="text" class="form-control" id="name" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
 									<i class="fa fa-user"></i> </span>
 							</div>
 						</div>
@@ -198,6 +201,14 @@
 								<span class="input-icon">
 									<input type="password" class="form-control" id="passwordAgain" name="passwordAgain" placeholder="<?php echo Yii::t("login","Password again") ?>">
 									<i class="fa fa-lock"></i> </span>
+							</div>
+						</div>
+						<div class="col-md-12 padding-5">
+							<a href="javascript:;" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code") ?></a>
+							<div class="form-group hide inviteCodeForm">
+								<span class="input-icon">
+									<input type="text" class="form-control" id="inviteCode" name="inviteCode" placeholder="<?php echo Yii::t("login","Invitation Code") ?>">
+									<i class="fa fa-barcode  "></i> </span>
 							</div>
 						</div>
 						<div class="col-md-12 no-padding no-margin">
@@ -295,6 +306,7 @@ jQuery(document).ready(function() {
 	});
 
 });
+
 function userValidatedActions() { 
 	if (userValidated) {
 		$(".errorHandler").hide();
@@ -306,7 +318,7 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('#name').val(name);
+		$('.form-register #name').val(name);
 		$('#email3').prop('disabled', true);
 	}
 }
@@ -581,15 +593,18 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $("#name").val(),
-				   "username" : $("#username").val(),
-				   "email" : $("#email3").val(),
-                   "pwd" : $("#password3").val(),
+				   "name" : $('.form-register #name').val(),
+				   "username" : $(".form-register #username").val(),
+				   "email" : $(".form-register #email3").val(),
+                   "pwd" : $(".form-register #password3").val(),
                    "app" : "<?php echo $this->module->id?>",
                    "pendingUserId" : pendingUserId,
                    "mode" : "<?php echo Person::REGISTER_MODE_TWO_STEPS ?>"
                 };
-			      
+                
+                if( $("#inviteCode").val() )
+			      params.inviteCode = $("#inviteCode").val();
+
 		    	$.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/person/register",

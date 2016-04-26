@@ -255,7 +255,7 @@ $this->renderPartial('../default/panels/toolbar');
  <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
   <a href="javascript:;" class="btn homestead text-red no-margin"
-     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php echo $city['cp']; ?>" 
+     insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
      id="btn-communecter" onclick="setScopeValue($(this));">
      <i class="fa fa-crosshairs"></i> COMMUNECTER
   </a>
@@ -402,7 +402,7 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
           <i class="fa fa-connectdevelop"></i>
-        </a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+        </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
@@ -522,7 +522,7 @@ jQuery(document).ready(function() {
 
 function communecter(){ //toastr.info('TODO : redirect to form register || OR || slide to form register');
 
-    var cp = "<?php echo $city['cp']; ?>";
+    var cp = "<?php if(@$city['cp']) echo $city['cp']; ?>";
     $(".form-register #cp").val(cp);
     
     // $('.box-register').show().addClass("animated bounceInLeft").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {

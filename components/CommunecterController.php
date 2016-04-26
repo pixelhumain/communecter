@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.097";
-  public $versionDate = "23/03/2016 15:00";
+  public $version = "v0.0983";
+  public $versionDate = "25/04/2016 18:00";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -95,20 +95,22 @@ class CommunecterController extends Controller
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
+      "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
     ),
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
     "default" => array(
-      "index"               => array("href" => "/ph/communecter/default/index", "public" => true),
-      "directory"             => array("href" => "/ph/communecter/default/directory", "public" => true),
-      "agenda"                => array("href" => "/ph/communecter/default/agenda", "public" => true),
-      "news"                  => array("href" => "/ph/communecter/default/news", "public" => true),
-      "home"                  => array("href" => "/ph/communecter/default/home", "public" => true),
-      "add"                   => array("href" => "/ph/communecter/default/add"),
-      "view"                  => array("href" => "/ph/communecter/default/view", "public" => true),
+      "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
+      "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
+      "agenda"               => array("href" => "/ph/communecter/default/agenda", "public" => true),
+      "news"                 => array("href" => "/ph/communecter/default/news", "public" => true),
+      "home"                 => array("href" => "/ph/communecter/default/home", "public" => true),
+      "add"                  => array("href" => "/ph/communecter/default/add"),
+      "view"                 => array("href" => "/ph/communecter/default/view", "public" => true),
       "dir"                  => array("href" => "/ph/communecter/default/dir", "public" => true),
-      "twostepregister"       => array("href" => "/ph/communecter/default/twostepregister"),
+      "twostepregister"      => array("href" => "/ph/communecter/default/twostepregister"),
+      "switch"               => array("href" => "/ph/communecter/default/switch"),
     ),
     "city"=> array(
       "index"               => array("href" => "/ph/communecter/city/index", "public" => true),

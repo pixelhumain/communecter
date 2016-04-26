@@ -125,10 +125,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
 				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
-				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
-		<?php } else {?>
-				<span class="label label-danger">DISABLED</span>
-		<?php }} ?>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php }} 
+				if(isset($organization["disabled"])){?>
+					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
+		<?php } ?>
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
@@ -335,6 +336,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<div class="hidden" id="entity-insee-value" 
 							 insee-val="<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>">
 						</div>
+						<div class="hidden" id="entity-cp-value" 
+							 cp-val="<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : ""; ?>">
+						</div>
+
 					</div>			
 				</div>			
 			</div>
@@ -367,6 +372,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var contextData = <?php echo json_encode($organization)?>;
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	var contextMap = <?php echo json_encode($contextMap)?>;
+	
+	console.log("conteXTMAP");
+	console.dir(contextMap);
+
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
@@ -379,6 +388,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	
 	jQuery(document).ready(function() {
+		bindFicheInfoBtn();
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		});
@@ -389,8 +399,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//Sig.contextData = contextData;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
-		console.log("contextMap");
-		console.dir(contextMap);
+		
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
@@ -583,15 +592,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 		$('#address').editable({
+			validate: function(value) {
+                value.streetAddress=$("#streetAddress").text();
+                console.log(value);
+            },
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
 				console.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
+				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
+				//streetAddress : $("#streetAddress").val(),
             	postalCode: '<?php echo (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $organization["address"]["codeInsee"])) ? $organization["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $organization["address"]["addressLocality"])) ? $organization["address"]["addressLocality"] : ""; ?>'
@@ -662,10 +677,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee,null,postalCode);
 		//si on a une streetAddress
 		}else{
 			var request = "";
@@ -702,6 +719,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			//si la donné n'est pas geolocalisé
 			//on lui rajoute les coordonées trouvés
 			//if(typeof contextData["geo"] == "undefined")
+			console.log(obj);
 			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
 			showGeoposFound(coords, contextId, "organizations", contextData);
@@ -709,18 +727,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		//si nominatim n'a pas trouvé de résultat
 		else {
 			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
+			if ($("#entity-insee-value").attr("insee-val") != ""){
+				var insee = $("#entity-insee-value").attr("insee-val");
+				var postalCode = $("#entity-cp-value").attr("cp-val");
+			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
+			if(insee != "") findGeoposByInsee(insee, null,postalCode);
 		}
 	}
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
 		console.log("callbackFindByInseeSuccess");
+		console.log(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
+			console.log(obj);
 			//récupère les coordonnées
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
@@ -746,5 +768,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		console.log("erreur getlatlngbyinsee", error);
 	}
 	
+	function bindFicheInfoBtn() {
+		$("#disableOrganization").off().on("click",function () {
+			console.warn("disableOrganization",$(this).data("id"));
+			var id = $(this).data("id");
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !').' '.Yii::t('organization','Are you sure you want to delete the organization : ') ?><span class='text-red'>"+$(this).data('name')+"</span> ?", 
+				function(result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+id ,
+							type: "POST",
+							success: function(data) {
+								if(data.result) {
+									//remove the organization from floopdrawer
+									removeFloopEntity(id, "organizations");
+									toastr.success(data.msg);
+								} else
+									toastr.error(data.msg);
+						  	},
+						});
+					}
+			});
+		});
+	}
 
 </script>

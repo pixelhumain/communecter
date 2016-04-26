@@ -600,6 +600,16 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
     $this->renderPartial('application.views.emails.askToBecomeAdmin', $params);
   }
 
+  public function actionTestValidation() {
+    $person = Person::getById("5703b8bd2336f250520041c2");
+    var_dump($person);
+    $params = array(   "person"   => $person ,
+                        "title" => Yii::app()->name ,
+                        "logo"  => "/images/logoLTxt.jpg");
+    
+    $this->renderPartial('application.views.emails.notifAdminNewUser', $params);
+  }
+
   public function actionTestAddPersonAdmin() {
     $organizationId = "55797ceb2336f25c0c0041a8";
     $personId = "5577d525a1aa1458540041b0";
@@ -631,4 +641,26 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   public function actionTestIsAdminOrganization($id) {
     var_dump(Authorisation::isOrganizationAdmin("55c0c1a72336f213040041ee", $id));
   }
+
+  public function actionDisplayMail($id) {
+  	$cron = PHDB::findOne("cron", array( "_id" => new MongoId($id)));
+  	var_dump( $cron);
+  	$params = $cron["tplParams"];
+  	$this->renderPartial('application.views.emails.'.$cron["tpl"], $params);
+  }
+
+
+
+  	public function actionUploadDocument() {
+		$dir = "communecter" ;
+		$folder = Person::COLLECTION ;
+		$ownerId = "56eff58e94ef47451c7b23d6" ;
+		$input = "avatar" ;
+		$rename = false ;
+		$pathFile = "http://www.lescolporteurs.info/medias/images/" ;
+		$nameFile = "nuit-debout-dijon.jpg" ;
+
+		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
+        var_dump($res);
+	}
 }
