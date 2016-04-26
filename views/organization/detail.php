@@ -74,7 +74,7 @@
 				<div class="col-md-12 col-xs-12">
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
 															"contextId" => (String) $organization["_id"],
-															"contextType" => "organization",
+															"contextType" => Organization::COLLECTION,
 															"authorised" =>	$admin
 					)); ?>
 				</div>
