@@ -72,7 +72,8 @@ var proposalFormDefinition = {
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "url",
+                  "placeholder" : "Tapez une url intéressante",
+                  "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : [] ?>,
             },
             "tags" :{
               "inputType" : "tags",
@@ -127,15 +128,6 @@ jQuery(document).ready(function() {
     organizerList[optKey] = optVal.name;
   });
 
-  $(".newVoteProposal").off().on("click",function() { 
-    editEntrySV ();
-  });
-
-  $('.voteIcon').off().on("click",function() {
-    $(this).addClass("faa-bounce animated");
-    clickedVoteObject = $(this).data("vote");
-    console.log(clickedVoteObject);
-  });
   editEntrySV ();
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -170,11 +162,15 @@ function editEntrySV () {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-               //$("#editEntryContainer #message").autogrow();
-
-              if(proposalObj.urls){
-
+               if(proposalObj.dateEnd)
+               {
+                date = new Date(proposalObj.dateEnd*1000);
+                var day = date.getDate().toString();
+                var month = (date.getMonth()+1).toString();
+                var year = date.getFullYear().toString();
+                $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
+
              
             }
           },
@@ -261,8 +257,6 @@ function getUrls()
 function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-
 
 </script>
 
