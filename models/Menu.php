@@ -315,13 +315,14 @@ class Menu {
             Yii::app()->controller->toolbarMBZ = array();
         //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
         $insee = (string)$city["insee"];
+        $cp = (string)$city["cp"];
         
         //HOME
         //-----------------------------
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."')",null,null);
+					"loadByHash('#city.detail.insee.".$insee.".postalCode.".$cp."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
