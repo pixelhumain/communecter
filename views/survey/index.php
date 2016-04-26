@@ -388,7 +388,7 @@ $this->renderPartial('../default/panels/toolbar');
         $leftLinks = "";
 
         if(!$surveyIsClosed && !$surveyHasVoted)        
-        $leftLinks = "<button class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
+        $leftLinks = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
         else{
           $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
@@ -547,8 +547,7 @@ $this->renderPartial('../default/panels/toolbar');
       <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
       <small class="homestead text-dark center">
         Propositions, Débats, Votes
-        </small><br>
-        <button class="btn btn-success" onclick="loadByHash(location.hash);"><i class="fa fa-refresh"></i></button>
+        </small>
     </h1>
 
     <div class="panel-white" style="display:inline-block;">
@@ -558,6 +557,7 @@ $this->renderPartial('../default/panels/toolbar');
               <!-- <label>Filtre:</label> -->
               <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button>
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
+              <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
               <a class="filter btn bg-red" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
@@ -566,11 +566,17 @@ $this->renderPartial('../default/panels/toolbar');
         
               <?php } ?>
               
-              <?php echo $tagBlock?>
+              <button class="btn btn-success pull-right" onclick="loadByHash(location.hash);">
+                <i class="fa fa-refresh"></i>
+              </button>
         </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
               
+              <div id="tags-container" class="col-md-12 margin-bottom-15 hidden">
+                <?php echo $tagBlock?>
+              </div>
+
               <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
               <label>Participation : </label>
               <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
@@ -648,6 +654,17 @@ jQuery(document).ready(function() {
     console.log(clickedVoteObject);
    });
 });
+
+
+function toogleTags(){
+  if($("#tags-container").hasClass("hidden")){
+    $("#tags-container").removeClass("hidden");
+  }else{
+    $("#tags-container").addClass("hidden");
+  }
+
+}
+
 
 /* **************************************
 *

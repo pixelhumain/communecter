@@ -1,16 +1,17 @@
 
 <style type="text/css">
 .container-tool-vote{
-	font-size:2em;
+	font-size:1.5em;
+	font-weight: 300;
 	/*color:red;*/
 	padding:5px;
-	border:1px solid rgb(206, 206, 206); 
+	/*border:1px solid rgb(206, 206, 206); 
 	border-radius:50px;
 	moz-box-shadow: 0px 3px 5px -2px #656565;
 	-webkit-box-shadow: 0px 3px 5px -2px #656565;
 	-o-box-shadow: 0px 3px 5px -2px #656565;
 	box-shadow: 0px 3px 5px -2px #656565;
-	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
 }
 </style>
 
@@ -66,7 +67,7 @@ if( !isset($hideTexts) )
 		//	echo Yii::t("survey","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
 
-		echo "<div class='container-tool-vote'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
+		echo "<div class='container-tool-vote text-dark'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
 
 		//if( $voteLinksAndInfos["totalVote"] )
 			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("survey","people voted",null,Yii::app()->controller->module->id); 
