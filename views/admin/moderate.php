@@ -126,10 +126,10 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 			$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 declareAsAbuseBtn"><i class="fa fa-times text-red"></i>Ne plus afficher</a> </li>';
 		}
 
-		/* **************************************
-		* TYPE + ICON
-		***************************************** */
-		$strHTML = '<tr id="'.$type.(string)$id.'">'.
+	/* **************************************
+	* TYPE + ICON
+	***************************************** */
+	$strHTML = '<tr id="'.$type.(string)$id.'">'.
 		'<td class="'.$type.'Line'.$classes.'">'.
 			'<a target="_blank" href="'.Yii::app()->createUrl('/'.$moduleId.'/#news.index.type.'.$type.'.id.'.$e['id'].'?isSearchDesign=1').'">';
 				if ($e && isset($e["imagePath"])){ 
@@ -138,7 +138,7 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 					$strHTML .= '<i class="fa '.$icon.' fa-2x"></i> '.$e['name'].'';
 				} 
 			$strHTML .= '</a>';
-		$strHTML .= '<span class="hidden">'.$type.'</span></td>';
+		$strHTML .= '<span>'.$type.'</span></td>';
 		
 		/* **************************************
 		* TEXT
@@ -220,7 +220,7 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 							$actions.
 						'</ul></div>';
 		$strHTML .= '</td>';
-	
+		
 	$strHTML .= '</tr>';
 	return $strHTML;
 }
