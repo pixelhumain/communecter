@@ -248,6 +248,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
  </div>
 
 <div class="row vote-row" >
+
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod box">
@@ -281,7 +282,9 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 			
 		</h4>
 
-		<div class="col-md-6 col-md-offset-3 center" style="margin-top: -65px; margin-bottom: 10px;">
+		
+
+		<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
 
 		<?php /*
 			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
@@ -292,16 +295,16 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 				
 				<div class="box-vote box-pod box radius-20" style="">
-					<span class="text-extra-large text-bold"> 
-						<?php echo Yii::t("survey","THIS VOTE IS CLOSED",null,Yii::app()->controller->module->id) ?>
+					<span class="text-extra-large text-bold text-red"> 
+						<?php echo Yii::t("survey","Closed",null,Yii::app()->controller->module->id) ?>
 					</span> 
 					<?php if( isset($organizer) ){ ?>
-						<p> Invited by <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
+						<p><?php echo Yii::t("survey","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
 					<?php }	?>
-					<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>
+					<!-- <div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div> -->
 
 				</div>
-			
+				
 		<?php } else { ?> 
 
 				<div class="box-vote box-pod box radius-20">
@@ -314,11 +317,13 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 				</div>
 
 		<?php } ?>
-
-
+		<div class="col-md-12" >
+		<?php echo getChartBarResult($survey); ?>
+		</div>
+		
 	</div>	
 
-			<div class="col-md-12" style="margin-top:10px;">
+			<div class="col-md-8" style="margin-top:10px;">
 				<?php if( isset($organizer) ){ ?>
 					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 				<?php }	?>
@@ -334,9 +339,11 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 				<?php echo $survey["message"]; ?>
 				<br/><br/>
 			</div>
+			<div id="container2" class="col-md-4" ></div>
 		</div>
 	</div>
-	<?php //echo getChartBarResult($survey); ?>
+	
+	
 	<div class="col-md-12" >
 		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
@@ -476,8 +483,15 @@ function showHidePanels (panel)
 function buildResults () { 
 
 
-	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() && false){ ?>
 		console.log("buildResults");
+
+	var getColor = {
+	    'Pou': '#93C22C',
+	    'Con': '#db254e',
+	    'Abs': 'white', 
+	    'Pac': 'yellow', 
+	    'Plu': '#789289'
+	}; 
 	
 		console.log("setUpGraph");
 		$('#container2').highcharts({
@@ -530,7 +544,6 @@ function buildResults () {
 		        ]
 		    }]
 		});
-	<?php } ?>
 }
 
 
