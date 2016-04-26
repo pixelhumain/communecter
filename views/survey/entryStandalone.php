@@ -472,31 +472,13 @@ function showHidePanels (panel)
 	$('.'+panel).slideDown();
 	activePanel = panel;
 }
-var getColor = {
-	    'Pou': '#93C22C',
-	    'Con': '#db254e',
-	    'Abs': 'white', 
-	    'Pac': 'yellow', 
-	    'Plu': '#789289'
-	};
+
 function buildResults () { 
 
-var getColor = {
-	    'Pou': '#93C22C',
-	    'Con': '#db254e',
-	    'Abs': 'white', 
-	    'Pac': 'yellow', 
-	    'Plu': '#789289'
-	};
+
 	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() && false){ ?>
 		console.log("buildResults");
-	var getColor = {
-	    'Pou': '#93C22C',
-	    'Con': '#db254e',
-	    'Abs': 'white', 
-	    'Pac': 'yellow', 
-	    'Plu': '#789289'
-	}; 
+	
 		console.log("setUpGraph");
 		$('#container2').highcharts({
 		    chart: {
