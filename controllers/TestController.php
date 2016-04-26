@@ -81,6 +81,57 @@ class TestController extends CommunecterController {
 		}
 	
   }
+    public function actionRemoveOrgaAdminOfProject() {
+	    $projects=PHDB::find(Project::COLLECTION);
+	    foreach($projects as $projectId => $data){
+		    $orgaWasAdmin=false;
+		    $orgahasmemberadmin=false;
+		    if(@$data["links"] && @$data["links"]["contributors"]){
+			    foreach($data["links"]["contributors"] as $key => $e){
+				    if(@$e["type"]==Organization::COLLECTION && @$e["isAdmin"]){
+					   	//echo json_encode($data["links"]["contributors"]);
+					   	PHDB::update(Project::COLLECTION,
+					   		array("_id" => new MongoId($projectId)) , 
+					   		array('$unset' => array("links.contributors.".$key.".isAdmin" => ""))
+					   	);
+					   	PHDB::update(Organization::COLLECTION,
+					   		array("_id" => new MongoId($key)) , 
+					   		array('$unset' => array("links.projects.".$projectId.".isAdmin" => ""))
+					   	);
+					   	$orgaWasAdmin=true;
+				    }
+			    }
+			    if($orgaWasAdmin){
+				    foreach($data["links"]["contributors"] as $key => $e){
+					   if(@$e["type"]==Person::COLLECTION && @$e["isAdmin"] && @$e["isAdminPending"]){
+						   	PHDB::update(Project::COLLECTION,
+					   		array("_id" => new MongoId($projectId)) , 
+					   		array('$unset' => array("links.contributors.".$key.".isAdminPending" => ""))
+						   	);
+						   	PHDB::update(Person::COLLECTION,
+						   		array("_id" => new MongoId($key)) , 
+						   		array('$unset' => array("links.projects.".$projectId.".isAdminPending" => ""))
+						   	);
+						  //echo "ici<br/>";
+						  //echo json_encode($data["links"]["contributors"]);
+						   $orgahasmemberadmin=true;
+					   }
+				    }
+			    }
+			    if($orgaWasAdmin && !$orgahasmemberadmin){
+				    $creator = $data["creator"];
+				    $creator=Person::getById($creator);
+				    if($creator==true){
+					    echo "reelement une person";
+				    }else{
+					    echo "createur is an orga";
+				    }
+			    }
+		    }
+		    echo "<br/>";
+	    }
+
+    }
     public function actionAddExplain() {
 		$persons=PHDB::find(Person::COLLECTION);
 		foreach($persons as $key => $data){

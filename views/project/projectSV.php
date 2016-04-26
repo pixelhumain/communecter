@@ -234,9 +234,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <script type="text/javascript">
 
 var citiesByPostalCode;
-
+var parentType = "<?php echo $parentType ?>";
+var parentId = "<?php echo $parentId ?>";
 jQuery(document).ready(function() {
-
 	$('#tagsProject').select2({tags:<?php echo $tags ?>});
 	$('#tagsProject').select2({tags:<?php echo $tags ?>});
 	addCustomValidators();
@@ -338,12 +338,10 @@ function runProjectFormValidation(el) {
 			startDateSubmitProj = moment($(".form-project .project-start-date").val()).format('YYYY/MM/DD HH:mm');
 			endDateSubmitProj = moment($(".form-project .project-end-date").val()).format('YYYY/MM/DD HH:mm');
 			
-			//alert(startDateSubmitProj);
 			newProject = new Object;
 			newProject.name = $(".form-project .project-name ").val(), 
-			//newProject.url = $('.form-project .project-url').val(), 
-			//newProject.version = $(".form-project .project-version").val(), 
-			//newProject.licence = $(".form-project .project-licence").val(),
+			newProject.parentType=parentType,
+			newProject.parentId=parentId
 			newProject.startDate=startDateSubmitProj,
 			newProject.endDate=endDateSubmitProj,
 			newProject.city=$(".form-project #city").val(),
@@ -358,11 +356,9 @@ function runProjectFormValidation(el) {
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
 			});
-			<?php $typeId = ( isset($_GET["id"]) ) ? '/id/'.$_GET["id"].'/type/'.$_GET["type"] : ""; ?>
-			var typeId = "<?php echo $typeId; ?>";
 			$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+'/project/save'+typeId,
+		        url: baseUrl+"/"+moduleId+'/project/save',
 		        dataType: "json",
 		        data: newProject,
 				type: "POST",
