@@ -52,9 +52,9 @@ $this->renderPartial('../default/panels/toolbar');
 
 
     $res = array();
-    if($idCitizenAssembly == false){
-      $res = City::createCitizenAssembly($city["insee"], $city["cp"]);
-      var_dump($res);
+    //if($idCitizenAssembly == false){
+      //$res = City::createCitizenAssembly($city["insee"], $city["cp"]);
+      //var_dump($res);
 
       //$res = array($city);
       //echo "res createCitizenAssembly(".$city["insee"].") :<br>";
@@ -62,7 +62,7 @@ $this->renderPartial('../default/panels/toolbar');
       //  echo $value["name"].", ";
       //};
       //return;
-    }
+   // }
     //echo "<br>Assemblée : ".$id;
     
     //var_dump($randomOrganization);
@@ -438,7 +438,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div style="" class="col-md-12" id="div-participate">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
-    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+    <!-- <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
       <i class="fa fa-2x fa-angle-down"></i><br/>
       Participer
     </h2>
@@ -465,9 +465,9 @@ $this->renderPartial('../default/panels/toolbar');
         <!-- <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
           <i class="fa fa-rss"></i>
         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div> -->
+      </div> - ->
     </div>
-  </div>
+  </div> -->
 
 <div style="" class="col-md-12" id="div-discover">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->

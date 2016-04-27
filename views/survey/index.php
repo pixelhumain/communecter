@@ -333,13 +333,21 @@ $this->renderPartial('../default/panels/toolbar');
           if($entry["parentType"] == Organization::COLLECTION){
               $parentCtrler = Organization::CONTROLLER;
               $parentIcon = "group";
+              $parentColor = "green";
           }
           else if($entry["parentType"] == Person::COLLECTION){
               $parentCtrler = Person::CONTROLLER;
               $parentIcon = "user";
+              $parentColor = "yellow";
+          }else if($entry["parentType"] == Project::COLLECTION){
+              $parentCtrler = Project::CONTROLLER;
+              $parentIcon = "lightbulb-o";
+              $parentColor = "purple";
+          }
           }else if($entry["parentType"] == City::COLLECTION){
               $parentCtrler = City::CONTROLLER;
               $parentIcon = "university";
+              $parentColor = "red";
           }
           //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
           $byInfo = "by <a href='javascript:loadByHash(\"#".$parentCtrler.".detail.id.".$entry["parentId"]."\")'><i class='fa fa-".$parentIcon."'></i></a>";

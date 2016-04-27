@@ -64,10 +64,10 @@ $moduleId =  Yii::app()->controller->module->id;
 						<th class="hidden"><?php echo Yii::t("rooms", "Type / Action", null, $moduleId); ?></th>
 						<th class=""><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Name", null, $moduleId); ?></th>
 						<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
-						<th class="hidden"><?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+						<th class=""><?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
 						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Start Date", null, $moduleId); ?></th>
-						<!-- <th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php //echo Yii::t("rooms", "End Date", null, $moduleId); ?></th> -->
-						<th class="hidden"><?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
+						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "End Date", null, $moduleId); ?></th>
+						<th class=""><?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -116,10 +116,10 @@ $moduleId =  Yii::app()->controller->module->id;
 							<?php //var_dump($e); ?>
 							<td class=""><i class="fa fa-archive"></i> <a <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 							<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-							<td class="hidden"></td>
-							<td class="hidden-xs"><i class="fa fa-clock-o"></i> <?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-							<!-- <td class="hidden-xs hidden"><?php //if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"])?></td> -->
-							<td class="center hidden">
+							<td class=""></td>
+							<td class=""><i class="fa fa-clock-o"></i> <?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							<td class=""><?php if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"])?></td>
+							<td class="center">
 								<?php /*if(Yii::app()->session["userId"] ) { ?>
 									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my rooms" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 								<?php }; */?>
@@ -138,7 +138,7 @@ $moduleId =  Yii::app()->controller->module->id;
 						foreach ($actions as $e) 
 						{ ?>
 						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
+							<td class="center organizationLine hidden">
 								<?php 
 								$type = "survey.entry";
 								$icon = "bookmark";

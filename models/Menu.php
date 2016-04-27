@@ -182,18 +182,20 @@ class Menu {
                 "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
          
-        
+        $surveyLink = "#rooms";
+        $surveyLink = "#rooms.index.type.organizations.id.".$id; 
+
         //ACTION ROOMS
         //-----------------------------
-        //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+        if(isset($organization["modules"]) && in_array("survey", $organization["modules"])){
             $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
             self::entry("left", 'onclick', 
                     Yii::t( "common", 'Espace de prise de décision'), 
                     Yii::t( "common", 'Vote'), 
                     'gavel',
-                    "loadByHash( '#rooms.index.type.organization.id.".$id."')","room", "index");
-        //}
+                    "loadByHash('$surveyLink')","room", "index");
+        }
         
         /*self::entry("left", 'onclick',
         			Yii::t("common","Organization community"),
@@ -315,13 +317,14 @@ class Menu {
             Yii::app()->controller->toolbarMBZ = array();
         //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
         $insee = (string)$city["insee"];
+        $cp = (string)$city["cp"];
         
         //HOME
         //-----------------------------
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee."')",null,null);
+					"loadByHash('#city.detail.insee.".$insee.".postalCode.".$cp."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -442,7 +445,25 @@ class Menu {
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
         "loadByHash('#project.directory.id.".$id."?tpl=directory2')","project", "directory");
-                // ADD MEMBER
+
+        $surveyLink = "#rooms";
+        $surveyLink = "#rooms.index.type.projects.id.".$id; 
+
+        //ACTION ROOMS
+        //-----------------------------
+        //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+        if(isset($project["modules"]) && in_array("survey", $project["modules"])){
+            //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+            //error_log($actionRoom);
+            self::entry("left", 'onclick', 
+                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Vote'), 
+                    'gavel',
+                    "loadByHash('$surveyLink')","room", "index");
+                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+        }
+
+        // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
             self::entry("right", 'onclick',
@@ -593,10 +614,10 @@ class Menu {
                     Yii::t( "common", 'Add'), 'plus',
                     "loadByHash('#rooms.editroom".$urlParams."')",null,null);
 
-        self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Relaod page'),
-                    Yii::t( "common", 'Reload'), 'refresh',
-                    "loadByHash(location.hash)",null,null);
+        // self::entry("left", 'onclick', 
+        //             Yii::t( "common", 'Relaod page'),
+        //             Yii::t( "common", 'Reload'), 'refresh',
+        //             "loadByHash(location.hash)",null,null);
         
         // Help
         //-----------------------------
