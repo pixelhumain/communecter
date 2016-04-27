@@ -182,17 +182,21 @@ class Menu {
                 "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
 
          
-        
+        $surveyLink = "#rooms";
+        $surveyLink = "#rooms.index.type.organizations.id.".$id; 
+
         //ACTION ROOMS
         //-----------------------------
-        if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+        //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+        if(isset($organization["modules"]) && in_array("survey", $organization["modules"])){
             $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
             self::entry("left", 'onclick', 
                     Yii::t( "common", 'Espace de prise de décision'), 
                     Yii::t( "common", 'Vote'), 
                     'gavel',
-                    "loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+                    "loadByHash('$surveyLink')","room", "index");
+                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
         }
         
         /*self::entry("left", 'onclick',
@@ -443,7 +447,25 @@ class Menu {
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
         "loadByHash('#project.directory.id.".$id."?tpl=directory2')","project", "directory");
-                // ADD MEMBER
+
+        $surveyLink = "#rooms";
+        $surveyLink = "#rooms.index.type.projects.id.".$id; 
+
+        //ACTION ROOMS
+        //-----------------------------
+        //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
+        if(isset($project["modules"]) && in_array("survey", $project["modules"])){
+            //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+            //error_log($actionRoom);
+            self::entry("left", 'onclick', 
+                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Vote'), 
+                    'gavel',
+                    "loadByHash('$surveyLink')","room", "index");
+                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+        }
+
+        // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
             self::entry("right", 'onclick',
@@ -590,10 +612,10 @@ class Menu {
                     Yii::t( "common", 'Add'), 'plus',
                     "loadByHash('#rooms.editroom".$urlParams."')",null,null);
 
-        self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Relaod page'),
-                    Yii::t( "common", 'Reload'), 'refresh',
-                    "loadByHash(location.hash)",null,null);
+        // self::entry("left", 'onclick', 
+        //             Yii::t( "common", 'Relaod page'),
+        //             Yii::t( "common", 'Reload'), 'refresh',
+        //             "loadByHash(location.hash)",null,null);
         
         // Help
         //-----------------------------
