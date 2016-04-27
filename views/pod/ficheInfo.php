@@ -125,10 +125,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
 				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
-				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
-		<?php } else {?>
-				<span class="label label-danger">DISABLED</span>
-		<?php }} ?>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php }} 
+				if(isset($organization["disabled"])){?>
+					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
+		<?php } ?>
 	</div>
 	<div class="panel-body border-light panelDetails" id="organizationDetail">
 		<div class="row">
@@ -387,6 +388,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	
 	jQuery(document).ready(function() {
+		bindFicheInfoBtn();
 		$("#editFicheInfo").on("click", function(){
 			switchMode();
 		});
@@ -766,5 +768,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		console.log("erreur getlatlngbyinsee", error);
 	}
 	
+	function bindFicheInfoBtn() {
+		$("#disableOrganization").off().on("click",function () {
+			console.warn("disableOrganization",$(this).data("id"));
+			var id = $(this).data("id");
+			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !').' '.Yii::t('organization','Are you sure you want to delete the organization : ') ?><span class='text-red'>"+$(this).data('name')+"</span> ?", 
+				function(result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+id ,
+							type: "POST",
+							success: function(data) {
+								if(data.result) {
+									//remove the organization from floopdrawer
+									removeFloopEntity(id, "organizations");
+									toastr.success(data.msg);
+								} else
+									toastr.error(data.msg);
+						  	},
+						});
+					}
+			});
+		});
+	}
 
 </script>

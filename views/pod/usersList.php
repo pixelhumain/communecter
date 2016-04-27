@@ -105,6 +105,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				} 
 				
 				foreach ($users as $e) { 
+					$grayscale = "grayscale";
 					//print_r($e);
 					$name = $e["name"];
 					if (@$e["isAdmin"]){
@@ -115,8 +116,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							$name.= " (".Yii::t("common","not activated").")";
 						else if (@$e["pending"])
 							$name.= " (".Yii::t("common","unregistred").")";	
-						else
+						else {
 							$name.= " (admin)";
+							$grayscale = "";
+						}
 					}
 					else {
 						$adminFlag="";
@@ -125,7 +128,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						else if (@$e["tobeactivated"])
 							$name.= " (".Yii::t("common","not activated").")";
 						else if (@$e["pending"])
-							$name.= " (".Yii::t("common","unregistred").")";					
+							$name.= " (".Yii::t("common","unregistred").")";
+						else
+							$grayscale = "";
 					}
 					if ($e["type"]==Person::COLLECTION){
 						$icon='<img height="50" width="50" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
@@ -140,14 +145,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 				?>
 				
-					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php if (@$e["isAdminPending"] || @$e["toBeValidated"] || @$e["tobeactivated"] || @$e["pending"]) echo "grayscale" ?>">
+					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php echo $grayscale ?>">
 
 					<?php if($e && isset($e["imagePath"])) {
 						// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
 						 ?>
 						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
 					<?php } else if ($e && isset($e["profilImageUrl"]) && !empty($e["profilImageUrl"])){ ?>
-						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['profilImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
+						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['profilImageUrl']) ?>" data-placement="top" data-original-title='<?php echo $name ?>'>
 					<?php }else{ 
 						echo $icon;
 					} ?>
