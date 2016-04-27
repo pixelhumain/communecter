@@ -187,7 +187,6 @@ class Menu {
 
         //ACTION ROOMS
         //-----------------------------
-        //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
         if(isset($organization["modules"]) && in_array("survey", $organization["modules"])){
             $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
@@ -196,7 +195,6 @@ class Menu {
                     Yii::t( "common", 'Vote'), 
                     'gavel',
                     "loadByHash('$surveyLink')","room", "index");
-                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
         }
         
         /*self::entry("left", 'onclick',
@@ -530,7 +528,7 @@ class Menu {
         // Add a proposal
         //-----------------------------
         self::entry("right", 'onclick', 
-                    Yii::t( "common", 'Send a proposal to your community'),
+                    Yii::t( "common", 'Create a proposal for your community'),
                     Yii::t( "common", 'Add a proposal'), 'plus',
                     "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
 
@@ -547,10 +545,14 @@ class Menu {
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
-        
-        $id = (string)$survey["_id"];
-        $parentId = (string)$survey["survey"];
-        $organiserId = $survey['organizerId'];
+
+        if(is_string($survey))
+            $parentId = $survey;
+        else                                                                                                                                                                                                                                                    {
+            $id = (string)$survey["_id"];
+            $parentId = (string)$survey["survey"];
+            $organiserId = $survey['organizerId'];
+        }
 
         // Add a proposal
         //-----------------------------
@@ -589,7 +591,7 @@ class Menu {
                         "closeEntry('".$id."')",null,null);
             }
         }
-        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
         // Help
         //-----------------------------
         self::entry("right", 'onclick', 
@@ -625,6 +627,17 @@ class Menu {
                     "loadByHash('#define.Surveys')",null,null);
     }
 
+    public static function back()
+    {
+         if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        // Help
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'go Back'),
+                    Yii::t( "common", 'Back'), 'chevron-circle-left',
+                    "window.history.back();",null,null);
+    }
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
     {
         if( $type == 'showAjaxPanel')

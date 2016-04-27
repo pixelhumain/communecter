@@ -547,6 +547,7 @@ $this->renderPartial('../default/panels/toolbar');
       return $html;
     }
 
+       
     ?>
     
 
@@ -606,6 +607,22 @@ $this->renderPartial('../default/panels/toolbar');
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
               </h1>
+               <?php 
+                 if (isset($list) && count($list) == 0) {
+               ?>
+                <div id="infoPodOrga" class="padding-10">
+                  <blockquote> 
+                    <?php echo Yii::t('rooms', 'Create Room', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> 
+                    <br><?php echo Yii::t('rooms', 'Decisions', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Brainstorms', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
+                  </blockquote>
+                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add a proposal'); ?></a>
+                </div>
+              <?php 
+                }; 
+               ?>
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">

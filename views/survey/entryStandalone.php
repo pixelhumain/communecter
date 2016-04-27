@@ -324,6 +324,11 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 				<?php if( isset($organizer) ){ ?>
 					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 				<?php }	?>
+				
+				<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
+				<br/><br/>
+				<?php echo $survey["message"]; ?>
+				<br/><br/>
 				<?php if( isset( $survey["tags"] ) ){ ?>
 					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 					<?php foreach ( $survey["tags"] as $value) {
@@ -331,10 +336,6 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	 				}?>
 					</span><br>
 				<?php }	?>
-				<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-				<br/><br/>
-				<?php echo $survey["message"]; ?>
-				<br/><br/>
 			</div>
 			<div  class="col-md-5">
 				
@@ -454,7 +455,7 @@ jQuery(document).ready(function() {
 function addaction(id,action)
 {
     console.warn("--------------- addaction ---------------------");
-    if( checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" ))
+    if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
     	bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
         	function(result) {
@@ -502,8 +503,7 @@ function buildResults () {
 		        plotBackgroundColor: null,
 		        plotBorderWidth: null,
 		        plotShadow: false,
-		        marginTop: -100,
-				
+		        //marginTop: -20,
 		    },
 		    title: {
 		        text: "Resultats"

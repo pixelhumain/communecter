@@ -7,7 +7,10 @@ $cssAnsScriptFiles = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
-Menu::proposal( $survey );
+if(isset($survey))
+  Menu::proposal( $survey );
+else
+  Menu::back() ;
 $this->renderPartial('../default/panels/toolbar');
  ?>
 <div id="editEntryContainer"></div>
@@ -63,7 +66,7 @@ var proposalFormDefinition = {
               "rules" : {
                 "required" : true
               },
-              "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '' ?>,
+              "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '""' ?>,
             },
             "dateEnd" :{
               "inputType" : "date",
@@ -73,7 +76,7 @@ var proposalFormDefinition = {
             "urls" : {
                   "inputType" : "array",
                   "placeholder" : "Tapez une url intéressante",
-                  "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : [] ?>,
+                  "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
             "tags" :{
               "inputType" : "tags",
@@ -116,7 +119,7 @@ var dataBind = {
    "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
-var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : null ?>;
+var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
 jQuery(document).ready(function() {
   $(".moduleLabel").html('<?php echo "Add a proposal" ?>');
