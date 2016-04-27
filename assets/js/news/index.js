@@ -702,7 +702,7 @@ function initFormImages(){
 					var doc = { 
 						"id":contextParentId,
 						"type":contextParentType,
-						"folder":contextParentType+"/"+contextParentId,
+						"folder":contextParentType+"/"+contextParentId+"/album",
 						"moduleId":moduleId,
 						"author" : userId  , 
 						"name" : data.name , 
@@ -711,6 +711,7 @@ function initFormImages(){
 						"doctype" : docType,
 						"contentKey" : contentKey
 					};
+					console.log(doc);
 					path = "/"+data.dir+data.name;
 					$.ajax({
 					  	type: "POST",
