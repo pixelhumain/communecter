@@ -2,6 +2,36 @@
 Menu::back();
 $this->renderPartial('../default/panels/toolbar');
  ?>
+<style type="text/css">
+    blockquote{border-color: #2BB0C6; cursor: pointer;}
+</style>
+
+<div class="col-xs-4 col-sm-offset-2">
+  <blockquote> 
+    <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
+    <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png"/>
+    </a>
+    <br/><span class="text-bold"><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> </span>
+    <br><?php echo Yii::t('rooms', "Let's talk about", null, Yii::app()->controller->module->id)?>
+    <br><?php echo Yii::t('rooms', 'Find questions to ask', null, Yii::app()->controller->module->id)?>
+    <br><?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, Yii::app()->controller->module->id)?>
+    <br/><a class="filter btn btn-xs text-white" style="background-color: #7acf5b" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a> 
+  </blockquote>
+</div>
+
+<div class="col-xs-4">
+  <blockquote> 
+    <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
+      <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png"/>
+    </a><br/><span class="text-bold"><?php echo Yii::t('rooms', 'Ask Others', null, Yii::app()->controller->module->id)?></span>
+    <br><?php echo Yii::t('rooms', 'Share Qestions', null, Yii::app()->controller->module->id)?>
+    <br><?php echo Yii::t('rooms', 'Brainstorm', null, Yii::app()->controller->module->id)?>
+    <br><?php echo Yii::t('rooms', 'Decide Collectivelly', null, Yii::app()->controller->module->id)?>
+    <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
+    <br/><a class="filter btn btn-xs text-white" style="background-color: #7acf5b" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a> 
+  </blockquote>
+</div>
+
 <div id="editRoomsContainer"></div>
 
 <script type="text/javascript">

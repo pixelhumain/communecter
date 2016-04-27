@@ -139,6 +139,7 @@ var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-comments'></i> COMMENTS");
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
 	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");
