@@ -89,6 +89,7 @@ class TestController extends CommunecterController {
 		    if(@$data["links"] && @$data["links"]["contributors"]){
 			    foreach($data["links"]["contributors"] as $key => $e){
 				    if(@$e["type"]==Organization::COLLECTION && @$e["isAdmin"]){
+					   	echo 'Modification du liens entre le projet : '.$projectId." et l'organisation ".$key;
 					   	//echo json_encode($data["links"]["contributors"]);
 					   	PHDB::update(Project::COLLECTION,
 					   		array("_id" => new MongoId($projectId)) , 
@@ -121,10 +122,10 @@ class TestController extends CommunecterController {
 			    if($orgaWasAdmin && !$orgahasmemberadmin){
 				    $creator = $data["creator"];
 				    $creator=Person::getById($creator);
-				    if($creator==true){
-					    echo "reelement une person";
+				    if($creator){
+					    echo "Creator est reelement une person on project : ".$projectId;
 				    }else{
-					    echo "createur is an orga";
+					    echo "Creator is an orga on project : ".$projectId;
 				    }
 			    }
 		    }
