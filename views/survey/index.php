@@ -343,7 +343,6 @@ $this->renderPartial('../default/panels/toolbar');
               $parentCtrler = Project::CONTROLLER;
               $parentIcon = "lightbulb-o";
               $parentColor = "purple";
-          }
           }else if($entry["parentType"] == City::COLLECTION){
               $parentCtrler = City::CONTROLLER;
               $parentIcon = "university";
@@ -466,8 +465,6 @@ $this->renderPartial('../default/panels/toolbar');
                         //"<div class='col-md-12 text-dark' style='padding:10px 0px;'>".$views."</div>".
                         
                         //'<div class="space1"></div>'.$views.
-                        
-                        
                     '</div>';
 
         return array(
@@ -477,6 +474,7 @@ $this->renderPartial('../default/panels/toolbar');
             "cpBlock" => $cpBlock
         );
     }
+
     //TODO seperate logic from view
     foreach ($list as $key => $entry) 
     {
