@@ -549,18 +549,20 @@ function searchByHash (hash)
 		$(scopeBtn).trigger("click"); 
 }
 
+var backUrl = null;
 function checkIsLoggued(uId){
 	if( uId == "" ){
-		console.warn("PRIVATE SECTION LOGIN FIRST");
-		toastr.error("<h1>Secure Section You must be loggued to access</h1>");
+		console.warn("");
+		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
-		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Secure Section");
-		//setTimeout(function(){
-			showPanel( "box-login" );
-		//}, 2000);
+		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Section Sécuriser");
+
+		backUrl = location.hash;
+		showPanel( "box-login" );
     	
     	resetUnlogguedTopBar();
-	}
+	}else 
+		return true;
 }
 function resetUnlogguedTopBar() { 
 	//replace the loggued toolBar nav by log buttons

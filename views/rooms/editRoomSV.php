@@ -1,3 +1,7 @@
+<?php 
+Menu::back();
+$this->renderPartial('../default/panels/toolbar');
+ ?>
 <div id="editRoomsContainer"></div>
 
 <script type="text/javascript">
@@ -110,7 +114,8 @@ function editRoomSV (roomObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-                      loadByHash("#rooms.index.type.citoyens.id."+userId);
+
+                      loadByHash("#rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
                   }
                   else {
                     toastr.error(data.msg);
