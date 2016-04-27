@@ -343,7 +343,7 @@ $this->renderPartial('../default/panels/toolbar');
               $parentCtrler = Project::CONTROLLER;
               $parentIcon = "lightbulb-o";
               $parentColor = "purple";
-          }
+          
           }else if($entry["parentType"] == City::COLLECTION){
               $parentCtrler = City::CONTROLLER;
               $parentIcon = "university";
