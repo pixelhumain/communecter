@@ -161,13 +161,20 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 
 <div id="newInvite">
+	<?php   
+  		if (@Yii::app()->params['betaTest']) { 
+  			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
+  			?>
+
+  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
+  	<?php
+		}
+	?>
 	<ul class="nav nav-tabs">
 		<li role="presentation">
 			<a href="javascript:" class="" id="menuInviteSomeone">
 				<div id="titleInviteSomeone" class='radius-10 padding-10 text-yellow text-dark'>
-					<!-- <i class="fa fa-plus"></i>  -->
 					<i class="fa fa-search fa-2x"></i> Rechercher ...
-					<?php //echo Yii::t("person","Add a Person") ?>
 				</div>
 			</a>
 		</li>
@@ -336,7 +343,7 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>
 		<div class="panel panel-white" id="divWriteMails">
         	<div class="panel-heading border-light">
-        		Copier vos emails, séparé par des points-virgules.
+        		Copier vos emails, séparés par des points-virgules.
 			</div>
 			<div class="panel-body">
 				<form class="form-writeMails" autocomplete="off">
@@ -435,7 +442,7 @@ var timeout;
 var tabObject = [];
 
 var listFollows = <?php echo json_encode($follows) ?>;
-var listFollowsId =<?php echo json_encode($listFollowsId) ?>;
+var listFollowsId = <?php echo json_encode($listFollowsId) ?>;
 console.log("listFollowsazaza", listFollows);
 
 
@@ -602,9 +609,7 @@ function bindInviteSubViewInvites() {
 		}else{
 			toastr.error("Nous n'avons pas réussie à lire votre fichier.")
 		}
-		
-		
-		
+
 		return false;
 	});
 
@@ -694,14 +699,14 @@ function bindInviteSubViewInvites() {
 				    	$.unblockUI();
 				        if (data &&  data.result) {               
 				        	toastr.success('L\'invitation a été envoyée avec succès!');
-				        	//$.hideSubview();
-				        	
 				        	console.log(data);
 				        	addFloopEntity(formData.invitedUser._id.$id, <?php echo Person::COLLECTION ?>, data.invitedUser);
 				        	$('#inviteSearch').val("");
+							//Minus 1 on number of invit
+							var count = parseInt($("#numberOfInvit").data("count")) - 1;
+							$("#numberOfInvit").html(count + ' invitation(s)');
+							$("#numberOfInvit").data("count", count);
 							backToSearch();
-							
-				        	//showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 				        } else {
 				        	$.unblockUI();
 							toastr.error(data.msg);
@@ -794,13 +799,14 @@ function runinviteFormValidation(el) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
-		        	//$.hideSubview();
 		        	console.log(data);
 		        	addFloopEntity(data.invitedUser.id, "<?php echo Person::COLLECTION ?>", data.invitedUser);
 				      $('#inviteSearch').val("");
+					//Minus 1 on number of invit
+					var count = parseInt($("#numberOfInvit").data("count")) - 1;
+					$("#numberOfInvit").html(count + ' invitation(s)');
+					$("#numberOfInvit").data("count", count);
 					backToSearch();
-
-		        	//showAjaxPanel( '/person/directory?tpl=directory2&type=<?php echo Person::COLLECTION ?>', 'MY PEOPLE','user' );
 		        } else {
 		        	$.unblockUI();
 					toastr.error(data.msg);
@@ -826,6 +832,7 @@ function initSubView() {
 
 
 function autoCompleteInviteSearch(search){
+	if (search.length < 3) { return }
 	tabObject = [];
 
 	var data = { 
