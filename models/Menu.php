@@ -419,12 +419,12 @@ class Menu {
         } else if (isset($project["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($project["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this person"),
+                        Yii::t( "common", "Unfollow this project"),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
         }
-        if (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
+        if (isset(Yii::app()->session["userId"]) && ! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
 	         $connectAs="admin";
 	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]){
 		            $connectAs="contributor";
