@@ -84,7 +84,19 @@ class Menu {
             }
         }
 
-
+        //ACTION ROOMS
+        //-----------------------------
+        $surveyLink = "#rooms.index.type.person.id.".$id; 
+        if(isset($person["modules"]) && in_array("survey", $person["modules"])){
+            //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+            //error_log($actionRoom);
+            self::entry("left", 'onclick', 
+                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Vote'), 
+                    'gavel',
+                    "loadByHash('$surveyLink')","room", "index");
+                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+        }
 
         
 
