@@ -39,7 +39,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-dark">
-					<h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("common","Account Created!!") ?></h4>
+					<h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Account Created!!") ?></h4>
 				</div>
 				<div class="modal-body center text-dark" id="modalRegisterSuccessContent"></div>
 				<div class="modal-footer">
