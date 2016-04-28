@@ -122,7 +122,7 @@ var dataBind = {
 var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<?php echo "Add a proposal" ?>');
+  $(".moduleLabel").html('<?php echo Yii::t("survey","Add a proposal", null, Yii::app()->controller->module->id); ?>');
   
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";

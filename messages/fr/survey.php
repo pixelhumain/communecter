@@ -26,6 +26,9 @@
 		"Not Voted" => "Vous n'avez pas voté",
 		"Closed" => "Cloturé",
 		"You did not vote" => "Vous n'avez pas voté",
+		"Proposed by" => "Proposé par",
+		"Add a proposal" => "Faire une proposition",
+		
 	)
 
 ?>
