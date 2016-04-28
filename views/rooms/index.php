@@ -137,7 +137,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 		<div class="actionsTable infoTables hide">	
-			<h1 class="homestead text-dark" style="text-align: right;"><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?></h1>
+			<h1 class="homestead text-dark" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa fa-caret-down"></i></h1>
 			<table class="table table-striped table-bordered table-hover directoryTable  ">
 				<thead>
 					<tr>
