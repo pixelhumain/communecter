@@ -328,7 +328,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 			
 			<?php echo $survey["message"]; ?>
 			
-			<br/><br/>
+			<br/>
 			<?php if( isset( $survey["tags"] ) ){ ?>
 				<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 				<?php foreach ( $survey["tags"] as $value) {
@@ -338,15 +338,15 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 			<?php }	?>
 
 			<?php if( isset( $survey["urls"] ) ){ ?>
-				<span class="" >
-				<h2>Des liens d'informations ou actions à faire</h2>
+				
+				<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 				<?php foreach ( $survey["urls"] as $value) {
 					if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-						echo '<br/><a href="'.$value.'" class="text-large"><i class="fa fa-link"></i> '.$value.'</a> ';
+						echo '<a href="'.$value.'" class="text-large"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 					else
-						echo '<br/><span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span> ';
+						echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 				}?>
-				</span><br>
+				<span class="" >Faites des propositions dans les commentaires</span>
 			<?php }	?>
 
 		</div>
