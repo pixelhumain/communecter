@@ -4,10 +4,11 @@ echo CHtml::cssFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/medi
 echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/DT_bootstrap.js');
 
 
-$typeParams['city'] = array("class" => "City", "count" => 0);
-$typeParams['projects'] = array("class" => "Project", "count" => 0);
-$typeParams['events'] = array("class" => "Event", "count" => 0);
-$typeParams['organizations'] = array("class" => "Organization", "count" => 0);
+$typeParams['city'] = array("libelle" => "Ville","class" => "City", "count" => 0);
+$typeParams['projects'] = array("libelle" => "Projet","class" => "Project", "count" => 0);
+$typeParams['events'] = array("libelle" => "Evénement","class" => "Event", "count" => 0);
+$typeParams['organizations'] = array("libelle" => "Organisation","class" => "Organization", "count" => 0);
+$typeParams['citoyens'] = array("libelle" => "Citoyens", "class" => "Person", "count" => 0);
 
 $content = "";
 $memberId = Yii::app()->session["userId"];
@@ -47,9 +48,11 @@ if(isset($news))
 		<h4 class="panel-title">
 		<i class="fa fa-globe fa-2x text-green"></i>
 		<?php foreach($typeParams as $type => $params){ ?>
-			<a href="javascript:;" onclick="applyStateFilter('<?php echo $type?>')" class="filter<?php echo $type?> btn btn-xs btn-default"> <?php echo $params['class'] ?><span class="badge badge-warning"> <?php echo $params['count'] ?></span></a> 
+			<a href="javascript:;" onclick="applyStateFilter('<?php echo $type?>')" class="filter<?php echo $type?> btn btn-xs btn-default"> <?php echo $params['libelle'] ?><span class="badge badge-warning"> <?php echo $params['count'] ?></span></a> 
 		<?php } ?>
 		<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
+		<div id="filterTag" style="float:right"></div>
+		<div id="filterScope" style="float:right"></div>
 		</h4>
 	</div>
 	<div class="panel-body">
@@ -59,6 +62,7 @@ if(isset($news))
 				<thead>
 					<tr>
 						<th>Type</th>
+						<th>Propriétaire</th>
 						<th>Contenu</th>
 						<th>Actions</th>
 						<th>Tags</th>
@@ -107,30 +111,31 @@ if(isset($news))
 <?php 
 function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$typeParams ){
 		
-		//CountByType
-		if(isset($typeParams[$type]['count'])) $typeParams[$type]['count'] += 1;
+	//CountByType
+	if(isset($typeParams[$type]['count'])) $typeParams[$type]['count'] += 1;
 
 
-		if(!isset( $e['_id'] ) || !isset( $e["text"]) || $e["text"] == "" )
-			return;
-		$actions = "";
-		$classes = "";
-		$id = @$e['_id'];
+	if(!isset( $e['_id'] ) || !isset( $e["text"]) || $e["text"] == "" )
+		return;
+	$actions = "";
+	$classes = "";
+	$id = @$e['_id'];
 
-		/* **************************************
-		* ADMIN STUFF
-		***************************************** */
-		if( Yii::app()->session["userIsAdmin"] )
-		{
-			$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 declareAsAuthorizeBtn"><i class="fa fa-check text-green"></i>Autoriser</a> </li>';
-			$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 declareAsAbuseBtn"><i class="fa fa-times text-red"></i>Ne plus afficher</a> </li>';
-		}
+	/* **************************************
+	* ADMIN STUFF
+	***************************************** */
+	if( Yii::app()->session["userIsAdmin"] )
+	{
+		// $actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" data-value="true" class="margin-right-5 declareAsAuthorizeBtn"><i class="fa fa-check text-green"></i>Autoriser</a> </li>';
+		// $actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" data-value="false" class="margin-right-5 declareAsAbuseBtn"><i class="fa fa-times text-red"></i>Ne plus afficher</a> </li>';
+	}
 
 	/* **************************************
 	* TYPE + ICON
 	***************************************** */
-	$strHTML = '<tr id="'.$type.(string)$id.'">'.
-		'<td class="'.$type.'Line'.$classes.'">'.
+	$strHTML = '<tr id="'.(string)$id.'">'.
+		'<td>'.$type.'</td>
+		<td class="Line'.$classes.'">'.
 			'<a target="_blank" href="'.Yii::app()->createUrl('/'.$moduleId.'/#news.index.type.'.$type.'.id.'.$e['id'].'?isSearchDesign=1').'">';
 				if ($e && isset($e["imagePath"])){ 
 					$strHTML .= '<img width="50" height="50" alt="image" class="img-circle" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">'.((isset($e["name"])) ? $e["name"] : "");
@@ -138,7 +143,7 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 					$strHTML .= '<i class="fa '.$icon.' fa-2x"></i> '.$e['name'].'';
 				} 
 			$strHTML .= '</a>';
-		$strHTML .= '<span>'.$type.'</span></td>';
+		$strHTML .= '<span></span></td>';
 		
 		/* **************************************
 		* TEXT
@@ -156,10 +161,10 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 		* Actions
 		***************************************** */
 		$strHTML .= '<td>
-			<i class="fa fa-comment" '.((isset($e['commentCount'])) ? 'onclick="showComments(\''.$e['_id'].'\')"' : '').'>'.((isset($e['commentCount'])) ? $e['commentCount'] : '0').'</i> 
-			<i class="fa fa-thumbs-up text-green">'.((isset($e['voteUpCount']) ) ? $e['voteUpCount'] : '0').'</i> 
-			<i class="fa fa-thumbs-down text-orange">'.((isset($e['voteDownCount']) ) ? $e['voteDownCount'] : '0').'</i> 
-			<i class="fa fa-flag text-red modalAbuseContentsBtn" data-id="'.$e['_id'].'">'.((isset($e['reportAbuseCount']) ) ? $e['reportAbuseCount'] : '0').'</i> 
+			<i class="fa fa-comment" '.((isset($e['commentCount'])) ? 'onclick="showComments(\''.$e['_id'].'\')"' : '').'>&nbsp;'.((isset($e['commentCount'])) ? $e['commentCount'] : '0').'</i>&nbsp;
+			<i class="fa fa-thumbs-up text-green">'.((isset($e['voteUpCount']) ) ? $e['voteUpCount'] : '0').'</i>&nbsp; 
+			<i class="fa fa-thumbs-down text-orange">'.((isset($e['voteDownCount']) ) ? $e['voteDownCount'] : '0').'</i>&nbsp;
+			<i class="fa fa-flag text-red modalAbuseContentsBtn" data-id="'.$e['_id'].'">'.((isset($e['reportAbuseCount']) ) ? $e['reportAbuseCount'] : '0').'</i>&nbsp;
 		</td>';
 		
 		/* **************************************
@@ -196,13 +201,13 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 		// }	
 		// $strHTML .= '</td>';
 		$strHTML .= '<td>';
-		foreach ($scopes as $id => $value) {
+		foreach ($scopes as $ids => $value) {
 			if( isset($e["scope"]) && isset( $e["scope"]['cities']) ){
 				foreach($e["scope"]['cities'] as $city){
-					if(isset($city[$id])){
-						$strHTML .= ' <a href="#" onclick="applyScopeFilter('.$city[$id].')"><span class="label label-inverse">'.$city[$id].'</span></a>';
-						if( !in_array($city[$id], $scopes[$id]) ) 
-							array_push($scopes[$id], $city[$id] );
+					if(isset($city[$ids])){
+						$strHTML .= ' <a href="#" onclick="applyScopeFilter('.$city[$ids].')"><span class="label label-inverse">'.$city[$ids].'</span></a>';
+						if( !in_array($city[$ids], $scopes[$ids]) ) 
+							array_push($scopes[$ids], $city[$ids] );
 					}
 				}
 			}
@@ -213,12 +218,14 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 		* ACTIONS
 		***************************************** */
 		$strHTML .= '<td class="center">';
-		if( !empty($actions) && Yii::app()->session["userIsAdmin"] ) 
-			$strHTML .= '<div class="btn-group">'.
-						'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'.
-						'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'.
-							$actions.
-						'</ul></div>';
+		if(Yii::app()->session["userIsAdmin"] ) 
+			// $strHTML .= '<div class="btn-group">'.
+			// 			'<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'.
+			// 			'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'.
+			// 				$actions.
+			// 			'</ul></div>';
+			$strHTML .= '<a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" data-value="true"  class="margin-right-5 declareAsAuthorizeBtn"><i class="fa fa-eye-slash text-red"></i></a>
+						<a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 declareAsAbuseBtn" data-value="false"><i class="fa fa-eye text-green"></i></a>';
 		$strHTML .= '</td>';
 		
 	$strHTML .= '</tr>';
@@ -242,6 +249,8 @@ function showComments(id){
 
 
 var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
+var moderateTable = null;
+
 jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Répertoire");
 
@@ -257,7 +266,7 @@ jQuery(document).ready(function() {
 		$('.filter'+openingFilter).trigger("click");
 });	
 
-var moderateTable = null;
+
 var contextMap = {
 	"tags" : <?php echo json_encode($tags) ?>,
 	"scopes" : <?php echo json_encode($scopes) ?>,
@@ -271,10 +280,12 @@ function resetModerateTable()
 	{
 		moderateTable = $('.moderateTable').dataTable({
 			"aoColumnDefs" : [{
-				"aTargets" : [0]
+				"aTargets" : [0],
+				"visible" : false,
+				"searchable" : true,
 			}],
 			"oLanguage" : {
-				"sLengthMenu" : "Show _MENU_ Rows",
+				// "sLengthMenu" : "Show _MENU_ Rows",
 				"sSearch" : "",
 				"oPaginate" : {
 					"sPrevious" : "",
@@ -306,11 +317,40 @@ function applyStateFilter(str)
 	console.log("applyStateFilter",str);
 	moderateTable.DataTable().column( 0 ).search(str , true , false).draw();
 }
+
+function applyTypeFilter(str)
+{
+	if(!str){
+		str = "";
+		sep = "";
+		$.each($("."+str), function() { 
+			console.log("applyTypeFilter",$(this).data("id"));
+			str += sep+$(this).data("id");
+			sep = "|";
+		});
+	} else 
+		clearAllFilters("");
+	console.log("applyTypeFilter",str);
+	moderateTable.DataTable().column( 0).search( str , true , false ).draw();
+	return $('.directoryLines tr').length;
+}
+
 function clearAllFilters(str){ 
 	moderateTable.DataTable().column( 0 ).search( str , true , false ).draw();
-	moderateTable.DataTable().column( 2 ).search( str , true , false ).draw();
-	moderateTable.DataTable().column( 3 ).search( str , true , false ).draw();
+	moderateTable.DataTable().column( 4 ).search( str , true , false ).draw();
+	moderateTable.DataTable().column( 5 ).search( str , true , false ).draw();
 }
+
+function clearTagFilters(){ 
+	moderateTable.DataTable().column( 4 ).search( '' , true , false ).draw();
+	$('#filterTag').html('');
+}
+
+function clearScopeFilters(){ 
+	$('#filterScope').html('');
+	moderateTable.DataTable().column( 5 ).search( '' , true , false ).draw();
+}
+
 function applyTagFilter(str)
 {
 	console.log("applyTagFilter",str);
@@ -325,7 +365,8 @@ function applyTagFilter(str)
 	} else 
 		clearAllFilters("");
 	console.log("applyTagFilter",str);
-	moderateTable.DataTable().column( 2 ).search( str , true , false ).draw();
+	moderateTable.DataTable().column( 4 ).search( str, true , false ).draw();
+	$('#filterTag').html('<a href="#" onclick="clearTagFilters()"><span class="label label-inverse">'+str+'</span></a>');
 	return $('.directoryLines tr').length;
 }
 
@@ -343,7 +384,8 @@ function applyScopeFilter(str)
 	} else 
 		clearAllFilters("");
 	console.log("applyScopeFilter",str);
-	moderateTable.DataTable().column( 4 ).search( str , true , false ).draw();
+	$('#filterScope').html('<a href="#" onclick="clearScopeFilters()"><span class="label label-inverse">'+str+'</span></a>');
+	moderateTable.DataTable().column( 5 ).search( str , true , false ).draw();
 	return $('.directoryLines tr').length;
 }
 
@@ -356,34 +398,40 @@ function bindAdminBtnEvents(){
 	***************************************** */
 	if( Yii::app()->session["userIsAdmin"] ) {?>		
 
-		$(".declareAsAbuseBtn").off().on("click",function () 
+		$(".declareAsAbuseBtn, .declareAsAuthorizeBtn").off().on("click",function () 
 		{
-			console.log("declareAsAbuseBtn click");
-	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+			console.log("declareAsAbuseBtn / declareAsAuthorizeBtn click");
+			console.log("isAnAbuse",$(this).data("value"));
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
-	        var type = $(this).data("type");
-	        var urlToSend = baseUrl+"/"+moduleId+"/news/save/news/"+id;
+	        var urlToSend = baseUrl+"/"+moduleId+"/news/moderate/news/";
 	        
-	        bootbox.confirm("Cette actualité ne sera plus affichée",
-        	function(result) 
-        	{
+	        var params = {};
+	        params.id = id;
+	        params.isAnAbuse = $(this).data("value");
+	       
+	        var message = "Cette actualité restera affichée";
+	        if(params.isAnAbuse == true) message = "Cette actualité ne sera plus affichée";
+
+	        bootbox.confirm(message,function(result){
 				if (!result) {
-					btnClick.empty().html('<i class="fa fa-thumbs-down"></i>');
+					// btnClick.empty().html('<i class="fa fa-thumbs-down"></i>');
 					return;
 				}
 				$.ajax({
 			        type: "POST",
 			        url: urlToSend,
+			        data:params,
 			        dataType : "json"
 			    })
 			    .done(function (data)
 			    {
 			        if ( data && data.result ) {
-			        	toastr.info("Activated User!!");
-			        	btnClick.empty().html('<i class="fa fa-thumbs-up"></i>');
+			        	toastr.info(data.msg);
+			        	moderateTable.fnDeleteRow( moderateTable.$('#'+id)[0]);
+			        	// btnClick.empty().html('<i class="fa fa-thumbs-up"></i>');
 			        } else {
-			           toastr.info("something went wrong!! please try again.");
+			           toastr.info("Erreur");
 			        }
 			    });
 
@@ -398,54 +446,5 @@ function bindAdminBtnEvents(){
 		});
 }
 
-function changeRole(button, action) {
-	console.log(button," click");
-    //$(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
-    var urlToSend = baseUrl+"/"+moduleId+"/person/changerole/";
-    var res = false;
-
-	$.ajax({
-        type: "POST",
-        url: urlToSend,
-        data: {
-        	"id" : button.data("id"),
-			"action" : action
-        },
-        dataType : "json"
-    })
-    .done(function (data) {
-        if ( data && data.result ) {
-        	toastr.success("Change has been done !!");
-        	changeButtonName(button, action);
-        	bindAdminBtnEvents();
-        } else {
-           toastr.error("Something went wrong!! please try again. " + data.msg);
-        }
-    });
-}
-
-function changeButtonName(button, action) {
-	console.log(action);
-	var icon = '<span class="fa-stack"> <i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span>';
-	if (action=="addBetaTester") {
-		button.removeClass("addBetaTesterBtn");
-		button.addClass("revokeBetaTesterBtn");
-		button.html(icon+" Revoke this beta tester");
-	} else if (action=="revokeBetaTester") {
-		button.removeClass("revokeBetaTesterBtn");
-		button.addClass("addBetaTesterBtn");
-		button.html(icon+" Add this beta tester");
-	} else if (action=="addSuperAdmin") {
-		button.removeClass("addSuperAdminBtn");
-		button.addClass("revokeSuperAdminBtn");
-		button.html(icon+" Revoke this super admin");
-	} else if (action=="revokeSuperAdmin") {
-		button.removeClass("revokeSuperAdminBtn");
-		button.addClass("addSuperAdminBtn");
-		button.html(icon+" Add this super admin");
-	} else {
-		console.warn("Unknown action !");
-	}
-}
 
 </script>

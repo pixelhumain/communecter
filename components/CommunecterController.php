@@ -141,6 +141,7 @@ class CommunecterController extends Controller
       "delete"    => array( "href" => "/ph/communecter/news/delete"),
       "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
       "extractprocess" => array( "href" => "/ph/communecter/news/extractprocess"),
+      "moderate" => array( "href" => "/ph/communecter/news/moderate"),
     ),
     "search"=> array(
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
