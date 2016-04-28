@@ -38,6 +38,8 @@ return array(
 	"Start Date" => "Début",
 	"End Date" => "Fin",
 	"Actions" => "Actions",
+	"All your Actions" => "Liste de vos actions",
+	"All your Rooms" => "Liste des thématiques",
 
 	"propositions" => "propositions"
 );
