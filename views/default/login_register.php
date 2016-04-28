@@ -204,7 +204,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 padding-5">
-							<a href="javascript:;" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code") ?></a>
+							<a href="javascript:;"  id="inviteCodeLink" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code")?></a>
 							<div class="form-group hide inviteCodeForm">
 								<span class="input-icon">
 									<input type="text" class="form-control" id="inviteCode" name="inviteCode" placeholder="<?php echo Yii::t("login","Invitation Code") ?>">
@@ -320,6 +320,7 @@ function userValidatedActions() {
 		$('.pendingProcess').show();
 		$('.form-register #name').val(name);
 		$('#email3').prop('disabled', true);
+		$('#inviteCodeLink').hide();
 	}
 }
 
@@ -617,8 +618,9 @@ var Login = function() {
 		    		  	$("#modalRegisterSuccess").modal({ show: 'true' }); 
 		    		  	// Hide modal if "Okay" is pressed
 					    $('#modalRegisterSuccess .btn-default').click(function() {
+					        console.log("hide modale and reload");
 					        $('modalRegisterSuccess').modal('hide');
-					    	window.location.href = baseUrl+'#default.home';
+					    	loadByHash('#default.home');
 					    });
 		        		//loadByHash("#default.directory");
 		    		  }
