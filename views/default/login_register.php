@@ -620,7 +620,8 @@ var Login = function() {
 					    $('#modalRegisterSuccess .btn-default').click(function() {
 					        console.log("hide modale and reload");
 					        $('modalRegisterSuccess').modal('hide');
-					    	loadByHash('#default.home');
+					    	window.location.href = baseUrl+'/#default.home';
+					    	window.location.reload();
 					    });
 		        		//loadByHash("#default.directory");
 		    		  }
