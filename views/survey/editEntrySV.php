@@ -75,7 +75,7 @@ var proposalFormDefinition = {
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "Tapez une url intéressante",
+                  "placeholder" : "Tapez une url information ou des titre d'actions à faire",
                   "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
             "tags" :{
@@ -224,6 +224,9 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
+                    if( $("#editEntryContainer #id").val() != "" )
+                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() )
+                    else
                       loadByHash( "#survey.entries.id."+data.parentId )
                   }
                   else {

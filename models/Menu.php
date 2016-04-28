@@ -566,7 +566,14 @@ class Menu {
             $organiserId = $survey['organizerId'];
         }
 
-        // Add a proposal
+        // Back to  proposal
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'go Back'),
+                    Yii::t( "common", 'Back'), 'chevron-circle-left',
+                    "window.history.back();",null,null);
+
+        // Back to Parent Survey
         //-----------------------------
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'Back to Parent Survey'),

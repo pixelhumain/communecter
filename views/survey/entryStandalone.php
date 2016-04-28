@@ -286,66 +286,79 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 		<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
 
-		<?php /*
-			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
-															  "actionTitle"    => "VOTE", 
-														 	  "actionIcon"     => "download" ));*/
-		?>
+			<?php /*
+				$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
+																  "actionTitle"    => "VOTE", 
+															 	  "actionIcon"     => "download" ));*/
+			?>
 
-		<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
-				
-				<div class="box-vote box-pod box radius-20" style="">
-					<span class="text-extra-large text-bold text-red"> 
-						<?php echo Yii::t("survey","Closed",null,Yii::app()->controller->module->id) ?>
-					</span> 
-					<?php if( isset($organizer) ){ ?>
-						<p><?php echo Yii::t("survey","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
-					<?php }	?>
+			<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 					
-				</div>
-				
-		<?php } else { ?> 
+					<div class="box-vote box-pod box radius-20" style="">
+						<span class="text-extra-large text-bold text-red"> 
+							<?php echo Yii::t("survey","Closed",null,Yii::app()->controller->module->id) ?>
+						</span> 
+						<?php if( isset($organizer) ){ ?>
+							<p><?php echo Yii::t("survey","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
+						<?php }	?>
+						
+					</div>
+					
+			<?php } else { ?> 
 
-				<div class="box-vote box-pod box radius-20">
-					<?php
-					$this->renderPartial('entry',array( "survey" => $survey, 
-														"position" => "center",
-														"showName" => true,
-														"hideTexts" => true
-														 ));?>
-				</div>
+					<div class="box-vote box-pod box radius-20">
+						<?php
+						$this->renderPartial('entry',array( "survey" => $survey, 
+															"position" => "center",
+															"showName" => true,
+															"hideTexts" => true
+															 ));?>
+					</div>
 
-		<?php } ?>
-		
-		
-	</div>	
+			<?php } ?>
+		</div>	
 
-			<div class="col-md-7" style="margin-top:10px;">
-				<?php if( isset($organizer) ){ ?>
-					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
-				<?php }	?>
-				
-				<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-				<br/><br/>
-				<?php echo $survey["message"]; ?>
-				<br/><br/>
-				<?php if( isset( $survey["tags"] ) ){ ?>
-					<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
-					<?php foreach ( $survey["tags"] as $value) {
-	 					echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
-	 				}?>
-					</span><br>
-				<?php }	?>
+		<div class="col-md-7" style="margin-top:10px;">
+			<?php if( isset($organizer) ){ ?>
+				<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+			<?php }	?>
+			
+			<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
+			<br/><br/>
+			
+			<?php echo $survey["message"]; ?>
+			
+			<br/><br/>
+			<?php if( isset( $survey["tags"] ) ){ ?>
+				<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
+				<?php foreach ( $survey["tags"] as $value) {
+						echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+					}?>
+				</span><br>
+			<?php }	?>
+
+			<?php if( isset( $survey["urls"] ) ){ ?>
+				<span class="" >
+				<h2>Des liens d'informations ou actions à faire</h2>
+				<?php foreach ( $survey["urls"] as $value) {
+					if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
+						echo '<br/><a href="'.$value.'" class="text-large"><i class="fa fa-link"></i> '.$value.'</a> ';
+					else
+						echo '<br/><span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span> ';
+				}?>
+				</span><br>
+			<?php }	?>
+
+		</div>
+		<div  class="col-md-5">
+			
+			<div class="col-md-12" >
+				<?php echo getChartBarResult($survey); ?>
 			</div>
-			<div  class="col-md-5">
-				
-				<div class="col-md-12" >
-					<?php echo getChartBarResult($survey); ?>
-				</div>
-				<div id="container2" ></div>
-			</div>
+			<div id="container2" ></div>
 		</div>
 	</div>
+</div>
 	
 	
 	<div class="col-md-12" >
