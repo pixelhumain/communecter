@@ -1,6 +1,5 @@
 <?php 
 $this->renderPartial('newsSV');
-
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -21,7 +20,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
 	'/plugins/select2/select2.min.js',
-
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
@@ -100,7 +98,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
-<script type="text/javascript" src="https://github.com/sapegin/jquery.mosaicflow.git/jquery.mosaicflow.min.js"></script>
 <style>
 	.tools_bar{
 		    border-bottom: 1px solid #E6E8E8;
@@ -116,36 +113,35 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     width:100%;
     height:auto;
 }
-/*.results{
-    border: 1px solid #eee;
+.grayscale{
+	filter: grayscale(0.7) blur(1px);
+	-webkit-filter: grayscale(0.7) blur(1px);
+	-moz-filter: grayscale(0.7) blur(1px);
+	-o-filter: grayscale(0.7) blur(1px);
+	-ms-filter: grayscale(0.7) blur(1px);
 }
-.extracted_url{
-	margin-top: inherit !important;
+.newImageAlbum{
+	width: 75px;
+    height: 75px;
+    margin: 5px;
+    text-align: -webkit-center;
+    position: relative;
+    background-color: white;
+    display: inline-block;
 }
-.videoSignal{
+.spinner-add-image{
 	position: absolute;
-    width: 100%;
-    line-height: 100px;
-    height: 100%;
-    background-color: rgba(0,0,0,0.2);
-    padding-top: 5px;
-    border: inherit !important;
+    z-index: 10;
+    left: 20px;
+    top: 20px;
 }
-.videoSignal:hover{
-	background-color: rgba(0,0,0,0.0);
+.removeImage{
+	position: absolute;
+    z-index: 10;
+    right: 0px;
+	top: 0px;
+	text-shadow: 0px 0px 2px black;
 }
-.extracted_content{
-	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4) inset;
-	min-height: 100px;
-}
- .videoSignal i  { 
-	bottom: 0;
-    left: 0;
-    text-align: center;
-    position: absolute;
-    right: 0;
-    top: 40%;
-}*/
 </style>
 
 

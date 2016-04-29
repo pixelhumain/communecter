@@ -143,8 +143,8 @@ function buildLineHTML(newsObj,idSession,update)
 					media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
 					//// Fonction générant l'html
 				} 
-			} else if (newsObj.media.type=="galery_images"){
-				media=getMediaImages(newsObj.media);
+			} else if (newsObj.media.type=="gallery_images"){
+				media=getMediaImages(newsObj.media,newsObj._id.$id,newsObj.author.id);
 			}
 				
 		}
@@ -294,7 +294,7 @@ function buildHtmlUrlAndActionObject(obj){
 		redirectTypeUrl="news";
 
 	if(obj.type=="news"){
-		url = 'href="javascript:" onclick="openMainPanelFromPanel(\'/news/latest/id/'+obj.id+'\', \''+redirectTypeUrl+' : '+obj.name+'\',\''+obj.icon+'\', \''+obj.id+'\')"';
+		url = '';
 		
 		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
