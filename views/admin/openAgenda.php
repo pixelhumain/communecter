@@ -55,8 +55,7 @@
 </div>
 
 <script type="text/javascript">
-
-//$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Open Agenda");
 
 jQuery(document).ready(function() {
 	$("#divCheckEvents").hide();
@@ -80,7 +79,7 @@ function bindEvents(){
 		//https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0
 
 		url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
-		
+		console.log("url", url);
 		$.ajax({
 			url: url,
 			type: 'POST',
@@ -216,14 +215,6 @@ function check (nbpage, page, dateToday, date50, finish){
 				
 				});
 			});
-
-			/*finish["arrayAdd"]  = arrayAdd.concat(finish["arrayAdd"]);
-			finish["arrayUpdate"]  = arrayUpdate.concat(finish["arrayUpdate"]);
-			finish["arrayDelete"]  = arrayDelete.concat(finish["arrayDelete"]);
-
-			finish["ligneAdd"]  = ligneAdd + finish["ligneAdd"];
-			finish["ligneUpdate"]  = ligneUpdate + finish["ligneUpdate"] ;
-			finish["ligneDelete"]  = ligneDelete + finish["ligneDelete"] ;*/
 
 			if(nbpage > page){
 				page++;
