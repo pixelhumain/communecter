@@ -47,7 +47,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
-		$restricted = Yii::t("common","Visible to this wall and published to this community's network");
+		$restricted = Yii::t("common","Visible on this wall and published on community's network");
 		$titleRestricted = "Restreint";
 		$private = Yii::t("common","Visible only to the members"); 
 		$titlePrivate = "Privé";
@@ -66,7 +66,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			}	
 		}
 		else{
-			$restricted = Yii::t("common","Visible to my wall and published to my network");
+			$restricted = Yii::t("common","Visible on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
@@ -77,7 +77,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $project["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
-		$restricted = Yii::t("common","Visible to this wall and published to this network");
+		$restricted = Yii::t("common","Visible on this wall and published on community's network");
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
@@ -86,7 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $event["name"];
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
-		$restricted = Yii::t("common","On this wall and published to this network");
+		$restricted = Yii::t("common","Visible on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
 	}
@@ -200,7 +200,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<?php } ?>
 						<?php if(@$restricted){ ?>
 							<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> <?php echo ucfirst(Yii::t("common", "My network")) ?></h4>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> <?php echo ucfirst(Yii::t("common", "my network")) ?></h4>
 								<p class="list-group-item-text small"><?php echo $restricted ?></p>
 							</a>
 						</li>
@@ -208,7 +208,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<li>
 							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
 								<!--<div class="small" style="padding-left:12px;">-->
-							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all + Posted on the city's wall")?></p>
+							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on the city's wall")?></p>
 							</a>
 						</li>
 						<?php if (@$private && $contextParentType==Person::COLLECTION){ ?>
