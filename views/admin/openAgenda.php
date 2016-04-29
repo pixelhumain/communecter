@@ -76,8 +76,6 @@ function bindEvents(){
 		var page = 1 ;
 		var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0";
 
-		//url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
-
 		console.log("url", url);
 		$.ajax({
 			url: baseUrl+'/communecter/admin/getdatabyurl/',
@@ -221,17 +219,19 @@ function checkEventsOpenAgendaInDB(data){
 
 function check (nbpage, page, dateToday, date50, finish){
 	
-	var url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
+	var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
 	console.log('url', url);
 	
 	$.ajax({
-		url: url,
+		url: baseUrl+'/communecter/admin/getdatabyurl/',
 		type: 'POST',
-		dataType: 'jsonp',
-		async:false,
-		success: function (obj){
-			console.log('success', obj);
-			
+		dataType: 'json', 
+		data:{ url : url },
+		async : false,
+		success: function (object){
+			console.log('success', object);
+			var obj = jQuery.parseJSON(object.data);
+			console.log('obj', obj);
 			var allEvents = checkEventsOpenAgendaInDB(obj);
 			$.each(allEvents, function( stateEvent, arrayEvents ) {
 				var nbEvents = 0;
