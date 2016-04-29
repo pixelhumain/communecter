@@ -88,6 +88,10 @@ class TestController extends CommunecterController {
 			  
 			  $parentType=$data["type"];
 			  $parentId=$data["id"];
+			  if($parentType=="city"){
+				  $parentType=Person::COLLECTION;
+				  $parentId=$data["author"];
+			  }
 			  PHDB::update(News::COLLECTION,
 				array("_id" => $data["_id"]) , 
 				array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			

@@ -295,7 +295,8 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				switchModeEdit(data.id);
+	        	//$('.editable-news').editable('toggleDisabled');
+				//switchModeEdit(data.id);
 				console.log(data);
 	        }
 	        else{
@@ -320,7 +321,8 @@ function initXEditable() {
 		showbuttons: 'bottom',
 		success : function(data) {
 	        if(data.result) {
-		        switchModeEdit(data.id);
+		       // $('.newsContent').editable('toggleDisabled');
+		       // switchModeEdit(data.id);
 	        	toastr.success(data.msg);
 	        	console.log(data);
 	        	}
