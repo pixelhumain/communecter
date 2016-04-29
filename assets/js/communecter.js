@@ -382,7 +382,7 @@ var loadableUrls = {
 	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
 	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
 	"#event.eventsv": {title:'ADD AN EVENT', icon : "calendar","login":true},
-	"#project.projectsv": {title:'ADD A PROJECT', icon : 'lightbulb-o','urlExtra':'/id/'+userId+'/type/citoyen',"login":true},
+	"#project.projectsv": {title:'ADD A PROJECT', icon : 'lightbulb-o',"login":true},
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},

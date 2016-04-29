@@ -116,6 +116,15 @@ Menu::organization($organization);
 
 ?>
 <div  id="addMembers" >
+	<?php   
+  		if (@Yii::app()->params['betaTest']) { 
+  			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
+  			?>
+
+  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
+  	<?php
+		}
+	?>
     <!-- start: PAGE CONTENT -->
     <h2 class='radius-10 padding-10 text-bold text-dark'> 
 		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
@@ -538,6 +547,10 @@ Menu::organization($organization);
 						$("#addMembers #memberIsAdmin").val("false");
 						$('#addMembers #memberEmail').parents().eq(1).show();
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
+						//Minus 1 on number of invit
+						var count = parseInt($("#numberOfInvit").data("count")) - 1;
+						$("#numberOfInvit").html(count + ' invitation(s)');
+						$("#numberOfInvit").data("count", count);
 		                showSearch();
 	            	}
 	            	console.log(data.result);   
@@ -933,17 +946,10 @@ function inviteImportFile(){
 			            		toastr.error(data.msg);
 			            	}else{
 			            		toastr.success("Member added successfully ");
-			            		/*if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
-				        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
-				               	setValidationTable();
-				                $("#addMembers #memberType").val("");
-				                $("#addMembers #memberName").val("");
-				                $("#addMembers #memberEmail").val("");
-				                $("#addMembers #memberIsAdmin").val("");
-				                $('#addMembers #organizationType').val("");
-								$("#addMembers #memberIsAdmin").val("false");
-								$("[name='my-checkbox']").bootstrapSwitch('state', false);
-				                showSearch();*/
+			            		//Minus 1 on number of invit
+								var count = parseInt($("#numberOfInvit").data("count")) - 1;
+								$("#numberOfInvit").html(count + ' invitation(s)');
+								$("#numberOfInvit").data("count", count);
 			            	}
 			            	console.log(data.result);   
 			            },

@@ -102,3 +102,11 @@ Think Tank & wishlist
 ===========
 Proxicity : a value calculating the capacity of a territory in creating links based on a social plateforms activity
 
+Partners
+===========
+We use [BrowserStack](https://www.browserstack.com/) to test our platfom on different OS and browser. Amazing tool.
+We are patner and the support our open source project. Thank you to them.
+
+Help keep this project alive
+===========
+contribute or Join the NGO on [Hello Asso](https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas)

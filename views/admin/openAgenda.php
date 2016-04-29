@@ -129,8 +129,7 @@ function bindEvents(){
 			dataType: 'json',
 			data : {
 				jsonEventsAdd : $("#jsonEventsAdd").val(),
-				jsonEventsUpdate : $("#jsonEventsUpdate").val(),
-				jsonEventsDelete : $("#jsonEventsDelete").val(),
+				jsonEventsUpdate : $("#jsonEventsUpdate").val()
 			},
 			success: function (data){
 				console.log('success', data);

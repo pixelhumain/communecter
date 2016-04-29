@@ -806,6 +806,7 @@ function bindEvents()
 
   	$("#btnVisualisation").off().on('click', function()
   	{
+  		cleanVisualisation();
 		var creator = "" ;
   		if($("#selectCreator").val() == "you")
   			creator = userId ;
@@ -876,7 +877,7 @@ function bindEvents()
 	  				if($("#typeFile").val() == "csv"){
 	  					var fin = false ;
 				  		var indexStart = 0 ;
-				  		var limit = 900 ;
+				  		var limit = 25 ;
 				  		var indexEnd = limit;
 
 				  		while(fin == false){
@@ -890,7 +891,6 @@ function bindEvents()
 				  			indexEnd = indexEnd + limit;
 				  			if(indexStart > file.length)
 				  				fin = true ;
-
 				  		}
 	  				}
 			  		else if($("#typeFile").val() == "json" || $("#typeFile").val() == "js" || $("#typeFile").val() == "geojson"){
@@ -1026,7 +1026,7 @@ function bindEvents()
         			}
         			chaine += "</tr>" ;
         		});
-        		$("#representation").html(chaine);
+        		$("#representation").append(chaine);
 	        }
 	    });
 
@@ -1554,6 +1554,7 @@ function visualisation(params){
         data: params,
         url: baseUrl+'/communecter/admin/previewData/',
         dataType : 'json',
+        async : true,
         success: function(data)
         {
         	console.log("visualisation data",data.result);
@@ -1564,9 +1565,34 @@ function visualisation(params){
         			$("#divJsonErrorView").JSONView(data.jsonError);
         		}
         		
+        		var importD = "" ;
+        		var errorD = "" ;
+        		if($("#jsonImport").val() == "")
+        			importD = data.jsonImport;
+        		else{
+        			if(data.jsonImport == "[]")
+        				importD = $("#jsonImport").val();
+        			else
+        				importD = $("#jsonImport").val().substring(0, $("#jsonImport").val().length-1) + "," + data.jsonImport.substring(1, data.jsonImport.length);
 
-        		$("#jsonImport").val(data.jsonImport);
-        		$("#jsonError").val(data.jsonError);
+        		}
+        			
+        		
+
+        		if($("#jsonError").val() == "")
+        			errorD = data.jsonError;
+        		else{
+
+        			if(data.jsonError == "[]")
+        				errorD = $("#jsonError").val();
+        			else
+        				errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.jsonError.substring(1, data.jsonError.length);
+        		}
+        			
+
+        		$("#jsonImport").val(importD);
+        		$("#jsonError").val(errorD);
+
 
 				var chaine = "" ;
         		$.each(data.listEntite, function(keyListEntite, valueListEntite){
@@ -1583,7 +1609,7 @@ function visualisation(params){
         			}
         			chaine += "</tr>" ;
         		});
-        		$("#representation").html(chaine);
+        		$("#representation").append(chaine);
 
 
         		if(data.geo == true){
@@ -1609,7 +1635,13 @@ function visualisation(params){
         }
     });
 }
+function cleanVisualisation(){
+	$("#representation").html("");
+	$("#jsonImport").val("");
+    $("#jsonError").val("");
 
+
+}
 
 function createJson(params){
 	$.ajax({
@@ -1645,7 +1677,7 @@ function createJson(params){
         			}
         			chaine += "</tr>" ;
         		});
-        		$("#representation").html(chaine);
+        		$("#representation").append(chaine);
         		$("#verifBeforeImport").show();
         		//$("#affichageJSON").show();
 				$.unblockUI();

@@ -39,7 +39,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-dark">
-					<h4 class="modal-title"><i class="fa fa-check"></i> Inscription enregistrée !</h4>
+					<h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Account Created!!") ?></h4>
 				</div>
 				<div class="modal-body center text-dark" id="modalRegisterSuccessContent"></div>
 				<div class="modal-footer">
@@ -204,7 +204,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 padding-5">
-							<a href="javascript:;" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code") ?></a>
+							<a href="javascript:;"  id="inviteCodeLink" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code")?></a>
 							<div class="form-group hide inviteCodeForm">
 								<span class="input-icon">
 									<input type="text" class="form-control" id="inviteCode" name="inviteCode" placeholder="<?php echo Yii::t("login","Invitation Code") ?>">
@@ -306,6 +306,7 @@ jQuery(document).ready(function() {
 	});
 
 });
+
 function userValidatedActions() { 
 	if (userValidated) {
 		$(".errorHandler").hide();
@@ -317,8 +318,9 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('#name').val(name);
+		$('.form-register #name').val(name);
 		$('#email3').prop('disabled', true);
+		$('#inviteCodeLink').hide();
 	}
 }
 
@@ -592,10 +594,10 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $("#name").val(),
-				   "username" : $("#username").val(),
-				   "email" : $("#email3").val(),
-                   "pwd" : $("#password3").val(),
+				   "name" : $('.form-register #name').val(),
+				   "username" : $(".form-register #username").val(),
+				   "email" : $(".form-register #email3").val(),
+                   "pwd" : $(".form-register #password3").val(),
                    "app" : "<?php echo $this->module->id?>",
                    "pendingUserId" : pendingUserId,
                    "mode" : "<?php echo Person::REGISTER_MODE_TWO_STEPS ?>"
@@ -610,11 +612,18 @@ var Login = function() {
 		    	  data: params,
 		    	  success: function(data){
 		    		  if(data.result) {
+		    		  	createBtn.stop();
+
 		    		  	$("#modalRegisterSuccessContent").html("<h3><i class='fa fa-smile-o fa-4x text-green'></i><br><br> "+data.msg+"</h3>");
 		    		  	$("#modalRegisterSuccess").modal({ show: 'true' }); 
-
-		        		//toastr.success(data.msg);
-		        		loadByHash("#default.directory");
+		    		  	// Hide modal if "Okay" is pressed
+					    $('#modalRegisterSuccess .btn-default').click(function() {
+					        console.log("hide modale and reload");
+					        $('modalRegisterSuccess').modal('hide');
+					    	window.location.href = baseUrl+'/#default.home';
+					    	window.location.reload();
+					    });
+		        		//loadByHash("#default.directory");
 		    		  }
 		    		  else {
 						$('.registerResult').html(data.msg);
@@ -755,5 +764,13 @@ function callbackFindByInseeError(){
 	console.log("erreur getlatlngbyinsee");
 }
 
+function initRegister() {
+	$('.form-register #name').val("");
+	$(".form-register #username").val("");
+	$(".form-register #email3").val("");
+	$(".form-register #password3").val("");
+	$(".form-register #passwordAgain").val("");
+	$(".form-register #inviteCode").val("");
+}
 
 </script>
