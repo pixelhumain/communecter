@@ -34,6 +34,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	color : rgba(229,51,76,1);
 	opacity: 1;
 }
+
+.assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
+      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-position: 0px -40px;
+      background-size: 100% auto;
+    }
+
+      h1.citizenAssembly-header{
+        background-color: rgba(255, 255, 255, 0.63);
+        padding: 30px;
+        margin-bottom: -3px;
+        font-size: 32px;
+        margin-top:90px;
+      }
+
 </style>
 
 <?php 
@@ -54,10 +72,16 @@ $optionsLabels = array(
 
 ?>
 <!-- start: PAGE CONTENT -->
+
+
 <div id="commentHistory">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<?php 
+			<?php if($contextType == "actionRooms"){ ?>
+  			<h1 class="homestead center" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+			     "<?php echo $context["name"]; ?>"
+			  	 </h1>
+			<?php } ?>
 			$currentUser = Yii::app()->session["user"];
 			if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">
@@ -67,8 +91,7 @@ $optionsLabels = array(
 				}?>
 			</div>
 			<?php } ?>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
-			
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 		</div>
 
 		<div class="panel-body panel-white">
@@ -78,13 +101,13 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Comments") ?><span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
+								<?php echo Yii::t("comment","Comments") ?> <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Popular") ?><span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
 					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
@@ -139,7 +162,8 @@ var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-comments'></i> COMMENTS");
+	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
 	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");

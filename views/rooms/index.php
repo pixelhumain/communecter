@@ -36,14 +36,19 @@ $moduleId = Yii::app()->controller->module->id;
 a.text-white {
     color: #FFF;
 }
+
+.tr-room{
+	margin:5px 0px;
+}
+
 blockquote {border: 1px solid gray; cursor: pointer;}
 blockquote:hover {border: 1px solid #E33551; }
 blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </style>
 
 
-<h1 class="homestead text-red center citizenAssembly-header">
-	<i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
+<h1 class="homestead text-dark center citizenAssembly-header">
+	<i class="fa fa-comments"></i> <?php echo $nameParentTitle; ?><br>
 	<small class="homestead text-dark center">
 		Discussions, propositions, débats, sondages
 	</small>
@@ -104,7 +109,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					{ 
 						foreach ($rooms as $e) 
 						{ ?>
-						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+						<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
 							<?php 
 								$type = "rooms";
 								error_log($e["type"]);
@@ -255,7 +260,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 <script type="text/javascript">
 var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-comments text-red'></i> " + "espace citoyen");
+	$(".moduleLabel").html("<i class='fa fa-comments'></i> " + "espaces collaboratifs");
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
