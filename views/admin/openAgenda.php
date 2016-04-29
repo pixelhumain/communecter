@@ -77,9 +77,9 @@ function bindEvents(){
 		var url = "";
 
 		//https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0
-		alert("la");
+
 		url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
-		alert("la");
+
 		console.log("url", url);
 		$.ajax({
 			url: url,
@@ -88,6 +88,7 @@ function bindEvents(){
 			json: "callback",
 			async:false,
 			success: function (obj){
+				alert("la");
 				var x = obj.total;
 				var y = 100;
 				var d = 0
