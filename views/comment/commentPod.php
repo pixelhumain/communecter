@@ -78,12 +78,12 @@ $optionsLabels = array(
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<?php if($contextType == "actionRooms"){ ?>
-  			<h1 class="homestead center" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+  				<h1 class="homestead center" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
 			     "<?php echo $context["name"]; ?>"
 			  	 </h1>
 			<?php } ?>
 			$currentUser = Yii::app()->session["user"];
-			if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
+			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
