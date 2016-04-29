@@ -53,9 +53,11 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	<div class="panel-heading">
 		
 		<div class="col-xs-6 light">
+			<div class="panel-heading border-light bg-green">
+		    	<h4 class="homestead text-dark panel-title"><i class="fa fa-archive"></i> <?php echo Yii::t('rooms', 'Your Rooms', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$rooms) ?></h4>
+		    </div>
 		  <blockquote class="roomsTableBtn infoTablesBtn active" onclick="toggle('.roomsTable','.infoTables',true)"> 
-		    <span class="homestead text-dark"><i class="fa fa-archive"></i> <?php echo Yii::t('rooms', 'Your Rooms', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$rooms) ?></span>
-		    <br><?php echo Yii::t('rooms', 'Rooms are Thematic Think Tanks', null, $moduleId)?>
+		    <?php echo Yii::t('rooms', 'Rooms are Thematic Think Tanks', null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', "Make Proposals", null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', 'Put ideas together', null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', 'Think Thematicaly', null, $moduleId)?>
@@ -64,9 +66,11 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		</div>
 
 		<div class="col-xs-6">
+			<div class="panel-heading border-light bg-yellow">
+		    	<h4 class="homestead text-dark panel-title"><i class="fa fa-thumbs-up"></i> <?php echo Yii::t('rooms', 'Your Actions', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$actions) ?></h4>
+		    </div>
 		  <blockquote class="actionsTableBtn infoTablesBtn " onclick="toggle('.actionsTable','.infoTables',true)"> 
-		    <span class="homestead text-dark"><i class="fa fa-thumbs-up"></i> <?php echo Yii::t('rooms', 'Your Actions', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$actions) ?></span>
-		    <br><?php echo Yii::t('rooms', 'Actions are your particiaptions', null, $moduleId)?>
+		    <?php echo Yii::t('rooms', 'Actions are your particiaptions', null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', 'Be part of the change', null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', 'Your Voice Count', null, $moduleId)?>
 		    <br><?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
@@ -85,6 +89,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 						<th><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
 						<th><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
 						<th><?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Start Date", null, $moduleId); ?></th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -127,6 +132,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 							</td>
 							<td><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 							<td><i class="fa fa-users"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 						</tr>
 					<?php
 						};

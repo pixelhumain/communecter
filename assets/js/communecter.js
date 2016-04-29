@@ -598,14 +598,19 @@ Generic ajax panel loading process
 loads any REST Url endpoint returning HTML into the content section
 also switches the global Title and Icon
 **************/
+var rand = Math.floor((Math.random() * 7) + 1); 
+var urlImgRand = proverbs[rand];
+function  processingBlockUi() { 
+	$.blockUI({
+	 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
+	 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
+	 });
+}
 function showAjaxPanel (url,title,icon) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
 
-	var rand = Math.floor((Math.random() * 7) + 1); 
-	var urlImgRand = proverbs[rand];
-	
 	showNotif(false);
 			
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
@@ -613,10 +618,7 @@ function showAjaxPanel (url,title,icon) {
 	setTimeout(function(){
 		$(".main-col-search").html("");
 		$(".hover-info").hide();
-		 $.blockUI({
-		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
-		 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
-		 });
+		processingBlockUi();
 		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
 		//$(".main-col-search").show();
 		showMap(false);

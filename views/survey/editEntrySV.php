@@ -184,14 +184,7 @@ function editEntrySV () {
             //two = getRandomInt(0,10);
             if( $("#editEntryContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
-              $.blockUI({
-                    message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
-                          '<blockquote>'+
-                            '<p>each Time I plant a seed'+
-                              '<br/>they say kill it before it grows.</p>'+
-                            '<cite title="Bob Marley ">Bob Marley </cite>'+
-                          '</blockquote> '
-                  });
+              processingBlockUi();
               var params = { 
                  "survey" : "<?php echo (isset($_GET['survey'])) ? $_GET['survey'] : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 

@@ -625,6 +625,15 @@ class Menu {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
         
+        // Back to Parent
+        //-----------------------------
+        if(( isset( $type ) && isset($id))){
+         self::entry("left", 'onclick', 
+                     Yii::t( "common", 'got back to the detail page of the parent '.$type),
+                     Yii::t( "common", 'Back to Parent'), 'chevron-circle-left',
+                     "loadByHash('#".$type.".detail.id.".$id."')",null,null);
+        }
+        
         // Add a proposal
         //-----------------------------
         $urlParams = ( isset( $type ) && isset($id)) ? ".type.".$type.".id.".$id : "" ;
@@ -633,10 +642,7 @@ class Menu {
                     Yii::t( "common", 'Add'), 'plus',
                     "loadByHash('#rooms.editroom".$urlParams."')",null,null);
 
-        // self::entry("left", 'onclick', 
-        //             Yii::t( "common", 'Relaod page'),
-        //             Yii::t( "common", 'Reload'), 'refresh',
-        //             "loadByHash(location.hash)",null,null);
+
         
         // Help
         //-----------------------------
