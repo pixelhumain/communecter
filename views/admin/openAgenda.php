@@ -109,7 +109,9 @@ function bindEvents(){
 
 			},
 			error: function (error) {
+				alert("la");
 				console.log('error', error);
+				alert("la");
 			}
 		});
 		
