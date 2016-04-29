@@ -230,7 +230,7 @@ $this->renderPartial('../default/panels/toolbar');
     ***************************************** */
     function buildEntryBlock( $entry,$uniqueVoters,$alltags ){
         $logguedAndValid = Person::logguedAndValid();
-        $tagBlock = "";
+        $tagBlock = "<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
         $message = substr($entry["message"],0,300);
@@ -562,7 +562,7 @@ $this->renderPartial('../default/panels/toolbar');
         
         <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
               <!-- <label>Filtre:</label> -->
-              <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button>
+              <!-- <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button> -->
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
