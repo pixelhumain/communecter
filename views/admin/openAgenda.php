@@ -75,13 +75,50 @@ function bindEvents(){
 		var dateToday  = "<?php echo date('d').'/'.date('m').'/'.date('Y') ;?>";
 		var date50  = "<?php echo date('d').'/'.date('m').'/'.(date('Y')+50) ;?>";
 		var page = 1 ;
-		var url = "";
+		var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0";
 
-		//https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0
-
-		url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
 		
+
+		//url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
 		$.ajax({
+			url: baseUrl+'/communecter/admin/getdatabyurl/',
+			type: 'POST',
+			dataType: 'json', 
+			data:{ url : url },
+			async : false,
+			success: function (obj){
+				console.log('success', obj.data, obj.total);
+				var object = jQuery.parseJSON(obj.data);
+				//console.log('success', object.total);
+
+				var x = object.total;
+				var y = 100;
+				var d = 0
+				if(x%y > 0) 
+					d = 1 ;
+					s = Number((x / y).toFixed(0)) ;
+				var z =  d + s;
+
+				var finish = {};
+				finish["arrayAdd"]  = [];
+				finish["arrayUpdate"]  = [];
+				finish["arrayDelete"]  = [];
+
+				finish["ligneAdd"]  = "";
+				finish["ligneUpdate"]  = "" ;
+				finish["ligneDelete"]  = "" ;
+				
+				check(z, 1, dateToday, date50, finish);
+				console.log("res", res);
+
+
+				$.unblockUI();
+			},
+			error: function (error) {
+				console.log('error', error);
+			}
+		});
+		/*$.ajax({
 			url: url,
 			type: 'POST',
 			dataType: 'jsonp',
@@ -112,7 +149,7 @@ function bindEvents(){
 			error: function (error) {
 				console.log('error', error);
 			}
-		});
+		});*/
 		
 	});
 
