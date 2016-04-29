@@ -85,7 +85,6 @@ function bindEvents(){
 			url: url,
 			type: 'POST',
 			dataType: 'jsonp',
-			json: "callback",
 			async:false,
 			success: function (obj){
 				alert("la");
