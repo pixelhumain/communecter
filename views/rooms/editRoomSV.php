@@ -6,33 +6,37 @@ $this->renderPartial('../default/panels/toolbar');
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 </style>
 
-<div class="col-xs-4 col-sm-offset-2">
+<h1 class="homestead center text-dark"><i class="fa fa-caret-down"></i> Quel type d'espace souhaitez-vous créer ?</h1><br/>
+<div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1 text-dark">
   <blockquote> 
-    <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
+<!--     <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
     <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png"/>
-    </a>
-    <br/><span class="text-bold"><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> </span>
-    <br><?php echo Yii::t('rooms', "Let's talk about", null, Yii::app()->controller->module->id)?>
-    <br><?php echo Yii::t('rooms', 'Find questions to ask', null, Yii::app()->controller->module->id)?>
-    <br><?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, Yii::app()->controller->module->id)?>
-    <br/><a class="filter btn btn-xs text-white" style="background-color: #7acf5b" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a> 
+    </a> -->
+    <i class="fa fa-comments center fa-4x"></i>
+    <br/><br/><a class="btn btn-success" href="javascript:;" onclick="" typeval="discuss"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, Yii::app()->controller->module->id)?> <i class="fa fa-arrow-circle-right"></i></span></a>
+    <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "Let's talk about", null, Yii::app()->controller->module->id)?>
+    <!-- <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Find questions to ask', null, Yii::app()->controller->module->id)?> -->
+    <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, Yii::app()->controller->module->id)?>
+    <!-- <br/><a class="btn btn-success" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a>  -->
   </blockquote>
 </div>
 
-<div class="col-xs-4">
+<div class="col-xs-12 col-sm-6 col-md-5 text-dark">
   <blockquote> 
-    <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
+    <!-- <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
       <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png"/>
-    </a><br/><span class="text-bold"><?php echo Yii::t('rooms', 'Ask Others', null, Yii::app()->controller->module->id)?></span>
-    <br><?php echo Yii::t('rooms', 'Share Qestions', null, Yii::app()->controller->module->id)?>
-    <br><?php echo Yii::t('rooms', 'Brainstorm', null, Yii::app()->controller->module->id)?>
-    <br><?php echo Yii::t('rooms', 'Decide Collectivelly', null, Yii::app()->controller->module->id)?>
-    <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
-    <br/><a class="filter btn btn-xs text-white" style="background-color: #7acf5b" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a> 
+    </a> -->
+    <i class="fa fa-gavel center fa-4x"></i>
+    <br/><br/><a class="btn btn-success" href="javascript:;" onclick="" typeval="discuss"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, Yii::app()->controller->module->id)?></span> <i class="fa fa-arrow-circle-right"></i></a>
+    <!-- <br><?php echo Yii::t('rooms', 'Share Qestions', null, Yii::app()->controller->module->id)?> -->
+    <!-- <br><?php echo Yii::t('rooms', 'Brainstorm', null, Yii::app()->controller->module->id)?> -->
+    <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Decide Collectivelly', null, Yii::app()->controller->module->id)?>
+    <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
+    <!-- <br/><a class="btn btn-success" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a>  -->
   </blockquote>
 </div>
 
-<div id="editRoomsContainer"></div>
+<div id="editRoomsContainer" class="hidden"></div>
 
 <script type="text/javascript">
 var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;

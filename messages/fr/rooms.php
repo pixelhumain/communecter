@@ -9,13 +9,13 @@ return array(
 	"Type of Room" => "Type d'espace",
 	"New Room" => "Nouvel espace",
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
-			"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
+	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
 	"Discussions" => "Créer des discussions",
+	"Create a discussion" => "Créer un espace de discussion",
 	"Decisions" => "Prendre des décisions",
 	"Brainstorms" => "Echanger des idées",
-	"to think, develop, build and decide collaboratively" => "pour penser, développer, construire et décider de façon collaborative",
-
+	
 	"To vote" => "A voter",
 	"My votes" => "Mes votes",
 	"My proposals" => "Mes propositions",
@@ -41,5 +41,15 @@ return array(
 	"All your Actions" => "Liste de vos actions",
 	"All your Rooms" => "Liste des thématiques",
 
-	"propositions" => "propositions"
+	"propositions" => "propositions",
+	"Create propostal" => "Faire une proposition",
+	"Take decisions" => "Créer un espace de décision",
+
+	"Let's talk about" => "Échanger des idées librement",
+	"Find questions to ask" => "Poser des questions",
+	"Collective intelligence sometimes starts by talking" => "Utiliser l'intelligence collective pour approfondir un sujet",
+	
+	"Decide Collectivelly" => "Voter collectivement",
+	"to think, develop, build and decide collaboratively" => "Penser, développer, construire et décider de façon collaborative",
+
 );
