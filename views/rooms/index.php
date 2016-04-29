@@ -53,8 +53,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	<div class="panel-heading">
 		
 		<div class="col-xs-6 light">
-			<div class="panel-heading border-light bg-green">
-		    	<h4 class="homestead text-dark panel-title"><i class="fa fa-archive"></i> <?php echo Yii::t('rooms', 'Your Rooms', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$rooms) ?></h4>
+			<div class="panel-heading border-light bg-red">
+		    	<h4 class="panel-title text-white"><i class="fa fa-archive"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Rooms', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$rooms) ?></span></h4>
 		    </div>
 		  <blockquote class="roomsTableBtn infoTablesBtn active" onclick="toggle('.roomsTable','.infoTables',true)"> 
 		    <?php echo Yii::t('rooms', 'Rooms are Thematic Think Tanks', null, $moduleId)?>
@@ -66,8 +66,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		</div>
 
 		<div class="col-xs-6">
-			<div class="panel-heading border-light bg-yellow">
-		    	<h4 class="homestead text-dark panel-title"><i class="fa fa-thumbs-up"></i> <?php echo Yii::t('rooms', 'Your Actions', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$actions) ?></h4>
+			<div class="panel-heading border-light bg-orange">
+		    	<h4 class="text-dark panel-title"><i class="fa fa-thumbs-up"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Actions', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$actions) ?></span></h4>
 		    </div>
 		  <blockquote class="actionsTableBtn infoTablesBtn " onclick="toggle('.actionsTable','.infoTables',true)"> 
 		    <?php echo Yii::t('rooms', 'Actions are your particiaptions', null, $moduleId)?>
@@ -81,7 +81,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 	<div class="panel-body">
 		<div class="roomsTable infoTables">	
-			<h1 class="homestead text-dark"><i class="fa fa-caret-down"></i>  <?php echo Yii::t("rooms", "All your Rooms", null, $moduleId); ?></h1>
+			<h1 class="homestead text-red"><i class="fa fa-chevron-circle-down"></i>  <?php echo Yii::t("rooms", "All your Rooms", null, $moduleId); ?></h1>
 			<table class="table table-striped table-bordered table-hover  directoryTable ">
 				<thead>
 					<tr>
@@ -143,16 +143,16 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 		<div class="actionsTable infoTables hide">	
-			<h1 class="homestead text-dark" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa fa-caret-down"></i></h1>
+			<h1 class="homestead text-orange" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa  fa-chevron-circle-down"></i></h1>
 			<table class="table table-striped table-bordered table-hover directoryTable  ">
 				<thead>
 					<tr>
-						<th class="hidden"><?php echo Yii::t("rooms", "Type / Action", null, $moduleId); ?></th>
-						<th><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Name", null, $moduleId); ?></th>
+						<th class="hidden"><?php echo Yii::t("rooms", "Titre", null, $moduleId); ?></th>
+						<th><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
 						<th><?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
 						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Start Date", null, $moduleId); ?></th>
 						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "End Date", null, $moduleId); ?></th>
-						<th><?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
+						<th><?php echo Yii::t("rooms", "Action", null, $moduleId); ?></th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
