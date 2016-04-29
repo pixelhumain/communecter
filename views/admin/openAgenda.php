@@ -134,7 +134,10 @@ function bindEvents(){
 			success: function (data){
 				console.log('success', data);
 				$.unblockUI();
-				toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
+				if(typeof data.result != "undefined")
+					toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
+				else
+					toastr.success("Aucun evenement n'a été ajouté et/ou modifier");
 			},
 			error: function (error) {
 				console.log('error', error);
