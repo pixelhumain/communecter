@@ -49,7 +49,22 @@
 			<div class="col-xs-12 col-sm-12 text-center">
 				<a href="#" class="btn btn-primary col-sm-2" id="importOpenAgenda"> <?php echo Yii::t("common", "IMPORT"); ?></a>
 			</div>
-			
+			</br></br>
+			<div class="col-xs-12 col-sm-12 text-center">
+				<table id="tableRes" class="table table-striped table-bordered table-hover">
+		    		<thead>
+			    		<tr>
+			    			<th class="col-sm-5">Entité</th>
+			    			<th class="col-sm-5">Result</th>
+			    		</tr>
+		    		</thead>
+			    	<tbody class="directoryLines" id="bodyResult">
+				    	
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 		</div>
 	</div>
 </div>
@@ -86,8 +101,6 @@ function bindEvents(){
 			success: function (obj){
 				console.log('success', obj.data, obj.total);
 				var object = jQuery.parseJSON(obj.data);
-				//console.log('success', object.total);
-
 				var x = object.total;
 				var y = 100;
 				var d = 0
@@ -109,46 +122,12 @@ function bindEvents(){
 				console.log("res", res);
 
 
-				$.unblockUI();
+				
 			},
 			error: function (error) {
 				console.log('error', error);
 			}
-		});
-		/*$.ajax({
-			url: url,
-			type: 'POST',
-			dataType: 'jsonp',
-			async:false,
-			success: function (obj){
-				alert("la");
-				var x = obj.total;
-				var y = 100;
-				var d = 0
-				if(x%y > 0) 
-					d = 1 ;
-					s = Number((x / y).toFixed(0)) ;
-				var z =  d + s;
-
-				var finish = {};
-				finish["arrayAdd"]  = [];
-				finish["arrayUpdate"]  = [];
-				finish["arrayDelete"]  = [];
-
-				finish["ligneAdd"]  = "";
-				finish["ligneUpdate"]  = "" ;
-				finish["ligneDelete"]  = "" ;
-				
-				check(z, 1, dateToday, date50, finish);
-				console.log("res", res);
-
-			},
-			error: function (error) {
-				
-				console.log('error', error);
-			}
-		});*/
-		
+		});		
 	});
 
 
@@ -168,11 +147,27 @@ function bindEvents(){
 			},
 			success: function (data){
 				console.log('success', data);
-				$.unblockUI();
-				if(typeof data.result != "undefined")
+				var ligne = "" ;
+				if(typeof data.result != "undefined"){
 					toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
-				else
+					$.each(data.result, function( key, events ){
+						ligne += "<tr><td>"+events.name+"</td><td>"+events.msg+"</td></tr>" ;
+					});
+				}
+				else{
 					toastr.success("Aucun evenement n'a été ajouté et/ou modifier");
+				}
+
+				if(typeof data.error != "undefined"){
+					$.each(data.error, function( key, events ){
+						ligne += "<tr><td>"+events.name.fr+"</td><td>"+events.msg+"</td></tr>" ;
+					});
+				}
+
+				$("#bodyResult").html(ligne);
+
+				$.unblockUI();
+					
 			},
 			error: function (error) {
 				console.log('error', error);
