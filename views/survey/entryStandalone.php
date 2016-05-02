@@ -177,16 +177,27 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
  			$nameParentTitle = $orga["name"];
 		}
 
+		
+//copié coller merdique
+// a sortir de la vue demain
+$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+
+$totalVotesGbl = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
 
 		function getChartBarResult($survey){
 
-      $voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-      $voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-      $voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-      $voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-      $voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+
+$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
       
-      $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
       
       $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
       
@@ -384,7 +395,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		</div>
 		<div  class="col-md-5">
 			<a class="btn btn-default" href="javascript:;" onclick="toggle('.commentSection','.leftInfoSection')"><i class="fa fa-comments"></i> Commentaires <span class="badge commentCount">0</span></a>
-			<a class="btn btn-default" href="javascript:;" onclick="toggle('.chartResults','.leftInfoSection')"><i class="fa fa-pie-chart"></i> Resultats <span class="badge voterCount">0</span></a>
+			<a class="btn btn-default" href="javascript:;" onclick="toggle('.chartResults','.leftInfoSection')"><i class="fa fa-pie-chart"></i> Resultats <span class="badge voterCount"><?php echo $totalVotesGbl ?></span></a>
 			<div class="col-md-12 leftInfoSection chartResults" >
 				<?php echo getChartBarResult($survey); ?>
 				<div id="container2" ></div>
