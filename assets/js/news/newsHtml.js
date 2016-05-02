@@ -298,7 +298,12 @@ function buildHtmlUrlAndActionObject(obj){
 
 	if(obj.type=="news"){
 		url = '';
-		
+		// Check media content is gallery image
+		if(typeof(obj.media) != "undefined" && typeof(obj.media.type) != "undefined" && obj.media.type=="gallery_images"){
+			titleAction = "a ajouté "+obj.media.countImages+" photos";
+		}
+		else
+			titleAction="";
 		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
@@ -320,12 +325,12 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
-				titleAction = "a partagé un lien";
+				titleAction += "a partagé un lien";
 			else 
-				titleAction = "";
+				titleAction += "";
 		}
 	}
 	else{
