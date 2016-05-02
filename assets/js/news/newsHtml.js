@@ -134,7 +134,10 @@ function buildLineHTML(newsObj,idSession,update)
 		if("undefined" != typeof newsObj.name){
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
-		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
+		textHtml="";
+		if(newsObj.text.length > 0)
+			textHtml='<span class="timeline_text no-padding" >'+newsObj.text+'</span>';
+		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
@@ -144,7 +147,7 @@ function buildLineHTML(newsObj,idSession,update)
 					//// Fonction générant l'html
 				} 
 			} else if (newsObj.media.type=="gallery_images"){
-				media=getMediaImages(newsObj.media,newsObj._id.$id,newsObj.author.id);
+				media=getMediaImages(newsObj.media,newsObj._id.$id,newsObj.author.id,newsObj.target.name);
 			}
 				
 		}
@@ -271,7 +274,7 @@ function buildLineHTML(newsObj,idSession,update)
 						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
-							title + text + media +
+							'<div class="col-md-12 no-padding">'+title + text + "</div>"+media +
 						'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
