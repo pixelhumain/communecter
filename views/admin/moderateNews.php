@@ -157,7 +157,7 @@ function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &
 		$strHTML .= '<td>
 			<i class="fa fa-thumbs-up text-green">'.((isset($e['voteUpCount']) ) ? $e['voteUpCount'] : '0').'</i>&nbsp; 
 			<i class="fa fa-thumbs-down text-orange">'.((isset($e['voteDownCount']) ) ? $e['voteDownCount'] : '0').'</i>&nbsp;
-			<i class="fa fa-flag text-red modalAbuseContentsBtn" data-id="'.$e['_id'].'">'.((isset($e['reportAbuseCount']) ) ? $e['reportAbuseCount'] : '0').'</i>&nbsp;
+			<i class="fa fa-flag text-red modalAbuseContentsBtn" style="cursor:pointer" data-id="'.$e['_id'].'">'.((isset($e['reportAbuseCount']) ) ? $e['reportAbuseCount'] : '0').'</i>&nbsp;
 		</td>';
 		
 		/* **************************************
