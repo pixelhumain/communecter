@@ -1,6 +1,5 @@
 <?php 
 $this->renderPartial('newsSV');
-
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -21,7 +20,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
 	'/plugins/select2/select2.min.js',
-
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
@@ -29,9 +27,10 @@ $cs = Yii::app()->getClientScript();
 //$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
 //$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
+	'/css/news/index.css',	
 	'/js/news/index.js',
-	'/js/news/newsHtml.js',
-	'/css/news/index.css'	
+	'/js/news/newsHtml.js'
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
@@ -48,23 +47,48 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
+		$restricted = Yii::t("common","Visible to this wall and published to this community's network");
+		$titleRestricted = "Restreint";
+		$private = Yii::t("common","Visible only to the members"); 
+		$titlePrivate = "Privé";
+		$scopeBegin= ucfirst(Yii::t("common", "private"));	
+		$iconBegin= "lock";
 	}
-	else if( ((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)) && @$viewer ){
-		Menu::person( $person );
-		$contextName =$person["name"];
-		$contextIcon = "user";
-		$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];	
+	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
+		if(@$viewer){
+			Menu::person( $person );
+			$contextName =$person["name"];
+			$contextIcon = "user";
+			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
+				$restricted = Yii::t("common","Visible to all");
+				$private = Yii::t("common","Visible only to me");
+			}	
+		}
+		else{
+			$restricted = Yii::t("common","Visible to my wall and published to my network");
+			$private = Yii::t("common","Visible only to me");
+		}
+		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
+		$iconBegin= "connectdevelop";
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
 		Menu::project( $project );
 		$contextName = $project["name"];
 		$contextIcon = "lightbulb-o";
-		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Contributors of project");
+		$restricted = Yii::t("common","Visible to this wall and published to this network");
+		$private = Yii::t("common","Visible only to the project's contributors"); 
+		$scopeBegin= ucfirst(Yii::t("common", "private"));	
+		$iconBegin= "lock";
 	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
 		Menu::event( $event );
 		$contextName = $event["name"];
 		$contextIcon = "calendar";
-		$contextTitle = Yii::t("common", "Contributors of event");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Contributors of event");
+		$restricted = Yii::t("common","On this wall and published to this network");
+		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
+		$iconBegin= "connectdevelop";
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -72,17 +96,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+		$scopeBegin= "Public";	
+		$iconBegin= "globe";
 	}
 	else if( isset($type) && $type == "pixels"){
 		$contextName = "Pixels : participez au projet";
-		$contextTitle = Yii::t("common", "Contributors of project");//." ".$project["name"];
+		$contextTitle = Yii::t("common", "Contributors of project");
 	}
 
 	$imgProfil = isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
-
 <style>
 	.tools_bar{
 		    border-bottom: 1px solid #E6E8E8;
@@ -90,49 +115,109 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	.tools_bar .btn{
 		    border-right: 1px solid #E6E8E8;
 	}
-
+	.mosaicflow__column {
+    float:left;
+    }
+.mosaicflow__item img {
+    display:block;
+    width:100%;
+    height:auto;
+}
+.grayscale{
+	filter: grayscale(0.7) blur(1px);
+	-webkit-filter: grayscale(0.7) blur(1px);
+	-moz-filter: grayscale(0.7) blur(1px);
+	-o-filter: grayscale(0.7) blur(1px);
+	-ms-filter: grayscale(0.7) blur(1px);
+}
+.newImageAlbum{
+	width: 75px;
+    height: 75px;
+    margin: 5px;
+    text-align: -webkit-center;
+    position: relative;
+    background-color: white;
+    display: inline-block;
+}
+.spinner-add-image{
+	position: absolute;
+    z-index: 10;
+    left: 20px;
+    top: 20px;
+}
+.removeImage{
+	position: absolute;
+    z-index: 10;
+    right: 0px;
+	top: 0px;
+	text-shadow: 0px 0px 2px black;
+}
 </style>
 
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
+		<div class="tools_bar bg-white">
+				<div class="user-image-buttons">
+					<form method="post" id="photoAddNews" enctype="multipart/form-data">
+						<span class="btn btn-white btn-file fileupload-new btn-sm" id="" ><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="" onchange="showMyImage(this);">
+						</span>
+					</form>
+				</div>
+				<!--<input type="file" accept=".gif, .jpg, .png" name="avatar">
+				<input class="btn bg-white" type="file" accept=".gif, .jpg, .png" onclick="loadImage(event);">
+					<i class="fa fa-picture-o fa-x"></i>
+				</input>-->
+			</div>
 		<form id='form-news'>
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
-			<!--<div class="tools_bar bg-white">
-				<button class="btn bg-white" onclick="$('#profil_avatar').click();">
-					<i class="fa fa-picture-o fa-x"></i>
-				</button>
-			</div>-->
+			
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
-					<div id="results" class="padding-10 bg-white">
-					</div>
+					<div id="results" class="bg-white results"></div>
 				</div>
 			</div>
 			<div class="form-group tagstags" style="">
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$type && $type==Person::COLLECTION && $contextParentId == Yii::app()->session["userId"]){ ?>
+				<?php if(@$canManageNews && $canManageNews==true){ ?>
 				<div class="dropdown">
-					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-globe"></i> Public <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
+					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<?php if (@$private && ($contextParentType==Project::COLLECTION || $contextParentType==Organization::COLLECTION)){ ?>
 						<li>
-							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> Public</h4>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
+								<p class="list-group-item-text small"><?php echo $private ?></p>
+							</a>
+						</li>
+						<?php } ?>
+						<?php if(@$restricted){ ?>
+							<li>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> <?php echo ucfirst(Yii::t("common", "My network")) ?></h4>
+								<p class="list-group-item-text small"><?php echo $restricted ?></p>
+							</a>
+						</li>
+						<?php } ?>
+						<li>
+							<a href="#" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
 								<!--<div class="small" style="padding-left:12px;">-->
-							<p class="list-group-item-text small">Ouvert au public et votre localité</p><!--</div>-->
+							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all + Posted on the city's wall")?></p>
 							</a>
 						</li>
+						<?php if (@$private && $contextParentType==Person::COLLECTION){ ?>
 						<li>
-							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> Mon réseau</h4>
-								<p class="list-group-item-text small">Le réseau auquel vous êtes connecté</p>
+							<a href="#" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
+								<p class="list-group-item-text small"><?php echo $private ?></p>
 							</a>
 						</li>
+						<?php } ?>
 						<!--<li>
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
@@ -141,15 +226,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
-
-					<div class="badge"><i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
+					<p class="text-xs"><?php echo Yii::t("common","Message destination") ?></p> 
+					<div class="badge">
+						<i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
-				<?php if(@$type && $type==Person::COLLECTION && $contextParentId != Yii::app()->session["userId"]){ ?>
-					<input type="hidden" name="scope" value="private"/>
+				<?php if(@$canManageNews && $canManageNews=="true"){ ?>
+						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
+							<input type="hidden" name="scope" value="private"/>
+						<?php }else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
+							<input type="hidden" name="scope" value="restricted"/>
+						<?php } else { ?>
+						<input type="hidden" name="scope" value="public"/>
+						<?php } ?>
 				<?php }else{ ?>
-				<input type="hidden" name="scope" value="public"/>
+					<input type="hidden" name="scope" value="private"/>
 				<?php } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
@@ -228,6 +320,7 @@ var news = <?php echo json_encode(@$news)?>;
 <?php }else { ?>
 var news = "";
 <?php } ?>
+
 var newsReferror={
 		"news":{
 			"offset":"",
@@ -273,6 +366,9 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 var loadingData = false;
 var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
+var docType="<?php echo Document::DOC_TYPE_IMAGE; ?>";
+var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
+var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 /*function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
@@ -329,8 +425,8 @@ jQuery(document).ready(function()
 		          }
 		    }
 		});
+		$('.tooltips').tooltip();
 	},100);
-		
 	getUrlContent();
 	setTimeout(function(){
 		saveNews();
@@ -338,11 +434,11 @@ jQuery(document).ready(function()
 
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
+	initFormImages();
 
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
-
 </script>

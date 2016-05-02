@@ -52,13 +52,6 @@ function buildTimeLine (news, indexMin, indexMax)
 {
 	if (dateLimit==0){
 		$(".newsTL").html('<div class="spine"></div>');
-		if (streamType=="activity"){
-			btnFilterSpecific='<li><a id="btnCitoyens" href="javascript:;"  class="filter yellow" data-filter=".citoyens" style="color:#F3D116;border-left: 5px solid #F3D116"><i class="fa fa-user"></i> Citoyens</a></li>'+
-				'<li><a id="btnOrganization" href="javascript:;"  class="filter green" data-filter=".organizations" style="color:#93C020;border-left: 5px solid #93C020"><i class="fa fa-users"></i> Organizations</a></li>'+
-				'<a id="btnEvent" href="javascript:;"  class="filter orange" data-filter=".events" style="color:#F9B21A;border-left: 5px solid #F9B21A"><i class="fa fa-calendar"></i> Events</a>'+
-				'<a id="btnProject" href="javascript:;"  class="filter purple" data-filter=".projects" style="color:#8C5AA1;border-left: 5px solid #8C5AA1"><i class="fa fa-lightbulb-o"></i> Projects</a><li><br/></li>';
-			$(".newsTLmonthsList"+streamType).html(btnFilterSpecific);
-		}
 	}
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp");
@@ -79,8 +72,8 @@ function buildTimeLine (news, indexMin, indexMax)
 			else
 				var date = new Date( parseInt(newsObj.created)*1000 );
 			var d = new Date();
-			
-			str += buildLineHTML(newsObj, idSession);
+			if(typeof(newsObj.target)!="undefined" && typeof(newsObj.target.type)!="undefined")
+				str += buildLineHTML(newsObj, idSession);
 		}
 	});
 	$(".newsTL").append(str);
@@ -231,6 +224,13 @@ function deleteNews(id, $this){
 	bootbox.confirm(trad["suretodeletenews"], 
 		function(result) {
 			if (result) {
+				if ($(".deleteImageIdName"+id).length){
+					$(".deleteImageIdName"+id).each(function(){
+						deleteInfo=$(this).val().split("|");
+						deleteImage(deleteInfo[0],deleteInfo[1],true);
+						
+					});
+				}
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/news/delete/id/"+id,
@@ -255,6 +255,7 @@ function deleteNews(id, $this){
 }
 
 function switchModeEdit(idNews){
+	//alert(mode);
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext(idNews);
@@ -294,6 +295,8 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
+	        	//$('.editable-news').editable('toggleDisabled');
+				//switchModeEdit(data.id);
 				console.log(data);
 	        }
 	        else{
@@ -314,9 +317,15 @@ function initXEditable() {
 			video: true,
 			image: true
 		},
+		width:100,
+		showbuttons: 'bottom',
 		success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
+		       // $('.newsContent').editable('toggleDisabled');
+		       // switchModeEdit(data.id);
 	        	toastr.success(data.msg);
+	        	console.log(data);
+	        	}
 	        else
 	        	toastr.error(data.msg);  
 	    },
@@ -461,58 +470,7 @@ function getUrlContent(){
 					dataType: 'json',
 					success: function(data){        
 	                console.log(data); 
-                    extracted_images = data.images;
-                    total_images = parseInt(data.images.length);
-                    //img_arr_pos = total_images;
-                    img_arr_pos=1;
-                    if(data.size){
-	                    if (data.video){
-		                		extractClass="extracted_thumb";
-			                    width="100";
-			                    height="100";
-			                    aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-2x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.video+'"/></a>';
-						}
-		                else{
-			                aVideo="";
-			                endAVideo="";
-		                    if(data.size[0] > 350 ){
-			                    extractClass="extracted_thumb_large";
-			                    width="100%";
-			                    height="";
-		                    }
-		                    else{
-			                    extractClass="extracted_thumb";
-			                    width="100";
-			                    height="100";
-		                    }
-						}
-                    }
-                    if (data.imageMedia!=""){
-	                    inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.imageMedia+'" width="'+width+'" height="'+height+'"></div>';
-	                    countThumbail="";
-                    }
-                    else {
-	                    if(total_images > 0){
-		                    if(total_images > 1){
-			                    selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
-			                    countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
-		                    }
-		                    else{
-			                    selectThumb="";
-			                    countThumbail="";
-		                    }
-	                        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
-	                        
-	                    }else{
-	                        inc_image ='';
-		                    countThumbail='';
-	                    }
-                    }
-                    
-                    //content to be loaded in #results element
-					if(data.content==null)
-						data.content="";
-                    var content = '<div class="extracted_url">'+ inc_image +'<div class="extracted_content"><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+data.title+'</a></h4><p>'+data.content+'</p>'+countThumbail+'</div></div>';
+                    content = getMediaHtml(data,"save");
                     //load results in the element
                     $("#results").html(content); //append received data into the element
                     $("#results").slideDown(); //show results with slide down effect
@@ -527,6 +485,81 @@ function getUrlContent(){
 			}
         }
     });
+}
+function getMediaHtml(data,action){
+	if(typeof(data.images)!="undefined"){
+		extracted_images = data.images;
+		total_images = parseInt(data.images.length);
+		img_arr_pos=1;
+    }
+    inputToSave="";
+    if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
+        if (data.content.videoLink){
+            extractClass="extracted_thumb";
+            width="100";
+            height="100";
+
+            aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
+            inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
+            "<input type='hidden' class='media_type' value='video_link' />";   
+		}
+        else{
+            aVideo="";
+            endAVideo="";
+            if(data.content.imageSize =="large"){
+                extractClass="extracted_thumb_large";
+                width="100%";
+                height="";
+            }
+            else{
+                extractClass="extracted_thumb";
+                width="100";
+                height="100";
+            }
+            inputToSave+="<input type='hidden' class='media_type' value='img_link' />";
+		}
+		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
+    }
+    if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
+        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.content.image+'" width="'+width+'" height="'+height+'"></div>';
+        countThumbail="";
+        inputToSave+="<input type='hidden' class='img_link' value='"+data.content.image+"'/>";
+    }
+    else {
+        if(typeof(total_images)!="undefined" && total_images > 0){
+            if(total_images > 1){
+                selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
+                countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
+            }
+            else{
+                selectThumb="";
+                countThumbail="";
+            }
+            inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+      		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";      
+        }else{
+            inc_image ='';
+            countThumbail='';
+        }
+    }
+    
+    //content to be loaded in #results element
+	if(data.content==null)
+		data.content="";
+	
+	if(data.description !="" && data.name != ""){
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+	}
+	else{
+		contentMedia="";
+	}
+	inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+	inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
+	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
+	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
+	    
+    content = '<div class="extracted_url">'+ inc_image +contentMedia+'</div>'+inputToSave;
+    return content;
 }
 function saveNews(){
 	var formNews = $('#form-news');
@@ -576,13 +609,35 @@ function saveNews(){
 				errorHandler2.hide();
 				newNews = new Object;
 				if($("#form-news #results").html() != ""){
-					newNews.mediaContent=$("#form-news #results").html();	
+					newNews.media=new Object;	
+					if($("#form-news #results .type").val()=="url_content"){
+						newNews.media.type=$("#form-news #results .type").val(),
+						newNews.media.name=$("#form-news #results .name").val(),
+						newNews.media.description=$("#form-news #results .description").val();
+						newNews.media.content=new Object;
+						newNews.media.content.type=$("#form-news #results .media_type").val(),
+						newNews.media.content.url=$("#form-news #results .url").val(),
+						newNews.media.content.image=$("#form-news #results .img_link").val();
+						if($("#form-news #results .size_img").length)
+							newNews.media.content.imageSize=$("#form-news #results .size_img").val();
+						if($("#form-news #results .video_link_value").length)
+							newNews.media.content.videoLink=$("#form-news #results .video_link_value").val();
+					}
+					else{
+						newNews.media.type=$("#form-news #results .type").val(),
+						newNews.media.countImages=$("#form-news #results .count_images").val(),
+						newNews.media.images=[];
+						$(".imagesNews").each(function(){
+							newNews.media.images.push($(this).val());	
+						});
+					}
 				}
+
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				newNews.typeId = $("#form-news #parentId").val(),
-				newNews.type = $("#form-news #parentType").val(),
+				newNews.parentId = $("#form-news #parentId").val(),
+				newNews.parentType = $("#form-news #parentType").val(),
 				newNews.scope = $("input[name='scope']").val(),
 				newNews.text = $("#form-news #get_url").val();
 				console.log("contextParentType", contextParentType);
@@ -612,7 +667,9 @@ function saveNews(){
 		    				}
 						}
 						
-						if( 'undefined' != typeof updateNews && typeof updateNews == "function" )updateNews(data.object);
+						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
+							updateNews(data.object);
+						}
 						$.unblockUI();
 						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
@@ -636,9 +693,188 @@ function showAllNews(){
 	$(".newsFeed").show();
 	$('.optionFilter').hide();
 }
+function initFormImages(){
+	$("#photoAddNews").on('submit',(function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextParentType+"/ownerId/"+contextParentId+"/input/newsImage",
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			dataType: "json",
+			success: function(data){
+				if(debug)console.log(data);
+		  		if(data.success){
+		  			imageName = data.name;
+					var doc = { 
+						"id":contextParentId,
+						"type":contextParentType,
+						"folder":contextParentType+"/"+contextParentId+"/album",
+						"moduleId":moduleId,
+						"author" : userId  , 
+						"name" : data.name , 
+						"date" : new Date() , 
+						"size" : data.size ,
+						"doctype" : docType,
+						"contentKey" : contentKey
+					};
+					console.log(doc);
+					path = "/"+data.dir+data.name;
+					$.ajax({
+					  	type: "POST",
+					  	url: baseUrl+"/"+moduleId+"/document/save",
+					  	data: doc,
+				      	dataType: "json"
+					}).done( function(data){
+				        if(data.result){
+						    toastr.success(data.msg);
+						    setTimeout(function(){
+						    $(".imagesNews").last().val(data.id.$id);
+						    $(".newImageAlbum").last().find("img").removeClass("grayscale");
+						    $(".newImageAlbum").last().find("i").remove();
+						    $(".newImageAlbum").last().append("<a href='javascript:;' onclick='deleteImage(\""+data.id.$id+"\",\""+data.name+"\")'><i class='fa fa-times fa-x padding-5 text-white removeImage' id='deleteImg"+data.id.$id+"'></i></a>");
+						    },200);
+				
+						} else{
+							toastr.error(data.msg);
+							$(".newImageAlbum").last().remove();
+						}
+				
+					});
+		  		}
+		  		else{
+		  			toastr.error(data.msg);
+		  		}
+			},
+		});
+	}));
+}
 
+function showMyImage(fileInput) {
+	countImg=$("#results img").length;
+	idImg=countImg+1;
+	htmlImg="";
+	var files = fileInput.files;
+	if(countImg==0){
+		htmlImg = "<input type='hidden' class='type' value='gallery_images'/>";
+		htmlImg += "<input type='hidden' class='count_images' value='"+idImg+"'/>";
+		htmlImg += "<input type='hidden' class='algoNbImg' value='"+idImg+"'/>";
+		nbId=idImg;
+		$("#results").show();
+	}
+	else{
+		nbId=$(".algoNbImg").val();
+		nbId++;
+		$(".count_images").val(idImg);
+		$(".algoNbImg").val(nbId);
+	}
+	htmlImg+="<div class='newImageAlbum'><i class='fa fa-spin fa-circle-o-notch fa-3x text-green spinner-add-image'></i><img src='' id='thumbail"+nbId+"' class='grayscale' style='width:75px; height:75px;'/>"+
+	       	"<input type='hidden' class='imagesNews' value=''/></div>";
+	$("#results").append(htmlImg);
+    for (var i = 0; i < files.length; i++) {           
+        var file = files[i];
+        var imageType = /image.*/;     
+        if (!file.type.match(imageType)) {
+            continue;
+        }           
+        var img=document.getElementById("thumbail"+nbId);            
+        img.file = file;    
+        var reader = new FileReader();
+        reader.onload = (function(aImg) { 
+            return function(e) { 
+                aImg.src = e.target.result; 
+            }; 
+        })(img);
+        reader.readAsDataURL(file);
+    }  
+	$("#photoAddNews").submit();	  
+}
 	
-
-
+function getMediaImages(o,newsId,authorId){
+	countImages=o.countImages;
+	html="";
+	if(canManageNews==1 || authorId==idSession){
+		for(var i in o.images){
+			html+="<input type='hidden' class='deleteImageIdName"+newsId+"' value='"+o.images[i]._id.$id+"|"+o.images[i].name+"'/>";
+		}
+	}
+	if(countImages==1){
+		path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[0].folder+"/"+o.images[0].name;
+		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+	}
+	else if(countImages==2){
+		for(var i in o.images){
+			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
+			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+		}
+	}
+	else if(countImages==3){
+		for(var i in o.images){
+			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
+			if(i==0){
+			html+="<div class='col-md-12 padding-5' style='position:relative;height:200px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
+			}else{
+			html+="<div class='col-md-6 padding-5' style='position:relative; height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";	
+			}
+		}
+	}
+	else if(countImages==4){
+		for(var i in o.images){
+			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
+			html+="<div class='col-md-6 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;height:auto;'></a></div>";
+		}
+	}
+	else if(countImages>=5){
+		for(var i in o.images){
+			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
+			if(i==0)
+				html+="<div class='col-md-8 no-padding'><div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
+			else if(i==1){
+				html+="<div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div></div>";
+			}
+			else if(i<5){
+				html+="<div class='col-md-4 padding-5' style='position:relative;height:80px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a>";
+				if(i==4 && countImages > 5){
+					diff=countImages-5;
+					html+="<div style='position: absolute;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);color: white;text-align: center;line-height: 75px;font-size: 30px;'><span>+ "+diff+"</span></div>";
+				}
+				html+="</div>";
+			} else{
+				html+="<a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'></a>";	
+			}
+		}
+	}
+	console.log(html);
+	return html;
+}
+function deleteImage(id,name,hideMsg){
+	$.ajax({
+			url : baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+contextParentType+"/parentId/"+contextParentId,			
+			type: "POST",
+			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : "album", "docId" : id},
+			dataType: "json",
+			success: function(data){
+				if(data.result){
+					if(hideMsg!=true){
+						countImg=$("#results img").length;
+						$("#deleteImg"+data.id).parents().eq(1).remove();
+						idImg=countImg-1;
+						if(idImg==0){
+							$("#results").empty().hide();
+						}
+						else{
+							$(".count_images").val(idImg);
+						}
+							toastr.success(data.msg);
+					}
+				}
+				else{
+					toastr.error(data.msg);
+				}
+			}
+	});
+}
 
 

@@ -81,6 +81,90 @@ class TestController extends CommunecterController {
 		}
 	
   }
+  public function actionRefactorNews(){
+	  $news=PHDB::find(News::COLLECTION);
+	  foreach($news as $key => $data){
+		  if(@$data["type"] && $data["type"]!="activityStream"){
+			  
+			  $parentType=$data["type"];
+			  $parentId=$data["id"];
+			  if($parentType=="city"){
+				  $parentType=Person::COLLECTION;
+				  $parentId=$data["author"];
+			  }
+			  PHDB::update(News::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
+			);
+			 // print_r($data);
+		  }
+		  if(@$data["type"] && $data["type"]=="activityStream"){
+			  if(@$data["target"]){
+				  $parentType=$data["target"]["objectType"];
+				 // $parentId=$data["id"];
+					  PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("target.type" => $parentType),'$unset' => array("target.objectType"=>""))			
+					);
+				}
+			 // print_r($data);
+		  }
+	  }
+  }
+
+
+    public function actionRemoveOrgaAdminOfProject() {
+	    $projects=PHDB::find(Project::COLLECTION);
+	    foreach($projects as $projectId => $data){
+		    $orgaWasAdmin=false;
+		    $orgahasmemberadmin=false;
+		    if(@$data["links"] && @$data["links"]["contributors"]){
+			    foreach($data["links"]["contributors"] as $key => $e){
+				    if(@$e["type"]==Organization::COLLECTION && @$e["isAdmin"]){
+					   	echo 'Modification du liens entre le projet : '.$projectId." et l'organisation ".$key;
+					   	//echo json_encode($data["links"]["contributors"]);
+					   	PHDB::update(Project::COLLECTION,
+					   		array("_id" => new MongoId($projectId)) , 
+					   		array('$unset' => array("links.contributors.".$key.".isAdmin" => ""))
+					   	);
+					   	PHDB::update(Organization::COLLECTION,
+					   		array("_id" => new MongoId($key)) , 
+					   		array('$unset' => array("links.projects.".$projectId.".isAdmin" => ""))
+					   	);
+					   	$orgaWasAdmin=true;
+				    }
+			    }
+			    if($orgaWasAdmin){
+				    foreach($data["links"]["contributors"] as $key => $e){
+					   if(@$e["type"]==Person::COLLECTION && @$e["isAdmin"] && @$e["isAdminPending"]){
+						   	PHDB::update(Project::COLLECTION,
+					   		array("_id" => new MongoId($projectId)) , 
+					   		array('$unset' => array("links.contributors.".$key.".isAdminPending" => ""))
+						   	);
+						   	PHDB::update(Person::COLLECTION,
+						   		array("_id" => new MongoId($key)) , 
+						   		array('$unset' => array("links.projects.".$projectId.".isAdminPending" => ""))
+						   	);
+						  //echo "ici<br/>";
+						  //echo json_encode($data["links"]["contributors"]);
+						   $orgahasmemberadmin=true;
+					   }
+				    }
+			    }
+			    if($orgaWasAdmin && !$orgahasmemberadmin){
+				    $creator = $data["creator"];
+				    $creator=Person::getById($creator);
+				    if($creator){
+					    echo "Creator est reelement une person on project : ".$projectId;
+				    }else{
+					    echo "Creator is an orga on project : ".$projectId;
+				    }
+			    }
+		    }
+		    echo "<br/>";
+	    }
+
+    }
     public function actionAddExplain() {
 		$persons=PHDB::find(Person::COLLECTION);
 		foreach($persons as $key => $data){
@@ -659,6 +743,20 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$rename = false ;
 		$pathFile = "http://www.lescolporteurs.info/medias/images/" ;
 		$nameFile = "nuit-debout-dijon.jpg" ;
+
+		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
+        var_dump($res);
+	}
+
+
+	public function actionSaveImage() {
+		$dir = "communecter" ;
+		$folder = Person::COLLECTION ;
+		$ownerId = "56eff58e94ef47451c7b23d6" ;
+		$input = "avatar" ;
+		$rename = false ;
+		$pathFile = "http://www.placetob.org/wp-content/uploads/2016/04/NuitDebout-sebM.jpg" ;
+		$nameFile = "NuitDebout-sebM.jpg" ;
 
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);

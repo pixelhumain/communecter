@@ -611,11 +611,11 @@ if (isset($follows)){
 						$url = "loadByHash('#".$type.".detail.id.".$id."')";
 						$url = 'href="javascript:;" onclick="'.$url.'"';	
 						$process = "";
-						if(@$e["toBeValidated"])
-							$process = " <color class='text-red'>(en attente de confirmation)</color>";
-						else if(@$e["isAdminPending"])
+						if(@$e["isAdminPending"])
 							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
-						
+						else if(!@$e["isAdmin"] && @$e["toBeValidated"])
+							$process = " <color class='text-red'>(en attente de confirmation)</color>";
+
 						if(@$e["tobeactivated"] || @$e["pending"]){
 							$process= " (En cours d'inscription)";
 							$processStyle='style="filter:grayscale(100%);-webkit-filter:grayscale(100%);"';

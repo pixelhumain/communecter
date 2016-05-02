@@ -124,7 +124,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 
 		<div id="infoPodOrga" class="padding-10">
 			<blockquote> 
-				<?php echo Yii::t("gantt","Create Gantt<br/>Tasks<br/>Deadlines<br/>Priorities<br/>To think, develop, build and shows next steps of the project to everyone",null,Yii::app()->controller->module->id) ?></blockquote>
+				<?php echo Yii::t("gantt","Create Gantt with<br/>Tasks<br/>Deadlines<br/>Priorities<br/>To think, develop, build and shows next steps of the project to everyone",null,Yii::app()->controller->module->id) ?></blockquote>
 		</div>
 	<?php } ?>
 </div>

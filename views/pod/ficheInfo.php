@@ -120,7 +120,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 	<div class="panel-tools">
 		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-			 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
+			 && Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"])) { 
 				if(!isset($organization["disabled"])){
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
@@ -140,7 +140,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (String) $organization["_id"]),
+																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]),
 																	  "image" => $images)); 
 				?>
 			</div>

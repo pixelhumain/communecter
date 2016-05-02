@@ -21,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised ) { ?>
-			<a href="#" onclick="showAjaxPanel( '/project/projectsv/id/<?php echo $contextId ?>/type/<?php echo $contextType ?>', 'ADD A PROJECT','lightbulb-o' )" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
+			<a href="javascript:;" onclick="loadByHash('#project.projectsv.id.<?php echo $contextId ?>.type.<?php echo $contextType ?>')" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
 		<?php  } ?>
 	</div>
 	<div class="panel-body no-padding">
@@ -67,13 +67,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<?php } ?>
 		<?php if(isset($projects) && count($projects) == 0) {?>
 			<div id="info" class="padding-10">
-				<blockquote> 
-					Create or Contribute 
-					<br>Build Things 
-					<br>Find Help 
-					<br>Organize
-					<br>Local or distant
-					<br>Projects
+				<blockquote>
+					<?php echo Yii::t("project","Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects",null,Yii::app()->controller->module->id) ?>
 				</blockquote>
 			</div>
 		<?php } ?>
@@ -83,11 +78,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
-		bindBtnAddProject();
+		//bindBtnAddProject();
 		bindBtnRemoveProject();
 	});
 
-	function bindBtnAddProject() {
+	/*function bindBtnAddProject() {
 		$('.new-project').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
@@ -110,7 +105,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			});
 			
 		});
-	}
+	}*/
 
 	function bindBtnRemoveProject() {
 		$(".removeProjectbtn").off().on("click",function () {

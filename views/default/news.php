@@ -93,8 +93,6 @@ jQuery(document).ready(function() {
   	var timeoutSearch = setTimeout(function(){ }, 100);
 
     setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
-    
-  	$('.tooltips').tooltip();
 
   	$('.main-btn-toogle-map').click(function(e){ showMap(); });
   	

@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.0983";
-  public $versionDate = "25/04/2016 18:00";
+  public $version = "v0.0985";
+  public $versionDate = "28/04/2016 17:00";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -96,6 +96,8 @@ class CommunecterController extends Controller
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
+      "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
+
     ),
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
