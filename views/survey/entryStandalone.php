@@ -351,19 +351,21 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 		</div>
 		<div  class="col-md-5">
-			
-			<div class="col-md-12" >
+			<a class="btn btn-default" href="javascript:;" onclick="toggle('.commentSection','.leftInfoSection')"><i class="fa fa-comments"></i> Commentaires <span class="badge commentCount">0</span></a>
+			<a class="btn btn-default" href="javascript:;" onclick="toggle('.chartResults','.leftInfoSection')"><i class="fa fa-pie-chart"></i> Resultats <span class="badge voterCount">0</span></a>
+			<div class="col-md-12 leftInfoSection chartResults" >
 				<?php echo getChartBarResult($survey); ?>
+				<div id="container2" ></div>
 			</div>
-			<div id="container2" ></div>
+			<div class="col-md-12 hide commentSection leftInfoSection" >
+				<div class="box-vote box-pod box margin-10 commentPod"></div>
+			</div>
 		</div>
 	</div>
 </div>
 	
 	
-	<div class="col-md-12" >
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
-	</div>
+	
 
 	
 </div>
@@ -459,7 +461,7 @@ jQuery(document).ready(function() {
 		console.log(clickedVoteObject);
 	 })
 	
-	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",null,"html");
+	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
 
 	buildResults ();
 

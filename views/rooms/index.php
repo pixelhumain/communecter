@@ -59,7 +59,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		
 		<div class="col-xs-6 light">
 			<div class="panel-heading border-light bg-red">
-		    	<h4 class="panel-title text-white"><i class="fa fa-archive"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Rooms', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$rooms) ?></span></h4>
+		    	<h4 class="panel-title text-white"><i class="fa fa-archive"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Rooms', null, $moduleId)?> </span> <span class="badge badge-white pull-right"> <?php echo count(@$rooms) ?></span></h4>
 		    </div>
 		  <blockquote class="roomsTableBtn infoTablesBtn active" onclick="toggle('.roomsTable','.infoTables',true)"> 
 		    <?php echo Yii::t('rooms', 'Rooms are Thematic Think Tanks', null, $moduleId)?>
@@ -72,7 +72,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 		<div class="col-xs-6">
 			<div class="panel-heading border-light bg-orange">
-		    	<h4 class="text-dark panel-title"><i class="fa fa-thumbs-up"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Actions', null, $moduleId)?> </span> <span class="badge badge-default pull-right"> <?php echo count(@$actions) ?></span></h4>
+		    	<h4 class=" text-white panel-title"><i class="fa fa-thumbs-up"></i><span class="homestead"> <?php echo Yii::t('rooms', 'Actions', null, $moduleId)?> </span> <span class="badge badge-white pull-right"> <?php echo count(@$actions) ?></span></h4>
 		    </div>
 		  <blockquote class="actionsTableBtn infoTablesBtn " onclick="toggle('.actionsTable','.infoTables',true)"> 
 		    <?php echo Yii::t('rooms', 'Actions are your particiaptions', null, $moduleId)?>
