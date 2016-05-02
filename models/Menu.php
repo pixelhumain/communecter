@@ -568,16 +568,16 @@ class Menu {
 
         // Back to  proposal
         //-----------------------------
-        self::entry("left", 'onclick', 
-                    Yii::t( "common", 'go Back'),
-                    Yii::t( "common", 'Back'), 'chevron-circle-left',
-                    "window.history.back();",null,null);
+        // self::entry("left", 'onclick', 
+        //             Yii::t( "common", 'go Back'),
+        //             Yii::t( "common", 'Back'), 'chevron-circle-left',
+        //             "window.history.back();",null,null);
 
         // Back to Parent Survey
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Back to Parent Survey'),
-                    Yii::t( "common", 'Parent Survey'), 'chevron-circle-left',
+                    Yii::t( "common", 'Back to Parent Survey', null, Yii::app()->controller->module->id),
+                    Yii::t( "common", 'Parent Survey', null, Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('#survey.entries.id.".$parentId."')",null,null);
         
         if ( $organiserId == Yii::app()->session["userId"] ) 
@@ -629,8 +629,8 @@ class Menu {
         //-----------------------------
         if(( isset( $type ) && isset($id))){
          self::entry("left", 'onclick', 
-                     Yii::t( "common", 'got back to the detail page of the parent '.$type),
-                     Yii::t( "common", 'Back to Parent'), 'chevron-circle-left',
+                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type),
+                     Yii::t( "rooms", 'Back to Parent'), 'chevron-circle-left',
                      "loadByHash('#".$type.".detail.id.".$id."')",null,null);
         }
         

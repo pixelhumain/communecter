@@ -34,6 +34,8 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"wrongwithurl":"<?php echo Yii::t("common","Something went wrong with the url") ?>",
 		"leaveeventsuccess":"<?php echo Yii::t("common", "You leave successfully this event") ?>",
 		"leaveeventsuccess":"<?php echo Yii::t("common", "You leave successfully this event") ?>",
+
+		"You can not comment more on this discussion" : "okkk",
 		
 };
 

@@ -51,5 +51,5 @@ return array(
 	
 	"Decide Collectivelly" => "Voter collectivement",
 	"to think, develop, build and decide collaboratively" => "Penser, développer, construire et décider de façon collaborative",
-
+	"Back to Parent" => "Retour",
 );

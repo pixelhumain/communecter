@@ -183,6 +183,17 @@ $this->renderPartial('../default/panels/toolbar');
       display: inline;
     }
 
+
+    #thumb-profil-parent{
+      margin-top:-60px;
+      margin-bottom:20px;
+      -moz-box-shadow: 0px 3px 10px 1px #656565;
+      -webkit-box-shadow: 0px 3px 10px 1px #656565;
+      -o-box-shadow: 0px 3px 10px 1px #656565;
+      box-shadow: 0px 3px 10px 1px #656565;
+    }
+
+
 @media screen and (min-width: 1060px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 31%;
@@ -550,14 +561,31 @@ $this->renderPartial('../default/panels/toolbar');
     
 
 
-    <h1 class="homestead text-red center citizenAssembly-header">
-      <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
-      <small class="homestead text-dark center">
-        Propositions, Débats, Votes
-        </small>
+    <h1 class="homestead text-dark center citizenAssembly-header">
+
+      <?php 
+        $urlPhotoProfil = "";
+        if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
+            $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
+          else
+            $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+      
+        $icon = "comments"; 
+          if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
+          if($parentType == Organization::COLLECTION) $icon = "group";
+          if($parentType == Person::CONTROLLER) $icon = "user";
+      ?>
+      <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+        <br>
+      <span style="padding:10px; border-radius:50px;">
+        <i class="fa fa-<?php echo $icon; ?>"></i> 
+        <?php echo $parent["name"]; ?>
+      </span>
+
+      
     </h1>
 
-    <div class="panel-white" style="display:inline-block;">
+    <div class="panel-white" style="display:inline-block; width:100%;">
    
         
         <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">

@@ -36,7 +36,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	.commentPod .panel-heading {border-bottom-width: 0px;}
 
 	.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
       /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
       background-color: #fff;
       background-repeat: no-repeat;
@@ -46,7 +46,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
       .citizenAssembly-header{
         background-color: rgba(255, 255, 255, 0.63);
-		padding: 30px;
+		padding-top: 0px;
 		margin-bottom: -3px;
 		font-size: 32px;
 		top: 115px;
@@ -54,7 +54,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		position: absolute;
 		width: 96%;
 		left: 2%;
-		height:180px;
+		padding-bottom: 15px;
       }
 
     .citizenAssembly-header h1{
@@ -64,7 +64,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
     .row.vote-row {
 	   	position: absolute;
 		padding-top: 5px;
-		top: 285px;
+		top: 300px;
 		background-color: white;
 		width: 100%;
 		z-index: 0;
@@ -93,6 +93,15 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   	font-size: 18px;
   	font-weight: 300;
   }
+
+  #thumb-profil-parent{
+      margin-top:-60px;
+      margin-bottom:20px;
+      -moz-box-shadow: 0px 3px 10px 1px #656565;
+      -webkit-box-shadow: 0px 3px 10px 1px #656565;
+      -o-box-shadow: 0px 3px 10px 1px #656565;
+      box-shadow: 0px 3px 10px 1px #656565;
+    }
 
 @media screen and (min-width: 1060px) {
   
@@ -138,6 +147,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	</a>
 </div>
 */?>
+
 
 
 <!-- start: LOGIN BOX -->
@@ -226,11 +236,33 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
       return $html;
     }
  	?>
- 	<div class=" text-red center citizenAssembly-header">
-      <h1 class="homestead text-red center">
-	      <i class="fa fa-group"></i> <?php echo $nameParentTitle; ?><br>
-	      <small class="homestead text-dark center">Propositions, Débats, Votes</small>
-	  </h1>
+ 	<div>
+     
+ 		<h1 class="homestead text-dark center citizenAssembly-header">
+
+		  <?php 
+		    $urlPhotoProfil = "";
+		    if(isset($parent['profilImageUrl']) && $organizer['profilImageUrl'] != "")
+		        $urlPhotoProfil = Yii::app()->createUrl($organizer['profilImageUrl']);
+		      else
+		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+		  
+		    $icon = "comments"; 
+		      if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
+		      if($parentType == Organization::COLLECTION) $icon = "group";
+		      if($parentType == Person::CONTROLLER) $icon = "user";
+		  ?>
+		  <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+		    <br>
+		  <span style="padding:0px; border-radius:50px;">
+		    <i class="fa fa-<?php echo $icon; ?>"></i> 
+		    <?php echo $organizer["name"]; ?>
+		  </span>
+		  	<br>
+		  <small class="homestead text-dark center">Propositions, Débats, Votes</small>
+		  
+		</h1>
+     
 
 		<!-- <span class="pull-right text-right"> 
 			<?php if( $voteLinksAndInfos["hasVoted"] )

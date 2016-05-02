@@ -35,23 +35,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	opacity: 1;
 }
 
-.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -40px;
-      background-size: 100% auto;
-    }
-
-      h1.citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-        padding: 30px;
-        margin-bottom: -3px;
-        font-size: 32px;
-        margin-top:90px;
-      }
-
 </style>
 
 <?php 
@@ -78,7 +61,7 @@ $optionsLabels = array(
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<?php if($contextType == "actionRooms"){ ?>
-  				<h1 class="homestead center" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+  				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
 			     "<?php echo $context["name"]; ?>"
 			  	 </h1>
 			<?php } ?>
