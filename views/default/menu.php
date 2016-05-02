@@ -59,7 +59,7 @@
 	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="lbl-btn-menu-name-city">
-			<?php if(isset( $inseeCommunexion) && isset( $cpCommunexion )){
+			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
 					   echo '<span class="lbl-btn-menu-name">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
@@ -79,6 +79,7 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
+	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-search"></i>
 			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
@@ -94,6 +95,7 @@
 			<i class="fa fa-rss"></i>
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
+	<?php } ?>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
