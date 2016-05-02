@@ -274,7 +274,7 @@ function buildLineHTML(newsObj,idSession,update)
 						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
-							'<div class="col-md-12 no-padding">'+title + text + "</div>"+media +
+							'<div>'+title + text + "</div>"+media +
 						'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
