@@ -83,9 +83,11 @@ class TestController extends CommunecterController {
   }
   public function actionRefactorNews(){
 	  $news=PHDB::find(News::COLLECTION);
+	  $i=0;
 	  foreach($news as $key => $data){
 		  if(@$data["type"] && $data["type"]!="activityStream"){
-			  
+			  //print_r($data["_id"]);
+			  if(@$data["id"]){
 			  $parentType=$data["type"];
 			  $parentId=$data["id"];
 			  if($parentType=="city"){
@@ -96,20 +98,25 @@ class TestController extends CommunecterController {
 				array("_id" => $data["_id"]) , 
 				array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
 			);
+			$i++;
+			}
 			 // print_r($data);
 		  }
 		  if(@$data["type"] && $data["type"]=="activityStream"){
 			  if(@$data["target"]){
+
 				  $parentType=$data["target"]["objectType"];
 				 // $parentId=$data["id"];
 					  PHDB::update(News::COLLECTION,
 						array("_id" => $data["_id"]) , 
 						array('$set' => array("target.type" => $parentType),'$unset' => array("target.objectType"=>""))			
 					);
+								$i++;
 				}
 			 // print_r($data);
 		  }
 	  }
+	  echo "nombre de news ////////////// ".$i;
   }
 
 

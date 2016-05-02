@@ -739,12 +739,23 @@ function initFormImages(){
 				
 						} else{
 							toastr.error(data.msg);
-							$(".newImageAlbum").last().remove();
+							if($("#results img").length>1)
+						  		$(".newImageAlbum").last().remove();
+						  	else{
+						  		$("#results").empty();
+						  		$("#results").hide();
+						  	}
 						}
 				
 					});
 		  		}
 		  		else{
+			  		if($("#results img").length>1)
+				  		$(".newImageAlbum").last().remove();
+				  	else{
+				  		$("#results").empty();
+				  		$("#results").hide();
+				  	}
 		  			toastr.error(data.msg);
 		  		}
 			},
