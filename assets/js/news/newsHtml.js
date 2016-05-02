@@ -60,7 +60,7 @@ function buildLineHTML(newsObj,idSession,update)
 			scopeIcon="globe";
 		} 
 		else if (newsObj.scope.type=="restricted"){
-			scopeIcon="unlock";
+			scopeIcon="connectdevelop";
 		}else{
 			scopeIcon="lock";
 		}

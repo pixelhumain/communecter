@@ -350,6 +350,7 @@ function updateNews(newsObj)
 	$("#form-news #results").html("").hide();
 	$("#form-news #tags").select2('val', "");
 	showFormBlock(false);
+	$('.tooltips').tooltip();
 	bindEvent();
 }
 
