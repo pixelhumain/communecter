@@ -177,7 +177,7 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
+	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
 	{
 		postalCode = "";
 		city = "";
