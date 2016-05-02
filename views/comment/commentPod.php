@@ -82,7 +82,7 @@ $optionsLabels = array(
 			     "<?php echo $context["name"]; ?>"
 			  	 </h1>
 			<?php } ?>
-			$currentUser = Yii::app()->session["user"];
+			<?php $currentUser = Yii::app()->session["user"]; ?>
 			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
