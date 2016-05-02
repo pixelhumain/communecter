@@ -550,14 +550,14 @@ function getMediaHtml(data,action){
 	if(data.content==null)
 		data.content="";
 	
-	if(data.description !="" && data.name != ""){
+	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
 		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
 	else{
 		contentMedia="";
 	}
-	inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
-	inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
@@ -614,9 +614,11 @@ function saveNews(){
 				if($("#form-news #results").html() != ""){
 					newNews.media=new Object;	
 					if($("#form-news #results .type").val()=="url_content"){
-						newNews.media.type=$("#form-news #results .type").val(),
-						newNews.media.name=$("#form-news #results .name").val(),
-						newNews.media.description=$("#form-news #results .description").val();
+						newNews.media.type=$("#form-news #results .type").val();
+						if($("#form-news #results .name").length)
+							newNews.media.name=$("#form-news #results .name").val();
+						if($("#form-news #results .description").length)
+							newNews.media.description=$("#form-news #results .description").val();
 						newNews.media.content=new Object;
 						newNews.media.content.type=$("#form-news #results .media_type").val(),
 						newNews.media.content.url=$("#form-news #results .url").val(),
