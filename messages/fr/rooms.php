@@ -33,13 +33,14 @@ return array(
 
 	"Type / Action" => "Type / Action",
 	"Name" => "Thématique",
-	"Entries" => "Nb propositions",
-	"Participants" => "Nb pariticpants",
+	"Entries" => "Propositions",
+	"Participants" => "Participants",
 	"Start Date" => "Début",
 	"End Date" => "Fin",
 	"Actions" => "Actions",
 	"All your Actions" => "Liste de vos actions",
 	"All your Rooms" => "Liste des thématiques",
+	"Rooms" => "Espaces coopératifs",
 
 	"propositions" => "propositions",
 	"Create propostal" => "Faire une proposition",
@@ -52,4 +53,6 @@ return array(
 	"Decide Collectivelly" => "Voter collectivement",
 	"to think, develop, build and decide collaboratively" => "Penser, développer, construire et décider de façon collaborative",
 	"Back to Parent" => "Retour",
+	"Created" => "Créé le",
+
 );

@@ -657,14 +657,16 @@ class Menu {
         // Add a proposal
         // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
+
         $showAddBtn = false;
         if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
             || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) ) )
             $showAddBtn = true;
 
+
         if( $showAddBtn ) {
             $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
-            self::entry("left", 'onclick', 
+            self::entry("right", 'onclick', 
                         Yii::t( "common", 'Add a new survey' ),
                         Yii::t( "common", 'Add' ), 'plus',
                         "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
@@ -673,9 +675,9 @@ class Menu {
         
         // Help
         //-----------------------------
-        self::entry("left", 'onclick', 
+        self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", 'Help'), 'question-circle',
+                    Yii::t( "common", ''), 'question-circle',
                     "loadByHash('#define.Surveys')",null,null);
     }
 
