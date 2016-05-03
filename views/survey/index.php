@@ -241,7 +241,7 @@ $this->renderPartial('../default/panels/toolbar');
     ***************************************** */
     function buildEntryBlock( $entry,$uniqueVoters,$alltags ){
         $logguedAndValid = Person::logguedAndValid();
-        $tagBlock = "<i class='fa fa-info-circle'></i> Aucun tag";
+        $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
         $message = substr($entry["message"],0,300);
@@ -601,9 +601,9 @@ $this->renderPartial('../default/panels/toolbar');
         
               <?php } ?>
               
-              <button class="btn btn-success pull-right" onclick="loadByHash(location.hash);">
+              <!-- <button class="btn btn-success pull-right" onclick="loadByHash(location.hash);">
                 <i class="fa fa-refresh"></i>
-              </button>
+              </button> -->
         </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
