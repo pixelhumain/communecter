@@ -519,6 +519,25 @@ class Menu {
            }
     }
 
+    public static function comments($parentType, $parentId)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
+        //$id = (string)$room["_id"];
+        
+        // List des survey
+        //-----------------------------
+        $roomLink = "#rooms";
+        if( isset( $parentType ) && isset( $parentId ) ) 
+            $roomLink = "#rooms.index.type.".$parentType.".id.".$parentId; 
+
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'List of all Surveys'),
+                    Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
+                    "loadByHash('".$roomLink."')",null,null);
+    }
+
     public static function survey($survey)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
@@ -534,7 +553,7 @@ class Menu {
 
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'All Surveys'), 'archive',
+                    Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
                     "loadByHash('".$surveyLink."')",null,null);
         
         // Add a proposal
@@ -629,8 +648,8 @@ class Menu {
         //-----------------------------
         if(( isset( $type ) && isset($id))){
          self::entry("left", 'onclick', 
-                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type),
-                     Yii::t( "rooms", 'Back to Parent'), 'chevron-circle-left',
+                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
+                     Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
                      "loadByHash('#".$type.".detail.id.".$id."')",null,null);
         }
         

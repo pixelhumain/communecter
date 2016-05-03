@@ -58,7 +58,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </style>
 
 
-<h1 class="homestead text-dark center citizenAssembly-header" >
+<h1 class="homestead text-dark center citizenAssembly-header" style="font-size:27px;">
     <?php 
 		$urlPhotoProfil = "";
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")

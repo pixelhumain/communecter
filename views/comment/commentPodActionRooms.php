@@ -1,6 +1,4 @@
 <style type="text/css">
-
-
 .assemblyHeadSection {  
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
   /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
@@ -19,7 +17,6 @@ font-size: 37px;
 margin-top:90px;
 }
 
-
 #thumb-profil-parent{
 	margin-top:-60px;
 	margin-bottom:20px;
@@ -28,8 +25,14 @@ margin-top:90px;
 	-o-box-shadow: 0px 3px 10px 1px #656565;
 	box-shadow: 0px 3px 10px 1px #656565;
 }
-
 </style>
+
+<?php 
+	Menu::comments( $parentType, $parentId );
+	$this->renderPartial('../default/panels/toolbar');
+?>
+
+
 
 <?php if($contextType == "actionRooms"){ ?>
 
