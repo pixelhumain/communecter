@@ -317,7 +317,8 @@ class CommunecterController extends Controller
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
-      "close"       => array("href" => "/ph/communecter/survey/close")
+      "close"       => array("href" => "/ph/communecter/survey/close"),
+      "editentry"       => array("href" => "/ph/communecter/survey/editentry"),
     ),
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index", "public" => true),
@@ -381,13 +382,9 @@ class CommunecterController extends Controller
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        /*if( Yii::app()->request->isAjaxRequest){
-          echo "<script type='text/javascript'> loadByHash('#panel.box-login'); </script>";*/
-          /*$this->layout = '';
-          Rest::json( array("action"=>"loadByHash('#panel.box-login')", "msg"=>"this page is not public, please log in first."  ) );*/
-        /*}
-        else
-          $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));*/
+        if( Yii::app()->request->isAjaxRequest)
+          echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
+         
     }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];

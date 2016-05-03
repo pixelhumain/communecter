@@ -67,6 +67,7 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 
 jQuery(document).ready(function() {
+	$(".moduleLabel").html("<i class='fa fa-comments'></i> COMMENTS");
 	buildTimeLine();
 	addEmptyCommentOnTop();
 	bindEvent();

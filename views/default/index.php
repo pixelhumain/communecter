@@ -710,7 +710,7 @@ function setScopeValue(btn){
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-			//$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion) });
+			$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postaCode."+cpCommunexion) });
 
 				
 		<?php } ?>

@@ -9,7 +9,35 @@
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
+<?php 
+	$inseeCommunexion = "";
+	$cpCommunexion = "";
+	$cityNameCommunexion = "";
+	//si l'utilisateur n'est pas connecté
+ 	if(!isset(Yii::app()->session['userId'])){
+		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+		
+		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+		
+		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+	}
+	//si l'utilisateur est connecté
+	else{
+		$me = Person::getById(Yii::app()->session['userId']);
+		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
+		   			    			  $me['address']['codeInsee'] : "";
+		
+		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
+		   			    			  $me['address']['postalCode'] : "";
+		
+		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
+		   			    			  $me['address']['addressLocality'] : "";
+	}
 
+?>
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
@@ -31,8 +59,8 @@
 	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="lbl-btn-menu-name-city">
-			<?php if(isset( Yii::app()->request->cookies['cityNameCommunexion']) && isset( Yii::app()->request->cookies['cpCommunexion'] )){
-					   echo '<span class="lbl-btn-menu-name">'.Yii::app()->request->cookies['cityNameCommunexion'] . ", </span>" . Yii::app()->request->cookies['cpCommunexion'];
+			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
+					   echo '<span class="lbl-btn-menu-name">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
@@ -51,6 +79,7 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
+	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-search"></i>
 			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
@@ -66,6 +95,7 @@
 			<i class="fa fa-rss"></i>
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
+	<?php } ?>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">

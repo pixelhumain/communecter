@@ -399,8 +399,11 @@ var loadableUrls = {
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
-    "#survey.entry.id" : {title:'VOTE LOCAL ', icon : 'legal'},
+    "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
+
+    "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
     "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
     "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
     "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
@@ -427,7 +430,9 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
+	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ searchByHash(hash);} },
 };
+
 function jsController(hash){
 	console.log("jsController",hash);
 	res = false;
@@ -438,7 +443,7 @@ function jsController(hash){
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			endPoint = loadableUrls[urlIndex];
-			//console.log("jsController 2",endPoint,"login",endPoint.login );
+			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
 				//alises are renaming of urls example default.home could be #home
 				if( endPoint.alias ){
@@ -452,8 +457,14 @@ function jsController(hash){
 					//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
-
-					showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+urlExtra+extraParams, endPoint.title,endPoint.icon );
+					//execute actions before teh ajax request
+					if( endPoint.preaction && typeof endPoint.preaction == "function")
+						endPoint.preaction(hash);
+					//hash can be iliased
+					if (endPoint.hash) 
+						hash = endPoint.hash;
+					path = hash.replace( "#","" ).replace( /\./g,"/" );
+					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
 
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
@@ -492,10 +503,6 @@ function loadByHash( hash , back ) {
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
     } 
-    else if( hash.indexOf("#rooms.index.type") >= 0 ){
-        hashT = hash.split(".");
-        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
-    }
     else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
@@ -519,14 +526,48 @@ function loadByHash( hash , back ) {
 	    console.warn("replaceState history.state",history.state);
 	}*/
 }
+function searchByHash (hash) 
+{ 
+	var searchT = hash.split(':');
+	var search = searchT[1]; 
+	scopeBtn = null;
+	if( searchT.length > 2 )
+	{
+		if( searchT[2] == "all" )
+			scopeBtn = ".btn-scope-niv-5" ;
+		else if( searchT[2] == "region" )
+			scopeBtn = ".btn-scope-niv-4" ;
+		else if( searchT[2] == "dep" )
+			scopeBtn = ".btn-scope-niv-3" ;
+		else if( searchT[2] == "quartier" )
+			scopeBtn = ".btn-scope-niv-2" ;
+	}
+	console.log("search : "+search,searchT, scopeBtn);
+	$(".input-global-search").val(search);
+	//startGlobalSearch();
+	if( scopeBtn )
+		$(scopeBtn).trigger("click"); 
+}
 
-function checkIsLoggued(){
-	
+var backUrl = null;
+function checkIsLoggued(uId){
+	if( uId == "" ){
+		console.warn("");
+		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
+		
+		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Section Sécuriser");
+
+		backUrl = location.hash;
+		showPanel( "box-login" );
+    	
+    	resetUnlogguedTopBar();
+	}else 
+		return true;
 }
 function resetUnlogguedTopBar() { 
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
-									' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
+							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 
 /* ****************
@@ -557,14 +598,19 @@ Generic ajax panel loading process
 loads any REST Url endpoint returning HTML into the content section
 also switches the global Title and Icon
 **************/
+var rand = Math.floor((Math.random() * 7) + 1); 
+var urlImgRand = proverbs[rand];
+function  processingBlockUi() { 
+	$.blockUI({
+	 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
+	 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
+	 });
+}
 function showAjaxPanel (url,title,icon) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
 
-	var rand = Math.floor((Math.random() * 7) + 1); 
-	var urlImgRand = proverbs[rand];
-	
 	showNotif(false);
 			
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
@@ -572,13 +618,7 @@ function showAjaxPanel (url,title,icon) {
 	setTimeout(function(){
 		$(".main-col-search").html("");
 		$(".hover-info").hide();
-		 $.blockUI({
-		 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
-		 	//"<h2 class='text-red homestead'>Lancement du crowdfouding : lundi 22 février</h2>" +
-		 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
-		 	//"<img src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>"
-		 	//"<h2 class='text-red homestead'>ouverture du site : lundi 29 février</h2>"
-		 });
+		processingBlockUi();
 		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
 		//$(".main-col-search").show();
 		showMap(false);
