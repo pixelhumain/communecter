@@ -565,11 +565,10 @@ class Menu {
 
         // Help
         //-----------------------------
-        self::entry("right", 'onclick', 
+        self::entry("right", 'filter', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", ''), 'question-circle',
-                    "showDefinition('explainSurveys')",null,null);
-   
+                    Yii::t( "common", 'cecece'), 'question-circle',
+                    null,"explainLink' data-id='explainYourData'",null);
     }
 
     public static function proposal($survey)
@@ -625,10 +624,10 @@ class Menu {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         // Help
         //-----------------------------
-        self::entry("right", 'onclick', 
+        self::entry("right", 'filter', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    "showDefinition('explainSurveys')",null,null);
+                    null,"explainLink' data-id='explainYourData'",null);
         
         // Standalone Version
         //-----------------------------
@@ -648,7 +647,7 @@ class Menu {
         // Back to Parent
         //-----------------------------
         if(( isset( $type ) && isset($id))){
-            $type = Element::getControlerByCollection($type);
+            //$type = Element::getControlerByCollection($type);
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
@@ -677,7 +676,7 @@ class Menu {
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    "showDefinition('explainSurveys')",null,null);
+                    null,"explainLink' data-id='explainYourData'",null);
     }
 
     public static function back()
@@ -711,7 +710,7 @@ class Menu {
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips filter btn btn-default' href='javascript:;' data-filter=\"".$actionid."\"");
+                            "href"      => "<a  class='tooltips filter btn btn-default ".$class."' href='javascript:;' data-filter=\"".$actionid."\"");
         } 
         else if( $type == 'onclick')
         { 
