@@ -349,6 +349,12 @@ jQuery(document).ready(function() {
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
+
+	$(".explainLink").click(function() {
+		    $(".removeExplanation").parent().hide();
+			showDefinition( $(this).data("id") );
+			return false;
+		});
 });	
 
 function resetDirectoryTable() 

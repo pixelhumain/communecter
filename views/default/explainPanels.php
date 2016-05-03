@@ -743,12 +743,9 @@
 			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 			<div class="explainDesc">
 			<ul>
-				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+				<li>Les propositions sont modérées avant publication sur le site afin d'éviter tous propos contraires à la loi ou susceptible de troubler l`ordre public.Nous nous réservons donc la possibilité de modifier, reformuler, compléter, différer ou ne pas publier tout ou partie d`une proposition. Dans cette éventualité, nous pouvons être amener à vous contacter par mail.
+Selon le nombre de propositions reçues, le délai de mise en ligne peut être variable. En cas d`urgence, merci le signaler des le début de votre proposition.Votre proposition sera publiée par l`administrateur du sondage.
+Ni votre adresse email ni votre nom n`apparaitront sur le site public.Vous pouvez aussi nous faire part de toute remarque constructive, nous permettant d`améliorer ce site à votre service</li>
 			</ul>
 		</div>
 	</div>

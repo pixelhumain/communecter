@@ -568,7 +568,7 @@ class Menu {
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    "loadByHash('#define.Surveys')",null,null);
+                    "showDefinition('explainSurveys')",null,null);
    
     }
 
@@ -628,7 +628,7 @@ class Menu {
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    "loadByHash('#define.Surveys')",null,null);
+                    "showDefinition('explainSurveys')",null,null);
         
         // Standalone Version
         //-----------------------------
@@ -648,6 +648,7 @@ class Menu {
         // Back to Parent
         //-----------------------------
         if(( isset( $type ) && isset($id))){
+            $type = Element::getControlerByCollection($type);
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
@@ -657,12 +658,10 @@ class Menu {
         // Add a proposal
         // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
-
         $showAddBtn = false;
         if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
             || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) ) )
             $showAddBtn = true;
-
 
         if( $showAddBtn ) {
             $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
@@ -678,7 +677,7 @@ class Menu {
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    "loadByHash('#define.Surveys')",null,null);
+                    "showDefinition('explainSurveys')",null,null);
     }
 
     public static function back()
@@ -723,7 +722,7 @@ class Menu {
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."' href='javascript:;' onclick=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips btn btn-default ".$active." ".$class."' href='javascript:;' onclick=\"".$onclick."\"");
 						
 
         }

@@ -391,17 +391,15 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 				}?>
 				<span class="" >Faites des propositions dans les commentaires</span>
 			<?php }	?>
-
+			<br/>
+			<div class="col-md-12 commentSection leftInfoSection" >
+				<div class="box-vote box-pod box margin-10 commentPod"></div>
+			</div>
 		</div>
 		<div  class="col-md-5">
-			<a class="btn btn-default" href="javascript:;" onclick="toggle('.commentSection','.leftInfoSection')"><i class="fa fa-comments"></i> Commentaires <span class="badge commentCount">0</span></a>
-			<a class="btn btn-default" href="javascript:;" onclick="toggle('.chartResults','.leftInfoSection')"><i class="fa fa-pie-chart"></i> Resultats <span class="badge voterCount"><?php echo $totalVotesGbl ?></span></a>
 			<div class="col-md-12 leftInfoSection chartResults" >
 				<?php echo getChartBarResult($survey); ?>
 				<div id="container2" ></div>
-			</div>
-			<div class="col-md-12 hide commentSection leftInfoSection" >
-				<div class="box-vote box-pod box margin-10 commentPod"></div>
 			</div>
 		</div>
 	</div>

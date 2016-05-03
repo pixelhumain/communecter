@@ -151,11 +151,6 @@ function editEntrySV () {
               "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-                "<div class='clear'>Les propositions sont modérées avant publication sur le site afin d'éviter tous propos contraires à la loi ou susceptible de troubler l`ordre public."+
-                "Nous nous réservons donc la possibilité de modifier, reformuler, compléter, différer ou ne pas publier tout ou partie d`une proposition. Dans cette éventualité, nous pouvons être amener à vous contacter par mail."+
-                "<br/>Selon le nombre de propositions reçues, le délai de mise en ligne peut être variable. En cas d`urgence, merci le signaler des le début de votre proposition."+
-                "Votre proposition sera publiée par l`administrateur du sondage. <br/>Ni votre adresse email ni votre nom n`apparaitront sur le site public."+
-                "Vous pouvez aussi nous faire part de toute remarque constructive, nous permettant d`améliorer ce site à votre service</div>"+ 
               "</div>");
     
         var form = $.dynForm({
