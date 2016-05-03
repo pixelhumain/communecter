@@ -392,6 +392,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 				<span class="" >Faites des propositions dans les commentaires</span>
 			<?php }	?>
 			<br/>
+			
 			<div class="col-md-12 commentSection leftInfoSection" >
 				<div class="box-vote box-pod box margin-10 commentPod"></div>
 			</div>

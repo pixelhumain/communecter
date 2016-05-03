@@ -565,10 +565,10 @@ class Menu {
 
         // Help
         //-----------------------------
-        self::entry("right", 'filter', 
+        self::entry("right", 'html', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", 'cecece'), 'question-circle',
-                    null,"explainLink' data-id='explainYourData'",null);
+                    Yii::t( "common", ''), 'question-circle',
+                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
     }
 
     public static function proposal($survey)
@@ -624,10 +624,10 @@ class Menu {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         // Help
         //-----------------------------
-        self::entry("right", 'filter', 
+        self::entry("right", 'html', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    null,"explainLink' data-id='explainYourData'",null);
+                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
         
         // Standalone Version
         //-----------------------------
@@ -648,6 +648,12 @@ class Menu {
         //-----------------------------
         if(( isset( $type ) && isset($id))){
             //$type = Element::getControlerByCollection($type);
+            if($type == Person::COLLECTION)
+                $type = Person::CONTROLLER;
+            else if($type == Organization::COLLECTION)
+                $type = Organization::CONTROLLER;
+            else if($type == Project::COLLECTION)
+                $type = Project::CONTROLLER;
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
@@ -673,10 +679,10 @@ class Menu {
         
         // Help
         //-----------------------------
-        self::entry("right", 'onclick', 
+        self::entry("right", 'html', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     Yii::t( "common", ''), 'question-circle',
-                    null,"explainLink' data-id='explainYourData'",null);
+                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
     }
 
     public static function back()
@@ -735,6 +741,17 @@ class Menu {
                             "label"     => $label,
                             "badge"     => $badge,
                             "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"");
+                        
+
+        }
+        else if( $type == 'html')
+        { 
+            $entry = array( 'tooltip'    => $title,
+                            'position'   => $position,
+                            "iconClass" => "fa fa-".$icon,
+                            "label"     => $label,
+                            "badge"     => $badge,
+                            "href"      => $url);
                         
 
         }
