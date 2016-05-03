@@ -123,7 +123,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 <div class="panel panel-white" id="main-panel-room">
 	<div class="panel-body">
-		<div class="col-lg-8 col-md-12 panel-body">
+		<div class="col-lg-7 col-md-12 panel-body">
 			<div class="panel-heading text-red" style="border: 1px solid rgb(207, 207, 207);">
 		    	<h3 class="panel-title">
 		    		<i class="fa fa-comments"></i>  
@@ -212,7 +212,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 	</div>
-	<div class="col-lg-4 col-md-12 panel-body">
+	<div class="col-lg-5 col-md-12 panel-body">
 		<div class="panel-heading text-azure" style="border: 1px solid rgb(207, 207, 207);">
 	    	<h3 class=" panel-title">
 	    		<i class="fa fa-comment"></i> <i class="fa fa-gavel"></i>
