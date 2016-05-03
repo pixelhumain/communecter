@@ -632,10 +632,10 @@ class Menu {
         
         // Standalone Version
         //-----------------------------
-       self::entry("right", 'href', 
+       /*self::entry("right", 'href', 
                 Yii::t( "common", 'standalone version proposals'),
                 Yii::t( "common", ''), 'file-o',
-                Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".$id),null,null);
+                Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".$id),null,null);*/
    
 
     }
@@ -655,13 +655,20 @@ class Menu {
         }
         
         // Add a proposal
+        // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
-        $urlParams = ( isset( $type ) && isset($id)) ? ".type.".$type.".id.".$id : "" ;
-        self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Add a new survey'),
-                    Yii::t( "common", 'Add'), 'plus',
-                    "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
+        $showAddBtn = false;
+        if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
+            || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) ) )
+            $showAddBtn = true;
 
+        if( $showAddBtn ) {
+            $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
+            self::entry("left", 'onclick', 
+                        Yii::t( "common", 'Add a new survey' ),
+                        Yii::t( "common", 'Add' ), 'plus',
+                        "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
+        }
 
         
         // Help
