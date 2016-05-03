@@ -570,7 +570,7 @@ $this->renderPartial('../default/panels/toolbar');
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       
-        $icon = "comments"; 
+          $icon = "comments"; 
           if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
           if($parentType == Organization::COLLECTION) $icon = "group";
           if($parentType == Person::CONTROLLER) $icon = "user";
