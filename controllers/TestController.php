@@ -118,12 +118,23 @@ class TestController extends CommunecterController {
 	  }
 	  echo "nombre de news ////////////// ".$i;
   }
-  public function actionWashingNews(){
+  public function actionWashingNewsNoScopeType(){
   $news=PHDB::find(News::COLLECTION);
   foreach($news as $key => $data){
 		  if(!@$data["scope"]["type"]){
 		  print_r($data);
 		  PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		  	
+		}
+		}
+}
+  public function actionWashingNewsNoTarget(){
+  $news=PHDB::find(News::COLLECTION);
+  foreach($news as $key => $data){
+		  if(!@$data["target"]){
+		  print_r($data);
+		   PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
 		  	
 		}
 		}
