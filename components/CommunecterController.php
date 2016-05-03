@@ -328,7 +328,8 @@ class CommunecterController extends Controller
       "index"        => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save"         => array( "href" => "/ph/communecter/comment/save"),
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
-      "testpod"      => array("href" => "/ph/communecter/comment/testpod")
+      "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
+      "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
