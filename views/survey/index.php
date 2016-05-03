@@ -601,9 +601,6 @@ $this->renderPartial('../default/panels/toolbar');
         
               <?php } ?>
               
-              <!-- <button class="btn btn-success pull-right" onclick="loadByHash(location.hash);">
-                <i class="fa fa-refresh"></i>
-              </button> -->
         </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">

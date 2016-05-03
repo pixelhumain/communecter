@@ -45,15 +45,18 @@ margin-top:90px;
 		      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		
 			$icon = "comments";	
-		  	if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-		  	if($parentType == Organization::COLLECTION) $icon = "group";
-		  	if($parentType == Person::CONTROLLER) $icon = "user";
+		  	if($parentType == Project::COLLECTION) 
+		  		$icon = "lightbulb-o";
+		  	if($parentType == Organization::COLLECTION) 
+		  		$icon = "group";
+		  	if($parentType == Person::CONTROLLER) 
+		  		$icon = "user";
 		?>
 		<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
 	    <br>
 		<span style="padding:10px; border-radius:50px;">
 			<i class="fa fa-<?php echo $icon; ?>"></i> 
-			<?php echo $parent['name']; ?>
+			<?php echo (isset($parent)) ? $parent['name'] : "" ; ?>
 		</span>
    
     </h1>
