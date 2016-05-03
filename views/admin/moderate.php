@@ -360,7 +360,7 @@ function resetModerateTable()
 				}
 			},
 			"aaSorting" : [[<?php echo $colCorrespondance['tri']; ?>, 'asc']],
-			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "Tout"] // change per page values here
 			],
 			// set the initial value
 			"iDisplayLength" : -1,
