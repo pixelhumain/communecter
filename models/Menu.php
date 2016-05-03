@@ -86,7 +86,7 @@ class Menu {
 
         //ACTION ROOMS
         //-----------------------------
-        $surveyLink = "#rooms.index.type.person.id.".$id; 
+        $surveyLink = "#rooms.index.type.citoyens.id.".$id; 
         if(isset($person["modules"]) && in_array("survey", $person["modules"])){
             //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
@@ -554,14 +554,14 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'List of all Surveys'),
                     Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
-                    "loadByHash('".$surveyLink."')",null,null);
+                    "loadByHash('".$surveyLink."')","roomsListBtn",null);
         
         // Add a proposal
         //-----------------------------
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Create a proposal for your community'),
                     Yii::t( "common", 'Add a proposal'), 'plus',
-                    "loadByHash('#survey.editEntry.survey.".$id."')",null,null);
+                    "loadByHash('#survey.editEntry.survey.".$id."')","addProposalBtn",null);
 
         // Help
         //-----------------------------
@@ -608,7 +608,7 @@ class Menu {
                 self::entry("right", 'onclick', 
                         Yii::t( "common", 'Edit this proposals'),
                         Yii::t( "common", 'Edit'), 'pencil',
-                        "loadByHash('#survey.editEntry.survey.".$parentId.".id.".$id."')",null,null);
+                        "loadByHash('#survey.editEntry.survey.".$parentId.".id.".$id."')","editProposalBtn",null);
             }
 
             // Standalone Version
@@ -626,7 +626,7 @@ class Menu {
                 self::entry("right", 'onclick', 
                         Yii::t( "common", 'Close this proposals'),
                         Yii::t( "common", 'Close'), 'times text-red',
-                        "closeEntry('".$id."')",null,null);
+                        "closeEntry('".$id."')","closeProposalBtn",null);
             }
         }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
@@ -659,7 +659,7 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'Add a new survey'),
                     Yii::t( "common", 'Add'), 'plus',
-                    "loadByHash('#rooms.editroom".$urlParams."')",null,null);
+                    "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
 
 
         
@@ -680,7 +680,7 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'go Back'),
                     Yii::t( "common", 'Back'), 'chevron-circle-left',
-                    "window.history.back();",null,null);
+                    "window.history.back();","backBtn",null);
     }
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
     {
