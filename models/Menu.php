@@ -91,7 +91,7 @@ class Menu {
             //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
             self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Espace coopératif'), 
                     Yii::t( "common", 'Vote'), 
                     'gavel',
                     "loadByHash('$surveyLink')","room", "index");
