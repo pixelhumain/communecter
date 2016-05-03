@@ -668,7 +668,7 @@ function saveNews(){
 		    				
 		    				//if we need a month space to insert the news
 		    				if ( !$( "#"+'month'+monthSection.getMonth()+''+monthSection.getFullYear()).length ) {
-								loadByHash('#default.news');
+								loadByHash(location.hash);
 		    				}
 						}
 						
