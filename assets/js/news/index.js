@@ -286,6 +286,7 @@ function initXEditable() {
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-news').editable({
     	url: baseUrl+"/"+moduleId+"/news/updatefield", //this url will not be used for creating new job, it is only for update
+    	emptytext: 'Empty',
     	textarea: {
 			html: true,
 			video: true,
@@ -311,6 +312,7 @@ function initXEditable() {
 
 	$('.newsContent').editable({
 		url: baseUrl+"/"+moduleId+"/news/updatefield", 
+		emptytext: 'Vide',
 		showbuttons: 'bottom',
 		wysihtml5: {
 			html: true,
@@ -348,6 +350,7 @@ function updateNews(newsObj)
 	$("#form-news #results").html("").hide();
 	$("#form-news #tags").select2('val', "");
 	showFormBlock(false);
+	$('.tooltips').tooltip();
 	bindEvent();
 }
 
@@ -547,14 +550,14 @@ function getMediaHtml(data,action){
 	if(data.content==null)
 		data.content="";
 	
-	if(data.description !="" && data.name != ""){
+	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
 		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
 	else{
 		contentMedia="";
 	}
-	inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
-	inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
@@ -611,9 +614,11 @@ function saveNews(){
 				if($("#form-news #results").html() != ""){
 					newNews.media=new Object;	
 					if($("#form-news #results .type").val()=="url_content"){
-						newNews.media.type=$("#form-news #results .type").val(),
-						newNews.media.name=$("#form-news #results .name").val(),
-						newNews.media.description=$("#form-news #results .description").val();
+						newNews.media.type=$("#form-news #results .type").val();
+						if($("#form-news #results .name").length)
+							newNews.media.name=$("#form-news #results .name").val();
+						if($("#form-news #results .description").length)
+							newNews.media.description=$("#form-news #results .description").val();
 						newNews.media.content=new Object;
 						newNews.media.content.type=$("#form-news #results .media_type").val(),
 						newNews.media.content.url=$("#form-news #results .url").val(),
@@ -803,7 +808,7 @@ function showMyImage(fileInput) {
 	$("#photoAddNews").submit();	  
 }
 	
-function getMediaImages(o,newsId,authorId){
+function getMediaImages(o,newsId,authorId,targetName){
 	countImages=o.countImages;
 	html="";
 	if(canManageNews==1 || authorId==idSession){
@@ -818,42 +823,42 @@ function getMediaImages(o,newsId,authorId){
 	else if(countImages==2){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
-			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
 		}
 	}
 	else if(countImages==3){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
 			if(i==0){
-			html+="<div class='col-md-12 padding-5' style='position:relative;height:200px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
+			html+="<div class='col-md-12 padding-5' style='position:relative;height:200px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
 			}else{
-			html+="<div class='col-md-6 padding-5' style='position:relative; height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";	
+			html+="<div class='col-md-6 padding-5' style='position:relative; height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";	
 			}
 		}
 	}
 	else if(countImages==4){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
-			html+="<div class='col-md-6 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;height:auto;'></a></div>";
+			html+="<div class='col-md-6 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;height:auto;'></a></div>";
 		}
 	}
 	else if(countImages>=5){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
 			if(i==0)
-				html+="<div class='col-md-8 no-padding'><div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
+				html+="<div class='col-md-8 no-padding'><div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div>";
 			else if(i==1){
-				html+="<div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div></div>";
+				html+="<div class='col-md-12 padding-5' style='position:relative;height:120px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a></div></div>";
 			}
 			else if(i<5){
-				html+="<div class='col-md-4 padding-5' style='position:relative;height:80px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a>";
+				html+="<div class='col-md-4 padding-5' style='position:relative;height:80px;overflow-y:hidden;'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='position:absolute;min-height:100%;min-width:100%;'></a>";
 				if(i==4 && countImages > 5){
 					diff=countImages-5;
 					html+="<div style='position: absolute;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);color: white;text-align: center;line-height: 75px;font-size: 30px;'><span>+ "+diff+"</span></div>";
 				}
 				html+="</div>";
 			} else{
-				html+="<a class='thumb-info' href='"+path+"' data-title='Website'  data-lightbox='all"+newsId+"'></a>";	
+				html+="<a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'></a>";	
 			}
 		}
 	}
