@@ -241,7 +241,7 @@ $this->renderPartial('../default/panels/toolbar');
     ***************************************** */
     function buildEntryBlock( $entry,$uniqueVoters,$alltags ){
         $logguedAndValid = Person::logguedAndValid();
-        $tagBlock = "<i class='fa fa-info-circle'></i> Aucun tag";
+        $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
         $message = substr($entry["message"],0,300);
@@ -570,7 +570,7 @@ $this->renderPartial('../default/panels/toolbar');
           else
             $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       
-        $icon = "comments"; 
+          $icon = "comments"; 
           if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
           if($parentType == Organization::COLLECTION) $icon = "group";
           if($parentType == Person::CONTROLLER) $icon = "user";

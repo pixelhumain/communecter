@@ -91,7 +91,7 @@ class Menu {
             //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
             //error_log($actionRoom);
             self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Espace de prise de décision'), 
+                    Yii::t( "common", 'Espace coopératif'), 
                     Yii::t( "common", 'Vote'), 
                     'gavel',
                     "loadByHash('$surveyLink')","room", "index");
@@ -567,7 +567,7 @@ class Menu {
         //-----------------------------
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", 'Help'), 'question-circle',
+                    Yii::t( "common", ''), 'question-circle',
                     "loadByHash('#define.Surveys')",null,null);
    
     }
@@ -595,8 +595,8 @@ class Menu {
         // Back to Parent Survey
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Back to Parent Survey', null, Yii::app()->controller->module->id),
-                    Yii::t( "common", 'Parent Survey', null, Yii::app()->controller->module->id), 'chevron-circle-left',
+                    Yii::t( "common", 'Back to Parent Survey'),
+                    Yii::t( "common", 'Parent Survey'), 'chevron-circle-left',
                     "loadByHash('#survey.entries.id.".$parentId."')",null,null);
         
         if ( $organiserId == Yii::app()->session["userId"] ) 
@@ -611,14 +611,7 @@ class Menu {
                         "loadByHash('#survey.editEntry.survey.".$parentId.".id.".$id."')","editProposalBtn",null);
             }
 
-            // Standalone Version
-            //-----------------------------
-           self::entry("right", 'href', 
-                    Yii::t( "common", 'standalone version proposals'),
-                    Yii::t( "common", 'Standalone'), 'file-o',
-                    Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".$id),null,null);
-       
-
+            
             // Close
             //-----------------------------
             if( Yii::app()->controller->action->id != "editentry" && !( ( @$survey["dateEnd"] && $survey["dateEnd"] < time()) )   )
@@ -634,9 +627,17 @@ class Menu {
         //-----------------------------
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", 'Help'), 'question-circle',
+                    Yii::t( "common", ''), 'question-circle',
                     "loadByHash('#define.Surveys')",null,null);
+        
+        // Standalone Version
+        //-----------------------------
+       self::entry("right", 'href', 
+                Yii::t( "common", 'standalone version proposals'),
+                Yii::t( "common", ''), 'file-o',
+                Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".$id),null,null);
    
+
     }
 
     public static function rooms($id,$type)
