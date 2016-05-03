@@ -23,7 +23,7 @@
 	  	<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
 		<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-calendar"></i> L'Agenda communecté</a></li>
 		<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-rss"></i> L'Actualité communecté</a></li>
-	  	<li><a href="javascript:;" onclick="loadByHash('#news.index.type.pixels?isSearchDesign=1')" ><i class="fa fa-bullhorn"></i> Bugs, idées</a></li>
+	  	<li><a href="javascript:;" onclick="loadByHash('#news.index.type.pixels')" ><i class="fa fa-bullhorn"></i> Bugs, idées</a></li>
 	  	
 	  	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	  	<li role="separator" class="divider"></li>

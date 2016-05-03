@@ -325,7 +325,7 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction += "a partagé un lien";

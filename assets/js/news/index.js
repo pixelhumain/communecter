@@ -25,7 +25,7 @@ var loadStream = function(indexMin, indexMax){
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData+"?isFirst=1",
+	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
@@ -668,7 +668,7 @@ function saveNews(){
 		    				
 		    				//if we need a month space to insert the news
 		    				if ( !$( "#"+'month'+monthSection.getMonth()+''+monthSection.getFullYear()).length ) {
-								loadByHash('#default.news');
+								loadByHash(location.hash);
 		    				}
 						}
 						

@@ -44,7 +44,7 @@ class Menu {
                 Yii::t( "common", 'Read all news publicated by this person'), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
-                "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id.".viewer.".Yii::app()->session["userId"]."?isSearchDesign=1')","news", "index");
+                "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id.".viewer.".Yii::app()->session["userId"]."')","news", "index");
         
         //DIRECTORY
         //-----------------------------
@@ -136,7 +136,7 @@ class Menu {
                 Yii::t( "common", 'Read all news publicated by this event'), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
-                "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+                "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."')","news", "index");
 
         if(isset(Yii::app()->session["userId"])){
             if( isset($event["_id"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
@@ -174,7 +174,7 @@ class Menu {
                 Yii::t( "common", 'Read all news publicated by this organization'), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
-                "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+                "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."')","news", "index");
 
          
         
@@ -392,7 +392,7 @@ class Menu {
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
         			Yii::t( "common", 'News Stream'), "rss",
-        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."?isSearchDesign=1')","news", "index");
+        			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."')","news", "index");
 
         //DIRECTORY
         //-----------------------------
