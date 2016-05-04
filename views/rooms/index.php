@@ -140,9 +140,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 						
 							<?php 
 							$showAddBtn = false;
-					        if( (  $_GET["type"] == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $_GET["id"] ) )
-					            || ( $_GET["type"] == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $_GET["id"] ) )
-					            || ( $_GET["type"] == Event::COLLECTION && Authorisation::isEventMember( Yii::app()->session["userId"] , $_GET["id"] ) ) )
+					        if( ActionRoom::canParticipate(Yii::app()->session['userId'], $_GET["id"],$_GET["type"] ) )
 					        {    
 							 ?>
 							<li><a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
@@ -164,8 +162,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					<tr>
 						<th><i class="fa fa-caret-down"></i> <?php //echo Yii::t("rooms", "Name", null, $moduleId); ?></th>
 						<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
-						<th class="hidden"><i class="fa fa-file-text"></i> <?php //echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
-						<th class=""><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+						<th class=""><i class="fa fa-file-text"></i> <?php //echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+						<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
 						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php //echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
 					</tr>
 				</thead>
@@ -207,8 +205,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 								<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
 							</td>
 							<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<td class="hidden"><i class="fa fa-file-text"></i> <?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-							<td class=""><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+							<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+							<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 						</tr>
 					<?php

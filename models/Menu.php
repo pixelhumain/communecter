@@ -562,15 +562,8 @@ class Menu {
         // Back to Parent
         //-----------------------------
         if(( isset( $type ) && isset($id))){
-            //$type = Element::getControlerByCollection($type);
-            if($type == Person::COLLECTION)
-                $type = Person::CONTROLLER;
-            else if($type == Organization::COLLECTION)
-                $type = Organization::CONTROLLER;
-            else if($type == Project::COLLECTION)
-                $type = Project::CONTROLLER;
-            else if($type == Event::COLLECTION)
-                $type = Event::CONTROLLER;
+         $type = Element::getControlerByCollection($type);
+            
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
@@ -580,13 +573,7 @@ class Menu {
         // Add a proposal
         // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
-        $showAddBtn = false;
-        if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
-            || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) )
-            || ( $type == Event::COLLECTION && Authorisation::isEventMember( Yii::app()->session["userId"] , $id ) ) )
-            $showAddBtn = true;
-
-        if( $showAddBtn ) {
+        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type) ) {
             $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Add a new survey' ),
@@ -623,11 +610,12 @@ class Menu {
         
         // Add a proposal
         //-----------------------------
-        self::entry("right", 'onclick', 
-                    Yii::t( "common", 'Create a proposal for your community'),
-                    Yii::t( "common", 'Add a proposal'), 'plus',
-                    "loadByHash('#survey.editEntry.survey.".$id."')","addProposalBtn",null);
-
+        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$survey["parentId"],$survey["parentType"]) ) {
+            self::entry("right", 'onclick', 
+                        Yii::t( "common", 'Create a proposal for your community'),
+                        Yii::t( "common", 'Add a proposal'), 'plus',
+                        "loadByHash('#survey.editEntry.survey.".$id."')","addProposalBtn",null);
+        }
         // Help
         //-----------------------------
         self::entry("right", 'html', 

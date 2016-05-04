@@ -239,7 +239,7 @@ $this->renderPartial('../default/panels/toolbar');
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId ){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -284,8 +284,8 @@ $this->renderPartial('../default/panels/toolbar');
           }
         }
   
-        $count = PHDB::count ( Survey::COLLECTION, array( "type"=>Survey::TYPE_ENTRY,
-                                                          "survey"=>(string)$entry["_id"] ) );
+        $count = PHDB::count ( Survey::COLLECTION, array( "type" => Survey::TYPE_ENTRY,
+                                                          "survey" => (string)$entry["_id"] ) );
         
         /* **************************************
         //check if I wrote this law
@@ -404,9 +404,16 @@ $this->renderPartial('../default/panels/toolbar');
 
         $btnRead = "";
         $leftLinks = "";
+        $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
+        $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
+        if( !ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
+          $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("survey","JOIN TO VOTE", null, Yii::app()->controller->module->id);
+          $ctrl = Element::getControlerByCollection($parentType);
+          $btnUrl = "#$ctrl.detail.id.$parentId";
+        }
 
         if(!$surveyIsClosed && !$surveyHasVoted)        
-        $leftLinks = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'><i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id)."</button>";
+        $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
         else{
           $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
@@ -489,7 +496,7 @@ $this->renderPartial('../default/panels/toolbar');
     //TODO seperate logic from view
     foreach ($list as $key => $entry) 
     {
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags);
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId);
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
@@ -631,7 +638,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
               </h1>
                <?php 
-                 if (isset($list) && count($list) == 0) {
+                 if (isset($list) && count($list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentId"],$where["survey"]["parentType"])) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
