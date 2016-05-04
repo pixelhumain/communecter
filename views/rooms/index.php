@@ -123,7 +123,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 <div class="panel panel-white" id="main-panel-room">
 	<div class="panel-body">
-		<div class="col-lg-7 col-md-12 panel-body">
+		<div class="col-lg-<?php echo (count(@$actions)) ? 7: 12; ?> col-md-12 panel-body">
 			<div class="panel-heading text-red" style="border: 1px solid rgb(207, 207, 207);">
 		    	<h3 class="panel-title">
 		    		<i class="fa fa-comments"></i>  
@@ -137,7 +137,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 								<span class="value text-red"><?php echo count(@$rooms) ?></span>
 							</div>
 						</li>
-						<li>
+						
 							<?php 
 							$showAddBtn = false;
 					        if( (  $_GET["type"] == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $_GET["id"] ) )
@@ -145,11 +145,11 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					            || ( $_GET["type"] == Event::COLLECTION && Authorisation::isEventMember( Yii::app()->session["userId"] , $_GET["id"] ) ) )
 					        {    
 							 ?>
-							<a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
+							<li><a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
 								<i class="fa fa-plus text-red"></i>
-							</a>
+							</a></li>
 							<?php } ?>
-						</li>
+						
 					</ul>
 
 
@@ -220,6 +220,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 	</div>
+	<?php if(count(@$actions)){ ?>
 	<div class="col-lg-5 col-md-12 panel-body">
 		<div class="panel-heading text-azure" style="border: 1px solid rgb(207, 207, 207);">
 	    	<h3 class=" panel-title">
@@ -345,6 +346,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 	</div>
+	<?php } ?>
 </div>
 
 
