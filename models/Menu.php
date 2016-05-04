@@ -84,20 +84,7 @@ class Menu {
             }
         }
 
-        //ACTION ROOMS
-        //-----------------------------
-        $surveyLink = "#rooms.index.type.citoyens.id.".$id; 
-        if(isset($person["modules"]) && in_array("survey", $person["modules"])){
-            //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
-            //error_log($actionRoom);
-            self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Espace coopératif'), 
-                    Yii::t( "common", 'Vote'), 
-                    'gavel',
-                    "loadByHash('$surveyLink')","room", "index");
-                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
-        }
-
+        
         
 
                 /*$htmlFollowBtn = array('tooltip' => Yii::t( "common", "Follow this Person"), 
@@ -164,6 +151,23 @@ class Menu {
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
+            //ACTION ROOMS
+            //-----------------------------
+            $surveyLink = "#rooms.index.type.events.id.".$id; 
+            if(isset($event["modules"]) && in_array("survey", $event["modules"]))
+            {
+                self::entry("left", 'onclick', 
+                        Yii::t( "common", 'Espace coopératif'), 
+                        Yii::t( "common", 'Vote'), 
+                        'gavel',
+                        "loadByHash('$surveyLink')","room", "index");
+            } else {
+                self::entry("left", 'onclick', 
+                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+                        Yii::t( "common", 'Vote'), 
+                        'plus',
+                        "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+            }
         }
      }
     
@@ -207,7 +211,13 @@ class Menu {
                     Yii::t( "common", 'Vote'), 
                     'gavel',
                     "loadByHash('$surveyLink')","room", "index");
-        }
+        } else {
+                self::entry("left", 'onclick', 
+                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+                        Yii::t( "common", 'Vote'), 
+                        'plus',
+                        "updateField('".Organization::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+            }
         
         /*self::entry("left", 'onclick',
         			Yii::t("common","Organization community"),
@@ -473,7 +483,13 @@ class Menu {
                     'gavel',
                     "loadByHash('$surveyLink')","room", "index");
                    //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
-        }
+        }else {
+                self::entry("left", 'onclick', 
+                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+                        Yii::t( "common", 'Vote'), 
+                        'plus',
+                        "updateField('".Project::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+            }
 
         // ADD MEMBER
         //-----------------------------
@@ -536,6 +552,55 @@ class Menu {
                     Yii::t( "common", 'List of all Surveys'),
                     Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
                     "loadByHash('".$roomLink."')",null,null);
+    }
+
+    public static function rooms($id,$type)
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        // Back to Parent
+        //-----------------------------
+        if(( isset( $type ) && isset($id))){
+            //$type = Element::getControlerByCollection($type);
+            if($type == Person::COLLECTION)
+                $type = Person::CONTROLLER;
+            else if($type == Organization::COLLECTION)
+                $type = Organization::CONTROLLER;
+            else if($type == Project::COLLECTION)
+                $type = Project::CONTROLLER;
+            else if($type == Event::COLLECTION)
+                $type = Event::CONTROLLER;
+         self::entry("left", 'onclick', 
+                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
+                     Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
+                     "loadByHash('#".$type.".detail.id.".$id."')",null,null);
+        }
+        
+        // Add a proposal
+        // on show the add button for the communities in  Organisations and Projects
+        //-----------------------------
+        $showAddBtn = false;
+        if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
+            || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) )
+            || ( $type == Event::COLLECTION && Authorisation::isEventMember( Yii::app()->session["userId"] , $id ) ) )
+            $showAddBtn = true;
+
+        if( $showAddBtn ) {
+            $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
+            self::entry("right", 'onclick', 
+                        Yii::t( "common", 'Add a new survey' ),
+                        Yii::t( "common", 'Add' ), 'plus',
+                        "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
+        }
+
+        
+        // Help
+        //-----------------------------
+        self::entry("right", 'html', 
+                    Yii::t( "common", 'Understanding surveys and proposals'),
+                    Yii::t( "common", ''), 'question-circle',
+                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
     }
 
     public static function survey($survey)
@@ -639,51 +704,7 @@ class Menu {
 
     }
 
-    public static function rooms($id,$type)
-    {
-        if( !is_array( Yii::app()->controller->toolbarMBZ ))
-            Yii::app()->controller->toolbarMBZ = array();
-        
-        // Back to Parent
-        //-----------------------------
-        if(( isset( $type ) && isset($id))){
-            //$type = Element::getControlerByCollection($type);
-            if($type == Person::COLLECTION)
-                $type = Person::CONTROLLER;
-            else if($type == Organization::COLLECTION)
-                $type = Organization::CONTROLLER;
-            else if($type == Project::COLLECTION)
-                $type = Project::CONTROLLER;
-         self::entry("left", 'onclick', 
-                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
-                     Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
-                     "loadByHash('#".$type.".detail.id.".$id."')",null,null);
-        }
-        
-        // Add a proposal
-        // on show the add button for the communities in  Organisations and Projects
-        //-----------------------------
-        $showAddBtn = false;
-        if( ( $type == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $id ) )
-            || ( $type == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $id ) ) )
-            $showAddBtn = true;
-
-        if( $showAddBtn ) {
-            $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
-            self::entry("right", 'onclick', 
-                        Yii::t( "common", 'Add a new survey' ),
-                        Yii::t( "common", 'Add' ), 'plus',
-                        "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
-        }
-
-        
-        // Help
-        //-----------------------------
-        self::entry("right", 'html', 
-                    Yii::t( "common", 'Understanding surveys and proposals'),
-                    Yii::t( "common", ''), 'question-circle',
-                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
-    }
+    
 
     public static function back()
     {

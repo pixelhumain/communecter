@@ -385,14 +385,14 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 				<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 				<?php foreach ( $survey["urls"] as $value) {
 					if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-						echo '<a href="'.$value.'" class="text-large"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
+						echo '<a href="'.$value.'" class="text-large"><i class="fa fa-link" target="_blank"></i> '.$value.'</a><br/> ';
 					else
 						echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 				}?>
 				<span class="" >Faites des propositions dans les commentaires</span>
 			<?php }	?>
 			<br/>
-			
+
 			<div class="col-md-12 commentSection leftInfoSection" >
 				<div class="box-vote box-pod box margin-10 commentPod"></div>
 			</div>

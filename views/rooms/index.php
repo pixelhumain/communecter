@@ -138,9 +138,17 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 							</div>
 						</li>
 						<li>
-							<a class="btn btn-sm btn-link panel-close" href="#">
+							<?php 
+							$showAddBtn = false;
+					        if( (  $_GET["type"] == Organization::COLLECTION && Authorisation::isOrganizationMember( Yii::app()->session["userId"] , $_GET["id"] ) )
+					            || ( $_GET["type"] == Project::COLLECTION && Authorisation::isProjectMember( Yii::app()->session["userId"] , $_GET["id"] ) )
+					            || ( $_GET["type"] == Event::COLLECTION && Authorisation::isEventMember( Yii::app()->session["userId"] , $_GET["id"] ) ) )
+					        {    
+							 ?>
+							<a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
 								<i class="fa fa-plus text-red"></i>
 							</a>
+							<?php } ?>
 						</li>
 					</ul>
 

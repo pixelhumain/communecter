@@ -96,6 +96,25 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 	$("#flashInfo").modal('show');
 }
 
+function updateField(type,id,name,value,reload){
+    	
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/"+moduleId+"/"+type+"/updatefield", 
+	  data: { "pk" : id ,"name" : name, "value" : value },
+	  success: function(data){
+		if(data.result) {
+        	toastr.success(data.msg);
+        	if(reload)
+        		loadByHash(location.hash);
+		}
+        else
+        	toastr.error(data.msg);  
+	  },
+	  dataType: "json"
+	});
+}
+
 /* *************************** */
 /* global JS tools */
 /* *************************** */

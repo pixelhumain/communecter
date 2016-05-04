@@ -72,6 +72,9 @@ var proposalFormDefinition = {
               "inputType" : "date",
               "placeholder" : "Fin de la période de vote",
               "value":"<?php echo (isset($survey) && isset($survey['dateEnd'])) ? $survey['dateEnd'] : '' ?>",
+              "rules" : {
+                "required" : true
+              }
             },
             "urls" : {
                   "inputType" : "array",
