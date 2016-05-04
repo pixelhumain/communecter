@@ -69,8 +69,10 @@ if( !isset($hideTexts) )
 		$room = ActionRoom::getById($survey["survey"]);
 		if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) ) 
 			$contentVote = $voteLinksAndInfos["links"]; 
-		else
-			$contentVote = Yii::t("survey","you must join to vote",null,Yii::app()->controller->module->id);
+		else{
+			$ctrl = Element::getControlerByCollection($room["parentType"]);
+			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("survey","You must join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-chevron-right-circle"></i></a>';
+		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div><div class='space1'></div>";
 
