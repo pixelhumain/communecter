@@ -66,8 +66,13 @@ if( !isset($hideTexts) )
 		//else
 		//	echo Yii::t("survey","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
-
-		echo "<div class='container-tool-vote text-dark'>".$voteLinksAndInfos["links"]."</div><div class='space1'></div>";
+		$room = ActionRoom::getById($survey["survey"]);
+		if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) ) 
+			$contentVote = $voteLinksAndInfos["links"]; 
+		else
+			$contentVote = Yii::t("survey","you must join to vote",null,Yii::app()->controller->module->id);
+		
+		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div><div class='space1'></div>";
 
 		//if( $voteLinksAndInfos["totalVote"] )
 			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("survey","people voted",null,Yii::app()->controller->module->id); 
