@@ -1,5 +1,10 @@
 
 <?php
+$cs = Yii::app()->getClientScript();
+
+Menu::moderate();
+$this->renderPartial('../default/panels/toolbar'); 
+
 echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js');
 echo CHtml::cssFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/css/DT_bootstrap.css');
 echo CHtml::scriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/DataTables/media/js/DT_bootstrap.js');
@@ -38,6 +43,7 @@ if(isset($news) && is_array($news))
 { 
 	foreach ($news as $i => $e) 
 	{ 
+
 		$e['name'] = "";
 		if(isset($e['target']['id'])){
 			// if($e['target']['type'] == 'citoyens1'){
@@ -64,7 +70,7 @@ if(isset($comments) && is_array($comments))
 					
 ?>
 <!-- ************ DATATABLES ********************** -->
-<div class="panel panel-white">
+<div class="panel panel-white" style="margin-top:40px">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title">
 		<i class="fa fa-globe fa-2x text-green"></i>
@@ -150,7 +156,7 @@ function buildNewsLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scop
 		'<td>'.$typeParams[$type]['tri'].'</td>
 		<td>'.$type.'</td>
 		<td class="Line'.$classes.'">'.
-			'<a target="_blank" href="'.Yii::app()->createUrl('/'.$moduleId.'/#news.index.type.'.$type.'.id.'.$e['target']['id'].'?isSearchDesign=1').'">';
+			'<a target="_blank" href="'.Yii::app()->createUrl('/'.$moduleId.'/#news.index.type.'.$type.'.id.'.$e['target']['id']).'">';
 				if ($e && isset($e["imagePath"])){ 
 					$strHTML .= '<img width="50" height="50" alt="image" class="img-circle" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">'.((isset($e["name"])) ? $e["name"] : "");
 				} else { 
@@ -162,7 +168,7 @@ function buildNewsLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scop
 	/* **************************************
 	* TEXT
 	***************************************** */
-	$strHTML .= '<td>'.((isset($e["text"]))? $e["text"]:"").'</td>';
+	$strHTML .= '<td>'.((isset($e["text"]))? substr($e["text"],0,50) :"").'</td>';
 
 	/* **************************************
 	* AVIS
@@ -239,7 +245,7 @@ function buildCommentsLine($c, $type, &$typeParams){
 	<td>'.$type.'</td>
 	<td class="Line'.$classes.'">'.
 		'<a class="linkComment" data-contextid="'.@$c['contextId'].'">';
-				$strHTML .= '<i class="fa fa-comment fa-2x"></i> Commentaire';
+				$strHTML .= '<i class="fa fa-comment fa-2x"></i> Commentaire sur '.@$c['contextType'];
 		$strHTML .= '</a>';
 	$strHTML .= '<span></span></td>';
 	
@@ -589,6 +595,7 @@ function bindModalEvent(){
 		        	'<li>Liens fallacieux ou frauduleux : XX</li>'+
 		        	'<li>Mention de source erronée : XX</li>'+
 		        	'<li>Violations des droits d\'auteur : XX</li>';
+		var strReason = "";
 		var strDetail = "";
 		$.getJSON( urlToSend, { "id" : id, "subAction" : subAction}, function(data) {
 			$('#modalText').html(data.result.text);

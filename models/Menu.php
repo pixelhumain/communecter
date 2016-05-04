@@ -154,6 +154,27 @@ class Menu {
     		}
         }
      }
+
+    public static function moderate()
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        //Moderate One
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Modérer un abus"),
+                Yii::t("common","Modérer un abus"),
+                'file-o','/admin/moderate/one/',"Moderate","one");
+        
+        //Moderate All
+        //-----------------------------
+         self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Tous les abus"),
+                Yii::t("common","Tous les abus"),
+                'copy','/admin/moderate/all/',"Moderate","all");
+
+     }
     
     public static function organization($organization) {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))

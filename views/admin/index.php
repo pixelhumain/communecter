@@ -74,10 +74,10 @@ $cs = Yii::app()->getClientScript();
           </li>
 
            <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-moderate">
-              <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.moderate')">
+              <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.moderate.one')">
                 <i class="fa fa-check fa-2x"></i>
                   
-                <?php echo Yii::t("admin", "MODERATE", null, Yii::app()->controller->module->id); ?>
+                <?php echo Yii::t("admin", "MODERATION", null, Yii::app()->controller->module->id); ?>
                 
               </div>
             </li>

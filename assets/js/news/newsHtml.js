@@ -624,17 +624,48 @@ function reportAbuse($this,action, method) {
 		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
-		if (result != null) {			
-			if (result != "") {
-				actionOnNews($($this),action,method,result);
-				$this.children(".label").removeClass("text-dark").addClass("text-red");
-			} else {
-				toastr.error("Please fill a reason");
-			}
-		}
+	// var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
+	// 	if (result != null) {			
+	// 		if (result != "") {
+	// 			actionOnNews($($this),action,method,result);
+	// 			$this.children(".label").removeClass("text-dark").addClass("text-red");
+	// 		} else {
+	// 			toastr.error("Please fill a reason");
+	// 		}
+	// 	}
+	// });
+	var message = "<div id='reason' class='radio'>"+
+		"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
+		"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
+		"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
+		"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Propos malveillants'>Liens fallacieux ou frauduleux</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Mention de source erronée</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Contenu pornographique'>Violations des droits d'auteur</label><br>"+
+		"</div>";
+	var boxNews = bootbox.dialog({
+	  message: message,
+	  title: trad["askreasonreportabuse"],
+	  buttons: {
+	  	annuler: {
+	      label: "Annuler",
+	      className: "btn-default",
+	      callback: function() {
+	        console.log("Annuler");
+	      }
+	    },
+	    danger: {
+	      label: "Déclarer cet abus",
+	      className: "btn-primary",
+	      callback: function() {
+	      	// var reason = $('#reason').val();
+	      	var reason = $("#reason input[type='radio']:checked").val();
+	      	actionOnNews($($this),action,method,reason);
+	      }
+	    },
+	  }
 	});
-	box.on("shown.bs.modal", function() {
+	boxNews.on("shown.bs.modal", function() {
 	  $.unblockUI();
 	});
 	}

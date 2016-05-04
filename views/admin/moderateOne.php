@@ -1,3 +1,10 @@
+<?php
+	$cs = Yii::app()->getClientScript();
+
+	Menu::moderate();
+	$this->renderPartial('../default/panels/toolbar'); 
+?>
+
 <style>
 	.buttonBar{
 		width:95%;
@@ -10,7 +17,7 @@
 		font-size: 18px;
 	}
 </style>
-<div id="panelOne" class="panel panel-white">
+<div id="panelOne" class="panel panel-white" style="margin-top:40px">
 	<div class="toModerateContent"></div>
 
 	<div class="buttonBar">
@@ -23,12 +30,14 @@
 
 <script>
 	var newsId = "";
+	var htmlSpiner = '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i></h2>';
 	function loadNewsToModerate(idNews){
 		var urlToSend = baseUrl+'/'+moduleId+"/news/detail/id/"+idNews;
 		console.log(urlToSend);
 		getAjax('.toModerateContent',urlToSend,function(handleResponse){
 				
-			$("#panelOne").show();
+			$('.buttonBar').show();
+
 			$(".timeline_element").css("min-width","95%"); 
 			$(".timeline_element").css("pointer-events","none");
 			$(".timeline_element").css("cursor","default");
@@ -41,6 +50,8 @@
 
 	function setNextNewsId(){
 		console.log("setNextNewsId");
+		$('.toModerateContent').html(htmlSpiner);
+		$('.buttonBar').hide();
         var urlToSend = baseUrl+"/"+moduleId+"/news/moderate/";
         
         var params = {};
@@ -58,15 +69,21 @@
 		       		$(".declareAsAbuseBtn, .declareAsAuthorizeBtn").data('id',newsId);
 		       }
 		       else{
-		       		$('#panelOne').html("<center><h3>Aucune news à modérer</h3></center>");
-		       		$('#panelOne').show();
+		       		$('.toModerateContent').html("<center><h3>Aucune news à modérer</h3></center>");
+		       		// $('#panelOne').show();
 		       }
 		    }
 	    });
 	}
 
 	jQuery(document).ready(function() {
-		$("#panelOne").hide();
+
+
+		//Title
+		$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Modération");
+
+		$('.toModerateContent').html(htmlSpiner);
+		$('.buttonBar').hide();
 		
 		//We load the moderation
 		setNextNewsId();

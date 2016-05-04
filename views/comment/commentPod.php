@@ -409,24 +409,59 @@ function actionOnComment(comment, action) {
 
 function reportAbuse(comment, contextId) {
 	// console.log(contextId);
-	var box = bootbox.prompt('<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>', function(result) {
-		if (result != null) {			
-			if (result != "") {
-				actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
-				disableOtherAction(comment.data("id"), '.commentReportAbuse');
-				copyCommentOnAbuseTab(comment);
-				return true;
-			} else {
-				toastr.error('<?php echo Yii::t("comment","Please fill a reason") ?>');
-			}
-		}
+	var message = "<div id='reason' class='radio'>"+
+		"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
+		"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
+		"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
+		"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Propos malveillants'>Liens fallacieux ou frauduleux</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Mention de source erronée</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Contenu pornographique'>Violations des droits d'auteur</label><br>"+
+		"</div>";
+	var boxComment = bootbox.dialog({
+	  message: message,
+	  title: '<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>',
+	  buttons: {
+	  	annuler: {
+	      label: "Annuler",
+	      className: "btn-default",
+	      callback: function() {
+	        console.log("Annuler");
+	      }
+	    },
+	    danger: {
+	      label: "Déclarer cet abus",
+	      className: "btn-primary",
+	      callback: function() {
+	      	// var reason = $('#reason').val();
+	      	var reason = $("#reason input[type='radio']:checked").val();
+	      	actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", reason);
+			disableOtherAction(comment.data("id"), '.commentReportAbuse');
+			copyCommentOnAbuseTab(comment);
+			return true;
+	      }
+	    },
+	  }
 	});
 
-	box.on("shown.bs.modal", function() {
+	// var box = bootbox.prompt('<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>', function(result) {
+	// 	if (result != null) {			
+	// 		if (result != "") {
+	// 			actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
+	// 			disableOtherAction(comment.data("id"), '.commentReportAbuse');
+	// 			copyCommentOnAbuseTab(comment);
+	// 			return true;
+	// 		} else {
+	// 			toastr.error('<?php echo Yii::t("comment","Please fill a reason") ?>');
+	// 		}
+	// 	}
+	// });
+
+	boxComment.on("shown.bs.modal", function() {
 	  $.unblockUI();
 	});
 
-	box.on("hide.bs.modal", function() {
+	boxComment.on("hide.bs.modal", function() {
 	  showComments(contextId);
 	});
 }
