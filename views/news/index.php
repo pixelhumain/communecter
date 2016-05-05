@@ -55,7 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "lock";
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
-		if(@$viewer){
+		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			Menu::person( $person );
 			$contextName =$person["name"];
 			$contextIcon = "user";
