@@ -695,6 +695,7 @@ function saveNews(){
 						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
 							updateNews(data.object);
 						}
+						$("#get_url").height(100);
 						$.unblockUI();
 						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
