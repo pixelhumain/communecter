@@ -647,8 +647,8 @@ class Menu {
         // Back to Parent Survey
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Back to Parent Survey'),
-                    Yii::t( "common", 'Parent Survey'), 'chevron-circle-left',
+                    Yii::t( "rooms", 'Back to Parent Survey',null,Yii::app()->controller->module->id),
+                    Yii::t( "rooms", 'Parent Survey',null,Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('#survey.entries.id.".$parentId."')",null,null);
         
         if ( $organiserId == Yii::app()->session["userId"] ) 

@@ -743,17 +743,19 @@
 			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 			<div class="explainDesc">
 			<ul>
-				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-				<li>Voter Pour : </li>
-				<li>Voter Amander : </li>
-				<li>Voter Blanc : </li>
-				<li>Voter Incomplet : </li>
-				<li>Voter Contre : </li>
+				<li>Les salles d'action permettent de créer 2 types d'espaces pour le moment : </li>
+				<li>Les Salles de Discussion qui servent à construire et à partager autour d'une thématique</li>
+				<li>Les Salles de Décisions ou Votes qui permette de faire des propositions et de les partager avec une communauté pour prendre des décisions
+					<ul>
+						<li>C'est un votation à 5 choix : </li>
+						<li>Voter "Pour" : Assez Explicite</li>
+						<li>Voter "Amander" : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleur.</li>
+						<li>Voter "Blanc" : Je suis ni pour ni contre</li>
+						<li>Voter "Incomplet" : il manque des elements pour prendre une réélle décision</li>
+						<li>Voter "Contre" : Assez Explicite</li>
+					</ul>
+				</li>
+
 			</ul>
 		</div>
 	</div>

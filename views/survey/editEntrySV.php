@@ -43,6 +43,10 @@ var proposalFormDefinition = {
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
+            "organizer" : {
+              "inputType" : "hidden",
+              "value" : "currentUser"
+            },
             "name" :{
               "inputType" : "text",
               "placeholder" : "Titre de la proposition",
@@ -51,7 +55,7 @@ var proposalFormDefinition = {
               },
               "value" : "<?php echo ( isset($survey) && isset($survey["name"]) ) ? $survey["name"] : '' ?>",
             },
-            "organizer" : {
+            /*"organizer" : {
               "inputType" : "select",
               "placeholder" : "Organisateur du sondage",
               "value" : "currentUser",
@@ -59,7 +63,7 @@ var proposalFormDefinition = {
                 "required" : true
               },
               "options" : organizerList
-            },
+            },*/
             "message" :{
               "inputType" : "textarea",
               "placeholder" : "Texte de la proposition",
