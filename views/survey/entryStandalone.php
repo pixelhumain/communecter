@@ -223,21 +223,21 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
       
       $html .=  '<div class="progress">'.
                   '<div class="progress-bar progress-bar-green progress-bar-striped" style="width: '.$percentVoteUpCount.'%">'.
-                    $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.$percentVoteUpCount.'%)'.
+                    $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.floor($percentVoteUpCount).'%)'.
                   '</div>'.
                   '<div class="progress-bar progress-bar-yellow progress-bar-striped" style="width: '.$percentVoteUnclearCount.'%">'.
-                    $voteUnclearCount.' <i class="fa fa-pen"></i> ('.$percentVoteUnclearCount.'%)'.
+                    $voteUnclearCount.' <i class="fa fa-pen"></i> ('.floor($percentVoteUnclearCount).'%)'.
                   '</div>'.
                   '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentVoteAbstainCount.'%">'.
-                    $voteAbstainCount.' <i class="fa fa-circle"></i> ('.$percentVoteAbstainCount.'%)'.
+                    $voteAbstainCount.' <i class="fa fa-circle"></i> ('.floor($percentVoteAbstainCount).'%)'.
                   '</div>'.
                   '<div class="progress-bar progress-bar-purple progress-bar-striped" style="width: '.$percentVoteMoreInfoCount.'%">'.
-                    $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.$percentVoteMoreInfoCount.'%)'.
+                    $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.floor($percentVoteMoreInfoCount).'%)'.
                   '</div>'.
                   '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
-                    $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.$percentVoteDownCount.'%)'.
+                    $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.floor($percentVoteDownCount).'%)'.
                   '</div>'.
-                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentNoVote.'%">'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.floor($percentNoVote).'%">'.
                    // $percentNoVote.' '.
                   '</div>'.
                 '</div>';
