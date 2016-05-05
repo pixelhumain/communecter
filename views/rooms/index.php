@@ -112,8 +112,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
     <br>
 	<span style="padding:10px;">
-		<i class="fa fa-<?php echo $icon; ?>"></i> 
-		<?php echo $parent['name']; ?>
+		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
 	<span style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
 		Discuter, débattre, proposer, voter
