@@ -118,9 +118,12 @@ $this->renderPartial('../default/panels/toolbar');
   }
 
 
-  .mixcontainer .mix a, .mixcontainer .mix span{
-    background-color: #fff;
+  .mixcontainer .mix,.mixcontainer .mix a, .mixcontainer .mix span{
+    background-color: white;
     border-color: #ccc;
+  }
+  .mixcontainer .switch,.mixcontainer .switch a, .mixcontainer .switch span{
+    background-color: #eee;
   }
   .mixcontainer .mix span.message-propostal{
     height: 135px;
@@ -235,11 +238,12 @@ $this->renderPartial('../default/panels/toolbar');
   $cpBlock = "";
   $cps = array();
   $count = 0;
+  $switchcount = 1;
 
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount ){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -449,8 +453,9 @@ $this->renderPartial('../default/panels/toolbar');
 
         $chartBarResult = getChartBarResult($entry);
 
-        $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "bg-white" : "bg-azure" ;
-        $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.
+        $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "" : "bg-azure" ;
+        $switchClass = ( $switchcount < 0 ) ? "" : "switch" ;
+        $block = ' <div class="mix '.$boxColor.' '.$avoter.' '.$switchClass.' '.
                         $meslois.' '.
                         $followingEntry.' '.
                         $tags.' '.
@@ -496,7 +501,8 @@ $this->renderPartial('../default/panels/toolbar');
     //TODO seperate logic from view
     foreach ($list as $key => $entry) 
     {
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId);
+        $switchcount = -$switchcount;
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount);
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
