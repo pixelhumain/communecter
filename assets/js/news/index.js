@@ -524,7 +524,13 @@ function getMediaHtml(data,action){
 		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
-        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.content.image+'" width="'+width+'" height="'+height+'"></div>';
+        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo;
+        if(data.content.type=="img_link")
+	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='Image partagée'  data-lightbox='allimgcontent'>";
+        inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
+        if(data.content.type=="img_link")
+        	inc_image += '</a>';
+        inc_image += '</div>';
         countThumbail="";
         inputToSave+="<input type='hidden' class='img_link' value='"+data.content.image+"'/>";
     }
