@@ -54,5 +54,11 @@ return array(
 	"to think, develop, build and decide collaboratively" => "Penser, développer, construire et décider de façon collaborative",
 	"Back to Parent" => "Retour",
 	"Created" => "Créé le",
+	"Action rooms to change things" =>'Espace de prise de décision',
+
+	 "Help us with new ideas" => "Améliorez avec vos idées",
+	 'Share Your ideas ' => "Partagez vos idées",
+	 'Innovate for more democratic actions' => "Innover vers l'action democratique",
+	 'Action Rooms are made for new approaches' => "Les Nouveaux types de salles d'action sont bienvenues",
 
 );

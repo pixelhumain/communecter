@@ -692,8 +692,6 @@ class Menu {
 
     }
 
-    
-
     public static function back()
     {
          if( !is_array( Yii::app()->controller->toolbarMBZ ))
@@ -705,6 +703,7 @@ class Menu {
                     Yii::t( "common", 'Back'), 'chevron-circle-left',
                     "window.history.back();","backBtn",null);
     }
+
     public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
     {
         if( $type == 'showAjaxPanel')
@@ -737,8 +736,6 @@ class Menu {
                             "label"     => $label,
                             "badge"     => $badge,
                             "href"      => "<a  class='tooltips btn btn-default ".$active." ".$class."' href='javascript:;' onclick=\"".$onclick."\"");
-						
-
         }
         else if( $type == 'href')
         { 
@@ -761,8 +758,6 @@ class Menu {
                             "label"     => $label,
                             "badge"     => $badge,
                             "href"      => $url);
-                        
-
         }
         else 
         {

@@ -143,7 +143,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					        {    
 							 ?>
 							<li><a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
-								<i class="fa fa-plus text-red"></i>
+								<i class="fa fa-plus text-red fa-2x"></i>
 							</a></li>
 							<?php } ?>
 						
@@ -155,7 +155,6 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		    	</h3>
 		    </div>
 		    <div class="roomsTable infoTables" style="padding-top:7px;">	
-			<!-- <h1 class="homestead text-red"><i class="fa fa-chevron-circle-down"></i>  <?php echo Yii::t("rooms", "All your Rooms", null, $moduleId); ?></h1> -->
 			<table class="table table-striped table-bordered table-hover  directoryTable ">
 				<thead class="">
 					<tr>
