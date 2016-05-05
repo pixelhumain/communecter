@@ -591,19 +591,35 @@ function saveNews(){
 			},
 			ignore : "",
 			rules : {
+				goSaveNews : {
+					required:{
+						depends: function() {
+							if($(".noGoSaveNews").length){
+								return true;
+								alert();
+							}
+							else{
+								return false;
+								alert("ici");
+							}
+						}	
+					}
+				},
 				getUrl : {
 					required:{
 						depends: function() {
-							if($("#results").html() !="")
-								return false;
-							else
-								return true;
+							if($("#results").html() !=""){
+								return false							
+							}else{
+								return true;	
 							}
+						}	
 					}
 				},
 			},
 			messages : {
-				getUrl : "* Please write something"
+				getUrl : "* Please write something",
+				goSaveNews: "* Image is still loading"
 
 			},
 			submitHandler : function(form) {
@@ -737,6 +753,7 @@ function initFormImages(){
 						    toastr.success(data.msg);
 						    setTimeout(function(){
 						    $(".imagesNews").last().val(data.id.$id);
+						    $(".imagesNews").last().attr("name","");
 						    $(".newImageAlbum").last().find("img").removeClass("grayscale");
 						    $(".newImageAlbum").last().find("i").remove();
 						    $(".newImageAlbum").last().append("<a href='javascript:;' onclick='deleteImage(\""+data.id.$id+"\",\""+data.name+"\")'><i class='fa fa-times fa-x padding-5 text-white removeImage' id='deleteImg"+data.id.$id+"'></i></a>");
@@ -751,7 +768,7 @@ function initFormImages(){
 						  		$("#results").hide();
 						  	}
 						}
-				
+						$("#addImage").off();
 					});
 		  		}
 		  		else{
@@ -761,13 +778,17 @@ function initFormImages(){
 				  		$("#results").empty();
 				  		$("#results").hide();
 				  	}
+				  	$("#addImage").off();
 		  			toastr.error(data.msg);
 		  		}
 			},
 		});
 	}));
 }
-
+function turnOff(){
+	$("#addImage").off('click');
+	$(".fileupload-new").off('click');
+}
 function showMyImage(fileInput) {
 	countImg=$("#results img").length;
 	idImg=countImg+1;
@@ -786,8 +807,8 @@ function showMyImage(fileInput) {
 		$(".count_images").val(idImg);
 		$(".algoNbImg").val(nbId);
 	}
-	htmlImg+="<div class='newImageAlbum'><i class='fa fa-spin fa-circle-o-notch fa-3x text-green spinner-add-image'></i><img src='' id='thumbail"+nbId+"' class='grayscale' style='width:75px; height:75px;'/>"+
-	       	"<input type='hidden' class='imagesNews' value=''/></div>";
+	htmlImg+="<div class='newImageAlbum'><i class='fa fa-spin fa-circle-o-notch fa-3x text-green spinner-add-image noGoSaveNews'></i><img src='' id='thumbail"+nbId+"' class='grayscale' style='width:75px; height:75px;'/>"+
+	       	"<input type='hidden' class='imagesNews' name='goSaveNews' value=''/></div>";
 	$("#results").append(htmlImg);
     for (var i = 0; i < files.length; i++) {           
         var file = files[i];
