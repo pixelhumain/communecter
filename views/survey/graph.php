@@ -34,15 +34,6 @@ function setUpGraph(){
 	            }
 	        }
 	    },
-	    exporting: {
-	        buttons: {
-	            contextButtons: {
-	                enabled: true,
-	                //menuItems: null
-	            }
-	        },
-	        enabled: true
-	    },
 	    series: [{
 	        type: 'pie',
 	        name: 'Vote',

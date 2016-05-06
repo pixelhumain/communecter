@@ -333,7 +333,7 @@ class CommunecterController extends Controller
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
     ),
     "notification"=> array(
-      "getnotifications"          => array("href" => "/ph/communecter/notification/get"),
+      "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
     ),
@@ -350,7 +350,13 @@ class CommunecterController extends Controller
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
     ),
   );
+
   function initPage(){
+    
+    //review the value of the userId to check loosing session
+    //creates an issue with Json requests : to clear add josn:true on the page definition here 
+    //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
+      //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
     
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
@@ -377,7 +383,7 @@ class CommunecterController extends Controller
     }
       //} 
     //}
-    else if( (!isset( $page["public"] ) )
+    else if( (!isset( $page["public"] ) ) && (!isset( $page["json"] ))
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
@@ -413,6 +419,7 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
+
     return parent::afterAction($action);
   }
 

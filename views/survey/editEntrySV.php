@@ -43,6 +43,10 @@ var proposalFormDefinition = {
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
+            "organizer" : {
+              "inputType" : "hidden",
+              "value" : "currentUser"
+            },
             "name" :{
               "inputType" : "text",
               "placeholder" : "Titre de la proposition",
@@ -51,7 +55,7 @@ var proposalFormDefinition = {
               },
               "value" : "<?php echo ( isset($survey) && isset($survey["name"]) ) ? $survey["name"] : '' ?>",
             },
-            "organizer" : {
+            /*"organizer" : {
               "inputType" : "select",
               "placeholder" : "Organisateur du sondage",
               "value" : "currentUser",
@@ -59,7 +63,7 @@ var proposalFormDefinition = {
                 "required" : true
               },
               "options" : organizerList
-            },
+            },*/
             "message" :{
               "inputType" : "textarea",
               "placeholder" : "Texte de la proposition",
@@ -72,6 +76,9 @@ var proposalFormDefinition = {
               "inputType" : "date",
               "placeholder" : "Fin de la période de vote",
               "value":"<?php echo (isset($survey) && isset($survey['dateEnd'])) ? $survey['dateEnd'] : '' ?>",
+              "rules" : {
+                "required" : true
+              }
             },
             "urls" : {
                   "inputType" : "array",
@@ -83,7 +90,7 @@ var proposalFormDefinition = {
               "placeholder" : "Tags",
               "value" : "<?php echo (isset($survey) && isset($survey['tags'])) ? implode(',', $survey['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
-            },
+            }/*,
               "separator1":{
               "title":"Comment options"
             },
@@ -102,7 +109,7 @@ var proposalFormDefinition = {
               "inputType" : "checkbox",
               "placeholder" : "Comment only one time ?",
               "value" : 1
-            },
+            },*/
         }
     }
 };
@@ -122,7 +129,7 @@ var dataBind = {
 var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<?php echo Yii::t("survey","Add a proposal", null, Yii::app()->controller->module->id); ?>');
+  $(".moduleLabel").html('<?php echo Yii::t("rooms","Add a proposal", null, Yii::app()->controller->module->id); ?>');
   
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
@@ -151,11 +158,6 @@ function editEntrySV () {
               "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-                "<div class='clear'>Les propositions sont modérées avant publication sur le site afin d'éviter tous propos contraires à la loi ou susceptible de troubler l`ordre public."+
-                "Nous nous réservons donc la possibilité de modifier, reformuler, compléter, différer ou ne pas publier tout ou partie d`une proposition. Dans cette éventualité, nous pouvons être amener à vous contacter par mail."+
-                "<br/>Selon le nombre de propositions reçues, le délai de mise en ligne peut être variable. En cas d`urgence, merci le signaler des le début de votre proposition."+
-                "Votre proposition sera publiée par l`administrateur du sondage. <br/>Ni votre adresse email ni votre nom n`apparaitront sur le site public."+
-                "Vous pouvez aussi nous faire part de toute remarque constructive, nous permettant d`améliorer ce site à votre service</div>"+ 
               "</div>");
     
         var form = $.dynForm({
@@ -217,8 +219,10 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
-                    if( $("#editEntryContainer #id").val() != "" )
-                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() )
+                    if( data.surveyId && data.surveyId["$id"] )
+                      loadByHash( "#survey.entry.id."+data.surveyId["$id"] );
+                    else if( $("#editEntryContainer #id").val() != "" )
+                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() );
                     else
                       loadByHash( "#survey.entries.id."+data.parentId )
                   }
