@@ -75,7 +75,7 @@ if( !isset($hideTexts) )
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".
-			"<div class='space1 voteInfoBox text-dark text-large'></div>";
+			"<div class='space1 voteInfoBox text-white bg-dark text-large'></div>";
 
 		//if( $voteLinksAndInfos["totalVote"] )
 			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("rooms","people voted",null,Yii::app()->controller->module->id); 

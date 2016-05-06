@@ -166,8 +166,8 @@ function editRoomSV (roomObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-
-                      loadByHash("#rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
+                      loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
+                      //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
                   }
                   else {
                     toastr.error(data.msg);
