@@ -112,8 +112,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
     <br>
 	<span style="padding:10px;">
-		<i class="fa fa-<?php echo $icon; ?>"></i> 
-		<?php echo $parent['name']; ?>
+		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
 	<span style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
 		Discuter, débattre, proposer, voter
@@ -123,7 +122,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 <div class="panel panel-white" id="main-panel-room">
 	<div class="panel-body">
-		<div class="col-lg-7 col-md-12 panel-body">
+		<div class="col-lg-<?php echo (count(@$actions)) ? 7: 12; ?> col-md-12 panel-body">
 			<div class="panel-heading text-red" style="border: 1px solid rgb(207, 207, 207);">
 		    	<h3 class="panel-title">
 		    		<i class="fa fa-comments"></i>  
@@ -137,11 +136,17 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 								<span class="value text-red"><?php echo count(@$rooms) ?></span>
 							</div>
 						</li>
-						<li>
-							<a class="btn btn-sm btn-link panel-close" href="#">
-								<i class="fa fa-plus text-red"></i>
-							</a>
-						</li>
+						
+							<?php 
+							$showAddBtn = false;
+					        if( ActionRoom::canParticipate(Yii::app()->session['userId'], $_GET["id"],$_GET["type"] ) )
+					        {    
+							 ?>
+							<li><a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
+								<i class="fa fa-plus text-red fa-2x"></i>
+							</a></li>
+							<?php } ?>
+						
 					</ul>
 
 
@@ -150,14 +155,13 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		    	</h3>
 		    </div>
 		    <div class="roomsTable infoTables" style="padding-top:7px;">	
-			<!-- <h1 class="homestead text-red"><i class="fa fa-chevron-circle-down"></i>  <?php echo Yii::t("rooms", "All your Rooms", null, $moduleId); ?></h1> -->
 			<table class="table table-striped table-bordered table-hover  directoryTable ">
 				<thead class="">
 					<tr>
 						<th><i class="fa fa-caret-down"></i> <?php //echo Yii::t("rooms", "Name", null, $moduleId); ?></th>
 						<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
-						<th class="hidden"><i class="fa fa-file-text"></i> <?php //echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
-						<th class=""><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+						<th class=""><i class="fa fa-file-text"></i> <?php //echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+						<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
 						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php //echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
 					</tr>
 				</thead>
@@ -199,8 +203,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 								<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
 							</td>
 							<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<td class="hidden"><i class="fa fa-file-text"></i> <?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-							<td class=""><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+							<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+							<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 						</tr>
 					<?php
@@ -212,6 +216,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 	</div>
+	<?php if(count(@$actions)){ ?>
 	<div class="col-lg-5 col-md-12 panel-body">
 		<div class="panel-heading text-azure" style="border: 1px solid rgb(207, 207, 207);">
 	    	<h3 class=" panel-title">
@@ -337,6 +342,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			</table>
 		</div>
 	</div>
+	<?php } ?>
 </div>
 
 
@@ -349,6 +355,12 @@ jQuery(document).ready(function() {
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
+
+	$(".explainLink").click(function() {
+		    $(".removeExplanation").parent().hide();
+			showDefinition( $(this).data("id") );
+			return false;
+		});
 });	
 
 function resetDirectoryTable() 

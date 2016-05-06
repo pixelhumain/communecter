@@ -1,7 +1,14 @@
 <?php 
-Menu::back();
+$moduleId = Yii::app()->controller->module->id;
+//building top page menu
+Yii::app()->controller->toolbarMBZ = array();
+Menu::entry("left", 'onclick', 
+        Yii::t( "rooms", "Action rooms to change things", null, $moduleId), 
+        Yii::t('rooms', 'Rooms', null, $moduleId),
+        'gavel',
+        "loadByHash('#rooms.index.type.".$_GET["type"].".id.".$_GET["id"]."')","room", "index");
 $this->renderPartial('../default/panels/toolbar');
- ?>
+?>
 <style type="text/css">
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 </style>
@@ -10,30 +17,31 @@ $this->renderPartial('../default/panels/toolbar');
   <h1 class="homestead center text-dark"><i class="fa fa-caret-down"></i> Quel type d'espace souhaitez-vous créer ?</h1><br/>
   <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1 text-dark">
     <blockquote> 
-  <!--     <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
-      <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/survey.png"/>
-      </a> -->
-      <i class="fa fa-comments center fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('discuss')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, Yii::app()->controller->module->id)?> <i class="fa fa-arrow-circle-right"></i></span></a>
-      <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "Let's talk about", null, Yii::app()->controller->module->id)?>
-      <!-- <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Find questions to ask', null, Yii::app()->controller->module->id)?> -->
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, Yii::app()->controller->module->id)?>
-      <!-- <br/><a class="btn btn-success" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a>  -->
+     <i class="fa fa-comments center fa-4x"></i>
+      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('discuss')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, $moduleId)?> <i class="fa fa-arrow-circle-right"></i></span></a>
+      <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "Let's talk about", null, $moduleId)?>
+      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, $moduleId)?>
+     
     </blockquote>
   </div>
 
   <div class="col-xs-12 col-sm-6 col-md-5 text-dark">
     <blockquote> 
-      <!-- <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">
-        <img id="img-header" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/screenshots/discuss.png"/>
-      </a> -->
       <i class="fa fa-gavel center fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('vote')"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, Yii::app()->controller->module->id)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-      <!-- <br><?php echo Yii::t('rooms', 'Share Qestions', null, Yii::app()->controller->module->id)?> -->
-      <!-- <br><?php echo Yii::t('rooms', 'Brainstorm', null, Yii::app()->controller->module->id)?> -->
-      <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Decide Collectivelly', null, Yii::app()->controller->module->id)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
+      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('vote')"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
+     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
+      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, $moduleId)?>
       <!-- <br/><a class="btn btn-success" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a>  -->
+    </blockquote>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1  text-dark">
+    <blockquote> 
+     <i class="fa fa-lightbulb-o center fa-4x"></i>
+      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="alert('ouvrir le salle de proposition de nouveau type de vote')"><span class="text-bold"><?php echo Yii::t('rooms', "Help us with new ideas", null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
+     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Share Your ideas ', null, $moduleId)?>
+      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Innovate for more democratic actions', null, $moduleId)?>
+      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Action Rooms are made for new approaches', null, $moduleId)?>
     </blockquote>
   </div>
 </div>
@@ -58,7 +66,7 @@ var roomFormDefinition = {
             },
             "roomType" :{
                 "inputType" : "select",
-                "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, Yii::app()->controller->module->id)?>",
+                "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, $moduleId)?>",
                 "options" : listRoomTypes
               },
             "name" :{
@@ -117,10 +125,10 @@ function editRoomSV (roomObj) {
   console.warn("--------------- editEntrySV ---------------------");
   $("#editRoomsContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, Yii::app()->controller->module->id)?></h1>"+
+              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-                "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, Yii::app()->controller->module->id)?></div>"+ 
+                "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 
               "</div>");
     
         var form = $.dynForm({

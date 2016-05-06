@@ -6,35 +6,7 @@ $(document).ready(function() {
 	
 });
 
-function toggleSpinner(){
-	if($("#logoLink").length){
-		$("#logo").html('');
-		var spinner = new Spinner(spinner_opts).spin($("#logo")[0]);
-		NProgress.start();
-	} else {
-		$("#logo").html('<a id="logoLink" class="ml10 " href="/ph">PH</a>');
-		NProgress.done();
-	}
-}
 
-var spinner_opts = {
-  lines: 9, // The number of lines to draw
-  length: 6, // The length of each line
-  width: 5, // The line thickness
-  radius: 8, // The radius of the inner circle
-  corners: 1, // Corner roundness (0..1)
-  rotate: 47, // The rotation offset
-  direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#F7E400', // #rgb or #rrggbb
-  speed: 0.7, // Rounds per second
-  trail: 32, // Afterglow percentage
-  shadow: false, // Whether to render a shadow
-  hwaccel: false, // Whether to use hardware acceleration
-  className: 'spinner', // The CSS class to assign to the spinner
-  zIndex: 2e9, // The z-index (defaults to 2000000000)
-  top: '-7px', // Top position relative to parent in px
-  left: 'auto' // Left position relative to parent in px
-};
 /* *************************** */
 /* instance du menu questionnaire*/
 /* *************************** */
@@ -72,28 +44,42 @@ DropDown.prototype = {
 }
 
 function openModal(key,collection,id,tpl,savePath,isSub){
-    	$("#loginForm").modal('hide');
-    	toggleSpinner();
-    	$.ajax({
-    	  type: "POST",
-    	  url: baseUrl+"/common/GetMicroformat/key/"+key,
-    	  data: { "key" : key, 
-    	  		  "template" : tpl, 
-    	  		  "collection" : collection, 
-    	  		  "id" : id,
-    	  		  "savePath" : savePath,
-    	  		  "isSub" : isSub },
-    	  success: function(data){
-    			  $("#flashInfoLabel").html(data.title);
-    			  $("#flashInfoContent").html(data.content);
-    			  $("#flashInfoSaveBtn").html('<a class="btn btn-warning " href="javascript:;" onclick="$(\'#flashForm\').submit(); return false;"  >Enregistrer</a>');
-    		  toggleSpinner();
-    	  },
-    	  dataType: "json"
-    	});
-    
-	
-	$("#flashInfo").modal('show');
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/common/GetMicroformat/key/"+key,
+	  data: { "key" : key, 
+	  		  "template" : tpl, 
+	  		  "collection" : collection, 
+	  		  "id" : id,
+	  		  "savePath" : savePath,
+	  		  "isSub" : isSub },
+	  success: function(data){
+			  $("#flashInfoLabel").html(data.title);
+			  $("#flashInfoContent").html(data.content);
+			  $("#flashInfoSaveBtn").html('<a class="btn btn-warning " href="javascript:;" onclick="$(\'#flashForm\').submit(); return false;"  >Enregistrer</a>');
+		
+	  },
+	  dataType: "json"
+	});
+}
+
+function updateField(type,id,name,value,reload){
+    	
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/"+moduleId+"/"+type+"/updatefield", 
+	  data: { "pk" : id ,"name" : name, "value" : value },
+	  success: function(data){
+		if(data.result) {
+        	toastr.success(data.msg);
+        	if(reload)
+        		loadByHash(location.hash);
+		}
+        else
+        	toastr.error(data.msg);  
+	  },
+	  dataType: "json"
+	});
 }
 
 /* *************************** */
