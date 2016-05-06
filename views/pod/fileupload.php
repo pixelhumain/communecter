@@ -108,13 +108,11 @@
 			if($("."+contentId+"_isSubmit").val()== "true" ){
 				setTimeout(function(){
 					if(resize){
-						
 						$(".fileupload-preview img").css("height", parseInt($("#"+contentId+"_fileUpload").css("width"))*45/100+"px");
 						$(".fileupload-preview img").css("width", "auto");
 					}
 					var file = document.getElementById(contentId+'_avatar').files[0];
 					if(file && file.size < 2097152){
-						
 						$("#"+contentId+"_photoAdd").submit();
 					}else{
 						if(file && file.size > 2097152){
@@ -126,8 +124,6 @@
 						$("#"+contentId+"_fileUpload").fileupload("clear");
 					}
 				}, 200);
-
-
 			}else{
 				setTimeout(function(){
 					if(resize){
@@ -149,6 +145,7 @@
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
+			console.log(new FormData(this));
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				url : baseUrl+"/"+moduleId+"/document/<?php echo Yii::app()->params['uploadUrl'] ?>dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
@@ -163,17 +160,17 @@
 			  		if(data.success){
 			  			imageName = data.name;
 			  			var doc = { 
-						  		"id":id,
-						  		"type":type,
-						  		"folder":type+"/"+id,
-						  		"moduleId":moduleId,
-						  		"author" : "<?php echo (isset(Yii::app()->session['userId'])) ? Yii::app()->session['userId'] : 'unknown'?>"  , 
-						  		"name" : data.name , 
-						  		"date" : new Date() , 
-						  		"size" : data.size ,
-						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
-						  		"contentKey" : contentKey
-						  	};
+					  		"id":id,
+					  		"type":type,
+					  		"folder":type+"/"+id,
+					  		"moduleId":moduleId,
+					  		"author" : "<?php echo (isset(Yii::app()->session['userId'])) ? Yii::app()->session['userId'] : 'unknown'?>"  , 
+					  		"name" : data.name , 
+					  		"date" : new Date() , 
+					  		"size" : data.size ,
+					  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
+					  		"contentKey" : contentKey
+					  	};
 			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else
