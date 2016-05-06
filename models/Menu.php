@@ -53,6 +53,14 @@ class Menu {
                     Yii::t("common", 'Directory'),
                     'bookmark fa-rotate-270',
                     "loadByHash('#person.directory.id.".$id."?tpl=directory2')","person", "directory");
+		//ALBUM
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'Album'),
+                    'photo',
+                    "loadByHash('#gallery.index.id.".$id.".type.".Person::COLLECTION."')","gallery", "index");
+
         
         //FOLLOW BUTTON
         //-----------------------------
@@ -137,7 +145,14 @@ class Menu {
                 Yii::t( "common", 'News Stream'), 
                 'rss',
                 "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."')","news", "index");
-
+		
+		//ALBUM
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'Album'),
+                    'photo',
+                    "loadByHash('#gallery.index.id.".$id.".type.".Event::COLLECTION."')","gallery", "index");
         if(isset(Yii::app()->session["userId"])){
             if( isset($event["_id"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
     	        self::entry("right", 'onclick',
@@ -185,7 +200,13 @@ class Menu {
         			Yii::t("common","Community") ,
         			'connectdevelop',
         			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
-       
+        //ALBUM
+        //-----------------------------
+       self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'Album'),
+                    'photo',
+                    "loadByHash('#gallery.index.id.".$id.".type.".Organization::COLLECTION."')","gallery", "index");
         //ACTION ROOMS
         //-----------------------------
         /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
@@ -400,6 +421,14 @@ class Menu {
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
         "loadByHash('#project.directory.id.".$id."?tpl=directory2')","project", "directory");
+        
+        //ALBUM
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'Album'),
+                    'photo',
+                    "loadByHash('#gallery.index.id.".$id.".type.".Project::COLLECTION."')","gallery", "index");
                 // ADD MEMBER
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){

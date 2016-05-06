@@ -491,7 +491,10 @@ function loadByHash( hash , back ) {
         else
             title = "WELCOM MUNECT HEY !!!";
         showPanel(panelName,null,title);
-    } 
+    }  else if( hash.indexOf("#gallery.index.id") >= 0 ){
+        hashT = hash.split(".");
+        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
+    }
     else if( hash.indexOf("#rooms.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?&isNotSV=1', 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
