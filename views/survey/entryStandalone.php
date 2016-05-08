@@ -370,10 +370,10 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						<span class="" >Faites des propositions dans les commentaires</span>
 					<?php }	?>
 				</div>
-				<div  class="col-md-5">
+				<div  class="col-md-5" style="border:1px solid #ccc">
 					<div class="col-md-12 leftInfoSection chartResults" >
 						<?php echo getChartBarResult($survey); ?>
-						<div id="container2" ></div>
+						<div id="container2"></div>
 					</div>
 				</div>
 			</div>
@@ -539,6 +539,9 @@ function buildResults () {
 		            }
 		        }
 		    },
+		    exporting: {
+			    enabled: false
+			},
 		    <?php 
 		    $voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
 			$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;

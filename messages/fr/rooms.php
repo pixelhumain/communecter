@@ -88,7 +88,7 @@ return array(
 
 	 "Help us with new ideas" => "Améliorez avec vos idées",
 	 'Share Your ideas ' => "Partagez vos idées",
-	 'Innovate for more democratic actions' => "Innover vers l'action democratique",
+	 'Innovate for more democratic actions' => "Innover pour l'action democratique",
 	 'Action Rooms are made for new approaches' => "Les Nouveaux types de salles d'action sont bienvenues",
 
 	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter"

@@ -90,7 +90,7 @@ var proposalFormDefinition = {
               "placeholder" : "Tags",
               "value" : "<?php echo (isset($survey) && isset($survey['tags'])) ? implode(',', $survey['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
-            },
+            }/*,
               "separator1":{
               "title":"Comment options"
             },
@@ -109,7 +109,7 @@ var proposalFormDefinition = {
               "inputType" : "checkbox",
               "placeholder" : "Comment only one time ?",
               "value" : 1
-            },
+            },*/
         }
     }
 };
@@ -129,7 +129,7 @@ var dataBind = {
 var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<?php echo Yii::t("survey","Add a proposal", null, Yii::app()->controller->module->id); ?>');
+  $(".moduleLabel").html('<?php echo Yii::t("rooms","Add a proposal", null, Yii::app()->controller->module->id); ?>');
   
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
@@ -219,8 +219,10 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
-                    if( $("#editEntryContainer #id").val() != "" )
-                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() )
+                    if( data.surveyId && data.surveyId["$id"] )
+                      loadByHash( "#survey.entry.id."+data.surveyId["$id"] );
+                    else if( $("#editEntryContainer #id").val() != "" )
+                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() );
                     else
                       loadByHash( "#survey.entries.id."+data.parentId )
                   }

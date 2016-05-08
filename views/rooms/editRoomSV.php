@@ -166,8 +166,11 @@ function editRoomSV (roomObj) {
                 data: params,
                 success: function(data){
                   if(data.result){
-
-                      loadByHash("#rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
+                      if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
+                        loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
+                      else 
+                        loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
+                      //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
                   }
                   else {
                     toastr.error(data.msg);
