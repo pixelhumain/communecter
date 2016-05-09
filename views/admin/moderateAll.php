@@ -113,7 +113,7 @@ if(isset($comments) && is_array($comments))
 
 <!-- ************ MODAL ********************** -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modalAbuseContents">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -337,7 +337,12 @@ jQuery(document).ready(function() {
 			css: {"text-align": "left", "cursor":"default", "width":"50%", "left":"25%" }
 		});
 
-		getAjax('.commentContent',urlToSend,function(){ 
+		getAjax('.commentContent',urlToSend,function(){
+
+			$('.bar_tools_post').hide();
+			$('.saySomething').hide();
+			
+
 		},"html");
 	});
 });	
@@ -613,8 +618,9 @@ function bindModalEvent(){
 
 		//Display buttons
 		$('#modalAction').html(
-			'<button type="button" class="btn btn-default declareAsAbuseModalBtn" data-context="'+context+'" data-id="'+id+'" data-value="true"><i class="fa fa-eye-slash text-red fa-1x" data-dismiss="modal"></i></button>'+
-			'<button type="button" class="btn btn-default declareAsAuthorizeModalBtn" data-context="'+context+'" data-id="'+id+'" data-value="true" data-dismiss="modal"><i class="fa fa-eye text-green fa-1x" ></i></button>'
+			'<button type="button" class="btn btn-success declareAsAuthorizeModalBtn" data-context="'+context+'" data-id="'+id+'" data-value="true" data-dismiss="modal"><i class="fa fa-eye text-white fa-1x" ></i>&nbsp;Laisser publié</button>'+
+			'<button type="button" class="btn btn-danger declareAsAbuseModalBtn" data-context="'+context+'" data-id="'+id+'" data-value="true"><i class="fa fa-eye-slash text-white fa-1x" data-dismiss="modal"></i>&nbsp;C\'est un abus</button>'
+			
 		);
 
 

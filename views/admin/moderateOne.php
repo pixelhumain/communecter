@@ -21,7 +21,7 @@
 	<div class="toModerateContent"></div>
 
 	<div class="buttonBar">
-		<button class="btn btn-success declareAsAuthorizeBtn" data-id="5726de593780ea9d058b4572" data-type="city" data-value="false">Valide
+		<button class="btn btn-success declareAsAuthorizeBtn" data-id="5726de593780ea9d058b4572" data-type="city" data-value="false">Laisser publié
 		</button>
 		<button class="btn btn-danger declareAsAbuseBtn" data-id="5726de593780ea9d058b4572" data-type="city" data-value="true">C'est un abus
 		</button>

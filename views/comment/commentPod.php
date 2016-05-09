@@ -414,9 +414,10 @@ function reportAbuse(comment, contextId) {
 		"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
 		"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
 		"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
-	  	"<label><input type='radio' name='reason' value='Propos malveillants'>Liens fallacieux ou frauduleux</label><br>"+
-	  	"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Mention de source erronée</label><br>"+
-	  	"<label><input type='radio' name='reason' value='Contenu pornographique'>Violations des droits d'auteur</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Liens fallacieux ou frauduleux'>Liens fallacieux ou frauduleux</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br>"+
+	  	"<input type='text' class='form-control' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
 		"</div>";
 	var boxComment = bootbox.dialog({
 	  message: message,
@@ -435,7 +436,8 @@ function reportAbuse(comment, contextId) {
 	      callback: function() {
 	      	// var reason = $('#reason').val();
 	      	var reason = $("#reason input[type='radio']:checked").val();
-	      	actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", reason);
+	      	var reasonComment = $("#reasonComment").val();
+	      	actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", reason, reasonComment);
 			disableOtherAction(comment.data("id"), '.commentReportAbuse');
 			copyCommentOnAbuseTab(comment);
 			return true;
@@ -466,14 +468,15 @@ function reportAbuse(comment, contextId) {
 	});
 }
 
-function actionAbuseComment(comment, action, reason) {
+function actionAbuseComment(comment, action, reason, reasonComment=null) {
 	$.ajax({
-		url: baseUrl+'/'+moduleId+"/comment/abuseprocess/",
+		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: {
 			id: comment.data("id"),
 			collection : '<?php echo Comment::COLLECTION?>',
 			action : action,
-			reason : reason
+			reason : reason,
+			comment : reasonComment
 		},
 		type: 'post',
 		global: false,
