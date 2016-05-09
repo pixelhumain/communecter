@@ -161,8 +161,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<div class="tools_bar bg-white">
 				<div class="user-image-buttons">
 					<form method="post" id="photoAddNews" enctype="multipart/form-data">
-						<span class="btn btn-white btn-file fileupload-new btn-sm" id="" ><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);" onclick="turnOff();">
+						<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if ($storageSpace > 20){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+							<?php if ($storageSpace <= 20){ ?>
+								<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
+							<?php } ?>
+							
 						</span>
 					</form>
 				</div>
