@@ -406,6 +406,7 @@ var loadableUrls = {
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
+	
 	//"#home" : {"alias":"#default.home"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
