@@ -118,7 +118,7 @@ class TestController extends CommunecterController {
 	  }
 	  echo "nombre de news ////////////// ".$i;
   }
-  public function actionWashingNews(){
+  public function actionWashingNewsNoScopeType(){
   $news=PHDB::find(News::COLLECTION);
   foreach($news as $key => $data){
 		  if(!@$data["scope"]["type"]){
@@ -128,6 +128,77 @@ class TestController extends CommunecterController {
 		}
 		}
 }
+  public function actionWashingNewsNoTarget(){
+  		$news=PHDB::find(News::COLLECTION);
+  		foreach($news as $key => $data){
+		  if(!@$data["target"]){
+			  print_r($data);
+			  PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		  	
+			}
+		}
+	}
+	public function actionWashingNewsTargetNotExist(){
+  		$news=PHDB::find(News::COLLECTION);
+  		foreach($news as $key => $data){
+		  	if(@$data["target"]){
+				if(!@$data["target"]["type"]){
+					if(@$data["target"]["objectType"]){
+						$parentType=$data["target"]["objectType"];
+						PHDB::update(News::COLLECTION,
+							array("_id" => $data["_id"]) , 
+							array('$set' => array("target.type" => $parentType),
+								'$unset' => array("target.objectType"=>""))			
+						);
+					} else{
+						PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+					}
+			  }
+			  else if($data["target"]["type"]==Person::COLLECTION){
+			  	$target = Person::getById($data["target"]["id"]);
+			  	if (empty($target)){
+				  	print_r($data);
+			  		PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+			  	}
+			  }
+			  else if($data["target"]["type"]==Event::COLLECTION){
+			  	$target = Event::getById($data["target"]["id"]);
+			  	if (empty($target)){
+				  	print_r($data);
+			  		PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+			  	}
+			  }
+			  else if($data["target"]["type"]==Organization::COLLECTION){
+			  	$target = Organization::getById($data["target"]["id"]);
+			  	if (empty($target)){
+				  	print_r($data);
+			  		PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+			  	}
+
+			  }
+			  else if($data["target"]["type"]==Project::COLLECTION){
+			  	$target = Project::getById($data["target"]["id"]);
+			  	if (empty($target)){
+			  		print_r($data);
+			  		PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+			  	}
+			  }	  
+			  //PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		  	
+			}
+		  	else {
+			  	print_r($data);
+			  	PHDB::update(News::COLLECTION,
+							array("_id" => $data["_id"]) , 
+							array('$set' => array("target.type" => Person::COLLECTION,
+											"target.id" => $data["author"])
+								)
+				);
+		  	}
+		}
+	}
     public function actionRemoveOrgaAdminOfProject() {
 	    $projects=PHDB::find(Project::COLLECTION);
 	    foreach($projects as $projectId => $data){

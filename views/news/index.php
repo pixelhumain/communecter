@@ -55,7 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "lock";
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
-		if(@$viewer){
+		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			Menu::person( $person );
 			$contextName =$person["name"];
 			$contextIcon = "user";
@@ -162,7 +162,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="user-image-buttons">
 					<form method="post" id="photoAddNews" enctype="multipart/form-data">
 						<span class="btn btn-white btn-file fileupload-new btn-sm" id="" ><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="" onchange="showMyImage(this);">
+							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);" onclick="turnOff();">
 						</span>
 					</form>
 				</div>
@@ -428,8 +428,11 @@ jQuery(document).ready(function()
 		$('.tooltips').tooltip();
 	},100);
 	getUrlContent();
+	
 	setTimeout(function(){
-		saveNews();
+		$("#btn-submit-form").on("click",function(){
+			saveNews();
+		});
 	},500);
 
 	Sig.restartMap();
