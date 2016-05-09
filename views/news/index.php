@@ -315,16 +315,13 @@ foreach($news as $key => $oneNews){
 <?php } else{ ?>
 	viewer="";
 <?php } ?>
-<<<<<<< HEAD
-var news = <?php echo json_encode(@$news)?>;
-=======
+
 <?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
 <?php }else { ?>
 var news = "";
 <?php } ?>
 
->>>>>>> news_refactor_0.2
 var newsReferror={
 		"news":{
 			"offset":"",
