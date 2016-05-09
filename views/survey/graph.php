@@ -17,7 +17,7 @@ function setUpGraph(){
 	        plotShadow: false
 	    },
 	    title: {
-	        text: "Votes sur <?php echo htmlentities($name)?> "
+	        text: "\"<?php echo htmlentities($name)?>\""
 	    },
 	    tooltip: {
 	      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

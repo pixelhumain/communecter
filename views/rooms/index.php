@@ -29,6 +29,7 @@ $moduleId = Yii::app()->controller->module->id;
     margin-bottom: -3px;
     font-size: 32px;
     margin-top:90px;
+    padding-bottom: 70px;
   }
 #main-panel-room{
 	/*margin-top:100px;*/
@@ -79,15 +80,40 @@ a.text-white {
 }
 
 .directoryLines a.entryname {
-    font-size: 1.7em;
+    font-size: 1.4em;
     font-weight: 200;
     margin-left: 4px;
 }
 
 .directoryLines a.entryname_vote {
     font-size: 1.2em;
-    font-weight: 200;
+    font-weight: 300;
     margin-left: 4px;
+}
+
+.nav-menu-rooms{
+	margin-top: -50px;
+	background-color: rgba(0, 0, 0, 0.55);
+}
+.nav-menu-rooms li{
+	color:white;
+}
+.nav-menu-rooms > li > a {
+    border: 0 none;
+	border-radius: 0;
+	color: #FFF;
+	min-width: 70px;
+	padding: 11px 20px;
+	margin-top: -3px;
+	font-size: 20px;
+}
+
+.nav-menu-rooms > li > a:hover {
+	color:rgb(0, 123, 128);
+}
+
+.tab-pane{
+	background-color: white;
 }
 
 blockquote {border: 1px solid gray; cursor: pointer;}
@@ -105,9 +131,9 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	
 		$icon = "comments";	
-	  	if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
+		if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
 	  	if($parentType == Organization::COLLECTION) $icon = "group";
-	  	if($parentType == Person::CONTROLLER) $icon = "user";
+	  	if($parentType == Person::COLLECTION) $icon = "user";
 	?>
 	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
     <br>
@@ -115,234 +141,230 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
 	<span style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
-		Discuter, débattre, proposer, voter
+		Espaces coopératifs
 	</span>
 
 </h1>
+	    
+<div class="" id="main-panel-room">
+	
+		    <!-- Nav tabs -->
+			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
+			  <li class="active"><a href="#home" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter</a></li>
+			  <li><a href="#profile" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider</a></li>
+			  <li><a href="#messages" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique</a></li>
+			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
+			</ul>
 
-<div class="panel panel-white" id="main-panel-room">
-	<div class="panel-body">
-		<div class="col-lg-<?php echo (count(@$actions)) ? 7: 12; ?> col-md-12 panel-body">
-			<div class="panel-heading text-red" style="border: 1px solid rgb(207, 207, 207);">
-		    	<h3 class="panel-title">
-		    		<i class="fa fa-comments"></i>  
-		    		<i class="fa fa-archive"></i>
-					 <span class=""> <?php echo Yii::t('rooms', 'Rooms', null, $moduleId)?> </span> 
-		    		
-
-		    		<ul class="panel-heading-tabs border-light">
-						<li>
-							<div class="rate">
-								<span class="value text-red"><?php echo count(@$rooms) ?></span>
-							</div>
-						</li>
+			<!-- Tab panes -->
+			<div class="tab-content">
+			  <div class="tab-pane active col-lg-12 col-md-12" id="home">
+	  			<table class="table table-striped table-bordered table-hover  directoryTable ">
+					<thead class="">
+						<tr>
+							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de discussions", null, $moduleId); ?></th>
+							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
+							<th class="hidden"><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+							<th class="hidden"><i class="fa fa-group"></i> <?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
+						</tr>
+					</thead>
+					<tbody class="directoryLines">
+						<?php 
+						$memberId = Yii::app()->session["userId"];
+						$memberType = Person::COLLECTION;
 						
-							<?php 
-							$showAddBtn = false;
-					        if( ActionRoom::canParticipate(Yii::app()->session['userId'], $_GET["id"],$_GET["type"] ) )
-					        {    
-							 ?>
-							<li><a class="btn btn-sm btn-link panel-close" href="javascript:;" onclick="loadByHash('#rooms.editroom.type.<?php echo $_GET["type"]?>.id.<?php echo $_GET["id"]?>')">
-								<i class="fa fa-plus text-red fa-2x"></i>
-							</a></li>
-							<?php } ?>
-						
-					</ul>
-
-
-<!-- 		    		<button class="btn pull-right btn-default btn-link btn-sm" style=""><i class="fa fa-plus"></i></button>
-		    		<span class="badge bg-dark text-white pull-right"> </span> -->
-		    	</h3>
-		    </div>
-		    <div class="roomsTable infoTables" style="padding-top:7px;">	
-			<table class="table table-striped table-bordered table-hover  directoryTable ">
-				<thead class="">
-					<tr>
-						<th><i class="fa fa-caret-down"></i> <?php //echo Yii::t("rooms", "Name", null, $moduleId); ?></th>
-						<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
-						<th class=""><i class="fa fa-file-text"></i> <?php //echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
-						<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
-						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php //echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
-					</tr>
-				</thead>
-				<tbody class="directoryLines">
-					<?php 
-					$memberId = Yii::app()->session["userId"];
-					$memberType = Person::COLLECTION;
-					
-					/* **************************************
-					*	rooms
-					***************************************** */
-					if(isset($rooms)) 
-					{ 
-						foreach ($rooms as $e) 
-						{ ?>
-						<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-							<?php 
-								$type = "rooms";
-								error_log($e["type"]);
-								if( $e["type"] == ActionRoom::TYPE_SURVEY ){
-									$type = "survey.entries";
-									$icon = "check-square";
-								}else if( $e["type"] == ActionRoom::TYPE_DISCUSS ){
+						/* **************************************
+						*	rooms
+						***************************************** */
+						if(isset($rooms)) 
+						{ 
+							foreach ($rooms as $e) 
+							{ if( $e["type"] == ActionRoom::TYPE_DISCUSS ){ ?>
+							<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+								<?php 
 									$type = "comment.index.type.actionRooms";
 									$icon = "comments";
-								} else if ( $e["type"] == ActionRoom::TYPE_BRAINSTORM ){
-									$type = "survey.entries";
-									$icon = "lightbulb-o";
-								} else if ( $e["type"] == ActionRoom::TYPE_VOTE ){
+									//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+									$link = 'href="javascript:;" onclick="'.$link.'"';
+									?>
+								<td class="center organizationLine hidden">
+									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
+								</td>
+								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+								<td class="hidden"><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td class="hidden"><i class="fa fa-users"></i> //<?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							</tr>
+						<?php
+							};
+						}}
+						?>
+						
+					</tbody>
+				</table>				
+			  </div>
+			  <div class="tab-pane" id="profile">
+			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
+					<thead class="">
+						<tr>
+							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de décisions", null, $moduleId); ?></th>
+							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
+							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+							<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
+						</tr>
+					</thead>
+					<tbody class="directoryLines">
+						<?php 
+						/* **************************************
+						*	rooms
+						***************************************** */
+						if(isset($rooms)) 
+						{ 
+							foreach ($rooms as $e) 
+							{ if ( $e["type"] == ActionRoom::TYPE_VOTE ){ ?>
+							<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+								<?php 
 									$type = "survey.entries";
 									$icon = "archive";
-								}
-								
-								//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
-								$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
-								$link = 'href="javascript:;" onclick="'.$link.'"';
-								?>
-							<td class="center organizationLine hidden">
-								<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
-							</td>
-							<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-							<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-						</tr>
-					<?php
-						};
-					}
-					?>
-					
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<?php if(count(@$actions)){ ?>
-	<div class="col-lg-5 col-md-12 panel-body">
-		<div class="panel-heading text-azure" style="border: 1px solid rgb(207, 207, 207);">
-	    	<h3 class=" panel-title">
-	    		<i class="fa fa-comment"></i> <i class="fa fa-gavel"></i>
-	    		<span class=""> <?php echo Yii::t('rooms', 'Mes actions', null, $moduleId)?></span>
-	    		<ul class="panel-heading-tabs border-light">
-					<li>
-						<div class="rate">
-							<span class="value text-azure"><?php echo count(@$actions); ?></span>
+									
+									
+									//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+									$link = 'href="javascript:;" onclick="'.$link.'"';
+									?>
+								<td class="center organizationLine hidden">
+									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
+								</td>
+								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+								<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							</tr>
+						<?php
+							};
+						}}
+						?>
+						
+					</tbody>
+				</table>	
+			  </div>
+			  <div class="tab-pane col-lg-12 col-md-12" id="messages">
+			  	<?php if(count(@$actions)){ ?>
+						<div class="actionsTable infoTables" style="padding-top:7px;">	
+							<!-- <h1 class="homestead text-orange" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa  fa-chevron-circle-down"></i></h1> -->
+							<table class="table table-striped table-bordered table-hover directoryTable  ">
+								<thead>
+									<tr>
+										<th class="hidden"><?php echo Yii::t("rooms", "Titre", null, $moduleId); ?></th>
+										<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Propositions", null, $moduleId); ?></th>
+										<th class=""><i class="fa fa-group"></i> <?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+										<th class="hidden"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Start Date", null, $moduleId); ?></th>
+										<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "End Date", null, $moduleId); ?></th>
+										<th class="hidden"><?php echo Yii::t("rooms", "Action", null, $moduleId); ?></th>
+									</tr>
+								</thead>
+								<tbody class="directoryLines">
+									<?php
+									/* **************************************
+									*	rooms
+									***************************************** */
+									if(isset($actions)) 
+									{ 
+										foreach ($actions as $e) 
+										{ ?>
+										<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+											<td class="center organizationLine hidden">
+												<?php 
+												$type = "survey.entry";
+												$icon = "bookmark";
+												//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"]);
+												$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+												$link = 'href="javascript:;" onclick="'.$link.'"';
+												?>
+												<a <?php echo $link;?>>
+													<?php if ($e && isset($e["imagePath"])){ ?>
+														<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
+													<?php } else { ?>
+														<i class="fa fa-<?php echo $icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
+													<?php } ?>
+												</a>
+											</td>
+											<?php 
+												if(isset($e["action"]))
+												{
+													$type = "";
+													$choice = "";
+													foreach ( $e["action"] as $key => $value) 
+													{
+														$type = $key;
+														$choice = $value;
+													}
+												}
+
+												if( $choice == Action::ACTION_COMMENT )
+													$icon = "comment";
+												else if( $choice == Action::ACTION_VOTE_UP )
+													$icon = "thumbs-up";
+												else if( $choice == Action::ACTION_VOTE_DOWN )
+													$icon = "thumbs-down";
+												else if( $choice == Action::ACTION_VOTE_ABSTAIN )
+													$icon = "circle";
+												else if( $choice == Action::ACTION_VOTE_UNCLEAR )
+													$icon = "pencil";
+												else if( $choice == Action::ACTION_VOTE_MOREINFO )
+													$icon = "question-circle ";
+												 ?>
+												
+											<td ><a class="entryname_vote" <?php echo $link;?>><i class="fa fa-<?php echo $icon ?> text-dark"></i> <?php if(isset($e["name"]))echo $e["name"]?></a></td>
+											<?php 
+											$participantCount = 0;
+											if(isset( $e[Action::ACTION_VOTE_UP] ))
+												$participantCount += count($e[Action::ACTION_VOTE_UP]);
+											if(isset( $e[Action::ACTION_VOTE_DOWN] ))
+												$participantCount += count($e[Action::ACTION_VOTE_DOWN]);
+											if(isset( $e[Action::ACTION_VOTE_ABSTAIN] ))
+												$participantCount += count($e[Action::ACTION_VOTE_ABSTAIN]);
+											if(isset( $e[Action::ACTION_VOTE_UNCLEAR] ))
+												$participantCount += count($e[Action::ACTION_VOTE_UNCLEAR]);
+											if(isset( $e[Action::ACTION_VOTE_MOREINFO] ))
+												$participantCount += count($e[Action::ACTION_VOTE_MOREINFO]);
+											?>
+											<td class=""><?php echo $participantCount ?></td>
+											<td class="hidden"><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+											<td><?php if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"]) ?></td>
+											<td class="center hidden">
+												<?php 
+												if(isset($e["action"]))
+												{
+													$type = "";
+													$choice = "";
+													foreach ( $e["action"] as $key => $value) 
+													{
+														$type = $key;
+														$choice = $value;
+													}
+												}
+
+												 ?>
+												<?php //echo $type ?> <i class="fa fa-<?php echo $icon ?> text-green"></i> 
+
+											</td>
+										</tr>
+									<?php
+										};
+									}
+
+									?>
+
+								</tbody>
+							</table>
 						</div>
-					</li>
-				</ul> 
-	    		<!-- <span class="badge badge-white pull-right"> <?php echo count(@$actions) ?></span> -->
-	    	</h3>
-	    </div>
-	    <div class="actionsTable infoTables" style="padding-top:7px;">	
-			<!-- <h1 class="homestead text-orange" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa  fa-chevron-circle-down"></i></h1> -->
-			<table class="table table-striped table-bordered table-hover directoryTable  ">
-				<thead>
-					<tr>
-						<th class="hidden"><?php echo Yii::t("rooms", "Titre", null, $moduleId); ?></th>
-						<th><i class="fa fa-caret-down"></i> <?php //echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
-						<th class=""><i class="fa fa-group"></i> <?php // Yii::t("rooms", "Participants", null, $moduleId); ?></th>
-						<th class="hidden"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Start Date", null, $moduleId); ?></th>
-						<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php //echo Yii::t("rooms", "End Date", null, $moduleId); ?></th>
-						<th class="hidden"><?php echo Yii::t("rooms", "Action", null, $moduleId); ?></th>
-					</tr>
-				</thead>
-				<tbody class="directoryLines">
-					<?php
-					/* **************************************
-					*	rooms
-					***************************************** */
-					if(isset($actions)) 
-					{ 
-						foreach ($actions as $e) 
-						{ ?>
-						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine hidden">
-								<?php 
-								$type = "survey.entry";
-								$icon = "bookmark";
-								//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"]);
-								$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
-								$link = 'href="javascript:;" onclick="'.$link.'"';
-								?>
-								<a <?php echo $link;?>>
-									<?php if ($e && isset($e["imagePath"])){ ?>
-										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
-									<?php } else { ?>
-										<i class="fa fa-<?php echo $icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
-									<?php } ?>
-								</a>
-							</td>
-							<?php 
-								if(isset($e["action"]))
-								{
-									$type = "";
-									$choice = "";
-									foreach ( $e["action"] as $key => $value) 
-									{
-										$type = $key;
-										$choice = $value;
-									}
-								}
-
-								if( $choice == Action::ACTION_COMMENT )
-									$icon = "comment";
-								else if( $choice == Action::ACTION_VOTE_UP )
-									$icon = "thumbs-up";
-								else if( $choice == Action::ACTION_VOTE_DOWN )
-									$icon = "thumbs-down";
-								 ?>
-								
-							<td ><a class="entryname_vote" <?php echo $link;?>><i class="fa fa-<?php echo $icon ?> text-dark fa-2x"></i> <?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<?php 
-							$participantCount = 0;
-							if(isset( $e[Action::ACTION_VOTE_UP] ))
-								$participantCount += count($e[Action::ACTION_VOTE_UP]);
-							if(isset( $e[Action::ACTION_VOTE_DOWN] ))
-								$participantCount += count($e[Action::ACTION_VOTE_DOWN]);
-							if(isset( $e[Action::ACTION_VOTE_ABSTAIN] ))
-								$participantCount += count($e[Action::ACTION_VOTE_ABSTAIN]);
-							if(isset( $e[Action::ACTION_VOTE_UNCLEAR] ))
-								$participantCount += count($e[Action::ACTION_VOTE_UNCLEAR]);
-							if(isset( $e[Action::ACTION_VOTE_MOREINFO] ))
-								$participantCount += count($e[Action::ACTION_VOTE_MOREINFO]);
-							?>
-							<td class=""><?php echo $participantCount ?></td>
-							<td class="hidden"><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-							<td><?php if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"]) ?></td>
-							<td class="center hidden">
-								<?php 
-								if(isset($e["action"]))
-								{
-									$type = "";
-									$choice = "";
-									foreach ( $e["action"] as $key => $value) 
-									{
-										$type = $key;
-										$choice = $value;
-									}
-								}
-
-								if( $choice == Action::ACTION_COMMENT )
-									$icon = "comment";
-								else if( $choice == Action::ACTION_VOTE_UP )
-									$icon = "thumbs-up";
-								else if( $choice == Action::ACTION_VOTE_DOWN )
-									$icon = "thumbs-down";
-								 ?>
-								<?php //echo $type ?> <i class="fa fa-<?php echo $icon ?> fa-2x"></i> 
-
-							</td>
-						</tr>
-					<?php
-						};
-					}
-
-					?>
-
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<?php } ?>
+					<?php } ?>
+			  </div>
+			</div>
 </div>
 
 
@@ -361,6 +383,8 @@ jQuery(document).ready(function() {
 			showDefinition( $(this).data("id") );
 			return false;
 		});
+
+	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick=''><i class='fa fa-plus'></i> Créer un nouvel espace</button>");
 });	
 
 function resetDirectoryTable() 
