@@ -247,7 +247,7 @@ class Menu {
                     Yii::t("common", 'Show his album'), 
                     Yii::t("common", 'Album'),
                     'photo',
-                    "loadByHash('#gallery.index.id.".$id.".type.".Project::COLLECTION."')","gallery", "index");
+                    "loadByHash('#gallery.index.id.".$id.".type.".Organization::COLLECTION."')","gallery", "index");
 
         //ACTION ROOMS
         //-----------------------------
