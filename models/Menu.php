@@ -490,7 +490,7 @@ class Menu {
         Yii::t( "common", "Project community"), 
         Yii::t( "common", 'Community'), 'connectdevelop',
         "loadByHash('#project.directory.id.".$id."?tpl=directory2')","project", "directory");
-<<<<<<< HEAD
+
 
         $surveyLink = "#rooms";
         $surveyLink = "#rooms.index.type.projects.id.".$id; 
@@ -516,7 +516,7 @@ class Menu {
             }
 
         // ADD MEMBER
-=======
+
         
         //ALBUM
         //-----------------------------
@@ -526,7 +526,7 @@ class Menu {
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Project::COLLECTION."')","gallery", "index");
                 // ADD MEMBER
->>>>>>> news_refactor_0.2
+
         //-----------------------------
         if( Authorisation::isProjectAdmin($id,Yii::app()->session['userId']) ){
             self::entry("right", 'onclick',
