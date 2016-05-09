@@ -39,7 +39,7 @@ return array(
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
-	"Discussions" => "Créer des discussions",
+	"Discussions" => "Discussions",
 	"Create a discussion" => "Créer un espace de discussion",
 	"Decisions" => "Prendre des décisions",
 	"Brainstorms" => "Echanger des idées",
