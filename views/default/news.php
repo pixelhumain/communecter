@@ -148,7 +148,7 @@ function showNewsStream(insee){
 					//"<span class='text-dark'>Chargement en cours ...</span>" + 
 			"</div>");
     //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement de l'actualité ...");
-		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee,null,"html");
+		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isFirst=1",null,"html");
 		$("#dropdown_search").hide(300);
 	}
 }

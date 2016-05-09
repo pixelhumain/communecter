@@ -60,7 +60,7 @@ function buildLineHTML(newsObj,idSession,update)
 			scopeIcon="globe";
 		} 
 		else if (newsObj.scope.type=="restricted"){
-			scopeIcon="unlock";
+			scopeIcon="connectdevelop";
 		}else{
 			scopeIcon="lock";
 		}
@@ -134,7 +134,10 @@ function buildLineHTML(newsObj,idSession,update)
 		if("undefined" != typeof newsObj.name){
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
-		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" class="editable-news editable-pre-wrapped ditable editable-click newsContent"><span class="timeline_text no-padding">'+newsObj.text+"</span></a>";
+		textHtml="";
+		if(newsObj.text.length > 0)
+			textHtml='<span class="timeline_text no-padding" >'+newsObj.text+'</span>';
+		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
@@ -144,7 +147,7 @@ function buildLineHTML(newsObj,idSession,update)
 					//// Fonction générant l'html
 				} 
 			} else if (newsObj.media.type=="gallery_images"){
-				media=getMediaImages(newsObj.media,newsObj._id.$id,newsObj.author.id);
+				media=getMediaImages(newsObj.media,newsObj._id.$id,newsObj.author.id,newsObj.target.name);
 			}
 				
 		}
@@ -174,7 +177,7 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream"))
+	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
 	{
 		postalCode = "";
 		city = "";
@@ -271,7 +274,7 @@ function buildLineHTML(newsObj,idSession,update)
 						'<hr/>' + 
 						'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
-							title + text + media +
+							'<div>'+title + text + "</div>"+media +
 						'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
@@ -295,7 +298,12 @@ function buildHtmlUrlAndActionObject(obj){
 
 	if(obj.type=="news"){
 		url = '';
-		
+		// Check media content is gallery image
+		if(typeof(obj.media) != "undefined" && typeof(obj.media.type) != "undefined" && obj.media.type=="gallery_images"){
+			titleAction = "a ajouté "+obj.media.countImages+" photos";
+		}
+		else
+			titleAction="";
 		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
@@ -317,12 +325,12 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction = ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'?isSearchDesign=1\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
-				titleAction = "a partagé un lien";
+				titleAction += "a partagé un lien";
 			else 
-				titleAction = "";
+				titleAction += "";
 		}
 	}
 	else{
