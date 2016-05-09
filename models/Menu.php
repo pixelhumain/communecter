@@ -20,7 +20,7 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his person'), 
+                    Yii::t("common", 'General informations'), 
                     Yii::t("common", 'Details'),
                     'user',
                     "loadByHash('#person.detail.id.".$id."')","person", "detail");
@@ -56,7 +56,7 @@ class Menu {
 		//ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Person::COLLECTION."')","gallery", "index");
@@ -149,7 +149,7 @@ class Menu {
 		//ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Event::COLLECTION."')","gallery", "index");
@@ -224,7 +224,7 @@ class Menu {
         //ALBUM
         //-----------------------------
        self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Organization::COLLECTION."')","gallery", "index");
@@ -446,7 +446,7 @@ class Menu {
         //ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Project::COLLECTION."')","gallery", "index");
