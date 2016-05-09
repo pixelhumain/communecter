@@ -159,7 +159,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			<!-- Tab panes -->
 			<div class="tab-content">
 			  <div class="tab-pane active col-lg-12 col-md-12" id="home">
-	  			<table class="table table-striped table-bordered table-hover  directoryTable ">
+	  			<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
 						<tr>
 							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de discussions", null, $moduleId); ?></th>
@@ -203,7 +203,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 						?>
 						
 					</tbody>
-				</table>				
+				</table>
 			  </div>
 			  <div class="tab-pane" id="profile">
 			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
@@ -384,7 +384,7 @@ jQuery(document).ready(function() {
 			return false;
 		});
 
-	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick=''><i class='fa fa-plus'></i> Créer un nouvel espace</button>");
+	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick='loadByHash(\"#rooms.editroom.type.<?php echo $_GET["type"] ?>.id.<?php echo $_GET["id"] ?>\")'><i class='fa fa-plus'></i> Créer un nouvel espace</button>");
 });	
 
 function resetDirectoryTable() 
