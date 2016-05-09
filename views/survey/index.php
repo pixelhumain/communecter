@@ -761,8 +761,8 @@ function toogleTags(){
   function entryDetail(url,type){
     console.warn("--------------- entryDetail ---------------------",url);
     getAjax( "surveyDetails" , url , function(data){
-      $("#surveyDetails").html(data);
-      //console.dir(data);
+      //$("#surveyDetails").html(data);
+      console.dir(data);
       
       console.log("type", type);
       if(type == "edit") 
@@ -856,15 +856,17 @@ function addaction(id,action)
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#readEntryContainer").html("<div class='col-sm-8 col-sm-offset-2 '>"+
+  $("#readEntryContainer").html("<div class='col-sm-10 col-sm-offset-1 '>"+
               '<h1 class="homestead text-red center citizenAssembly-header">'+
               '<i class="fa fa-pie-chart "></i>'+
               '<br>'+
               '<small class="homestead text-dark center"> Resultats du moment </small>'+
              ' </h1>'+
-              "<div class='space20'></div>"+
-              "<a href='javascript:toggleGraph()' class='pull-left'><i class='fa fa-chevron-circle-left text-red fa-2x'></i></a>"+
+              "<a href='javascript:toggleGraph()' class='pull-left' style='top: 92px; float: right !important; margin-top: -120px; margin-right: 5px;'>"+
+                "<i class='fa fa-times-circle-o  text-dark fa-2x'></i>"+
+              "</a>"+
               // "<h1 id='entryTitle' ></h1>"+
+              //"<div class='space20'></div>"+
               "<div class='space20 center' id='entryContent'></div>"+
               "</div>");
   
