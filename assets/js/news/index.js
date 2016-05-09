@@ -849,7 +849,7 @@ function showMyImage(fileInput) {
 }
 	
 function getMediaImages(o,newsId,authorId,targetName){
-	countImages=o.countImages;
+	countImages=o.images.length;
 	html="";
 	if(canManageNews==1 || authorId==idSession){
 		for(var i in o.images){
