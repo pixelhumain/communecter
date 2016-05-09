@@ -94,6 +94,7 @@ class CommunecterController extends Controller
       "adddataindb"    => array("href" => "/ph/communecter/admin/adddataindb"),
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
+      "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
 
@@ -142,6 +143,7 @@ class CommunecterController extends Controller
       "delete"    => array( "href" => "/ph/communecter/news/delete"),
       "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
       "extractprocess" => array( "href" => "/ph/communecter/news/extractprocess"),
+      "moderate" => array( "href" => "/ph/communecter/news/moderate"),
     ),
     "search"=> array(
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
@@ -326,7 +328,8 @@ class CommunecterController extends Controller
       "index"        => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save"         => array( "href" => "/ph/communecter/comment/save"),
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
-      "testpod"      => array("href" => "/ph/communecter/comment/testpod")
+      "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
+      "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
