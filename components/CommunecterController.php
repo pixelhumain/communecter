@@ -96,6 +96,7 @@ class CommunecterController extends Controller
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
+      "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
 
     ),
     "adminpublic" => array(

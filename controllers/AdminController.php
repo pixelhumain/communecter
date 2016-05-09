@@ -38,7 +38,8 @@ class AdminController extends CommunecterController {
 	        'createfileforimport' => 'citizenToolKit.controllers.admin.CreateFileForImportAction',
 	        'sourceadmin' => 'citizenToolKit.controllers.admin.SourceAdminAction',
 	        'checkcities' => 'citizenToolKit.controllers.admin.CheckCitiesAction',
-	        'checkcedex' => 'citizenToolKit.controllers.admin.CheckCedexAction'
+	        'checkcedex' => 'citizenToolKit.controllers.admin.CheckCedexAction',
+	        'downloadfile' => 'citizenToolKit.controllers.admin.DownloadFileAction'
 	    );
 	}
 }

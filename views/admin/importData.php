@@ -915,7 +915,7 @@ function bindEvents()
   	{
   		console.log("jsonImport" , $('#jsonImport').val());
   		console.log("jsonError" , $('#jsonError').val());
-  		$.ajax({
+  		/*$.ajax({
 	        type: 'POST', 
 	        data: { jsonImport : $('#jsonImport').val(), 
 	        		jsonError : $('#jsonError').val(),
@@ -931,8 +931,23 @@ function bindEvents()
 	            else
 	                toastr.error("Erreur");
 	           	//$.unblockUI();
+	           	window.location.href = data.url;
 	        }
-	    });
+
+	        
+	    });*/
+
+	    $.ajax({
+		    url: baseUrl+'/communecter/admin/importinmongo/',
+		    data: { jsonImport : $('#jsonImport').val(), 
+	        		jsonError : $('#jsonError').val(),
+	        		nameFile : $('#nameFile').val(),
+	        		idCollection : $("#idCollection").val()},
+		    type: 'POST',
+		    success: function() {
+		        window.location = baseUrl+'/communecter/admin/importinmongo/';
+		    }
+		});
   	});
 
 
