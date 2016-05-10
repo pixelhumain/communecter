@@ -173,6 +173,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php echo Yii::t("common","Change password") ?>
 					</span>
 				</a>
+				<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+					<i class='fa fa-download'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Télécharger votre profile"); ?>
+					</span>
+				</a>
+				<a href="#person.updateprofil" class='btn btn-sm btn-default updateProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+					<i class='fa fa-update'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Mettre à jour votre profil"); ?>
+					</span>
+				</a>
 			<?php } /*?>
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
@@ -552,6 +564,34 @@ function bindAboutPodEvents()
 	$(".changePasswordBtn").click(function () {
 		console.log("changePasswordbuttton");
 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+	});
+
+	$(".downloadProfil").click(function () {
+		
+		$.ajax({
+			url: baseUrl + "/communecter/data/get/type/citoyens/id/"+personId ,
+			type: 'POST',
+			dataType: 'json',
+			async:false,
+			crossDomain:true,
+			complete: function () {},
+			success: function (obj){
+				console.log("obj", obj);
+				$("<a />", {
+				    "download": "data.json",
+				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
+				  }).appendTo("body")
+				  .click(function() {
+				    $(this).remove()
+				  })[0].click() ;
+			},
+			error: function (error) {
+				
+			}
+		});
+
+
+		
 	});
 
 	$("#editProfil").click( function(){
