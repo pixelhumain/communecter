@@ -10,12 +10,10 @@ $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/mixitup/src/jquery.mixitup.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js' , CClientScript::POS_END);*/
-	$contextIcon = "photo";
+$contextIcon = "photo";
 if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
 	Menu::organization( $organization );
-	//$thisOrga = Organization::getById($organization["_id"]);
 	$contextName = $organization["name"];
-	//$contextTitle = Yii::t("common","Community of organization");
 	$parentName=$organization["name"];
 }
 else if( isset($itemType) && $itemType == Person::COLLECTION && isset($person) ){
@@ -93,7 +91,7 @@ $this->renderPartial('../default/panels/toolbar');
 					<ul class="nav nav-pills">
 						<li class="filter active" data-filter="all">
 							<a href="#">
-								Show All
+								<?php echo Yii::t("common","Show All"); ?>
 							</a>
 						</li>
 					</ul>
@@ -123,17 +121,13 @@ var images = <?php echo json_encode($images); ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> Gallerie photo de " + contextName);
+	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> Galerie photos de " + contextName);
 	initGrid();
-
 	$(".portfolio-item").mouseenter(function(){
 		$(this).find(".tools.tools-bottom").show();
 	}).mouseleave(function(){
 		$(this).find(".tools.tools-bottom").hide();
 	});
-	$("#backToDashboardBtn").off().on("click", function(){
-		document.location.href=baseUrl+"/"+moduleId+"/"+controllerId+"/dashboard/id/"+itemId;
-	})
 });
 
 function initGrid(){
@@ -152,9 +146,12 @@ function initGrid(){
 			//$.each(v, function(docId, document) {
 			for(var i = 0; i<v.length; i++){
 				var	htmlBtn = ' <div class="tools tools-bottom">' +
-								'<span>'+mapButton[k]+'</span>';
+								'<span>'+mapButton[k];
+					if(authorizationToEdit)
+						htmlBtn	+= '<small> - '+v[i].size+'</small>';
+					htmlBtn+= '</span>';
 					if(authorizationToEdit){
-						htmlBtn+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
+						htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
 										' <i class="fa fa-trash-o"></i>'+
 									' </a>';
 					}
@@ -166,9 +163,8 @@ function initGrid(){
 					var pathThumb = baseUrl+"/<?php echo Yii::app()->params['uploadUrl'] ?>"+v[i].moduleId+"/"+v[i].folder+"/<?php echo Document::GENERATED_IMAGES_FOLDER ?>/"+v[i].name;
 				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i]["_id"]["$id"]+'">'+
 							' <div class="portfolio-item">'+
-								' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="all">'+
+								' <a class="thumb-info" href="'+path+'" data-lightbox="all">'+
 									' <img src="'+pathThumb+'" class="img-responsive" alt="">'+
-									//' <span class="thumb-info-title">'+k+'</span>' +
 								' </a>' +
 								//' <div class="chkbox"></div>' +
 								htmlBtn +

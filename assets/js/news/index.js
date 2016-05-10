@@ -796,11 +796,14 @@ function initFormImages(){
 		});
 	}));
 }
-function turnOff(){
-	$("#addImage").off('click');
-	$(".fileupload-new").off('click');
+function addMoreSpace(){
+	bootbox.dialog({
+	message: "You have attempt the limit of 20Mo of images for this "+contextParentType+"<br/>Please choose one of those  two solutions beyond:<br/>Delete images in the <a href='javascript:;' onclick='bootbox.hideAll();loadByHash(\"#gallery.index.id."+contextParentId+".type."+contextParentType+"\")'>photo gallery</a> <br/><br/>OR<br/><br/> Subscribe 12€ to the NGO Open Atlas which takes in charge communecter.org on <a href='https://www.helloasso.com/associations/open-atlas' target='_blank'>helloAsso</a> for 20Mo more. <br/><br/>Effectively, stocking images represents a cost for us and donate to the NGO will demonstrate your contribution the project and to the common we built together",
+  title: "Limit of <color class='red'>20 Mo</color> overhead"
+  });
 }
 function showMyImage(fileInput) {
+	alert();
 	if($(".noGoSaveNews").length){
 		toastr.info("Wait the end of image loading");
 	}

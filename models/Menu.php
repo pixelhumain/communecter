@@ -20,7 +20,7 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his person'), 
+                    Yii::t("common", 'General informations'), 
                     Yii::t("common", 'Details'),
                     'user',
                     "loadByHash('#person.detail.id.".$id."')","person", "detail");
@@ -56,7 +56,7 @@ class Menu {
 		//ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Person::COLLECTION."')","gallery", "index");
@@ -148,7 +148,7 @@ class Menu {
 		//ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Event::COLLECTION."')","gallery", "index");
@@ -184,6 +184,27 @@ class Menu {
                         "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
             }
         }
+     }
+
+    public static function moderate()
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        //Moderate One
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Modérer un abus"),
+                Yii::t("common","Modérer un abus"),
+                'file-o','/admin/moderate/one/',"Moderate","one");
+        
+        //Moderate All
+        //-----------------------------
+         self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Tous les abus"),
+                Yii::t("common","Tous les abus"),
+                'copy','/admin/moderate/all/',"Moderate","all");
+
      }
     
     public static function organization($organization)
@@ -244,7 +265,7 @@ class Menu {
         //ALBUM
         //-----------------------------
        self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Organization::COLLECTION."')","gallery", "index");
@@ -522,7 +543,7 @@ class Menu {
         //ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t("common", 'Show his album'), 
+                    Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Project::COLLECTION."')","gallery", "index");

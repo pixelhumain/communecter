@@ -376,7 +376,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	console.log("conteXTMAP");
 	console.dir(contextMap);
 
-	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
 	var images = <?php echo json_encode($images) ?>;
