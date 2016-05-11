@@ -202,6 +202,8 @@ class CommunecterController extends Controller
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
         
+        "telegram"               => array("href" => "/ph/communecter/person/telegram", "public" => true),
+        
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
         "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
@@ -209,6 +211,7 @@ class CommunecterController extends Controller
         "about"                   => array("href" => "/person/about"),
         "data"                    => array("href" => "/person/scopes"),
         "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        
     ),
     "organization"=> array(
       "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",

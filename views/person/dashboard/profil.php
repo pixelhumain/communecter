@@ -145,6 +145,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		background-color: rgb(43, 176, 198) !important;
 		height: 26px;
 		text-align: center;
+		padding: 4px 8px 8px 6px;
+		margin-top: 5px;
+		color: white;
+		font-weight: 200;
+		cursor: pointer;
+	}
+	#btnTelegram {
+	    float: left;
+		font-size: 13px;
+		border-radius: 50px;
+		background-color: rgb(43, 176, 198) !important;
+		height: 26px;
+		text-align: center;
 		padding: 4px 10px 8px 7px;
 		margin-top: 5px;
 		color: white;
@@ -153,7 +166,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	.badge-question-telegram {
-	    font-size: 22px;
+	    font-size: 18px;
 	    z-index: 6;
 	    /*position: absolute;
 	    right: 1px;
@@ -164,15 +177,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.socialNetwork{
 		padding: 7px;
 		margin-left: 10px;
-		margin-top: -11px;
-		background-color: rgba(0, 0, 0, 0.85);
+		margin-top: -42px;
+		background-color: rgba(26, 26, 26, 0.75);
 		border-radius: 0px 0px 5px 5px;
 		height: 67px;
 		width: 100%;
 	}
 	i.fa-blue{
 		color:white !important;
-		font-size:20px;
+		font-size:17px;
+	}
+	i.fa-grey{
+		font-size:17px;
+	}
+
+	#telegramAccount i.fa-send.fa-grey{
+		font-size:13px;
 	}
 
 	.container-info-perso{
@@ -182,6 +202,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	#fileuploadContainer, #profil_imgPreview{
 		border-radius: 5px 5px 0px 0px !important;
 		border-width:0px !important;
+	}
+
+	#telegram-section .text-azure{
+		color:#48C7DD !important;
 	}
 
 	@media screen and (max-width: 1060px) {
@@ -353,7 +377,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 				<div class="socialNetwork col-md-12">
 
-					<div class="col-md-12 no-padding">
+					<div class="col-md-12 no-padding" style="margin-bottom:5px;">
 
 						<span class="text-white"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
 						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
@@ -374,42 +398,54 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 					</div>
 
-					<div class="col-md-12 no-padding">
+					<div class="col-md-12 no-padding" id="telegram-section">
 					
-						<?php if (  (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "")
-								 || ((string)$person["_id"] == Yii::app()->session["userId"] ))
+						<?php 	// si le user a paramétré son Telegram, et que ce n'est pas MON profil
+								// j'affiche le lbl + le bouton Telegram, qui ouvre un nouvelle onglet Communecter+iframeTelegam
+								if (  (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "")
+								 && ((string)$person["_id"] != Yii::app()->session["userId"] ))
 								 { ?>
-							<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
-							<a 	href="<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "") echo $person["socialNetwork"]["telegram"]; else echo "javascript:switchMode()"; ?>" 
-								id="telegramAccount" data-emptytext='<i class="fa fa-send"></i> Telegram' 
-								data-type="text" 
-
-								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
-									<?php if ((string)$person["_id"] == Yii::app()->session["userId"]){ ?> 
-										data-original-title="aller sur Telegram" 
-									<?php }else{ ?>
-										data-original-title="contacter via Telegram" 
-									<?php } ?>
-								<?php }else{ ?>
-										data-original-title="votre pseudo sur Telegram ?" 
-									<?php } ?>
-								
-								data-emptytext='<i class="fa fa-send"></i> Telegram'
-								class="editable editable-click socialIcon" 
-								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
+								<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+								<a 	href="https://web.telegram.org/#/im?p=@<?php echo $person["socialNetwork"]["telegram"]; ?>"
+									<?php // person.telegram.id.<?php echo (string)$person["_id"]; ? >" ?>
+									class="tooltips"
+									id="btnTelegram"
 									target="_blank" 
-								<?php } ?>
+									data-toggle="tooltip" data-placement="bottom" title="<?php echo $person["socialNetwork"]["telegram"]; ?>"
+									
 								>
-								<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
-							</a> 
-							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
-							 		<i class="fa fa-question-circle text-dark" style="">
-							 		</i>
+									<i class="fa fa-send text-white"></i> Telegram
+								</a> 
+								<!-- <span class="text-gsreen pull-left" style="margin:8px 5px 0px 0px;"><?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?></span> -->
+								
+							<?php 
+							//si je suis sur MA page 
+							}else if((string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+								
+								<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Paramétrer Telegram :</span>
+								
+								<a 	href="javascript:paramTelegram();" 
+									id="telegramAccount"
+									data-type="text" 
+									onclick=""
+									data-original-title="votre pseudo sur Telegram ?" 
+									data-emptytext='<i class="fa fa-send"></i>'
+									class="editable editable-click socialIcon" 
+								>
+									<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
+								</a> 
+								
+								<!-- <span class="text-azure pull-left" style="margin:8px 5px 0px 0px;">Telegram</span> -->
+								<span class="text-azure pull-left visible-lg" style="margin:8px 5px 0px 10px; font-weight:600;"><?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?></span>
+								
+							<?php }else if (!isset($person["socialNetwork"]["telegram"]) || $person["socialNetwork"]["telegram"] == "") { ?>
+								<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Messagerie privée : indisponible</span>
+							<?php } ?>
+							<a href="javascript:" onclick="" class="pull-right badge-question-telegram text-azure tooltips" data-toggle="tooltip" data-placement="left" title="messagerie privée : comment ça marche ?" >
+							 	<i class="fa fa-question-circle text-azure" style="margin-top:8px;"></i>
 							</a> 
 
-						<?php }else{ ?>
-							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
-						<?php } ?>
+						
 					</div>
 
 				</div>
@@ -847,20 +883,31 @@ function manageSocialNetwork(iconObject, value) {
 		
 		//else{
 		if(iconObject.attr("id") != "telegramAccount"){
-			iconObject.tooltip({title: value, placement: "bottom"});
+			iconObject.tooltip({title: value, placement: "top"});
 			iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+		}else{
+			iconObject.tooltip({title: value, placement: "bottom"});
+			iconObject.html('<i class="fa '+fa+' text-white"></i>');
 		}
-	} 
-
-	if(iconObject.attr("id") == "telegramAccount"){
-		iconObject.tooltip({title: value, placement: "left"});
-		iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+	} else {
+		//if(iconObject.attr("id") != "telegramAccount"){
+			iconObject.tooltip({title: value, placement: "bottom"});
+			iconObject.html('<i class="fa '+fa+' fa-grey"></i>');
+		//}
 	}
+
+	// if(iconObject.attr("id") == "telegramAccount"){
+	// 	iconObject.tooltip({title: value, placement: "left"});
+	// 	iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+	// }
 
 	console.log(iconObject);
 }
 
-
+function paramTelegram(){
+	switchMode();
+	$("#telegramAccount").click();
+}
 
 	//modification de la position geographique	
 

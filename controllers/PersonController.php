@@ -43,14 +43,15 @@ class PersonController extends CommunecterController {
           'update'             => 'citizenToolKit.controllers.person.UpdateAction',
           'directory'          => 'citizenToolKit.controllers.person.DirectoryAction',
           'data'               => 'citizenToolKit.controllers.person.DataAction',
-          'chooseinvitecontact'      => 'citizenToolKit.controllers.person.ChooseInviteContactAction',
+          'chooseinvitecontact'=> 'citizenToolKit.controllers.person.ChooseInviteContactAction',
           'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
           'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction',
           'checkusername'      => 'citizenToolKit.controllers.person.CheckUsernameAction',
           'checklinkmailwithuser'   => 'citizenToolKit.controllers.person.CheckLinkMailWithUserAction',
           'validateinvitation' => 'citizenToolKit.controllers.person.ValidateInvitationAction',
-          'getuseridbymail'   => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
-          "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction'
+          'getuseridbymail'    => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
+          "updatesettings"     => 'citizenToolKit.controllers.person.UpdateSettingsAction',
+          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction'
 	    );
 	}
 
