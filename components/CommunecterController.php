@@ -95,6 +95,7 @@ class CommunecterController extends Controller
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
+      "statistics"    => array("href" => "/ph/communecter/admin/statistics"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
 
