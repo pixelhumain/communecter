@@ -483,7 +483,7 @@ function reportAbuse(comment, contextId) {
 	});
 
 	boxComment.on("hide.bs.modal", function() {
-	  showComments(contextId);
+	  $.unblockUI();
 	});
 }
 
@@ -699,5 +699,7 @@ function getProfilImageUrl(imageURL) {
 	
 	return iconStr;
 }
+
+
 
 </script>
