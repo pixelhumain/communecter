@@ -42,6 +42,7 @@
 			$(".timeline_element").css("pointer-events","none");
 			$(".timeline_element").css("cursor","default");
 			$("div.timeline").css("min-height", 0);
+			$(".date_separator").hide();
 			$(".dropdown").hide();
 			$(".newsAddComment").hide();
 

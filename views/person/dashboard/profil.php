@@ -312,7 +312,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?></span>
+					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<style type="text/css">
 						.badgePH{ 
