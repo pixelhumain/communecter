@@ -797,7 +797,6 @@ function addMoreSpace(){
   });
 }
 function showMyImage(fileInput) {
-	alert();
 	if($(".noGoSaveNews").length){
 		toastr.info("Wait the end of image loading");
 	}
