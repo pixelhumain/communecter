@@ -150,16 +150,21 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	
 		    <!-- Nav tabs -->
 			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-			  <li class="active"><a href="#home" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter</a></li>
-			  <li><a href="#profile" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider</a></li>
-			  <li><a href="#messages" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique</a></li>
-			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
+			  <li class="active"><a href="#discuter" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter</a></li>
+			  <li><a href="#decider" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider</a></li>
+			<li><a href="#historique" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique</a></li>
 			</ul>
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-			  <div class="tab-pane active col-lg-12 col-md-12" id="home">
-	  			<table class="table table-striped table-bordered table-hover directoryTable ">
+			  <div class="tab-pane active col-lg-12 col-md-12" id="discuter">
+			  	<div class="alert alert-info">
+			  	<ul>
+			  		<li>Les <strong>espaces de discussion</strong> servent à discuter de différents sujets, créer des débats, approfondir des questions.</li>
+			  		<li>Ces discussions peuvent déboucher sur des <strong>propositions</strong>, que vous pouvez reporter dans la section <strong>DÉCIDER</strong>, afin de procéder à une séance de vote.</li>
+			  	</ul> 		
+			  	</div>
+				<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
 						<tr>
 							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de discussions", null, $moduleId); ?></th>
@@ -205,7 +210,13 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					</tbody>
 				</table>
 			  </div>
-			  <div class="tab-pane" id="profile">
+			  <div class="tab-pane" id="decider">
+			  	<div class="alert alert-info">
+			  	<ul>
+			  		<li>Les <strong>espaces de décisions</strong> servent à voter des <strong>propositions</strong>.</li>
+			  		<li>Seuls les membres d'une organisation ou d'un projet peuvent faire des <strong>propositions</strong> et participer aux <strong>votes</strong></li>
+			  	</ul> 		
+			  	</div>
 			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
 					<thead class="">
 						<tr>
@@ -251,9 +262,15 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					</tbody>
 				</table>	
 			  </div>
-			  <div class="tab-pane col-lg-12 col-md-12" id="messages">
+			  <div class="tab-pane col-lg-12 col-md-12" id="historique">
+			  	<div class="actionsTable infoTables" style="padding-top:7px;">	
+					<div class="alert alert-info">
+				  	<ul>
+				  		<li>La section <strong>HISTORIQUE</strong> vous permet de retrouver facilement les <strong>votes</strong> auxquels vous avez participé.</li>
+				  	</ul> 		
+				  	</div>
+				
 			  	<?php if(count(@$actions)){ ?>
-						<div class="actionsTable infoTables" style="padding-top:7px;">	
 							<!-- <h1 class="homestead text-orange" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa  fa-chevron-circle-down"></i></h1> -->
 							<table class="table table-striped table-bordered table-hover directoryTable  ">
 								<thead>
@@ -361,8 +378,15 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 								</tbody>
 							</table>
-						</div>
-					<?php } ?>
+						
+				<?php }else{ ?>
+					<div class="alert alert-danger">
+					  	<ul>
+					  		<li>Votre historique est vide</li>
+					  	</ul> 		
+				  	</div>
+				<?php } ?>
+				</div>
 			  </div>
 			</div>
 </div>
