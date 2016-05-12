@@ -91,7 +91,8 @@ class TestController extends CommunecterController {
 	  $i=0;
 	  foreach($document as $key => $data){
 		  	if(@$data["size"]){
-			  	echo "<br/>".$data["size"]."///";
+			  	$size="";
+			  	echo "<br/>".$data["_id"]."//".$data["size"]."///";
 			  	echo gettype($data["size"]);
 			  	if(gettype($data["size"])=="double"){
 				  	$size = (int)$data["size"];
@@ -103,11 +104,11 @@ class TestController extends CommunecterController {
 					$size = (float)($data["size"])*1024;
 				}
 				$i++;
-				if(@$size){
-					echo $size;
+				if(@$size && !empty($size)){
+					echo "new size : ".$size;
 					PHDB::update(Document::COLLECTION,
-							array("_id" => $data["_id"]) , 
-							array('$set' => array("size" => $size))	
+							array("_id" => $data["id"]) , 
+							array('$set' => array("size" => (int)$size))	
 		
 					);
 				}	

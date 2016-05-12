@@ -151,17 +151,34 @@ function initGrid(){
 						htmlBtn	+= '<small> - '+v[i].size+'</small>';
 					htmlBtn+= '</span>';
 					if(authorizationToEdit){
-						htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
+						if(v[i].moduleId=="communevent"){
+							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i].objId+'" data-name="'+v[i].name+'" data-key="'+v[i].moduleId+'" >' +
 										' <i class="fa fa-trash-o"></i>'+
 									' </a>';
+						} else {
+							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
+										' <i class="fa fa-trash-o"></i>'+
+									' </a>';
+
+						}
 					}
 				htmlBtn+= 	' </div>';
-				var path = baseUrl+v[i]["imageUrl"];
+				if(v[i].moduleId=="communevent")
+					var path = v[i]["imageUrl"];
+				else
+					var path = baseUrl+v[i]["imageUrl"];
 				if(v[i].contentKey=="profil")
 					var pathThumb = path;
+				else if(v[i].moduleId=="communevent")
+					var pathThumb = path+"?store=photosLarge";
 				else
 					var pathThumb = baseUrl+"/<?php echo Yii::app()->params['uploadUrl'] ?>"+v[i].moduleId+"/"+v[i].folder+"/<?php echo Document::GENERATED_IMAGES_FOLDER ?>/"+v[i].name;
-				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i]["_id"]["$id"]+'">'+
+				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="';
+				if(v[i].moduleId=="communevent")
+					htmlThumbail+=v[i].objId;
+				else
+					htmlThumbail+=v[i]["_id"]["$id"];
+				htmlThumbail+='">'+
 							' <div class="portfolio-item">'+
 								' <a class="thumb-info" href="'+path+'" data-lightbox="all">'+
 									' <img src="'+pathThumb+'" class="img-responsive" alt="">'+
@@ -201,6 +218,8 @@ function bindBtnGallery(){
 		var path="";
 		if(key == "slider")
 			var path="album";
+		else if(key=="communevent")
+			var path=key;
 //		var path = $(this).data("path");
 		e.preventDefault();
 		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete') ?> <span class='text-red'>"+$(this).data("name")+"</span> ?", 
