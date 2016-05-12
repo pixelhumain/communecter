@@ -83,29 +83,35 @@ class TestController extends CommunecterController {
   }
   //Refactor permettant de mettre la size des doc en bytes type string 
   // Pas encore Passez
+  // A lancer deux fois pour que ce soit stocké en int32 ou int64
   public function actionChangeSizeDocumentToBytesNumber(){
 	  $document=PHDB::find(Document::COLLECTION);
 	  $nbDoc=count($document);
 	  echo "Nombre de documents appelés : ".$nbDoc;
 	  $i=0;
 	  foreach($document as $key => $data){
-	  if(@$data["size"]){
-		  echo "<br/>".$data["size"]."///";
-		  if (strstr($data["size"], 'M', true)){
-				$size=((float)$data["size"])*1048576;
-			} else if(strstr($data["size"], 'K', true)){
-				$size = (float)($data["size"])*1024;
-			}
-			$i++;
-			if(@$size){
-			echo $size;
-			PHDB::update(Document::COLLECTION,
-						array("_id" => $data["_id"]) , 
-						array('$set' => array("size" => $size))	
-	
-		);
-			}	
-	  }
+		  	if(@$data["size"]){
+			  	echo "<br/>".$data["size"]."///";
+			  	echo gettype($data["size"]);
+			  	if(gettype($data["size"])=="double"){
+				  	$size = (int)$data["size"];
+			  	}
+			  	if (strstr($data["size"], 'M', true)){
+					$size=((float)$data["size"])*1048576;
+				} 
+				else if(strstr($data["size"], 'K', true)){
+					$size = (float)($data["size"])*1024;
+				}
+				$i++;
+				if(@$size){
+					echo $size;
+					PHDB::update(Document::COLLECTION,
+							array("_id" => $data["_id"]) , 
+							array('$set' => array("size" => $size))	
+		
+					);
+				}	
+		}
 	}
 	echo "</br>Nombre de documents traités pour la size : ".$i;  
   }
