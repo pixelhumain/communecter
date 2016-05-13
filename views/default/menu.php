@@ -56,11 +56,11 @@
 		</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
+	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="lbl-btn-menu-name-city">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-					   echo '<span class="lbl-btn-menu-name">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
+					   echo '<span class="lbl-btn-menu-name hidden-sm">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
