@@ -166,7 +166,7 @@ class TestController extends CommunecterController {
 	echo count($news)." News en base avec voteDownReason<br/>";
 	foreach($news as $key => $data){
 		$map = array();
-		foreach ($data['voteDownReason'] as $i => $reason) {
+		foreach ($data['voteDownReason'] as $j => $reason) {
 			$map['voteDown.'.key($reason)] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
@@ -191,7 +191,7 @@ class TestController extends CommunecterController {
 	echo count($news)." News en base avec voteUpReason<br/>";
 	foreach($news as $key => $data){
 		$map = array();
-		foreach ($data['voteUpReason'] as $i => $reason) {
+		foreach ($data['voteUpReason'] as $j => $reason) {
 			$map['voteUp.'.key($reason)] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
@@ -207,10 +207,55 @@ class TestController extends CommunecterController {
 	echo "nombre de news modifié => ".$i;
   }
 
+    // VoteUp
+  public function actionRefactorActionsCitoyens(){
+  	echo "actionRefactorActionsCitoyens => ";
+  	$i=0;
+	$citoyens=PHDB::find(Person::COLLECTION, array('actions' => array('$exists' => 1), 'refractorAction' => array('$exists' => 0)));
+	
+	echo count($citoyens)." citoyens en base avec des actions<br/>";
+	foreach($citoyens as $key => $data){
+		$map = array();
+		foreach ($data['actions'] as $type => $actions) {
+			foreach ($actions as $action => $action2) {
+				foreach ($action2 as $keyfinal => $valuefinal) {
+					$map['actions.'.$type.'.'.$action.'.'.$keyfinal] = array('date' => new MongoDate(time())); 
+				}
+
+			}
+		}
+		if(count($map)){
+			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$set' => array('refractorAction' => new MongoDate(time()))));
+			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$unset' => array('actions' => 1)));
+			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$set' => $map));
+			$i++;
+		}
+		
+	}
+	echo "nombre de citoyen modifié => ".$i;
+  }
+
   // VoteUp
   public function actionRefactorModerateReportAbuse(){
-  	echo "actionRefactorModerateReportAbuse => ";
+  	echo "actionRefactorModerateReportAbuse => ";  	
+  	$i = 0;
 	$news=PHDB::find(News::COLLECTION, array('reportAbuseReason' => array('$exists' => 1)));
+  	foreach($news as $key => $data){
+		$map = array();
+		foreach ($data['reportAbuseReason'] as $j => $reason) {
+			$map['reportAbuse.'.key($reason)] = array('reason' => 'Propos malveillant', 'date' => new MongoDate(time())); 
+		}
+		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuse' => 1)));
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('reportAbuseReason' => 1)));
+			$i++;
+		}
+		else{
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseReason' => 1)));
+			$i++;
+		}
+	}
+
 	echo count($news)." News en base avec reportAbuseReason<br/>";
   }
 
