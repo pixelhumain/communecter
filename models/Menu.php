@@ -236,6 +236,15 @@ class Menu {
          
         $surveyLink = "#rooms";
         $surveyLink = "#rooms.index.type.organizations.id.".$id; 
+		
+		//COMMUNITY
+		//---------------------------
+		self::entry("left", 'onclick',
+        			Yii::t("common","Organization community"),
+        			Yii::t("common","Community") ,
+        			'connectdevelop',
+        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
+        
 
         //ACTION ROOMS
         //-----------------------------
@@ -255,13 +264,6 @@ class Menu {
                         "updateField('".Organization::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
             }
         
-        self::entry("left", 'onclick',
-        			Yii::t("common","Organization community"),
-        			Yii::t("common","Community") ,
-        			'connectdevelop',
-        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
-        
-
         //ALBUM
         //-----------------------------
        self::entry("left", 'onclick', 
