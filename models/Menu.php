@@ -184,7 +184,7 @@ class Menu {
                         "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
             }
         }
-     }
+    }
 
     public static function moderate()
     {
