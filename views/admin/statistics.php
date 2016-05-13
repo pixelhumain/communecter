@@ -11,6 +11,7 @@
   	// }
 
 ?>
+<h4>Evolution du nombre de chartCitoyens</h4>
 <div id="chartCitoyens"></div>
 <script>
 
@@ -18,12 +19,16 @@ var chartCitoyens = c3.generate({
     bindto: '#chartCitoyens',
     data: {
         x : 'x',
+        xFormat: '%d/%m/%Y',
         columns: [],
         type: 'line'
     },
     axis: {
         x: {
-            type: 'category' // this needed to load string x value
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
         }
     }
 });
@@ -36,7 +41,7 @@ setTimeout(function () {
 }, 1000);
 
 </script>
-
+<h4>Evolution des organisations groupée par type</h4>
 <div id="chartOrganizations"></div>
 <script>
 
@@ -44,6 +49,7 @@ var chartOrganizations = c3.generate({
     bindto: '#chartOrganizations',
     data: {
         x : 'x',
+        xFormat: '%d/%m/%Y',
         columns: [],
         type: 'bar',
         groups: [
@@ -52,7 +58,10 @@ var chartOrganizations = c3.generate({
     },
     axis: {
         x: {
-            type: 'category' // this needed to load string x value
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
         }
     }
 });
