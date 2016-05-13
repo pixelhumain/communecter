@@ -29,38 +29,27 @@ implementing : Version0.1
 
 Roadmap & Milestones
 ===========
-V.01
-	re write all person, Organization entities into conform JSON-LD
-	register person
-	login 
-	create Organization
-	local search Organization
-V.011
-	Search Engine
-		search by scope : city scope or region scope
-	Tagging Module
-		add tags on person & Organization
-		search by tags
-V0.12
-	Event
-		create Event by Anyones
-		show event lsit by scope 
-		visualisations
-			list
-			calendar
-V0.13
-	Data Organizer
-		in a linked list, drag , order and hierachize data under family groups
-		groups 
-			My Friends
-			My NGOs
-			My Companies
-			My Places
-	try representing in a mixit up interface
+	
+** 0.13 BREATH DEAPLY >> not started >> 31/04/2016
+- sous evnnement 
+- ouverture international 
+- multi scope
 
+** 0.12 BREATH STRONG > 13/04/2016
+- amélioration du systeme validation 
+- refactor et ajout des images sur les news
+- réintégration du module de vite et de discussion
+- module network , communecter en marque blanche 
+- refactor de la structure des cities et des codepostaux
+- intégration de divers de data , makery, bretagne Telecom, commun59, service public
+- système et admin de modération
+- refonte et design de mail 
+- gamification avec les actions
 
-Sitemap 
-===========
+** 0.1
+stabalising all current features 
+for an alpha , private release
+
 - Entry point 
 	- The platform's content information is fully open 
 	- loging in give access to 
@@ -92,11 +81,24 @@ Sitemap
 	- can be created by a person or an Organization
 	- can be viewed in a calendar
 	- searchable by location, by tags
+	- show event lsit by scope 
+	- visualisations
+		- list
+		- calendar
 - City 
 	- exists when simply one person is in a postalCode
 	- contains People, Organizations
 	- has Events
-
+- OpenData
+	- re write all person, Organization entities into conform JSON-LD
+	- Generic API for all elements
+	- translation system into any given ontology ( Schema, ActivityStream, Portable Linked Profile )
+- local search Organization
+- Search Engine
+	- search by scope : city scope or region scope
+- Tagging Module
+	- add tags on person & Organization
+	- search by tags
 
 Think Tank & wishlist
 ===========
