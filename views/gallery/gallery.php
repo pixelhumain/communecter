@@ -229,7 +229,7 @@ function bindBtnGallery(){
 						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "path" : path},
+						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "path" : path, "source":"gallery"},
 						success: function(data){
 							if(data.result){
 								$("#"+imageId).remove();
