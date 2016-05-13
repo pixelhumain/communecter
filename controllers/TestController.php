@@ -161,49 +161,53 @@ class TestController extends CommunecterController {
   // VoteDown
   public function actionRefactorModerateVoteDown(){
   	echo "actionRefactorModerateVoteDown => ";
-	$news=PHDB::find(News::COLLECTION, array('voteDownReason' => array('$exists' => 1)));
+	$news=PHDB::find(News::COLLECTION, array('voteDown' => array('$exists' => 1),'refactorAction' => array('$exists' => 0)));
 	$i=0;
-	echo count($news)." News en base avec voteDownReason<br/>";
+	echo count($news)." News en base avec voteDown<br/>";
 	foreach($news as $key => $data){
 		$map = array();
-		foreach ($data['voteDownReason'] as $j => $reason) {
-			$map['voteDown.'.key($reason)] = array('date' => new MongoDate(time())); 
+		foreach ($data['voteDown'] as $j => $reason) {
+			if(!is_array($reason))$map['voteDown.'.$reason] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => array('refactorNews' => new MongoDate(time()))));
+
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDown' => 1)));
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteDownReason' => 1)));
 			$i++;
 		}
-		else{
+		elseif(isset($news['voteDownReason'])){
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDownReason' => 1)));
 			$i++;
 		}
-		
 	}
+
 	echo "nombre de news modifié => ".$i;
   }
 
   // VoteUp
   public function actionRefactorModerateVoteUp(){
   	echo "actionRefactorModerateVoteUp => ";
-	$news=PHDB::find(News::COLLECTION, array('voteUpReason' => array('$exists' => 1)));
+	$news=PHDB::find(News::COLLECTION, array('voteUp' => array('$exists' => 1),'refactorNews' => array('$exists' => 0)));
 	$i=0;
-	echo count($news)." News en base avec voteUpReason<br/>";
+	echo count($news)." News en base avec voteUp<br/>";
 	foreach($news as $key => $data){
 		$map = array();
-		foreach ($data['voteUpReason'] as $j => $reason) {
-			$map['voteUp.'.key($reason)] = array('date' => new MongoDate(time())); 
+		foreach ($data['voteUp'] as $j => $reason) {
+			if(!is_array($reason))$map['voteUp.'.$reason] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => array('refactorNews' => new MongoDate(time()))));
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUp' => 1)));
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteUpReason' => 1)));
 			$i++;
 		}
-		else{
+		elseif(isset($news['voteUpReason'])){
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUpReason' => 1)));
 			$i++;
 		}
 	}
+
 	echo "nombre de news modifié => ".$i;
   }
 
@@ -211,7 +215,7 @@ class TestController extends CommunecterController {
   public function actionRefactorActionsCitoyens(){
   	echo "actionRefactorActionsCitoyens => ";
   	$i=0;
-	$citoyens=PHDB::find(Person::COLLECTION, array('actions' => array('$exists' => 1), 'refractorAction' => array('$exists' => 0)));
+	$citoyens=PHDB::find(Person::COLLECTION, array('actions' => array('$exists' => 1), 'refactorAction' => array('$exists' => 0)));
 	
 	echo count($citoyens)." citoyens en base avec des actions<br/>";
 	foreach($citoyens as $key => $data){
@@ -225,12 +229,11 @@ class TestController extends CommunecterController {
 			}
 		}
 		if(count($map)){
-			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$set' => array('refractorAction' => new MongoDate(time()))));
+			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$set' => array('refactorAction' => new MongoDate(time()))));
 			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$unset' => array('actions' => 1)));
 			$res = PHDB::update('citoyens', array('_id' => $data['_id']), array('$set' => $map));
 			$i++;
 		}
-		
 	}
 	echo "nombre de citoyen modifié => ".$i;
   }
@@ -241,19 +244,10 @@ class TestController extends CommunecterController {
   	$i = 0;
 	$news=PHDB::find(News::COLLECTION, array('reportAbuseReason' => array('$exists' => 1)));
   	foreach($news as $key => $data){
-		$map = array();
-		foreach ($data['reportAbuseReason'] as $j => $reason) {
-			$map['reportAbuse.'.key($reason)] = array('reason' => 'Propos malveillant', 'date' => new MongoDate(time())); 
-		}
-		if(count($map)){
-			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuse' => 1)));
-			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('reportAbuseReason' => 1)));
-			$i++;
-		}
-		else{
-			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseReason' => 1)));
-			$i++;
-		}
+		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseReason' => 1)));
+		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseCount' => 1)));
+		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuse' => 1)));
+		$i++;
 	}
 
 	echo count($news)." News en base avec reportAbuseReason<br/>";
