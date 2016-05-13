@@ -262,7 +262,7 @@ text-align: center;
 	</div>
 	<div id="kkbb-big" style="display:none;">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
@@ -273,7 +273,7 @@ text-align: center;
 		</div>
 
 		
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
 		</a>
 <!-- 
