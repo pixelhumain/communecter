@@ -107,7 +107,7 @@ class TestController extends CommunecterController {
 				if(@$size && !empty($size)){
 					echo "new size : ".$size;
 					PHDB::update(Document::COLLECTION,
-							array("_id" => $data["id"]) , 
+							array("_id" => $data["_id"]) , 
 							array('$set' => array("size" => (int)$size))	
 		
 					);
