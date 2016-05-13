@@ -253,7 +253,7 @@ text-align: center;
 }
 
 </style>
-<div class="globale-announce text-dark">
+<div class="globale-announce text-dark hidden-xs">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<span class="homestead msg hidden">Soutenez-nous</span>
 		<img class="piggy" style="height:30px;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
