@@ -231,6 +231,11 @@ function deleteNews(id, $this){
 						
 					});
 				}
+				if ($("#deleteImageCommunevent"+id).length){
+						imageId=$("#deleteImageCommunevent"+id).val();
+						deleteImage(imageId,"",true,true);
+				}
+
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/news/delete/id/"+id,
@@ -481,7 +486,13 @@ function getUrlContent(){
                 	},
 					error : function(){
 						$.unblockUI();
-						toastr.error(trad["wrongwithurl"] + " !");
+						//toastr.error(trad["wrongwithurl"] + " !");
+						//content to be loaded in #results element
+						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
+	                    //load results in the element
+	                    $("#results").html(content); //append received data into the element
+	                    $("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
 						$("#loading_indicator").hide();
 					}	
                 });
@@ -489,7 +500,7 @@ function getUrlContent(){
         }
     });
 }
-function getMediaHtml(data,action){
+function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){
 		extracted_images = data.images;
 		total_images = parseInt(data.images.length);
@@ -525,8 +536,14 @@ function getMediaHtml(data,action){
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
         inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo;
-        if(data.content.type=="img_link")
-	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='Image partagée'  data-lightbox='allimgcontent'>";
+        if(data.content.type=="img_link"){
+	        if(typeof(data.content.imageId) != "undefined"){
+		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+idNews+"' value='"+data.content.imageId+"'/>";
+		       titleImg = "De l&apos;application communevent"; 
+		    }else
+		    	titleImg = "Image partagée"; 
+	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='"+titleImg+"'  data-lightbox='allimgcontent'>";
+	    }
         inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
         if(data.content.type=="img_link")
         	inc_image += '</a>';
@@ -695,6 +712,7 @@ function saveNews(){
 						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
 							updateNews(data.object);
 						}
+						$("#get_url").height(100);
 						$.unblockUI();
 						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
@@ -789,9 +807,11 @@ function initFormImages(){
 		});
 	}));
 }
-function turnOff(){
-	$("#addImage").off('click');
-	$(".fileupload-new").off('click');
+function addMoreSpace(){
+	bootbox.dialog({
+	message: "You have attempt the limit of 20Mo of images for this "+contextParentType+"<br/>Please choose one of those  two solutions beyond:<br/>Delete images in the <a href='javascript:;' onclick='bootbox.hideAll();loadByHash(\"#gallery.index.id."+contextParentId+".type."+contextParentType+"\")'>photo gallery</a> <br/><br/>OR<br/><br/> Subscribe 12€ to the NGO Open Atlas which takes in charge communecter.org on <a href='https://www.helloasso.com/associations/open-atlas' target='_blank'>helloAsso</a> for 20Mo more. <br/><br/>Effectively, stocking images represents a cost for us and donate to the NGO will demonstrate your contribution the project and to the common we built together",
+  title: "Limit of <color class='red'>20 Mo</color> overhead"
+  });
 }
 function showMyImage(fileInput) {
 	if($(".noGoSaveNews").length){
@@ -842,7 +862,7 @@ function showMyImage(fileInput) {
 }
 	
 function getMediaImages(o,newsId,authorId,targetName){
-	countImages=o.countImages;
+	countImages=o.images.length;
 	html="";
 	if(canManageNews==1 || authorId==idSession){
 		for(var i in o.images){
@@ -898,11 +918,15 @@ function getMediaImages(o,newsId,authorId,targetName){
 	console.log(html);
 	return html;
 }
-function deleteImage(id,name,hideMsg){
+function deleteImage(id,name,hideMsg,communevent){
+	if(communevent==true)
+		path="communevent";
+	else
+		path="album";
 	$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+contextParentType+"/parentId/"+contextParentId,			
 			type: "POST",
-			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : "album", "docId" : id},
+			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : path, "docId" : id},
 			dataType: "json",
 			success: function(data){
 				if(data.result){

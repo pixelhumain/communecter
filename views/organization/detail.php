@@ -30,8 +30,7 @@
 						"NGOCategories" => $NGOCategories,
 						"localBusinessCategories" => $localBusinessCategories,
 	    				"contextMap" => $contextMap,
-	    				"publics" => $public,
-	    				"contentKeyBase" => $contentKeyBase
+	    				"publics" => $public
 	    			);
 	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
@@ -88,9 +87,14 @@
 <!-- end: PAGE CONTENT-->
 <script>
 
+
 	jQuery(document).ready(function() {
 
-		$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
+		<?php if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly") { ?>
+			$(".moduleLabel").html("<i class='fa fa-circle text-red'></i> <i class='fa fa-users text-red'></i> <?php echo addslashes($organization["name"]) ?> ");
+		<?php }else{ ?>
+			$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
+		<?php } ?>
 		//if($(".tooltips").length) {
      	//	$('.tooltips').tooltip();
    		//}

@@ -49,14 +49,28 @@
 			<div class="col-xs-12 col-sm-12 text-center">
 				<a href="#" class="btn btn-primary col-sm-2" id="importOpenAgenda"> <?php echo Yii::t("common", "IMPORT"); ?></a>
 			</div>
-			
+			</br></br>
+			<div class="col-xs-12 col-sm-12 text-center">
+				<table id="tableRes" class="table table-striped table-bordered table-hover">
+		    		<thead>
+			    		<tr>
+			    			<th class="col-sm-5">Entité</th>
+			    			<th class="col-sm-5">Result</th>
+			    		</tr>
+		    		</thead>
+			    	<tbody class="directoryLines" id="bodyResult">
+				    	
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-
-//$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Open Agenda");
 
 jQuery(document).ready(function() {
 	$("#divCheckEvents").hide();
@@ -75,20 +89,19 @@ function bindEvents(){
 		var dateToday  = "<?php echo date('d').'/'.date('m').'/'.date('Y') ;?>";
 		var date50  = "<?php echo date('d').'/'.date('m').'/'.(date('Y')+50) ;?>";
 		var page = 1 ;
-		var url = "";
+		var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0";
 
-		//https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0
-
-		url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=0";
-		
+		console.log("url", url);
 		$.ajax({
-			url: url,
+			url: baseUrl+'/communecter/admin/getdatabyurl/',
 			type: 'POST',
-			dataType: 'jsonp',
-			json: "callback",
-			async:false,
+			dataType: 'json', 
+			data:{ url : url },
+			async : false,
 			success: function (obj){
-				var x = obj.total;
+				console.log('success', obj.data, obj.total);
+				var object = jQuery.parseJSON(obj.data);
+				var x = object.total;
 				var y = 100;
 				var d = 0
 				if(x%y > 0) 
@@ -108,12 +121,13 @@ function bindEvents(){
 				check(z, 1, dateToday, date50, finish);
 				console.log("res", res);
 
+
+				
 			},
 			error: function (error) {
 				console.log('error', error);
 			}
-		});
-		
+		});		
 	});
 
 
@@ -133,8 +147,27 @@ function bindEvents(){
 			},
 			success: function (data){
 				console.log('success', data);
+				var ligne = "" ;
+				if(typeof data.result != "undefined"){
+					toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
+					$.each(data.result, function( key, events ){
+						ligne += "<tr><td>"+events.name+"</td><td>"+events.msg+"</td></tr>" ;
+					});
+				}
+				else{
+					toastr.success("Aucun evenement n'a été ajouté et/ou modifier");
+				}
+
+				if(typeof data.error != "undefined"){
+					$.each(data.error, function( key, events ){
+						ligne += "<tr><td>"+events.name.fr+"</td><td>"+events.msg+"</td></tr>" ;
+					});
+				}
+
+				$("#bodyResult").html(ligne);
+
 				$.unblockUI();
-				toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
+					
 			},
 			error: function (error) {
 				console.log('error', error);
@@ -181,17 +214,19 @@ function checkEventsOpenAgendaInDB(data){
 
 function check (nbpage, page, dateToday, date50, finish){
 	
-	var url = "//api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
+	var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
 	console.log('url', url);
 	
 	$.ajax({
-		url: url,
+		url: baseUrl+'/communecter/admin/getdatabyurl/',
 		type: 'POST',
-		dataType: 'jsonp',
-		async:false,
-		success: function (obj){
-			console.log('success', obj);
-			
+		dataType: 'json', 
+		data:{ url : url },
+		async : false,
+		success: function (object){
+			console.log('success', object);
+			var obj = jQuery.parseJSON(object.data);
+			console.log('obj', obj);
 			var allEvents = checkEventsOpenAgendaInDB(obj);
 			$.each(allEvents, function( stateEvent, arrayEvents ) {
 				var nbEvents = 0;
@@ -213,14 +248,6 @@ function check (nbpage, page, dateToday, date50, finish){
 				
 				});
 			});
-
-			/*finish["arrayAdd"]  = arrayAdd.concat(finish["arrayAdd"]);
-			finish["arrayUpdate"]  = arrayUpdate.concat(finish["arrayUpdate"]);
-			finish["arrayDelete"]  = arrayDelete.concat(finish["arrayDelete"]);
-
-			finish["ligneAdd"]  = ligneAdd + finish["ligneAdd"];
-			finish["ligneUpdate"]  = ligneUpdate + finish["ligneUpdate"] ;
-			finish["ligneDelete"]  = ligneDelete + finish["ligneDelete"] ;*/
 
 			if(nbpage > page){
 				page++;

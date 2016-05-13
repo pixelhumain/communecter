@@ -34,6 +34,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	color : rgba(229,51,76,1);
 	opacity: 1;
 }
+
 </style>
 
 <?php 
@@ -54,12 +55,18 @@ $optionsLabels = array(
 
 ?>
 <!-- start: PAGE CONTENT -->
+
+
 <div id="commentHistory">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<?php 
-			$currentUser = Yii::app()->session["user"];
-			if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
+			<?php if($contextType == "actionRooms"){ ?>
+  				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+			     "<?php echo $context["name"]; ?>"
+			  	 </h1>
+			<?php } ?>
+			<?php $currentUser = Yii::app()->session["user"]; ?>
+			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">
 				<?php foreach ($options as $optionKey => $optionValue) {
 					$currentLabel = $optionsLabels[$optionKey][$optionValue];
@@ -67,8 +74,7 @@ $optionsLabels = array(
 				}?>
 			</div>
 			<?php } ?>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i><span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
-			
+			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 		</div>
 
 		<div class="panel-body panel-white">
@@ -78,13 +84,13 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Comments") ?><span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
+								<?php echo Yii::t("comment","Comments") ?> <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Popular") ?><span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
 					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
@@ -139,11 +145,24 @@ var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 
 jQuery(document).ready(function() {
+	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
 	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");
 	bindEvent();
 	$('.ps-container').perfectScrollbar({suppressScrollX : true});
+
+	/*!
+	  Non-Sucking Autogrow 1.1.1
+	  license: MIT
+	  author: Roman Pushkin
+	  https://github.com/ro31337/jquery.ns-autogrow
+	*/
+	(function(){var e;!function(t,l){return t.fn.autogrow=function(i){return null==i&&(i={}),null==i.horizontal&&(i.horizontal=!0),null==i.vertical&&(i.vertical=!0),null==i.debugx&&(i.debugx=-1e4),null==i.debugy&&(i.debugy=-1e4),null==i.debugcolor&&(i.debugcolor="yellow"),null==i.flickering&&(i.flickering=!0),null==i.postGrowCallback&&(i.postGrowCallback=function(){}),null==i.verticalScrollbarWidth&&(i.verticalScrollbarWidth=e()),i.horizontal!==!1||i.vertical!==!1?this.filter("textarea").each(function(){var e,n,r,o,a,c,d;return e=t(this),e.data("autogrow-enabled")?void 0:(e.data("autogrow-enabled"),a=e.height(),c=e.width(),o=1*e.css("lineHeight")||0,e.hasVerticalScrollBar=function(){return e[0].clientHeight<e[0].scrollHeight},n=t('<div class="autogrow-shadow"></div>').css({position:"absolute",display:"inline-block","background-color":i.debugcolor,top:i.debugy,left:i.debugx,"max-width":e.css("max-width"),padding:e.css("padding"),fontSize:e.css("fontSize"),fontFamily:e.css("fontFamily"),fontWeight:e.css("fontWeight"),lineHeight:e.css("lineHeight"),resize:"none","word-wrap":"break-word"}).appendTo(document.body),i.horizontal===!1?n.css({width:e.width()}):(r=e.css("font-size"),n.css("padding-right","+="+r),n.normalPaddingRight=n.css("padding-right")),d=function(t){return function(l){var r,d,s;return d=t.value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n /g,"<br/>&nbsp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/\n$/,"<br/>&nbsp;").replace(/\n/g,"<br/>").replace(/ {2,}/g,function(e){return Array(e.length-1).join("&nbsp;")+" "}),/(\n|\r)/.test(t.value)&&(d+="<br />",i.flickering===!1&&(d+="<br />")),n.html(d),i.vertical===!0&&(r=Math.max(n.height()+o,a),e.height(r)),i.horizontal===!0&&(n.css("padding-right",n.normalPaddingRight),i.vertical===!1&&e.hasVerticalScrollBar()&&n.css("padding-right","+="+i.verticalScrollbarWidth+"px"),s=Math.max(n.outerWidth(),c),e.width(s)),i.postGrowCallback(e)}}(this),e.change(d).keyup(d).keydown(d),t(l).resize(d),d())}):void 0}}(window.jQuery,window),e=function(){var e,t,l,i;return e=document.createElement("p"),e.style.width="100%",e.style.height="200px",t=document.createElement("div"),t.style.position="absolute",t.style.top="0px",t.style.left="0px",t.style.visibility="hidden",t.style.width="200px",t.style.height="150px",t.style.overflow="hidden",t.appendChild(e),document.body.appendChild(t),l=e.offsetWidth,t.style.overflow="scroll",i=e.offsetWidth,l===i&&(i=t.clientWidth),document.body.removeChild(t),l-i}}).call(this);
+
+	
+
 });
 
 function buildCommentsTree(where, commentsList, withActions) {
@@ -158,7 +177,7 @@ function addEmptyCommentOnTop() {
 	//create a new reply line on the root
 	var ulRoot = $('#entry_comments .tree');
 	ulRoot.prepend(newCommentLine);
-	$(".newComment").focus();
+	$(".newComment").focus().autogrow({vertical: true, horizontal: false});
 }
 
 function buildComments(commentsLevel, level, withActions) {
@@ -409,36 +428,74 @@ function actionOnComment(comment, action) {
 
 function reportAbuse(comment, contextId) {
 	// console.log(contextId);
-	var box = bootbox.prompt('<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>', function(result) {
-		if (result != null) {			
-			if (result != "") {
-				actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
-				disableOtherAction(comment.data("id"), '.commentReportAbuse');
-				copyCommentOnAbuseTab(comment);
-				return true;
-			} else {
-				toastr.error('<?php echo Yii::t("comment","Please fill a reason") ?>');
-			}
-		}
+	var message = "<div id='reason' class='radio'>"+
+		"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
+		"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
+		"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
+		"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Liens fallacieux ou frauduleux'>Liens fallacieux ou frauduleux</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
+	  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br>"+
+	  	"<input type='text' class='form-control' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
+		"</div>";
+	var boxComment = bootbox.dialog({
+	  message: message,
+	  title: '<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>',
+	  buttons: {
+	  	annuler: {
+	      label: "Annuler",
+	      className: "btn-default",
+	      callback: function() {
+	        console.log("Annuler");
+	      }
+	    },
+	    danger: {
+	      label: "Déclarer cet abus",
+	      className: "btn-primary",
+	      callback: function() {
+	      	// var reason = $('#reason').val();
+	      	var reason = $("#reason input[type='radio']:checked").val();
+	      	var reasonComment = $("#reasonComment").val();
+	      	actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", reason, reasonComment);
+			disableOtherAction(comment.data("id"), '.commentReportAbuse');
+			copyCommentOnAbuseTab(comment);
+			return true;
+	      }
+	    },
+	  }
 	});
 
-	box.on("shown.bs.modal", function() {
+	// var box = bootbox.prompt('<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>', function(result) {
+	// 	if (result != null) {			
+	// 		if (result != "") {
+	// 			actionAbuseComment(comment, "<?php echo Action::ACTION_REPORT_ABUSE ?>", result);
+	// 			disableOtherAction(comment.data("id"), '.commentReportAbuse');
+	// 			copyCommentOnAbuseTab(comment);
+	// 			return true;
+	// 		} else {
+	// 			toastr.error('<?php echo Yii::t("comment","Please fill a reason") ?>');
+	// 		}
+	// 	}
+	// });
+
+	boxComment.on("shown.bs.modal", function() {
 	  $.unblockUI();
 	});
 
-	box.on("hide.bs.modal", function() {
-	  showComments(contextId);
+	boxComment.on("hide.bs.modal", function() {
+	  $.unblockUI();
 	});
 }
 
-function actionAbuseComment(comment, action, reason) {
+function actionAbuseComment(comment, action, reason, reasonComment=null) {
 	$.ajax({
-		url: baseUrl+'/'+moduleId+"/comment/abuseprocess/",
+		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: {
 			id: comment.data("id"),
 			collection : '<?php echo Comment::COLLECTION?>',
 			action : action,
-			reason : reason
+			reason : reason,
+			comment : reasonComment
 		},
 		type: 'post',
 		global: false,
@@ -642,5 +699,7 @@ function getProfilImageUrl(imageURL) {
 	
 	return iconStr;
 }
+
+
 
 </script>

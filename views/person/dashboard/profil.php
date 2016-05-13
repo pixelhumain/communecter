@@ -138,7 +138,63 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		box-shadow: 0px 0px 6px 2px rgba(255, 255, 255, 0.48);
 	}
 
-	
+	#telegramAccount {
+	    float: left;
+		font-size: 13px;
+		border-radius: 50px;
+		background-color: rgb(43, 176, 198) !important;
+		height: 26px;
+		text-align: center;
+		padding: 4px 10px 8px 7px;
+		margin-top: 5px;
+		color: white;
+		font-weight: 200;
+		cursor: pointer;
+	}
+
+	.badge-question-telegram {
+	    font-size: 22px;
+	    z-index: 6;
+	    /*position: absolute;
+	    right: 1px;
+	    top: -6px;*/
+	    border-radius: 30px;
+	}
+
+	.socialNetwork{
+		padding: 7px;
+		margin-left: 10px;
+		margin-top: -11px;
+		background-color: rgba(0, 0, 0, 0.85);
+		border-radius: 0px 0px 5px 5px;
+		height: 67px;
+		width: 100%;
+	}
+	i.fa-blue{
+		color:white !important;
+		font-size:20px;
+	}
+
+	.container-info-perso{
+		margin-top:70px;
+	}
+
+	#fileuploadContainer, #profil_imgPreview{
+		border-radius: 5px 5px 0px 0px !important;
+		border-width:0px !important;
+	}
+
+	@media screen and (max-width: 1060px) {
+		  .container-info-perso{
+			margin-top:10px;
+		}
+	}
+
+	@media screen and (max-width: 767px) {
+		  .container-info-perso{
+			margin-top:0px;
+		}
+	}
 </style>
 
 <div class="panel panel-white">
@@ -159,7 +215,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			{  /* ?>
 				<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
 			<?php */ } 
-			if (Yii::app()->session["userId"] && $canEdit) {
+			if (Person::logguedAndValid() && $canEdit) {
 			?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
@@ -178,16 +234,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			*/ 
 		?>
 
- 		<?php   
-	  		if (@Yii::app()->params['betaTest']) { ?>
-	  			<div class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><i class="fa"></i><?php echo empty($person["numberOfInvit"]) ? 0 : $person["numberOfInvit"] ?> invitation(s)</div>
-	  	<?php
-	  			
- 				if (Role::isUserBetaTester(@$person["roles"])) { ?>
-					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i>Beta Tester</div>
-		<?php 	} 
-			}
-		?>
+ 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
+		<?php 	} ?>
   	</div>
 
   	<div class="modal fade" role="dialog" id="modal-confidentiality">
@@ -275,6 +324,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15">
+
+				<div class="padding-10">
+					<h2 class="entityTitle">
+						<!-- <i class="fa fa-user fa_username"></i>  -->
+						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
+							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
+						</a>
+					</h2>
+
+					<?php 
+					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
+					?>
+					<i class="fa fa-smile-o fa_name hidden"></i> 
+					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
+						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
+					</a>
+				</div>
+
 				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
@@ -283,24 +350,73 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-			</div>
-			<div class="col-sm-6 col-md-7 margin-top-20">
-				<div class="padding-10 entityDetails text-dark">
 
-					<h2 class="entityTitle">
-						<!-- <i class="fa fa-user fa_username"></i>  -->
-						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
-							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
+				<div class="socialNetwork col-md-12">
+
+					<div class="col-md-12 no-padding">
+
+						<span class="text-white"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
+						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["skype"])) echo $person["socialNetwork"]["skype"]; else echo ""; ?>
 						</a>
-					</h2>
-					<?php 
-					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
-					?>
-					<i class="fa fa-smile-o fa_name hidden"></i> 
-					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
-						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
-					</a>
-					<br>
+						<a href="<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo "#"; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo "#"; ?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo "#"; ?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo "#"; ?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
+						</a>
+
+					</div>
+
+					<div class="col-md-12 no-padding">
+					
+						<?php if (  (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "")
+								 || ((string)$person["_id"] == Yii::app()->session["userId"] ))
+								 { ?>
+							<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+							<a 	href="<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "") echo $person["socialNetwork"]["telegram"]; else echo "javascript:switchMode()"; ?>" 
+								id="telegramAccount" data-emptytext='<i class="fa fa-send"></i> Telegram' 
+								data-type="text" 
+
+								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
+									<?php if ((string)$person["_id"] == Yii::app()->session["userId"]){ ?> 
+										data-original-title="aller sur Telegram" 
+									<?php }else{ ?>
+										data-original-title="contacter via Telegram" 
+									<?php } ?>
+								<?php }else{ ?>
+										data-original-title="votre pseudo sur Telegram ?" 
+									<?php } ?>
+								
+								data-emptytext='<i class="fa fa-send"></i> Telegram'
+								class="editable editable-click socialIcon" 
+								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
+									target="_blank" 
+								<?php } ?>
+								>
+								<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
+							</a> 
+							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+							 		<i class="fa fa-question-circle text-dark" style="">
+							 		</i>
+							</a> 
+
+						<?php }else{ ?>
+							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
+						<?php } ?>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="col-sm-6 col-md-7 container-info-perso">
+				<div class="entityDetails text-dark">
 
 					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
 					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
@@ -312,7 +428,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked)?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?></span>
+					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<style type="text/css">
 						.badgePH{ 
@@ -440,22 +556,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</div>
 		<div class="padding-10 row text-dark">
 			<div class="pull-left col-sm-7 col-md-8 tag_group">
-				<?php echo Yii::t("common","Socials") ?> :
-				<a href="<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo "#"; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
-				</a>
-				<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["skype"])) echo $person["socialNetwork"]["skype"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo "#"; ?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo "#"; ?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo "#"; ?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
-				</a>
+				
 			</div>
 			
 			<div class="pull-right text-right col-sm-5 col-md-4">
@@ -775,7 +876,7 @@ function initXEditable() {
 
 function manageModeContext() {
 	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
-						'#gpplusAccount', '#gitHubAccount', '#skypeAccount'];
+						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -807,15 +908,25 @@ function switchMode() {
 
 function manageSocialNetwork(iconObject, value) {
 	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
-			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype"}
+			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
 	var fa = tabId2Icon[iconObject.attr("id")];
 	console.log(value);
 	iconObject.empty();
 	if (value != "") {
-		iconObject.tooltip({title: value, placement: "bottom"});
-		iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+		
+		//else{
+		if(iconObject.attr("id") != "telegramAccount"){
+			iconObject.tooltip({title: value, placement: "bottom"});
+			iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+		}
 	} 
+
+	if(iconObject.attr("id") == "telegramAccount"){
+		iconObject.tooltip({title: value, placement: "left"});
+		iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+	}
+
 	console.log(iconObject);
 }
 

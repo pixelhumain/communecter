@@ -81,12 +81,50 @@ class TestController extends CommunecterController {
 		}
 	
   }
+  //Refactor permettant de mettre la size des doc en bytes type string 
+  // Pas encore Passez
+  // A lancer deux fois pour que ce soit stocké en int32 ou int64
+  public function actionChangeSizeDocumentToBytesNumber(){
+	  $document=PHDB::find(Document::COLLECTION);
+	  $nbDoc=count($document);
+	  echo "Nombre de documents appelés : ".$nbDoc;
+	  $i=0;
+	  foreach($document as $key => $data){
+		  	if(@$data["size"]){
+			  	$size="";
+			  	echo "<br/>".$data["_id"]."//".$data["size"]."///";
+			  	echo gettype($data["size"]);
+			  	if(gettype($data["size"])=="double"){
+				  	$size = (int)$data["size"];
+			  	}
+			  	if (strstr($data["size"], 'M', true)){
+					$size=((float)$data["size"])*1048576;
+				} 
+				else if(strstr($data["size"], 'K', true)){
+					$size = (float)($data["size"])*1024;
+				}
+				$i++;
+				if(@$size && !empty($size)){
+					echo "new size : ".$size;
+					PHDB::update(Document::COLLECTION,
+							array("_id" => $data["id"]) , 
+							array('$set' => array("size" => (int)$size))	
+		
+					);
+				}	
+		}
+	}
+	echo "</br>Nombre de documents traités pour la size : ".$i;  
+  }
+  // First refactor à faire sur communecter.org 
   public function actionRefactorNews(){
 	  $news=PHDB::find(News::COLLECTION);
 	  $i=0;
 	  foreach($news as $key => $data){
 		  if(@$data["type"] && $data["type"]!="activityStream"){
 			  //print_r($data["_id"]);
+			  // add une target au lieu de id et type et type devient news
+			  // pour les type city => la target devient l'auteur
 			  if(@$data["id"]){
 			  $parentType=$data["type"];
 			  $parentId=$data["id"];
@@ -104,7 +142,8 @@ class TestController extends CommunecterController {
 		  }
 		  if(@$data["type"] && $data["type"]=="activityStream"){
 			  if(@$data["target"]){
-
+			  //adapter le vocubulaire de target pour qu'il soit comment au news type "news"
+			  // passe target.objectType à target.type
 				  $parentType=$data["target"]["objectType"];
 				 // $parentId=$data["id"];
 					  PHDB::update(News::COLLECTION,
@@ -118,6 +157,7 @@ class TestController extends CommunecterController {
 	  }
 	  echo "nombre de news ////////////// ".$i;
   }
+   // Second refactor à faire sur communecter.org qui permet de netoyer les news sans scope
   public function actionWashingNewsNoScopeType(){
   $news=PHDB::find(News::COLLECTION);
   foreach($news as $key => $data){
@@ -128,6 +168,7 @@ class TestController extends CommunecterController {
 		}
 		}
 }
+   // Troisième refactor à faire sur communecter.org qui permet de netoyer les news sans target
   public function actionWashingNewsNoTarget(){
   		$news=PHDB::find(News::COLLECTION);
   		foreach($news as $key => $data){
@@ -139,6 +180,7 @@ class TestController extends CommunecterController {
 			}
 		}
 	}
+	   // Quatrième refactor à faire sur communecter.org qui permet de netoyer les news dont la target n'existe pas
 	public function actionWashingNewsTargetNotExist(){
   		$news=PHDB::find(News::COLLECTION);
   		foreach($news as $key => $data){
