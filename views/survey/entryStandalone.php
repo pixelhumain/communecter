@@ -472,22 +472,58 @@ function addaction(id,action)
     console.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-        	function(result) {
-        		if (result) {
-			      	params = { 
-			           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-			           "id" : id ,
-			           "collection":"surveys",
-			           "action" : action 
-			        };
-			      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-			        	loadByHash(location.hash);
-			      	});
-			    } else {
-			    	$("."+clickedVoteObject).removeClass("faa-bounce animated");
-			    }
+    	var message = "Vous êtes sûr ? Vous ne pourrez pas changer votre vote";
+    	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
+    	var boxNews = bootbox.dialog({
+			title: message,
+			message: input,
+			buttons: {
+				annuler: {
+					label: "Annuler",
+					className: "btn-default",
+					callback: function() {
+						$("."+clickedVoteObject).removeClass("faa-bounce animated");
+					}
+				},
+				success: {
+					label: "OK",
+					className: "btn-info",
+					callback: function() {
+						var voteComment = $("#modalComment .newComment").val();
+						params = { 
+				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+				           "id" : id ,
+				           "collection":"surveys",
+				           "action" : action 
+				        };
+				        if(voteComment != ""){
+				        	params.comment = trad[action]+' : '+voteComment;
+				        	$("#modalComment .newComment").val(params.comment);
+				        	validateComment("modalComment","");
+				        } 
+				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+				        	loadByHash(location.hash);
+				      	});
+					}
+				}
+			}
     	});
+    	// bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
+     //    	function(result) {
+     //    		if (result) {
+			  //     	params = { 
+			  //          "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+			  //          "id" : id ,
+			  //          "collection":"surveys",
+			  //          "action" : action 
+			  //       };
+			  //     	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+			  //       	loadByHash(location.hash);
+			  //     	});
+			  //   } else {
+			  //   	$("."+clickedVoteObject).removeClass("faa-bounce animated");
+			  //   }
+    	// });
  	}
  }
 

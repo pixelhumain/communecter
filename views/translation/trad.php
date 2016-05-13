@@ -36,6 +36,11 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"leaveeventsuccess":"<?php echo Yii::t("common", "You leave successfully this event") ?>",
 		"visiblepublic":"<?php echo Yii::t("common","Visible to all and posted on the city's wall")?>",
 		"visiblerestricted": "<?php echo Yii::t("common","Visible on this wall and published on this network")?>",
-		"visibleprivate": "<?php echo Yii::t("common","Private view")?>"
+		"visibleprivate": "<?php echo Yii::t("common","Private view")?>",
+		"voteUp": "<?php echo Yii::t("common","voteUp")?>",
+		"voteAbstain": "<?php echo Yii::t("common","voteAbstain")?>",
+		"voteUnclear": "<?php echo Yii::t("common","voteUnclear")?>",
+		"voteMoreInfo": "<?php echo Yii::t("common","voteMoreInfo")?>",
+		"voteDown": "<?php echo Yii::t("common","voteDown")?>"
 };
 
