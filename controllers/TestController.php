@@ -157,6 +157,63 @@ class TestController extends CommunecterController {
 	  }
 	  echo "nombre de news ////////////// ".$i;
   }
+
+  // VoteDown
+  public function actionRefactorModerateVoteDown(){
+  	echo "actionRefactorModerateVoteDown => ";
+	$news=PHDB::find(News::COLLECTION, array('voteDownReason' => array('$exists' => 1)));
+	$i=0;
+	echo count($news)." News en base avec voteDownReason<br/>";
+	foreach($news as $key => $data){
+		$map = array();
+		foreach ($data['voteDownReason'] as $i => $reason) {
+			$map['voteDown.'.key($reason)] = array('date' => new MongoDate(time())); 
+		}
+		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteDownReason' => 1)));
+			$i++;
+		}
+		else{
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDownReason' => 1)));
+			$i++;
+		}
+		
+	}
+	echo "nombre de news modifié => ".$i;
+  }
+
+  // VoteUp
+  public function actionRefactorModerateVoteUp(){
+  	echo "actionRefactorModerateVoteUp => ";
+	$news=PHDB::find(News::COLLECTION, array('voteUpReason' => array('$exists' => 1)));
+	$i=0;
+	echo count($news)." News en base avec voteUpReason<br/>";
+	foreach($news as $key => $data){
+		$map = array();
+		foreach ($data['voteUpReason'] as $i => $reason) {
+			$map['voteUp.'.key($reason)] = array('date' => new MongoDate(time())); 
+		}
+		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteUpReason' => 1)));
+			$i++;
+		}
+		else{
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUpReason' => 1)));
+			$i++;
+		}
+	}
+	echo "nombre de news modifié => ".$i;
+  }
+
+  // VoteUp
+  public function actionRefactorModerateReportAbuse(){
+  	echo "actionRefactorModerateReportAbuse => ";
+	$news=PHDB::find(News::COLLECTION, array('reportAbuseReason' => array('$exists' => 1)));
+	echo count($news)." News en base avec reportAbuseReason<br/>";
+  }
+
+
+
    // Second refactor à faire sur communecter.org qui permet de netoyer les news sans scope
   public function actionWashingNewsNoScopeType(){
   $news=PHDB::find(News::COLLECTION);
