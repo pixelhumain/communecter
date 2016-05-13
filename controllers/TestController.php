@@ -170,6 +170,7 @@ class TestController extends CommunecterController {
 			$map['voteDown.'.key($reason)] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDown' => 1)));
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteDownReason' => 1)));
 			$i++;
 		}
@@ -194,6 +195,7 @@ class TestController extends CommunecterController {
 			$map['voteUp.'.key($reason)] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUp' => 1)));
 			$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteUpReason' => 1)));
 			$i++;
 		}
