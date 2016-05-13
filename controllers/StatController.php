@@ -12,6 +12,7 @@ class StatController extends CommunecterController {
 	{
 	    return array(
 	        'createglobalstat'    	 => 'citizenToolKit.controllers.stat.CreateGlobalStatAction',
+	        'getstatjson'    	 	 => 'citizenToolKit.controllers.stat.GetStatJsonAction',
 	    );
 	}
 }
