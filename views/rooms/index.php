@@ -10,7 +10,7 @@ Menu::rooms($_GET["id"],$_GET["type"]);
 $this->renderPartial('../default/panels/toolbar');
 
 $moduleId = Yii::app()->controller->module->id;
- ?>
+?>
 
 <style>
 .assemblyHeadSection {  
@@ -147,12 +147,11 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </h1>
 	    
 <div class="" id="main-panel-room">
-	
 		    <!-- Nav tabs -->
 			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-			  <li class="active"><a href="#home" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter</a></li>
-			  <li><a href="#profile" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider</a></li>
-			  <li><a href="#messages" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique</a></li>
+			  <li class="active"><a href="#home" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
+			  <li><a href="#profile" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
+			  <li><a href="#messages" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
 			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 			</ul>
 
@@ -177,28 +176,27 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 						/* **************************************
 						*	rooms
 						***************************************** */
-						if(isset($rooms)) 
+						if(isset($discussions)) 
 						{ 
-							foreach ($rooms as $e) 
-							{ if( $e["type"] == ActionRoom::TYPE_DISCUSS ){ ?>
-							<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-								<?php 
-									$type = "comment.index.type.actionRooms";
-									$icon = "comments";
-									//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
-									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
-									$link = 'href="javascript:;" onclick="'.$link.'"';
-									?>
-								<td class="center organizationLine hidden">
-									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
-								</td>
-								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-								<td class="hidden"><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-								<td class="hidden"><i class="fa fa-users"></i> //<?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
-								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-							</tr>
-						<?php
-							};
+							foreach ($discussions as $e) 
+							{ ?>
+								<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+									<?php 
+										$type = "comment.index.type.actionRooms";
+										$icon = "comments";
+										//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
+										$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+										$link = 'href="javascript:;" onclick="'.$link.'"';
+										?>
+									<td class="center organizationLine hidden">
+										<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
+									</td>
+									<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+									<td class="hidden"><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+									<td class="hidden"><i class="fa fa-users"></i> //<?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+									<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+								</tr>
+							<?php
 						}}
 						?>
 						
@@ -221,10 +219,10 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 						/* **************************************
 						*	rooms
 						***************************************** */
-						if(isset($rooms)) 
+						if(isset($votes)) 
 						{ 
-							foreach ($rooms as $e) 
-							{ if ( $e["type"] == ActionRoom::TYPE_VOTE ){ ?>
+							foreach ($votes as $e) 
+							{  ?>
 							<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
 								<?php 
 									$type = "survey.entries";
@@ -244,7 +242,6 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>
 						<?php
-							};
 						}}
 						?>
 						
@@ -384,7 +381,15 @@ jQuery(document).ready(function() {
 			return false;
 		});
 
-	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick='loadByHash(\"#rooms.editroom.type.<?php echo $_GET["type"] ?>.id.<?php echo $_GET["id"] ?>\")'><i class='fa fa-plus'></i> Créer un nouvel espace</button>");
+	<?php 
+	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
+    $ctrl = Element::getControlerByCollection($_GET["type"]);
+    $btnUrl = "#".$ctrl.".detail.id.".$parentId;
+	if( ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
+		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
+	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
+	} ?>
+	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick='loadByHash(\"<?php echo $btnUrl?>\")'><?php echo $btnLbl?></button>");
 });	
 
 function resetDirectoryTable() 
