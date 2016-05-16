@@ -19,16 +19,16 @@ class TestPerformanceController extends CommunecterController {
  		foreach ($res as $id => $value) {
  			$functionName = "getSimple".$type."ById";
  			$element = $type::$functionName($id);
- 			if (!empty($element["images"]["profilURL"])) {
- 				echo $id." ".$element["images"]["profilURL"]."<br>";
+ 			if (!empty($element["profilImageUrl"])) {
+ 				echo $id." ".$element["profilImageUrl"]."<br>";
  			}
  			$nbEntities++;
  		}
 
  		$timeSpend = microtime(true) - $timeStart;
- 		echo "End of execution ! <br>";
+ 		echo "<br><b>************ End of execution ! ************</b><br>";
  		echo "Total time spent : ".$timeSpend."<br>";
- 		echo "To retrieve ".$nbEntities." entities <br>";
+ 		echo "To retrieve : ".$nbEntities." entities <br>";
  		echo "Avg time by entity : ".$timeSpend/$nbEntities." <br>";
 
  	}
