@@ -2,7 +2,9 @@
 
 $cssAnsScriptFiles = array(
   '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+  '/assets/plugins/summernote/dist/summernote.css',
+  '/assets/plugins/summernote/dist/summernote.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
@@ -67,7 +69,7 @@ var proposalFormDefinition = {
               "options" : organizerList
             },*/
             "message" :{
-              "inputType" : "textarea",
+              "inputType" : "wysiwyg",
               "placeholder" : "Texte de la proposition",
               "rules" : {
                 "required" : true
@@ -177,7 +179,7 @@ function editEntrySV () {
                 var year = date.getFullYear().toString();
                 $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
-
+              $("#editEntryContainer #message").code(proposalObj.message);
              
             }
           },
@@ -194,7 +196,7 @@ function editEntrySV () {
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
-                 "message" : ($("#editEntryContainer #message").val() ) ? $("#editEntryContainer #message").val() : $("#editEntryContainer #message").val(),
+                 "message" :  $("#editEntryContainer #message").code() ,
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
