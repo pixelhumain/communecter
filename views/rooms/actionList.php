@@ -4,7 +4,6 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/highcharts.js' , 
   '/survey/js/exporting.js' , 
   '/survey/js/jquery.mixitup.min.js'
 );

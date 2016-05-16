@@ -779,7 +779,7 @@ class Menu {
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "common", 'Add an Action'), 'plus',
-                        "loadByHash('#rooms.editAction.roomid.".$id."')","addActionBtn",null);
+                        "loadByHash('#rooms.editAction.room.".$id."')","addActionBtn",null);
         }
         // Help
         //-----------------------------

@@ -191,7 +191,7 @@ function editEntrySV () {
              console.dir(params);
              $.ajax({
                 type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveSession")?>',
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveaction")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
