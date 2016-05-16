@@ -470,7 +470,7 @@ $this->renderPartial('../default/panels/toolbar');
                         $leftLinks.$btnRead.
                         "<hr>".
                         $link.'<br/>'.
-                        $message.//'<br/>'.
+                        nl2br($message).//'<br/>'.
                         //$info.
                         //$tags.
                         //$content.

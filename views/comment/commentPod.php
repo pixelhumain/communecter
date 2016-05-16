@@ -34,14 +34,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	color : rgba(229,51,76,1);
 	opacity: 1;
 }
-
+#commentHistory .panel-heading{
+	min-height:0px;
+}
+#commentHistory .panel-scroll{
+	/*overflow-y: hsidden;*/
+}
+.blockUI.blockMsg.blockPage{
+	width:72% !important;
+	top: 8% !important;
+	left: 18% !important;
+}
 </style>
 
 <?php 
 $optionsLabels = array(
 	Comment::COMMENT_ON_TREE => array(
 		true => array("title" => "You can reply to a comment", "label" => "Can Reply"),
-		false => array("title" => "You can not reply to a comment", "label" => "Can Reply")
+		false => array("title" => "You can not reply to a comment", "label" => "Can't Reply")
 	),
 	Comment::COMMENT_ANONYMOUS => array(
 		true => array("title" => "The discussion is anonymous", "label" => "Anonymous"),
@@ -57,9 +67,9 @@ $optionsLabels = array(
 <!-- start: PAGE CONTENT -->
 
 
-<div id="commentHistory">
+<div id="commentHistory" class="padding-10">
 	<div class="panel panel-white">
-		<div class="panel-heading border-light">
+		<div class="panel-heading border-light no-padding">
 			<?php if($contextType == "actionRooms"){ ?>
   				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
 			     "<?php echo $context["name"]; ?>"
@@ -74,7 +84,7 @@ $optionsLabels = array(
 				}?>
 			</div>
 			<?php } ?>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
+			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 		</div>
 
 		<div class="panel-body panel-white">
@@ -103,7 +113,7 @@ $optionsLabels = array(
 					</ul>
 					<div class="tab-content partition-white">
 						<div class="tab-pane active no-padding" id="entry_comments" >
-							<div class="panel-scroll ps-container commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-containerr commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
 							<?php if ($canComment) {?>
 								<div class='saySomething padding-5'>
 									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
@@ -227,7 +237,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var name = commentObj.author.name;
 	if(commentObj.author.address != "undefined")
 		var city = commentObj.author.address.addressLocality;
-	var text = commentObj.text;
+	var text = commentObj.text.replace(/\n/g, "<br />");
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
@@ -250,7 +260,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="commenter-location padding-5">'+city+'</span>'+
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 							'</div>'+
-							'<div class="commentText-'+commentObj.status+'">'+text+'</div>'+
+							'<div class="commentText-'+commentObj.status+'" style="float:left;">'+text+'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post'>";
 	

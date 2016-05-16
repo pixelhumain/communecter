@@ -103,6 +103,12 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
       box-shadow: 0px 3px 10px 1px #656565;
     }
 
+
+#commentHistory .panel-scroll{
+	max-height:unset !important;
+}
+
+
 @media screen and (min-width: 1060px) {
   
 }
@@ -348,7 +354,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
 					<br/><br/>
 					
-					<?php echo $survey["message"]; ?>
+					<?php echo nl2br($survey["message"]); ?>
 					
 					<br/>
 					<?php if( isset( $survey["tags"] ) ){ ?>
