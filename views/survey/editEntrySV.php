@@ -4,8 +4,10 @@ $cssAnsScriptFiles = array(
   '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
   '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
-
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
+//$cssAnsScriptFilesTheme = array('js/form-elements.js');
+//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
 if(isset($survey))
   Menu::proposal( $survey );
