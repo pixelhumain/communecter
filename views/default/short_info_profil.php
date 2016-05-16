@@ -8,8 +8,8 @@
 <?php if( isset( Yii::app()->session['userId']) )
   {
   	$me = Person::getById(Yii::app()->session['userId']);
-    if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-      $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
+    if(isset($me['profilThumbImageUrl']) && $me['profilThumbImageUrl'] != "")
+      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$me['profilThumbImageUrl'];
     else
       $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
   }
