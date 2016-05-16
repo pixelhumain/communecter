@@ -149,15 +149,16 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 <div class="" id="main-panel-room">
 		    <!-- Nav tabs -->
 			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-			  <li class="active"><a href="#home" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
-			  <li><a href="#profile" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
-			  <li><a href="#messages" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
+			  <li class="active"><a href="#discussions" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
+			  <li><a href="#votes" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
+			  <li><a href="#actions" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> Agir <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
+			  <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique <span class="label label-default"><?php echo (isset($history)) ? count($history) : 0?></span> </a></li>
 			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 			</ul>
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-			  <div class="tab-pane active col-lg-12 col-md-12" id="home">
+			  <div class="tab-pane active col-lg-12 col-md-12" id="discussions">
 	  			<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
 						<tr>
@@ -203,7 +204,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					</tbody>
 				</table>
 			  </div>
-			  <div class="tab-pane" id="profile">
+			  <div class="tab-pane" id="votes">
 			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
 					<thead class="">
 						<tr>
@@ -248,8 +249,52 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 					</tbody>
 				</table>	
 			  </div>
-			  <div class="tab-pane col-lg-12 col-md-12" id="messages">
-			  	<?php if(count(@$actions)){ ?>
+			  <div class="tab-pane" id="actions">
+			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
+					<thead class="">
+						<tr>
+							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de décisions", null, $moduleId); ?></th>
+							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
+							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+							<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
+						</tr>
+					</thead>
+					<tbody class="directoryLines">
+						<?php 
+						/* **************************************
+						*	rooms
+						***************************************** */
+						if(isset($actions)) 
+						{ 
+							foreach ($actions as $e) 
+							{  ?>
+							<tr class="tr-room" id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
+								<?php 
+									$type = "rooms.actions";
+									$icon = "cogs";
+									
+									
+									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
+									$link = 'href="javascript:;" onclick="'.$link.'"';
+									?>
+								<td class="center organizationLine hidden">
+									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> 
+								</td>
+								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
+							</tr>
+						<?php
+						}}
+						?>
+						
+					</tbody>
+				</table>	
+			  </div>
+			  <div class="tab-pane col-lg-12 col-md-12" id="history">
+			  	<?php if(count(@$history)){ ?>
 						<div class="actionsTable infoTables" style="padding-top:7px;">	
 							<!-- <h1 class="homestead text-orange" style="text-align: right;"><?php echo Yii::t("rooms", "All your Actions", null, $moduleId); ?> <i class="fa  fa-chevron-circle-down"></i></h1> -->
 							<table class="table table-striped table-bordered table-hover directoryTable  ">
@@ -268,9 +313,9 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 									/* **************************************
 									*	rooms
 									***************************************** */
-									if(isset($actions)) 
+									if(isset($history)) 
 									{ 
-										foreach ($actions as $e) 
+										foreach ($history as $e) 
 										{ ?>
 										<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
 											<td class="center organizationLine hidden">
