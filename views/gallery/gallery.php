@@ -1,16 +1,42 @@
 <?php
-$cs = Yii::app()->getClientScript();
+	$cssAnsScriptFilesModule = array(
+	'/plugins/mixitup/src/jquery.mixitup.js',
+	'/assets/js/pages-gallery.js',
+	);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+/*$cs = Yii::app()->getClientScript();
 
 $cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/mixitup/src/jquery.mixitup.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js' , CClientScript::POS_END);*/
+$contextIcon = "photo";
+if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
+	Menu::organization( $organization );
+	$contextName = $organization["name"];
+	$parentName=$organization["name"];
+}
+else if( isset($itemType) && $itemType == Person::COLLECTION && isset($person) ){
+	Menu::person( $person );
+	$contextName = $person["name"];
+
+}
+else if( isset($itemType) && $itemType == Project::COLLECTION && isset($project) ){
+	Menu::project( $project );
+	$contextName = $project["name"];
+}
+else if( isset($itemType) && $itemType == Event::COLLECTION && isset($event) ){
+	Menu::event( $event );
+	$contextName = $event["name"];
+
+}
+$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
 	.gallery-img img{
-		width: 100%;
-		height: 175px;
+		width: 200px;
+		height: 200px;
 	}
 
 	.panel-tools{
@@ -20,23 +46,52 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 		-khtml-opacity: 1;
 		opacity: 1;
 	}
+	#Grid .mix {
+		margin: 2px !important;
+	}
+	.content_image_album{
+		float:left;
+		width:200px;
+		height:200px;
+	}
+	.portfolio-item > .tools.tools-bottom {
+	    background-color: rgba(0,0,0,0.3);
+	    bottom: 40px;
+	    height: 40px;
+	    line-height: 40px;
+	    left: 0;
+	    right: 0;
+	    top: auto;
+	    width: auto;
+	    display: none;
+	    position:relative;
+	}
+	.portfolio-item:hover > .tools.tools-bottom {
+	    bottom:40px !important;
+	    top:auto;
+	  }
+	.portfolio-item .tools.tools-bottom > a, .portfolio-item .tools.tools-top > a {
+	    position: absolute;
+	    right: 15px;
+    	padding:inherit;
+		color: white !important;
+	}
+	.portfolio-item .tools.tools-bottom > span, .portfolio-item .tools.tools-top > span {
+	    position: absolute;
+	    left: 15px;
+    	padding:inherit;
+		color: white !important;
+	}
 </style>
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-white">
-			<div class="panel-heading">
-				<h4 class="panel-title">Gallery</h4>
-				<div class="panel-tools">
-					<a href="javascript:;" id="backToDashboardBtn" class="btn btn-xs btn-blue">Back</a>
-				</div>
-			</div>
 			<div class="panel-body">
 				<div class="controls">
-					<h5>Filter Controls</h5>
 					<ul class="nav nav-pills">
 						<li class="filter active" data-filter="all">
 							<a href="#">
-								Show All
+								<?php echo Yii::t("common","Show All"); ?>
 							</a>
 						</li>
 					</ul>
@@ -56,22 +111,23 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js
 
 var images;
 var tabButton = [];
-var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
+var mapButton = {"media": "Media", "slider": "Album", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
 var itemId = "<?php echo $itemId; ?>"
 var itemType = "<?php echo $itemType; ?>"
 var controllerId = "<?php echo $controllerId; ?>"
 
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = <?php echo json_encode($images); ?>;
-
+var contextName = "<?php echo addslashes($contextName); ?>";	
+var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
-	
+	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> Galerie photos de " + contextName);
 	initGrid();
-
-
-	$("#backToDashboardBtn").off().on("click", function(){
-		document.location.href=baseUrl+"/"+moduleId+"/"+controllerId+"/dashboard/id/"+itemId;
-	})
+	$(".portfolio-item").mouseenter(function(){
+		$(this).find(".tools.tools-bottom").show();
+	}).mouseleave(function(){
+		$(this).find(".tools.tools-bottom").hide();
+	});
 });
 
 function initGrid(){
@@ -79,36 +135,60 @@ function initGrid(){
 	j = 0;
 	$.each(images, function(k, v){
 		j++;
-		
-		if($.inArray(k, tabButton)==-1){
-			tabButton.push(k);
-			var liHtml = '<li class="filter" data-filter=".'+k+'">'+
-							'<a href="#">' + mapButton[k] + '</a>'+
-						 '</li>';
-			$(".nav-pills").append(liHtml);
-		}
-		//$.each(v, function(docId, document) {
-		for(var i = 0; i<v.length; i++){
-			var htmlBtn = "";
-			if(authorizationToEdit){
-				htmlBtn= ' <div class="tools tools-bottom">' +
-								' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
-									' <i class="fa fa-trash-o"></i>'+
-								' </a>'+
-							' </div>'
+		if(k=="profil" || k=="slider"){
+			if($.inArray(k, tabButton)==-1){
+				tabButton.push(k);
+				var liHtml = '<li class="filter" data-filter=".'+k+'">'+
+								'<a href="#">' + mapButton[k] + '</a>'+
+							 '</li>';
+				$(".nav-pills").append(liHtml);
 			}
-			var path = baseUrl+v[i]["imageUrl"];
-			var htmlThumbail = '<li class="col-md-3 col-sm-6 col-xs-12 mix '+k+' gallery-img" data-cat="1" id="'+v[i]["_id"]["$id"]+'">'+
-						' <div class="portfolio-item">'+
-							' <a class="thumb-info" href="'+path+'" data-title="Website"  data-lightbox="all">'+
-								' <img src="'+path+'" class="img-responsive" alt="">'+
-								' <span class="thumb-info-title">'+k+'</span>' +
-							' </a>' +
-							' <div class="chkbox"></div>' +
-							htmlBtn +
-						' </div>' +
-					'</li>' ;
-			$("#Grid").append(htmlThumbail);
+			//$.each(v, function(docId, document) {
+			for(var i = 0; i<v.length; i++){
+				var	htmlBtn = ' <div class="tools tools-bottom">' +
+								'<span>'+mapButton[k];
+					if(authorizationToEdit)
+						htmlBtn	+= '<small> - '+v[i].size+'</small>';
+					htmlBtn+= '</span>';
+					if(authorizationToEdit){
+						if(v[i].moduleId=="communevent"){
+							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i].objId+'" data-name="'+v[i].name+'" data-key="'+v[i].moduleId+'" >' +
+										' <i class="fa fa-trash-o"></i>'+
+									' </a>';
+						} else {
+							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
+										' <i class="fa fa-trash-o"></i>'+
+									' </a>';
+
+						}
+					}
+				htmlBtn+= 	' </div>';
+				if(v[i].moduleId=="communevent")
+					var path = v[i]["imageUrl"];
+				else
+					var path = baseUrl+v[i]["imageUrl"];
+				if(v[i].contentKey=="profil")
+					var pathThumb = path;
+				else if(v[i].moduleId=="communevent")
+					var pathThumb = path+"?store=photosLarge";
+				else
+					var pathThumb = baseUrl+"/<?php echo Yii::app()->params['uploadUrl'] ?>"+v[i].moduleId+"/"+v[i].folder+"/<?php echo Document::GENERATED_IMAGES_FOLDER ?>/"+v[i].name;
+				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="';
+				if(v[i].moduleId=="communevent")
+					htmlThumbail+=v[i].objId;
+				else
+					htmlThumbail+=v[i]["_id"]["$id"];
+				htmlThumbail+='">'+
+							' <div class="portfolio-item">'+
+								' <a class="thumb-info" href="'+path+'" data-lightbox="all">'+
+									' <img src="'+pathThumb+'" class="img-responsive" alt="">'+
+								' </a>' +
+								//' <div class="chkbox"></div>' +
+								htmlBtn +
+							' </div>' +
+						'</li>' ;
+				$("#Grid").append(htmlThumbail);
+			}
 		}
 	})
 	if(j>0){
@@ -134,16 +214,22 @@ function bindBtnGallery(){
 	$(".portfolio-item .btnRemove").on("click", function(e){
 		var imageId= $(this).data("id");
 		var imageName= $(this).data("name");
-		var key = $(this).data("key")
+		var key = $(this).data("key");
+		var path="";
+		if(key == "slider")
+			var path="album";
+		else if(key=="communevent")
+			var path=key;
+//		var path = $(this).data("path");
 		e.preventDefault();
-		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> ?", 
+		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete') ?> <span class='text-red'>"+$(this).data("name")+"</span> ?", 
 			function(result) {
 				if(result){
 					$.ajax({
 						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "pictureKey" : key, "path" : ""},
+						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "path" : path, "source":"gallery"},
 						success: function(data){
 							if(data.result){
 								$("#"+imageId).remove();

@@ -316,6 +316,8 @@
 		};
 		Sig.getObjectId = function (object){ //////console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
+
+			if(object.type == "city") { return object.cp + object.insee; }
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			if("undefined" != typeof object.id) 	return object.id;

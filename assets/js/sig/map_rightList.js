@@ -196,6 +196,7 @@
 			//recuperation de l'image de profil (ou image par defaut)
 			var imgProfilPath =  Sig.getThumbProfil(element);
 
+
 			//return l'élément html
 		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(allElement)+'">' +
 		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(allElement) +'">'

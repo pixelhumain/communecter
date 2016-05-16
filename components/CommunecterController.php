@@ -94,6 +94,7 @@ class CommunecterController extends Controller
       "adddataindb"    => array("href" => "/ph/communecter/admin/adddataindb"),
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
+      "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
 
@@ -142,6 +143,7 @@ class CommunecterController extends Controller
       "delete"    => array( "href" => "/ph/communecter/news/delete"),
       "updatefield"    => array( "href" => "/ph/communecter/news/updatefield"),
       "extractprocess" => array( "href" => "/ph/communecter/news/extractprocess"),
+      "moderate" => array( "href" => "/ph/communecter/news/moderate"),
     ),
     "search"=> array(
       "getmemberautocomplete" => array("href" => "/ph/communecter/search/getmemberautocomplete"),
@@ -317,7 +319,8 @@ class CommunecterController extends Controller
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
-      "close"       => array("href" => "/ph/communecter/survey/close")
+      "close"       => array("href" => "/ph/communecter/survey/close"),
+      "editentry"       => array("href" => "/ph/communecter/survey/editentry"),
     ),
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index", "public" => true),
@@ -326,13 +329,14 @@ class CommunecterController extends Controller
       "index"        => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save"         => array( "href" => "/ph/communecter/comment/save"),
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
-      "testpod"      => array("href" => "/ph/communecter/comment/testpod")
+      "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
+      "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
     ),
     "notification"=> array(
-      "getnotifications"          => array("href" => "/ph/communecter/notification/get"),
+      "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
     ),
@@ -349,7 +353,13 @@ class CommunecterController extends Controller
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
     ),
   );
+
   function initPage(){
+    
+    //review the value of the userId to check loosing session
+    //creates an issue with Json requests : to clear add josn:true on the page definition here 
+    //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
+      //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
     
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
@@ -376,18 +386,14 @@ class CommunecterController extends Controller
     }
       //} 
     //}
-    else if( (!isset( $page["public"] ) )
+    else if( (!isset( $page["public"] ) ) && (!isset( $page["json"] ))
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        /*if( Yii::app()->request->isAjaxRequest){
-          echo "<script type='text/javascript'> loadByHash('#panel.box-login'); </script>";*/
-          /*$this->layout = '';
-          Rest::json( array("action"=>"loadByHash('#panel.box-login')", "msg"=>"this page is not public, please log in first."  ) );*/
-        /*}
-        else
-          $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));*/
+        if( Yii::app()->request->isAjaxRequest)
+          echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
+         
     }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
@@ -416,6 +422,7 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
+
     return parent::afterAction($action);
   }
 

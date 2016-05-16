@@ -9,7 +9,35 @@
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
+<?php 
+	$inseeCommunexion = "";
+	$cpCommunexion = "";
+	$cityNameCommunexion = "";
+	//si l'utilisateur n'est pas connecté
+ 	if(!isset(Yii::app()->session['userId'])){
+		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+		
+		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+		
+		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+	}
+	//si l'utilisateur est connecté
+	else{
+		$me = Person::getById(Yii::app()->session['userId']);
+		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
+		   			    			  $me['address']['codeInsee'] : "";
+		
+		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
+		   			    			  $me['address']['postalCode'] : "";
+		
+		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
+		   			    			  $me['address']['addressLocality'] : "";
+	}
 
+?>
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
@@ -28,11 +56,11 @@
 		</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
+	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="lbl-btn-menu-name-city">
-			<?php if(isset( Yii::app()->request->cookies['cityNameCommunexion']) && isset( Yii::app()->request->cookies['cpCommunexion'] )){
-					   echo '<span class="lbl-btn-menu-name">'.Yii::app()->request->cookies['cityNameCommunexion'] . ", </span>" . Yii::app()->request->cookies['cpCommunexion'];
+			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
+					   echo '<span class="lbl-btn-menu-name hidden-sm">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
@@ -51,6 +79,7 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
+	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-search"></i>
 			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
@@ -66,6 +95,7 @@
 			<i class="fa fa-rss"></i>
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
+	<?php } ?>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
@@ -187,29 +217,66 @@
 
 <style>
 
+#kkbb-min span.msg{
+	top: -3px;
+	position: relative;
+	color: black !important;
+	font-size: 22px;
+}
+#kkbb-min img.piggy {
+    height: 40px;
+    top: -7px;
+    position: relative;
+}
+#kkbb-min img.helloasso {
+	height: 40px;
+	position: absolute;
+	top: 0px;
+	margin-left: 5px;
+}
 
+#kkbb-big .msg {
+width: 40%;
+font-size: 17px;
+margin-left: 0px;
+margin-top: 5px;
+line-height: 20px;
+text-align: center;
+}
+
+.globale-announce {
+    width: 360px;
+}
+
+#btn-close-globale-announce {
+    z-index: 2;
+}
 
 </style>
-<div class="globale-announce text-dark">
+<div class="globale-announce text-dark hidden-xs">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
-		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb1.png"/>
-		<img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/images/announce-kkbb2.png"/>
+		<span class="homestead msg hidden">Soutenez-nous</span>
+		<img class="piggy" style="height:30px;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
+		<img class="helloasso" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+		<!-- <img style="height: 25px; margin-top: -18px;" src="<?php echo $this->module->assetsUrl?>/imasges/announce-kkbb2.png"/> -->
 	</div>
 	<div id="kkbb-big" style="display:none;">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank"><img class="pull-left" style="width:20%;" 
-			 src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/></a>
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
+		</a>
 		
-		<div class="pull-left homestead text-red" style="width:50%; font-size: 23px; margin-left: 10px; margin-top: 15px; line-height: 28px;">
-			Du 2 Mars<br/>
-			Au 16 avril
+		<div class="pull-left homestead text-red msg">
+			Soutenez-nous<br/>
+			à prix libre<br/>
+			sur
 		</div>
 
 		
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
-			<img class="pull-right" style="width:42%; margin-top: -33px;" src='<?php echo $this->module->assetsUrl?>/images/crowdfoundez.png'/>
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
 		</a>
-
+<!-- 
 		<div class="progress" style="width: 63%; position: absolute; bottom: 25px;">
 			<div class="progress-bar bg-red" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
 			    <span id="amount"></span>
@@ -219,17 +286,18 @@
 		<div class="pull-left" style="width:100%; margin-top:5px;">
 		<div class="pull-left" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Objectif : 20 000€</div>
 		<div class="pull-right text-right" style="width:50%; font-weight: 600; font-size: 16px; padding-right: 24px; color:black;">Collecté : <span id="collected"></span></div>
+		 -->
 		</div>
 	</div>
 </div>
 
 <div id="iframe-kkbb" class="hidden">
 	<?php 
-		$kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
-		$start = strpos($kkbb_html, "<div class='widget'>");
-		$end = strpos($kkbb_html, "<div class='goal'>", $start);
-		$kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
-		echo $kkbb_html;
+		// $kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
+		// $start = strpos($kkbb_html, "<div class='widget'>");
+		// $end = strpos($kkbb_html, "<div class='goal'>", $start);
+		// $kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
+		// echo $kkbb_html;
 	?>
 </div>
 
@@ -248,7 +316,7 @@ var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()->session["userId"]) ? "true" : "false"; ?>;
 jQuery(document).ready(function() {
 
-	realTimeKKBB();
+	//realTimeKKBB();
 	
 	var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 	bindEventMenu();

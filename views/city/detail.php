@@ -40,6 +40,31 @@ $this->renderPartial('../default/panels/toolbar');
       }
     }
 
+    //echo "city :<br>";
+    //var_dump($city);
+
+    $citizenAssembly = City::getCitizenAssemblyByInsee($city["insee"], $city["cp"]);
+    //echo "<br><br><br>citizenAssembly :";
+    //var_dump($citizenAssembly);
+    //return;
+    //$CTZAssembly = Organization::getById($citizenAssembly["_id"]);//['$id']);
+    $idCitizenAssembly = $citizenAssembly != null ? $citizenAssembly["_id"] : false;
+
+
+    $res = array();
+    //if($idCitizenAssembly == false){
+      //$res = City::createCitizenAssembly($city["insee"], $city["cp"]);
+      //var_dump($res);
+
+      //$res = array($city);
+      //echo "res createCitizenAssembly(".$city["insee"].") :<br>";
+      //foreach ($res as $key => $value) {
+      //  echo $value["name"].", ";
+      //};
+      //return;
+   // }
+    //echo "<br>Assemblée : ".$id;
+    
     //var_dump($randomOrganization);
     //die();
     //var_dump($people);var_dump($projects);
@@ -148,15 +173,16 @@ $this->renderPartial('../default/panels/toolbar');
       border-top: 0px;
       margin-top: 1px;
   }
-#pod-local-actors .list-group-item:hover {
-  z-index: 1;
-  text-decoration: none !important;
-  -moz-box-shadow: 0px 0px 5px -1px #656565;
-  -webkit-box-shadow: 0px 0px 5px -1px #656565;
-  -o-box-shadow: 0px 0px 5px -1px #656565;
-  box-shadow: 0px 0px 5px -1px #656565;
-  filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
-}
+
+  #pod-local-actors .list-group-item:hover {
+    z-index: 1;
+    text-decoration: none !important;
+    -moz-box-shadow: 0px 0px 5px -1px #656565;
+    -webkit-box-shadow: 0px 0px 5px -1px #656565;
+    -o-box-shadow: 0px 0px 5px -1px #656565;
+    box-shadow: 0px 0px 5px -1px #656565;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+  }
   #pod-local-actors .list-group-item .badge {
     font-size: 14px;
     font-family: Helvetica;
@@ -196,45 +222,60 @@ $this->renderPartial('../default/panels/toolbar');
   }
   /*view randomOrga*/
 
-.cityHeadSection {  
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg); 
-  background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: 0px 50px;
-  background-size: 100% auto;
-}
+  .cityHeadSection {  
+    background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/cityDefaultHead_BW.jpg); 
+    /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 0px 50px;
+    background-size: 100% auto;
+  }
 
 
-#div-discover .btn-discover{
-  border-radius: 60px;
-  font-size: 50px;
-  font-weight: 200;
-  border: 1px solid transparent;
-  width: 90px;
-  height: 90px;
-}
-#div-discover .btn-discover:hover{
-  background-color: white !important;
-  border-color: #2BB0C6 !important;
-  color: #2BB0C6 !important;
-}
+  #div-discover .btn-discover{
+    border-radius: 60px;
+    font-size: 50px;
+    font-weight: 200;
+    border: 1px solid transparent;
+    width: 90px;
+    height: 90px;
+  }
+  #div-discover .btn-discover:hover{
+    background-color: white !important;
+    border-color: #2BB0C6 !important;
+    color: #2BB0C6 !important;
+  }
 
 
-@media screen and (max-width: 768px) {
- h1.cityName-header{
-  margin-top:-30px;
- }
- #pod-local-actors .list-group-item{
-  height:90px;
-  font-size:14px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
-  text-transform: capitalize;
- }
- #btn-communecter{
-    top:60px;
- }
+  #div-participate .btn-participate{
+    border-radius: 60px;
+    font-size: 50px;
+    font-weight: 200;
+    border: 1px solid transparent;
+    width: 120px;
+    height: 120px;
+    padding-top:20px;
+  }
+  #div-participate .btn-participate:hover{
+    background-color: white !important;
+    border-color: #E33551 !important;
+    color: #E33551 !important;
+  }
+
+  @media screen and (max-width: 768px) {
+   h1.cityName-header{
+    margin-top:-30px;
+   }
+   #pod-local-actors .list-group-item{
+    height:90px;
+    font-size:14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    text-transform: capitalize;
+   }
+   #btn-communecter{
+      top:60px;
+   }
 }
 </style>
 
@@ -247,6 +288,8 @@ $this->renderPartial('../default/panels/toolbar');
   //if($minCount>6) $minCount=6;
 
   $countTotal = count($people) + count($organizations) + count($events);
+
+ // $citizenAssembly = array(); //City::createCitizenAssembly();
 ?>
 <!-- start: PAGE CONTENT -->
 
@@ -392,16 +435,50 @@ $this->renderPartial('../default/panels/toolbar');
 
 </div>
 
+
+<div style="" class="col-md-12" id="div-participate">
+    <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
+    <!-- <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+      <i class="fa fa-2x fa-angle-down"></i><br/>
+      Participer
+    </h2>
+    <div class="col-md-12 no-padding" style="margin-bottom:40px">
+      <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      </div>
+      <div class="col-md-8 col-sm-8 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <?php 
+        if($idCitizenAssembly != false){
+          $completAssembly = Organization::getById($idCitizenAssembly); 
+      ?>
+        <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $idCitizenAssembly; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
+          <i class="fa fa-group"></i>
+        </a>
+        <br/><span class='text-red'><?php echo $completAssembly["name"]; ?></span>
+      <?php } else { ?>
+        <a href="javascript:;" onclick="" class="btn btn-participate bg-red">
+          <i class="fa fa-group"></i>
+        </a>
+        <br/><span class='text-red'>Créer l'assemblée citoyenne</span>
+      <?php } ?>
+      </div>
+      <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <!-- <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
+          <i class="fa fa-rss"></i>
+        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+      </div> - ->
+    </div>
+  </div> -->
+
 <div style="" class="col-md-12" id="div-discover">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
-    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px; float: left; width: 100%;">
       <i class="fa fa-2x fa-angle-down"></i><br/>
       Découvrir
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
-          <i class="fa fa-connectdevelop"></i>
+          <i class="fa fa-search"></i>
         </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
       </div>
       <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
@@ -416,6 +493,8 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
     </div>
   </div>
+
+
 
 
 <div class="row">
@@ -440,9 +519,16 @@ var city = <?php echo json_encode($city) ?>;
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
+//var citizenAssembly = <?php //$citizenAssembly = array($completAssembly); 
+                           // echo json_encode($citizenAssembly);
+                      //?>;
 
-//  console.log("contextMap");
-//  console.dir(contextMap);
+var citizenAssembly = <?php $citizenAssembly = $res; 
+                           echo json_encode($citizenAssembly);
+                      ?>;
+
+  console.log("citizenAssembly");
+  console.dir(citizenAssembly);
 
 
 jQuery(document).ready(function() {
@@ -470,7 +556,8 @@ jQuery(document).ready(function() {
     $("#btn-communecter").attr("onclick", "");
   }
 
-  initCityMap();
+  Sig.showMapElements(Sig.map, citizenAssembly);
+  //initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
             reach: 10, // how far the pulse goes in px

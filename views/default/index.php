@@ -197,17 +197,57 @@
 
 
 @media screen and (min-width: 900px) and (max-width: 1120px) {
-	.box-ajaxTools{
+	/*.box-ajaxTools{
 		width:95%;
 		margin-left:5%;
-	}
+	}*/
 }
 
-@media screen and (min-width: 767px) and (max-width: 900px) {
-	.box-ajaxTools{
+@media screen and (min-height: 100px) and (max-height: 450px) {
+	button.btn-menu2{
+		top:75px;
+	}
+	button.btn-menu3{
+		top:130px;
+	}
+	button.btn-menu4{
+		top:185px;
+	}
+	button.btn-menu6{
+		top:250px;
+	}
+	button.btn-menu7{
+		top:305px;
+		left:90px;
+	}
+	button.btn-geoloc-auto{
+		display:none;
+		left: 60px !important;
+		top: 14px !important;
+	}
+	button.btn-logout {
+    	left: 10px;
+		top: 15px;
+	}
+	.btn-param-postal-code {
+    	left: 15px;
+		bottom: 12px;
+    }
+    #searchBarPostalCode{
+	    left: 62px;
+		bottom: 12px;
+    height: 40px;
+        width: 186px;
+        padding: 10px 15px !important;
+    }
+    #input-communexion .search-loader{
+	    left: 70px;
+		bottom: 50px;
+    }
+	/*.box-ajaxTools{
 		width:88%;
 		margin-left:12%;
-	}
+	}*/
 }
 
 @media screen and (max-width: 767px) {
@@ -236,7 +276,7 @@
 	.btn-scope-niv-5{
 		height: 163px;
 	}
-
+	
 }
 	
 </style>
@@ -710,7 +750,7 @@ function setScopeValue(btn){
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-			//$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion) });
+			$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postaCode."+cpCommunexion) });
 
 				
 		<?php } ?>

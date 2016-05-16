@@ -141,8 +141,8 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   var dataId = "";
                   if(type == "city"){
                     url = "javascript:"; //#main-col-search";
-                    onclick = 'loadByHash("#city.detail.insee.' + insee + '");'; //"'+o.name.replace("'", "\'")+'");';
-                    onclickCp = 'loadByHash("#city.detail.insee.' + insee + '");';
+                    onclick = 'loadByHash("#city.detail.insee.' + insee + '.postalCode.'+postalCode+'");'; //"'+o.name.replace("'", "\'")+'");';
+                    onclickCp = 'loadByHash("#city.detail.insee.' + insee + '.postalCode.'+postalCode+'";';
                     target = "";
                     dataId = o.name; //.replace("'", "\'");
                   }
