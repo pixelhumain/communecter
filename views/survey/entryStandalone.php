@@ -166,16 +166,17 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
  -->
- 	<?php 
- 		$survey = Survey::getById($survey["_id"]);
- 		$room = ActionRoom::getById($survey["survey"]);
- 		$parentType = $room["parentType"];
- 		$parentId = $room["parentId"];
- 		$nameParentTitle = "";
- 		if($parentType == Organization::COLLECTION && isset($parentId)){
- 			$orga = Organization::getById($parentId);
- 			$nameParentTitle = $orga["name"];
-		}
+<?php 
+	//ca sert a quoi ce doublon ?
+	$survey = Survey::getById($survey["_id"]);
+	$room = ActionRoom::getById($survey["survey"]);
+	$parentType = $room["parentType"];
+	$parentId = $room["parentId"];
+	$nameParentTitle = "";
+	if($parentType == Organization::COLLECTION && isset($parentId)){
+		$orga = Organization::getById($parentId);
+		$nameParentTitle = $orga["name"];
+	}
 
 		
 //copié coller merdique
@@ -363,7 +364,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 						<?php foreach ( $survey["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large"><i class="fa fa-link" target="_blank"></i> '.$value.'</a><br/> ';
+								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 						}?>
