@@ -205,7 +205,30 @@ class Menu {
                 Yii::t("common","Tous les abus"),
                 'copy','/admin/moderate/all/',"Moderate","all");
 
-     }
+    }
+
+    public static function statistics()
+    {
+        if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        
+        //Global
+        //-----------------------------
+        self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Statistics global"),
+                Yii::t("common","Statistics global"),
+                'file-o','/stat/chartGlobal/',"statistics","global");
+        
+        //Organizations
+        //-----------------------------
+         self::entry("left", 'showAjaxPanel', 
+                Yii::t("common","Statistics cities"),
+                Yii::t("common","Statistics cities"),
+                'file-o','/stat/chartCities/',"statistics","cities");
+
+    }
+
+    
     
     public static function organization($organization)
     {
