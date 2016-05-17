@@ -53,40 +53,39 @@ var actionFormDefinition = {
             },
             "name" :{
               "inputType" : "text",
-              "placeholder" : "<?php Yii::t("rooms","Title of the action",null,Yii::app()->controller->module->id) ?>",
+              "placeholder" : "<?php echo Yii::t("rooms","Title of the action",null,Yii::app()->controller->module->id) ?>",
               "rules" : {
                 "required" : true
               },
               "value" : "<?php echo ( isset($action) && isset($action["name"]) ) ? $action["name"] : '' ?>",
             },
-            /*"organizer" : {
-              "inputType" : "select",
-              "placeholder" : "Organisateur du sondage",
+            /*"assignees" : {
+              "inputType" : "selectMultiple",
+              "placeholder" : "<?php Yii::t("rooms","Assignees",null,Yii::app()->controller->module->id) ?>",
               "value" : "currentUser",
-              "rules" : {
-                "required" : true
-              },
               "options" : organizerList
             },*/
             "message" :{
               "inputType" : "wysiwyg",
-              "placeholder" : "<?php Yii::t("rooms","Description of the action",null,Yii::app()->controller->module->id) ?>",
+              "placeholder" : "<?php echo Yii::t("rooms","Description of the action",null,Yii::app()->controller->module->id) ?>",
               "rules" : {
                 "required" : true
               },
               "value" : <?php echo ( isset($action) && isset($action["message"]) ) ? json_encode($action["message"]) : '""' ?>,
             },
+            "startDate" :{
+              "inputType" : "date",
+              "placeholder" : "<?php echo Yii::t("rooms","Estimated Start Date",null,Yii::app()->controller->module->id) ?>",
+              "value":"<?php echo (isset($action) && isset($action['startDate'])) ? $action['startDate'] : null ?>"
+            },
             "dateEnd" :{
               "inputType" : "date",
-              "placeholder" : "<?php Yii::t("rooms","Estimated End Date",null,Yii::app()->controller->module->id) ?>",
-              "value":"<?php echo (isset($action) && isset($action['dateEnd'])) ? $action['dateEnd'] : '' ?>",
-              "rules" : {
-                "required" : true
-              }
+              "placeholder" : "<?php echo Yii::t("rooms","Estimated End Date",null,Yii::app()->controller->module->id) ?>",
+              "value":"<?php echo (isset($action) && isset($action['dateEnd'])) ? $action['dateEnd'] : null ?>"
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "<?php Yii::t("rooms","Add urls or Bullet points",null,Yii::app()->controller->module->id) ?>",
+                  "placeholder" : "<?php echo Yii::t("rooms","Add urls or Bullet points",null,Yii::app()->controller->module->id) ?>",
                   "value" : <?php echo (isset($action) && isset($action['urls'])) ? json_encode($action['urls']) : "[]" ?>,
             },
             "tags" :{
@@ -116,9 +115,9 @@ jQuery(document).ready(function() {
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
 
-  /*$.each(rawOrganizerList, function(optKey, optVal) {
+  $.each(rawOrganizerList, function(optKey, optVal) {
     organizerList[optKey] = optVal.name;
-  });*/
+  });
 
   editEntrySV ();
   /*!

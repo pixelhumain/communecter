@@ -100,7 +100,7 @@ $optionsLabels = array(
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Popular").$contextType ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
 					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 

@@ -202,10 +202,10 @@ if( Yii::app()->request->isAjaxRequest ){
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
 				
-
+				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$action["created"]) ?></span>
 			 	<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($action["viewCount"])) ? $action["viewCount"] : "0"  ?></span>
-			 	<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$action["created"]) ?></span>
-			 	<br/>
+			 	<br/><span class="pull-left"><i class="fa fa-caret-right"></i> <?php /*echo Yii::t("rooms","Date Change Count",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($action["viewCount"])) ? $action["viewCount"] : "0"  */?></span>
+			 	
 				<?php if( @$action["dateEnd"] ){ ?>
 				<span class="pull-right"><?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",@$action["dateEnd"]) ?></span>
 				<?php } ?>
@@ -228,14 +228,28 @@ if( Yii::app()->request->isAjaxRequest ){
 						</div>
 						
 				<?php } else { ?> 
-
-						<div class="box-vote box-pod box radius-20">
+						<div class="box-vote box-pod box radius-20" style="margin-top:8px;">
 							<?php
-							$this->renderPartial('action',array( "action" => $action, 
-																"position" => "center",
-																"showName" => true,
-																"hideTexts" => true
-																 ));?>
+					        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
+					        $statusColor = "default";
+					        if( @$action["startDate"] < time() )
+					        {
+					          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
+					          if( @$action["dateEnd"] > time()  )
+					            $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
+					          
+					        } 
+					        if ( @$action["status"] == ActionRoom::ACTION_CLOSED  ) {
+					          $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
+					          $statusColor = "danger";
+					        }
+					        
+							?>
+							<span style="font-size: 35px; font-weight:bold; padding:5px; border:1px solid #ccc;" class='text-bold <?php echo $statusColor?>'>
+							<?php
+					        echo $statusLbl;
+							?>
+							</span>
 						</div>
 
 				<?php } ?>
@@ -243,7 +257,7 @@ if( Yii::app()->request->isAjaxRequest ){
 			<div class="col-xs-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">
 					<?php if( isset($organizer) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 					<?php }	?>
 					
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $action["name"] ?></span>
@@ -262,19 +276,34 @@ if( Yii::app()->request->isAjaxRequest ){
 
 					<?php if( isset( $action["urls"] ) ){ ?>
 						
-						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
+						<h2 class="text-dark" style="border-top:1px solid #eee;"><br><?php Yii::t("rooms", "Links and info bullet points", null, Yii::app()->controller->module->id)?></h2>
 						<?php foreach ( $action["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 						}?>
-						<span class="" >Faites des propositions dans les commentaires</span>
+						<span class="" ><?php echo Yii::t("room","Comments",null,Yii::app()->controller->module->id) ?></span>
 					<?php }	?>
 				</div>
-				<div  class="col-md-5" style="border:1px solid #ccc">
+				<div  class="col-md-5">
 					<div class="col-md-12 leftInfoSection " >
 						
+						<?php 
+							if( @$action["links"]["contributors"] )
+							{	
+								$this->renderPartial('../pod/usersList', array(  
+															"project"=> $action,
+															"users" => $contributors,
+															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"contentType" => ActionRoom::COLLECTION_ACTIONS,
+															"admin" => true	)); 
+							}
+						?>
+						<?php if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) && !@$action["links"]["contributors"][Yii::app()->session['userId']]  ){	?>
+						<div class="space20"></div>
+						<a href="javascript:;" class="center text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("room","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
+						<?php }	?>
 					</div>
 				</div>
 			</div>
@@ -297,10 +326,7 @@ if( Yii::app()->request->isAjaxRequest ){
 clickedVoteObject = null;
 
 jQuery(document).ready(function() {
-	//var shareBtns = new ShareButton(".share-button");
-
-	//titleAnim ();
-
+	
 	$(".main-col-search").addClass("assemblyHeadSection");
   	$(".moduleLabel").html("<i class='fa fa-cogs'></i> Actions");
   
@@ -308,29 +334,40 @@ jQuery(document).ready(function() {
 		$(this).removeClass("animated flipInX");
 	});
 
-	
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/actions/id/<?php echo $action['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
-
-
 });
 
-function closeEntry(id)
+function closeAction(id)
 {
     console.warn("--------------- closeEntry ---------------------");
     
-      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
+      bootbox.confirm("Are you sure ? ",
           function(result) {
             if (result) {
-              params = { 
-                 "id" : id 
-              };
-              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/close")?>',params,function(data){
+              params = { "id" : id };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/rooms/closeaction")?>',params,function(data){
                 if(data.result)
-                  window.location.reload();
+                  loadByHash(location.hash);
                 else 
                   toastr.error(data.msg);
               });
           } 
       });
+ }
+
+function assignMe(id)
+{
+    bootbox.confirm("Are you sure ? ",
+        function(result) {
+            if (result) {
+              params = { "id" : id };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/rooms/assignme")?>',params,function(data){
+                if(data.result)
+                  loadByHash(location.hash);
+                else 
+                  toastr.error(data.msg);
+              });
+        } 
+    });
  }
 </script>

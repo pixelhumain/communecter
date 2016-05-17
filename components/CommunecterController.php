@@ -159,6 +159,8 @@ class CommunecterController extends Controller
       "action" => array("href" => "/ph/communecter/rooms/action"),
       "editaction" => array("href" => "/ph/communecter/rooms/editaction"),
       'saveaction' => array("href" => "/ph/communecter/rooms/saveaction"),
+      'closeaction' => array("href" => "/ph/communecter/rooms/closeaction"),
+      'assignme' => array("href" => "/ph/communecter/rooms/assignme"),
     ),
     "gantt"=> array(
       "index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),

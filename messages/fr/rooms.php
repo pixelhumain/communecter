@@ -91,5 +91,39 @@ return array(
 	 'Innovate for more democratic actions' => "Innover pour l'action democratique",
 	 'Action Rooms are made for new approaches' => "Les Nouveaux types de salles d'action sont bienvenues",
 
-	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter"
+	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter",
+	 'Organize Actions'=>'Organisons nos actions',
+	'Work Collectivelly'=> "Travailler Ensemble",
+	"It's time for action" => "Temps d'agir",
+
+	'Add an Action' => "Ajouter une action",
+	'Get some Actions going' => "Lancons quelques actions",
+	'Acts speak louder than words' => "Vivre, ce n'est pas respirer, c'est agir",
+	'This is where it start to be fun' => "C'est là que ca commence",
+	'practise before theory' => 'Le pratique doit préceder la théorie',
+	'to build and experiment collaboratively' => "Construire et expérimenter ensemble",
+
+	"Actions speak louder than words" => "Vivre, ce n'est pas respirer, c'est agir",
+	'Back to Action List' => "Retour à la liste d'action",
+	'Action List' => "Liste d'actions",
+
+	"Title of the action" => "Titre de l'action",
+	"Description of the action" => "Description de l'action",
+	"Estimated End Date" => "Date de fin",
+	"Add urls or Bullet points" => "Ajouter des liens ou actions à faire" ,
+	"Assignees" => "Responsable",
+	"start" => "début",
+
+	"Todo" => "A faire",
+	"Progressing"=> "En cours",
+	"Late" => "En retard",
+	"Date Change Count" => "Changement de date",
+	'Close this action' => "Fermer cette action",
+	'Re-open This Action' => "Réouvrir cette action",
+	'Close' => "Fermer",
+	'ReOpen' => "Réouvrir",
+	"Links and info bullet points" => "Des liens d'informations ou actions à faire",
+	"Comments" => "Faites des propositions dans les commentaires",
+	"Assign Me This Task" => "Assignez moi cette tache ",
+	"Made by " => "Proposition à l'assemblée par ",
 );

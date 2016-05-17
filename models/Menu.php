@@ -817,6 +817,14 @@ class Menu {
                         Yii::t( "common", 'Edit this action'),
                         Yii::t( "common", 'Edit'), 'pencil',
                         "loadByHash('#rooms.editAction.room.".$parentId.".id.".$id."')","editActionBtn",null);
+            
+
+                //give the right to all 
+                self::entry("right", 'onclick', 
+                    Yii::t( "common", ( @$action["status"] == ActionRoom::ACTION_CLOSED) ? 'Re-open This Action' :'Close this action'),
+                    Yii::t( "common", ( @$action["status"] == ActionRoom::ACTION_CLOSED) ? 'ReOpen' : 'Close'), 
+                    ( @$action["status"] == ActionRoom::ACTION_CLOSED) ? 'circle-o' : 'times' ,
+                    "closeAction('".$id."')","closeActionBtn",null);
             }
         }
 

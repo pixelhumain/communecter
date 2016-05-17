@@ -221,6 +221,11 @@ $this->renderPartial('../default/panels/toolbar');
     width: 98%;
   }
 }
+.byInfo{
+  float: right;
+    position: relative;
+    top: -30px;
+}
 </style>
 
 
@@ -291,6 +296,7 @@ $this->renderPartial('../default/panels/toolbar');
         *************************************** */
         $myentries = ( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
         
+        if( !isset($entry['startDate']) )
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
@@ -304,7 +310,6 @@ $this->renderPartial('../default/panels/toolbar');
         ****************************************/
         $hrefComment = "#commentsForm";
         $commentCount = 0;
-        $surveyIsClosed = (isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ) ;
         $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
 
        
@@ -312,6 +317,7 @@ $this->renderPartial('../default/panels/toolbar');
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == ActionRoom::TYPE_ACTION ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
+        $startDate = ( @$entry["startDate"] ) ? date("d/m/y h:i",$entry["startDate"]) : ""; 
         $views = ( @$entry["viewCount"] ) ? "<div class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</div>" : ""; 
         $byInfo = "";
         if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
@@ -342,24 +348,10 @@ $this->renderPartial('../default/panels/toolbar');
         if(isset($entry["commentCount"]) && $entry["commentCount"] > 0)
         $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
         $closeBtn = "";
-        $isClosed = "";
         $stateLbl = "<i class='fa fa-cogs'></i> Voter";
         $mainClick = 'loadByHash("#rooms.action.id.'.(string)$entry["_id"].'")';
         $titleIcon = 'cogs';
-        if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == ActionRoom::TYPE_ACTION ) 
-          $closeBtn = "<a class='btn btn-xs pull-right' href='javascript:;' style='margin-right:5px;'".
-                        " onclick='closeEntry(\"".$entry["_id"]."\")'>".
-                        "<i class='fa fa-times'></i> ".Yii::t('rooms', 'Close', null, Yii::app()->controller->module->id).
-                      "</a>";
-        else if($surveyIsClosed){
-            $isClosed = " closed";
-            $stateLbl = "<i class='fa fa-times text-red'></i> Fermé";
-            $titleIcon = "times text-red";
-        }else{
-          $stateLbl = "<i class='fa fa-sign-in text-red'></i> ".Yii::t('rooms', 'Login to vote', null, Yii::app()->controller->module->id);
-          $mainClick = 'showPanel("box-login")';
-        }
-
+        
         //title + Link
         $link = $name;
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
@@ -369,7 +361,7 @@ $this->renderPartial('../default/panels/toolbar');
         $leftLinks = "";
 
         $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
-        $createdInfo .= (!empty( $created )) ? " ".Yii::t("rooms", "created", null, Yii::app()->controller->module->id) . " : ".$created : "";
+        $createdInfo .= (!empty( $startDate )) ? " ".Yii::t("rooms", "start", null, Yii::app()->controller->module->id) . " : ".$startDate : "";
         $createdInfo .= "</div>";
 
         $ends = "";
@@ -384,24 +376,40 @@ $this->renderPartial('../default/panels/toolbar');
           $ends .= "</div>";
         }
         //}
+        $statusClass = ActionRoom::ACTION_TODO;
+        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
+        if( @$entry["startDate"] < time() ){
+          $statusClass = ActionRoom::ACTION_INPROGRESS;
+          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
+          if( @$entry["dateEnd"] > time()  ){
+            $statusClass = ActionRoom::ACTION_LATE;
+            $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
+          }
+        } 
+        if ( @$entry["status"] == ActionRoom::ACTION_CLOSED  ) {
+          $statusClass = ActionRoom::ACTION_CLOSED;
+          $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
+        }
+        $unassignedClass = ( !isset($entry["assignees"]) || count($entry["assignees"]) == 0 ) ? "unassigned" : "";
 
         $boxColor = ($entry["type"]==ActionRoom::TYPE_ACTION ) ? "" : "" ;
         $switchClass = ( $switchcount < 0 ) ? "" : "switch" ;
-        $block = ' <div class="mix '.$boxColor.' '.$switchClass.' '.
+
+        $block = ' <div class="mix '.$boxColor.' '.$switchClass.' '.$statusClass.' '.$unassignedClass.' '.
                         $myentries.' '.
                         $followingEntry.' '.
-                        $tags.' '.$isClosed.'"'.
+                        $tags.'"'.
                         'data-vote=""  data-time="'.$created.'" style="display:inline-blocks"">'.
                         $views.
                         $createdInfo.
-                        $ends."<div class='badge badge-default pull-right'>todo</div>".
+                        $ends."<div class='badge badge-default pull-right'>".$statusLbl."</div>".
                         "<hr>".
                         $leftLinks.$btnRead.
                         $link.'<br/>'.
 
                         $message.
                         '<br/>'.
-                        '<div class="space1"></div><div class="pull-right" >'.
+                        '<div class="byInfo" >'.
                             $commentBtn.$infoslink. 
                             $byInfo.
                         '</div>'.
