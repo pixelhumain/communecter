@@ -13,6 +13,10 @@
 	box-shadow: 0px 3px 5px -2px #656565;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
 }
+.voteInfoBox{
+	border-radius: 10px;
+	font-weight: 300;
+}
 </style>
 
 <?php

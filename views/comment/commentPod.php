@@ -40,10 +40,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 #commentHistory .panel-scroll{
 	/*overflow-y: hsidden;*/
 }
+
+<?php if($contextType != "actionRooms"){ ?>
 .blockUI.blockMsg.blockPage{
 	width:72% !important;
 	top: 8% !important;
 	left: 18% !important;
+}
+<?php } ?>
+
+.commentContent{
+	padding:10px;
 }
 </style>
 
@@ -67,9 +74,9 @@ $optionsLabels = array(
 <!-- start: PAGE CONTENT -->
 
 
-<div id="commentHistory" class="padding-10">
+<div id="commentHistory" class="no-padding">
 	<div class="panel panel-white">
-		<div class="panel-heading border-light no-padding">
+		<div class="panel-heading border-light">
 			<?php if($contextType == "actionRooms"){ ?>
   				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
 			     "<?php echo $context["name"]; ?>"
@@ -106,7 +113,7 @@ $optionsLabels = array(
 					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
-								Abuse <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
+								<?php echo Yii::t("comment","Abuse") ?> <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
 							</a>
 						</li>
 					<?php } ?>
