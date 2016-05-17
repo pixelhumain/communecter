@@ -267,7 +267,7 @@ class TestController extends CommunecterController {
 		}
 	}
    // Troisième refactor à faire sur communecter.org qui permet de netoyer les news sans target
-  public function actionWashingNewsNoTarget(){
+   	public function actionWashingNewsNoTarget(){
   		$news=PHDB::find(News::COLLECTION);
   		foreach($news as $key => $data){
 		  if(!@$data["target"]){
@@ -279,7 +279,7 @@ class TestController extends CommunecterController {
 		}
 	}
 	// Delete news with object gantts and needs
-public function actionDeleteNewsGanttsNeeds(){
+	public function actionDeleteNewsGanttsNeeds(){
 	$newsNeeds=PHDB::find(News::COLLECTION,array("type"=>"activityStream","object.objectType"=>"needs"));
 	$newsGantts=PHDB::find(News::COLLECTION,array("type"=>"activityStream","object.objectType"=>"gantts"));  		$i=0;	
   		foreach($newsNeeds as $key => $data){
