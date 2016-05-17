@@ -14,7 +14,7 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ---------------------------------------------------
-Version 0.13
+Version 0.12
 
 @Bouboule (clement.damiens@gmail.com)
 1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
