@@ -271,7 +271,7 @@ class TestController extends CommunecterController {
 		  	
 		}
 		}
-}
+	}
    // Troisième refactor à faire sur communecter.org qui permet de netoyer les news sans target
   public function actionWashingNewsNoTarget(){
   		$news=PHDB::find(News::COLLECTION);
@@ -284,7 +284,30 @@ class TestController extends CommunecterController {
 			}
 		}
 	}
-	   // Quatrième refactor à faire sur communecter.org qui permet de netoyer les news dont la target n'existe pas
+	// Delete news with object gantts and needs
+public function actionDeleteNewsGanttsNeeds(){
+	$newsNeeds=PHDB::find(News::COLLECTION,array("type"=>"activityStream","object.objectType"=>"needs"));
+	$newsGantts=PHDB::find(News::COLLECTION,array("type"=>"activityStream","object.objectType"=>"gantts"));  		$i=0;	
+  		foreach($newsNeeds as $key => $data){
+		  //if(!@$data["target"]){
+			  print_r($data);
+			  PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 	$i++;
+			//}
+		}
+		foreach($newsGantts as $key => $data){
+			//if(!@$data["target"]){
+			print_r($data);
+			PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+			// PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+			$i++;
+			//}
+		}
+		echo "Nombre de news gantts ou needs suprimées : ".$i." news";
+		
+}
+	// Quatrième refactor à faire sur communecter.org qui permet de netoyer les news dont la target n'existe pas
 	public function actionWashingNewsTargetNotExist(){
   		$news=PHDB::find(News::COLLECTION);
   		foreach($news as $key => $data){
