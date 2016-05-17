@@ -116,6 +116,14 @@ a.text-white {
 	background-color: white;
 }
 
+.homestead .label-default {
+    font-weight: 200;
+    font-family: initial;
+    padding: 6px 8px 4px 8px !important;
+    top : -3px;
+    position: relative;
+}
+
 blockquote {border: 1px solid gray; cursor: pointer;}
 blockquote:hover {border: 1px solid #E33551; }
 blockquote.active {border: 1px solid #E33551; cursor: pointer;}

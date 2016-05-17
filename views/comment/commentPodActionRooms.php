@@ -25,6 +25,9 @@ margin-top:90px;
 	-o-box-shadow: 0px 3px 10px 1px #656565;
 	box-shadow: 0px 3px 10px 1px #656565;
 }
+#commentHistory .panel-heading{
+	/*padding:15px !important;*/
+}
 </style>
 
 <?php 

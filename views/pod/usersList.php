@@ -1,7 +1,5 @@
 <?php
-		$cssAnsScriptFilesModule = array(
-	//Data helper
-	'/js/dataHelpers.js',
+$cssAnsScriptFilesModule = array(
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -147,12 +145,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				
 					<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php echo $grayscale ?>">
 
-					<?php if($e && isset($e["imagePath"])) {
+					<?php if($e && !empty($e["profilThumbImageUrl"])) {
 						// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
 						 ?>
-						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
-					<?php } else if ($e && isset($e["profilImageUrl"]) && !empty($e["profilImageUrl"])){ ?>
-						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['profilImageUrl']) ?>" data-placement="top" data-original-title='<?php echo $name ?>'>
+						<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$e['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $name ?>">
 					<?php }else{ 
 						echo $icon;
 					} ?>

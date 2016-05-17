@@ -69,9 +69,9 @@ return array(
 	"All your Actions" => "Liste de vos actions",
 	"All your Rooms" => "Liste des thématiques",
 	"Rooms" => "Espaces coopératifs",
-	'Back to Parent Survey' => "Revenez au sondage parent",
-	'Parent Survey'  => "Liste du sondage",
-
+	'Back to Parent Survey' => "Retour aux propositions",
+	'Parent Survey'  => "Liste des propositions",
+	
 	"propositions" => "propositions",
 	"Create propostal" => "Faire une proposition",
 	"Take decisions" => "Créer un espace de décision",
