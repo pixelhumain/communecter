@@ -267,6 +267,7 @@ class TestController extends CommunecterController {
 		}
 	}
    // Troisième refactor à faire sur communecter.org qui permet de netoyer les news sans target
+   	
    	public function actionWashingNewsNoTarget(){
   		$news=PHDB::find(News::COLLECTION);
   		foreach($news as $key => $data){
