@@ -179,6 +179,7 @@ class CommunecterController extends Controller
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
+        "logged"           => array("href" => "/ph/communecter/person/logged"),
         "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
         "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),

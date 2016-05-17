@@ -26,6 +26,7 @@ class PersonController extends CommunecterController {
 	    return array(
 	        'index'              => 'citizenToolKit.controllers.person.IndexAction',
 	        'login'     	       => 'citizenToolKit.controllers.person.LoginAction',
+          'logged'              => 'citizenToolKit.controllers.person.LoggedAction',
           'sendemail'          => 'citizenToolKit.controllers.person.SendEmailAction',
 	        'logout'     	       => 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'       => 'citizenToolKit.controllers.person.AuthenticateAction',

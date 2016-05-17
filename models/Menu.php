@@ -819,6 +819,13 @@ class Menu {
                         "loadByHash('#rooms.editAction.room.".$parentId.".id.".$id."')","editActionBtn",null);
             }
         }
+
+        // Help
+        //-----------------------------
+        self::entry("right", 'html', 
+                    Yii::t( "common", 'Understanding actions'),
+                    '', 'question-circle',
+                    '<a href="javascript:;" data-id="explainActions" class="tooltips btn btn-default explainLink"',null,null);
                       
     }
     public static function back()

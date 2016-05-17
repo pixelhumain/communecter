@@ -4,7 +4,6 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/exporting.js' , 
   '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -70,7 +69,7 @@ $this->renderPartial('../default/panels/toolbar');
   .mixcontainer .mix{
     border-radius:0px;
     border-color: #CCC;
-    height:380px;
+    height:250px;
     margin:1% 1% !important;
     float:left;
     moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -290,7 +289,7 @@ $this->renderPartial('../default/panels/toolbar');
         /* **************************************
         //check if I wrote this law
         *************************************** */
-        $meslois = ( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
+        $myentries = ( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
         
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
@@ -303,24 +302,17 @@ $this->renderPartial('../default/panels/toolbar');
         /* **************************************
         Rendering Each block
         ****************************************/
-        $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$entry);
-        $avoter = $voteLinksAndInfos["avoter"];
         $hrefComment = "#commentsForm";
         $commentCount = 0;
-        
-
         $surveyIsClosed = (isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ) ;
-        $surveyHasVoted = (isset($voteLinksAndInfos["hasVoted"]) && $voteLinksAndInfos["hasVoted"] == true) ? true : false;
-        
         $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
 
        
         $moderatelink = (   isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $isModerator && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == ActionRoom::TYPE_ACTION ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
-        $ordre = $voteLinksAndInfos["ordre"];
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
-        $views = ( @$entry["viewCount"] ) ? "<span class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</span>" : ""; 
+        $views = ( @$entry["viewCount"] ) ? "<div class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</div>" : ""; 
         $byInfo = "";
         if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
         {
@@ -371,7 +363,7 @@ $this->renderPartial('../default/panels/toolbar');
         //title + Link
         $link = $name;
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
+          $link = '<a class="titleMix text-dark '.$myentries.'" onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
 
         $btnRead = "";
         $leftLinks = "";
@@ -396,18 +388,17 @@ $this->renderPartial('../default/panels/toolbar');
         $boxColor = ($entry["type"]==ActionRoom::TYPE_ACTION ) ? "" : "" ;
         $switchClass = ( $switchcount < 0 ) ? "" : "switch" ;
         $block = ' <div class="mix '.$boxColor.' '.$switchClass.' '.
-                        $meslois.' '.
+                        $myentries.' '.
                         $followingEntry.' '.
                         $tags.' '.$isClosed.'"'.
-                        
-                        'data-vote="'.$ordre.'"  data-time="'.
-                        $created.'" style="display:inline-blocks"">'.
+                        'data-vote=""  data-time="'.$created.'" style="display:inline-blocks"">'.
                         $views.
                         $createdInfo.
-                        $ends.
+                        $ends."<div class='badge badge-default pull-right'>todo</div>".
                         "<hr>".
                         $leftLinks.$btnRead.
                         $link.'<br/>'.
+
                         $message.
                         '<br/>'.
                         '<div class="space1"></div><div class="pull-right" >'.
@@ -471,9 +462,9 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid ){?>
-              <a class="filter btn bg-red" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'TO DO', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".todo"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'TO DO', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".inprogress"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".late"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".unassigned"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
         
