@@ -14,6 +14,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	Menu::proposal( $survey );
 	$this->renderPartial('../default/panels/toolbar');
 }
+
 ?>
 <style type="text/css">
 
@@ -61,14 +62,32 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
     	font-size: 32px;
 		
     }
-    .row.vote-row {
+    .row.vote-row.contentProposal{
+	   	position: absolute;
+		padding-top: 5px;
+		top: 350px;
+		background-color: white;
+		width: 100%;
+		z-index: 0;
+    }
+    .row.vote-row.parentSpaceName{
 	   	position: absolute;
 		padding-top: 5px;
 		top: 300px;
 		background-color: white;
 		width: 100%;
-		z-index: 0;
+		height:50px;
+		z-index: 1;
+		-moz-box-shadow: 0px 0px 5px 0px #656565;
+		-webkit-box-shadow: 0px 0px 5px 0px #656565;
+		-o-box-shadow: 0px 0px 5px 0px #656565;
+		box-shadow: 0px 0px 5px 0px #656565;
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
     }
+    .row.vote-row.parentSpaceName h1{
+    	padding-top:10px;
+		margin:0px !important;
+	}
 
     .leftlinks a.btn{
     	border: transparent;
@@ -297,7 +316,16 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
     </div>
  </div>
 
-<div class="row vote-row" >
+<div class="row vote-row parentSpaceName">
+
+	<div class="col-md-12">
+		<a href="javascript:"  onclick="loadByHash('#survey.entries.id.<?php echo $parentSpace["_id"]; ?>')">
+			<h1 class="homestead text-dark center"><i class=" fa fa-archive"></i> <?php echo $parentSpace["name"]; ?></h1>
+		</a>
+	</div>
+</div>
+
+<div class="row vote-row contentProposal" >
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
