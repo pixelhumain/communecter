@@ -36,6 +36,8 @@ class CityController extends CommunecterController {
 	        'graphcity'				=> 'citizenToolKit.controllers.city.GraphCityAction',
 	        'updatecitiesgeoformat' => 'citizenToolKit.controllers.city.UpdateCitiesGeoFormatAction',
 	        'getinfoadressbyinsee'  => 'citizenToolKit.controllers.city.GetInfoAdressByInseeAction',
+	        'dashboard'  			=> 'citizenToolKit.controllers.city.DashboardAction',
+
 
 	    );
 	}

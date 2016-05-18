@@ -352,6 +352,8 @@ class CommunecterController extends Controller
     ),
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
+      "chartglobal" => array("href" => "/ph/communecter/stat/chartglobal"),
+      "chartcities" => array("href" => "/ph/communecter/stat/chartcities"),
     ),
   );
 

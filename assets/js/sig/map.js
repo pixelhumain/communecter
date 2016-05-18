@@ -648,10 +648,10 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
 					$.each(data, function (key, value){
-						var oneData = key;
-						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
-							oneData = key.author;
-						thisSig.showFilterOnMap(data, key, thisMap);
+						// var oneData = key;
+						// if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
+						// 	oneData = key.author;
+						// thisSig.showFilterOnMap(data, key, thisMap);
 					});
 					
 				}else{

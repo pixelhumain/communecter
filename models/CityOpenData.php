@@ -10,7 +10,7 @@ class CityOpenData {
 	public static function listOption($arrayOption, $chaine, $first, $name_id, $father=""){
 
       $i = 1 ;
-      foreach ($arrayOption as $key => $value) {
+      if(is_array($arrayOption))foreach ($arrayOption as $key => $value) {
           
           //if(is_array($value))
           if(empty($value["value"]) && empty($value["label"]))
@@ -126,7 +126,6 @@ class CityOpenData {
               $i++;
           }
       }
-
       return $chaine;   
   }
  

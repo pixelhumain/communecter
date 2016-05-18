@@ -409,8 +409,8 @@ var loadableUrls = {
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	
 	//"#home" : {"alias":"#default.home"},
-    "#stat.chartGlobal" : {title:'STATISTICS ', icon : 'bar-chart'},
-    "#stat.chartCities" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartcities" : {title:'STATISTICS ', icon : 'bar-chart'},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
