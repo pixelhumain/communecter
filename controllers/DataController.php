@@ -103,64 +103,88 @@ class DataController extends Controller {
         else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
             $bindMap = TranslateSchema::$dataBinding_city;
         
-        $params = array('isOpendata'=>true );
-        if( @$id ) 
-          $params["_id"] =  new MongoId($id);
-        if( $type == City::COLLECTION && @$_GET["insee"] ) {
-          $params["insee"] = $_GET["insee"];
-          //unset($params["isOpendata"]);
-        }
-
-        if( @$tags ) {
-          $tagsArray = explode(",", $tags);
-          if( $multiTags == true)
-            $params["tags"] =  array('$eq' => $tagsArray) ;
-          else
-            $params["tags"] =  array('$in' => $tagsArray) ;
-        }
-
-        if( @$key )
-          $params["source.key"] = $key ;
-
-        if( @$insee )
-          $params["address.codeInsee"] = $insee ;
-
-        //var_dump($params);
-
-
-        if($limit > 500)
-          $limit = 500 ;
-        else if($limit < 1)
-          $limit = 50 ;
-
-        if($index < 0)
+        $link = false ;
+        $typeResult = "entities";
+        if($type == Person::COLLECTION && @$id && $id == Yii::app()->session["userId"]){
+          $params["_id"] = new MongoId($id);
           $index = 0 ;
+          $limit = 1 ;
+          $link = true ;
+          $typeResult = "identity";
 
-        //if( @$id || @$_GET["insee"] )
-        //{
-            //$data = PHDB::find( $type , $params );
+        }else{
+          $params = array('isOpendata'=>true );
+          if( @$id ) 
+            $params["_id"] =  new MongoId($id);
+          if( $type == City::COLLECTION && @$_GET["insee"] ) {
+            $params["insee"] = $_GET["insee"];
+            //unset($params["isOpendata"]);
+          }
 
-            
-            $data = PHDB::findAndLimitAndIndex( $type , $params, $limit, $index);
+          if( @$tags ) {
+            $tagsArray = explode(",", $tags);
+            if( $multiTags == true)
+              $params["tags"] =  array('$eq' => $tagsArray) ;
+            else
+              $params["tags"] =  array('$in' => $tagsArray) ;
+          }
 
-            $meta["limit"] = $limit;
-            $meta["next"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".($index+$limit) ;
-            if($index != 0){
-                $newIndex = $index - $limit;
-                if($newIndex < 0)
-                    $newIndex = 0 ;
-                $meta["previous"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".$newIndex ;
+          if( @$key )
+            $params["source.key"] = $key ;
+
+          if( @$insee )
+            $params["address.codeInsee"] = $insee ;
+
+          if($limit > 500)
+            $limit = 500 ;
+          else if($limit < 1)
+            $limit = 50 ;
+
+          if($index < 0)
+            $index = 0 ;
+        
+        }
+
+        $data = PHDB::findAndLimitAndIndex($type , $params, $limit, $index);
+        $meta["limit"] = $limit;
+        $meta["next"] = "/ph/communecter/data/get/type/".$type."/limit/".$limit."/index/".($index+$limit) ;
+        if($index != 0){
+            $newIndex = $index - $limit;
+            if($newIndex < 0)
+                $newIndex = 0 ;
+            $meta["previous"] = "/ph/communecter/data/get/type/".$type."/limit/".$limit."/index/".$newIndex ;
+        }
+
+        $result["meta"] = $meta ;
+        
+        if($data && $bindMap )
+          $data = Translate::convert( $data, $bindMap );
+
+        if($typeResult == "identity")
+          $result[$typeResult] = $data[Yii::app()->session["userId"]] ;
+        else
+          $result[$typeResult] = $data;
+
+
+        if($link == true){
+          $fieldsLink = array("name");
+          $allData = array();
+          foreach ($data[$id]["links"] as $typeLinks => $valueLinks){
+            foreach ($valueLinks as $keyLink => $valueLink){
+              $paramsLink = array() ;
+              $dataLink = PHDB::findOne($valueLink["type"], array("_id"=>new MongoId($keyLink)), $fieldsLink);
+              if(!empty($dataLink)){
+                $newFormatData["name"] = $dataLink["name"];
+                $newFormatData["url"] = "/ph/communecter/data/get/type/".$valueLink["type"]."/id/".$keyLink ;
+                if(!empty($valueLink["isAdmin"]))
+                  $newFormatData["isAdmin"] = $valueLink["isAdmin"] ;
+                $allData[$typeLinks][] = $newFormatData;
+              }
             }
-
-            $result["meta"] = $meta ;
-            
-            if($data && $bindMap )
-              $data = Translate::convert( $data, $bindMap );
-
-            $result["entities"] = $data ; 
-            
-        //}
-        //enabling CORS sharing
+          }
+          unset($result[$typeResult][$id]["links"]);
+          $result["links"] = $allData ; 
+        }
         header("Access-Control-Allow-Origin: *");
         Rest::json($result, JSON_UNESCAPED_SLASHES);
   }
