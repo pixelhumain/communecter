@@ -253,9 +253,9 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 			  	<table class="table table-striped table-bordered table-hover  directoryTable ">
 					<thead class="">
 						<tr>
-							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Espaces de décisions", null, $moduleId); ?></th>
+							<th><i class="fa fa-caret-down"></i> <?php echo Yii::t("rooms", "Action Lists", null, $moduleId); ?></th>
 							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
-							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
+							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
 							<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
 						</tr>
@@ -282,7 +282,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> 
 								</td>
 								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(ActionRoom::COLLECTION_ACTIONS,array('room'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>

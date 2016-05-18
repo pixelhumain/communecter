@@ -298,15 +298,14 @@ $this->renderPartial('../default/panels/toolbar');
         /* **************************************
         //check if I wrote this law
         *************************************** */
-        $myentries = ( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
+        $myentries = "";//( $logguedAndValid && Yii::app()->session["userEmail"] && $entry['email'] == Yii::app()->session["userEmail"] ) ? "myentries" : "";
         
-        if( !isset($entry['startDate']) )
+        if( @$entry["links"]["contributors"] && @$entry["links"]["contributors"][Yii::app()->session["userId"]] )
+          $myentries = "myentries";
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
         $message = "<span class='text-dark no-border message-propostal'>".$message."</span>";
-
-        
         
         /* **************************************
         Rendering Each block
@@ -331,7 +330,7 @@ $this->renderPartial('../default/panels/toolbar');
         
         //title + Link
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
-          $name = '<a class="titleMix text-dark '.$myentries.'" onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
+          $name = '<a class="titleMix text-dark " onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
 
         $btnRead = "";
         $leftLinks = "";
@@ -382,10 +381,12 @@ $this->renderPartial('../default/panels/toolbar');
                         $followingEntry.' '.
                         $tags.'"'.
                         'data-vote=""  data-time="'.$created.'" style="display:inline-blocks"">'.
-                        $status.
-                        $createdInfo.
-                        $ends.
-                        "<hr>".
+                        '<div class="actionDetail" >'.
+                          $status.
+                          $createdInfo.
+                          $ends.
+                          "<hr>".
+                        '</div>'.
                         $leftLinks.$btnRead.
                         $name.
                         '<br/>'.
@@ -450,12 +451,12 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid ){?>
-              <a class="filter btn bg-red" data-filter=".todo"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'TO DO', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".todo"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".inprogress"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".late"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
               <a class="filter btn bg-red" data-filter=".unassigned"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
-        
               <?php } ?>
               
         </div>
@@ -476,6 +477,7 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
               <label>Affichage :</label>
               <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
+              <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
               <br/>
 
               
@@ -548,24 +550,33 @@ jQuery(document).ready(function() {
       }
     });
 
-  moduleWording();
-  $('.voteIcon').off().on("click",function() { 
-    $(this).addClass("faa-bounce animated");
-    clickedVoteObject = $(this).data("vote");
-    console.log(clickedVoteObject);
-   });
+  
 });
 
 
 function toogleTags(){
-  if($("#tags-container").hasClass("hidden")){
-    $("#tags-container").removeClass("hidden");
+  el = "#tags-container";
+  if($(el).hasClass("hidden")){
+    $(el).removeClass("hidden");
   }else{
-    $("#tags-container").addClass("hidden");
+    $(el).addClass("hidden");
+  }
+}
+
+function reduceInfo(){
+  el = ".actionDetail";
+  all = el+",.byInfo"
+  if($(el).hasClass("hidden")){
+    $('#reduceInfo i').removeClass("fa-plus-square").addClass("fa-minus-square");
+    $(all).removeClass("hidden");
+    $('.mixcontainer .mix').css("height","250px");
+  }else{
+    $('#reduceInfo i').removeClass("fa-minus-square").addClass("fa-plus-square");
+    $(all).addClass("hidden");
+    $('.mixcontainer .mix').css("height","190px");
   }
 
 }
-
 
 /* **************************************
 *
@@ -687,12 +698,7 @@ function addaction(id,action)
       $('#message').val(txt);
       $('#nameaddEntry').val(txt.substring(0,20));
     }
-    function moduleWording(){
-      $(".loginFormToptxt").html( "Inscrivez vous avec votre email pour donner vos consignes de votes et faire des propositions."+
-                                  "<br/>Si vous êtes déja inscrit , connectez vous avec votre email d'inscription.");
-      $(".loginFormToptxt2").html("Si vous n'avez pas de compte ce même formulaire vous créera un compte, sinon vous logguera.");
-    }
-
+    
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);

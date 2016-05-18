@@ -624,7 +624,7 @@ class Menu {
          $type = Element::getControlerByCollection($type);
             
          self::entry("left", 'onclick', 
-                     Yii::t( "rooms", 'got back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
+                     Yii::t( "rooms", 'go back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
                      "loadByHash('#".$type.".detail.id.".$id."')",null,null);
         }
@@ -642,7 +642,7 @@ class Menu {
 
         //$urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
         self::entry("right", 'onclick', 
-                    Yii::t( "common", 'Add a new survey' ),
+                    Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ),
                     Yii::t( "common", 'Add' ), 'plus',
                     "loadByHash('".$btnUrl."')","addNewRoomBtn",null);
         

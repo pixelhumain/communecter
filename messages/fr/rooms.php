@@ -35,7 +35,7 @@ return array(
 	"Brainstorm / Proposals / Ideas" => "Brainstorming, propositions, idées",
 
 	"Type of Room" => "Type d'espace",
-	"New Room" => "Nouvel espace",
+	'Add an Action Room' => "Nouvel espace coopératif",
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
@@ -106,6 +106,7 @@ return array(
 	"Actions speak louder than words" => "Vivre, ce n'est pas respirer, c'est agir",
 	'Back to Action List' => "Retour à la liste d'action",
 	'Action List' => "Liste d'actions",
+	"Action Lists" => "Listes d'actions",
 
 	"Title of the action" => "Titre de l'action",
 	"Description of the action" => "Description de l'action",
@@ -115,7 +116,10 @@ return array(
 	"start" => "début",
 
 	"Todo" => "A faire",
+	'My Todo' => "Mes Actions",
 	"Progressing"=> "En cours",
+	"In Progress" => "En cours",
+	'Unassigned' => "Non Assignées",
 	"Late" => "En retard",
 	"Date Change Count" => "Changement de date",
 	'Close this action' => "Fermer cette action",
