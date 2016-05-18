@@ -7,7 +7,7 @@
 */
 var loadStream = function(indexMin, indexMax){
 	loadingData = true;
-    indexStep = 15;//5;
+    indexStep = 5;
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -27,6 +27,7 @@ var loadStream = function(indexMin, indexMax){
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
+	       	data: {"condition" :  condition},
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
 		    	console.log(data.news);

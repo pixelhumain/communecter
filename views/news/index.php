@@ -324,7 +324,8 @@ var news = <?php echo json_encode(@$news)?>;
 <?php }else { ?>
 var news = "";
 <?php } ?>
-
+var condition = <?php echo json_encode(@$condition)?>;
+console.log(condition);
 var newsReferror={
 		"news":{
 			"offset":"",
@@ -359,7 +360,7 @@ var contextMap = {
 	},
 };
 var formCreateNews;
-var indexStep = 15;
+var indexStep = 5;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
 var currentMonth = null;
