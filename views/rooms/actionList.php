@@ -448,45 +448,50 @@ $this->renderPartial('../default/panels/toolbar');
         <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
               <!-- <label>Filtre:</label> -->
               <!-- <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button> -->
+              <?php if ( count(@$list) > 0 ) { ?>
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
+              <?php } ?>
+              <?php if( count($alltags) ){?>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
+              <?php } ?>
               <?php if( $logguedAndValid ){?>
-              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".todo"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".inprogress"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".late"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".unassigned"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".myentries" id="myentriesBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".todo" id="todoBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".inprogress" id="inprogressBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".late" id="lateBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".closed" id="closedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-red" data-filter=".unassigned" id="unassignedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
               <?php } ?>
               
         </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
               
-              <div id="tags-container" class="col-md-12 margin-bottom-15 hidden">
-                <?php echo $tagBlock?>
-              </div>
+              <?php if ( count(@$list) > 0 ) { ?>
+                <div id="tags-container" class="col-md-12 margin-bottom-15 hidden">
+                  <?php echo $tagBlock?>
+                </div>
 
-              <?php if( $logguedAndValid ) { ?>
-              <label>Participation : </label>
-              <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
-              <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
-              <?php } ?>
-              <label>Chronologie : </label>
-              <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
-              <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
-              <label>Affichage :</label>
-              <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
-              <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
-              <br/>
-
+                <?php if( $logguedAndValid ) { ?>
+                <label>Participation : </label>
+                <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
+                <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
+                <?php } ?>
+                <label>Chronologie : </label>
+                <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
+                <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
+                <label>Affichage :</label>
+                <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
+                <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
+                <br/>
+               <?php } ?>
               
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?>
               </h1>
                <?php 
-                 if (isset($list) && count($list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"])) {
+                 if (count(@$list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"])) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
@@ -496,7 +501,7 @@ $this->renderPartial('../default/panels/toolbar');
                     <br><?php echo Yii::t('rooms', 'practise before theory', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to build and experiment collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>
-                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add an Action'); ?></a>
+                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add an Action'); ?></a>
                 </div>
               <?php 
                 }; 
@@ -550,7 +555,19 @@ jQuery(document).ready(function() {
       }
     });
 
-  
+  if(!$(".myentries").length)
+    $("#myentriesBtn").hide();
+  if(!$(".todo").length)
+    $("#todoBtn").hide();
+  if(!$(".inprogress").length)
+    $("#inprogressBtn").hide();
+  if(!$(".late").length)
+    $("#lateBtn").hide();
+  if(!$(".closed").length)
+    $("#closedBtn").hide();
+  if(!$(".unassigned").length)
+    $("#unassignedBtn").hide();
+
 });
 
 

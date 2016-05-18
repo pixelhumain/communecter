@@ -217,47 +217,34 @@ if( Yii::app()->request->isAjaxRequest ){
 
 			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
 
-				<?php if( @$action["dateEnd"] < time() ){ ?>
-						
-						<div class="box-vote box-pod box radius-20" style="">
-							<span class="text-extra-large text-bold text-red"> 
-								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
-							</span> 
-							<?php if( isset($organizer) ){ ?>
-								<p><?php echo Yii::t("rooms","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
-							<?php }	?>
-						</div>
-						
-				<?php } else { ?> 
-						<div class="box-vote box-pod box radius-20" style="margin-top:8px;">
-							<?php
-							//if no assignee , no startDate no end Date
-					        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
-					        $statusColor = "text-dark";
-					        //if startDate passed, or no startDate but has end Date
-					        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) )
-					        {
-					          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
-					          $statusColor = "text-green";
-					          if( @$action["dateEnd"] < time()  ){
-					            $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
-					            $statusColor = "text-red";
-					          }
-					        } 
-					        if ( @$action["status"] == ActionRoom::ACTION_CLOSED  ) {
-					          $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
-					          $statusColor = "text-red";
-					        }
-					        
-							?>
-							<span style="font-size: 35px; font-weight:bold; padding:5px; border:1px solid #ccc;" class='text-bold <?php echo $statusColor?>'>
-							<?php
-					        echo $statusLbl;
-							?>
-							</span>
-						</div>
-
-				<?php } ?>
+				
+					<div class="box-vote box-pod box radius-20" style="margin-top:8px;">
+						<?php
+						//if no assignee , no startDate no end Date
+				        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
+				        $statusColor = "";
+				        //if startDate passed, or no startDate but has end Date
+				        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) )
+				        {
+				          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
+				          $statusColor = "text-green";
+				          if( @$action["dateEnd"] < time()  ){
+				            $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
+				            $statusColor = "text-red";
+				          }
+				        } 
+				        if ( @$action["status"] == ActionRoom::ACTION_CLOSED  ) {
+				          $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
+				          $statusColor = "text-red";
+				        }
+				        
+						?>
+						<span style="font-size: 35px; font-weight:bold; padding:5px; border:1px solid #ccc;" class='text-bold <?php echo $statusColor?>'>
+						<?php
+				        echo $statusLbl;
+						?>
+						</span>
+					</div>
 			</div>	
 			<div class="col-xs-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">

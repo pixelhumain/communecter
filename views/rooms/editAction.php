@@ -57,7 +57,7 @@ var actionFormDefinition = {
               "rules" : {
                 "required" : true
               },
-              "value" : "<?php echo ( isset($action) && isset($action["name"]) ) ? $action["name"] : '' ?>",
+              "value" : "<?php echo ( @$action["name"] ) ? $action["name"] : '' ?>",
             },
             /*"assignees" : {
               "inputType" : "selectMultiple",
@@ -71,27 +71,27 @@ var actionFormDefinition = {
               "rules" : {
                 "required" : true
               },
-              "value" : <?php echo ( isset($action) && isset($action["message"]) ) ? json_encode($action["message"]) : '""' ?>,
+              "value" : <?php echo ( @$action["message"] ) ? json_encode($action["message"]) : '""' ?>,
             },
             "startDate" :{
               "inputType" : "date",
               "placeholder" : "<?php echo Yii::t("rooms","Estimated Start Date",null,Yii::app()->controller->module->id) ?>",
-              "value":"<?php echo (isset($action) && isset($action['startDate'])) ? $action['startDate'] : null ?>"
+              "value":"<?php echo ( @$action['startDate'] ) ? $action['startDate'] : null ?>"
             },
             "dateEnd" :{
               "inputType" : "date",
               "placeholder" : "<?php echo Yii::t("rooms","Estimated End Date",null,Yii::app()->controller->module->id) ?>",
-              "value":"<?php echo (isset($action) && isset($action['dateEnd'])) ? $action['dateEnd'] : null ?>"
+              "value":"<?php echo ( @$action['dateEnd'] ) ? $action['dateEnd'] : null ?>"
             },
             "urls" : {
                   "inputType" : "array",
                   "placeholder" : "<?php echo Yii::t("rooms","Add urls or Bullet points",null,Yii::app()->controller->module->id) ?>",
-                  "value" : <?php echo (isset($action) && isset($action['urls'])) ? json_encode($action['urls']) : "[]" ?>,
+                  "value" : <?php echo ( @$action['urls']) ? json_encode($action['urls']) : "[]" ?>,
             },
             "tags" :{
               "inputType" : "tags",
               "placeholder" : "Tags",
-              "value" : "<?php echo (isset($action) && isset($action['tags'])) ? implode(',', $action['tags']) : '' ?>",
+              "value" : "<?php echo ( @$action['tags']) ? implode(',', $action['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
             }
         }
@@ -148,7 +148,15 @@ function editEntrySV () {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-               if(proposalObj.dateEnd)
+               if(proposalObj.startDate)
+               {
+                date = new Date(proposalObj.startDate*1000);
+                var day = date.getDate().toString();
+                var month = (date.getMonth()+1).toString();
+                var year = date.getFullYear().toString();
+                $("#editEntryContainer #startDate").val( day+"/"+month+"/"+year );
+              }
+              if(proposalObj.dateEnd)
                {
                 date = new Date(proposalObj.dateEnd*1000);
                 var day = date.getDate().toString();
@@ -185,7 +193,7 @@ function editEntrySV () {
               if( $("#editEntryContainer #tags").val() )
                 params.tags = $("#editEntryContainer #tags").val().split(",");
               if( $("#editEntryContainer #startDate").val() )
-                params.dateEnd = $("#editEntryContainer #startDate").val();
+                params.startDate = $("#editEntryContainer #startDate").val();
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
 
