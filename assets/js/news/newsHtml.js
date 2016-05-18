@@ -286,7 +286,8 @@ function buildLineHTML(newsObj,idSession,update)
 						}
 	newsTLLine +=	'</div>'+
 				'</div>';
-	return newsTLLine;
+		$(".newsTL").append(newsTLLine);
+	//return newsTLLine;
 }
 
 function buildHtmlUrlAndActionObject(obj){

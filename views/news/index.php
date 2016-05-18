@@ -41,9 +41,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
 	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
-	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
-		Menu::organization( $organization );
-		$thisOrga = Organization::getById($organization["_id"]);
+	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
+		Menu::organization( $parent );
+		$thisOrga = Organization::getById($parent["_id"]);
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
@@ -54,12 +54,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
 	}
-	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
+	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
-			Menu::person( $person );
-			$contextName =$person["name"];
+			Menu::person( $parent );
+			$contextName =$parent["name"];
 			$contextIcon = "user";
-			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$parent["name"];
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
@@ -72,18 +72,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
 	}
-	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
-		Menu::project( $project );
-		$contextName = $project["name"];
+	else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
+		Menu::project( $parent );
+		$contextName = $parent["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
 		$restricted = Yii::t("common","Visible on this wall and published on community's network");
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
-		Menu::event( $event );
-		$contextName = $event["name"];
+	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
+		Menu::event( $parent );
+		$contextName = $parent["name"];
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
 		$restricted = Yii::t("common","Visible on this wall and published on community's network");
@@ -104,7 +104,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextTitle = Yii::t("common", "Contributors of project");
 	}
 
-	$imgProfil = isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
+	$imgProfil = "";//isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
@@ -324,8 +324,7 @@ var news = <?php echo json_encode(@$news)?>;
 <?php }else { ?>
 var news = "";
 <?php } ?>
-var condition = <?php echo json_encode(@$condition)?>;
-console.log(condition);
+var parent = <?php echo json_encode(@$parent)?>;
 var newsReferror={
 		"news":{
 			"offset":"",

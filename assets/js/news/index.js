@@ -18,7 +18,7 @@ var loadStream = function(indexMin, indexMax){
       mapElements = new Array(); 
     }
     else{ if(scrollEnd) return; }
-        if(typeof viewer != "")
+    if(viewer != "")
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
@@ -27,7 +27,7 @@ var loadStream = function(indexMin, indexMax){
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
-	       	data: {"condition" :  condition},
+	       	data: {"parent" :  parent},
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
 		    	console.log(data.news);
@@ -74,10 +74,10 @@ function buildTimeLine (news, indexMin, indexMax)
 				var date = new Date( parseInt(newsObj.created)*1000 );
 			var d = new Date();
 			if(typeof(newsObj.target)!="undefined" && typeof(newsObj.target.type)!="undefined")
-				str += buildLineHTML(newsObj, idSession);
+				buildLineHTML(newsObj, idSession);
 		}
 	});
-	$(".newsTL").append(str);
+
 	if(canPostNews==true){
 		$("#newFeedForm").append(formCreateNews);
 		$("#formCreateNewsTemp").css("display", "inline");
