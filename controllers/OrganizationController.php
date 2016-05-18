@@ -41,6 +41,7 @@ class OrganizationController extends CommunecterController {
 		'directory'   					=> 'citizenToolKit.controllers.organization.DirectoryAction',
 		'addmember'   					=> 'citizenToolKit.controllers.organization.AddMemberAction',
 		'declaremeadmin'   				=> 'citizenToolKit.controllers.organization.DeclareMeAdminAction',
+		"updatesettings" 				=> 'citizenToolKit.controllers.organization.UpdateSettingsAction'
 		);
 	}	
 }

@@ -286,6 +286,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
 		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="public"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="hide"><i class="fa fa-user-secret"></i> Non</button>
+
+		        	</div>
+		        </div>
 	        </div>
 	      </div>
 	      
@@ -296,6 +306,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				$fieldPreferences["email"] = true;
 				$fieldPreferences["locality"] = true;
 				$fieldPreferences["phone"] = true;
+				$fieldPreferences["isOpenData"] = true;
 
 				//To checked private or public
 				foreach($typePreferences as $type){

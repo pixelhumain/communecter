@@ -199,8 +199,76 @@ progress[value]::-moz-progress-bar {
 		<?php if ($isAdmin){ ?>
 			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
+			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
+				<i class='fa fa-cog'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
+				</span>
+			</a>
 		<?php } ?>
 	</div>
+	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="public"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="hide"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+	        </div>
+	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				/*$fieldPreferences["email"] = true;
+				$fieldPreferences["locality"] = true;
+				$fieldPreferences["phone"] = true;*/
+				$fieldPreferences["isOpenData"] = true;
+
+				//To checked private or public
+				foreach($typePreferences as $type){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+			?> 
+	     </script>
+
+
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	<div class="panel-body padding-20">
 		<div class="col-sm-6 col-xs-6 text-dark padding-10">
 			<?php
@@ -344,6 +412,14 @@ jQuery(document).ready(function()
 		findGeoPosByAddress();
 	});
 
+
+	$(".panel-btn-confidentiality .btn").click(function(){
+		var type = $(this).attr("type");
+		var value = $(this).attr("value");
+		$(".btn-group-"+type + " .btn").removeClass("active");
+		$(this).addClass("active");
+	});
+
 	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });
@@ -359,6 +435,27 @@ function bindAboutPodProjects() {
 		Sig.startModifyGeoposition(projectId, "projects", projectData);
 		showMap(true);
 	});
+
+	$(".editConfidentialityBtn").click(function(){
+    	console.log("confidentiality");
+    	$("#modal-confidentiality").modal("show");
+    	$(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+	    	param.typeEntity = "projects";
+	    	param.idEntity = projectId;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/project/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+    	});
+    });
 
 }
 
