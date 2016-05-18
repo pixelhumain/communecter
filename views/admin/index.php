@@ -1,6 +1,6 @@
 <?php
 $cs = Yii::app()->getClientScript();
-	
+
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="col-sm-12 col-xs-12" id="">
