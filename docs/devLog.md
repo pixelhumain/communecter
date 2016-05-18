@@ -1,6 +1,54 @@
 // This file helps any devlopper to update his environment in order to make it work
 // according to the new development
 // Add a datetime or better a commit id linked to the modification
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+---------------------------------------------------
+Version 0.12
+
+@Bouboule (clement.damiens@gmail.com)
+1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
+2.Bash on news (already done on qa and dev)
+	21-ph/communecter/datamigration/refactornews will run actionRefactorNews()
+		=> Remove all id and type in and object target.id, target.type
+		=> Modify target type city to target.id=author, target.type=Person::COLLECTION
+		=> Add @params type string "news" OR "activityStream"
+		
+	22-ph/communecter/datamigration/deletenewsganttsneeds will run actionDeleteNewsGanttsNeeds()
+		=> Delete news type "activityStream" where object.objectType is "needs" OR "gantts"
+		
+	23-ph/communecter/datamigration/washingnewsnoscopetype will run actionWashingNewsNoScopeType() (CAREFULLY CAUSE NO CHECK)
+		=> Delete news where scope is undefined
+		
+	24-ph/communecter/datamigration/washingnewstargetnotexist will run actionWashingNewsTargetNotExist()
+		=> Delete news where target object is undefined
+		=> Check if target is defined else delete news
+		
+		
+3.Bash on documents (only on qa)
+	31-ph/communecter/datamigration/changesizedocumenttobytesnumber will run actionChangeSizeDocumentToBytesNumber() 
+		=> Modify @params string $size to a number in bytes
+	32- [!!!!!!!!!!!! CAREFULLY THIS METHOD IS FOR COMMUNECTER AND NOT FOR GRANDDIR !!!!!!!!!!!!!!!!!]
+	ph/communecter/datamigration/refactorcontentkey will run actionRefactorContentKey() 
+		=> Update @params string contentKey type "person.dashboard.profil" to "profil"
+		=> String use is "profil" OR "slider"
+
+
+
+----------------------------------------------------
+
+
+
 
 ----------------------------------------------------
 ----------------------------------------------------
