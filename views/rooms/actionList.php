@@ -125,7 +125,7 @@ $this->renderPartial('../default/panels/toolbar');
     background-color: #eee;
   }
   .mixcontainer .mix span.message-propostal{
-    height: 135px;
+    height: 120px;
     overflow-y: hidden;
   }
 
@@ -224,7 +224,11 @@ $this->renderPartial('../default/panels/toolbar');
 .byInfo{
   float: right;
     position: relative;
-    top: -30px;
+    bottom: 8px;
+    font-size:13px;
+}
+.byInfo i{
+  margin-left:5px;
 }
 </style>
 
@@ -251,7 +255,7 @@ $this->renderPartial('../default/panels/toolbar');
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = substr($entry["message"],0,300);
+        $message = $entry["message"];//substr($entry["message"],0,100);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -302,8 +306,7 @@ $this->renderPartial('../default/panels/toolbar');
 
         $message = "<span class='text-dark no-border message-propostal'>".$message."</span>";
 
-        //$infoslink bring visual detail about the entry
-        $infoslink = "";
+        
         
         /* **************************************
         Rendering Each block
@@ -313,49 +316,22 @@ $this->renderPartial('../default/panels/toolbar');
         $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
 
        
-        $moderatelink = (   isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $isModerator && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
+        $moderatelink = (   @$entry["applications"][Yii::app()->controller->module->id]["cleared"]  && $isModerator && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == ActionRoom::TYPE_ACTION ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
         $startDate = ( @$entry["startDate"] ) ? date("d/m/y h:i",$entry["startDate"]) : ""; 
         $views = ( @$entry["viewCount"] ) ? "<div class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</div>" : ""; 
-        $byInfo = "";
-        if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
-        {
-          if($entry["parentType"] == Organization::COLLECTION){
-              $parentCtrler = Organization::CONTROLLER;
-              $parentIcon = "group";
-              $parentColor = "green";
-          }
-          else if($entry["parentType"] == Person::COLLECTION){
-              $parentCtrler = Person::CONTROLLER;
-              $parentIcon = "user";
-              $parentColor = "yellow";
-          }else if($entry["parentType"] == Project::COLLECTION){
-              $parentCtrler = Project::CONTROLLER;
-              $parentIcon = "lightbulb-o";
-              $parentColor = "purple";
-          }else if($entry["parentType"] == City::COLLECTION){
-              $parentCtrler = City::CONTROLLER;
-              $parentIcon = "university";
-              $parentColor = "red";
-          }
-          //$parentTitle = '<a href="'.Yii::app()->createUrl("/communecter/".$parentCtrler."/dashboard/id/".$id).'">'.$parent["name"]."</a>'s ";
-          $byInfo = "by <a href='javascript:loadByHash(\"#".$parentCtrler.".detail.id.".$entry["parentId"]."\")'><i class='fa fa-".$parentIcon."'></i></a>";
-        }
+        $byInfo = ( @$entry["links"]["contributors"] && count($entry["links"]["contributors"]) > 0 ) ? " <i class='fa fa-users'></i> ".count($entry["links"]["contributors"]) : "<i class='fa fa-users text-red'></i> 0";
+        //$infoslink bring visual detail about the entry
+        $infoslink = ( @$entry["urls"] && count($entry["urls"]) > 0 ) ? " <i class='fa fa-link'></i> ".count($entry["urls"]) : "";
 
         $commentBtn = "";
-        if(isset($entry["commentCount"]) && $entry["commentCount"] > 0)
-        $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
-        $closeBtn = "";
-        $stateLbl = "<i class='fa fa-cogs'></i> Voter";
-        $mainClick = 'loadByHash("#rooms.action.id.'.(string)$entry["_id"].'")';
-        $titleIcon = 'cogs';
+        $commentBtn = (isset($entry["commentCount"]) && $entry["commentCount"] > 0) ? " <i class='fa fa-comment'></i>".@$entry["commentCount"] : "";
         
         //title + Link
-        $link = $name;
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
-          $link = '<a class="titleMix text-dark '.$myentries.'" onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
+          $name = '<a class="titleMix text-dark '.$myentries.'" onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
 
         $btnRead = "";
         $leftLinks = "";
@@ -378,19 +354,25 @@ $this->renderPartial('../default/panels/toolbar');
         //}
         $statusClass = ActionRoom::ACTION_TODO;
         $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
-        if( @$entry["startDate"] < time() ){
+        $statusColor = "default";
+        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) ){
           $statusClass = ActionRoom::ACTION_INPROGRESS;
           $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
-          if( @$entry["dateEnd"] > time()  ){
+          $statusColor = "success";
+          if( @$entry["dateEnd"] < time()  ){
             $statusClass = ActionRoom::ACTION_LATE;
             $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
+            $statusColor = "warning";
           }
         } 
         if ( @$entry["status"] == ActionRoom::ACTION_CLOSED  ) {
           $statusClass = ActionRoom::ACTION_CLOSED;
           $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
+          $statusColor = "danger";
         }
-        $unassignedClass = ( !isset($entry["assignees"]) || count($entry["assignees"]) == 0 ) ? "unassigned" : "";
+        $status = "<div class='badge badge-".$statusColor." pull-right'>".$statusLbl."</div>";
+
+        $unassignedClass = ( @$entry["links"]["contributors"] && count($entry["links"]["contributors"]) > 0 ) ? "" : "unassigned";
 
         $boxColor = ($entry["type"]==ActionRoom::TYPE_ACTION ) ? "" : "" ;
         $switchClass = ( $switchcount < 0 ) ? "" : "switch" ;
@@ -400,34 +382,33 @@ $this->renderPartial('../default/panels/toolbar');
                         $followingEntry.' '.
                         $tags.'"'.
                         'data-vote=""  data-time="'.$created.'" style="display:inline-blocks"">'.
-                        $views.
+                        $status.
                         $createdInfo.
-                        $ends."<div class='badge badge-default pull-right'>".$statusLbl."</div>".
+                        $ends.
                         "<hr>".
                         $leftLinks.$btnRead.
-                        $link.'<br/>'.
-
+                        $name.
+                        '<br/>'.
                         $message.
                         '<br/>'.
-                        '<div class="byInfo" >'.
-                            $commentBtn.$infoslink. 
-                            $byInfo.
+                        '<div class="byInfo text-dark" >'.
+                            $views.$commentBtn.$infoslink.$byInfo.
                         '</div>'.
                     '</div>';
 
-        return array(
+        return array( 
             "block"=>$block,
             "alltags" => $alltags, 
             "tagBlock" => $tagBlock,
             "cpBlock" => $cpBlock
-        );
+        ); 
     }
 
     //TODO seperate logic from view
     foreach ($list as $key => $entry) 
     {
         $switchcount = -$switchcount;
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$room['parentType'],$room['parentId'],$switchcount);
+        $entryMap = buildEntryBlock( $entry, $uniqueVoters, $alltags, $room['parentType'], $room['parentId'], $switchcount );
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
@@ -438,7 +419,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 
     <h1 class="homestead text-dark center citizenAssembly-header">
-
       <?php 
         $urlPhotoProfil = "";
         if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")

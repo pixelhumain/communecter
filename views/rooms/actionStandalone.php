@@ -168,7 +168,7 @@ if( Yii::app()->request->isAjaxRequest ){
 
 		  <?php 
 		    $urlPhotoProfil = "";
-		    if(isset($parent['profilImageUrl']) && $organizer['profilImageUrl'] != "")
+		    if( @$parent['profilImageUrl'] && $organizer['profilImageUrl'] != "")
 		        $urlPhotoProfil = Yii::app()->createUrl($organizer['profilImageUrl']);
 		      else
 		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
@@ -201,8 +201,9 @@ if( Yii::app()->request->isAjaxRequest ){
 				
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
-				
-				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$action["created"]) ?></span>
+				<?php if( @$action["startDate"]  ){ ?>
+				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$action["startDate"]) ?></span>
+				<?php } ?> 
 			 	<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($action["viewCount"])) ? $action["viewCount"] : "0"  ?></span>
 			 	<br/><span class="pull-left"><i class="fa fa-caret-right"></i> <?php /*echo Yii::t("rooms","Date Change Count",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($action["viewCount"])) ? $action["viewCount"] : "0"  */?></span>
 			 	
@@ -216,7 +217,7 @@ if( Yii::app()->request->isAjaxRequest ){
 
 			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
 
-				<?php if( @$action["dateEnd"] && $action["dateEnd"] < time() ){ ?>
+				<?php if( @$action["dateEnd"] < time() ){ ?>
 						
 						<div class="box-vote box-pod box radius-20" style="">
 							<span class="text-extra-large text-bold text-red"> 
@@ -230,18 +231,22 @@ if( Yii::app()->request->isAjaxRequest ){
 				<?php } else { ?> 
 						<div class="box-vote box-pod box radius-20" style="margin-top:8px;">
 							<?php
+							//if no assignee , no startDate no end Date
 					        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
-					        $statusColor = "default";
-					        if( @$action["startDate"] < time() )
+					        $statusColor = "text-dark";
+					        //if startDate passed, or no startDate but has end Date
+					        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) )
 					        {
 					          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
-					          if( @$action["dateEnd"] > time()  )
+					          $statusColor = "text-green";
+					          if( @$action["dateEnd"] < time()  ){
 					            $statusLbl = Yii::t("rooms", "Late", null, Yii::app()->controller->module->id);
-					          
+					            $statusColor = "text-red";
+					          }
 					        } 
 					        if ( @$action["status"] == ActionRoom::ACTION_CLOSED  ) {
 					          $statusLbl = Yii::t("rooms", "Closed", null, Yii::app()->controller->module->id);
-					          $statusColor = "danger";
+					          $statusColor = "text-red";
 					        }
 					        
 							?>
@@ -265,26 +270,24 @@ if( Yii::app()->request->isAjaxRequest ){
 					
 					<?php echo $action["message"]; ?>
 					
-					<br/>
-					<?php if( isset( $action["tags"] ) ){ ?>
+					<?php if( @$action["tags"] ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 						<?php foreach ( $action["tags"] as $value) {
 								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
 							}?>
-						</span><br>
+						</span>
 					<?php }	?>
 
-					<?php if( isset( $action["urls"] ) ){ ?>
-						
-						<h2 class="text-dark" style="border-top:1px solid #eee;"><br><?php Yii::t("rooms", "Links and info bullet points", null, Yii::app()->controller->module->id)?></h2>
+					<?php if( @$action["urls"] )
+					{ ?>
+						<h2 class="text-dark" style="border-top:1px solid #eee;"><?php echo Yii::t("rooms", "Links and Info Bullet points", null, Yii::app()->controller->module->id)?></h2>
 						<?php foreach ( $action["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
-						}?>
-						<span class="" ><?php echo Yii::t("room","Comments",null,Yii::app()->controller->module->id) ?></span>
-					<?php }	?>
+						}
+					}	?>
 				</div>
 				<div  class="col-md-5">
 					<div class="col-md-12 leftInfoSection " >
@@ -302,7 +305,7 @@ if( Yii::app()->request->isAjaxRequest ){
 						?>
 						<?php if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) && !@$action["links"]["contributors"][Yii::app()->session['userId']]  ){	?>
 						<div class="space20"></div>
-						<a href="javascript:;" class="center text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("room","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
+						<a href="javascript:;" class="center text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("rooms","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
 						<?php }	?>
 					</div>
 				</div>
@@ -311,6 +314,8 @@ if( Yii::app()->request->isAjaxRequest ){
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
+		<div  class="space20"></div>
+		<span class="" ><?php echo Yii::t("rooms","Add your point of view in the comments",null,Yii::app()->controller->module->id) ?></span>
 		<div class="box-vote box-pod box margin-10 commentPod"></div>
 	</div>
 	

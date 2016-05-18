@@ -184,6 +184,8 @@ function editEntrySV () {
                 params.id = $("#editEntryContainer #id").val();
               if( $("#editEntryContainer #tags").val() )
                 params.tags = $("#editEntryContainer #tags").val().split(",");
+              if( $("#editEntryContainer #startDate").val() )
+                params.dateEnd = $("#editEntryContainer #startDate").val();
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
 

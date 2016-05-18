@@ -122,8 +122,8 @@ return array(
 	'Re-open This Action' => "Réouvrir cette action",
 	'Close' => "Fermer",
 	'ReOpen' => "Réouvrir",
-	"Links and info bullet points" => "Des liens d'informations ou actions à faire",
-	"Comments" => "Faites des propositions dans les commentaires",
+	"Links and Info Bullet points" => "Des liens d'informations ou actions à faire",
+	"Add your point of view in the comments" => "Faites des propositions dans les commentaires",
 	"Assign Me This Task" => "Assignez moi cette tache ",
 	"Made by " => "Proposition à l'assemblée par ",
 );
