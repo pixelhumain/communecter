@@ -35,7 +35,7 @@ return array(
 	"Brainstorm / Proposals / Ideas" => "Brainstorming, propositions, idées",
 
 	"Type of Room" => "Type d'espace",
-	"New Room" => "Nouvel espace",
+	'Add an Action Room' => "Nouvel espace coopératif",
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
@@ -91,5 +91,43 @@ return array(
 	 'Innovate for more democratic actions' => "Innover pour l'action democratique",
 	 'Action Rooms are made for new approaches' => "Les Nouveaux types de salles d'action sont bienvenues",
 
-	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter"
+	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter",
+	 'Organize Actions'=>'Organisons nos actions',
+	'Work Collectivelly'=> "Travailler Ensemble",
+	"It's time for action" => "Temps d'agir",
+
+	'Add an Action' => "Ajouter une action",
+	'Get some Actions going' => "Lancons quelques actions",
+	'Acts speak louder than words' => "Vivre, ce n'est pas respirer, c'est agir",
+	'This is where it start to be fun' => "C'est là que ca commence",
+	'practise before theory' => 'Le pratique doit préceder la théorie',
+	'to build and experiment collaboratively' => "Construire et expérimenter ensemble",
+
+	"Actions speak louder than words" => "Vivre, ce n'est pas respirer, c'est agir",
+	'Back to Action List' => "Retour à la liste d'action",
+	'Action List' => "Liste d'actions",
+	"Action Lists" => "Listes d'actions",
+
+	"Title of the action" => "Titre de l'action",
+	"Description of the action" => "Description de l'action",
+	"Estimated End Date" => "Date de fin",
+	"Add urls or Bullet points" => "Ajouter des liens ou actions à faire" ,
+	"Assignees" => "Responsable",
+	"start" => "début",
+
+	"Todo" => "A faire",
+	'My Todo' => "Mes Actions",
+	"Progressing"=> "En cours",
+	"In Progress" => "En cours",
+	'Unassigned' => "Non Assignées",
+	"Late" => "En retard",
+	"Date Change Count" => "Changement de date",
+	'Close this action' => "Fermer cette action",
+	'Re-open This Action' => "Réouvrir cette action",
+	'Close' => "Fermer",
+	'ReOpen' => "Réouvrir",
+	"Links and Info Bullet points" => "Des liens d'informations ou actions à faire",
+	"Add your point of view in the comments" => "Faites des propositions dans les commentaires",
+	"Assign Me This Task" => "Assignez moi cette tache ",
+	"Made by " => "Proposition à l'assemblée par ",
 );

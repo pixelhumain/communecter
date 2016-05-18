@@ -382,7 +382,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
 					<br/><br/>
 					
-					<?php echo nl2br($survey["message"]); ?>
+					<?php echo $survey["message"]; ?>
 					
 					<br/>
 					<?php if( isset( $survey["tags"] ) ){ ?>
@@ -478,10 +478,6 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 <script type="text/javascript">
 clickedVoteObject = null;
-
-//Images
-var images = <?php echo json_encode($images) ?>;
-var contentKeyBase = "<?php echo $contentKeyBase ?>";
 
 jQuery(document).ready(function() {
 	//var shareBtns = new ShareButton(".share-button");

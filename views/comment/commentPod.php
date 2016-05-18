@@ -110,7 +110,9 @@ $optionsLabels = array(
 								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
 							</a>
 						</li>
-					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
+					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 
+								//|| ($context["type"] == ActionRoom::TYPE_ACTIONS && (Authorisation::canEditAction(Yii::app()->session["userId"], (String) $context["_id"])))  
+								) { ?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
 								<?php echo Yii::t("comment","Abuse") ?> <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>

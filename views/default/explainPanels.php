@@ -743,9 +743,9 @@
 			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 			<div class="explainDesc">
 			<ul>
-				<li>Les salles d'action permettent de créer 2 types d'espaces pour le moment : </li>
-				<li>Les Salles de Discussion qui servent à construire et à partager autour d'une thématique</li>
-				<li>Les Salles de Décisions ou Votes qui permette de faire des propositions et de les partager avec une communauté pour prendre des décisions
+				<li>Les salles d'action permettent de créer 3 types d'espaces pour le moment : </li>
+				<li><b>Les Salles de Discussion</b> qui servent à construire et à partager autour d'une thématique</li>
+				<li><b>Les Salles de Décisions</b> ou Votes qui permettent de faire des propositions et de les partager avec une communauté pour prendre des décisions
 					<ul>
 						<li>C'est un votation à 5 choix : </li>
 						<li>Voter "Pour" : Assez Explicite</li>
@@ -755,8 +755,38 @@
 						<li>Voter "Contre" : Assez Explicite</li>
 					</ul>
 				</li>
+				<li><b>Les Salles d'Actions</b> qui permettent de faire des listes pour agir
+					<ul>
+						<li>une action peut avoir 5 états différents : </li>
+						<li>"A Faire" : aucune date de début n'a été assigné</li>
+						<li>"En cours" : une date de début, et une personne est assignée</li>
+						<li>"En retard": la date de fin est assigné mais dépassé.</li>
+						<li>"Terminer" : une tache qui a été cloturé</li>
+						<li>"Non Assignée" : une tache qui n'a pas encore de responsable </li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="explainActions <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Actions</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				<li><b>Les Salles d'Actions</b> qui permettent de faire des listes pour agir
+					<ul>
+						<li>une action peut avoir 5 états différents : </li>
+						<li>"A Faire" : aucune date de début n'a été assigné</li>
+						<li>"En cours" : une date de début, et une personne est assignée</li>
+						<li>"En retard": la date de fin est assigné mais dépassé.</li>
+						<li>"Terminer" : une tache qui a été cloturé</li>
+						<li>"Non Assignée" : une tache qui n'a pas encore de responsable </li>
+					</ul>
+				</li>
 
 			</ul>
 		</div>
 	</div>
+
 

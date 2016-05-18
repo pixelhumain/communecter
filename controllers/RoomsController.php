@@ -18,6 +18,12 @@ class RoomsController extends CommunecterController {
 	        'index'       	=> 'citizenToolKit.controllers.actionRoom.IndexAction',
 			'saveroom'   	=> 'citizenToolKit.controllers.actionRoom.SaveRoomAction',
 			'editroom'		=> 'citizenToolKit.controllers.actionRoom.EditRoomAction',
+			'actions'		=> 'citizenToolKit.controllers.actionRoom.ActionsAction',
+			'action'		=> 'citizenToolKit.controllers.actionRoom.ActionAction',
+			'editaction'	=> 'citizenToolKit.controllers.actionRoom.EditActionAction',
+			'saveaction'	=> 'citizenToolKit.controllers.actionRoom.SaveActionAction',
+			'closeaction'	=> 'citizenToolKit.controllers.actionRoom.CloseActionAction',
+			'assignme'	=> 'citizenToolKit.controllers.actionRoom.AssignMeAction',
 	    );
 	}
 }

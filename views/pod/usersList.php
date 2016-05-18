@@ -66,7 +66,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			
 		</div> 
 		<div class="panel-tools">
-				<?php if ($admin && $contentType != "events"){ ?>
+				<?php if ( $admin && $contentType != Event::COLLECTION && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
 						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="Les contributeurs du projet">
 							<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 						</a>								

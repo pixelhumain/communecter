@@ -155,6 +155,12 @@ class CommunecterController extends Controller
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
+      "actions" => array("href" => "/ph/communecter/rooms/actions"),
+      "action" => array("href" => "/ph/communecter/rooms/action"),
+      "editaction" => array("href" => "/ph/communecter/rooms/editaction"),
+      'saveaction' => array("href" => "/ph/communecter/rooms/saveaction"),
+      'closeaction' => array("href" => "/ph/communecter/rooms/closeaction"),
+      'assignme' => array("href" => "/ph/communecter/rooms/assignme"),
     ),
     "gantt"=> array(
       "index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
@@ -175,6 +181,7 @@ class CommunecterController extends Controller
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
+        "logged"           => array("href" => "/ph/communecter/person/logged"),
         "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
         "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),

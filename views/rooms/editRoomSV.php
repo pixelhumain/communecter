@@ -31,11 +31,19 @@ $this->renderPartial('../default/panels/toolbar');
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('vote')"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
      <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
       <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, $moduleId)?>
-      <!-- <br/><a class="btn btn-success" href="javascript:;" onclick=""><?php echo Yii::t( "common", 'Do this'); ?></a>  -->
     </blockquote>
   </div>
 
   <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1  text-dark">
+    <blockquote> 
+      <i class="fa fa-cogs center fa-4x"></i>
+      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('actions')"><span class="text-bold"><?php echo Yii::t('rooms', 'Organize Actions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
+     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Work Collectivelly', null, $moduleId)?>
+      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "It's time for action", null, $moduleId)?>
+    </blockquote>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-5 text-dark">
     <blockquote> 
      <i class="fa fa-lightbulb-o center fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="alert('ouvrir le salle de proposition de nouveau type de vote')"><span class="text-bold"><?php echo Yii::t('rooms', "Help us with new ideas", null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
@@ -44,6 +52,7 @@ $this->renderPartial('../default/panels/toolbar');
       <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Action Rooms are made for new approaches', null, $moduleId)?>
     </blockquote>
   </div>
+
 </div>
 
 <div id="editRoomsContainer" class="hidden"></div>
@@ -112,6 +121,7 @@ function selectRoomType(type){
   var msg = "Nouvel espace";
   if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
   if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
+  if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
   $("#proposerloiFormLabel").html(msg);
   $("#proposerloiFormLabel").addClass("text-dark");
   $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
@@ -141,46 +151,43 @@ function editRoomSV (roomObj) {
           },
           onSave : function(){
             console.log("saving Room!!");
-            one = getRandomInt(0,10);
-            two = getRandomInt(0,10);
-            if( prompt("combien font "+one+"+"+two+" ?") == one+two )
-            {
-              processingBlockUi();
-              var params = { 
-                 "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-                 "name" : $("#name").val() , 
-                 "tags" : $("#tags").val().split(","),
-                 <?php  
-                 //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
-                 ?>
-                 "type" : $("#roomType").select2("val"), 
-              };
-              if( $("#type").val() != "")
-                params.parentType = $("#type").val();
-              if( $("#id").val() != "")
-                params.parentId = $("#id").val();
-             console.dir(params);
-             $.ajax({
-                type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
-                data: params,
-                success: function(data){
-                  if(data.result){
-                      if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
-                        loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
-                      else 
-                        loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
-                      //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
-                  }
-                  else {
-                    toastr.error(data.msg);
-                  }
-                  $.unblockUI();
-                },
-                dataType: "json"
-              });
-          } else 
-            alert("mauvaise réponse, etes vous humain ?");
+            
+            processingBlockUi();
+            var params = { 
+               "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
+               "name" : $("#name").val() , 
+               "tags" : $("#tags").val().split(","),
+               <?php  
+               //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
+               ?>
+               "type" : $("#roomType").select2("val"), 
+            };
+            if( $("#type").val() != "")
+              params.parentType = $("#type").val();
+            if( $("#id").val() != "")
+              params.parentId = $("#id").val();
+           console.dir(params);
+            $.ajax({
+              type: "POST",
+              url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
+              data: params,
+              success: function(data){
+                if(data.result){
+                    if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
+                      loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
+                    else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
+                      loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
+                    else 
+                      loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
+                    //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
+                }
+                else {
+                  toastr.error(data.msg);
+                }
+                $.unblockUI();
+              },
+              dataType: "json"
+            });
 
 
             return false;
