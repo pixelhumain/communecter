@@ -104,10 +104,12 @@
    		//}
    		bindFicheInfoBtn();
 
+   		<?php if(isset($organization["modules"]) && in_array("survey", $organization["modules"])){ ?>
    		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh'></i>");
    		var id = "<?php echo (String) $organization['_id']; ?>";
    		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
    			function(){}, "html");
+   		<?php } ?>
 	});
 	
 	function bindFicheInfoBtn(){
