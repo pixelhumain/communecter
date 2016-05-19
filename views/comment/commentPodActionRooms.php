@@ -83,10 +83,28 @@ margin-top:90px;
 
 jQuery(document).ready(function() {
 	
-  	<?php if($contextType == "actionRooms"){ ?>
-  		$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+	<?php if($contextType == "actionRooms"){ ?>
+  		$(".moduleLabel").html("<i class='fa fa-comments'></i> <?php echo Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id); ?>");
 		$(".main-col-search").addClass("assemblyHeadSection");
   	<?php } ?>
+    /*
+    function getSelectedParagraphText() {
+  if (window.getSelection) {
+      selection = window.getSelection();
+  } else if (document.selection) {
+      selection = document.selection.createRange();
+  }
+  var parent = selection.anchorNode;
+  while (parent != null && parent.localName != "P") {
+    parent = parent.parentNode;
+  }
+  if (parent == null) {
+    return "";
+  } else {
+    return parent.innerText || parent.textContent;
+  }
+}
+    */
 });
 
 </script>

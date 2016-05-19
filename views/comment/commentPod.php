@@ -187,15 +187,17 @@ var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
+var selection;
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
-
+  	
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
 	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");
 	bindEvent();
 	$('.ps-container').perfectScrollbar({suppressScrollX : true});
+
 
 	/*!
 	  Non-Sucking Autogrow 1.1.1
@@ -432,8 +434,51 @@ function bindEvent(){
 	$('.abuseHistory').off().on("click",function(){
 		bootbox.alert("TODO - history");
 	});
-	
+
+	if(contextType == "actionRooms")
+	{
+		$(".commentText-posted").bind('mouseup', function(e){
+	        if (window.getSelection) {
+	          selection = window.getSelection();
+	        } else if (document.selection) {
+	          selection = document.selection.createRange();
+	        }
+	        if( $(this).parent().hasClass("commentContent-posted")){
+	        	if($(".selBtn").length)
+	        		$(".selBtn").remove();
+	        	links = "<a href='javascript:;' onclick='fastAddAction()' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
+	        			" <a href='javascript:;'  onclick='loadByHash(\"#survey.editentry.survey."+context['_id']['$id']+".ext.true\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>";
+	        	$(this).parent().find("div.bar_tools_post").append(links);
+	        }
+	    });
+	}
 }
+
+function  fastAddAction() { 
+	processingBlockUi();
+	$.ajax({
+        type: "POST",
+        url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/fastaddaction")?>',
+        data: {
+        	"discussion" : context['_id']['$id'],
+        	"type" : contextType,
+        	"action" : selection.toString()
+        },
+        dataType: "json",
+        success: function(data){
+          if(data.result)
+            toastr.success(data.msg);
+          else 
+            toastr.error(data.msg);
+          
+          $.unblockUI();
+        },
+        error: function(data) {
+          $.unblockUI();
+          toastr.error("Something went really bad : "+data.msg);
+        }
+      });
+ }
 
 function actionOnComment(comment, action) {
 	$.ajax({
