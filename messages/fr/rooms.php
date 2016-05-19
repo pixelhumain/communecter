@@ -40,6 +40,7 @@ return array(
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
 	"Discussions" => "Discussions",
+	"Let's Discuss" => "Espace de discussion",
 	"Create a discussion" => "Créer un espace de discussion",
 	"Decisions" => "Prendre des décisions",
 	"Brainstorms" => "Echanger des idées",
@@ -130,4 +131,6 @@ return array(
 	"Add your point of view in the comments" => "Faites des propositions dans les commentaires",
 	"Assign Me This Task" => "Assignez moi cette tache ",
 	"Made by " => "Proposition à l'assemblée par ",
+	"Copied from a discussion :" => "Copié d'une discussion : ",
+	"action Saved" => "Action Enregistrer"
 );
