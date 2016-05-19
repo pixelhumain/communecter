@@ -446,38 +446,46 @@ function bindEvent(){
 	        if( $(this).parent().hasClass("commentContent-posted")){
 	        	if($(".selBtn").length)
 	        		$(".selBtn").remove();
-	        	links = "<a href='javascript:;' onclick='fastAddAction()' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
-	        			" <a href='javascript:;'  onclick='loadByHash(\"#survey.editentry.survey."+context['_id']['$id']+".ext.true\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>";
+	        	links = "<a href='javascript:;' onclick='fastAdd(\"/rooms/fastaddaction\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
+	        			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>"+
+	        			" <a href='javascript:;'  onclick='highlight()' class='selBtn text-bold btn btn-dark-yellow btn-xs'><i class='fa fa-paint-brush'></i> Highlight Hot point <i class='fa fa-legal'></i></a>";
 	        	$(this).parent().find("div.bar_tools_post").append(links);
 	        }
 	    });
 	}
 }
 
-function  fastAddAction() { 
-	processingBlockUi();
-	$.ajax({
-        type: "POST",
-        url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/fastaddaction")?>',
-        data: {
-        	"discussion" : context['_id']['$id'],
-        	"type" : contextType,
-        	"action" : selection.toString()
-        },
-        dataType: "json",
-        success: function(data){
-          if(data.result)
-            toastr.success(data.msg);
-          else 
-            toastr.error(data.msg);
-          
-          $.unblockUI();
-        },
-        error: function(data) {
-          $.unblockUI();
-          toastr.error("Something went really bad : "+data.msg);
-        }
-      });
+function highlight () { 
+	toastr.info("<h1>New Feature<br/><span class='text-large'>Highlighting text in discussions, to build quick reading synthesis</span><br/><a class='btn btn-dark-blue' href='alert(\"open communecter public Feature voting\")'>VOTE FOR IT</a></h1>");
+}
+function  fastAdd(url) { 
+	console.log("url",url);
+	if( selection.toString() != "" ){
+		processingBlockUi();
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+'/'+moduleId+url,
+	        data: {
+	        	"discussionId" : context['_id']['$id'],
+	        	"type" : contextType,
+	        	"txt" : selection.toString()
+	        },
+	        dataType: "json",
+	        success: function(data){
+	          if(data.result){
+	            toastr.success(data.msg);
+	            $(".selBtn").remove(); 
+	          } else 
+	            toastr.error(data.msg);
+	          
+	          $.unblockUI();
+	        },
+	        error: function(data) {
+	          $.unblockUI();
+	          toastr.error("Something went really bad : "+data.msg);
+	        }
+	    });
+	}
  }
 
 function actionOnComment(comment, action) {
