@@ -1,9 +1,50 @@
- <!-- Nav tabs -->
+ 
+<style>
+	
+.homestead .label-default {
+    font-weight: 300;
+	font-family: "Helvetica Neue";
+	padding: 2px 8px 4px 8px !important;
+	top: -3px;
+	position: relative;
+	border-radius: 30px;
+	width: 30px !important;
+}
+.nav-menu-rooms{
+	/*padding-left:5px;*/
+}
+
+.nav-menu-rooms.nav-tabs > li{
+	background-color: #454545;
+	font-size: 17px;
+}	
+
+.nav-menu-rooms.nav-tabs > li a{
+	color: #DEDEDE;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	border: 0px !important;
+	padding: 10px 15px !important;
+	font-size: 20px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 200;
+}
+.nav-menu-rooms.nav-tabs > li.active a{
+	color: #2BB0C6;
+}
+.nav-menu-rooms.nav-tabs > li a:hover{
+	color: #2BB0C6;
+}
+
+</style>
+
+ 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
 			  <li class="active"><a href="#discussions" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> Discuter <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
 			  <li><a href="#votes" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> Décider <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
 			  <li><a href="#actions" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> Agir <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
-			  <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> <span class="label label-default"><?php echo (isset($history)) ? count($history) : 0?></span> </a></li>
+			  <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> Historique <span class="label label-default"><?php echo (isset($history)) ? count($history) : 0?></span> </a></li>
 			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 			</ul>
 

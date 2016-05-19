@@ -32,13 +32,17 @@ $moduleId = Yii::app()->controller->module->id;
 }*/
 
   h1.citizenAssembly-header{
-    background-color: rgba(255, 255, 255, 0.63);
+    background-color: rgba(255, 255, 255, 0.4);
     padding: 30px;
     padding-top:0px;
     margin-bottom: -3px;
     font-size: 32px;
     margin-top:90px;
     padding-bottom: 100px;
+    -moz-box-shadow: 0px 3px 10px 1px #656565;
+	-webkit-box-shadow: 0px 3px 10px 1px #656565;
+	-o-box-shadow: 0px 3px 10px 1px #656565;
+	box-shadow: 0px 3px 10px 1px #656565;
   }
 #main-panel-room{
 	/*margin-top:100px;*/
@@ -102,41 +106,12 @@ a.text-white {
 
 .nav-menu-rooms{
 	margin-top: -50px;
-	background-color: rgba(0, 0, 0, 0.55);
-}
-.nav-menu-rooms li{
-	color:white;
-}
-.nav-menu-rooms > li > a {
-    border: 0 none;
-	border-radius: 0;
-	/*color: #FFF;*/
-	min-width: 70px;
-	padding: 11px 20px;
-	margin-top: -3px;
-	font-size: 20px;
-}
-
-.nav-menu-rooms > li > a:hover {
-	color:rgb(0, 123, 128);
 }
 
 .tab-pane{
 	background-color: white;
 }
 
-.homestead .label-default {
-    font-weight: 200;
-    font-family: initial;
-    padding: 6px 8px 4px 8px !important;
-    top : -3px;
-    position: relative;
-}
-#main-panel-room .nav-tabs > li {
-    background-color: #dedede;
-	font-size: 17px;
-	color: #3A87AD;
-}
 
 blockquote {border: 1px solid gray; cursor: pointer;}
 blockquote:hover {border: 1px solid #E33551; }
@@ -162,7 +137,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	<span class="homestead" style="padding:10px;">
 		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
-	<span class="homestead" style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
+	<span class="homestead text-azure" style="padding:10px; font-size:0.8em;">
 		<i class='fa fa-connectdevelop'></i> Espaces coopératifs
 	</span>
 	<?php 
