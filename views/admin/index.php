@@ -82,7 +82,7 @@ $cs = Yii::app()->getClientScript();
               </div>
 
           <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-moderate">
-            <div class="" style="cursor:pointer;" onclick="loadByHash('#stat.chartGlobal')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#stat.chartglobal')">
               <i class="fa fa-bar-chart fa-2x"></i>
               
               <?php echo Yii::t("admin", "STATISTICS", null, Yii::app()->controller->module->id); ?>

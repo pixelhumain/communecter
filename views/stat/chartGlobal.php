@@ -151,9 +151,9 @@ var chartActionRooms = c3.generate({
         columns: [],
         type: 'bar',
         groups: [
-            <?php echo json_encode(array_keys($groups['actionRoomsTypes'])); ?>
+            <?php echo json_encode(array_keys($groups['listRoomTypes'])); ?>
         ],
-        names:  <?php echo json_encode($groups['actionRoomsTypes']); ?>
+        names:  <?php echo json_encode($groups['listRoomTypes']); ?>
     },
     axis: {
         x: {

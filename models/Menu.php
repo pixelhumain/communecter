@@ -217,14 +217,14 @@ class Menu {
         self::entry("left", 'showAjaxPanel', 
                 Yii::t("common","Statistics global"),
                 Yii::t("common","Statistics global"),
-                'file-o','/stat/chartGlobal/',"statistics","global");
+                'file-o','/stat/chartglobal/',"statistics","global");
         
-        //Organizations
+        //Cities
         //-----------------------------
-         self::entry("left", 'showAjaxPanel', 
-                Yii::t("common","Statistics cities"),
-                Yii::t("common","Statistics cities"),
-                'file-o','/stat/chartCities/',"statistics","cities");
+         // self::entry("left", 'showAjaxPanel', 
+         //        Yii::t("common","Statistics cities"),
+         //        Yii::t("common","Statistics cities"),
+         //        'file-o','/stat/chartCities/',"statistics","cities");
 
     }
 
