@@ -124,6 +124,7 @@ class CommunecterController extends Controller
       'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'getcityjsondata'     => array("href" => "/ph/communecter/city/getcityjsondata", "public" => true),
       'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
+      'statisticPopulation' => array("href" => "/ph/communecter/city/statisticPopulation", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
       'opendata'            => array("href" => "/ph/communecter/city/opendata","public" => true),
       'getoptiondata'       => array("href" => "/ph/communecter/city/getoptiondata"),
@@ -352,8 +353,6 @@ class CommunecterController extends Controller
     ),
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
-      "chartglobal" => array("href" => "/ph/communecter/stat/chartglobal"),
-      "chartcities" => array("href" => "/ph/communecter/stat/chartcities"),
     ),
   );
 

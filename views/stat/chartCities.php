@@ -24,6 +24,25 @@
 
 </script>
 
+
+<div class='panel panel-white' id="panel" style="margin-top: 42px;">
+    <div class="panel-heading border-light">
+        
+        <span id="titleGraph" class="text-large titlePod"> Statistique zone géographique </span>
+        <ul role="menu" class="dropdown-menu pull-right" id="filterGraph">
+            <?php foreach ($dep as $num => $name) {?>
+                <li>
+                    <a class="btn-drop optionBtn" data-name="region_name">
+                        <input type="checkbox" id="num" name="name" value="value"/>
+                        <label for="name" ><?php echo $name; ?></label>
+                    </a>
+                </li>
+            <?php } ?>
+           
+        </ul>
+    </div>
+</div>
+
 <!-- ***** CITOYENS ***** -->
 <h4>Evolution du nombre de communecté</h4>
 <div id="chartCitoyens"></div>
@@ -52,31 +71,5 @@ chartCitoyens.load({
   url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/citoyens/chart/cities/insee/59350",
   mimeType: 'json'
 });
-
-</script>
-
-<!-- ORGANIZATIONS -->
-<h4>Organisations</h4>
-<div id="chartOrganizatons"></div>
-<script>
-
-var chartOrganizatons = c3.generate({
-    bindto: '#chartOrganizatons',
-    data: {
-        columns: [
-            ['data1', 30],
-            ['data2', 120],
-        ],
-        type : 'pie',
-        onclick: function (d, i) { console.log("onclick", d, i); },
-        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-    }
-});
-
-// chartOrganizatons.load({
-//   url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/organizations/chart/cities/insee/59350",
-//   mimeType: 'json'
-// });
 
 </script>

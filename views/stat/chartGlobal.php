@@ -18,11 +18,7 @@
   	// }
 
 ?>
-<script>
-    //Title
-    $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
 
-</script>
 <!-- ***** CITOYENS ***** -->
 <h4>Evolution du nombre de communecté</h4>
 <div id="chartCitoyens"></div>
@@ -47,10 +43,7 @@ var chartCitoyens = c3.generate({
     }
 });
 
-chartCitoyens.load({
-  url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/citoyens/chart/global",
-  mimeType: 'json'
-});
+
 
 </script>
 
@@ -81,10 +74,7 @@ var chartOrganizatons = c3.generate({
     }
 });
 
-chartOrganizatons.load({
-  url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/organizations/chart/global",
-  mimeType: 'json'
-});
+
 
 </script>
 
@@ -115,10 +105,6 @@ var chartEvents = c3.generate({
     }
 });
 
-chartEvents.load({
-  url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/events/chart/global",
-  mimeType: 'json'
-});
 
 </script>
 
@@ -149,12 +135,104 @@ var chartProjects = c3.generate({
     }
 });
 
-chartProjects.load({
-  url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/projects/chart/global",
-  mimeType: 'json'
-});
 
 </script>
 
+<!-- ORGANIZATIONS -->
+<h4>Evolution du nombre de salles de vote</h4>
+<div id="chartActionRooms"></div>
+<script>
+
+var chartActionRooms = c3.generate({
+    bindto: '#chartActionRooms',
+    data: {
+        x : 'x',
+        xFormat: '%d/%m/%Y',
+        columns: [],
+        type: 'bar',
+        groups: [
+            <?php echo json_encode(array_keys($groups['actionRoomsTypes'])); ?>
+        ],
+        names:  <?php echo json_encode($groups['actionRoomsTypes']); ?>
+    },
+    axis: {
+        x: {
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
+        }
+    }
+});
 
 
+</script>
+
+<!-- ***** CITOYENS ***** -->
+<h4>Evolution du nombre de salle de vote</h4>
+<div id="chartSurveys"></div>
+<script>
+
+var chartSurveys = c3.generate({
+    bindto: '#chartSurveys',
+    data: {
+        x : 'x',
+        xFormat: '%d/%m/%Y',
+        columns: [],
+        type: 'line',
+        names: {'survey' : 'Salle de vote'}
+    },
+    axis: {
+        x: {
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
+        }
+    }
+});
+
+
+</script>
+
+<script>
+    //Title
+    jQuery(document).ready(function() {
+        $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
+
+        chartCitoyens.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/citoyens/chart/global",
+          mimeType: 'json'
+        });
+
+        chartOrganizatons.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/organizations/chart/global",
+          mimeType: 'json'
+        });
+
+
+        chartEvents.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/events/chart/global",
+          mimeType: 'json'
+        });
+
+        chartProjects.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/projects/chart/global",
+          mimeType: 'json'
+        });
+
+
+        chartActionRooms.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/actionRooms/chart/global",
+          mimeType: 'json'
+        });
+
+
+        chartSurveys.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/survey/chart/global",
+          mimeType: 'json'
+        });
+
+    });
+
+</script>

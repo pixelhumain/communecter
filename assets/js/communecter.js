@@ -385,6 +385,7 @@ var loadableUrls = {
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
@@ -409,8 +410,8 @@ var loadableUrls = {
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	
 	//"#home" : {"alias":"#default.home"},
-    "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
-    "#stat.chartcities" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartGlobal" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartCities" : {title:'STATISTICS ', icon : 'bar-chart'},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
