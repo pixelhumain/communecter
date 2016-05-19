@@ -47,6 +47,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	top: 8% !important;
 	left: 18% !important;
 }
+
+@media screen and (max-width: 767px) {
+	.ps-container-com{
+		max-height: 300px !important;
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	.ps-container-com{
+		max-height: 500px !important;
+	}
+}
+@media screen and (min-width: 1025px) {
+	.ps-container-com{
+		max-height: 500px !important;
+	}
+}
 <?php } ?>
 
 .commentContent{
@@ -101,13 +117,19 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Comments") ?> <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
+								<i class="fa fa-comments"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Comments") ?> <span class="badge bg-azure nbComments"><?php echo $nbComment ?></span>
+								</span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<i class="fa fa-thumbs-up"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-green"><?php echo count($communitySelectedComments) ?></span>
+								</span>
 							</a>
 						</li>
 					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 
@@ -115,14 +137,17 @@ $optionsLabels = array(
 								) { ?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
-								<?php echo Yii::t("comment","Abuse") ?> <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
+								<i class="fa fa-flag"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Abuse") ?> <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
+								</span>
 							</a>
 						</li>
 					<?php } ?>
 					</ul>
 					<div class="tab-content partition-white">
 						<div class="tab-pane active no-padding" id="entry_comments" >
-							<div class="panel-scroll ps-containerr commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com commentTable" style="padding-top: 5px; height:auto ">
 							<?php if ($canComment) {?>
 								<div class='saySomething padding-5'>
 									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
@@ -131,11 +156,11 @@ $optionsLabels = array(
 							</div>
 						</div>
 						<div class="tab-pane no-padding" id="entry_community_comments">
-							<div class="panel-scroll ps-container communityCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com communityCommentTable" style="padding-top: 5px; height:auto ">
 							</div>
 						</div>
 						<div class="tab-pane no-padding" id="entry_abuse">
-							<div class="panel-scroll ps-container abuseCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com abuseCommentTable" style="padding-top: 5px; height:auto ">
 							</div>
 						</div>
 					</div>

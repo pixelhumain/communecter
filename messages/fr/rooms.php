@@ -104,7 +104,7 @@ return array(
 	'to build and experiment collaboratively' => "Construire et expérimenter ensemble",
 
 	"Actions speak louder than words" => "Vivre, ce n'est pas respirer, c'est agir",
-	'Back to Action List' => "Retour à la liste d'action",
+	'Back to Action List' => "Retour à la liste",
 	'Action List' => "Liste d'actions",
 	"Action Lists" => "Listes d'actions",
 
@@ -128,6 +128,6 @@ return array(
 	'ReOpen' => "Réouvrir",
 	"Links and Info Bullet points" => "Des liens d'informations ou actions à faire",
 	"Add your point of view in the comments" => "Faites des propositions dans les commentaires",
-	"Assign Me This Task" => "Assignez moi cette tache ",
-	"Made by " => "Proposition à l'assemblée par ",
+	"Assign Me This Task" => "Assignez-moi cette tache ",
+	"Made by " => "Proposé par ",
 );

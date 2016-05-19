@@ -239,7 +239,7 @@ if( Yii::app()->request->isAjaxRequest ){
 				        }
 				        
 						?>
-						<span style="font-size: 35px; font-weight:bold; padding:5px; border:1px solid #ccc;" class='text-bold <?php echo $statusColor?>'>
+						<span style="font-size: 35px; font-weight:300; padding:5px; border:1px solid #ccc; border-radius:10px;" class='text-bold <?php echo $statusColor?>'>
 						<?php
 				        echo $statusLbl;
 						?>
@@ -267,7 +267,10 @@ if( Yii::app()->request->isAjaxRequest ){
 
 					<?php if( @$action["urls"] )
 					{ ?>
-						<h2 class="text-dark" style="border-top:1px solid #eee;"><?php echo Yii::t("rooms", "Links and Info Bullet points", null, Yii::app()->controller->module->id)?></h2>
+						<h3 class="text-dark text-left" style="border-top:1px solid #eee;font-weight:300;">
+							<i class="fa fa-caret-down"></i> 
+							<?php echo Yii::t("rooms", "Links and Info Bullet points", null, Yii::app()->controller->module->id)?>
+						</h3>
 						<?php foreach ( $action["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
@@ -292,7 +295,7 @@ if( Yii::app()->request->isAjaxRequest ){
 						?>
 						<?php if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) && !@$action["links"]["contributors"][Yii::app()->session['userId']]  ){	?>
 						<div class="space20"></div>
-						<a href="javascript:;" class="center text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("rooms","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
+						<a href="javascript:;" class="pull-right text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("rooms","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
 						<?php }	?>
 					</div>
 				</div>
