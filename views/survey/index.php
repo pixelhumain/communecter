@@ -408,12 +408,13 @@ $this->renderPartial('../default/panels/toolbar');
 
         $btnRead = "";
         $leftLinks = "";
-        $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
-        $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
-        if( !ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
-          $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("survey","JOIN TO VOTE", null, Yii::app()->controller->module->id);
-          $ctrl = Element::getControlerByCollection($parentType);
-          $btnUrl = "#$ctrl.detail.id.$parentId";
+        $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("survey","JOIN TO VOTE", null, Yii::app()->controller->module->id);
+        $ctrl = Element::getControlerByCollection($parentType);
+        $btnUrl = "#$ctrl.detail.id.$parentId";
+        
+        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
+          $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
+          $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
 
         if(!$surveyIsClosed && !$surveyHasVoted)        

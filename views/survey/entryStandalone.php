@@ -166,16 +166,17 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
  -->
- 	<?php 
- 		$survey = Survey::getById($survey["_id"]);
- 		$room = ActionRoom::getById($survey["survey"]);
- 		$parentType = $room["parentType"];
- 		$parentId = $room["parentId"];
- 		$nameParentTitle = "";
- 		if($parentType == Organization::COLLECTION && isset($parentId)){
- 			$orga = Organization::getById($parentId);
- 			$nameParentTitle = $orga["name"];
-		}
+<?php 
+	//ca sert a quoi ce doublon ?
+	$survey = Survey::getById($survey["_id"]);
+	$room = ActionRoom::getById($survey["survey"]);
+	$parentType = $room["parentType"];
+	$parentId = $room["parentId"];
+	$nameParentTitle = "";
+	if($parentType == Organization::COLLECTION && isset($parentId)){
+		$orga = Organization::getById($parentId);
+		$nameParentTitle = $orga["name"];
+	}
 
 		
 //copié coller merdique
@@ -363,7 +364,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 						<?php foreach ( $survey["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large"><i class="fa fa-link" target="_blank"></i> '.$value.'</a><br/> ';
+								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 						}?>
@@ -472,22 +473,58 @@ function addaction(id,action)
     console.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-        	function(result) {
-        		if (result) {
-			      	params = { 
-			           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-			           "id" : id ,
-			           "collection":"surveys",
-			           "action" : action 
-			        };
-			      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-			        	loadByHash(location.hash);
-			      	});
-			    } else {
-			    	$("."+clickedVoteObject).removeClass("faa-bounce animated");
-			    }
+    	var message = "Vous êtes sûr ? Vous ne pourrez pas changer votre vote";
+    	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
+    	var boxNews = bootbox.dialog({
+			title: message,
+			message: input,
+			buttons: {
+				annuler: {
+					label: "Annuler",
+					className: "btn-default",
+					callback: function() {
+						$("."+clickedVoteObject).removeClass("faa-bounce animated");
+					}
+				},
+				success: {
+					label: "OK",
+					className: "btn-info",
+					callback: function() {
+						var voteComment = $("#modalComment .newComment").val();
+						params = { 
+				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+				           "id" : id ,
+				           "collection":"surveys",
+				           "action" : action 
+				        };
+				        if(voteComment != ""){
+				        	params.comment = trad[action]+' : '+voteComment;
+				        	$("#modalComment .newComment").val(params.comment);
+				        	validateComment("modalComment","");
+				        } 
+				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+				        	loadByHash(location.hash);
+				      	});
+					}
+				}
+			}
     	});
+    	// bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
+     //    	function(result) {
+     //    		if (result) {
+			  //     	params = { 
+			  //          "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+			  //          "id" : id ,
+			  //          "collection":"surveys",
+			  //          "action" : action 
+			  //       };
+			  //     	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+			  //       	loadByHash(location.hash);
+			  //     	});
+			  //   } else {
+			  //   	$("."+clickedVoteObject).removeClass("faa-bounce animated");
+			  //   }
+    	// });
  	}
  }
 

@@ -56,11 +56,11 @@
 		</button>
 	<?php } ?>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto" id="btn-geoloc-auto-menu">
+	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="lbl-btn-menu-name-city">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-					   echo '<span class="lbl-btn-menu-name">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
+					   echo '<span class="lbl-btn-menu-name hidden-sm">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
 	</button>
@@ -253,7 +253,7 @@ text-align: center;
 }
 
 </style>
-<div class="globale-announce text-dark">
+<div class="globale-announce text-dark hidden-xs">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<span class="homestead msg hidden">Soutenez-nous</span>
 		<img class="piggy" style="height:30px;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
@@ -262,7 +262,7 @@ text-align: center;
 	</div>
 	<div id="kkbb-big" style="display:none;">
 		<button class="btn btn-default" id="btn-close-globale-announce"><i class="fa fa-times"></i></button>
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
@@ -273,7 +273,7 @@ text-align: center;
 		</div>
 
 		
-		<a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
 		</a>
 <!-- 

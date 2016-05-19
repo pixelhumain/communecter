@@ -151,20 +151,21 @@ function initGrid(){
 						htmlBtn	+= '<small> - '+v[i].size+'</small>';
 					htmlBtn+= '</span>';
 					if(authorizationToEdit){
-						htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
-										' <i class="fa fa-trash-o"></i>'+
-									' </a>';
+						htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i].id+'" data-name="'+v[i].name+'" data-key="';
+						if(v[i].moduleId=="communevent")
+							htmlBtn += v[i].moduleId;
+						else
+							htmlBtn += v[i].contentKey;
+						htmlBtn += '" >' +
+								' <i class="fa fa-trash-o"></i>'+
+							' </a>';
 					}
 				htmlBtn+= 	' </div>';
-				var path = baseUrl+v[i]["imageUrl"];
-				if(v[i].contentKey=="profil")
-					var pathThumb = path;
-				else
-					var pathThumb = baseUrl+"/<?php echo Yii::app()->params['uploadUrl'] ?>"+v[i].moduleId+"/"+v[i].folder+"/<?php echo Document::GENERATED_IMAGES_FOLDER ?>/"+v[i].name;
-				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i]["_id"]["$id"]+'">'+
+
+				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i].id+'">'+
 							' <div class="portfolio-item">'+
-								' <a class="thumb-info" href="'+path+'" data-lightbox="all">'+
-									' <img src="'+pathThumb+'" class="img-responsive" alt="">'+
+								' <a class="thumb-info" href="'+v[i].imagePath+'" data-lightbox="all">'+
+									' <img src="'+v[i].imageThumbPath+'" class="img-responsive" alt="">'+
 								' </a>' +
 								//' <div class="chkbox"></div>' +
 								htmlBtn +
@@ -201,6 +202,8 @@ function bindBtnGallery(){
 		var path="";
 		if(key == "slider")
 			var path="album";
+		else if(key=="communevent")
+			var path=key;
 //		var path = $(this).data("path");
 		e.preventDefault();
 		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete') ?> <span class='text-red'>"+$(this).data("name")+"</span> ?", 
@@ -210,7 +213,7 @@ function bindBtnGallery(){
 						url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+itemType+"/parentId/"+itemId,
 						type: "POST",
 						dataType : "json",
-						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "path" : path},
+						data: {"name": imageName, "parentId": itemId, "docId":imageId, "parentType": itemType, "path" : path, "source":"gallery"},
 						success: function(data){
 							if(data.result){
 								$("#"+imageId).remove();

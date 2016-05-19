@@ -231,6 +231,11 @@ function deleteNews(id, $this){
 						
 					});
 				}
+				if ($("#deleteImageCommunevent"+id).length){
+						imageId=$("#deleteImageCommunevent"+id).val();
+						deleteImage(imageId,"",true,true);
+				}
+
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/news/delete/id/"+id,
@@ -495,7 +500,7 @@ function getUrlContent(){
         }
     });
 }
-function getMediaHtml(data,action){
+function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){
 		extracted_images = data.images;
 		total_images = parseInt(data.images.length);
@@ -531,8 +536,14 @@ function getMediaHtml(data,action){
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
         inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo;
-        if(data.content.type=="img_link")
-	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='Image partagée'  data-lightbox='allimgcontent'>";
+        if(data.content.type=="img_link"){
+	        if(typeof(data.content.imageId) != "undefined"){
+		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+idNews+"' value='"+data.content.imageId+"'/>";
+		       titleImg = "De l&apos;application communevent"; 
+		    }else
+		    	titleImg = "Image partagée"; 
+	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='"+titleImg+"'  data-lightbox='allimgcontent'>";
+	    }
         inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
         if(data.content.type=="img_link")
         	inc_image += '</a>';
@@ -803,7 +814,6 @@ function addMoreSpace(){
   });
 }
 function showMyImage(fileInput) {
-	alert();
 	if($(".noGoSaveNews").length){
 		toastr.info("Wait the end of image loading");
 	}
@@ -861,7 +871,7 @@ function getMediaImages(o,newsId,authorId,targetName){
 	}
 	if(countImages==1){
 		path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[0].folder+"/"+o.images[0].name;
-		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='album de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
 	}
 	else if(countImages==2){
 		for(var i in o.images){
@@ -908,11 +918,15 @@ function getMediaImages(o,newsId,authorId,targetName){
 	console.log(html);
 	return html;
 }
-function deleteImage(id,name,hideMsg){
+function deleteImage(id,name,hideMsg,communevent){
+	if(communevent==true)
+		path="communevent";
+	else
+		path="album";
 	$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+contextParentType+"/parentId/"+contextParentId,			
 			type: "POST",
-			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : "album", "docId" : id},
+			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : path, "docId" : id},
 			dataType: "json",
 			success: function(data){
 				if(data.result){

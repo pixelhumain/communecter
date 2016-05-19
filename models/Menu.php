@@ -184,7 +184,7 @@ class Menu {
                         "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
             }
         }
-     }
+    }
 
     public static function moderate()
     {
@@ -259,6 +259,15 @@ class Menu {
          
         $surveyLink = "#rooms";
         $surveyLink = "#rooms.index.type.organizations.id.".$id; 
+		
+		//COMMUNITY
+		//---------------------------
+		self::entry("left", 'onclick',
+        			Yii::t("common","Organization community"),
+        			Yii::t("common","Community") ,
+        			'connectdevelop',
+        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
+        
 
         //ACTION ROOMS
         //-----------------------------
@@ -278,13 +287,6 @@ class Menu {
                         "updateField('".Organization::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
             }
         
-        self::entry("left", 'onclick',
-        			Yii::t("common","Organization community"),
-        			Yii::t("common","Community") ,
-        			'connectdevelop',
-        			"loadByHash('#organization.directory.id.".$id."?tpl=directory2')","organization", "directory");
-        
-
         //ALBUM
         //-----------------------------
        self::entry("left", 'onclick', 
@@ -653,14 +655,19 @@ class Menu {
         // Add a proposal
         // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type) ) {
-            $urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
-            self::entry("right", 'onclick', 
-                        Yii::t( "common", 'Add a new survey' ),
-                        Yii::t( "common", 'Add' ), 'plus',
-                        "loadByHash('#rooms.editroom".$urlParams."')","addNewRoomBtn",null);
+        $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
+//        $ctrl = Element::getControlerByCollection($type);
+        $btnUrl = "#".$type.".detail.id.".$id;
+        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type ) ){ 
+            $btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
+            $btnUrl = "#rooms.editroom.type.".$type.".id.".$id;
         }
 
+        //$urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Add a new survey' ),
+                    Yii::t( "common", 'Add' ), 'plus',
+                    "loadByHash('".$btnUrl."')","addNewRoomBtn",null);
         
         // Help
         //-----------------------------

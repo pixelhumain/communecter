@@ -485,10 +485,43 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i> 
-					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
-						<?php echo Person::showField("telephone",$person, $isLinked)?>
+					<a href="#" id="fixe" data-type="select2" data-original-title="Saisir vos numéros téléphones, séparer les numéros par une virgule." class="editable editable-click">
+						<?php if(isset($person["telephone"]["fixe"])){
+							foreach ($person["telephone"]["fixe"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
 					</a>
 					<br>
+
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
+					<a href="#" id="mobile" data-type="select2" data-original-title="Saisir vos numéros de  mobiles, séparer les numéros par une virgule." class="editable editable-click">
+						<?php if(isset($person["telephone"]["mobile"])){
+							foreach ($person["telephone"]["mobile"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+
+					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
+					<a href="#" id="fax" data-type="select2" data-original-title="Saisir vos numéros de fax, séparer les numéros par une virgule." class="editable editable-click">
+						<?php if(isset($person["telephone"]["fax"])){
+							foreach ($person["telephone"]["fax"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+					
+					
+				</div>
 					
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
@@ -529,7 +562,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="pull-right text-right col-sm-5 col-md-4">
 				<div class="form-group tag_group no-margin">
 					<label class="control-label  text-red">
-						<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+						<i class="fa fa-tags"></i>sas <?php echo Yii::t("common","Tags") ?> : 
 					</label>
 					
 					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
@@ -748,6 +781,40 @@ function initXEditable() {
             tokenSeparators: [","],
             width: 200
         }
+    });
+
+
+    $('#mobile').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
+        select2: {
+            tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200
+        }
+    });
+
+    $('#fax').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["fax"])) ? json_encode(implode(",", $person["telephone"]["fax"])) : "''"; ?>,
+        select2: {
+            tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200
+        }
+    }); 
+
+    $('#fixe').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
+        select2: {
+            tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200
+        }
     }); 
 
     $('#addressCountry').editable({
@@ -801,11 +868,14 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
-	if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	//if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["mobile"]) 		? "true" : "false"; ?>){ $(".fa_telephone_mobile").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fixe"]) 		? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fax"]) 		? "true" : "false"; ?>){ $(".fa_telephone_fax").removeClass("hidden"); }
 }
 
 function manageModeContext() {
-	listXeditables = [	'#birthDate', '#description', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
