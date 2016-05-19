@@ -756,4 +756,22 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+
+	// Log
+	public function actionLogDeletePasswordCitoyen(){
+	  	echo "actionLogDeletePasswordCitoyen => ";  	
+	  	$i = 0;
+	  	$res1 = PHDB::find('logs',
+	  		array('params.pwd' => array('$exists' => 1)));
+	  	foreach ($res1 as $key => $value) {
+	  		$res = PHDB::updateWithOptions('logs',
+		  		array('params.pwd' => array('$exists' => 1)),
+		  		array('$unset' => array('params.pwd' => 1)),
+		  		array('multi'=>true));
+	  		$i++;
+	  	}
+	  	
+		echo $i." Logs modifiés<br/>";
+	}
+
 }
