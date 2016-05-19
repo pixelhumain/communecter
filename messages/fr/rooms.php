@@ -135,5 +135,7 @@ return array(
 	"Assign Me This Task" => "Assignez-moi cette tache ",
 	"Made by " => "Proposé par ",
 	"JOIN TO PARTICPATE" => "Devenez membre pour participer",
-	"go back to the detail page of the parent" => "retour vers la fiche info"
+	"go back to the detail page of the parent" => "retour vers la fiche info",
+	
+	"COOPERATIVE SPACE" => "ESPACE COOPÉRATIF"
 );
