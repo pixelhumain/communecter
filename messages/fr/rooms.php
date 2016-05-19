@@ -35,15 +35,18 @@ return array(
 	"Brainstorm / Proposals / Ideas" => "Brainstorming, propositions, idées",
 
 	"Type of Room" => "Type d'espace",
-	'Add an Action Room' => "Nouvel espace coopératif",
+	'Add an Action Room' => "Créer un espace",
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
 	"Discussions" => "Discussions",
-	"Create a discussion" => "Créer un espace de discussion",
 	"Decisions" => "Prendre des décisions",
 	"Brainstorms" => "Echanger des idées",
 	
+	"Create a discussion" => "Espace de discussion",
+	"Take decisions" 	  => "Espace de décision",
+	"Organize Actions"	  =>"Espace d'actions",
+
 	"To vote" => "A voter",
 	"My votes" => "Mes votes",
 	"My proposals" => "Mes propositions",
@@ -74,7 +77,7 @@ return array(
 	
 	"propositions" => "propositions",
 	"Create propostal" => "Faire une proposition",
-	"Take decisions" => "Créer un espace de décision",
+	
 
 	"Let's talk about" => "Échanger des idées librement",
 	"Find questions to ask" => "Poser des questions",
@@ -84,17 +87,18 @@ return array(
 	"to think, develop, build and decide collaboratively" => "Penser, développer, construire et décider de façon collaborative",
 	"Back to Parent" => "Retour",
 	"Created" => "Créé le",
-	"Action rooms to change things" =>'Espace de prise de décision',
+	"Back to collaborative space" =>"Retour vers espace coopératif",
+	"Collaborative space" =>"Espace coopératif",
 
 	 "Help us with new ideas" => "Améliorez avec vos idées",
 	 'Share Your ideas ' => "Partagez vos idées",
 	 'Innovate for more democratic actions' => "Innover pour l'action democratique",
-	 'Action Rooms are made for new approaches' => "Les Nouveaux types de salles d'action sont bienvenues",
+	 'Action Rooms are made for new approaches' => "Les nouveaux types de salles d'action sont les bienvenus",
 
 	 "You must login or join to vote" => "Connectez vous ou participez pour pouvoir voter",
-	 'Organize Actions'=>'Organisons nos actions',
+	 
 	'Work Collectivelly'=> "Travailler Ensemble",
-	"It's time for action" => "Temps d'agir",
+	"It's time for action" => "Prendre le temps d'agir",
 
 	'Add an Action' => "Ajouter une action",
 	'Get some Actions going' => "Lancons quelques actions",
@@ -130,4 +134,6 @@ return array(
 	"Add your point of view in the comments" => "Faites des propositions dans les commentaires",
 	"Assign Me This Task" => "Assignez-moi cette tache ",
 	"Made by " => "Proposé par ",
+	"JOIN TO PARTICPATE" => "Devenez membre pour participer",
+	"go back to the detail page of the parent" => "retour vers la fiche info"
 );

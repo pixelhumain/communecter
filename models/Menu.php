@@ -173,8 +173,8 @@ class Menu {
             {
                 self::entry("left", 'onclick', 
                         Yii::t( "common", 'Espace coopératif'), 
-                        Yii::t( "common", 'Vote'), 
-                        'gavel',
+                        Yii::t( "common", "retour vers l'espace coopératif"), 
+                        'connectdevelop',
                         "loadByHash('$surveyLink')","room", "index");
             } else {
                 self::entry("left", 'onclick', 
@@ -624,7 +624,7 @@ class Menu {
          $type = Element::getControlerByCollection($type);
             
          self::entry("left", 'onclick', 
-                     Yii::t( "rooms", 'go back to the detail page of the parent '.$type, null, Yii::app()->controller->module->id ),
+                     Yii::t( "rooms", 'go back to the detail page of the parent', null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
                      "loadByHash('#".$type.".detail.id.".$id."')",null,null);
         }
@@ -643,7 +643,7 @@ class Menu {
         //$urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
         self::entry("right", 'onclick', 
                     Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ),
-                    Yii::t( "common", 'Add' ), 'plus',
+                    Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ), 'plus',
                     "loadByHash('".$btnUrl."')","addNewRoomBtn",null);
         
         // Help

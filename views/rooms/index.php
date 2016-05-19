@@ -14,13 +14,22 @@ $moduleId = Yii::app()->controller->module->id;
 
 <style>
 .assemblyHeadSection {  
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
+  /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); */
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/bg/noise_lines.png); 
+
   /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+  background-color: #fff;
+  background-repeat: repeat;
+  /*background-position: 0px -50px;*/
+  /*background-size: 100% auto;*/
+}/*
+.assemblyHeadSection {  
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png);
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: 0px -50px;
   background-size: 100% auto;
-}
+}*/
 
   h1.citizenAssembly-header{
     background-color: rgba(255, 255, 255, 0.63);
@@ -29,7 +38,7 @@ $moduleId = Yii::app()->controller->module->id;
     margin-bottom: -3px;
     font-size: 32px;
     margin-top:90px;
-    padding-bottom: 70px;
+    padding-bottom: 100px;
   }
 #main-panel-room{
 	/*margin-top:100px;*/
@@ -130,7 +139,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </style>
 
 
-<h1 class="homestead text-dark center citizenAssembly-header" style="font-size:27px;">
+<h1 class=" text-dark center citizenAssembly-header" style="font-size:27px;">
     <?php 
 		$urlPhotoProfil = "";
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
@@ -145,13 +154,23 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	?>
 	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
     <br>
-	<span style="padding:10px;">
+	<span class="homestead" style="padding:10px;">
 		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
-	<span style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
-		Espaces coopératifs
+	<span class="homestead" style="padding:10px; font-size:0.8em; color:rgb(57, 57, 57)">
+		<i class='fa fa-connectdevelop'></i> Espaces coopératifs
 	</span>
-
+	<?php 
+	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
+    $ctrl = Element::getControlerByCollection($_GET["type"]);
+    $btnUrl = "#".$ctrl.".detail.id.".$parentId;
+	if( ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
+		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
+	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
+	} ?>
+	<div class="col-md-12 center">
+		<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
+	</div>
 </h1>
 	    
 <div class="" id="main-panel-room">
@@ -423,7 +442,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 <script type="text/javascript">
 var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-comments'></i> " + "espaces coopératifs");
+	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
@@ -434,15 +453,8 @@ jQuery(document).ready(function() {
 			return false;
 		});
 
-	<?php 
-	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
-    $ctrl = Element::getControlerByCollection($_GET["type"]);
-    $btnUrl = "#".$ctrl.".detail.id.".$parentId;
-	if( ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
-		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
-	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
-	} ?>
-	$(".dataTables_length").append("<button class='btn btn-sm btn-success pull-left' style='margin-left:10px;' onclick='loadByHash(\"<?php echo $btnUrl?>\")'><?php echo $btnLbl?></button>");
+	
+	$(".dataTables_length").append("");
 });	
 
 function resetDirectoryTable() 
