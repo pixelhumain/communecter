@@ -63,7 +63,7 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 	});
 }
 
-function updateField(type,id,name,value,reload){
+function updateField(type,id,name,value,reload){ 
     	
 	$.ajax({
 	  type: "POST",

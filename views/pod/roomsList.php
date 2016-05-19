@@ -46,8 +46,10 @@ $moduleId = Yii::app()->controller->module->id;
 
 <?php 
 	$parentTypeCreate = "";
-	if($parentType == "projects") 		$parentTypeCreate = "project";
-	if($parentType == "organizations") 	$parentTypeCreate = "organization"; 
+	//echo $parentType;
+	if($parentType == "projects") 		$parentTypeCreate = Project::CONTROLLER;
+	if($parentType == "organizations") 	$parentTypeCreate = Organization::CONTROLLER; 
+	if($parentType == "citoyens") 	$parentTypeCreate = Person::CONTROLLER; 
 ?>
 
 	<?php if($surveyOpen || $canEdit){ ?>	
@@ -61,7 +63,7 @@ $moduleId = Yii::app()->controller->module->id;
 				<a href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" class="text-white pull-right homestead"> <i class="fa fa-plus-circle"></i></a>
 				<?php } else { ?>
 					<i class="fa fa-connectdevelop"></i> 
-					<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
+					<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
 					<a href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" class="text-white pull-right helvetica"> <i class="fa fa-check-circle"></i> activer</a>
 				
 				<?php } ?>
@@ -92,13 +94,15 @@ $moduleId = Yii::app()->controller->module->id;
 					<div class="padding-20" id="main-pod-room">
 						<blockquote class="">
 
-			   				Vous n'avez pas encore activé votre espace coopératif.<br><br>
-
-			   				<i class="fa fa-circle-o"></i> Discuter<br>
-			   				<i class="fa fa-circle-o"></i> Débattre<br>
-			   				<i class="fa fa-circle-o"></i> Proposer<br>
-			   				<i class="fa fa-circle-o"></i> Voter<br>
-			   				<i class="fa fa-circle-o"></i> Agir
+			   				<i class="fa fa-info-circle"></i> Vous n'avez pas encore activé votre espace coopératif.<br>
+			   				<strong><i class="fa fa-angle-down"></i> A quoi ça sert ?</strong><br><br>
+			   				<span class="text-azure">
+			   				<i class="fa fa-check-circle"></i> Discuter<br>
+			   				<i class="fa fa-check-circle"></i> Débattre<br>
+			   				<i class="fa fa-check-circle"></i> Proposer<br>
+			   				<i class="fa fa-check-circle"></i> Voter<br>
+			   				<i class="fa fa-check-circle"></i> Agir
+			   				</span>
 			   			</blockquote>
 			   			
 			   		</div>
@@ -110,10 +114,9 @@ $moduleId = Yii::app()->controller->module->id;
 </div>
 
 <script type="text/javascript">
-	
-	jQuery(document).ready(function() {	 
-
-		
+	jQuery(document).ready(function() {
+		<?php if($canEdit && !$surveyOpen){ ?>
+		$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Créer un espace coopératif");
+		<?php } ?>
 	});
-
 </script>
