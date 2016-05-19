@@ -497,7 +497,7 @@ $this->renderPartial('../default/panels/toolbar');
                   <blockquote> 
                     <span class="text-dark text-extra-large text-bold"><?php echo Yii::t('rooms', 'Get some Actions going', null, Yii::app()->controller->module->id)?></span>
                     <br><?php echo Yii::t('rooms', 'Acts speak louder than words', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'This is where it start to be fun', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Break up Big actions into smaller ones', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'practise before theory', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to build and experiment collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>

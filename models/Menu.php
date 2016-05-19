@@ -248,15 +248,8 @@ class Menu {
 
         //ACTION ROOMS
         //-----------------------------
-        if(isset($organization["modules"]) && in_array("survey", $organization["modules"])){
-            $actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
-            //error_log($actionRoom);
-            self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Espace de prise de décision'), 
-                    Yii::t( "common", 'Vote'), 
-                    'gavel',
-                    "loadByHash('$surveyLink')","room", "index");
-        } else {
+        if(!@$organization["modules"] || !in_array("survey", @$organization["modules"])){
+            
                 self::entry("left", 'onclick', 
                         Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
                         Yii::t( "common", 'Vote'), 

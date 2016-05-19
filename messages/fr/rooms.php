@@ -74,6 +74,7 @@ return array(
 	"All your Actions" => "Liste de vos actions",
 	"All your Rooms" => "Liste des thématiques",
 	"Rooms" => "Espaces coopératifs",
+	"Action Rooms" => "Espaces coopératifs",
 	'Back to Parent Survey' => "Retour aux propositions",
 	'Parent Survey'  => "Liste des propositions",
 	
@@ -105,7 +106,7 @@ return array(
 	'Add an Action' => "Ajouter une action",
 	'Get some Actions going' => "Lancons quelques actions",
 	'Acts speak louder than words' => "Vivre, ce n'est pas respirer, c'est agir",
-	'This is where it start to be fun' => "C'est là que ca commence",
+	'Break up Big actions into smaller ones' => "Découpez les grandes actions, en plusieurs plus petites",
 	'practise before theory' => 'Le pratique doit préceder la théorie',
 	'to build and experiment collaboratively' => "Construire et expérimenter ensemble",
 
@@ -142,5 +143,6 @@ return array(
 	"JOIN TO PARTICPATE" => "Devenez membre pour participer",
 	"go back to the detail page of the parent" => "retour vers la fiche info",
 	
-	"COOPERATIVE SPACE" => "ESPACE COOPÉRATIF"
+	"COOPERATIVE SPACE" => "ESPACE COOPÉRATIF",
+	"Element" => "Element"
 );

@@ -138,7 +138,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
 	</span><br>
 	<span class="homestead text-azure" style="padding:10px; font-size:0.8em;">
-		<i class='fa fa-connectdevelop'></i> Espaces coopératifs
+		<i class='fa fa-connectdevelop'></i> <?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id)?>
 	</span>
 	<?php 
 	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
@@ -146,12 +146,20 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
     $ctrl = Element::getControlerByCollection($_GET["type"]);
     $btnUrl = "#".$ctrl.".detail.id.".$parentId;
-	if( ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
+	
+	if( $_GET["type"] != Person::COLLECTION && ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
 		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
 	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
+<<<<<<< HEAD
 	} ?>
 
 	<?php if($_GET["type"] != "citoyens"){ ?>
+=======
+	} 
+
+	if( $_GET["type"] != Person::COLLECTION ){
+	?>
+>>>>>>> on action Rooms added elemetn column for the citoyens view
 	<div class="col-md-12 center">
 		<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
 	</div>

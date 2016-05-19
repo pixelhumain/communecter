@@ -58,7 +58,11 @@
 							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
 							<th class="hidden"><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
 							<th class="hidden"><i class="fa fa-group"></i> <?php echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							<?php if( $_GET["type"] == Person::COLLECTION ){?>
+								<th class=""><i class="fa fa-link"></i> <?php echo Yii::t("rooms", "Element", null, $moduleId); ?></th>
+							<?php } ?>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
+							
 						</tr>
 					</thead>
 					<tbody class="directoryLines">
@@ -66,6 +70,7 @@
 						$memberId = Yii::app()->session["userId"];
 						$memberType = Person::COLLECTION;
 						
+						$parentLinkList = array();
 						/* **************************************
 						*	rooms
 						***************************************** */
@@ -87,6 +92,13 @@
 									<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 									<td class="hidden"><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 									<td class="hidden"><i class="fa fa-users"></i> //<?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+									
+									<?php if( $_GET["type"] == Person::COLLECTION ){?>
+										<td class=""> <?php 
+											if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
+												@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
+											echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+									<?php } ?>
 									<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 								</tr>
 							<?php
@@ -104,6 +116,10 @@
 							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
 							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Entries", null, $moduleId); ?></th>
 							<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							
+							<?php if( $_GET["type"] == Person::COLLECTION ){?>
+								<th class=""><i class="fa fa-link"></i> <?php echo Yii::t("rooms", "Element", null, $moduleId); ?></th>
+							<?php } ?>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
 						</tr>
 					</thead>
@@ -131,7 +147,15 @@
 								</td>
 								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 								<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								
+								<?php if( $_GET["type"] == Person::COLLECTION ){?>
+									<td class=""> <?php 
+										if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
+											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
+										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+								<?php } ?>
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>
 						<?php
@@ -149,6 +173,10 @@
 							<th class="hidden"><?php echo Yii::t("rooms", "Type", null, $moduleId); ?></th>
 							<th class=""><i class="fa fa-file-text"></i> <?php echo Yii::t("rooms", "Actions", null, $moduleId); ?></th>
 							<th class="hidden"><i class="fa fa-group"></i> <?php //echo Yii::t("rooms", "Participants", null, $moduleId); ?></th>
+							
+							<?php if( $_GET["type"] == Person::COLLECTION ){?>
+								<th class=""><i class="fa fa-link"></i> <?php echo Yii::t("rooms", "Element", null, $moduleId); ?></th>
+							<?php } ?>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
 						</tr>
 					</thead>
@@ -176,6 +204,13 @@
 								<td><i class="fa fa-<?php echo @$icon ?> text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(ActionRoom::COLLECTION_ACTIONS,array('room'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								
+								<?php if( $_GET["type"] == Person::COLLECTION ){?>
+									<td class=""> <?php 
+										if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
+											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
+										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+								<?php } ?>
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>
 						<?php
