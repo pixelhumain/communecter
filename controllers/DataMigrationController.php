@@ -271,5 +271,80 @@ class DataMigrationController extends CommunecterController {
 		}
 	}
 
+
+	// VoteDown
+  	public function actionRefactorModerateVoteDown(){
+	  	echo "actionRefactorModerateVoteDown => ";
+		$news=PHDB::find(News::COLLECTION, array('voteDown' => array('$exists' => 1),'refactorAction' => array('$exists' => 0)));
+		$i=0;
+		echo count($news)." News en base avec voteDown<br/>";
+		foreach($news as $key => $data){
+			$map = array();
+			foreach ($data['voteDown'] as $j => $reason) {
+				if(!is_array($reason))$map['voteDown.'.$reason] = array('date' => new MongoDate(time())); 
+			}
+			if(count($map)){
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => array('refactorNews' => new MongoDate(time()))));
+
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDown' => 1)));
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteDownReason' => 1)));
+				$i++;
+			}
+			elseif(isset($news['voteDownReason'])){
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteDownReason' => 1)));
+				$i++;
+			}
+		}
+
+		echo "nombre de news modifié => ".$i;
+	}
+
+	// VoteUp
+  	public function actionRefactorModerateVoteUp(){
+	  	echo "actionRefactorModerateVoteUp => ";
+		$news=PHDB::find(News::COLLECTION, array('voteUp' => array('$exists' => 1),'refactorNews' => array('$exists' => 0)));
+		$i=0;
+		echo count($news)." News en base avec voteUp<br/>";
+		foreach($news as $key => $data){
+			$map = array();
+			foreach ($data['voteUp'] as $j => $reason) {
+				if(!is_array($reason))$map['voteUp.'.$reason] = array('date' => new MongoDate(time())); 
+			}
+			if(count($map)){
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => array('refactorNews' => new MongoDate(time()))));
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUp' => 1)));
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteUpReason' => 1)));
+				$i++;
+			}
+			elseif(isset($news['voteUpReason'])){
+				$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('voteUpReason' => 1)));
+				$i++;
+			}
+		}
+
+		echo "nombre de news modifié => ".$i;
+  	}
+
+
+	  // ReportAbuse
+	public function actionRefactorModerateReportAbuse(){
+	  	echo "actionRefactorModerateReportAbuse => ";  	
+	  	$i = 0;
+		$news=PHDB::find(News::COLLECTION, array('reportAbuseReason' => array('$exists' => 1)));
+	  	foreach($news as $key => $data){
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseReason' => 1)));
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuseCount' => 1)));
+			$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('reportAbuse' => 1)));
+			$i++;
+		}
+
+		echo count($news)." News en base avec reportAbuseReason<br/>";
+	}
+
+
+
+
+
+
 }
 
