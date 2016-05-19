@@ -632,19 +632,19 @@ class Menu {
         // Add a proposal
         // on show the add button for the communities in  Organisations and Projects
         //-----------------------------
-        $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
-//        $ctrl = Element::getControlerByCollection($type);
-        $btnUrl = "#".$type.".detail.id.".$id;
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type ) ){ 
-            $btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
-            $btnUrl = "#rooms.editroom.type.".$type.".id.".$id;
-        }
+//         $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
+// //        $ctrl = Element::getControlerByCollection($type);
+//         $btnUrl = "#".$type.".detail.id.".$id;
+//         if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type ) ){ 
+//             $btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
+//             $btnUrl = "#rooms.editroom.type.".$type.".id.".$id;
+//         }
 
-        //$urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
-        self::entry("right", 'onclick', 
-                    Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ),
-                    Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ), 'plus',
-                    "loadByHash('".$btnUrl."')","addNewRoomBtn",null);
+//         //$urlParams = ( isset( $type ) && isset($id) ) ? ".type.".$type.".id.".$id : "" ;
+//         self::entry("right", 'onclick', 
+//                     Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ),
+//                     Yii::t( "rooms", 'Add an Action Room', null, Yii::app()->controller->module->id ), 'plus',
+//                     "loadByHash('".$btnUrl."')","addNewRoomBtn",null);
         
         // Help
         //-----------------------------
