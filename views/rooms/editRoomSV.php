@@ -3,9 +3,9 @@ $moduleId = Yii::app()->controller->module->id;
 //building top page menu
 Yii::app()->controller->toolbarMBZ = array();
 Menu::entry("left", 'onclick', 
-        Yii::t( "rooms", "Action rooms to change things", null, $moduleId), 
-        Yii::t('rooms', 'Rooms', null, $moduleId),
-        'gavel',
+        Yii::t( "rooms", "Back to collaborative space", null, $moduleId), 
+        Yii::t('rooms', 'Collaborative space', null, $moduleId),
+        'connectdevelop',
         "loadByHash('#rooms.index.type.".$_GET["type"].".id.".$_GET["id"]."')","room", "index");
 $this->renderPartial('../default/panels/toolbar');
 ?>
@@ -15,41 +15,43 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div id="first-step-create-space">
   <h1 class="homestead center text-dark"><i class="fa fa-caret-down"></i> Quel type d'espace souhaitez-vous créer ?</h1><br/>
-  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1 text-dark">
-    <blockquote> 
+  <div class="col-xs-12 col-sm-6 col-md-4 center text-dark">
+    <blockquote style="border-color:transparent !important;"> 
      <i class="fa fa-comments center fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('discuss')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, $moduleId)?> <i class="fa fa-arrow-circle-right"></i></span></a>
-      <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "Let's talk about", null, $moduleId)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, $moduleId)?>
+      <br/><br><?php echo Yii::t('rooms', "Let's talk about", null, $moduleId)?>
+      <br><?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, $moduleId)?>
      
     </blockquote>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-5 text-dark">
-    <blockquote> 
+  <div class="col-xs-12 col-sm-6 col-md-4 center text-dark">
+    <blockquote style="border-color:transparent !important;"> 
       <i class="fa fa-gavel center fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('vote')"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, $moduleId)?>
+     <br/><br><?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
+      <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, $moduleId)?>
     </blockquote>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1  text-dark">
-    <blockquote> 
-      <i class="fa fa-cogs center fa-4x"></i>
+  <div class="col-xs-12 col-sm-6 col-md-4  center text-dark">
+    <blockquote style="border-color:transparent !important;"> 
+      <i class="fa fa-cogs fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('actions')"><span class="text-bold"><?php echo Yii::t('rooms', 'Organize Actions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Work Collectivelly', null, $moduleId)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', "It's time for action", null, $moduleId)?>
+     <br/><br><?php echo Yii::t('rooms', 'Work Collectivelly', null, $moduleId)?>
+      <br><?php echo Yii::t('rooms', "It's time for action", null, $moduleId)?>
     </blockquote>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-5 text-dark">
-    <blockquote> 
+  <hr >
+
+  <div class="col-xs-12 col-sm-6 col-md-10 col-md-offset-1 text-dark border-top center hidden">
+    <blockquote style="border-color:transparent !important;"> 
      <i class="fa fa-lightbulb-o center fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="alert('ouvrir le salle de proposition de nouveau type de vote')"><span class="text-bold"><?php echo Yii::t('rooms', "Help us with new ideas", null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Share Your ideas ', null, $moduleId)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Innovate for more democratic actions', null, $moduleId)?>
-      <br><i class="fa fa-caret-right"></i> <?php echo Yii::t('rooms', 'Action Rooms are made for new approaches', null, $moduleId)?>
+     <br/><br><?php echo Yii::t('rooms', 'Share Your ideas ', null, $moduleId)?>
+      <br><?php echo Yii::t('rooms', 'Innovate for more democratic actions', null, $moduleId)?>
+      <br><?php echo Yii::t('rooms', 'Action Rooms are made for new approaches', null, $moduleId)?>
     </blockquote>
   </div>
 
@@ -105,7 +107,7 @@ var dataBind = {
 jQuery(document).ready(function() {
   console.warn("--------------- newRoom ---------------------");
   
-  $(".moduleLabel").html("<i class='fa fa-comments'></i><span class='text-red'> Créer une nouvelle thématique</span>");
+  $(".moduleLabel").html("<i class='fa fa-connectdevelop fa-red'></i> <i class='fa fa-plus fa-red'></i><span class='text-dark'> Créer un nouvel espace coopératif</span>");
 
   //getAjax("#editRoomsContainer",baseUrl+"/"+moduleId+"/rooms/editRoom", "html");
   editRoomSV();

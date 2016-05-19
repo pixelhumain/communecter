@@ -266,12 +266,13 @@ text-align: center;
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 		<div class="pull-left homestead text-red msg">
 			Soutenez-nous<br/>
 			à prix libre<br/>
 			sur
 		</div>
-
+		</a>
 		
 		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>

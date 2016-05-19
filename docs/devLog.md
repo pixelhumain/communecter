@@ -43,7 +43,9 @@ Version 0.12
 		=> Update @params string contentKey type "person.dashboard.profil" to "profil"
 		=> String use is "profil" OR "slider"
 
-
+@Sylvain
+Create index on citizen email
+db.citizen.createIndex({"email": 1} , { unique: true })
 
 ----------------------------------------------------
 
