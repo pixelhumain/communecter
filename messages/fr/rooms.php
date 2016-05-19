@@ -137,7 +137,7 @@ return array(
 	"Assign Me This Task" => "Assignez moi cette tache ",
 	"Made by " => "Proposition à l'assemblée par ",
 	"Copied from a discussion :" => "Copié d'une discussion : ",
-	"action Saved" => "Action Enregistrer"
+	"action Saved" => "Action Enregistrer",
 	"Made by " => "Proposé par ",
 	"JOIN TO PARTICPATE" => "Devenez membre pour participer",
 	"go back to the detail page of the parent" => "retour vers la fiche info",
