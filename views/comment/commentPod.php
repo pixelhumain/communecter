@@ -397,6 +397,15 @@ function bindEvent(){
 			bindEvent();
 		}
 	});
+	$('.newComment').unbind('keydown').keydown(function(event) 
+	{
+	  	if ( event.ctrlKey && event.keyCode == 13)
+	    {
+			event.preventDefault();
+			console.log($(this).data("id"), $(this).data("parentid"));
+	        validateComment($(this).data("id"), $(this).data("parentid"));
+	    }
+	});
 	$('.validateComment').off().on("click",function(){
 		validateComment($(this).data("id"), $(this).data("parentid"));
 	});
@@ -692,7 +701,7 @@ function buildNewCommentLine(parentCommentId) {
 	
 	var name = currentUser.name;
 	var city = "";
-	var text = '<textarea class="newComment" rows="2" style="width: 100%"></textarea>';
+	var text = '<textarea class="newComment" rows="2" style="width: 100%" data-id="'+id+'" data-parentid="'+parentCommentId+'"></textarea>';
 	
 	if (canUserComment == true) {
 		commentsTLLine = 
