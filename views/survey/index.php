@@ -16,7 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 
 $commentActive = true;
 
-Menu::actions( $where["survey"] );
+Menu::survey( $where["survey"] );
 $this->renderPartial('../default/panels/toolbar');
 ?>
 

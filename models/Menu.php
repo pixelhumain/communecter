@@ -684,8 +684,8 @@ class Menu {
             $surveyLink = "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"]; 
 
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
+                    Yii::t( "rooms", 'All your Rooms', null, Yii::app()->controller->module->id),
+                    Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('".$surveyLink."')","roomsListBtn",null);
         
         // Add a proposal
