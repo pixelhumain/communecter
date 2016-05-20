@@ -285,7 +285,44 @@ class DatamigrationController extends CommunecterController {
 		  	}
 		}
 	}
+// Cinquième refactor à faire sur communecter.org qui permet de netoyer les news type activityStream dont l'object n'existe pas
+	public function actionWashingNewsObjectNotExist(){
+  		$news=PHDB::find(News::COLLECTION);
+  		$i=0;
+  		$nbNews=count($news);
+		echo "Nombre de documents appelés : ".$nbNews;
+  		foreach($news as $key => $data){
+	  		if($data["type"]="news"){
+				  if($data["object"]["objectType"]==Event::COLLECTION){
+				  	$target = Event::getById($data["target"]["id"]);
+				  	if (empty($target)){
+					  	print_r($data);
+					  	$i++;
+				  		//PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+				  	}
+				  }
+				  else if($data["object"]["objectType"]==Organization::COLLECTION){
+				  	$target = Organization::getById($data["target"]["id"]);
+				  	if (empty($target)){
+					  	print_r($data);
+					  						  	$i++;
+				  		//PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+				  	}
+	
+				  }
+				  else if($data["object"]["objectType"]==Project::COLLECTION){
+				  	$target = Project::getById($data["target"]["id"]);
+				  	if (empty($target)){
+				  		print_r($data);
+				  							  	$i++;
+				  		//PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
+				  	}
+				  }	  
 
+		  	}
+		}
+		echo "Nombre de news sans object traitées : ".$i." news";
+	}
 
 	// VoteDown
   	public function actionRefactorModerateVoteDown(){
