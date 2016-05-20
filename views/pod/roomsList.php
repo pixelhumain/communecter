@@ -28,7 +28,7 @@ $moduleId = Yii::app()->controller->module->id;
 .nav-menu-rooms.nav-tabs > li a{
 	font-size:17px !important;
 }
-#pod-room .panel-title a.helvetica{
+#pod-room .panel-title a.helvetica, #pod-room .tooltip{
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 500;
 	font-size:15px !important;
@@ -64,13 +64,24 @@ $moduleId = Yii::app()->controller->module->id;
 						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
 					</a>
 					<?php if($canEdit){ ?>
-						<a href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" class="text-white pull-right homestead"> <i class="fa fa-plus-circle"></i></a>
+						<a  href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" 
+							class="text-white pull-right helvetica tooltips"
+							data-toggle="tooltip" data-placement="left" title="Créer un nouvel espace"
+						> 
+							<i class="fa fa-plus-circle"></i> nouveau
+						</a>
 					<?php } ?>
 				<?php } else { ?>
 					<i class="fa fa-connectdevelop"></i> 
 					<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
 					<?php if($canEdit){ ?>
-						<a href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" class="text-white pull-right helvetica"> <i class="fa fa-check-circle"></i> activer</a>				
+						<a  href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" 
+							class="text-white pull-right helvetica tooltips"
+							data-toggle="tooltip" data-placement="left" title="Activer l'espace coopératif"
+
+						> 
+							<i class="fa fa-check-circle"></i> activer
+						</a>				
 					<?php } ?>
 				
 				<?php } ?>
@@ -134,9 +145,13 @@ $moduleId = Yii::app()->controller->module->id;
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		//change le titre global uniquement si on est sur le pod d'activation d'un citoyen
 		<?php if($canEdit && !$surveyOpen && $parentType == Person::COLLECTION){ ?>
 			$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Activer votre espace coopératif");
 		<?php } ?>
 
+		if($(".tooltips").length) {
+	        $('.tooltips').tooltip();
+	      }
 	});
 </script>

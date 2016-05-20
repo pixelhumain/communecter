@@ -240,7 +240,7 @@
 									/* **************************************
 									*	rooms
 									***************************************** */
-									if(isset($history)) 
+									if(isset($history) && $history != null) 
 									{ 
 										foreach ($history as $e) 
 										{ ?>
