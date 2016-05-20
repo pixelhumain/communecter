@@ -562,7 +562,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<div class="pull-right text-right col-sm-5 col-md-4">
 				<div class="form-group tag_group no-margin">
 					<label class="control-label  text-red">
-						<i class="fa fa-tags"></i>sas <?php echo Yii::t("common","Tags") ?> : 
+						<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 					</label>
 					
 					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
