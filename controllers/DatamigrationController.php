@@ -180,14 +180,29 @@ class DatamigrationController extends CommunecterController {
    	
    	public function actionWashingNewsNoTarget(){
   		$news=PHDB::find(News::COLLECTION);
+  		$i=0;
+  		$nbNews=count($news);
+		echo "Nombre de documents appelés : ".$nbNews;
   		foreach($news as $key => $data){
-		  if(!@$data["target"]){
+		  if($data["type"]=="news" && !@$data["target"]){
+			  $i++;
 			  print_r($data);
 			  PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
 		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
 		  	
 			}
+			else if ($data["type"]=="activityStream" && !@$data["target"]){
+			$i++;
+			  print_r($data);
+			PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("target.type" => Person::COLLECTION,"target.id"=>$data["author"])));
+			  //PHDB::update(News::COLLECTION, array("_id"=>new MongoId($key)));
+		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+		  	
+			}
 		}
+		echo "nombre de news traitées ////////////// ".$i;
 	}
 	// Delete news with object gantts and needs
 	public function actionDeleteNewsGanttsNeeds(){
@@ -271,6 +286,7 @@ class DatamigrationController extends CommunecterController {
 		}
 	}
 
+
 	// VoteDown
   	public function actionRefactorModerateVoteDown(){
 	  	echo "actionRefactorModerateVoteDown => ";
@@ -339,6 +355,11 @@ class DatamigrationController extends CommunecterController {
 
 		echo count($news)." News en base avec reportAbuseReason<br/>";
 	}
+
+
+
+
+
 
 }
 
