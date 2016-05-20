@@ -188,6 +188,7 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 var selection;
+var canParticipate = <?php echo ( Authorisation::canParticipate(Yii::app()->session["userId"], @$context['parentType'], @$context['parentId']) ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");

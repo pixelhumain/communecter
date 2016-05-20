@@ -143,8 +143,6 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	</span>
 	<?php 
 	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
-   
-
     $ctrl = Element::getControlerByCollection($_GET["type"]);
     $btnUrl = "#".$ctrl.".detail.id.".$parentId;
 	

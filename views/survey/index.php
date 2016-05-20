@@ -4,8 +4,6 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/highcharts.js' , 
-  '/survey/js/exporting.js' , 
   '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -334,10 +332,9 @@ $this->renderPartial('../default/panels/toolbar');
         
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
 
-        $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
-        
+       
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
-        $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
+        $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $ordre = $voteLinksAndInfos["ordre"];
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
@@ -412,7 +409,7 @@ $this->renderPartial('../default/panels/toolbar');
         $ctrl = Element::getControlerByCollection($parentType);
         $btnUrl = "#$ctrl.detail.id.$parentId";
         
-        if( $canParticipate ){
+        if( @$canParticipate ){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
@@ -535,9 +532,7 @@ $this->renderPartial('../default/panels/toolbar');
       $percentNoVote = "0";
       if($totalVotes == 0) $percentNoVote = "100";
 
-      $html .= '<a class="btn btn-xs pull-left text-dark"'.
-                ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
-                ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
+      
 
       if($totalVotes > 1) $msgVote = "votes exprimés";
       else                $msgVote = "vote exprimé"; 
@@ -645,7 +640,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
               </h1>
                <?php 
-                 if (isset($list) && count($list) == 0 && $canParticipate) {
+                 if (isset($list) && count($list) == 0 && @$canParticipate) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
