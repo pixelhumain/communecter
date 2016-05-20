@@ -59,9 +59,22 @@ Version 0.12
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+*** A EXECUTER POUR LA VERSION 0.13 ****
+2016/05/31 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
+@Chil
+Executer l'url /communecter/test/DeleteAttributRefactorAction 
+********
+
 ----------------------------------------------------
+2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
+@Chil
+Executer l'url /communecter/test/RefractorNewsCommentsActions
+
 ----------------------------------------------------
-----------------------------------------------------
+2016/05/20 => Suppression des password dans la collection log
+@Chil
+Executer l'url /communecter/test/LogDeletePasswordCitoyen
+
 ---------------------------------------------------
 2016/03/18
 
