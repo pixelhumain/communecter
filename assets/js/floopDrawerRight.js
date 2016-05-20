@@ -94,13 +94,13 @@ function buildListContactHtml(contacts, myId){
 function getFloopItem(id, type, value){
 	var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
-	var profilImageUrl = (typeof value.profilImageUrl != "undefined" && value.profilImageUrl != "") ? baseUrl + value.profilImageUrl : assetPath + "/images/news/profile_default_l.png";
+	var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/news/profile_default_l.png";
 	var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : "";
 	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
 	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
 						'<div class="btn-chk-contact inline" idcontact="'+id+'">' +
-							'<img src="'+ profilImageUrl+'" class="thumb-send-to bg-'+type.color+'" height="35" width="35">'+
+							'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to bg-'+type.color+'" height="35" width="35">'+
 							'<span class="info-contact">' +
 								'<span class="name-contact text-dark text-bold" idcontact="'+id+'">' + value.name + '</span>'+
 								'<br/>'+

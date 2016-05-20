@@ -2,7 +2,8 @@
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/js/highcharts.js',
-  '/js/dataHelpers.js'
+  '/js/dataHelpers.js',
+  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -14,8 +15,13 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	Menu::proposal( $survey );
 	$this->renderPartial('../default/panels/toolbar');
 }
+
 ?>
 <style type="text/css">
+
+	.assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
+    }
 
 	/*a.btn{margin:3px;}*/
 	a:hover.btn {background-color: pink;border solid #666;}
@@ -35,40 +41,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	.commentPod .panel {box-shadow: none;}
 	.commentPod .panel-heading {border-bottom-width: 0px;}
 
-	.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -50px;
-      background-size: 100% auto;
-    }
-
-      .citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-		padding-top: 0px;
-		margin-bottom: -3px;
-		font-size: 32px;
-		top: 115px;
-		z-index: 1;
-		position: absolute;
-		width: 96%;
-		left: 2%;
-		padding-bottom: 15px;
-      }
-
-    .citizenAssembly-header h1{
-    	font-size: 32px;
-		
-    }
-    .row.vote-row {
-	   	position: absolute;
-		padding-top: 5px;
-		top: 300px;
-		background-color: white;
-		width: 100%;
-		z-index: 0;
-    }
+	
 
     .leftlinks a.btn{
     	border: transparent;
@@ -94,49 +67,12 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   	font-weight: 300;
   }
 
-  #thumb-profil-parent{
-      margin-top:-60px;
-      margin-bottom:20px;
-      -moz-box-shadow: 0px 3px 10px 1px #656565;
-      -webkit-box-shadow: 0px 3px 10px 1px #656565;
-      -o-box-shadow: 0px 3px 10px 1px #656565;
-      box-shadow: 0px 3px 10px 1px #656565;
-    }
 
-@media screen and (min-width: 1060px) {
-  
-}
-@media screen and (max-width: 1060px) {
-  
-  .assemblyHeadSection {  
-    background-position: 0px 50px;
-  }
 
-  .container-tool-vote {
-    font-size: 17px;
-    margin-top: 60px;
-  }
+#commentHistory .panel-scroll{
+	max-height:unset !important;
 }
 
-@media screen and (max-width: 767px) {
-  .assemblyHeadSection {  
-    background-position: 0px 0px;
-  }
-  .citizenAssembly-header{
-  	top: 70px;
-  	height:160px;
-  }
-  .citizenAssembly-header h1 {
-	font-size: 24px;
-  }
-  .row.vote-row {
-    top: 230px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  
-}
 
 </style>
 
@@ -254,8 +190,8 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 		  <?php 
 		    $urlPhotoProfil = "";
-		    if(isset($parent['profilImageUrl']) && $organizer['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($organizer['profilImageUrl']);
+		    if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
+		        $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
 		      else
 		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		  
@@ -268,7 +204,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 		    <br>
 		  <span style="padding:0px; border-radius:50px;">
 		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $organizer["name"]; ?>
+		    <?php echo $parent["name"]; ?>
 		  </span>
 		  	<br>
 		  <small class="homestead text-dark center">Propositions, Débats, Votes</small>
@@ -291,7 +227,16 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
     </div>
  </div>
 
-<div class="row vote-row" >
+<div class="row vote-row parentSpaceName">
+
+	<div class="col-md-12">
+		<a href="javascript:"  onclick="loadByHash('#survey.entries.id.<?php echo $parentSpace["_id"]; ?>')">
+			<h1 class="homestead text-dark center"><i class=" fa fa-archive"></i> <?php echo $parentSpace["name"]; ?></h1>
+		</a>
+	</div>
+</div>
+
+<div class="row vote-row contentProposal" >
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
@@ -444,10 +389,6 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 <script type="text/javascript">
 clickedVoteObject = null;
-
-//Images
-var images = <?php echo json_encode($images) ?>;
-var contentKeyBase = "<?php echo $contentKeyBase ?>";
 
 jQuery(document).ready(function() {
 	//var shareBtns = new ShareButton(".share-button");

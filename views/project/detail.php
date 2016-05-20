@@ -15,6 +15,7 @@ $this->renderPartial('../default/panels/toolbar');
 																	//"events" => $events
 																	));
 				?>
+				
 			</div>
 
 
@@ -60,6 +61,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 
 			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
+			<div class="col-md-8 col-sm-12 no-padding pull-left" id="podCooparativeSpace"></div>
 		</div>	
 	</div>
 </div>
@@ -83,6 +85,12 @@ jQuery(document).ready(function() {
 	<?php //if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?>
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	<?php //} ?>
+
+	$("#podCooparativeSpace").html("<i class='fa fa-spin fa-2x fa-refresh'></i>");
+	   		var id = "<?php echo (String) $project['_id']; ?>";
+	   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/projects/id/"+id+"/view/pod",
+	   			function(){}, "html");
+
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, contextMap);		
 });

@@ -1,3 +1,4 @@
+<?php if($contextType == "actionRooms"){ ?>
 <style type="text/css">
 .assemblyHeadSection {  
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
@@ -25,11 +26,17 @@ margin-top:90px;
 	-o-box-shadow: 0px 3px 10px 1px #656565;
 	box-shadow: 0px 3px 10px 1px #656565;
 }
+#commentHistory .panel-heading{
+	/*padding:15px !important;*/
+}
 </style>
 
 <?php 
 	Menu::comments( $parentType, $parentId );
 	$this->renderPartial('../default/panels/toolbar');
+
+}
+
 ?>
 
 
@@ -65,7 +72,7 @@ margin-top:90px;
 
 
 <?php
-	$this->renderPartial("commentPod", array("comments"=>$comments,
+	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
@@ -80,10 +87,28 @@ margin-top:90px;
 
 jQuery(document).ready(function() {
 	
-  	<?php if($contextType == "actionRooms"){ ?>
-  		$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+	<?php if($contextType == "actionRooms"){ ?>
+  		$(".moduleLabel").html("<i class='fa fa-comments'></i> <?php echo Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id); ?>");
 		$(".main-col-search").addClass("assemblyHeadSection");
   	<?php } ?>
+    /*
+    function getSelectedParagraphText() {
+  if (window.getSelection) {
+      selection = window.getSelection();
+  } else if (document.selection) {
+      selection = document.selection.createRange();
+  }
+  var parent = selection.anchorNode;
+  while (parent != null && parent.localName != "P") {
+    parent = parent.parentNode;
+  }
+  if (parent == null) {
+    return "";
+  } else {
+    return parent.innerText || parent.textContent;
+  }
+}
+    */
 });
 
 </script>

@@ -43,7 +43,9 @@ Version 0.12
 		=> Update @params string contentKey type "person.dashboard.profil" to "profil"
 		=> String use is "profil" OR "slider"
 
-
+@Sylvain
+Create index on citizen email
+db.citizen.createIndex({"email": 1} , { unique: true })
 
 ----------------------------------------------------
 
@@ -74,7 +76,16 @@ Executer l'url /communecter/test/RefractorNewsCommentsActions
 2016/05/20 => Suppression des password dans la collection log
 @Chil
 Executer l'url /communecter/test/LogDeletePasswordCitoyen
-
+----------------------------------------------------
+SBA - Add numberOfInvit on every citizen
+db.citoyens.find().forEach(function(doc){ 
+    if(doc.numberOfInvit == null) { 
+         print(doc.name); 
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'numberOfInvit': NumberLong(10)}
+         }) 
+    }
+});
 ---------------------------------------------------
 2016/03/18
 

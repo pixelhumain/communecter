@@ -34,14 +34,47 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	color : rgba(229,51,76,1);
 	opacity: 1;
 }
+#commentHistory .panel-heading{
+	min-height:0px;
+}
+#commentHistory .panel-scroll{
+	/*overflow-y: hsidden;*/
+}
 
+<?php if($contextType != "actionRooms"){ ?>
+.blockUI.blockMsg.blockPage{
+	width:72% !important;
+	top: 8% !important;
+	left: 18% !important;
+}
+
+@media screen and (max-width: 767px) {
+	.ps-container-com{
+		max-height: 300px !important;
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	.ps-container-com{
+		max-height: 500px !important;
+	}
+}
+@media screen and (min-width: 1025px) {
+	.ps-container-com{
+		max-height: 500px !important;
+	}
+}
+<?php } ?>
+
+.commentContent{
+	padding:10px;
+}
 </style>
 
 <?php 
 $optionsLabels = array(
 	Comment::COMMENT_ON_TREE => array(
 		true => array("title" => "You can reply to a comment", "label" => "Can Reply"),
-		false => array("title" => "You can not reply to a comment", "label" => "Can Reply")
+		false => array("title" => "You can not reply to a comment", "label" => "Can't Reply")
 	),
 	Comment::COMMENT_ANONYMOUS => array(
 		true => array("title" => "The discussion is anonymous", "label" => "Anonymous"),
@@ -57,7 +90,7 @@ $optionsLabels = array(
 <!-- start: PAGE CONTENT -->
 
 
-<div id="commentHistory">
+<div id="commentHistory" class="no-padding">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<?php if($contextType == "actionRooms"){ ?>
@@ -74,7 +107,7 @@ $optionsLabels = array(
 				}?>
 			</div>
 			<?php } ?>
-			<h4 class="panel-title"><i class="fa fa-comments fa-2x text-blue"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
+			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 		</div>
 
 		<div class="panel-body panel-white">
@@ -84,26 +117,37 @@ $optionsLabels = array(
 						<li role="presentation" class="active">
 							<!-- start: TIMELINE PANEL -->
 							<a href="#entry_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Comments") ?> <span class="badge badge-green nbComments"><?php echo $nbComment ?></span>
+								<i class="fa fa-comments"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Comments") ?> <span class="badge bg-azure nbComments"><?php echo $nbComment ?></span>
+								</span>
 							</a>
 							<!-- end: TIMELINE PANEL -->
 						</li>
 						<li role="presentation">
 							<a href="#entry_community_comments" data-toggle="tab">
-								<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-yellow"><?php echo count($communitySelectedComments) ?></span>
+								<i class="fa fa-thumbs-up"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Popular") ?> <span class="badge badge-green"><?php echo count($communitySelectedComments) ?></span>
+								</span>
 							</a>
 						</li>
-					<?php if (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"])) { ?>
+					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 
+								//|| ($context["type"] == ActionRoom::TYPE_ACTIONS && (Authorisation::canEditAction(Yii::app()->session["userId"], (String) $context["_id"])))  
+								) { ?>
 						<li role="presentation">
 							<a href="#entry_abuse" data-toggle="tab">
-								Abuse <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
+								<i class="fa fa-flag"></i> 
+								<span class="hidden-sm">
+									<?php echo Yii::t("comment","Abuse") ?> <span class="badge badge-red nbCommentsAbused"><?php echo count($abusedComments) ?></span>
+								</span>
 							</a>
 						</li>
 					<?php } ?>
 					</ul>
 					<div class="tab-content partition-white">
 						<div class="tab-pane active no-padding" id="entry_comments" >
-							<div class="panel-scroll ps-container commentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com commentTable" style="padding-top: 5px; height:auto ">
 							<?php if ($canComment) {?>
 								<div class='saySomething padding-5'>
 									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
@@ -112,11 +156,11 @@ $optionsLabels = array(
 							</div>
 						</div>
 						<div class="tab-pane no-padding" id="entry_community_comments">
-							<div class="panel-scroll ps-container communityCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com communityCommentTable" style="padding-top: 5px; height:auto ">
 							</div>
 						</div>
 						<div class="tab-pane no-padding" id="entry_abuse">
-							<div class="panel-scroll ps-container abuseCommentTable" style="padding-top: 5px; max-height: 540px; height:auto ">
+							<div class="panel-scroll ps-container-com abuseCommentTable" style="padding-top: 5px; height:auto ">
 							</div>
 						</div>
 					</div>
@@ -143,15 +187,18 @@ var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
+var selection;
+var canParticipate = <?php echo ( Authorisation::canParticipate(Yii::app()->session["userId"], @$context['parentType'], @$context['parentId']) ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
-
+  	
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
 	buildCommentsTree('.abuseCommentTable', abusedComments, "abuse");
 	bindEvent();
 	$('.ps-container').perfectScrollbar({suppressScrollX : true});
+
 
 	/*!
 	  Non-Sucking Autogrow 1.1.1
@@ -227,7 +274,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var name = commentObj.author.name;
 	if(commentObj.author.address != "undefined")
 		var city = commentObj.author.address.addressLocality;
-	var text = commentObj.text;
+	var text = commentObj.text.replace(/\n/g, "<br />");
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
@@ -250,7 +297,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="commenter-location padding-5">'+city+'</span>'+
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 							'</div>'+
-							'<div class="commentText-'+commentObj.status+'">'+text+'</div>'+
+							'<div class="commentText-'+commentObj.status+'" style="float:left;">'+text+'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post'>";
 	
@@ -388,8 +435,59 @@ function bindEvent(){
 	$('.abuseHistory').off().on("click",function(){
 		bootbox.alert("TODO - history");
 	});
-	
+
+	if(contextType == "actionRooms" && canParticipate)
+	{
+		$(".commentText-posted").bind('mouseup', function(e){
+	        if (window.getSelection) {
+	          selection = window.getSelection();
+	        } else if (document.selection) {
+	          selection = document.selection.createRange();
+	        }
+	        if( $(this).parent().hasClass("commentContent-posted")){
+	        	if($(".selBtn").length)
+	        		$(".selBtn").remove();
+	        	links = "<a href='javascript:;' onclick='fastAdd(\"/rooms/fastaddaction\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
+	        			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>"+
+	        			" <a href='javascript:;'  onclick='highlight()' class='selBtn text-bold btn btn-dark-yellow btn-xs'><i class='fa fa-paint-brush'></i> Highlight Hot point <i class='fa fa-legal'></i></a>";
+	        	$(this).parent().find("div.bar_tools_post").append(links);
+	        }
+	    });
+	}
 }
+
+function highlight () { 
+	toastr.info("<h1>New Feature<br/><span class='text-large'>Highlighting text in discussions, to build quick reading synthesis</span><br/><a class='btn btn-dark-blue' href='alert(\"open communecter public Feature voting\")'>VOTE FOR IT</a></h1>");
+}
+function  fastAdd(url) { 
+	console.log("url",url);
+	if( selection.toString() != "" ){
+		processingBlockUi();
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+'/'+moduleId+url,
+	        data: {
+	        	"discussionId" : context['_id']['$id'],
+	        	"type" : contextType,
+	        	"txt" : selection.toString()
+	        },
+	        dataType: "json",
+	        success: function(data){
+	          if(data.result){
+	            toastr.success(data.msg);
+	            $(".selBtn").remove(); 
+	          } else 
+	            toastr.error(data.msg);
+	          
+	          $.unblockUI();
+	        },
+	        error: function(data) {
+	          $.unblockUI();
+	          toastr.error("Something went really bad : "+data.msg);
+	        }
+	    });
+	}
+ }
 
 function actionOnComment(comment, action) {
 	$.ajax({

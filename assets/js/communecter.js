@@ -63,7 +63,7 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 	});
 }
 
-function updateField(type,id,name,value,reload){
+function updateField(type,id,name,value,reload){ 
     	
 	$.ajax({
 	  type: "POST",
@@ -544,7 +544,7 @@ function searchByHash (hash)
 
 var backUrl = null;
 function checkIsLoggued(uId){
-	if( uId == "" ){
+	if( uId == "" ||  typeof uId == "undefined" ){
 		console.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
@@ -561,6 +561,18 @@ function resetUnlogguedTopBar() {
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
 							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
+}
+
+function _checkLoggued() { 
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/person/loggued",
+	  success: function(data){
+		if( uId == "" ||  typeof uId == "undefined" )
+			resetUnlogguedTopBar();
+	  },
+	  dataType: "json"
+	});
 }
 
 /* ****************

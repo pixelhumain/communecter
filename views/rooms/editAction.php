@@ -11,8 +11,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 //$cssAnsScriptFilesTheme = array('js/form-elements.js');
 //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
-if(isset($survey))
-  Menu::proposal( $survey );
+if(isset($action))
+  Menu::action( $action );
 else
   Menu::back() ;
 $this->renderPartial('../default/panels/toolbar');
@@ -34,7 +34,7 @@ var organizerList = {};
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
 
-var proposalFormDefinition = {
+var actionFormDefinition = {
     "jsonSchema" : {
         "title" : "Entry Form",
         "type" : "object",
@@ -53,67 +53,47 @@ var proposalFormDefinition = {
             },
             "name" :{
               "inputType" : "text",
-              "placeholder" : "Titre de la proposition",
+              "placeholder" : "<?php echo Yii::t("rooms","Title of the action",null,Yii::app()->controller->module->id) ?>",
               "rules" : {
                 "required" : true
               },
-              "value" : "<?php echo ( isset($survey) && isset($survey["name"]) ) ? $survey["name"] : '' ?>",
+              "value" : "<?php echo ( @$action["name"] ) ? $action["name"] : '' ?>",
             },
-            /*"organizer" : {
-              "inputType" : "select",
-              "placeholder" : "Organisateur du sondage",
+            /*"assignees" : {
+              "inputType" : "selectMultiple",
+              "placeholder" : "<?php Yii::t("rooms","Assignees",null,Yii::app()->controller->module->id) ?>",
               "value" : "currentUser",
-              "rules" : {
-                "required" : true
-              },
               "options" : organizerList
             },*/
             "message" :{
               "inputType" : "wysiwyg",
-              "placeholder" : "Texte de la proposition",
+              "placeholder" : "<?php echo Yii::t("rooms","Description of the action",null,Yii::app()->controller->module->id) ?>",
               "rules" : {
                 "required" : true
               },
-              "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '""' ?>,
+              "value" : <?php echo ( @$action["message"] ) ? json_encode($action["message"]) : '""' ?>,
+            },
+            "startDate" :{
+              "inputType" : "date",
+              "placeholder" : "<?php echo Yii::t("rooms","Estimated Start Date",null,Yii::app()->controller->module->id) ?>",
+              "value":"<?php echo ( @$action['startDate'] ) ? $action['startDate'] : null ?>"
             },
             "dateEnd" :{
               "inputType" : "date",
-              "placeholder" : "Fin de la période de vote",
-              "value":"<?php echo (isset($survey) && isset($survey['dateEnd'])) ? $survey['dateEnd'] : '' ?>",
-              "rules" : {
-                "required" : true
-              }
+              "placeholder" : "<?php echo Yii::t("rooms","Estimated End Date",null,Yii::app()->controller->module->id) ?>",
+              "value":"<?php echo ( @$action['dateEnd'] ) ? $action['dateEnd'] : null ?>"
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "Tapez une url information ou des titre d'actions à faire",
-                  "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
+                  "placeholder" : "<?php echo Yii::t("rooms","Add urls or Bullet points",null,Yii::app()->controller->module->id) ?>",
+                  "value" : <?php echo ( @$action['urls']) ? json_encode($action['urls']) : "[]" ?>,
             },
             "tags" :{
               "inputType" : "tags",
               "placeholder" : "Tags",
-              "value" : "<?php echo (isset($survey) && isset($survey['tags'])) ? implode(',', $survey['tags']) : '' ?>",
+              "value" : "<?php echo ( @$action['tags']) ? implode(',', $action['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
-            }/*,
-              "separator1":{
-              "title":"Comment options"
-            },
-            "<?php echo Comment::COMMENT_ON_TREE ?>" :{
-              "inputType" : "checkbox",
-              "placeholder" : "Can People reply to a comment ?",
-              "checked" : true,
-              "value" : 1
-            },
-            "<?php echo Comment::COMMENT_ANONYMOUS ?>" :{
-              "inputType" : "checkbox",
-              "placeholder" : "Comment anonymously ?",
-              "value" : 1
-            },
-            "<?php echo Comment::ONE_COMMENT_ONLY ?>" :{
-              "inputType" : "checkbox",
-              "placeholder" : "Comment only one time ?",
-              "value" : 1
-            },*/
+            }
         }
     }
 };
@@ -124,16 +104,13 @@ var dataBind = {
    "#tags" : "tags",
    "#id"   : "typeId",
    "#type" : "type",
-   "#dateEnd" : "dateEnd",
-   "#<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
-   "#<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
-   "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
+   "#dateEnd" : "dateEnd"
 };
 
-var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
+var proposalObj = <?php echo (isset($action)) ? json_encode($action) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<?php echo Yii::t("rooms","Add a proposal", null, Yii::app()->controller->module->id); ?>');
+  $(".moduleLabel").html('<i class="fa fa-cogs"></i> <?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?>');
   
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
@@ -159,19 +136,27 @@ function editEntrySV () {
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
+              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
               "</div>");
     
         var form = $.dynForm({
           formId : "#ajaxForm",
-          formObj : proposalFormDefinition,
+          formObj : actionFormDefinition,
           onLoad : function() {
             console.log("onLoad",proposalObj);
             if( proposalObj )
             {
-               if(proposalObj.dateEnd)
+               if(proposalObj.startDate)
+               {
+                date = new Date(proposalObj.startDate*1000);
+                var day = date.getDate().toString();
+                var month = (date.getMonth()+1).toString();
+                var year = date.getFullYear().toString();
+                $("#editEntryContainer #startDate").val( day+"/"+month+"/"+year );
+              }
+              if(proposalObj.dateEnd)
                {
                 date = new Date(proposalObj.dateEnd*1000);
                 var day = date.getDate().toString();
@@ -184,7 +169,7 @@ function editEntrySV () {
             }
           },
           onSave : function(){
-            console.log("saving Survey !!");
+            console.log("saving Action !!");
             console.log($("#editEntryContainer #name").val());
             //one = getRandomInt(0,10);
             //two = getRandomInt(0,10);
@@ -192,18 +177,12 @@ function editEntrySV () {
             {
               processingBlockUi();
               var params = { 
-                 "survey" : "<?php echo (isset($_GET['survey'])) ? $_GET['survey'] : '' ?>", 
+                 "room" : "<?php echo (isset($_GET['room'])) ? $_GET['room'] : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
                  "message" :  $("#editEntryContainer #message").code() ,
-                 "type" : "<?php echo Survey::TYPE_ENTRY?>",
-                 "app" : "<?php echo $this->module->id?>",
-                 "commentOptions" : {
-                   "<?php echo Comment::COMMENT_ON_TREE ?>" : $("#editEntryContainer #<?php echo Comment::COMMENT_ON_TREE ?>").val(),
-                   "<?php echo Comment::COMMENT_ANONYMOUS ?>" : $("#editEntryContainer #<?php echo Comment::COMMENT_ANONYMOUS ?>").val(),
-                   "<?php echo Comment::ONE_COMMENT_ONLY ?>" : $("#editEntryContainer #<?php echo Comment::ONE_COMMENT_ONLY ?>").val()
-                 }
+                 "type" : "<?php echo ActionRoom::TYPE_ACTION ?>"
               };
               
               urls = getUrls();
@@ -213,22 +192,22 @@ function editEntrySV () {
                 params.id = $("#editEntryContainer #id").val();
               if( $("#editEntryContainer #tags").val() )
                 params.tags = $("#editEntryContainer #tags").val().split(",");
+              if( $("#editEntryContainer #startDate").val() )
+                params.startDate = $("#editEntryContainer #startDate").val();
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
 
              console.dir(params);
              $.ajax({
                 type: "POST",
-                url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSession")?>',
+                url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveaction")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
-                    if( data.surveyId && data.surveyId["$id"] )
-                      loadByHash( "#survey.entry.id."+data.surveyId["$id"] );
-                    else if( $("#editEntryContainer #id").val() != "" )
-                      loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() );
+                    if( $("#editEntryContainer #id").val() != "" )
+                      loadByHash( "#rooms.action.id."+$("#editEntryContainer #id").val() );
                     else
-                      loadByHash( "#survey.entries.id."+data.parentId )
+                      loadByHash( "#rooms.actions.id."+data.parentId )
                   }
                   else {
                     toastr.error(data.msg);

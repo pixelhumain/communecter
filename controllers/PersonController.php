@@ -26,10 +26,10 @@ class PersonController extends CommunecterController {
 	    return array(
 	        'index'              => 'citizenToolKit.controllers.person.IndexAction',
 	        'login'     	       => 'citizenToolKit.controllers.person.LoginAction',
+          'logged'              => 'citizenToolKit.controllers.person.LoggedAction',
           'sendemail'          => 'citizenToolKit.controllers.person.SendEmailAction',
 	        'logout'     	       => 'citizenToolKit.controllers.person.LogoutAction',
 	        'authenticate'       => 'citizenToolKit.controllers.person.AuthenticateAction',
-	        'dashboard'  	       => 'citizenToolKit.controllers.person.DashboardAction',
           'detail'             => 'citizenToolKit.controllers.person.DetailAction',
 	        'follows'  		       => 'citizenToolKit.controllers.person.FollowsAction',
 	        'disconnect'         => 'citizenToolKit.controllers.person.DisconnectAction',

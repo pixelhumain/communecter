@@ -35,7 +35,10 @@
 	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
+
+    			<div id="podCooparativeSpace"></div>
 	    	</div>
+	    	
 	    	<div class="col-md-4 no-padding">
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
@@ -79,6 +82,7 @@
 				</div>
 				<?php } ?>
 			</div>
+
 	    </div>
 	 </div>
 </div>
@@ -99,6 +103,11 @@
      	//	$('.tooltips').tooltip();
    		//}
    		bindFicheInfoBtn();
+
+   		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-2x fa-refresh'></i>");
+	   		var id = "<?php echo (String) $organization['_id']; ?>";
+	   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
+	   			function(){}, "html");
 	});
 	
 	function bindFicheInfoBtn(){

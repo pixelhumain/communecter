@@ -11,14 +11,14 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 $cssAnsScriptFilesModule = array(
-  '/assets/plugins/share-button/ShareButton.min.js' , 
+  //'/assets/plugins/share-button/ShareButton.min.js' , 
   '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 $commentActive = true;
 
-Menu::survey( $where["survey"] );
+Menu::actions( $where["survey"] );
 $this->renderPartial('../default/panels/toolbar');
 ?>
 
@@ -412,7 +412,7 @@ $this->renderPartial('../default/panels/toolbar');
         $ctrl = Element::getControlerByCollection($parentType);
         $btnUrl = "#$ctrl.detail.id.$parentId";
         
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
+        if( $canParticipate ){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
@@ -645,14 +645,14 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
               </h1>
                <?php 
-                 if (isset($list) && count($list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentId"],$where["survey"]["parentType"])) {
+                 if (isset($list) && count($list) == 0 && $canParticipate) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
-                    <?php echo Yii::t('rooms', 'Create Room', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'Decisions', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Brainstorms', null, Yii::app()->controller->module->id)?>
+                    <?php echo Yii::t('rooms', 'Create a Proposal', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Share an Idea', null, Yii::app()->controller->module->id)?> 
+                    <br><?php echo Yii::t('rooms', 'a Thought', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'a Solution', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>
                   <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add a proposal'); ?></a>

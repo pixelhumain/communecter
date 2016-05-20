@@ -13,6 +13,10 @@
 	box-shadow: 0px 3px 5px -2px #656565;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
 }
+.voteInfoBox{
+	border-radius: 10px;
+	font-weight: 300;
+}
 </style>
 
 <?php
@@ -67,7 +71,7 @@ if( !isset($hideTexts) )
 		//	echo Yii::t("rooms","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
 		$room = ActionRoom::getById($survey["survey"]);
-		if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) ) 
+		if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) ) 
 			$contentVote = $voteLinksAndInfos["links"]; 
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
