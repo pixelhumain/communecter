@@ -265,7 +265,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.fromNow();
 	
-	var iconStr = getProfilImageUrl(commentObj.author.profilImageUrl);
+	var iconStr = getProfilImageUrl(commentObj.author.profilThumbImageUrl);
 	var objectLink = (commentObj.object) ? ' <a '+url+'>'+iconStr+'</a>' : iconStr;
 
 	var color = "white";
@@ -682,7 +682,7 @@ function replyComment(parentCommentId) {
 function buildNewCommentLine(parentCommentId) {
 	var id = 'newcomment'+Math.floor((Math.random() * 100) + 1);
 	
-	var iconStr = getProfilImageUrl(currentUser.profilImageUrl);
+	var iconStr = getProfilImageUrl(currentUser.profilThumbImageUrl);
 	var objectLink = iconStr;
 
 	var color = "white";
@@ -782,13 +782,12 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 	bindEvent();
 }
 
-function getProfilImageUrl(imageURL) {
+function getProfilImageUrl(imageURL) {console.log("imageURL",imageURL);
 	var iconStr = '<div class="avatar">';
 	
 	if ("undefined" != typeof imageURL && imageURL != "") {
 		iconStr += '<img width="50" height="50" alt="image" class="img-circle"'+ 
-						'src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+
-						 imageURL+'">';
+						'src="'+baseUrl+'/'+imageURL+'">';
 	} else {
 		iconStr += '<i class="fa fa-user_circled fa-2x fa-border"></i>';
 	}
