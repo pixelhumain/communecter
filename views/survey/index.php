@@ -412,7 +412,7 @@ $this->renderPartial('../default/panels/toolbar');
         $ctrl = Element::getControlerByCollection($parentType);
         $btnUrl = "#$ctrl.detail.id.$parentId";
         
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
+        if( $canParticipate ){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
@@ -645,7 +645,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
               </h1>
                <?php 
-                 if (isset($list) && count($list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentId"],$where["survey"]["parentType"])) {
+                 if (isset($list) && count($list) == 0 && $canParticipate) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 

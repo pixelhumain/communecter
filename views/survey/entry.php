@@ -71,7 +71,7 @@ if( !isset($hideTexts) )
 		//	echo Yii::t("rooms","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
 		$room = ActionRoom::getById($survey["survey"]);
-		if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) ) 
+		if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) ) 
 			$contentVote = $voteLinksAndInfos["links"]; 
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
