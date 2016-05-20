@@ -40,33 +40,39 @@ $moduleId = Yii::app()->controller->module->id;
 	$canEdit = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
 			&& Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId));
 
-	//echo $canEdit ? "true" : "false";
+	// echo $canEdit ? "true " : "false ";
+	// echo $parentType." - ".Organization::COLLECTION;
+	// echo " Auth : ";
+	// echo Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId) ? "true" : "false";
 ?>
 <div id="pod-room" class="panel panel-white">
 
 <?php 
 	$parentTypeCreate = "";
 	//echo $parentType;
-	if($parentType == "projects") 		$parentTypeCreate = Project::CONTROLLER;
-	if($parentType == "organizations") 	$parentTypeCreate = Organization::CONTROLLER; 
-	if($parentType == "citoyens") 	$parentTypeCreate = Person::CONTROLLER; 
+	if($parentType == Project::COLLECTION) 		$parentTypeCreate = Project::CONTROLLER;
+	if($parentType == Organization::COLLECTION) $parentTypeCreate = Organization::CONTROLLER; 
+	if($parentType == Person::COLLECTION) 		$parentTypeCreate = Person::CONTROLLER; 
 ?>
 
 	<?php if($surveyOpen || $canEdit){ ?>	
 		<div class="panel-heading border-light bg-azure">
 			<h4 class="panel-title">
 				<?php if($surveyOpen){ ?>
-				<a href="javascript:" onclick="loadByHash('#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>');" class="text-white-hover homestead">
-					<i class="fa fa-connectdevelop"></i> 
-					<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
-				</a>
-				<?php if($canEdit){ ?>
-					<a href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" class="text-white pull-right homestead"> <i class="fa fa-plus-circle"></i></a>
-				<?php } ?>
+					<a href="javascript:" onclick="loadByHash('#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>');" class="text-white-hover homestead">
+						<i class="fa fa-connectdevelop"></i> 
+						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
+					</a>
+					<?php if($canEdit){ ?>
+						<a href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" class="text-white pull-right homestead"> <i class="fa fa-plus-circle"></i></a>
+					<?php } ?>
 				<?php } else { ?>
 					<i class="fa fa-connectdevelop"></i> 
 					<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
-					<a href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" class="text-white pull-right helvetica"> <i class="fa fa-check-circle"></i> activer</a>				
+					<?php if($canEdit){ ?>
+						<a href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" class="text-white pull-right helvetica"> <i class="fa fa-check-circle"></i> activer</a>				
+					<?php } ?>
+				
 				<?php } ?>
 
 			</h4>		
@@ -108,7 +114,19 @@ $moduleId = Yii::app()->controller->module->id;
 			   			
 			   		</div>
 				</div>
-
+				<?php if($canEdit && !$surveyOpen && $parentType == Person::COLLECTION){ ?>
+					<div class="panel-footer text-right">
+						<button class="btn btn-primary" 
+								onclick="loadByHash('#<?php echo $parentTypeCreate; ?>.detail.id.<?php echo $parentId; ?>')">
+								<i class="fa fa-arrow-circle-left"></i> Retour
+						</button>
+						<button class="btn btn-success" 
+								onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)">
+								<i class="fa fa-check"></i> Activer
+						</button>
+					</div>
+				<?php } ?>
+					
 		<?php } ?>
 
 	<?php } ?>
@@ -116,8 +134,9 @@ $moduleId = Yii::app()->controller->module->id;
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		<?php if($canEdit && !$surveyOpen){ ?>
-		$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Créer un espace coopératif");
+		<?php if($canEdit && !$surveyOpen && $parentType == Person::COLLECTION){ ?>
+			$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Activer votre espace coopératif");
 		<?php } ?>
+
 	});
 </script>

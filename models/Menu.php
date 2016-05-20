@@ -168,21 +168,21 @@ class Menu {
     		}
             //ACTION ROOMS
             //-----------------------------
-            $surveyLink = "#rooms.index.type.events.id.".$id; 
-            if(isset($event["modules"]) && in_array("survey", $event["modules"]))
-            {
-                self::entry("left", 'onclick', 
-                        Yii::t( "common", 'Espace coopératif'), 
-                        Yii::t( "common", "retour vers l'espace coopératif"), 
-                        'connectdevelop',
-                        "loadByHash('$surveyLink')","room", "index");
-            } else {
-                self::entry("left", 'onclick', 
-                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
-                        Yii::t( "common", 'Vote'), 
-                        'plus',
-                        "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
-            }
+            // $surveyLink = "#rooms.index.type.events.id.".$id; 
+            // if(isset($event["modules"]) && in_array("survey", $event["modules"]))
+            // {
+            //     self::entry("left", 'onclick', 
+            //             Yii::t( "common", 'Espace coopératif'), 
+            //             Yii::t( "common", "retour vers l'espace coopératif"), 
+            //             'connectdevelop',
+            //             "loadByHash('$surveyLink')","room", "index");
+            // } else {
+            //     self::entry("left", 'onclick', 
+            //             Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+            //             Yii::t( "common", 'Vote'), 
+            //             'plus',
+            //             "updateField('".Event::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+            // }
         }
     }
 
@@ -248,14 +248,14 @@ class Menu {
 
         //ACTION ROOMS
         //-----------------------------
-        if(!@$organization["modules"] || !in_array("survey", @$organization["modules"])){
+        // if(!@$organization["modules"] || !in_array("survey", @$organization["modules"])){
             
-                self::entry("left", 'onclick', 
-                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
-                        Yii::t( "common", 'Vote'), 
-                        'plus',
-                        "updateField('".Organization::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
-            }
+        //         self::entry("left", 'onclick', 
+        //                 Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+        //                 Yii::t( "common", 'Vote'), 
+        //                 'plus',
+        //                 "updateField('".Organization::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+        //     }
         
         //ALBUM
         //-----------------------------
@@ -515,22 +515,22 @@ class Menu {
         //ACTION ROOMS
         //-----------------------------
         //if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly"){
-        if(isset($project["modules"]) && in_array("survey", $project["modules"])){
-            //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
-            //error_log($actionRoom);
-            self::entry("left", 'onclick', 
-                    Yii::t( "common", 'Espace de prise de décision'), 
-                    Yii::t( "common", 'Vote'), 
-                    'gavel',
-                    "loadByHash('$surveyLink')","room", "index");
-                   //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
-        }else {
-                self::entry("left", 'onclick', 
-                        Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
-                        Yii::t( "common", 'Vote'), 
-                        'plus',
-                        "updateField('".Project::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
-            }
+        // if(isset($project["modules"]) && in_array("survey", $project["modules"])){
+        //     //$actionRoom = ActionRoom::getSingleActionRoomByOrgaParent($id);
+        //     //error_log($actionRoom);
+        //     self::entry("left", 'onclick', 
+        //             Yii::t( "common", 'Espace de prise de décision'), 
+        //             Yii::t( "common", 'Vote'), 
+        //             'gavel',
+        //             "loadByHash('$surveyLink')","room", "index");
+        //            //"loadByHash( '#survey.entries.id.".$actionRoom["_id"]."')","room", "index");
+        // }else {
+        //         self::entry("left", 'onclick', 
+        //                 Yii::t( "common", 'Ajouter Espace coopératif, Vote , Discussion'), 
+        //                 Yii::t( "common", 'Vote'), 
+        //                 'plus',
+        //                 "updateField('".Project::CONTROLLER."','$id','modules',['survey'],true)","room", "index");
+        //     }
 
         // ADD MEMBER
 

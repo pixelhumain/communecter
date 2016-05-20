@@ -179,7 +179,9 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 <script type="text/javascript">
 var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
+	
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
+	
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
