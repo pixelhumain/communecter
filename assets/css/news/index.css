@@ -275,12 +275,11 @@ max-height: 250px !important;
 
 
 
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}
+/*div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}*/
 	
 
 div.timeline .newsTL > .newsFeed:nth-child(2n+2) {
     float: right;
-    margin-top: 20px;
     width: 50%;
     clear: right;
 }
@@ -292,6 +291,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) {
 div.timeline .newsTL > .newsFeed:nth-child(2n+2) .timeline_element {
     float: left;
     margin-left: 30px;
+    margin-top: 20px;
     right: 10%;
     opacity: 1;
     right: 0;
@@ -300,6 +300,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element {
     float: right;
     left: 10%;
     margin-right: 30px;
+      margin-top: 20px;
     left: 0;
     opacity: 1;
 }

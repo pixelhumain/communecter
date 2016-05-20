@@ -248,7 +248,7 @@
 			<div class="col-md-6 col-md-offset-3">
 				<select class="form-control" id="addressCountry">
 				  <option value="FR">France</option>
-				  <option value="GP">Gouadeloupe</option>
+				  <option value="GP">Guadeloupe</option>
 				  <option value="GF">Guyanne Française</option>
 				  <option value="MQ">Martinique</option>
 				  <option value="YT">Mayotte</option>
