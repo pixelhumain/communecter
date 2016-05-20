@@ -259,6 +259,7 @@ $contextTitle = "";
 $parentId="";
 $parentType="";
 $manage="";
+
 if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 	Menu::organization( $organization );
 	$thisOrga = Organization::getById($organization["_id"]);
