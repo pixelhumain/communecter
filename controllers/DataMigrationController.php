@@ -194,7 +194,10 @@ class DataMigrationController extends CommunecterController {
 			else if ($data["type"]=="activityStream" && !@$data["target"]){
 			$i++;
 			  print_r($data);
-			  PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
+			PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("target.type" => Person::COLLECTION,"target.id"=>$data["author"])));
+			  //PHDB::update(News::COLLECTION, array("_id"=>new MongoId($key)));
 		 // PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key)));
 		  	
 			}
