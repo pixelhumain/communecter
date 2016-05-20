@@ -624,8 +624,8 @@ class Menu {
             $roomLink = "#rooms.index.type.".$parentType.".id.".$parentId; 
 
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
+                    Yii::t( "common", 'All your Rooms'),
+                    Yii::t( "common", 'Action Rooms'), 'chevron-circle-left',
                     "loadByHash('".$roomLink."')",null,null);
     }
 
