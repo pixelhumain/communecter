@@ -151,37 +151,21 @@ function initGrid(){
 						htmlBtn	+= '<small> - '+v[i].size+'</small>';
 					htmlBtn+= '</span>';
 					if(authorizationToEdit){
-						if(v[i].moduleId=="communevent"){
-							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i].objId+'" data-name="'+v[i].name+'" data-key="'+v[i].moduleId+'" >' +
-										' <i class="fa fa-trash-o"></i>'+
-									' </a>';
-						} else {
-							htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i]["_id"]["$id"]+'" data-name="'+v[i].name+'" data-key="'+v[i].contentKey+'" >' +
-										' <i class="fa fa-trash-o"></i>'+
-									' </a>';
-
-						}
+						htmlBtn	+= 	' <a href="#" class="btnRemove" data-id="'+v[i].id+'" data-name="'+v[i].name+'" data-key="';
+						if(v[i].moduleId=="communevent")
+							htmlBtn += v[i].moduleId;
+						else
+							htmlBtn += v[i].contentKey;
+						htmlBtn += '" >' +
+								' <i class="fa fa-trash-o"></i>'+
+							' </a>';
 					}
 				htmlBtn+= 	' </div>';
-				if(v[i].moduleId=="communevent")
-					var path = v[i]["imageUrl"];
-				else
-					var path = baseUrl+v[i]["imageUrl"];
-				if(v[i].contentKey=="profil")
-					var pathThumb = path;
-				else if(v[i].moduleId=="communevent")
-					var pathThumb = path+"?store=photosLarge";
-				else
-					var pathThumb = baseUrl+"/<?php echo Yii::app()->params['uploadUrl'] ?>"+v[i].moduleId+"/"+v[i].folder+"/<?php echo Document::GENERATED_IMAGES_FOLDER ?>/"+v[i].name;
-				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="';
-				if(v[i].moduleId=="communevent")
-					htmlThumbail+=v[i].objId;
-				else
-					htmlThumbail+=v[i]["_id"]["$id"];
-				htmlThumbail+='">'+
+
+				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i].id+'">'+
 							' <div class="portfolio-item">'+
-								' <a class="thumb-info" href="'+path+'" data-lightbox="all">'+
-									' <img src="'+pathThumb+'" class="img-responsive" alt="">'+
+								' <a class="thumb-info" href="'+v[i].imagePath+'" data-lightbox="all">'+
+									' <img src="'+v[i].imageThumbPath+'" class="img-responsive" alt="">'+
 								' </a>' +
 								//' <div class="chkbox"></div>' +
 								htmlBtn +
