@@ -15,6 +15,8 @@ $cssAnsScriptFilesModule = array(
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+
+
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -212,7 +214,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
 					<div class="col-md-6 col-sm-6">
-						<?php
+						<?php 
 							$nbFixe = 0 ;
 							$nbMobile = 0 ; 
 
@@ -226,6 +228,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									if(@$organization["telephone"]["fixe"])
 									{
 										//.fixe.'.$nbFixe.'
+
 										foreach ($organization["telephone"]["fixe"] as $key => $value) {
 											if(!empty($telephone))
 												$telephone .= ", ";

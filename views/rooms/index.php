@@ -121,6 +121,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 <h1 class=" text-dark center citizenAssembly-header" style="font-size:27px;">
     <?php 
+    	//var_dump($parent);
 		$urlPhotoProfil = "";
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
 	      $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);

@@ -523,12 +523,12 @@ var events = <?php echo json_encode($events) ?>;
                            // echo json_encode($citizenAssembly);
                       //?>;
 
-var citizenAssembly = <?php $citizenAssembly = $res; 
-                           echo json_encode($citizenAssembly);
-                      ?>;
+// var citizenAssembly = <?php $citizenAssembly = $res; 
+//                            echo json_encode($citizenAssembly);
+//                       ?>;
 
-  console.log("citizenAssembly");
-  console.dir(citizenAssembly);
+//   console.log("citizenAssembly");
+//   console.dir(citizenAssembly);
 
 
 jQuery(document).ready(function() {
@@ -556,7 +556,7 @@ jQuery(document).ready(function() {
     $("#btn-communecter").attr("onclick", "");
   }
 
-  Sig.showMapElements(Sig.map, citizenAssembly);
+  Sig.showMapElements(Sig.map, contextMap);
   //initCityMap();
 /*  $('.pulsate').pulsate({
             color: '#2A3945', // set the color of the pulse
