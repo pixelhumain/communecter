@@ -354,7 +354,7 @@ $this->renderPartial('../default/panels/toolbar');
         $statusClass = ActionRoom::ACTION_TODO;
         $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
         $statusColor = "default";
-        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) ){
+        if( ( isset($action["startDate"]) && $action["startDate"] < time() ) || ( !@$action["startDate"] && @$action["dateEnd"] ) ){
           $statusClass = ActionRoom::ACTION_INPROGRESS;
           $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
           $statusColor = "success";

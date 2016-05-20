@@ -485,7 +485,7 @@ function  fastAdd(url) {
 	        dataType: "json",
 	        success: function(data){
 	          if(data.result){
-	            toastr.success(data.msg);
+	            toastr.success("<h1>Created Successfully.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'>Quick access here</a><h1>");
 	            $(".selBtn").remove(); 
 	          } else 
 	            toastr.error(data.msg);

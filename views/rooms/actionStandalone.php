@@ -159,7 +159,7 @@ if( Yii::app()->request->isAjaxRequest ){
 				        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
 				        $statusColor = "";
 				        //if startDate passed, or no startDate but has end Date
-				        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) )
+				        if( ( isset($action["startDate"]) && $action["startDate"] < time() )  || ( !@$action["startDate"] && @$action["dateEnd"] ) )
 				        {
 				          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
 				          $statusColor = "bg-green";
