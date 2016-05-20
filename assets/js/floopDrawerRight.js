@@ -47,7 +47,7 @@ function buildListContactHtml(contacts, myId){
 							if(type.name == "people") 		 urlBtnAdd = "loadByHash( '#person.invite')";
 							if(type.name == "organizations") urlBtnAdd = "loadByHash( '#organization.addorganizationform')";
 							if(type.name == "events") 		 urlBtnAdd = "loadByHash( '#event.eventsv')";
-							if(type.name == "projects") 	 urlBtnAdd = "loadByHash( '#project.projectsv.id."+myId+".type.citoyen')";
+							if(type.name == "projects") 	 urlBtnAdd = "loadByHash( '#project.projectsv')";
 
 							floopTypeUsed.push(type);
 
