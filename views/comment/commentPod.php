@@ -188,7 +188,6 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 var selection;
-var canParticipate = <?php echo ( Authorisation::canParticipate(Yii::app()->session["userId"], @$context['parentType'], @$context['parentId']) ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
@@ -441,13 +440,13 @@ function bindEvent(){
 		bootbox.alert("TODO - history");
 	});
 	$('.commentContent-posted').off().on("mouseover",function(){
-		if( canParticipate )
+		if( canUserComment )
 			$(this).children(".bar_tools_post").removeClass("hide").fadeIn(2000);
 	}).on("mouseout",function(){
 		$(this).children(".bar_tools_post").addClass("hide");
 	});
 
-	if(contextType == "actionRooms" && canParticipate)
+	if(contextType == "actionRooms" && canUserComment)
 	{
 		$(".commentText-posted").bind('mouseup', function(e){
 	        if (window.getSelection) {
@@ -459,8 +458,8 @@ function bindEvent(){
 	        	if($(".selBtn").length)
 	        		$(".selBtn").remove();
 	        	links = "<a href='javascript:;' onclick='fastAdd(\"/rooms/fastaddaction\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
-	        			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>"+
-	        			" <a href='javascript:;'  onclick='highlight()' class='selBtn text-bold btn btn-dark-yellow btn-xs'><i class='fa fa-paint-brush'></i> Highlight Hot point <i class='fa fa-legal'></i></a>";
+	        			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>"
+	        			/*+" <a href='javascript:;'  onclick='highlight()' class='selBtn text-bold btn btn-dark-yellow btn-xs'><i class='fa fa-paint-brush'></i> Highlight Hot point <i class='fa fa-legal'></i></a>"*/;
 	        	$(this).parent().find("div.bar_tools_post").append(links);
 	        }
 	    });

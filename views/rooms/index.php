@@ -148,7 +148,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
     $ctrl = Element::getControlerByCollection($_GET["type"]);
     $btnUrl = "#".$ctrl.".detail.id.".$parentId;
 	
-	if( $_GET["type"] != Person::COLLECTION && ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
+	if( $_GET["type"] != Person::COLLECTION && Authorisation::canParticipate(Yii::app()->session['userId'],$_GET["type"],$_GET["id"]) ){ 
 		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
 	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
 	} 
