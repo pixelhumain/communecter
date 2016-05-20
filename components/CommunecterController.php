@@ -95,6 +95,7 @@ class CommunecterController extends Controller
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
+      "statistics"    => array("href" => "/ph/communecter/stat/chart"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
 
@@ -123,6 +124,7 @@ class CommunecterController extends Controller
       'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'getcityjsondata'     => array("href" => "/ph/communecter/city/getcityjsondata", "public" => true),
       'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
+      'statisticPopulation' => array("href" => "/ph/communecter/city/statisticPopulation", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
       'opendata'            => array("href" => "/ph/communecter/city/opendata","public" => true),
       'getoptiondata'       => array("href" => "/ph/communecter/city/getoptiondata"),

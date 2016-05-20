@@ -46,7 +46,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php if(isset($e["name"]))echo $e["name"]?>
 							</a>
 						</td>
-						<td><?php if(isset($e["type"])) echo $list[$e["type"]];?></td>
+						<td><?php if(isset($e["type"])) echo $e["type"];?></td>
 						<td class="center">
 							<div class="visible-lg">
 								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
@@ -78,7 +78,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	
 	jQuery(document).ready(function() {	 
 
-		var itemId = '<?php echo $contextId;?>';
+		var itemId = '<?php echo @$contextId;?>';
 		$('.init-event').off().on("click", function(){
 			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
 			$.subview({
