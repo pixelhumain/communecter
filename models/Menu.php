@@ -624,8 +624,8 @@ class Menu {
             $roomLink = "#rooms.index.type.".$parentType.".id.".$parentId; 
 
         self::entry("left", 'onclick', 
-                    Yii::t( "common", 'All your Rooms'),
-                    Yii::t( "common", 'Action Rooms'), 'chevron-circle-left',
+                    Yii::t( "rooms", 'All your Rooms', null, Yii::app()->controller->module->id),
+                    Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('".$roomLink."')",null,null);
     }
 
@@ -651,7 +651,7 @@ class Menu {
 //         $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
 // //        $ctrl = Element::getControlerByCollection($type);
 //         $btnUrl = "#".$type.".detail.id.".$id;
-//         if( ActionRoom::canParticipate(Yii::app()->session['userId'],$id,$type ) ){ 
+//         if( Authorisation::canParticipate(Yii::app()->session['userId'],$type,$id ) ){ 
 //             $btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
 //             $btnUrl = "#rooms.editroom.type.".$type.".id.".$id;
 //         }
@@ -690,7 +690,7 @@ class Menu {
         
         // Add a proposal
         //-----------------------------
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$survey["parentId"],$survey["parentType"]) ) {
+        if( Authorisation::canParticipate(Yii::app()->session['userId'],$survey["parentType"],$survey["parentId"]) ) {
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Create a proposal for your community'),
                         Yii::t( "common", 'Add a proposal'), 'plus',
@@ -791,7 +791,7 @@ class Menu {
         
         // Add a proposal
         //-----------------------------
-        if( ActionRoom::canParticipate( Yii::app()->session['userId'],$survey["parentId"], $survey["parentType"] ) ) {
+        if( Authorisation::canParticipate( Yii::app()->session['userId'], $survey["parentType"],$survey["parentId"], $survey["parentType"] ) ) {
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "common", 'Add an Action'), 'plus',

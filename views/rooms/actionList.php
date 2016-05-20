@@ -491,7 +491,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?>
               </h1>
                <?php 
-                 if (count(@$list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"])) {
+                 if (count(@$list) == 0 && Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) {
                ?>
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 

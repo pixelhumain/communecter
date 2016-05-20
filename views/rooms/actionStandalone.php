@@ -228,7 +228,7 @@ if( Yii::app()->request->isAjaxRequest ){
 															"admin" => true	)); 
 							}
 						?>
-						<?php if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) && !@$action["links"]["contributors"][Yii::app()->session['userId']]  ){	?>
+						<?php if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) && !@$action["links"]["contributors"][Yii::app()->session['userId']]  ){	?>
 						<div class="space20"></div>
 						<a href="javascript:;" class="pull-right text-large btn btn-dark-blue " onclick="assignMe('<?php echo (string)$action["_id"]?>');" ><i class="fa fa-link"></i> <?php echo Yii::t("rooms","Assign Me This Task",null,Yii::app()->controller->module->id) ?></a>
 						<?php }	?>
