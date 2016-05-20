@@ -72,6 +72,7 @@ function buildLineHTML(newsObj,idSession,update)
 	if(typeof(currentMonth) != "undefined" && currentMonth != date.getMonth() && update != true)
 	{
 		form="";
+		addForm=false;
 		// Append for at the beginning after the construction of the timeline
 		//alert(canPostNews);
 		if (currentMonth == null  && canPostNews == true){
@@ -79,6 +80,7 @@ function buildLineHTML(newsObj,idSession,update)
 			form = "<div class='newsFeed'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
+			addForm=true;
 
 		}
 		currentMonth = date.getMonth();
@@ -135,8 +137,10 @@ function buildLineHTML(newsObj,idSession,update)
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		textHtml="";
-		if(newsObj.text.length > 0)
-			textHtml='<span class="timeline_text no-padding" >'+newsObj.text+'</span>';
+		if(newsObj.text.length > 0){
+			textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
@@ -156,7 +160,8 @@ function buildLineHTML(newsObj,idSession,update)
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
 		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			textNews=checkAndCutLongString(newsObj.text,150,newsObj._id.$id);
+			text = '<span class="timeline_text">'+textNews+'</span>';
 		}
 	}
 	tags = "", 
@@ -272,10 +277,10 @@ function buildLineHTML(newsObj,idSession,update)
 						'</div>'+
 						'<div class="space5"></div>'+
 						'<hr/>' + 
-						'<a '+urlAction.url+'>'+
+						//'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
 							'<div>'+title + text + "</div>"+media +
-						'</a>'+
+						//'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
@@ -286,12 +291,32 @@ function buildLineHTML(newsObj,idSession,update)
 						}
 	newsTLLine +=	'</div>'+
 				'</div>';
+	if(update==true)
+		return newsTLLine;
+	else{
+		// Check offset of last element
+		var offsetLastNews = $(".newsFeed").last().position();
+		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
-	//return newsTLLine;
+		if(addForm==true){
+			$("#newFeedForm").append($("#formCreateNewsTemp"));
+			$("#formCreateNewsTemp").css("display", "inline");
+		}
+		// Bug on timeline style increment due to the two part
+		// Still have few news at the same level (but tempory fixed
+		// Check the offset of last .newsFeed and compare
+		if(typeof(offsetLastNews) != "undefined"){
+			dateLimit=
+			minusOff=offsetLastNews.top-10;
+			maxOff=offsetLastNews.top+10;
+		}
+		if(typeof(offsetLastNews) == "undefined" || (minusOff < $(".newsFeed").last().position().top && $(".newsFeed").last().position().top < maxOff)){
+			$(".newsFeed").last().css("margin-top","20px");
+		}
+	}
 }
 
 function buildHtmlUrlAndActionObject(obj){
-	console.log(obj);
 	if(typeof(obj.target) != "undefined" && typeof(obj.target.type) != "undefined")
 		redirectTypeUrl=obj.target.type.substring(0,obj.target.type.length-1);
 	else 
@@ -562,7 +587,17 @@ function initXEditable() {
 	    },
 	});
 }
-
+function checkAndCutLongString(text,limitLength,idNews){
+	if(text.length > limitLength){
+		text=text.substring(0,limitLength);
+		if(limitLength==500){
+			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span>";
+		}else{
+			text += " ..."
+		}
+	}
+	return text;
+}
 function showComments(id){
 	$.blockUI({
 			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+

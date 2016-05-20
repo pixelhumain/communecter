@@ -77,11 +77,24 @@ function buildTimeLine (news, indexMin, indexMax)
 				buildLineHTML(newsObj, idSession);
 		}
 	});
-
-	if(canPostNews==true){
-		$("#newFeedForm").append(formCreateNews);
-		$("#formCreateNewsTemp").css("display", "inline");
-	}
+	
+	//if(canPostNews==true){
+	//	$("#newFeedForm").append(formCreateNews);
+	//	$("#formCreateNewsTemp").css("display", "inline");
+	//}
+	/*offsetLastNews="";
+	$i=0;
+	$( ".newsFeed:gt(-6)" ).each(function(){
+		if($i!=0){
+			if(typeof(offsetLastNews)!="undefined" && typeof(offsetLastNews.top)!="undefined")
+			console.log(offsetLastNews.top+" // VS // "+$(this).offset().top);
+			if($(this).offset().top == offsetLastNews.top){
+				$(this).css("margin-top","20px");
+			}
+		}
+		offsetLastNews=$(this).offset();
+		//alert();
+	})*/
 	$.each( news , function(key,o){
 		initXEditable();
 		manageModeContext(key);
@@ -351,6 +364,7 @@ function updateNews(newsObj)
 	var newsTLLine = buildLineHTML(newsObj,idSession,true);
 	$(".emptyNews").remove();
 	$("#newFeedForm").parent().after(newsTLLine).fadeIn();
+	$("#newFeedForm").parent().next().css("margin-top","20px");
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
 	$("#form-news #results").html("").hide();
@@ -872,12 +886,12 @@ function getMediaImages(o,newsId,authorId,targetName){
 	}
 	if(countImages==1){
 		path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[0].folder+"/"+o.images[0].name;
-		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='album de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='album de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='max-height:200px;'></a></div>";
 	}
 	else if(countImages==2){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
-			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='max-height:200px;'></a></div>";
 		}
 	}
 	else if(countImages==3){
