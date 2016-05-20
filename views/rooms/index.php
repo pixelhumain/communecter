@@ -150,9 +150,10 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 	if( $_GET["type"] != Person::COLLECTION && ActionRoom::canParticipate(Yii::app()->session['userId'],$_GET["id"],$_GET["type"]) ){ 
 		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
 	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
-	} ?>
+	} 
 
-	<?php if( $_GET["type"] != Person::COLLECTION ){ ?>
+	if( $_GET["type"] != Person::COLLECTION ){
+	?>
 	<div class="col-md-12 center">
 		<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
 	</div>

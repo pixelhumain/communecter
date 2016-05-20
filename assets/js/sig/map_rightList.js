@@ -247,12 +247,17 @@
 					if("undefined" != typeof element['startDate'] && "undefined" != typeof element['endDate']){
 						var start = dateToStr(element['startDate'], "fr", true);
 						var end = dateToStr(element['endDate'], "fr", true);
+						var hour1 = "Toute la journée";
+						var hour2 = "Toute la journée";
+						if(element["allDay"] == false) { 	
+							hour1 = start.substr(start.indexOf("-")+2, start.length);
+							hour2 = end.substr(end.indexOf("-")+2, end.length);
+						}
 
 						//si la date de debut == la date de fin
 						if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
 							var date1 = start.substr(0, start.indexOf("-"));
-							var hour1 = start.substr(start.indexOf("-")+2, start.length);
-							var hour2 = end.substr(end.indexOf("-")+2, end.length);
+							
 							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
 							
 							if(hour1 == "00h00" && hour2 == "23h59") 
@@ -262,8 +267,10 @@
 
 							button += "</div>";
 						}else{
-							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
-								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
+							var startDate = start.substr(0, start.indexOf("-"));
+							var endDate = end.substr(0, end.indexOf("-"));
+							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + startDate + " - " + hour1 + "</div>"
+								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + endDate + " - " + hour2 +"</div></br>";
 						}
 					}
 				}
