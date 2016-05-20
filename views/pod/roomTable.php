@@ -240,16 +240,18 @@
 									/* **************************************
 									*	rooms
 									***************************************** */
-									if(isset($history) && $history != null) 
+									if(isset($history) && $history != null && !empty($history)) 
 									{ 
 										foreach ($history as $e) 
-										{ ?>
+										{ 
+										if(isset($e["_id"]) && isset($e["name"])){ ?>
+
 										<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
 											<td class="center organizationLine hidden">
 												<?php 
 												$type = "survey.entry";
 												$icon = "bookmark";
-												//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"]);
+												$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"]);
 												$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
 												$link = 'href="javascript:;" onclick="'.$link.'"';
 												?>
@@ -323,7 +325,7 @@
 											</td>
 										</tr>
 									<?php
-										};
+										}};
 									}
 
 									?>
