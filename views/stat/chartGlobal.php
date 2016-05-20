@@ -47,13 +47,44 @@ var chartCitoyens = c3.generate({
 
 </script>
 
-<!-- ORGANIZATIONS -->
-<h4>Evolution du nombre d'organisations</h4>
-<div id="chartOrganizatons"></div>
+<!-- LINKS -->
+<h4>Evolution du nombre de liens entre entités</h4>
+<div id="chartLinks"></div>
 <script>
 
-var chartOrganizatons = c3.generate({
-    bindto: '#chartOrganizatons',
+var chartLinks = c3.generate({
+    bindto: '#chartLinks',
+    data: {
+        x : 'x',
+        xFormat: '%d/%m/%Y',
+        columns: [],
+        type: 'bar',
+        groups: [
+            <?php echo json_encode(array_keys($groups['linkTypes'])); ?>
+        ],
+        names:  <?php echo json_encode($groups['linkTypes']); ?>
+    },
+    axis: {
+        x: {
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
+        }
+    }
+});
+
+
+
+</script>
+
+<!-- ORGANIZATIONS -->
+<h4>Evolution du nombre d'organisations</h4>
+<div id="chartOrganizations"></div>
+<script>
+
+var chartOrganizations = c3.generate({
+    bindto: '#chartOrganizations',
     data: {
         x : 'x',
         xFormat: '%d/%m/%Y',
@@ -164,8 +195,6 @@ var chartActionRooms = c3.generate({
         }
     }
 });
-
-
 </script>
 
 <!-- ***** CITOYENS ***** -->
@@ -205,7 +234,12 @@ var chartSurveys = c3.generate({
           mimeType: 'json'
         });
 
-        chartOrganizatons.load({
+        chartLinks.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/links/chart/global",
+          mimeType: 'json'
+        });
+
+        chartOrganizations.load({
           url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/organizations/chart/global",
           mimeType: 'json'
         });
