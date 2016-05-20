@@ -2,7 +2,8 @@
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/js/highcharts.js',
-  '/js/dataHelpers.js'
+  '/js/dataHelpers.js',
+  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -17,6 +18,10 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 ?>
 <style type="text/css">
+
+	.assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
+    }
 
 	/*a.btn{margin:3px;}*/
 	a:hover.btn {background-color: pink;border solid #666;}
@@ -36,58 +41,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	.commentPod .panel {box-shadow: none;}
 	.commentPod .panel-heading {border-bottom-width: 0px;}
 
-	.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -50px;
-      background-size: 100% auto;
-    }
-
-      .citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-		padding-top: 0px;
-		margin-bottom: -3px;
-		font-size: 32px;
-		top: 115px;
-		z-index: 1;
-		position: absolute;
-		width: 96%;
-		left: 2%;
-		padding-bottom: 15px;
-      }
-
-    .citizenAssembly-header h1{
-    	font-size: 32px;
-		
-    }
-    .row.vote-row.contentProposal{
-	   	position: absolute;
-		padding-top: 5px;
-		top: 350px;
-		background-color: white;
-		width: 100%;
-		z-index: 0;
-    }
-    .row.vote-row.parentSpaceName{
-	   	position: absolute;
-		padding-top: 5px;
-		top: 300px;
-		background-color: white;
-		width: 100%;
-		height:50px;
-		z-index: 1;
-		-moz-box-shadow: 0px 0px 5px 0px #656565;
-		-webkit-box-shadow: 0px 0px 5px 0px #656565;
-		-o-box-shadow: 0px 0px 5px 0px #656565;
-		box-shadow: 0px 0px 5px 0px #656565;
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
-    }
-    .row.vote-row.parentSpaceName h1{
-    	padding-top:10px;
-		margin:0px !important;
-	}
+	
 
     .leftlinks a.btn{
     	border: transparent;
@@ -113,55 +67,12 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   	font-weight: 300;
   }
 
-  #thumb-profil-parent{
-      margin-top:-60px;
-      margin-bottom:20px;
-      -moz-box-shadow: 0px 3px 10px 1px #656565;
-      -webkit-box-shadow: 0px 3px 10px 1px #656565;
-      -o-box-shadow: 0px 3px 10px 1px #656565;
-      box-shadow: 0px 3px 10px 1px #656565;
-    }
 
 
 #commentHistory .panel-scroll{
 	max-height:unset !important;
 }
 
-
-@media screen and (min-width: 1060px) {
-  
-}
-@media screen and (max-width: 1060px) {
-  
-  .assemblyHeadSection {  
-    background-position: 0px 50px;
-  }
-
-  .container-tool-vote {
-    font-size: 17px;
-    margin-top: 60px;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .assemblyHeadSection {  
-    background-position: 0px 0px;
-  }
-  .citizenAssembly-header{
-  	top: 70px;
-  	height:160px;
-  }
-  .citizenAssembly-header h1 {
-	font-size: 24px;
-  }
-  .row.vote-row {
-    top: 230px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  
-}
 
 </style>
 
@@ -279,8 +190,8 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 		  <?php 
 		    $urlPhotoProfil = "";
-		    if(isset($parent['profilImageUrl']) && $organizer['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($organizer['profilImageUrl']);
+		    if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
+		        $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
 		      else
 		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		  
@@ -293,7 +204,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 		    <br>
 		  <span style="padding:0px; border-radius:50px;">
 		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $organizer["name"]; ?>
+		    <?php echo $parent["name"]; ?>
 		  </span>
 		  	<br>
 		  <small class="homestead text-dark center">Propositions, Débats, Votes</small>

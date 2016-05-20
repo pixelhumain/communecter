@@ -1,3 +1,4 @@
+<?php if($contextType == "actionRooms"){ ?>
 <style type="text/css">
 .assemblyHeadSection {  
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
@@ -33,6 +34,9 @@ margin-top:90px;
 <?php 
 	Menu::comments( $parentType, $parentId );
 	$this->renderPartial('../default/panels/toolbar');
+
+}
+
 ?>
 
 
@@ -68,7 +72,7 @@ margin-top:90px;
 
 
 <?php
-	$this->renderPartial("commentPod", array("comments"=>$comments,
+	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
