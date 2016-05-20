@@ -441,7 +441,7 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t( "common", 'Local network'), 
         			Yii::t( "common", 'Directory'),'bookmark fa-rotate-270',
-        			"loadByHash('#city.directory.insee.".$insee."?tpl=directory2')",null,null);
+        			"loadByHash('#city.directory.insee.".$insee.".postalCode.".$cp.".tpl.directory2')",null,null);
 
         //STATISTICS
         //-----------------------------
