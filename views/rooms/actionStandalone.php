@@ -115,15 +115,15 @@ if( Yii::app()->request->isAjaxRequest ){
 		<div class="col-sm-12 bg-dark padding-5">
 
 			<div class="col-md-4 bg-dark">
-			 <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class=" homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?></a>
+			 <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class=" homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discussion", null, Yii::app()->controller->module->id); ?></a>
 			</div>
 
 			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class=" homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?></a>
+			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class=" homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decision", null, Yii::app()->controller->module->id); ?></a>
 			</div>
 
 			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="text-white homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> </a>
+			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="text-white homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Action", null, Yii::app()->controller->module->id); ?> </a>
 			</div>
 
 		</h1>
