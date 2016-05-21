@@ -179,6 +179,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
 	
+
+
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
 	
 	$(".main-col-search").addClass("assemblyHeadSection");
@@ -190,9 +192,10 @@ jQuery(document).ready(function() {
 			showDefinition( $(this).data("id") );
 			return false;
 		});
-
-	
 	$(".dataTables_length").append("");
+	
+	activeTab = <?php echo (@$_GET["tab"]) ? $_GET["tab"] : "1"?>;
+	$(".nav-menu-rooms li:nth-child("+activeTab+") a").trigger("click");
 });	
 
 function resetDirectoryTable() 

@@ -112,11 +112,22 @@ if( Yii::app()->request->isAjaxRequest ){
 		    <?php echo $parent["name"]; ?>
 		  </span>
 		  	<br>
-		  <small class="homestead text-dark center">Espace d'<?php echo Yii::t("rooms","Actions",null,Yii::app()->controller->module->id) ?></small>
-		  
-		</h1>
+		<div class="col-sm-12 bg-dark padding-5">
 
-		
+			<div class="col-md-4 bg-dark">
+			 <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class=" homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discussion", null, Yii::app()->controller->module->id); ?></a>
+			</div>
+
+			<div class="col-sm-4 bg-dark">
+			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class=" homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decision", null, Yii::app()->controller->module->id); ?></a>
+			</div>
+
+			<div class="col-sm-4 bg-dark">
+			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="text-white homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Action", null, Yii::app()->controller->module->id); ?> </a>
+			</div>
+
+		</h1>
+		</div>
     </div>
  </div>
 
