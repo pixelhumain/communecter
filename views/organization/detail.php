@@ -104,10 +104,12 @@
    		//}
    		bindFicheInfoBtn();
 
-   		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-2x fa-refresh'></i>");
-	   		var id = "<?php echo (String) $organization['_id']; ?>";
-	   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
-	   			function(){}, "html");
+   		<?php if (isset(Yii::app()->session["userId"])) { ?>
+	   		$("#podCooparativeSpace").html("<h3 class='homestead bg-azure padding-10' style='border-radius:30px;'><i class='fa fa-spin fa-refresh'></i> Chargement de l'espace coopératif</h3>");
+				var id = "<?php echo (String) $organization['_id']; ?>";
+		   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
+		   			function(){}, "html");
+	   	<?php } ?>
 	});
 	
 	function bindFicheInfoBtn(){
