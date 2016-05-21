@@ -112,10 +112,11 @@ if( Yii::app()->request->isAjaxRequest ){
 		    <?php echo $parent["name"]; ?>
 		  </span>
 		  	<br>
-		  <small class="homestead text-dark center">Espace d'<?php echo Yii::t("rooms","Actions",null,Yii::app()->controller->module->id) ?></small>
-		  
-		</h1>
 
+		  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class="btn btn-default homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?></a>
+		  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class="btn btn-default homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?></a>
+		  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="btn btn-primary homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> </a>
+		</h1>
 		
     </div>
  </div>
