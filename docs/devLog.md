@@ -16,6 +16,17 @@
 ---------------------------------------------------
 Version 0.12
 
+@Tib
+db.cities.find().forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    print(doc.country+"_"+doc.insee); 
+    db.organizations.update({"_id":doc._id},{
+        '$set':{'_id': doc.country+"_"+doc.insee}
+    })
+  }
+});
+
 @Bouboule (clement.damiens@gmail.com)
 1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
 2.Bash on news (already done on qa and dev)
