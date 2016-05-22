@@ -87,30 +87,42 @@ margin-top:90px;
 
 <script type="text/javascript">
 
+var latestComments = <?php echo time(); ?>;
 jQuery(document).ready(function() {
 	
 	<?php if($contextType == "actionRooms"){ ?>
   		$(".moduleLabel").html("<i class='fa fa-comments'></i> <?php echo Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id); ?>");
 		$(".main-col-search").addClass("assemblyHeadSection");
   	<?php } ?>
-    /*
-    function getSelectedParagraphText() {
-  if (window.getSelection) {
-      selection = window.getSelection();
-  } else if (document.selection) {
-      selection = document.selection.createRange();
-  }
-  var parent = selection.anchorNode;
-  while (parent != null && parent.localName != "P") {
-    parent = parent.parentNode;
-  }
-  if (parent == null) {
-    return "";
-  } else {
-    return parent.innerText || parent.textContent;
-  }
-}
-    */
+
 });
 
+function checkCommentCount(){ 
+		console.log("check if new comments exist since",latestComments);
+		//show refresh button
+		$.ajax({
+        type: "POST",
+        url: baseUrl+'/'+moduleId+"/comment/countcommentsfrom",
+        data: {
+        	"from" : latestComments,
+        	"type" : contextType,
+        	"id" : "<?php echo (string)$context["_id"]; ?>"
+        },
+        dataType: "json",
+        success: function(data){
+          if(data.count>0){
+          	console.log("you have new comments", data.count);
+          	latestComments = data.time;
+          	
+          	$(".refreshComments").removeClass('hide')
+          	$(".refreshComments").html("<i class='fa fa-refresh'></i> "+data.count+" <?php echo Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id)?> ");
+          } else {
+          	console.log("nothing new");
+          }
+          if(userId){
+	        //checkCommentCount();
+	    	}
+        }
+    });
+}
 </script>

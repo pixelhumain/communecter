@@ -341,6 +341,7 @@ class CommunecterController extends Controller
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
       "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
+      "countcommentsfrom" => array( "href" => "/ph/communecter/comment/countcommentsfrom"),
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
@@ -401,8 +402,8 @@ class CommunecterController extends Controller
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        if( Yii::app()->request->isAjaxRequest)
-          echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
+        //if( Yii::app()->request->isAjaxRequest)
+          //echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
          
     }
     if( isset( $_GET["backUrl"] ) )
@@ -457,8 +458,7 @@ class CommunecterController extends Controller
           Yii::app()->session["logsInProcess"],
           array($actionInProcess => Log::setLogBeforeAction($actionInProcess))
         );
-      }//just on action logging
-      else{
+      } else{
          Yii::app()->session["logsInProcess"] = array($actionInProcess => Log::setLogBeforeAction($actionInProcess));
       }
     }
