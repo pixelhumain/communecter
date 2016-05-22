@@ -19,10 +19,10 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 ?>
 <style type="text/css">
 
-	.assemblyHeadSection {  
+	/*.assemblyHeadSection {  
       background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-    }
-
+    }*/
+  	
 	/*a.btn{margin:3px;}*/
 	a:hover.btn {background-color: pink;border solid #666;}
 
@@ -87,7 +87,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center" style="margin-top: 20px">
+<div class="center">
 	<?php /* ?>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
@@ -97,7 +97,6 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	<br/>
 	<span class="subTitle text-white text-bold" style="margin-top:-13px; font-size:1.5em">Se connecter à sa commune.</span>
 	*/?>
-	<br/>
 	<!-- <span class="text-red " style="font-size:40px"><?php echo Yii::t("rooms","VOTE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
@@ -188,27 +187,16 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
      
  		<h1 class="homestead text-dark center citizenAssembly-header">
 
-		  <?php 
-		    $urlPhotoProfil = "";
-		    if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-		      else
-		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-		  
-		    $icon = "comments"; 
-		      if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-		      if($parentType == Organization::COLLECTION) $icon = "group";
-		      if($parentType == Person::CONTROLLER) $icon = "user";
-		  ?>
-		  <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-		    <br>
-		  <span style="padding:0px; border-radius:50px;">
-		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $parent["name"]; ?>
-		  </span>
-		  	<br>
-		  <small class="homestead text-dark center">Propositions, Débats, Votes</small>
-		  
+		  <?php $this->renderPartial('../rooms/header',array(    
+                			"parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "parentSpace" => $parentSpace,
+                            "fromView" => "survey.entry",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Décider ensemble", null, Yii::app()->controller->module->id)
+                            )); ?>
 		</h1>
      
 
@@ -226,15 +214,6 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 		
     </div>
  </div>
-
-<div class="row vote-row parentSpaceName">
-
-	<div class="col-md-12">
-		<a href="javascript:"  onclick="loadByHash('#survey.entries.id.<?php echo $parentSpace["_id"]; ?>')">
-			<h1 class="homestead text-dark center"><i class=" fa fa-archive"></i> <?php echo $parentSpace["name"]; ?></h1>
-		</a>
-	</div>
-</div>
 
 <div class="row vote-row contentProposal" >
 
@@ -275,11 +254,14 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 						<div class="box-vote box-pod box radius-20">
 							<?php
+
 							$this->renderPartial('entry',array( "survey" => $survey, 
+																"voteLinksAndInfos" => $voteLinksAndInfos,
 																"position" => "center",
 																"showName" => true,
 																"hideTexts" => true
-																 ));?>
+																 ));
+																 ?>
 						</div>
 
 				<?php } ?>
@@ -404,6 +386,7 @@ jQuery(document).ready(function() {
 
 	
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
+
 
 	buildResults ();
 

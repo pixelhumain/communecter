@@ -4,7 +4,8 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js'
+  '/survey/js/jquery.mixitup.min.js',
+  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -14,6 +15,7 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
+
 $commentActive = true;
 
 Menu::survey( $where["survey"] );
@@ -21,6 +23,13 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 
 <style type="text/css">
+
+
+  .assemblyHeadSection {  
+    /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); */
+    /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/bg/noise_lines.png); */
+  }
+  
   .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
   button.filter,button.sort{color:#000;}
   /*a.btn{margin:3px;}*/
@@ -129,23 +138,23 @@ $this->renderPartial('../default/panels/toolbar');
   }
 
 
-    .assemblyHeadSection {  
+    /*.assemblyHeadSection {  
       background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);* /
       background-color: #fff;
       background-repeat: no-repeat;
       background-position: 0px -40px;
       background-size: 100% auto;
-    }
+    }*/
 
-      h1.citizenAssembly-header{
+   /*   h1.citizenAssembly-header{
         background-color: rgba(255, 255, 255, 0.63);
         padding: 30px;
         margin-bottom: -3px;
         font-size: 32px;
         margin-top:90px;
       }
-
+*/
     .message-propostal{
       font-size: 13px !important;
       font-weight: 300 !important;
@@ -184,7 +193,7 @@ $this->renderPartial('../default/panels/toolbar');
       display: inline;
     }
 
-
+/*
     #thumb-profil-parent{
       margin-top:-60px;
       margin-bottom:20px;
@@ -192,7 +201,7 @@ $this->renderPartial('../default/panels/toolbar');
       -webkit-box-shadow: 0px 3px 10px 1px #656565;
       -o-box-shadow: 0px 3px 10px 1px #656565;
       box-shadow: 0px 3px 10px 1px #656565;
-    }
+    }*/
 
 
 @media screen and (min-width: 1060px) {
@@ -241,7 +250,7 @@ $this->renderPartial('../default/panels/toolbar');
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate ){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -500,7 +509,7 @@ $this->renderPartial('../default/panels/toolbar');
     foreach ($list as $key => $entry) 
     {
         $switchcount = -$switchcount;
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount);
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount, $canParticipate);
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
@@ -571,27 +580,15 @@ $this->renderPartial('../default/panels/toolbar');
 
 
     <h1 class="homestead text-dark center citizenAssembly-header">
-
-      <?php 
-        $urlPhotoProfil = "";
-        if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-            $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-          else
-            $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-      
-          $icon = "comments"; 
-          if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-          if($parentType == Organization::COLLECTION) $icon = "group";
-          if($parentType == Person::CONTROLLER) $icon = "user";
-      ?>
-      <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-        <br>
-      <span style="padding:10px; border-radius:50px;">
-        <i class="fa fa-<?php echo $icon; ?>"></i> 
-        <?php echo $parent["name"]; ?>
-      </span>
-
-      
+      <?php $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "fromView" => "survey.entries",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Décider ensemble", null, Yii::app()->controller->module->id)
+                            )); ?>
     </h1>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
@@ -637,7 +634,7 @@ $this->renderPartial('../default/panels/toolbar');
               <br/>
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> 
               </h1>
                <?php 
                  if (isset($list) && count($list) == 0 && @$canParticipate) {

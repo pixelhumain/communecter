@@ -2,9 +2,15 @@
 $cssAnsScriptFilesTheme = array(
 	'/plugins/DataTables/media/css/DT_bootstrap.css',
 	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
-	'/plugins/DataTables/media/js/DT_bootstrap.js'
+	'/plugins/DataTables/media/js/DT_bootstrap.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
+
+$cssAnsScriptFilesModule = array(
+  '/css/rooms/header.css'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
 
 Menu::rooms($_GET["id"],$_GET["type"]);
 $this->renderPartial('../default/panels/toolbar');
@@ -13,37 +19,12 @@ $moduleId = Yii::app()->controller->module->id;
 ?>
 
 <style>
-.assemblyHeadSection {  
-  /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); */
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/bg/noise_lines.png); 
 
-  /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-  background-color: #fff;
-  background-repeat: repeat;
-  /*background-position: 0px -50px;*/
-  /*background-size: 100% auto;*/
-}/*
-.assemblyHeadSection {  
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png);
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: 0px -50px;
-  background-size: 100% auto;
-}*/
 
-  h1.citizenAssembly-header{
-    background-color: rgba(255, 255, 255, 0.4);
-    padding: 30px;
-    padding-top:0px;
-    margin-bottom: -3px;
-    font-size: 32px;
-    margin-top:90px;
-    padding-bottom: 100px;
-    -moz-box-shadow: 0px 3px 10px 1px #656565;
-	-webkit-box-shadow: 0px 3px 10px 1px #656565;
-	-o-box-shadow: 0px 3px 10px 1px #656565;
-	box-shadow: 0px 3px 10px 1px #656565;
-  }
+h1.citizenAssembly-header{
+  padding-bottom:90px !important;
+}
+
 #main-panel-room{
 	/*margin-top:100px;*/
 }
@@ -66,6 +47,32 @@ a.text-white {
 	box-shadow: 0px 3px 10px 1px #656565;
 }
 
+    .row.vote-row.contentProposal{
+	   	position: absolute;
+		padding-top: 5px;
+		top: 350px;
+		background-color: white;
+		width: 100%;
+		z-index: 0;
+    }
+    .row.vote-row.parentSpaceName{
+	   	position: absolute;
+		padding-top: 5px;
+		top: 300px;
+		background-color: white;
+		width: 100%;
+		height:50px;
+		z-index: 1;
+		-moz-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		-webkit-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		-o-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+    }
+    .row.vote-row.parentSpaceName h1{
+    	padding-top:10px;
+		margin:0px !important;
+	}
 .panel-heading .panel-heading-tabs {
     list-style: none;
     top: 0;
@@ -119,44 +126,16 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </style>
 
 
-<h1 class=" text-dark center citizenAssembly-header" style="font-size:27px;">
-    <?php 
-    	//var_dump($parent);
-		$urlPhotoProfil = "";
-		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-	      $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-	    else
-	      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-	
-		$icon = "comments";	
-		if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-	  	if($parentType == Organization::COLLECTION) $icon = "group";
-	  	if($parentType == Person::COLLECTION) $icon = "user";
-	?>
-	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-    <br>
-	<span class="homestead" style="padding:10px;">
-		<a href="javascript:loadByHash('#<?php echo Element::getControlerByCollection($_GET["type"]); ?>.detail.id.<?php echo $_GET["id"]; ?>');" class="text-dark"><i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?></a>
-	</span><br>
-	<span class="homestead text-azure" style="padding:10px; font-size:0.8em;">
-		<i class='fa fa-connectdevelop'></i> <?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id)?>
-	</span>
-	<?php 
-	$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
-    $ctrl = Element::getControlerByCollection($_GET["type"]);
-    $btnUrl = "#".$ctrl.".detail.id.".$parentId;
-	
-	if( $_GET["type"] != Person::COLLECTION && Authorisation::canParticipate(Yii::app()->session['userId'],$_GET["type"],$_GET["id"]) ){ 
-		$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
-	    $btnUrl = "#rooms.editroom.type.".$_GET["type"].".id.".$_GET["id"];
-	} 
-
-	if( $_GET["type"] != Person::COLLECTION ){
-	?>
-	<div class="col-md-12 center">
-		<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
-	</div>
-	<?php } ?>
+<h1 class="text-dark center citizenAssembly-header">
+    <?php $this->renderPartial('../rooms/header',array(    
+		   					"parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "fromView" => "rooms.index",
+                            "faTitle" => "connectdevelop",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id)
+                            )); ?>
 </h1>
 	    
 <div class="" id="main-panel-room">

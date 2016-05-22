@@ -1,67 +1,92 @@
-.assemblyHeadSection {  
-      /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); */
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -50px;
-      background-size: 100% 40%;
-    }
 
-      .citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-		padding-top: 0px;
-		margin-bottom: -3px;
-		font-size: 26px;
-		top: 125px;
-		z-index: 1;
-		position: absolute;
-		width: 96%;
-		left: 2%;
-		padding-bottom: 15px;
-		height:200px;
-      }
+
+  h1.citizenAssembly-header{
+    background-color: rgba(255, 255, 255, 0.75);
+    padding-top:0px;
+    margin-bottom: -3px;
+    font-size: 27px;
+    margin-top:90px;
+    padding-bottom: 100px;
+    -moz-box-shadow: 0px 3px 10px 1px #656565;
+    -webkit-box-shadow: 0px 3px 10px 1px #656565;
+    -o-box-shadow: 0px 3px 10px 1px #656565;
+    box-shadow: 0px 3px 10px 1px #656565;
+  }
+
+  h1.citizenAssembly-header{
+      padding-bottom:0px !important;
+  }
+
 
     .citizenAssembly-header h1{
     	font-size: 32px;
 		
     }
-    .row.vote-row.contentProposal{
-	   	position: absolute;
-		padding-top: 5px;
-		top: 350px;
-		background-color: white;
-		width: 100%;
-		z-index: 0;
-    }
-    .row.vote-row.parentSpaceName{
-	   	position: absolute;
-		padding-top: 5px;
-		top: 300px;
-		background-color: white;
-		width: 100%;
-		height:50px;
-		z-index: 1;
-		-moz-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
-		-webkit-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
-		-o-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
-		box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
-		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
-    }
-    .row.vote-row.parentSpaceName h1{
-    	padding-top:10px;
-		margin:0px !important;
-	}
 	
-  #thumb-profil-parent{
+ /* #thumb-profil-parent{
       margin-top:-60px;
       margin-bottom:15px;
       -moz-box-shadow: 0px 3px 10px 1px #656565;
       -webkit-box-shadow: 0px 3px 10px 1px #656565;
       -o-box-shadow: 0px 3px 10px 1px #656565;
       box-shadow: 0px 3px 10px 1px #656565;
-    }
+    }*/
+#thumb-profil-parent{
+  margin-top:-60px;
+  margin-bottom:20px;
+  -moz-box-shadow: 0px 3px 10px 1px #656565;
+  -webkit-box-shadow: 0px 3px 10px 1px #656565;
+  -o-box-shadow: 0px 3px 10px 1px #656565;
+  box-shadow: 0px 3px 10px 1px #656565;
+}
 
+/* TAB */
+.homestead .label-default {
+  font-weight: 300;
+  font-family: "Helvetica Neue";
+  padding: 2px 8px 4px 8px !important;
+  top: -3px;
+  position: relative;
+  border-radius: 30px;
+  width: 30px !important;
+}
+.nav-menu-rooms{
+  /*padding-left:5px;*/
+  position: relative;
+  bottom: 0px;
+}
 
+h1.citizenAssembly-header .nav-menu-rooms{
+  margin-top:15px;
+}
+
+.nav-menu-rooms.nav-tabs > li{
+  background-color: #454545;
+  font-size: 17px;
+} 
+
+.nav-menu-rooms.nav-tabs > li a{
+  color: #DEDEDE;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 0px !important;
+  padding: 10px 15px !important;
+  font-size: 20px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 200;
+}
+.nav-menu-rooms.nav-tabs > li.active a{
+  color: #2BB0C6;
+}
+.nav-menu-rooms.nav-tabs > li a:hover{
+  color: #2BB0C6;
+}
+
+.parentSpaceName{
+  background-color: white;
+  padding-bottom:15px;
+}
 
 @media screen and (min-width: 1060px) {
   

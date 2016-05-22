@@ -1,41 +1,5 @@
  
 <style>
-	
-.homestead .label-default {
-    font-weight: 300;
-	font-family: "Helvetica Neue";
-	padding: 2px 8px 4px 8px !important;
-	top: -3px;
-	position: relative;
-	border-radius: 30px;
-	width: 30px !important;
-}
-.nav-menu-rooms{
-	/*padding-left:5px;*/
-}
-
-.nav-menu-rooms.nav-tabs > li{
-	background-color: #454545;
-	font-size: 17px;
-}	
-
-.nav-menu-rooms.nav-tabs > li a{
-	color: #DEDEDE;
-	margin-top: 5px;
-	margin-left: 5px;
-	margin-right: 5px;
-	border: 0px !important;
-	padding: 10px 15px !important;
-	font-size: 20px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight: 200;
-}
-.nav-menu-rooms.nav-tabs > li.active a{
-	color: #2BB0C6;
-}
-.nav-menu-rooms.nav-tabs > li a:hover{
-	color: #2BB0C6;
-}
 
 </style>
 

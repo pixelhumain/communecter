@@ -600,8 +600,7 @@ function checkAndCutLongString(text,limitLength,idNews){
 }
 function showComments(id){
 	$.blockUI({
-			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-							'<div class="commentContent"></div></div>', 
+			message : '<div class="commentContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
 			onOverlayClick: $.unblockUI,
 			css: {"text-align": "left", "cursor":"default"}
 		});

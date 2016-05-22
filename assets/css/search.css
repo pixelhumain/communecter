@@ -1029,6 +1029,10 @@ button.btn-infos{
 }
 
 
+.mixcontainer .mix a, .mixcontainer .mix span{
+	border:0px !important;
+}
+
 
 @media screen and (max-width: 767px) {
 	button.menu-button.menu-button-left{

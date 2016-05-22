@@ -5,7 +5,7 @@ Yii::app()->controller->toolbarMBZ = array();
 Menu::entry("left", 'onclick', 
         Yii::t( "rooms", "Back to collaborative space", null, $moduleId), 
         Yii::t('rooms', 'Collaborative space', null, $moduleId),
-        'connectdevelop',
+        'arrow-circle-left',
         "loadByHash('#rooms.index.type.".$_GET["type"].".id.".$_GET["id"]."')","room", "index");
 $this->renderPartial('../default/panels/toolbar');
 ?>

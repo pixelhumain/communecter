@@ -438,7 +438,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <div style="" class="col-md-12" id="div-participate">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
-    <!-- <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
+    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px;">
       <i class="fa fa-2x fa-angle-down"></i><br/>
       Participer
     </h2>
@@ -446,28 +446,18 @@ $this->renderPartial('../default/panels/toolbar');
       <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
       </div>
       <div class="col-md-8 col-sm-8 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-      <?php 
-        if($idCitizenAssembly != false){
-          $completAssembly = Organization::getById($idCitizenAssembly); 
-      ?>
-        <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $idCitizenAssembly; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
+         <a href="javascript:;" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
           <i class="fa fa-group"></i>
         </a>
-        <br/><span class='text-red'><?php echo $completAssembly["name"]; ?></span>
-      <?php } else { ?>
-        <a href="javascript:;" onclick="" class="btn btn-participate bg-red">
-          <i class="fa fa-group"></i>
-        </a>
-        <br/><span class='text-red'>Créer l'assemblée citoyenne</span>
-      <?php } ?>
+        <span class='text-red'>Conseil citoyen</span>
       </div>
       <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <!-- <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
           <i class="fa fa-rss"></i>
         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div> - ->
+      </div> -->
     </div>
-  </div> -->
+  </div>
 
 <div style="" class="col-md-12" id="div-discover">
     <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->

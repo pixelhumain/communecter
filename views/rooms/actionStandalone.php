@@ -74,7 +74,7 @@ if( Yii::app()->request->isAjaxRequest ){
 
 
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center" style="margin-top: 20px">
+<div class="center">
 	
 	<br/>
 	
@@ -93,41 +93,19 @@ if( Yii::app()->request->isAjaxRequest ){
      
  		<h1 class="homestead text-dark center citizenAssembly-header">
 
-		  <?php 
-		    $urlPhotoProfil = "";
-		    if( @$parent['profilImageUrl'] && $parent['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-		      else
-		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		  
-		    $icon = "comments"; 
-		      if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-		      if($parentType == Organization::COLLECTION) $icon = "group";
-		      if($parentType == Person::CONTROLLER) $icon = "user";
-		  ?>
-		  <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-		    <br>
-		  <span style="padding:0px; border-radius:50px;">
-		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $parent["name"]; ?>
-		  </span>
-		  	<br>
-		<div class="col-sm-12 bg-dark padding-5">
-
-			<div class="col-md-4 bg-dark">
-			 <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class=" homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discussion", null, Yii::app()->controller->module->id); ?></a>
-			</div>
-
-			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class=" homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decision", null, Yii::app()->controller->module->id); ?></a>
-			</div>
-
-			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="text-white homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Action", null, Yii::app()->controller->module->id); ?> </a>
-			</div>
+		 <?php $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $parentSpace['parentId'], 
+                            "parentType" => $parentSpace['parentType'], 
+                            "fromView" => "rooms.actions",
+                            "faTitle" => "cogs",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Action réaction", null, Yii::app()->controller->module->id)
+                            )); ?>
 
 		</h1>
-		</div>
+
     </div>
  </div>
 

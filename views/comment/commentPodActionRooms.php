@@ -52,12 +52,10 @@ margin-top:90px;
 		      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		
 			$icon = "comments";	
-		  	if($parentType == Project::COLLECTION) 
-		  		$icon = "lightbulb-o";
-		  	if($parentType == Organization::COLLECTION) 
-		  		$icon = "group";
-		  	if($parentType == Person::CONTROLLER) 
-		  		$icon = "user";
+		  	if($parentType == Project::COLLECTION)  $icon = "lightbulb-o";
+		  	if($parentType == Organization::COLLECTION)  $icon = "group";
+		  	if($parentType == Person::CONTROLLER)  $icon = "user";
+		  	if($parentType == City::CONTROLLER)  $icon = "university";
 		?>
 		<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
 	    <br>
@@ -72,14 +70,18 @@ margin-top:90px;
 
 
 <?php
+	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
+	//		&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
+
 	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
 											 "canComment"=>$canComment,
+											 "parentType"=>$parentType,
 											 "contextType"=>$contextType,
-											 //"parent"=>$parent,
 											 "nbComment"=>$nbComment,
+											 "canComment" => $canComment,
 											 "context"=>$context));
 ?>
 

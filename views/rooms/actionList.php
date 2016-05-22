@@ -4,7 +4,8 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js'
+  '/survey/js/jquery.mixitup.min.js',
+  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -128,24 +129,6 @@ $this->renderPartial('../default/panels/toolbar');
     height: 120px;
     overflow-y: hidden;
   }
-
-
-    .assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -40px;
-      background-size: 100% auto;
-    }
-
-      h1.citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-        padding: 30px;
-        margin-bottom: -3px;
-        font-size: 32px;
-        margin-top:90px;
-      }
 
     .message-propostal{
       font-size: 13px !important;
@@ -420,25 +403,16 @@ $this->renderPartial('../default/panels/toolbar');
 
 
     <h1 class="homestead text-dark center citizenAssembly-header">
-      <?php 
-        $urlPhotoProfil = "";
-        if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-            $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-          else
-            $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
       
-          $icon = "comments"; 
-          if($room['parentType'] == Project::COLLECTION) $icon = "lightbulb-o";
-          if($room['parentType'] == Organization::COLLECTION) $icon = "group";
-          if($room['parentType'] == Person::CONTROLLER) $icon = "user";
-      ?>
-      <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-        <br>
-      <span style="padding:10px; border-radius:50px;">
-        <i class="fa fa-<?php echo $icon; ?>"></i> 
-        <?php echo $parent["name"]; ?>
-      </span>
-
+      <?php $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $room['parentId'], 
+                            "parentType" => $room['parentType'], 
+                            "fromView" => "rooms.actions",
+                            "faTitle" => "cogs",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Action réaction", null, Yii::app()->controller->module->id)
+                            )); ?>
       
     </h1>
 

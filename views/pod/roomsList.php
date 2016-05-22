@@ -36,9 +36,20 @@ $moduleId = Yii::app()->controller->module->id;
 
 </style>
 <?php 
-	$surveyOpen = !isset($empty); //(isset($organization["modules"]) && in_array("survey", $organization["modules"]));
-	$canEdit = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
-			&& Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId));
+	
+	$canEdit = true;
+	$canParticipate = true;
+	$surveyOpen = true;
+	
+	if($parentType != City::COLLECTION){
+		$surveyOpen = !isset($empty); //(isset($organization["modules"]) && in_array("survey", $organization["modules"]));
+	
+		$canEdit = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
+				&& Authorisation::canEditItem(Yii::app()->session["userId"], $parentType, $parentId));
+
+		$canParticipate = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
+				&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
+	}
 
 	// echo $canEdit ? "true " : "false ";
 	// echo $parentType." - ".Organization::COLLECTION;
@@ -53,9 +64,10 @@ $moduleId = Yii::app()->controller->module->id;
 	if($parentType == Project::COLLECTION) 		$parentTypeCreate = Project::CONTROLLER;
 	if($parentType == Organization::COLLECTION) $parentTypeCreate = Organization::CONTROLLER; 
 	if($parentType == Person::COLLECTION) 		$parentTypeCreate = Person::CONTROLLER; 
+	if($parentType == City::COLLECTION) 		$parentTypeCreate = City::CONTROLLER; 
 ?>
 
-	<?php if($surveyOpen || $canEdit){ ?>	
+	<?php if($surveyOpen || $canParticipate){ ?>	
 		<div class="panel-heading border-light bg-azure">
 			<h4 class="panel-title">
 				<?php if($surveyOpen){ ?>
@@ -63,7 +75,7 @@ $moduleId = Yii::app()->controller->module->id;
 						<i class="fa fa-connectdevelop"></i> 
 						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
 					</a>
-					<?php if($canEdit){ ?>
+					<?php if($canParticipate){ ?>
 						<a  href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" 
 							class="text-white pull-right helvetica tooltips"
 							data-toggle="tooltip" data-placement="left" title="Créer un nouvel espace"
@@ -74,7 +86,7 @@ $moduleId = Yii::app()->controller->module->id;
 				<?php } else { ?>
 					<i class="fa fa-connectdevelop"></i> 
 					<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
-					<?php if($canEdit){ ?>
+					<?php if($canParticipate){ ?>
 						<a  href="javascript:" onclick="updateField('<?php echo $parentTypeCreate; ?>','<?php echo (string)$parentId; ?>','modules',['survey'],true)" 
 							class="text-white pull-right helvetica tooltips"
 							data-toggle="tooltip" data-placement="left" title="Activer l'espace coopératif"
@@ -106,7 +118,7 @@ $moduleId = Yii::app()->controller->module->id;
 				?>
 		   		</div>
 			</div>
-		<?php } else if($canEdit){ ?>
+		<?php } else if($canParticipate){ ?>
 				
 				<div class="panel-body no-padding">
 					<div class="padding-20" id="main-pod-room">
@@ -140,13 +152,39 @@ $moduleId = Yii::app()->controller->module->id;
 					
 		<?php } ?>
 
+	<?php } else if(!$canParticipate){ ?>
+		<div id="pod-room" class="panel panel-white">
+
+			<div class="panel-heading border-light bg-azure">
+				<h4 class="panel-title">
+						<i class="fa fa-connectdevelop"></i> 
+						<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
+				</h4>		
+			</div>
+
+			<div class="panel-body no-padding">
+				<blockquote>
+				<?php if($parentType == Organization::COLLECTION){ ?>Accès réservé aux <strong>membres</strong> de l'organisation.<br><?php } ?>
+				<?php if($parentType == Project::COLLECTION){ ?>Accès réservé aux <strong>contributeurs</strong> du projet.<br><?php } ?>
+				<span class="text-azure">
+	   				<i class="fa fa-check-circle"></i> Discuter<br>
+	   				<i class="fa fa-check-circle"></i> Débattre<br>
+	   				<i class="fa fa-check-circle"></i> Proposer<br>
+	   				<i class="fa fa-check-circle"></i> Voter<br>
+	   				<i class="fa fa-check-circle"></i> Agir
+	   			</span>
+	   			</blockquote>
+			</div>   
+				
+		</div>
+
 	<?php } ?>
 </div>
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		//change le titre global uniquement si on est sur le pod d'activation d'un citoyen
-		<?php if($canEdit && !$surveyOpen && $parentType == Person::COLLECTION){ ?>
+		<?php if($canEdit && !$surveyOpen && ($parentType == Person::COLLECTION || $parentType == City::COLLECTION)){ ?>
 			$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Activer votre espace coopératif");
 		<?php } ?>
 
