@@ -58,6 +58,13 @@ db.cities.find().forEach(function(doc)
 Create index on citizen email
 db.citizen.createIndex({"email": 1} , { unique: true })
 
+@Childé
+1. Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
+Executer l'url /communecter/test/RefractorNewsCommentsActions
+
+2. Suppression des password dans la collection log
+Executer l'url /communecter/test/LogDeletePasswordCitoyen
+
 ----------------------------------------------------
 
 
@@ -79,14 +86,7 @@ Executer l'url /communecter/test/DeleteAttributRefactorAction
 ********
 
 ----------------------------------------------------
-2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
-@Chil
-Executer l'url /communecter/test/RefractorNewsCommentsActions
 
-----------------------------------------------------
-2016/05/20 => Suppression des password dans la collection log
-@Chil
-Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 SBA - Add numberOfInvit on every citizen
 db.citoyens.find().forEach(function(doc){ 
