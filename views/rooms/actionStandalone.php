@@ -74,7 +74,7 @@ if( Yii::app()->request->isAjaxRequest ){
 
 
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center" style="margin-top: 20px">
+<div class="center">
 	
 	<br/>
 	
@@ -93,30 +93,19 @@ if( Yii::app()->request->isAjaxRequest ){
      
  		<h1 class="homestead text-dark center citizenAssembly-header">
 
-		  <?php 
-		    $urlPhotoProfil = "";
-		    if( @$parent['profilImageUrl'] && $parent['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-		      else
-		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 		  
-		    $icon = "comments"; 
-		      if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-		      if($parentType == Organization::COLLECTION) $icon = "group";
-		      if($parentType == Person::CONTROLLER) $icon = "user";
-		  ?>
-		  <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-		    <br>
-		  <span style="padding:0px; border-radius:50px;">
-		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $parent["name"]; ?>
-		  </span>
-		  	<br>
-		  <small class="homestead text-dark center">Espace d'<?php echo Yii::t("rooms","Actions",null,Yii::app()->controller->module->id) ?></small>
-		  
+		 <?php $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $parentSpace['parentId'], 
+                            "parentType" => $parentSpace['parentType'], 
+                            "fromView" => "rooms.actions",
+                            "faTitle" => "cogs",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Action réaction", null, Yii::app()->controller->module->id)
+                            )); ?>
+
 		</h1>
 
-		
     </div>
  </div>
 
@@ -159,7 +148,7 @@ if( Yii::app()->request->isAjaxRequest ){
 				        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
 				        $statusColor = "";
 				        //if startDate passed, or no startDate but has end Date
-				        if( @$action["startDate"] < time() || ( !@$action["startDate"] && @$action["dateEnd"] ) )
+				        if( ( isset($action["startDate"]) && $action["startDate"] < time() )  || ( !@$action["startDate"] && @$action["dateEnd"] ) )
 				        {
 				          $statusLbl = Yii::t("rooms", "Progressing", null, Yii::app()->controller->module->id);
 				          $statusColor = "bg-green";

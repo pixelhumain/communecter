@@ -1,12 +1,29 @@
-debug = true;
-
+var debug = true;
+var countPoll = 0;
 $(document).ready(function() { 
 	
 	initSequence();
-	
+	setTimeout( function () { checkPoll() }, 10000);
 });
 
+function checkPoll(){
+	countPoll++;
+	console.log("countPoll",countPoll,"currentUrl",currentUrl);
+	//refactor check Log to use only one call with pollParams 
+	//returning multple server checks in a unique ajax call
+	if(userId)
+		_checkLoggued();
 
+	//refreshNotifications()
+
+	//according to the loaded page 
+	//certain checks can be made  
+	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
+		checkCommentCount();
+
+	if(countPoll < 100)
+		setTimeout( function () { checkPoll() }, 300000); //every5min
+}
 /* *************************** */
 /* instance du menu questionnaire*/
 /* *************************** */
@@ -475,6 +492,7 @@ function jsController(hash){
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+	currentUrl = hash;
 	allReadyLoad = true;
 	$(".my-main-container").off(); 
 	//alert("loadByHash");
@@ -558,6 +576,7 @@ function checkIsLoggued(uId){
 		return true;
 }
 function resetUnlogguedTopBar() { 
+	//put anything that needs to be reset 
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
 							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
@@ -566,10 +585,12 @@ function resetUnlogguedTopBar() {
 function _checkLoggued() { 
 	$.ajax({
 	  type: "POST",
-	  url: baseUrl+"/person/loggued",
+	  url: baseUrl+"/"+moduleId+"/person/logged",
 	  success: function(data){
-		if( uId == "" ||  typeof uId == "undefined" )
+		if( !data.userId || data.userId == "" ||  typeof data.userId == "undefined" ){
+			userId = data.userId;
 			resetUnlogguedTopBar();
+		}
 	  },
 	  dataType: "json"
 	});

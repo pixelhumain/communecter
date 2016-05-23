@@ -156,7 +156,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	max-width: 50%;
+	max-width: 42%;
 	margin-left:0px !important;
 }
 
@@ -1028,6 +1028,10 @@ button.btn-infos{
 	white-space:unset;
 }
 
+
+.mixcontainer .mix a, .mixcontainer .mix span{
+	border:0px !important;
+}
 
 
 @media screen and (max-width: 767px) {

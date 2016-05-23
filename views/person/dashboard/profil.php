@@ -163,8 +163,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	.socialNetwork{
 		padding: 7px;
-		margin-left: 10px;
-		margin-top: -11px;
+		/*margin-left: 10px;
+		margin-top: -11px;*/
 		background-color: rgba(0, 0, 0, 0.85);
 		border-radius: 0px 0px 5px 5px;
 		height: 67px;

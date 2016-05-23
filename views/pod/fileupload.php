@@ -7,7 +7,7 @@
 		background-color: #F2F2F2;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
-		margin: 0px 10px 10px 10px;
+		margin: 0px; /*10px 10px 10px;*/
 		border-radius: 5px;
 
 	}

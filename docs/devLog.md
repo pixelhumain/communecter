@@ -16,6 +16,7 @@
 ---------------------------------------------------
 Version 0.12
 
+
 @Bouboule (clement.damiens@gmail.com)
 1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
 2.Bash on news (already done on qa and dev)
@@ -60,6 +61,17 @@ db.citizen.createIndex({"email": 1} , { unique: true })
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+@Tib
+db.cities.find().forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    print(doc.country+"_"+doc.insee); 
+    db.organizations.update({"_id":doc._id},{
+        '$set':{'_id': doc.country+"_"+doc.insee}
+    })
+  }
+});
+
 ----------------------------------------------------
 *** A EXECUTER POUR LA VERSION 0.13 ****
 2016/05/31 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions

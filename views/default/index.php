@@ -278,7 +278,8 @@
 	}
 	
 }
-	
+
+
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>

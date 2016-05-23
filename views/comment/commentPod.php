@@ -10,7 +10,6 @@ $cssAnsScriptFiles = array(
 	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
-
 ?>	
 
 <style>
@@ -152,6 +151,10 @@ $optionsLabels = array(
 								<div class='saySomething padding-5'>
 									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
 								</div>
+							<?php }else if($parentType == Project::COLLECTION ){ ?>
+								<h4 class="text-dark"><i class="fa fa-lock"></i> Devenez contributeur du projet pour participer à cette conversation</h4>
+							<?php }else if($parentType == Organization::COLLECTION ){ ?>
+								<h4 class="text-dark"><i class="fa fa-lock"></i> Devenez membre de l'organisation pour participer à cette conversation</h4>
 							<?php } ?>
 							</div>
 						</div>
@@ -188,6 +191,7 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 var selection;
+//var canParticipate = <?php //echo ( $canParticipate ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
@@ -484,7 +488,7 @@ function  fastAdd(url) {
 	        dataType: "json",
 	        success: function(data){
 	          if(data.result){
-	            toastr.success(data.msg);
+	            toastr.success("<h1>Created Successfully.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'>Quick access here</a><h1>");
 	            $(".selBtn").remove(); 
 	          } else 
 	            toastr.error(data.msg);

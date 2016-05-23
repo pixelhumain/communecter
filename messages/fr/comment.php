@@ -13,9 +13,8 @@
 		"You can reply to a comment" => "",
 		"You can not reply to a comment" => "",
 		"The discussion is anonymous" => "",
-		"" => "",
-		"" => "",
-		"" => "",
+		'Refresh to see the new comments' => "Rafraichir pour voir les nouveaux commentaires",
+        'New Comments Refresh' => "Nouveaux Commentaires",
 		
 	)
 

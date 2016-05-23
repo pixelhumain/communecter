@@ -61,8 +61,14 @@ if( !isset($hideTexts) )
 
 <div class="<?php echo ( @$position ) ? $position : "pull-left"; ?> margin-10">
 	<?php
-
-		$voteLinksAndInfos = Action::voteLinksAndInfos( true , $survey );
+	
+		if(!isset($voteLinksAndInfos)){
+			$logguedAndValid = Person::logguedAndValid();
+			$voteLinksAndInfos = Action::voteLinksAndInfos( $logguedAndValid , $survey );
+		}
+		
+		$room = ActionRoom::getById($survey["survey"]);
+		$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]);
 
 		//echo "<span class='msg-head-tool-vote'>";
 		//if( $voteLinksAndInfos["hasVoted"] )
@@ -70,17 +76,21 @@ if( !isset($hideTexts) )
 		//else
 		//	echo Yii::t("rooms","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
-		$room = ActionRoom::getById($survey["survey"]);
-		if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) ) 
+		if( $canParticipate && !$voteLinksAndInfos["hasVoted"] ) 
 			$contentVote = $voteLinksAndInfos["links"]; 
+		else if($canParticipate){
+			$ctrl = Element::getControlerByCollection($room["parentType"]);
+			$contentVote = $voteLinksAndInfos["links"]; 	
+		}
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("rooms","You must login or join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-chevron-right-circle"></i></a>';
+			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("rooms","You must login or join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-arrow-right-circle"></i></a>';
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".
 			"<div class='space1 voteInfoBox text-white bg-dark text-large'></div>";
 
+		//	echo $voteLinksAndInfos["hasVoted"] ? "true" :"false";
 		//if( $voteLinksAndInfos["totalVote"] )
 			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("rooms","people voted",null,Yii::app()->controller->module->id); 
 	 ?>
