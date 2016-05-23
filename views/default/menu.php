@@ -2,6 +2,9 @@
 <?php 
     if(isset(Yii::app()->session['userId']))
     	$me = Person::getById(Yii::app()->session['userId']);
+    	$newsToModerate = count(News::getNewsToModerate());
+
+
 
     $cssAnsScriptFilesModule = array(
 		'/css/default/menu.css',
@@ -113,7 +116,11 @@
 	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
     <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
 			<i class="fa fa-cog"></i>
-			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
+			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?>
+				<?php if(@$newsToModerate){ ?>
+					<span class="badge count-to-moderate"><?php echo $newsToModerate; ?></span>
+				<?php } ?>
+			</span>
 	</button>
 	<?php } /*?>
 	
@@ -216,6 +223,12 @@
 </div>
 
 <style>
+
+.count-to-moderate{
+	font-weight: 500;
+	font-size:16px;
+	margin-left:2px;
+}
 
 #kkbb-min span.msg{
 	top: -3px;

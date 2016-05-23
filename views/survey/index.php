@@ -70,8 +70,9 @@ $this->renderPartial('../default/panels/toolbar');
   .color-btnvote-purple{  background-color: #C1ABD4!important;}
   .color-btnvote-red{   background-color: #db254e!important;}
   .controls{
-    background: #E7E7E7;
-    border: 1px solid #BDBDBD;
+    background: #fff;
+    border-bottom: 1px solid #BDBDBD;
+    border-top: 1px solid #fff;
   }
 
   .mixcontainer .mix{

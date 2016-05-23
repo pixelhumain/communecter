@@ -169,7 +169,7 @@ var chartProjects = c3.generate({
 
 </script>
 
-<!-- ORGANIZATIONS -->
+<!-- ACTIONSROOMS -->
 <h4>Evolution du nombre de salles de vote</h4>
 <div id="chartActionRooms"></div>
 <script>
@@ -197,7 +197,37 @@ var chartActionRooms = c3.generate({
 });
 </script>
 
-<!-- ***** CITOYENS ***** -->
+<!-- MODULES -->
+<h4>Evolution du nombre de modules par organisation</h4>
+<div id="chartModulesOrga"></div>
+<script>
+
+var chartModulesOrga = c3.generate({
+    bindto: '#chartModulesOrga',
+    data: {
+        x : 'x',
+        xFormat: '%d/%m/%Y',
+        columns: [],
+        type: 'bar',
+        groups: [
+            <?php echo json_encode(array_keys($groups['moduleTypes'])); ?>
+        ],
+        names:  <?php echo json_encode($groups['moduleTypes']); ?>
+    },
+    axis: {
+        x: {
+            type: 'timeseries', // this needed to load string x value
+            tick: {
+                format: '%d/%m/%Y'
+            }
+        }
+    }
+});
+
+
+</script>
+
+<!-- ***** SALLE DE VOTE ***** -->
 <h4>Evolution du nombre de salle de vote</h4>
 <div id="chartSurveys"></div>
 <script>
@@ -258,6 +288,12 @@ var chartSurveys = c3.generate({
 
         chartActionRooms.load({
           url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/actionRooms/chart/global",
+          mimeType: 'json'
+        });
+
+
+        chartModulesOrga.load({
+          url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/modules/chart/global",
           mimeType: 'json'
         });
 
