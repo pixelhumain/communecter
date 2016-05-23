@@ -115,7 +115,8 @@ function buildLineHTML(newsObj,idSession,update)
 	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
 		imagePath = baseUrl+'/'+newsObj.imageBackground;
 		imageBackground = '<a '+url+'>'+
-							'<div class="timeline_shared_picture"  style="background-image:url('+imagePath+');">'+
+							'<div class="timeline_shared_picture"  style="">'+
+							//background-image:url('+imagePath+');
 								'<img src="'+imagePath+'">'+
 							'</div>'+
 						'</a>';

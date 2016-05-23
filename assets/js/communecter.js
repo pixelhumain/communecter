@@ -22,7 +22,7 @@ function checkPoll(){
 		checkCommentCount();
 
 	if(countPoll < 100)
-		setTimeout( function () { checkPoll() }, 10000);
+		setTimeout( function () { checkPoll() }, 300000); //every5min
 }
 /* *************************** */
 /* instance du menu questionnaire*/
@@ -428,6 +428,8 @@ var loadableUrls = {
 	
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
+
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},

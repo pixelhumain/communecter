@@ -219,12 +219,12 @@ class Menu {
                 Yii::t("common","Statistics global"),
                 'file-o','/stat/chartglobal/',"statistics","global");
         
-        //Cities
+        //Logs
         //-----------------------------
-         // self::entry("left", 'showAjaxPanel', 
-         //        Yii::t("common","Statistics cities"),
-         //        Yii::t("common","Statistics cities"),
-         //        'file-o','/stat/chartCities/',"statistics","cities");
+        self::entry("left", 'showAjaxPanel', 
+            Yii::t("common","Statistics logs"),
+            Yii::t("common","Statistics logs"),
+    'file-o','/stat/chartLogs/',"statistics","logs");
 
     }
 

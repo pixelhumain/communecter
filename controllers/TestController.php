@@ -13,7 +13,7 @@ class TestController extends CommunecterController {
   // VoteDown
   public static function actionRefactorModerateVoteDown($collection){
   	echo "actionRefactorModerateVoteDown => ";
-	$news=PHDB::find($collection, array('voteDown' => array('$exists' => 1),'refactorAction' => array('$exists' => 0)));
+	$news=PHDB::find($collection, array('voteDown' => array('$exists' => 1),'refactorDownAction' => array('$exists' => 0)));
 	$i=0;
 	echo count($news)." $collection en base avec voteDown<br/>";
 	foreach($news as $key => $data){
@@ -22,7 +22,7 @@ class TestController extends CommunecterController {
 			if(!is_array($reason))$map['voteDown.'.$reason] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
-			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => array('refactorAction' => new MongoDate(time()))));
+			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => array('refactorDownAction' => new MongoDate(time()))));
 
 			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$unset' => array('voteDown' => 1)));
 			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteDownReason' => 1)));
@@ -40,7 +40,7 @@ class TestController extends CommunecterController {
   // VoteUp
   public static function actionRefactorModerateVoteUp($collection){
   	echo "actionRefactorModerateVoteUp => ";
-	$news=PHDB::find($collection, array('voteUp' => array('$exists' => 1),'refactorAction' => array('$exists' => 0)));
+	$news=PHDB::find($collection, array('voteUp' => array('$exists' => 1),'refactorUpAction' => array('$exists' => 0)));
 	$i=0;
 	echo count($news)." $collection en base avec voteUp<br/>";
 	foreach($news as $key => $data){
@@ -49,7 +49,7 @@ class TestController extends CommunecterController {
 			if(!is_array($reason))$map['voteUp.'.$reason] = array('date' => new MongoDate(time())); 
 		}
 		if(count($map)){
-			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => array('refactorAction' => new MongoDate(time()))));
+			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => array('refactorUpAction' => new MongoDate(time()))));
 			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$unset' => array('voteUp' => 1)));
 			$res = PHDB::update($collection, array('_id' => $data['_id']), array('$set' => $map, '$unset' => array('voteUpReason' => 1)));
 			$i++;
@@ -91,7 +91,7 @@ class TestController extends CommunecterController {
 	echo count($news)." Comments en base avec reportAbuseReason<br/>";
   }
 
-  public function actionRefractorNewsCommentsActions(){
+  public function actionRefactorNewsCommentsActions(){
   	TestController::actionRefactorModerateVoteDown('news');
   	TestController::actionRefactorModerateVoteUp('news');
   	TestController::actionRefactorModerateVoteDown('comments');
@@ -104,16 +104,26 @@ class TestController extends CommunecterController {
   public static function actionDeleteAttributRefactorAction(){
   	echo "actionDeleteAttributRefactorAction => ";  	
   	$i = 0;
-	$news=PHDB::find(News::COLLECTION, array('refactorAction' => array('$exists' => 1)));
+	$news=PHDB::find(News::COLLECTION, array('refactorUpAction' => array('$exists' => 1)));
   	foreach($news as $key => $data){
-		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('refactorAction' => 1)));
+		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('refactorUpAction' => 1)));
+		$i++;
+	}
+	$news=PHDB::find(News::COLLECTION, array('refactorDownAction' => array('$exists' => 1)));
+  	foreach($news as $key => $data){
+		$res = PHDB::update('news', array('_id' => $data['_id']), array('$unset' => array('refactorDownAction' => 1)));
 		$i++;
 	}
 	echo $i." News update<br/>";
 	$i = 0;
-	$comments=PHDB::find(Comment::COLLECTION, array('refactorAction' => array('$exists' => 1)));
+	$comments=PHDB::find(Comment::COLLECTION, array('refactorUpAction' => array('$exists' => 1)));
   	foreach($comments as $key => $data){
-		$res = PHDB::update('comments', array('_id' => $data['_id']), array('$unset' => array('refactorAction' => 1)));
+		$res = PHDB::update('comments', array('_id' => $data['_id']), array('$unset' => array('refactorUpAction' => 1)));
+		$i++;
+	}
+	$comments=PHDB::find(Comment::COLLECTION, array('refactorDownAction' => array('$exists' => 1)));
+  	foreach($comments as $key => $data){
+		$res = PHDB::update('comments', array('_id' => $data['_id']), array('$unset' => array('refactorDownAction' => 1)));
 		$i++;
 	}
 	echo $i." comments update<br/>";
@@ -785,6 +795,54 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 	  	}
 	  	
 		echo $i." Logs modifiés<br/>";
+	}
+
+
+	//Stat sur les logs
+	public function actionCreateLastLogStatistics(){
+	  	echo "actionCreateLastLogStatistics => ";  	
+	  	$i = 0;
+	  	$lastUpdate = new MongoDate('1458733145');
+
+	  	//We get all the stats documents to get periode
+	  	$allStats = PHDB::findAndSort('stats',array(), array("created" =>1), 10000, array("created", '_id'));
+	  	foreach ($allStats as $key => $stat) {
+	  		$i++;
+			$where = array('created' => array('$gt' => $lastUpdate, '$lt' => $stat['created']));
+			$allLogs = Log::getWhere($where);
+			
+			echo $i." ".@$stat['_id']." ".date('d-m-Y H:i', $lastUpdate->sec)." -> ".date('d-m-Y H:i', $stat['created']->sec)." -> Logs concerné : ".count($allLogs)."<BR/>"; 
+			$datas = array();
+			if(count($allLogs)){
+				foreach ($allLogs as $key => $value) {
+					$action = @$value['action'];
+
+					//If result => Consolidate by result
+					if(!empty($action)){
+						if(isset($value['result'])){
+							$res_res = @$value['result']['result'];
+							if(!isset($datas[$action][$res_res])){
+								$datas[$action][0] = 0;
+								$datas[$action][1] = 0;
+							}
+							$datas[$action][$res_res] += 1 ;
+						} 
+						else{
+							if(!isset($datas[$action])) $datas[$action] = 0;
+							$datas[$action] += 1;
+						}
+					}
+				}
+				$lastUpdate = $value['created'];
+				ksort($datas);
+				PHDB::update('stats',
+					   		array("_id" => $stat['_id']) , 
+					   		array('$set' => array("logs" => $datas))
+					   	);
+			}
+	  	}
+	  
+		echo $i." stats crééés<br/>";
 	}
 
 }

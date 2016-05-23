@@ -16,16 +16,6 @@
 ---------------------------------------------------
 Version 0.12
 
-@Tib
-db.cities.find().forEach(function(doc)
-{
-  if(typeof doc.insee != "undefined"){
-    print(doc.country+"_"+doc.insee); 
-    db.organizations.update({"_id":doc._id},{
-        '$set':{'_id': doc.country+"_"+doc.insee}
-    })
-  }
-});
 
 @Bouboule (clement.damiens@gmail.com)
 1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
@@ -58,16 +48,21 @@ db.cities.find().forEach(function(doc)
 Create index on citizen email
 db.citizen.createIndex({"email": 1} , { unique: true })
 
-@Childé
-1. Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
-Executer l'url /communecter/test/RefractorNewsCommentsActions
+----------------------------------------------------
+2016/05/23 => Récupérer statistiques sur les logs
+@Chil
+Executer l'url /communecter/test/CreateLastLogStatistics
 
-2. Suppression des password dans la collection log
+----------------------------------------------------
+2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
+@Chil
+Executer l'url /communecter/test/RefactorNewsCommentsActions
+
+----------------------------------------------------
+2016/05/20 => Suppression des password dans la collection log
+@Chil
 Executer l'url /communecter/test/LogDeletePasswordCitoyen
 
-----------------------------------------------------
-
-
 
 
 ----------------------------------------------------
@@ -78,14 +73,23 @@ Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+@Tib
+db.cities.find().forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    print(doc.country+"_"+doc.insee); 
+    db.organizations.update({"_id":doc._id},{
+        '$set':{'_id': doc.country+"_"+doc.insee}
+    })
+  }
+});
+
 ----------------------------------------------------
 *** A EXECUTER POUR LA VERSION 0.13 ****
 2016/05/31 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
 @Chil
 Executer l'url /communecter/test/DeleteAttributRefactorAction 
 ********
-
-----------------------------------------------------
 
 ----------------------------------------------------
 SBA - Add numberOfInvit on every citizen
