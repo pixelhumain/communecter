@@ -167,18 +167,20 @@ class DatamigrationController extends CommunecterController {
 			  //print_r($data["_id"]);
 			  // add une target au lieu de id et type et type devient news
 			  // pour les type city => la target devient l'auteur
-			  if(@$data["id"]){
-			  $parentType=$data["type"];
-			  $parentId=$data["id"];
-			  if($parentType=="city"){
-				  $parentType=Person::COLLECTION;
-				  $parentId=$data["author"];
-			  }
-			  PHDB::update(News::COLLECTION,
-				array("_id" => $data["_id"]) , 
-				array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
-			);
-			$i++;
+			  if($data["type"]!="news"){
+				  if(@$data["id"]){
+				  $parentType=$data["type"];
+				  $parentId=$data["id"];
+				  if($parentType=="city"){
+					  $parentType=Person::COLLECTION;
+					  $parentId=$data["author"];
+				  }
+				  PHDB::update(News::COLLECTION,
+					array("_id" => $data["_id"]) , 
+					array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
+					);
+				$i++;
+				}
 			}
 			 // print_r($data);
 		  }
