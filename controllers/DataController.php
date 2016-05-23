@@ -87,10 +87,12 @@ class DataController extends Controller {
             {
             if( $format == Translate::FORMAT_SCHEMA)
                 $bindMap = TranslateSchema::$dataBinding_person;
-             else if( $format == Translate::FORMAT_PLP )
+              else if( $format == Translate::FORMAT_PLP )
                 $bindMap = TranslatePlp::$dataBinding_person;
-             else if( $format == Translate::FORMAT_AS )
+              else if( $format == Translate::FORMAT_AS )
                 $bindMap = TranslateActivityStream::$dataBinding_person;
+              else if( $format == Translate::FORMAT_COMMUNECTER )
+                $bindMap = TranslateCommunecter::$dataBinding_person;
               else
                 $format = null;
         }
@@ -104,6 +106,7 @@ class DataController extends Controller {
             $bindMap = TranslateSchema::$dataBinding_city;
         else
           $format = null;
+        
         
         $result = Api::getData($bindMap, $format, $type, $id,$limit, $index, $tags, $multiTags, $key, $insee);
         
