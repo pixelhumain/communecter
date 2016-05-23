@@ -47,7 +47,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $thisOrga["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$titleRestricted = "Restreint";
 		$private = Yii::t("common","Visible only to the members"); 
 		$titlePrivate = "Privé";
@@ -56,6 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
+			//Visible de tous sur
 			Menu::person( $parent );
 			$contextName =$parent["name"];
 			$contextIcon = "user";
@@ -66,7 +67,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			}	
 		}
 		else{
-			$restricted = Yii::t("common","Visible on my wall and published on my network");
+			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
@@ -77,7 +78,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $parent["name"];
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
@@ -86,7 +87,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = $parent["name"];
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
 	}
