@@ -22,7 +22,7 @@ function checkPoll(){
 		checkCommentCount();
 
 	if(countPoll < 100)
-		setTimeout( function () { checkPoll() }, 10000);
+		setTimeout( function () { checkPoll() }, 300000); //every5min
 }
 /* *************************** */
 /* instance du menu questionnaire*/
