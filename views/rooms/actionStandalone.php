@@ -111,8 +111,8 @@ if( Yii::app()->request->isAjaxRequest ){
 
 <div class="row vote-row parentSpaceName">
 	<div class="col-md-12">
-		<a href="javascript:"  onclick="loadByHash('#survey.entries.id.<?php echo $parentSpace["_id"]; ?>')">
-			<h1 class="homestead text-dark center"><i class=" fa fa-archive"></i> <?php echo $parentSpace["name"]; ?></h1>
+		<a href="javascript:"  onclick="loadByHash('#rooms.actions.id.<?php echo $parentSpace["_id"]; ?>')">
+			<h1 class="homestead text-dark center"><i class=" fa fa-cogs"></i> <?php echo $parentSpace["name"]; ?></h1>
 		</a>
 	</div>
 </div>

@@ -43,31 +43,41 @@ margin-top:90px;
 
 <?php if($contextType == "actionRooms"){ ?>
 
-	<h1 class="homestead text-dark center citizenAssembly-header" style="font-size:27px;">
-        <?php 
-			$urlPhotoProfil = "";
-			if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-		      $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-		    else
-		      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-		
-			$icon = "comments";	
-		  	if($parentType == Project::COLLECTION)  $icon = "lightbulb-o";
-		  	if($parentType == Organization::COLLECTION)  $icon = "group";
-		  	if($parentType == Person::CONTROLLER)  $icon = "user";
-		  	if($parentType == City::CONTROLLER)  $icon = "university";
-		?>
-		<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-	    <br>
-		<span style="padding:10px; border-radius:50px;">
-			<i class="fa fa-<?php echo $icon; ?>"></i> 
-			<?php echo (isset($parent)) ? $parent['name'] : "" ; ?>
-		</span>
-   
-    </h1>
+	<!-- start: LOGIN BOX -->
+<div class="center">
+	
+	<br/>
+	
+<?php 
+	//ca sert a quoi ce doublon ?
+	$nameParentTitle = "";
+	if($parentType == Organization::COLLECTION && isset($parentId)){
+		$orga = Organization::getById($parentId);
+		$nameParentTitle = $orga["name"];
+	}
+
+?>
+ 	<div>
+     
+ 		<h1 class="homestead text-dark center citizenAssembly-header">
+
+		  
+		 <?php $this->renderPartial('../rooms/header',array(    
+					                "parent" => $parent, 
+					                "parentId" => $parentId, 
+					                "parentType" => $parentType, 
+					                "fromView" => "comment.index",
+					                "faTitle" => "comments",
+					                "colorTitle" => "azure",
+					                "textTitle" => Yii::t("rooms","Discussions", null, Yii::app()->controller->module->id)
+					                )); ?>
+
+		</h1>
+
+    </div>
+ </div>
 
 <?php } ?>
-
 
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
