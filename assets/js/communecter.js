@@ -428,6 +428,8 @@ var loadableUrls = {
 	
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
+
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},

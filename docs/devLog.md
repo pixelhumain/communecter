@@ -49,7 +49,19 @@ Create index on citizen email
 db.citizen.createIndex({"email": 1} , { unique: true })
 
 ----------------------------------------------------
+2016/05/23 => Récupérer statistiques sur les logs
+@Chil
+Executer l'url /communecter/test/CreateLastLogStatistics
 
+----------------------------------------------------
+2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
+@Chil
+Executer l'url /communecter/test/RefactorNewsCommentsActions
+
+----------------------------------------------------
+2016/05/20 => Suppression des password dans la collection log
+@Chil
+Executer l'url /communecter/test/LogDeletePasswordCitoyen
 
 
 
@@ -79,15 +91,6 @@ db.cities.find().forEach(function(doc)
 Executer l'url /communecter/test/DeleteAttributRefactorAction 
 ********
 
-----------------------------------------------------
-2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
-@Chil
-Executer l'url /communecter/test/RefractorNewsCommentsActions
-
-----------------------------------------------------
-2016/05/20 => Suppression des password dans la collection log
-@Chil
-Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 SBA - Add numberOfInvit on every citizen
 db.citoyens.find().forEach(function(doc){ 
