@@ -119,7 +119,41 @@ class DatamigrationController extends CommunecterController {
 		}
 		echo "</br>Nombre de documents concerné par le refactor : ".$i;  
 	}
- 
+	// Washing of docmuent
+	// Wash data with array in params @size which could be string
+	// Wash data with no type or no id, represent the target of the document
+	// Wash data with no contentKey
+	public function actionWashIncorrectAndOldDataDocument(){
+		$document=PHDB::find(Document::COLLECTION);
+		$nbDoc=count($document);
+		echo "Nombre de documents appelés : ".$nbDoc;
+		$nbDocSizeIsArray=0;
+		$nbDocNoTypeOrNoId=0;
+		$nbDocNoContentKey=0;
+		foreach($document as $key => $data){
+			if(gettype($data["size"])=="array"){
+				echo "<br/>//////// This document content an array for size : <br/>";
+				print_r($data);
+				PHDB::remove(Document::COLLECTION,array("_id" => $data["_id"]));
+				$nbDocSizeIsArray++;
+			}
+			if( !@$data["type"] || !@$data["id"] || empty($data["type"]) || empty($data["id"])){
+				echo "<br/>//////// This document doesn't content any type or id : <br/>";
+				print_r($data);
+				PHDB::remove(Document::COLLECTION,array("_id" => $data["_id"]));
+				$nbDocNoTypeOrNoId++;
+			}
+			if( !@$data["contentKey"] || empty($data["contentKey"])){
+				echo "<br/>//////// This document doesn't content any contentKey : <br/>";
+				print_r($data);
+				PHDB::remove(Document::COLLECTION,array("_id" => $data["_id"]));
+				$nbDocNoContentKey++;
+			}
+		}
+		echo "</br>//////// <br/>Nombre de documents sans type ou id: ".$nbDocNoTypeOrNoId; 
+		echo "</br>//////// <br/>Nombre de documents sans contentKey: ".$nbDocNoContentKey;
+		echo "</br>//////// <br/>Nombre de documents avec size comme array: ".$nbDocSizeIsArray;  
+	}
 	/* First refactor à faire sur communecter.org 
 	* Remove all id and type in and object target.id, target.type
 	*	=> Modify target type city to target.id=author, target.type=Person::COLLECTION
@@ -292,7 +326,8 @@ class DatamigrationController extends CommunecterController {
   		$nbNews=count($news);
 		echo "Nombre de documents appelés : ".$nbNews;
   		foreach($news as $key => $data){
-	  		if($data["type"]="news"){
+	  		if($data["type"]=="activityStream"){
+		  		if(@$data["object"]){
 				  if($data["object"]["objectType"]==Event::COLLECTION){
 				  	$target = Event::getById($data["target"]["id"]);
 				  	if (empty($target)){
@@ -318,7 +353,7 @@ class DatamigrationController extends CommunecterController {
 				  		//PHDB::remove(News::COLLECTION, array("_id"=>new MongoId($key))); 
 				  	}
 				  }	  
-
+				 }
 		  	}
 		}
 		echo "Nombre de news sans object traitées : ".$i." news";
