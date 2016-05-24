@@ -148,5 +148,16 @@ return array(
 	"go back to the detail page of the parent" => "retour vers la fiche info",
 	
 	"COOPERATIVE SPACE" => "ESPACE COOPÉRATIF",
-	"Element" => "Element"
+	"Element" => "Element",
+
+	"Create a Proposal" => "Créez des propositions",
+	"Share an Idea" => "Partagez des idées",
+	"a Solution"=> "des solutions",
+	"to think, develop, build and decide collaboratively" => "pour penser, développer, construire et décider de façon collaborative",
+
 );
+
+
+
+
+

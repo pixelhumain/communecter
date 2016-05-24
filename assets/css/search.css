@@ -374,6 +374,16 @@ button.btn-menu7{
 	font-size: 18px;
 	height: 37px;
 }
+
+button.btn-menu8{
+	right: 27px;
+	top: 147px;
+	font-size: 20px;
+	min-width: 42px;
+	height: 43px;
+	padding-left: 6px;
+	z-index: 0 !important;
+}
 button.btn-menu-add{
 	right: 35px;
 	bottom: 35px;

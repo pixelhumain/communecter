@@ -85,6 +85,7 @@ $optionsLabels = array(
 	)
 );
 
+$canComment = $canComment && isset(Yii::app()->session["user"]);
 ?>
 <!-- start: PAGE CONTENT -->
 
@@ -151,10 +152,12 @@ $optionsLabels = array(
 								<div class='saySomething padding-5'>
 									<input type="text" style="width:100%" value="<?php echo Yii::t("comment","Say Something") ?>"/>
 								</div>
+							<?php }else if(!isset(Yii::app()->session["user"]) ){ ?>
+								<h4 class="text-dark padding-10 no-margin"><i class="fa fa-lock"></i> Connectez-vous pour participer à cette conversation</h4>
 							<?php }else if($parentType == Project::COLLECTION ){ ?>
-								<h4 class="text-dark"><i class="fa fa-lock"></i> Devenez contributeur du projet pour participer à cette conversation</h4>
+								<h4 class="text-dark padding-10 no-margin"><i class="fa fa-lock"></i> Devenez contributeur du projet pour participer à cette conversation</h4>
 							<?php }else if($parentType == Organization::COLLECTION ){ ?>
-								<h4 class="text-dark"><i class="fa fa-lock"></i> Devenez membre de l'organisation pour participer à cette conversation</h4>
+								<h4 class="text-dark padding-10 no-margin"><i class="fa fa-lock"></i> Devenez membre de l'organisation pour participer à cette conversation</h4>
 							<?php } ?>
 							</div>
 						</div>

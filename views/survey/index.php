@@ -70,8 +70,9 @@ $this->renderPartial('../default/panels/toolbar');
   .color-btnvote-purple{  background-color: #C1ABD4!important;}
   .color-btnvote-red{   background-color: #db254e!important;}
   .controls{
-    background: #E7E7E7;
-    border: 1px solid #BDBDBD;
+    background: #fff;
+    border-bottom: 1px solid #BDBDBD;
+    border-top: 1px solid #fff;
   }
 
   .mixcontainer .mix{
@@ -642,8 +643,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
                     <?php echo Yii::t('rooms', 'Create a Proposal', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Share an Idea', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'a Thought', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Share an Idea', null, Yii::app()->controller->module->id)?> ,
                     <br><?php echo Yii::t('rooms', 'a Solution', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>

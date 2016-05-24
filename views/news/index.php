@@ -1,5 +1,5 @@
 <?php 
-$this->renderPartial('newsSV');
+//$this->renderPartial('newsSV');
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -24,13 +24,11 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
 
-//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
 	'/css/news/index.css',	
 	'/js/news/index.js',
-	'/js/news/newsHtml.js'
-
+	'/js/news/newsHtml.js',
+	'/css/news/newsSV.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	

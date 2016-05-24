@@ -4,6 +4,7 @@
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyParisDay.jpg); 
   background-repeat: no-repeat !important;
   background-size: 100% 500px !important;
+  background-position: 0px -60px !important;
  }
 .contentProposal{
 	background-color: white;
@@ -19,6 +20,7 @@
 	      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	
 		$icon = "comments";	
+		$colorName = "dark";
 		if($parentType == Project::COLLECTION) { $icon = "lightbulb-o"; $colorName = "purple"; }
 	  	if($parentType == Organization::COLLECTION) { $icon = "group"; $colorName = "green"; }
 	  	if($parentType == Person::COLLECTION) { $icon = "user"; $colorName = "dark"; }
@@ -29,19 +31,23 @@
     <br>
 	
 	<?php //création de l'url sur le nom du parent
-		$urlParentName = Element::getControlerByCollection($parentType).".detail.id.".$parentId; 
+		$urlParent = Element::getControlerByCollection($parentType).".detail.id.".$parentId; 
 		if($parentType == City::COLLECTION) 
-			$urlParentName = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
+			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
 	<span class="homestead" style="padding:10px;">
-		<a href="javascript:loadByHash('#<?php echo $urlParentName; ?>');" class="text-<?php echo $colorName; ?>">
-			<i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?>
+		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
+			<i class="fa fa-<?php echo $icon; ?>"></i> 
+				<?php if($parentType == City::COLLECTION) 
+					echo "Conseil Citoyen - "; 
+					echo $parent['name']; 
+				?>
 		</a>
 	</span>
 
 	<br>
 
-	<span class="homestead text-<?php echo $colorTitle;?>" style="padding:10px; font-size:0.8em;">
+	<span class="homestead text-dark" style="padding:10px; font-size:0.8em;">
 		<i class='fa fa-<?php echo $faTitle?>'></i> 
 		<?php echo $textTitle; ?>
 	</span>
@@ -61,42 +67,51 @@
 				} 
 		?>
 
-		<?php if( $parentType != Person::COLLECTION ){ ?>
+		<?php if( $parentType != Person::COLLECTION && isset(Yii::app()->session['userId']) ){ ?>
 		<div class="col-md-12 center">
 			<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
 		</div>
 		<?php } ?>
 	<?php } ?>
 
+	<?php if( $fromView != "rooms.index" ){ 
+		if( !@$discussions && !@$votes && !@$actions ){
+			$rooms = PHDB::find( ActionRoom::COLLECTION, array("parentType"=>$parentType,"parentId"=>$parentId));
+			
+			$discussionsCount = 0;
+			$votesCount = 0;
+			$actionsCount = 0;
+			foreach ($rooms as $value) {
+				if($value["type"] == ActionRoom::TYPE_DISCUSS)
+					$discussionsCount++;
+				else if($value["type"] == ActionRoom::TYPE_VOTE)
+					$votesCount++;
+				else if($value["type"] == ActionRoom::TYPE_ACTIONS)
+					$actionsCount++;
+			}
+		} else {
+			$discussionsCount = count($discussions) ;
+			$votesCount = count($votes);
+			$actionsCount = count($actions);
+		}
+		$actionClass = ( in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, array( "rooms/actions" ,"rooms/action" ))  ) ? "class='active'" : "";
+		$voteClass = ( in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, array( "survey/entries" ,"survey/entry" ))  )  ? "class='active'" : "";
+		$discussClass = ( $voteClass == "" && $actionClass == "" ) ? "class='active'" : "";
 
-
-
-	<?php if( $fromView != "rooms.index" ){ ?>
+		$isRoomsIndex = (Yii::app()->controller->id."/".Yii::app()->controller->action->id == "rooms/index" ) ? true : false;
+		$discussLink = ($isRoomsIndex) ? "#discussions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.1\')"';
+		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.2\')"';
+		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.3\')"';
+		?>
 		<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-		  <li class="active"><a href="#discussions" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
-		  <li><a href="#votes" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
-		  <li><a href="#actions" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
+		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount;?> </span></a></li>
+		  <li <?php echo $voteClass?>><a href="<?php echo $voteLink?>" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $votesCount?></span> </a></li>
+		  <li <?php echo $actionClass?>><a href="<?php echo $actionLink?>" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $actionsCount?></span> </a></li>
 		  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 		</ul>
-	<?php } ?>
-
-	<!-- <div class="col-sm-12 bg-dark padding-5">
-
-			<div class="col-md-4 bg-dark">
-			 <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.1')" class=" homestead center"> <i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discussion", null, Yii::app()->controller->module->id); ?></a>
-			</div>
-
-			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.2')" class=" homestead center"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decision", null, Yii::app()->controller->module->id); ?></a>
-			</div>
-
-			<div class="col-sm-4 bg-dark">
-			  <a href="javascript:;" onclick="loadByHash('#rooms.index.type.organizations.id.<?php echo $parentId?>.tab.3')" class="text-white homestead center"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Action", null, Yii::app()->controller->module->id); ?> </a>
-			</div>
 
 		
-		</div> -->
-
+	<?php } ?>
 
 	<?php if( isset($parentSpace) ){ ?>
 	<div class="row vote-row parentSpaceName">
