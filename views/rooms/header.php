@@ -4,6 +4,7 @@
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyParisDay.jpg); 
   background-repeat: no-repeat !important;
   background-size: 100% 500px !important;
+  background-position: 0px -60px !important;
  }
 .contentProposal{
 	background-color: white;
@@ -36,7 +37,11 @@
 	?>
 	<span class="homestead" style="padding:10px;">
 		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
-			<i class="fa fa-<?php echo $icon; ?>"></i> <?php echo $parent['name']; ?>
+			<i class="fa fa-<?php echo $icon; ?>"></i> 
+				<?php if($parentType == City::COLLECTION) 
+					echo "Conseil Citoyen - "; 
+					echo $parent['name']; 
+				?>
 		</a>
 	</span>
 
@@ -94,12 +99,12 @@
 		$discussClass = ( $voteClass == "" && $actionClass == "" ) ? "class='active'" : "";
 
 		$isRoomsIndex = (Yii::app()->controller->id."/".Yii::app()->controller->action->id == "rooms/index" ) ? true : false;
-		$discussLink = ($isRoomsIndex) ? "#discussions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.organizations.id.'.$parentId.'.tab.1\')"';
-		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.organizations.id.'.$parentId.'.tab.2\')"';
-		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.organizations.id.'.$parentId.'.tab.3\')"';
+		$discussLink = ($isRoomsIndex) ? "#discussions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.1\')"';
+		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.2\')"';
+		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.3\')"';
 		?>
 		<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount.(PHDB::count( ActionRoom::CONTROLLER, array("parentType"=>$parentType,"parentId"=>$parentId,"type"=>ActionRoom::TYPE_DISCUSS)))?> </span></a></li>
+		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount;?> </span></a></li>
 		  <li <?php echo $voteClass?>><a href="<?php echo $voteLink?>" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $votesCount?></span> </a></li>
 		  <li <?php echo $actionClass?>><a href="<?php echo $actionLink?>" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $actionsCount?></span> </a></li>
 		  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->

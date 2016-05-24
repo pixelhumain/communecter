@@ -40,6 +40,8 @@
 		   			    			  $me['address']['addressLocality'] : "";
 	}
 
+	$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
+
 ?>
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
@@ -104,6 +106,14 @@
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
 			<i class="fa fa-bookmark fa-rotate-270"></i>
+			
+	</button>
+	<?php } ?>
+
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
+	<button class="menu-button menu-button-title btn-menu btn-menu8 bg-red" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
+			<span class="lbl-btn-menu-name">Mon conseil citoyen</span>
+			<i class="fa fa-group"></i>
 			
 	</button>
 	<?php } ?>

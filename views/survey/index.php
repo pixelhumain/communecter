@@ -643,8 +643,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <div id="infoPodOrga" class="padding-10">
                   <blockquote> 
                     <?php echo Yii::t('rooms', 'Create a Proposal', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Share an Idea', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'a Thought', null, Yii::app()->controller->module->id)?>
+                    <br><?php echo Yii::t('rooms', 'Share an Idea', null, Yii::app()->controller->module->id)?> ,
                     <br><?php echo Yii::t('rooms', 'a Solution', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>
