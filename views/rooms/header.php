@@ -67,7 +67,7 @@
 				} 
 		?>
 
-		<?php if( $parentType != Person::COLLECTION ){ ?>
+		<?php if( $parentType != Person::COLLECTION && isset(Yii::app()->session['userId']) ){ ?>
 		<div class="col-md-12 center">
 			<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
 		</div>
