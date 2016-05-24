@@ -167,7 +167,7 @@ $this->renderPartial('../default/panels/toolbar');
       height: 125px;
       text-align: center;
       font-family: "homestead";
-      font-size: 20px;
+      font-size: 17px;
       border-radius: 0px;
       border-right: 0px;
       border-top: 0px;
@@ -268,7 +268,7 @@ $this->renderPartial('../default/panels/toolbar');
    }
    #pod-local-actors .list-group-item{
     height:90px;
-    font-size:14px;
+    font-size:13px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 300;
     text-transform: capitalize;
@@ -304,7 +304,6 @@ $this->renderPartial('../default/panels/toolbar');
   </a>
 <?php //} ?>
 
-<div class="space20"></div>
 <div class="col-sm-12 col-xs-12">
 
     <h1 class="homestead text-red cityName-header">
@@ -367,7 +366,7 @@ $this->renderPartial('../default/panels/toolbar');
         <div class="panel-body no-padding center">
 
           <ul class="list-group text-left no-margin">
-            <li class="list-group-item text-yellow col-md-6 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-yellow col-md-3 col-sm-3 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.citoyens");'>
                 <i class="fa fa-user fa-2x"></i><br/>
                 <?php $cnt= (isset($people)) ? count($people): 0; ?>
@@ -376,20 +375,20 @@ $this->renderPartial('../default/panels/toolbar');
                 
               </div>
             </li>
-            <li class="list-group-item text-purple col-md-6 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-purple col-md-3 col-sm-3 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects");'>
                 <i class="fa fa-lightbulb-o fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?><br/>
                 <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
                 <span class="badge bg-purple"><?php echo $cnt;?></span>
               </div>
             </li>
-            <li class="list-group-item text-orange col-md-6 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-orange col-md-3 col-sm-3 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events");'>
                 <i class="fa fa-calendar fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?><br/>
                 <span class="badge bg-orange"><?php echo count($events);?></span>
               </div>
             </li>
-            <li class="list-group-item text-green col-md-6 col-sm-6 col-xs-6 link-to-directory">
+            <li class="list-group-item text-green col-md-3 col-sm-3 col-xs-6 link-to-directory">
               <div class="" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations");'>
                 <i class="fa fa-users fa-2x"></i></br> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?><br/>
                 <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
@@ -419,7 +418,7 @@ $this->renderPartial('../default/panels/toolbar');
           
         </div>
       </div>
-      <div class="panel-footer text-right">
+      <div class="panel-footer text-right hidden">
         <a class="btn btn-sm btn-default" 
             href='javascript:loadByHash("#city.directory?tpl=directory2&insee=<?php echo $city["insee"]; ?>")',
             class="btn btn-sm btn-light-blue" 
@@ -443,19 +442,17 @@ $this->renderPartial('../default/panels/toolbar');
       Participer
     </h2>
     <div class="col-md-12 no-padding" style="margin-bottom:40px">
-      <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <blockquote><strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision</blockquote>
       </div>
-      <div class="col-md-8 col-sm-8 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+      <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
          <a href="javascript:;" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>?isSearchDesign=1')" class="btn btn-participate bg-red">
           <i class="fa fa-group"></i>
-        </a>
-        <span class='text-red'>Conseil citoyen</span>
+        </a><br>
+        <span class='text-red'><strong>Conseil citoyen</strong><br><?php echo $city["name"]." "; ?></span>
       </div>
-      <div class="col-md-2 col-sm-2 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <!-- <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
-          <i class="fa fa-rss"></i>
-        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div> -->
+      <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <blockquote><strong>Tout le monde</strong> peut participer !</blockquote>
     </div>
   </div>
 
