@@ -91,17 +91,27 @@ class DataController extends Controller {
                 $bindMap = TranslatePlp::$dataBinding_person;
               else if( $format == Translate::FORMAT_AS )
                 $bindMap = TranslateActivityStream::$dataBinding_person;
-              else if( $format == Translate::FORMAT_COMMUNECTER )
+              else 
                 $bindMap = TranslateCommunecter::$dataBinding_person;
-              else
-                $format = null;
         }
-        else if( $type == Event::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_event;
-        else if( $type == Organization::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_organization;
-        else if( $type == Project::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_project;
+        else if( $type == Event::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_event;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_event;
+        }
+        else if( $type == Organization::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_organization;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_organization;
+        }
+        else if( $type == Project::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_project;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_project;
+        }
         else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
             $bindMap = TranslateSchema::$dataBinding_city;
         else
