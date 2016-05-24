@@ -12,9 +12,7 @@ $this->renderPartial('../default/panels/toolbar');
 <style type="text/css">
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 
-  .assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-    }
+  
 </style>
 
 <?php /*?>

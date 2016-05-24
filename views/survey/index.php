@@ -647,7 +647,7 @@ $this->renderPartial('../default/panels/toolbar');
                     <br><?php echo Yii::t('rooms', 'a Solution', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>
-                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add a proposal'); ?></a>
+                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "rooms", 'Add a proposal', null, Yii::app()->controller->module->id); ?></a>
                 </div>
               <?php 
                 }; 
