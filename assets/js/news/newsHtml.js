@@ -13,6 +13,7 @@ var mode = "view";
 
 function buildLineHTML(newsObj,idSession,update)
 {
+	addForm=false;
 	if(typeof(contextParentType) == "undefined")
 		contextParentType="citoyens";
 	newsTLLine = "";
@@ -72,7 +73,6 @@ function buildLineHTML(newsObj,idSession,update)
 	if(typeof(currentMonth) != "undefined" && currentMonth != date.getMonth() && update != true)
 	{
 		form="";
-		addForm=false;
 		// Append for at the beginning after the construction of the timeline
 		//alert(canPostNews);
 		if (currentMonth == null  && canPostNews == true){
@@ -121,6 +121,7 @@ function buildLineHTML(newsObj,idSession,update)
 							'</div>'+
 						'</a>';
 	}
+	console.log(newsObj);
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
 	if(newsObj.type == "activityStream" && typeof(newsObj.target) != "undefined"){
