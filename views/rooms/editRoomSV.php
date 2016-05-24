@@ -11,7 +11,48 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 <style type="text/css">
     blockquote{border-color: #2BB0C6; cursor: pointer;}
+
+  .assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
+    }
 </style>
+
+<?php /*?>
+<div class="center">
+  
+  <br/>
+  
+<?php 
+  //ca sert a quoi ce doublon ?
+  $parentType = $_GET['type'];
+  $parentId = $_GET['id'];
+  $nameParentTitle = "";
+  if($parentType == Organization::COLLECTION && isset($parentId)){
+    $orga = Organization::getById($parentId);
+    $nameParentTitle = $orga["name"];
+  }
+
+?>
+  <div>
+     
+    <h1 class="homestead text-dark center citizenAssembly-header">
+
+      
+     <?php $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $_GET['id'], 
+                            "parentType" => $_GET['type'], 
+                            "fromView" => "rooms.index",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => Yii::t("rooms","Discuss Decide Act", null, Yii::app()->controller->module->id)
+                            )); ?>
+
+    </h1>
+
+    </div>
+ </div>
+*/?>
 
 <div id="first-step-create-space">
   <h1 class="homestead center text-dark"><i class="fa fa-caret-down"></i> Quel type d'espace souhaitez-vous créer ?</h1><br/>
