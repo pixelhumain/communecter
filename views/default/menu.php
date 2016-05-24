@@ -38,9 +38,12 @@
 		
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
+		
+		$countryNameCommunexion = isset( $me['address']['countryLocality'] ) ? 
+		   			    			  $me['address']['countryLocality'] : "";
 	}
 
-	$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
+	$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 
 ?>
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
