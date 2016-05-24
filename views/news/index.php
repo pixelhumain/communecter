@@ -228,8 +228,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
-					<p class="text-xs"><?php echo Yii::t("common","Message destination") ?></p> 
-					<div class="badge">
+					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
+					<div class="badge" style="position:absolute;bottom:10px;">
 						<i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
 					<input type="hidden" name="scope" value="public"/>
 				
