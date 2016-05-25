@@ -154,6 +154,32 @@ class DatamigrationController extends CommunecterController {
 		echo "</br>//////// <br/>Nombre de documents sans contentKey: ".$nbDocNoContentKey;
 		echo "</br>//////// <br/>Nombre de documents avec size comme array: ".$nbDocSizeIsArray;  
 	}
+	/* 
+	* Upload image from media type url content
+	*	Condition: if not from communevent
+	*	News uploadNewsImage
+	*   Update link @param media.content.image in news collection
+	*/
+	public function actionUploadImageFromMediaUrlNews(){
+	  $news=PHDB::find(News::COLLECTION);
+	  $i=0;
+	  foreach($news as $key => $data){
+		  if(@$data["media"] && @$data["media"]["content"] && @$data["media"]["content"]["image"] && !@$data["media"]["content"]["imageId"]){
+			  	if (strstr($data["media"]["content"]["image"],"upload/communecter/news/")==false){
+			  		sleep(1);
+			  		echo $data["media"]["content"]["image"]."<br/>";
+			  		$returnUrl=News::uploadNewsImage($data["media"]["content"]["image"],$data["media"]["content"]["imageSize"],$data["author"]);
+			  		$newUrl= Yii::app()->baseUrl."/".$returnUrl;
+			  		PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("media.content.image" => $newUrl))			
+					);
+			  		$i++;
+		 		}
+			}
+		}
+		echo "nombre de news avec images provenant d'un autre site////////////// ".$i;
+	}
 	/* First refactor à faire sur communecter.org 
 	* Remove all id and type in and object target.id, target.type
 	*	=> Modify target type city to target.id=author, target.type=Person::COLLECTION
