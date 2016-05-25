@@ -245,7 +245,7 @@ progress[value]::-moz-progress-bar {
 		<div class="col-sm-6 col-xs-6 text-dark padding-20" style="padding-top:0px!important;">
 			<div class="row text-dark" style="margin-top:10px !important;">
 				<div class="entityTitle">
-					<h2  style="font-weight:100; font-size:17px;margin:inherit;">
+					<h2  style="font-weight:100; font-size:17px;">
 						<a href="#" id="name" data-type="text" 
 								  data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" 
 								  class="entityTitle editable-project editable editable-click">
