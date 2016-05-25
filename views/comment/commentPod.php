@@ -403,16 +403,14 @@ function bindEvent(){
 			bindEvent();
 		}
 	});
-	$('.newComment').unbind('keydown').keydown(function(event) 
-	{
-	  	if ( event.ctrlKey && event.keyCode == 13)
-	    {
+	$('.newComment').unbind('keydown').keydown(function(event) {
+	  	if ( event.ctrlKey && event.keyCode == 13) {
 			event.preventDefault();
 			console.log($(this).data("id"), $(this).data("parentid"));
 	        validateComment($(this).data("id"), $(this).data("parentid"));
 	    }
 	});
-	$('.validateComment').off().on("click",function(){
+	$('.validateComment').off().one("click",function(){
 		validateComment($(this).data("id"), $(this).data("parentid"));
 	});
 	$('.cancelComment').off().on("click",function(){
@@ -421,7 +419,9 @@ function bindEvent(){
 
 	//Comment action button
 	$('.commentReply').off().on("click",function(){
+		$(this).prop('disabled', true);
 		replyComment($(this).data("id"));
+		$(this).prop('disabled', false);
 	});
 	$('.commentVoteUp').off().on("click",function(){
 		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
@@ -747,7 +747,11 @@ function cancelComment(commentId) {
 }
 
 function validateComment(commentId, parentCommentId) {
-	
+	content = $.trim($('#'+commentId+' .newComment').val());
+	if (content == "" || content == null) {
+		$('#'+commentId).remove();
+	}
+
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/comment/save/",
 		data: {
