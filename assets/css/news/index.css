@@ -44,6 +44,7 @@
 	bottom:0px;
 	right:0px;
 	left:70px;
+	min-height:600px;
 }
 .fixedTop{
 	position:fixed;
