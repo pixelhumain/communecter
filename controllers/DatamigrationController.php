@@ -170,6 +170,7 @@ class DatamigrationController extends CommunecterController {
 			  		echo $data["media"]["content"]["image"]."<br/>";
 			  		$returnUrl=News::uploadNewsImage($data["media"]["content"]["image"],$data["media"]["content"]["imageSize"],$data["author"]);
 			  		$newUrl= Yii::app()->baseUrl."/".$returnUrl;
+			  		echo 'Nouvelle url <br/>'.$newUrl."<br/>/////////////<br/>";
 			  		PHDB::update(News::COLLECTION,
 						array("_id" => $data["_id"]) , 
 						array('$set' => array("media.content.image" => $newUrl))			
