@@ -73,7 +73,7 @@ $this->renderPartial('../default/panels/toolbar');
      id="btn-communecter" onclick="setScopeValue($(this));">
      <i class="fa fa-crosshairs"></i> COMMUNECTER
   </a>
-<?php //var_dump(json_encode($city)); //} ?>
+<?php //} ?>
 
 <div class="col-sm-12 col-xs-12">
 
