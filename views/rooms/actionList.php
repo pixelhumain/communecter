@@ -273,7 +273,7 @@ $this->renderPartial('../default/panels/toolbar');
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter " data-filter=".'.$t.'">'.$t.'</button>';
+              $tagBlock .= ' <button class="filter bg-red" data-filter=".'.$t.'">'.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -427,15 +427,15 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <?php } ?>
               <?php if( count($alltags) ){?>
-              <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
+              <button class="btn bg-red fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php } ?>
               <?php if( $logguedAndValid ){?>
-              <a class="filter btn bg-red" data-filter=".myentries" id="myentriesBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".todo" id="todoBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".inprogress" id="inprogressBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".late" id="lateBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".closed" id="closedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".unassigned" id="unassignedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".myentries" id="myentriesBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".todo" id="todoBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".inprogress" id="inprogressBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".late" id="lateBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".closed" id="closedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".unassigned" id="unassignedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
               <?php } ?>
               
         </div>
@@ -476,7 +476,7 @@ $this->renderPartial('../default/panels/toolbar');
                     <br><?php echo Yii::t('rooms', 'practise before theory', null, Yii::app()->controller->module->id)?>
                     <br><?php echo Yii::t('rooms', 'to build and experiment collaboratively', null, Yii::app()->controller->module->id)?>
                   </blockquote>
-                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add an Action'); ?></a>
+                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?></a>
                 </div>
               <?php 
                 }; 

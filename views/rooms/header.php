@@ -52,7 +52,7 @@
 		<?php echo $textTitle; ?>
 	</span>
 	
-	<?php if( $fromView == "rooms.index" ){ ?>
+	<?php //if( $fromView == "rooms.index" ){ ?>
 		<?php 
 			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
 		    $ctrl = Element::getControlerByCollection($parentType);
@@ -69,11 +69,10 @@
 
 		<?php if( $parentType != Person::COLLECTION && isset(Yii::app()->session['userId']) ){ ?>
 		<div class="col-md-12 center">
-			<button class='btn btn-sm btn-success' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
+			<button class='btn btn-sm btn-success Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
 		</div>
 		<?php } ?>
-	<?php } ?>
-
+	
 	<?php if( $fromView != "rooms.index" ){ 
 		if( !@$discussions && !@$votes && !@$actions ){
 			$rooms = PHDB::find( ActionRoom::COLLECTION, array("parentType"=>$parentType,"parentId"=>$parentId));

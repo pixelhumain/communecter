@@ -4,7 +4,8 @@
 		"VOTE" => "VOTER",
 		"DECIDE" => "DECIDER",
 		"ACT" => "AGIR",
-		"YOU VOTED ALLREADY" => "VOUS AVEZ DEJA VOT",
+		"JOIN TO VOTE" => "Lire",
+		"YOU VOTED ALLREADY" => "VOUS AVEZ DEJA VOTÉ",
 		"FEEL FREE TO VOTE" => "LIBRE A VOUS DE VOTER",
 		"THIS VOTE IS CLOSED" => "Ce vote est terminé",
 		"people voted" => "ont voté",
@@ -28,6 +29,9 @@
 		"You did not vote" => "Vous n'avez pas voté",
 		"Proposed by" => "Proposé par",
 		"Add a proposal" => "Faire une proposition",
+		"You must login to vote" => "Vous devez vous connecter pour pouvoir voter",
+		"You must join to vote" => "Vous devez être membre pour pouvoir voter",
+		"Add an Action" => "Créer une action"
 		
 	)
 

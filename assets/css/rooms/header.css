@@ -14,7 +14,7 @@
   }
 
   h1.citizenAssembly-header{
-      padding-bottom:0px !important;
+      padding-bottom:0px;
   }
 
 
@@ -55,7 +55,9 @@
   position: relative;
   bottom: 0px;
 }
-
+.Helvetica{
+   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
 h1.citizenAssembly-header .nav-menu-rooms{
   margin-top:15px;
 }

@@ -290,7 +290,7 @@ $this->renderPartial('../default/panels/toolbar');
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter " data-filter=".'.$t.'">'.$t.'</button>';
+              $tagBlock .= ' <button class="filter bgg-red" data-filter=".'.$t.'">'.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -417,8 +417,9 @@ $this->renderPartial('../default/panels/toolbar');
         $leftLinks = "";
         $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("survey","JOIN TO VOTE", null, Yii::app()->controller->module->id);
         $ctrl = Element::getControlerByCollection($parentType);
-        $btnUrl = "#$ctrl.detail.id.$parentId";
-        
+        //$btnUrl = "#$ctrl.detail.id.$parentId";
+        $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
+
         if( @$canParticipate ){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
@@ -601,10 +602,10 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-              <a class="filter btn bg-red" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
         
               <?php } ?>
               
