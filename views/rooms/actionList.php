@@ -2,7 +2,7 @@
 $cs = Yii::app()->getClientScript();
 
 $cssAnsScriptFilesModule = array(
-  '/survey/css/mixitup/reset.css',
+  //'/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
   '/survey/js/jquery.mixitup.min.js',
   '/css/rooms/header.css'
@@ -118,6 +118,9 @@ $this->renderPartial('../default/panels/toolbar');
     color:#3C5665;
   }
 
+   .mixcontainer .mix span {
+        margin: 0px;
+    }
 
   .mixcontainer .mix,.mixcontainer .mix a, .mixcontainer .mix span{
     background-color: white;
@@ -165,9 +168,9 @@ $this->renderPartial('../default/panels/toolbar');
       margin-bottom: 6px;
     }
 
-    .caret {
+   /* .caret {
       display: inline;
-    }
+    }*/
 
 
     #thumb-profil-parent{
@@ -184,12 +187,13 @@ $this->renderPartial('../default/panels/toolbar');
     border: 1px solid #E4E4E4;
   }
 
-@media screen and (min-width: 1060px) {
+
+@media screen and (min-width: 1400px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 31%;
   }
 }
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1399px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 48%;
   }
@@ -204,7 +208,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 680px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 98%;
   }
