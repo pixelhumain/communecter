@@ -289,14 +289,14 @@
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
-		        if(typeof data.profilImageUrl != "undefined"){
-		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        if(typeof data.profilThumbImageUrl != "undefined"){
+		        	$("#menu-thumb-profil").attr("src", baseUrl + data.profilThumbImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", baseUrl + data.profilThumbImageUrl);
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
+		        console.log("NOUVELLE PATH THUMB PROFIL : " + baseUrl + data.profilThumbImageUrl);
+		    	Sig.userData.profilImageUrl = baseUrl + data.profilThumbImageUrl;
 		        console.log(Sig.userData.profilImageUrl);
 		        
 		    });
