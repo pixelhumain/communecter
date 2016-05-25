@@ -102,7 +102,11 @@
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
-			<i class="fa fa-rss"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+				
+			</span>	
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 	<?php } ?>

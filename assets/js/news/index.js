@@ -481,13 +481,15 @@ function getUrlContent(){
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         //continue if matched url is found in text field
+//        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href"))
         if (match_url.test(getUrl.val())) {
-	        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href") != getUrl.val().match(match_url)[0]){
+	        if(lastUrl != getUrl.val().match(match_url)[0]){
 	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
+                var lastUrl=extracted_url;
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -495,12 +497,12 @@ function getUrlContent(){
 					type: 'post',
 					dataType: 'json',
 					success: function(data){        
-	                console.log(data); 
-                    content = getMediaHtml(data,"save");
-                    //load results in the element
-                    $("#results").html(content); //append received data into the element
-                    $("#results").slideDown(); //show results with slide down effect
-                    $("#loading_indicator").hide(); //hide loading indicator image
+		                console.log(data); 
+	                    content = getMediaHtml(data,"save");
+	                    //load results in the element
+	                    $("#results").html(content); //append received data into the element
+	                    $("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
                 	},
 					error : function(){
 						$.unblockUI();
@@ -590,16 +592,19 @@ function getMediaHtml(data,action,idNews){
     //content to be loaded in #results element
 	if(data.content==null)
 		data.content="";
-	
+	if(typeof(data.url)!="undefined")
+		mediaUrl=data.url;
+	else if (typeof(data.content.url) !="undefined")
+		mediaUrl=data.content.url;
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
 	else{
 		contentMedia="";
 	}
-	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
+	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
     content = '<div class="extracted_url">'+ inc_image +contentMedia+'</div>'+inputToSave;
