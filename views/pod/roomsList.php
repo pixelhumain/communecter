@@ -42,6 +42,7 @@ $moduleId = Yii::app()->controller->module->id;
 	$surveyOpen = true;
 	
 	if($parentType != City::COLLECTION){
+		if($parentType != Person::COLLECTION)
 		$surveyOpen = !isset($empty); //(isset($organization["modules"]) && in_array("survey", $organization["modules"]));
 	
 		$canEdit = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
