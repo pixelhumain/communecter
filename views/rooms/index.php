@@ -22,7 +22,7 @@ $moduleId = Yii::app()->controller->module->id;
 
 
 h1.citizenAssembly-header{
-  padding-bottom:90px !important;
+  padding-bottom:60px !important;
 }
 
 #main-panel-room{

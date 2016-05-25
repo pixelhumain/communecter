@@ -533,7 +533,7 @@ Menu::organization($organization);
 	            	}
 	            	else
 	            	{
-	            		toastr.success("Member added successfully ");
+	            		toastr.success(data.msg);
 	            		console.log(data);
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
@@ -945,7 +945,7 @@ function inviteImportFile(){
 			            	if(!data.result){
 			            		toastr.error(data.msg);
 			            	}else{
-			            		toastr.success("Member added successfully ");
+			            		toastr.success("Les membres ont été ajoutés.");
 			            		//Minus 1 on number of invit
 								var count = parseInt($("#numberOfInvit").data("count")) - 1;
 								$("#numberOfInvit").html(count + ' invitation(s)');

@@ -82,9 +82,13 @@ if( !isset($hideTexts) )
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
 			$contentVote = $voteLinksAndInfos["links"]; 	
 		}
+		else if(!isset( Yii::app()->session["userId"]) ){
+			$ctrl = Element::getControlerByCollection($room["parentType"]);
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","LOGIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
+		}
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("rooms","You must login or join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-arrow-right-circle"></i></a>';
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".
@@ -149,7 +153,7 @@ jQuery(document).ready(function()
 		console.log(clickedVoteObject);
 	 });
 	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous etes d'accord avec la proposition"); });
-	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleur"); });
+	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure"); });
 	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engagé, ni pour ni contre"); });
 	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des elements pour prendre une réélle décision"); });
 	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous etes pas d'accord avec la proposition"); });

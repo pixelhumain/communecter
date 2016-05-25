@@ -749,7 +749,7 @@
 					<ul>
 						<li>C'est un votation à 5 choix : </li>
 						<li>Voter "Pour" : Assez Explicite</li>
-						<li>Voter "Amender" : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleur.</li>
+						<li>Voter "Amender" : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure.</li>
 						<li>Voter "Blanc" : Je suis ni pour ni contre</li>
 						<li>Voter "Incomplet" : il manque des elements pour prendre une réélle décision</li>
 						<li>Voter "Contre" : Assez Explicite</li>

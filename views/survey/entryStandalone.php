@@ -24,7 +24,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
     }*/
   	
 	/*a.btn{margin:3px;}*/
-	a:hover.btn {background-color: pink;border solid #666;}
+	/*a:hover.btn {background-color: pink;border solid #666;}*/
 
 	/*.infolink{border-top:1px solid #fff}*/
 	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
@@ -219,7 +219,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod box">
+		<div class="box-vote box-pod">
 				
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
@@ -240,7 +240,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 						
-						<div class="box-vote box-pod box radius-20" style="">
+						<div class="box-vote box-pod radius-20" style="">
 							<span class="text-extra-large text-bold text-red"> 
 								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
 							</span> 
@@ -252,7 +252,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						
 				<?php } else { ?> 
 
-						<div class="box-vote box-pod box radius-20">
+						<div class="box-vote box-pod radius-20">
 							<?php
 
 							$this->renderPartial('entry',array( "survey" => $survey, 
@@ -266,7 +266,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 				<?php } ?>
 			</div>	
-			<div class="col-xs-12 voteinfoSection">
+			<div class="col-md-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">
 					<?php if( isset($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
@@ -309,60 +309,11 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
+		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
 </div>
 
-
-<div class="row discuss-row hide"  >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DISCUSS</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-<div class="row decide-row hide" >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DECIDE</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="row act-row hide"  >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> ACT</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
 
 
 <style type="text/css">
@@ -397,7 +348,7 @@ function addaction(id,action)
     console.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	var message = "Vous êtes sûr ? Vous ne pourrez pas changer votre vote";
+    	var message = "Vous êtes sûr ? <span class='text-red text-bold'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>";
     	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
     	var boxNews = bootbox.dialog({
 			title: message,
