@@ -14,8 +14,8 @@
  	<?php 
     	$urlPhotoProfil = "";
 		
-		if(isset($parent['profilThumbImageUrl']) && $parent['profilThumbImageUrl'] != "")
-	      $urlPhotoProfil = Yii::app()->createUrl($parent['profilThumbImageUrl']);
+		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
+	      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$parent['profilImageUrl'];
 	    else
 	      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	
