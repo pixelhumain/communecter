@@ -39,7 +39,7 @@ return array(
 	"Brainstorm / Proposals / Ideas" => "Brainstorming, propositions, idées",
 
 	"Type of Room" => "Type d'espace",
-	'Add an Action Room' => "Créer un espace",
+	'Add an Action Room' => "Créer un nouvel espace",
 	"Surveys contain subject to vote on, brainstorm sessions, discussions..." => 
 	"Un espace Citoyen permet de faire des propositions, de voter, d'échanger des idées, créer des discussions, ou encore des débats.",
 	"Create Room" => "Créer un espace citoyen",
@@ -108,7 +108,7 @@ return array(
 	"It's time for action" => "Prendre le temps d'agir",
 
 	'Add an Action' => "Ajouter une action",
-	'Get some Actions going' => "Lancons quelques actions",
+	'Get some Actions going' => "Lancer quelques actions",
 	'Acts speak louder than words' => "Vivre, ce n'est pas respirer, c'est agir",
 	'Break up Big actions into smaller ones' => "Découpez les grandes actions, en plusieurs plus petites",
 	'practise before theory' => 'Le pratique doit préceder la théorie',
@@ -144,7 +144,10 @@ return array(
 	"Copied from a discussion :" => "Copié d'une discussion : ",
 	"action Saved" => "Action Enregistrer",
 	"Made by " => "Proposé par ",
-	"JOIN TO PARTICPATE" => "Devenez membre pour participer",
+	"JOIN TO PARTICIPATE" => "Devenez membre pour participer",
+	"LOGIN TO PARTICIPATE" => "Connectez-vous pour participer",
+	"JOIN TO VOTE" => "Devenez membre pour voter",
+	"LOGIN TO VOTE" => "Connectez-vous pour voter",
 	"go back to the detail page of the parent" => "retour vers la fiche info",
 	
 	"COOPERATIVE SPACE" => "ESPACE COOPÉRATIF",

@@ -21,7 +21,7 @@ $this->renderPartial('../default/panels/toolbar');
 <style type="text/css">
   .addPropBtn{
     width:100%;
-    background-color: #BBBB77;
+    /*background-color: #BBBB77;*/
   }
   .removePropLineBtn {
       background-color: #E33551;
@@ -86,7 +86,7 @@ var proposalFormDefinition = {
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "Tapez une url information ou des titre d'actions à faire",
+                  "placeholder" : "url, informations supplémentaires, actions à faire, etc",
                   "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
             "tags" :{
@@ -159,7 +159,7 @@ function editEntrySV () {
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
+              "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
               "</div>");

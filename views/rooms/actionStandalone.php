@@ -21,7 +21,7 @@ if( Yii::app()->request->isAjaxRequest ){
       background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
     }
 	/*a.btn{margin:3px;}*/
-	a:hover.btn {background-color: pink;border solid #666;}
+	/*a:hover.btn {background-color: pink;border solid #666;}*/
 
 	/*.infolink{border-top:1px solid #fff}*/
 	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
@@ -121,7 +121,7 @@ if( Yii::app()->request->isAjaxRequest ){
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod box">
+		<div class="box-vote box-pod">
 				
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
@@ -142,7 +142,7 @@ if( Yii::app()->request->isAjaxRequest ){
 			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -40px; margin-bottom: 10px;">
 
 				
-					<div class="box-vote box-pod box radius-20" style="margin-top:8px;">
+					<div class="box-vote box-pod radius-20" style="margin-top:8px;">
 						<?php
 						//if no assignee , no startDate no end Date
 				        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
@@ -170,7 +170,7 @@ if( Yii::app()->request->isAjaxRequest ){
 						</span>
 					</div>
 			</div>	
-			<div class="col-xs-12 voteinfoSection">
+			<div class="col-md-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">
 					<?php if( isset($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
@@ -230,7 +230,7 @@ if( Yii::app()->request->isAjaxRequest ){
 	<div class="col-md-12 commentSection leftInfoSection" >
 		<div  class="space20"></div>
 		<span class="" ><?php echo Yii::t("rooms","Add your point of view in the comments",null,Yii::app()->controller->module->id) ?></span>
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
+		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
 </div>
