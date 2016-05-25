@@ -24,7 +24,7 @@
 		if($parentType == Project::COLLECTION) { $icon = "lightbulb-o"; $colorName = "purple"; }
 	  	if($parentType == Organization::COLLECTION) { $icon = "group"; $colorName = "green"; }
 	  	if($parentType == Person::COLLECTION) { $icon = "user"; $colorName = "dark"; }
-        if($parentType == City::COLLECTION) { $icon = "university"; $colorName = "red"; }
+        if($parentType == City::COLLECTION) { $icon = "group"; $colorName = "red"; }
 	?>
 	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
     
@@ -38,8 +38,8 @@
 	<span class="homestead" style="padding:10px;">
 		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
 			<i class="fa fa-<?php echo $icon; ?>"></i> 
-				<?php if($parentType == City::COLLECTION) 
-					echo "Conseil Citoyen - "; 
+				<?php
+					if($parentType == City::COLLECTION) echo "Conseil Citoyen - "; 
 					echo $parent['name']; 
 				?>
 		</a>
@@ -54,22 +54,26 @@
 	
 	<?php //if( $fromView == "rooms.index" ){ ?>
 		<?php 
-			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICPATE", null, Yii::app()->controller->module->id);
+			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 		    $ctrl = Element::getControlerByCollection($parentType);
-		    $btnUrl = "#".$ctrl.".detail.id.".$parentId;
+		    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
 			
 			if( $parentType == City::COLLECTION || 
 				($parentType != Person::COLLECTION && 
 				Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))
 				{ 
 					$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
-				    $btnUrl = "#rooms.editroom.type.".$parentType.".id.".$parentId;
+				    $btnUrl = "loadByHash('#rooms.editroom.type.".$parentType.".id.".$parentId."')";
 				} 
+			if(!isset(Yii::app()->session['userId'])){ 
+				$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","LOGIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
+			    $btnUrl = "showPanel('box-login');";
+			} 
 		?>
 
-		<?php if( $parentType != Person::COLLECTION && isset(Yii::app()->session['userId']) ){ ?>
-		<div class="col-md-12 center">
-			<button class='btn btn-sm btn-success Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick='loadByHash("<?php echo $btnUrl?>")'><?php echo $btnLbl?></button>
+		<?php if( $parentType != Person::COLLECTION ){ ?>
+		<div class="center">
+			<button class='btn btn-sm btn-success Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick="<?php echo $btnUrl; ?>"><?php echo $btnLbl?></button>
 		</div>
 		<?php } ?>
 	

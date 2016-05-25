@@ -84,11 +84,11 @@ if( !isset($hideTexts) )
 		}
 		else if(!isset( Yii::app()->session["userId"]) ){
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="showPanel(\'box-login\');">'.Yii::t("survey","You must login to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-arrow-right-circle"></i></a>';
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","LOGIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("survey","You must join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-arrow-right-circle"></i></a>';
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".

@@ -24,7 +24,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
     }*/
   	
 	/*a.btn{margin:3px;}*/
-	a:hover.btn {background-color: pink;border solid #666;}
+	/*a:hover.btn {background-color: pink;border solid #666;}*/
 
 	/*.infolink{border-top:1px solid #fff}*/
 	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
@@ -219,7 +219,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod box">
+		<div class="box-vote box-pod">
 				
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
@@ -240,7 +240,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 						
-						<div class="box-vote box-pod box radius-20" style="">
+						<div class="box-vote box-pod radius-20" style="">
 							<span class="text-extra-large text-bold text-red"> 
 								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
 							</span> 
@@ -252,7 +252,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						
 				<?php } else { ?> 
 
-						<div class="box-vote box-pod box radius-20">
+						<div class="box-vote box-pod radius-20">
 							<?php
 
 							$this->renderPartial('entry',array( "survey" => $survey, 
@@ -266,7 +266,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 				<?php } ?>
 			</div>	
-			<div class="col-xs-12 voteinfoSection">
+			<div class="col-md-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">
 					<?php if( isset($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
@@ -309,7 +309,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
+		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
 </div>

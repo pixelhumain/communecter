@@ -179,6 +179,10 @@ $this->renderPartial('../default/panels/toolbar');
       box-shadow: 0px 3px 10px 1px #656565;
     }
 
+    
+  .home .controls {
+    border: 1px solid #E4E4E4;
+  }
 
 @media screen and (min-width: 1060px) {
   .mixcontainer .mix, .mixcontainer .gap{
@@ -465,22 +469,32 @@ $this->renderPartial('../default/panels/toolbar');
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?>
               </h1>
-               <?php 
-                 if (count(@$list) == 0 && Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) {
-               ?>
+                <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">
-                  <blockquote> 
-                    <span class="text-dark text-extra-large text-bold"><?php echo Yii::t('rooms', 'Get some Actions going', null, Yii::app()->controller->module->id)?></span>
-                    <br><?php echo Yii::t('rooms', 'Acts speak louder than words', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'Break up Big actions into smaller ones', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'practise before theory', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'to build and experiment collaboratively', null, Yii::app()->controller->module->id)?>
+                  <?php if (count(@$list) == 0) { ?>
+                  <blockquote class="padding-10"> 
+                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
+                    <small>Un espace d'action peut contenir plusieurs actions.</small>
+                    <br>Référencez et partagez <b>une par une</b>,
+                    <br>les tâches qui concernent cet espace,
+                    <br>en cliquant ici<br><i class="fa fa-angle-down fa-3x"></i> 
                   </blockquote>
-                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?></a>
+                  <?php }; ?>
+                  <a class="filter btn btn-success" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?></a>
                 </div>
-              <?php 
-                }; 
-               ?>
+                <?php }else{ ?>
+                  <blockquote> 
+                    <span class=""><i class="fa fa-angle-right"></i> 
+                    <?php 
+                      if(isset(Yii::app()->session["userId"]))
+                      echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                      else
+                      echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                    ?> 
+                    </span>
+                  </blockquote>
+                <?php } ?>
+                
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">

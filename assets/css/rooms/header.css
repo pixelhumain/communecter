@@ -90,6 +90,10 @@ h1.citizenAssembly-header .nav-menu-rooms{
   padding-bottom:15px;
 }
 
+b, strong {
+    font-weight: 700 !important;
+}
+
 @media screen and (min-width: 1060px) {
   
 }
@@ -113,7 +117,7 @@ h1.citizenAssembly-header .nav-menu-rooms{
   }
   .citizenAssembly-header{
   	/*stop: 100px;*/
-  	height:160px;
+  	/*height:160px;*/
   }
   .citizenAssembly-header h1 {
 	font-size: 24px;
