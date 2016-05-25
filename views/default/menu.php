@@ -27,6 +27,7 @@
 		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
 		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
 
+		if($cpCommunexion != "" && $cityNameCommunexion != "")
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	}
 	//si l'utilisateur est connecté
