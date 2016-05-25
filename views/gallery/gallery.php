@@ -1,7 +1,7 @@
 <?php
 	$cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js',
-	'/assets/js/pages-gallery.js',
+	'/js/pages-gallery.js',
 	);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
