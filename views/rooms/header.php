@@ -11,6 +11,7 @@
 }
  </style>	
 
+<h1 class="homestead text-dark center citizenAssembly-header">
  	<?php 
     	$urlPhotoProfil = "";
 		
@@ -46,13 +47,12 @@
 	</span>
 
 	<br>
+	<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'><?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?></a> <?php echo (@$textTitle) ? "/".$textTitle : ""?>
 
-	<span class="homestead text-dark" style="padding:10px; font-size:0.8em;">
-		<i class='fa fa-<?php echo $faTitle?>'></i> 
-		<?php echo $textTitle; ?>
-	</span>
+
 	
 	<?php //if( $fromView == "rooms.index" ){ ?>
+
 		<?php 
 			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 		    $ctrl = Element::getControlerByCollection($parentType);
@@ -115,13 +115,4 @@
 
 		
 	<?php } ?>
-
-	<?php if( isset($parentSpace) ){ ?>
-	<div class="row vote-row parentSpaceName">
-		<div class="col-md-12">
-			<a href="javascript:"  onclick="loadByHash('#survey.entries.id.<?php echo $parentSpace["_id"]; ?>')">
-				<h1 class="homestead text-dark center"><i class=" fa fa-archive"></i> <?php echo $parentSpace["name"]; ?></h1>
-			</a>
-		</div>
-	</div>
-	<?php } ?>
+	</h1>

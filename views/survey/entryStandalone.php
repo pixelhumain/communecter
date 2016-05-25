@@ -185,7 +185,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
  	?>
  	<div>
      
- 		<h1 class="homestead text-dark center citizenAssembly-header">
+ 		
 
 		  <?php $this->renderPartial('../rooms/header',array(    
                 			"parent" => $parent, 
@@ -195,10 +195,10 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
                             "fromView" => "survey.entry",
                             "faTitle" => "gavel",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Décider ensemble", null, Yii::app()->controller->module->id)
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                            				" / ".
+                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$room["name"]."</a>"
                             )); ?>
-		</h1>
-     
 
 		<!-- <span class="pull-right text-right"> 
 			<?php if( $voteLinksAndInfos["hasVoted"] )
@@ -298,7 +298,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						<span class="" >Faites des propositions dans les commentaires</span>
 					<?php }	?>
 				</div>
-				<div  class="col-md-5" style="border:1px solid #ccc">
+				<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
 					<div class="col-md-12 leftInfoSection chartResults" >
 						<?php echo getChartBarResult($survey); ?>
 						<div id="container2"></div>
@@ -384,22 +384,7 @@ function addaction(id,action)
 				}
 			}
     	});
-    	// bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-     //    	function(result) {
-     //    		if (result) {
-			  //     	params = { 
-			  //          "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-			  //          "id" : id ,
-			  //          "collection":"surveys",
-			  //          "action" : action 
-			  //       };
-			  //     	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-			  //       	loadByHash(location.hash);
-			  //     	});
-			  //   } else {
-			  //   	$("."+clickedVoteObject).removeClass("faa-bounce animated");
-			  //   }
-    	// });
+    	
  	}
  }
 
@@ -431,6 +416,7 @@ function buildResults () {
 		        plotBorderWidth: null,
 		        plotShadow: false,
 		        //marginTop: -20,
+		        backgroundColor: "#ddd"
 		    },
 		    title: {
 		        text: "Resultats"

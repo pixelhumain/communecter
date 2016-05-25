@@ -91,8 +91,7 @@ if( Yii::app()->request->isAjaxRequest ){
 ?>
  	<div>
      
- 		<h1 class="homestead text-dark center citizenAssembly-header">
-
+ 		
 		  
 		 <?php $this->renderPartial('../rooms/header',array(    
                 "parent" => $parent, 
@@ -101,21 +100,14 @@ if( Yii::app()->request->isAjaxRequest ){
                             "fromView" => "rooms.actions",
                             "faTitle" => "cogs",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Action réaction", null, Yii::app()->controller->module->id)
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                            				" / ".
+                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parentSpace["_id"]."\")'><i class='fa fa-th'></i> ".$parentSpace["name"]."</a>"
                             )); ?>
 
-		</h1>
 
     </div>
  </div>
-
-<div class="row vote-row parentSpaceName">
-	<div class="col-md-12">
-		<a href="javascript:"  onclick="loadByHash('#rooms.actions.id.<?php echo $parentSpace["_id"]; ?>')">
-			<h1 class="homestead text-dark center"><i class=" fa fa-cogs"></i> <?php echo $parentSpace["name"]; ?></h1>
-		</a>
-	</div>
-</div>
 
 <div class="row vote-row contentProposal" >
 
@@ -137,10 +129,7 @@ if( Yii::app()->request->isAjaxRequest ){
 				
 			</h4>
 
-			
-
 			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -40px; margin-bottom: 10px;">
-
 				
 					<div class="box-vote box-pod radius-20" style="margin-top:8px;">
 						<?php
@@ -169,6 +158,7 @@ if( Yii::app()->request->isAjaxRequest ){
 						?>
 						</span>
 					</div>
+
 			</div>	
 			<div class="col-md-12 voteinfoSection">
 				<div class="col-md-7" style="margin-top:10px;">

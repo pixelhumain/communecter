@@ -479,30 +479,52 @@ function highlight () {
 function  fastAdd(url) { 
 	console.log("url",url);
 	if( selection.toString() != "" ){
-		processingBlockUi();
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+'/'+moduleId+url,
-	        data: {
-	        	"discussionId" : context['_id']['$id'],
-	        	"type" : contextType,
-	        	"txt" : selection.toString()
-	        },
-	        dataType: "json",
-	        success: function(data){
-	          if(data.result){
-	            toastr.success("<h1>Created Successfully.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'>Quick access here</a><h1>");
-	            $(".selBtn").remove(); 
-	          } else 
-	            toastr.error(data.msg);
-	          
-	          $.unblockUI();
-	        },
-	        error: function(data) {
-	          $.unblockUI();
-	          toastr.error("Something went really bad : "+data.msg);
-	        }
-	    });
+		if( url.indexOf("fastaddaction") > 0 )
+			prompt = "<?php echo Yii::t("rooms","The action will be created in an action List named like this discussion",null,Yii::app()->controller->module->id) ?>";
+		else if( url.indexOf("fastaddentry") > 0 )
+			prompt = "";
+
+		var boxNews = bootbox.dialog({
+				title: message,
+				message: input,
+				buttons: {
+					annuler: {
+						label: "Annuler",
+						className: "btn-default",
+						callback: function() {}
+					},
+					success: {
+						label: "OK",
+						className: "btn-info",
+						callback: function() {
+							processingBlockUi();
+							$.ajax({
+						        type: "POST",
+						        url: baseUrl+'/'+moduleId+url,
+						        data: {
+						        	"discussionId" : context['_id']['$id'],
+						        	"type" : contextType,
+						        	"txt" : selection.toString()
+						        },
+						        dataType: "json",
+						        success: function(data){
+						          if(data.result){
+						            toastr.success("<h1><?php echo Yii::t("common","Created Successfully") ?>.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'><?php echo Yii::t("common","Quick access here") ?></a><h1>");
+						            $(".selBtn").remove(); 
+						          } else 
+						            toastr.error(data.msg);
+						          
+						          $.unblockUI();
+						        },
+						        error: function(data) {
+						          $.unblockUI();
+						          toastr.error("Something went really bad : "+data.msg);
+						        }
+						    });
+						}
+					}
+				}
+	    	});
 	}
  }
 

@@ -586,8 +586,6 @@ $this->renderPartial('../default/panels/toolbar');
     ?>
     
 
-
-    <h1 class="homestead text-dark center citizenAssembly-header">
       <?php $this->renderPartial('../rooms/header',array(    
                 "parent" => $parent, 
                             "parentId" => $parentId, 
@@ -595,9 +593,8 @@ $this->renderPartial('../default/panels/toolbar');
                             "fromView" => "survey.entries",
                             "faTitle" => "gavel",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Décider ensemble", null, Yii::app()->controller->module->id)
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"
                             )); ?>
-    </h1>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
