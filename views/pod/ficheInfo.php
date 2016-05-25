@@ -319,7 +319,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</div> -->
 
 						<i class="fa fa-envelope fa_email  hidden"></i> 
-						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
+						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click">
 							<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 						</a>
 						<br>

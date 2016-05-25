@@ -153,7 +153,7 @@ jQuery(document).ready(function()
 		console.log(clickedVoteObject);
 	 });
 	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous etes d'accord avec la proposition"); });
-	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleur"); });
+	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure"); });
 	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engagé, ni pour ni contre"); });
 	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des elements pour prendre une réélle décision"); });
 	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous etes pas d'accord avec la proposition"); });

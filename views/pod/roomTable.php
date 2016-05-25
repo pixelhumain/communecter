@@ -60,8 +60,9 @@
 									<?php if( $_GET["type"] == Person::COLLECTION ){?>
 										<td class=""> <?php 
 											if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
-												@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
-											echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+												@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = "<a href='javascript:;' onclick='loadByHash(\"#rooms.index.type.".@$e["parentType"].".id.".@$e["parentId"]."\")'>".@$e['name']."</a>";
+											echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?>
+										</td>
 									<?php } ?>
 									<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 								</tr>
@@ -117,8 +118,9 @@
 								<?php if( $_GET["type"] == Person::COLLECTION ){?>
 									<td class=""> <?php 
 										if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
-											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
-										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = "<a href='javascript:;' onclick='loadByHash(\"#rooms.index.type.".@$e["parentType"].".id.".@$e["parentId"]."\")'>".@$e['name']."</a>";
+										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?>
+									</td>
 								<?php } ?>
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>
@@ -172,8 +174,9 @@
 								<?php if( $_GET["type"] == Person::COLLECTION ){?>
 									<td class=""> <?php 
 										if( !@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] ) 
-											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = Element::getLink(@$e["parentType"],@$e["parentId"]);
-										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?></td>
+											@$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ] = "<a href='javascript:;' onclick='loadByHash(\"#rooms.index.type.".@$e["parentType"].".id.".@$e["parentId"]."\")'>".@$e['name']."</a>";
+										echo @$parentLinkList[ @$e["parentType"]."_".@$e["parentId"] ]; ?>
+									</td>
 								<?php } ?>
 								<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
 							</tr>

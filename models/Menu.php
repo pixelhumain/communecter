@@ -718,7 +718,7 @@ class Menu {
 
         if(is_string($survey))
             $parentId = $survey;
-        else                                                                                                                                                                                                                                                    {
+        else {
             $id = (string)$survey["_id"];
             $parentId = (string)$survey["survey"];
             $organiserId = $survey['organizerId'];
@@ -742,7 +742,8 @@ class Menu {
         {
             // Edit proposal
             //-----------------------------
-            if( Yii::app()->controller->action->id != "editentry"  )
+            $hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
+            if( !$hasVote && Yii::app()->controller->action->id != "editentry"  )
             {
                 self::entry("right", 'onclick', 
                         Yii::t( "common", 'Edit this proposals'),
