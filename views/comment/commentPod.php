@@ -49,17 +49,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
 @media screen and (max-width: 767px) {
 	.ps-container-com{
-		max-height: 300px !important;
+		max-height: 250px !important;
 	}
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
 	.ps-container-com{
-		max-height: 500px !important;
+		max-height: 370px !important;
 	}
 }
 @media screen and (min-width: 1025px) {
 	.ps-container-com{
-		max-height: 500px !important;
+		max-height: 420px !important;
 	}
 }
 <?php } ?>

@@ -94,11 +94,11 @@ function initHTML5Localisation(role){
 function getCityInseeByGeoPos(coords){
 	//toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche des données de votre commune");
 	//showLoadingMsg("Identification de votre commune");
-	coords = { latitude : -20.9190923,
-			   longitude : 55.4859363
-			};
-	console.log("getCityInseeByGeoPos !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");			
-	console.log(coords);			
+	// coords = { latitude : -20.9190923,
+	// 		   longitude : 55.4859363
+	// 		};
+	// console.log("getCityInseeByGeoPos !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");			
+	// console.log(coords);			
 	$.ajax({
 		url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
 		type: 'POST',

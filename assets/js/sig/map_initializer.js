@@ -359,7 +359,7 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 
-	 	Sig.clearStr = function(str) { if(str == "") return "";
+	 	Sig.clearStr = function(str) { if(str == "" || str == null) return "";
  	 	  str = str.toLowerCase();
 		  str = str.replace(/^\s+|\s+$/g, ''); // trim
 		  str = str.toLowerCase();

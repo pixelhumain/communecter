@@ -132,17 +132,15 @@
 	<?php } ?>
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
+			<i class="fa fa-bookmark fa-rotate-270"></i> 
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
-			<i class="fa fa-bookmark fa-rotate-270"></i>
-			
 	</button>
 	<?php } ?>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu8 bg-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
-			<span class="lbl-btn-menu-name"><?php echo Yii::t("common","My News Stream");?></span>
+	<button class="menu-button menu-button-title btn-menu btn-menu8" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
 			<i class="fa fa-rss fa-rotate-270"></i>
-			
+			<span class="lbl-btn-menu-name"><?php echo Yii::t("common","My News Stream");?></span>
 	</button>
 	<?php } ?>
 
