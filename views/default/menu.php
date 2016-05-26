@@ -91,12 +91,20 @@
 	<?php } ?>
 	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
-			<i class="fa fa-search"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-search fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+			<!--<i class="fa fa-search"></i>-->
 			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
-		<i class="fa fa-calendar"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-calendar fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+		<!--<i class="fa fa-calendar"></i>-->
 		<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
@@ -105,12 +113,23 @@
 			<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-				
 			</span>	
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 	<?php } ?>
-
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu9 bg-azure" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
+		<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+			<!--<i class="fa fa-group"></i>-->
+			<span class="lbl-btn-menu-name">Conseil citoyen <span class="text-dark" style="font-size:12px;">communectée</span></span>
+			
+	
+			
+	</button>
+	<?php } ?>
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<span class="lbl-btn-menu-name">Mon répertoire</span>
@@ -127,21 +146,15 @@
 	</button>
 	<?php } ?>
 
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu9 bg-red" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
-			<span class="lbl-btn-menu-name">Mon conseil citoyen</span>
-			<i class="fa fa-group"></i>
-			
-	</button>
-	<?php } ?>
+	
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels')">
+	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels')">
 			<i class="fa fa-bullhorn"></i>
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
 	</button>
 
 	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-    <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
+    <button class="menu-button menu-button-title menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
 			<i class="fa fa-cog"></i>
 			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?>
 				<?php if(@$newsToModerate){ ?>

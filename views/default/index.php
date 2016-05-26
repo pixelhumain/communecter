@@ -214,12 +214,15 @@
 		top:185px;
 	}
 	button.btn-menu6{
-		top:250px;
+		/*top:250px;*/
 	}
 	button.btn-menu7{
-		top:305px;
-		left:90px;
-	}
+		/*top: 210px;*/
+		right: 27px;
+   	}
+   	button.btn-menu9{
+		top: 240px;
+    }
 	button.btn-geoloc-auto{
 		display:none;
 		left: 60px !important;
@@ -239,6 +242,9 @@
     height: 40px;
         width: 186px;
         padding: 10px 15px !important;
+    }
+    button.btn-menu-add{
+	    bottom: 12px;
     }
     #input-communexion .search-loader{
 	    left: 70px;
