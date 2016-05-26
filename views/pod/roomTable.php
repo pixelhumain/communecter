@@ -8,7 +8,7 @@
 			  <li class="active"><a href="#discussions" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($discussions)) ? count($discussions)  : 0?> </span></a></li>
 			  <li><a href="#votes" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($votes)) ? count($votes) : 0?></span> </a></li>
 			  <li><a href="#actions" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($actions)) ? count($actions) : 0?></span> </a></li>
-			  <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "History", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($history)) ? count($history) : 0?></span> </a></li>
+			  <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-user"></i> <?php echo Yii::t("rooms", "My Activity", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo (isset($history)) ? count($history) : 0?></span> </a></li>
 			  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 			</ul>
 
