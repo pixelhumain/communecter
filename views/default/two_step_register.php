@@ -358,7 +358,7 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+				<button class="btn btn-success margin-top-10" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
 					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
