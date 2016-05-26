@@ -42,7 +42,7 @@ class Menu {
         //-----------------------------
         self::entry("left", 'onclick', 
                 Yii::t( "common", 'Read all news publicated by this person'), 
-                Yii::t( "common", 'News Stream'), 
+                Yii::t( "common", 'Newspaper'), 
                 'rss',
                 "loadByHash('#news.index.type.".Person::COLLECTION.".id.".$id.".viewer.".Yii::app()->session["userId"]."')","news", "index");
         
@@ -141,7 +141,7 @@ class Menu {
         //-----------------------------
         self::entry("left", 'onclick', 
                 Yii::t( "common", 'Read all news publicated by this event'), 
-                Yii::t( "common", 'News Stream'), 
+                Yii::t( "common", 'Newspaper'), 
                 'rss',
                 "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."')","news", "index");
 		
@@ -252,7 +252,7 @@ class Menu {
         //-----------------------------
         self::entry("left", 'onclick', 
                 Yii::t( "common", 'Read all news publicated by this organization'), 
-                Yii::t( "common", 'News Stream'), 
+                Yii::t( "common", 'Newspaper'), 
                 'rss',
                 "loadByHash('#news.index.type.".Organization::COLLECTION.".id.".$id."')","news", "index");
 
@@ -521,7 +521,7 @@ class Menu {
         //-----------------------------
         self::entry("left",  'onclick',
         			Yii::t( "common", "Read all news publicated by this project"),
-        			Yii::t( "common", 'News Stream'), "rss",
+        			Yii::t( "common", 'Newspaper'), "rss",
         			"loadByHash('#news.index.type.".Project::COLLECTION.".id.".$id."')","news", "index");
 
         //DIRECTORY

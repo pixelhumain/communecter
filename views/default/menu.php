@@ -140,7 +140,7 @@
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu8 bg-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
-			<span class="lbl-btn-menu-name">Mon Fil d'actualité</span>
+			<span class="lbl-btn-menu-name"><?php echo Yii::t("common","My News Stream");?></span>
 			<i class="fa fa-rss fa-rotate-270"></i>
 			
 	</button>
