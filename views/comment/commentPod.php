@@ -265,6 +265,7 @@ function buildComments(commentsLevel, level, withActions) {
 function buildCommentLineHTML(commentObj, withActions) {
 	// console.log(commentObj, withActions);
 	var id = commentObj["_id"]["$id"];
+	moment.locale('fr');
 	var date = moment(commentObj.created * 1000);
 	var dateStr = date.fromNow();
 	
@@ -482,11 +483,12 @@ function  fastAdd(url) {
 		if( url.indexOf("fastaddaction") > 0 )
 			prompt = "<?php echo Yii::t("rooms","The action will be created in an action List named like this discussion",null,Yii::app()->controller->module->id) ?>";
 		else if( url.indexOf("fastaddentry") > 0 )
-			prompt = "";
+			prompt = "<?php echo Yii::t("rooms","The proposal will be created in a Decision Room named like this discussion",null,Yii::app()->controller->module->id) ?>";
 
+		var message = "<?php echo Yii::t("common","Are you sure") ?> ?";
 		var boxNews = bootbox.dialog({
 				title: message,
-				message: input,
+				message: prompt,
 				buttons: {
 					annuler: {
 						label: "Annuler",

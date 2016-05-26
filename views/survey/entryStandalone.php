@@ -267,8 +267,23 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 				<?php } ?>
 			</div>	
 			<div class="col-md-12 voteinfoSection">
-				<div class="col-md-7" style="margin-top:10px;">
-					<?php if( isset($organizer) ){ ?>
+				<?php 
+				$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+				$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+				$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+				$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+				$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+				$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+				$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+				$voteDownCount = $voteDownCount * $oneVote ;
+				$voteAbstainCount = $voteAbstainCount * $oneVote;
+				$voteUpCount = $voteUpCount * $oneVote;
+				$voteUnclearCount = $voteUnclearCount * $oneVote;
+				$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+			   
+				 ?>
+				<div class="col-md-<?php echo ($totalVotes ==0 ) ? "12" : "7" ?>" style="margin-top:10px;">
+					<?php if( @($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 					<?php }	?>
 					
@@ -278,7 +293,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 					<?php echo $survey["message"]; ?>
 					
 					<br/>
-					<?php if( isset( $survey["tags"] ) ){ ?>
+					<?php if( @( $survey["tags"] ) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 						<?php foreach ( $survey["tags"] as $value) {
 								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
@@ -286,24 +301,28 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						</span><br>
 					<?php }	?>
 
-					<?php if( isset( $survey["urls"] ) ){ ?>
+					<?php if( @( $survey["urls"] ) ){ ?>
 						
 						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 						<?php foreach ( $survey["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
+								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 						}?>
-						<span class="" >Faites des propositions dans les commentaires</span>
+						
 					<?php }	?>
 				</div>
+				<?php 
+				
+				if( $totalVotes > 0 ){ ?>
 				<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
-					<div class="col-md-12 leftInfoSection chartResults" >
+					<div class=" leftInfoSection chartResults" >
 						<?php echo getChartBarResult($survey); ?>
 						<div id="container2"></div>
 					</div>
 				</div>
+				<?php }	?>
 			</div>
 		</div>
 	</div>
@@ -440,20 +459,7 @@ function buildResults () {
 		    exporting: {
 			    enabled: false
 			},
-		    <?php 
-		    $voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-			$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-			$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-			$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-			$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-			$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-			$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
-			$voteDownCount = $voteDownCount * $oneVote ;
-			$voteAbstainCount = $voteAbstainCount * $oneVote;
-			$voteUpCount = $voteUpCount * $oneVote;
-			$voteUnclearCount = $voteUnclearCount * $oneVote;
-			$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
-		    ?>
+		    
 		    series: [{
 		        type: 'pie',
 		        name: 'Vote',
