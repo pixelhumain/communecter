@@ -528,7 +528,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<?php 
 							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-							if(!empty($roles["superAdmin"]) && $roles["superAdmin"] == true){
+							if(Role::isSuperAdmin($roles)){
 								?>
 									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
 										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin

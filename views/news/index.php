@@ -41,8 +41,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
 	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
 		Menu::organization( $parent );
-		$thisOrga = Organization::getById($parent["_id"]);
-		$contextName = $thisOrga["name"];
+		//$thisOrga = Organization::getById($parent["_id"]);
+		$contextName = $parent["name"];
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
@@ -51,6 +51,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
+		$headerName= "Journal de ".$parent["name"];
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
@@ -63,8 +64,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 			}	
+			if(Yii::app()->session["userId"] ==$contextParentId)
+				$headerName= "Mon journal";
+			else
+				$headerName= "Journal de ".$parent["name"];
 		}
 		else{
+			$headerName= "Bonjour ".$parent["name"].", l'actu de mon réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
@@ -80,6 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
+		$headerName= "Journal de ".$parent["name"];
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 		Menu::event( $parent );
 		$contextName = $parent["name"];
@@ -88,6 +95,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
+		$headerName= "Journal de ".$parent["name"];
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -97,6 +105,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 		$scopeBegin= "Public";	
 		$iconBegin= "globe";
+		$headerName= "Actualités de ".$city["name"];
 	}
 	else if( isset($type) && $type == "pixels"){
 		$contextName = "Pixels : participez au projet";
@@ -396,18 +405,22 @@ jQuery(document).ready(function()
 	var $scrollElement = $(".my-main-container");
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
-	if(contextParentType!="city"){
-		if(contextParentId == idSession)
-		$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
+	if(contextParentType != "city")
+		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i></span> <?php echo @$headerName; ?>");
+	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
+	//if(contextParentType!="city"){
+		
+		//if(contextParentId == idSession)
+		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
 								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
 		else
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus</span> <?php echo addslashes(@$contextName); ?>" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
+		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" + 
+								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");*/
 		
 		
-	}else{
+	/*}else{
 		
-	}
+	}*/
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
