@@ -21,7 +21,7 @@ $this->renderPartial('../default/panels/toolbar');
 <style type="text/css">
   .addPropBtn{
     width:100%;
-    background-color: #BBBB77;
+    /*background-color: #BBBB77;*/
   }
   .removePropLineBtn {
       background-color: #E33551;
