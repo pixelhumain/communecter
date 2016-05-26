@@ -469,7 +469,7 @@ $this->renderPartial('../default/panels/toolbar');
               
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?></a>
               </h1>
                 <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">
@@ -482,7 +482,7 @@ $this->renderPartial('../default/panels/toolbar');
                     <br>en cliquant ici<br><i class="fa fa-angle-down fa-3x"></i> 
                   </blockquote>
                   <?php }; ?>
-                  <a class="filter btn btn-success" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?></a>
+                  
                 </div>
                 <?php }else{ ?>
                   <blockquote> 
