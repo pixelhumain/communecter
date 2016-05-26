@@ -83,16 +83,15 @@ class DataController extends Controller {
   public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags=null , $key = null, $insee = null) 
   {
         $bindMap = null;
-        if( $type == Person::COLLECTION )
-            {
+        if( $type == Person::COLLECTION ){
             if( $format == Translate::FORMAT_SCHEMA)
-                $bindMap = TranslateSchema::$dataBinding_person;
-              else if( $format == Translate::FORMAT_PLP )
-                $bindMap = TranslatePlp::$dataBinding_person;
-              else if( $format == Translate::FORMAT_AS )
-                $bindMap = TranslateActivityStream::$dataBinding_person;
-              else 
-                $bindMap = TranslateCommunecter::$dataBinding_person;
+              $bindMap = TranslateSchema::$dataBinding_person;
+            else if( $format == Translate::FORMAT_PLP )
+              $bindMap = TranslatePlp::$dataBinding_person;
+            else if( $format == Translate::FORMAT_AS )
+              $bindMap = TranslateActivityStream::$dataBinding_person;
+            else 
+              $bindMap = TranslateCommunecter::$dataBinding_person;
         }
         else if( $type == Event::COLLECTION){
               if( $format == Translate::FORMAT_SCHEMA)
@@ -112,8 +111,19 @@ class DataController extends Controller {
               else
                 $bindMap = TranslateCommunecter::$dataBinding_project;
         }
-        else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_city;
+        else if( $type == City::COLLECTION){
+            if( $format == Translate::FORMAT_SCHEMA)
+              $bindMap = TranslateSchema::$dataBinding_city;
+            else
+              $bindMap = TranslateCommunecter::$dataBinding_city;
+        }
+            
+        else if( $type == Need::COLLECTION){
+            if( $format == Translate::FORMAT_SCHEMA)
+              $bindMap = TranslateSchema::$dataBinding_need;
+            else
+              $bindMap = TranslateCommunecter::$dataBinding_need;
+        }
         else
           $format = null;
         
