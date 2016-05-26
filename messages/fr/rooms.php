@@ -159,6 +159,14 @@ return array(
 	"to think, develop, build and decide collaboratively" => "pour penser, développer, construire et décider de façon collaborative",
 	"The action will be created in an Action List named like this discussion" => "L'action sera créé dans la liste d'action qui porte le même nom",
 	"The proposal will be created in a Decision Room named like this discussion" => "La proposition sera créé dans l'espace de décision qui porte le même nom",
+
+	//notifications
+	"{who} added a new Voting Room on {elementName}" => "{who} a ajouté une salle de décision sur {elementName}",
+	"{who} added a new Discussion Room on {elementName}" => "{who} a ajouté une salle de discussion sur {elementName}",
+	"{who} added a new Actions List on {elementName}" => "{who} a ajouté une salle d'action sur {elementName}",
+	"{who} added a new Proposal" => "{who} a ajouté une Proposition",
+	"{who} added a new Action" => "{who} a ajouté une Action",
+
 );
 
 

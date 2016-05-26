@@ -802,7 +802,7 @@ class Menu {
         if( Authorisation::canParticipate( Yii::app()->session['userId'], $survey["parentType"],$survey["parentId"], $survey["parentType"] ) ) {
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Create an Action for your community'),
-                        Yii::t( "common", 'Add an Action'), 'plus',
+                        Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
                         "loadByHash('#rooms.editAction.room.".$id."')","addActionBtn",null);
         }
         // Help
