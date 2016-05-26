@@ -14,7 +14,7 @@ function checkPoll(){
 	if(userId)
 		_checkLoggued();
 
-	//refreshNotifications()
+	refreshNotifications()
 
 	//according to the loaded page 
 	//certain checks can be made  

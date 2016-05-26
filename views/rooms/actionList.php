@@ -216,7 +216,7 @@ $this->renderPartial('../default/panels/toolbar');
 .byInfo{
   float: right;
     position: relative;
-    bottom: 8px;
+    bottom: 18px;
     font-size:13px;
 }
 .byInfo i{

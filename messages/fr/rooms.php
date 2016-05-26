@@ -161,11 +161,11 @@ return array(
 	"The proposal will be created in a Decision Room named like this discussion" => "La proposition sera créé dans l'espace de décision qui porte le même nom",
 
 	//notifications
-	"{who} added a new Voting Room on {elementName}" => "{who} a ajouté une salle de décision sur {elementName}",
-	"{who} added a new Discussion Room on {elementName}" => "{who} a ajouté une salle de discussion sur {elementName}",
-	"{who} added a new Actions List on {elementName}" => "{who} a ajouté une salle d'action sur {elementName}",
-	"{who} added a new Proposal" => "{who} a ajouté une Proposition",
-	"{who} added a new Action" => "{who} a ajouté une Action",
+	"{who} added a new Voting Room on {where}" => "{who} a ajouté une salle de décision sur {where}",
+	"{who} added a new Discussion Room on {where}" => "{who} a ajouté une salle de discussion sur {where}",
+	"{who} added a new Actions List on {where}" => "{who} a ajouté une salle d'action sur {where}",
+	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une Proposition {what} dans {where}",
+	"{who} added a new Action {what} in {where}" => "{who} a ajouté une Action {what} dans {where}",
 
 );
 
