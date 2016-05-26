@@ -27,9 +27,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php if($contextType == "actionRooms"){ ?>
-
-	<h1 class="homestead text-dark center citizenAssembly-header" style="font-size:27px;">
-        
    		 <?php $this->renderPartial('../rooms/header',array(    
 		   					"parent" => $parent, 
                             "parentId" => $parentId, 
@@ -37,10 +34,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
                             "fromView" => "comment.index",
                             "faTitle" => "comments",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id)
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
                             )); ?>
-    </h1>
-
 <?php } ?>
 
 

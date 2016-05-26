@@ -125,8 +125,6 @@ blockquote:hover {border: 1px solid #E33551; }
 blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 </style>
 
-
-<h1 class="text-dark center citizenAssembly-header">
     <?php $this->renderPartial('../rooms/header',array(    
 		   					"parent" => $parent, 
                             "parentId" => $parentId, 
@@ -134,9 +132,8 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
                             "fromView" => "rooms.index",
                             "faTitle" => "connectdevelop",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id)
+                            "textTitle" => ""
                             )); ?>
-</h1>
 	    
 <div class="" id="main-panel-room">
 		     <?php $this->renderPartial('../pod/roomTable',array(    

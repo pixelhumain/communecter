@@ -37,9 +37,13 @@ Version 0.12
 		
 		
 3.Bash on documents (only on qa)
-	31-ph/communecter/datamigration/changesizedocumenttobytesnumber will run actionChangeSizeDocumentToBytesNumber() 
+	31-ph/communecter/datamigration/WashIncorrectAndOldDataDocument will run WashIncorrectAndOldDataDocument()
+		=> Wash data with array in params @size which could be string
+		=> Wash data with no type or no id, represent the target of the document
+		=> Wash data with no contentKey
+	32-ph/communecter/datamigration/changesizedocumenttobytesnumber will run actionChangeSizeDocumentToBytesNumber() 
 		=> Modify @params string $size to a number in bytes
-	32- [!!!!!!!!!!!! CAREFULLY THIS METHOD IS FOR COMMUNECTER AND NOT FOR GRANDDIR !!!!!!!!!!!!!!!!!]
+	33- [!!!!!!!!!!!! CAREFULLY THIS METHOD IS FOR COMMUNECTER AND NOT FOR GRANDDIR !!!!!!!!!!!!!!!!!]
 	ph/communecter/datamigration/refactorcontentkey will run actionRefactorContentKey() 
 		=> Update @params string contentKey type "person.dashboard.profil" to "profil"
 		=> String use is "profil" OR "slider"

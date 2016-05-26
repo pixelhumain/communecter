@@ -384,6 +384,15 @@ button.btn-menu8{
 	padding-left: 6px;
 	z-index: 0 !important;
 }
+button.btn-menu9{
+	right: 27px;
+	top: 204px;
+	font-size: 20px;
+	min-width: 42px;
+	height: 43px;
+	padding-left: 6px;
+	z-index: 0 !important;
+}
 button.btn-menu-add{
 	right: 35px;
 	bottom: 35px;

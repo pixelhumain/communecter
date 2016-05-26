@@ -102,7 +102,11 @@
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
-			<i class="fa fa-rss"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+				
+			</span>	
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 	<?php } ?>
@@ -116,7 +120,15 @@
 	<?php } ?>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu8 bg-red" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
+	<button class="menu-button menu-button-title btn-menu btn-menu8 bg-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+			<span class="lbl-btn-menu-name">Mon Fil d'actualité</span>
+			<i class="fa fa-rss fa-rotate-270"></i>
+			
+	</button>
+	<?php } ?>
+
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
+	<button class="menu-button menu-button-title btn-menu btn-menu9 bg-red" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
 			<span class="lbl-btn-menu-name">Mon conseil citoyen</span>
 			<i class="fa fa-group"></i>
 			

@@ -411,7 +411,6 @@ $this->renderPartial('../default/panels/toolbar');
     
 
 
-    <h1 class="homestead text-dark center citizenAssembly-header">
       
       <?php $this->renderPartial('../rooms/header',array(    
                 "parent" => $parent, 
@@ -420,10 +419,9 @@ $this->renderPartial('../default/panels/toolbar');
                             "fromView" => "rooms.actions",
                             "faTitle" => "cogs",
                             "colorTitle" => "azure",
-                            "textTitle" => Yii::t("rooms","Action réaction", null, Yii::app()->controller->module->id)
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>"
                             )); ?>
       
-    </h1>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    

@@ -157,7 +157,8 @@ return array(
 	"Share an Idea" => "Partagez des idées",
 	"a Solution"=> "des solutions",
 	"to think, develop, build and decide collaboratively" => "pour penser, développer, construire et décider de façon collaborative",
-
+	"The action will be created in an Action List named like this discussion" => "L'action est créé dans la liste d'action qui porte le même nom",
+	"The proposal will be created in an Decision Room named like this discussion" => "La proposition est créé dans l'espace de décision qui porte le même nom",
 );
 
 
