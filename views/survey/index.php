@@ -595,7 +595,8 @@ $this->renderPartial('../default/panels/toolbar');
                             "fromView" => "survey.entries",
                             "faTitle" => "gavel",
                             "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                              ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>'
                             )); ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
@@ -641,7 +642,7 @@ $this->renderPartial('../default/panels/toolbar');
               <br/>
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id); ?></a>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> 
               </h1>
                <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
