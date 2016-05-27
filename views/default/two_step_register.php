@@ -584,7 +584,6 @@
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
   		var addressCountry = countryCommunexion; //$("#addressCountry").val();
-  		
   		$.ajax({
 			url: baseUrl+"/"+moduleId+"/person/update",
 			type: 'POST',
