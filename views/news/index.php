@@ -56,7 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
-			Menu::person( $parent );
+			Menu::person($parent);
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;

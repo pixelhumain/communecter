@@ -196,17 +196,23 @@ class DatamigrationController extends CommunecterController {
 			  // pour les type city => la target devient l'auteur
 			  if($data["type"]!="news"){
 				  if(@$data["id"]){
-				  $parentType=$data["type"];
-				  $parentId=$data["id"];
-				  if($parentType=="city"){
+				  	$parentType=$data["type"];
+				  	$parentId=$data["id"];
+				  	if($parentType=="city"){
 					  $parentType=Person::COLLECTION;
 					  $parentId=$data["author"];
-				  }
+				  	}
 				  PHDB::update(News::COLLECTION,
 					array("_id" => $data["_id"]) , 
 					array('$set' => array("target.type" => $parentType,"target.id"=>$parentId, "type" => "news"),'$unset' => array("id"=>""))			
 					);
 				$i++;
+				} else if($data["type"]=="pixels"){
+					PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("target.type" => "pixels","target.id"=>"", "type" => "news"),'$unset' => array("id"=>""))			
+					);
+					$i++;
 				}
 			}
 			 // print_r($data);
@@ -387,7 +393,22 @@ class DatamigrationController extends CommunecterController {
 		}
 		echo "Nombre de news sans object traitées : ".$i." news";
 	}
-
+	public function newsPixels(){
+		$news=PHDB::find(News::COLLECTION);
+  		$i=0;
+  		$nbNews=count($news);
+		echo "Nombre de documents appelés : ".$nbNews;
+		foreach($news as $key => $data){
+			if($data["type"]=="pixels"){
+				PHDB::update(News::COLLECTION,
+					array("_id" => $data["_id"]) , 
+					array('$set' => array("target.type" => "pixels","target.id"=>"", "type" => "news"),'$unset' => array("id"=>""))			
+				);
+				$i++;
+			}
+		}
+		echo "Nombre de news pixels traitées : ".$i." news";
+	}
 	// VoteDown
   	public function actionRefactorModerateVoteDown(){
 	  	echo "actionRefactorModerateVoteDown => ";
