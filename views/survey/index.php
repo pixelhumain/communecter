@@ -647,7 +647,7 @@ $this->renderPartial('../default/panels/toolbar');
                  <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>
                   <blockquote class="padding-10"> 
-                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
+                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace de décision</span><br>
                     <small>Un espace de décision peut contenir plusieurs propositions.</small>
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace

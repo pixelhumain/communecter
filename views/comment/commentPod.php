@@ -479,6 +479,7 @@ function highlight () {
 }
 function  fastAdd(url) { 
 	console.log("url",url);
+	selTxt = selection.toString();
 	if( selection.toString() != "" ){
 		if( url.indexOf("fastaddaction") > 0 )
 			prompt = "<?php echo Yii::t("rooms","The action will be created in an action List named like this discussion",null,Yii::app()->controller->module->id) ?>";
@@ -506,7 +507,7 @@ function  fastAdd(url) {
 						        data: {
 						        	"discussionId" : context['_id']['$id'],
 						        	"type" : contextType,
-						        	"txt" : selection.toString()
+						        	"txt" : selTxt
 						        },
 						        dataType: "json",
 						        success: function(data){

@@ -76,6 +76,8 @@
 			    $btnUrl = "showPanel('box-login');";
 			} 
 		?>
+		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'><?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?></a> <?php echo (@$textTitle) ? "/".$textTitle : ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>'?>
+		
 
 		<?php if( $parentType != Person::COLLECTION ){ ?>
 		<!-- <div class="center"> -->
@@ -83,6 +85,7 @@
 			<button class='btn btn-xs btn-primary Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick="<?php echo $btnUrl; ?>"><?php echo $btnLbl?></button>
 		<!-- </div> -->
 		<?php } ?>
+
 	</div>
 
 	<br>
