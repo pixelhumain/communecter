@@ -187,7 +187,9 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
      
  		
 
-		  <?php $this->renderPartial('../rooms/header',array(    
+		  <?php 
+		  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
+		  $this->renderPartial('../rooms/header',array(    
                 			"parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
@@ -197,7 +199,8 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
                             				" / ".
-                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$room["name"]."</a>"
+                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
+                              ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>'
                             )); ?>
 
 		<!-- <span class="pull-right text-right"> 
