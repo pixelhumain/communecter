@@ -1,7 +1,4 @@
-<?php $cssAnsScriptFilesModule = array(
-  '/css/rooms/header.css'
-);HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>
+
 
  			<!-- Nav tabs -->
 			<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">

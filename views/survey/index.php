@@ -4,8 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   // '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js',
-  '/css/rooms/header.css'
+  '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
