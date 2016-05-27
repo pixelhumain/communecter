@@ -2,7 +2,6 @@
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/js/dataHelpers.js',
-  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 

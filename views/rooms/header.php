@@ -1,3 +1,10 @@
+<?php 
+$cs = Yii::app()->getClientScript();
+
+$cssAnsScriptFilesModule = array(
+  '/css/rooms/header.css'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl); ?>
  <style>
 
 .assemblyHeadSection {  
@@ -14,7 +21,13 @@
 <h1 class="homestead text-dark center citizenAssembly-header">
  	<?php 
     	$urlPhotoProfil = "";
-		
+		if(!@$parent){
+			if($parentType == Project::COLLECTION) { $parent = Project::getById($parentId); }
+		  	if($parentType == Organization::COLLECTION) { $parent = Organization::getById($parentId); }
+		  	if($parentType == Person::COLLECTION) { $parent = Person::getById($parentId); }
+	        if($parentType == City::COLLECTION) { $parent = City::getById($parentId); }
+		}
+
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
 	      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$parent['profilImageUrl'];
 	    else
@@ -96,12 +109,16 @@
 		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.2\')"';
 		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.3\')"';
 		?>
-		<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
+		<ul class="<?php echo @$hideMenu?> nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
 		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount;?> </span></a></li>
 		  <li <?php echo $voteClass?>><a href="<?php echo $voteLink?>" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $votesCount?></span> </a></li>
 		  <li <?php echo $actionClass?>><a href="<?php echo $actionLink?>" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $actionsCount?></span> </a></li>
 		  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 		</ul>
+		<?php 
+		if(@$hideMenu)
+			echo "<br/><div class='space20'></div>";
+		?>
 
 		
 	<?php } ?>

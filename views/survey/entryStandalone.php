@@ -2,8 +2,7 @@
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/survey/js/highcharts.js',
-  '/js/dataHelpers.js',
-  '/css/rooms/header.css'
+  '/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 

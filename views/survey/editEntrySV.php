@@ -4,7 +4,8 @@ $cssAnsScriptFiles = array(
   '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
   '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
   '/assets/plugins/summernote/dist/summernote.css',
-  '/assets/plugins/summernote/dist/summernote.min.js'
+  '/assets/plugins/summernote/dist/summernote.min.js',
+  '/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
@@ -16,6 +17,23 @@ if(isset($survey))
 else
   Menu::back() ;
 $this->renderPartial('../default/panels/toolbar');
+
+$parent = ActionRoom::getById($_GET['survey']);
+$parentType = $parent["parentType"];
+$parentId = $parent["parentId"];
+$nameList = (strlen($parent["name"])>20) ? substr($parent["name"],0,20)."..." : $parent["name"];
+$this->renderPartial('../rooms/header',array(   
+                      "parentId" => $parentId, 
+                      "parentType" => $parentType, 
+                      "fromView" => "survey.entry",
+                      "faTitle" => "gavel",
+                      "colorTitle" => "azure",
+                      "hideMenu" => "hide",
+                      "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                              " / ".
+                              "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$_GET['survey']."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
+                            ' / <i class="fa fa-plus"></i>'
+                      )); 
  ?>
 <div id="editEntryContainer"></div>
 <style type="text/css">
@@ -157,12 +175,12 @@ $("#editEntryContainer #message").autogrow({vertical: true, horizontal: false});
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-              "</div>");
+              "</div></div>");
     
         var form = $.dynForm({
           formId : "#ajaxForm",
