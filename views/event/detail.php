@@ -17,7 +17,8 @@ $admin = false;
 								"eventTypes" => $eventTypes,
 								"type" => Event::COLLECTION,
 								"countries" => $countries,
-								"imagesD" => $images ));
+								"imagesD" => $images,
+								"edit"=>$admin));
 								?>
 		
 

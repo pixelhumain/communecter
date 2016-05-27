@@ -151,9 +151,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="navigator padding-0 text-right">
 		<div class="panel-tools">
 		<?php 
-			$edit = false;
-			if(isset(Yii::app()->session["userId"]) && isset($type) && isset($itemId))
-				$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
 			if($edit){
 		?>
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>

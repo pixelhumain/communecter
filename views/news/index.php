@@ -247,14 +247,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php if(@$canManageNews && $canManageNews=="true"){ ?>
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
-						<?php }else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
+						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="restricted"/>
 						<?php } else { ?>
 						<input type="hidden" name="scope" value="public"/>
 						<?php } ?>
-				<?php }else{ ?>
+				<?php }else{ if($contextParentType==Event::COLLECTION){?>
+					<input type="hidden" name="scope" value="restricted"/>
+				<?php } else { ?>
 					<input type="hidden" name="scope" value="private"/>
-				<?php } ?>
+				<?php } } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
@@ -395,7 +397,7 @@ jQuery(document).ready(function()
 		$("#cityPostalCode").val(cpCommunexion);
 		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}
-	canManageNews="";
+	//canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
