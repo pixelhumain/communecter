@@ -131,7 +131,7 @@ class DatamigrationController extends CommunecterController {
 		$nbDocNoTypeOrNoId=0;
 		$nbDocNoContentKey=0;
 		foreach($document as $key => $data){
-			if(gettype($data["size"])=="array"){
+			if(@$data["size"] && gettype($data["size"])=="array"){
 				echo "<br/>//////// This document content an array for size : <br/>";
 				print_r($data);
 				PHDB::remove(Document::COLLECTION,array("_id" => $data["_id"]));
