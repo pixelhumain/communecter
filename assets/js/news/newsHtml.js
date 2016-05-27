@@ -189,9 +189,11 @@ function buildLineHTML(newsObj,idSession,update)
 		city = "";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.target.type=="citoyens"){
-				postalCode=author.address.postalCode;
-				city=author.address.addressLocality;			
-			}else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined') {
+				postalCode=newsObj.scope.cities[0].postalCode;
+				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+					city=newsObj.scope.cities[0].addressLocality;			
+			}
+			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
 				postalCode=newsObj.target.address.postalCode;
 				city=newsObj.target.address.addressLocality;			
 			}

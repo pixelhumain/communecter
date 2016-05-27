@@ -238,8 +238,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
-					<div class="badge" style="position:absolute;bottom:10px;">
-						<i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
+					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
+					</div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
@@ -392,6 +392,7 @@ jQuery(document).ready(function()
 {
 	if(contextParentType=="city"){
 		$("#cityPostalCode").val(cpCommunexion);
+		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}
 	canManageNews="";
 	$(".my-main-container").off(); 
