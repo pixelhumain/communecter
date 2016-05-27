@@ -207,7 +207,7 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	bootbox.confirm(trad["removeconnection"], 
+	bootbox.confirm(trad["removeconnection"]+" ?", 
 		function(result) {
 			if (!result) {
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -347,38 +347,62 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								},
 							});  
                         }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
                     }
                 }
             }
         );
     }
 	else{
-		messageBox=trad["suretojoin"+parentType];
+		messageBox=trad["suretojoin"+parentType];;
 		if (connectType=="admin")
-			messageBox += trad["as"+connectType];
-		bootbox.confirm( messageBox+" ?", 
-		function(result) {
-			if (!result) {
-				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
-				return;
-			}
-			console.log(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/connect",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						loadByHash(location.hash);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});  
-		});             
+			messageBox += " " + trad["as"+connectType];
+		bootbox.dialog({
+                onEscape: function() {
+	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                },
+                message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<span>'+messageBox+' ?</span> ' +
+                    '</div></div>',
+                buttons: {
+                    success: {
+                        label: "Ok",
+                        className: "btn-primary",
+                        callback: function () {
+                            $.ajax({
+								type: "POST",
+								url: baseUrl+"/"+moduleId+"/link/connect",
+								data: formData,
+								dataType: "json",
+								success: function(data) {
+									if(data.result){
+										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										toastr.success(data.msg);	
+										loadByHash(location.hash);
+									}
+									else
+										toastr.error(data.msg);
+								},
+							});   
+                        }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
+                    }
+                }
+            }
+        );      
 	}
 }		
 var loadableUrls = {
