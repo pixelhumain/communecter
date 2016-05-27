@@ -99,7 +99,6 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		$(".spine").css("bottom","30px");
 	}
-	
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object

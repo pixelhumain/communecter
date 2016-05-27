@@ -737,7 +737,6 @@ function saveNews(){
 						}
 						$("#get_url").height(100);
 						$.unblockUI();
-						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
 		    		}
 		    		else 
@@ -747,6 +746,9 @@ function saveNews(){
 		    		}
 		    		$("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 					return false;
+			    }).fail(function(){
+				   toastr.error("Something went wrong, contact your admin"); 
+				   $("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 			    });
 			}
 		};
