@@ -273,15 +273,21 @@ function showResultInCalendar(mapElements){
                               "position" : position });
   });
 
-  console.dir(events);
+  //console.dir(events);
 
   if(calendarInit == true) {
     $(".calendar").html("");
   }
 
   $(".calendar").html($(".responsive-calendar-init").html());
+
+  var aujourdhui = new Date();
+  var  month = (aujourdhui.getMonth()+1).toString();
+  if(aujourdhui.getMonth() < 10) month = "0" + month;
+  var date = aujourdhui.getFullYear().toString() + "-" + month;
+  
   $(".responsive-calendar").responsiveCalendar({
-          time: '2016-04',
+          time: date,
           events: events
         });
 
