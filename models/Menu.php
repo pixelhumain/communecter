@@ -645,11 +645,11 @@ class Menu {
         //-----------------------------
         if(( isset( $type ) && isset($id))){
          //$type = Element::getControlerByCollection($type);
-            
+            $ctrl = Element::getControlerByCollection($type);
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'go back to the detail page of the parent', null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
-                     Element::getLink($type,$id,true),null,null);
+                     "loadByHash('#".$ctrl.".detail.id.".$id."')",null,null);
         }
         
         // Add a proposal
