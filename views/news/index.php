@@ -70,7 +70,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$headerName= "Journal de ".$contextName;
 		}
 		else{
-			$headerName= "Bonjour ".$parent["name"].", l'actu de mon réseau";
+			$headerName= "Bonjour ".$contextName.", l'actu de mon réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
