@@ -393,7 +393,7 @@ class DatamigrationController extends CommunecterController {
 		}
 		echo "Nombre de news sans object traitées : ".$i." news";
 	}
-	public function newsPixels(){
+	public function actionNewsPixels(){
 		$news=PHDB::find(News::COLLECTION);
   		$i=0;
   		$nbNews=count($news);
