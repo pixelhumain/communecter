@@ -593,8 +593,8 @@
 				  "&postalCode="+cpCommunexion+
 				  "&addressLocality="+cityNameCommunexion+
 				  "&addressCountry="+addressCountry+
-				  "&codeInsee="+inseeCommunexion,
-				  //"&two_steps_register=false",
+				  "&codeInsee="+inseeCommunexion+
+				  "&two_steps_register=false",
     		success: function (obj){
     			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
     			showStep2();

@@ -162,13 +162,7 @@
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
 
-<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
-?>
-button.btn-menu2, .btn-menu3, .btn-menu4{
-	display: none;
-}
-<?php } ?>
+
 
 
 #menu-bottom{

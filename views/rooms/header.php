@@ -6,8 +6,11 @@
   background-size: 100% 500px !important;
   background-position: 0px -60px !important;
  }
-.contentProposal{
-	background-color: white;
+.contentProposal {
+    background-color: white;
+    margin-right: 0;
+    margin-left: 0;
+    padding-top: 20px;
 }
  </style>	
 
@@ -36,7 +39,7 @@
 		if($parentType == City::COLLECTION) 
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
-	<div class=" row bg-white" style="margin: 2px 12px -30px;padding: 8px;">
+	<div class=" row " style="margin: 2px 12px -30px;padding: 8px;">
 		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
 			<i class="fa fa-<?php echo $icon; ?>"></i> 
 				<?php
@@ -45,9 +48,18 @@
 				?>
 		</a>
 		<br/>
-		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'><?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?></a> <?php echo (@$textTitle) ? "/".$textTitle : ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editRoom;\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>'?>
+		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'>
+		<?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
+		</a> 
+		<?php /*echo (@$textTitle) ? 
+					"/".$textTitle : 
+					' <i class="fa fa-caret-right"></i> '.
+						'<a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editRoom.type.'.$parentType.'.id.'.$parentId.'\')">'.
+							'<i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).
+						'</a>';*/
+		?>
 		
-		<?php /*
+		<?php 
 			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 		    $ctrl = Element::getControlerByCollection($parentType);
 		    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
@@ -66,10 +78,11 @@
 		?>
 
 		<?php if( $parentType != Person::COLLECTION ){ ?>
-		<div class="center">
+		<!-- <div class="center"> -->
+			<i class="fa fa-caret-right"></i>
 			<button class='btn btn-xs btn-primary Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick="<?php echo $btnUrl; ?>"><?php echo $btnLbl?></button>
-		</div>
-		<?php } */?>
+		<!-- </div> -->
+		<?php } ?>
 	</div>
 
 	<br>

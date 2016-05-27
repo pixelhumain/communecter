@@ -438,8 +438,8 @@ jQuery(document).ready(function() {
 	<?php } ?>
 
 
-  	if(inseeCommunexion != ""){
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  	if(inseeCommunexion != "" && cpCommunexion != ""){
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
   	}
 
   	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
@@ -767,7 +767,10 @@ function setScopeValue(btn){
 
 		selectScopeLevelCommunexion(levelCommunexion);
 
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
+  		if(!userId)
+  		$(".btn-menu9").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
+  		//loadByHash('#rooms.index.type.cities.id.<?php if(isset($myCity)) echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>'
 	
 		Sig.clearMap();
 		console.log("hash city ? ", location.hash.indexOf("#default.city"));

@@ -196,6 +196,8 @@ $this->renderPartial('../default/panels/toolbar');
       margin-bottom: 6px;
     }
 
+   
+
     /*.caret {
       display: inline;
     }*/
@@ -648,8 +650,7 @@ $this->renderPartial('../default/panels/toolbar');
                     <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
                     <small>Un espace de décision peut contenir plusieurs propositions.</small>
                     <br>Référencez et partagez <b>une par une</b>,
-                    <br>les propositions qui concernent cet espace,
-                    <br>en cliquant ici<br><i class="fa fa-angle-down fa-3x"></i> 
+                    <br>les propositions qui concernent cet espace
                   </blockquote>
                   <?php }; ?>
                   

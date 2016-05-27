@@ -11,11 +11,11 @@ function checkPoll(){
 	console.log("countPoll",countPoll,"currentUrl",currentUrl);
 	//refactor check Log to use only one call with pollParams 
 	//returning multple server checks in a unique ajax call
-	if(userId)
+	if(userId){
 		_checkLoggued();
-
-	refreshNotifications();
-
+		refreshNotifications();
+	}
+	
 	//according to the loaded page 
 	//certain checks can be made  
 	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )

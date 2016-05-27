@@ -25,15 +25,18 @@ $moduleId = Yii::app()->controller->module->id;
 		margin-top:-2px;
 	}
 
-.nav-menu-rooms.nav-tabs > li a{
-	font-size:17px !important;
-}
-#pod-room .panel-title a.helvetica, #pod-room .tooltip{
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: 500;
-	font-size:15px !important;
-}
+	.nav-menu-rooms.nav-tabs > li a{
+		font-size:17px !important;
+	}
+	#pod-room .panel-title a.helvetica, #pod-room .tooltip{
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: 500;
+		font-size:15px !important;
+	}
 
+	.tab-content {
+      min-height: 250px;
+    }
 </style>
 <?php 
 	

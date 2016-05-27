@@ -118,6 +118,13 @@ a.text-white {
 .tab-pane{
 	background-color: white;
 }
+ #main-panel-room .tab-content {
+      min-height: 300px;
+      -moz-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      -webkit-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      -o-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+  }
 
 
 blockquote {border: 1px solid gray; cursor: pointer;}

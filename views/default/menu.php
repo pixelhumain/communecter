@@ -48,6 +48,17 @@
 	
 
 ?>
+
+<style>
+	<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
+			if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
+	?>
+		button.btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9{
+			display: none;
+		}
+	<?php } ?>
+</style>
+
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
@@ -89,7 +100,6 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
-	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
 			<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
@@ -116,20 +126,16 @@
 			</span>	
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
-	<?php } ?>
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu9 bg-azure" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')">
+	
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu9 bg-azure" <?php if(isset($myCity)) { ?>onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')"<?php } ?>>
 		<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
 			</span>	
 			<!--<i class="fa fa-group"></i>-->
 			<span class="lbl-btn-menu-name">Conseil citoyen <span class="text-dark" style="font-size:12px;">communectée</span></span>
-			
-	
-			
 	</button>
-	<?php } ?>
+	
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
 			<i class="fa fa-bookmark fa-rotate-270"></i> 
