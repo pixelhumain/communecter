@@ -150,8 +150,6 @@
 	</button>
 	<?php } ?>
 
-	
-
 	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels')">
 			<i class="fa fa-bullhorn"></i>
 			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
