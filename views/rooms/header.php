@@ -1,3 +1,10 @@
+<?php 
+$cs = Yii::app()->getClientScript();
+
+$cssAnsScriptFilesModule = array(
+  '/css/rooms/header.css'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl); ?>
  <style>
 
 .assemblyHeadSection {  
@@ -6,18 +13,21 @@
   background-size: 100% 500px !important;
   background-position: 0px -60px !important;
  }
-.contentProposal {
-    background-color: white;
-    margin-right: 0;
-    margin-left: 0;
-    padding-top: 20px;
+.contentProposal{
+	background-color: white;
 }
  </style>	
 
 <h1 class="homestead text-dark center citizenAssembly-header">
  	<?php 
     	$urlPhotoProfil = "";
-		
+		if(!@$parent){
+			if($parentType == Project::COLLECTION) { $parent = Project::getById($parentId); }
+		  	if($parentType == Organization::COLLECTION) { $parent = Organization::getById($parentId); }
+		  	if($parentType == Person::COLLECTION) { $parent = Person::getById($parentId); }
+	        if($parentType == City::COLLECTION) { $parent = City::getById($parentId); }
+		}
+
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
 	      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$parent['profilImageUrl'];
 	    else
@@ -39,7 +49,7 @@
 		if($parentType == City::COLLECTION) 
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
-	<div class=" row " style="margin: 2px 12px -30px;padding: 8px;">
+	<div class=" row bg-white" style="margin: 0px 12px 0px;padding: 8px;">
 		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
 			<i class="fa fa-<?php echo $icon; ?>"></i> 
 				<?php
@@ -48,17 +58,6 @@
 				?>
 		</a>
 		<br/>
-		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'>
-		<?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
-		</a> 
-		<?php /*echo (@$textTitle) ? 
-					"/".$textTitle : 
-					' <i class="fa fa-caret-right"></i> '.
-						'<a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editRoom.type.'.$parentType.'.id.'.$parentId.'\')">'.
-							'<i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).
-						'</a>';*/
-		?>
-		
 		<?php 
 			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 		    $ctrl = Element::getControlerByCollection($parentType);
@@ -76,22 +75,10 @@
 			    $btnUrl = "showPanel('box-login');";
 			} 
 		?>
-
-		<?php if( $parentType != Person::COLLECTION ){ ?>
-		<!-- <div class="center"> -->
-			<i class="fa fa-caret-right"></i>
-			<button class='btn btn-xs btn-primary Helvetica' style='margin-top:10px;margin-bottom:10px;' onclick="<?php echo $btnUrl; ?>"><?php echo $btnLbl?></button>
-		<!-- </div> -->
-		<?php } ?>
-	</div>
-
-	<br>
-	<div class="row bg-white" style="margin: 5px 1px -15px;">
+		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'><?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?></a> <?php echo (@$textTitle) ? "/".$textTitle : ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>'?>
 		
 	</div>
 
-	
-	
 	
 	<?php if( $fromView != "rooms.index" ){ 
 		if( !@$discussions && !@$votes && !@$actions ){
@@ -122,12 +109,16 @@
 		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.2\')"';
 		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.3\')"';
 		?>
-		<ul class="nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
+		<ul class="<?php echo @$hideMenu?> nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
 		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount;?> </span></a></li>
 		  <li <?php echo $voteClass?>><a href="<?php echo $voteLink?>" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $votesCount?></span> </a></li>
 		  <li <?php echo $actionClass?>><a href="<?php echo $actionLink?>" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $actionsCount?></span> </a></li>
 		  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
 		</ul>
+		<?php 
+		if(@$hideMenu)
+			echo "<br/><div class='space20'></div>";
+		?>
 
 		
 	<?php } ?>

@@ -198,7 +198,8 @@ function connectPerson(connectUserId, callback)
 	);
 }*/
 
-function disconnectTo(parentType,parentId,childId,childType,connectType, callback){
+function disconnectTo(parentType,parentId,childId,childType,connectType, callback) {
+	var messageBox = trad["removeconnection"];
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
@@ -207,36 +208,52 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	bootbox.confirm(trad["removeconnection"], 
-		function(result) {
-			if (!result) {
-			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-			return;
-		}
-		console.log(formData);
-		$.ajax({
-			type: "POST",
-			url: baseUrl+"/"+moduleId+"/link/disconnect",
-			data : formData,
-			dataType: "json",
-			success: function(data){
-				if ( data && data.result ) {
-					type=formData.parentType;
-					if(formData.parentType==  "citoyens")
-						type="people";
-					removeFloopEntity(data.parentId, type);
-					toastr.success("Le lien a été supprimé avec succès");
-					if (typeof callback == "function") 
-						callback();
-					else
-						loadByHash(location.hash);
-				} else {
-				   toastr.error("You leave succesfully");
-				}
-			}
-		});
-	});
-}
+	bootbox.dialog({
+        onEscape: function() {
+            $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+        },
+        message: '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<span>'+messageBox+' ?</span> ' +
+            '</div></div>',
+        buttons: {
+            success: {
+                label: "Ok",
+                className: "btn-primary",
+                callback: function () {
+                    $.ajax({
+						type: "POST",
+						url: baseUrl+"/"+moduleId+"/link/disconnect",
+						data : formData,
+						dataType: "json",
+						success: function(data){
+							if ( data && data.result ) {
+								type=formData.parentType;
+								if(formData.parentType==  "citoyens")
+									type="people";
+								removeFloopEntity(data.parentId, type);
+								toastr.success("Le lien a été supprimé avec succès");
+								if (typeof callback == "function") 
+									callback();
+								else
+									loadByHash(location.hash);
+							} else {
+							   toastr.error("You leave succesfully");
+							}
+						}
+					});
+                }
+            },
+            cancel: {
+            	label: trad["cancel"],
+            	className: "btn-secondary",
+            	callback: function() {
+            		$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+            	}
+            }
+        }
+    });      
+};
 
 // Javascript function used to validate a link between parent and child (ex : member, admin...)
 function validateConnection(parentType, parentId, childId, childType, linkOption, callback) {
@@ -347,38 +364,62 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								},
 							});  
                         }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
                     }
                 }
             }
         );
     }
 	else{
-		messageBox=trad["suretojoin"+parentType];
+		messageBox=trad["suretojoin"+parentType];;
 		if (connectType=="admin")
-			messageBox += trad["as"+connectType];
-		bootbox.confirm( messageBox+" ?", 
-		function(result) {
-			if (!result) {
-				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
-				return;
-			}
-			console.log(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/connect",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						loadByHash(location.hash);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});  
-		});             
+			messageBox += " " + trad["as"+connectType];
+		bootbox.dialog({
+                onEscape: function() {
+	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                },
+                message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<span>'+messageBox+' ?</span> ' +
+                    '</div></div>',
+                buttons: {
+                    success: {
+                        label: "Ok",
+                        className: "btn-primary",
+                        callback: function () {
+                            $.ajax({
+								type: "POST",
+								url: baseUrl+"/"+moduleId+"/link/connect",
+								data: formData,
+								dataType: "json",
+								success: function(data) {
+									if(data.result){
+										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										toastr.success(data.msg);	
+										loadByHash(location.hash);
+									}
+									else
+										toastr.error(data.msg);
+								},
+							});   
+                        }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
+                    }
+                }
+            }
+        );      
 	}
 }		
 var loadableUrls = {

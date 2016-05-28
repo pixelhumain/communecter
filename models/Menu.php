@@ -135,8 +135,13 @@ class Menu {
         
         //HOME
         //-----------------------------
-        self::entry("left", 'showAjaxPanel', Yii::t("event","Contact information"), Yii::t("common","Details"),'home','/event/detail/id/'.$id,"event","detail");
-        
+         self::entry("left", 'onclick', 
+                    Yii::t("common", 'General informations'), 
+                    Yii::t("common", 'Details'),
+                    'home',
+                    "loadByHash('#event.detail.id.".$id."')","event", "detail");
+
+                
         //SEE TIMELINE
         //-----------------------------
         self::entry("left", 'onclick', 
@@ -645,11 +650,11 @@ class Menu {
         //-----------------------------
         if(( isset( $type ) && isset($id))){
          //$type = Element::getControlerByCollection($type);
-            
+            $ctrl = Element::getControlerByCollection($type);
          self::entry("left", 'onclick', 
                      Yii::t( "rooms", 'go back to the detail page of the parent', null, Yii::app()->controller->module->id ),
                      Yii::t( "rooms", 'Back to Parent', null, Yii::app()->controller->module->id ), 'chevron-circle-left',
-                     Element::getLoadByHash($type,$id,true),null,null);
+                     "loadByHash('#".$ctrl.".detail.id.".$id."')",null,null);
         }
         
         // Add a proposal

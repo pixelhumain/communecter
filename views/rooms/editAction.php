@@ -1,4 +1,5 @@
-<?php  
+ <?php 
+
 
 $cssAnsScriptFiles = array(
   '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
@@ -16,6 +17,22 @@ if(isset($action))
 else
   Menu::back() ;
 $this->renderPartial('../default/panels/toolbar');
+
+$parent = ActionRoom::getById($_GET['room']);
+$parentType = $parent["parentType"];
+$parentId = $parent["parentId"];
+$this->renderPartial('../rooms/header',array(   
+                            "parentId" => $parent['parentId'], 
+                            "parentType" => $parent['parentType'], 
+                            "fromView" => "rooms.actions",
+                            "faTitle" => "cogs",
+                            "colorTitle" => "azure",
+                            "hideMenu" => "hide",
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$parent['parentType'].".id.".$parent['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                                    " / ".
+                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parent["_id"]."\")'><i class='fa fa-cogs'></i> ".$parent["name"]."</a>".
+                            ' / <i class="fa fa-plus"></i>'
+                              )); 
  ?>
 <div id="editEntryContainer"></div>
 <style type="text/css">
@@ -134,12 +151,12 @@ $("#editEntryContainer #message").autogrow({vertical: true, horizontal: false});
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-              "</div>");
+              "</div></div>");
     
         var form = $.dynForm({
           formId : "#ajaxForm",

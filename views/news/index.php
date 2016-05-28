@@ -42,7 +42,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
 		Menu::organization( $parent );
 		//$thisOrga = Organization::getById($parent["_id"]);
-		$contextName = $parent["name"];
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
@@ -51,15 +51,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "Journal de ".$parent["name"];
+		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
-			Menu::person( $parent );
-			$contextName =$parent["name"];
+			Menu::person($parent);
+			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
-			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$parent["name"];
+			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
@@ -67,10 +67,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if(Yii::app()->session["userId"] ==$contextParentId)
 				$headerName= "Mon journal";
 			else
-				$headerName= "Journal de ".$parent["name"];
+				$headerName= "Journal de ".$contextName;
 		}
 		else{
-			$headerName= "Bonjour ".$parent["name"].", l'actu de mon réseau";
+			$shortName=explode(" ", $parent["name"]);
+			$headerName= "Bonjour <span class='text-red'>".addslashes($shortName[0])."</span>, l'actu de votre réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
@@ -79,23 +80,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
 		Menu::project( $parent );
-		$contextName = $parent["name"];
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "Journal de ".$parent["name"];
+		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 		Menu::event( $parent );
-		$contextName = $parent["name"];
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
-		$headerName= "Journal de ".$parent["name"];
+		$headerName= "<i class='fa fa-circle text-orange'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -238,22 +239,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
-					<div class="badge" style="position:absolute;bottom:10px;">
-						<i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
+					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
+					</div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
 				<?php if(@$canManageNews && $canManageNews=="true"){ ?>
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
-						<?php }else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
+						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="restricted"/>
 						<?php } else { ?>
 						<input type="hidden" name="scope" value="public"/>
 						<?php } ?>
-				<?php }else{ ?>
+				<?php }else{ if($contextParentType==Event::COLLECTION){?>
+					<input type="hidden" name="scope" value="restricted"/>
+				<?php } else { ?>
 					<input type="hidden" name="scope" value="private"/>
-				<?php } ?>
+				<?php } } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
@@ -392,8 +395,9 @@ jQuery(document).ready(function()
 {
 	if(contextParentType=="city"){
 		$("#cityPostalCode").val(cpCommunexion);
+		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}
-	canManageNews="";
+	//canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
@@ -406,7 +410,7 @@ jQuery(document).ready(function()
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i></span> <?php echo @$headerName; ?>");
+		$(".moduleLabel").html("<span style='font-size:20px;'><?php echo @$headerName; ?></span>");
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
 		

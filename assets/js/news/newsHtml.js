@@ -35,7 +35,8 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 	}
-	if (newsObj.author.id==idSession || canManageNews == 1){
+	
+	if (newsObj.author.id==idSession || canManageNews == true){
 			manageMenu	+=		'<li><a href="javascript:;" class="deleteNews" onclick="deleteNews(\''+newsObj._id.$id+'\', $(this))" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>';
 		if (newsObj.type != "activityStream" && newsObj.author.id==idSession){
 			manageMenu	+= '<li><a href="javascript:" class="modifyNews" onclick="modifyNews(\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
@@ -99,7 +100,6 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		$(".spine").css("bottom","30px");
 	}
-	
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
@@ -190,9 +190,12 @@ function buildLineHTML(newsObj,idSession,update)
 		city = "";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.target.type=="citoyens"){
-				postalCode=author.address.postalCode;
-				city=author.address.addressLocality;			
-			}else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined') {
+				if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
+					postalCode=newsObj.scope.cities[0].postalCode;
+				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+					city=newsObj.scope.cities[0].addressLocality;			
+			}
+			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
 				postalCode=newsObj.target.address.postalCode;
 				city=newsObj.target.address.addressLocality;			
 			}

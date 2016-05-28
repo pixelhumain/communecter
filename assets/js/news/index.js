@@ -596,6 +596,8 @@ function getMediaHtml(data,action,idNews){
 		mediaUrl=data.url;
 	else if (typeof(data.content.url) !="undefined")
 		mediaUrl=data.content.url;
+	else
+		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
 		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
@@ -737,7 +739,6 @@ function saveNews(){
 						}
 						$("#get_url").height(100);
 						$.unblockUI();
-						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
 		    		}
 		    		else 
@@ -747,6 +748,9 @@ function saveNews(){
 		    		}
 		    		$("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 					return false;
+			    }).fail(function(){
+				   toastr.error("Something went wrong, contact your admin"); 
+				   $("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 			    });
 			}
 		};

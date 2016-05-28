@@ -4,8 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   // '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js',
-  '/css/rooms/header.css'
+  '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -588,14 +587,18 @@ $this->renderPartial('../default/panels/toolbar');
     ?>
     
 
-      <?php $this->renderPartial('../rooms/header',array(    
+      <?php 
+      $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
+      $this->renderPartial('../rooms/header',array(    
                 "parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "survey.entries",
                             "faTitle" => "gavel",
                             "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
+                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
+                              ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>'
                             )); ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
@@ -641,13 +644,13 @@ $this->renderPartial('../default/panels/toolbar');
               <br/>
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id); ?></a>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> 
               </h1>
                <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>
                   <blockquote class="padding-10"> 
-                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
+                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace de décision</span><br>
                     <small>Un espace de décision peut contenir plusieurs propositions.</small>
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace

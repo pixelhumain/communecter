@@ -133,8 +133,8 @@ db.organizations.find().forEach(function(doc){
 
 ----------------------------------------------------
 set up indexes 
-db.cities.createIndex({"geoPosition.coordinates": "2dsphere"})
-
+db.cities.createIndex({"geoPosition.coordinates": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition.coordinates": "2dsphere"});
 ----------------------------------------------------
 benchmarkin mongo 
 

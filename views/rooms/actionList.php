@@ -4,8 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   //'/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js',
-  '/css/rooms/header.css'
+  '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -409,9 +408,6 @@ $this->renderPartial('../default/panels/toolbar');
     }
     ?>
     
-
-
-      
       <?php $this->renderPartial('../rooms/header',array(    
                 "parent" => $parent, 
                             "parentId" => $room['parentId'], 
@@ -419,7 +415,10 @@ $this->renderPartial('../default/panels/toolbar');
                             "fromView" => "rooms.actions",
                             "faTitle" => "cogs",
                             "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>"
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                            " / ".
+                            "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".
+                            '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.(string)$room["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>'
                             )); ?>
       
 
@@ -469,10 +468,7 @@ $this->renderPartial('../default/panels/toolbar');
               
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> <i class="fa fa-caret-right"></i> 
-                <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash('#rooms.editAction.room.<?php echo (string)$room["_id"]; ?>')">
-                  <i class="fa fa-plus"></i> <?php echo Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id); ?>
-                </a>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> 
               </h1>
                 <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">

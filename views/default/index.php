@@ -195,8 +195,17 @@
 		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
 	}
 
+@media screen and (min-width:: 767px) and (max-width: 920px){
+	.main-top-menu .moduleLabel {
+    	max-width: 42% !important;
+	}
 
-@media screen and (min-width: 900px) and (max-width: 1120px) {
+}
+@media screen and (min-width: 900px) and (max-width: 1130px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 50% !important;
+	}
+
 	/*.box-ajaxTools{
 		width:95%;
 		margin-left:5%;
@@ -284,7 +293,14 @@
 	}
 	
 }
-
+<?php if (@Yii::app()->session["userId"]){ ?> 
+@media screen and (min-width: 1130px) {
+.main-top-menu .moduleLabel {
+    max-width: 58% !important;
+    font-size:20px !important;
+}
+}
+<?php } ?>
 
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
