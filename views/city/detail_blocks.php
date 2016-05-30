@@ -151,7 +151,7 @@
   <div class="col-sm-4 col-xs-12">
     <div class="panel panel-blue">
       <div class="panel-heading border-light">
-        <h4 class="panel-title">PARTICPATE </h4>
+        <h4 class="panel-title">PARTICIPATE </h4>
       </div>
       <div class="panel-body no-padding center">
         <img class="img-responsive center-block"style="height:250px" src="http://placehold.it/350x150"/>

@@ -151,15 +151,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="navigator padding-0 text-right">
 		<div class="panel-tools">
 		<?php 
-			$edit = false;
-			if(isset(Yii::app()->session["userId"]) && isset($type) && isset($itemId))
-				$edit = Authorisation::canEditItem(Yii::app()->session["userId"], $type, $itemId);
 			if($edit){
 		?>
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>
 			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>
-    		<?php } ?>
+    	<?php } ?>
 		</div>
 	</div>
 	<div class="panel-body no-padding">

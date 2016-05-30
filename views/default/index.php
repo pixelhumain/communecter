@@ -195,19 +195,74 @@
 		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
 	}
 
+@media screen and (min-width:: 767px) and (max-width: 920px){
+	.main-top-menu .moduleLabel {
+    	max-width: 42% !important;
+	}
 
-@media screen and (min-width: 900px) and (max-width: 1120px) {
-	.box-ajaxTools{
+}
+@media screen and (min-width: 900px) and (max-width: 1130px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 50% !important;
+	}
+
+	/*.box-ajaxTools{
 		width:95%;
 		margin-left:5%;
-	}
+	}*/
 }
 
-@media screen and (min-width: 767px) and (max-width: 900px) {
-	.box-ajaxTools{
+@media screen and (min-height: 100px) and (max-height: 450px) {
+	button.btn-menu2{
+		top:75px;
+	}
+	button.btn-menu3{
+		top:130px;
+	}
+	button.btn-menu4{
+		top:185px;
+	}
+	button.btn-menu6{
+		/*top:250px;*/
+	}
+	button.btn-menu7{
+		/*top: 210px;*/
+		right: 27px;
+   	}
+   	button.btn-menu9{
+		top: 240px;
+    }
+	button.btn-geoloc-auto{
+		display:none;
+		left: 60px !important;
+		top: 14px !important;
+	}
+	button.btn-logout {
+    	left: 10px;
+		top: 15px;
+	}
+	.btn-param-postal-code {
+    	left: 15px;
+		bottom: 12px;
+    }
+    #searchBarPostalCode{
+	    left: 62px;
+		bottom: 12px;
+    height: 40px;
+        width: 186px;
+        padding: 10px 15px !important;
+    }
+    button.btn-menu-add{
+	    bottom: 12px;
+    }
+    #input-communexion .search-loader{
+	    left: 70px;
+		bottom: 50px;
+    }
+	/*.box-ajaxTools{
 		width:88%;
 		margin-left:12%;
-	}
+	}*/
 }
 
 @media screen and (max-width: 767px) {
@@ -236,9 +291,17 @@
 	.btn-scope-niv-5{
 		height: 163px;
 	}
-
-}
 	
+}
+<?php if (@Yii::app()->session["userId"]){ ?> 
+@media screen and (min-width: 1130px) {
+.main-top-menu .moduleLabel {
+    max-width: 58% !important;
+    font-size:20px !important;
+}
+}
+<?php } ?>
+
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
@@ -391,8 +454,8 @@ jQuery(document).ready(function() {
 	<?php } ?>
 
 
-  	if(inseeCommunexion != ""){
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  	if(inseeCommunexion != "" && cpCommunexion != ""){
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
   	}
 
   	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
@@ -633,7 +696,7 @@ function showMap(show)
 		
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
-		$(".btn-menu5, .btn-menu-add").hide();
+		$(".btn-menu5, .btn-menu6, .btn-menu8, .btn-menu-add").hide();
 		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 		$("#btn-toogle-map").css("display","inline !important");
@@ -652,7 +715,7 @@ function showMap(show)
 
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
-		$(".btn-menu5, .btn-menu-add").show();
+		$(".btn-menu5, .btn-menu6,  .btn-menu8, .btn-menu-add").show();
 		$(".panel_map").hide(1);
 		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
@@ -710,7 +773,7 @@ function setScopeValue(btn){
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-			//$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion) });
+			$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postaCode."+cpCommunexion) });
 
 				
 		<?php } ?>
@@ -720,7 +783,10 @@ function setScopeValue(btn){
 
 		selectScopeLevelCommunexion(levelCommunexion);
 
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
+  		if(!userId)
+  		$(".btn-menu9").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
+  		//loadByHash('#rooms.index.type.cities.id.<?php if(isset($myCity)) echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>'
 	
 		Sig.clearMap();
 		console.log("hash city ? ", location.hash.indexOf("#default.city"));

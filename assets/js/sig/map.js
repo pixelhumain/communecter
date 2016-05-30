@@ -607,7 +607,6 @@
 					$.each(dataFilter, function(i, thisData)  {
 						////console.warn("--------------- show each thisData ---------------------");
 						////console.dir(thisData);
-
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}

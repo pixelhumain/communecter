@@ -15,6 +15,8 @@ $cssAnsScriptFilesModule = array(
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+
+
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -195,7 +197,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</a>
 						<?php 
 							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-							if($roles["superAdmin"] == true){
+							if(Role::isSuperAdmin($roles)){
 								?>
 									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
 										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
@@ -212,7 +214,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
 					<div class="col-md-6 col-sm-6">
-						<?php
+						<?php 
 							$nbFixe = 0 ;
 							$nbMobile = 0 ; 
 
@@ -226,6 +228,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									if(@$organization["telephone"]["fixe"])
 									{
 										//.fixe.'.$nbFixe.'
+
 										foreach ($organization["telephone"]["fixe"] as $key => $value) {
 											if(!empty($telephone))
 												$telephone .= ", ";
@@ -316,7 +319,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</div> -->
 
 						<i class="fa fa-envelope fa_email  hidden"></i> 
-						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
+						<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click">
 							<?php echo (isset($organization["email"])) ? $organization["email"] : null; ?>
 						</a>
 						<br>
@@ -376,7 +379,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	console.log("conteXTMAP");
 	console.dir(contextMap);
 
-	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	var mode = "view";
 	var images = <?php echo json_encode($images) ?>;

@@ -42,13 +42,13 @@ function realTimeKKBB(){
 
 function bindEventMenu(){
 	//setTimeout(function(){ 
-		$(".globale-announce").css("width", 250);
+		$(".globale-announce").css("width", 200);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 	//}, 5000);
 
 	$('#btn-close-globale-announce').click( function(e){ 
-		$(".globale-announce").css("width", 250);
+		$(".globale-announce").css("width", 200);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 		//var path = "/";
@@ -57,7 +57,7 @@ function bindEventMenu(){
 		//$.cookie('kkbbok',  true, { expires: 365, path: path });
 	});
 	$('.globale-announce').mouseleave( function(e){ 
-		$(".globale-announce").css("width", 250);
+		$(".globale-announce").css("width", 200);
 		$("#kkbb-big").hide(400);
 		$("#kkbb-min").show(400);
 		//var path = "/";
@@ -207,7 +207,7 @@ function bindEventMenu(){
     $(".btn-geoloc-auto").click(function(e){
 		//console.log("cookie", $.cookie('inseeCommunexion'));
     	if($.cookie('inseeCommunexion')){
-    		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion'));
+    		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
     	}else{
     		if(geolocHTML5Done == false){
 				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		

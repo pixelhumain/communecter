@@ -177,17 +177,17 @@
 
 
 @media screen and (min-width: 900px) and (max-width: 1120px) {
-	.box-ajaxTools{
+	/*.box-ajaxTools{
 		width:95%;
 		margin-left:5%;
-	}
+	}*/
 }
 
 @media screen and (min-width: 767px) and (max-width: 900px) {
-	.box-ajaxTools{
+	/*.box-ajaxTools{
 		width:88%;
 		margin-left:12%;
-	}
+	}*/
 }
 
 @media screen and (max-width: 767px) {

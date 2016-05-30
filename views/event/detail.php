@@ -9,7 +9,7 @@ $admin = false;
 		$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
 ?>
 <div class="row">
-	<div class="col-md-8 col-sm-12">
+	<div class="col-md-8 col-sm-12 col-xs-12">
 		<?php $this->renderPartial('dashboard/description',array(
 								"event" => $event,
 								"organizer" =>$organizer,
@@ -17,12 +17,13 @@ $admin = false;
 								"eventTypes" => $eventTypes,
 								"type" => Event::COLLECTION,
 								"countries" => $countries,
-								"imagesD" => $images ));
+								"imagesD" => $images,
+								"edit"=>$admin));
 								?>
 		
 
 	</div>
-	<div class="col-md-4 col-sm-12">
+	<div class="col-md-4 col-sm-12 col-xs-12">
 		<?php  //print_r($attending); 
 			$this->renderPartial('../pod/usersList', array(  "event"=> $event,
 															"users" => $attending,

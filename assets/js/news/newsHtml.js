@@ -13,6 +13,7 @@ var mode = "view";
 
 function buildLineHTML(newsObj,idSession,update)
 {
+	addForm=false;
 	if(typeof(contextParentType) == "undefined")
 		contextParentType="citoyens";
 	newsTLLine = "";
@@ -26,15 +27,16 @@ function buildLineHTML(newsObj,idSession,update)
 		'<ul class="dropdown-menu">';
 
 	var reportLink = "";
-	if ("undefined" != typeof newsObj.reportAbuseCount){ 
-		if (newsObj.reportAbuse.indexOf(idSession) == -1){
+	if ("undefined" != typeof newsObj.reportAbuse) {
+		if ("undefined" == typeof newsObj.reportAbuse[idSession]){
 			reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 		}
 	}
 	else{
 		reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 	}
-	if (newsObj.author.id==idSession || canManageNews == 1){
+	
+	if (newsObj.author.id==idSession || canManageNews == true){
 			manageMenu	+=		'<li><a href="javascript:;" class="deleteNews" onclick="deleteNews(\''+newsObj._id.$id+'\', $(this))" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>';
 		if (newsObj.type != "activityStream" && newsObj.author.id==idSession){
 			manageMenu	+= '<li><a href="javascript:" class="modifyNews" onclick="modifyNews(\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
@@ -79,6 +81,7 @@ function buildLineHTML(newsObj,idSession,update)
 			form = "<div class='newsFeed'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
+			addForm=true;
 
 		}
 		currentMonth = date.getMonth();
@@ -97,7 +100,6 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		$(".spine").css("bottom","30px");
 	}
-	
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
@@ -113,11 +115,13 @@ function buildLineHTML(newsObj,idSession,update)
 	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
 		imagePath = baseUrl+'/'+newsObj.imageBackground;
 		imageBackground = '<a '+url+'>'+
-							'<div class="timeline_shared_picture"  style="background-image:url('+imagePath+');">'+
+							'<div class="timeline_shared_picture"  style="">'+
+							//background-image:url('+imagePath+');
 								'<img src="'+imagePath+'">'+
 							'</div>'+
 						'</a>';
 	}
+	console.log(newsObj);
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
 	if(newsObj.type == "activityStream" && typeof(newsObj.target) != "undefined"){
@@ -135,15 +139,17 @@ function buildLineHTML(newsObj,idSession,update)
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		textHtml="";
-		if(newsObj.text.length > 0)
-			textHtml='<span class="timeline_text no-padding" >'+newsObj.text+'</span>';
+		if(newsObj.text.length > 0){
+			textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
 					media="<div class='results'>"+newsObj.media+"</div>";
 				else{
-					media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
+					media="<div class='results'>"+getMediaHtml(newsObj.media,"show",newsObj._id.$id)+"</div>";
 					//// Fonction générant l'html
 				} 
 			} else if (newsObj.media.type=="gallery_images"){
@@ -156,7 +162,8 @@ function buildLineHTML(newsObj,idSession,update)
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
 		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			textNews=checkAndCutLongString(newsObj.text,150,newsObj._id.$id);
+			text = '<span class="timeline_text">'+textNews+'</span>';
 		}
 	}
 	tags = "", 
@@ -183,9 +190,12 @@ function buildLineHTML(newsObj,idSession,update)
 		city = "";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.target.type=="citoyens"){
-				postalCode=author.address.postalCode;
-				city=author.address.addressLocality;			
-			}else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined') {
+				if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
+					postalCode=newsObj.scope.cities[0].postalCode;
+				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+					city=newsObj.scope.cities[0].addressLocality;			
+			}
+			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
 				postalCode=newsObj.target.address.postalCode;
 				city=newsObj.target.address.addressLocality;			
 			}
@@ -272,10 +282,10 @@ function buildLineHTML(newsObj,idSession,update)
 						'</div>'+
 						'<div class="space5"></div>'+
 						'<hr/>' + 
-						'<a '+urlAction.url+'>'+
+						//'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
 							'<div>'+title + text + "</div>"+media +
-						'</a>'+
+						//'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
@@ -286,11 +296,32 @@ function buildLineHTML(newsObj,idSession,update)
 						}
 	newsTLLine +=	'</div>'+
 				'</div>';
-	return newsTLLine;
+	if(update==true)
+		return newsTLLine;
+	else{
+		// Check offset of last element
+		var offsetLastNews = $(".newsFeed").last().position();
+		// Append news in timeline
+		$(".newsTL").append(newsTLLine);
+		if(addForm==true){
+			$("#newFeedForm").append($("#formCreateNewsTemp"));
+			$("#formCreateNewsTemp").css("display", "inline");
+		}
+		// Bug on timeline style increment due to the two part
+		// Still have few news at the same level (but tempory fixed
+		// Check the offset of last .newsFeed and compare
+		if(typeof(offsetLastNews) != "undefined"){
+			dateLimit=
+			minusOff=offsetLastNews.top-10;
+			maxOff=offsetLastNews.top+10;
+		}
+		if(typeof(offsetLastNews) == "undefined" || (minusOff < $(".newsFeed").last().position().top && $(".newsFeed").last().position().top < maxOff)){
+			$(".newsFeed").last().css("margin-top","20px");
+		}
+	}
 }
 
 function buildHtmlUrlAndActionObject(obj){
-	console.log(obj);
 	if(typeof(obj.target) != "undefined" && typeof(obj.target.type) != "undefined")
 		redirectTypeUrl=obj.target.type.substring(0,obj.target.type.length-1);
 	else 
@@ -410,7 +441,7 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news,action,method,reason) {
+function actionOnNews(news,action,method,reason, comment=null) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
@@ -418,6 +449,9 @@ function actionOnNews(news,action,method,reason) {
 	params.action=action;
 	if(reason != ""){
 		params.reason=reason;
+	}
+	if(comment != ""){
+		params.comment=comment;
 	}
 	if(method){
 		params.unset=method;
@@ -470,32 +504,32 @@ function voteCheckAction(idVote, newsObj) {
 	textDown="text-dark";
 	textReportAbuse="text-dark";
 
-	if ("undefined" != typeof newsObj.voteUpCount){ 
+	if ("undefined" != typeof newsObj.voteUp && "undefined" != typeof newsObj.voteUpCount && newsObj.voteUpCount > 0){ 
 		voteUpCount = newsObj.voteUpCount;
-		if (newsObj.voteUp.indexOf(idSession) != -1){
+		if ("undefined" != typeof newsObj.voteUp[idSession]){
 			textUp= "text-green";
 			$(".newsVoteDown[data-id="+idVote+"]").off();
 		}
 	}
 
-	if ("undefined" != typeof newsObj.voteDownCount) {
+	if ("undefined" != typeof newsObj.voteDown && "undefined" != typeof newsObj.voteDownCount && newsObj.voteDownCount > 0) {
 		voteDownCount = newsObj.voteDownCount;
-		if (newsObj.voteDown.indexOf(idSession) != -1){
+		if ("undefined" != typeof newsObj.voteDown[idSession]){
 			textDown= "text-orange";
 			$(".newsVoteUp[data-id="+idVote+"]").off();
 		}
 	}
 
-	if ("undefined" != typeof newsObj.reportAbuseCount) {
+	if ("undefined" != typeof newsObj.reportAbuse && "undefined" != typeof newsObj.reportAbuseCount && newsObj.reportAbuseCount > 0) {
 		reportAbuseCount = newsObj.reportAbuseCount;
-		if (newsObj.reportAbuse.indexOf(idSession) != -1){
+		if ("undefined" != typeof newsObj.reportAbuse[idSession]){
 			textReportAbuse= "text-red";
 			$(".newsReportAbuse[data-id="+idVote+"]").off();
 		}
 	}
 	voteHtml = "<a href='javascript:;' class='newsVoteUp' onclick='newsVoteUp(this, \""+idVote+"\")' data-count='"+voteUpCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 			"<a href='javascript:;' class='newsVoteDown' onclick='newsVoteDown(this, \""+idVote+"\")' data-count='"+voteDownCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a>"+
-			"<a href='javascript:;' class='hide newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
+			"<a href='javascript:;' class='newsReportAbuse' onclick='newsReportAbuse(this, \""+idVote+"\")' data-count='"+reportAbuseCount+"' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label "+textReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a>";
 	return voteHtml;
 }
 
@@ -558,11 +592,20 @@ function initXEditable() {
 	    },
 	});
 }
-
+function checkAndCutLongString(text,limitLength,idNews){
+	if(text.length > limitLength){
+		text=text.substring(0,limitLength);
+		if(limitLength==500){
+			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span>";
+		}else{
+			text += " ..."
+		}
+	}
+	return text;
+}
 function showComments(id){
 	$.blockUI({
-			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-							'<div class="commentContent"></div></div>', 
+			message : '<div class="commentContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
 			onOverlayClick: $.unblockUI,
 			css: {"text-align": "left", "cursor":"default"}
 		});
@@ -605,11 +648,11 @@ function newsVoteDown($this, id){
 function newsReportAbuse($this, id){
 	
 	//toastr.info('This vote has been well registred');
-		if($($this).children(".label").hasClass("text-red")){
-			method = true;
-		}
-		else{
-			method = false;
+	if($($this).children(".label").hasClass("text-red")){
+		method = true;
+	}
+	else{
+		method = false;
 	}
 	reportAbuse($($this),'reportAbuse',method);
 	
@@ -624,19 +667,43 @@ function reportAbuse($this,action, method) {
 		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
 	else{
-	var box = bootbox.prompt(trad["askreasonreportabuse"], function(result) {
-		if (result != null) {			
-			if (result != "") {
-				actionOnNews($($this),action,method,result);
-				$this.children(".label").removeClass("text-dark").addClass("text-red");
-			} else {
-				toastr.error("Please fill a reason");
-			}
-		}
-	});
-	box.on("shown.bs.modal", function() {
-	  $.unblockUI();
-	});
+		var message = "<div id='reason' class='radio'>"+
+			"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
+			"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
+			"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
+			"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
+		  	"<label><input type='radio' name='reason' value='Liens fallacieux ou frauduleux'>Liens fallacieux ou frauduleux</label><br>"+
+		  	"<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
+		  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br>"+
+		  	"<input type='text' class='form-control' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
+			"</div>";
+		var boxNews = bootbox.dialog({
+		  message: message,
+		  title: trad["askreasonreportabuse"],
+		  buttons: {
+		  	annuler: {
+		      label: "Annuler",
+		      className: "btn-default",
+		      callback: function() {
+		        console.log("Annuler");
+		      }
+		    },
+		    danger: {
+		      label: "Déclarer cet abus",
+		      className: "btn-primary",
+		      callback: function() {
+		      	// var reason = $('#reason').val();
+		      	var reason = $("#reason input[type='radio']:checked").val();
+		      	var reasonComment = $("#reasonComment").val();
+		      	actionOnNews($($this),action,method, reason, reasonComment);
+		      	$this.children(".label").removeClass("text-dark").addClass("text-red");
+		      }
+		    },
+		  }
+		});
+		boxNews.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		});
 	}
 }
 

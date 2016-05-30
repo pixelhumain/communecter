@@ -20,6 +20,8 @@ class CommentController extends CommunecterController {
 	        'index'       			=> 'citizenToolKit.controllers.comment.IndexAction',
 	        'save'					=> 'citizenToolKit.controllers.comment.SaveAction',
 	        'abuseprocess'			=> 'citizenToolKit.controllers.comment.AbuseProcessAction',
+	        'moderate'				=> 'citizenToolKit.controllers.comment.ModerateAction',
+	        'countcommentsfrom'		=> 'citizenToolKit.controllers.comment.CountCommentsAction',
 	    );
 	}
 

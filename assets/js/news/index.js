@@ -7,7 +7,7 @@
 */
 var loadStream = function(indexMin, indexMax){
 	loadingData = true;
-    indexStep = 15;//5;
+    indexStep = 5;
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -18,7 +18,7 @@ var loadStream = function(indexMin, indexMax){
       mapElements = new Array(); 
     }
     else{ if(scrollEnd) return; }
-        if(typeof viewer != "")
+    if(viewer != "")
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
@@ -27,6 +27,7 @@ var loadStream = function(indexMin, indexMax){
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
+	       	data: {"parent" :  parent},
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
 		    	console.log(data.news);
@@ -73,14 +74,27 @@ function buildTimeLine (news, indexMin, indexMax)
 				var date = new Date( parseInt(newsObj.created)*1000 );
 			var d = new Date();
 			if(typeof(newsObj.target)!="undefined" && typeof(newsObj.target.type)!="undefined")
-				str += buildLineHTML(newsObj, idSession);
+				buildLineHTML(newsObj, idSession);
 		}
 	});
-	$(".newsTL").append(str);
-	if(canPostNews==true){
-		$("#newFeedForm").append(formCreateNews);
-		$("#formCreateNewsTemp").css("display", "inline");
-	}
+	
+	//if(canPostNews==true){
+	//	$("#newFeedForm").append(formCreateNews);
+	//	$("#formCreateNewsTemp").css("display", "inline");
+	//}
+	/*offsetLastNews="";
+	$i=0;
+	$( ".newsFeed:gt(-6)" ).each(function(){
+		if($i!=0){
+			if(typeof(offsetLastNews)!="undefined" && typeof(offsetLastNews.top)!="undefined")
+			console.log(offsetLastNews.top+" // VS // "+$(this).offset().top);
+			if($(this).offset().top == offsetLastNews.top){
+				$(this).css("margin-top","20px");
+			}
+		}
+		offsetLastNews=$(this).offset();
+		//alert();
+	})*/
 	$.each( news , function(key,o){
 		initXEditable();
 		manageModeContext(key);
@@ -231,6 +245,11 @@ function deleteNews(id, $this){
 						
 					});
 				}
+				if ($("#deleteImageCommunevent"+id).length){
+						imageId=$("#deleteImageCommunevent"+id).val();
+						deleteImage(imageId,"",true,true);
+				}
+
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/news/delete/id/"+id,
@@ -296,9 +315,12 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
+
 	        	//$('.editable-news').editable('toggleDisabled');
 				//switchModeEdit(data.id);
 				console.log(data);
+				console.log("ici");
+				$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
 	        	toastr.error(data.msg);  
@@ -345,6 +367,7 @@ function updateNews(newsObj)
 	var newsTLLine = buildLineHTML(newsObj,idSession,true);
 	$(".emptyNews").remove();
 	$("#newFeedForm").parent().after(newsTLLine).fadeIn();
+	$("#newFeedForm").parent().next().css("margin-top","20px");
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
 	$("#form-news #results").html("").hide();
@@ -458,13 +481,15 @@ function getUrlContent(){
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         //continue if matched url is found in text field
+//        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href"))
         if (match_url.test(getUrl.val())) {
-	        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href") != getUrl.val().match(match_url)[0]){
+	        if(lastUrl != getUrl.val().match(match_url)[0]){
 	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
                 $("#results").hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
+                var lastUrl=extracted_url;
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -472,16 +497,22 @@ function getUrlContent(){
 					type: 'post',
 					dataType: 'json',
 					success: function(data){        
-	                console.log(data); 
-                    content = getMediaHtml(data,"save");
-                    //load results in the element
-                    $("#results").html(content); //append received data into the element
-                    $("#results").slideDown(); //show results with slide down effect
-                    $("#loading_indicator").hide(); //hide loading indicator image
+		                console.log(data); 
+	                    content = getMediaHtml(data,"save");
+	                    //load results in the element
+	                    $("#results").html(content); //append received data into the element
+	                    $("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
                 	},
 					error : function(){
 						$.unblockUI();
-						toastr.error(trad["wrongwithurl"] + " !");
+						//toastr.error(trad["wrongwithurl"] + " !");
+						//content to be loaded in #results element
+						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
+	                    //load results in the element
+	                    $("#results").html(content); //append received data into the element
+	                    $("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
 						$("#loading_indicator").hide();
 					}	
                 });
@@ -489,7 +520,7 @@ function getUrlContent(){
         }
     });
 }
-function getMediaHtml(data,action){
+function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){
 		extracted_images = data.images;
 		total_images = parseInt(data.images.length);
@@ -525,8 +556,14 @@ function getMediaHtml(data,action){
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
         inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo;
-        if(data.content.type=="img_link")
-	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='Image partagée'  data-lightbox='allimgcontent'>";
+        if(data.content.type=="img_link"){
+	        if(typeof(data.content.imageId) != "undefined"){
+		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+idNews+"' value='"+data.content.imageId+"'/>";
+		       titleImg = "De l&apos;application communevent"; 
+		    }else
+		    	titleImg = "Image partagée"; 
+	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='"+titleImg+"'  data-lightbox='allimgcontent'>";
+	    }
         inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
         if(data.content.type=="img_link")
         	inc_image += '</a>';
@@ -555,16 +592,21 @@ function getMediaHtml(data,action){
     //content to be loaded in #results element
 	if(data.content==null)
 		data.content="";
-	
+	if(typeof(data.url)!="undefined")
+		mediaUrl=data.url;
+	else if (typeof(data.content.url) !="undefined")
+		mediaUrl=data.content.url;
+	else
+		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+data.url+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
 	else{
 		contentMedia="";
 	}
-	inputToSave+="<input type='hidden' class='url' value='"+data.url+"'/>";
+	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
     content = '<div class="extracted_url">'+ inc_image +contentMedia+'</div>'+inputToSave;
@@ -695,8 +737,8 @@ function saveNews(){
 						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
 							updateNews(data.object);
 						}
+						$("#get_url").height(100);
 						$.unblockUI();
-						//$.hideSubview();
 						toastr.success(trad["successsavenews"]);
 		    		}
 		    		else 
@@ -706,6 +748,9 @@ function saveNews(){
 		    		}
 		    		$("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 					return false;
+			    }).fail(function(){
+				   toastr.error("Something went wrong, contact your admin"); 
+				   $("#btn-submit-form i").removeClass("fa-circle-o-notch fa-spin").addClass("fa-arrow-circle-right");
 			    });
 			}
 		};
@@ -789,9 +834,11 @@ function initFormImages(){
 		});
 	}));
 }
-function turnOff(){
-	$("#addImage").off('click');
-	$(".fileupload-new").off('click');
+function addMoreSpace(){
+	bootbox.dialog({
+	message: "You have attempt the limit of 20Mo of images for this "+contextParentType+"<br/>Please choose one of those  two solutions beyond:<br/>Delete images in the <a href='javascript:;' onclick='bootbox.hideAll();loadByHash(\"#gallery.index.id."+contextParentId+".type."+contextParentType+"\")'>photo gallery</a> <br/><br/>OR<br/><br/> Subscribe 12€ to the NGO Open Atlas which takes in charge communecter.org on <a href='https://www.helloasso.com/associations/open-atlas' target='_blank'>helloAsso</a> for 20Mo more. <br/><br/>Effectively, stocking images represents a cost for us and donate to the NGO will demonstrate your contribution the project and to the common we built together",
+  title: "Limit of <color class='red'>20 Mo</color> overhead"
+  });
 }
 function showMyImage(fileInput) {
 	if($(".noGoSaveNews").length){
@@ -842,7 +889,7 @@ function showMyImage(fileInput) {
 }
 	
 function getMediaImages(o,newsId,authorId,targetName){
-	countImages=o.countImages;
+	countImages=o.images.length;
 	html="";
 	if(canManageNews==1 || authorId==idSession){
 		for(var i in o.images){
@@ -851,12 +898,12 @@ function getMediaImages(o,newsId,authorId,targetName){
 	}
 	if(countImages==1){
 		path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[0].folder+"/"+o.images[0].name;
-		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+		html+="<div class='col-md-12'><a class='thumb-info' href='"+path+"' data-title='album de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='max-height:200px;'></a></div>";
 	}
 	else if(countImages==2){
 		for(var i in o.images){
 			path=baseUrl+"/"+uploadUrl+moduleId+"/"+o.images[i].folder+"/"+o.images[i].name;
-			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive'></a></div>";
+			html+="<div class='col-md-6 padding-5'><a class='thumb-info' href='"+path+"' data-title='abum de "+targetName+"'  data-lightbox='all"+newsId+"'><img src='"+path+"' class='img-responsive' style='max-height:200px;'></a></div>";
 		}
 	}
 	else if(countImages==3){
@@ -898,11 +945,15 @@ function getMediaImages(o,newsId,authorId,targetName){
 	console.log(html);
 	return html;
 }
-function deleteImage(id,name,hideMsg){
+function deleteImage(id,name,hideMsg,communevent){
+	if(communevent==true)
+		path="communevent";
+	else
+		path="album";
 	$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+contextParentType+"/parentId/"+contextParentId,			
 			type: "POST",
-			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : "album", "docId" : id},
+			data: {"name": name, "parentId": contextParentId, "parentType": contextParentType, "path" : path, "docId" : id},
 			dataType: "json",
 			success: function(data){
 				if(data.result){

@@ -119,7 +119,7 @@
 
 				$("#pagination").html(
 					"<li>"+
-				      "<a href='#' id='btn_pagination_previous' aria-label='Previous'>"+
+				      "<a href='javascript:' id='btn_pagination_previous' aria-label='Previous'>"+
 				        "<span aria-hidden='true'>&laquo;</span>"+
 				      "</a>"+
 				    "</li>"
@@ -133,7 +133,7 @@
 					if(i+1 == this.paginationNumPage) classe="active";
 
 					$("#pagination").append(
-						'<li class="'+classe+'"><a href="#" id="btn_pagination_'+i+'" page="'+(i+1)+'">'+(i+1)+'</a></li>'
+						'<li class="'+classe+'"><a href="javascript:" id="btn_pagination_'+i+'" page="'+(i+1)+'">'+(i+1)+'</a></li>'
 						);
 
 					$("#btn_pagination_"+i).click(function(){
@@ -142,12 +142,12 @@
 				}
 
 				if(nbPage > maxPaginationBtn){
-					$("#pagination").append('<li><a href="#" class="'+classe+'">...</a></li>');
+					$("#pagination").append('<li><a href="javascript:" class="'+classe+'">...</a></li>');
 				}
 
 				$("#pagination").append(
 					"<li>"+
-				      "<a href='#' id='btn_pagination_next' aria-label='Next'>"+
+				      "<a href='javascript:' id='btn_pagination_next' aria-label='Next'>"+
 				        "<span aria-hidden='true'>&raquo;</span>"+
 				      "</a>"+
 				    "</li>"
@@ -196,6 +196,7 @@
 			//recuperation de l'image de profil (ou image par defaut)
 			var imgProfilPath =  Sig.getThumbProfil(element);
 
+
 			//return l'élément html
 		    var button = '<div class="element-right-list" id="element-right-list-'+thisSig.getObjectId(allElement)+'">' +
 		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(allElement) +'">'
@@ -216,7 +217,7 @@
 							if(typeof allElement['tags'] != "undefined" && allElement['tags'] != null){
 								$.each(allElement['tags'], function(index, value){ totalTags++;
 									if(totalTags<4)
-									button	+= 	"<a href='#' class='tag_item_map_list'>#" + value + " </a>";
+									button	+= 	"<a href='javascript:' class='tag_item_map_list'>#" + value + " </a>";
 								});
 							}
 							button	+= 	"</div>";
@@ -246,12 +247,17 @@
 					if("undefined" != typeof element['startDate'] && "undefined" != typeof element['endDate']){
 						var start = dateToStr(element['startDate'], "fr", true);
 						var end = dateToStr(element['endDate'], "fr", true);
+						var hour1 = "Toute la journée";
+						var hour2 = "Toute la journée";
+						if(element["allDay"] == false) { 	
+							hour1 = start.substr(start.indexOf("-")+2, start.length);
+							hour2 = end.substr(end.indexOf("-")+2, end.length);
+						}
 
 						//si la date de debut == la date de fin
 						if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
 							var date1 = start.substr(0, start.indexOf("-"));
-							var hour1 = start.substr(start.indexOf("-")+2, start.length);
-							var hour2 = end.substr(end.indexOf("-")+2, end.length);
+							
 							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
 							
 							if(hour1 == "00h00" && hour2 == "23h59") 
@@ -261,8 +267,10 @@
 
 							button += "</div>";
 						}else{
-							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
-								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
+							var startDate = start.substr(0, start.indexOf("-"));
+							var endDate = end.substr(0, end.indexOf("-"));
+							button += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + startDate + " - " + hour1 + "</div>"
+								   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + endDate + " - " + hour2 +"</div></br>";
 						}
 					}
 				}

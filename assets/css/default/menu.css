@@ -162,13 +162,7 @@
 .homeShortcuts a{color: #9D9396;}
 .homeShortcuts a:hover{	color: #00B8EB;}
 
-<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-		if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  		 
-?>
-button.btn-menu2, .btn-menu3, .btn-menu4{
-	display: none;
-}
-<?php } ?>
+
 
 
 #menu-bottom{
@@ -235,11 +229,14 @@ button.btn-menu2, .btn-menu3, .btn-menu4{
 	}
 
 	#menu-bottom .input-global-search{
-		left: 44px;
-		height: 40px;
-		position: relative;
-		width: 74%;
-		border: 0px;
+	left: 40px;
+    height: 40px;
+    /* top: 75px; */
+    bottom: 0px;
+    position: absolute;
+    width: 80%;
+    z-index: 1;
+    border: 0px;
 	}
 	.main-top-menu .dropdown-result-global-search {
 	    bottom: 40px;

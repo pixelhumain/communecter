@@ -7,7 +7,7 @@
 		background-color: #F2F2F2;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
-		margin: 0px 10px 10px 10px;
+		margin: 0px; /*10px 10px 10px;*/
 		border-radius: 5px;
 
 	}
@@ -88,11 +88,7 @@
 		var imageId= "";
 		var imagesPath = [];
 		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
-
-		if("undefined" != typeof(contentKeyBase))
-			var contentKey = contentKeyBase+"."+contentIdtoSend;
-		else
-			contentKey = contentIdtoSend;
+		var contentKey = contentIdtoSend;
 		if("undefined" != typeof(image[contentId])){
 			initFileUpload();
 		}else{
@@ -293,14 +289,14 @@
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
-		        if(typeof data.profilImageUrl != "undefined"){
-		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        if(typeof data.profilThumbImageUrl != "undefined"){
+		        	$("#menu-thumb-profil").attr("src", baseUrl + data.profilThumbImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", baseUrl + data.profilThumbImageUrl);
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
+		        console.log("NOUVELLE PATH THUMB PROFIL : " + baseUrl + data.profilThumbImageUrl);
+		    	Sig.userData.profilImageUrl = baseUrl + data.profilThumbImageUrl;
 		        console.log(Sig.userData.profilImageUrl);
 		        
 		    });

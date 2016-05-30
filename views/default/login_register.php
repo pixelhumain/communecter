@@ -89,13 +89,10 @@
 							</span>
 						</div>
 						<div class="form-actions" style="margin-top:-20px;">
-							<div class="errorHandler alert alert-danger no-display">
-								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
-							</div>
 							<div class="errorHandler alert alert-danger no-display loginResult">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","Please verify your entries.") ?>
 							</div>
-							<div class="errorHandler alert alert-danger no-display notValidatedEmailResult">
+							<div class="alert alert-danger no-display notValidatedEmailResult">
 								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Your account is not validated : please check your mailbox to validate your email address.") ?>
 								      <?php echo Yii::t("login","If you didn't receive it or lost it, click") ?>
 								      <a class="validate" href="#" 
@@ -106,13 +103,13 @@
 								      		$('.forgotBtn .ladda-label').text(buttonLabel[emailType])});">
 								      <?php echo Yii::t("login","here") ?></a> <?php echo Yii::t("login","to receive it again.") ?> 
 							</div>
-							<div class="errorHandler alert alert-info no-display betaTestNotOpenResult">
+							<div class="alert alert-info no-display betaTestNotOpenResult">
 								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Our developpers are fighting to open soon ! Check your mail that will happen soon !")?>
 							</div>
-							<div class="errorHandler alert alert-success no-display emailValidated">
+							<div class="alert alert-success no-display emailValidated">
 								<i class="fa fa-check"></i> <?php echo Yii::t("login","Your account is now validated ! Please try to login.") ?>
 							</div>
-							<div class="errorHandler alert alert-danger no-display custom-msg">
+							<div class="alert alert-danger no-display custom-msg">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
 							</div>
 							
@@ -431,7 +428,10 @@ var Login = function() {
 		    		  {
 		    		  	var url = "<?php echo (isset(Yii::app()->session["requestedUrl"])) ? Yii::app()->session["requestedUrl"] : null; ?>";
 		    		  	//console.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
-		    		  	if(url && url.indexOf("#") >= 0 ) {
+		    		  	if(backUrl != null){
+		    		  		loadByHash(backUrl);
+		    		  		backUrl = null;
+		    		  	} else if(url && url.indexOf("#") >= 0 ) {
 		    		  		//console.log("login 1",url);
 		    		  		//reload to the url initialy requested
 		    		  		window.location.href = url;
