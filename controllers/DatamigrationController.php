@@ -205,7 +205,7 @@ class DatamigrationController extends CommunecterController {
 					  	foreach($data["scope"]["cities"] as $value){
 						  	if(is_numeric($value)){
 							  	echo "<br/>ici numérique:".$value;
-							  	$city=Sig::getCityByCodeInsee($value);
+							  	$city=PHDB::findOne(City::COLLECTION, array("insee" => $value));
 							  	$newScopeArray["cities"][0]["codeInsee"]=$value;
 							  	$newScopeArray["cities"][0]["postalCode"]=$city["postalCodes"][0]["postalCode"];
 							  	if(@$data["geo"]){
