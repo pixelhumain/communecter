@@ -254,7 +254,7 @@ div.timeline .date_separator span{
 #newsHistory .timeline-scrubber {
     right: 0%;
 	position: fixed;
-	top: 315px;
+	top: 375px;
 }
 #newsHistory .timeline-scrubber li:last-child a {
     border-color: #50687d;
