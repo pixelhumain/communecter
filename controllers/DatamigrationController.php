@@ -193,6 +193,7 @@ class DatamigrationController extends CommunecterController {
 	  $nbCityCodeInsee=0;
 	  $nbCityName=0;
 	  $nbtodelete=0;
+	  $nbCityNotFindName=0;
 	  foreach($news as $key => $data){
 		  if($data["scope"]["type"]=="public"){
 			  if(@$data["scope"]["cities"]){
@@ -217,10 +218,14 @@ class DatamigrationController extends CommunecterController {
 						  	} else {
 							  	echo "<br/>ici non numérique mais string: ".$value;
 							  	$city = PHDB::findOne(City::COLLECTION, array("alternateName" =>$value));
+							  	if(!empty($city)){
 							  	$newScopeArray["cities"][0]["codeInsee"]=$city["insee"];
 							  	$newScopeArray["cities"][0]["postalCode"]=$city["postalCodes"][0]["postalCode"];
 							  	$newScopeArray["cities"][0]["geo"]=$city["geo"];
 							  	$nbCityName++;
+							  	}else{
+								  $nbCityNotFindName++;	
+							  	}
 						  	}
 						  	echo "<br/>===>News array scope: ///<br/>";
 
@@ -243,6 +248,7 @@ class DatamigrationController extends CommunecterController {
 		echo "nombre de news avec insee enregistré: ".$nbCityCodeInsee."news";
 		echo "nombre de news avec name enregistré: ".$nbCityName."news";
 		echo "nombre de news à supprimer: ".$nbtodelete."news";
+		echo "nombre de news avec city non trouvé: ".$nbCityNotFindName."news";
 		echo "nombre de news avec data publique not well formated: ".$i."news";
 	}
 	/* First refactor à faire sur communecter.org 
