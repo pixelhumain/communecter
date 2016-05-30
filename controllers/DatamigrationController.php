@@ -224,15 +224,16 @@ class DatamigrationController extends CommunecterController {
 							  	$newScopeArray["cities"][0]["geo"]=$city["geo"];
 							  	$nbCityName++;
 							  	}else{
+								  echo "ici";
+								  $newScopeArray["cities"][0]="wrong";
 								  $nbCityNotFindName++;	
 							  	}
 						  	}
 						  	echo "<br/>===>News array scope: ///<br/>";
-
-												  	print_r($newScopeArray);
+							print_r($newScopeArray);
 						  	echo "<br/>";
 					  	}
-					  				  	$i++;
+					  $i++;
 				  	}
 			  	//}
 
