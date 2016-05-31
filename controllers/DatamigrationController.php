@@ -197,28 +197,36 @@ class DatamigrationController extends CommunecterController {
 		  	if($data["scope"]["type"]=="public"){
 			  	if(!@$data["scope"]["cities"][0]){
 				  	$newScopeArray=array("type"=>"public","cities"=>array());
-					if($data["target"]["type"]=="pixels"){
-						$author=PHDB::findOne(Person::COLLECTION,array("_id"=>new MongoId($data["author"])));
-						$newScopeArray["cities"][0]["codeInsee"]=$author["address"]["codeInsee"];
-						$newScopeArray["cities"][0]["postalCode"]=$author["address"]["postalCode"];
-						$newScopeArray["cities"][0]["geo"]=$author["geo"];
-					}else {
-						$target=PHDB::findOne($data["target"]["type"],array("_id"=>new MongoId($data["target"]["id"])));
-						$newScopeArray["cities"][0]["codeInsee"]=$target["address"]["codeInsee"];
-						$newScopeArray["cities"][0]["postalCode"]=$target["address"]["postalCode"];
-						$newScopeArray["cities"][0]["geo"]=$target["geo"];
+				  	if($data["type"]=="activityStream"){
+					  	$object=PHDB::findOne($data["object"]["objectType"],array("_id"=>new MongoId($data["object"]["id"])));
+							$newScopeArray["cities"][0]["codeInsee"]=$object["address"]["codeInsee"];
+							$newScopeArray["cities"][0]["postalCode"]=$object["address"]["postalCode"];
+							$newScopeArray["cities"][0]["geo"]=$object["geo"];
+				  	}
+				  	else{
+						if($data["target"]["type"]=="pixels"){
+							$author=PHDB::findOne(Person::COLLECTION,array("_id"=>new MongoId($data["author"])));
+							$newScopeArray["cities"][0]["codeInsee"]=$author["address"]["codeInsee"];
+							$newScopeArray["cities"][0]["postalCode"]=$author["address"]["postalCode"];
+							$newScopeArray["cities"][0]["geo"]=$author["geo"];
+						}else {
+							$target=PHDB::findOne($data["target"]["type"],array("_id"=>new MongoId($data["target"]["id"])));
+							$newScopeArray["cities"][0]["codeInsee"]=$target["address"]["codeInsee"];
+							$newScopeArray["cities"][0]["postalCode"]=$target["address"]["postalCode"];
+							$newScopeArray["cities"][0]["geo"]=$target["geo"];
+						}
+						PHDB::update(News::COLLECTION,
+										array("_id" => $data["_id"]) , 
+										array('$set' => array("scope" => $newScopeArray)	
+						));
 					}
-					PHDB::update(News::COLLECTION,
-									array("_id" => $data["_id"]) , 
-									array('$set' => array("scope" => $newScopeArray)	
-					));
 					$newsWrong++;
 				}
 				else{
 					$nbNewsGood++;
 				}
 			}
-	}
+		}
 		echo "nombre total de news: ".$nbNews."news";
 		echo "nombre de news mauvaise: ".$newsWrong."news";
 		echo "nombre de news good: ".$nbNewsGood."news";
