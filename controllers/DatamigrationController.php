@@ -181,6 +181,114 @@ class DatamigrationController extends CommunecterController {
 		}
 		echo "nombre de news avec images provenant d'un autre site////////////// ".$i;
 	}
+	/* 
+	* Scope public in news not well formated (ancient news)
+	*	Condition: if not from communevent
+	*	News uploadNewsImage
+	*   Update link @param media.content.image in news collection
+	*/
+	public function actionBashNewsWrongScope(){
+	  $news=PHDB::find(News::COLLECTION);
+	  $i=0;
+	  $nbCityCodeInsee=0;
+	  $nbCityName=0;
+	  $nbtodelete=0;
+	  $nbCityNotFindName=0;
+	  foreach($news as $key => $data){
+		  if($data["scope"]["type"]=="public"){
+			  if(@$data["scope"]["cities"]){
+				  	$newScopeArray=array("type"=>"public","cities"=>array());
+				  	if(@$data["scope"]["cities"][0] && gettype($data["scope"]["cities"][0])=="string"){
+
+					  	  	echo "<br/>////////id News: ".$key. "/////////";				  	  						  	print_r($data["scope"]);
+					  	foreach($data["scope"]["cities"] as $value){
+						  	if(is_numeric($value)){
+							  	echo "<br/>ici numérique:".$value;
+							  	$city=PHDB::findOne(City::COLLECTION, array("insee" => $value));
+							  	$newScopeArray["cities"][0]["codeInsee"]=$value;
+							  	$newScopeArray["cities"][0]["postalCode"]=$city["postalCodes"][0]["postalCode"];
+							  	if(@$data["geo"]){
+								  	$newScopeArray["cities"][0]["geo"]=$data["geo"];
+							  	}else{
+								  	$newScopeArray["cities"][0]["geo"]=$city["geo"];
+							  	}
+							  	$nbCityCodeInsee++;
+						  	} else {
+							  	echo "<br/>ici non numérique mais string: ".$value;
+							  	if($value=="LA RIVIERE"){
+								  	$newScopeArray["cities"][0]["codeInsee"]="97414";
+								  	$newScopeArray["cities"][0]["postalCode"]="97421";
+								  	$newScopeArray["cities"][0]["geo"]=array('@type' => 'GeoCoordinates','latitude'=>'-21.25833300','longitude'=>'55.44166700');
+								  	$nbCityName++;
+							  	}
+							  	else{
+							  	$city = PHDB::findOne(City::COLLECTION, array("alternateName" =>$value));
+							  		if(!empty($city)){
+								  		$newScopeArray["cities"][0]["codeInsee"]=$city["insee"];
+								  		$newScopeArray["cities"][0]["postalCode"]=$city["postalCodes"][0]["postalCode"];
+								  		$newScopeArray["cities"][0]["geo"]=$city["geo"];
+							  		$nbCityName++;
+							  		}else{
+							  			echo "ici";
+							  			$newScopeArray["cities"][0]="wrong";
+							  			$nbCityNotFindName++;	
+							  		}
+							  	}
+						  	}
+						  	echo "<br/>===>News array scope: ///<br/>";
+							print_r($newScopeArray);
+						  	echo "<br/>";
+					  	}
+					  $i++;
+				  	} else {
+					  	if (!@$data["scope"]["cities"][0])
+						{
+						 	echo "<br/>/////////////////// PAS DE 00000 ////////////////////<br/>";
+						 	$insee=false;
+						 	foreach($data["scope"]["cities"] as $value){
+							 	if(is_numeric($value)){
+								 	$insee=$value;
+							 	}	
+						 	}
+						 	if($insee){
+						 		echo "<br/>ici numérique:".$value;
+								  	$city=PHDB::findOne(City::COLLECTION, array("insee" => $value));
+								  	$newScopeArray["cities"][0]["codeInsee"]=$value;
+								  	$newScopeArray["cities"][0]["postalCode"]=$city["postalCodes"][0]["postalCode"];
+								  	if(@$data["geo"]){
+									  	$newScopeArray["cities"][0]["geo"]=$data["geo"];
+								  	}else{
+									  	$newScopeArray["cities"][0]["geo"]=$city["geo"];
+								  	}
+								  	$nbCityCodeInsee++;
+								  	$i++;
+								print_r($newScopeArray);
+								echo "<br/>";
+						 	}
+						}
+						
+				  	}
+				  	PHDB::update(News::COLLECTION,
+						array("_id" => $data["_id"]) , 
+						array('$set' => array("scope" => $newScopeArray)			
+					));
+			  } 
+			  else{
+				  echo "<br/>////news to delete avec wrong scope/////<br/>";
+				  print_r($data["scope"]);
+				  $nbtodelete++;
+				  echo "<br/>";
+				   PHDB::remove(News::COLLECTION, array("_id"=>$data["_id"]));
+				   $i++;
+			  }
+		}
+		}
+		echo "nombre de news avec insee enregistré: ".$nbCityCodeInsee."news";
+		echo "nombre de news avec name enregistré: ".$nbCityName."news";
+		echo "nombre de news à supprimer: ".$nbtodelete."news";
+		echo "nombre de news avec city non trouvé: ".$nbCityNotFindName."news";
+		echo "nombre de news avec data publique not well formated: ".$i."news";
+	}
 	/* First refactor à faire sur communecter.org 
 	* Remove all id and type in and object target.id, target.type
 	*	=> Modify target type city to target.id=author, target.type=Person::COLLECTION
