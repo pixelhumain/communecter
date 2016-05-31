@@ -52,7 +52,7 @@ $userId = Yii::app()->session["userId"] ;
 				<!--<div class="col-sm-3 col-xs-12">-->
 					<label>
 						Lier les entités : <input class="hide" id="isLink" name="isLink"></input>
-					<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
+						<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				<!-- </div>-->
 				<div id="divLink">
@@ -65,6 +65,12 @@ $userId = Yii::app()->session["userId"] ;
 					<label>
 						Admin : <input class="hide" id="isAdmin" name="isAdmin"></input>
 					<input id="checkboxAdmin" name="checkboxAdmin" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
+					</label>
+				</div>
+				<div id="divSendMail">
+					<label>
+						Envoyer les mails d'invitation : <input class="hide" id="isSendMail" name="isSendMail"></input>
+					<input id="checkboxSendMail" name="checkboxSendMail" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
 			</div>
@@ -141,6 +147,12 @@ function bind()
 		}
 	});
 
+	$("#checkboxSendMail").bootstrapSwitch();
+	$("#checkboxSendMail").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isSendMail").val(state);
+	});
+
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
@@ -187,6 +199,10 @@ function bind()
   		var isAdmin = false ;
   		if( $("#isAdmin").val() == "true" )
   			isAdmin = true ;
+
+  		var sendMail = false ;
+  		if( $("#isSendMail").val() == "true" )
+  			sendMail = true ;
   			
   		$.ajax({
 	        type: 'POST',
@@ -198,7 +214,8 @@ function bind()
 	        		link : link,
 	        		typeLink : $("#chooseTypeLink").val(),
 	        		idLink : $("#inputIdLink").val(),
-	        		isAdmin : isAdmin
+	        		isAdmin : isAdmin,
+	        		sendMail : sendMail
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',

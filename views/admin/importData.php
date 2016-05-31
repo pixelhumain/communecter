@@ -189,7 +189,11 @@ $userId = Yii::app()->session["userId"] ;
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<label for="inputKey">Key : </label>
-				<input class="" placeholder="Key attribuer a l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<label for="inputBadge">Badge : </label>
+				<input class="" placeholder="Badge a attribuer à l'ensemble des données importer" id="inputBadge" name="inputBadge" value="">
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<label>
@@ -849,6 +853,7 @@ function bindEvents()
 	        		creatorEmail : $('#creatorEmail').val(),
 	        		pathObject : $('#pathObject').val(),
 			        key : $("#inputKey").val(),
+			        badge : $("#inputBadge").val(),
 			        warnings : $("#checkboxWarnings").is(':checked')
 			    }
 
@@ -915,7 +920,7 @@ function bindEvents()
   	{
   		console.log("jsonImport" , $('#jsonImport').val());
   		console.log("jsonError" , $('#jsonError').val());
-  		/*$.ajax({
+  		$.ajax({
 	        type: 'POST', 
 	        data: { jsonImport : $('#jsonImport').val(), 
 	        		jsonError : $('#jsonError').val(),
@@ -923,21 +928,19 @@ function bindEvents()
 	        		idCollection : $("#idCollection").val()},
 	        url: baseUrl+'/communecter/admin/importinmongo/',
 	        dataType : 'json',
-	        success: function(data)
-	        {
+	        success: function(data) {
 	            //console.dir(data);
 	            if(data.result)
-	              	toastr.success("Les données ont été ajouté.");
+	              	toastr.success("Les fichiers ont été crée.");
 	            else
 	                toastr.error("Erreur");
-	           	//$.unblockUI();
-	           	window.location.href = data.url;
+	           	
 	        }
 
 	        
-	    });*/
+	    });
 
-	    $.ajax({
+	    /*$.ajax({
 		    url: baseUrl+'/communecter/admin/importinmongo/',
 		    data: { jsonImport : $('#jsonImport').val(), 
 	        		jsonError : $('#jsonError').val(),
@@ -947,7 +950,7 @@ function bindEvents()
 		    success: function() {
 		        window.location = baseUrl+'/communecter/admin/importinmongo/';
 		    }
-		});
+		});*/
   	});
 
 

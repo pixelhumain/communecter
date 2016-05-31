@@ -40,7 +40,7 @@ class AdminController extends CommunecterController {
 	        'moderate' => 'citizenToolKit.controllers.admin.ModerateAction',
 	        'checkcities' => 'citizenToolKit.controllers.admin.CheckCitiesAction',
 	        'checkcedex' => 'citizenToolKit.controllers.admin.CheckCedexAction',
-	        'downloadfile' => 'citizenToolKit.controllers.admin.DownloadFileAction'
+	        'downloadfile' => 'citizenToolKit.controllers.admin.DownloadFileAction',
 			'statistics' => 'citizenToolKit.controllers.admin.StatisticsAction'
 
 	    );
