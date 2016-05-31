@@ -21,8 +21,10 @@ function checkPoll(){
 	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
 		checkCommentCount();
 
-	if(countPoll < 100)
+	if(countPoll < 100){
 		setTimeout( function () { checkPoll() }, 300000); //every5min
+		countPoll++;
+	}
 }
 /* *************************** */
 /* instance du menu questionnaire*/
