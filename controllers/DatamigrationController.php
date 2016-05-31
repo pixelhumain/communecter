@@ -187,6 +187,48 @@ class DatamigrationController extends CommunecterController {
 	*	News uploadNewsImage
 	*   Update link @param media.content.image in news collection
 	*/
+	public function actionBashRepareBulshit(){
+	  $news=PHDB::find(News::COLLECTION);
+	  $nbNews=count($news);
+	  $i=0;
+	  $newsWrong=0;
+	  $nbNewsGood=0;
+	  foreach($news as $key => $data){
+		  	if($data["scope"]["type"]=="public"){
+			  	if(!@$data["scope"]["cities"][0]){
+				  	$newScopeArray=array("type"=>"public","cities"=>array());
+					if($data["target"]["type"]=="pixels"){
+						$author=PHDB::findOne(Person::COLLECTION,array("_id"=>new MongoId($data["author"])));
+						$newScopeArray["cities"][0]["codeInsee"]=$author["address"]["codeInsee"];
+						$newScopeArray["cities"][0]["postalCode"]=$author["address"]["postalCode"];
+						$newScopeArray["cities"][0]["geo"]=$author["geo"];
+					}else {
+						$target=PHDB::findOne($data["target"]["type"],array("_id"=>new MongoId($data["target"]["id"])));
+						$newScopeArray["cities"][0]["codeInsee"]=$target["address"]["codeInsee"];
+						$newScopeArray["cities"][0]["postalCode"]=$target["address"]["postalCode"];
+						$newScopeArray["cities"][0]["geo"]=$target["geo"];
+					}
+					PHDB::update(News::COLLECTION,
+									array("_id" => $data["_id"]) , 
+									array('$set' => array("scope" => $newScopeArray)	
+					));
+					$newsWrong++;
+				}
+				else{
+					$nbNewsGood++;
+				}
+			}
+	}
+		echo "nombre total de news: ".$nbNews."news";
+		echo "nombre de news mauvaise: ".$newsWrong."news";
+		echo "nombre de news good: ".$nbNewsGood."news";
+	}
+	/* 
+	* Scope public in news not well formated (ancient news)
+	*	Condition: if not from communevent
+	*	News uploadNewsImage
+	*   Update link @param media.content.image in news collection
+	*/
 	public function actionBashNewsWrongScope(){
 	  $news=PHDB::find(News::COLLECTION);
 	  $i=0;
