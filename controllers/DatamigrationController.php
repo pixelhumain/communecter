@@ -239,7 +239,11 @@ class DatamigrationController extends CommunecterController {
 							print_r($newScopeArray);
 						  	echo "<br/>";
 					  	}
-					  $i++;
+					  	PHDB::update(News::COLLECTION,
+							array("_id" => $data["_id"]) , 
+							array('$set' => array("scope" => $newScopeArray)			
+						));
+						$i++;
 				  	} else {
 					  	if (!@$data["scope"]["cities"][0])
 						{
@@ -264,14 +268,14 @@ class DatamigrationController extends CommunecterController {
 								  	$i++;
 								print_r($newScopeArray);
 								echo "<br/>";
+								PHDB::update(News::COLLECTION,
+									array("_id" => $data["_id"]) , 
+									array('$set' => array("scope" => $newScopeArray)			
+								));
 						 	}
 						}
 						
 				  	}
-				  	PHDB::update(News::COLLECTION,
-						array("_id" => $data["_id"]) , 
-						array('$set' => array("scope" => $newScopeArray)			
-					));
 			  } 
 			  else{
 				  echo "<br/>////news to delete avec wrong scope/////<br/>";
