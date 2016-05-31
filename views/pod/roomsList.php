@@ -15,19 +15,27 @@ $moduleId = Yii::app()->controller->module->id;
 	    background-color: #dedede;
 		font-size: 17px;
 	}
-
+    */
 	#pod-room .panel-title a.text-white-hover:hover{
 		color:white !important;
 		text-decoration: underline !important;
-	}*/
+	}
 
 	.nav-menu-rooms{
 		margin-top:-2px;
 	}
 
-	.nav-menu-rooms.nav-tabs > li a{
+	.nav-menu-rooms.nav-tabs > li{
+  		background-color: #454545;
 		font-size:17px !important;
 	}
+	.nav-menu-rooms.nav-tabs > li a{
+  		color:white;
+  	}
+  	.nav-menu-rooms.nav-tabs > li.active a, .nav-menu-rooms.nav-tabs > li a:hover{
+		color:#454545;
+	}
+	 
 	#pod-room .panel-title a.helvetica, #pod-room .tooltip{
 		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 		font-weight: 500;
@@ -37,6 +45,14 @@ $moduleId = Yii::app()->controller->module->id;
 	.tab-content {
       min-height: 250px;
     }
+
+    .nav-menu-rooms #img-profil-tab{
+    	height: 25px;
+		width: 25px;
+		border-radius: 50%;
+		margin-top: -2px;
+    }
+    
 </style>
 <?php 
 	
