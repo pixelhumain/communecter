@@ -202,8 +202,13 @@ class DatamigrationController extends CommunecterController {
 							$newScopeArray["cities"][0]["codeInsee"]=$object["address"]["codeInsee"];
 							$newScopeArray["cities"][0]["postalCode"]=$object["address"]["postalCode"];
 							$newScopeArray["cities"][0]["geo"]=$object["geo"];
+							PHDB::update(News::COLLECTION,
+										array("_id" => $data["_id"]) , 
+										array('$set' => array("scope" => $newScopeArray)	
+						));
+						$newsWrong++;
 				  	}
-				  	else{
+				  	/*else{
 						if($data["target"]["type"]=="pixels"){
 							$author=PHDB::findOne(Person::COLLECTION,array("_id"=>new MongoId($data["author"])));
 							$newScopeArray["cities"][0]["codeInsee"]=$author["address"]["codeInsee"];
@@ -219,8 +224,8 @@ class DatamigrationController extends CommunecterController {
 										array("_id" => $data["_id"]) , 
 										array('$set' => array("scope" => $newScopeArray)	
 						));
-					}
-					$newsWrong++;
+					}*/
+
 				}
 				else{
 					$nbNewsGood++;
