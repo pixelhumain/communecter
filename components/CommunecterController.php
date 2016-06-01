@@ -98,6 +98,7 @@ class CommunecterController extends Controller
       "statistics"    => array("href" => "/ph/communecter/stat/chart"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
+      "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
 
     ),
     "adminpublic" => array(
