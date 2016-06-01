@@ -71,15 +71,15 @@
 <div class="hover-menu hidden-xs">
 	
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
+	<?php /* if(!isset(Yii::app()->session['userId'])){ ?>
 		<!-- <button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
 				<i class="fa fa-sign-in"></i>
 		</button> -->
 	<?php }else{ ?>
-		<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+		<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md visible-lg" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 				<i class="fa fa-sign-out"></i>
 		</button>
-	<?php } ?>
+	<?php } */ ?>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>

@@ -32,7 +32,7 @@ $this->renderPartial('../rooms/header',array(
                       "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
                               " / ".
                               "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$_GET['survey']."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
-                            ' / <i class="fa fa-plus"></i>'
+                            ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
                       )); 
  ?>
 <div id="editEntryContainer"></div>
@@ -284,4 +284,6 @@ function getRandomInt (min, max) {
 }
 
 </script>
+
+
 

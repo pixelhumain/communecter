@@ -162,8 +162,6 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 var nameParentTitle = "<?php echo $nameParentTitle; ?>";
 jQuery(document).ready(function() {
 	
-
-
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
 	
 	$(".main-col-search").addClass("assemblyHeadSection");
@@ -243,3 +241,5 @@ function clearAllFilters(str){
 	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 </script>
+
+<iframe name='embed_readwrite' src='https://mensuel.framapad.org/p/loomiodevdebout?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false'width=600 height=400></iframe>
