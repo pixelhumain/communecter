@@ -16,17 +16,21 @@
 	$inseeCommunexion = "";
 	$cpCommunexion = "";
 	$cityNameCommunexion = "";
+
+	$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+	
+	$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+	
+	$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+
+	if($cpCommunexion != "" && $cityNameCommunexion != "")
+	$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
-		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
-		
-		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
-		
-		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
-
 		if($cpCommunexion != "" && $cityNameCommunexion != "")
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	}
@@ -127,7 +131,8 @@
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 	
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu9 bg-azure" <?php if(isset($myCity)) { ?>onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>')"<?php } ?>>
+	<?php if(isset($cityCommunexion)) { ?>
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 bg-azure" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
 		<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
@@ -135,51 +140,12 @@
 			<!--<i class="fa fa-group"></i>-->
 			<span class="lbl-btn-menu-name">Conseil citoyen <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
-	
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
-			<i class="fa fa-bookmark fa-rotate-270"></i> 
-			<span class="lbl-btn-menu-name">Mon répertoire</span>
-	</button>
-	<?php } ?>
-
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu8" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
-			<i class="fa fa-rss fa-rotate-270"></i>
-			<span class="lbl-btn-menu-name"><?php echo Yii::t("common","My News Stream");?></span>
-	</button>
 	<?php } ?>
 
 	
 
-	<button class="menu-button menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels')">
-			<i class="fa fa-bullhorn"></i>
-			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
-	</button>
 
-	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-    <button class="menu-button menu-button-title menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
-			<i class="fa fa-cog"></i>
-			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?>
-				<?php if(@$newsToModerate){ ?>
-					<span class="badge count-to-moderate"><?php echo $newsToModerate; ?></span>
-				<?php } ?>
-			</span>
-	</button>
-	<?php } /*?>
-	
-	<div class="homeShortcuts hide menuShortcuts">
-		<ul>
-		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#wwwSection')" title="UN BIEN COMMUN" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#crowfundingSection')" title="CROWDFUNDER" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#valueSection')" title="DES VALEURS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#dicoSection')" title="DES MOTS CLEFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#friendsSection')" title="DES AMIS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		</ul>
-	</div>*/?>
+
 
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
@@ -204,6 +170,55 @@
     
 	</div>
 </div>
+
+
+<div class="hover-menu HM-right-side hidden-xs">
+	<div class="main-menu-right">
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark text-white">
+				<i class="fa fa-bookmark fa-rotate-270"></i> 
+				<span class="lbl-btn-menu-name">Mon répertoire</span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu6 text-red" onclick="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')">
+				<i class="fa fa-group"></i>
+				<span class="lbl-btn-menu-name"><?php echo  ucfirst(strtolower(Yii::t("common","MY CITIZEN COUNCIL")));?></span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu7 text-red" onclick="javascript:loadByHash('#city.detail.insee.<?php echo $inseeCommunexion; ?>.postalCode.<?php echo $cpCommunexion; ?>')">
+				<i class="fa fa-university"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","MY CITY")));?></span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu8 text-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+				<i class="fa fa-rss fa-rotate-270"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","MY NEWS STREAM")));?></span>
+		</button>
+		<?php } ?>
+
+		<button class="menu-button menu-button-title btn-menu btn-menu9 text-dark" onclick="loadByHash('#news.index.type.pixels')">
+				<i class="fa fa-bullhorn"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "BUGS, IDEAS"))); ?></span></span>
+		</button>
+
+		<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
+	    <button class="menu-button menu-button-title menu-button-title btn-menu btn-menu10 text-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
+				<i class="fa fa-cog"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "ADMIN"))); ?>
+					<?php if(@$newsToModerate){ ?>
+						<span class="badge count-to-moderate"><?php echo $newsToModerate; ?></span>
+					<?php } ?>
+				</span>
+		</button>
+		<?php } ?>
+	</div>
 <!-- 
 <button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
 	<i class="fa fa-university"></i>

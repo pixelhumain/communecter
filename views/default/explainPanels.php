@@ -667,7 +667,7 @@
 					<li><i class="fa fa-angle-right"></i>Viralité : connection avec GMail contacts, import CSV (invités, membres, contributeurs)</li>
 				</ul>
 
-				version 0.2
+				version 0.12
 				<ul>
 					<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
 					<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
@@ -678,7 +678,7 @@
 					<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
 				</ul>
 
-				version 0.3
+				version 0.13
 				<ul>
 					<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
 					<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>

@@ -16,7 +16,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .contentProposal{
 	background-color: white;
 }
+.header-parent-space{
+	margin: -10px 10px;
+	padding: 15px 8px 8px;
+	border-radius: 7px 7px 0px 0px;
+	box-shadow: 0px 3px 10px 1px rgb(101, 101, 101);
+	background-color: rgba(255, 255, 255, 0.73);
+	-moz-box-shadow: 0px 3px 10px 1px #656565;
+	-webkit-box-shadow: 0px 3px 10px 1px #656565;
+	-o-box-shadow: 0px 3px 10px 1px #656565;
+}
  </style>	
+}
 
 <h1 class="homestead text-dark center citizenAssembly-header">
  	<?php 
@@ -25,7 +36,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if($parentType == Project::COLLECTION) { $parent = Project::getById($parentId); }
 		  	if($parentType == Organization::COLLECTION) { $parent = Organization::getById($parentId); }
 		  	if($parentType == Person::COLLECTION) { $parent = Person::getById($parentId); }
-	        if($parentType == City::COLLECTION) { $parent = City::getById($parentId); }
+	        if($parentType == City::COLLECTION) { $parent = City::getByUnikey($parentId); }
 		}
 
 		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
@@ -49,7 +60,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if($parentType == City::COLLECTION) 
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
-	<div class=" row bg-white" style="margin: 0px 12px 0px;padding: 8px;">
+	<div class="row header-parent-space">
 		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
 			<i class="fa fa-<?php echo $icon; ?>"></i> 
 				<?php
