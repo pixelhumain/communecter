@@ -881,12 +881,13 @@ function bindEvents()
 
 	  				if($("#typeFile").val() == "csv"){
 	  					var fin = false ;
-				  		var indexStart = 0 ;
+				  		var indexStart = 1 ;
 				  		var limit = 25 ;
 				  		var indexEnd = limit;
+				  		var head = file.slice(0,1);
 
 				  		while(fin == false){
-				  			subFile = file.slice(indexStart,indexEnd);
+				  			subFile = head.concat(file.slice(indexStart,indexEnd));
 				  			console.log("subFile", subFile.length);
 
 				  			params["file"] = subFile;
