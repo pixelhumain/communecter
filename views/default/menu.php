@@ -149,6 +149,7 @@
 
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
+		<a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red"><i class="fa fa-2x text-red fa-map-signs"></i></a>
 		<?php /*if (isset(Yii::app()->session["userId"])){ ?>
 			<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
 		<?php }*/ ?>
