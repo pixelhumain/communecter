@@ -441,7 +441,7 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news,action,method,reason, comment=null) {
+function actionOnNews(news,action,method,reason, comment) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
