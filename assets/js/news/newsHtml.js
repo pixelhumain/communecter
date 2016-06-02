@@ -140,7 +140,10 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 		textHtml="";
 		if(newsObj.text.length > 0){
-			textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			if(typeof(view) != "undefined" && view == "detail")
+				textNews=newsObj.text;
+			else
+				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
 			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
@@ -726,5 +729,12 @@ function disableOtherAction($this,action,method){
 	}
 }
 function blankNews(id){
-	window.open(baseUrl+'#news.detail.id.'+id,'_blank');
+/*	$.blockUI({
+			message : '<div class="newsContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement de l\'actualité ...</h2></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
+		getAjax('.newsContent',baseUrl+'/'+moduleId+"/news/detail/id/"+id,function(){ 
+		},"html");*/
+	window.open(baseUrl+'/#news.detail.id.'+id,'_blank');
 }
