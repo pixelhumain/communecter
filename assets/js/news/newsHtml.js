@@ -293,7 +293,7 @@ function buildLineHTML(newsObj,idSession,update)
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
 						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'><span class='nbNewsComment'>"+commentCount+"</span> <i class='fa fa-comment'></i></span></a> "+
 							vote+
 						"</div>";
 						}
@@ -618,10 +618,10 @@ function showComments(id){
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
 			toastr.info(trad["removeopinionbefore"]);
-		else{	
+	else{	
 		//toastr.info('This vote has been well registred');
-			if($($this).children(".label").hasClass("text-green")){
-				method = true;
+		if($($this).children(".label").hasClass("text-green")){
+			method = true;
 		}
 		else{
 			method = false;
@@ -642,10 +642,10 @@ function newsVoteDown($this, id){
 		}
 		else{
 			method = false;
-	}
-	actionOnNews($($this),'voteDown',method);
-	disableOtherAction($($this), '.commentVoteDown', method);
-	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+		}
+		actionOnNews($($this),'voteDown',method);
+		disableOtherAction($($this), '.commentVoteDown', method);
+		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
 function newsReportAbuse($this, id){
@@ -705,7 +705,7 @@ function reportAbuse($this,action, method) {
 		  }
 		});
 		boxNews.on("shown.bs.modal", function() {
-		  $.unblockUI();
+			$.unblockUI();
 		});
 	}
 }
