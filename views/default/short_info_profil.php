@@ -22,7 +22,7 @@
     <div class="topMenuButtons pull-right">
     <?php 
     if( isset( Yii::app()->session['userId']) )
-      echo $this->renderPartial('menuProfile',array( "urlPhotoProfil"=>$urlPhotoProfil,
+      echo $this->renderPartial('menuProfil',array( "urlPhotoProfil"=>$urlPhotoProfil,
                                                       "me"=> $me)); 
     else { ?>
       <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
