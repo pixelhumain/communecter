@@ -184,6 +184,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<?php if(isset($event["name"])) echo $event["name"];?>
 						</a>
 					</h2>
+					
+					<?php if(isset($event["parentId"])) {
+						$parentEvent = Event::getSimpleEventById($event["parentId"]);
+						echo 'Part of Event : <a href="javascript:;" onclick="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+					}
+					?>
+						
 				</div>
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
