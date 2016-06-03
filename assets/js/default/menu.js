@@ -264,7 +264,7 @@ function bindEventMenu(){
 			timeoutHover = setTimeout(function(){
 				//hoverPersist = true;
 				if(showMenuExplanation)
-				$(".hover-info").css("display" , "inline");
+					$(".hover-info").css("display" , "inline");
 			}, 1500);
 		}
 	});
