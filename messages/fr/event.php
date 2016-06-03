@@ -35,5 +35,15 @@ return array(
 	"Attendee well registered and invite!!" => "Participant enregistré et invité avec succès ",
 	"All day" => "Toute la journée",
 	"Your event has been connected." => "Votre événement est communecté",
+
+	"Parent Event" => "Événement parent",
+	"Events" => "Événements",
+	"Part of Event" => "durant l'événement ",
+	"If this event is Part of an Event" => "Si fait parti d'un événement",
+	"Cancel Event" => "Annuler l'événement",
+	"Edit Event"=>"Editer l'événement",
+	"Modify Position on the map" => "Modifiez la position sur la carte",
+	"Delete this event" => "Effacer cet événement",
+
 );
 ?>
