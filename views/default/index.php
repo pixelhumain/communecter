@@ -245,12 +245,14 @@
     	left: 15px;
 		bottom: 12px;
     }
-    #searchBarPostalCode{
-	    left: 62px;
-		bottom: 12px;
-    height: 40px;
-        width: 186px;
-        padding: 10px 15px !important;
+    @media screen and (min-width: 765px){
+	    #searchBarPostalCode{
+		    left: 62px;
+			bottom: 12px;
+	    height: 40px;
+	        width: 186px;
+	        padding: 10px 15px !important;
+	    }
     }
     button.btn-menu-add{
 	    bottom: 12px;

@@ -172,6 +172,20 @@
 	</div>
 </div>
 
+<div class="visible-xs" id="menu-bottom">
+	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
+		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
+		<i class="fa fa-crosshairs"></i>
+	</button> 
+	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
+	<?php 
+	if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
+		</button>
+	<?php } ?>
+</div>
 
 <div class="hover-menu HM-right-side hidden-xs">
 	<div class="main-menu-right">
@@ -266,21 +280,6 @@
 <?php } ?>
 
 
-
-<div class="visible-xs" id="menu-bottom">
-	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
-		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
-		<i class="fa fa-crosshairs"></i>
-	</button> 
-	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
-	<?php 
-	if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-		<span class="lbl-btn-menu-name">Ajouter</span></span>
-		<i class="fa fa-plus-circle"></i>
-		</button>
-	<?php } ?>
-</div>
 
 <style>
 
