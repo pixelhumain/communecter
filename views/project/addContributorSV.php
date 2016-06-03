@@ -82,7 +82,7 @@ $this->renderPartial('../default/panels/toolbar');
 					           		
 					           	</div>
 					           	<div class="col-md-10">
-			    	        		<input class="contributor-name form-control" placeholder="Name" id="contributorName" name="contributorName" value=""/>
+			    	        		<input class="contributor-name form-control" placeholder="<?php echo Yii::t("common","Name") ?>" id="contributorName" name="contributorName" value=""/>
 								</div>		    	        
 			    	        </div>
 			    	        <div class="row form-group" id="divOrganizationType">
@@ -138,7 +138,7 @@ $this->renderPartial('../default/panels/toolbar');
 			            <thead>
 			                <tr>
 			                    <th class="hidden-xs">Type</th>
-			                    <th>Name</th>
+			                    <th><?php echo Yii::t("common","Name") ?></th>
 			                    <th class="hidden-xs center">Email</th>
 			                    <th>Admin</th>
 			                    <th>Status</th>
@@ -340,7 +340,7 @@ $this->renderPartial('../default/panels/toolbar');
 							$('#newContributors #contributorEmail').parents().eq(1).show();
 							$("[name='my-checkbox']").bootstrapSwitch('state', false);
 		        			showSearchContributor();   
-				        	toastr.success('<?php Yii::t("common","Invitation to project successfully sent")?>');
+				        	toastr.success('<?php echo Yii::t("common","Invitation to project successfully sent")?>');
 				        } else {
 				           toastr.error('Something Went Wrong : '+data.content);
 				        }
@@ -475,7 +475,7 @@ $this->renderPartial('../default/panels/toolbar');
 	   						+$(".form-contributor .contributor-name").val()+"</td><td>"
 	   						+$(".form-contributor .contributor-email").val()+"</td><td>"
 	   						+admin+"</td><td>"+
-	   						"<span class='label label-info'>added</span></td> <tr>";
+	   						"<span class='label label-info'><?php echo Yii::t("common","added") ?></span></td> <tr>";
 	    $(".contributorsAdded").append(strHTML);
 	    if($(".contributorsAddedTable").hasClass("hide"))
 	        $(".contributorsAddedTable").removeClass('hide').addClass('animated bounceIn');

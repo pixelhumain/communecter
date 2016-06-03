@@ -377,7 +377,7 @@ function buildHtmlUrlAndActionObject(obj){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
-			titleAction = "a créé une organization";
+			titleAction = "a créé une organisation";
 		} 
 		else if(obj.object.objectType =="events"){
 			redirectTypeUrl="event";
