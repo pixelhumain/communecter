@@ -153,7 +153,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<?php 
 				$myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
-				$myEventsAdmin = Authorisation::listEventsIamAdminOf(Yii::app() ->session["userId"]);
+				
 				function mySort($a, $b){
 			  		if(isset($a['name']) && isset($b['name'])){
 				    	return ( strtolower($b['name']) < strtolower($a['name']) );
@@ -216,22 +216,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 				</div>
 				
-				<?php if(!empty($myEventsAdmin)) { ?>
+				<?php 
+				$myEventsAdmin = Authorisation::listEventsIamAdminOf( Yii::app() ->session["userId"] );
+				usort($myEventsAdmin,"mySort");
+				if(!empty($myEventsAdmin)) 
+				{ ?>
 				<div class="selectpicker">
-					<div class="form-group" id="orgaDrop" name="orgaDrop">
-						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Parent Event") ?></h3>
+					<div class="form-group" id="parentDrop" name="parentDrop">
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?></h3>
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                          	<span id="labelOrga"><?php echo Yii::t("event","Is Part of an Event",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
+                          	<span id="labelParent"><?php echo Yii::t("event","If this event is Part of an Event",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
                         </a>
                         <!--<div class="panel-scroll height-230 ps-container">-->
                         <ul role="menu" class="dropdown-menu scrollable-menu">
-	                        
 	                        <?php if(!empty($myEventsAdmin)) { ?>
 	                        <li class="col-md-12">
 		                        <ul class="dropParentEvent" id="events">
-			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("common","Events") ?></li>
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("event","Events",null,Yii::app()->controller->module->id); ?></li>
 		                        	<?php foreach ($myEventsAdmin as $e) { ?>
-			                        	<li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                        	<li><a href="javascript:;" class="btn-drop dropParent" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 			                       	<?php } ?>
 		                        </ul>
 	                        </li>
@@ -239,7 +242,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                         </ul>
                        <!-- </div>-->
                     </div>
-
+                    <input type="hidden" id="newEventParentId" name="newEventParentId" value="">
 				</div>
 				<?php } ?>
 
@@ -589,6 +592,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
+				if( $("#newEventParentId").val() )
+					newEvent.parentId = $("#newEventParentId").val();
+				
 				console.log("newEvent");		
 				console.dir(newEvent);			
 					$.blockUI({
@@ -718,18 +724,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 		$("#eventCountry").select2('val', "");
 
-		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
-			//$(".selectpicker").addClass("col-md-12");
-			//$(".categoryOrgaEvent").addClass("col-md-4");
-		}
-		else if (listOrgaAdmin.length != 0 || listProjectAdmin.length != 0){
-			//$(".selectpicker").addClass("col-md-6");
-			//$(".categoryOrgaEvent").addClass("col-md-6");
-		}
-		else {
-			//$(".selectpicker").addClass("col-md-6");
-			//$(".categoryOrgaEvent").addClass("col-md-12");
-		}
 		if(organizerParentType.length > 0){
 			if (organizerParentType=="organization"){
 				titleName="<?php echo Yii::t("common","Organization") ?>";
@@ -763,8 +757,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("citoyens");
 			}
+		})
 
-
+		$(".dropParent").click(function() {
+			console.log(this);
+			if ($(this).parents().eq(1).attr("id")=="events"){
+				$("#labelParent").text("<?php echo Yii::t("common","Parent Event") ?> : "+$(this).data("name"));
+				$("#newEventParentId").val($(this).data("id"));
+			}
 		})
 
 		if("undefined" != typeof(parentOrga)){
