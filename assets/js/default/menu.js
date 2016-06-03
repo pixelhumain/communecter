@@ -9,7 +9,7 @@ function removeExplainations(){
 		if(data.result){
 			toastr.success(data.msg);	
 			showMenuExplanation = false;
-			loadByHash(location.hash);
+			$(".removeExplanationCont").hide();
 		}
 		else
 		toastr.error(data.msg);
@@ -255,8 +255,10 @@ function bindEventMenu(){
 			$(".main-col-search").animate({ opacity:0.3 }, 200 );
 			$(".menu-button-title").addClass("large");
 
-			if(showMenuExplanation)
-				$(".lbl-btn-menu-name, .infoVersion").css("display" , "inline");
+			if(!showMenuExplanation)
+				$(".removeExplanationCont").hide();
+
+			$(".lbl-btn-menu-name, .infoVersion").css("display" , "inline");
 
 			clearTimeout(timeoutHover);
 			timeoutHover = setTimeout(function(){

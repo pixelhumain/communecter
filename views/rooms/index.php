@@ -171,7 +171,6 @@ jQuery(document).ready(function() {
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-		    $(".removeExplanation").parent().hide();
 			showDefinition( $(this).data("id") );
 			return false;
 		});
