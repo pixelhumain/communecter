@@ -77,6 +77,19 @@ Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+
+Transforme les telephones au format String dans le nouveaux format
+@Rapha
+db.citoyens.find().forEach(function(doc){ 
+    if(typeof doc.telephone == "string") { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
+         })
+    }
+});
+
+
 @Tib
 db.cities.find().forEach(function(doc)
 {
