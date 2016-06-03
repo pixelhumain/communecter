@@ -36,7 +36,7 @@ class PersonController extends CommunecterController {
 	        'activate'  	       => 'citizenToolKit.controllers.person.ActivateAction',
 	        'register'  	       => 'citizenToolKit.controllers.person.RegisterAction',
 	        'getnotification'    => 'citizenToolKit.controllers.person.GetNotificationAction',
-          'getthumbpath'       => 'citizenToolKit.controllers.person.getThumbPathAction',
+          'getthumbpath'       => 'citizenToolKit.controllers.person.GetThumbPathAction',
           'invite'  		       => 'citizenToolKit.controllers.person.InviteAction',
 	        'invitation'         => 'citizenToolKit.controllers.person.InvitationAction',
 	        'updatefield'	       => 'citizenToolKit.controllers.person.UpdateFieldAction',
