@@ -76,7 +76,7 @@
 				<i class="fa fa-sign-in"></i>
 		</button> -->
 	<?php }else{ ?>
-		<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+		<button class="menu-button btn-menu btn-logout bg-red tooltips hidden-sm" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 				<i class="fa fa-sign-out"></i>
 		</button>
 	<?php } ?>
@@ -387,11 +387,12 @@ text-align: center;
 
 var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()->session["userId"]) ? "true" : "false"; ?>;
+var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 jQuery(document).ready(function() {
 
 	//realTimeKKBB();
 	
-	var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
+	
 	bindEventMenu();
 
 });
