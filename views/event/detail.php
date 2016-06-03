@@ -31,7 +31,18 @@ $admin = false;
 															"contentType" => Event::COLLECTION,
 															"admin" => $admin));
 					?>
+		<?php if (!empty($subEvents)){ 
+				if(!isset($eventTypes)) $eventTypes = array();
+				$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
+																	"contextId" => (String) $event["_id"],
+																	"contextType" => Event::CONTROLLER,
+																	"list" => $eventTypes,
+																	"authorised" => $admin
+																  )); 
+		} ?>
 	</div>
+
+	
 </div>
 <script type="text/javascript">
 	<?php $attending[] = $event; ?>

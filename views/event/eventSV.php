@@ -150,8 +150,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		<div class="row">
 		<div class="col-md-12">
 			<form class="form-event">
-			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
+			<?php 
+				$myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
+				$myEventsAdmin = Authorisation::listEventsIamAdminOf(Yii::app() ->session["userId"]);
 				function mySort($a, $b){
 			  		if(isset($a['name']) && isset($b['name'])){
 				    	return ( strtolower($b['name']) < strtolower($a['name']) );
@@ -214,6 +216,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 				</div>
 				
+				<?php if(!empty($myEventsAdmin)) { ?>
+				<div class="selectpicker">
+					<div class="form-group" id="orgaDrop" name="orgaDrop">
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Parent Event") ?></h3>
+                        <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                          	<span id="labelOrga"><?php echo Yii::t("event","Is Part of an Event",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
+                        </a>
+                        <!--<div class="panel-scroll height-230 ps-container">-->
+                        <ul role="menu" class="dropdown-menu scrollable-menu">
+	                        
+	                        <?php if(!empty($myEventsAdmin)) { ?>
+	                        <li class="col-md-12">
+		                        <ul class="dropParentEvent" id="events">
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("common","Events") ?></li>
+		                        	<?php foreach ($myEventsAdmin as $e) { ?>
+			                        	<li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                       	<?php } ?>
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+                        </ul>
+                       <!-- </div>-->
+                    </div>
+
+				</div>
+				<?php } ?>
+
 				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
 				<div class="form-group">
 					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
