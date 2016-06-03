@@ -166,7 +166,7 @@ function bindEventMenu(){
 	});
 
 	$(".btn-logout").click(function(){
-    	//console.log("btn-logout");
+    	console.log("btn-logout");
 		window.location.href = urlLogout;
 	});
 
