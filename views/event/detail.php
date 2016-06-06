@@ -37,7 +37,7 @@ $admin = false;
 				if( !empty($subEventsOrganiser) ){
 					$this->renderPartial('../pod/usersList', array( "event" => $event,
 																	"users" => $subEventsOrganiser,
-																	"userCategory" => Yii::t("event","ORGANISERS",null,Yii::app()->controller->module->id), 
+																	"userCategory" => Yii::t("event","SUB EVENT ORGANISER",null,Yii::app()->controller->module->id), 
 																	"contentType" => Event::COLLECTION,
 																	"admin" => false));
 				}

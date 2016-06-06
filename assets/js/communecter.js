@@ -432,6 +432,7 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
+	"#event.directory" : {title:"EVENT VISUALISATION ", icon : "connectdevelop"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },

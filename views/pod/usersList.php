@@ -73,13 +73,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php } 
 				if ($contentType == "events"){ ?>
 					<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash( '#event.addattendeesv.eventId.<?php echo (string)$event["_id"];?>')">
-						<i class="fa fa-plus"></i> <?php echo Yii::t("common","Sent invitations") ?>
+						<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ?>
 					</a>			
 				<?php } ?>
 			</div>
 		<div class="padding-10">
 		<?php	if(empty($users)){ ?>
-				<div class="padding-10"><blockquote class="no-margin"><?php if ($contentType==Event::COLLECTION) echo Yii::t("common","No attendee for this event"); else if ($contentType==Project::COLLECTION) echo Yii::t("common","No contributor for this project"); else if ($contentType==Organization::COLLECTION) echo Yii::t("common","No member for this organization"); ?></blockquote></div>
+				<div class="padding-10">
+					<blockquote class="no-margin">
+					<?php if ($contentType==Event::COLLECTION) 
+							echo Yii::t("common","No attendee for this event"); 
+						else if ($contentType==Project::COLLECTION) 
+							echo Yii::t("common","No contributor for this project"); 
+						else if ($contentType==Organization::COLLECTION) 
+							echo Yii::t("common","No member for this organization"); ?>
+					</blockquote>
+				</div>
 			<?php }
 			else{
 				//print_r($followers);
