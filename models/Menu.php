@@ -126,7 +126,7 @@ class Menu {
         			Yii::t("common","Back to ".$controller),'home',
         			"loadByHash('#".$controller.".detail.id.".$parentId."')",$controller, "detail");
     }
-	public static function event($event)
+	public static function event($event , $hasSubEvents = false)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
@@ -141,7 +141,6 @@ class Menu {
                     'home',
                     "loadByHash('#event.detail.id.".$id."')","event", "detail");
 
-                
         //SEE TIMELINE
         //-----------------------------
         self::entry("left", 'onclick', 
@@ -150,6 +149,17 @@ class Menu {
                 'rss',
                 "loadByHash('#news.index.type.".Event::COLLECTION.".id.".$id."')","news", "index");
 		
+        if( $hasSubEvents )
+        {
+            //DIRECTORY
+            //-----------------------------
+            self::entry("left", 'onclick', 
+                        Yii::t("event", 'View this event as a directory', null, Yii::app()->controller->module->id), 
+                        Yii::t("event", 'Visualise Event', null, Yii::app()->controller->module->id),
+                        'connectdevelop',
+                        "loadByHash('#event.directory.id.".$id."?tpl=directory2')","event", "directory");
+        }
+
 		//ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
@@ -157,6 +167,7 @@ class Menu {
                     Yii::t("common", 'Album'),
                     'photo',
                     "loadByHash('#gallery.index.id.".$id.".type.".Event::COLLECTION."')","gallery", "index");
+        
         if(isset(Yii::app()->session["userId"])){
             if( isset($event["_id"]) && Link::isLinked($event["_id"] , Event::COLLECTION , Yii::app()->session['userId']) ){
     	        self::entry("right", 'onclick',
