@@ -706,7 +706,7 @@ function showMap(show)
      							opacity:0,
 						      }, 'slow' );
 
-		setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
+		setTimeout(function(){ $(".my-main-container").hide(); }, 100);
 		var timer = setTimeout("Sig.constructUI()", 1000);
 		
 	}else{
