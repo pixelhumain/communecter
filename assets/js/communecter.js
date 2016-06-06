@@ -310,7 +310,10 @@ function follow(parentType, parentId, childId, childType, callback){
 	});
 }
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
+	if(parentType=="events" && connectType=="attendee")
+		$(".connectBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
+	else
+		$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
 		"childType" : childType, 

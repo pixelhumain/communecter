@@ -168,7 +168,7 @@ class Menu {
 	    		 self::entry("right", 'onclick',
                         Yii::t( "common", "Participate to this event"),
                         Yii::t( "common", "Participate"),
-                        'fa fa-user-plus becomeAdminBtn',
+                        'fa fa-link connectBtn',
                         "connectTo('".Event::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','attendee','".addslashes($event["name"])."')",null,null); 
     		}
             //ACTION ROOMS
