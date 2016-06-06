@@ -41,7 +41,17 @@ $admin = false;
 															"contentType" => Event::COLLECTION,
 															"admin" => $admin));
 					?>
-		<?php if (!empty($subEvents)){ 
+		<?php if (!empty($subEvents))
+		{ 
+				//ORGANISER LIST
+				if( !empty($subEventsOrganiser) ){
+					$this->renderPartial('../pod/usersList', array( "event" => $event,
+																	"users" => $subEventsOrganiser,
+																	"userCategory" => Yii::t("event","SUB EVENT ORGANISER",null,Yii::app()->controller->module->id), 
+																	"contentType" => Event::COLLECTION,
+																	"noAddLink" => true));
+				}
+
 				if(!isset($eventTypes)) $eventTypes = array();
 				$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
 																	"contextId" => (String) $event["_id"],
