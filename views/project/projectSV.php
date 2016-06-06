@@ -543,6 +543,9 @@ function convertDate2(date, num){
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('.form-project #fullStreet').val();
+			country = $('.form-project  #projectCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -576,7 +579,7 @@ function convertDate2(date, num){
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);
