@@ -31,7 +31,7 @@ $admin = false;
 								"edit"=>$admin));
 								?>
 		
-
+		<div class="col-sm-12 no-padding timesheetphp pull-left"></div>
 	</div>
 	<div class="col-md-4 col-sm-12 col-xs-12">
 		<?php  //print_r($attending); 
@@ -47,7 +47,7 @@ $admin = false;
 				if( !empty($subEventsOrganiser) ){
 					$this->renderPartial('../pod/usersList', array( "event" => $event,
 																	"users" => $subEventsOrganiser,
-																	"userCategory" => Yii::t("event","SUB EVENT ORGANISER",null,Yii::app()->controller->module->id), 
+																	"userCategory" => Yii::t("event","SUBEVENT ORGANISER",null,Yii::app()->controller->module->id), 
 																	"contentType" => Event::COLLECTION,
 																	"noAddLink" => true));
 				}
@@ -77,5 +77,9 @@ $admin = false;
 		
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);
+		
+		<?php if (!empty($subEvents)){ ?>
+		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Event::COLLECTION ?>/id/<?php echo $event["_id"]?>/isAdmin/0/isDetailView/1",null,"html");
+		<?php } ?>
 	});
 </script>
