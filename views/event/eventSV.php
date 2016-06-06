@@ -763,6 +763,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#fullStreet').val();
+			country = $('.form-event #eventCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -796,7 +799,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);
