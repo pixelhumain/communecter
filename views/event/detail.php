@@ -39,7 +39,7 @@ $admin = false;
 																	"users" => $subEventsOrganiser,
 																	"userCategory" => Yii::t("event","SUB EVENT ORGANISER",null,Yii::app()->controller->module->id), 
 																	"contentType" => Event::COLLECTION,
-																	"admin" => false));
+																	"noAddLink" => true));
 				}
 
 				if(!isset($eventTypes)) $eventTypes = array();

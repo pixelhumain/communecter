@@ -66,12 +66,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			
 		</div> 
 		<div class="panel-tools">
-				<?php if ( $admin && $contentType != Event::COLLECTION && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
+				<?php if ( @$admin && $contentType != Event::COLLECTION && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
 						<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="Les contributeurs du projet">
 							<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 						</a>								
 				<?php } 
-				if ($contentType == "events"){ ?>
+				if ($contentType == "events" && !@$noAddLink){ ?>
 					<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite participants to the event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash( '#event.addattendeesv.eventId.<?php echo (string)$event["_id"];?>')">
 						<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ?>
 					</a>			
