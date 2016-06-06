@@ -31,7 +31,21 @@ $admin = false;
 								"edit"=>$admin));
 								?>
 		
-		<div class="col-sm-12 no-padding timesheetphp pull-left"></div>
+
+		<?php if (!empty($subEvents))
+		{ 
+
+				if(!isset($eventTypes)) $eventTypes = array();
+				$this->renderPartial('../pod/eventsList',array( "events" => $subEvents, 
+																"contextId" => (String) $event["_id"],
+																"contextType" => Event::CONTROLLER,
+																"list" => $eventTypes,
+																"authorised" => $admin,
+																"organiserImgs"=> true
+																  )); 
+		} ?>
+
+		<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
 	</div>
 	<div class="col-md-4 col-sm-12 col-xs-12">
 		<?php  //print_r($attending); 
@@ -40,8 +54,7 @@ $admin = false;
 															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
 															"contentType" => Event::COLLECTION,
 															"admin" => $admin));
-					?>
-		<?php if (!empty($subEvents))
+		if (!empty($subEvents))
 		{ 
 				//ORGANISER LIST
 				if( !empty($subEventsOrganiser) ){
@@ -52,13 +65,7 @@ $admin = false;
 																	"noAddLink" => true));
 				}
 
-				if(!isset($eventTypes)) $eventTypes = array();
-				$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
-																	"contextId" => (String) $event["_id"],
-																	"contextType" => Event::CONTROLLER,
-																	"list" => $eventTypes,
-																	"authorised" => $admin
-																  )); 
+				
 		} ?>
 	</div>
 
