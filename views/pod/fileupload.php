@@ -284,19 +284,22 @@
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ console.log("loading new profil");
+			var profilThumbImageUrl;
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
 		        if(typeof data.profilThumbImageUrl != "undefined"){
-		        	$("#menu-thumb-profil").attr("src", baseUrl + data.profilThumbImageUrl);
-		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", baseUrl + data.profilThumbImageUrl);
+		        	profilThumbImageUrl = baseUrl + data.profilThumbImageUrl + "?_=" + Date.now();
+		        	$("#menu-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$("#menu-small-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", profilThumbImageUrl);
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : " + baseUrl + data.profilThumbImageUrl);
-		    	Sig.userData.profilImageUrl = baseUrl + data.profilThumbImageUrl;
+		        console.log("NOUVELLE PATH THUMB PROFIL : " + profilThumbImageUrl);
+		    	Sig.userData.profilImageUrl = profilThumbImageUrl;
 		        console.log(Sig.userData.profilImageUrl);
 		        
 		    });

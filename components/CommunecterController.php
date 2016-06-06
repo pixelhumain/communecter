@@ -12,7 +12,7 @@ class CommunecterController extends Controller
   public $pageTitle = "Communecter, se connecter à sa commune";
   public static $moduleKey = "communecter";
   public $keywords = "connecter, réseau, sociétal, citoyen, société, regrouper, commune, communecter, social";
-  public $description = "Communecter : Connecter a sa commune, reseau societal, le citoyen au centre de la société.";
+  public $description = "Communecter : Connecter à sa commune, réseau sociétal, le citoyen au centre de la société.";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
@@ -98,6 +98,7 @@ class CommunecterController extends Controller
       "statistics"    => array("href" => "/ph/communecter/stat/chart"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
+      "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
 
     ),
     "adminpublic" => array(

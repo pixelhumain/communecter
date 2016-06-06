@@ -76,7 +76,7 @@
 				<i class="fa fa-sign-in"></i>
 		</button> -->
 	<?php }else{ ?>
-		<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+		<button class="menu-button btn-menu btn-logout bg-red tooltips hidden-sm" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
 				<i class="fa fa-sign-out"></i>
 		</button>
 	<?php } ?>
@@ -144,14 +144,10 @@
 
 	
 
-
-
-
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
-		<?php /*if (isset(Yii::app()->session["userId"])){ ?>
-			<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
-		<?php }*/ ?>
+		<a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red"><i class="fa fa-2x text-red fa-map-signs"></i></a>
+		
 		<br/>
 		update <?php echo $this->versionDate ?>
 		<br/>
@@ -167,10 +163,26 @@
 			}
 		?>
     	lang : <a class="homestead text-red" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/default/switch/lang/'.$lang) ?>" title="switch to <?php echo strtoupper($lang) ?>"><?php echo strtoupper($lang) ?></a> <?php echo $msglang ?>
-    
+    	<?php if (isset(Yii::app() -> session["userId"])){ ?>
+			<br/><span class="removeExplanationCont"><input type="checkbox" class="removeExplanation" style="vertical-align: bottom" onclick="removeExplainations();"/> <?php echo Yii::t("common","Hide info panels") ?></span>
+		<?php } ?>
 	</div>
 </div>
 
+<div class="visible-xs" id="menu-bottom">
+	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
+		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
+		<i class="fa fa-crosshairs"></i>
+	</button> 
+	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
+	<?php 
+	if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
+		</button>
+	<?php } ?>
+</div>
 
 <div class="hover-menu HM-right-side hidden-xs">
 	<div class="main-menu-right">
@@ -219,18 +231,6 @@
 		</button>
 		<?php } ?>
 	</div>
-<!-- 
-<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
-	<i class="fa fa-university"></i>
-</button> 
-<div id="input-communexion">
-	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
-	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
-</div>
-<button class="menu-button menu-button-title btn-menu bg-dark btn-geoloc-auto" id="btn-geoloc-auto-menu">
-	<i class="fa fa-crosshairs"></i>
-</button> -->
-
 
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -265,21 +265,6 @@
 <?php } ?>
 
 
-
-<div class="visible-xs" id="menu-bottom">
-	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
-		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
-		<i class="fa fa-crosshairs"></i>
-	</button> 
-	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
-	<?php 
-	if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-		<span class="lbl-btn-menu-name">Ajouter</span></span>
-		<i class="fa fa-plus-circle"></i>
-		</button>
-	<?php } ?>
-</div>
 
 <style>
 
@@ -387,11 +372,12 @@ text-align: center;
 
 var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()->session["userId"]) ? "true" : "false"; ?>;
+var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 jQuery(document).ready(function() {
 
 	//realTimeKKBB();
 	
-	var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
+	
 	bindEventMenu();
 
 });

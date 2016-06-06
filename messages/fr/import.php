@@ -40,6 +40,7 @@ return array(
 	"210" => "Cette personne n'a pas de username.",
 	"211" => "Cette username a été généré automatique à partir du nom de l'utilisateur.",
 	"212" => "Le Type \"Groupe\"  a été attribué a cette organisation. Veuilliez changer le type de l'organisation s'il ne correspond pas à ce type.",
+	"250" => "L'entité a été mis a jour.",
 );
 
 ?>

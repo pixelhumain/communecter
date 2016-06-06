@@ -202,16 +202,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 		</div>
 		<div class="col-sm-12 col-xs-12">
+			<?php 
+			if( @$organizer["type"])
+			{ ?>
 			<div class="col-md-6 no-padding">
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
 				</div>
 				<div class="col-sm-12 entityDetails item_map_list">
 					<?php
-					if(isset($organizer["type"]) && $organizer["type"]=="project"){ 
+					if(@$organizer["type"]=="project"){ 
 						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
 						 $icon="fa-lightbulb-o";
-					} else if(isset($organizer["type"]) && $organizer["type"]=="organization"){
+					} else if(@$organizer["type"]=="organization"){
 						 	$icon="fa-users";
 					} else {
 						 	$icon="fa-user";
@@ -232,10 +235,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					if($icon == "fa-lightbulb-o") $color = "purple";
 					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo $organizer["id"]; ?>')"><?php echo $organizer["name"]; ?></a><br/>
+					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
 					 <span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>
+			<?php } ?>
 			<div class="col-md-6" style="padding-right:0px !important;">
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ?

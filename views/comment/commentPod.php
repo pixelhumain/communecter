@@ -320,12 +320,11 @@ function buildCommentLineHTML(commentObj, withActions) {
 
 function commentActions(commentObj) {
 	var res = "";
-	
 	//Reply button
 	if (options.tree == true) {
 		res += "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
 	};
-
+	console.log(commentObj);
 	//Other action button
 	var actionDone = "";
 	var classVoteUp = "commentVoteUp";
@@ -339,26 +338,26 @@ function commentActions(commentObj) {
 	var voteDownCount = parseInt(commentObj.voteDownCount) || 0;
 	var reportAbuseCount = parseInt(commentObj.reportAbuseCount) || 0;
 
-	if (voteUpCount > 0 && commentObj.voteUp.toString().indexOf(userId) >= 0) {
- 		actionDone = "voteUp";
+	if (voteUpCount > 0 && "undefined" != typeof(commentObj.voteUp[userId])) {
+ 		actionDone = "commentVoteUp";
  		colorVoteDown = colorReportAbuse = "label-inverse";
 	}
 	
-	if (voteDownCount > 0 && commentObj.voteDown.toString().indexOf(userId) >= 0) {
- 		actionDone = "voteDown";
+	if (voteDownCount > 0 && "undefined" != typeof(commentObj.voteDown[userId])) {
+ 		actionDone = "commentVoteDown";
  		colorVoteUp = colorReportAbuse = "label-inverse";
 	}
 
 	if (reportAbuseCount > 0 && "undefined" != typeof commentObj.reportAbuse[userId]) {
- 		actionDone = "reportAbuse";
+ 		actionDone = "commentReportAbuse";
  		colorVoteDown = colorVoteUp = "label-inverse";
 	}
 
-	if (actionDone != "") {
-		classVoteUp = "";
-		classVoteDown = "";
-		classReportAbuse = "";
-	}
+	/*if (actionDone != "") {
+		classVoteUp = actionDone;
+		classVoteDown = actionDone;
+		classReportAbuse = actionDone;
+	}*/
 
 	var titleVoteUp = "<?php echo addslashes(Yii::t('comment','Agree with that'))?>";
 	var titleVoteDown = "<?php echo addslashes(Yii::t('comment','Disagree with that'))?>";
@@ -368,7 +367,6 @@ function commentActions(commentObj) {
 	res += "<a href='javascript:;' title='"+titleVoteUp+"' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 		  "<a href='javascript:;' title='"+titleVoteDown+"' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
 		  "<a href='javascript:;' title='"+titleReportAbuse+"' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"' data-contextid='"+commentObj.contextId+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
-
 	return res;
 }
 
@@ -425,17 +423,53 @@ function bindEvent(){
 		$(this).prop('disabled', false);
 	});
 	$('.commentVoteUp').off().on("click",function(){
-		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>');
-		disableOtherAction($(this).data("id"), '.commentVoteUp');
+		id=$(this).data("id");
+		if($(this).children(".label").hasClass("label-inverse")){
+			if($(".commentReportAbuse[data-id='"+id+"']").children(".label").hasClass("label-red"))
+				toastr.info("<?php echo Yii::t("common", "You can't make any actions on this comment after reporting abuse !") ?>");
+			else
+				toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
+		}else{	
+			if($(".commentVoteDown[data-id='"+id+"']").children(".label").hasClass("label-inverse")){
+				method = true;
+			}
+			else{
+				method = false;
+			}
+			actionOnComment($(this),'<?php echo Action::ACTION_VOTE_UP ?>', method);
+			disableOtherAction(id, '.commentVoteUp',method);
+		}
 	});
 	$('.commentVoteDown').off().on("click",function(){
-		actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>');
-		disableOtherAction($(this).data("id"), '.commentVoteDown');
+		id=$(this).data("id");
+		if($(this).children(".label").hasClass("label-inverse")){
+			if($(".commentReportAbuse[data-id='"+id+"']").children(".label").hasClass("label-red"))
+				toastr.info("<?php echo Yii::t("common", "You can't make any actions on this comment after reporting abuse !") ?>");
+			else
+				toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
+		}else{	
+			if($(".commentVoteUp[data-id='"+id+"']").children(".label").hasClass("label-inverse")){
+				method = true;
+			}
+			else{
+				method = false;
+			}
+			actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>', method);
+			disableOtherAction(id, '.commentVoteDown', method);
+		}
 	});
 
 	//Abuse process
 	$('.commentReportAbuse').off().on("click",function(){
-		reportAbuse($(this), $(this).data("contextid"));
+		id=$(this).data("id");
+		if($(this).children(".label").hasClass("label-inverse"))
+			toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
+		else{	
+			if($(".commentVoteUp[data-id='"+id+"']").children(".label").hasClass("label-inverse") && $(".commentVoteDown[data-id='"+id+"']").children(".label").hasClass("label-inverse"))
+				toastr.info("<?php echo Yii::t("common", "You can't make any actions on this comment after reporting abuse !") ?>");
+			else
+				reportAbuse($(this), $(this).data("contextid"));
+		}
 	});
 	$('.deleteComment').off().on("click",function(){
 		actionAbuseComment($(this), "<?php echo Comment::STATUS_DELETED ?>", "");
@@ -527,18 +561,22 @@ function  fastAdd(url) {
 						}
 					}
 				}
-	    	});
+	    });
 	}
  }
 
-function actionOnComment(comment, action) {
+function actionOnComment(comment, action, method) {
+	console.log(comment);
+	params=new Object,
+	params.id = comment.data("id"),
+	params.collection = '<?php echo Comment::COLLECTION?>',
+	params.action = action;
+	if(method){
+		params.unset=method;
+	}
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
-		data: {
-			id: comment.data("id"),
-			collection : '<?php echo Comment::COLLECTION?>',
-			action : action
-		},
+		data: params,
 		type: 'post',
 		global: false,
 		dataType: 'json',
@@ -551,9 +589,22 @@ function actionOnComment(comment, action) {
                     if (data.userAllreadyDidAction) {
                     	toastr.info("You already vote on this comment.");
                     } else {
-	                    toastr.success(data.msg);
-	                    count = parseInt(comment.data("count"));
-						comment.data( "count" , count+1 );
+						count = parseInt(comment.data("count"));
+	                    if(action=="reportAbuse"){
+							toastr.success(trad["thanktosignalabuse"]);
+
+							//to hide menu
+							$(".newsReport[data-id="+params.id+"]").hide();
+						}
+						else{
+		                    if(count < count+data.inc)
+		                    	toastr.success("<?php echo Yii::t("common", "Your vote has been successfully added") ?>");
+		                    else
+								toastr.success("<?php echo Yii::t("common","Your vote has been successfully removed") ?>");	 
+						}                   
+	                   // toastr.success(data.msg);
+
+						comment.data( "count" , count+data.inc );
 						icon = comment.children(".label").children(".fa").attr("class");
 						comment.children(".label").html(comment.data("count")+" <i class='"+icon+"'></i>");
 					}
@@ -682,22 +733,29 @@ function copyCommentOnAbuseTab(commentAbused) {
 }
 
 //When a user already did an action on a comment the other buttons are disabled
-function disableOtherAction(commentId, action) {
-	if (action != ".commentVoteUp") {
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-green").addClass("label-inverse");
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").off();
+function disableOtherAction(commentId, action,method) {
+	if(method){
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-inverse").addClass("label-green");
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-inverse").addClass("label-orange");	
+		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").children(".label").removeClass("label-inverse").addClass("label-red");
 	}
-	if (action != ".commentVoteDown") {
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-orange").addClass("label-inverse");	
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").off();
-	}
+	else{
+		if (action != ".commentVoteUp") {
+			$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp").children(".label").removeClass("label-green").addClass("label-inverse");
+			//$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteUp");
+		}
+		if (action != ".commentVoteDown") {
+			$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").children(".label").removeClass("label-orange").addClass("label-inverse");	
+			//$("#comment"+commentId).children().children(".bar_tools_post").children(".commentVoteDown").off();
+		}
+		
+		if (action != ".commentReportAbuse") {
+			$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").children(".label").removeClass("label-red").addClass("label-inverse");
+			//$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").off();
+		}
 	
-	if (action != ".commentReportAbuse") {
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").children(".label").removeClass("label-red").addClass("label-inverse");
-		$("#comment"+commentId).children().children(".bar_tools_post").children(".commentReportAbuse").off();
+		//$("#comment"+commentId).children().children(".bar_tools_post").children(action).off();
 	}
-
-	$("#comment"+commentId).children().children(".bar_tools_post").children(action).off();
 }
 
 function replyComment(parentCommentId) {
@@ -795,8 +853,13 @@ function validateComment(commentId, parentCommentId) {
 				}
 				else { 
 					toastr.success(data.msg);
-					switchComment(commentId, data.newComment, parentCommentId);
+					console.log(data);
 					$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
+					if (data.newComment.contextType=="news"){
+						$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text((parseInt($('.nbComments').html()) || 0));
+					}
+					switchComment(commentId, data.newComment, parentCommentId);
+
 				}
 			},
 		error: 

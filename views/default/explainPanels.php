@@ -653,39 +653,44 @@
 		<h1 class="homestead explainTitle blue"> <i class="fa fa-sitemap"></i> Roadmap</h1>
 		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
-			<ul>
 				La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
-				version 0.1
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Ajouter des citoyens, des organisations, des projets et des événements</li>
-					<li><i class="fa fa-angle-right"></i>Annuaire Personnel</li>
-					<li><i class="fa fa-angle-right"></i>Double Design : Web + Cartographique</li>
-					<li><i class="fa fa-angle-right"></i>Prototype Mobile Meteor</li>
-					<li><i class="fa fa-angle-right"></i>Page Ma Ville simple en mode annuaire local</li>
-					<li><i class="fa fa-angle-right"></i>Mur d'actualité pour toutes les entités</li>
-					<li><i class="fa fa-angle-right"></i>Système de notification</li>
-					<li><i class="fa fa-angle-right"></i>Viralité : connection avec GMail contacts, import CSV (invités, membres, contributeurs)</li>
-				</ul>
+				
+				<div class="col-sm-6">
+					version 0.13
+					<ul>
+						<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
+						<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>
+						<li><i class="fa fa-angle-right"></i>Action Rooms : Sondages et Votes</li>
+						<li><i class="fa fa-angle-right"></i>Librairie vidéo : mémoire du territoire</li>
+					</ul>
+				</div>
 
-				version 0.12
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
-					<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
-					<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
-					<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
-					<li><i class="fa fa-angle-right"></i>Opendata avec une API, système de préférence d'ouverture de la donnée</li>
-					<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
-					<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
-				</ul>
+				<div class="col-sm-6">
+					version 0.12
+					<ul>
+						<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
+						<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
+						<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
+						<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
+						<li><i class="fa fa-angle-right"></i>Opendata avec une API, système de préférence d'ouverture de la donnée</li>
+						<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
+						<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
+					</ul>
+				</div>
 
-				version 0.13
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
-					<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>
-					<li><i class="fa fa-angle-right"></i>Action Rooms : Sondages et Votes</li>
-					<li><i class="fa fa-angle-right"></i>Librairie vidéo : mémoire du territoire</li>
-				</ul>
-			</ul>
+				<div class="col-sm-6">
+					version 0.1
+					<ul>
+						<li><i class="fa fa-angle-right"></i>Ajouter des citoyens, des organisations, des projets et des événements</li>
+						<li><i class="fa fa-angle-right"></i>Annuaire Personnel</li>
+						<li><i class="fa fa-angle-right"></i>Double Design : Web + Cartographique</li>
+						<li><i class="fa fa-angle-right"></i>Prototype Mobile Meteor</li>
+						<li><i class="fa fa-angle-right"></i>Page Ma Ville simple en mode annuaire local</li>
+						<li><i class="fa fa-angle-right"></i>Mur d'actualité pour toutes les entités</li>
+						<li><i class="fa fa-angle-right"></i>Système de notification</li>
+						<li><i class="fa fa-angle-right"></i>Viralité : connection avec GMail contacts, import CSV (invités, membres, contributeurs)</li>
+					</ul>
+				</div>
 		</div>
 	</div>
 

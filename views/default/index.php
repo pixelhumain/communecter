@@ -97,10 +97,11 @@
 				$cityInsee=$city["name"];
 			}
 		}
-		if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
+		
+		if(!empty($me['profilThumbImageUrl']))
+          $profilThumbImageUrl = Yii::app()->createUrl($me['profilThumbImageUrl']);
         else
-          $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+          $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
 
 ?>
@@ -245,12 +246,14 @@
     	left: 15px;
 		bottom: 12px;
     }
-    #searchBarPostalCode{
-	    left: 62px;
-		bottom: 12px;
-    height: 40px;
-        width: 186px;
-        padding: 10px 15px !important;
+    @media screen and (min-width: 765px){
+	    #searchBarPostalCode{
+		    left: 62px;
+			bottom: 12px;
+	    height: 40px;
+	        width: 186px;
+	        padding: 10px 15px !important;
+	    }
     }
     button.btn-menu-add{
 	    bottom: 12px;
@@ -335,9 +338,9 @@
 	<?php } ?>
 
 	<?php 
-		if(!isset($urlPhotoProfil)) $urlPhotoProfil = "";
+		if(!isset($profilThumbImageUrl)) $profilThumbImageUrl = "";
 	 	if(!isset($me)) $me = "";
-	 	$this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); 
+	 	$this->renderPartial("menuSmall", array("me"=>$me,"profilThumbImageUrl"=>$profilThumbImageUrl)); 
 	?> 
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"

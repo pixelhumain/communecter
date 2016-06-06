@@ -633,8 +633,9 @@ function _checkLoggued() {
 	  url: baseUrl+"/"+moduleId+"/person/logged",
 	  success: function(data){
 		if( !data.userId || data.userId == "" ||  typeof data.userId == "undefined" ){
-			userId = data.userId;
-			resetUnlogguedTopBar();
+			/*userId = data.userId;
+			resetUnlogguedTopBar();*/
+			window.location.reload();
 		}
 	  },
 	  dataType: "json"

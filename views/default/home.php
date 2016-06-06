@@ -592,7 +592,6 @@ jQuery(document).ready(function() {
 
 
     $(".explainLink").click(function() {
-	    $(".removeExplanation").parent().hide();
 		showDefinition( $(this).data("id") );
 		return false;
 	});

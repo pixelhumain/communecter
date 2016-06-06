@@ -171,10 +171,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                         </a>
                         <!--<div class="panel-scroll height-230 ps-container">-->
                         <ul role="menu" class="dropdown-menu scrollable-menu">
+	                        
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
-			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
+			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="<?php echo Yii::t("common","Me") ?>"><?php echo Yii::t("common","Me") ?></a></li>
 		                        </ul>
 	                        </li>
 	                        <?php if(!empty($myOrganizationAdmin)) { ?>
@@ -719,7 +720,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("projects");
 			}
-			else {
+			else if($(this).data("id") == "<?php echo Event::NO_ORGANISER; ?>"){
+				$("#labelOrga").text($(this).data("name"));
+				$("#newEventOrgaId").val("<?php echo Event::NO_ORGANISER; ?>");
+				$("#newEventOrgaType").val("<?php echo Event::NO_ORGANISER; ?>");
+			}else{
 				$("#labelOrga").text("<?php echo Yii::t("common","Person"); ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("citoyens");

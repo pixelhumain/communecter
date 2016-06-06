@@ -1,9 +1,3 @@
-<?php
-$cssAnsScriptFilesModule = array(
-	'/js/postalCode.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>
 <style>
 .avatarOrgaList{
 	font-size: 46.5px;

@@ -30,7 +30,7 @@ function buildListContactHtml(contacts, myId){
 
 	
 	var HTML = 			'<div class="floopHeader bg-dark">'+
-							'<i class="fa fa-bookmark fa-rotate-270" style="margin-right:5px;"></i> '+t("My directory")+
+							'<i class="fa fa-bookmark fa-rotate-270" style="margin-right:5px;"></i> <a href="javascript:;" onclick="loadByHash(\'#person.directory.id.'+userId+'?tpl=directory2\')" class="text-white" style="color:white !important;">'+t("My directory")+'</a>'+
 							'<button id="btnFloopClose"><i class="fa fa-times"></i></button>' +
 							'<div id="floopScrollByType" class="pull-right"></div>' +
 						'</div>';
