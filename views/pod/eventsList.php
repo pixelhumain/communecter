@@ -50,7 +50,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 										$refIcon="fa-group";
 									}
 									?>
-									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding contentImg">
+									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
 									<?php if($e && !empty($e["profilThumbImageUrl"])) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
