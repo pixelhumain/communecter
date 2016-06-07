@@ -16,8 +16,7 @@
 <style>
 
   #calendar{
-    width:60%;
-    margin-left: 20%;
+    
   }
   #lastEvent{
     width:100%;
@@ -93,7 +92,7 @@
 <!-- *** SHOW CALENDAR *** -->
 
 
-  <div id="showCalendar" class="col-md-10 col-md-offset-1">
+  <div id="showCalendar" class="col-md-12 ">
       
       <div class="row ">
         <div class="panel panel-white" id="sectionNextEvent">
