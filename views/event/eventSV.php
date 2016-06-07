@@ -167,6 +167,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<div class="col-md-6">
 				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
+
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
+						<div class="form-group">
+							<input class="event-id hide" type="text" id="newEventId" name="newEventId">
+							<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
+						</div>
+				
 						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?></h3>
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
@@ -246,11 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				</div>
 				<?php } ?>
 
-				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
-				<div class="form-group">
-					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
-					<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
-				</div>
+				
 
 				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event", "Event Categories") ?></h3>
                 <div class="form-group">
