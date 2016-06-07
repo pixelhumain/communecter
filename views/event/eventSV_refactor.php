@@ -44,21 +44,29 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 </style>
 
 
-		<div class="row">
-			<div class="col-md-12">
-				<form class="form-event">
-					<input type="hidden" value="FR">
-					<input type="text" id="geolocInternational">
-					<button class="btn btn-default">Rechercher</button>
-				</form>
-			</div>
+<div id="newEvent">
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-event">
+				<input type="hidden" value="FR">
+				<input type="text" id="inputText-geolocInternational">
+				<button class="btn btn-default" id="btn-geolocInternational">Rechercher</button>
+			</form>
+			<div class="result"></div>
 		</div>
+	</div>
+</div>
 
 
 <script type="text/javascript">
 
 	jQuery(document).ready(function() {
 	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
+	
+	 	$("#btn-geolocInternational").click(function(){
+	 		var requestPart = $("#inputText-geolocInternational").val();
+	 		var geoPos = getGeoPosInternational(requestPart);
+	 	});
 	});
 
 </script>
