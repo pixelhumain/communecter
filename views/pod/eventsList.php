@@ -104,7 +104,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
-					<?php echo Yii::t("event","Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement",null,Yii::app()->controller->module->id); ?>
+					<?php 
+						if($contextType==Event::CONTROLLER)
+							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
+						else
+							$explain="Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
+						echo Yii::t("event",$explain); 
+					?>
 				</blockquote>
 			</div>
 		<?php } ?>

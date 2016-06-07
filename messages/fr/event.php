@@ -12,10 +12,8 @@ return array(
 	"MY EVENTS" => "MES ÉVÈNEMENTS",
 	"EVENTS" => "ÉVÈNEMENTS",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
-		=> "Créez et particpez...<br/>Aux évèvenements locaux pour...<br/>Construire l'activité local,<br/>Diffuser la culture,<br/>Engendrer des mouvements.",
-	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
-		=> "Créez et particpez aux événements locaux pour construire l'activité local, diffuser la culture, engendrer des mouvements.",
-	//Form
+		=> "Créez et participez...<br/>Aux événements locaux pour...<br/>Construire l'activité local,<br/>Diffuser la culture,<br/>Engendrer des mouvements.",
+		//Form
 	"Add new event" => "Ajouter un nouvel évènement",
 	"Choose an organizer" => "Choisir un organisateur",
 	"Event Name" => "Nom de l'évènement",
