@@ -364,8 +364,12 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
-									else
-										toastr.error(data.msg);
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
 								},
 							});  
                         }
@@ -409,8 +413,12 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
-									else
-										toastr.error(data.msg);
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
 								},
 							});   
                         }
