@@ -287,6 +287,7 @@ else if( @$type == City::CONTROLLER && @$city ){
 else if( @$type == Event::CONTROLLER && @$event ){
 	Menu::event( $event );
 	$contextName = Yii::t("common","Event")." : ".$event["name"];
+	$contextIcon = "calendar";
 	$contextTitle = Yii::t("common", "Visualize Event")." ".$event["name"];
 }
 else if( @$type == Person::CONTROLLER && @$person ){
@@ -652,11 +653,7 @@ if (@$follows){
 						***************************************** */
 						
 						if(isset($e["startDate"]) && !isset($e["endDate"]) && $type == "event"){
-						 	if(isset($e["startDate"]->sec)){
-						 		$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a>';
-							}else{
-								$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.$e["startDate"].'</a>';
-							}
+						 	$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ).'</a>';
 						}
 						if(isset($e["startDate"]) && isset($e["endDate"]) && $type == "event"){
 						 	if(isset($e["startDate"]->sec)){

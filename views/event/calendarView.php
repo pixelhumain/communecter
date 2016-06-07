@@ -100,8 +100,7 @@
         	<div class="panel-heading litle-border-color-green">
         		<h4>PROCHAINS EVENEMENTS</h4>
         	</div>
-    		  <div class='panel-body panel-transparent boder-light' id="lastEvent">
-    		  </div>
+    		  <div class='panel-body panel-transparent boder-light' id="lastEvent"></div>
     	  </div>
       </div>
       <div class="space 20"></div>
@@ -130,6 +129,7 @@
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
+      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo $event['name']?>");
       showCalendar();
       initLastsEvents();
 
@@ -229,9 +229,9 @@ function showCalendar() {
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
-		left : 'prev,next',
-		center : 'title',
-		right : 'today, month, agendaWeek, agendaDay'
+  		left : 'prev,next',
+  		center : 'title',
+  		right : 'today, month, agendaWeek, agendaDay'
     },
     lang : 'fr',
     year : dateToShow.getFullYear(),
@@ -240,17 +240,21 @@ function showCalendar() {
     editable : false,
     events : calendar,
     eventLimit: true,
+     <?php if(@$defaultDate){?>
+      defaultDate: '<?php echo $defaultDate?>',
+    <?php 
+    }
+    if(@$defaultView){?>
+      defaultView: '<?php echo $defaultView?>',
+    <?php } ?>
 
 
     eventClick : function(calEvent, jsEvent, view) {
-      //show event in subview
-      dateToShow = calEvent.start;
-      document.location.href = baseUrl+"/"+moduleId+"/event/dashboard/id/"+calEvent._id;
+      loadByHash("#event.detail.id."+calEvent._id);
     }
   });
 
   setCategoryColor(tabOrganiser);
-  dateToShow = new Date();
 };
 
   function getLastsEvent(events){
@@ -318,11 +322,11 @@ function showCalendar() {
         var imageUrl = "";
         var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
 
-        if ("undefined" == typeof currentEvent.imageUrl || currentEvent.imageUrl == "") {
+        if ("undefined" == typeof currentEvent.profilImageUrl || currentEvent.profilImageUrl == "") {
           imageUrl = "";
           baliseImg = '<div class="center"></br><i class="fa fa-calendar fa-5x text-blue" ></i></div>';
         } else {
-          imageUrl = baseUrl+currentEvent.imageUrl;
+          imageUrl = baseUrl+currentEvent.profilImageUrl;
           baliseImg = '<img src="'+imageUrl+'"></img>';
         }
         htmlRes +='<div class="col-md-4">'+
@@ -332,13 +336,12 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="'+baseUrl+"/"+moduleId+"/event/dashboard/id/"+currentEvent["_id"]["$id"]+'">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+
 					'</div>'+
 				'</div>'
-
       }
     }else{
       htlmRes = "<h1>Aucun evenement à venir</h1>";

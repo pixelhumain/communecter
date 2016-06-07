@@ -32,19 +32,9 @@ $admin = false;
 								?>
 		
 
-		<?php if (!empty($subEvents))
-		{ 
+		
 
-				if(!isset($eventTypes)) $eventTypes = array();
-				$this->renderPartial('../pod/eventsList',array( "events" => $subEvents, 
-																"contextId" => (String) $event["_id"],
-																"contextType" => Event::CONTROLLER,
-																"list" => $eventTypes,
-																"authorised" => $admin,
-																"organiserImgs"=> true
-																  )); 
-		} ?>
-
+		<div class="col-xs-12 no-padding calendar pull-left"></div>
 		<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
 	</div>
 	<div class="col-md-4 col-sm-12 col-xs-12">
@@ -65,7 +55,15 @@ $admin = false;
 																	"noAddLink" => true));
 				}
 
-				
+				if(!isset($eventTypes)) $eventTypes = array();
+				$this->renderPartial('../pod/eventsList',array( "events" => $subEvents, 
+																"contextId" => (String) $event["_id"],
+																"contextType" => Event::CONTROLLER,
+																"list" => $eventTypes,
+																"authorised" => $admin,
+																"organiserImgs"=> true
+																  )); 
+
 		} ?>
 	</div>
 
@@ -86,7 +84,8 @@ $admin = false;
 		Sig.showMapElements(Sig.map, contextMap);
 		
 		<?php if (!empty($subEvents)){ ?>
-		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Event::COLLECTION ?>/id/<?php echo $event["_id"]?>/isAdmin/0/isDetailView/1",null,"html");
+		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Event::COLLECTION ?>/id/<?php echo $event["_id"]?>/isAdmin/0/isDetailView/1",null,"html");
+		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $event["_id"]?>/pod/1?date=1",null,"html");
 		<?php } ?>
 	});
 </script>

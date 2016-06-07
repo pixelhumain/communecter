@@ -155,9 +155,15 @@ class Menu {
             //-----------------------------
             self::entry("left", 'onclick', 
                         Yii::t("event", 'View this event as a directory', null, Yii::app()->controller->module->id), 
-                        Yii::t("event", 'Visualise Event', null, Yii::app()->controller->module->id),
+                        Yii::t("event", 'Visualise', null, Yii::app()->controller->module->id),
                         'connectdevelop',
                         "loadByHash('#event.directory.id.".$id."?tpl=directory2')","event", "directory");
+
+            self::entry("left", 'onclick', 
+                        Yii::t("event", 'View this event calendar', null, Yii::app()->controller->module->id), 
+                        Yii::t("event", 'Calendar', null, Yii::app()->controller->module->id),
+                        'calendar',
+                        "loadByHash('#event.calendarview.id.".$id."')","event", "directory");
         }
 
 		//ALBUM

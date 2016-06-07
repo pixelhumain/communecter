@@ -52,7 +52,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									?>
 									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
-									<?php if($e && !empty($e["profilThumbImageUrl"])) {
+									<?php if($e && !empty($o["profilThumbImageUrl"])) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
 										 ?>
 										<img width="35" height="35"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
@@ -76,8 +76,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 									<?php 
 									if(isset($e["name"]))echo $e["name"];
-									$startDate = (@$e["startDate"]) ? date("Y-m-d H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) )." - " : "";
-			        				$endDate = (@$e["endDate"]) ? date("Y-m-d H:i",(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
+									$startDate = (@$e["startDate"]) ? date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
+			        				$endDate = (@$e["endDate"]) ? "<br/>".date("d/m/y H:i",(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
 			        				$dates = $startDate.$endDate;
 									?>
 									<br/><span class="text-extra-small"><?php echo $dates;?></span>
