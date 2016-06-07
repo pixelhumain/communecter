@@ -328,7 +328,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<div class="padding-10">
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
-						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
+						<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-person editable editable-click">
 							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
 						</a>
 					</h2>
@@ -336,8 +336,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php 
 					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
 					?>
-					<i class="fa fa-smile-o fa_name hidden"></i> 
-					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
+					<i class="fa fa-smile-o fa_name hidden"></i> 		
+					<a href="#" id="username" data-type="text" data-emptytext="Username"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
 						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
 				</div>
@@ -419,7 +419,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<div class="entityDetails text-dark">
 
 					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
+					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
 					</a>
 					<br>
 
@@ -469,23 +469,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					
 					<hr style="margin:10px 0px 3px 0px;">
 					
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
+					<i class="fa fa-road fa_streetAddress hidden"></i> 		
+					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("person","Address"); ?>" data-emptytext="<?php echo Yii::t("person","Address"); ?>" class="editable-person editable editable-click">
 						<?php echo Person::showField("address.streetAddress",$person, $isLinked)?>
 					</a>
 
 					<br>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
+					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
-					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
+					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
 					
-					<i class="fa fa-phone fa_telephone hidden"></i> 
-					<a href="#" id="fixe" data-type="select2" data-original-title="Saisir vos numéros téléphones, séparer les numéros par une virgule." class="editable editable-click">
+					<i class="fa fa-phone fa_telephone"></i>
+					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["fixe"])){
 							foreach ($person["telephone"]["fixe"] as $key => $tel) {
 								if($key > 0)
@@ -496,8 +496,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 
-					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
-					<a href="#" id="mobile" data-type="select2" data-original-title="Saisir vos numéros de  mobiles, séparer les numéros par une virgule." class="editable editable-click">
+					<i class="fa fa-mobile fa_telephone_mobile"></i> 
+					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["mobile"])){
 							foreach ($person["telephone"]["mobile"] as $key => $tel) {
 								if($key > 0)
@@ -508,8 +508,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 
-					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="select2" data-original-title="Saisir vos numéros de fax, séparer les numéros par une virgule." class="editable editable-click">
+					<i class="fa fa-fax fa_telephone_fax"></i> 
+					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["fax"])){
 							foreach ($person["telephone"]["fax"] as $key => $tel) {
 								if($key > 0)
@@ -870,8 +870,8 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
 	//if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]["mobile"]) 		? "true" : "false"; ?>){ $(".fa_telephone_mobile").removeClass("hidden"); }
-	if(<?php echo isset($person["telephone"]["fixe"]) 		? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
-	if(<?php echo isset($person["telephone"]["fax"]) 		? "true" : "false"; ?>){ $(".fa_telephone_fax").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fixe"]) 			? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fax"]) 			? "true" : "false"; ?>){ $(".fa_telephone_fax").removeClass("hidden"); }
 }
 
 function manageModeContext() {
