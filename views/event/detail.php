@@ -10,7 +10,7 @@
 ?>
 
 <?php
-$admin = false;
+	$admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 		if($openEdition==true)
 			$admin=$openEdition;
@@ -43,7 +43,10 @@ $admin = false;
 															"users" => $attending,
 															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
 															"contentType" => Event::COLLECTION,
-															"admin" => $admin));
+															"admin" => $admin,
+															"invitedNumber" => $invitedNumber,
+															"attendeeNumber"=> $attendeeNumber,
+															"invitedMe" => @$invitedMe));
 		if (!empty($subEvents) || $admin==1)
 		{ 
 				//ORGANISER LIST
