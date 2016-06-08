@@ -117,11 +117,11 @@ class Menu {
         {
             //DIRECTORY
             //-----------------------------
-            self::entry("left", 'onclick', 
+          /* self::entry("left", 'onclick', 
                         Yii::t("event", 'View this event as a directory', null, Yii::app()->controller->module->id), 
                         Yii::t("event", 'Visualise', null, Yii::app()->controller->module->id),
                         'connectdevelop',
-                        "loadByHash('#event.directory.id.".$id."?tpl=directory2')","event", "directory");
+                        "loadByHash('#event.directory.id.".$id."?tpl=directory2')","event", "directory");*/
 
             self::entry("left", 'onclick', 
                         Yii::t("event", 'View this event calendar', null, Yii::app()->controller->module->id), 
