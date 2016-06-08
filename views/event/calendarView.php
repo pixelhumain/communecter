@@ -1,15 +1,16 @@
 <?php
 
-  $cssAnsScriptFilesModule = array(
-	
-    //Full calendar
-    '/assets/plugins/moment/min/moment.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
-    );
+$cssAnsScriptFilesModule = array(
+  //Full calendar
+  '/assets/plugins/moment/min/moment.min.js',
+  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+  '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
+);
 
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+Menu::event($event,true);
 
 ?>
 
@@ -97,7 +98,7 @@
       <div class="row ">
         <div class="panel panel-white" id="sectionNextEvent">
         	<div class="panel-heading litle-border-color-green">
-        		<h4>PROCHAINS EVENEMENTS</h4>
+        		<h4><?php echo Yii::t("event","UPCOMING EVENTS",null,Yii::app()->controller->module->id)?></h4>
         	</div>
     		  <div class='panel-body panel-transparent boder-light' id="lastEvent"></div>
     	  </div>
@@ -106,7 +107,7 @@
       <div class="row">
     	   <div class="panel panel-white" id>
       		<div class="panel-heading litle-border-color-green">
-        		<h4>TOUS LES EVENEMENTS</h4>
+        		<h4><?php echo Yii::t("event","ALL EVENTS",null,Yii::app()->controller->module->id)?></h4>
         	</div>
         	<div class="panel-body boder-light">
         		<div id="calendar"></div>
@@ -128,7 +129,7 @@
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
-      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo $event['name']?>");
+      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>");
       showCalendar();
       initLastsEvents();
 
