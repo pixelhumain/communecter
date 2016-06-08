@@ -589,6 +589,9 @@ jQuery(document).ready(function() {
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#organizationForm #fullStreet').val();
+			country = $('#organizationForm #organizationCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -622,7 +625,7 @@ jQuery(document).ready(function() {
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);

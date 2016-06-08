@@ -211,7 +211,7 @@ function bindEventMenu(){
     	}else{
     		if(geolocHTML5Done == false){
 				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
-				showMap(true);
+				
 	    		initHTML5Localisation('communexion');
 			}
     	}
@@ -264,7 +264,7 @@ function bindEventMenu(){
 			timeoutHover = setTimeout(function(){
 				//hoverPersist = true;
 				if(showMenuExplanation)
-				$(".hover-info").css("display" , "inline");
+					$(".hover-info").css("display" , "inline");
 			}, 1500);
 		}
 	});
