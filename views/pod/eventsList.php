@@ -52,10 +52,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									?>
 									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
-									<?php if($e && !empty($o["profilThumbImageUrl"])) {
+									<?php if(@$o["profilThumbImageUrl"]) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
 										 ?>
-										<img width="35" height="35"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
+										<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
 									<?php }else{ 
 										echo $icon;
 									} ?>
@@ -64,8 +64,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								else 
 								{ ?>
 								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
-								<?php if ($e && isset($e["imagePath"])){ ?>
-									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
+								<?php if (@$o["profilThumbImageUrl"]){ ?>
+									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$o["profilThumbImageUrl"]) ?>">
 								<?php } else { ?>
 									<i class="fa fa-calendar fa-2x text-orange"></i>
 								<?php } ?>
