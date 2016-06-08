@@ -73,6 +73,12 @@ $userId = Yii::app()->session["userId"] ;
 					<input id="checkboxSendMail" name="checkboxSendMail" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
+				<div id="divKissKiss">
+					<label>
+						Kiss Kiss Bang Bang : <input class="hide" id="isKissKiss" name="isKissKiss"></input>
+					<input id="checkboxKissKiss" name="checkboxKissKiss" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
+					</label>
+				</div>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="col-sm-5 col-xs-12">
@@ -153,6 +159,12 @@ function bind()
 		$("#isSendMail").val(state);
 	});
 
+	$("#checkboxKissKiss").bootstrapSwitch();
+	$("#checkboxKissKiss").on("switchChange.bootstrapSwitch", function (event, state) {
+		console.log("state = "+state );
+		$("#isKissKiss").val(state);
+	});
+
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
@@ -203,6 +215,10 @@ function bind()
   		var sendMail = false ;
   		if( $("#isSendMail").val() == "true" )
   			sendMail = true ;
+
+  		var isKissKiss = false ;
+  		if( $("#isKissKiss").val() == "true" )
+  			isKissKiss = true ;
   			
   		$.ajax({
 	        type: 'POST',
@@ -215,7 +231,8 @@ function bind()
 	        		typeLink : $("#chooseTypeLink").val(),
 	        		idLink : $("#inputIdLink").val(),
 	        		isAdmin : isAdmin,
-	        		sendMail : sendMail
+	        		sendMail : sendMail,
+	        		isKissKiss : isKissKiss
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
