@@ -595,6 +595,8 @@ function loadByHash( hash , back ) {
 	    console.warn("replaceState history.state",history.state);
 	}*/
 }
+
+//ex : #search:bretagneTelecom:all
 function searchByHash (hash) 
 { 
 	var searchT = hash.split(':');

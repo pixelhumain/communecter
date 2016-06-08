@@ -285,7 +285,7 @@ else if( @$type == City::CONTROLLER && @$city ){
 	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 }
 else if( @$type == Event::CONTROLLER && @$event ){
-	Menu::event( $event );
+	Menu::event( $event,true );
 	$contextName = Yii::t("common","Event")." : ".$event["name"];
 	$contextIcon = "calendar";
 	$contextTitle = Yii::t("common", "Visualize Event")." ".$event["name"];

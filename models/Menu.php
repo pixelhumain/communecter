@@ -127,7 +127,7 @@ class Menu {
                         Yii::t("event", 'View this event calendar', null, Yii::app()->controller->module->id), 
                         Yii::t("event", 'Calendar', null, Yii::app()->controller->module->id),
                         'calendar',
-                        "loadByHash('#event.calendarview.id.".$id."')","event", "directory");
+                        "loadByHash('#event.calendarview.id.".$id."')","event", "calendar");
         }
 
 		//ALBUM

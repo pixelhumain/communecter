@@ -8,7 +8,9 @@
 
 return array(
 	//Title
-	"test" => "TEST FR",
+	"UPCOMING EVENTS"=>"PROCHAINS EVENEMENTS",
+	"ALL EVENTS"=>"TOUS LES EVENEMENTS",
+	"EVENT" => "ÉVÈNEMENT",
 	"MY EVENTS" => "MES ÉVÈNEMENTS",
 	"EVENTS" => "ÉVÈNEMENTS",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
@@ -43,7 +45,8 @@ return array(
 	"Modify Position on the map" => "Modifiez la position sur la carte",
 	"Delete this event" => "Effacer cet événement",
 	"SUBEVENT ORGANISER" => "Contributeur",
-	'Visualise Event' => "Visualisez l'événement",
+	'Visualise' => "Visualisez",
 	'View this event as a directory' => "Voir l'événement en annuaire",
+	"Unlink event" => "Détacher cette évènement"
 );
 ?>
