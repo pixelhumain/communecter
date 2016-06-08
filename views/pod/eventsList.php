@@ -12,14 +12,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised ) { ?>
+		<?php if( @$authorised && !isset($noAddLink) ) { ?>
 			<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash('#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>')">
 	    		
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
 	    	</a>
 		
-		<?php
-		 } ?>
+		<?php } ?>
 	</div>
 	
 	<div class="panel-body no-padding">
@@ -27,36 +26,77 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
-					if(isset($events) && count($events)>0 ){ 
-					foreach ($events as $e) 
-					{
-					?>
-					<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-						<td class="center" style="padding-left: 18px;">
-							<?php  $url = '#event.detail.id.'.$e["_id"]; ?>
-							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
-							<?php if ($e && isset($e["imagePath"])){ ?>
-								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
-							<?php } else { ?>
-								<i class="fa fa-calendar fa-2x text-orange"></i>
-							<?php } ?>
-						</td>
-						<td>
-							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
-								<?php if(isset($e["name"]))echo $e["name"]?>
-							</a>
-						</td>
-						<td><?php if(isset($e["type"])) echo $e["type"];?></td>
-						<td class="center">
-							<div class="visible-lg">
-								<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-								<a href="javascript:;" class="disconnectBtn btn btn-xs btn-grey tooltips  hidden-sm hidden-xs" data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-								<?php }; ?>
-							</div>
-						</td>
-					</tr>
-					<?php
-						};}
+					if(isset($events) && count($events)>0 )
+					{ 
+						foreach ($events as $e) 
+						{
+						?>
+						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
+							<td class="center  hidden-sm hidden-xs" style="padding-left: 18px; ">
+								<?php  
+								$url = '#event.detail.id.'.$e["_id"]; 
+								if(@$organiserImgs && @$e["links"]["organizer"]){
+
+									$id = array_keys($e["links"]["organizer"])[0];
+									$o = Element::getInfos( $e["links"]["organizer"][$id]['type'], $id);
+									if ($o["type"]==Person::COLLECTION){
+										$icon='<img height="35" width="35" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
+										$refIcon="fa-user";
+										$redirect="person";
+									}
+									else{
+										$icon="<div class='thumbnail-profil'><i class='fa fa-2x fa-group tooltips ' data-placement='right' data-original-title='".$o['name']."'></i></div>";
+										$redirect="organization";
+										$refIcon="fa-group";
+									}
+									?>
+									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
+
+									<?php if(@$o["profilThumbImageUrl"]) {
+										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
+										 ?>
+										<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
+									<?php }else{ 
+										echo $icon;
+									} ?>
+									</a>
+								<?php } 
+								else 
+								{ ?>
+								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+								<?php if (@$o["profilThumbImageUrl"]){ ?>
+									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$o["profilThumbImageUrl"]) ?>">
+								<?php } else { ?>
+									<i class="fa fa-calendar fa-2x text-orange"></i>
+								<?php } ?>
+								</a>
+								<?php } ?>
+							</td>
+							<td>
+								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+									<?php 
+									if(isset($e["name"]))echo $e["name"];
+									$startDate = (@$e["startDate"]) ? date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
+			        				$endDate = (@$e["endDate"]) ? "<br/>".date("d/m/y H:i",(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
+			        				$dates = $startDate.$endDate;
+									?>
+									<br/><span class="text-extra-small"><?php echo $dates;?></span>
+								</a>
+							</td>
+							<td><?php if(isset($e["type"])) echo $e["type"];?></td>
+							<?php /*?>
+							<td class="center">
+								<div class="visible-lg">
+									<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
+									<a href="javascript:;" class="disconnectBtn btn btn-xs btn-grey tooltips  hidden-sm hidden-xs" data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="<?php echo Yii::t("event","Unlink event",null,Yii::app()->controller->module->id) ?>" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<?php }; ?>
+								</div>
+							</td>
+							*/?>
+						</tr>
+						<?php
+						}
+					}
 					?>
 				</tbody>
 			</table>
@@ -66,7 +106,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
-					<?php echo Yii::t("event","Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement",null,Yii::app()->controller->module->id); ?>
+					<?php 
+						if($contextType==Event::CONTROLLER)
+							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
+						else
+							$explain="Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
+						echo Yii::t("event",$explain); 
+					?>
 				</blockquote>
 			</div>
 		<?php } ?>

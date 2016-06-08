@@ -99,7 +99,7 @@ function getFloopItem(id, type, value){
 	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
 	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
-						'<div class="btn-chk-contact inline" idcontact="'+id+'">' +
+						'<div class="btn-chk-contact" idcontact="'+id+'">' +
 							'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to bg-'+type.color+'" height="35" width="35">'+
 							'<span class="info-contact">' +
 								'<span class="name-contact text-dark text-bold" idcontact="'+id+'">' + value.name + '</span>'+

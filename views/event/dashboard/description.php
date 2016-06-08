@@ -145,7 +145,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div class="panel panel-white" id="globProchEvent">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
-			<i class="fa fa-info-circle"></i> Infos générales
+			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","General infos") ?>
 		</h4>
 	</div>
 	<div class="navigator padding-0 text-right">
@@ -153,9 +153,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<?php 
 			if($edit){
 		?>
-			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
-			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>
-			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>
+			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Edit Event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit Information") ?></span></a>
+			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Modify Position on the map") ?>" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> <?php echo Yii::t("common","Modify Position") ?></span></a>
+			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Delete this event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> <?php echo Yii::t("event","Cancel Event",null,Yii::app()->controller->module->id); ?></span></a>
     	<?php } ?>
 		</div>
 	</div>
@@ -184,6 +184,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<?php if(isset($event["name"])) echo $event["name"];?>
 						</a>
 					</h2>
+					
+					<?php if(isset($event["parentId"])) {
+						$parentEvent = Event::getSimpleEventById($event["parentId"]);
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="javascript:;" onclick="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+					}
+					?>
+						
 				</div>
 				<div class="col-sm-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
@@ -236,7 +243,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
 					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
-					 <span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>
 			<?php } ?>
