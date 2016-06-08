@@ -303,7 +303,7 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 	//Menu::project( $person );
 	$contextName = Yii::t("common","Project")." : ".$project["name"];
 	$contextIcon = "lightbulb-o";
-	$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
+	$contextTitle = Yii::t("common", "Community of project");
 	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
 			 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 		$manage=1;
@@ -316,13 +316,9 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 	$projects=array();
 	$events=array();
 }
-/*else
-	$this->toolbarMBZ = array(
-	    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-	);*/
 $this->renderPartial('../default/panels/toolbar'); 
 
-$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0;
+$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0; $countAttendees = 0; $countGuests = 0;
 if (@$people)
 	foreach (@$people as $key => $onePeople) { if( @$onePeople["name"]) $countPeople++;}
 if (@$organizations)
@@ -334,6 +330,13 @@ if (@$events)
 if (@$followers){
 	foreach ($followers as $key => $follower) { if( @$follower["name"]) $countFollowers++;}
 }
+if (@$attendees){
+	foreach ($attendees as $key => $attendee) { if( @$attendee["name"]) $countAttendees++;}
+}
+if (@$guests){
+	foreach ($guests as $key => $guest) { if( @$guest["name"]) $countGuests++;}
+}
+
 if (@$follows){
 	if(@$follows[Person::COLLECTION]){ 
 		foreach ($follows[Person::COLLECTION] as $e) {
@@ -374,7 +377,7 @@ if (@$follows){
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
-								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
+								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countGuests + $countAttendees;  ?>
 							</a>
 						</li>
 						<?php if($countPeople > 0){  ?>
@@ -417,6 +420,23 @@ if (@$follows){
 							</a>
 						</li>
 						<?php } ?>
+						<?php if($countAttendees > 0){  ?>
+						<li class="filter" data-filter=".attendees">
+							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
+								<i class="fa fa-user fa-2"></i> <span class=" hidden-xs hidden-md hidden-sm"><?php echo Yii::t("event", "Attendees"); ?></span> 
+								<span class="badge"><?php echo $countAttendees;  ?></span>
+							</a>
+						</li>
+						<?php } ?>
+						<?php if($countGuests > 0){  ?>
+						<li class="filter" data-filter=".guests">
+							<a href="javascript:;" class="filtercitoyens" style="background-color: #188f7f;border-color: #14796c;color: #ffffff;" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
+								<i class="fa fa-envelope-o fa-2"></i> <span class=" hidden-xs hidden-md hidden-sm"><?php echo Yii::t("event", "Guests"); ?></span> 
+								<span class="badge"><?php echo $countGuests;  ?></span>
+							</a>
+						</li>
+						<?php } ?>
+
 						<li  class="" style="margin-left:30px;">
 							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Tags"); ?></span></a>
 						</li>
@@ -498,6 +518,23 @@ if (@$follows){
 							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
 						}
 					}
+					/* ************ ATTENDEES OF AN EVENT ************************ */
+					if(@$attendees) 
+					{ 
+						foreach ($attendees as $e) 
+						{ 
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+						}
+					}
+					/* ************ GUESTS OF AN EVENT ************************ */
+					if(@$guests) 
+					{ 
+						foreach ($guests as $e) 
+						{ 
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+						}
+					}
+
 					function dateToStr($date, $lang, $inline){
 						//echo $date;
 						$year 	= substr($date, 0, 4);
@@ -522,11 +559,6 @@ if (@$follows){
 					}	
 					///// SHOW FOLLOWERS !!!!!
 					if( @$followers){
-						/*echo '<li id="" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix citoyensLine citoyens" data-cat="1" style="border: inset 1px white;display: inline-block;">'.
-							'<div style="position:relative;">'.
-										'<div class="portfolio-item" style="line-height: 75px;color: #e25555 !important;font-variant: small-caps;font-size: large;"> '.
-										'<span><i class="fa fa-plus" style="float: inherit;"></i> '.$countFollowers.' '.Yii::t("common","followers").'</span>'.
-								'</div></div></li>';*/
 						foreach ($followers as $e) 
 							{
 								buildDirectoryLine($e, "followers", Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,false);
