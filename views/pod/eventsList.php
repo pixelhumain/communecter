@@ -84,13 +84,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								</a>
 							</td>
 							<td><?php if(isset($e["type"])) echo $e["type"];?></td>
+							<?php /*?>
 							<td class="center">
 								<div class="visible-lg">
 									<?php if(isset(Yii::app()->session["userId"]) && Authorisation::isEventAdmin((string)$e["_id"], Yii::app()->session["userId"])) { ?>
-									<a href="javascript:;" class="disconnectBtn btn btn-xs btn-grey tooltips  hidden-sm hidden-xs" data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="Unlink event" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
+									<a href="javascript:;" class="disconnectBtn btn btn-xs btn-grey tooltips  hidden-sm hidden-xs" data-type="<?php echo PHType::TYPE_EVENTS ?>" data-id="<?php echo (string)$e["_id"];?>" data-name="<?php echo (string)$e["name"];?>" data-placement="left" data-original-title="<?php echo Yii::t("event","Unlink event",null,Yii::app()->controller->module->id) ?>" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
 									<?php }; ?>
 								</div>
 							</td>
+							*/?>
 						</tr>
 						<?php
 						}

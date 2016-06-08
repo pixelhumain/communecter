@@ -45,7 +45,8 @@ return array(
 	"Modify Position on the map" => "Modifiez la position sur la carte",
 	"Delete this event" => "Effacer cet événement",
 	"SUBEVENT ORGANISER" => "Contributeur",
-	'Visualise Event' => "Visualisez l'événement",
+	'Visualise' => "Visualisez",
 	'View this event as a directory' => "Voir l'événement en annuaire",
+	"Unlink event" => "Détacher cette évènement"
 );
 ?>

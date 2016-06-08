@@ -10,8 +10,9 @@ $cssAnsScriptFilesModule = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
-Menu::event($event,true);
-
+if(@$event)
+  Menu::event($event,true);
+$this->renderPartial('../default/panels/toolbar');
 ?>
 
 <style>
@@ -50,6 +51,7 @@ Menu::event($event,true);
   #showCalendar {
     display: block;
     float: none;
+    margin-top: 40px;
   }
 
   .panel-transparent {
