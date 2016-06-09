@@ -327,7 +327,7 @@ var countries = <?php echo json_encode($countries); ?>;
 var startDate = '<?php if(isset($project["startDate"])) echo $project["startDate"]; else echo ""; ?>';
 var endDate = '<?php if(isset($project["endDate"])) echo $project["endDate"]; else echo "" ?>';
 var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : null; ?>;
-var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
+//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 if(imagesD != null){
 	var images = imagesD;
 }
