@@ -22,8 +22,8 @@
             
              <p class="text-lextra-large text-dark">
                 Une plateforme de communication entre citoyens qui appartient aux citoyens, 
-                avec une approche serieuse, ouverte, collaborative avec les pouvoirs publiques.<br/>
-                Parce qu'on aimerait participer un peu plus dans notre ville, et que tous ensemble, nous ne faisons qu'un.<br/>
+                <br/>avec une approche serieuse, ouverte, collaborative avec les pouvoirs publiques.
+                <br/>Parce qu'on aimerait participer un peu plus dans notre ville, et que tous ensemble, nous ne faisons qu'un.<br/>
                 <br/>
                 Concrètement :<br/> 
                 Nous aimerions améliorer l'image de la ville, lui donner un visage humain<br/>

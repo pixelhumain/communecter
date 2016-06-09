@@ -18,13 +18,14 @@
                   <li>Campagne Crowdfunding de 22K€ en 1mois et demi </li>
                   <li>2 communes 974 , les 22 ou 37000 autres ?? </li>
                   <li><span class="text-bold bg-azure radius-5 padding-5" >Ouverture officiel en juin </span></li>
-                  <li>On passe en <b>« Sociétés coopératives d’intérêt collectif »</b> (SCIC)</li>
+                  <li>Ouverture de la <b>« Sociétés coopératives d’intérêt collectif »</b> (SCIC)</li>
                   <li>Un mouvement collectif , cooperatif est en route </li>
-                  <li>l'outil est attendu par les communautés agissant pour changement climatique et sociétal</li>
+                  <li>Communautés agissant pour le changement climatique et sociétal</li>
                   <li>On nous a parler d'un nb effrayant de citoyens acteurs des biens communs</li>
                   <li>Localement, "territoire experimental" dynamique mutli thematique </li>
                   <li><span class="text-bold bg-azure radius-5 padding-5" >CODE INVITATION : "smarterre" </span></li>
               </ul>
+              <a href="javascript:;" onclick="loadByHash('#default.home')" class="text-extra-large homestead bg-dark tooltips pull-right radius-5 padding-10" style="display: block;" > En Film <i class="fa fa-arrow-right"></i> </a>
         </div>
     </div>
 </div>
