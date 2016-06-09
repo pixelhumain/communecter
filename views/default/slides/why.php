@@ -1,7 +1,6 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class="panel-title text-red homestead"> <span style="font-size: 48px; "> COMMUNECTER : c'est etre connecter à sa commune</span></span>
-    <br/> 
 </div>
 
 <style type="text/css">
