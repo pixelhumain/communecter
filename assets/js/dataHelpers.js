@@ -204,3 +204,19 @@ function getObjectId(object){
 	return null;
 };
 
+
+function getFullTextCountry(codeCountry){
+	var countries = {
+		"FR" : "France",
+		"RE" : "Réunion",
+		"NC" : "Nouvelle-Calédonie",
+		"GP" : "Gouadeloupe",
+		"GF" : "Guyanne-Française",
+		"MQ" : "MartiniqueMQ",
+		"PM" : "Saint-Pierre-Et-Miquelon"
+	};
+	if(typeof countries[codeCountry] != "undefined")
+	return countries[codeCountry];
+	else return "";
+}
+

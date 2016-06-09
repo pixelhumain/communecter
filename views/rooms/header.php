@@ -90,8 +90,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<a class='text-dark' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'>
 				<i class="fa fa-connectdevelop"></i> <?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
 			</a> 
-			<?php echo (@$textTitle) ? "/ ".$textTitle : 
+			<?php 
+				if( $parentType != Person::COLLECTION ){
+					echo (@$textTitle) ? "/ ".$textTitle : 
 						' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>';
+				}
 			?>
 		</span>
 	</div>

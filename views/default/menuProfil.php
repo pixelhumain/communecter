@@ -1,6 +1,6 @@
 <div class="dropdown pull-right hidden-xs">
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
-    <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+    <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
     <?php //echo $me["name"]; ?>
     <span class="caret"></span>
   </button>

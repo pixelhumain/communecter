@@ -254,13 +254,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 /*
 $this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
 $contextName = "";
-$contextIcon = "bookmark fa-rotate-270";
+$contextIcon = "connectdevelop";
 $contextTitle = "";
 $parentId="";
 $parentType="";
 $manage="";
 
-if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
+if( @$type == Organization::CONTROLLER && @$organization ){
 	Menu::organization( $organization );
 	$thisOrga = Organization::getById($organization["_id"]);
 	$contextName = Yii::t("common","Organization")." : ".$thisOrga["name"];
@@ -278,13 +278,19 @@ if( isset($type) && $type == Organization::CONTROLLER && isset($organization) ){
 	$contextData = $thisOrga;
 	$projects=array();
 }
-else if( isset($type) && $type == City::CONTROLLER && isset($city) ){
+else if( @$type == City::CONTROLLER && @$city ){
 	Menu::city( $city );
 	$contextName = Yii::t("common","City")." : ".$city["name"];
 	$contextIcon = "university";
 	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 }
-else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
+else if( @$type == Event::CONTROLLER && @$event ){
+	Menu::event( $event,true );
+	$contextName = Yii::t("common","Event")." : ".$event["name"];
+	$contextIcon = "calendar";
+	$contextTitle = Yii::t("common", "Visualize Event")." ".$event["name"];
+}
+else if( @$type == Person::CONTROLLER && @$person ){
 	Menu::person( $person );
 	$contextName = Yii::t("common","Person")." : ".$person["name"];
 	$contextIcon = "user";
@@ -293,11 +299,11 @@ else if( isset($type) && $type == Person::CONTROLLER && isset($person) ){
 	$contextData = $person;
 	$parentType=Person::COLLECTION;
 }
-else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
+else if( @$type == PROJECT::CONTROLLER && @$project ){
 	//Menu::project( $person );
 	$contextName = Yii::t("common","Project")." : ".$project["name"];
 	$contextIcon = "lightbulb-o";
-	$contextTitle = Yii::t("common", "Community of project");//." ".$project["name"];
+	$contextTitle = Yii::t("common", "Community of project");
 	if(isset($project["_id"]) && isset(Yii::app()->session["userId"])
 			 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 		$manage=1;
@@ -310,35 +316,41 @@ else if( isset($type) && $type == PROJECT::CONTROLLER && isset($project) ){
 	$projects=array();
 	$events=array();
 }
-/*else
-	$this->toolbarMBZ = array(
-	    array( 'tooltip' => "Add a Person, Organization, Event or Project", "iconClass"=>"fa fa-plus" , "iconSize"=>"" ,"href"=>"<a class='tooltips btn btn-default' href='#' onclick='showPanel(\"box-add\",null,\"ADD SOMETHING TO MY NETWORK\")' ")
-	);*/
 $this->renderPartial('../default/panels/toolbar'); 
 
-$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0;
-
-foreach ($people as $key => $onePeople) { if(isset($onePeople["name"])) $countPeople++;}
-foreach ($organizations as $key => $orga) { if(isset($orga["name"])) $countOrga++;	}
-foreach ($projects as $key => $project) { if(isset($project["name"])) $countProject++;	}
-foreach ($events as $key => $event) { if(isset($event["name"])) $countEvent++;	}
-if (isset($followers)){
-	foreach ($followers as $key => $follower) { if(isset($follower["name"])) $countFollowers++;}
+$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0; $countAttendees = 0; $countGuests = 0;
+if (@$people)
+	foreach (@$people as $key => $onePeople) { if( @$onePeople["name"]) $countPeople++;}
+if (@$organizations)
+	foreach (@$organizations as $key => $orga) { if( @$orga["name"]) $countOrga++;	}
+if (@$projects)
+	foreach (@$projects as $key => $project) { if( @$project["name"]) $countProject++;	}
+if (@$events)
+	foreach (@$events as $key => $event) { if( @$event["name"]) $countEvent++;	}
+if (@$followers){
+	foreach ($followers as $key => $follower) { if( @$follower["name"]) $countFollowers++;}
 }
-if (isset($follows)){
-	if(isset($follows[Person::COLLECTION])){ 
+if (@$attendees){
+	foreach ($attendees as $key => $attendee) { if( @$attendee["name"]) $countAttendees++;}
+}
+if (@$guests){
+	foreach ($guests as $key => $guest) { if( @$guest["name"]) $countGuests++;}
+}
+
+if (@$follows){
+	if(@$follows[Person::COLLECTION]){ 
 		foreach ($follows[Person::COLLECTION] as $e) {
 			$followsPeople++;
 			$countPeople++;
 		}
 	}
-	if(isset($follows[Organization::COLLECTION])){ 
+	if(@$follows[Organization::COLLECTION]){ 
 		foreach ($follows[Organization::COLLECTION] as $e) {
 			$followsOrga++;
 			$countOrga++;
 		}
 	}
-	if(isset($follows[Project::COLLECTION])){ 
+	if(@$follows[Project::COLLECTION]){ 
 		foreach ($follows[Project::COLLECTION] as $e) {
 			$followsProject++;
 			$countProject++;
@@ -365,7 +377,7 @@ if (isset($follows)){
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
 								<i class="fa fa-th-list"></i> <?php echo Yii::t("common","All") ?> 
-								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject;  ?>
+								<span class="badge"><?php echo $countPeople + $countOrga + $countEvent + $countProject + $countGuests + $countAttendees;  ?>
 							</a>
 						</li>
 						<?php if($countPeople > 0){  ?>
@@ -376,7 +388,7 @@ if (isset($follows)){
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(count($organizations) > 0){  ?>
+						<?php if(@$organizations && count($organizations) > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Organizations") ?></span> 
@@ -384,7 +396,7 @@ if (isset($follows)){
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(count($events) > 0){  ?>
+						<?php if(@$events && count($events) > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Events") ?></span> 
@@ -392,7 +404,7 @@ if (isset($follows)){
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(count($projects) > 0){  ?>
+						<?php if(@$projects && count($projects) > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();<?php if($followsProject > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 
@@ -408,6 +420,23 @@ if (isset($follows)){
 							</a>
 						</li>
 						<?php } ?>
+						<?php if($countAttendees > 0){  ?>
+						<li class="filter" data-filter=".attendees">
+							<a href="javascript:;" class="filtercitoyens bg-yellow" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
+								<i class="fa fa-user fa-2"></i> <span class=" hidden-xs hidden-md hidden-sm"><?php echo Yii::t("event", "Attendees"); ?></span> 
+								<span class="badge"><?php echo $countAttendees;  ?></span>
+							</a>
+						</li>
+						<?php } ?>
+						<?php if($countGuests > 0){  ?>
+						<li class="filter" data-filter=".guests">
+							<a href="javascript:;" class="filtercitoyens" style="background-color: #188f7f;border-color: #14796c;color: #ffffff;" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
+								<i class="fa fa-envelope-o fa-2"></i> <span class=" hidden-xs hidden-md hidden-sm"><?php echo Yii::t("event", "Guests"); ?></span> 
+								<span class="badge"><?php echo $countGuests;  ?></span>
+							</a>
+						</li>
+						<?php } ?>
+
 						<li  class="" style="margin-left:30px;">
 							<a href="javascript:;" class="bg-red" onclick="toggleFilters('#tagFilters')"><i class="fa fa-tags  fa-2"></i> <span class="hidden"><?php echo Yii::t("common","Tags"); ?></span></a>
 						</li>
@@ -455,7 +484,7 @@ if (isset($follows)){
 						</div> 
 					 */
 					/* ************ ORGANIZATIONS ********************** */
-					if(isset($organizations)) 
+					if(@$organizations) 
 					{ 
 						foreach ($organizations as $e) 
 						{ 	
@@ -464,7 +493,7 @@ if (isset($follows)){
 					}
 
 					/* ********** PEOPLE ****************** */
-					if(isset($people)) 
+					if(@$people) 
 					{ 
 						foreach ($people as $e) 
 						{
@@ -473,7 +502,7 @@ if (isset($follows)){
 					}
 
 					/* ************ EVENTS ************************ */
-					if(isset($events)) 
+					if(@$events) 
 					{ 
 						foreach ($events as $e) 
 						{ 
@@ -482,13 +511,30 @@ if (isset($follows)){
 					}
 	
 					/* ************ PROJECTS **************** */
-					if( count($projects) ) 
+					if( @$projects ) 
 					{ 
 						foreach ($projects as $e) 
 						{ 
 							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
 						}
 					}
+					/* ************ ATTENDEES OF AN EVENT ************************ */
+					if(@$attendees) 
+					{ 
+						foreach ($attendees as $e) 
+						{ 
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+						}
+					}
+					/* ************ GUESTS OF AN EVENT ************************ */
+					if(@$guests) 
+					{ 
+						foreach ($guests as $e) 
+						{ 
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+						}
+					}
+
 					function dateToStr($date, $lang, $inline){
 						//echo $date;
 						$year 	= substr($date, 0, 4);
@@ -504,7 +550,7 @@ if (isset($follows)){
 						//echo "[[".$str."]]";
 						return $str;
 					}
-					if(isset($follows[Person::COLLECTION])) 
+					if( @$follows[Person::COLLECTION]) 
 						{ 
 							foreach ($follows[Person::COLLECTION] as $e) 
 							{
@@ -512,19 +558,14 @@ if (isset($follows)){
 							}
 					}	
 					///// SHOW FOLLOWERS !!!!!
-					if(isset($followers)){
-						/*echo '<li id="" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix citoyensLine citoyens" data-cat="1" style="border: inset 1px white;display: inline-block;">'.
-							'<div style="position:relative;">'.
-										'<div class="portfolio-item" style="line-height: 75px;color: #e25555 !important;font-variant: small-caps;font-size: large;"> '.
-										'<span><i class="fa fa-plus" style="float: inherit;"></i> '.$countFollowers.' '.Yii::t("common","followers").'</span>'.
-								'</div></div></li>';*/
+					if( @$followers){
 						foreach ($followers as $e) 
 							{
 								buildDirectoryLine($e, "followers", Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,false);
 							}
 						}
 					///// SHOW FOLLOWS
-					if (isset($follows) && ($followsProject+$followsOrga) > 0){ ?>
+					if (@$follows && ($followsProject+$followsOrga) > 0){ ?>
 						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
 							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
 							<?php echo ucfirst(Yii::t("common","follows")) ?>
@@ -532,7 +573,7 @@ if (isset($follows)){
 						</div>
 
 					<?php 
-						if(isset($follows[Organization::COLLECTION])) 
+						if(@$follows[Organization::COLLECTION]) 
 						{ 
 							foreach ($follows[Organization::COLLECTION] as $e) 
 							{ 	
@@ -549,7 +590,7 @@ if (isset($follows)){
 								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
 							}
 						}	*/
-						if(isset($follows[Project::COLLECTION])) 
+						if(@$follows[Project::COLLECTION]) 
 						{ 
 							foreach ($follows[Project::COLLECTION] as $e) 
 							{ 
@@ -561,7 +602,7 @@ if (isset($follows)){
 					
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$parentType=null,$parentId=null)
 					{
-						if((!isset( $e['_id'] ) && !isset($e["id"]) )|| !isset( $e["name"]) || $e["name"] == "" )
+						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
 							return;
 						$actions = "";
 						if(@$e['_id'])
@@ -586,7 +627,7 @@ if (isset($follows)){
 						* TAGS FILTER
 						***************************************** */							
 						$tagsClasses = "";
-						if(isset($e["tags"])){
+						if(@$e["tags"]){
 							foreach ($e["tags"] as $key => $value) {
 								$tagsClasses .= ' '.preg_replace("/[^A-Za-z0-9]/", "", $value) ;
 							}
@@ -596,19 +637,19 @@ if (isset($follows)){
 						* SCOPES FILTER
 						***************************************** */
 						$scopesClasses = "";
-						if( isset($e["address"]) && isset( $e["address"]['codeInsee']) )
+						if( @$e["address"] && @$e["address"]['codeInsee'] )
 							$scopesClasses .= ' '.$e["address"]['codeInsee'];
-						if( isset($e["address"]) && isset( $e["address"]['postalCode']) )
+						if( @$e["address"] && @$e["address"]['postalCode'] )
 							$scopesClasses .= ' '.$e["address"]['postalCode'];
-						if( isset($e["address"]) && isset( $e["address"]['region']) )
+						if( @$e["address"] && @$e["address"]['region'] )
 							$scopesClasses .= ' '.$e["address"]['region'];
-						if( isset($e["address"]) && isset( $e["address"]['addressLocality']) ){
+						if( @$e["address"] && @$e["address"]['addressLocality'] ){
 							$locality = str_replace( " ", "", $e["address"]['addressLocality']);
 							$scopesClasses .= ' '.$locality;
 						}
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
-						$name = ( isset($e["name"]) ) ? $e["name"] : "" ;
+						$name = ( @$e["name"] ) ? $e["name"] : "" ;
 						$url = "loadByHash('#".$type.".detail.id.".$id."')";
 						$url = 'href="javascript:;" onclick="'.$url.'"';	
 						$process = "";
@@ -624,7 +665,7 @@ if (isset($follows)){
 						else{
 							$processStyle="";
 						}
-						$entryType = ( isset($e["type"])) ? $e["type"] : "";
+						$entryType = ( @$e["type"]) ? $e["type"] : "";
 						$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" '.$processStyle.'>'.
 							'<div style="position:relative;">'.
 										'<div class="portfolio-item">';
@@ -644,11 +685,7 @@ if (isset($follows)){
 						***************************************** */
 						
 						if(isset($e["startDate"]) && !isset($e["endDate"]) && $type == "event"){
-						 	if(isset($e["startDate"]->sec)){
-						 		$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a>';
-							}else{
-								$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.$e["startDate"].'</a>';
-							}
+						 	$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ).'</a>';
 						}
 						if(isset($e["startDate"]) && isset($e["endDate"]) && $type == "event"){
 						 	if(isset($e["startDate"]->sec)){
@@ -815,17 +852,25 @@ if (isset($follows)){
 <?php 
     //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
     //et pour ouvrir le panel info correctement
-    foreach($people           as $key => $data) { $people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    foreach($organizations    as $key => $data) { $organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    foreach($events           as $key => $data) { $events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    foreach($projects         as $key => $data) { $projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
+    if(@$people)
+	    foreach($people as $key => $data) { 
+	    	$people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
+    if(@$organizations)
+    	foreach($organizations as $key => $data) { 
+    		$organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
+    if(@$events)
+    	foreach($events as $key => $data) { 
+    		$events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
+    if(@$projects)
+    	foreach($projects as $key => $data) { 
+    		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
-    if(isset($contextData)) $contextMap = array("context" => $contextData);
-    if(isset($people))          $contextMap = array_merge($contextMap, $people);
-    if(isset($organizations))   $contextMap = array_merge($contextMap, $organizations);
-    if(isset($events))          $contextMap = array_merge($contextMap, $events);
-    if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
+    if(@$contextData) $contextMap = array("context" => $contextData);
+    if(@$people)          $contextMap = array_merge($contextMap, $people);
+    if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
+    if(@$events)         $contextMap = array_merge($contextMap, $events);
+    if(@$projects)        $contextMap = array_merge($contextMap, $projects);
 ?>
 <script type="text/javascript">
 
