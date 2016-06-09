@@ -293,6 +293,7 @@ class CommunecterController extends Controller
       "slideragenda" => array("href" => "/ph/communecter/pod/slideragenda", "public" => true),
       "photovideo"   => array("href" => "ph/communecter/pod/photovideo"),
       "fileupload"   => array("href" => "ph/communecter/pod/fileupload"),
+      "activitylist"   => array("href" => "ph/communecter/pod/activitylist"),
     ),
     "gallery" => array(
       "index"        => array("href" => "ph/communecter/gallery/index"),

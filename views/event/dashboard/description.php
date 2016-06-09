@@ -146,6 +146,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","General infos") ?>
+			<?php if ($openEdition==true) { ?>
+				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+			<?php } ?>
 		</h4>
 	</div>
 	<div class="navigator padding-0 text-right">
@@ -156,10 +159,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Edit Event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit Information") ?></span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Modify Position on the map") ?>" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> <?php echo Yii::t("common","Modify Position") ?></span></a>
 			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Delete this event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> <?php echo Yii::t("event","Cancel Event",null,Yii::app()->controller->module->id); ?></span></a>
+			<?php if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+			<?php } ?>
+
     	<?php } ?>
 		</div>
 	</div>
-	<div class="panel-body no-padding">
+	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
+	<div id="contentGeneralInfos" class="panel-body no-padding">
 		<div class="col-sm-6 col-xs-12 padding-10">
 			<div class="item" id="imgAdherent">
 				<?php 
@@ -300,6 +308,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
+	var loadActivity=true;	
 	if(imagesD != 'null'){
 		var images = imagesD;
 	}
@@ -350,9 +359,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			onblur: 'submit',
 			mode: "popup",
 			success : function(data) {
-		        if(data.result) 
+		       if(data.result) {
 		        	toastr.success(data.msg);
-		        else
+					loadActivity=true;	
+		        } else
 		        	return (data.msg);
 		    },
 			showbuttons: false
@@ -367,9 +377,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				return typeEvents;
 			},
 			success : function(data) {
-		        if(data.result) 
+		        if(data.result) {
 		        	toastr.success(data.msg);
-		        else {
+					loadActivity=true;	
+		        }else {
 					return (data.msg);
 			    }  
 		    }
@@ -384,6 +395,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        if(data.result) {
 		        	manageAllDayEvent(newValue);
 		        	toastr.success(data.msg);
+					loadActivity=true;	
 		        }
 		        else
 		        	return data.msg;  
@@ -402,6 +414,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				if(debug)console.log("success update postal Code",newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
+				loadActivity=true;	
 				
 			},
 			value : {
@@ -418,9 +431,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				return countries;
 			},
 			success : function(data) {
-		        if(data.result) 
+		        if(data.result) {
 		        	toastr.success(data.msg);
-		        else
+					loadActivity=true;	
+		        }else
 		        	toastr.error(data.msg);  
 		    },
 		});
@@ -436,9 +450,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				image: false
 			},
 			success : function(data) {
-		        if(data.result) 
+		        if(data.result) {
 		        	toastr.success(data.msg);
-		        else
+					loadActivity=true;	
+		        }else
 		        	toastr.error(data.msg);  
 		    },
 		});
@@ -511,9 +526,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					weekStart: 1
 				},
 				success : function(data) {
-					if(data.result) 
+					if(data.result) {
 						toastr.success(data.msg);
-					else 
+						loadActivity=true;	
+					}else 
 						return data.msg;
 			    }
 			});
@@ -530,9 +546,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	                weekStart: 1
 	           },
 	           success : function(data) {
-			        if(data.result) 
+			        if(data.result) {
 			        	toastr.success(data.msg);
-			        else 
+						loadActivity=true;	
+			        }else 
 						return data.msg;
 			    }
 	        });
@@ -553,9 +570,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					language: 'fr'
 				   },
 				success : function(data) {
-					if(data.result) 
+					if(data.result) {
 						toastr.success(data.msg);
-					else 
+						loadActivity=true;	
+					}else 
 						return data.msg;
 			    }
 			});
@@ -574,9 +592,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	                language: 'fr'
 	           },
 	           success : function(data) {
-			        if(data.result) 
+			        if(data.result) {
 			        	toastr.success(data.msg);
-			        else 
+						loadActivity=true;	
+			        }else 
 						return data.msg;
 			    }
 	        });
@@ -681,6 +700,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	function callbackFindByInseeError(){
 		console.log("erreur getlatlngbyinsee", error);
 	}
-	
-
+	function getHistoryOfActivities(id,type){
+		$("#contentGeneralInfos").hide();
+		$("#activityContent").removeClass("hide");
+		$("#getHistoryOfActivities").html("<i class='fa fa-arrow-left'></i> <span class='hidden-xs'>Revenir aux détails</span>").attr("onclick","getBackDetails('"+id+"','"+type+"')");
+		//if($("#activityContent").html()=='<h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2>')
+		if(loadActivity==true){
+			getAjax('#activityContent',baseUrl+'/'+moduleId+"/pod/activitylist/type/"+type+"/id/"+id,function(){ 
+		},"html");
+		}
+		
+	}
+	function getBackDetails(id,type){
+		$("#contentGeneralInfos").fadeOut();
+		$("#activityContent").removeClass("hide");
+		$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+id+"','"+type+"')");
+		$("#activityContent").addClass("hide");
+		$("#contentGeneralInfos").show();
+		loadActivity=false;
+	}
 </script>

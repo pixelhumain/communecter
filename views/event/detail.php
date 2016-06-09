@@ -21,14 +21,16 @@
 <div class="row">
 	<div class="col-md-8 col-sm-12 col-xs-12">
 		<?php $this->renderPartial('dashboard/description',array(
-								"event" => $event,
-								"organizer" =>$organizer,
-								"itemId" => (string)$event["_id"],
-								"eventTypes" => $eventTypes,
-								"type" => Event::COLLECTION,
-								"countries" => $countries,
-								"imagesD" => $images,
-								"edit"=>$admin));
+									"event" => $event,
+									"organizer" =>$organizer,
+									"itemId" => (string)$event["_id"],
+									"eventTypes" => $eventTypes,
+									"type" => Event::COLLECTION,
+									"countries" => $countries,
+									"imagesD" => $images,
+									"edit"=>$admin,
+									"openEdition"=>$openEdition
+								));
 								?>
 		
 
