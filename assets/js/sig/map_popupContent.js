@@ -588,6 +588,38 @@
 			return popupContent;
 		};
 
+		Sig.getPopupAddress = function(data){
+			console.log(data);
+			var cityName = data["name"].replace("'", "\'");;
+			var insee = data["insee"];
+			var cp = data["postalCode"];
+			var reg = data["regionName"];
+			var cntry = data["country"];
+			var lat = data["geo"]["latitude"];
+			var lng = data["geo"]["longitude"];
+			if(typeof(data["countCpByInsee"]) != "undefined"){
+				var nbCpByInsee = data["countCpByInsee"];
+				var cityInsee = data["cityInsee"];
+			}
+			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'.postalCode.'+cp+'");'
+			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
+									"<div class='panel-title text-dark center'>"+
+										"<i class='fa fa-map-marker'></i> "+cityName+
+									"</div>" + 
+									//"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
+									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' "+
+											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
+				if (typeof(nbCpByInsee) != "undefined"){
+				popupContent += " nbCpByInsee-com='" + nbCpByInsee + "'" + "cityInsee-com='" + cityInsee + "'";
+				}						
+				popupContent += 			"onclick=''>"+
+										"<i class='fa fa-check'></i> Valider"+
+									"</button>";
+
+			popupContent +=		'</div>';
+			return popupContent;
+		};
+
 		Sig.getPopupModifyPosition = function(data){
 			//console.dir(data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];

@@ -42,7 +42,7 @@
 			thisSig.maxZoom = 20;
 			thisSig.minZoom = 3;
 
-			this.loadIcoParams();
+			thisSig.loadIcoParams();
 			
 
 			if(params.useRightList){
@@ -166,15 +166,15 @@
 						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 														{maxZoom:17,
 														 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 17;
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
 						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
 												{maxZoom:20,
-												 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(Sig.map);
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 20;
 					}
 					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
@@ -188,6 +188,8 @@
 			this.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
 
 										  	"city" 				: "COLLECTIVITE_A",
+											
+											"address" 			: "ADDRESS",
 											
 											"news" 				: "NEWS_A",
 
@@ -284,33 +286,33 @@
 
 		Sig.getIcoNameByType = function (data){
 			var type = this.getTypeSigOfData(data);
-			if(this.icoMarkersMap[type] != null){
+			if(typeof this.icoMarkersMap != "undefined" && this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
 		Sig.getIcoByType = function (data){
 			var type = this.getTypeSigOfData(data);
-			if(this.icoMarkersTypes[type] != null){
+			if(typeof this.icoMarkersTypes != "undefined" && this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
 		Sig.getIcoColorByType = function (data){
 			var type = this.getTypeSigOfData(data);
-			if(this.icoMarkersTypes[type] != null){
+			if(typeof this.icoMarkersTypes != "undefined" && this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
 			}else{  return this.icoMarkersTypes['default'].color; }
 		};
 
 		Sig.getIcoNameByTag = function (tag){
-			if(this.icoMarkersTags[tag] != null){
+			if(typeof this.icoMarkersTags != "undefined" && this.icoMarkersTags[tag] != null){
 					return this.icoMarkersTags[tag].ico;
 			}else{  return this.icoMarkersTags['default'].ico; }
 		};
 
 		Sig.getIcoColorByTag = function (tag){
-			if(this.icoMarkersTags[tag] != null){
+			if(typeof this.icoMarkersTags != "undefined" && this.icoMarkersTags[tag] != null){
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
@@ -322,6 +324,7 @@
 			if(object.type == "city") { return object.cp + object.insee + objectName; }
 			if(object["@type"] == "city") { return object.cp + object.insee + objectName; }
 			if(object.typeSig == "city") { return object.cp + object.insee + objectName; }
+			if(object.type == "addressEntity") { return object.placeId; }
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			if("undefined" != typeof object.id) 	return object.id;
@@ -379,9 +382,8 @@
 		};
 
 		Sig.hideTools = function(){
-			$(".sigModuleBg .tools-btn").hide();
-			$(".sigModuleBg #right_tool_map").hide();
-
+			$(this.cssModuleName + " .tools-btn").hide();
+			$(this.cssModuleName + " #right_tool_map").hide();
 		};
 
 		Sig.hidePopupContent = function(id){

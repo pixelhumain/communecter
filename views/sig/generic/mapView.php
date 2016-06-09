@@ -49,7 +49,7 @@
 				</div>
 			<?php } ?>	
 			<span class="right_tool_map_header_title">Résultats</span>
-				<span class="right_tool_map_header_info">935 / 1034</span>
+				<span class="right_tool_map_header_info"></span>
 				
 			</div>
 			
@@ -123,14 +123,11 @@
 	
 		<?php if($sigParams['useChartsMarkers']){ ?>
 			<div class="btn-group-vertical btn-group-lg btn-group-charts" id="btn-group-charts-map">
-			
 			</div>
 		<?php } ?>
 
 		<div class="btn-group-map tools-btn">
 		
-			
-
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
 				<div class="btn-group btn-group-lg">
 					<button type="button" class="btn btn-map" id="btn-satellite"><i class="fa fa-magic"></i></button>

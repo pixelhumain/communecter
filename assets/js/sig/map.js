@@ -237,9 +237,10 @@
 					this.listId = new Array(objectId);
 
 					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-					{	thisSig.map.panTo(center, {"animate" : true });
-						thisSig.checkListElementMap(thisSig.map);
+					{	thisSig.checkListElementMap(thisSig.map);
 						thisSig.myMarker.openPopup();
+						thisSig.map.panTo(center, {"animate" : true });
+						
 					});
 					
 					$( "#btn-home" ).off().click(function (){ 
@@ -279,6 +280,7 @@
 				var mapHeight = this.initParameters.mapHeight;
 				var rightListHeight = mapHeight - 100;
 
+				if(typeof $(this.cssModuleName + " #right_tool_map").position() != "undefined")
 				var left = $(this.cssModuleName + " #right_tool_map").position().left - $(this.cssModuleName + " .input-search-place").width() - 20;
 				$(this.cssModuleName + " .input-search-place")	.css({"left": left});// - $(this.cssModuleName + " #right_tool_map").width()});
 			};
@@ -295,10 +297,9 @@
 				
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
-
 				$(this.cssModuleName + " .tools-btn").css( 
-					{"left":$("#mapCanvas" + this.sigKey).width() - 
-					$("#right_tool_map").width() - 
+					{"left":$(this.cssModuleName + "#mapCanvas" + this.sigKey).width() - 
+					$(this.cssModuleName + "#right_tool_map").width() - 
 					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );

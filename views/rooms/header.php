@@ -74,17 +74,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		    $ctrl = Element::getControlerByCollection($parentType);
 		    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
 			
-			if( $parentType == City::COLLECTION || 
+			if(!isset(Yii::app()->session['userId'])){ 
+				$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","LOGIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
+			    $btnUrl = "showPanel('box-login');";
+			}
+			else if( $parentType == City::COLLECTION || 
 				($parentType != Person::COLLECTION && 
 				Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))
 				{ 
 					$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
 				    $btnUrl = "loadByHash('#rooms.editroom.type.".$parentType.".id.".$parentId."')";
 				} 
-			if(!isset(Yii::app()->session['userId'])){ 
-				$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","LOGIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
-			    $btnUrl = "showPanel('box-login');";
-			}
+			
 
 			$addBtn = ( $parentType != Person::COLLECTION ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>' : ""; 
 		?>

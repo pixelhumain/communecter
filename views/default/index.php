@@ -694,8 +694,8 @@ function showMap(show)
 			Sig.currentMarkerPopupOpen.fire('click');
 		}
 		
-		$(".btn-group-map").show( 700 );
-		$("#right_tool_map").show(700);
+		$(Sig.cssModuleName + " .btn-group-map").show( 700 );
+		$(Sig.cssModuleName + " #right_tool_map").show(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").hide();
 		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
@@ -713,8 +713,8 @@ function showMap(show)
 		isMapEnd =false;
 		hideMapLegende();
 
-		$(".btn-group-map").hide( 700 );
-		$("#right_tool_map").hide(700);
+		$(Sig.cssModuleName + " .btn-group-map").hide( 700 );
+		$(Sig.cssModuleName + " #right_tool_map").hide(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
 		$(".panel_map").hide(1);
 		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
