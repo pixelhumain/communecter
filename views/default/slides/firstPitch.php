@@ -28,7 +28,7 @@
                 Concrètement :<br/> 
                 Nous aimerions améliorer l'image de la ville, lui donner un visage humain<br/>
                 En appliquant le système des réseaux sociaux du web à la collectivité<br/>
-                Pour une ville aussi connectée que Facebook et aussi ouverte que Wikipedia<br/>
+                <span class="text-bold bg-azure radius-5 padding-5" >Pour une ville aussi connectée que Facebook et aussi ouverte que Wikipedia</span><br/>
                 Pour une réflexion publique et une intelligence collective<br/>
                 <br/>
                 Repenser la ville via la participation citoyenne et la transparence<br/>
