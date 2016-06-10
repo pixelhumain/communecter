@@ -96,15 +96,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	margin-bottom:10px;
 }
 #inputText-geolocInternational{
-	width:100%;
-	height:45px;
-	padding-left:10px;
+	width: 80%;
+	height: 45px;
+	padding-left: 10px;
 	border-width: 0px;
 	border-bottom-width: 1px;
 }
 #btn-geolocInternational{
-	height:45px;
+	height: 45px;
 	border-radius: 0px;
+	width: 20%;
+	text-align: center;
 }
 
 .btn-select-address{
@@ -120,7 +122,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 .sigModule<?php echo $sigParams['sigKey']; ?> #right_tool_map {
     width: unset;
-    height: 350px;
+    height: 305px;
     position: relative !important;
     right: 0%;
     top: 0%;
@@ -166,12 +168,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<div class="col-md-12 no-padding">
 			<form class="form-event">
 				<div class="col-md-12 no-padding"><select id="country-geolocInternational"></select></div>
-				<div class="col-md-5 no-padding"><input type="text" id="inputText-geolocInternational" placeholder="n° rue, commune, code postal"></div>
-				<div class="col-md-7 no-padding"><button class="btn btn-success" id="btn-geolocInternational"><i class="fa fa-search"></i> Rechercher la position</button></div>
+				<!-- <div class="col-md-5 no-padding"></div>
+				<div class="col-md-7 no-padding"></div> -->
 
 			</form>
 		</div>
 		<div class="col-md-5 no-padding">
+			<input type="text" id="inputText-geolocInternational" placeholder="n° rue, commune, code postal">
+			<button class="btn btn-success pull-right" id="btn-geolocInternational"><i class="fa fa-search"></i></button>
 			<div id="right_tool_map">
 				<div id="liste_map_element"></div>
 			</div>
@@ -429,15 +433,16 @@ function addAttObjGoogle(obj1, obj2, att1, att2, nameLength){
 }
 
 /* affiche les résultat de la recherche dans la div #result (à placer dans l'interface au préalable) */
-var markerListEntity = new Array();
+var markerListEntity = null;
 function addResultsInForm(commonGeoObj, countryCode){
 	
 	//clear map
 	var thisSig = Sig;
-	if(Sig.markerSingleList != null)
+	if(markerListEntity != null)
 	$.each(markerListEntity, function(){
 		mapEntity.removeLayer(this);
 	});
+	markerListEntity = new Array();
 
 	Sig.clearPolygon();
 	Sig.listId = new Array();
@@ -459,7 +464,10 @@ function addResultsInForm(commonGeoObj, countryCode){
 				showOneElementOnMap(obj, mapEntity);
 		}
 	});
-
+//alert("fitBounds");
+	//var markersLayerAddress = L.featureGroup(markerListEntity);
+	mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
+	
 	console.log("total : " + totalShown);
 	return totalShown;
 }
@@ -517,6 +525,7 @@ function loadMap(canvasId, initParams)
 	return mapEntity;
 };
 
+
 function showOneElementOnMap(thisData, thisMap){
 				
 	var objectId = Sig.getObjectId(thisData);
@@ -562,6 +571,7 @@ function showOneElementOnMap(thisData, thisMap){
 					Sig.checkListElementMap(thisMap);
 					marker.openPopup();
 					thisMap.panTo(coordinates, {"animate" : true });
+					thisMap.panBy([0, -80], {"animate" : true });
 					//setTimeout(function(){ mapEntity.invalidateSize(false); }, 1000);
 					//mapEntity.invalidateSize(false);
 				});
@@ -584,7 +594,7 @@ function createItemRigthListMap(element, thisMarker, thisMap){
 
 	var button = '<div class="element-right-list" id="element-right-list-'+Sig.getObjectId(element)+'">' +
     				'<button class="item_map_list item_map_list_'+ Sig.getObjectId(element) +'">' +
-	    				"<div class='info_item pseudo_item_map_list'>" +  
+	    				"<div class='info_item pseudo_item_map_list text-dark'>" +  
 	    					'<i class="fa fa-map-marker"></i>' +
 	    					name + 
 	    				"</div>" +
