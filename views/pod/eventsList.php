@@ -144,8 +144,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			
 		})
 	})
-
-	function updateMyEvents(nEvent) {
+	// TODO BOUBOULE - TO DELETE OLD MAN LONG
+	/*function updateMyEvents(nEvent) {
 		if('undefined' != typeof contextMap){
 			contextMap["events"].push(nEvent);
 		}
@@ -175,5 +175,5 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		$("#events").append(htmlEvent);
 		$('.tooltips').tooltip();
 		$('#infoEventPod').hide();
-	}
+	}*/
 </script>
