@@ -1,5 +1,4 @@
 <?php 
-//$this->renderPartial('newsSV');
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -113,7 +112,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextTitle = Yii::t("common", "Contributors of project");
 	}
 
-	$imgProfil = "";//isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
+	$imgProfil = "";
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
@@ -298,12 +297,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <?php } ?>
 
 <div id="newsHistory" class="padding-10">
-
-	<div class="margin-top-10">
+	<!--<div class="margin-top-10">
 		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
 		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
-	</div>
+	</div>-->
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
