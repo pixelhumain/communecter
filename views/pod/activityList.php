@@ -1,9 +1,15 @@
 <?php
+/* Author @Bouboule (CDA)
+* ActivityList is a view to show each activity realized on an entity by someone
+* Modification in x-editable, or creation of the entity, added an image
+* Improvement: permits a versioning of each modification
+*/
 $arrayLabel=array(
 	"name" => Yii::t("common","the name"),
 	"description" => Yii::t("common","the description"),
 	"type" => Yii::t("common","the type"),
-	"address" => Yii::t("common","the address"),
+	"address" => Yii::t("common","the city"),
+	"address.streetAddress" => Yii::t("common","the street"),
 	"address.addressCountry" => Yii::t("common","the country"),
 	"allDay" => Yii::t("common", "the duration of the event to all day"),
 	"startDate" => Yii::t("common", "the start"),
@@ -27,7 +33,7 @@ $countries= OpenData::getCountriesList();
 					" <span style='font-weight:bold;'>".$arrayLabel[$value["object"]["displayName"]]."</span>"." ".
 					Yii::t("common","of the event").": <span style='color: #21b384;'>";
 					if($value["object"]["displayName"]=="address")
-						echo  $value["object"]["displayValue"]["streetAddress"].", ".$value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
+						echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
 					else if($value["object"]["displayName"]=="address.addressCountry"){
 						foreach($countries as $country){
 							if($country["value"]==$value["object"]["displayValue"])
