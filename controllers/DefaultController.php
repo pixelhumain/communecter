@@ -75,6 +75,10 @@ class DefaultController extends CommunecterController {
   public function actionView($page,$dir=null,$layout=null) 
   {
     if(@$dir){
+      
+      if($dir == "docs")
+        $dir = "../".$dir;
+
       if(strpos($dir,"|")){
         $dir=str_replace("|", "/", $dir);
       }

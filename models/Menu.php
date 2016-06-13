@@ -526,10 +526,14 @@ class Menu {
         
         // Help
         //-----------------------------
-        self::entry("right", 'html', 
+        /*self::entry("right", 'html', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     '', 'question-circle',
-                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
+                    '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);*/
+        self::entry("right", 'onclick', 
+                      Yii::t( "common", 'Understanding surveys and proposals'),
+                    '', 'question-circle',
+                     "loadByHash('#default.view.page.dda.dir.docs')",null,null);
     }
 
     public static function survey($survey)
