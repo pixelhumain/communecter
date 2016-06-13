@@ -194,6 +194,7 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 var commentIdOnTop;
 var selection;
+var modeComment = "view";
 //var canParticipate = <?php //echo ( $canParticipate ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
@@ -220,8 +221,19 @@ function buildCommentsTree(where, commentsList, withActions) {
 	
 	countEntries = 0;
 	$(where).append(buildComments(commentsList, 0, withActions));
+	initUpdate(commentsList);
+	
+	
 }
-
+function initUpdate(comment){
+	$.each( comment , function(key,o){
+		if (o.replies.length != 0){
+				initUpdate(o.replies);
+		}
+		initXEditable();
+		manageCommentModeContext(key);
+	});
+}
 function addEmptyCommentOnTop() {
 	var newCommentLine = buildNewCommentLine("");	
 	//create a new reply line on the root
@@ -292,7 +304,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var commentsTLLine;
 	if (typeof(userId) != "undefined" && commentObj.author.id == userId){
 		manageComment='<a href="javascript:;" onclick="deleteComment(\''+id+'\',$(this))"><span class="comment-delete pull-right text-red" style="padding-left:10px;"><i class="fa fa-trash-o"></i> <?php echo Yii::t("common","Delete") ?></span></a>'+
-		'<span class="comment-modify pull-right"><i class="fa fa-pencil"></i> <?php echo Yii::t("common","Modify") ?></span>';
+		'<a href="javascript:;" onclick="modifyComment(\''+id+'\')"><span class="comment-modify pull-right"><i class="fa fa-pencil"></i> <?php echo Yii::t("common","Modify") ?></span></a>';
 	}
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
@@ -305,7 +317,11 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 								manageComment+
 							'</div>'+
-							'<div class="commentText-'+commentObj.status+'" style="float:left;">'+text+'</div>'+
+							'<div class="commentText-'+commentObj.status+'" style="float:left;width:90%;">'+
+								'<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+
+									text+
+								'</a>'+
+							'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post hide'>";
 	
@@ -891,6 +907,7 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 		ulChildren.prepend(commentsTLLine);
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
+	manageCommentModeContext(comment["_id"]["$id"]);
 	
 	bindEvent();
 }
@@ -932,6 +949,88 @@ function deleteComment(id,$this){
 	    }
 	});
 }
+function modifyComment(id){
+	switchModeCommentEdit(id);
+}
+function switchModeCommentEdit(id){
+	//alert(mode);
+	if(modeComment == "view"){
+		modeComment = "update";
+		manageCommentModeContext(id);
+	} else {
+		modeComment ="view";
+		manageCommentModeContext(id);
+	}
+}
+
+function manageCommentModeContext(id) {
+	listXeditables = ['#commentText'+id];
+	if (modeComment == "view") {
+		//$('.editable-project').editable('toggleDisabled');
+		$.each(listXeditables, function(i,value) {
+			$(value).editable('toggleDisabled');
+		});
+		//$("#btn-update-geopos").removeClass("hidden");
+	} else if (modeComment == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('.editable-comment').editable('option', 'pk', id);
+		$.each(listXeditables, function(i,value) {
+			$(value).editable('option', 'pk', id);
+			$(value).editable('toggleDisabled');
+		});
+	}
+}
+function initXEditable() {
+	$.fn.editable.defaults.mode = 'inline';
+	/*$('.editable-comment').editable({
+    	url: baseUrl+"/"+moduleId+"/comment/updatefield", //this url will not be used for creating new job, it is only for update
+    	emptytext: 'Empty',
+    	textarea: {
+			html: true,
+			video: true,
+			image: true
+		},
+    	showbuttons: 'bottom',
+    	success : function(data) {
+	        if(data.result) {
+	        	toastr.success(data.msg);
+
+	        	//$('.editable-news').editable('toggleDisabled');
+				//switchModeEdit(data.id);
+				console.log(data);
+				console.log("ici");
+				$("a[data-id='"+data.id+"']").trigger('click');
+	        }
+	        else{
+	        	toastr.error(data.msg);  
+	        }
+	    }
+	});*/
+
+	$('.commentText').editable({
+		url: baseUrl+"/"+moduleId+"/comment/updatefield", 
+		emptytext: 'Vide',
+		showbuttons: 'bottom',
+		wysihtml5: {
+			html: true,
+			video: true,
+			image: true
+		},
+		width:100,
+		showbuttons: 'bottom',
+		success : function(data) {
+	        if(data.result) {
+		       // $('.newsContent').editable('toggleDisabled');
+		       // switchModeEdit(data.id);
+	        	toastr.success(data.msg);
+	        	console.log(data);
+	        	switchModeCommentEdit(data.id);
+	        	}
+	        else
+	        	toastr.error(data.msg);  
+	    },
+	});
 
 
+}
 </script>
