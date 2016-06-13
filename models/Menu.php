@@ -498,7 +498,7 @@ class Menu {
         
         // Back to Parent
         //-----------------------------
-        if(( isset( $type ) && isset($id))){
+        if( @$type && @$id && $type != 'cities' ){
          //$type = Element::getControlerByCollection($type);
             $ctrl = Element::getControlerByCollection($type);
          self::entry("left", 'onclick', 
