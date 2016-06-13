@@ -290,7 +290,10 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
-
+	if (typeof(userId) != "undefined" && commentObj.author.id == userId){
+		manageComment='<a href="javascript:;" onclick="deleteComment(\''+id+'\',$(this))"><span class="comment-delete pull-right text-red" style="padding-left:10px;"><i class="fa fa-trash-o"></i> <?php echo Yii::t("common","Delete") ?></span></a>'+
+		'<span class="comment-modify pull-right"><i class="fa fa-pencil"></i> <?php echo Yii::t("common","Modify") ?></span>';
+	}
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
 						'<div class="commentContent-'+commentObj.status+'">'+
@@ -300,6 +303,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="text-bold light-text no-margin">'+name+'</span>'+
 								'<span class="commenter-location padding-5">'+city+'</span>'+
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
+								manageComment+
 							'</div>'+
 							'<div class="commentText-'+commentObj.status+'" style="float:left;">'+text+'</div>'+
 							'<div class="space10"></div>'+
@@ -856,7 +860,7 @@ function validateComment(commentId, parentCommentId) {
 					console.log(data);
 					$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
 					if (data.newComment.contextType=="news"){
-						$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text((parseInt($('.nbComments').html()) || 0));
+						$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
 					}
 					switchComment(commentId, data.newComment, parentCommentId);
 
@@ -906,6 +910,28 @@ function getProfilImageUrl(imageURL) {console.log("imageURL",imageURL);
 	return iconStr;
 }
 
+function deleteComment(id,$this){
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/comment/delete/id/"+id,
+		dataType: "json",
+		//data: {"newsId": idNews},
+    	success: function(data){
+        	if (data.result) {    
+	        	console.log(data);           
+				toastr.success("<?php echo Yii::t("common","Comment successfully deleted")?>");
+				liParent=$this.parents().eq(2);
+	        	liParent.fadeOut();
+	        	$('.nbComments').html((parseInt($('.nbComments').html()) || 0) - 1);
+	        	if (data.comment.contextType=="news"){
+						$(".newsAddComment[data-id='"+data.comment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0 );
+					}
+			} else {
+	            toastr.error("Quelque chose a buggé");
+	        }
+	    }
+	});
+}
 
 
 </script>

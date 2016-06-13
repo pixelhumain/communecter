@@ -343,6 +343,7 @@ class CommunecterController extends Controller
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
       "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
+       "delete" => array( "href" => "/ph/communecter/comment/delete"),
       "countcommentsfrom" => array( "href" => "/ph/communecter/comment/countcommentsfrom"),
     ),
     "action"=> array(
