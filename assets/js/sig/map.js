@@ -237,8 +237,7 @@
 					this.listId = new Array(objectId);
 
 					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-					{	thisSig.checkListElementMap(thisSig.map);
-						thisSig.myMarker.openPopup();
+					{	thisSig.myMarker.openPopup();
 						thisSig.map.panTo(center, {"animate" : true });
 						
 					});
@@ -298,9 +297,7 @@
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
 				$(this.cssModuleName + " .tools-btn").css( 
-					{"left":$(this.cssModuleName + "#mapCanvas" + this.sigKey).width() - 
-					$(this.cssModuleName + "#right_tool_map").width() - 
-					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+					{"right":$(this.cssModuleName + " #right_tool_map").width() + 40});// - $(this.cssModuleName + " #right_tool_map").width()});
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
@@ -807,7 +804,8 @@
 							subdomains: '1234',
 							opacity: 0.7,
 							minZoom:12,
-							maxZoom: 20
+							maxZoom: 20,
+							zIndex:2
 						});
 			roadTileLayer.addTo(map);
 			

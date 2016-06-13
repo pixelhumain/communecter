@@ -148,8 +148,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 .sigModule<?php echo $sigParams['sigKey']; ?> .btn-group-map {
     float: left;
-    top: 20px;
-    right: 0px;
+    top: 10px;
+    right: -18px;
     left:unset;
     position: absolute;
 }
@@ -158,6 +158,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	padding: 50px;
 	text-align: center;
 	padding-top: 80px;
+}
+
+.sigModule<?php echo $sigParams['sigKey']; ?> .btn-map {
+    padding: 7px 12px 9px !important;
+    font-size: 14px !important;
 }
 
 </style>
@@ -244,17 +249,49 @@ function getGeoPosInternational(requestPart, countryCode){
 
 	showMsgListRes("Recherche en cours ...");
 	
+	if(countryCode == "FR") callDataGouv(requestPart, "FR");
+	else
+		callNominatim(requestPart, countryCode);
+}
 
-	//callGoogle(requestPart, countryCode); return;
+function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
+	console.log('callDataGouv');
+	showMsgListRes("Recherche en cours<br><small>Data Gouv</small>");
+	callGeoWebService("data.gouv", requestPart, 
+		function(objDataGouv){ /*success nominatim*/
+			console.log("SUCCESS DataGouv"); 
 
+			if(objDataGouv.length != 0){
+				console.log('Résultat trouvé chez DataGouv !'); console.dir(objDataGouv);
+				var commonGeoObj = getCommonGeoObject(objDataGouv.features, "data.gouv");
+				var res = addResultsInForm(commonGeoObj, countryCode);
+				if(res == 0) 
+					callNominatim(requestPart, countryCode);
+			}else{
+				console.log('Aucun résultat chez DataGouv');
+				callNominatim(requestPart, countryCode);
+			}
+		}, 
+		function(thisError){ /*error nominatim*/
+			console.log("ERROR nominatim");
+			console.dir(thisError);
+		}
+	);
+}
+
+function callNominatim(requestPart, countryCode){
+	console.log('callNominatim');
+	showMsgListRes("Recherche en cours<br><small>Nominatim</small>");
 	callGeoWebService("nominatim", requestPart, 
 		function(objNomi){ /*success nominatim*/
 			console.log("SUCCESS nominatim"); 
 
 			if(objNomi.length != 0){
 				console.log('Résultat trouvé chez Nominatim !'); console.dir(objNomi);
+
 				var commonGeoObj = getCommonGeoObject(objNomi, "nominatim");
 				var res = addResultsInForm(commonGeoObj, countryCode);
+
 				if(res == 0) 
 					callGoogle(requestPart, countryCode);
 			}else{
@@ -270,7 +307,8 @@ function getGeoPosInternational(requestPart, countryCode){
 }
 
 function callGoogle(requestPart, countryCode){
-	showMsgListRes("Recherche en cours ... ...");
+	console.log('callGoogle');
+	showMsgListRes("Recherche en cours<br><small>GoogleMap</small>");
 	callGeoWebService("google", requestPart, 
 		function(objGoo){ /*success google*/
 			console.log("SUCCESS GOOGLE");
@@ -308,7 +346,7 @@ function callGeoWebService(providerName, requestPart, success, error){
 	if(url != ""){
 		$.ajax({
 			url: url,
-			type: 'POST',
+			type: 'GET',
 			dataType: 'json',
 			async:false,
 			crossDomain:true,
@@ -363,7 +401,16 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, obj, "placeId", "place_id");
 		}else 
 		if(providerName == "data.gouv"){
-
+			console.log("details result data.gouv");
+			console.dir(obj);
+			var address = obj["properties"];
+			commonObj = addAttObjNominatim(commonObj, address, "street", "name");
+			commonObj = addAttObjNominatim(commonObj, address, "cityName", "city");
+			commonObj = addAttObjNominatim(commonObj, address, "country", "country");
+			commonObj = addAttObjNominatim(commonObj, address, "postalCode", "postcode");
+			commonObj["countryCode"] = "FR";
+			commonObj = addAttObjNominatim(commonObj, address, "placeId", "id");
+		
 		}
 
 		commonObj = addCoordinates(commonObj, obj, providerName);
@@ -378,6 +425,20 @@ function getCommonGeoObject(objs, providerName){
 	return commonObjs;
 }
 
+
+//ajoute les attribut s'ils existent
+function addAttObjNominatim(obj1, obj2, att1, att2){
+	if(typeof obj2[att2] != "undefined") obj1[att1] = obj2[att2];
+	return obj1;
+}
+
+function addAttObjGoogle(obj1, obj2, att1, att2, nameLength){
+	
+	if($.inArray(att2, obj2.types) >= 0){
+		obj1[att1] = obj2[nameLength];
+	}
+	return obj1;
+}
 
 //récupère les coordonnées et transforme la data dans notre format geo
 function addCoordinates(commonObj, obj, providerName){
@@ -398,7 +459,11 @@ function addCoordinates(commonObj, obj, providerName){
 		}
 	}else 
 	if(providerName == "data.gouv"){
-
+		if(typeof obj["geometry"] != "undefined" && typeof obj["geometry"]["coordinates"] != "undefined"){
+			lat = (typeof obj["geometry"]["coordinates"][1] != "undefined") ? obj["geometry"]["coordinates"][1] : null;
+			lng = (typeof obj["geometry"]["coordinates"][0] != "undefined") ? obj["geometry"]["coordinates"][0] : null;
+			//TODO : geoshape
+		}
 	}
 
 	if(lat != null && lng != null){
@@ -418,19 +483,6 @@ function addCoordinates(commonObj, obj, providerName){
 }
 
 
-//ajoute les attribut s'ils existent
-function addAttObjNominatim(obj1, obj2, att1, att2){
-	if(typeof obj2[att2] != "undefined") obj1[att1] = obj2[att2];
-	return obj1;
-}
-
-function addAttObjGoogle(obj1, obj2, att1, att2, nameLength){
-	
-	if($.inArray(att2, obj2.types) >= 0){
-		obj1[att1] = obj2[nameLength];
-	}
-	return obj1;
-}
 
 /* affiche les résultat de la recherche dans la div #result (à placer dans l'interface au préalable) */
 var markerListEntity = null;
@@ -466,6 +518,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 	});
 //alert("fitBounds");
 	//var markersLayerAddress = L.featureGroup(markerListEntity);
+	if(totalShown>0)
 	mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
 	
 	console.log("total : " + totalShown);
@@ -570,8 +623,12 @@ function showOneElementOnMap(thisData, thisMap){
 				{	thisMap.setZoom(16);
 					Sig.checkListElementMap(thisMap);
 					marker.openPopup();
-					thisMap.panTo(coordinates, {"animate" : true });
+					thisMap.panTo(coordinates, {"animate" : false });
 					thisMap.panBy([0, -80], {"animate" : true });
+
+					console.log("onclick " + thisData.cityName);
+					if(typeof thisData.postalCode == "undefined")
+					askNominatimCp(thisData.cityName);
 					//setTimeout(function(){ mapEntity.invalidateSize(false); }, 1000);
 					//mapEntity.invalidateSize(false);
 				});
@@ -602,6 +659,28 @@ function createItemRigthListMap(element, thisMarker, thisMap){
 	    		  "</div>";
 
 	$(".sigModuleEntity #liste_map_element").append(button);				
+}
+
+function askNominatimCp(cityName){
+	http://nominatim.openstreetmap.org/search?format=json&city=Noum%C3%A9a&countrycodes=FR
+	//var url = "//nominatim.openstreetmap.org/search?city=" + cityName + "&format=json&polygon=0&addressdetails=1";
+	var url ="//maps.googleapis.com/maps/api/geocode/json?address=" + cityName;
+	$.ajax({
+		url: url,
+		type: 'POST',
+		dataType: 'json',
+		async:false,
+		crossDomain:true,
+		complete: function () {},
+		success: function (obj){
+			console.log("askNominatimCp success");
+			console.dir(obj);
+		},
+		error: function (thisError) {
+			console.log("askNominatimCp error");
+			toastr.error(thisError);
+		}
+	});
 }
 
 // var tileMode = "terrain";
