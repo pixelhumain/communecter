@@ -7,7 +7,12 @@ $cssAnsScriptFiles = array(
 	'/assets/plugins/moment/min/moment.min.js',
 	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
 	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
-	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js'
+	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js'
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 ?>	
