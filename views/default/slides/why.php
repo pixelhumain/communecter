@@ -12,7 +12,7 @@
         
         <div class="panel-body">
             <blockquote class=" text-dark"><b>Un Système d'information Territorial</b></blockquote>
-            <blockquote class=" text-dark"><b>Un reseau sociétal libre</b></blockquote>
+            <blockquote class=" text-dark"><b>Un réseau sociétal libre</b></blockquote>
             <blockquote class=" text-dark">Acteurs, Activités et des Actions</blockquote>
             <blockquote class=" text-dark">Découvrir, Comprendre et Dynamiser</blockquote>
             <blockquote class=" text-dark">Créer du lien</blockquote>
