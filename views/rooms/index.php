@@ -159,7 +159,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 
 <script type="text/javascript">
-var nameParentTitle = '<?php echo htmlspecialchars($nameParentTitle); ?>';
+var nameParentTitle = "<?php echo htmlspecialchars($nameParentTitle); ?>";
 jQuery(document).ready(function() {
 	
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
