@@ -189,7 +189,11 @@ $userId = Yii::app()->session["userId"] ;
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<label for="inputKey">Key : </label>
-				<input class="" placeholder="Key attribuer a l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<label for="inputBadge">Badge : </label>
+				<input class="" placeholder="Badge a attribuer à l'ensemble des données importer" id="inputBadge" name="inputBadge" value="">
 			</div>
 			<div class="col-sm-6 col-xs-12">
 				<label>
@@ -849,6 +853,7 @@ function bindEvents()
 	        		creatorEmail : $('#creatorEmail').val(),
 	        		pathObject : $('#pathObject').val(),
 			        key : $("#inputKey").val(),
+			        badge : $("#inputBadge").val(),
 			        warnings : $("#checkboxWarnings").is(':checked')
 			    }
 
@@ -876,12 +881,13 @@ function bindEvents()
 
 	  				if($("#typeFile").val() == "csv"){
 	  					var fin = false ;
-				  		var indexStart = 0 ;
+				  		var indexStart = 1 ;
 				  		var limit = 25 ;
 				  		var indexEnd = limit;
+				  		var head = file.slice(0,1);
 
 				  		while(fin == false){
-				  			subFile = file.slice(indexStart,indexEnd);
+				  			subFile = head.concat(file.slice(indexStart,indexEnd));
 				  			console.log("subFile", subFile.length);
 
 				  			params["file"] = subFile;
@@ -923,16 +929,29 @@ function bindEvents()
 	        		idCollection : $("#idCollection").val()},
 	        url: baseUrl+'/communecter/admin/importinmongo/',
 	        dataType : 'json',
-	        success: function(data)
-	        {
+	        success: function(data) {
 	            //console.dir(data);
 	            if(data.result)
-	              	toastr.success("Les données ont été ajouté.");
+	              	toastr.success("Les fichiers ont été crée.");
 	            else
 	                toastr.error("Erreur");
-	           	//$.unblockUI();
+	           	
 	        }
+
+	        
 	    });
+
+	    /*$.ajax({
+		    url: baseUrl+'/communecter/admin/importinmongo/',
+		    data: { jsonImport : $('#jsonImport').val(), 
+	        		jsonError : $('#jsonError').val(),
+	        		nameFile : $('#nameFile').val(),
+	        		idCollection : $("#idCollection").val()},
+		    type: 'POST',
+		    success: function() {
+		        window.location = baseUrl+'/communecter/admin/importinmongo/';
+		    }
+		});*/
   	});
 
 
