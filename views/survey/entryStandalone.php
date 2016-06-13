@@ -109,7 +109,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	$nameParentTitle = "";
 	if($parentType == Organization::COLLECTION && isset($parentId)){
 		$orga = Organization::getById($parentId);
-		$nameParentTitle = htmlspecialchars($orga["name"]);
+		$nameParentTitle = htmlentities($orga["name"]);
 	}
 
 		
