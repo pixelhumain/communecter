@@ -46,8 +46,8 @@
 															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
 															"contentType" => Event::COLLECTION,
 															"admin" => $admin,
-															"invitedNumber" => $invitedNumber,
-															"attendeeNumber"=> $attendeeNumber,
+															"countLowLinks" => $invitedNumber,
+															"countStrongLinks"=> $attendeeNumber,
 															"invitedMe" => @$invitedMe));
 		if (!empty($subEvents) || $admin==1)
 		{ 

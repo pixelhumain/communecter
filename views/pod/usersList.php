@@ -112,25 +112,6 @@
 				</div>
 			<?php }
 			else{
-				//print_r($followers);
-				if(isset($followers)){
-					$text="";
-					if($contentType==Organization::COLLECTION)
-						$userTitle=Yii::t("common","member");
-					else if ($contentType==Project::COLLECTION)
-						$userTitle=Yii::t("common","contributor");
-					$text .= count($users)." ".$userTitle;
-					if(count($users)>1)
-						$text .= "s";
-					if(!empty($followers)){
-						$text .= " ".Yii::t("common","and")." ";
-						$text .= $followers." ".Yii::t("common","follower");
-						if ($followers > 1)
-							$text .="s";
-
-					}
-					echo "<div class='no-padding text-dark entityTitle' style='font-size:18px;'><span class='text'>".$text."</span></div>";
-				} 
 				foreach ($users as $e) { 
 					if(!@$e["invitorId"]){
 						$grayscale = "grayscale";
@@ -188,30 +169,63 @@
 				<?php 
 					}
 				}
-				if(!empty($followers)){ ?>
+				if(!empty($countLowLinks) || $countStrongLinks > 11){ 
+					$nbCommunity=$countLowLinks;
+					$fontSize="";
+					if($countStrongLinks>11)
+						$nbCommunity+=($countStrongLinks-11);
+					if($nbCommunity >= 1000){
+						$nbCommunity=$nbCommunity/1000;
+						$nbCommunity=number_format($nbCommunity, 1, ',',"")."K";
+						$fontSize="font-size:14px;";
+					}
+				?>
 				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
-					<span style="line-height:50px;">+ <?php echo $followers ?></span>
+					<span style="line-height:50px;<?php echo $fontSize ?>">+ <?php echo $nbCommunity ?></span>
 				</a>
 				<?php } 
 			} ?>
 		</div>
 		<?php
 			// If event, see number of invitations and attendees
-			if((@$attendeeNumber && $attendeeNumber != 0) || (@$invitedNumber && $invitedNumber != 0)){
+			if((@$countStrongLinks && $countStrongLinks != 0) || (@$countLowLinks && $countLowLinks != 0)){
+				$text="";
+					
+					if(!empty($followers)){
+						$text .= " ".Yii::t("common","and")." ";
+						$text .= $followers." ".Yii::t("common","follower");
+						if ($followers > 1)
+							$text .="s";
+
+				}
 				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
-				if ($attendeeNumber != 0){
+				if ($countStrongLinks != 0){
+					if($contentType==Organization::COLLECTION)
+						$strongLinksLabel=Yii::t("common","member");
+					else if ($contentType==Project::COLLECTION)
+						$strongLinksLabel=Yii::t("common","contributor");
+					else if ($contentType==Event::COLLECTION)
+						$strongLinksLabel=Yii::t("event","attendee");
+					if($countStrongLinks>1)
+						$strongLinksLabel .= "s";
 					echo "<div class='col-md-4 inline' style='float:inherit;'>".
-							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$attendeeNumber."</span><br/>".
-							"<span class='text-dark'>".Yii::t("event","Attendees")."</span>".
+							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countStrongLinks."</span><br/>".
+							"<span class='text-dark'>".ucfirst($strongLinksLabel)."</span>".
 						"</div>";
 					
-				}if ($invitedNumber != 0){
-					$style="";
-					if($attendeeNumber != 0)
+				}if ($countLowLinks != 0){
+					$style="";		
+					if ($contentType==Event::COLLECTION)
+						$lowLinksLabel = Yii::t("event","guest");
+					else
+						$lowLinksLabel = Yii::t("common","follower");
+					if($countLowLinks > 1)
+						$lowLinksLabel .= "s";
+					if($countStrongLinks != 0)
 						$style="padding-left:15px;";
 					echo "<div class='col-md-4 inline' style='float:inherit;".$style."'>".
-						"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$invitedNumber."</span><br/>".
-						"<span class='text-dark'>".Yii::t("event","Guests")."</span>".
+						"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countLowLinks."</span><br/>".
+						"<span class='text-dark'>".ucfirst($lowLinksLabel)."</span>".
 					"</div>";
 				}
 				echo "</div>";

@@ -24,7 +24,8 @@ $this->renderPartial('../default/panels/toolbar');
 					<?php  	$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
-															"followers" => $followers,
+															"countStrongLinks" => $countStrongLinks,
+															"countLowLinks" => $countLowLinks,
 															"contentType" => Project::COLLECTION,
 															"admin" => $admin	));
 					?>
