@@ -267,7 +267,7 @@ class Menu {
                 Link::isLinked($id, Organization::COLLECTION, Yii::app()->session["userId"])){
 	            
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Leave this Organization"),
+                        Yii::t( "common", "Leave this organization"),
                         Yii::t( "common", "Leave"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','members')",
@@ -278,7 +278,7 @@ class Menu {
             } else if (@$id && @Yii::app()->session["userId"] && 
                 @$organization["links"]["followers"][Yii::app()->session["userId"]]){
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this person"),
+                        Yii::t( "common", "Unfollow this organization"),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Organization::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",
