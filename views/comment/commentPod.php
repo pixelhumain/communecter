@@ -987,7 +987,7 @@ function manageCommentModeContext(id) {
 }
 function initXEditable() {
 	$.fn.editable.defaults.mode = 'inline';
-	/*$('.editable-comment').editable({
+	$('.editable-comment').editable({
     	url: baseUrl+"/"+moduleId+"/comment/updatefield", //this url will not be used for creating new job, it is only for update
     	emptytext: 'Empty',
     	textarea: {
@@ -1004,13 +1004,13 @@ function initXEditable() {
 				//switchModeEdit(data.id);
 				console.log(data);
 				console.log("ici");
-				$("a[data-id='"+data.id+"']").trigger('click');
+				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
 	        	toastr.error(data.msg);  
 	        }
 	    }
-	});*/
+	});
 
 	$('.commentText').editable({
 		url: baseUrl+"/"+moduleId+"/comment/updatefield", 
