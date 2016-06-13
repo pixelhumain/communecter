@@ -792,7 +792,13 @@ function initXEditable() {
             tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        }
+        },
+        success: function(response, newValue) {
+			if(newValue.length == 0)
+				$(".fa_telephone_mobile").addClass("hidden");
+			else
+				$(".fa_telephone_mobile").removeClass("hidden");
+		}		
     });
 
     $('#fax').editable({
@@ -804,6 +810,12 @@ function initXEditable() {
             tokenSeparators: [","],
             width: 200
         }
+        success: function(response, newValue) {
+			if(newValue.length == 0)
+				$(".fa_telephone_fax").addClass("hidden");
+			else
+				$(".fa_telephone_fax").removeClass("hidden");
+		}
     }); 
 
     $('#fixe').editable({
@@ -815,6 +827,12 @@ function initXEditable() {
             tokenSeparators: [","],
             width: 200
         }
+        success: function(response, newValue){
+			if(newValue.length == 0)
+				$(".fa_telephone_fixe").addClass("hidden");
+			else
+				$(".fa_telephone_fixe").removeClass("hidden");
+		}
     }); 
 
     $('#addressCountry').editable({
