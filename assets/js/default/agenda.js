@@ -218,7 +218,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         isFollowed=false;
                         if(typeof o.isFollowed != "undefined" )
                           isFollowed=true;
-                        if(type!="city" && id != userId)
+                        if(type!="city" && id != userId && userId != null && userId != "")
                         str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
                               'data-toggle="tooltip" data-placement="left" data-original-title="Participer"'+
                               " data-ownerlink='participate' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+

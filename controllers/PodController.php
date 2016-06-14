@@ -16,7 +16,8 @@ class PodController extends CommunecterController {
 	    return array(
 	        'slideragenda'      => 'citizenToolKit.controllers.pod.SliderAgendaAction',
 	        'photovideo'     	=> 'citizenToolKit.controllers.pod.PhotoVideoAction',
-	        'fileupload'     	=> 'citizenToolKit.controllers.pod.FileUploadAction'
+	        'fileupload'     	=> 'citizenToolKit.controllers.pod.FileUploadAction',
+	        'activitylist'     	=> 'citizenToolKit.controllers.pod.ActivityListAction'
 	    );
 	}
 

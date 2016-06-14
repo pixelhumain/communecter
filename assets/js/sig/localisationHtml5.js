@@ -26,6 +26,8 @@ function initHTML5Localisation(role){
 				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
 			});
 			
+			showMap(true);
+			
 			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			locationHTML5Found = true;
 			$(".box-discover").hide(400);
@@ -51,7 +53,7 @@ function initHTML5Localisation(role){
 			    	info += "Timeout !";
 			    break;
 			    case error.PERMISSION_DENIED:
-			    info += "Vous n’avez pas donné la permission";
+			    info += "Vous n’avez pas donné la permission, ou votre navigateur ne permet pas la géolocalisation.";
 			    break;
 			    case error.POSITION_UNAVAILABLE:
 			    	info += "La position n’a pu être déterminée";
@@ -61,6 +63,8 @@ function initHTML5Localisation(role){
 			    break;
 			}
 			toastr.error(info);
+			$.unblockUI();
+			showMap(false);
 		});
 		}else{
 			$.blockUI({

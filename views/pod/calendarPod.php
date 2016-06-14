@@ -28,18 +28,25 @@
 .fc-event .fc-event-title::before, .event-category::before{  	color: white;  }
 .fc-grid th{  	text-align: center;  	color: black;  }
 #sectionNextEvent{  	clear:none;  }
-.fc-popover .fc-content{  	color:#ccc;  }
+.fc-popover .fc-content{  	color:white;   }
 .fc-content{  	cursor: pointer;  }
 .fc button{	height: 3em;}
+.fc-event, #event-categories .event-category {
+    background: #ccc none repeat scroll 0 0 !important;
+    border: 1px solid #e8e9ec !important;
+    color: #000 !important;
+    }
 </style>
-
 
 
 <!-- *** SHOW CALENDAR *** -->
 <div id="showCalendar" class="col-md-12">
   <div class="row">
 
-    <?php if(isset($canEdit) && $canEdit){ ?>
+    <?php 
+    if(isset($canEdit) && $canEdit){ 
+      
+      ?>
       <div class="panel-tools">
        <a href="#newEvent" class="init-event btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add an Event" alt="<?php echo Yii::t("sliderAgenda","Add an event",null,Yii::app()->controller->module->id) ?>"><i class="fa fa-plus"></i></a>     
       </div>
@@ -175,12 +182,18 @@ function showCalendar() {
     editable : false,
     events : calendar,
     eventLimit: true,
-
+    <?php if(@$defaultDate){?>
+      defaultDate: '<?php echo $defaultDate?>',
+    <?php 
+    }
+    if(@$defaultView){?>
+      defaultView: '<?php echo $defaultView?>',
+    <?php } ?>
 
     eventClick : function(calEvent, jsEvent, view) {
       //show event in subview
       dateToShow = calEvent.start;
-      document.location.href = baseUrl+"/"+moduleId+"/event/dashboard/id/"+calEvent._id;
+      loadByHash("#event.detail.id."+calEvent._id);
     }
   });
 
@@ -267,7 +280,7 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="'+baseUrl+"/"+moduleId+"/event/dashboard/id/"+currentEvent["_id"]["$id"]+'">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+

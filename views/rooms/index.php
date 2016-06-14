@@ -159,7 +159,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 
 
 <script type="text/javascript">
-var nameParentTitle = "<?php echo $nameParentTitle; ?>";
+var nameParentTitle = "<?php echo htmlspecialchars($nameParentTitle); ?>";
 jQuery(document).ready(function() {
 	
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
@@ -169,7 +169,6 @@ jQuery(document).ready(function() {
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-		    $(".removeExplanation").parent().hide();
 			showDefinition( $(this).data("id") );
 			return false;
 		});

@@ -317,21 +317,17 @@ function initXEditable() {
 	        	toastr.success(data.msg);
 
 	        	//$('.editable-news').editable('toggleDisabled');
-				//switchModeEdit(data.id);
+				switchModeEdit(data.id);
 				console.log(data);
 				console.log("ici");
-				$("a[data-id='"+data.id+"']").trigger('click');
+				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
 	        	toastr.error(data.msg);  
 	        }
 	    }
 	});
-    //make jobTitle required
-	$('.newsTitle').editable('option', 'validate', function(v) {
-    	if(!v) return 'Required field!';
-	});
-
+   
 	$('.newsContent').editable({
 		url: baseUrl+"/"+moduleId+"/news/updatefield", 
 		emptytext: 'Vide',
@@ -346,7 +342,7 @@ function initXEditable() {
 		success : function(data) {
 	        if(data.result) {
 		       // $('.newsContent').editable('toggleDisabled');
-		       // switchModeEdit(data.id);
+		       	switchModeEdit(data.id);
 	        	toastr.success(data.msg);
 	        	console.log(data);
 	        	}

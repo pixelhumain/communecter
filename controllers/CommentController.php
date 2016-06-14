@@ -22,6 +22,8 @@ class CommentController extends CommunecterController {
 	        'abuseprocess'			=> 'citizenToolKit.controllers.comment.AbuseProcessAction',
 	        'moderate'				=> 'citizenToolKit.controllers.comment.ModerateAction',
 	        'countcommentsfrom'		=> 'citizenToolKit.controllers.comment.CountCommentsAction',
+	        'delete'		=> 'citizenToolKit.controllers.comment.DeleteAction',
+	        'updatefield'		=> 'citizenToolKit.controllers.comment.UpdateFieldAction',
 	    );
 	}
 

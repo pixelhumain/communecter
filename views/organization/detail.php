@@ -68,8 +68,9 @@
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
-															"followers" => $followers,
 															"contentType" => Organization::COLLECTION,
+															"countStrongLinks" => $countStrongLinks,
+															"countLowLinks" => $countLowLinks,
 															"admin" => $admin	));
 					?>
 		    	</div>

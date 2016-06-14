@@ -233,10 +233,48 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
 		?>
-
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
+			}
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+		</style>
+		
+			
+		
  		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
 		<?php 	} ?>
+
+
+		<?php if(!empty($person["badges"])){?>
+				<?php if( Badge::checkBadgeInListBadges("crowdfunder", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="CROWDFUNDER">
+						<span class="fa-stack tooltips" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","crowdfunder", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-bookmark main fa-2x fa-stack-1x text-green"></i>
+							<i class="fa fa-euro mainTop fa-stack-1x text-white"></i>
+						</span>
+					</div>
+				<?php } ?>
+				<?php if( Badge::checkBadgeInListBadges("developper", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="DEVELOPPER">
+						<span class="fa-stack tooltips" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","developper", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
+							<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
+						</span>
+
+					</div>
+				<?php } ?>
+			<?php } ?>
   	</div>
 
   	<div class="modal fade" role="dialog" id="modal-confidentiality">
@@ -422,50 +460,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
 					</a>
 					<br>
-
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
-						<?php echo Person::showField("email",$person, $isLinked)?>
+						<?php echo Person::showField("email",$person, $isLinked);?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
-					
-					<style type="text/css">
-						.badgePH{ 
-							cursor: pointer;
-							display: inline-block;
-							margin-right: 10px;
-							margin-bottom: 10px;
-						}
-						.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}
-						.badgePH .fa-stack .mainTop { margin-left:10px;margin-top:18px}
-						.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
-					</style>
-					<div class="row text-dark">
-						<!-- <div class=" badgePH " data-title="<?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?>">
-							<span class="fa-stack" style="maring-bottom:5px">
-								<i class="fa fa-bookmark main fa-2x fa-stack-1x"></i>
-							</span> 
-						</div> -->
-						<?php if(isset($person["tagsPH"])){?>
-							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-								<div class=" badgePH " data-title="CROWDFUNDER">
-									<span class="fa-stack" style="maring-bottom:5px">
-										<i class="fa fa-bookmark main fa-2x fa-stack-1x text-green"></i>
-										<i class="fa fa-euro mainTop fa-stack-1x text-white"></i>
-									</span> 
-								</div>
-							<?php } ?>
-							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-								<div class="badgePH" data-title="DEVELOPPER">
-									<span class="fa-stack">
-										<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
-										<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
-									</span>
-								</div>
-							<?php } ?>
-						<?php } ?>
-					</div>
+					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<hr style="margin:10px 0px 3px 0px;">
 					
@@ -647,9 +647,9 @@ jQuery(document).ready(function()
 			findGeoPosByAddress();
 		});
 
-		$(".badgePH").hover(function(){
+		/*$(".badgePH").hover(function(){
 			$(".badgeText").html($(this).data('title'));
-		});
+		});*/
 		
 
 		$(".panel-btn-confidentiality .btn").click(function(){

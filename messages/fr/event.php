@@ -8,14 +8,14 @@
 
 return array(
 	//Title
-	"test" => "TEST FR",
+	"UPCOMING EVENTS"=>"PROCHAINS EVENEMENTS",
+	"ALL EVENTS"=>"TOUS LES EVENEMENTS",
+	"EVENT" => "ÉVÈNEMENT",
 	"MY EVENTS" => "MES ÉVÈNEMENTS",
 	"EVENTS" => "ÉVÈNEMENTS",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
-		=> "Créez et particpez...<br/>Aux évèvenements locaux pour...<br/>Construire l'activité local,<br/>Diffuser la culture,<br/>Engendrer des mouvements.",
-	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
-		=> "Créez et particpez aux événements locaux pour construire l'activité local, diffuser la culture, engendrer des mouvements.",
-	//Form
+		=> "Créez et participez...<br/>Aux événements locaux pour...<br/>Construire l'activité local,<br/>Diffuser la culture,<br/>Engendrer des mouvements.",
+		//Form
 	"Add new event" => "Ajouter un nouvel évènement",
 	"Choose an organizer" => "Choisir un organisateur",
 	"Event Name" => "Nom de l'évènement",
@@ -35,5 +35,18 @@ return array(
 	"Attendee well registered and invite!!" => "Participant enregistré et invité avec succès ",
 	"All day" => "Toute la journée",
 	"Your event has been connected." => "Votre événement est communecté",
+
+	"Parent Event" => "Événement parent",
+	"Events" => "Événements",
+	"Part of Event" => "durant l'événement ",
+	"If this event is Part of an Event" => "Si fait parti d'un événement",
+	"Cancel Event" => "Annuler l'événement",
+	"Edit Event"=>"Editer l'événement",
+	"Modify Position on the map" => "Modifiez la position sur la carte",
+	"Delete this event" => "Effacer cet événement",
+	"SUBEVENT ORGANISER" => "Contributeur",
+	'Visualise' => "Visualisez",
+	'View this event as a directory' => "Voir l'événement en annuaire",
+	"Unlink event" => "Détacher cette évènement"
 );
 ?>

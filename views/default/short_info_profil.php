@@ -5,13 +5,12 @@
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
-<?php if( isset( Yii::app()->session['userId']) )
-  {
-  	$me = Person::getById(Yii::app()->session['userId']);
-    if(isset($me['profilThumbImageUrl']) && $me['profilThumbImageUrl'] != "")
-      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$me['profilThumbImageUrl'];
+<?php if (isset(Yii::app()->session['userId']) && isset(Yii::app()->session["user"])) {
+    $me = Person::getById(Yii::app()->session['userId']);
+    if(!empty(Yii::app()->session["user"]["profilThumbImageUrl"]))
+      $profilThumbImageUrl = Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"];
     else
-      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+      $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
   }
 ?>
 
@@ -22,7 +21,7 @@
     <div class="topMenuButtons pull-right">
     <?php 
     if( isset( Yii::app()->session['userId']) )
-      echo $this->renderPartial('menuProfile',array( "urlPhotoProfil"=>$urlPhotoProfil,
+      echo $this->renderPartial('menuProfil',array( "profilThumbImageUrl"=>$profilThumbImageUrl,
                                                       "me"=> $me)); 
     else { ?>
       <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
