@@ -484,7 +484,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 					
-					<i class="fa fa-phone fa_telephone"></i>
+					<i class="fa fa-phone fa_telephone hidden"></i>
 					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["fixe"])){
 							foreach ($person["telephone"]["fixe"] as $key => $tel) {
@@ -496,7 +496,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 
-					<i class="fa fa-mobile fa_telephone_mobile"></i> 
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
 					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["mobile"])){
 							foreach ($person["telephone"]["mobile"] as $key => $tel) {
@@ -508,7 +508,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br>
 
-					<i class="fa fa-fax fa_telephone_fax"></i> 
+					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
 					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="editable editable-click">
 						<?php if(isset($person["telephone"]["fax"])){
 							foreach ($person["telephone"]["fax"] as $key => $tel) {
@@ -809,7 +809,7 @@ function initXEditable() {
             tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        }
+        },
         success: function(response, newValue) {
 			if(newValue.length == 0)
 				$(".fa_telephone_fax").addClass("hidden");
@@ -826,7 +826,7 @@ function initXEditable() {
             tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        }
+        },
         success: function(response, newValue){
 			if(newValue.length == 0)
 				$(".fa_telephone_fixe").addClass("hidden");
@@ -886,7 +886,6 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
-	//if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]["mobile"]) 		? "true" : "false"; ?>){ $(".fa_telephone_mobile").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]["fixe"]) 			? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
 	if(<?php echo isset($person["telephone"]["fax"]) 			? "true" : "false"; ?>){ $(".fa_telephone_fax").removeClass("hidden"); }
