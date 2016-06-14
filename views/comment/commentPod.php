@@ -322,7 +322,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 								manageComment+
 							'</div>'+
-							'<div class="commentText-'+commentObj.status+'" style="float:left;width:90%;">'+
+							'<div class="commentText-'+commentObj.status+'" style="float:left;width:75%;">'+
 								'<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+
 									text+
 								'</a>'+
@@ -913,7 +913,7 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
 	manageCommentModeContext(comment["_id"]["$id"]);
-	
+	initXEditable();
 	bindEvent();
 }
 

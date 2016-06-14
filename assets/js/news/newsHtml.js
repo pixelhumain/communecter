@@ -627,7 +627,7 @@ function newsVoteUp($this, id){
 			method = false;
 		}
 		actionOnNews($($this),'voteUp',method);
-		disableOtherAction($($this), '.commentVoteUp', method);
+		disableOtherNewsAction($($this), '.newsVoteUp', method);
 		count = parseInt($($this).data("count"));
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 	}
@@ -644,7 +644,7 @@ function newsVoteDown($this, id){
 			method = false;
 		}
 		actionOnNews($($this),'voteDown',method);
-		disableOtherAction($($this), '.commentVoteDown', method);
+		disableOtherNewsAction($($this), '.newsVoteDown', method);
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
@@ -657,14 +657,14 @@ function newsReportAbuse($this, id){
 	else{
 		method = false;
 	}
-	reportAbuse($($this),'reportAbuse',method);
+	reportNewsAbuse($($this),'reportAbuse',method);
 	
 	
 	//disableOtherAction($($this), '.commentReportAbuse', method);
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
 }
 
-function reportAbuse($this,action, method) {
+function reportNewsAbuse($this,action, method) {
 	// console.log(contextId);
 	if (method){
 		toastr.info(trad["alreadyreportedabuse"]+" !");
@@ -710,19 +710,19 @@ function reportAbuse($this,action, method) {
 	}
 }
 
-function disableOtherAction($this,action,method){
+function disableOtherNewsAction($this,action,method){
 	if(method){
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-green").addClass("text-dark");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-orange").addClass("text-dark");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
 	}
 	else{
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-dark").addClass("text-orange");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
