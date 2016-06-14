@@ -93,6 +93,16 @@ Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+@Rapha
+Change le type Array en Object de socialNetwork 
+db.citoyens.find().forEach(function(doc){ 
+    if(doc.socialNetwork instanceof Array == true) { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'socialNetwork': {} }
+         })
+    }
+});
 
 @Tib
 db.cities.find().forEach(function(doc)
