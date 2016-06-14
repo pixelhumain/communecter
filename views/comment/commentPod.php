@@ -226,14 +226,14 @@ function buildCommentsTree(where, commentsList, withActions) {
 	
 	countEntries = 0;
 	$(where).append(buildComments(commentsList, 0, withActions));
-	initUpdate(commentsList);
+	initCommentUpdate(commentsList);
 	
 	
 }
-function initUpdate(comment){
+function initCommentUpdate(comment){
 	$.each( comment , function(key,o){
 		if (o.replies.length != 0){
-				initUpdate(o.replies);
+				initCommentUpdate(o.replies);
 		}
 		initXEditable();
 		manageCommentModeContext(key);
@@ -307,10 +307,11 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
+	manageComment="";
 	if (typeof(userId) != "undefined" && commentObj.author.id == userId){
 		manageComment='<a href="javascript:;" onclick="deleteComment(\''+id+'\',$(this))"><span class="comment-delete pull-right text-red" style="padding-left:10px;"><i class="fa fa-trash-o"></i> <?php echo Yii::t("common","Delete") ?></span></a>'+
 		'<a href="javascript:;" onclick="modifyComment(\''+id+'\')"><span class="comment-modify pull-right"><i class="fa fa-pencil"></i> <?php echo Yii::t("common","Modify") ?></span></a>';
-	}
+	} 
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
 						'<div class="commentContent-'+commentObj.status+'">'+
