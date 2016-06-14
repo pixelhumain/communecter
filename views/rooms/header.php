@@ -88,10 +88,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 			$addBtn = ( $parentType != Person::COLLECTION ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>' : ""; 
 		?>
-<<<<<<< HEAD
-		<a class='text-dark btn' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'><?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?></a> <?php echo (@$textTitle) ? "/".$textTitle : $addBtn; ?>
-		
-=======
 		<span class="Helvetica breadscrum">
 			<a class='text-dark' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'>
 				<i class="fa fa-connectdevelop"></i> <?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
@@ -103,7 +99,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				}
 			?>
 		</span>
->>>>>>> development
 	</div>
 
 	
