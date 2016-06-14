@@ -136,6 +136,7 @@ class CommunecterController extends Controller
       'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
       'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true),
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
+      'cityexists'  => array("href" => "/ph/communecter/city/cityexists"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),

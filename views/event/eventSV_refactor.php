@@ -164,7 +164,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     padding: 7px 12px 9px !important;
     font-size: 14px !important;
 }
+.radio-typeInternationalSearch .radio{
+	margin:5px !important;
+}
+.bg-success{
+	background-color: #5cb85c!important;
+}
 
+.bg-success .info_item, .bg-red .info_item{
+	color:white !important;
+}
 </style>
 
 
@@ -172,11 +181,32 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 		<div class="col-md-12 no-padding">
 			<form class="form-event">
-				<div class="col-md-12 no-padding"><select id="country-geolocInternational"></select></div>
+				<div class="col-md-12 no-padding">
+					<select class="pull-left" id="country-geolocInternational"></select>
+					<div class="pull-left radio-typeInternationalSearch">
+						<div class="radio pull-left">
+							<label>Rechercher <i class="fa fa-angle-right"></i></label>
+						</div>
+						<div class="radio pull-left">
+							<label>
+								<input type="radio" name="typeInternationalSearch" value="city"> Une commune
+							</label>
+						</div>
+						<div class="radio pull-left">
+							<label>
+								<input type="radio" name="typeInternationalSearch" value="address"> Une addresse complète
+							</label>
+						</div>
+					</div>
+				</div>
 				<!-- <div class="col-md-5 no-padding"></div>
 				<div class="col-md-7 no-padding"></div> -->
 
 			</form>
+		</div>
+		<div class="col-md-12 no-padding">
+			<div class="alert alert-info">Pour de meilleurs résultats, utilisez le format suivant : <strong>n°, nom de la rue, COMMUNE, Code postal</strong>
+			<br>(exemple : 13 rue de saint pierre, saintes, 17100) - les virgules sont importantes</div>
 		</div>
 		<div class="col-md-5 no-padding">
 			<input type="text" id="inputText-geolocInternational" placeholder="n° rue, commune, code postal">
@@ -221,13 +251,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	//var SigEntity;
 	var mapEntity;
+	var typeSearchInternational;
 
 	jQuery(document).ready(function() {
 	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
 	
 	 	$("#btn-geolocInternational").click(function(){
-	 		var country = $("#country-geolocInternational").val();
-	 		var requestPart = $("#inputText-geolocInternational").val() + ", " + country;
+	 		var country = $("#country-geolocInternational").val(); //alert(country);
+	 		//var requestPart = "";
+
+	 		typeSearchInternational = $(".radio-typeInternationalSearch input[type='radio']:checked").val();
+	 		
+	 		var requestPart = $("#inputText-geolocInternational").val();
+	 			
 	 		var geoPos = getGeoPosInternational(requestPart, country);
 	 	});
 
@@ -257,7 +293,7 @@ function getGeoPosInternational(requestPart, countryCode){
 function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
 	console.log('callDataGouv');
 	showMsgListRes("Recherche en cours<br><small>Data Gouv</small>");
-	callGeoWebService("data.gouv", requestPart, 
+	callGeoWebService("data.gouv", requestPart, countryCode,
 		function(objDataGouv){ /*success nominatim*/
 			console.log("SUCCESS DataGouv"); 
 
@@ -282,7 +318,7 @@ function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
 function callNominatim(requestPart, countryCode){
 	console.log('callNominatim');
 	showMsgListRes("Recherche en cours<br><small>Nominatim</small>");
-	callGeoWebService("nominatim", requestPart, 
+	callGeoWebService("nominatim", requestPart, countryCode,
 		function(objNomi){ /*success nominatim*/
 			console.log("SUCCESS nominatim"); 
 
@@ -309,7 +345,7 @@ function callNominatim(requestPart, countryCode){
 function callGoogle(requestPart, countryCode){
 	console.log('callGoogle');
 	showMsgListRes("Recherche en cours<br><small>GoogleMap</small>");
-	callGeoWebService("google", requestPart, 
+	callGeoWebService("google", requestPart, countryCode,
 		function(objGoo){ /*success google*/
 			console.log("SUCCESS GOOGLE");
 			if(objGoo.results.length != 0){
@@ -326,23 +362,36 @@ function callGoogle(requestPart, countryCode){
 
 		}, 
 		function(thisError){ /*error google*/
+			showMsgListRes("Aucun résultat.<br>Précisez votre recherche.");
 			console.log("ERROR GOOGLE"); console.dir(thisError);
 		}
 	);
 }
 
 /* fonction pour appeler le web service de géoloc de sont choix */
-function callGeoWebService(providerName, requestPart, success, error){
+function callGeoWebService(providerName, requestPart, countryCode, success, error){
 	var url = "";
-	if(providerName == "nominatim") 
-		url = "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1";
+	if(providerName == "nominatim") {
+		if(typeSearchInternational == "address")
+		url = "//nominatim.openstreetmap.org/search?q=" + requestPart + "," + countryCode + "&format=json&polygon=0&addressdetails=1";
+		else if(typeSearchInternational == "city")
+		url = "//nominatim.openstreetmap.org/search?city=" + requestPart + "&country=" + countryCode + "&format=json&polygon=0&addressdetails=1";
+	}
 	
-	if(providerName == "google") 
-		url = "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart;
-	
-	if(providerName == "data.gouv") 
+	if(providerName == "google") {
+		if(typeSearchInternational == "address")
+		url = "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "," + countryCode;
+		else if(typeSearchInternational == "city")
+		url = "//maps.googleapis.com/maps/api/geocode/json?locality=" + requestPart + "&country=" + countryCode;
+	}	
+	if(providerName == "data.gouv") {
+		if(typeSearchInternational == "address")
 		url = "//api-adresse.data.gouv.fr/search/?q=" + requestPart;
+		else if(typeSearchInternational == "city")
+		url = "//api-adresse.data.gouv.fr/search/?q=" + requestPart + "&type=city";
+	}
 
+	console.log("calling : " + url);
 	if(url != ""){
 		$.ajax({
 			url: url,
@@ -408,6 +457,7 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "city");
 			commonObj = addAttObjNominatim(commonObj, address, "country", "country");
 			commonObj = addAttObjNominatim(commonObj, address, "postalCode", "postcode");
+			commonObj = addAttObjNominatim(commonObj, address, "insee", "citycode");
 			commonObj["countryCode"] = "FR";
 			commonObj = addAttObjNominatim(commonObj, address, "placeId", "id");
 		
@@ -534,6 +584,52 @@ function getFullAddress(obj){
 	return strResult;
 }
 
+
+function checkCityExists(addressData, btn){
+	var data = "";
+	if(typeof addressData.placeId != "undefined")
+		data = "insee=" + addressData.placeId;
+	if(typeof addressData.postalCode != "undefined"){ if(data != "") data += "&";
+		data += "postalCode=" + addressData.postalCode;
+	}
+	if(typeof addressData.cityName != "undefined"){ if(data != "") data += "&";
+		data += "cityName=" + addressData.cityName;
+	}
+	if(typeof addressData.country != "undefined"){ if(data != "") data += "&";
+		data += "country=" + addressData.countryCode;
+	}
+
+	console.log("start verify city exists  : " + data);
+
+	$.ajax({
+			url: baseUrl+"/"+moduleId+"/city/cityExists",
+			type: 'POST',
+			data: data,
+			async:false,
+			dataType: "json",
+			complete: function () {},
+			success: function (thisSuccess){
+				if(thisSuccess.res == true){
+					console.log("cityExists : TRUE");
+					console.dir(thisSuccess.obj);
+					$(".item_map_list").removeClass("bg-success text-white");
+					$(".item_map_list").removeClass("bg-red text-white");
+					$(btn).addClass("bg-success text-white");
+				}else{
+					console.log("cityExists : FLASE");
+					$(".item_map_list").removeClass("btn-success text-white");
+					$(".item_map_list").removeClass("bg-red text-white");
+					$(btn).addClass("bg-red text-white");
+				}
+			},
+			error: function (thisError) {
+				console.log("cityExists : ERROR");
+				console.dir(thisError);
+				$(btn).addClass("bg-red text-white");
+			}
+		});
+}
+
 /**********************************************************************************************/
 /*************************************     MAP        *****************************************/
 /**********************************************************************************************/
@@ -582,6 +678,7 @@ function loadMap(canvasId, initParams)
 function showOneElementOnMap(thisData, thisMap){
 				
 	var objectId = Sig.getObjectId(thisData);
+	console.log("showOneElementOnMap");
 	console.dir(thisData);
 	console.dir(objectId);
 
@@ -624,13 +721,17 @@ function showOneElementOnMap(thisData, thisMap){
 					Sig.checkListElementMap(thisMap);
 					marker.openPopup();
 					thisMap.panTo(coordinates, {"animate" : false });
-					thisMap.panBy([0, -80], {"animate" : true });
+					thisMap.panBy([0, -80], {"animate" : false });
 
+					
 					console.log("onclick " + thisData.cityName);
-					if(typeof thisData.postalCode == "undefined")
-					askNominatimCp(thisData.cityName);
+					checkCityExists(thisData, this);
+
+
+					//if(typeof thisData.postalCode == "undefined")
+					//askNominatimCp(thisData.cityName);
 					//setTimeout(function(){ mapEntity.invalidateSize(false); }, 1000);
-					//mapEntity.invalidateSize(false);
+					thisMap.invalidateSize(false);
 				});
 				
 		}
