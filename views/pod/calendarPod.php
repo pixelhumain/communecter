@@ -146,9 +146,10 @@ function buildCalObj(eventObj)
       "startDate" : eventObj.startDate,
       "endDate" : eventObj.endDate,
       "className": organiser,
-      "category": organiser,
-      "allDay" : false,
+      "category": organiser
     }
+    if(eventObj.allDay )
+      taskCal.allDay = eventObj.allDay;
     //console.log(taskCal);
   }
   return taskCal;
@@ -182,6 +183,7 @@ function showCalendar() {
     editable : false,
     events : calendar,
     eventLimit: true,
+    //allDaySlot : false,
     <?php if(@$defaultDate){?>
       defaultDate: '<?php echo $defaultDate?>',
     <?php 
@@ -335,7 +337,6 @@ function showCalendar() {
 	  	for(var i =0; i<tab.length; i++){
 	  		$("."+tab[i]+" .fc-content").css("color", "white");
 	  		$("."+tab[i]+" .fc-content").css("background-color", templateColor[i]);
-
 	  	}
 	}
 

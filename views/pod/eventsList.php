@@ -40,7 +40,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									$id = array_keys($e["links"]["organizer"])[0];
 									$o = Element::getInfos( $e["links"]["organizer"][$id]['type'], $id);
 									if ($o["type"]==Person::COLLECTION){
-										$icon='<img height="35" width="35" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
+										$icon='<img height="35" width="35" class="tooltips" data-placement="right" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
 										$refIcon="fa-user";
 										$redirect="person";
 									}
@@ -55,7 +55,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									<?php if(@$o["profilThumbImageUrl"]) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
 										 ?>
-										<img width="50" height="50"  alt="image" class="tooltips" src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
+										<img width="50" height="50"  alt="image" class="tooltips" data-placement='right' src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
 									<?php }else{ 
 										echo $icon;
 									} ?>

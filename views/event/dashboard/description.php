@@ -158,7 +158,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		?>
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Edit Event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit Information") ?></span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Modify Position on the map") ?>" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> <?php echo Yii::t("common","Modify Position") ?></span></a>
+			<?php /*?>
 			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Delete this event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> <?php echo Yii::t("event","Cancel Event",null,Yii::app()->controller->module->id); ?></span></a>
+			*/ ?>
 			<?php if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 			<?php } ?>
@@ -331,22 +333,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 		$(".removeEventBtn").off().on("click", function(e){
 			bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to delete")?> <?php echo Yii::t("event","this event",null,Yii::app()->controller->module->id)?> ?", function(result) {
-				if (!result) {
-					return;
-				}
-				$.ajax({
-					type: "POST",
-					url: baseUrl+"/"+moduleId+"/event/delete/eventId/"+itemId,
-					dataType: "json",
-					success: function(data){
-						if ( data && data.result ) {               
-							toastr.info(data.msg);
-							showAjaxPanel( '/person/directory?tpl=directory2&type=events', 'MES ÉVÉNEMENTS','calender' );
-						}else{
-							toastr.error("Something went wrong");
+				if (result) {
+					//if this event has children , ask if we keep or delete them
+					$.ajax({
+						type: "POST",
+						url: baseUrl+"/"+moduleId+"/event/delete/eventId/"+itemId,
+						dataType: "json",
+						success: function(data){
+							if ( data && data.result ) {               
+								toastr.info(data.msg);
+								showAjaxPanel( '/person/directory?tpl=directory2&type=events', 'MES ÉVÉNEMENTS','calender' );
+							}else{
+								toastr.error("Something went wrong");
+							}
 						}
-					}
-				})
+					})
+				}
 			})
 		})
 	})
