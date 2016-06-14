@@ -225,8 +225,9 @@ function buildCommentsTree(where, commentsList, withActions) {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	$(where).append(buildComments(commentsList, 0, withActions));
-	initCommentUpdate(commentsList);
+	$(where).append(buildComments(commentsList, 0, withActions,where));
+	if(where != ".communityCommentTable")
+		initCommentUpdate(commentsList);
 	
 	
 }
@@ -247,13 +248,13 @@ function addEmptyCommentOnTop() {
 	$(".newComment").focus().autogrow({vertical: true, horizontal: false});
 }
 
-function buildComments(commentsLevel, level, withActions) {
+function buildComments(commentsLevel, level, withActions,where) {
 	if (level == 0) {
 		var commentsHTML = '<ul class="tree list-unstyled padding-5">';
 	} else {
 		var commentsHTML = '<ul class="level list-unstyled" style="padding-left: 15px">';	
 	}
-
+	console.log(commentsLevel);
 	$.each( commentsLevel , function(key,commentObj) {
 		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
@@ -262,13 +263,13 @@ function buildComments(commentsLevel, level, withActions) {
 			if (commentObj.status == "deleted") {
 				commentActions = "disabled";
 			}
-			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions);
+			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions,where);
 			
 			commentsHTML += commentsTLLine;
 			
 			if (commentObj.replies.length != 0) {
 				nextLevel = level + 1;
-				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel, withActions);
+				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel, withActions,where);
 				commentsHTML += commentsTLLineDown;
 			} else {
 				commentsHTML += "</li>";
@@ -279,8 +280,8 @@ function buildComments(commentsLevel, level, withActions) {
 	return commentsHTML;
 }
 
-function buildCommentLineHTML(commentObj, withActions) {
-	// console.log(commentObj, withActions);
+function buildCommentLineHTML(commentObj, withActions,where) {
+//	console.log(commentObj);
 	var id = commentObj["_id"]["$id"];
 	moment.locale('fr');
 	var date = moment(commentObj.created * 1000);
@@ -295,7 +296,11 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var name = commentObj.author.name;
 	if(commentObj.author.address != "undefined")
 		var city = commentObj.author.address.addressLocality;
-	var text = commentObj.text.replace(/\n/g, "<br />");
+	if(where != ".communityCommentTable")
+		text = '<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+commentObj.text.replace(/\n/g, "<br />")+'</a>';
+	else
+		text = commentObj.text.replace(/\n/g, "<br />");
+	commentObj.text.replace(/\n/g, "<br />");
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
@@ -324,9 +329,7 @@ function buildCommentLineHTML(commentObj, withActions) {
 								manageComment+
 							'</div>'+
 							'<div class="commentText-'+commentObj.status+'" style="float:left;width:75%;">'+
-								'<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+
 									text+
-								'</a>'+
 							'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post hide'>";
