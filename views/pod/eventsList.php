@@ -83,7 +83,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									<br/><span class="text-extra-small"><?php echo $dates;?></span>
 								</a>
 							</td>
-							<td><?php if(isset($e["type"])) echo $e["type"];?></td>
+							<td><?php if(isset($e["type"])) echo Yii::t("event",$e["type"],null,Yii::app()->controller->module->id);?></td>
 							<?php /*?>
 							<td class="center">
 								<div class="visible-lg">

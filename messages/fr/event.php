@@ -47,6 +47,18 @@ return array(
 	"SUBEVENT ORGANISER" => "Contributeur",
 	'Visualise' => "Visualisez",
 	'View this event as a directory' => "Voir l'événement en annuaire",
-	"Unlink event" => "Détacher cette évènement"
+	"Unlink event" => "Détacher cette évènement",
+
+
+	//Type
+	"concours" => "Concours",
+    "festival" => "Festival",
+    "market" => "Marché",
+    "others" => "Autres",
+    "concert" => "Concert",
+    "exposition" => "Exposition",
+    "getTogether" => "Rencontre",
+    "meeting" => "Réunion",
+    "competition" => "Compétition"
 );
 ?>
