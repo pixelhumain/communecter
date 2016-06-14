@@ -233,8 +233,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                         <ul role="menu" class="dropdown-menu scrollable-menu">
 	                        <?php if(!empty($myEventsAdmin)) { ?>
 	                        <li class="col-md-12">
-		                        <ul class="dropParentEvent" id="events">
-			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("event","Events",null,Yii::app()->controller->module->id); ?></li>
+		                        <ul class="dropOrgaEvent dropParentEvent" id="events">
+		                        	<li><a href="javascript:;" class="btn-drop dropParent" id="" data-id="" data-name="<?php echo Yii::t("event","No Parent Event",null,Yii::app()->controller->module->id); ?>"><?php echo Yii::t("event","No Parent Event",null,Yii::app()->controller->module->id); ?></a></li>
+		                        	<li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("event","Events",null,Yii::app()->controller->module->id); ?></li>
 		                        	<?php foreach ($myEventsAdmin as $e) { ?>
 			                        	<li><a href="javascript:;" class="btn-drop dropParent" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
 			                       	<?php } ?>
@@ -538,9 +539,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 			},
 			messages : {
-				eventName : "* Please specify the name of the event",
-				postalCode : "* Please specify the postal code",
-				city : "* Please specify the city",
+				eventName : "* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>",
+				postalCode : "* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>",
+				city : "* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>",
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				successHandler2.hide();
@@ -722,7 +723,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		if(organizerParentType.length > 0){
 			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";
 			if(organizerParentType=="event"){
-				titleName="<?php echo Yii::t("common","Parent Event") ?>";
+				titleName="<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?>";
 				idLabel="labelParent";
 			} else{
 				if (organizerParentType=="organization")
@@ -759,7 +760,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$(".dropParent").click(function() {
 			console.log(this);
 			if ($(this).parents().eq(1).attr("id")=="events"){
-				$("#labelParent").text("<?php echo Yii::t("common","Parent Event") ?> : "+$(this).data("name"));
+				$("#labelParent").text("<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?> : "+$(this).data("name"));
 				$("#newEventParentId").val($(this).data("id"));
 			}
 		})

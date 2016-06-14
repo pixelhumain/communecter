@@ -59,6 +59,13 @@ return array(
     "exposition" => "Exposition",
     "getTogether" => "Rencontre",
     "meeting" => "Réunion",
-    "competition" => "Compétition"
+    "competition" => "Compétition",
+
+    "Please specify the name of the event"=>"Le nom est obligatoire",
+	"Please specify the postal code"=>"Le code postal est obligatoire",
+	"Please specify the city"=>"La commune est obligatoire",
+
+	'Calendar' => "Calendrier",
+	"No Parent Event" => "Pas de parent"
 );
 ?>
