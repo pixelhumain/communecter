@@ -169,7 +169,6 @@ jQuery(document).ready(function() {
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-		    $(".removeExplanation").parent().hide();
 			showDefinition( $(this).data("id") );
 			return false;
 		});
@@ -241,4 +240,3 @@ function clearAllFilters(str){
 	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 </script>
-

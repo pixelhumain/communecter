@@ -239,7 +239,7 @@ Menu::organization($organization);
 			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1 padding-10">	
 									<button class="btn btn-primary pull-right" style="margin-left:10px;">Enregistrer</button>
-									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> Search</a>
+									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
 								</div>
 							</div>
 							

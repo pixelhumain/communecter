@@ -18,7 +18,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 <div class="parentTimeline">
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-dark">
-		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo Yii::t("gantt","PROJECT TIMELINE",null,Yii::app()->controller->module->id) ?></span></h4>
+		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo $podtitle ?></span></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if ($edit) {
@@ -112,9 +112,9 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 			/*'line' => date('m-d'), */      /* Today in format 'm-d' */
 			/*'line_text' => "Aujourd'hui",  */  /* Text to display for the line */
 			'format'=> array(
-							"segment_des" => 'du %s au %s',
-							"timesheet_format" => $timesheet_format,
-							"date_format" => $date_format,
+						"segment_des" => 'du %s au %s',
+						"timesheet_format" => $timesheet_format,
+						"date_format" => $date_format,
 				)
         );
 		$timeline = new timesheet($alpha, $args, $data);

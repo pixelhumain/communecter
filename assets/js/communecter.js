@@ -310,7 +310,10 @@ function follow(parentType, parentId, childId, childType, callback){
 	});
 }
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
+	if(parentType=="events" && connectType=="attendee")
+		$(".connectBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
+	else
+		$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
 		"childType" : childType, 
@@ -361,8 +364,12 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
-									else
-										toastr.error(data.msg);
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
 								},
 							});  
                         }
@@ -406,8 +413,12 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
-									else
-										toastr.error(data.msg);
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
 								},
 							});   
                         }
@@ -432,6 +443,8 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
+	"#event.directory" : {title:"EVENT VISUALISATION ", icon : "calendar"},
+	"#event.calendarview" : {title:"EVENT CALENDAR ", icon : "calendar"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
@@ -582,6 +595,8 @@ function loadByHash( hash , back ) {
 	    console.warn("replaceState history.state",history.state);
 	}*/
 }
+
+//ex : #search:bretagneTelecom:all
 function searchByHash (hash) 
 { 
 	var searchT = hash.split(':');
@@ -633,8 +648,9 @@ function _checkLoggued() {
 	  url: baseUrl+"/"+moduleId+"/person/logged",
 	  success: function(data){
 		if( !data.userId || data.userId == "" ||  typeof data.userId == "undefined" ){
-			userId = data.userId;
-			resetUnlogguedTopBar();
+			/*userId = data.userId;
+			resetUnlogguedTopBar();*/
+			window.location.reload();
 		}
 	  },
 	  dataType: "json"

@@ -12,7 +12,7 @@ class CommunecterController extends Controller
   public $pageTitle = "Communecter, se connecter à sa commune";
   public static $moduleKey = "communecter";
   public $keywords = "connecter, réseau, sociétal, citoyen, société, regrouper, commune, communecter, social";
-  public $description = "Communecter : Connecter a sa commune, reseau societal, le citoyen au centre de la société.";
+  public $description = "Communecter : Connecter à sa commune, réseau sociétal, le citoyen au centre de la société.";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
@@ -293,6 +293,7 @@ class CommunecterController extends Controller
       "slideragenda" => array("href" => "/ph/communecter/pod/slideragenda", "public" => true),
       "photovideo"   => array("href" => "ph/communecter/pod/photovideo"),
       "fileupload"   => array("href" => "ph/communecter/pod/fileupload"),
+      "activitylist"   => array("href" => "ph/communecter/pod/activitylist"),
     ),
     "gallery" => array(
       "index"        => array("href" => "ph/communecter/gallery/index"),
@@ -342,6 +343,8 @@ class CommunecterController extends Controller
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
       "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
+      "delete" => array( "href" => "/ph/communecter/comment/delete"),
+      "updatefield" => array( "href" => "/ph/communecter/comment/updatefield"),
       "countcommentsfrom" => array( "href" => "/ph/communecter/comment/countcommentsfrom"),
     ),
     "action"=> array(

@@ -30,7 +30,7 @@ function buildListContactHtml(contacts, myId){
 
 	
 	var HTML = 			'<div class="floopHeader bg-dark">'+
-							'<i class="fa fa-bookmark fa-rotate-270" style="margin-right:5px;"></i> '+t("My directory")+
+							'<i class="fa fa-bookmark fa-rotate-270" style="margin-right:5px;"></i> <a href="javascript:;" onclick="loadByHash(\'#person.directory.id.'+userId+'?tpl=directory2\')" class="text-white" style="color:white !important;">'+t("My directory")+'</a>'+
 							'<button id="btnFloopClose"><i class="fa fa-times"></i></button>' +
 							'<div id="floopScrollByType" class="pull-right"></div>' +
 						'</div>';
@@ -99,7 +99,7 @@ function getFloopItem(id, type, value){
 	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
 	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
-						'<div class="btn-chk-contact inline" idcontact="'+id+'">' +
+						'<div class="btn-chk-contact" idcontact="'+id+'">' +
 							'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to bg-'+type.color+'" height="35" width="35">'+
 							'<span class="info-contact">' +
 								'<span class="name-contact text-dark text-bold" idcontact="'+id+'">' + value.name + '</span>'+

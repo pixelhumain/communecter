@@ -13,9 +13,26 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.13
+
+@Rapha
+Transforme les telephones au format String dans le nouveaux format
+db.citoyens.find().forEach(function(doc){ 
+    if(typeof doc.telephone == "string") { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
+         })
+    }
+});
+
+@Chil
+Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
+Executer l'url /communecter/test/DeleteAttributRefactorAction 
+
+
 ---------------------------------------------------
 Version 0.12
-
 
 @Bouboule (clement.damiens@gmail.com)
 1.Push in params config 'communeventUrl' => "https://communevent.communecter.org"
@@ -76,7 +93,17 @@ Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
-----------------------------------------------------
+@Rapha
+Change le type Array en Object de socialNetwork 
+db.citoyens.find().forEach(function(doc){ 
+    if(doc.socialNetwork instanceof Array == true) { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'socialNetwork': {} }
+         })
+    }
+});
+
 @Tib
 db.cities.find().forEach(function(doc)
 {
@@ -88,14 +115,6 @@ db.cities.find().forEach(function(doc)
   }
 });
 
-----------------------------------------------------
-*** A EXECUTER POUR LA VERSION 0.13 ****
-2016/05/31 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
-@Chil
-Executer l'url /communecter/test/DeleteAttributRefactorAction 
-********
-
-----------------------------------------------------
 SBA - Add numberOfInvit on every citizen
 db.citoyens.find().forEach(function(doc){ 
     if(doc.numberOfInvit == null) { 

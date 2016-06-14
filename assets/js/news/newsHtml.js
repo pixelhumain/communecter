@@ -140,7 +140,10 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 		textHtml="";
 		if(newsObj.text.length > 0){
-			textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			if(typeof(view) != "undefined" && view == "detail")
+				textNews=newsObj.text;
+			else
+				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
 			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
@@ -290,7 +293,7 @@ function buildLineHTML(newsObj,idSession,update)
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
 						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'><span class='nbNewsComment'>"+commentCount+"</span> <i class='fa fa-comment'></i></span></a> "+
 							vote+
 						"</div>";
 						}
@@ -374,7 +377,7 @@ function buildHtmlUrlAndActionObject(obj){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
-			titleAction = "a créé une organization";
+			titleAction = "a créé une organisation";
 		} 
 		else if(obj.object.objectType =="events"){
 			redirectTypeUrl="event";
@@ -441,7 +444,7 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news,action,method,reason, comment=null) {
+function actionOnNews(news,action,method,reason, comment) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
@@ -615,16 +618,16 @@ function showComments(id){
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
 			toastr.info(trad["removeopinionbefore"]);
-		else{	
+	else{	
 		//toastr.info('This vote has been well registred');
-			if($($this).children(".label").hasClass("text-green")){
-				method = true;
+		if($($this).children(".label").hasClass("text-green")){
+			method = true;
 		}
 		else{
 			method = false;
 		}
 		actionOnNews($($this),'voteUp',method);
-		disableOtherAction($($this), '.commentVoteUp', method);
+		disableOtherNewsAction($($this), '.newsVoteUp', method);
 		count = parseInt($($this).data("count"));
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 	}
@@ -639,10 +642,10 @@ function newsVoteDown($this, id){
 		}
 		else{
 			method = false;
-	}
-	actionOnNews($($this),'voteDown',method);
-	disableOtherAction($($this), '.commentVoteDown', method);
-	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+		}
+		actionOnNews($($this),'voteDown',method);
+		disableOtherNewsAction($($this), '.newsVoteDown', method);
+		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
 function newsReportAbuse($this, id){
@@ -654,14 +657,14 @@ function newsReportAbuse($this, id){
 	else{
 		method = false;
 	}
-	reportAbuse($($this),'reportAbuse',method);
+	reportNewsAbuse($($this),'reportAbuse',method);
 	
 	
 	//disableOtherAction($($this), '.commentReportAbuse', method);
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
 }
 
-function reportAbuse($this,action, method) {
+function reportNewsAbuse($this,action, method) {
 	// console.log(contextId);
 	if (method){
 		toastr.info(trad["alreadyreportedabuse"]+" !");
@@ -702,29 +705,36 @@ function reportAbuse($this,action, method) {
 		  }
 		});
 		boxNews.on("shown.bs.modal", function() {
-		  $.unblockUI();
+			$.unblockUI();
 		});
 	}
 }
 
-function disableOtherAction($this,action,method){
+function disableOtherNewsAction($this,action,method){
 	if(method){
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-green").addClass("text-dark");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-orange").addClass("text-dark");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
 	}
 	else{
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-dark").addClass("text-orange");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
 	}
 }
 function blankNews(id){
-	window.open(baseUrl+'#news.detail.id.'+id,'_blank');
+/*	$.blockUI({
+			message : '<div class="newsContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement de l\'actualité ...</h2></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
+		getAjax('.newsContent',baseUrl+'/'+moduleId+"/news/detail/id/"+id,function(){ 
+		},"html");*/
+	window.open(baseUrl+'/#news.detail.id.'+id,'_blank');
 }

@@ -24,7 +24,8 @@ $this->renderPartial('../default/panels/toolbar');
 					<?php  	$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
-															"followers" => $followers,
+															"countStrongLinks" => $countStrongLinks,
+															"countLowLinks" => $countLowLinks,
 															"contentType" => Project::COLLECTION,
 															"admin" => $admin	));
 					?>
@@ -104,9 +105,11 @@ var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i> <?php echo addslashes($project["name"]) ?> ");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
+	
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
 	getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	<?php } ?>
+
 	<?php //if((@$project["links"]["needs"] && !empty($project["links"]["needs"])) || $admin==true){ ?>
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>/isDetailView/1",null,"html");
 	<?php //} ?>
