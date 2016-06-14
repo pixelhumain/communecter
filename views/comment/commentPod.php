@@ -225,15 +225,16 @@ function buildCommentsTree(where, commentsList, withActions) {
 	$(".commentsTL").html('<div class="spine"></div>');
 	
 	countEntries = 0;
-	$(where).append(buildComments(commentsList, 0, withActions));
-	initUpdate(commentsList);
+	$(where).append(buildComments(commentsList, 0, withActions,where));
+	if(where != ".communityCommentTable")
+		initCommentUpdate(commentsList);
 	
 	
 }
-function initUpdate(comment){
+function initCommentUpdate(comment){
 	$.each( comment , function(key,o){
 		if (o.replies.length != 0){
-				initUpdate(o.replies);
+				initCommentUpdate(o.replies);
 		}
 		initXEditable();
 		manageCommentModeContext(key);
@@ -247,13 +248,13 @@ function addEmptyCommentOnTop() {
 	$(".newComment").focus().autogrow({vertical: true, horizontal: false});
 }
 
-function buildComments(commentsLevel, level, withActions) {
+function buildComments(commentsLevel, level, withActions,where) {
 	if (level == 0) {
 		var commentsHTML = '<ul class="tree list-unstyled padding-5">';
 	} else {
 		var commentsHTML = '<ul class="level list-unstyled" style="padding-left: 15px">';	
 	}
-
+	console.log(commentsLevel);
 	$.each( commentsLevel , function(key,commentObj) {
 		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
@@ -262,13 +263,13 @@ function buildComments(commentsLevel, level, withActions) {
 			if (commentObj.status == "deleted") {
 				commentActions = "disabled";
 			}
-			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions);
+			var commentsTLLine = buildCommentLineHTML(commentObj, commentActions,where);
 			
 			commentsHTML += commentsTLLine;
 			
 			if (commentObj.replies.length != 0) {
 				nextLevel = level + 1;
-				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel, withActions);
+				var commentsTLLineDown = buildComments(commentObj.replies, nextLevel, withActions,where);
 				commentsHTML += commentsTLLineDown;
 			} else {
 				commentsHTML += "</li>";
@@ -279,8 +280,8 @@ function buildComments(commentsLevel, level, withActions) {
 	return commentsHTML;
 }
 
-function buildCommentLineHTML(commentObj, withActions) {
-	// console.log(commentObj, withActions);
+function buildCommentLineHTML(commentObj, withActions,where) {
+//	console.log(commentObj);
 	var id = commentObj["_id"]["$id"];
 	moment.locale('fr');
 	var date = moment(commentObj.created * 1000);
@@ -295,7 +296,10 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var name = commentObj.author.name;
 	if(commentObj.author.address != "undefined")
 		var city = commentObj.author.address.addressLocality;
-	var text = commentObj.text.replace(/\n/g, "<br />");
+	if(where != ".communityCommentTable")
+		text = '<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable">'+commentObj.text+'</a>';
+	else
+		text = commentObj.text;
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
@@ -307,10 +311,11 @@ function buildCommentLineHTML(commentObj, withActions) {
 	var personName = "Unknown";
 	//var dateString = date.toLocaleString();
 	var commentsTLLine;
+	manageComment="";
 	if (typeof(userId) != "undefined" && commentObj.author.id == userId){
 		manageComment='<a href="javascript:;" onclick="deleteComment(\''+id+'\',$(this))"><span class="comment-delete pull-right text-red" style="padding-left:10px;"><i class="fa fa-trash-o"></i> <?php echo Yii::t("common","Delete") ?></span></a>'+
 		'<a href="javascript:;" onclick="modifyComment(\''+id+'\')"><span class="comment-modify pull-right"><i class="fa fa-pencil"></i> <?php echo Yii::t("common","Modify") ?></span></a>';
-	}
+	} 
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
 						'<div class="commentContent-'+commentObj.status+'">'+
@@ -322,10 +327,8 @@ function buildCommentLineHTML(commentObj, withActions) {
 								'<span class="comment-time"><i class="fa fa-clock-o"></i> '+dateStr+'</span>'+
 								manageComment+
 							'</div>'+
-							'<div class="commentText-'+commentObj.status+'" style="float:left;width:90%;">'+
-								'<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+
+							'<div class="commentText-'+commentObj.status+'" style="float:left;width:75%;">'+
 									text+
-								'</a>'+
 							'</div>'+
 							'<div class="space10"></div>'+
 							"<div class='bar_tools_post hide'>";
@@ -912,8 +915,8 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 		ulChildren.prepend(commentsTLLine);
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
+	initXEditable();
 	manageCommentModeContext(comment["_id"]["$id"]);
-	
 	bindEvent();
 }
 
@@ -978,7 +981,7 @@ function manageCommentModeContext(id) {
 		//$("#btn-update-geopos").removeClass("hidden");
 	} else if (modeComment == "update") {
 		// Add a pk to make the update process available on X-Editable
-		$('.editable-comment').editable('option', 'pk', id);
+		//$('.editable-comment').editable('option', 'pk', id);
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('option', 'pk', id);
 			$(value).editable('toggleDisabled');
@@ -999,11 +1002,11 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-
-	        	//$('.editable-news').editable('toggleDisabled');
-				//switchModeEdit(data.id);
+				console.log(data);
+	        	//$(this).text(data.text);
 				console.log(data);
 				console.log("ici");
+				//switchModeCommentEdit(data.id);
 				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
@@ -1026,10 +1029,10 @@ function initXEditable() {
 		success : function(data) {
 	        if(data.result) {
 		       // $('.newsContent').editable('toggleDisabled');
-		       // switchModeEdit(data.id);
+		        //switchModeCommentEdit(data.id);
 	        	toastr.success(data.msg);
 	        	console.log(data);
-	        	switchModeCommentEdit(data.id);
+	        	//switchModeCommentEdit(data.id);
 	        	}
 	        else
 	        	toastr.error(data.msg);  

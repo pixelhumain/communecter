@@ -175,7 +175,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                         </a>
                         <!--<div class="panel-scroll height-230 ps-container">-->
                         <ul role="menu" class="dropdown-menu scrollable-menu">
-	                        
+	                        <li class="categoryOrgaEvent col-md-12">
+		                        <ul class="dropOrgaEvent" id="citoyen">	                    
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-question'></i> <?php echo Yii::t("common","I don't know") ?></li>
+			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Event::NO_ORGANISER; ?>" data-id="<?php echo Event::NO_ORGANISER; ?>" data-name="<?php echo Yii::t("common","I don't know") ?>"><?php echo Yii::t("common","I don't know") ?></a></li>
+		                        </ul>
+	                        </li>
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
