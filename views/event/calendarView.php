@@ -206,9 +206,10 @@ function buildCalObj(eventObj)
       "startDate" : eventObj.startDate,
       "endDate" : eventObj.endDate,
       "className": organiser,
-      "category": organiser,
-      "allDay" : false,
+      "category": organiser
     }
+    if(eventObj.allDay )
+      taskCal.allDay = eventObj.allDay;
     //console.log(taskCal);
   }
   return taskCal;
