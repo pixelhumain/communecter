@@ -790,7 +790,7 @@ function initXEditable() {
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
         select2: {
-            //tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
+            tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
         }		

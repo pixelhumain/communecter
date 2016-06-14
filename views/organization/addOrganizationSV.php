@@ -447,7 +447,7 @@ jQuery(document).ready(function() {
 						postalCode = orga.address.postalCode;
 					}
  					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
- 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>";
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilThumbImageUrl+"'/>";
  					}
  					str += 	"<div class='padding-10'>"+
  							"<a href='#' data-id='"+ orga.id +"' data-type='"+ typeIco +"'>"+
