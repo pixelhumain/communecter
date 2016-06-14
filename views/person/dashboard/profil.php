@@ -613,7 +613,7 @@ var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"]
 var tags = <?php echo json_encode($tags)?>;
 var imagesD = <?php echo(isset($imagesD)  ) ? json_encode($imagesD) : "null"; ?>;
 var contextMapPerson = <?php echo(isset($contextMapPerson)  ) ? json_encode($contextMapPerson) : "null"; ?>;
-	
+
 
 //By default : view mode
 var mode = "view";
@@ -627,6 +627,7 @@ jQuery(document).ready(function()
     bindAboutPodEvents();
     initXEditable();
 	manageModeContext();
+	changeHiddenIcone();
 	debugMap.push(personData);
 
 	//console.dir(contextMapPerson);
@@ -789,16 +790,10 @@ function initXEditable() {
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
         select2: {
-            tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
+            //tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        },
-        success: function(response, newValue) {
-			if(newValue.length == 0)
-				$(".fa_telephone_mobile").addClass("hidden");
-			else
-				$(".fa_telephone_mobile").removeClass("hidden");
-		}		
+        }		
     });
 
     $('#fax').editable({
@@ -809,13 +804,7 @@ function initXEditable() {
             tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        },
-        success: function(response, newValue) {
-			if(newValue.length == 0)
-				$(".fa_telephone_fax").addClass("hidden");
-			else
-				$(".fa_telephone_fax").removeClass("hidden");
-		}
+        }
     }); 
 
     $('#fixe').editable({
@@ -826,13 +815,7 @@ function initXEditable() {
             tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
-        },
-        success: function(response, newValue){
-			if(newValue.length == 0)
-				$(".fa_telephone_fixe").addClass("hidden");
-			else
-				$(".fa_telephone_fixe").removeClass("hidden");
-		}
+        }
     }); 
 
     $('#addressCountry').editable({
@@ -917,9 +900,40 @@ function switchMode() {
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
+		changeHiddenIcone() ;
 	} else {
 		mode ="view";
 		manageModeContext();
+		changeHiddenIcone() ;
+	}
+}
+
+
+
+function changeHiddenIcone() 
+{ 
+	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+	console.log("------------", mode);
+	if(mode == "view"){
+		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+	} else {
+		$(".fa_name").removeClass("hidden"); 
+		$(".fa_birthDate").removeClass("hidden"); 
+		$(".fa_email").removeClass("hidden"); 
+		$(".fa_streetAddress").removeClass("hidden"); 
+		$(".fa_postalCode").removeClass("hidden"); 
+		$(".fa_addressCountry").removeClass("hidden"); 
+		$(".fa_telephone_mobile").removeClass("hidden"); 
+		$(".fa_telephone").removeClass("hidden"); 
+		$(".fa_telephone_fax").removeClass("hidden"); 
 	}
 }
 
