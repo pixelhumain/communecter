@@ -297,10 +297,9 @@ function buildCommentLineHTML(commentObj, withActions,where) {
 	if(commentObj.author.address != "undefined")
 		var city = commentObj.author.address.addressLocality;
 	if(where != ".communityCommentTable")
-		text = '<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable editable-click commentText">'+commentObj.text.replace(/\n/g, "<br />")+'</a>';
+		text = '<a href="javascript:" id="commentText'+id+'" data-type="textarea" data-pk="'+id+'" data-emptytext="Vide" class="editable-comment editable-pre-wrapped editable">'+commentObj.text+'</a>';
 	else
-		text = commentObj.text.replace(/\n/g, "<br />");
-	commentObj.text.replace(/\n/g, "<br />");
+		text = commentObj.text;
 	var tags = "";
 	if( "undefined" != typeof commentObj.tags && commentObj.tags) {
 		$.each( commentObj.tags , function(i,tag){
@@ -916,8 +915,8 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 		ulChildren.prepend(commentsTLLine);
 		$('#comment'+comment["_id"]["$id"]).addClass('animated bounceIn');
 	}
-	manageCommentModeContext(comment["_id"]["$id"]);
 	initXEditable();
+	manageCommentModeContext(comment["_id"]["$id"]);
 	bindEvent();
 }
 
@@ -982,7 +981,7 @@ function manageCommentModeContext(id) {
 		//$("#btn-update-geopos").removeClass("hidden");
 	} else if (modeComment == "update") {
 		// Add a pk to make the update process available on X-Editable
-		$('.editable-comment').editable('option', 'pk', id);
+		//$('.editable-comment').editable('option', 'pk', id);
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('option', 'pk', id);
 			$(value).editable('toggleDisabled');
@@ -1003,11 +1002,11 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-
-	        	//$('.editable-news').editable('toggleDisabled');
-				//switchModeEdit(data.id);
+				console.log(data);
+	        	//$(this).text(data.text);
 				console.log(data);
 				console.log("ici");
+				//switchModeCommentEdit(data.id);
 				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
@@ -1030,10 +1029,10 @@ function initXEditable() {
 		success : function(data) {
 	        if(data.result) {
 		       // $('.newsContent').editable('toggleDisabled');
-		       // switchModeEdit(data.id);
+		        //switchModeCommentEdit(data.id);
 	        	toastr.success(data.msg);
 	        	console.log(data);
-	        	switchModeCommentEdit(data.id);
+	        	//switchModeCommentEdit(data.id);
 	        	}
 	        else
 	        	toastr.error(data.msg);  
