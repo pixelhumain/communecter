@@ -139,6 +139,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <div id="newEvent">
+
+	<?php $this->renderPartial('../pod/helpPostalCode');  ?>
 	
 	<div class="noteWrap col-md-12 form-add-data">
 		
@@ -295,7 +297,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
 					</div>
 
-					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
+					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></h3>
                         
 					<div class="form-group">
 						<span class="input-icon">
@@ -310,6 +312,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<i class="fa fa-home"></i>
 							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 						</span>
+						<a href="javascript:" class="btn btn-default btn-sm" onclick="$('#modalHelpCP').modal('show');">Trouver un code postal</a>
 					</div>
 				
 					
