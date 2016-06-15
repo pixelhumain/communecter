@@ -328,7 +328,7 @@
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
 	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" >
+	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php }else{ ?> 
