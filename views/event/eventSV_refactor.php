@@ -91,7 +91,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	font-weight:600;
 }
 
-
+/* css modale */
 #country-geolocInternational{
 	margin-bottom:10px;
 }
