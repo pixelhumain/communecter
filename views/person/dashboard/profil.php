@@ -195,6 +195,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			margin-top:0px;
 		}
 	}
+
+	.select2-hidden {
+	    display:none !important;
+	}
 </style>
 
 <div class="panel panel-white">
@@ -375,7 +379,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
 					?>
 					<i class="fa fa-smile-o fa_name hidden"></i> 		
-					<a href="#" id="username" data-type="text" data-emptytext="Username"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
+					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
 						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
 				</div>
@@ -485,7 +489,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i>
-					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="editable editable-click">
+					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["fixe"])){
 							foreach ($person["telephone"]["fixe"] as $key => $tel) {
 								if($key > 0)
@@ -497,7 +501,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 
 					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
-					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="editable editable-click">
+					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["mobile"])){
 							foreach ($person["telephone"]["mobile"] as $key => $tel) {
 								if($key > 0)
@@ -509,7 +513,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="editable editable-click">
+					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["fax"])){
 							foreach ($person["telephone"]["fax"] as $key => $tel) {
 								if($key > 0)
@@ -549,7 +553,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<div class="row text-dark">
 			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
 				<!-- Description -->
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
+				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
 					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
 				</a>
 			</div>
@@ -747,7 +751,15 @@ function initXEditable() {
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
-    	mode: 'popup'
+    	mode: 'popup',
+    	success : function(data, newValue) {
+	        if(data.result) {
+	        	toastr.success(data.msg);
+				loadActivity=true;	
+	        }
+	        else
+	        	return data.msg;  
+	    }
 	});
 
 	$('.socialIcon').editable({
@@ -780,7 +792,8 @@ function initXEditable() {
         select2: {
             tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
             tokenSeparators: [","],
-            width: 200
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
         }
     });
 
@@ -790,9 +803,10 @@ function initXEditable() {
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
         select2: {
-            //tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
+            tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
-            width: 200
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
         }		
     });
 
@@ -803,7 +817,8 @@ function initXEditable() {
         select2: {
             tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
-            width: 200
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
         }
     }); 
 
@@ -812,7 +827,8 @@ function initXEditable() {
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
         select2: {
-            tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
+        	tags : [],
+        	//tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
         }

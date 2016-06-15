@@ -1006,6 +1006,7 @@ function initXEditable() {
 	        	//$(this).text(data.text);
 				console.log(data);
 				console.log("ici");
+				//initXEditable();
 				//switchModeCommentEdit(data.id);
 				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
@@ -1014,31 +1015,6 @@ function initXEditable() {
 	        }
 	    }
 	});
-
-	$('.commentText').editable({
-		url: baseUrl+"/"+moduleId+"/comment/updatefield", 
-		emptytext: 'Vide',
-		showbuttons: 'bottom',
-		wysihtml5: {
-			html: true,
-			video: true,
-			image: true
-		},
-		width:100,
-		showbuttons: 'bottom',
-		success : function(data) {
-	        if(data.result) {
-		       // $('.newsContent').editable('toggleDisabled');
-		        //switchModeCommentEdit(data.id);
-	        	toastr.success(data.msg);
-	        	console.log(data);
-	        	//switchModeCommentEdit(data.id);
-	        	}
-	        else
-	        	toastr.error(data.msg);  
-	    },
-	});
-
 
 }
 </script>
