@@ -280,7 +280,7 @@ function buildLineHTML(newsObj,idSession,update)
 						imageBackground+
 						'<div class="timeline_author_block">'+
 							objectLink+
-							'<span class="light-text timeline_author padding-5 margin-top-5 text-bold">'+personName+'</span>'+
+							'<span class="light-text timeline_author text-bold">'+personName+'</span>'+
 							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
 						'</div>'+
 						'<div class="space5"></div>'+
