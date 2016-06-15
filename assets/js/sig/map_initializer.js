@@ -166,16 +166,27 @@
 						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 														{maxZoom:17,
 														 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 17;
+
+						if(thisSig.roadTileLayer != null) {
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":3});
+							thisSig.roadTileLayer.redraw();
+						}
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
 						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
 												{maxZoom:20,
-												 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(Sig.map);
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 20;
+
+						if(thisSig.roadTileLayer != null) {
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":12});
+							thisSig.roadTileLayer.redraw();
+						}
+						
 					}
 					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
 						thisSig.map.setZoom(thisSig.map.getMaxZoom());
