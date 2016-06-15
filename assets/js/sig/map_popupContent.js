@@ -298,7 +298,7 @@
 			data = data.author;
 			//console.log("typeSig : " + allData['typeSig']);
 			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
-			var id = this.getObjectId(data);
+			var id = this.getObjectId(allData);
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(allData);
@@ -329,7 +329,7 @@
 			title = title.replace('"', "");
 
 			var icon = 'fa-'+ this.getIcoByType(data);
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");'>";
+			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='loadByHash(\"#news.detail.id."+id+"\");'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
