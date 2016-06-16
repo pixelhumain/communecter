@@ -656,25 +656,46 @@
 				La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
 				
 				<div class="col-sm-6">
-					version 0.13
+					version 0.14 ???
 					<ul>
 						<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
-						<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>
-						<li><i class="fa fa-angle-right"></i>Action Rooms : Sondages et Votes</li>
-						<li><i class="fa fa-angle-right"></i>Librairie vidéo : mémoire du territoire</li>
+						<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
+						<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
+						<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
+						<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
+						<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
+						<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
+						<li><i class="fa fa-angle-right"></i> subscribe to a tag on news</li>
+						<li><i class="fa fa-angle-right"></i> ouverture international </li>
+						<li><i class="fa fa-angle-right"></i> multi scope</li>
+						<li><i class="fa fa-angle-right"></i> refactor full text search </li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6">
+					version 0.13
+					<ul>
+						<li><i class="fa fa-angle-right"></i>event refactor </li>
+						<li><i class="fa fa-angle-right"></i> no organiser : if you just want to share an event you're not organising </li>
+						<li><i class="fa fa-angle-right"></i> added subevents : if an event has a program with multiple sub events</li>
+						<li><i class="fa fa-angle-right"></i> open edition sur event</li>
+						<li><i class="fa fa-angle-right"></i>refactor city chooser </li>
+						<li><i class="fa fa-angle-right"></i>delete and update comments</li>
 					</ul>
 				</div>
 
 				<div class="col-sm-6">
 					version 0.12
 					<ul>
-						<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
-						<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
-						<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
-						<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
-						<li><i class="fa fa-angle-right"></i>Opendata avec une API, système de préférence d'ouverture de la donnée</li>
-						<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
-						<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
+						<li><i class="fa fa-angle-right"></i>amélioration du systeme validation </li>
+						<li><i class="fa fa-angle-right"></i>refactor et ajout des images sur les news</li>
+						<li><i class="fa fa-angle-right"></i>réintégration du module de vite et de discussion</li>
+						<li><i class="fa fa-angle-right"></i>module network , communecter en marque blanche </li>
+						<li><i class="fa fa-angle-right"></i>refactor de la structure des cities et des codepostaux</li>
+						<li><i class="fa fa-angle-right"></i>intégration de divers de data , makery, bretagne Telecom, commun59, service public</li>
+						<li><i class="fa fa-angle-right"></i>système et admin de modération</li>
+						<li><i class="fa fa-angle-right"></i>refonte et design de mail </li>
+						<li><i class="fa fa-angle-right"></i>gamification avec les actions</li>
 					</ul>
 				</div>
 

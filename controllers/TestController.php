@@ -797,6 +797,10 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		echo $i." Logs modifiés<br/>";
 	}
 
+	public function actionMailKKBB(){
+		Mail::inviteKKBB(Person::getById("55c0c1a72336f213040041ee"), false);
+
+	}
 
 	//Stat sur les logs
 	public function actionCreateLastLogStatistics(){

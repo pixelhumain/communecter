@@ -147,7 +147,7 @@
 
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
-		<a href="javascript:;" data-id="explainRoadMap" class="explainLink text-red"><i class="fa fa-2x text-red fa-map-signs"></i></a>
+		<a href="javascript:loadByHash('#default.view.page.roadmap.dir.docs');"  class=" text-red"><i class="fa fa-2x text-red fa-map-signs"></i></a>
 		
 		<br/>
 		update <?php echo $this->versionDate ?>

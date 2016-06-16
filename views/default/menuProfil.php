@@ -5,17 +5,17 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu dropdown-menu-right">
-    <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i> Mon espace perso  <span class="badge badge-warning"><i class="fa fa-bookmark"></i><?php echo Gamification::badge( Yii::app()->session['userId'] ) ?> <?php echo (isset($me["gamification"]['total'])) ? $me["gamification"]['total'] : 0; ?> pts</span> </a></li>
-    <li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>.postalCode.<?php echo $me["address"]["postalCode"]?>');"             id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
-    <li><a href="javascript:;" onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');"><i class="fa fa-thumbs-up text-dark"></i> Mes Votes / Discussions</a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-profil"><i class="fa fa-user text-dark"></i><?php echo Yii::t("person","My space"); ?>  <span class="badge badge-warning"><i class="fa fa-bookmark"></i><?php echo Gamification::badge( Yii::app()->session['userId'] ) ?> <?php echo (isset($me["gamification"]['total'])) ? $me["gamification"]['total'] : 0; ?> pts</span> </a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>.postalCode.<?php echo $me["address"]["postalCode"]?>');"             id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i><?php echo Yii::t("person","My city"); ?></a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');"><i class="fa fa-thumbs-up text-dark"></i><?php echo Yii::t("person","My Votes / Discussions"); ?></a></li>
 
     <li role="separator" class="divider"></li>
-    <li><a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i> Inviter quelqu'un</a></li>
-    <li><a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i> Créer un événement</a></li>
-    <li><a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-purple"></i> <i class="fa fa-lightbulb-o text-purple"></i> Créer un projet</a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i><?php echo Yii::t("person","Invite someone"); ?></a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i><?php echo Yii::t("person","Create an event"); ?></a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-purple"></i> <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?></a></li>
     
     <li role="separator" class="divider"></li>
-    <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i> Référencer une organisation</a></li>
+    <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i><?php echo Yii::t("person","Create an organization"); ?></a></li>
     <li role="separator" class="divider"></li>
     <?php
       if(Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))){
@@ -29,7 +29,7 @@
     <li>
       <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
          id="btn-menu-dropdown-logout" class="text-red">
-        <i class="fa fa-sign-out"></i> Déconnexion
+        <i class="fa fa-sign-out"></i><?php echo Yii::t("person","Sign out"); ?>
       </a>
     </li>  
   </ul>

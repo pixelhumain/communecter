@@ -240,5 +240,3 @@ function clearAllFilters(str){
 	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 </script>
-
-<iframe name='embed_readwrite' src='https://mensuel.framapad.org/p/loomiodevdebout?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false'width=600 height=400></iframe>
