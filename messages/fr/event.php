@@ -60,6 +60,7 @@ return array(
     "getTogether" => "Rencontre",
     "meeting" => "Réunion",
     "competition" => "Compétition",
+    "course" => "Formation",
 
     "Please specify the name of the event"=>"Le nom est obligatoire",
 	"Please specify the postal code"=>"Le code postal est obligatoire",

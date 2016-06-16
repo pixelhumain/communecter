@@ -93,6 +93,16 @@ Executer l'url /communecter/test/LogDeletePasswordCitoyen
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+
+@Rapha
+Ajout du type course dans la liste des events
+db.getCollection('lists').find({name : "eventTypes"}).forEach(function(doc){
+    if(typeof  doc.listcourse == "undefined" ){
+        db.lists.update({"_id":doc._id},{
+            '$set':{'list.course': "Formation" }
+        }) 
+    }
+});
 @Rapha
 Change le type Array en Object de socialNetwork 
 db.citoyens.find().forEach(function(doc){ 
