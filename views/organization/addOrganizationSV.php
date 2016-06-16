@@ -189,7 +189,7 @@ $this->renderPartial('../default/panels/toolbar');
 								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Key Words") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:auto;">		        		    
 							</div>
 							<div class="form-group pull-left">
 								<div class="form-group">
