@@ -42,6 +42,11 @@ jQuery(document).ready(function() {
 
 function bindCheckGeo(){
 	$("#btnCheckGeo").off().on('click', function(e){
+		rand = Math.floor((Math.random() * 8) + 1);
+  		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+		});
 		$.ajax({
 	        type: 'POST',
 	        url: baseUrl+'/communecter/admin/getentitybadlygeolocalited/',
@@ -49,9 +54,7 @@ function bindCheckGeo(){
 	        success: function(data)                                                   
 	        {
 	        	console.log("data",data);
-
 	        	textHTML = "<tr><th>Type</th><th>Entité</th><th>Msg Error</th></tr>";
-
 	        	$.each(data, function(typeEntity, listEntity){
 	  				$.each(listEntity, function(key, entity){
 	  					textHTML += "<tr>"+
@@ -64,6 +67,7 @@ function bindCheckGeo(){
 					});
 	  			});
 	        	$("#tableEntity").html(textHTML);
+	        	$.unblockUI();
 	        }
 		});
 	});
