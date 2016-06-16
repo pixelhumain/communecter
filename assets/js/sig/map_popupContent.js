@@ -588,6 +588,27 @@
 			return popupContent;
 		};
 
+		Sig.getPopupAddress = function(data, label){
+			console.log(data);
+			var cityName = data["name"].replace("'", "\'");;
+			var cp = data["postalCode"];
+			if(typeof(data["countCpByInsee"]) != "undefined"){
+				var nbCpByInsee = data["countCpByInsee"];
+				var cityInsee = data["cityInsee"];
+			}
+			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
+									"<div class='panel-title text-dark center'>"+
+										"<i class='fa fa-map-marker'></i> "+cityName+
+									"</div>" + 
+									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' cp-com='" + cp + "'";					
+				popupContent += 		">"+
+										"<i class='fa fa-check'></i> "+ label +
+									"</button>";
+
+			popupContent +=		'</div>';
+			return popupContent;
+		};
+
 		Sig.getPopupModifyPosition = function(data){
 			//console.dir(data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];

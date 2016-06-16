@@ -311,8 +311,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 							<i class="fa fa-home"></i>
 							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
-						</span>
-						<a href="javascript:" class="btn btn-default btn-sm" onclick="$('#modalHelpCP').modal('show');">Trouver un code postal</a>
+						</span><br>
+						<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 					</div>
 				
 					

@@ -43,7 +43,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         "usePanel" 			 => false,
         "useFilterType" 	 => false,
         "useRightList" 		 => true,
-        "useZoomButton" 	 => true,
+        "useZoomButton" 	 => false,
         "useHomeButton" 	 => false,
         "useSatelliteTiles"	 => false,
         "useFullScreen" 	 => false,
@@ -54,7 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 		/* COORDONNÉES DE DÉPART (position géographique de la carte au chargement) && zoom de départ */
 		"firstView"		  => array(  "coordinates" => array($lat, $lng),
-									 "zoom"		  => 3),
+									 "zoom"		  => 11),
 		);
 ?>
 <style>
@@ -88,13 +88,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	/*border-radius: 400px;*/
 	/*max-width: 350px;*/
 }
-
+.sigModule<?php echo $sigParams['sigKey']; ?> #liste_map_element{
+	padding-top:0px;
+}
 .sigModule<?php echo $sigParams['sigKey']; ?> #right_tool_map {
     width: unset;
     height: 305px;
     position: relative !important;
     right: 0%;
     top: 0%;
+    border-bottom:1px solid #d4d4d4;
+    border-left:1px solid #d4d4d4;
     -moz-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0);
 	-webkit-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0);
 	-o-box-shadow: -5px -5px 1px 0px rgba(189, 189, 189, 0);
@@ -155,11 +159,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Trouver un code postal</h4>
+        <h3 class="modal-title text-dark"><i class="fa fa-angle-down"></i> Trouver un code postal 
+        </h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pull-left col-md-12">
 		<div class="sigModule<?php echo $sigParams['sigKey']; ?>">
-			<div class="col-md-3 no-padding">
+			<div class="col-md-3 no-padding hidden">
 				<form class="form-event">
 					<div class="col-md-12 no-padding">
 						<select class="pull-left" id="country-geolocInternational"></select>
@@ -169,12 +174,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 				</form>
 			</div>
-			<div class="col-md-9 no-padding">
-				<div class="alert alert-info">Pour de meilleurs résultats, utilisez le format suivant : <strong>n°, nom de la rue, COMMUNE, Code postal</strong>
-				<br>(exemple : 13 rue de saint pierre, saintes, 17100) - les virgules sont importantes</div>
-			</div>
 			<div class="col-md-5 no-padding">
-				<input type="text" id="inputText-geolocInternational" placeholder="n° rue, commune, code postal">
+				<input type="text" id="inputText-geolocInternational" placeholder="quelle commune recherchez-vous ?">
 				<button class="btn btn-success pull-right" id="btn-geolocInternational"><i class="fa fa-search"></i></button>
 				<div id="right_tool_map">
 					<div id="liste_map_element"></div>
@@ -183,9 +184,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="col-md-7 no-padding">
 				<div id="mapCanvasEntity"></div>
 				<div class="btn-group-map tools-btn">
+					<?php if($sigParams['useSatelliteTiles']){ ?>
 						<div class="btn-group btn-group-lg">
 							<button type="button" class="btn btn-map bg-dark" id="btn-satellite"><i class="fa fa-magic"></i></button>
 						</div>
+					<?php } ?>
 					<?php if($sigParams['useZoomButton']){ ?>
 						<div class="btn-group btn-group-lg">		
 							<button type="button" class="btn btn-map bg-dark" id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
@@ -202,8 +205,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	  </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+		<div class="badge bg-white text-dark pull-left"><i class="fa fa-info-circle"></i> Recherchez une commune par son nom pour trouver son code postal</div>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-time"></i> Fermer</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -245,6 +248,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		mapEntity = loadMap("mapCanvas", initParams);
 	});
 
+function openModalHelpCP(){
+	$('#modalHelpCP').modal('show');
+	setTimeout(function() {
+					mapEntity.invalidateSize(false);
+				}, 1000);
+	
+}
+
 function showMsgListRes(msg){
 	msg = msg != "" ? "<h1 class='msg_list_res'>" + msg + "</h1>" : "";
 	$(".sigModuleEntity #liste_map_element").html(msg);
@@ -257,9 +268,34 @@ function getGeoPosInternational(requestPart, countryCode){
 
 	showMsgListRes("Recherche en cours ...");
 	
-	if(countryCode == "FR") callDataGouv(requestPart, "FR");
+	if(countryCode == "FR") callCommunecter(requestPart, "FR");
 	else
 		callNominatim(requestPart, countryCode);
+}
+
+function callCommunecter(requestPart, countryCode){ /*countryCode=="FR"*/
+	console.log('callDataGouv');
+	showMsgListRes("Recherche en cours<br><small>Communecter</small>");
+	callGeoWebService("communecter", requestPart, countryCode,
+		function(objs){ /*success nominatim*/
+			console.log("SUCCESS Communecter"); 
+
+			if(objs.length != 0){
+				console.log('Résultat trouvé chez Communecter !'); console.dir(objs);
+				var commonGeoObj = getCommonGeoObject(objs, "communecter");
+				var res = addResultsInForm(commonGeoObj, countryCode);
+				if(res == 0) 
+					callDataGouv(requestPart, countryCode); 
+			}else{
+				console.log('Aucun résultat chez Communecter');
+				callDataGouv(requestPart, countryCode);
+			}
+		}, 
+		function(thisError){ /*error nominatim*/
+			console.log("ERROR communecter");
+			console.dir(thisError);
+		}
+	);
 }
 
 function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
@@ -281,7 +317,7 @@ function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
 			}
 		}, 
 		function(thisError){ /*error nominatim*/
-			console.log("ERROR nominatim");
+			console.log("ERROR DataGouv");
 			console.dir(thisError);
 		}
 	);
@@ -343,6 +379,8 @@ function callGoogle(requestPart, countryCode){
 /* fonction pour appeler le web service de géoloc de sont choix */
 function callGeoWebService(providerName, requestPart, countryCode, success, error){
 	var url = "";
+	var data = {};
+
 	if(providerName == "nominatim") {
 		if(typeSearchInternational == "address")
 		url = "//nominatim.openstreetmap.org/search?q=" + requestPart + "," + countryCode + "&format=json&polygon=0&addressdetails=1";
@@ -362,23 +400,43 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 		else if(typeSearchInternational == "city")
 		url = "//api-adresse.data.gouv.fr/search/?q=" + requestPart + "&type=city";
 	}
+	if(providerName == "communecter") {
+		url = baseUrl+"/"+moduleId+"/search/globalautocomplete";
+		data = {"name" : requestPart, "country" : countryCode, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
+	}
 
 	console.log("calling : " + url);
 	if(url != ""){
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType: 'json',
-			async:false,
-			crossDomain:true,
-			complete: function () {},
-			success: function (obj){
-				success(obj);
-			},
-			error: function (thisError) {
-				error(thisError);
-			}
-		});
+		if(providerName != "communecter"){
+			$.ajax({
+				url: url,
+				type: 'GET',
+				dataType: 'json',
+				async:false,
+				crossDomain:true,
+				complete: function () {},
+				success: function (obj){
+					success(obj);
+				},
+				error: function (thisError) {
+					error(thisError);
+				}
+			});
+		}else{
+			$.ajax({
+				url: url,
+				type: 'POST',
+				dataType: 'json',
+				data:data,
+				complete: function () {},
+				success: function (obj){
+					success(obj);
+				},
+				error: function (thisError) {
+					error(thisError);
+				}
+			});
+		}
 	}else{
 		toastr.error('provider inconnu');
 		return false;
@@ -432,6 +490,16 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, address, "insee", "citycode");
 			commonObj["countryCode"] = "FR";
 			commonObj = addAttObjNominatim(commonObj, address, "placeId", "id");
+		
+		}else 
+		if(providerName == "communecter"){
+			console.log("details result communecter");
+			console.dir(obj);
+			commonObj = addAttObjNominatim(commonObj, obj, "cityName", "name");
+			commonObj = addAttObjNominatim(commonObj, obj, "countryCode", "country");
+			commonObj = addAttObjNominatim(commonObj, obj, "postalCode", "cp");
+			commonObj = addAttObjNominatim(commonObj, obj, "insee", "insee");
+			commonObj["placeId"] = obj["country"]+"_"+obj["insee"]+"-" + obj["cp"];
 		
 		}
 
@@ -487,6 +555,12 @@ function addCoordinates(commonObj, obj, providerName){
 			//TODO : geoshape
 		}
 	}
+	else 
+	if(providerName == "communecter"){
+		if(typeof obj["geo"] != "undefined") commonObj["geo"] = obj["geo"];
+		if(typeof obj["geoPosition"] != "undefined") commonObj["geoPosition"] = obj["geoPosition"];
+		return commonObj;
+	}
 
 	if(lat != null && lng != null){
 		commonObj["geo"] = { "@type" : "GeoCoordinates", 
@@ -533,16 +607,16 @@ function addResultsInForm(commonGeoObj, countryCode){
 		//verifie que le countryCode correspond au choix dans le formulaire, 
 		//et que la donnée a au moins un nom ou un code postal
 		if(obj.countryCode.toLowerCase() == countryCode.toLowerCase() && 
-		   (typeof obj.cityName != "undefined" || 
+		   (typeof obj.cityName != "undefined" && 
 		   typeof obj.postalCode != "undefined")){ totalShown++;
 				showOneElementOnMap(obj, mapEntity);
 		}
 	});
-//alert("fitBounds");
 	//var markersLayerAddress = L.featureGroup(markerListEntity);
-	if(totalShown>0)
-	mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
-	
+	if(totalShown>0){
+		mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
+		mapEntity.zoomOut();
+	}
 	console.log("total : " + totalShown);
 	return totalShown;
 }
@@ -618,8 +692,8 @@ function loadMap(canvasId, initParams)
 	if(canvasId != "")
 	var mapEntity = L.map(canvasId, { "zoomControl" : false,
 								"scrollWheelZoom":true,
-								"center" : [51.505, -0.09],
-								"zoom" : 4,
+								"center" : initParams.firstView.coordinates,
+								"zoom" : initParams.firstView.zoom,
 								"worldCopyJump" : false });
 
 	var tileLayer = L.tileLayer(initParams.mapTileLayer, { 
@@ -689,7 +763,7 @@ function showOneElementOnMap(thisData, thisMap){
 				//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 				//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 				$(".sigModuleEntity .item_map_list_" + objectId).click(function()
-				{	thisMap.setZoom(16);
+				{	thisMap.setZoom(10);
 					Sig.checkListElementMap(thisMap);
 					marker.openPopup();
 					thisMap.panTo(coordinates, {"animate" : false });
@@ -699,6 +773,12 @@ function showOneElementOnMap(thisData, thisMap){
 					console.log("onclick " + thisData.cityName);
 					//checkCityExists(thisData, this);
 
+					$(".btn-communecter-city").click(function(){
+						var cp = $(this).attr("cp-com");
+						$("input#postalCode").val(cp);
+						searchCity();
+						$('#modalHelpCP').modal('hide');
+					});
 
 					//if(typeof thisData.postalCode == "undefined")
 					//askNominatimCp(thisData.cityName);

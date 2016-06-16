@@ -99,6 +99,7 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 <div id="addOrganization" >
 	
+	<?php $this->renderPartial('../pod/helpPostalCode');  ?>
 	
 	<div class="col-md-12 form-add-data" >  
 	<div class="noteWrap">
@@ -223,7 +224,8 @@ $this->renderPartial('../default/panels/toolbar');
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
-									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
+									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i><br>
+									<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city" class="text-dark">
