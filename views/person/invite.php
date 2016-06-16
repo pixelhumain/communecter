@@ -944,11 +944,13 @@ function newInvitation(){
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if(emailReg.test( $("#newInvite #inviteSearch").val() )){
 		$('#newInvite #inviteEmail').val( $("#newInvite #inviteSearch").val());
+		$("#newInvite #inviteName").val("");
 	}else{
 		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
+		$("#newInvite #inviteEmail").val("");
 	}
 
-	$("#inviteText").val("Bonjour ! \nViens me rejoindre sur ce site ! \nUn email, un code postal et tu es communecter ! \ Tu peux voir tout ce qu'il se passe dans ta commune et agir pour le bien commun ! \n");
+	$("#inviteText").val("<?php echo Yii::t("person","Hello, \\nCome and meet me on that website!\\nAn email, your town and you are connected to your city!\\nYou can see everything that happens in your city and act for the commons."); ?>");
 }
 
 function backToSearch(){
