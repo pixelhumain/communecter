@@ -799,7 +799,6 @@ function runinviteFormValidation(el) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
-		        	console.log(data);
 		        	addFloopEntity(data.invitedUser.id, "<?php echo Person::COLLECTION ?>", data.invitedUser);
 				      $('#inviteSearch').val("");
 					//Minus 1 on number of invit
