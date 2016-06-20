@@ -1,6 +1,6 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> DDA : Discuter, Décider, Agir</span>
+    <span class=" text-red homestead tpl_title"> Module : évènement</span>
     <br/>
     <span class="tpl_shortDesc">Les salles d'action permettent de créer 3 types d'espaces pour le moment <br/>Discuter pour orienté, comprendre les visions de chacuns puis, Décider pour se mettre d'accord, et enfin Agir pour que ca avance </span>
 </div>
@@ -17,12 +17,12 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="/ph/assets/a034e4b8/images/docs/events.png" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/events.png"" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DISCUTER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTAGER</h4>
 					</div> 
 					<div class="panel-body">
 						<br/><b>Les Salles de Discussion</b> servent à construire et à partager autour d'une thématique
@@ -39,7 +39,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DECIDER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> ORGANISER</h4>
 					</div> 
 					<div class="panel-body">
 					<br/><b>Les Salles de Décisions</b> ou Votes permettent de faire des propositions et de les partager avec une communauté pour prendre des décisions
@@ -59,7 +59,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> AGIR</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> FAIRE VIVRE</h4>
 					</div> 
 					<div class="panel-body">
 						<br/><b>Les Salles d'Actions</b> permettent de faire des listes d'actino de choses concrète ç réaliser
