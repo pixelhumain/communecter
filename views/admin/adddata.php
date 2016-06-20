@@ -72,6 +72,8 @@ $userId = Yii::app()->session["userId"] ;
 						Envoyer les mails d'invitation : <input class="hide" id="isSendMail" name="isSendMail"></input>
 					<input id="checkboxSendMail" name="checkboxSendMail" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
+					<label for="inputIdLink">invitor URL : </label>
+					<input class="" placeholder="" id="inputInvitorUrl" name="inputInvitorUrl" value="">
 				</div>
 				<div id="divKissKiss">
 					<label>
@@ -232,7 +234,8 @@ function bind()
 	        		idLink : $("#inputIdLink").val(),
 	        		isAdmin : isAdmin,
 	        		sendMail : sendMail,
-	        		isKissKiss : isKissKiss
+	        		isKissKiss : isKissKiss,
+	        		invitorUrl : $("#inputInvitorUrl").val()
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
