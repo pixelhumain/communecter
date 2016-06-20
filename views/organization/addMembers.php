@@ -117,8 +117,8 @@ Menu::organization($organization);
 ?>
 <div  id="addMembers" >
 	<?php   
-  		if (@Yii::app()->params['betaTest']) { 
-  			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
+  		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;
   			?>
 
   			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
@@ -538,7 +538,13 @@ Menu::organization($organization);
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable();
-
+		               	//Minus 1 on number of invit
+		               	if ($("#addMembers #memberId").val().length==0){
+			               	var count = parseInt($("#numberOfInvit").data("count")) - 1;
+							$("#numberOfInvit").html(count + ' invitation(s)');
+							$("#numberOfInvit").data("count", count);
+						}
+						$("#addMembers #memberId").val("");
 		                $("#addMembers #memberType").val("");
 		                $("#addMembers #memberName").val("");
 		                $("#addMembers #memberEmail").val("");
@@ -547,11 +553,8 @@ Menu::organization($organization);
 						$("#addMembers #memberIsAdmin").val("false");
 						$('#addMembers #memberEmail').parents().eq(1).show();
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
-						//Minus 1 on number of invit
-						var count = parseInt($("#numberOfInvit").data("count")) - 1;
-						$("#numberOfInvit").html(count + ' invitation(s)');
-						$("#numberOfInvit").data("count", count);
-		                showSearch();
+						
+						showSearch();
 	            	}
 	            	console.log(data.result);   
 	            },

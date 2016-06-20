@@ -164,8 +164,7 @@ $this->renderPartial('../default/panels/toolbar');
 	<?php   
   		if (@Yii::app()->params['betaTest']) { 
   			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
-  			?>
-
+  	?>
   			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
   	<?php
 		}
