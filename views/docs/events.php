@@ -1,6 +1,6 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> DDA : Discuter, Décider, Agir</span>
+    <span class=" text-red homestead tpl_title"> Module : évènement</span>
     <br/>
     <span class="tpl_shortDesc">Les salles d'action permettent de créer 3 types d'espaces pour le moment <br/>Discuter pour orienté, comprendre les visions de chacuns puis, Décider pour se mettre d'accord, et enfin Agir pour que ca avance </span>
 </div>
@@ -17,12 +17,12 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/dda.png"" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/events.png"" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DISCUTER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTAGER</h4>
 					</div> 
 					<div class="panel-body">
 						<br/><b>Les Salles de Discussion</b> servent à construire et à partager autour d'une thématique
@@ -39,7 +39,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DECIDER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> ORGANISER</h4>
 					</div> 
 					<div class="panel-body">
 					<br/><b>Les Salles de Décisions</b> ou Votes permettent de faire des propositions et de les partager avec une communauté pour prendre des décisions
@@ -59,7 +59,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> AGIR</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> FAIRE VIVRE</h4>
 					</div> 
 					<div class="panel-body">
 						<br/><b>Les Salles d'Actions</b> permettent de faire des listes d'actino de choses concrète ç réaliser
@@ -79,97 +79,6 @@
 
 	    </div>
         <br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.events.dir.docs');">Events <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.dda.dir.docs');">Events <i class="fa fa-arrow-right"></i> </a></div></div>
     </div>
 </div>
-
-
-<script type="text/javascript">
-
-var contentData = {
-	classes : {
-		moduleLabel : "<i class='fa fa-question-circle'></i> INFORMATION",
-	rtpl_title : "DDA : Discuter, Décider, Agir",
-		tpl_shortDesc : "Les salles d'action permettent de créer 3 types d'espaces pour le moment <br/>Discuter pour orienté, comprendre les visions de chacuns puis, Décider pour se mettre d'accord, et enfin Agir pour que ca avance ",	
-		img$src : "<?php echo $this->module->assetsUrl; ?>/images/docs/dda.png",
-		break : "",
-		html : {
-			type : "ul",
-			id : "points",
-			class : " col-sm-6",
-			icon : "<i class='fa fa-arrow-right'></i>",
-			list: [
-					"liliililiil",
-					],
-		},
-
-		html2 : {
-			type : "ul",
-			id : "points2",
-			class : " col-sm-6",
-			icon : "<i class='fa fa-arrow-right'></i>",
-			list: ["dododo",
-					
-					],
-		},
-	},
-	btns: [
-		{
-			href : "javascript:window.history.back();",
-			labrl : "<i class='fa fa-arrow-left'></i>  Retour",
-			class : "bg-dark pull-left"
-		},
-		{
-			href : "javascript:loadByHash(\'#default.view.page.dda.dir.docs\');",
-			labrl : "Events <i class='fa fa-arrow-right'></i>",
-			class : "bg-red pull-right"
-		}
-	]
-
-};
-	
-jQuery( document).ready(function() {
-	//buildTpl();
-});
-
-function buildTpl () { 
-	console.log("buildTpl");
-
-	$.each(contentData.classes,function(key,val) 
-	{
-		//editing any attributes
-		if( key == "break" )
-			$(".tpl_content").append("<div class='space20'></div>");
-		if( key.indexOf("$") > 0 ){
-			keyT = key.split("$");
-			if( keyT[0] == "img" ){
-				$(".tpl_content").append('<img class="col-sm-12 img-responsive "  src="'+val+'"/>');
-			}
-		}
-		else if( key.indexOf("html") >= 0 ){
-			classes = (val.class) ? "class='"+val.class+"'" : "" ; 
-			id = (val.id) ? "id='"+val.id+"'" : "" ; 
-			if( val.type ){
-				$(".tpl_content").append( "<"+val.type+" "+classes+" "+id+" ></"+val.type+">" );
-			}
-			if(val.list){
-				icon = (val.icon) ? val.icon : "" ; 
-				$.each(val.list,function(i,li) 
-				{ 
-					$("#"+val.id).append( "<li>"+icon+" "+li+"</li>" );
-			    });
-			}
-		}
-		 else
-			$("."+key).html(val);
-	});
-	strHTML = '<br/><div class="col-sm-12 " >';
-	$.each(contentData.btns,function(i,btn) 
-	{ 
-		strHTML += '<a href="'+btn.href+'" class="text-extra-large '+btn.class+' tooltips radius-5 padding-10 homestead" style="display: block;" >'+btn.label+' </a>';
- r  });
-    strHTML += "</div>";
-    $(".tpl_content").append(strHTML);
-}
-
-</script>
