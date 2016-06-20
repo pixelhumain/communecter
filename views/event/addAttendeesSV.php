@@ -39,9 +39,8 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 </style>
 <div id="newAttendees">
 	<?php   
-  		if (@Yii::app()->params['betaTest']) { 
-  			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
-  			?>
+  		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;  			?>
 
   			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
   	<?php
@@ -299,6 +298,12 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 				        if (data &&  data.result) { 
 					        console.log(data);      
 					        setValidationTable(); 
+					        if ($(".form-attendees .attendees-id").val().length==0){
+			               		var count = parseInt($("#numberOfInvit").data("count")) - 1;
+						   		$("#numberOfInvit").html(count + ' invitation(s)');
+						   		$("#numberOfInvit").data("count", count);
+							}
+
 		        			$(".form-attendees .attendees-name").val("");
 							$(".form-attendees .attendees-name").removeAttr("disabled");
 							$('.form-attendees .attendees-id').val("");
