@@ -219,6 +219,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var allCountries = getCountries("select2");
 	var formType = "city"; //a modifier sur les autres formulaires pour avoir le bon icon sur la carte
 
+	var idCountryInput = "#<?php echo $idCountryInput; ?>";
+	
 	//console.dir(allCountries);
 	$.each(allCountries, function(key, country){
 	 	$("#country-geolocInternational").append("<option value='"+country.id+"'>"+country.text+"</option>");
@@ -232,8 +234,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
 	
 	 	$("#btn-geolocInternational").click(function(){
-	 		var country = $("#country-geolocInternational").val(); //alert(country);
-	 		//var requestPart = "";
+	 		var country = $(idCountryInput).val(); 
 
 	 		typeSearchInternational = "address"; // $(".radio-typeInternationalSearch input[type='radio']:checked").val();
 	 		
@@ -267,14 +268,17 @@ function showMsgListRes(msg){
 function getGeoPosInternational(requestPart, countryCode){
 
 	showMsgListRes("Recherche en cours ...");
+	var countryCodes = new Array("FR", "GP", "GF", "MQ", "YT", "NC", "RE", "PM");
 	
-	if(countryCode == "FR") callCommunecter(requestPart, "FR");
+	//if(countryCode == "FR") callCommunecter(requestPart, "FR");
+	
+	if($.inArray(countryCode, countryCodes)) callCommunecter(requestPart, countryCode);
 	else
 		callNominatim(requestPart, countryCode);
 }
 
 function callCommunecter(requestPart, countryCode){ /*countryCode=="FR"*/
-	console.log('callDataGouv');
+	console.log('callCommunecter');
 	showMsgListRes("Recherche en cours<br><small>Communecter</small>");
 	callGeoWebService("communecter", requestPart, countryCode,
 		function(objs){ /*success nominatim*/
@@ -607,7 +611,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 		//verifie que le countryCode correspond au choix dans le formulaire, 
 		//et que la donnée a au moins un nom ou un code postal
 		if(obj.countryCode.toLowerCase() == countryCode.toLowerCase() && 
-		   (typeof obj.cityName != "undefined" && 
+		   (typeof obj.cityName != "undefined" || 
 		   typeof obj.postalCode != "undefined")){ totalShown++;
 				showOneElementOnMap(obj, mapEntity);
 		}
@@ -623,10 +627,10 @@ function addResultsInForm(commonGeoObj, countryCode){
 
 function getFullAddress(obj){
 	var strResult = "";
-	if(typeof obj.street != "undefined") strResult += obj.street + ", ";
-	if(typeof obj.cityName != "undefined") strResult += obj.cityName + ", ";
-	if(typeof obj.postalCode != "undefined") strResult += obj.postalCode + ", ";
-	if(typeof obj.country != "undefined") strResult += obj.country + " ";
+	if(typeof obj.street != "undefined") strResult += obj.street;
+	if(typeof obj.cityName != "undefined") strResult += (strResult != "") ? ", " + obj.cityName : obj.cityName;
+	if(typeof obj.postalCode != "undefined") strResult += (strResult != "") ? ", " + obj.postalCode : obj.postalCode;
+	if(typeof obj.country != "undefined") strResult += (strResult != "") ? ", " + obj.country : obj.country;
 	return strResult;
 }
 

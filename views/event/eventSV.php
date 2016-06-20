@@ -140,7 +140,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <div id="newEvent">
 
-	<?php $this->renderPartial('../pod/helpPostalCode');  ?>
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"eventCountry"));  ?>
 	
 	<div class="noteWrap col-md-12 form-add-data">
 		

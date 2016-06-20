@@ -27,7 +27,7 @@
 		'/js/default/globalsearch.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
-		'/css/sig/sig.css'
+		'/css/sig/sig.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -501,6 +501,7 @@ jQuery(document).ready(function() {
 	}
 
 	toogleCommunexion();
+
 
 	//manages the back button state 
 	//every url change (loadByHash) is pushed into history.pushState 

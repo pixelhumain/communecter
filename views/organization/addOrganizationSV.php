@@ -99,7 +99,7 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 <div id="addOrganization" >
 	
-	<?php $this->renderPartial('../pod/helpPostalCode');  ?>
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
 	
 	<div class="col-md-12 form-add-data" >  
 	<div class="noteWrap">

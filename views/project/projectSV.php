@@ -98,7 +98,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 ?>
 <div id="newProject">
 
-	<?php $this->renderPartial('../pod/helpPostalCode');  ?>
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"projectCountry"));  ?>
 
 	<div class="noteWrap col-md-12 form-add-data" >  
 		 <div class="panel panel-white">
