@@ -11,6 +11,7 @@
     .tpl_title{font-size: 48px;}
      .panel-title {font-size:25px;}
     .points{padding-left:10px;}
+    .col-sm-4{min-height: 300px}
 </style>
 <div class="col-sm-12 ">
 
