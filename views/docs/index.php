@@ -25,7 +25,8 @@
 						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> 4 Elements</h4>
 					</div> 
 					<div class="panel-body">
-						
+						<b>Communecter</b> est construit sur 4 éléments clefs, permettant de modéliser les acteurs et l'acitivté d'un territoire 
+						<br/>
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> Citoyen </li>
 				        	<li><i class='fa fa-arrow-right'></i> Organisation</li>
@@ -45,6 +46,9 @@
 			        <ul class="points">
 			        	<li><i class='fa fa-arrow-right'></i> OCDB : Open Common Database </li>
 						<li><i class='fa fa-arrow-right'></i> Open System</li>
+						<li><i class='fa fa-arrow-right'></i> Import Export</li>
+						<li><i class='fa fa-arrow-right'></i> Open API</li>
+						<li><i class='fa fa-arrow-right'></i> Web sématique</li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
 			        </ul>
 			    </div>
