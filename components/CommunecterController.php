@@ -5,14 +5,14 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.0985";
-  public $versionDate = "28/04/2016 17:00";
+  public $version = "v0.1.3.1";
+  public $versionDate = "14/06/2016 18:38";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
   public static $moduleKey = "communecter";
   public $keywords = "connecter, réseau, sociétal, citoyen, société, regrouper, commune, communecter, social";
-  public $description = "Communecter : Connecter a sa commune, reseau societal, le citoyen au centre de la société.";
+  public $description = "Communecter : Connecter à sa commune, réseau sociétal, le citoyen au centre de la société.";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
@@ -95,8 +95,10 @@ class CommunecterController extends Controller
       "createfileforimport"    => array("href" => "/ph/communecter/admin/createfileforimport"),
       "sourceadmin"    => array("href" => "/ph/communecter/admin/sourceadmin"),
       "moderate"    => array("href" => "/ph/communecter/admin/moderate"),
+      "statistics"    => array("href" => "/ph/communecter/stat/chart"),
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
+      "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
 
     ),
     "adminpublic" => array(
@@ -123,6 +125,7 @@ class CommunecterController extends Controller
       'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'getcityjsondata'     => array("href" => "/ph/communecter/city/getcityjsondata", "public" => true),
       'statisticcity'       => array("href" => "/ph/communecter/city/statisticcity", "public" => true),
+      'statisticPopulation' => array("href" => "/ph/communecter/city/statisticPopulation", "public" => true),
       'getcitiesdata'       => array("href" => "/ph/communecter/city/getcitiesdata"),
       'opendata'            => array("href" => "/ph/communecter/city/opendata","public" => true),
       'getoptiondata'       => array("href" => "/ph/communecter/city/getoptiondata"),
@@ -134,6 +137,7 @@ class CommunecterController extends Controller
       'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
       'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true),
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
+      'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -155,6 +159,13 @@ class CommunecterController extends Controller
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
+      "actions" => array("href" => "/ph/communecter/rooms/actions"),
+      "action" => array("href" => "/ph/communecter/rooms/action"),
+      "editaction" => array("href" => "/ph/communecter/rooms/editaction"),
+      'saveaction' => array("href" => "/ph/communecter/rooms/saveaction"),
+      'closeaction' => array("href" => "/ph/communecter/rooms/closeaction"),
+      'assignme' => array("href" => "/ph/communecter/rooms/assignme"),
+      'fastaddaction' => array("href" => "/ph/communecter/rooms/fastaddaction"),
     ),
     "gantt"=> array(
       "index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
@@ -175,6 +186,7 @@ class CommunecterController extends Controller
       ),
     "person"=> array(
         "login"           => array("href" => "/ph/communecter/person/login",'title' => "Log me In"),
+        "logged"           => array("href" => "/ph/communecter/person/logged"),
         "sendemail"       => array("href" => "/ph/communecter/person/sendemail"),
         "index"           => array("href" => "/ph/communecter/person/dashboard",'title' => "My Dashboard"),
         "authenticate"    => array("href" => "/ph/communecter/person/authenticate",'title' => "Authentication"),
@@ -247,7 +259,6 @@ class CommunecterController extends Controller
       "update"          => array("href" => "/ph/communecter/event/update"),
       "saveattendees"   => array("href" => "/ph/communecter/event/saveattendees"),
       "removeattendee"  => array("href" => "/ph/communecter/event/removeattendee"),
-      "dashboard"       => array("href" => "/ph/communecter/event/dashboard"),
       "detail"          => array("href" => "/ph/communecter/event/detail", "public" => true),
       "delete"          => array("href" => "ph/communecter/event/delete"),
       "updatefield"     => array("href" => "ph/communecter/event/updatefield"),
@@ -283,6 +294,7 @@ class CommunecterController extends Controller
       "slideragenda" => array("href" => "/ph/communecter/pod/slideragenda", "public" => true),
       "photovideo"   => array("href" => "ph/communecter/pod/photovideo"),
       "fileupload"   => array("href" => "ph/communecter/pod/fileupload"),
+      "activitylist"   => array("href" => "ph/communecter/pod/activitylist"),
     ),
     "gallery" => array(
       "index"        => array("href" => "ph/communecter/gallery/index"),
@@ -319,7 +331,9 @@ class CommunecterController extends Controller
       "textarea"    => array("href" => "/ph/communecter/survey/textarea"),
       "editlist"    => array("href" => "/ph/communecter/survey/editList"),
       "multiadd"    => array("href" => "/ph/communecter/survey/multiadd"),
-      "close"       => array("href" => "/ph/communecter/survey/close")
+      "close"       => array("href" => "/ph/communecter/survey/close"),
+      "editentry"   => array("href" => "/ph/communecter/survey/editentry"),
+      "fastaddentry"=> array("href" => "/ph/communecter/survey/fastaddentry"),
     ),
     "discuss"=> array(
       "index" => array( "href" => "/ph/communecter/discuss/index", "public" => true),
@@ -330,12 +344,15 @@ class CommunecterController extends Controller
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
       "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
       "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
+      "delete" => array( "href" => "/ph/communecter/comment/delete"),
+      "updatefield" => array( "href" => "/ph/communecter/comment/updatefield"),
+      "countcommentsfrom" => array( "href" => "/ph/communecter/comment/countcommentsfrom"),
     ),
     "action"=> array(
        "addaction"   => array("href" => "/ph/communecter/action/addaction"),
     ),
     "notification"=> array(
-      "getnotifications"          => array("href" => "/ph/communecter/notification/get"),
+      "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
     ),
@@ -352,7 +369,13 @@ class CommunecterController extends Controller
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
     ),
   );
+
   function initPage(){
+    
+    //review the value of the userId to check loosing session
+    //creates an issue with Json requests : to clear add josn:true on the page definition here 
+    //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
+      //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
     
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
@@ -379,18 +402,14 @@ class CommunecterController extends Controller
     }
       //} 
     //}
-    else if( (!isset( $page["public"] ) )
+    else if( (!isset( $page["public"] ) ) && (!isset( $page["json"] ))
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
       && !Yii::app()->session[ "userId" ] )
     {
         Yii::app()->session["requestedUrl"] = Yii::app()->request->url;
-        /*if( Yii::app()->request->isAjaxRequest){
-          echo "<script type='text/javascript'> loadByHash('#panel.box-login'); </script>";*/
-          /*$this->layout = '';
-          Rest::json( array("action"=>"loadByHash('#panel.box-login')", "msg"=>"this page is not public, please log in first."  ) );*/
-        /*}
-        else
-          $this->redirect(Yii::app()->createUrl("/".$this->module->id."#panel.box-login"));*/
+        //if( Yii::app()->request->isAjaxRequest)
+          //echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
+         
     }
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
@@ -419,6 +438,7 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
+
     return parent::afterAction($action);
   }
 
@@ -443,8 +463,7 @@ class CommunecterController extends Controller
           Yii::app()->session["logsInProcess"],
           array($actionInProcess => Log::setLogBeforeAction($actionInProcess))
         );
-      }//just on action logging
-      else{
+      } else{
          Yii::app()->session["logsInProcess"] = array($actionInProcess => Log::setLogBeforeAction($actionInProcess));
       }
     }

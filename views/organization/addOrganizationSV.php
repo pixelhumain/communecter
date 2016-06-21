@@ -99,6 +99,7 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 <div id="addOrganization" >
 	
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
 	
 	<div class="col-md-12 form-add-data" >  
 	<div class="noteWrap">
@@ -189,7 +190,7 @@ $this->renderPartial('../default/panels/toolbar');
 								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Key Words") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:auto;">		        		    
 							</div>
 							<div class="form-group pull-left">
 								<div class="form-group">
@@ -223,7 +224,8 @@ $this->renderPartial('../default/panels/toolbar');
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
-									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
+									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i><br>
+									<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city" class="text-dark">
@@ -447,7 +449,7 @@ jQuery(document).ready(function() {
 						postalCode = orga.address.postalCode;
 					}
  					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
- 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>";
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilThumbImageUrl+"'/>";
  					}
  					str += 	"<div class='padding-10'>"+
  							"<a href='#' data-id='"+ orga.id +"' data-type='"+ typeIco +"'>"+
@@ -589,6 +591,9 @@ jQuery(document).ready(function() {
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#organizationForm #fullStreet').val();
+			country = $('#organizationForm #organizationCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -622,7 +627,7 @@ jQuery(document).ready(function() {
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);

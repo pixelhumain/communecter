@@ -1,5 +1,4 @@
 <?php 
-$this->renderPartial('newsSV');
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -24,13 +23,11 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
 
-//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
-//$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
 	'/css/news/index.css',	
 	'/js/news/index.js',
-	'/js/news/newsHtml.js'
-
+	'/js/news/newsHtml.js',
+	'/css/news/newsSV.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
@@ -41,54 +38,64 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
 	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
-	if( isset($type) && $type == Organization::COLLECTION && isset($organization) ){
-		Menu::organization( $organization );
-		$thisOrga = Organization::getById($organization["_id"]);
-		$contextName = $thisOrga["name"];
+	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
+		Menu::organization( $parent );
+		//$thisOrga = Organization::getById($parent["_id"]);
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "users";
 		$contextTitle = Yii::t("common","Participants");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$titleRestricted = "Restreint";
 		$private = Yii::t("common","Visible only to the members"); 
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
+		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}
-	else if((isset($type) && $type == Person::COLLECTION) || (isset($person) && !@$type)){
+	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
-			Menu::person( $person );
-			$contextName =$person["name"];
+			//Visible de tous sur
+			Menu::person($parent);
+			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
-			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 			}	
+			if(Yii::app()->session["userId"] ==$contextParentId)
+				$headerName= "Mon journal";
+			else
+				$headerName= "Journal de ".$contextName;
 		}
 		else{
-			$restricted = Yii::t("common","Visible on my wall and published on my network");
+			$shortName=explode(" ", $parent["name"]);
+			$headerName= "Bonjour <span class='text-red'>".addslashes($shortName[0])."</span>, l'actu de votre réseau";
+			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
 	}
-	else if( isset($type) && $type == Project::COLLECTION && isset($project) ){
-		Menu::project( $project );
-		$contextName = $project["name"];
+	else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
+		Menu::project( $parent );
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-	}else if( isset($type) && $type == Event::COLLECTION && isset($event) ){
-		Menu::event( $event );
-		$contextName = $event["name"];
+		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
+	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
+		Menu::event( $parent );
+		$contextName = addslashes($parent["name"]);
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
-		$restricted = Yii::t("common","Visible on this wall and published on community's network");
+		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
+		$headerName= "<i class='fa fa-circle text-orange'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -98,13 +105,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 		$scopeBegin= "Public";	
 		$iconBegin= "globe";
+		$headerName= "Actualités de ".$city["name"];
 	}
 	else if( isset($type) && $type == "pixels"){
 		$contextName = "Pixels : participez au projet";
 		$contextTitle = Yii::t("common", "Contributors of project");
 	}
 
-	$imgProfil = isset($person["profilThumbImageUrl"]) ? Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$person['profilImageUrl']) : $imgProfil;
+	$imgProfil = "";
 	Menu::news($type);
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
@@ -152,6 +160,31 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	top: 0px;
 	text-shadow: 0px 0px 2px black;
 }
+.thumb_sel .prev_thumb {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -50px 0px;
+	background-color: rgba(250,250,250,0.5);
+	float: left;
+	width: 26px;
+	height: 22px;
+	cursor: hand;
+	cursor: pointer;
+}
+.thumb_sel .prev_thumb:hover {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat 0px 0px;
+}
+.thumb_sel .next_thumb {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -76px 0px;
+	background-color: rgba(250,250,250,0.5);
+	float: left;
+	width: 24px;
+	height: 22px;
+	cursor: hand; 
+	cursor: pointer;
+}
+.thumb_sel .next_thumb:hover {
+	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -26px 0px;
+}
+
 </style>
 
 
@@ -161,8 +194,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<div class="tools_bar bg-white">
 				<div class="user-image-buttons">
 					<form method="post" id="photoAddNews" enctype="multipart/form-data">
-						<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if ($storageSpace > 20){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-							<?php if ($storageSpace <= 20){ ?>
+						<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+							<?php if ($authorizedToStock){ ?>
 								<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
 							<?php } ?>
 							
@@ -190,7 +223,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions" style="display: block;">
-				<?php if(@$canManageNews && $canManageNews==true){ ?>
+				<?php if((@$canManageNews && $canManageNews==true) || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -229,23 +262,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php }else if($type=="city"){ ?>
 					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
-					<p class="text-xs"><?php echo Yii::t("common","Message destination") ?></p> 
-					<div class="badge">
-						<i class="fa fa-university"></i> <?php echo Yii::app()->request->cookies['cpCommunexion'] ?></div>
+					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
+					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
+					</div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
-				<?php if(@$canManageNews && $canManageNews=="true"){ ?>
+				<?php if((@$canManageNews && $canManageNews=="true") || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
-						<?php }else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
+						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="restricted"/>
 						<?php } else { ?>
 						<input type="hidden" name="scope" value="public"/>
 						<?php } ?>
-				<?php }else{ ?>
+				<?php }else{ if($contextParentType==Event::COLLECTION){?>
+					<input type="hidden" name="scope" value="restricted"/>
+				<?php } else { ?>
 					<input type="hidden" name="scope" value="private"/>
-				<?php } ?>
+				<?php } } ?>
 				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 			</div>
 		</form>
@@ -262,12 +297,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <?php } ?>
 
 <div id="newsHistory" class="padding-10">
-
-	<div class="margin-top-10">
+	<!--<div class="margin-top-10">
 		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
 		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
-	</div>
+	</div>-->
 	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
@@ -318,12 +352,13 @@ foreach($news as $key => $oneNews){
 <?php } else{ ?>
 	viewer="";
 <?php } ?>
+
 <?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
 <?php }else { ?>
 var news = "";
 <?php } ?>
-
+var parent = <?php echo json_encode(@$parent)?>;
 var newsReferror={
 		"news":{
 			"offset":"",
@@ -358,7 +393,7 @@ var contextMap = {
 	},
 };
 var formCreateNews;
-var indexStep = 15;
+var indexStep = 5;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
 var currentMonth = null;
@@ -383,8 +418,9 @@ jQuery(document).ready(function()
 {
 	if(contextParentType=="city"){
 		$("#cityPostalCode").val(cpCommunexion);
+		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}
-	canManageNews="";
+	//canManageNews="";
 	$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
@@ -396,18 +432,22 @@ jQuery(document).ready(function()
 	var $scrollElement = $(".my-main-container");
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
-	if(contextParentType!="city"){
-		if(contextParentId == idSession)
-		$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
+	if(contextParentType != "city")
+		$(".moduleLabel").html("<span style='font-size:20px;'><?php echo @$headerName; ?></span>");
+	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
+	//if(contextParentType!="city"){
+		
+		//if(contextParentId == idSession)
+		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
 								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
 		else
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus</span> <?php echo addslashes(@$contextName); ?>" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
+		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" + 
+								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");*/
 		
 		
-	}else{
+	/*}else{
 		
-	}
+	}*/
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);

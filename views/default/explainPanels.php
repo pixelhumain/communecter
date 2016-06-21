@@ -653,39 +653,65 @@
 		<h1 class="homestead explainTitle blue"> <i class="fa fa-sitemap"></i> Roadmap</h1>
 		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
-			<ul>
 				La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
-				version 0.1
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Ajouter des citoyens, des organisations, des projets et des événements</li>
-					<li><i class="fa fa-angle-right"></i>Annuaire Personnel</li>
-					<li><i class="fa fa-angle-right"></i>Double Design : Web + Cartographique</li>
-					<li><i class="fa fa-angle-right"></i>Prototype Mobile Meteor</li>
-					<li><i class="fa fa-angle-right"></i>Page Ma Ville simple en mode annuaire local</li>
-					<li><i class="fa fa-angle-right"></i>Mur d'actualité pour toutes les entités</li>
-					<li><i class="fa fa-angle-right"></i>Système de notification</li>
-					<li><i class="fa fa-angle-right"></i>Viralité : connection avec GMail contacts, import CSV (invités, membres, contributeurs)</li>
-				</ul>
+				
+				<div class="col-sm-6">
+					version 0.14 ???
+					<ul>
+						<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
+						<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
+						<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
+						<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
+						<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
+						<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
+						<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
+						<li><i class="fa fa-angle-right"></i> subscribe to a tag on news</li>
+						<li><i class="fa fa-angle-right"></i> ouverture international </li>
+						<li><i class="fa fa-angle-right"></i> multi scope</li>
+						<li><i class="fa fa-angle-right"></i> refactor full text search </li>
+					</ul>
+				</div>
 
-				version 0.2
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
-					<li><i class="fa fa-angle-right"></i>Besoin et Compétence </li>
-					<li><i class="fa fa-angle-right"></i>Messagerie privé</li>
-					<li><i class="fa fa-angle-right"></i>Scope quartier pour les communes inscrites</li>
-					<li><i class="fa fa-angle-right"></i>Opendata avec une API, système de préférence d'ouverture de la donnée</li>
-					<li><i class="fa fa-angle-right"></i>Interoperabilité : connecter l'instance Communecté avec Granddir</li>
-					<li><i class="fa fa-angle-right"></i>flux RSS et ESS</li>
-				</ul>
+				<div class="col-sm-6">
+					version 0.13
+					<ul>
+						<li><i class="fa fa-angle-right"></i>event refactor </li>
+						<li><i class="fa fa-angle-right"></i> no organiser : if you just want to share an event you're not organising </li>
+						<li><i class="fa fa-angle-right"></i> added subevents : if an event has a program with multiple sub events</li>
+						<li><i class="fa fa-angle-right"></i> open edition sur event</li>
+						<li><i class="fa fa-angle-right"></i>refactor city chooser </li>
+						<li><i class="fa fa-angle-right"></i>delete and update comments</li>
+					</ul>
+				</div>
 
-				version 0.3
-				<ul>
-					<li><i class="fa fa-angle-right"></i>Full mobile sur meteor</li>
-					<li><i class="fa fa-angle-right"></i>Discussion Démocratique</li>
-					<li><i class="fa fa-angle-right"></i>Action Rooms : Sondages et Votes</li>
-					<li><i class="fa fa-angle-right"></i>Librairie vidéo : mémoire du territoire</li>
-				</ul>
-			</ul>
+				<div class="col-sm-6">
+					version 0.12
+					<ul>
+						<li><i class="fa fa-angle-right"></i>amélioration du systeme validation </li>
+						<li><i class="fa fa-angle-right"></i>refactor et ajout des images sur les news</li>
+						<li><i class="fa fa-angle-right"></i>réintégration du module de vite et de discussion</li>
+						<li><i class="fa fa-angle-right"></i>module network , communecter en marque blanche </li>
+						<li><i class="fa fa-angle-right"></i>refactor de la structure des cities et des codepostaux</li>
+						<li><i class="fa fa-angle-right"></i>intégration de divers de data , makery, bretagne Telecom, commun59, service public</li>
+						<li><i class="fa fa-angle-right"></i>système et admin de modération</li>
+						<li><i class="fa fa-angle-right"></i>refonte et design de mail </li>
+						<li><i class="fa fa-angle-right"></i>gamification avec les actions</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6">
+					version 0.1
+					<ul>
+						<li><i class="fa fa-angle-right"></i>Ajouter des citoyens, des organisations, des projets et des événements</li>
+						<li><i class="fa fa-angle-right"></i>Annuaire Personnel</li>
+						<li><i class="fa fa-angle-right"></i>Double Design : Web + Cartographique</li>
+						<li><i class="fa fa-angle-right"></i>Prototype Mobile Meteor</li>
+						<li><i class="fa fa-angle-right"></i>Page Ma Ville simple en mode annuaire local</li>
+						<li><i class="fa fa-angle-right"></i>Mur d'actualité pour toutes les entités</li>
+						<li><i class="fa fa-angle-right"></i>Système de notification</li>
+						<li><i class="fa fa-angle-right"></i>Viralité : connection avec GMail contacts, import CSV (invités, membres, contributeurs)</li>
+					</ul>
+				</div>
 		</div>
 	</div>
 
@@ -737,4 +763,56 @@
 			</ul>
 		</div>
 	</div>
+
+	<div class="explainSurveys <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Sondage, Propositions</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				<li>Les salles d'action permettent de créer 3 types d'espaces pour le moment : </li>
+				<li><b>Les Salles de Discussion</b> qui servent à construire et à partager autour d'une thématique</li>
+				<li><b>Les Salles de Décisions</b> ou Votes qui permettent de faire des propositions et de les partager avec une communauté pour prendre des décisions
+					<ul>
+						<li>C'est un votation à 5 choix : </li>
+						<li>Voter "Pour" : Assez Explicite</li>
+						<li>Voter "Amender" : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure.</li>
+						<li>Voter "Blanc" : Je suis ni pour ni contre</li>
+						<li>Voter "Incomplet" : il manque des elements pour prendre une réélle décision</li>
+						<li>Voter "Contre" : Assez Explicite</li>
+					</ul>
+				</li>
+				<li><b>Les Salles d'Actions</b> qui permettent de faire des listes pour agir
+					<ul>
+						<li>une action peut avoir 5 états différents : </li>
+						<li>"A Faire" : aucune date de début n'a été assigné</li>
+						<li>"En cours" : une date de début, et une personne est assignée</li>
+						<li>"En retard": la date de fin est assigné mais dépassé.</li>
+						<li>"Terminer" : une tache qui a été cloturé</li>
+						<li>"Non Assignée" : une tache qui n'a pas encore de responsable </li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="explainActions <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">Actions</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				<li><b>Les Salles d'Actions</b> qui permettent de faire des listes pour agir
+					<ul>
+						<li>une action peut avoir 5 états différents : </li>
+						<li>"A Faire" : aucune date de début n'a été assigné</li>
+						<li>"En cours" : une date de début, et une personne est assignée</li>
+						<li>"En retard": la date de fin est assigné mais dépassé.</li>
+						<li>"Terminer" : une tache qui a été cloturé</li>
+						<li>"Non Assignée" : une tache qui n'a pas encore de responsable </li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+
 

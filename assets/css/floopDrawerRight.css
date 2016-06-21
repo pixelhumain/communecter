@@ -66,6 +66,10 @@
 	font-size: 14px;
 	float:right;
 }
+/*.floopDrawer .btn-scroll-type img, .floopDrawer i.fa{
+	vertical-align: middle !important;
+}*/
+
 .floopDrawer input#search-contact{
 	width: 270px;
 	float:right;

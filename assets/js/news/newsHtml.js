@@ -13,6 +13,7 @@ var mode = "view";
 
 function buildLineHTML(newsObj,idSession,update)
 {
+	addForm=false;
 	if(typeof(contextParentType) == "undefined")
 		contextParentType="citoyens";
 	newsTLLine = "";
@@ -34,7 +35,8 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		reportLink = '<li><a href="javascript:;" class="newsReport" onclick="newsReportAbuse(this,\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-flag"></i> '+trad['reportanabuse']+'</small></a></li>';
 	}
-	if (newsObj.author.id==idSession || canManageNews == 1){
+	
+	if (newsObj.author.id==idSession || canManageNews == true){
 			manageMenu	+=		'<li><a href="javascript:;" class="deleteNews" onclick="deleteNews(\''+newsObj._id.$id+'\', $(this))" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-times"></i> '+trad['delete']+'</small></a></li>';
 		if (newsObj.type != "activityStream" && newsObj.author.id==idSession){
 			manageMenu	+= '<li><a href="javascript:" class="modifyNews" onclick="modifyNews(\''+newsObj._id.$id+'\')" data-id="'+newsObj._id.$id+'"><small><i class="fa fa-pencil"></i> '+trad['updatepublication']+'</small></a></li>';
@@ -79,6 +81,7 @@ function buildLineHTML(newsObj,idSession,update)
 			form = "<div class='newsFeed'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
+			addForm=true;
 
 		}
 		currentMonth = date.getMonth();
@@ -97,7 +100,6 @@ function buildLineHTML(newsObj,idSession,update)
 	else{
 		$(".spine").css("bottom","30px");
 	}
-	
 	var color = "white";
 	var icon = "fa-user";
 	///// Url link to object
@@ -113,11 +115,13 @@ function buildLineHTML(newsObj,idSession,update)
 	if(typeof(newsObj.imageBackground) != "undefined" && newsObj.imageBackground){
 		imagePath = baseUrl+'/'+newsObj.imageBackground;
 		imageBackground = '<a '+url+'>'+
-							'<div class="timeline_shared_picture"  style="background-image:url('+imagePath+');">'+
+							'<div class="timeline_shared_picture"  style="">'+
+							//background-image:url('+imagePath+');
 								'<img src="'+imagePath+'">'+
 							'</div>'+
 						'</a>';
 	}
+	console.log(newsObj);
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
 	if(newsObj.type == "activityStream" && typeof(newsObj.target) != "undefined"){
@@ -135,15 +139,20 @@ function buildLineHTML(newsObj,idSession,update)
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		textHtml="";
-		if(newsObj.text.length > 0)
-			textHtml='<span class="timeline_text no-padding" >'+newsObj.text+'</span>';
+		if(newsObj.text.length > 0){
+			if(typeof(view) != "undefined" && view == "detail")
+				textNews=newsObj.text;
+			else
+				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
 					media="<div class='results'>"+newsObj.media+"</div>";
 				else{
-					media="<div class='results'>"+getMediaHtml(newsObj.media,"show")+"</div>";
+					media="<div class='results'>"+getMediaHtml(newsObj.media,"show",newsObj._id.$id)+"</div>";
 					//// Fonction générant l'html
 				} 
 			} else if (newsObj.media.type=="gallery_images"){
@@ -156,7 +165,8 @@ function buildLineHTML(newsObj,idSession,update)
 		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
 		if("undefined" != typeof newsObj.text && newsObj.text != ""){
 			title += "</br>";
-			text = '<span class="timeline_text">'+newsObj.text+'</span>';
+			textNews=checkAndCutLongString(newsObj.text,150,newsObj._id.$id);
+			text = '<span class="timeline_text">'+textNews+'</span>';
 		}
 	}
 	tags = "", 
@@ -183,9 +193,12 @@ function buildLineHTML(newsObj,idSession,update)
 		city = "";
 		if(newsObj.type != "activityStream"){
 			if(newsObj.target.type=="citoyens"){
-				postalCode=author.address.postalCode;
-				city=author.address.addressLocality;			
-			}else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined') {
+				if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
+					postalCode=newsObj.scope.cities[0].postalCode;
+				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+					city=newsObj.scope.cities[0].addressLocality;			
+			}
+			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
 				postalCode=newsObj.target.address.postalCode;
 				city=newsObj.target.address.addressLocality;			
 			}
@@ -267,30 +280,51 @@ function buildLineHTML(newsObj,idSession,update)
 						imageBackground+
 						'<div class="timeline_author_block">'+
 							objectLink+
-							'<span class="light-text timeline_author padding-5 margin-top-5 text-bold">'+personName+'</span>'+
+							'<span class="light-text timeline_author text-bold">'+personName+'</span>'+
 							'<div class="timeline_date"><i class="fa fa-clock-o"></i> '+dateStr+'</div>' +					
 						'</div>'+
 						'<div class="space5"></div>'+
 						'<hr/>' + 
-						'<a '+urlAction.url+'>'+
+						//'<a '+urlAction.url+'>'+
 							'<div class="space5"></div>'+
 							'<div>'+title + text + "</div>"+media +
-						'</a>'+
+						//'</a>'+
 						'<div class="space5"></div>';
 						 if(idSession){ 
 	newsTLLine +=		'<hr>'+
 						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'>"+commentCount+" <i class='fa fa-comment'></i></span></a> "+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'><span class='nbNewsComment'>"+commentCount+"</span> <i class='fa fa-comment'></i></span></a> "+
 							vote+
 						"</div>";
 						}
 	newsTLLine +=	'</div>'+
 				'</div>';
-	return newsTLLine;
+	if(update==true)
+		return newsTLLine;
+	else{
+		// Check offset of last element
+		var offsetLastNews = $(".newsFeed").last().position();
+		// Append news in timeline
+		$(".newsTL").append(newsTLLine);
+		if(addForm==true){
+			$("#newFeedForm").append($("#formCreateNewsTemp"));
+			$("#formCreateNewsTemp").css("display", "inline");
+		}
+		// Bug on timeline style increment due to the two part
+		// Still have few news at the same level (but tempory fixed
+		// Check the offset of last .newsFeed and compare
+		if(typeof(offsetLastNews) != "undefined"){
+			dateLimit=
+			minusOff=offsetLastNews.top-10;
+			maxOff=offsetLastNews.top+10;
+		}
+		if(typeof(offsetLastNews) == "undefined" || (minusOff < $(".newsFeed").last().position().top && $(".newsFeed").last().position().top < maxOff)){
+			$(".newsFeed").last().css("margin-top","20px");
+		}
+	}
 }
 
 function buildHtmlUrlAndActionObject(obj){
-	console.log(obj);
 	if(typeof(obj.target) != "undefined" && typeof(obj.target.type) != "undefined")
 		redirectTypeUrl=obj.target.type.substring(0,obj.target.type.length-1);
 	else 
@@ -343,7 +377,7 @@ function buildHtmlUrlAndActionObject(obj){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
-			titleAction = "a créé une organization";
+			titleAction = "a créé une organisation";
 		} 
 		else if(obj.object.objectType =="events"){
 			redirectTypeUrl="event";
@@ -410,7 +444,7 @@ function builHtmlAuthorImageObject(obj){
 	}
 	return iconStr;
 }
-function actionOnNews(news,action,method,reason, comment=null) {
+function actionOnNews(news,action,method,reason, comment) {
 	type="news";
 	params=new Object,
 	params.id=news.data("id"),
@@ -561,11 +595,20 @@ function initXEditable() {
 	    },
 	});
 }
-
+function checkAndCutLongString(text,limitLength,idNews){
+	if(text.length > limitLength){
+		text=text.substring(0,limitLength);
+		if(limitLength==500){
+			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span>";
+		}else{
+			text += " ..."
+		}
+	}
+	return text;
+}
 function showComments(id){
 	$.blockUI({
-			message : '<div><a href="javascript:$.unblockUI();"><span class="pull-right text-dark"><i class="fa fa-share-alt"></span></a>'+
-							'<div class="commentContent"></div></div>', 
+			message : '<div class="commentContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
 			onOverlayClick: $.unblockUI,
 			css: {"text-align": "left", "cursor":"default"}
 		});
@@ -575,16 +618,16 @@ function showComments(id){
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))
 			toastr.info(trad["removeopinionbefore"]);
-		else{	
+	else{	
 		//toastr.info('This vote has been well registred');
-			if($($this).children(".label").hasClass("text-green")){
-				method = true;
+		if($($this).children(".label").hasClass("text-green")){
+			method = true;
 		}
 		else{
 			method = false;
 		}
 		actionOnNews($($this),'voteUp',method);
-		disableOtherAction($($this), '.commentVoteUp', method);
+		disableOtherNewsAction($($this), '.newsVoteUp', method);
 		count = parseInt($($this).data("count"));
 		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 	}
@@ -599,10 +642,10 @@ function newsVoteDown($this, id){
 		}
 		else{
 			method = false;
-	}
-	actionOnNews($($this),'voteDown',method);
-	disableOtherAction($($this), '.commentVoteDown', method);
-	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
+		}
+		actionOnNews($($this),'voteDown',method);
+		disableOtherNewsAction($($this), '.newsVoteDown', method);
+		$($this).children(".label").html($($this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	}
 }
 function newsReportAbuse($this, id){
@@ -614,14 +657,14 @@ function newsReportAbuse($this, id){
 	else{
 		method = false;
 	}
-	reportAbuse($($this),'reportAbuse',method);
+	reportNewsAbuse($($this),'reportAbuse',method);
 	
 	
 	//disableOtherAction($($this), '.commentReportAbuse', method);
 	$($this).children(".label").html($($this).data("count")+" <i class='fa fa-flag'></i>");
 }
 
-function reportAbuse($this,action, method) {
+function reportNewsAbuse($this,action, method) {
 	// console.log(contextId);
 	if (method){
 		toastr.info(trad["alreadyreportedabuse"]+" !");
@@ -662,29 +705,36 @@ function reportAbuse($this,action, method) {
 		  }
 		});
 		boxNews.on("shown.bs.modal", function() {
-		  $.unblockUI();
+			$.unblockUI();
 		});
 	}
 }
 
-function disableOtherAction($this,action,method){
+function disableOtherNewsAction($this,action,method){
 	if(method){
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-green").addClass("text-dark");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-orange").addClass("text-dark");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-red").addClass("text-dark");
 	}
 	else{
-		if (action == ".commentVoteUp")
+		if (action == ".newsVoteUp")
 			$this.children(".label").removeClass("text-dark").addClass("text-green");
-		if (action == ".commentVoteDown")
+		if (action == ".newsVoteDown")
 			$this.children(".label").removeClass("text-dark").addClass("text-orange");
 		//if (action == ".commentReportAbuse")
 		//	$this.children(".label").removeClass("text-dark").addClass("text-red");
 	}
 }
 function blankNews(id){
-	window.open(baseUrl+'#news.detail.id.'+id,'_blank');
+/*	$.blockUI({
+			message : '<div class="newsContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement de l\'actualité ...</h2></div>', 
+			onOverlayClick: $.unblockUI,
+			css: {"text-align": "left", "cursor":"default"}
+		});
+		getAjax('.newsContent',baseUrl+'/'+moduleId+"/news/detail/id/"+id,function(){ 
+		},"html");*/
+	window.open(baseUrl+'/#news.detail.id.'+id,'_blank');
 }

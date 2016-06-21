@@ -2,190 +2,180 @@
 $cssAnsScriptFilesTheme = array(
 	'/plugins/DataTables/media/css/DT_bootstrap.css',
 	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
-	'/plugins/DataTables/media/js/DT_bootstrap.js'
+	'/plugins/DataTables/media/js/DT_bootstrap.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
- ?>
-<div class="panel panel-white">
-	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-comments fa-2x text-green"></i> ACTION ROOMS 
-			<a href="javascript:;" onclick="applyStateFilter('survey')" class="btn btn-xs btn-default"> Rooms <span class="badge badge-warning"> <?php echo count(@$rooms) ?></span></a> 
-			<a href="javascript:;" onclick="applyStateFilter('entry')" class="btn btn-xs btn-default"> Actions <span class="badge badge-warning"> <?php echo count(@$actions) ?></span></a>  
-			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
-		</h4>
-		<ul class="panel-heading-tabs border-light">
-    	<li>
-    		<?php  
-    			$urlParams = ( isset( $_GET["type"] ) && isset($_GET["id"])) ? "/type/".$_GET["type"]."/id/".$_GET["id"] : "" ;
-    			?>
-    		<a class=" btn btn-info" href="#" onclick="openSubView('Add a Room', '/communecter/rooms/editroom<?php echo $urlParams ?>',null,function(){editRoomSV ();})" ><i class="fa fa-plus"></i> Room </a>
-    	</li>
-		
-	</div>
-	<div class="panel-body">
-		<div>	
-			<table class="table table-striped table-bordered table-hover  directoryTable">
-				<thead>
-					<tr>
-						<th>Type / Action</th>
-						<th>Name</th>
-						<th>Entries</th>
-						<th>Participants</th>
-						<th>Start Date</th>
-						<th>End Date</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody class="directoryLines">
-					<?php 
-					$memberId = Yii::app()->session["userId"];
-					$memberType = Person::COLLECTION;
-					
-					/* **************************************
-					*	rooms
-					***************************************** */
-					if(isset($rooms)) 
-					{ 
-						foreach ($rooms as $e) 
-						{ ?>
-						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
-								<?php 
-								$type = "rooms";
-								if( $e["type"] == ActionRoom::TYPE_SURVEY ){
-									$type = "survey/entries";
-									$icon = "check-square";
-								}else if( $e["type"] == ActionRoom::TYPE_DISCUSS ){
-									$type = "comment/index/type/actionRooms";
-									$icon = "comments";
-								} else if ( $e["type"] == ActionRoom::TYPE_BRAINSTORM ){
-									$type = "survey/entries";
-									$icon = "lightbulb-o";
-								}
-								
-								$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
-								?>
-								<a href="<?php echo $link;?>">
-									<?php if ($e && isset($e["imagePath"])){ ?>
-										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
-									<?php } else { ?>
-										<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
-									<?php } ?>
-								</a>
-							</td>
-							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<td><?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?></td>
-							<td></td>
-							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-							<td><?php if(isset($e["dateEnd"]))echo $e["dateEnd"]?></td>
-							<td class="center">
-								<?php /*if(Yii::app()->session["userId"] ) { ?>
-									<a href="javascript:;" class="removeMemberBtn btn btn-xs btn-red tooltips " data-name="<?php echo $e["name"]?>" data-memberof-id="<?php echo $e["_id"]?>" data-member-type="<?php echo $memberType ?>" data-member-id="<?php echo $memberId ?>" data-placement="left" data-original-title="Remove from my rooms" ><i class=" disconnectBtnIcon fa fa-unlink"></i></a>
-								<?php }; */?>
-							</td>
-						</tr>
-					<?php
-						};
-					}
 
-					
-					/* **************************************
-					*	rooms
-					***************************************** */
-					if(isset($actions)) 
-					{ 
-						foreach ($actions as $e) 
-						{ ?>
-						<tr id="<?php echo ActionRoom::COLLECTION.(string)$e["_id"];?>">
-							<td class="center organizationLine">
-								<?php 
-								$type = "survey/entry";
-								$icon = "bookmark";
-								$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
-								?>
-								<a href="<?php echo $link;?>">
-									<?php if ($e && isset($e["imagePath"])){ ?>
-										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>"> <?php if(isset($e["type"]))echo $e["type"]?>
-									<?php } else { ?>
-										<i class="fa fa-<?php echo $icon ?> fa-2x"></i> <?php if(isset($e["type"]))echo $e["type"]?> 
-									<?php } ?>
-								</a>
-							</td>
-							<td ><a href="<?php echo $link;?>"><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-							<?php 
-							$participantCount = 0;
-							if(isset( $e[Action::ACTION_VOTE_UP] ))
-								$participantCount += count($e[Action::ACTION_VOTE_UP]);
-							if(isset( $e[Action::ACTION_VOTE_DOWN] ))
-								$participantCount += count($e[Action::ACTION_VOTE_DOWN]);
-							if(isset( $e[Action::ACTION_VOTE_ABSTAIN] ))
-								$participantCount += count($e[Action::ACTION_VOTE_ABSTAIN]);
-							if(isset( $e[Action::ACTION_VOTE_UNCLEAR] ))
-								$participantCount += count($e[Action::ACTION_VOTE_UNCLEAR]);
-							if(isset( $e[Action::ACTION_VOTE_MOREINFO] ))
-								$participantCount += count($e[Action::ACTION_VOTE_MOREINFO]);
-							?>
-							<td></td>
-							<td><?php echo $participantCount ?></td>
-							<td><?php if(isset($e["created"]))echo date("d/m/y",$e["created"])?></td>
-							<td><?php if(isset($e["dateEnd"]))echo date("d/m/y",$e["dateEnd"]) ?></td>
-							<td class="center">
-								<?php 
-								if(isset($e["action"]))
-								{
-									$type = "";
-									$choice = "";
-									foreach ( $e["action"] as $key => $value) 
-									{
-										$type = $key;
-										$choice = $value;
-									}
-								}
+$cssAnsScriptFilesModule = array(
+  '/css/rooms/header.css'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-								if( $choice == Action::ACTION_COMMENT )
-									$icon = "comment";
-								else if( $choice == Action::ACTION_VOTE_UP )
-									$icon = "thumbs-up";
-								else if( $choice == Action::ACTION_VOTE_DOWN )
-									$icon = "thumbs-down";
-								 ?>
-								<?php echo $type ?> <i class="fa fa-<?php echo $icon ?> fa-2x"></i> 
 
-							</td>
-						</tr>
-					<?php
-						};
-					}
+Menu::rooms($_GET["id"],$_GET["type"]);
+$this->renderPartial('../default/panels/toolbar');
 
-					?>
+$moduleId = Yii::app()->controller->module->id;
+?>
 
-				</tbody>
-			</table>
+<style>
 
-			<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 0px; display: none;"><div class="ps-scrollbar-x" style="left: -10px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div>
-			<?php 
-				if (isset($rooms) && count($rooms) == 0) {
-			?>
-				<div id="infoPodOrga" class="padding-10">
-					<blockquote> 
-						Create Room
-						<br>Discussions  
-						<br>Decisions
-						<br>Brainstorms
-						<br>to think, develop, build and decide collaboratively
-					</blockquote>
-				</div>
-			<?php 
-				};
-			?>
-		</div>
-	</div>
+
+h1.citizenAssembly-header{
+  padding-bottom:60px !important;
+}
+
+#main-panel-room{
+	/*margin-top:100px;*/
+}
+
+a.text-white {
+    color: #FFF;
+}
+
+.tr-room{
+	margin:5px 0px;
+}
+
+
+#thumb-profil-parent{
+	margin-top:-60px;
+	margin-bottom:20px;
+	-moz-box-shadow: 0px 3px 10px 1px #656565;
+	-webkit-box-shadow: 0px 3px 10px 1px #656565;
+	-o-box-shadow: 0px 3px 10px 1px #656565;
+	box-shadow: 0px 3px 10px 1px #656565;
+}
+
+    .row.vote-row.contentProposal{
+	   	position: absolute;
+		padding-top: 5px;
+		top: 350px;
+		background-color: white;
+		width: 100%;
+		z-index: 0;
+    }
+    .row.vote-row.parentSpaceName{
+	   	position: absolute;
+		padding-top: 5px;
+		top: 300px;
+		background-color: white;
+		width: 100%;
+		height:50px;
+		z-index: 1;
+		-moz-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		-webkit-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		-o-box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		box-shadow:  0px 0px 6px 0px rgba(101, 101, 101, 0.39);
+		filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+    }
+    .row.vote-row.parentSpaceName h1{
+    	padding-top:10px;
+		margin:0px !important;
+	}
+.panel-heading .panel-heading-tabs {
+    list-style: none;
+    top: 0;
+    right: 0;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+.rate .value {
+    font-size: 30px !important;
+    font-weight: 600;
+}
+.panel-heading .panel-heading-tabs > li {
+    float: left;
+    padding: 0 15px;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: inherit;
+    height: 50px;
+    line-height: 50px;
+}
+.panel-title{
+	font-size:18px !important;
+	font-weight: 600;
+}
+
+.directoryLines a.entryname {
+    font-size: 1.4em;
+    font-weight: 200;
+    margin-left: 4px;
+}
+
+.directoryLines a.entryname_vote {
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-left: 4px;
+}
+
+.nav-menu-rooms{
+	margin-top: -50px;
+}
+
+.tab-pane{
+	background-color: white;
+}
+ #main-panel-room .tab-content {
+      min-height: 300px;
+      -moz-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      -webkit-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      -o-box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+      box-shadow: 0px 2px 10px -2px rgb(101, 101, 101);
+  }
+
+
+blockquote {border: 1px solid gray; cursor: pointer;}
+blockquote:hover {border: 1px solid #E33551; }
+blockquote.active {border: 1px solid #E33551; cursor: pointer;}
+</style>
+
+    <?php $this->renderPartial('../rooms/header',array(    
+		   					"parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "fromView" => "rooms.index",
+                            "faTitle" => "connectdevelop",
+                            "colorTitle" => "azure",
+                            "textTitle" => ""
+                            )); ?>
+	    
+<div class="" id="main-panel-room">
+		     <?php $this->renderPartial('../pod/roomTable',array(    
+		   					"history" => $history, 
+                            "moduleId" => $moduleId, 
+                            "discussions" => $discussions, 
+                            "votes" => $votes, 
+                            "actions" => $actions, 
+                            "nameParentTitle" => $nameParentTitle, 
+                            "parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType )); ?>
 </div>
 
 
+
+
 <script type="text/javascript">
+var nameParentTitle = "<?php echo htmlspecialchars($nameParentTitle); ?>";
 jQuery(document).ready(function() {
+	
+	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
+	
+	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
+	$(".DataTables_Table_1_wrapper").addClass("hide");
+
+	$(".explainLink").click(function() {
+			showDefinition( $(this).data("id") );
+			return false;
+		});
+	$(".dataTables_length").append("");
+	
+	activeTab = <?php echo (@$_GET["tab"]) ? $_GET["tab"] : "1"?>;
+	$(".nav-menu-rooms li:nth-child("+activeTab+") a").trigger("click");
 });	
 
 function resetDirectoryTable() 
@@ -199,12 +189,27 @@ function resetDirectoryTable()
 				"aTargets" : [0]
 			}],
 			"oLanguage" : {
-				"sLengthMenu" : "Show _MENU_ Rows",
-				"sSearch" : "",
-				"oPaginate" : {
-					"sPrevious" : "",
-					"sNext" : ""
-				}
+				//"url": "<?php echo Yii::app()->theme->baseUrl?>/assets/plugins/DataTables/media/js/fr.js"
+			    "sProcessing":     "Traitement en cours...",
+			    "sSearch":         "Rechercher&nbsp;:",
+			    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+			    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+			    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+			    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+			    "sInfoPostFix":    "",
+			    "sLoadingRecords": "Chargement en cours...",
+			    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+			    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+			    "oPaginate": {
+			        "sFirst":      "Premier",
+			        "sPrevious":   "Pr&eacute;c&eacute;dent",
+			        "sNext":       "Suivant",
+			        "sLast":       "Dernier"
+			    },
+			    "oAria": {
+			        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+			        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+			    }
 			},
 			"aaSorting" : [[1, 'asc']],
 			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] ],

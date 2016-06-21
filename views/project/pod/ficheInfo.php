@@ -211,12 +211,41 @@ progress[value]::-moz-progress-bar {
 																  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Project::COLLECTION,(String) $project["_id"]),
 																  "image" => $imagesD)); 
 			?>
-			
+			<div class="col-md-12 text-dark no-padding" style="margin-top:10px;">
+					<a  href="#" id="avancement" data-type="select" data-title="avancement" 
+						data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
+						class="entityDetails editable editable-click">
+						<?php if(isset($project["properties"]["avancement"])){ 
+							//idea => concept => Started => development => testing => mature
+							if($project["properties"]["avancement"]=="idea")
+								$val=5;
+							else if($project["properties"]["avancement"]=="concept")
+								$val=20;
+							else if ($project["properties"]["avancement"]== "started")
+								$val=40;
+							else if ($project["properties"]["avancement"] == "development")
+								$val=60;
+							else if ($project["properties"]["avancement"] == "testing")
+								$val=80;
+							else 
+								$val=100;
+							echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
+						} ?>
+					</a>
+					<?php if(isset($project["properties"]["avancement"])){ ?>
+					<progress max="100" value="<?php echo $val;?>" class="progressStyle">
+					</progress>
+					<?php } else { ?>
+					<progress max="100" value="0" class="progressStyle hide">
+					</progress>
+
+					<?php } ?>
+				</div>
 		</div>
 		<div class="col-sm-6 col-xs-6 text-dark padding-20" style="padding-top:0px!important;">
 			<div class="row text-dark" style="margin-top:10px !important;">
 				<div class="entityTitle">
-					<h2  style="font-weight:100; font-size:17px;margin:inherit;">
+					<h2  style="font-weight:100; font-size:17px;">
 						<a href="#" id="name" data-type="text" 
 								  data-original-title="<?php echo Yii::t("project","Enter the project's name",null,Yii::app()->controller->module->id) ?>" 
 								  class="entityTitle editable-project editable editable-click">
@@ -230,36 +259,7 @@ progress[value]::-moz-progress-bar {
 						<?php echo (isset($project["shortDescription"])) ? $project["shortDescription"] : null; ?>
 					</a>
 				</div>
-				<div class="col-md-8 col-sm-8 col-xs-10 text-dark no-padding" style="margin-top:10px;">
-				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-					data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
-					class="entityDetails editable editable-click">
-					<?php if(isset($project["properties"]["avancement"])){ 
-						//idea => concept => Started => development => testing => mature
-						if($project["properties"]["avancement"]=="idea")
-							$val=5;
-						else if($project["properties"]["avancement"]=="concept")
-							$val=20;
-						else if ($project["properties"]["avancement"]== "started")
-							$val=40;
-						else if ($project["properties"]["avancement"] == "development")
-							$val=60;
-						else if ($project["properties"]["avancement"] == "testing")
-							$val=80;
-						else 
-							$val=100;
-						echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
-					} ?>
-				</a>
-				<?php if(isset($project["properties"]["avancement"])){ ?>
-				<progress max="100" value="<?php echo $val;?>" class="progressStyle">
-				</progress>
-				<?php } else { ?>
-				<progress max="100" value="0" class="progressStyle hide">
-				</progress>
-
-				<?php } ?>
-			</div>
+				
 
 			</div>
 		</div>
@@ -327,7 +327,7 @@ var countries = <?php echo json_encode($countries); ?>;
 var startDate = '<?php if(isset($project["startDate"])) echo $project["startDate"]; else echo ""; ?>';
 var endDate = '<?php if(isset($project["endDate"])) echo $project["endDate"]; else echo "" ?>';
 var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : null; ?>;
-var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
+//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 if(imagesD != null){
 	var images = imagesD;
 }

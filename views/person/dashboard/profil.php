@@ -138,7 +138,67 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		box-shadow: 0px 0px 6px 2px rgba(255, 255, 255, 0.48);
 	}
 
-	
+	#telegramAccount {
+	    float: left;
+		font-size: 13px;
+		border-radius: 50px;
+		background-color: rgb(43, 176, 198) !important;
+		height: 26px;
+		text-align: center;
+		padding: 4px 10px 8px 7px;
+		margin-top: 5px;
+		color: white;
+		font-weight: 200;
+		cursor: pointer;
+	}
+
+	.badge-question-telegram {
+	    font-size: 22px;
+	    z-index: 6;
+	    /*position: absolute;
+	    right: 1px;
+	    top: -6px;*/
+	    border-radius: 30px;
+	}
+
+	.socialNetwork{
+		padding: 7px;
+		/*margin-left: 10px;
+		margin-top: -11px;*/
+		background-color: rgba(0, 0, 0, 0.85);
+		border-radius: 0px 0px 5px 5px;
+		height: 67px;
+		width: 100%;
+	}
+	i.fa-blue{
+		color:white !important;
+		font-size:20px;
+	}
+
+	.container-info-perso{
+		margin-top:70px;
+	}
+
+	#fileuploadContainer, #profil_imgPreview{
+		border-radius: 5px 5px 0px 0px !important;
+		border-width:0px !important;
+	}
+
+	@media screen and (max-width: 1060px) {
+		  .container-info-perso{
+			margin-top:10px;
+		}
+	}
+
+	@media screen and (max-width: 767px) {
+		  .container-info-perso{
+			margin-top:0px;
+		}
+	}
+
+	.select2-hidden {
+	    display:none !important;
+	}
 </style>
 
 <div class="panel panel-white">
@@ -159,7 +219,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			{  /* ?>
 				<a href="javascript:;" class="btn btn-xs btn-red importMyDataBtn" ><i class="fa fa-download"></i> Import my data</a>
 			<?php */ } 
-			if (Yii::app()->session["userId"] && $canEdit) {
+			if (Person::logguedAndValid() && $canEdit) {
 			?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
@@ -177,17 +237,48 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
 		?>
-
- 		<?php   
-	  		if (@Yii::app()->params['betaTest']) { ?>
-	  			<div class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><i class="fa"></i><?php echo empty($person["numberOfInvit"]) ? 0 : $person["numberOfInvit"] ?> invitation(s)</div>
-	  	<?php
-	  			
- 				if (Role::isUserBetaTester(@$person["roles"])) { ?>
-					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa"></i>Beta Tester</div>
-		<?php 	} 
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
 			}
-		?>
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+		</style>
+		
+			
+		
+ 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
+		<?php 	} ?>
+
+
+		<?php if(!empty($person["badges"])){?>
+				<?php if( Badge::checkBadgeInListBadges("crowdfunder", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="CROWDFUNDER">
+						<span class="fa-stack tooltips" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","crowdfunder", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-bookmark main fa-2x fa-stack-1x text-green"></i>
+							<i class="fa fa-euro mainTop fa-stack-1x text-white"></i>
+						</span>
+					</div>
+				<?php } ?>
+				<?php if( Badge::checkBadgeInListBadges("developper", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="DEVELOPPER">
+						<span class="fa-stack tooltips" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","developper", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
+							<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
+						</span>
+
+					</div>
+				<?php } ?>
+			<?php } ?>
   	</div>
 
   	<div class="modal fade" role="dialog" id="modal-confidentiality">
@@ -275,6 +366,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="row" style="">
 			<div class="col-sm-6 col-md-5 padding-15">
+
+				<div class="padding-10">
+					<h2 class="entityTitle">
+						<!-- <i class="fa fa-user fa_username"></i>  -->
+						<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-person editable editable-click">
+							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
+						</a>
+					</h2>
+
+					<?php 
+					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
+					?>
+					<i class="fa fa-smile-o fa_name hidden"></i> 		
+					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
+						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
+					</a>
+				</div>
+
 				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
@@ -283,103 +392,147 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-			</div>
-			<div class="col-sm-6 col-md-7 margin-top-20">
-				<div class="padding-10 entityDetails text-dark">
 
-					<h2 class="entityTitle">
-						<!-- <i class="fa fa-user fa_username"></i>  -->
-						<a href="#" id="name" data-type="text" data-original-title="Enter your name" data-emptytext="Enter your name" class="editable-person editable editable-click">
-							<?php if(isset($person["name"])) echo $person["name"]; else echo "";?>
+				<div class="socialNetwork col-md-12">
+
+					<div class="col-md-12 no-padding">
+
+						<span class="text-white"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
+						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["skype"])) echo $person["socialNetwork"]["skype"]; else echo ""; ?>
 						</a>
-					</h2>
-					<?php 
-					$isLinked = Link::isLinked((string)$person["_id"],Person::COLLECTION, Yii::app()->session['userId']);
-					?>
-					<i class="fa fa-smile-o fa_name hidden"></i> 
-					<a href="#" id="username" data-type="text" data-original-title="Enter your user name" class="editable-person editable editable-click">
-						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
-					</a>
-					<br>
+						<a href="<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo "#"; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo "#"; ?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo "#"; ?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo "#"; ?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
+						</a>
 
-					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-					<a href="#" id="birthDate" data-type="date" data-title="Birth date" data-emptytext="Birth date" class="editable editable-click required">
-					</a>
-					<br>
+					</div>
 
-					<i class="fa fa-envelope fa_email"></i> 
-					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
-						<?php echo Person::showField("email",$person, $isLinked)?>
-					</a>
-					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">badge</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
+					<div class="col-md-12 no-padding">
 					
-					<style type="text/css">
-						.badgePH{ 
-							cursor: pointer;
-							display: inline-block;
-							margin-right: 10px;
-							margin-bottom: 10px;
-						}
-						.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}
-						.badgePH .fa-stack .mainTop { margin-left:10px;margin-top:18px}
-						.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
-					</style>
-					<div class="row text-dark">
-						<!-- <div class=" badgePH " data-title="<?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo Gamification::calcPoints( (string)$person["_id"] )." pts"?>">
-							<span class="fa-stack" style="maring-bottom:5px">
-								<i class="fa fa-bookmark main fa-2x fa-stack-1x"></i>
-							</span> 
-						</div> -->
-						<?php if(isset($person["tagsPH"])){?>
-							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-								<div class=" badgePH " data-title="CROWDFUNDER">
-									<span class="fa-stack" style="maring-bottom:5px">
-										<i class="fa fa-bookmark main fa-2x fa-stack-1x text-green"></i>
-										<i class="fa fa-euro mainTop fa-stack-1x text-white"></i>
-									</span> 
-								</div>
-							<?php } ?>
-							<?php if( in_array("crowdfunder", $person["tagsPH"]) ){?>
-								<div class="badgePH" data-title="DEVELOPPER">
-									<span class="fa-stack">
-										<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
-										<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
-									</span>
-								</div>
-							<?php } ?>
+						<?php if (  (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "")
+								 || ((string)$person["_id"] == Yii::app()->session["userId"] ))
+								 { ?>
+							<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+							<a 	href="<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != "") echo $person["socialNetwork"]["telegram"]; else echo "javascript:switchMode()"; ?>" 
+								id="telegramAccount" data-emptytext='<i class="fa fa-send"></i> Telegram' 
+								data-type="text" 
+
+								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
+									<?php if ((string)$person["_id"] == Yii::app()->session["userId"]){ ?> 
+										data-original-title="aller sur Telegram" 
+									<?php }else{ ?>
+										data-original-title="contacter via Telegram" 
+									<?php } ?>
+								<?php }else{ ?>
+										data-original-title="votre pseudo sur Telegram ?" 
+									<?php } ?>
+								
+								data-emptytext='<i class="fa fa-send"></i> Telegram'
+								class="editable editable-click socialIcon" 
+								<?php if (isset($person["socialNetwork"]["telegram"]) && $person["socialNetwork"]["telegram"] != ""){ ?> 
+									target="_blank" 
+								<?php } ?>
+								>
+								<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
+							</a> 
+							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+							 		<i class="fa fa-question-circle text-dark" style="">
+							 		</i>
+							</a> 
+
+						<?php }else{ ?>
+							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
 						<?php } ?>
 					</div>
+
+				</div>
+
+			</div>
+			<div class="col-sm-6 col-md-7 container-info-perso">
+				<div class="entityDetails text-dark">
+
+					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
+					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
+					</a>
+					<br>
+					<i class="fa fa-envelope fa_email"></i> 
+					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
+						<?php echo Person::showField("email",$person, $isLinked);?>
+					</a>
+					<br>
+					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<hr style="margin:10px 0px 3px 0px;">
 					
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<a href="#" id="streetAddress" data-type="text" data-title="Street Address" data-emptytext="Address" class="editable-person editable editable-click">
+					<i class="fa fa-road fa_streetAddress hidden"></i> 		
+					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("person","Address"); ?>" data-emptytext="<?php echo Yii::t("person","Address"); ?>" class="editable-person editable editable-click">
 						<?php echo Person::showField("address.streetAddress",$person, $isLinked)?>
 					</a>
 
 					<br>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<a href="#" id="address" data-type="postalCode" data-title="Postal Code" data-emptytext="Postal Code" class="editable editable-click" data-placement="bottom">
+					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom">
 					</a>
 					<br>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
-					<a href="#" id="addressCountry" data-type="select" data-title="Country" data-emptytext="Country" data-original-title="" class="editable editable-click">					
+					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					
 					</a>
 					<br>
 					
-					<i class="fa fa-phone fa_telephone hidden"></i> 
-					<a href="#" id="telephone" data-type="text" data-title="Phone" data-emptytext="Phone Number" class="editable-person editable editable-click">
-						<?php echo Person::showField("telephone",$person, $isLinked)?>
+					<i class="fa fa-phone fa_telephone hidden"></i>
+					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="telephone editable editable-click">
+						<?php if(isset($person["telephone"]["fixe"])){
+							foreach ($person["telephone"]["fixe"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
 					</a>
 					<br>
+
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
+					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+						<?php if(isset($person["telephone"]["mobile"])){
+							foreach ($person["telephone"]["mobile"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+
+					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
+					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+						<?php if(isset($person["telephone"]["fax"])){
+							foreach ($person["telephone"]["fax"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+					
+					
+				</div>
 					
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
 					<?php 
 							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-							if($roles["superAdmin"] == true){
+							if(Role::isSuperAdmin($roles)){
 								?>
 									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
 										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
@@ -400,29 +553,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<div class="row text-dark">
 			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
 				<!-- Description -->
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="Short Description" data-emptytext="Short Description" class="editable-person editable editable-click">
+				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
 					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
 				</a>
 			</div>
 		</div>
 		<div class="padding-10 row text-dark">
 			<div class="pull-left col-sm-7 col-md-8 tag_group">
-				<?php echo Yii::t("common","Socials") ?> :
-				<a href="<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo "#"; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["facebook"])) echo $person["socialNetwork"]["facebook"]; else echo ""; ?>
-				</a>
-				<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["skype"])) echo $person["socialNetwork"]["skype"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo "#"; ?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["twitter"])) echo $person["socialNetwork"]["twitter"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo "#"; ?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["googleplus"])) echo $person["socialNetwork"]["googleplus"]; else echo ""; ?>
-				</a>
-				<a href="<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo "#"; ?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-					<?php if (isset($person["socialNetwork"]["github"])) echo $person["socialNetwork"]["github"]; else echo ""; ?>
-				</a>
+				
 			</div>
 			
 			<div class="pull-right text-right col-sm-5 col-md-4">
@@ -479,7 +617,7 @@ var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"]
 var tags = <?php echo json_encode($tags)?>;
 var imagesD = <?php echo(isset($imagesD)  ) ? json_encode($imagesD) : "null"; ?>;
 var contextMapPerson = <?php echo(isset($contextMapPerson)  ) ? json_encode($contextMapPerson) : "null"; ?>;
-	
+
 
 //By default : view mode
 var mode = "view";
@@ -493,6 +631,7 @@ jQuery(document).ready(function()
     bindAboutPodEvents();
     initXEditable();
 	manageModeContext();
+	changeHiddenIcone();
 	debugMap.push(personData);
 
 	//console.dir(contextMapPerson);
@@ -513,9 +652,9 @@ jQuery(document).ready(function()
 			findGeoPosByAddress();
 		});
 
-		$(".badgePH").hover(function(){
+		/*$(".badgePH").hover(function(){
 			$(".badgeText").html($(this).data('title'));
-		});
+		});*/
 		
 
 		$(".panel-btn-confidentiality .btn").click(function(){
@@ -612,7 +751,15 @@ function initXEditable() {
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
     	onblur: 'submit',
     	showbuttons: false,
-    	mode: 'popup'
+    	mode: 'popup',
+    	success : function(data, newValue) {
+	        if(data.result) {
+	        	toastr.success(data.msg);
+				loadActivity=true;	
+	        }
+	        else
+	        	return data.msg;  
+	    }
 	});
 
 	$('.socialIcon').editable({
@@ -644,6 +791,44 @@ function initXEditable() {
         value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
         select2: {
             tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
+        }
+    });
+
+
+    $('#mobile').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
+        select2: {
+            tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
+        }		
+    });
+
+    $('#fax').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["fax"])) ? json_encode(implode(",", $person["telephone"]["fax"])) : "''"; ?>,
+        select2: {
+            tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
+            tokenSeparators: [","],
+            width: 200,
+            dropdownCssClass: 'select2-hidden'
+        }
+    }); 
+
+    $('#fixe').editable({
+        url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
+        mode : 'popup',
+        value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
+        select2: {
+        	tags : [],
+        	//tags: <?php if(isset($person["telephone"]["fixe"])) echo json_encode($person["telephone"]["fixe"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200
         }
@@ -700,12 +885,14 @@ function initXEditable() {
 	if(<?php echo isset($person["address"]["streetAddress"]) 	? "true" : "false"; ?>){ $(".fa_streetAddress").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["postalCode"]) 		? "true" : "false"; ?>){ $(".fa_postalCode").removeClass("hidden"); }
 	if(<?php echo isset($person["address"]["addressCountry"]) 	? "true" : "false"; ?>){ $(".fa_addressCountry").removeClass("hidden"); }
-	if(<?php echo isset($person["telephone"]) 					? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["mobile"]) 		? "true" : "false"; ?>){ $(".fa_telephone_mobile").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fixe"]) 			? "true" : "false"; ?>){ $(".fa_telephone").removeClass("hidden"); }
+	if(<?php echo isset($person["telephone"]["fax"]) 			? "true" : "false"; ?>){ $(".fa_telephone_fax").removeClass("hidden"); }
 }
 
 function manageModeContext() {
-	listXeditables = [	'#birthDate', '#description', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
-						'#gpplusAccount', '#gitHubAccount', '#skypeAccount'];
+	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -729,23 +916,64 @@ function switchMode() {
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
+		changeHiddenIcone() ;
 	} else {
 		mode ="view";
 		manageModeContext();
+		changeHiddenIcone() ;
+	}
+}
+
+
+
+function changeHiddenIcone() 
+{ 
+	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+	console.log("------------", mode);
+	if(mode == "view"){
+		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+	} else {
+		$(".fa_name").removeClass("hidden"); 
+		$(".fa_birthDate").removeClass("hidden"); 
+		$(".fa_email").removeClass("hidden"); 
+		$(".fa_streetAddress").removeClass("hidden"); 
+		$(".fa_postalCode").removeClass("hidden"); 
+		$(".fa_addressCountry").removeClass("hidden"); 
+		$(".fa_telephone_mobile").removeClass("hidden"); 
+		$(".fa_telephone").removeClass("hidden"); 
+		$(".fa_telephone_fax").removeClass("hidden"); 
 	}
 }
 
 function manageSocialNetwork(iconObject, value) {
 	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
-			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype"}
+			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
 	var fa = tabId2Icon[iconObject.attr("id")];
 	console.log(value);
 	iconObject.empty();
 	if (value != "") {
-		iconObject.tooltip({title: value, placement: "bottom"});
-		iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+		
+		//else{
+		if(iconObject.attr("id") != "telegramAccount"){
+			iconObject.tooltip({title: value, placement: "bottom"});
+			iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+		}
 	} 
+
+	if(iconObject.attr("id") == "telegramAccount"){
+		iconObject.tooltip({title: value, placement: "left"});
+		iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+	}
+
 	console.log(iconObject);
 }
 

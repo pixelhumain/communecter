@@ -5,17 +5,17 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-sm-12 col-xs-12">
-				<a href="#" class="btn btn-primary" id="btnCheckGeo"> Récupérer les citoyens/organisations qui sont mal géolocaliser</a>
+				<a href="#" class="btn btn-primary" id="btnCheckGeo"> Récupérer les entités qui sont mal géolocaliser</a>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				Process : <br/>
 				- On vérifie si l'entité a une adresse, si il en a une, on vérifie si l'entité a un code postal et un code INSEE : <br/>
-					&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur : "Code INSEE ou code postal absent".<br/>
-					&nbsp;&nbsp;- Sinon on test si il y a une géolocalisation :<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur : "Pas de géolocalisation"<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;- Intérrogation du SIG avec la lat/lon/cp  : <br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;- Si aucune commune , on affiche un message d'erreur : "Mal<br/>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- On test si le code INSEE de la commune et celui de l'entité sont identiques <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur : "Code INSEE ou code postal absent".<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;- Sinon on test si il y a une géolocalisation :<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur : "Pas de géolocalisation"<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Intérrogation du SIG avec la lat/lon/cp  : <br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si aucune commune , on affiche un message d'erreur : "Mal<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- On test si le code INSEE de la commune et celui de l'entité sont identiques <br/>
 			</div>
 		</div>
 	</div>
@@ -35,13 +35,18 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Entités mal géolocalisé");
 jQuery(document).ready(function() {
 	bindCheckGeo();
 });
 
 function bindCheckGeo(){
 	$("#btnCheckGeo").off().on('click', function(e){
+		rand = Math.floor((Math.random() * 8) + 1);
+  		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+		});
 		$.ajax({
 	        type: 'POST',
 	        url: baseUrl+'/communecter/admin/getentitybadlygeolocalited/',
@@ -49,21 +54,20 @@ function bindCheckGeo(){
 	        success: function(data)                                                   
 	        {
 	        	console.log("data",data);
-
 	        	textHTML = "<tr><th>Type</th><th>Entité</th><th>Msg Error</th></tr>";
-
 	        	$.each(data, function(typeEntity, listEntity){
 	  				$.each(listEntity, function(key, entity){
 	  					textHTML += "<tr>"+
 	  									"<td>"+typeEntity+"</td>"+          
 	  									"<td>"+								    
-	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity[typeEntity]["_id"]["$id"]+'\')" class=""> '+
-	  										entity[typeEntity].name+ "</a></td>"+
+	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity["id"]+'\')" class=""> '+
+	  										entity["name"]+ "</a></td>"+
 	  									"<td>"+entity["error"]+"</td>"+
 	  								"</tr>";
 					});
 	  			});
 	        	$("#tableEntity").html(textHTML);
+	        	$.unblockUI();
 	        }
 		});
 	});

@@ -1,32 +1,77 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($this->module->assetsUrl. '/survey/js/highcharts.js' , CClientScript::POS_END);
-//Data helper
-$cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);
-//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets'.'/plugins/share-button/ShareButton.min.js' , CClientScript::POS_END);
+$cssAnsScriptFilesModule = array(
+  '/survey/js/highcharts.js',
+  '/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
+
+if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
+	Menu::proposal( $survey );
+	$this->renderPartial('../default/panels/toolbar');
+}
+
 ?>
 <style type="text/css">
 
-	a.btn{margin:3px;}
-	a:hover.btn {background-color: pink;border solid #666;}
+	/*.assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
+    }*/
+  	
+	/*a.btn{margin:3px;}*/
+	/*a:hover.btn {background-color: pink;border solid #666;}*/
 
 	/*.infolink{border-top:1px solid #fff}*/
-	.leftlinks a.btn{color:black;background-color: yellow;border: 1px solid yellow;}
+	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
+	.leftlinks a.btn:hover{color:white;background-color: #3C5665;}
 	/*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
-	a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
-	a.btn.golink{background-color:green;color:white;border: 1px solid green;}
-	a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
-	a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
-	a.btn.voteMoreInfo{background-color: #789289;border: 1px solid #789289;}
-	a.btn.voteAbstain{color: black;background-color: white;border: 1px solid grey;}
-	a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
+	a.btn.alertlink		{background-color:red;color:white;border: 1px solid red;}
+	a.btn.golink		{background-color:green;color:white;border: 1px solid green;}
+	a.btn.voteUp		{background-color: #93C22C;border: 1px solid green;}
+	a.btn.voteUnclear	{background-color: yellow;border: 1px solid yellow;}
+	a.btn.voteMoreInfo	{background-color: #C1ABD4;border: 1px solid #789289;}
+	a.btn.voteAbstain	{color: black;background-color: white;border: 1px solid grey !important;}
+	a.btn.voteDown		{background-color: #db254e;border: 1px solid #db254e;}
 
 	.commentPod .panel {box-shadow: none;}
 	.commentPod .panel-heading {border-bottom-width: 0px;}
+
+	
+
+    .leftlinks a.btn{
+    	border: transparent;
+		border-radius: 25px;
+		font-size: 25px;
+    }
+
+  .progress-bar-green{background-color: #93C22C;}
+  .progress-bar-yellow{background-color: yellow;}
+  .progress-bar-white{background-color: #C9C9C9;}
+  .progress-bar-purple{background-color: #C1ABD4;}
+  .progress-bar-red{background-color: #db254e;}
+
+  .color-btnvote-green{background-color: #93C22C;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-yellow{background-color: yellow;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-white{background-color: #FFF;color: black;	padding: 8px;border-radius: 30px;border: 1px solid #939393;}
+  .color-btnvote-purple{background-color: #C1ABD4;color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-red{background-color: #db254e;color: black;		padding: 8px;border-radius: 30px;}
+
+  .msg-head-tool-vote{
+  	width:100%;
+  	font-size: 18px;
+  	font-weight: 300;
+  }
+
+
+
+#commentHistory .panel-scroll{
+	max-height:unset !important;
+}
+
 
 </style>
 
@@ -39,8 +84,9 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 */?>
 
 
+
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center">
+<div class="center">
 	<?php /* ?>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
@@ -50,166 +96,247 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	<br/>
 	<span class="subTitle text-white text-bold" style="margin-top:-13px; font-size:1.5em">Se connecter à sa commune.</span>
 	*/?>
-	<br/>
-	<span class="text-red " style="font-size:40px"><?php echo Yii::t("survey","VOTE",null,Yii::app()->controller->module->id) ?> </span>
-	<span  style="font-size:40px" class=" "> <?php echo Yii::t("survey","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
-	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("survey","ACT",null,Yii::app()->controller->module->id) ?></span>
-
-	<br/>
-	<span  style="font-size:23px" class="text-white text-bold"> <?php if( $voteLinksAndInfos["hasVoted"] )
-			echo Yii::t("survey","YOU VOTED ALLREADY",null,Yii::app()->controller->module->id); 
-		else
-			echo Yii::t("survey","FEEL FREE TO VOTE",null,Yii::app()->controller->module->id); ?> </span>
-	<br/>
-	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","VOTERS",null,Yii::app()->controller->module->id) ?> : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> | </span>
-	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","Since",null,Yii::app()->controller->module->id) ?> : <?php echo date("m/d/y",$survey["created"]) ?> | </span>
-	<?php if( @$survey["dateEnd"] ){ ?>
-	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","Ends",null,Yii::app()->controller->module->id) ?> : <?php echo date("d/m/y",@$survey["dateEnd"]) ?> | </span>
-	<?php } ?>
-	<span  style="font-size:23px" class="text-white text-bold"> <?php echo Yii::t("survey","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
-</div>
+	<!-- <span class="text-red " style="font-size:40px"><?php echo Yii::t("rooms","VOTE",null,Yii::app()->controller->module->id) ?> </span>
+	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
+	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
+ -->
 <?php 
-//$this->renderPartial('../person/menuTitle',array("topTitleExists"=>true,"actionTitle"=>"CONTRIBUTE", "actionIcon"=>"fa-money"));
-?>
+	//ca sert a quoi ce doublon ?
+	$survey = Survey::getById($survey["_id"]);
+	$room = ActionRoom::getById($survey["survey"]);
+	$parentType = $room["parentType"];
+	$parentId = $room["parentId"];
+	$nameParentTitle = "";
+	if($parentType == Organization::COLLECTION && isset($parentId)){
+		$orga = Organization::getById($parentId);
+		$nameParentTitle = htmlentities($orga["name"]);
+	}
 
-<div class="row vote-row" >
-	
+		
+//copié coller merdique
+// a sortir de la vue demain
+$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+
+$totalVotesGbl = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+
+		function getChartBarResult($survey){
+
+$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+
+$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+      
+      
+      $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+      
+      $percentVoteDownCount     = $voteDownCount    * $oneVote;
+      $percentVoteAbstainCount  = $voteAbstainCount * $oneVote;
+      $percentVoteUpCount       = $voteUpCount      * $oneVote;
+      $percentVoteUnclearCount  = $voteUnclearCount * $oneVote;
+      $percentVoteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+
+      $html = "";
+
+      $percentNoVote = "0";
+      if($totalVotes == 0) $percentNoVote = "100";
+
+      $html .= '<a class="btn btn-xs pull-left text-dark"'.
+                ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
+                ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
+
+      if($totalVotes > 1) $msgVote = "votes exprimés";
+      else                $msgVote = "vote exprimé"; 
+      
+      if($totalVotes >= 1 && Yii::app()->session['userId'] == $survey['organizerId'])
+      	$msgVote = $msgVote." <span class='text-red'>( donc édition fermé )</span>";
+
+      $html .= "<div class='pull-left text-dark' style='margin-top:5px; margin-left:5px; font-size:13px;'>".$totalVotes." ".$msgVote."</div><div class='space1'></div>";
+      
+      $html .=  '<div class="progress">'.
+                  '<div class="progress-bar progress-bar-green progress-bar-striped" style="width: '.$percentVoteUpCount.'%">'.
+                    $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.floor($percentVoteUpCount).'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-yellow progress-bar-striped" style="width: '.$percentVoteUnclearCount.'%">'.
+                    $voteUnclearCount.' <i class="fa fa-pen"></i> ('.floor($percentVoteUnclearCount).'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentVoteAbstainCount.'%">'.
+                    $voteAbstainCount.' <i class="fa fa-circle"></i> ('.floor($percentVoteAbstainCount).'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-purple progress-bar-striped" style="width: '.$percentVoteMoreInfoCount.'%">'.
+                    $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.floor($percentVoteMoreInfoCount).'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
+                    $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.floor($percentVoteDownCount).'%)'.
+                  '</div>'.
+                  '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.floor($percentNoVote).'%">'.
+                   // $percentNoVote.' '.
+                  '</div>'.
+                '</div>';
+      
+      
+      
+      return $html;
+    }
+ 	?>
+ 	<div>
+     
+ 		
+
+		  <?php 
+		  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
+		  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+		  $this->renderPartial('../rooms/header',array(    
+                			"parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "parentSpace" => $parentSpace,
+                            "fromView" => "survey.entry",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                            				" / ".
+                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn
+                              
+                            )); ?>
+
+		<!-- <span class="pull-right text-right"> 
+			<?php if( $voteLinksAndInfos["hasVoted"] )
+				echo Yii::t("rooms","YOU VOTED ALLREADY",null,Yii::app()->controller->module->id); 
+			else
+				echo Yii::t("rooms","FEEL FREE TO VOTE",null,Yii::app()->controller->module->id); ?>
+
+		</span> -->
+
+		<!-- <span class="text-extra-large text-bold"> 
+				<?php echo Yii::t("rooms","INVITATION TO VOTE",null,Yii::app()->controller->module->id) ?>
+		</span>  -->
+		
+    </div>
+ </div>
+
+<div class="row vote-row contentProposal" >
+
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod box">
-			<div class="col-md-4" >
-				<div style="height: 300px">
-					<?php 
-						$canEdit = Authorisation::canEditEntry(Yii::app()->session["userId"], (string) $survey['_id']);
-						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $survey['_id'],
-																		  "type" => Survey::COLLECTION,
-																		  "resize" => false,
-																		  "contentId" => Document::IMG_PROFIL,
-																		  "show" => true,
-																		  "editMode" => $canEdit )); 
-					?>
+		<div class="box-vote box-pod">
+				
+			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
+				
+				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$survey["created"]) ?></span>
+				
+				<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","VOTERS",null,Yii::app()->controller->module->id) ?> : <?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?> </span>
+			 	<br>
+			 	<span class="pull-left"><i class="fa fa-caret-right"></i> <?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : <?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?></span>
+				<?php if( @$survey["dateEnd"] ){ ?>
+				<span class="pull-right"><?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",@$survey["dateEnd"]) ?></span>
+				<?php } ?>
+				
+			</h4>
+
+			
+
+			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
+
+				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
+						
+						<div class="box-vote box-pod radius-20" style="">
+							<span class="text-extra-large text-bold text-red"> 
+								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
+							</span> 
+							<?php if( isset($organizer) ){ ?>
+								<p><?php echo Yii::t("rooms","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
+							<?php }	?>
+							
+						</div>
+						
+				<?php } else { ?> 
+
+						<div class="box-vote box-pod radius-20">
+							<?php
+
+							$this->renderPartial('entry',array( "survey" => $survey, 
+																"voteLinksAndInfos" => $voteLinksAndInfos,
+																"position" => "center",
+																"showName" => true,
+																"hideTexts" => true
+																 ));
+																 ?>
+						</div>
+
+				<?php } ?>
+			</div>	
+			<div class="col-md-12 voteinfoSection">
+				<?php 
+				$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+				$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+				$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+				$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+				$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+				$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+				$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+				$voteDownCount = $voteDownCount * $oneVote ;
+				$voteAbstainCount = $voteAbstainCount * $oneVote;
+				$voteUpCount = $voteUpCount * $oneVote;
+				$voteUnclearCount = $voteUnclearCount * $oneVote;
+				$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+			   
+				 ?>
+				<div class="col-md-<?php echo ($totalVotes ==0 ) ? "12" : "7" ?>" style="margin-top:10px;">
+					<?php if( @($organizer) ){ ?>
+						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+					<?php }	?>
+					
+					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
+					<br/><br/>
+					
+					<?php echo $survey["message"]; ?>
+					
+					<br/>
+					<?php if( @( $survey["tags"] ) ){ ?>
+						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
+						<?php foreach ( $survey["tags"] as $value) {
+								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+							}?>
+						</span><br>
+					<?php }	?>
+
+					<?php if( @( $survey["urls"] ) ){ ?>
+						
+						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
+						<?php foreach ( $survey["urls"] as $value) {
+							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
+								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
+							else
+								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
+						}?>
+						
+					<?php }	?>
 				</div>
-				<?php /* ?>
-				<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
-				*/?>
-			</div>
-			<div class="col-md-8">
-				<span class="text-extra-large text-bold"><?php echo  $survey["name"] ?></span>
-				<br/><br/>
-				<?php echo $survey["message"]; ?>
-				<br/><br/>
+				<?php 
+				
+				if( $totalVotes > 0 ){ ?>
+				<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
+					<div class=" leftInfoSection chartResults" >
+						<?php echo getChartBarResult($survey); ?>
+						<div id="container2"></div>
+					</div>
+				</div>
+				<?php }	?>
 			</div>
 		</div>
 	</div>
-
-	<div class="col-md-8" >
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
-	</div>
-
-	<div class="col-md-4 center ">
-
-		<?php /*
-			$this->renderPartial('../person/menuTitle',array( "topTitleExists" => true,
-															  "actionTitle"    => "VOTE", 
-														 	  "actionIcon"     => "download" ));*/
-		?>
-
-<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 		
-		<div class="box-vote box-pod box radius-20">
-			<span class="text-extra-large text-bold"> 
-				<?php echo Yii::t("survey","THIS VOTE IS CLOSED",null,Yii::app()->controller->module->id) ?>
-			</span> 
-			<?php if( isset($organizer) ){ ?>
-				<p> Invited by <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
-			<?php }	?>
-			<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>
-
-		</div>
+	<div class="col-md-12 commentSection leftInfoSection" >
+		<div class="box-vote box-pod margin-10 commentPod"></div>
+	</div>
 	
-<?php } else { ?> 
-
-		<div class="box-vote box-pod box radius-20">
-			<span class="text-extra-large text-bold"> 
-					<?php echo Yii::t("survey","INVITATION TO VOTE",null,Yii::app()->controller->module->id) ?>
-			</span> 
-			<?php 
-			if( isset($organizer) ){ ?>
-				<p> Invited by <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
-			<?php 
-			}	
-			$this->renderPartial('entry',array( "survey" => $survey, 
-												"position" => "center",
-												"showName" => true,
-												"hideTexts" => true
-												 ));?>
-		</div>
-
-<?php } ?>
-
-
-	</div>	
-</div>
-
-
-<div class="row discuss-row" style="display:none" >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DISCUSS</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-</div>
-
-<div class="row decide-row" style="display:none" >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DECIDE</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="row act-row" style="display:none" >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> ACT</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-
-<div class=" contact-row  " style="display:none" >
-	<div class="col-xs-8 col-xs-offset-2">
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-	</div>
 </div>
 
 
@@ -221,25 +348,21 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 <script type="text/javascript">
 clickedVoteObject = null;
 
-//Images
-var images = <?php echo json_encode($images) ?>;
-var contentKeyBase = "<?php echo $contentKeyBase ?>";
-
 jQuery(document).ready(function() {
 	//var shareBtns = new ShareButton(".share-button");
 
 	//titleAnim ();
 
-	$('.box-vote').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+	$(".main-col-search").addClass("assemblyHeadSection");
+  	$(".moduleLabel").html("<i class='fa fa-gavel'></i> Propositions, débats, votes");
+  
+  	$('.box-vote').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});
-	$('.voteIcon').off().on("click",function() { 
-		$(this).addClass("faa-bounce animated");
-		clickedVoteObject = $(this).data("vote");
-		console.log(clickedVoteObject);
-	 })
+
 	
-	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",null,"html");
+	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
+
 
 	buildResults ();
 
@@ -248,24 +371,45 @@ jQuery(document).ready(function() {
 function addaction(id,action)
 {
     console.warn("--------------- addaction ---------------------");
-    if( checkLoggued( "<?php echo $_SERVER['REQUEST_URI']?>" ))
+    if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-        	function(result) {
-        		if (result) {
-			      	params = { 
-			           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-			           "id" : id ,
-			           "collection":"surveys",
-			           "action" : action 
-			        };
-			      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-			        	window.location.reload();
-			      	});
-			    } else {
-			    	$("."+clickedVoteObject).removeClass("faa-bounce animated");
-			    }
+    	var message = "Vous êtes sûr ? <span class='text-red text-bold'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>";
+    	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
+    	var boxNews = bootbox.dialog({
+			title: message,
+			message: input,
+			buttons: {
+				annuler: {
+					label: "Annuler",
+					className: "btn-default",
+					callback: function() {
+						$("."+clickedVoteObject).removeClass("faa-bounce animated");
+					}
+				},
+				success: {
+					label: "OK",
+					className: "btn-info",
+					callback: function() {
+						var voteComment = $("#modalComment .newComment").val();
+						params = { 
+				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
+				           "id" : id ,
+				           "collection":"surveys",
+				           "action" : action 
+				        };
+				        if(voteComment != ""){
+				        	params.comment = trad[action]+' : '+voteComment;
+				        	$("#modalComment .newComment").val(params.comment);
+				        	validateComment("modalComment","");
+				        } 
+				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
+				        	loadByHash(location.hash);
+				      	});
+					}
+				}
+			}
     	});
+    	
  	}
  }
 
@@ -276,27 +420,31 @@ function showHidePanels (panel)
 	$('.'+panel).slideDown();
 	activePanel = panel;
 }
-var getColor = {
+
+function buildResults () { 
+
+
+		console.log("buildResults");
+
+	var getColor = {
 	    'Pou': '#93C22C',
 	    'Con': '#db254e',
 	    'Abs': 'white', 
 	    'Pac': 'yellow', 
 	    'Plu': '#789289'
-	};
-function buildResults () { 
-
-	<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time()){ ?>
-		console.log("buildResults");
+	}; 
 	
 		console.log("setUpGraph");
 		$('#container2').highcharts({
 		    chart: {
 		        plotBackgroundColor: null,
 		        plotBorderWidth: null,
-		        plotShadow: false
+		        plotShadow: false,
+		        //marginTop: -20,
+		        backgroundColor: "#ddd"
 		    },
 		    title: {
-		        text: "Results"
+		        text: "Resultats"
 		    },
 		    tooltip: {
 		      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -305,6 +453,7 @@ function buildResults () {
 		        pie: {
 		            allowPointSelect: true,
 		            cursor: 'pointer',
+		            //size: 200,
 		            dataLabels: {
 		                enabled: true,
 		                color: '#000000',
@@ -313,20 +462,10 @@ function buildResults () {
 		            }
 		        }
 		    },
-		    <?php 
-		    $voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-			$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-			$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-			$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-			$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-			$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-			$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
-			$voteDownCount = $voteDownCount * $oneVote ;
-			$voteAbstainCount = $voteAbstainCount * $oneVote;
-			$voteUpCount = $voteUpCount * $oneVote;
-			$voteUnclearCount = $voteUnclearCount * $oneVote;
-			$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
-		    ?>
+		    exporting: {
+			    enabled: false
+			},
+		    
 		    series: [{
 		        type: 'pie',
 		        name: 'Vote',
@@ -339,6 +478,26 @@ function buildResults () {
 		        ]
 		    }]
 		});
-	<?php } ?>
 }
+
+
+function closeEntry(id)
+{
+    console.warn("--------------- closeEntry ---------------------");
+    
+      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
+          function(result) {
+            if (result) {
+              params = { 
+                 "id" : id 
+              };
+              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/close")?>',params,function(data){
+                if(data.result)
+                  window.location.reload();
+                else 
+                  toastr.error(data.msg);
+              });
+          } 
+      });
+ }
 </script>

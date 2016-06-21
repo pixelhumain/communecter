@@ -166,16 +166,27 @@
 						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 														{maxZoom:17,
 														 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 17;
+
+						if(thisSig.roadTileLayer != null) {
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":3});
+							thisSig.roadTileLayer.redraw();
+						}
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
 						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
 												{maxZoom:20,
-												 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 0;
+												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(Sig.map);
+						thisSig.map.minZoom = 3;
 						thisSig.map.maxZoom = 20;
+
+						if(thisSig.roadTileLayer != null) {
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":12});
+							thisSig.roadTileLayer.redraw();
+						}
+						
 					}
 					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
 						thisSig.map.setZoom(thisSig.map.getMaxZoom());
@@ -314,8 +325,14 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ //////console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
+
+			var objectName = (typeof object.name != "undefined") ? this.clearStr(object.name) : "";
+
+			if(object.type == "city") { return object.cp + object.insee + objectName; }
+			if(object["@type"] == "city") { return object.cp + object.insee + objectName; }
+			if(object.typeSig == "city") { return object.cp + object.insee + objectName; }
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			if("undefined" != typeof object.id) 	return object.id;
@@ -353,8 +370,8 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 
-	 	Sig.clearStr = function(str) {
-	 	  str = str.toLowerCase();
+	 	Sig.clearStr = function(str) { if(str == "" || str == null) return "";
+ 	 	  str = str.toLowerCase();
 		  str = str.replace(/^\s+|\s+$/g, ''); // trim
 		  str = str.toLowerCase();
 		  

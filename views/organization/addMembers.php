@@ -239,7 +239,7 @@ Menu::organization($organization);
 			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1 padding-10">	
 									<button class="btn btn-primary pull-right" style="margin-left:10px;">Enregistrer</button>
-									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> Search</a>
+									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
 								</div>
 							</div>
 							
@@ -533,7 +533,7 @@ Menu::organization($organization);
 	            	}
 	            	else
 	            	{
-	            		toastr.success("Member added successfully ");
+	            		toastr.success(data.msg);
 	            		console.log(data);
 	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
@@ -945,7 +945,7 @@ function inviteImportFile(){
 			            	if(!data.result){
 			            		toastr.error(data.msg);
 			            	}else{
-			            		toastr.success("Member added successfully ");
+			            		toastr.success("Les membres ont été ajoutés.");
 			            		//Minus 1 on number of invit
 								var count = parseInt($("#numberOfInvit").data("count")) - 1;
 								$("#numberOfInvit").html(count + ' invitation(s)');

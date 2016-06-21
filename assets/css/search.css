@@ -156,7 +156,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	max-width: 50%;
+	max-width: 42%;
 	margin-left:0px !important;
 }
 
@@ -349,30 +349,15 @@ button.btn-menu4{
 	padding-top: 0px;
 }
 
-button.btn-menu5{
-	right: 27px;
-	top: 70px;
-	background-color: #32454E !important;
-	font-size: 21px;
-	min-width: 42px;
-	height: 43px;
-	padding-left: 4px;
-	z-index:0 !important;
-}
 
-button.btn-menu6{
-	left: 12px;
-	top: 302px;
-	background-color: #32454E !important;
-	font-size: 17px;
-	height: 38px;
-}
-button.btn-menu7{
-	left: 113px;
-	top: 365px;
-	background-color: #32454E !important;
-	font-size: 18px;
-	height: 37px;
+button.btn-menu11{
+	left: 45px;
+    top: 304px;
+    font-size: 20px;
+    min-width: 42px;
+    height: 43px;
+    padding-left: 6px;
+    z-index: 0 !important;
 }
 button.btn-menu-add{
 	right: 35px;
@@ -882,7 +867,9 @@ button.btn-infos{
 		left: 10% !important;
 	}
 
-	
+	.box-ajaxTools {
+	    margin-top: -50px;
+	}
 }
 
 
@@ -1026,6 +1013,10 @@ button.btn-infos{
 	white-space:unset;
 }
 
+
+.mixcontainer .mix a, .mixcontainer .mix span{
+	border:0px !important;
+}
 
 
 @media screen and (max-width: 767px) {

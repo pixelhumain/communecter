@@ -44,6 +44,7 @@
 	bottom:0px;
 	right:0px;
 	left:70px;
+	min-height:600px;
 }
 .fixedTop{
 	position:fixed;
@@ -80,11 +81,9 @@
 	border-color: #315C6E;
 }
 .timeline-scrubber{
-	<?php if($type!="city") { ?>
 	right: 65px;
     position: fixed;
     top: 215px;
-    <?php } ?>
 }
 
 .fixScrubber{
@@ -205,30 +204,7 @@ div.timeline .date_separator span{
     width: 55px;
     top: 0;
 }
-.thumb_sel .prev_thumb {
-	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -50px 0px;
-	background-color: rgba(250,250,250,0.5);
-	float: left;
-	width: 26px;
-	height: 22px;
-	cursor: hand;
-	cursor: pointer;
-}
-.thumb_sel .prev_thumb:hover {
-	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat 0px 0px;
-}
-.thumb_sel .next_thumb {
-	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -76px 0px;
-	background-color: rgba(250,250,250,0.5);
-	float: left;
-	width: 24px;
-	height: 22px;
-	cursor: hand; 
-	cursor: pointer;
-}
-.thumb_sel .next_thumb:hover {
-	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -26px 0px;
-}
+
 .small_text{
 	font-size: 10px;
 }
@@ -253,7 +229,7 @@ div.timeline .date_separator span{
 #newsHistory .timeline-scrubber {
     right: 0%;
 	position: fixed;
-	top: 315px;
+	top: 375px;
 }
 #newsHistory .timeline-scrubber li:last-child a {
     border-color: #50687d;
@@ -275,12 +251,11 @@ max-height: 250px !important;
 
 
 
-div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}
+/*div.timeline .newsTL > .newsFeed:nth-child(2n+2) {margin-top: 10px;}*/
 	
 
 div.timeline .newsTL > .newsFeed:nth-child(2n+2) {
     float: right;
-    margin-top: 20px;
     width: 50%;
     clear: right;
 }
@@ -292,6 +267,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) {
 div.timeline .newsTL > .newsFeed:nth-child(2n+2) .timeline_element {
     float: left;
     margin-left: 30px;
+    margin-top: 20px;
     right: 10%;
     opacity: 1;
     right: 0;
@@ -300,6 +276,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element {
     float: right;
     left: 10%;
     margin-right: 30px;
+      margin-top: 20px;
     left: 0;
     opacity: 1;
 }

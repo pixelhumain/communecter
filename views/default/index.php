@@ -27,7 +27,7 @@
 		'/js/default/globalsearch.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
-		'/css/sig/sig.css'
+		'/css/sig/sig.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -97,10 +97,11 @@
 				$cityInsee=$city["name"];
 			}
 		}
-		if(isset($me['profilImageUrl']) && $me['profilImageUrl'] != "")
-          $urlPhotoProfil = Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$me['profilImageUrl']);
+		
+		if(!empty($me['profilThumbImageUrl']))
+          $profilThumbImageUrl = Yii::app()->createUrl($me['profilThumbImageUrl']);
         else
-          $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+          $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
 
 ?>
@@ -195,19 +196,76 @@
 		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
 	}
 
+@media screen and (min-width:: 767px) and (max-width: 920px){
+	.main-top-menu .moduleLabel {
+    	max-width: 42% !important;
+	}
 
-@media screen and (min-width: 900px) and (max-width: 1120px) {
-	.box-ajaxTools{
+}
+@media screen and (min-width: 900px) and (max-width: 1130px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 50% !important;
+	}
+
+	/*.box-ajaxTools{
 		width:95%;
 		margin-left:5%;
-	}
+	}*/
 }
 
-@media screen and (min-width: 767px) and (max-width: 900px) {
-	.box-ajaxTools{
+@media screen and (min-height: 100px) and (max-height: 450px) {
+	button.btn-menu2{
+		top:75px;
+	}
+	button.btn-menu3{
+		top:130px;
+	}
+	button.btn-menu4{
+		top:185px;
+	}
+	button.btn-menu6{
+		/*top:250px;*/
+	}
+	button.btn-menu7{
+		/*top: 210px;*/
+		right: 27px;
+   	}
+   	button.btn-menu9{
+		top: 240px;
+    }
+	button.btn-geoloc-auto{
+		display:none;
+		left: 60px !important;
+		top: 14px !important;
+	}
+	button.btn-logout {
+    	left: 10px;
+		top: 15px;
+	}
+	.btn-param-postal-code {
+    	left: 15px;
+		bottom: 12px;
+    }
+    @media screen and (min-width: 765px){
+	    #searchBarPostalCode{
+		    left: 62px;
+			bottom: 12px;
+	    height: 40px;
+	        width: 186px;
+	        padding: 10px 15px !important;
+	    }
+    }
+    button.btn-menu-add{
+	    bottom: 12px;
+    }
+    #input-communexion .search-loader{
+	    left: 70px;
+		bottom: 50px;
+    }
+	/*.box-ajaxTools{
 		width:88%;
 		margin-left:12%;
-	}
+	}*/
 }
 
 @media screen and (max-width: 767px) {
@@ -236,9 +294,17 @@
 	.btn-scope-niv-5{
 		height: 163px;
 	}
-
-}
 	
+}
+<?php if (@Yii::app()->session["userId"]){ ?> 
+@media screen and (min-width: 1130px) {
+.main-top-menu .moduleLabel {
+    max-width: 58% !important;
+    font-size:20px !important;
+}
+}
+<?php } ?>
+
 </style>
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
@@ -262,7 +328,7 @@
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
 	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" >
+	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php }else{ ?> 
@@ -272,9 +338,9 @@
 	<?php } ?>
 
 	<?php 
-		if(!isset($urlPhotoProfil)) $urlPhotoProfil = "";
+		if(!isset($profilThumbImageUrl)) $profilThumbImageUrl = "";
 	 	if(!isset($me)) $me = "";
-	 	$this->renderPartial("menuSmall", array("me"=>$me,"urlPhotoProfil"=>$urlPhotoProfil)); 
+	 	$this->renderPartial("menuSmall", array("me"=>$me,"profilThumbImageUrl"=>$profilThumbImageUrl)); 
 	?> 
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
@@ -391,8 +457,8 @@ jQuery(document).ready(function() {
 	<?php } ?>
 
 
-  	if(inseeCommunexion != ""){
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  	if(inseeCommunexion != "" && cpCommunexion != ""){
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
   	}
 
   	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
@@ -435,6 +501,7 @@ jQuery(document).ready(function() {
 	}
 
 	toogleCommunexion();
+
 
 	//manages the back button state 
 	//every url change (loadByHash) is pushed into history.pushState 
@@ -633,7 +700,7 @@ function showMap(show)
 		
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
-		$(".btn-menu5, .btn-menu-add").hide();
+		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").hide();
 		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 		$("#btn-toogle-map").css("display","inline !important");
@@ -643,7 +710,7 @@ function showMap(show)
      							opacity:0,
 						      }, 'slow' );
 
-		setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
+		setTimeout(function(){ $(".my-main-container").hide(); }, 100);
 		var timer = setTimeout("Sig.constructUI()", 1000);
 		
 	}else{
@@ -652,7 +719,7 @@ function showMap(show)
 
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
-		$(".btn-menu5, .btn-menu-add").show();
+		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
 		$(".panel_map").hide(1);
 		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
@@ -700,32 +767,30 @@ function setScopeValue(btn){
 		setCookies();
 		//definit le path du cookie selon si on est en local, ou en prod
 		
-
+		setCookies(location.pathname);
 		
-		<?php if(!isset(Yii::app()->session['userId'])){ ?>
-		
-			setCookies(location.pathname);
-			
-			//$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
-			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
-			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-			$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-			//$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion) });
-
+		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
+		$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
+		$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 				
-		<?php } ?>
-
+		$("#btn-citizen-council-commun").attr("onclick", 'loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+				
+		
 		if(location.hash.indexOf("#default.twostepregister") == -1)
 		$("#searchBarPostalCode").val(cityNameCommunexion);
 
 		selectScopeLevelCommunexion(levelCommunexion);
 
-  		$(".btn-menu2, .btn-menu3, .btn-menu4 ").show(400);
+  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
+  		if(!userId)
+  		$(".btn-menu9").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
+  		//loadByHash('#rooms.index.type.cities.id.<?php if(isset($myCity)) echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>'
 	
 		Sig.clearMap();
 		console.log("hash city ? ", location.hash.indexOf("#default.city"));
 		if(location.hash == "#default.home"){
-			showLocalActorsCityCommunexion();
+			//showLocalActorsCityCommunexion();
+			loadByHash("#city.detail.insee."+inseeCommunexion+".postalCode."+cpCommunexion);
 		}else
 		if(location.hash == "#default.directory"){
 			startSearch();
@@ -738,9 +803,14 @@ function setScopeValue(btn){
 			showMap(false);
 		}else
 		if(location.hash.indexOf("#city.detail") >= 0) {
-			showLocalActorsCityCommunexion();
-			$("#btn-communecter").html("<i class='fa fa-check'></i> COMMUNECTÉ");
-    		$("#btn-communecter").attr("onclick", "");
+			//showLocalActorsCityCommunexion();
+			if(location.hash != "#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion){
+				loadByHash("#city.detail.insee."+inseeCommunexion+".postalCode."+cpCommunexion);
+			}else{
+				$("#btn-communecter").html("<i class='fa fa-check'></i> COMMUNECTÉ");
+	    		$("#btn-communecter").attr("onclick", "");
+	    		toastr.success('Vous êtes communecté à ' + cityNameCommunexion);
+    		}
 			//showMap(false);
 		}else
 		if(location.hash.indexOf("#default.twostepregister") >= 0) {
@@ -760,12 +830,8 @@ function setScopeValue(btn){
 			setTimeout(function(){ showTwoStep("street");  }, 2000);
 			//showMap(false);
 		}else{
-			if(inseeCommunexion != ""){
-				showLocalActorsCityCommunexion();
-				//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
-				//$("#cityDetail #btn-communecter").html("<i class='fa fa-check'></i> Communecté");
-				//showMap(false);
-			}
+			//showLocalActorsCityCommunexion();
+			loadByHash("#city.detail.insee."+inseeCommunexion+".postalCode."+cpCommunexion);
 		}
 	}
 	
@@ -773,6 +839,10 @@ function setScopeValue(btn){
 }
 
 function showLocalActorsCityCommunexion(){
+
+	loadByHash("#city.detail.insee."+inseeCommunexion+".postalCode."+cpCommunexion);
+	return;
+
 	console.log("showLocalActorsCityCommunexion");
 	var data = { "name" : "", 
  			 "locality" : inseeCommunexion,

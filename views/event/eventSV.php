@@ -132,26 +132,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <!-- *** NEW EVENT *** -->
 <?php 
-	if(@$project)
-		Menu::project($project);			
-	else if (@$organization){
-		Menu::organization($organization);	
-	}else {
-		//Menu::person($person);		
-	}
+	if(@$parent)
+		Menu::$parentType($parent);			
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
 
 
 <div id="newEvent">
+
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"eventCountry"));  ?>
 	
 	<div class="noteWrap col-md-12 form-add-data">
 		
 		<div class="row">
 		<div class="col-md-12">
 			<form class="form-event">
-			<?php $myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
+			<?php 
+				$myOrganizationAdmin = Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"]);
 				$myProjectAdmin = Authorisation::listProjectsIamAdminOf(Yii::app() ->session["userId"]);
+				
 				function mySort($a, $b){
 			  		if(isset($a['name']) && isset($b['name'])){
 				    	return ( strtolower($b['name']) < strtolower($a['name']) );
@@ -165,6 +164,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<div class="col-md-6">
 				<div class="selectpicker">
 					<div class="form-group" id="orgaDrop" name="orgaDrop">
+
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
+						<div class="form-group">
+							<input class="event-id hide" type="text" id="newEventId" name="newEventId">
+							<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
+						</div>
+				
 						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?></h3>
                         <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
                           	<span id="labelOrga"><?php echo Yii::t("event","Choose an organizer",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
@@ -173,8 +179,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                         <ul role="menu" class="dropdown-menu scrollable-menu">
 	                        <li class="categoryOrgaEvent col-md-12">
 		                        <ul class="dropOrgaEvent" id="citoyen">	                    
+			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-question'></i> <?php echo Yii::t("common","I don't know") ?></li>
+			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Event::NO_ORGANISER; ?>" data-id="<?php echo Event::NO_ORGANISER; ?>" data-name="<?php echo Yii::t("common","I don't know") ?>"><?php echo Yii::t("common","I don't know") ?></a></li>
+		                        </ul>
+	                        </li>
+	                        <li class="categoryOrgaEvent col-md-12">
+		                        <ul class="dropOrgaEvent" id="citoyen">	                    
 			                        <li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-user'></i> <?php echo Yii::t("common","Person") ?></li>
-			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="Moi"><?php echo Yii::t("common","Me") ?></a></li>
+			                        <li><a href="javascript:;" class="btn-drop dropOrg" id="<?php echo Yii::app() -> session["userId"]?>" data-id="<?php echo Yii::app() -> session["userId"]?>" data-name="<?php echo Yii::t("common","Me") ?>"><?php echo Yii::t("common","Me") ?></a></li>
 		                        </ul>
 	                        </li>
 	                        <?php if(!empty($myOrganizationAdmin)) { ?>
@@ -203,17 +215,41 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
                        <!-- </div>-->
                     </div>
                     
-                    <input type="hidden" id="newEventOrgaId" name="newEventOrgaId" value="<?php if (@$_GET["contextId"]) echo  $_GET["contextId"] ?>">
-                    <input type="hidden" id="newEventOrgaType" name="newEventOrgaType" value="<?php if (@$_GET["contextType"]) echo $_GET["contextType"]."s"; ?>">
+                    <input type="hidden" id="newEventOrgaId" name="newEventOrgaId" value="<?php if (@$parentType && $parentType != "event") echo  $parentId ?>">
+                    <input type="hidden" id="newEventOrgaType" name="newEventOrgaType" value="<?php if (@$parentType && $parentType != "event") echo $parentType."s"; ?>">
 
 				</div>
 				
-				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id) ?></h3>                       
-				<div class="form-group">
-					<input class="event-id hide" type="text" id="newEventId" name="newEventId">
-					<input class="event-name form-control" name="eventName" type="text" placeholder="<?php echo Yii::t("event","Event Name",null,Yii::app()->controller->module->id); ?>...">
+				<?php 
+				$myEventsAdmin = Authorisation::listEventsIamAdminOf( Yii::app() ->session["userId"] );
+				usort($myEventsAdmin,"mySort");
+				if(!empty($myEventsAdmin)) 
+				{ ?>
+				<div class="selectpicker">
+					<div class="form-group" id="parentDrop" name="parentDrop">
+						<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?></h3>
+                        <a class="form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                          	<span id="labelParent"><?php echo Yii::t("event","If this event is Part of an Event",null,Yii::app()->controller->module->id); ?></span><span class="caret"></span>
+                        </a>
+                        <!--<div class="panel-scroll height-230 ps-container">-->
+                        <ul role="menu" class="dropdown-menu scrollable-menu">
+	                        <?php if(!empty($myEventsAdmin)) { ?>
+	                        <li class="col-md-12">
+		                        <ul class="dropOrgaEvent dropParentEvent" id="events">
+		                        	<li><a href="javascript:;" class="btn-drop dropParent" id="" data-id="" data-name="<?php echo Yii::t("event","No Parent Event",null,Yii::app()->controller->module->id); ?>"><?php echo Yii::t("event","No Parent Event",null,Yii::app()->controller->module->id); ?></a></li>
+		                        	<li class="categoryTitle" style="margin-left:inherit;"><i class='fa fa-group'></i> <?php echo Yii::t("event","Events",null,Yii::app()->controller->module->id); ?></li>
+		                        	<?php foreach ($myEventsAdmin as $e) { ?>
+			                        	<li><a href="javascript:;" class="btn-drop dropParent" id="<?php echo $e['_id']?>" data-id="<?php echo $e['_id']?>" data-name="<?php echo $e['name']?>"><?php echo $e['name']?></a></li>
+			                       	<?php } ?>
+		                        </ul>
+	                        </li>
+	                        <?php } ?>
+                        </ul>
+                       <!-- </div>-->
+                    </div>
+                    <input type="hidden" id="newEventParentId" name="newEventParentId" value="<?php if (@$parentType && $parentType == "event") echo  $parentId ?>">
 				</div>
-
+				<?php } ?>
 				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("event", "Event Categories") ?></h3>
                 <div class="form-group">
 					<select class="form-control selectpicker event-categories">
@@ -261,7 +297,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
 					</div>
 
-					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
+					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></h3>
                         
 					<div class="form-group">
 						<span class="input-icon">
@@ -275,7 +311,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 							<i class="fa fa-home"></i>
 							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
-						</span>
+						</span><br>
+						<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 					</div>
 				
 					
@@ -334,20 +371,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <script type="text/javascript">
 
-	var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
+	//var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
 	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
 	console.log(listOrgaAdmin);
 	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var countries = getCountries("select2");
-	var parentOrga = [];
+	//var parentOrga = [];
 	var defaultHours;
 	var citiesByPostalCode;
-	var organizerParentType = "<?php if (@$_GET["contextType"]) echo $_GET["contextType"]; ?>";
-	var organizerParentId = "<?php if (@$_GET["contextId"]) echo $_GET["contextId"]; ?>";
+	var organizerParentType = "<?php if (@$parentType) echo $parentType; ?>";
+	var organizerParentId = "<?php if (@$parentId) echo $parentId; ?>";
 	//var organizerParentName = "<?php if (@$_GET["organizerParentName"]) echo $_GET["organizerParentName"]; ?>"; 
-	if("undefined" != typeof organizationId && organizationId != ""){
+	/*if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
-	}
+	}*/
 
 	$(".daterangepicker").on("hide.daterangepicker", function(){
 	 	console.log("ok");
@@ -505,9 +542,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 			},
 			messages : {
-				eventName : "* Please specify the name of the event",
-				postalCode : "* Please specify the postal code",
-				city : "* Please specify the city",
+				eventName : "* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>",
+				postalCode : "* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>",
+				city : "* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>",
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				successHandler2.hide();
@@ -554,6 +591,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
+				if( $("#newEventParentId").val() )
+					newEvent.parentId = $("#newEventParentId").val();
+				
 				console.log("newEvent");		
 				console.dir(newEvent);			
 					$.blockUI({
@@ -683,29 +723,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 		$("#eventCountry").select2('val', "");
 
-		if (listOrgaAdmin.length != 0 && listProjectAdmin.length != 0){
-			//$(".selectpicker").addClass("col-md-12");
-			//$(".categoryOrgaEvent").addClass("col-md-4");
-		}
-		else if (listOrgaAdmin.length != 0 || listProjectAdmin.length != 0){
-			//$(".selectpicker").addClass("col-md-6");
-			//$(".categoryOrgaEvent").addClass("col-md-6");
-		}
-		else {
-			//$(".selectpicker").addClass("col-md-6");
-			//$(".categoryOrgaEvent").addClass("col-md-12");
-		}
 		if(organizerParentType.length > 0){
-			if (organizerParentType=="organization"){
-				titleName="<?php echo Yii::t("common","Organization") ?>";
-				console.log(listOrgaAdmin);
-				contextName="<?php if (@$organization) echo addslashes($organization["name"]) ?>";//listOrgaAdmin[organizerParentId]["name"];
-			}	
-			else{
-				titleName="<?php echo Yii::t("common","Project") ?>";
-				contextName="<?php if (@$project) echo addslashes($project["name"]) ?>";//listProjectAdmin[organizerParentId]["name"];
+			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";
+			if(organizerParentType=="event"){
+				titleName="<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?>";
+				idLabel="labelParent";
+			} else{
+				if (organizerParentType=="organization")
+					titleName="<?php echo Yii::t("common","Organization") ?>";
+				else
+					titleName="<?php echo Yii::t("common","Project") ?>";
+				idLabel="labelOrga";
 			}
-			$("#labelOrga").text(titleName+" : "+contextName);
+			$("#"+idLabel).text(titleName+" : "+contextName);
 		}
 		$(".dropOrg").click(function() {
 			console.log(this);
@@ -719,18 +749,28 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("projects");
 			}
-			else {
+			else if($(this).data("id") == "<?php echo Event::NO_ORGANISER; ?>"){
+				$("#labelOrga").text($(this).data("name"));
+				$("#newEventOrgaId").val("<?php echo Event::NO_ORGANISER; ?>");
+				$("#newEventOrgaType").val("<?php echo Event::NO_ORGANISER; ?>");
+			}else{
 				$("#labelOrga").text("<?php echo Yii::t("common","Person"); ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
 				$("#newEventOrgaType").val("citoyens");
 			}
-
-
 		})
 
-		if("undefined" != typeof(parentOrga)){
+		$(".dropParent").click(function() {
+			console.log(this);
+			if ($(this).parents().eq(1).attr("id")=="events"){
+				$("#labelParent").text("<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?> : "+$(this).data("name"));
+				$("#newEventParentId").val($(this).data("id"));
+			}
+		})
+
+		/*if("undefined" != typeof(parentOrga)){
 			$("#"+parentOrga).trigger("click");
-		}
+		}*/
 	}
 
 	
@@ -763,6 +803,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#fullStreet').val();
+			country = $('.form-event #eventCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -796,7 +839,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);
@@ -837,11 +880,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	
 			}
 		}
-		
-		/*if($('#postalCode').val() != "" && $('#postalCode').val() != null){
-			$("#iconeChargement").css("display", "inline-block");
-			findGeoposByInsee($('#city').val(), callbackFindByInseeSuccessAdd);
-		}*/
 	}
 
 	function callbackFindByInseeSuccessAdd(obj){

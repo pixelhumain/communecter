@@ -131,7 +131,7 @@
 		
 			
 
-			<?php if($sigParams['useSatelliteTiles']){ ?>
+			<?php if(@$sigParams['useSatelliteTiles']){ ?>
 				<div class="btn-group btn-group-lg">
 					<button type="button" class="btn btn-map" id="btn-satellite"><i class="fa fa-magic"></i></button>
 				</div>

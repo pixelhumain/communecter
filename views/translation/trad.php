@@ -15,6 +15,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"areyouadmin" : "<?php echo Yii::t("common", "Are you admin") ?>",
 		"yes" : "<?php echo Yii::t("common","Yes") ?>",
 		"no" : "<?php echo Yii::t("common","No") ?>",
+		"cancel" : "<?php echo Yii::t("common","Cancel") ?>",
 		"removeopinionbefore" : "<?php echo Yii::t("common", "Remove your last opinion before") ?>",
 		"voteaddedsuccess" : "<?php echo Yii::t("common", "Your vote has been successfully added") ?>",
 		"voteremovedsuccess" : "<?php echo Yii::t("common","Your vote has been successfully removed") ?>",
@@ -35,7 +36,12 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"leaveeventsuccess":"<?php echo Yii::t("common", "You leave successfully this event") ?>",
 		"leaveeventsuccess":"<?php echo Yii::t("common", "You leave successfully this event") ?>",
 		"visiblepublic":"<?php echo Yii::t("common","Visible to all and posted on the city's wall")?>",
-		"visiblerestricted": "<?php echo Yii::t("common","Visible on this wall and published on this network")?>",
-		"visibleprivate": "<?php echo Yii::t("common","Private view")?>"
+		"visiblerestricted": "<?php echo Yii::t("common","Visible to all on this wall and published on this network")?>",
+		"visibleprivate": "<?php echo Yii::t("common","Private view")?>",
+		"voteUp": "<?php echo Yii::t("common","voteUp")?>",
+		"voteAbstain": "<?php echo Yii::t("common","voteAbstain")?>",
+		"voteUnclear": "<?php echo Yii::t("common","voteUnclear")?>",
+		"voteMoreInfo": "<?php echo Yii::t("common","voteMoreInfo")?>",
+		"voteDown": "<?php echo Yii::t("common","voteDown")?>"
 };
 

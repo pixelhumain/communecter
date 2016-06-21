@@ -9,6 +9,7 @@
 			this.Sig.map = null;
 			this.Sig.markersLayer = "";
 			this.Sig.tileLayer = null;
+			this.Sig.roadTileLayer = null;
 			this.Sig.geoJsonCollection = "";
 
 			this.Sig.initParameters = "";
@@ -490,7 +491,8 @@
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
 					{			
 						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
-							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
+							("undefined" != typeof thisData['author'] && 
+									(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || ("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) {
 							if(this.verifyPanelFilter(thisData))
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
@@ -607,7 +609,6 @@
 					$.each(dataFilter, function(i, thisData)  {
 						////console.warn("--------------- show each thisData ---------------------");
 						////console.dir(thisData);
-
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}
@@ -800,16 +801,17 @@
 
 			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			
-			var roadTileLayer = L.tileLayer('//otile{s}-s.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+			Sig.roadTileLayer = L.tileLayer('//otile{s}-s.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
 							type: 'hyb',
 							ext: 'png',
 							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 							subdomains: '1234',
+							zIndex:2,
 							opacity: 0.7,
 							minZoom:12,
 							maxZoom: 20
 						});
-			roadTileLayer.addTo(map);
+			Sig.roadTileLayer.addTo(map);
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);

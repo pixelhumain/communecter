@@ -248,7 +248,7 @@
 			<div class="col-md-6 col-md-offset-3">
 				<select class="form-control" id="addressCountry">
 				  <option value="FR">France</option>
-				  <option value="GP">Gouadeloupe</option>
+				  <option value="GP">Guadeloupe</option>
 				  <option value="GF">Guyanne Française</option>
 				  <option value="MQ">Martinique</option>
 				  <option value="YT">Mayotte</option>
@@ -335,6 +335,8 @@
 		<span class="text-center text-dark" style="font-size:15px; font-weight:300;">
 			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
 			C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
+			<br><br>
+			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" class="btn bg-azure"><i class="fa fa-angle-left"></i> Sortir</a>
 		</span>
 	</div>	
 
@@ -358,7 +360,7 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+				<button class="btn btn-success margin-top-10" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
 					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
@@ -406,12 +408,13 @@
 	cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
 	countryCommunexion = "<?php echo $countryCommunexion; ?>";
 
+	var actionBtnCo = "";
+
 	jQuery(document).ready(function() {
 		console.log("userConnected", countryCommunexion);
 		console.dir(userConnected);
 	
 		if(countryCommunexion != ""){
-			//$("#addressCountry").val(countryCommunexion);
 			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
 		}
 
@@ -426,24 +429,17 @@
 		}
 		
 		$(".explainLink").click(function() {
-		    $(".removeExplanation").parent().hide();
 			showDefinition( $(this).data("id") );
 			return false;
 		});
 
 		location.hash = "#default.twostepregister";
-		//$('.btn-menu0').off().click( function(e){ loadByHash("#default.twostepregister")} );
 
 		$(".moduleLabel").html("<i class='fa fa-user'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER");
   		
-		//$(".menu-button").hide();
-
-  		<?php if(!isset($inseeCommunexion)){ ?>
-  			//showTwoStep("begin-zone");
-  		<?php }else{ ?>
-  			//showTwoStep("begin-communexion");
-  		<?php } ?>
-  		
+  		actionBtnCo = $("#main-btn-co").attr("href");
+  		$("#main-btn-co").attr("href", "javascript:");
+		
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
@@ -451,7 +447,7 @@
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
-      			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...")
+      			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...");
       			startNewCommunexion($("#addressCountry").val()); 
       		}, 1200);
   		});
@@ -584,7 +580,6 @@
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
   		var addressCountry = countryCommunexion; //$("#addressCountry").val();
-  		
   		$.ajax({
 			url: baseUrl+"/"+moduleId+"/person/update",
 			type: 'POST',
@@ -593,13 +588,13 @@
 				  "&postalCode="+cpCommunexion+
 				  "&addressLocality="+cityNameCommunexion+
 				  "&addressCountry="+addressCountry+
-				  "&codeInsee="+inseeCommunexion,
-				  //"&two_steps_register=false",
+				  "&codeInsee="+inseeCommunexion+
+				  "&two_steps_register=false",
     		success: function (obj){
     			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
     			showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
-    			//console.dir(obj);
+    			$("#main-btn-co").attr("href", actionBtnCo);
 			},
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle addresse");

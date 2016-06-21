@@ -97,6 +97,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div id="newProject">
+
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"projectCountry"));  ?>
+
 	<div class="noteWrap col-md-12 form-add-data" >  
 		 <div class="panel panel-white">
         	<div class="panel-heading border-light text-dark">
@@ -141,7 +144,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<label class="control-label text-purple">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?>
 								</label>
-			        		    <input id="tagsProject" type="" data-type="select2" name="tagsProject" value="" style="display: none;width:100%; height:35px;">		        		    
+			        		    <input id="tagsProject" type="" data-type="select2" name="tagsProject" value="" style="display: none;width:100%; height:auto;">		        		    
 						</div>
 						
 						<!--<div class="form-group">
@@ -180,7 +183,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
 								<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 								</label>
-								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >
+								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" ><br>
+								<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 							</div>
 							<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 								<label class="control-label text-purple" for="city">
@@ -543,6 +547,9 @@ function convertDate2(date, num){
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('.form-project #fullStreet').val();
+			country = $('.form-project  #projectCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -576,7 +583,7 @@ function convertDate2(date, num){
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);

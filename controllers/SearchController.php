@@ -17,6 +17,7 @@ class SearchController extends CommunecterController {
   {
       return array(
           'globalautocomplete'      	=> 'citizenToolKit.controllers.search.GlobalAutoCompleteAction',
+          'simplyautocomplete'        => 'citizenToolKit.controllers.search.SimplyAutoCompleteAction',
           'searchmemberautocomplete'  => 'citizenToolKit.controllers.search.SearchMembersAutoCompleteAction',
           'getshortdetailsentity'     => 'citizenToolKit.controllers.search.GetShortDetailsEntityAction',
           'searchbycriteria'          => 'citizenToolKit.controllers.search.SearchByCriteriaAction',
@@ -24,5 +25,4 @@ class SearchController extends CommunecterController {
           'mainmap'                   => 'citizenToolKit.controllers.search.MainMapAction',
       );
   }
-  
 }
