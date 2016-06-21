@@ -17,7 +17,7 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/dda.png"" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/dda.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
