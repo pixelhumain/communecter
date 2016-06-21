@@ -29,10 +29,10 @@
 						<b>Communecter</b> est construit sur 4 éléments clefs, permettant de modéliser les acteurs et l'acitivté d'un territoire 
 						<br/>
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Citoyen </li>
-				        	<li><i class='fa fa-arrow-right'></i> Organisation</li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">évènnement</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> Projet</li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.person.dir.docs');">Citoyen</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.organisation.dir.docs');">Organisation</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Evènnement</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.projects.dir.docs');">Projet</a></li>
 				        </ul>
 				    </div>
 				</div>
