@@ -199,7 +199,7 @@
 
 				}
 				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
-				if ($countStrongLinks != 0){
+				if (!empty($countStrongLinks)){
 					if($contentType==Organization::COLLECTION)
 						$strongLinksLabel=Yii::t("common","member");
 					else if ($contentType==Project::COLLECTION)

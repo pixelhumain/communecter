@@ -204,7 +204,7 @@ if( Yii::app()->request->isAjaxRequest ){
 								$this->renderPartial('../pod/usersList', array(  
 															"project"=> $action,
 															"users" => $contributors,
-															"countStrongLinks" => $countStrongLinks,
+															"countStrongLinks" => $countStrongLinks, 
 															"userCategory" => Yii::t("common","COMMUNITY"), 
 															"contentType" => ActionRoom::COLLECTION_ACTIONS,
 															"admin" => true	)); 
