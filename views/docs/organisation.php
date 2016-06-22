@@ -1,10 +1,10 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> Module : Organisation</span>
+    <span class=" text-green homestead tpl_title"><i class="fa fa-users fa-2x"></i><br>Les Organisations</span>
     <br/>
     <span class="tpl_shortDesc">Les organisations sont un des pilliers de la société, <br/>
-    leurs activités est aussi productif que créateur de liens et de services.<br/>
-    C'est en voyant tout les acteurs locaux , qu'on aura un vrai territoire connecté et que la valeur </span>
+    leurs activités sont aussi productives que créatrices de liens et de services.<br/>
+    <!-- C'est en voyant tout les acteurs locaux, qu'on aura un vrai territoire connecté et que la valeur --> </span>
 </div>
 
 <style type="text/css">

@@ -18,19 +18,31 @@
     box-shadow: 0px 0px 10px 0px rgb(95, 95, 95);
     padding: 0px 5%;
     margin-bottom:50px;
-    margin-top:50px;
+    margin-top:70px;
   }
   .carousel-indicators{
-    bottom: -40px;
+    top: -20px;
   }
   .carousel-indicators li {
     background-color: grey;
+    padding: 15px;
+    margin:4px;
+    border-color: transparent !important;
+    border-radius: 50%;
+    
   }
   .carousel-indicators li.active {
-    background-color: black;
+    background-color: inherit;
+    padding: 18px;
+    margin: 0px;
+    margin-bottom: 2px;
+    
   }
   .btn-elements .btn{
   	width:50px;
   	height:50px;
   	border-radius: 50%;
   }
+  .carousel-inner {
+    padding-top: 30px;
+}

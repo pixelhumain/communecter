@@ -1,8 +1,10 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> Module : Projets</span>
+    <span class=" text-purple homestead tpl_title"><i class="fa fa-lightbulb-o fa-2x"></i><br>Les Projets</span>
     <br/>
-    <span class="tpl_shortDesc">Les projets permettent à la société d'évoluer<br/>, à nos organisation de s'améliorer, à nos citoyens de participer et de contribuer. Tout ce qui est partager à plus de chances de réussir, évoluer et grandir  </span>
+    <span class="tpl_shortDesc">Les projets permettent à la société d'évoluer,<br/>
+    à nos organisation de s'améliorer, à nos citoyens de participer et de contribuer.<br/>
+    Tout ce qui est partager à plus de chances de réussir, évoluer et grandir  </span>
 </div>
 
 <style type="text/css">
@@ -17,7 +19,7 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/project.png"" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/project.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
@@ -71,6 +73,14 @@
 
 	    </div>
         <br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.dda.dir.docs');">Events <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 ">
+	        <a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();">
+	        	<i class="fa fa-arrow-left"></i>  Retour
+	        </a>
+	        <a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.dda.dir.docs');">
+	        	Événements <i class="fa fa-arrow-right"></i>
+	        </a>
+        </div>
+        </div>
     </div>
 </div>

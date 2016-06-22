@@ -1,6 +1,6 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> Module : évènement</span>
+    <span class=" text-orange homestead tpl_title"><i class="fa fa-calendar fa-2x"></i><br>Les évènement</span>
     <br/>
     <span class="tpl_shortDesc">Les évènements rythment nos vies et notre entourage.<br/> 
     Tout le monde participe d'une facon ou d'une autre à l'activité de son territoire. <br/>

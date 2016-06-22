@@ -1,6 +1,6 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> Module : Citoyen</span>
+    <span class=" text-yellow homestead tpl_title"><i class="fa fa-user fa-2x"></i><br>Les Citoyens</span>
     <br/>
     <span class="tpl_shortDesc">
     	Le citoyen est au centre de ce réseau sociétal,<br>
