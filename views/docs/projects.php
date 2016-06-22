@@ -2,7 +2,9 @@
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class=" text-red homestead tpl_title"> Module : Projets</span>
     <br/>
-    <span class="tpl_shortDesc">Les projets permettent à la société d'évoluer<br/>, à nos organisation de s'améliorer, à nos citoyens de participer et de contribuer. Tout ce qui est partager à plus de chances de réussir, évoluer et grandir  </span>
+    <span class="tpl_shortDesc">Les projets permettent à la société d'évoluer,<br/>
+    à nos organisation de s'améliorer, à nos citoyens de participer et de contribuer.<br/>
+    Tout ce qui est partager à plus de chances de réussir, évoluer et grandir  </span>
 </div>
 
 <style type="text/css">
@@ -17,7 +19,7 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/events.png"" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/events.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">

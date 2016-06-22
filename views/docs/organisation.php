@@ -2,7 +2,9 @@
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class=" text-red homestead tpl_title"> Module : Organisation</span>
     <br/>
-    <span class="tpl_shortDesc">Les organisations sont un des pilliers de la société<br/>, leurs activités est aussi productif que créateur de liens et de services. C'est en voyant tout les acteurs locaux , qu'on aura un vrai territoire connecté et que la valeur </span>
+    <span class="tpl_shortDesc">Les organisations sont un des pilliers de la société, <br/>
+    leurs activités est aussi productif que créateur de liens et de services.<br/>
+    C'est en voyant tout les acteurs locaux , qu'on aura un vrai territoire connecté et que la valeur </span>
 </div>
 
 <style type="text/css">
@@ -17,7 +19,7 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/orga.png"" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/orga.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">

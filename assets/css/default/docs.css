@@ -1,0 +1,36 @@
+  
+  ul li {list-style: none}
+  .tpl_title{font-size: 28px !important;}
+  .tpl_title2{font-size: 38px;}
+  .panel-title {font-size:25px;}
+  .points{padding-left:10px;}
+  .tpl_shortDesc{font-size:17px; font-weight: 300; margin-left:20px;}
+
+  /* CAROUSEL */
+  .carousel-control{
+    /*background-image: unset !important;*/
+  }
+  .carousel-control{
+    color:#000;
+  }
+  #docCarousel{
+  	float: left;
+    box-shadow: 0px 0px 10px 0px rgb(95, 95, 95);
+    padding: 0px 5%;
+    margin-bottom:50px;
+    margin-top:50px;
+  }
+  .carousel-indicators{
+    bottom: -40px;
+  }
+  .carousel-indicators li {
+    background-color: grey;
+  }
+  .carousel-indicators li.active {
+    background-color: black;
+  }
+  .btn-elements .btn{
+  	width:50px;
+  	height:50px;
+  	border-radius: 50%;
+  }
