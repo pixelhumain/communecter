@@ -689,7 +689,7 @@ var rand = Math.floor((Math.random() * 7) + 1);
 var urlImgRand = proverbs[rand];
 function  processingBlockUi() { 
 	$.blockUI({
-	 	message : '<h3 style="font-weight:300" class=" text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h3>' //+
+	 	message : '<h4 style="font-weight:300" class=" text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i><br>Chargement en cours...</h4>' //+
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }

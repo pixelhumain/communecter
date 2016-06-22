@@ -196,6 +196,10 @@
 		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
 	}
 
+	.blockUI.blockMsg.blockPage{
+		/*display:none !important;*/
+	}
+
 @media screen and (min-width:: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
     	max-width: 42% !important;

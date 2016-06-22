@@ -232,8 +232,8 @@ function bindEventMenu(){
 	$(".hover-menu").mouseenter(function(){
 		////console.log("enter all");
 		positionMouseMenu = "in";
-		$(".main-col-search").animate({ opacity:0.3 }, 400 );
-		$(".lbl-btn-menu-name").show(200);
+		$(".main-col-search").animate({ opacity:0.3 }, 0 );
+		$(".lbl-btn-menu-name").show(0);
 		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
 
@@ -252,7 +252,7 @@ function bindEventMenu(){
 		////console.log("enter btn, loginRegister", isLoginRegister());
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
-			$(".main-col-search").animate({ opacity:0.3 }, 200 );
+			$(".main-col-search").animate({ opacity:0.3 }, 0 );
 			$(".menu-button-title").addClass("large");
 
 			if(!showMenuExplanation)
@@ -274,7 +274,7 @@ function bindEventMenu(){
 	    	hoverPersist = false;
 			clearTimeout(timeoutHover);
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 200 );
+			$(".main-col-search").animate({ opacity:1 }, 0 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
