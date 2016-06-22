@@ -4,7 +4,7 @@
 ?>
 
 <div class="panel-heading border-light text-dark partition-white radius-10">
-    <span class=" text-dark homestead tpl_title"><i class="fa fa-file"></i> Documentation</span><br>
+    <span class=" text-dark homestead tpl_title"><i class="fa fa-binoculars"></i> Documentation</span><br>
     <div class="col-md-12 btn-elements hidden">
 		<button class="btn btn-default bg-yellow"></i> <i class="fa fa-user fa-2x"></i></button>
 	    <button class="btn btn-default bg-green"></i> <i class="fa fa-users fa-2x"></i></button>
