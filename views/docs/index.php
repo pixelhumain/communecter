@@ -23,7 +23,7 @@
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> 4 Elements</h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-cubes"></i> 4 Elements</h4>
 					</div> 
 					<div class="panel-body">
 						<b>Communecter</b> est construit sur 4 éléments clefs, permettant de modéliser les acteurs et l'acitivté d'un territoire 
@@ -41,14 +41,13 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> Comprendre </h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> OCDB : Open Common Database </li>
-						<li><i class='fa fa-arrow-right'></i> Open System</li>
-						<li><i class='fa fa-arrow-right'></i> Import Export</li>
-						<li><i class='fa fa-arrow-right'></i> Open API</li>
+			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
 						<li><i class='fa fa-arrow-right'></i> Web sématique</li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
 			        </ul>
@@ -77,18 +76,12 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> SlideShow</h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-tv"></i> Présentation</h4>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> une action peut avoir 5 états différents : </li>
-							<li><i class='fa fa-arrow-right'></i> "A Faire" : aucune date de début n'a été assigné</li>
-							<li><i class='fa fa-arrow-right'></i> "En cours" : une date de début, et une personne est assignée</li>
-							<li><i class='fa fa-arrow-right'></i> "En retard": la date de fin est assigné mais dépassé.</li>
-							<li><i class='fa fa-arrow-right'></i> "Terminer" : une tache qui a été cloturé</li>
-							<li><i class='fa fa-arrow-right'></i> "Non Assignée" : une tache qui n'a pas encore de responsable </li>
-							<li><i class='fa fa-arrow-right'></i> Plusieurs personne peuvent etre assignées à une action</li>
+				        	<li><i class='fa fa-arrow-right'></i> </li>
 				        </ul>
 				    </div>
 				</div>
@@ -97,18 +90,12 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> SlideShow</h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-copy"></i> Offres </h4>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> une action peut avoir 5 états différents : </li>
-							<li><i class='fa fa-arrow-right'></i> "A Faire" : aucune date de début n'a été assigné</li>
-							<li><i class='fa fa-arrow-right'></i> "En cours" : une date de début, et une personne est assignée</li>
-							<li><i class='fa fa-arrow-right'></i> "En retard": la date de fin est assigné mais dépassé.</li>
-							<li><i class='fa fa-arrow-right'></i> "Terminer" : une tache qui a été cloturé</li>
-							<li><i class='fa fa-arrow-right'></i> "Non Assignée" : une tache qui n'a pas encore de responsable </li>
-							<li><i class='fa fa-arrow-right'></i> Plusieurs personne peuvent etre assignées à une action</li>
+				        	<li><i class='fa fa-arrow-right'></i> </li>
 				        </ul>
 				    </div>
 				</div>
@@ -117,18 +104,12 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> SlideShow</h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-bullhorn"></i> Communication </h4>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> une action peut avoir 5 états différents : </li>
-							<li><i class='fa fa-arrow-right'></i> "A Faire" : aucune date de début n'a été assigné</li>
-							<li><i class='fa fa-arrow-right'></i> "En cours" : une date de début, et une personne est assignée</li>
-							<li><i class='fa fa-arrow-right'></i> "En retard": la date de fin est assigné mais dépassé.</li>
-							<li><i class='fa fa-arrow-right'></i> "Terminer" : une tache qui a été cloturé</li>
-							<li><i class='fa fa-arrow-right'></i> "Non Assignée" : une tache qui n'a pas encore de responsable </li>
-							<li><i class='fa fa-arrow-right'></i> Plusieurs personne peuvent etre assignées à une action</li>
+				        	<li><i class='fa fa-arrow-right'></i>  </li>
 				        </ul>
 				    </div>
 				</div>
