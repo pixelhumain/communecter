@@ -401,7 +401,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</div>
 		</div>
 	</div>
-	<?php /**
+	<?php /*
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%; ">
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>

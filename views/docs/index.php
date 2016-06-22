@@ -15,9 +15,11 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
-        
-        <div class="panel-body tpl_content">
+    <div class=" ">
+        <div class="col-md-8 col-md-offset-2">
+        	<?php $this->renderPartial("../docs/player"); ?>
+        </div>
+        <div class="tpl_content">
            
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
