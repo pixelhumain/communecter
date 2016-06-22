@@ -22,12 +22,20 @@ var loadStream = function(indexMin, indexMax){
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
+    filter = new Object;
+    filter.parent=parent;
+    if (typeof(locality) != "undefined")
+	    filter.locality=locality;
+    if (typeof(searchBy) != "undefined")
+	    filter.searchBy=searchBy;
+	if (typeof(tagSearch) != "undefined")
+	    filter.tagSearch=tagSearch;
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
-	       	data: {"parent" :  parent},
+	       	data: filter,
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
 		    	console.log(data.news);
