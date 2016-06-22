@@ -373,6 +373,11 @@ class Menu {
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();    
+        self::entry("right", 'onclick', 
+              Yii::t( "common", 'Understanding newspaper and news stream'),
+            '', 'question-circle',
+             "loadByHash('#default.view.page.news.dir.docs')",null,null);
+
     }
 
     public static function project($project)
