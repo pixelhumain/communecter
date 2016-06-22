@@ -700,7 +700,7 @@ function showAjaxPanel (url,title,icon) {
 
 	showNotif(false);
 			
-	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
+	//$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
@@ -725,7 +725,7 @@ function showAjaxPanel (url,title,icon) {
 				window.location.reload();*/
 
 
-			$(".main-col-search").slideDown(); 
+			//$(".main-col-search").slideDown(); 
 			initNotifications(); 
 			
 			$(".explainLink").click(function() {  
