@@ -23,12 +23,12 @@
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-dark"><i class="fa fa-comments"></i> PARTAGER</h4>
+						<h4 class="panel-title homestead text-yellow"><i class="fa fa-comments"></i> PARTAGER</h4>
 					</div> 
 					<div class="panel-body">
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Chaque citoyen peut ajouter : </li>
-				        	<li><i class='fa fa-arrow-right'></i> Ses amis ou connaissances Citoyens</li>
+				        	<li><strong><i class='fa fa-arrow-right'></i> Chaque citoyen peut ajouter : </strong></li>
+				        	<li><i class='fa fa-arrow-right'></i> Ses amis ou connaissances</li>
 				        	<li><i class='fa fa-arrow-right'></i> Ses organisations</li>
 				        	<li><i class='fa fa-arrow-right'></i> Ses évenements</li>
 				        	<li><i class='fa fa-arrow-right'></i> Ses projets</li>
@@ -41,11 +41,11 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-dark"><i class="fa fa-comments"></i> ORGANISER</h4>
+						<h4 class="panel-title homestead text-yellow"><i class="fa fa-comments"></i> ORGANISER</h4>
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> Mon Répertoire ou Annuaire personnel </li>
+			        	<li><i class='fa fa-arrow-right'></i> Mon répertoire personnel </li>
 			        	<li><i class='fa fa-arrow-right'></i> Faire des propositions</li>
 						<li><i class='fa fa-arrow-right'></i> Partager vos évènements</li>
 						<li><i class='fa fa-arrow-right'></i> Partager vos projet</li>
@@ -56,7 +56,7 @@
 
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
-					<div class="panel-heading border-light text-dark">
+					<div class="panel-heading border-light text-yellow">
 						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTICIPER</h4>
 					</div> 
 					<div class="panel-body">

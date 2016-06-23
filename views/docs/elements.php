@@ -4,16 +4,27 @@
 ?>
 
 <div class="panel-heading border-light text-dark partition-white radius-10">
-    <span class=" text-dark homestead tpl_title"><i class="fa fa-binoculars"></i> Documentation</span><br>
+	<span class="text-dark homestead tpl_title">
+		<a href="javascript:loadByHash('#default.view.page.index.dir.docs')">
+			<i class="fa fa-arrow-circle-left" style="margin-right:15px;"></i> 
+			<i class="fa fa-binoculars"></i> Documentation
+		</a>
+	</span>
+    <br>
     <div class="col-md-12 btn-elements hidden">
 		<button class="btn btn-default bg-yellow"></i> <i class="fa fa-user fa-2x"></i></button>
 	    <button class="btn btn-default bg-green"></i> <i class="fa fa-users fa-2x"></i></button>
 	    <button class="btn btn-default bg-purple"></i> <i class="fa fa-lightbulb-o fa-2x"></i></button>
 	    <button class="btn btn-default bg-orange"></i> <i class="fa fa-calendar fa-2x"></i></button>
     </div>
-    <span class="tpl_shortDesc col-md-12">
+    <span class="tpl_shortDesc col-md-7">
     	<span class=" text-red homestead tpl_title2">1- Les 4 éléments</span><br>
-	    <span class=" text-dark homestead">Citoyens, organisations, projets, événements</span><br>
+	    <span class=" text-dark homestead">
+	    	<span class="text-yellow">Citoyens</span> 
+	    	<span class="text-green">organisations</span> 
+	    	<span class="text-purple">projets</span> 
+	    	<span class="text-orange">événements</span>
+	    </span><br>
 	    Communecter s'appuie sur quatres éléments pour mettre en lumière ceux qui imaginent, organisent et mettent en place les solutions de demain ...
     </span><br/><br/>
     
@@ -23,10 +34,10 @@
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#docCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#docCarousel" data-slide-to="1"></li>
-    <li data-target="#docCarousel" data-slide-to="2"></li>
-    <li data-target="#docCarousel" data-slide-to="3"></li>
+    <li data-target="#docCarousel" data-slide-to="0" class="active bg-yellow"></li>
+    <li data-target="#docCarousel" data-slide-to="1" class="bg-green"></li>
+    <li data-target="#docCarousel" data-slide-to="2" class="bg-purple"></li>
+    <li data-target="#docCarousel" data-slide-to="3" class="bg-orange"></li>
   </ol>
 
   <!-- Wrapper for slides -->

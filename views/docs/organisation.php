@@ -24,7 +24,7 @@
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTAGER</h4>
+						<h4 class="panel-title homestead text-green"><i class="fa fa-comments"></i> PARTAGER</h4>
 					</div> 
 					<div class="panel-body">
 				        <ul class="points">
@@ -39,7 +39,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> ORGANISER</h4>
+						<h4 class="panel-title homestead text-green"><i class="fa fa-cogs"></i> ORGANISER</h4>
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
@@ -56,7 +56,7 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-eye"></i> Visualiser</h4>
+						<h4 class="panel-title homestead text-green"><i class="fa fa-eye"></i> Visualiser</h4>
 					</div> 
 					<div class="panel-body">
 						
