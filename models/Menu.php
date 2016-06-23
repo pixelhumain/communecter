@@ -724,6 +724,18 @@ class Menu {
                     '<a href="javascript:;" data-id="explainActions" class="tooltips btn btn-default explainLink"',null,null);
                       
     }
+    public static function docs()
+    {
+         if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        // Help
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'go to documentation Index'),
+                    Yii::t( "common", 'Index'), 'chevron-circle-left',
+                    "loadByHash('#default.view.page.index.dir.docs')","indexBtn",null);
+    }
+
     public static function back()
     {
          if( !is_array( Yii::app()->controller->toolbarMBZ ))

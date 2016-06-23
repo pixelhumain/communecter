@@ -73,7 +73,7 @@
 					<div class="panel-body">
 			        <ul class="points">
 			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
 						<li><i class='fa fa-arrow-right'></i> Web sématique</li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
@@ -81,24 +81,26 @@
 			    </div>
 				</div>
 			</div>
-
+			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> L'Histoire</h4>
+						<h4 class="panel-title homestead text-red"><i class="fa fa-cube"></i> Modules</h4>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Avant </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
-				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">des chiffres</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">NEWS / fil d'actus</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> SIG </li>
+				        	<li><i class='fa fa-arrow-right'></i> Annuaire</li>
+				        	<li><i class='fa fa-arrow-right'></i> Agenda</li>
+				        	<li><i class='fa fa-arrow-right'></i> </li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
+
+			
 		</div>
 		<div class="col-sm-12">
 
@@ -137,13 +139,51 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i>  </li>
+				        	<li><i class='fa fa-arrow-right'></i> Nos Vidéos </li>
+				        	<li><i class='fa fa-arrow-right'></i> Nos Affiches </li>
+				        </ul>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="col-sm-6">
+		        <div class="panel panel-white user-list ">
+					<div class="panel-heading border-light">
+						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> L'Histoire</h4>
+					</div> 
+					<div class="panel-body">
+						
+				        <ul class="points">
+				        	<li><i class='fa fa-arrow-right'></i> Avant </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
+				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">des chiffres</a> </li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
 
+			<div class="col-sm-6">
+		        <div class="panel panel-white user-list ">
+					<div class="panel-heading border-light">
+						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> R&D</h4>
+					</div> 
+					<div class="panel-body">
+						
+				        <ul class="points">
+				        	<li><i class='fa fa-arrow-right'></i> Avant </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
+				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">des chiffres</a> </li>
+				        </ul>
+				    </div>
+				</div>
+			</div>
 	    </div>
+
         <br>
         <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.dda.dir.docs');">c'est Parti <i class="fa fa-arrow-right"></i> </a></div></div>
     </div>

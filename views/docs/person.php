@@ -1,9 +1,16 @@
-
+<?php 
+Menu::docs();
+Menu::entry("right", 'onclick', 
+            Yii::t( "common", 'Organisation Documentation'),
+            Yii::t( "common", 'Organisation'), 
+            'chevron-circle-right',
+            "loadByHash('#default.view.page.organisation.dir.docs')","closeActionBtn",null);
+$this->renderPartial('../default/panels/toolbar');
+ ?>
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-yellow homestead tpl_title"><i class="fa fa-user fa-2x"></i><br>Les Citoyens</span>
+    <span class=" text-red homestead tpl_title"><i class="fa fa-user"></i> Les Citoyens</span>
     <br/>
-    <span class="tpl_shortDesc">
-    	Le citoyen est au centre de ce réseau sociétal,<br>
+    <span class="tpl_shortDesc"> Le citoyen est au centre de ce réseau sociétal,<br>
     	tout est fait pour lui, par lui, et amplifié par le nombres de citoyens participant.<br>
     	Le projet est concu comme un bien commun pour le bien commun </span>
 </div>
@@ -72,3 +79,10 @@
 				</div>
 			</div>
 		</div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+  $(".moduleLabel").html(
+  			"<i class='fa fa-connectdevelop'></i> "+
+  			"<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>");
+});
+</script>
