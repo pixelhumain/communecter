@@ -603,7 +603,7 @@ function getMediaHtml(data,action,idNews){
 	else
 		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
