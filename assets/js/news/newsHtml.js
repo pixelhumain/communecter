@@ -162,11 +162,39 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 	}
 	else{
-		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
+		if(newsObj.object.objectType=="events" || newsObj.object.objectType=="needs"){
+			if(typeof(newsObj.startDate) == "object")
+				var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
+			else
+				var startDate = new Date( parseInt(newsObj.startDate)*1000 );
+			var startMonth = months[startDate.getMonth()];
+			var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
+			if(typeof(newsObj.endDate) == "object")
+				var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
+			else
+				var endDate = new Date( parseInt(newsObj.endDate)*1000 );
+			var endMonth = months[endDate.getMonth()];
+			var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
+
+			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
+			//var min = (startDate.getMinutes() < 10) ?  "0"+startDate.getMinutes() : startDate.getMinutes();
+			//var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding">'+
+						'<div class="col-md-3 col-sm-3 col-xs-3 no-padding center">'+
+							'<span class="text-large text-red text-bold light-text timeline_title no-margin">'+startDay+'</span><br/><span class="text-dark light-text timeline_title no-margin">'+startMonth+'</span>'+
+						'</div>'+
+						'<div class="col-md-9  col-sm-9 col-xs-9 no-padding">'+
+							'<span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span><br/>'+
+							'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • <i class="fa fa-map-marker"></i> '+newsObj.scope.address.addressLocality+'</span>'+
+						'</div>'+
+					'</a>';
+		} else{
+			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span></a>';
+		}
 		if("undefined" != typeof newsObj.text && newsObj.text != ""){
-			title += "</br>";
+			title += "</br><div class='col-md-12 col-sm-12 col-xs-12 no-padding'>";
 			textNews=checkAndCutLongString(newsObj.text,150,newsObj._id.$id);
-			text = '<span class="timeline_text">'+textNews+'</span>';
+			text = '<span class="timeline_text no-padding">'+textNews+'</span></div>';
 		}
 	}
 	tags = "", 

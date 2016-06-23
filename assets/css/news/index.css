@@ -313,6 +313,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
     /*white-space: nowrap;*/
     word-wrap: break-word;
     max-width: 325px;
+    min-width: 90%;
     
 }
 
@@ -336,6 +337,7 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
   
 	.timeline_element {
 	    max-width: 200px;
+	    min-width: 100%;
 	}
 } 
 
