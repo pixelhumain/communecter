@@ -112,7 +112,9 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'organisation Alternatiba Péi </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'organisation L'évènement RMLLD </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'anuaire d'un citoyen actif</li>
 				        </ul>
 				    </div>
 				</div>
@@ -126,7 +128,11 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> </li>
+				        	<li><i class='fa fa-arrow-right'></i><a target="_blank" href="https://www.communecter.org/doc/Outils au service d'une villle intelligente et citoyenne V.0.1.pdf"> Outils au service d'une villle intelligente et citoyenne V.0.1</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i><a target="_blank" href="https://www.communecter.org/doc/Présentation Courte de Communecter - OPEN ATLAS.pdf"> Présentation Courte</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i><a target="_blank" href="https://www.communecter.org/doc/Présentation simplifiée de Communecter - OPEN ATLAS.pdf"> Présentation simplifiée</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i><a target="_blank" href="https://www.communecter.org/doc/Innovation Sociétale.pdf"> Innovation Sociétale</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i><a target="_blank" href="https://www.communecter.org/doc/Plaquette Offre Carrefour des communes.pdf"> Plaquette Offre Carrefour des communes</a> </li>
 				        </ul>
 				    </div>
 				</div>
@@ -173,7 +179,7 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> Avant </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
+				        	<li><i class='fa fa-arrow-right'></i> L'équipe et les communecteurs</li>
 				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">des chiffres</a> </li>
 				        </ul>
@@ -189,7 +195,7 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Avant </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.roadmap.dir.docs');">Roadmap</a>  </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
 				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
