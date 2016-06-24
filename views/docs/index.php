@@ -103,8 +103,22 @@
 			
 		</div>
 		<div class="col-sm-12">
+			
+			<div class="col-sm-6 ">
+		        <div class="panel panel-white user-list ">
+					<div class="panel-heading border-light">
+						<h4 class="panel-title homestead text-red"><i class="fa fa-eye"></i> Exemple</h4>
+					</div> 
+					<div class="panel-body">
+						
+				        <ul class="points">
+				        	<li><i class='fa fa-arrow-right'></i> </li>
+				        </ul>
+				    </div>
+				</div>
+			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead text-red"><i class="fa fa-tv"></i> Présentation</h4>
@@ -117,7 +131,9 @@
 				    </div>
 				</div>
 			</div>
-			<div class="col-sm-4 ">
+		</div>
+		<div class="col-sm-12">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead text-red"><i class="fa fa-copy"></i> Offres </h4>
@@ -125,13 +141,13 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> </li>
+				        	<li><i class='fa fa-arrow-right'></i> Communecter en marque blanche</li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead text-red"><i class="fa fa-bullhorn"></i> Communication </h4>
