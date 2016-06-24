@@ -62,7 +62,25 @@ display: inline;
 	
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
 </div>
-
+<div class="col-md-12 center" style="margin-top: 20px; margin-bottom: 0px; margin-left: 0px;">
+    <div class="btn-group inline-block" id="menu-directory-type">
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="News" type="news">
+        <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">News</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs hidden-sm">Projets</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+        <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
+      </button>
+	  <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Needs" type="needs">
+        <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Needs</span>
+      </button>
+    </div>
+  </div>
 
 <?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
@@ -73,7 +91,7 @@ display: inline;
 
 
 <script type="text/javascript">
-var searchType = [ "persons", "organizations", "projects", "events","needs", "news"];
+var searchType = ["organizations", "projects", "events", "needs", "news"];
 jQuery(document).ready(function() {
   	topMenuActivated = true;
   	hideScrollTop = true; 
@@ -100,7 +118,20 @@ jQuery(document).ready(function() {
     $(".btn-geolocate").click(function(e){
     	initHTML5Localisation('prefillSearch');
     });
-
+	$(".btn-filter-type").click(function(e){
+	    var type = $(this).attr("type");
+	    var index = searchType.indexOf(type);
+	
+	    if(type == "all" && searchType.length > 1){
+	      $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+	    }
+	    if(type == "all" && searchType.length == 1){
+	      $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+	    }
+	
+	    if (index > -1) removeSearchType(type);
+	    else addSearchType(type);
+  	});
 
     $(".btn-activate-communexion").click(function(){
       //toogleCommunexion();
@@ -161,5 +192,25 @@ function showNewsStream(name,locality){
 	ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city?isFirst=1",dataNewsSearch, null,"html");
 	$("#dropdown_search").hide(300);
 }
+
+function addSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index == -1) {
+    searchType.push(type);
+    $(".search_"+type).removeClass("fa-circle-o");
+    $(".search_"+type).addClass("fa-check-circle-o");
+  }
+    console.log(searchType);
+}
+function removeSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index > -1) {
+    searchType.splice(index, 1);
+    $(".search_"+type).removeClass("fa-check-circle-o");
+    $(".search_"+type).addClass("fa-circle-o");
+  }
+  console.log(searchType);
+}
+
 </script>
 

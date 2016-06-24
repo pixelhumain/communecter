@@ -28,6 +28,9 @@ var loadStream = function(indexMin, indexMax){
 	    filter.locality=locality;
     if (typeof(searchBy) != "undefined")
 	    filter.searchBy=searchBy;
+	if (typeof(searchType) != "undefined")
+	    filter.searchType=searchType;
+
 	if (typeof(tagSearch) != "undefined")
 	    filter.tagSearch=tagSearch;
     if(typeof(dateLimit)!="undefined"){
@@ -522,7 +525,79 @@ function getUrlContent(){
                 });
 			}
         }
-    });
+    }).keydown(function( event ) {
+		if ( event.which == 192 ) {
+			peopleReference=true;
+  		}
+  		if(peopleReference == true){
+	  		allValue=getUrl.val();
+	  		search=allValue.split("@").pop();
+	  		var data = {"search" : search,"searchMode":"personOnly"};
+	  		$.ajax({
+				type: "POST",
+		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
+		        data: data,
+		        dataType: "json",
+		        success: function(data){
+		        	if(!data){
+		        		toastr.error(data.content);
+		        	}else{
+		        		
+						str = "";
+						console.log(data);
+						if(data.citoyens.length != 0){
+							$("#dropdown_search").show();
+				 			$.each(data, function(key, value) {
+				 				
+				 				$.each(value, function(i, v){
+				 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
+				 					var logoSearch = "";
+				 					console.log(v);
+				 					if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl!=""){
+				 						var imageSearch = '<img alt="image" class="" src="'+baseUrl+v.profilThumbImageUrl+'" style="height:25px;padding-right:5px;"/>'
+				 					}
+				  					str += '<li class="li-dropdown-scope"><a href="javascript:setReferenceInNews(\''+v.id+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
+				  				});
+				  			}); 
+				  			$("#dropdown_search").html(str);
+				  		} else{
+					  		$("#dropdown_search").hide();
+		        		peopleReference=false;
+
+				  		}
+		  			}
+				}	
+			})
+	  		/*getUrl.select2({
+				  ajax: {
+				    url: "https://api.github.com/search/repositories",
+				    dataType: 'json',
+				    delay: 250,
+				    data: search
+				    },
+				    processResults: function (data, params) {
+				      // parse the results into the format expected by Select2
+				      // since we are using custom formatting functions we do not need to
+				      // alter the remote JSON data, except to indicate that infinite
+				      // scrolling can be used
+				      params.page = params.page || 1;
+				
+				      return {
+				        results: data.items,
+				        pagination: {
+				          more: (params.page * 30) < data.total_count
+				        }
+				      };
+				    },
+				    cache: true
+				  },
+				  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+				  minimumInputLength: 1,
+				  templateResult: formatRepo, // omitted for brevity, see the source of this page
+				  templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+				});*/
+  		}
+  	});
 }
 function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){

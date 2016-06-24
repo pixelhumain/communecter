@@ -175,7 +175,11 @@ function buildLineHTML(newsObj,idSession,update)
 				var endDate = new Date( parseInt(newsObj.endDate)*1000 );
 			var endMonth = months[endDate.getMonth()];
 			var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
-
+			if (newsObj.object.objectType=="needs")
+				objectLocality=newsObj.target.address.addressLocality;
+			else 
+				objectLocality=newsObj.scope.address.addressLocality;
+ 
 			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
 			//var min = (startDate.getMinutes() < 10) ?  "0"+startDate.getMinutes() : startDate.getMinutes();
 			//var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
@@ -185,7 +189,7 @@ function buildLineHTML(newsObj,idSession,update)
 						'</div>'+
 						'<div class="col-md-9  col-sm-9 col-xs-9 no-padding">'+
 							'<span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span><br/>'+
-							'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • <i class="fa fa-map-marker"></i> '+newsObj.scope.address.addressLocality+'</span>'+
+							'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • <i class="fa fa-map-marker"></i> '+objectLocality+'</span>'+
 						'</div>'+
 					'</a>';
 		} else{
@@ -419,6 +423,13 @@ function buildHtmlUrlAndActionObject(obj){
 			urlParent="";
 			titleAction = "a créé un projet";
 		}
+		else if(obj.object.objectType =="needs"){
+			redirectTypeUrl="need";
+			id=obj.object.id;
+			urlParent="";
+			titleAction = "a créé un besoin";
+		}
+
 		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
 	object=new Object;

@@ -185,6 +185,26 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .thumb_sel .next_thumb:hover {
 	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -26px 0px;
 }
+#dropdown_search{
+	display:none;
+    border: 1px solid #eee;
+    max-height: 160px;
+    overflow-y: auto;
+    position: relative;
+}
+#dropdown_search .li-dropdown-scope{
+	text-align: left;
+	width:100%;
+}
+#dropdown_search .li-dropdown-scope a{
+	font-size:12px;
+	    line-height: 25px;
+}
+/*.results{
+	margin-top: 10px;
+}*/
+
+
 
 </style>
 
@@ -213,6 +233,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
+					<ul class="dropdown-menu" id="dropdown_search" style="">
+					</ul>
+
 					<div id="results" class="bg-white results"></div>
 				</div>
 			</div>
@@ -404,6 +427,7 @@ var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 	var searchBy = "<?php echo $searchBy ?>";
 <?php } ?>
 var tagSearch = "<?php echo @$tagSearch ?>";
+var peopleReference=false;
 /*function t(lang, phrase){
 	if(typeof trad[phrase] != "undefined")
 	return trad[phrase];
