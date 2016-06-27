@@ -29,7 +29,7 @@
 	    	<span class="text-purple">projets</span> 
 	    	<span class="text-orange">événements</span>
 	    </span><br>
-	    <?php echo $_GET["slide"]; ?>
+	    <?php //echo $_GET["slide"]; ?>
 	    Communecter s'appuie sur quatres éléments pour mettre en lumière ceux qui imaginent, organisent et mettent en place les solutions de demain ...
     </span><br/><br/>
     
