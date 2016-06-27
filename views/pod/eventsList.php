@@ -75,7 +75,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 							<td>
 								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 									<?php 
-									if(isset($e["name"]))echo $e["name"];
+									if(@$e["name"]) echo $e["name"];
+									if(@$e["links"]["subEvents"]) echo "(".count($e["links"]["subEvents"]).")";
 									$startDate = (@$e["startDate"]) ? date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
 			        				$endDate = (@$e["endDate"]) ? "<br/>".date("d/m/y H:i",(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
 			        				$dates = $startDate.$endDate;
