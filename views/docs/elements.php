@@ -1,5 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/default/docs.css');
+	$cssAnsScriptFilesModule = array('/css/docs/docs.css');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
@@ -11,7 +11,7 @@
 			<i class="fa fa-arrow-circle-left" style="margin-right:15px;"></i> 
 			<i class="fa fa-binoculars"></i> Documentation
 		</a>
-		<?php $this->renderPartial("../docs/docIndex"); ?>
+		<?php $this->renderPartial("../docs/docPattern/docIndex"); ?>
 	</span>
     <br>
     <div class="col-md-12 btn-elements hidden">
@@ -50,13 +50,13 @@
   <div class="carousel-inner" role="listbox">
     
     <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/person", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/events", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
   </div>
 
-  <!-- Left and right controls -->
+  <!-- Left and right SLIDER controls -->
   <a class="left carousel-control" href="#docCarousel" role="button" data-slide="prev">
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     <span class="sr-only">Précédent</span>
@@ -67,37 +67,16 @@
   </a>
 </div>
 
-<a href="javascript:" class="hidden text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Précédent
+<!-- Left and right CHAPTER controls -->
+<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+  <i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
 </a>
-<a href="javascript:"  class="hidden text-extra-large bg-dark pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	<i class="fa fa-arrow-right"></i> Suivant
+<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+  Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-  			"<i class='fa fa-connectdevelop'></i> "+
-  			"<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>");
-
-  $(".carousel-control").click(function(){
-  	var top = $("#docCarousel").position().top-30;
-  	$(".my-main-container").animate({ scrollTop: top, }, 100 );
-  });
-
-  $(".btn-carousel-previous").click(function(){ //toastr.success('success!'); console.log("CAROUSEL CLICK");
-  		var top = $("#docCarousel").position().top-30;
-  		$(".my-main-container").animate({ scrollTop: top, }, 100 );
-  		setTimeout(function(){ $(".carousel-control.left").click(); }, 500);
-  	});
-   $(".btn-carousel-next").click(function(){ //toastr.success('success!'); console.log("CAROUSEL CLICK");
-  		var top = $("#docCarousel").position().top-30;
-  		$(".my-main-container").animate({ scrollTop: top, }, 100 );
-  		setTimeout(function(){ $(".carousel-control.right").click(); }, 500);
-  	});
-
+  initDocJs();
 });
 </script>
-
-
-

@@ -84,3 +84,10 @@
   margin-right: auto;
   margin-left: auto;
 }
+
+.panel-title.text-red{
+  color: #E33551 !important;
+}
+.panel-title.text-red:hover{
+  color: #3C5665 !important;
+}

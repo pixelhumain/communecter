@@ -1,5 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/default/docs.css');
+	$cssAnsScriptFilesModule = array('/css/docs/docs.css');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
@@ -18,7 +18,7 @@
     <div class="panel panel-white ">
         
         <div class="col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 no-padding">
-        	<?php $this->renderPartial("../docs/player"); ?>
+        	<?php $this->renderPartial("../docs/docPattern/player"); ?>
         </div>
         
         <div class="panel-body tpl_content">
@@ -27,12 +27,9 @@
 	        <div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red pull-left">
-							<i class="fa fa-cubes"></i> 4 Elements	
-						</h4>
-						<div class="btn-group pull-right">
-							<a class="btn btn-default btn-sm" href="javascript:loadByHash('#default.view.page.elements.dir.docs');">+</a>
-						</div>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.elements.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-cubes"></i> 4 Elements</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						<b>Communecter</b> est construit sur 4 éléments clefs, permettant de modéliser les acteurs et l'acitivté d'un territoire 
@@ -49,7 +46,9 @@
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-cogs"></i> Pour quoi faire ?</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-cogs"></i> Pour quoi faire ?</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -68,7 +67,9 @@
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
@@ -85,7 +86,9 @@
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-cube"></i> Modules</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.modules.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-cube"></i> Modules</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -104,10 +107,12 @@
 		</div>
 		<div class="col-sm-12">
 			
-			<div class="col-sm-6 ">
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-eye"></i> Exemple</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.exemple.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-eye"></i> Exemple</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -123,7 +128,9 @@
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-tv"></i> Présentation</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.presentation.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-tv"></i> Présentation</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -137,12 +144,12 @@
 				    </div>
 				</div>
 			</div>
-		</div>
-		<div class="col-sm-12">
-			<div class="col-sm-6 ">
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-copy"></i> Offres </h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.offre.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-copy"></i> Offres </h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -156,7 +163,9 @@
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-bullhorn"></i> Communication </h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.communication.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-bullhorn"></i> Communication </h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -172,7 +181,9 @@
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> L'Histoire</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.histoire.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> L'Histoire</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						
@@ -190,7 +201,9 @@
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> R&D</h4>
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.rd.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> R&D</h4>
+						</a>
 					</div> 
 					<div class="panel-body">
 						

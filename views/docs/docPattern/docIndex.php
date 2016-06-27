@@ -1,4 +1,10 @@
-<div class="dropdown pull-left">
+<style>
+	.dropdownDocIndex {
+	    margin-top: 16px;
+	    margin-left: 13px;
+	}
+</style>
+<div class="dropdown dropdownDocIndex pull-left">
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
   Chapitres <span class="caret"></span>
   </button>

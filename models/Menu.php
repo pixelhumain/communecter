@@ -724,7 +724,7 @@ class Menu {
                     '<a href="javascript:;" data-id="explainActions" class="tooltips btn btn-default explainLink"',null,null);
                       
     }
-    public static function docs()
+    public static function docs($previousChapter, $nextChapter)
     {
          if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
@@ -732,8 +732,20 @@ class Menu {
         //-----------------------------
         self::entry("left", 'onclick', 
                     Yii::t( "common", 'go to documentation Index'),
-                    Yii::t( "common", 'Index'), 'chevron-circle-left',
-                    "loadByHash('#default.view.page.index.dir.docs')","indexBtn",null);
+                    Yii::t( "common", 'Documentation'), 'binoculars',
+                    "loadByHash('#default.view.page.index.dir.docs')","indexBtn",null);// Help
+        //-----------------------------
+        if($previousChapter != "")
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Previous chapter'),
+                    Yii::t( "common", ''), 'chevron-circle-left',
+                    "loadByHash('#default.view.page.".$previousChapter.".dir.docs')","indexBtn",null);// Help
+        //-----------------------------
+        if($nextChapter != "")
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Next chapter'),
+                    Yii::t( "common", ''), 'chevron-circle-right',
+                    "loadByHash('#default.view.page.".$nextChapter.".dir.docs')","indexBtn",null);
     }
 
     public static function back()
