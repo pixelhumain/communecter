@@ -1,25 +1,7 @@
-<style>
-  .carousel-control{
-    /*background-image: unset !important;*/
-  }
-  .carousel-control{
-    color:#000;
-  }
-  #docCarousel{
-    box-shadow: 0px 0px 10px 0px rgb(95, 95, 95);
-    padding: 0px 5%;
-    margin-bottom:50px;
-  }
-  .carousel-indicators{
-    bottom: -40px;
-  }
-  .carousel-indicators li {
-    background-color: grey;
-  }
-  .carousel-indicators li.active {
-    background-color: black;
-  }
-</style>
+<?php 
+  $cssAnsScriptFilesModule = array('/css/default/docs.css');
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -29,6 +11,7 @@
     <li data-target="#docCarousel" data-slide-to="3"></li>
     <li data-target="#docCarousel" data-slide-to="4"></li>
     <li data-target="#docCarousel" data-slide-to="5"></li>
+    <li data-target="#docCarousel" data-slide-to="6"></li>
   </ol>
 
   <!-- Wrapper for slides -->
@@ -54,6 +37,10 @@
 
     <div class="item">
       <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/schemas/schema-global-62.png" class="col-sm-12 img-responsive ">
+    </div>
+
+    <div class="item">
+      <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/schemas/schema-global-72.png" class="col-sm-12 img-responsive ">
     </div>
   </div>
 

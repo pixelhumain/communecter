@@ -1,10 +1,10 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-orange homestead tpl_title"><i class="fa fa-calendar fa-2x"></i><br>Les évènement</span>
+    <span class=" text-orange homestead tpl_title"><i class="fa fa-calendar fa-2x"></i> Les évènement</span>
     <br/>
     <span class="tpl_shortDesc">Les évènements rythment nos vies et notre entourage.<br/> 
     Tout le monde participe d'une facon ou d'une autre à l'activité de son territoire. <br/>
-    Grace à un outil globalisant, on pourrait tout transmettre simplement , et surtout tout voir rapidement et ne rien rater. </span>
+    Grace à Communecter, on peut tout transmettre simplement, et surtout tout voir rapidement et ne rien rater. </span>
 </div>
 
 <style type="text/css">
@@ -19,7 +19,7 @@
         
         <div class="panel-body tpl_content">
            
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/events.png" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/events.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
