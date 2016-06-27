@@ -2,17 +2,18 @@
 	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("elements", "comprendre");
+  Menu::docs("communication", "rd");
   $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
 <!-- header -->
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
-                          "icon" => "cubes",
-                          "title" => "Le titre",
-                          "stitle" => "Le sous titre",
-                          "description" => "La description ...",
+                          "icon" => "book",
+                          "title" => "L'histoire",
+                          "stitle" => "Passé, présent et futur",
+                          "description" => "Communecter n'est pas né d'hier.<br>Communecter prend le temps de se construire, de mûrir, pour grandir sereinement".
+                                           " et porter le plus loin possible ce projet révolutionnaire ...",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
@@ -46,16 +47,16 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
+<a href="javascript:loadByHash('#default.view.page.communication.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+	<i class="fa fa-arrow-left"></i> Communication
 </a>
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
+<a href="javascript:loadByHash('#default.view.page.rd.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+	R&D <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("comments", "L'histoire");
 });
 </script>
 

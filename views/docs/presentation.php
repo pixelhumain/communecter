@@ -2,15 +2,15 @@
 	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("elements", "comprendre");
+  Menu::docs("modules", "communication");
   $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
 <!-- header -->
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
-                          "icon" => "cubes",
-                          "title" => "Le titre",
+                          "icon" => "tv",
+                          "title" => "Présentation",
                           "stitle" => "Le sous titre",
                           "description" => "La description ...",
 )); ?>
@@ -28,10 +28,10 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
+    <div class="item"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
+    <div class="item"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
+    <div class="item"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
+    <div class="item"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
   </div>
 
   <!-- Left and right SLIDER controls -->
@@ -46,16 +46,16 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
+<a href="javascript:loadByHash('#default.view.page.modules.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+	<i class="fa fa-arrow-left"></i> Modules
 </a>
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
+<a href="javascript:loadByHash('#default.view.page.communication.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+	Communication <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("tv", "présentation");
 });
 </script>
 

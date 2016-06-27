@@ -2,7 +2,7 @@
   $cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("elements", "comprendre");
+  Menu::docs("pourquoi", "modules");
   $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>

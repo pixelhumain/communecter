@@ -29,11 +29,11 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/pourquoi/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/pourquoi/alternatives", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/pourquoi/discuter", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/pourquoi/participer", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/pourquoi/projets", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/pourquoi/acteurs", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/pourquoi/alternatives", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/pourquoi/discuter", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/pourquoi/participer", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/pourquoi/projets", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/pourquoi/acteurs", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->
@@ -49,7 +49,7 @@
 
 <!-- Left and right CHAPTER controls -->
 <a href="javascript:loadByHash('#default.view.page.elements.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> 4 éléments
+	<i class="fa fa-arrow-left"></i> Les 4 éléments
 </a>
 <a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
 	Comprendre <i class="fa fa-arrow-right"></i>

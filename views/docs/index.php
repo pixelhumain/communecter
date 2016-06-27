@@ -182,7 +182,7 @@
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.histoire.dir.docs');">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> L'Histoire</h4>
+							<h4 class="panel-title homestead text-red"><i class="fa fa-book"></i> L'Histoire</h4>
 						</a>
 					</div> 
 					<div class="panel-body">
@@ -202,7 +202,7 @@
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.rd.dir.docs');">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> R&D</h4>
+							<h4 class="panel-title homestead text-red"><i class="fa fa-tachometer"></i> R&D</h4>
 						</a>
 					</div> 
 					<div class="panel-body">

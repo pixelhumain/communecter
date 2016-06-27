@@ -9,9 +9,9 @@
 
 <!-- header -->
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
-                          "icon" => "cubes",
-                          "title" => "Le titre",
-                          "stitle" => "Le sous titre",
+                          "icon" => "tachometer",
+                          "title" => "R&D",
+                          "stitle" => "Recherche et développement",
                           "description" => "La description ...",
 )); ?>
 
@@ -28,10 +28,10 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/rd/roadmap", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->
@@ -47,15 +47,12 @@
 
 <!-- Left and right CHAPTER controls -->
 <a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
-</a>
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
+	<i class="fa fa-arrow-left"></i> L'histoire
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("tachometer", "rd");
 });
 </script>
 

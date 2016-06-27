@@ -73,9 +73,11 @@
 					</ul>
 				</div>
 			</div>
+			<?php if(!isset($renderPartial) || $renderPartial != true){ ?>
 			<div class="col-sm-12">
             	<a href="javascript:window.history.back();" class="text-extra-large  bg-dark tooltips pull-left radius-5 padding-10 homestead" style="display: block;" ><i class="fa fa-arrow-left"></i> Retour  </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

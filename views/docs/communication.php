@@ -2,17 +2,17 @@
 	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("elements", "comprendre");
+  Menu::docs("presentation", "histoire");
   $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
 <!-- header -->
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
-                          "icon" => "cubes",
-                          "title" => "Le titre",
-                          "stitle" => "Le sous titre",
-                          "description" => "La description ...",
+                          "icon" => "bullhorn",
+                          "title" => "Communication",
+                          "stitle" => "un bien commun à partager sans modération",
+                          "description" => "Merci de nous aider à faire connaître communecter au quotidien !",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
@@ -46,16 +46,16 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
+<a href="javascript:loadByHash('#default.view.page.presentation.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+	<i class="fa fa-arrow-left"></i> Présentation
 </a>
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
+<a href="javascript:loadByHash('#default.view.page.histoire.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+	L'histoire <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("bullhorn", "Communication");
 });
 </script>
 

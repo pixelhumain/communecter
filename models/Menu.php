@@ -744,7 +744,7 @@ class Menu {
         if($nextChapter != "")
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Next chapter'),
-                    Yii::t( "common", 'Next').' <i class="fa fa-chevron-circle-right"></i>', '',
+                    Yii::t( "common", 'Next').' <i class="fa fa-chevron-circle-right"></i>', 'chevron-circle-right hidden-lg',
                     "loadByHash('#default.view.page.".$nextChapter.".dir.docs')","indexBtn",null);
     }
 

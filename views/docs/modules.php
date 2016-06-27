@@ -2,17 +2,17 @@
 	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("elements", "comprendre");
+  Menu::docs("comprendre", "presentation");
   $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
 <!-- header -->
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
-                          "icon" => "cubes",
-                          "title" => "Le titre",
-                          "stitle" => "Le sous titre",
-                          "description" => "La description ...",
+                          "icon" => "cube",
+                          "title" => "Modules",
+                          "stitle" => "Actualités, cartographie, annuaire, agenda ...",
+                          "description" => "Communecter c'est plein de fonctionnalités plus utiles les unes que les autres, imbriquées et interconnectées, qui font de communecter un réseau sociétal puissant.",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
@@ -46,16 +46,16 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-	<i class="fa fa-arrow-left"></i> Nom du chapitre Précédent
+<a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+	<i class="fa fa-arrow-left"></i> Comprendre
 </a>
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-	Nom du chapitre Suivant <i class="fa fa-arrow-right"></i>
+<a href="javascript:loadByHash('#default.view.presentation.pourquoi.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+	Présentation <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("cube", "Modules");
 });
 </script>
 

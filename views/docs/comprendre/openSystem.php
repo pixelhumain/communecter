@@ -1,3 +1,4 @@
+
  <div class="panel-heading center text-dark partition-white radius-10" >
     <span class="tpl_shortDesc">Les organisations sont un des pilliers de la société<br/>, leurs activités est aussi productif que créateur de liens et de services. C'est en voyant tout les acteurs locaux , qu'on aura un vrai territoire connecté et que la valeur </span>
 </div>
