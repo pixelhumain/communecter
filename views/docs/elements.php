@@ -50,10 +50,10 @@
   <div class="carousel-inner" role="listbox">
     
     <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/person"); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/organisation"); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/projects"); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/events"); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/person", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/organisation", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/projects", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/events", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right controls -->

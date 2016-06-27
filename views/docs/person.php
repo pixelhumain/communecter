@@ -1,12 +1,14 @@
 <?php 
-Menu::docs();
-Menu::entry("right", 'onclick', 
-            Yii::t( "common", 'Organisation Documentation'),
-            Yii::t( "common", 'Organisation'), 
-            'chevron-circle-right',
-            "loadByHash('#default.view.page.organisation.dir.docs')","closeActionBtn",null);
-$this->renderPartial('../default/panels/toolbar');
- ?>
+	if(!isset($renderPartial) || $renderPartial != true){
+		Menu::docs();
+		Menu::entry("right", 'onclick', 
+		            Yii::t( "common", 'Organisation Documentation'),
+		            Yii::t( "common", 'Organisation'), 
+		            'chevron-circle-right',
+		            "loadByHash('#default.view.page.organisation.dir.docs')","closeActionBtn",null);
+		$this->renderPartial('../default/panels/toolbar');
+	}
+?>
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class=" text-red homestead tpl_title"><i class="fa fa-user"></i> Les Citoyens</span>
     <br/>
@@ -25,7 +27,7 @@ $this->renderPartial('../default/panels/toolbar');
 
            
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/person.png" class="col-sm-12 img-responsive" style="margin-bottom:15px;">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/person.png" class="img-schemas img-responsive" style="margin-bottom:15px;">
         
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
