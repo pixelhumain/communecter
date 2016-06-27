@@ -1010,14 +1010,15 @@ function showInputCommunexion(){
 var levelCommunexion = 1;
 function selectScopeLevelCommunexion(level){
 
-	var department = "";
+	//var department = "";
+	var department = inseeCommunexion;
 	console.log("selectScopeLevelCommunexion", countryCommunexion, $.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]));
 
-	if($.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]) >= 0){
+	/*if($.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]) >= 0){
 		department = cpCommunexion.substr(0, 3);
 	}else{
 		department = cpCommunexion.substr(0, 2);
-	}
+	}*/
 
 	var change = (level != levelCommunexion);
 
@@ -1032,7 +1033,8 @@ function selectScopeLevelCommunexion(level){
 		else
 			endMsg = "au code postal " + cpCommunexion;
 	}
-	if(level == 3) endMsg = "au département " + department;
+	//if(level == 3) endMsg = "au département " + department;
+	if(level == 3) endMsg = "au département ";
 	if(level == 4) endMsg = "à votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "à l'ensemble du réseau";
 
@@ -1049,7 +1051,8 @@ function selectScopeLevelCommunexion(level){
 		else
 			endMsg = cpCommunexion;
 	}
-	if(level == 3) endMsg = "Département " + department;
+	//if(level == 3) endMsg = "Département " + department;
+	if(level == 3) endMsg = "Département ";
 	if(level == 4) endMsg = "Votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "Tout le réseau";
 	
@@ -1060,7 +1063,8 @@ function selectScopeLevelCommunexion(level){
 
 	$(".btn-scope-niv-5").attr("data-original-title", "Niveau 5 - Tout le réseau");
 	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région " + regionNameCommunexion);
-	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + department);
+	//$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + department);
+	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département ");
 	if(typeof(cityInseeCommunexion)!="undefined"){
 		$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Ville entière : " + cityInseeCommunexion);
 	}
