@@ -57,7 +57,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("cogs", "pour quoi faire ?");
 });
 </script>
 

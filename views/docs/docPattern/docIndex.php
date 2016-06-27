@@ -15,34 +15,34 @@
     	</a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
+    	<a href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-cogs text-red"></i> Pour quoi faire ?
     	</a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
+    	<a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-question-circle text-red"></i> Comprendre
     	</a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
+    	<a href="javascript:loadByHash('#default.view.page.histoire.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-book text-red"></i> L'histoire
     	</a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
+    	<a href="javascript:loadByHash('#default.view.page.presentation.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-tv text-red"></i> Présentation
     	</a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
-    		<i class="fa fa-copy text-red"></i> Offres
-    	</a>
+        <a href="javascript:loadByHash('#default.view.page.communication.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
+            <i class="fa fa-bullhorn text-red"></i> Communication
+        </a>
     </li>
     <li>
-    	<a href="javascript:;" class="text-red" id="btn-menu-dropdown-my-profil">
-    		<i class="fa fa-bullhorn text-red"></i> Communication
-    	</a>
+        <a href="javascript:loadByHash('#default.view.page.rd.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
+            <i class="fa fa-bullhorn text-red"></i> R&D
+        </a>
     </li>
   </ul>
 </div>

@@ -1,7 +1,7 @@
-function initDocJs(){
+function initDocJs(faIcon, title){
   $(".moduleLabel").html(
-        "<i class='fa fa-connectdevelop'></i> "+
-        "<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>");
+        "<i class='fa fa-binoculars'></i> La doc :"+
+        " <span class='text-red'><i class='fa fa-"+faIcon+"'></i> "+title+"</span>");
 
   $(".carousel-control").click(function(){
     var top = $("#docCarousel").position().top-30;

@@ -738,13 +738,13 @@ class Menu {
         if($previousChapter != "")
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Previous chapter'),
-                    Yii::t( "common", ''), 'chevron-circle-left',
+                    Yii::t( "common", 'Previous'), 'chevron-circle-left',
                     "loadByHash('#default.view.page.".$previousChapter.".dir.docs')","indexBtn",null);// Help
         //-----------------------------
         if($nextChapter != "")
         self::entry("right", 'onclick', 
                     Yii::t( "common", 'Next chapter'),
-                    Yii::t( "common", ''), 'chevron-circle-right',
+                    Yii::t( "common", 'Next').' <i class="fa fa-chevron-circle-right"></i>', '',
                     "loadByHash('#default.view.page.".$nextChapter.".dir.docs')","indexBtn",null);
     }
 

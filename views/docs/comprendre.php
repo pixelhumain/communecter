@@ -11,8 +11,8 @@
 <?php $this->renderPartial("../docs/docPattern/docHeader", array(
                           "icon" => "question-circle",
                           "title" => "Comprendre",
-                          "stitle" => "Communecter c'est plein de concept un peu barbare qu'on va vous expliquer simplement ...",
-                          "description" => "La description ...",
+                          "stitle" => "OCDB, API, DDA, etc",
+                          "description" => "Communecter c'est plein de concept un peu barbare qu'on va vous expliquer simplement ...",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
@@ -49,15 +49,15 @@
 
 <!-- Left and right CHAPTER controls -->
 <a href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
-  <i class="fa fa-arrow-left"></i> 4 éléments
+  <i class="fa fa-arrow-left"></i> Pour quoi faire ?
 </a>
 <a href="javascript:loadByHash('#default.view.page.modules.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
-  Comprendre <i class="fa fa-arrow-right"></i>
+  Les modules <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  initDocJs();
+  initDocJs("question-circle", "comprendre");
 });
 </script>
 
