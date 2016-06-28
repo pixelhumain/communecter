@@ -17,20 +17,27 @@
         
         <div class="panel-body tpl_content">
          
-        <div class="col-xs-12">
-	        <div class=" col-xs-12 col-md-6">
-	        	
-	        </div>
-	        <div class=" col-xs-12 col-md-6">
-	        	
-	        </div>
+            <div class="col-xs-12">
+    	        <div class=" col-xs-12 col-md-6">
+    	        	<?php 
+                            if(file_exists ( "../../modules/communecter/assets/images/affiches" )){
+                                $files = glob('../../modules/communecter/assets/images/affiches/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+                                $res = array();
+                                for ($i=0; $i < 10; $i++) { 
+                                    echo "<img src='".str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)])."'/>"
+                                }
+                              
+                            } 
+                        ?>
+    	        </div>
+            </div>
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript">
-jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-            "<span class='text-red'>MODULE</span> : Affiches</span>");
-});
+    jQuery(document).ready(function() {
+      $(".moduleLabel").html( "<i class='fa fa-cube'></i> <span class='text-red'>MODULE</span> : Affiches</span>");
+    });
 </script>

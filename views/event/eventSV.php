@@ -400,7 +400,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
+	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
 	});
 
 	function runShowCity(searchValue) {
@@ -528,10 +528,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					required : true
 				},
 				postalCode : {
+					minlength : 2,
 					rangelength : [5, 5],
 					required : true
 				},
 				city : {
+					minlength : 2,
 					required : true
 				},
 				eventStartDate : {
@@ -594,15 +596,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
-				console.log("newEvent");		
+				console.log("newEvent");
 				console.dir(newEvent);			
-					$.blockUI({
-					message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
-				});
-
-				if($(".form-event #newEventOrga").val() !==""){
-
-				}
+				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>' });
 				
 				$.ajax({
 				        type: "POST",
@@ -617,10 +613,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				        if (data &&  data.result) {
 				        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
 				        	$("#newEventId").val(data.id["$id"]);
-				        	//$.hideSubview();
 				        	console.log(data);
-				        		addFloopEntity(data.id["$id"], "events", data.event);
-				        		loadByHash("#event.detail.id."+data.id["$id"]);
+			        		addFloopEntity(data.id["$id"], "events", data.event);
+			        		loadByHash("#event.detail.id."+data.id["$id"]);
 								
 						} else {
 				           toastr.error(data.msg);
