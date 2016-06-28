@@ -64,25 +64,7 @@
 			</div>
 		</div>
 		<div class="col-sm-12">
-			<div class="col-sm-6">
-		        <div class="panel panel-white user-list ">
-					<div class="panel-heading border-light">
-						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
-						</a>
-					</div> 
-					<div class="panel-body">
-			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
-						<li><i class='fa fa-arrow-right'></i> Web sématique</li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a></li>
-						
-			        </ul>
-			    </div>
-				</div>
-			</div>
+			
 			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
@@ -104,7 +86,24 @@
 				    </div>
 				</div>
 			</div>
-
+			
+			<div class="col-sm-6">
+		        <div class="panel panel-white user-list ">
+					<div class="panel-heading border-light">
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
+						</a>
+					</div> 
+					<div class="panel-body">
+			        <ul class="points">
+			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a></li>
+			        </ul>
+			    </div>
+				</div>
+			</div>
 			
 		</div>
 		<div class="col-sm-12">
@@ -140,8 +139,8 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Nos Vidéos </li>
-				        	<li><i class='fa fa-arrow-right'></i> Nos Affiches </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.video.dir.docs');">Nos Vidéos</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.affiches.dir.docs');">Nos Affiches</a> </li>
 				        </ul>
 				    </div>
 				</div>
