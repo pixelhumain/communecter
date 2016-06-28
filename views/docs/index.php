@@ -78,7 +78,7 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">NEWS / fil d'actus</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.sig.dir.docs');">Système d'info : Géographique & Territorial</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> Annuaire</li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.annuaire.dir.docs');">Annuaire</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.agenda.dir.docs');">Agenda</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#news.index.type.pixels');">Proposer une idées</a></li>

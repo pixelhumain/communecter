@@ -60,7 +60,7 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> Recherche une ou toutes les instances OCDB</li>
 							<li><i class='fa fa-arrow-right'></i> Couplage OCDB, Wikipedia, OSM</li>
-							<li><i class='fa fa-arrow-right'></i> </li>
+							<li><i class='fa fa-arrow-right'></i> Paysan Numérique : Curation, Récolte, Croisement</li>
 				        </ul>
 				    </div>
 				</div>
