@@ -139,6 +139,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <div id="newEvent">
+
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"eventCountry"));  ?>
 	
 	<div class="noteWrap col-md-12 form-add-data">
 		
@@ -295,7 +297,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
 					</div>
 
-					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
+					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></h3>
                         
 					<div class="form-group">
 						<span class="input-icon">
@@ -309,7 +311,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 							<i class="fa fa-home"></i>
 							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
-						</span>
+						</span><br>
+						<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 					</div>
 				
 					
@@ -351,11 +354,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				
 					<?php if( Yii::app()->session['userId'] ){ ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> Enregistrer</button>
+						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> <?php echo Yii::t("common","Save") ?></button>
 					</div>
 					<?php } else {  ?>
 						<div class= "row  col-xs-12">
-							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')">Please Login First</button>
+							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')"><?php echo Yii::t("common","Please Login First") ?></button>
 						</div>
 					<?php } ?>
 			</div>
@@ -397,7 +400,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
+	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
 	});
 
 	function runShowCity(searchValue) {
@@ -536,16 +539,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 				eventEndDate : {
 					required : true
-				},
+				}
 			},
 			messages : {
-				eventName : '* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>',
-				postalCode : '* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>',
-				city : '* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>',
+				eventName : "* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>",
+				postalCode : "* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>",
+				eventCountry : "* <?php echo Yii::t("event","Please specify the country",null,Yii::app()->controller->module->id) ?>",
+				city : "* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>",
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				successHandler2.hide();
 				errorHandler2.show();
+				alert("invalidHandler")
 			},
 			highlight : function(element) {
 				$(element).closest('.help-block').removeClass('valid');
@@ -564,7 +569,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 			},
 			submitHandler : function(form) {
-				console.log("submitHandler");
+				alert("submitHandler");
 				successHandler2.show();
 				errorHandler2.hide();
 
@@ -586,43 +591,37 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
-				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
+				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();		
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
-				console.log("newEvent");		
-				console.dir(newEvent);			
-					$.blockUI({
-					message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
-				});
-
-				if($(".form-event #newEventOrga").val() !==""){
-
-				}
+				console.log("newEvent");
+				console.dir(newEvent);
+				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>' });
 				
-				$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+'/event/save',
-				        dataType : "json",
-				        data:newEvent,
-						type:"POST",
-				    })
-				    .done(function (data) 
-				    {
-				    	$.unblockUI();
-				        if (data &&  data.result) {
-				        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
-				        	$("#newEventId").val(data.id["$id"]);
-				        	//$.hideSubview();
-				        	console.log(data);
-				        		addFloopEntity(data.id["$id"], "events", data.event);
-				        		loadByHash("#event.detail.id."+data.id["$id"]);
-								
-						} else {
-				           toastr.error(data.msg);
-				        }
-				    });
+				$.ajax(
+				{
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+'/event/save',
+			        dataType : "json",
+			        data:newEvent,
+					type:"POST",
+			    })
+			    .done(function (data) 
+			    {
+			    	$.unblockUI();
+			        if (data &&  data.result) {
+			        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
+			        	$("#newEventId").val(data.id["$id"]);
+			        	console.log(data);
+		        		addFloopEntity(data.id["$id"], "events", data.event);
+		        		loadByHash("#event.detail.id."+data.id["$id"]);
+							
+					} else {
+			           toastr.error(data.msg);
+			        }
+			    });
 			}
 		});
 	};
@@ -669,7 +668,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			}
 		);
 		
-		$('.form-event .all-day-range .event-range-date').val(roundMoment().format('DD/MM/YYYY') + ' - ' + roundMoment().add('days', 1).format('DD/MM/YYYY'))
+		$('.form-event .all-day-range .event-range-date').val( roundMoment().format('DD/MM/YYYY') + ' - ' + roundMoment().add('days', 1).format('DD/MM/YYYY') )
 			.daterangepicker({  
 				startDate: roundMoment(),
 				endDate: roundMoment().add('days', 1),
@@ -734,37 +733,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			}
 			$("#"+idLabel).text(titleName+" : "+contextName);
 		}
-		$(".dropOrg").click(function() {
-			console.log(this);
-			if ($(this).parents().eq(1).attr("id")=="organization"){
-				$("#labelOrga").text("<?php echo Yii::t("common","Organization") ?> : "+$(this).data("name"));
-				$("#newEventOrgaId").val($(this).data("id"));
-				$("#newEventOrgaType").val("organizations");
-			}
-			else if ($(this).parents().eq(1).attr("id")=="project"){
-				$("#labelOrga").text("<?php echo Yii::t("common","Project"); ?> : "+$(this).data("name"));
-				$("#newEventOrgaId").val($(this).data("id"));
-				$("#newEventOrgaType").val("projects");
-			}
-			else if($(this).data("id") == "<?php echo Event::NO_ORGANISER; ?>"){
-				$("#labelOrga").text($(this).data("name"));
-				$("#newEventOrgaId").val("<?php echo Event::NO_ORGANISER; ?>");
-				$("#newEventOrgaType").val("<?php echo Event::NO_ORGANISER; ?>");
-			}else{
-				$("#labelOrga").text("<?php echo Yii::t("common","Person"); ?> : "+$(this).data("name"));
-				$("#newEventOrgaId").val($(this).data("id"));
-				$("#newEventOrgaType").val("citoyens");
-			}
-		})
-
-		$(".dropParent").click(function() {
-			console.log(this);
-			if ($(this).parents().eq(1).attr("id")=="events"){
-				$("#labelParent").text("<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?> : "+$(this).data("name"));
-				$("#newEventParentId").val($(this).data("id"));
-			}
-		})
-
+		
 		/*if("undefined" != typeof(parentOrga)){
 			$("#"+parentOrga).trigger("click");
 		}*/
@@ -772,7 +741,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	
 
-	function roundMoment(){
+	function roundMoment()
+	{
 		var roundMoment = moment();
 		var min = moment().minutes();
 		if(min<30)
@@ -874,7 +844,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						$.unblockUI();
 					}
 				});
-	
 			}
 		}
 	}
