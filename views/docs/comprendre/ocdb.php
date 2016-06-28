@@ -2,7 +2,7 @@
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class=" text-red homestead tpl_title"> Open Common DataBase</span>
     <br/>
-    <span class="tpl_shortDesc">Les organisations sont un des pilliers de la société<br/>, leurs activités est aussi productif que créateur de liens et de services. C'est en voyant tout les acteurs locaux , qu'on aura un vrai territoire connecté et que la valeur </span>
+    <span class="tpl_shortDesc">Un système d'information fait pour le partage, l'opendata, contributif et représentatif des actions et des activités de la société.</span>
 </div>
 
 <style type="text/css">
@@ -22,13 +22,14 @@
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTAGER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-share-alt"></i> PARTAGER</h4>
 					</div> 
 					<div class="panel-body">
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Référencer vos organisations </li>
-				        	<li><i class='fa fa-arrow-right'></i> Celles que vous gérez ou utilisez</li>
-				        	<li><i class='fa fa-arrow-right'></i> Publiez l'activité de l'organisation</li>
+				        	<li><i class='fa fa-arrow-right'></i> Un cluster d'instances libres  </li>
+				        	<li><i class='fa fa-arrow-right'></i> Un système d'interopérabilité ouvert</li>
+				        	<li><i class='fa fa-arrow-right'></i> Des aggrégateurs pour réunir les sources</li>
+				        	<li><i class='fa fa-arrow-right'></i> Produire de l'opendata, c'est pouvoir l'utiliser</li>
 				        </ul>
 				    </div>
 				</div>
@@ -37,15 +38,13 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> ORGANISER</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-book"></i> Des standards</h4>
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> Profitez de l'espace Coopératif </li>
-			        	<li><i class='fa fa-arrow-right'></i> Faites des propositions</li>
-						<li><i class='fa fa-arrow-right'></i> Partager vos évènements</li>
-						<li><i class='fa fa-arrow-right'></i> Partager vos projet</li>
-						<li><i class='fa fa-arrow-right'></i> on peut s'incrire pour suivre</li>
+			        	<li><i class='fa fa-arrow-right'></i> Restfull Api standard pour utiliser le contenu </li>
+			        	<li><i class='fa fa-arrow-right'></i> Un moteur de traduction multi ontologies</li>
+						<li><i class='fa fa-arrow-right'></i> Des ontologies standards</li>
 			        </ul>
 			    </div>
 				</div>
@@ -54,14 +53,14 @@
 			<div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-eye"></i> Visualiser</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> Outils </h4>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Voir la répartition géographies des membres </li>
-							<li><i class='fa fa-arrow-right'></i> Voir les acteurs d'un territoire</li>
-							<li><i class='fa fa-arrow-right'></i> Créer des réseau thématique (ex:#commun)</li>
+				        	<li><i class='fa fa-arrow-right'></i> Recherche une ou toutes les instances OCDB</li>
+							<li><i class='fa fa-arrow-right'></i> Couplage OCDB, Wikipedia, OSM</li>
+							<li><i class='fa fa-arrow-right'></i> Paysan Numérique : Curation, Récolte, Croisement</li>
 				        </ul>
 				    </div>
 				</div>

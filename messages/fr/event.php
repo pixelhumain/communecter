@@ -48,7 +48,7 @@ return array(
 	'Visualise' => "Visualisez",
 	'View this event as a directory' => "Voir l'événement en annuaire",
 	"Unlink event" => "Détacher cette évènement",
-
+	"Create an event"=>"Créer un événement",
 
 	//Type
 	"concours" => "Concours",

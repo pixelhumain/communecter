@@ -80,8 +80,8 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
   $(".moduleLabel").html(
-			"<i class='fa fa-book'></i> "+
-			"<span class='text-red'>DOC</span> : Module SIG</span>");
+			"<i class='fa fa-cube'></i> "+
+			"<span class='text-red'>MODULE</span> SIG</span>");
 });
 </script>
 

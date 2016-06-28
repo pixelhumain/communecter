@@ -37,13 +37,13 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.person.dir.docs');">Citoyen</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.organisation.dir.docs');">Organisation</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Événement</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Evènnement</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.projects.dir.docs');">Projet</a></li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
-			<div class="col-sm-6 hidden">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');">
@@ -62,28 +62,10 @@
 				    </div>
 				</div>
 			</div>
-		
-			<div class="col-sm-6">
-		        <div class="panel panel-white user-list ">
-					<div class="panel-heading border-light">
-						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
-						</a>
-					</div> 
-					<div class="panel-body">
-			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
-						<li><i class='fa fa-arrow-right'></i> Web sématique</li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a></li>
-						
-			        </ul>
-			    </div>
-				</div>
-			</div>
 		</div>
-		<div class="col-sm-12">	
+		<div class="col-sm-12">
+			
+			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -96,7 +78,7 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">NEWS / fil d'actus</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.sig.dir.docs');">Système d'info : Géographique & Territorial</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> Annuaire</li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.annuaire.dir.docs');">Annuaire</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.agenda.dir.docs');">Agenda</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#news.index.type.pixels');">Proposer une idées</a></li>
@@ -104,7 +86,29 @@
 				    </div>
 				</div>
 			</div>
-	
+			
+			<div class="col-sm-6">
+		        <div class="panel panel-white user-list ">
+					<div class="panel-heading border-light">
+						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
+							<h4 class="panel-title homestead text-red"><i class="fa fa-question-circle"></i> Comprendre </h4>
+						</a>
+					</div> 
+					<div class="panel-body">
+			        <ul class="points">
+			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
+						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a></li>
+			        </ul>
+			    </div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-sm-12">
+			
+			
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -125,9 +129,6 @@
 				</div>
 			</div>
 
-		</div>
-		<div class="col-sm-12">
-		
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -138,8 +139,8 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Nos Vidéos </li>
-				        	<li><i class='fa fa-arrow-right'></i> Nos Affiches </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.video.dir.docs');">Nos Vidéos</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.affiches.dir.docs');">Nos Affiches</a> </li>
 				        </ul>
 				    </div>
 				</div>
@@ -147,7 +148,9 @@
 
 		</div>
 		<div class="col-sm-12">
-		
+			
+			
+			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
