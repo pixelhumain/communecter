@@ -324,7 +324,7 @@ var formValidator = function() {
 		},
 		submitHandler : function(form) {
 			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 	        $.ajax({
 		    	  type: "POST",

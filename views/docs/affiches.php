@@ -7,9 +7,7 @@
     ul li {list-style: none}
     .tpl_title{font-size: 48px;}
      .panel-title {font-size:25px;}
-    .points{padding-left:10px;}
-    .codeSocial{color:black;}
-    .codeSocial h3, .codeSocial h2 {text-decoration: underline;font-weight: bold}
+    .tpl_content img{width:33%; border:2px solid #ccc;}
 </style>
 <div class="col-sm-12 ">
 
@@ -18,23 +16,23 @@
         <div class="panel-body tpl_content">
          
             <div class="col-xs-12">
-    	        <div class=" col-xs-12 col-md-6">
-    	        	<?php 
-                            if(file_exists ( "../../modules/communecter/assets/images/affiches" )){
-                                $files = glob('../../modules/communecter/assets/images/affiches/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
-                                $res = array();
-                                for ($i=0; $i < 10; $i++) { 
-                                    echo "<img src='".str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $files[array_rand($files)])."'/>"
-                                }
-                              
-                            } 
-                        ?>
-    	        </div>
+        	<?php 
+                    if(file_exists ( "../../modules/communecter/assets/images/affiches" ))
+                    {
+                        $files = glob('../../modules/communecter/assets/images/affiches/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+                        foreach ($files as $key => $value)
+                        {
+                            $img = str_replace("../../modules/communecter/assets", Yii::app()->controller->module->assetsUrl, $value);
+                            echo '<a class="thumb-info" href="'.$img.'"  data-lightbox="all">';
+                                echo "<img src='".$img."'/>";
+                            echo "</a>";
+                        }
+                    } 
+                ?>
             </div>
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
     jQuery(document).ready(function() {

@@ -358,7 +358,7 @@ function runProjectFormValidation(el) {
 			newProject.tags = $(".form-project #tagsProject").val();
 			console.log(newProject);
 			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 			$.ajax({
 		        type: "POST",
