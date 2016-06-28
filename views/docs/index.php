@@ -43,7 +43,7 @@
 				    </div>
 				</div>
 			</div>
-			<div class="col-sm-6 ">
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');">
@@ -62,9 +62,6 @@
 				    </div>
 				</div>
 			</div>
-		</div>
-		<div class="col-sm-12">
-			
 			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
@@ -76,18 +73,22 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">NEWS / fil d'actus</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.sig.dir.docs');">Système d'info : Géographique & Territorial</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">Fil d'actualités</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.sig.dir.docs');">Système d'Information Géographique (SIG)</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.annuaire.dir.docs');">Annuaire</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.agenda.dir.docs');">Agenda</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">DDA : Discuter, Décider, Agir</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#news.index.type.pixels');">Proposer une idées</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">Espace coopératif</a></li>
 				        </ul>
+				    	<a href="javascript:loadByHash('#news.index.type.pixels');" class="btn btn-default"><i class='fa fa-lightbulb-o'></i> Proposer une idée de module</a>
 				    </div>
 				</div>
 			</div>
+
+		</div>
+		<div class="col-sm-12">
 			
-			<div class="col-sm-6">
+			
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');">
@@ -99,17 +100,15 @@
 			        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.ocdb.dir.docs');">OCDB : Open Common Database</a> </li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
-						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a></li>
+						<i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a>
 			        </ul>
 			    </div>
 				</div>
 			</div>
 			
-		</div>
-		<div class="col-sm-12">
 			
 			
-			<div class="col-sm-6 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.presentation.dir.docs');">
@@ -129,6 +128,9 @@
 				</div>
 			</div>
 
+		</div>
+		<div class="col-sm-12">
+		
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -146,10 +148,8 @@
 				</div>
 			</div>
 
-		</div>
-		<div class="col-sm-12">
-			
-			
+		<!-- </div>
+		<div class="col-sm-12"> -->
 			
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
@@ -162,16 +162,16 @@
 						
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.roadmap.dir.docs');">Roadmap</a>  </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> L'équipe </li>
-				        	<li><i class='fa fa-arrow-right'></i> La structure </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">Wish Liste</a> </li>
+				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
+				        	<li class="hidden"><i class='fa fa-arrow-right'></i> L'équipe </li>
+				        	<li class="hidden"><i class='fa fa-arrow-right'></i> La structure </li>
+				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">Wish Liste</a> </li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
 
-			<div class="col-sm-6">
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.histoire.dir.docs');">
