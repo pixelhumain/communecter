@@ -528,12 +528,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					required : true
 				},
 				postalCode : {
-					minlength : 2,
 					rangelength : [5, 5],
 					required : true
 				},
 				city : {
-					minlength : 2,
 					required : true
 				},
 				eventStartDate : {
@@ -541,7 +539,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 				eventEndDate : {
 					required : true
-				},
+				}
 			},
 			messages : {
 				eventName : '* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>',
@@ -591,14 +589,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
-				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
+				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();		
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
 				console.log("newEvent");
 				console.dir(newEvent);			
-				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>' });
+				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>' });
 				
 				$.ajax({
 				        type: "POST",

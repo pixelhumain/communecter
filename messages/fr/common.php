@@ -46,6 +46,8 @@ return array(
 
 	"Documentation" => "Documentation",
 
+	"Save Processing"=> "Enregistrement en cours"
+
 	
 	
 	
