@@ -542,9 +542,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 			},
 			messages : {
-				eventName : "* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>",
-				postalCode : "* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>",
-				city : "* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>",
+				eventName : '* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>',
+				postalCode : '* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>',
+				city : '* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>',
 			},
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				successHandler2.hide();

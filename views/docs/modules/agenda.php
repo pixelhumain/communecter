@@ -1,6 +1,11 @@
 
- <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class="tpl_shortDesc">L'activité d'un territoire c'est des évènements provenants de tous les acteurs plus ou moins locaux.<br/>Restons informer, partageons au plus grand nombres, L'agenda l'outils incontournable des acteurs d'un territoire </span>
+<div class="panel-heading center text-dark partition-white radius-10" >
+    <span class=" text-red homestead tpl_title"> Module : agenda</span><br>
+    <!-- <h3 class=" text-dark homestead">Publier, </h3> -->
+    <br/>
+    <span class="tpl_shortDesc">L'activité d'un territoire c'est des évènements provenants de tous les acteurs plus ou moins locaux.<br/>
+    Restons informer, partageons au plus grand nombres.<br>
+    L'agenda, c'est l'outils incontournable des acteurs d'un territoire.</span>
 </div>
 
 <style type="text/css">
@@ -11,12 +16,9 @@
     .codeSocial{color:black;}
     .codeSocial h3, .codeSocial h2 {text-decoration: underline;font-weight: bold}
 </style>
-<div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
-        
-        <div class="panel-body tpl_content">
-         
+<div class="col-sm-12 ">   
+    <div class="panel-body tpl_content">        
         <div class="col-xs-12">
 	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
 	        	<div class="text-bold text-extra-large" style="padding: 50px;">
@@ -32,7 +34,7 @@
 	        <div class="col-sm-4 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
-						<h4 class="panel-title homestead"><i class="fa fa-bullhorn"></i> Rester Informer</h4>
+						<h4 class="panel-title homestead"><i class="fa fa-bullhorn"></i> Rester Informé</h4>
 					</div> 
 					<div class="panel-body">
 				        <ul class="points">
@@ -85,6 +87,7 @@
 		</div>
     </div>
 </div>
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
   $(".moduleLabel").html(

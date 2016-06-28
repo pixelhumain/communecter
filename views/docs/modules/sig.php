@@ -1,5 +1,4 @@
-
- <div class="panel-heading center text-dark partition-white radius-10" >
+<div class="panel-heading center text-dark partition-white radius-10" >
     <span class="tpl_shortDesc">Communecter est système d'information territorial, au double facette<br/> une interface web classique et un Système d'information géographique riche</span>
 </div>
 
@@ -11,12 +10,10 @@
     .codeSocial{color:black;}
     .codeSocial h3, .codeSocial h2 {text-decoration: underline;font-weight: bold}
 </style>
-<div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
-        
-        <div class="panel-body tpl_content">
-         
+<div class="col-sm-12 ">
+    <div class="panel-body tpl_content">
+     
         <div class="col-xs-12">
 	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
 	        	<div class="text-bold text-extra-large" style="padding: 50px;">
@@ -76,11 +73,10 @@
 				    </div>
 				</div>
 			</div>
-
 	    </div>
-
-    </div>
+		</div>
 </div>
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
   $(".moduleLabel").html(
@@ -88,3 +84,4 @@ jQuery(document).ready(function() {
 			"<span class='text-red'>DOC</span> : Module SIG</span>");
 });
 </script>
+

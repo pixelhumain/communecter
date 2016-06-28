@@ -1,5 +1,5 @@
 
-<div class="panel-heading border-light center text-dark partition-white radius-10">
+<div class="panel-heading border-light center text-dark partition-white radius-10 hidden">
     <span class=" text-red homestead tpl_title"> Espace coopératif</span><br>
     <h3 class=" text-dark homestead">Discuter, Décider, Agir (DDA)</h3>
     <br/>
@@ -15,15 +15,20 @@
      .panel-title {font-size:25px;}
     .points{padding-left:10px;}
 </style>
+
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
+    <div class="">
         
         <div class="panel-body tpl_content">
-           
-        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda.png" class="col-sm-12 img-responsive ">
+        
+        <h2 class="text-red homestead tpl_title"> Espace coopératif</span><br>
+    	<h3 class="center text-dark homestead no-margin">Discuter, Décider, Agir (DDA)</h3>
+    
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda11.png" class="col-sm-12 img-responsive ">
+        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda12.png" class="col-sm-12 img-responsive ">
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
-	        <div class="col-sm-4 ">
+	        <div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DISCUTER</h4>
@@ -32,15 +37,15 @@
 						<b>Les Salles de Discussion</b> servent à construire et à partager autour d'une thématique
 						<br/>
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Discutaire avec des commentaire </li>
-				        	<li><i class='fa fa-arrow-right'></i> surligner du texte et transformer en vote ou action</li>
+				        	<li><i class='fa fa-arrow-right'></i> Discuter avec des commentaire </li>
+				        	<li><i class='fa fa-arrow-right'></i> Surligner du texte et transformer en vote ou action</li>
 				        	<li><i class='fa fa-arrow-right'></i> Bientot : Discussion type Framapad</li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> DECIDER</h4>
@@ -60,20 +65,20 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> AGIR</h4>
 					</div> 
 					<div class="panel-body">
-						<b>Les Salles d'Actions</b> permettent de faire des listes d'actino de choses concrète ç réaliser
+						<b>Les Salles d'Actions</b> permettent de faire des listes d'action de choses concrète à réaliser
 						<br/>
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> une action peut avoir 5 états différents : </li>
+				        	<li><i class='fa fa-arrow-right'></i> Une action peut avoir 5 états différents : </li>
 							<li><i class='fa fa-arrow-right'></i> "A Faire" : aucune date de début n'a été assigné</li>
 							<li><i class='fa fa-arrow-right'></i> "En cours" : une date de début, et une personne est assignée</li>
 							<li><i class='fa fa-arrow-right'></i> "En retard": la date de fin est assigné mais dépassé.</li>
-							<li><i class='fa fa-arrow-right'></i> "Terminer" : une tache qui a été cloturé</li>
+							<li><i class='fa fa-arrow-right'></i> "Terminer" : une tache qui a été cloturée</li>
 							<li><i class='fa fa-arrow-right'></i> "Non Assignée" : une tache qui n'a pas encore de responsable </li>
 							<li><i class='fa fa-arrow-right'></i> Plusieurs personne peuvent etre assignées à une action</li>
 				        </ul>
@@ -94,7 +99,7 @@ var contentData = {
 	classes : {
 		moduleLabel : "<i class='fa fa-question-circle'></i> INFORMATION",
 	rtpl_title : "DDA : Discuter, Décider, Agir",
-		tpl_shortDesc : "Les salles d'action permettent de créer 3 types d'espaces pour le moment <br/>Discuter pour orienté, comprendre les visions de chacuns puis, Décider pour se mettre d'accord, et enfin Agir pour que ca avance ",	
+		tpl_shortDesc : "Les salles d'action permettent de créer 3 types d'espaces pour le moment <br/>Discuter pour orienter, comprendre les visions de chacuns puis, Décider pour se mettre d'accord, et enfin Agir pour que ca avance ",	
 		img$src : "<?php echo $this->module->assetsUrl; ?>/images/docs/dda.png",
 		break : "",
 		html : {

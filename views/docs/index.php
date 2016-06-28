@@ -37,13 +37,13 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.person.dir.docs');">Citoyen</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.organisation.dir.docs');">Organisation</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Evènnement</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Événement</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.projects.dir.docs');">Projet</a></li>
 				        </ul>
 				    </div>
 				</div>
 			</div>
-			<div class="col-sm-6 ">
+			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');">
@@ -62,8 +62,7 @@
 				    </div>
 				</div>
 			</div>
-		</div>
-		<div class="col-sm-12">
+		
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -83,7 +82,8 @@
 			    </div>
 				</div>
 			</div>
-			
+		</div>
+		<div class="col-sm-12">	
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -104,12 +104,7 @@
 				    </div>
 				</div>
 			</div>
-
-			
-		</div>
-		<div class="col-sm-12">
-			
-			
+	
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -130,6 +125,9 @@
 				</div>
 			</div>
 
+		</div>
+		<div class="col-sm-12">
+		
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -149,9 +147,7 @@
 
 		</div>
 		<div class="col-sm-12">
-			
-			
-			
+		
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
