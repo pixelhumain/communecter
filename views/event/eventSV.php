@@ -139,8 +139,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <div id="newEvent">
-
-	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"eventCountry"));  ?>
 	
 	<div class="noteWrap col-md-12 form-add-data">
 		
@@ -297,7 +295,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="hidden" name="eventCountry" id="eventCountry" style="width: 100%; height:35px;">								
 					</div>
 
-					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></h3>
+					<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?> ?</h3>
                         
 					<div class="form-group">
 						<span class="input-icon">
@@ -311,8 +309,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<input type="text" class="form-control" id="postalCode" name="postalCode" autocomplete="off" placeholder="<?php echo Yii::t("common","Postal Code") ?>">
 							<i class="fa fa-home"></i>
 							<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
-						</span><br>
-						<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
+						</span>
 					</div>
 				
 					
@@ -400,7 +397,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
+	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
 	});
 
 	function runShowCity(searchValue) {
@@ -539,7 +536,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				},
 				eventEndDate : {
 					required : true
-				}
+				},
 			},
 			messages : {
 				eventName : '* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>',
@@ -589,14 +586,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.country = $(".form-event #eventCountry ").val();
 				newEvent.organizerId = $(".form-event #newEventOrgaId").val();
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
-				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();		
+				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();				
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
-				console.log("newEvent");
+				console.log("newEvent");		
 				console.dir(newEvent);			
-				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>' });
+					$.blockUI({
+					message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
+				});
+
+				if($(".form-event #newEventOrga").val() !==""){
+
+				}
 				
 				$.ajax({
 				        type: "POST",
@@ -611,9 +614,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				        if (data &&  data.result) {
 				        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
 				        	$("#newEventId").val(data.id["$id"]);
+				        	//$.hideSubview();
 				        	console.log(data);
-			        		addFloopEntity(data.id["$id"], "events", data.event);
-			        		loadByHash("#event.detail.id."+data.id["$id"]);
+				        		addFloopEntity(data.id["$id"], "events", data.event);
+				        		loadByHash("#event.detail.id."+data.id["$id"]);
 								
 						} else {
 				           toastr.error(data.msg);
