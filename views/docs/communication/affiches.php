@@ -1,6 +1,6 @@
 
  <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class="tpl_shortDesc">Communecter est système d'information territorial, au double facette<br/> une interface web classique et un Système d'information géographique riche</span>
+    <span class="tpl_shortDesc hidden">Communecter est système d'information territorial, au double facette<br/> une interface web classique et un Système d'information géographique riche</span>
 </div>
 
 <style type="text/css">

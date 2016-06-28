@@ -24,8 +24,7 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/communication/affiches", array("renderPartial"=>true)); ?></div>
+    <div class="item active"><?php $this->renderPartial("../docs/communication/affiches", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/communication/video", array("renderPartial"=>true)); ?></div>
   </div>
 
