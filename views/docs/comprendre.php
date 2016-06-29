@@ -23,7 +23,6 @@
     <li data-target="#docCarousel" data-slide-to="2" class=""></li>
     <li data-target="#docCarousel" data-slide-to="3" class=""></li>
     <li data-target="#docCarousel" data-slide-to="4" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="5" class=""></li>
   </ol>
 
   <!-- Wrapper for slides -->
@@ -32,7 +31,6 @@
     <div class="item"><?php $this->renderPartial("../docs/comprendre/ocdb", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/comprendre/openSystem", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/comprendre/import", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php //$this->renderPartial("../docs/comprendre/websemantique", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/comprendre/dda", array("renderPartial"=>true)); ?></div>
   </div>
 

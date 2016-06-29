@@ -120,14 +120,5 @@
 			</div>
 
 	    </div>
-        <br>
-        <div class="col-sm-12 ">
-	        <a style="display: block;" class="btn-nav-in-doc text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();">
-	        	<i class="fa fa-arrow-left"></i>  Retour 
-	        </a>
-	        <a style="display: block;" class="btn-nav-in-doc text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.events.dir.docs');">
-	        	Events <i class="fa fa-arrow-right"></i> 
-	        </a>
-        </div>
 
 	</div>
