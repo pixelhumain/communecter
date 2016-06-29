@@ -367,6 +367,9 @@ class CommunecterController extends Controller
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
     ),
+    "mailmanagement"=> array(
+      "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
+    ),
   );
 
   function initPage(){
