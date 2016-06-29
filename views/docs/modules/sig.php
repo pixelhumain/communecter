@@ -24,9 +24,16 @@
 	        	</div>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" data-title="Schéma notre Open System"  data-lightbox="all">
-			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+				<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
 	        </a>
         </div>
+
+        <div class="col-xs-12">
+	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" data-title="Schéma notre Open System"  data-lightbox="all">
+				<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" class="col-sm-12 col-xs-12 img-responsive ">
+	        </a>
+        </div>
+
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 
 	        <div class="col-sm-6 ">
