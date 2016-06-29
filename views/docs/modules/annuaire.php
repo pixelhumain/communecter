@@ -38,10 +38,10 @@
 					</div> 
 					<div class="panel-body">
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Dévellopons du lien locale </li>
+				        	<li><i class='fa fa-arrow-right'></i> Développons du lien local </li>
 				        	<li><i class='fa fa-arrow-right'></i> Remplissage participatif </li>
 				        	<li><i class='fa fa-arrow-right'></i> Visualisation cartographique </li>
-				        	<li><i class='fa fa-arrow-right'></i> Valoriser l'activté locale par le lien</li>
+				        	<li><i class='fa fa-arrow-right'></i> Valoriser l'activité locale par le lien</li>
 				        </ul>
 				    </div>
 				</div>
@@ -54,10 +54,10 @@
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> Communiquer avec des communautées locales </li>
+			        	<li><i class='fa fa-arrow-right'></i> Communiquer avec des communautés locales </li>
 						<li><i class='fa fa-arrow-right'></i> Filtrer par tag</li>
-						<li><i class='fa fa-arrow-right'></i> Devellopons acteur du territiore</li>
-						<li><i class='fa fa-arrow-right'></i> un annuaire territiorial</li>
+						<li><i class='fa fa-arrow-right'></i> Developper les acteurs du territiore</li>
+						<li><i class='fa fa-arrow-right'></i> Un annuaire territiorial</li>
 			        </ul>
 			    </div>
 				</div>
@@ -80,6 +80,7 @@
 				</div>
 			</div>
 
+	    </div>
 	    </div>
 
     </div>

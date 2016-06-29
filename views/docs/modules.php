@@ -22,22 +22,20 @@
   <ol class="carousel-indicators">
     <li data-target="#docCarousel" data-slide-to="0" class="<?php if($slide=='') echo "active"; ?>"></li>
     <li data-target="#docCarousel" data-slide-to="1" class="<?php if($slide=='news') echo "active"; ?>"></li>
-    <!-- <li data-target="#docCarousel" data-slide-to="2" class="<?php //if($slide=='news2') echo "active"; ?>"></li> -->
     <li data-target="#docCarousel" data-slide-to="2" class="<?php if($slide=='sig') echo "active"; ?>"></li>
     <li data-target="#docCarousel" data-slide-to="3" class="<?php if($slide=='agenda') echo "active"; ?>"></li>
     <li data-target="#docCarousel" data-slide-to="4" class="<?php if($slide=='annuaire') echo "active"; ?>"></li>
-    <li data-target="#docCarousel" data-slide-to="5" class="<?php if($slide=='dda2') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="5" class="<?php if($slide=='dda') echo "active"; ?>"></li>
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item <?php if($slide=='') echo "active"; ?>"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/modules/index.png" class="img-schemas img-responsive "></div>
     <div class="item <?php if($slide=='news') echo "active"; ?>"><?php $this->renderPartial("../docs/modules/news", array("renderPartial"=>true)); ?></div>
-    <!-- <div class="item <?php //if($slide=='news2') echo "active"; ?>"><?php //$this->renderPartial("../docs/modules/news2", array("renderPartial"=>true)); ?></div> -->
-    <div class="item <?php if($slide=='sig') echo "active"; ?>"><?php $this->renderPartial("../docs/modules/sig", array("renderPartial"=>true)); ?></div>
-    <div class="item <?php if($slide=='agenda') echo "active"; ?>"><?php $this->renderPartial("../docs/modules/agenda", array("renderPartial"=>true)); ?></div>
-    <div class="item <?php if($slide=='annuaire') echo "active"; ?>"><?php $this->renderPartial("../docs/modules/annuaire", array("renderPartial"=>true)); ?></div>
-    <div class="item <?php if($slide=='dda2') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/dda2", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='sig') echo "active"; ?>">      <?php $this->renderPartial("../docs/modules/sig", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='agenda') echo "active"; ?>">   <?php $this->renderPartial("../docs/modules/agenda", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='annuaire') echo "active"; ?>"> <?php $this->renderPartial("../docs/modules/annuaire", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='dda') echo "active"; ?>">      <?php $this->renderPartial("../docs/comprendre/dda2", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->

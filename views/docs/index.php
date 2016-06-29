@@ -37,7 +37,7 @@
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=person');">Citoyen</a> </li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=organisation');">Organisation</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=events');">Evènnement</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=events');">Événement</a></li>
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=projects');">Projet</a></li>
 				        </ul>
 				    </div>
