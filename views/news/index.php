@@ -19,6 +19,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
 	'/plugins/select2/select2.min.js',
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
@@ -207,6 +211,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 </style>
+<!--<textarea class="mention"></textarea>-->
 
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
@@ -232,7 +237,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
+					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>
 
@@ -457,20 +462,7 @@ jQuery(document).ready(function()
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
 		$(".moduleLabel").html("<span style='font-size:20px;'><?php echo @$headerName; ?></span>");
-	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
-	//if(contextParentType!="city"){
-		
-		//if(contextParentId == idSession)
-		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
-		else
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");*/
-		
-		
-	/*}else{
-		
-	}*/
+
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
@@ -503,7 +495,48 @@ jQuery(document).ready(function()
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
 	initFormImages();
+	$('textarea.mention').mentionsInput({
+	  onDataRequest:function (mode, query, callback) {
+	    var data = {"search" : search,"searchMode":"personOnly"};
+	  		$.ajax({
+				type: "POST",
+		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
+		        data: data,
+		        dataType: "json",
+		        success: function(retdata){
+		        	if(!retdata){
+		        		toastr.error(retdata.content);
+		        	}else{
+			        	data=retdata.citoyens;
+		        		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+						callback.call(this, data);
+						/*str = "";
+						console.log(data);
+						if(data.citoyens.length != 0){
+							$("#dropdown_search").show();
+				 			$.each(data, function(key, value) {
+				 				
+				 				$.each(value, function(i, v){
+				 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
+				 					var logoSearch = "";
+				 					console.log(v);
+				 					if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl!=""){
+				 						var imageSearch = '<img alt="image" class="" src="'+baseUrl+v.profilThumbImageUrl+'" style="height:25px;padding-right:5px;"/>'
+				 					}
+				  					str += '<li class="li-dropdown-scope"><a href="javascript:setReferenceInNews(\''+v.id+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
+				  				});
+				  			}); 
+				  			$("#dropdown_search").html(str);
+				  		} else{
+					  		$("#dropdown_search").hide();
+		        		peopleReference=false;
 
+				  		}*/
+		  			}
+				}	
+			})
+	  }
+	});
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
