@@ -4,6 +4,8 @@
 
   Menu::docs("", "pourquoi");
   $this->renderPartial('../default/panels/toolbar');
+
+  $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -22,21 +24,21 @@
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#docCarousel" data-slide-to="0" class="active bg-red"></li>
-    <li data-target="#docCarousel" data-slide-to="1" class="bg-yellow"></li>
-    <li data-target="#docCarousel" data-slide-to="2" class="bg-green"></li>
-    <li data-target="#docCarousel" data-slide-to="3" class="bg-purple"></li>
-    <li data-target="#docCarousel" data-slide-to="4" class="bg-orange"></li>
+    <li data-target="#docCarousel" data-slide-to="0" class="bg-red    <?php if($slide=='') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="1" class="bg-yellow <?php if($slide=='person') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="2" class="bg-green  <?php if($slide=='organisation') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="3" class="bg-purple <?php if($slide=='projects') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="4" class="bg-orange <?php if($slide=='events') echo "active"; ?>"></li>
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     
-    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='') echo "active"; ?>"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
+    <div class="item <?php if($slide=='person') echo "active"; ?>"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='organisation') echo "active"; ?>"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='projects') echo "active"; ?>"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='events') echo "active"; ?>"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->

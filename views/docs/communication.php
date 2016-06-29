@@ -4,6 +4,8 @@
 
   Menu::docs("presentation", "histoire");
   $this->renderPartial('../default/panels/toolbar');
+
+  $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -18,14 +20,14 @@
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Round button indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#docCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#docCarousel" data-slide-to="1" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="0" class="<?php if($slide=='affiches' || $slide == '') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="1" class="<?php if($slide=='video') echo "active"; ?>"></li>
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active"><?php $this->renderPartial("../docs/communication/affiches", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/communication/video", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='affiches' || $slide == '') echo "active"; ?>"><?php $this->renderPartial("../docs/communication/affiches", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='video') echo "active"; ?>"><?php $this->renderPartial("../docs/communication/video", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->

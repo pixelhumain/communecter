@@ -1,5 +1,5 @@
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"> Module : fil d'actualité</span>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : fil d'actualité</span>
     <br/>
     <span class="tpl_shortDesc">Les fils d'actualité permettent de retrouver facilement toute l'actualité qui vous intéresse,<br>
     en fonction de vos liens et de votre activité sur le réseau.
@@ -87,7 +87,7 @@
 	
 		    </div>
 	        <br>
-	        <div class="col-sm-12 ">
+	        <div class="col-sm-12 hidden">
 		        <a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a>
 		        <a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.events.dir.docs');">Events <i class="fa fa-arrow-right"></i> </a>
 		    </div>

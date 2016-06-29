@@ -15,7 +15,7 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
+    <div class="">
         
         <div class="panel-body tpl_content">
            
@@ -44,11 +44,11 @@
 					</div> 
 					<div class="panel-body">
 			        <ul class="points">
-			        	<li><i class='fa fa-arrow-right'></i> Déclarez un évènement </li>
-			        	<li><i class='fa fa-arrow-right'></i> Faites des programmes complexe avec des sous évènements</li>
+			        	<li><i class='fa fa-arrow-right'></i> Déclarer un évènement </li>
+			        	<li><i class='fa fa-arrow-right'></i> Faire des programmes complexe avec des sous évènements</li>
 						<li><i class='fa fa-arrow-right'></i> Inviter des participants</li>
-						<li><i class='fa fa-arrow-right'></i> multi organisateur</li>
-						<li><i class='fa fa-arrow-right'></i> Open editing : participation et contribution ouverte (wiki-like)</li>
+						<li><i class='fa fa-arrow-right'></i> Multi organisateur</li>
+						<li><i class='fa fa-arrow-right'></i> Open edition : participation et contribution ouverte (wiki-like)</li>
 			        </ul>
 			    </div>
 				</div>
@@ -62,10 +62,10 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Voir la répartition géographies des participants </li>
+				        	<li><i class='fa fa-arrow-right'></i> Voir la répartition géographiques des participants </li>
 							<li><i class='fa fa-arrow-right'></i> Voir sous forme de calendrier</li>
 							<li><i class='fa fa-arrow-right'></i> Une application mobile de journalisme citoyen</li>
-							<li><i class='fa fa-arrow-right'></i> Voir tous les évènement locaux</li>
+							<li><i class='fa fa-arrow-right'></i> Voir tous les évènements locaux</li>
 				        </ul>
 				    </div>
 				</div>
@@ -73,6 +73,14 @@
 
 	    </div>
         <br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.projects.dir.docs');">Projets <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 hidden">
+        	<a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();">
+        	<i class="fa fa-arrow-left"></i>  Retour </a>
+        	<a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.projects.dir.docs');">
+        		Projets <i class="fa fa-arrow-right"></i> 
+        	</a>
+        </div>
+
+        </div>
     </div>
 </div>

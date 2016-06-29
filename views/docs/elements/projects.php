@@ -15,7 +15,7 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
+    <div class="">
         
         <div class="panel-body tpl_content">
            
@@ -73,7 +73,7 @@
 
 	    </div>
         <br>
-        <div class="col-sm-12 ">
+        <div class="col-sm-12 hidden">
 	        <a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();">
 	        	<i class="fa fa-arrow-left"></i>  Retour
 	        </a>

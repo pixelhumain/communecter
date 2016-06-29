@@ -1,5 +1,8 @@
 <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class="tpl_shortDesc">Communecter est système d'information territorial, au double facette<br/> une interface web classique et un Système d'information géographique riche</span>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : Système d'Information Géographique</span>
+    <br/>
+    <span class="tpl_shortDesc">Communecter est système d'information territorial, à double facette :<br/> 
+    une interface web classique et un Système d'information géographique riche qui permet de visualiser toutes les données sur une carte.</span>
 </div>
 
 <style type="text/css">
@@ -26,7 +29,7 @@
         </div>
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 
-	        <div class="col-sm-4 ">
+	        <div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-eye"></i> Visualiser</h4>
@@ -42,7 +45,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> Organiser</h4>
@@ -51,14 +54,14 @@
 			        <ul class="points">
 			        	<li><i class='fa fa-arrow-right'></i> Mieux visualiser permet de s'organiser</li>
 						<li><i class='fa fa-arrow-right'></i> Imaginer des solutions géographiques</li>
-						<li><i class='fa fa-arrow-right'></i> Devenez acteur du territiore</li>
+						<li><i class='fa fa-arrow-right'></i> Devenir acteur du territiore</li>
 						<li><i class='fa fa-arrow-right'></i> Système d'information territiorial</li>
 			        </ul>
 			    </div>
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-4 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-pie"></i> Analyser</h4>

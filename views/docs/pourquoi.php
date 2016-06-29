@@ -12,7 +12,7 @@
                           "icon" => "cogs",
                           "title" => "Pour quoi faire ?",
                           "stitle" => "Communecter c'est fait pour mille et une choses !",
-                          "description" => "La description ...",
+                          "description" => "",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">

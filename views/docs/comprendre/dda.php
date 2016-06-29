@@ -1,7 +1,7 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">
     <span class=" text-red homestead tpl_title"> Espace coopératif</span><br>
-    <h3 class=" text-dark homestead">Discuter, Décider, Agir (DDA)</h3>
+    <!-- <h3 class=" text-dark homestead">Discuter, Décider, Agir (DDA)</h3> -->
     <br/>
     <span class="tpl_shortDesc">Sur communecter, un espace coopératif permet d'utiliser 3 types d'espaces :<br/><br/>
     <span class="col-md-4"><strong><i class="fa fa-angle-down"></i> Espaces de discussions</strong><br/>pour débattre, comprendre les visions de chacuns. </span>

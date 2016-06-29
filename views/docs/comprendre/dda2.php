@@ -1,7 +1,7 @@
 
 <div class="panel-heading border-light center text-dark partition-white radius-10 hidden">
-    <span class=" text-red homestead tpl_title"> Espace coopératif</span><br>
-    <h3 class=" text-dark homestead">Discuter, Décider, Agir (DDA)</h3>
+    <span class=" text-red homestead tpl_title"> Espace coopératif</span><br><br>
+    <!-- <h3 class=" text-dark homestead">Discuter, Décider, Agir (DDA)</h3> -->
     <br/>
     <span class="tpl_shortDesc">Sur communecter, un espace coopératif permet d'utiliser 3 types d'espaces :<br/><br/>
     <span class="col-md-4"><strong><i class="fa fa-angle-down"></i> Espaces de discussions</strong><br/>pour débattre, comprendre les visions de chacuns. </span>
@@ -22,11 +22,12 @@
         
         <div class="panel-body tpl_content">
         
-        <h2 class="text-red homestead tpl_title"> Espace coopératif</span><br>
-    	<h3 class="center text-dark homestead no-margin">Discuter, Décider, Agir (DDA)</h3>
+        <h2 class="text-red homestead tpl_title"> Espace coopératif</h2><br>
+    	<!-- <h3 class="center text-dark homestead no-margin">Discuter, Décider, Agir (DDA)</h3> -->
     
         <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda11.png" class="col-sm-12 img-responsive ">
         <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda12.png" class="col-sm-12 img-responsive ">
+        
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 	        <div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
@@ -88,7 +89,15 @@
 
 	    </div>
         <br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.events.dir.docs');">Events <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 hidden">
+        	<a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();">
+	        	<i class="fa fa-arrow-left"></i>  Retour 
+	        </a>
+	        <a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.events.dir.docs');">
+	        Events <i class="fa fa-arrow-right"></i> 
+	        </a>
+        </div>
+        </div>
     </div>
 </div>
 

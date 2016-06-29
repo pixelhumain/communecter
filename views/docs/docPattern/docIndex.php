@@ -23,12 +23,12 @@
     		<i class="fa fa-cubes text-red"></i> les 4 éléments
     	</a>
     </li>
-    <li class="<?php if($icon=="cogs") echo "active"; ?>">
+    <li class="hidden <?php if($icon=="cogs") echo "active"; ?>">
     	<a href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-cogs text-red"></i> Pour quoi faire ?
     	</a>
     </li>
-    <li class="<?php if($icon=="question-circle") echo "active"; ?>">
+    <li class="hidden <?php if($icon=="question-circle") echo "active"; ?>">
     	<a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
     		<i class="fa fa-question-circle text-red"></i> Comprendre
     	</a>
@@ -48,7 +48,7 @@
             <i class="fa fa-bullhorn text-red"></i> Communication
         </a>
     </li>
-    <li class="<?php if($icon=="book") echo "active"; ?>">
+    <li class="hidden <?php if($icon=="book") echo "active"; ?>">
         <a href="javascript:loadByHash('#default.view.page.histoire.dir.docs');" class="text-red" id="btn-menu-dropdown-my-profil">
             <i class="fa fa-book text-red"></i> L'histoire
         </a>

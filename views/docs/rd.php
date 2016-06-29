@@ -4,6 +4,8 @@
 
   Menu::docs("elements", "comprendre");
   $this->renderPartial('../default/panels/toolbar');
+
+  $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -12,26 +14,26 @@
                           "icon" => "tachometer",
                           "title" => "R&D",
                           "stitle" => "Recherche et développement",
-                          "description" => "La description ...",
+                          "description" => "",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Round button indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#docCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#docCarousel" data-slide-to="1" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="0" class=" <?php if($slide=='roadmap' || $slide=='') echo "active"; ?>"></li>
+   <!--  <li data-target="#docCarousel" data-slide-to="1" class=""></li>
     <li data-target="#docCarousel" data-slide-to="2" class=""></li>
     <li data-target="#docCarousel" data-slide-to="3" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="4" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="4" class=""></li> -->
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/rd/roadmap", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php //$this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
+    <!-- <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div> -->
+    <div class="item <?php if($slide=='roadmap' || $slide=='') echo "active"; ?>"><?php $this->renderPartial("../docs/rd/roadmap", array("renderPartial"=>true)); ?></div>
+    <!-- <div class="item"><?php //$this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php //$this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php //$this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php //$this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div> -->
   </div>
 
   <!-- Left and right SLIDER controls -->

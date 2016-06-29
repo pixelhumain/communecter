@@ -22,9 +22,9 @@
         
         <span class="tpl_shortDesc">
 	    	<div class="col-md-10 homestead  text-left text-green col-md-offset-1">
-	    		<i class="fa fa-angle-down text-green fa-3x"></i> <br>
+	    		<br><i class="fa fa-angle-down text-green"></i> 
 	    		Un fil d'actualité pour chaque organisation
-	    		<br><br>
+	    		<br>
 	    	</div>
 	    	<div class="col-md-10  text-left col-md-offset-1">
 	    		En partageant <strong>un fil d'actualité commun</strong>, les membres d'une organisation peuvent facilement <strong>échanger des informations, 
@@ -38,9 +38,9 @@
 
 
 	    	<div class="col-md-10 homestead  text-left text-green col-md-offset-1">
-	    		<i class="fa fa-angle-down text-green fa-3x"></i> <br>
+	    		<br><i class="fa fa-angle-down text-green"></i> 
 	    		Un espace coopératif
-	    		<br><br>
+	    		<br>
 	    	</div>
 	    	<div class="col-md-10  text-left col-md-offset-1">
 	    		Chaque organisation dispose également de son propre "Espace coopératif", un espace dédié à la prises de décisions collectives, 
@@ -54,9 +54,9 @@
 	    	</div>
 	 
 	    	<div class="col-md-10 homestead  text-left text-green col-md-offset-1">
-	    		<i class="fa fa-angle-down text-green fa-3x"></i> <br>
+	    		<br><i class="fa fa-angle-down text-green"></i> 
 	    		Un agenda partagé
-	    		<br><br>
+	    		<br>
 	    	</div>
 	    	<div class="col-md-10  text-left col-md-offset-1">
 	    		Lorsqu'une organisation créé un événement sur communecter, tous les membres sont automatiquement avertis.<br><br>

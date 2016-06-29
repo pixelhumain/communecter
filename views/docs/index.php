@@ -35,10 +35,10 @@
 						<b>Communecter</b> est construit sur 4 éléments clefs, permettant de modéliser les acteurs et l'acitivté d'un territoire 
 						<br/>
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.person.dir.docs');">Citoyen</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.organisation.dir.docs');">Organisation</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.events.dir.docs');">Evènnement</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.projects.dir.docs');">Projet</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=person');">Citoyen</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=organisation');">Organisation</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=events');">Evènnement</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.elements.dir.docs?slide=projects');">Projet</a></li>
 				        </ul>
 				    </div>
 				</div>
@@ -73,11 +73,11 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.news.dir.docs');">Fil d'actualités</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.sig.dir.docs');">Système d'Information Géographique (SIG)</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.annuaire.dir.docs');">Annuaire</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.agenda.dir.docs');">Agenda</a></li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.dda.dir.docs');">Espace coopératif</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.modules.dir.docs?slide=news');">Fil d'actualités</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.modules.dir.docs?slide=sig');">Système d'Information Géographique (SIG)</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.modules.dir.docs?slide=annuaire');">Annuaire</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.modules.dir.docs?slide=agenda');">Agenda</a></li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.modules.dir.docs?slide=dda');">Espace coopératif</a></li>
 				        </ul>
 				    	<a href="javascript:loadByHash('#news.index.type.pixels');" class="btn btn-default"><i class='fa fa-lightbulb-o'></i> Proposer une idée de module</a>
 				    </div>
@@ -139,10 +139,9 @@
 						</a>
 					</div> 
 					<div class="panel-body">
-						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.video.dir.docs');">Nos Vidéos</a> </li>
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.affiches.dir.docs');">Nos Affiches</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.communication.dir.docs?slide=affiches');">Nos Affiches</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.communication.dir.docs?slide=video');">Nos Vidéos</a> </li>
 				        </ul>
 				    </div>
 				</div>
@@ -161,7 +160,7 @@
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.roadmap.dir.docs');">Roadmap</a>  </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.rd.dir.docs?slide=roadmap');">Roadmap</a>  </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> L'équipe </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> La structure </li>

@@ -8,7 +8,7 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
+    <div class="">
         
         <div class="panel-body">
            La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.

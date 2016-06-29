@@ -1,6 +1,6 @@
 
 <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class=" text-red homestead tpl_title"> Module : agenda</span><br>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : agenda</span><br>
     <!-- <h3 class=" text-dark homestead">Publier, </h3> -->
     <br/>
     <span class="tpl_shortDesc">L'activité d'un territoire c'est des évènements provenants de tous les acteurs plus ou moins locaux.<br/>
