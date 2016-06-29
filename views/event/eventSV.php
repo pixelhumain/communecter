@@ -550,7 +550,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			invalidHandler : function(event, validator) {//display error alert on form submit
 				successHandler2.hide();
 				errorHandler2.show();
-				alert("invalidHandler")
 			},
 			highlight : function(element) {
 				$(element).closest('.help-block').removeClass('valid');
@@ -569,7 +568,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 			},
 			submitHandler : function(form) {
-				alert("submitHandler");
+				console.log("submitHandler");
 				successHandler2.show();
 				errorHandler2.hide();
 
