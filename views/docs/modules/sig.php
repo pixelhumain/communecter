@@ -28,15 +28,11 @@
 	        </a>
         </div>
 
-        <div class="col-xs-12">
-	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" data-title="Schéma notre Open System"  data-lightbox="all">
-				<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" class="col-sm-12 col-xs-12 img-responsive ">
-	        </a>
-        </div>
+        
 
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 
-	        <div class="col-sm-6 ">
+	        <div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-eye"></i> Visualiser</h4>
@@ -52,7 +48,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-6 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> Organiser</h4>
@@ -67,8 +63,12 @@
 			    </div>
 				</div>
 			</div>
-
-			<div class="col-sm-4 hidden">
+			<div class="col-xs-12">
+		        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" data-title="Schéma notre Open System"  data-lightbox="all">
+					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" class="col-sm-12 col-xs-12 img-responsive ">
+		        </a>
+	        </div>
+			<div class="col-sm-12 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-pie"></i> Analyser</h4>

@@ -29,7 +29,7 @@
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
         <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/person.png" class="img-schemas img-responsive" style="margin-bottom:15px;">
         
-	        <div class="col-sm-4 ">
+	        <div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead text-yellow"><i class="fa fa-comments"></i> PARTAGER</h4>
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead text-yellow"><i class="fa fa-comments"></i> ORGANISER</h4>
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light text-yellow">
 						<h4 class="panel-title homestead"><i class="fa fa-comments"></i> PARTICIPER</h4>

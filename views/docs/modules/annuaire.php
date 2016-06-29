@@ -31,7 +31,7 @@
         </div>
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 
-	        <div class="col-sm-4 ">
+	        <div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-eye"></i> Libre et démocratique</h4>
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-cogs"></i> un Réseau, un Outil </h4>
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-4 ">
+			<div class="col-sm-12 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<h4 class="panel-title homestead"><i class="fa fa-pie"></i> Analyser</h4>
