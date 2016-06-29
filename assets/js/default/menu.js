@@ -17,7 +17,8 @@ function removeExplainations(){
 	});
 }
 
-
+var timeoutSearch = setTimeout(function(){}, 0);
+	
 
 function realTimeKKBB(){
 
@@ -196,11 +197,10 @@ function bindEventMenu(){
 		clearTimeout(timeoutCommunexion);
 	});
 
-	var timeoutSearch = setTimeout(function(){}, 0);
 	$('#searchBarPostalCode').keyup(function(e){
 		//if(location.hash == "#default.home"){
 	        clearTimeout(timeoutSearch);
-      		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 1200);
+      		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 5000);
 	    //}
     });
     

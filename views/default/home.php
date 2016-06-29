@@ -443,24 +443,35 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 	<div class="col-md-12 no-padding" id="valueSection" style="width:100%; float:left;">
 		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i></h1>
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">
+				ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i><i class="fa fa-child fa-2x"></i><i class="fa fa-child fa-2x"></i>
+			</h1>
 		</div>
-		<div class="col-md-12" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
+		<div class="col-md-12 hidden" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
 			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
-		<center>
-			<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-		</center>
+		
 
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
+			<a href="javascript:loadByHash('#default.view.page.index.dir.docs')">
+				<h1 class="homestead text-white center">
+					<i class="fa fa-book fa-2x"></i> Documentation
+				</h1>
+			</a>
 		</div>
 
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-
-            <div class=" col-md-12" style="text-align:center; margin-bottom:24px;">
+			
+            <div class="col-md-10 col-md-offset-1" style="text-align:center; margin-bottom:24px;">
+            	<div class="pull-right text-red homestead" stye="margin-top: -15px; margin-bottom: -20px;">
+					<?php $this->renderPartial("../docs/docPattern/docIndex", array("icon"=>"")); ?>
+				</div>
+				<?php $this->renderPartial("../docs/docPattern/player"); ?>
+				
+            </div>
+            <div class="hidden col-md-12" style="text-align:center; margin-bottom:24px;">
                 <div class=" col-md-1"></div>
                 <div class=" col-md-2" style="text-align:center;"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur01.png"/>Open Source</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur02.png"/>Pas de PUB</div>
@@ -468,7 +479,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur04.png"/>Informations Partagées</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur05.png"/>Linked Data</div>
             </div>
-            <div class=" col-md-12 homestead" style="text-align:center;">
+            <div class="hidden col-md-12 homestead" style="text-align:center;">
                  <div class=" col-md-1"></div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur06.png"/>Territoire Connecté</div>
                 <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur07.png"/>Inteligence Collective</div>
@@ -480,17 +491,22 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div>
 
 	
-	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
-		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
+	<div class="col-sm-12 no-padding " style="max-width:100%; float:left;">
+		<div class="col-md-12 bg-dark" style="width:100%;padding:8px 0px 8px 0%;">
 			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.explain')">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
 		</div>
+	</div>
+	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
+		<div class="col-md-12 bg-red" style="width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white">Les amis de communecter</h1>
+		</div>
 		<center>
-			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
+			<i class="fa fa-caret-down text-red"></i><br/>
 		</center>
 
 		<div class="col-sm-6 col-xs-12 ">
 			<center>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un communecteur</h1>
 				<div class="space20"></div>
 
 				<div class="col-sm-12">  

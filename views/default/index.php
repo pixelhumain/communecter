@@ -200,6 +200,21 @@
 		/*display:none !important;*/
 	}
 
+	.btn-start-new-communexion{
+	    position: absolute;
+	    bottom: 62px;
+	    left: 370px;
+	    border-radius: 50%;
+	    width: 35px;
+	    height: 35px;
+	    padding: 7px 3px 3px 11px;
+	    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.39);
+	}
+
+	.btn-start-new-communexion:hover{
+		box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.39);
+	}
+
 @media screen and (min-width:: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
     	max-width: 42% !important;
@@ -326,6 +341,10 @@
 <div id="input-communexion">
 	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+	<a class="btn-start-new-communexion bg-red tooltips" href="javascript:" onclick="startNewCommunexion();"
+		data-toggle="tooltip" data-placement="right" title="Lancer la recherche" alt="Lancer la recherche">
+		<i class="fa fa-search"></i>
+	</a>
 </div>
 
 
@@ -561,7 +580,10 @@ jQuery(document).ready(function() {
 	checkScroll();
 });
 
-function startNewCommunexion(country){
+function startNewCommunexion(country){ 
+
+	clearTimeout(timeoutSearch);
+
 	var locality = $('#searchBarPostalCode').val();
 	locality = locality.replace(/[^\w\s-']/gi, '');
 
