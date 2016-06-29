@@ -165,7 +165,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
       <div class="modal-body pull-left col-md-12">
 		<div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 			<div class="col-md-3 no-padding hidden">
-				<form class="form-event">
+				<form class="form-postalcode">
 					<div class="col-md-12 no-padding">
 						<select class="pull-left" id="country-geolocInternational"></select>
 					</div>
