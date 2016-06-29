@@ -1,5 +1,5 @@
 <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : Système d'Information Géographique</span>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-map-marker fa-2x'></i> Système d'Information Géographique</span>
     <br/>
     <span class="tpl_shortDesc">Communecter est système d'information territorial, à double facette :<br/> 
     une interface web classique et un Système d'information géographique riche qui permet de visualiser toutes les données sur une carte.</span>

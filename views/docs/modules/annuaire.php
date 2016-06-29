@@ -1,6 +1,6 @@
 
  <div class="panel-heading center text-dark partition-white radius-10" >
-    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : Annuaire</span>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-connectdevelop fa-2x'></i>Annuaire</span>
     <br/>
     <span class="tpl_shortDesc">Les liens qu'on tisse, nous permette de donner de la valeur (par l'usage) aux acteur plus ou moins locaux et les quantifier est un des objectifs premier de Communecter<br/> L'annuaire est un module permettant de visualiser sous différente forme le maillage que chaque élément créé dans son contexte.  </span>
 </div>

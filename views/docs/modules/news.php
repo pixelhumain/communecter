@@ -1,5 +1,5 @@
 <div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"><i class='fa fa-cube'></i> Module : fil d'actualité</span>
+    <span class=" text-red homestead tpl_title"><i class='fa fa-rss fa-2x'></i> Fil d'actualité</span>
     <br/>
     <span class="tpl_shortDesc">Les fils d'actualité permettent de retrouver d'une part l'actualité local<br> et d'autre part l'actualité de votre réseau</span>
 </div>
