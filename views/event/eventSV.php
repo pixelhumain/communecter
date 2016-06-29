@@ -732,13 +732,41 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			}
 			$("#"+idLabel).text(titleName+" : "+contextName);
 		}
-		
+		$(".dropOrg").click(function() {
+			console.log(this);
+			if ($(this).parents().eq(1).attr("id")=="organization"){
+				$("#labelOrga").text("<?php echo Yii::t("common","Organization") ?> : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("organizations");
+			}
+			else if ($(this).parents().eq(1).attr("id")=="project"){
+				$("#labelOrga").text("<?php echo Yii::t("common","Project"); ?> : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("projects");
+			}
+			else if($(this).data("id") == "<?php echo Event::NO_ORGANISER; ?>"){
+				$("#labelOrga").text($(this).data("name"));
+				$("#newEventOrgaId").val("<?php echo Event::NO_ORGANISER; ?>");
+				$("#newEventOrgaType").val("<?php echo Event::NO_ORGANISER; ?>");
+			}else{
+				$("#labelOrga").text("<?php echo Yii::t("common","Person"); ?> : "+$(this).data("name"));
+				$("#newEventOrgaId").val($(this).data("id"));
+				$("#newEventOrgaType").val("citoyens");
+			}
+		})
+
+		$(".dropParent").click(function() {
+			console.log(this);
+			if ($(this).parents().eq(1).attr("id")=="events"){
+				$("#labelParent").text("<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?> : "+$(this).data("name"));
+				$("#newEventParentId").val($(this).data("id"));
+			}
+		})
+
 		/*if("undefined" != typeof(parentOrga)){
 			$("#"+parentOrga).trigger("click");
 		}*/
 	}
-
-	
 
 	function roundMoment()
 	{
