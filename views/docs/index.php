@@ -101,6 +101,7 @@
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
 						<i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a>
+						<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.financement.dir.docs');">Financement</a> </li>
 			        </ul>
 			    </div>
 				</div>
@@ -161,9 +162,6 @@
 						
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.rd.dir.docs?slide=roadmap');">Roadmap</a>  </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> L'équipe </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> La structure </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">Wish Liste</a> </li>
 				        </ul>
 				    </div>
