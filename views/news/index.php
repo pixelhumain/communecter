@@ -497,7 +497,7 @@ jQuery(document).ready(function()
 	initFormImages();
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
-	    var data = {"search" : search,"searchMode":"personOnly"};
+	    var data = {"search" : query};
 	  		$.ajax({
 				type: "POST",
 		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
@@ -507,36 +507,27 @@ jQuery(document).ready(function()
 		        	if(!retdata){
 		        		toastr.error(retdata.content);
 		        	}else{
-			        	data=retdata.citoyens;
-		        		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+			        	//console.log(retdata);
+			        	data = [];
+			        	for(var key in retdata){
+				        	for (var id in retdata[key]){
+					        	object = new Object;
+					        	object.id = id;
+					        	object.name = retdata[key][id].name;
+					        	object.avatar = baseUrl+retdata[key][id].profilThumbImageUrl;
+					        	object.type = key;
+					        	data.push(object);
+				        	}
+			        	}
+			        	//console.log(data);
+			    		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 						callback.call(this, data);
-						/*str = "";
-						console.log(data);
-						if(data.citoyens.length != 0){
-							$("#dropdown_search").show();
-				 			$.each(data, function(key, value) {
-				 				
-				 				$.each(value, function(i, v){
-				 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
-				 					var logoSearch = "";
-				 					console.log(v);
-				 					if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl!=""){
-				 						var imageSearch = '<img alt="image" class="" src="'+baseUrl+v.profilThumbImageUrl+'" style="height:25px;padding-right:5px;"/>'
-				 					}
-				  					str += '<li class="li-dropdown-scope"><a href="javascript:setReferenceInNews(\''+v.id+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
-				  				});
-				  			}); 
-				  			$("#dropdown_search").html(str);
-				  		} else{
-					  		$("#dropdown_search").hide();
-		        		peopleReference=false;
-
-				  		}*/
+						console.log(callback);
 		  			}
 				}	
 			})
 	  }
-	});
+  	});
  	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire

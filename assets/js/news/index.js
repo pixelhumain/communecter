@@ -525,7 +525,7 @@ function getUrlContent(){
                 });
 			}
         }
-    }).keydown(function( event ) {
+    }); /*.keydown(function( event ) {
 		if ( event.which == 192 ) {
 			peopleReference=true;
   		}
@@ -567,7 +567,7 @@ function getUrlContent(){
 				  		}
 		  			}
 				}	
-			})
+			})*/
 	  		/*getUrl.select2({
 				  ajax: {
 				    url: "https://api.github.com/search/repositories",
@@ -596,8 +596,8 @@ function getUrlContent(){
 				  templateResult: formatRepo, // omitted for brevity, see the source of this page
 				  templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
 				});*/
-  		}
-  	});
+  		//}
+  	//});
 }
 function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){
@@ -692,6 +692,9 @@ function getMediaHtml(data,action,idNews){
     return content;
 }
 function saveNews(){
+	$('textarea.mention').mentionsInput('getMentions', function(data) {
+      alert(JSON.stringify(data));
+    });
 	var formNews = $('#form-news');
 	var errorHandler2 = $('.errorHandler', formNews);
 	var successHandler2 = $('.successHandler', formNews);
