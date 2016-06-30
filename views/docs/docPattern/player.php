@@ -1,5 +1,5 @@
 <?php 
-  $cssAnsScriptFilesModule = array('/css/default/docs.css');
+  $cssAnsScriptFilesModule = array('/css/docs/docs.css');
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
