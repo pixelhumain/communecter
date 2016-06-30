@@ -8,7 +8,6 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="">
         
         <div class="panel-body tpl_content">
          
