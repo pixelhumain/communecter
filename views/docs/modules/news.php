@@ -21,7 +21,7 @@
 			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/news.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
 	        </a>
 	        <div class="col-sm-12 col-xs-12" style="margin-top:30px;margin-bottom:30px;">
-		        <div class="col-sm-4 col-xs-12">
+		        <div class="col-xs-12">
 			        <div class="panel panel-white user-list ">
 						<div class="panel-heading border-light">
 							<h4 class="panel-title homestead"><i class="fa fa-comments"></i> Journaux</h4>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 	
-				<div class="col-sm-4 col-xs-12">
+				<div class="col-xs-12">
 			        <div class="panel panel-white user-list ">
 						<div class="panel-heading border-light">
 							<h4 class="panel-title homestead"><i class="fa fa-comments"></i> Médias</h4>
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 	
-				<div class="col-sm-4 col-xs-12">
+				<div class="col-xs-12">
 			        <div class="panel panel-white user-list ">
 						<div class="panel-heading border-light">
 							<h4 class="panel-title homestead"><i class="fa fa-comments"></i> Actions</h4>

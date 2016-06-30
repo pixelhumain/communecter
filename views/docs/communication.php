@@ -14,7 +14,8 @@
                           "icon" => "bullhorn",
                           "title" => "Communication",
                           "stitle" => "un bien commun à partager sans modération",
-                          "description" => "Merci de nous aider à faire connaître communecter au quotidien !",
+                          "description" => "Merci de nous aider à faire connaître communecter au quotidien !".
+                                          "<br/> <span class='text-red text-bold'>* Pixel Humain</span> est le nom initial du projet avant de devenir Communecter ",
 )); ?>
 
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
@@ -40,7 +41,7 @@
     <span class="sr-only">Suivant</span>
   </a>
 </div>
-
+<div class="space20"></div>
 <!-- Left and right CHAPTER controls -->
 <a href="javascript:loadByHash('#default.view.page.presentation.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
 	<i class="fa fa-arrow-left"></i> Présentation
