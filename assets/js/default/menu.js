@@ -281,11 +281,9 @@ function bindEventMenu(){
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		////console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
+
+		clearTimeout(timeoutSearch);
 		clearTimeout(timeoutHover);
 	});
 
@@ -302,11 +300,9 @@ function bindEventMenu(){
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		////console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
+
+		clearTimeout(timeoutSearch);
 		clearTimeout(timeoutHover);
 	});
 
