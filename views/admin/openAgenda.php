@@ -80,11 +80,11 @@ jQuery(document).ready(function() {
 
 function bindEvents(){
 	$("#collectOpenAgenda").off().on('click', function(e){
-		rand = Math.floor((Math.random() * 8) + 1);
+		/*rand = Math.floor((Math.random() * 8) + 1);
 		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-				});
+				});*/
 
 		var dateToday  = "<?php echo date('d').'/'.date('m').'/'.date('Y') ;?>";
 		var date50  = "<?php echo date('d').'/'.date('m').'/'.(date('Y')+50) ;?>";
@@ -132,11 +132,11 @@ function bindEvents(){
 
 
 	$("#importOpenAgenda").off().on('click', function(e){
-		rand = Math.floor((Math.random() * 8) + 1);
+		/*rand = Math.floor((Math.random() * 8) + 1);
 		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
-				});
+				});*/
 		$.ajax({
 			url: baseUrl+'/communecter/admin/importeventsopenagendaindb/',
 			type: 'POST',
@@ -214,7 +214,9 @@ function checkEventsOpenAgendaInDB(data){
 
 function check (nbpage, page, dateToday, date50, finish){
 	
-	var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
+	//var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
+	
+	var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=5";
 	console.log('url', url);
 	
 	$.ajax({
@@ -249,12 +251,13 @@ function check (nbpage, page, dateToday, date50, finish){
 				});
 			});
 
-			if(nbpage > page){
+			/*if(nbpage > page){
 				page++;
 				check(nbpage, page, dateToday, date50, finish);
 			}else{
 				callbackF(finish);
-			}
+			}*/
+			callbackF(finish);
 		},
 		error: function (error) {
 			console.log('error', error);
