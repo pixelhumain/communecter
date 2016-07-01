@@ -159,7 +159,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h3 class="modal-title text-dark"><i class="fa fa-angle-down"></i> Trouver un code postal 
+        <h3 class="modal-title text-dark">
+        	<i class="fa fa-angle-down"></i> Trouver un code postal <span class="badge bg-green title-helpCP"></span>
         </h3>
       </div>
       <div class="modal-body pull-left col-md-12">
@@ -232,9 +233,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	jQuery(document).ready(function() {
 	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
-	
+		
+
 	 	$("#btn-geolocInternational").click(function(){
 	 		var country = $(idCountryInput).val(); 
+	 		
+	 		if(country == ""){
+	 			showMsgListRes("Merci de sélectionner un pays avant de continuer");
+	 			return;
+	 		}
 
 	 		typeSearchInternational = "address"; // $(".radio-typeInternationalSearch input[type='radio']:checked").val();
 	 		
@@ -250,6 +257,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	});
 
 function openModalHelpCP(){
+	var country = $(idCountryInput).val(); 
+	if(country == ""){
+		$(".badge.title-helpCP").html("Attention : aucun pays selectionné");
+		$(".badge.title-helpCP").removeClass("bg-green").addClass("bg-red");
+	}else{
+		$(".badge.title-helpCP").html(country);
+		$(".badge.title-helpCP").removeClass("bg-red").addClass("bg-green");
+	}
+
 	$('#modalHelpCP').modal('show');
 	setTimeout(function() {
 					mapEntity.invalidateSize(false);
@@ -267,12 +283,10 @@ function showMsgListRes(msg){
 */
 function getGeoPosInternational(requestPart, countryCode){
 
-	showMsgListRes("Recherche en cours ...");
 	var countryCodes = new Array("FR", "GP", "GF", "MQ", "YT", "NC", "RE", "PM");
+	showMsgListRes("Recherche en cours ...");
 	
-	//if(countryCode == "FR") callCommunecter(requestPart, "FR");
-	
-	if($.inArray(countryCode, countryCodes)) callCommunecter(requestPart, countryCode);
+	if($.inArray(countryCode, countryCodes) >= 0) callCommunecter(requestPart, countryCode);
 	else
 		callNominatim(requestPart, countryCode);
 }
@@ -452,6 +466,7 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 function getCommonGeoObject(objs, providerName){
 
 	var commonObjs = new Array();
+	var multiCpName = new Array();
 	$.each(objs, function(key, obj){
 
 		var commonObj = {};
@@ -511,7 +526,22 @@ function getCommonGeoObject(objs, providerName){
 		commonObj["type"] = "addressEntity";
 		commonObj["typeSig"] = formType;
 		commonObj["name"] = getFullAddress(commonObj);
-		commonObjs.push(commonObj);
+
+		if(typeof commonObj["postalCode"] != "undefined" && commonObj["postalCode"].indexOf(";") >= 0){
+			var CPS = commonObj["postalCode"].split(";");
+			$.each(CPS, function(index, value){
+				var oneCity = commonObj;
+				oneCity["postalCode"] = value;
+				oneCity["name"] = oneCity["cityName"] + ", " + value + ", " + oneCity["country"];
+
+				if($.inArray(oneCity["name"], multiCpName) < 0){
+					multiCpName.push(oneCity["name"]);
+					commonObjs.push(oneCity);
+				}
+			});
+		}else{
+			commonObjs.push(commonObj);
+		}
 	});
 
 	
