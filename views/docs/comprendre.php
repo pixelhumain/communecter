@@ -2,8 +2,6 @@
   $cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("pourquoi", "modules");
-  $this->renderPartial('../default/panels/toolbar');
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -23,6 +21,8 @@
     <li data-target="#docCarousel" data-slide-to="2" class=""></li>
     <li data-target="#docCarousel" data-slide-to="3" class=""></li>
     <li data-target="#docCarousel" data-slide-to="4" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="5" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="6" class=""></li>
   </ol>
 
   <!-- Wrapper for slides -->
@@ -32,6 +32,8 @@
     <div class="item"><?php $this->renderPartial("../docs/comprendre/openSystem", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/comprendre/import", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php $this->renderPartial("../docs/comprendre/dda", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/comprendre/financement", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/comprendre/smarterre", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->

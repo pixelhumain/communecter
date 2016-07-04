@@ -2,9 +2,6 @@
 	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  Menu::docs("comprendre", "presentation");
-  $this->renderPartial('../default/panels/toolbar');
-
   $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>

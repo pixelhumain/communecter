@@ -101,6 +101,7 @@
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.openSystem.dir.docs');">Open System (Code Social)</a></li>
 						<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API</a></li>
 						<i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.explain');">Les gros mots</a>
+						<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.financement.dir.docs');">Financement</a> </li>
 			        </ul>
 			    </div>
 				</div>
@@ -161,9 +162,6 @@
 						
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.rd.dir.docs?slide=roadmap');">Roadmap</a>  </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.firstPitch.dir.docs|slides');">en 2012</a> </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> L'équipe </li>
-				        	<li class="hidden"><i class='fa fa-arrow-right'></i> La structure </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">Wish Liste</a> </li>
 				        </ul>
 				    </div>
@@ -192,7 +190,8 @@
 	    </div>
 
         <br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.dda.dir.docs');">c'est Parti <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 ">
+        <a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.elements.dir.docs');">c'est Parti <i class="fa fa-arrow-right"></i> </a></div></div>
     </div>
 </div>
 
