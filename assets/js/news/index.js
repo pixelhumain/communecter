@@ -497,7 +497,7 @@ function getUrlContent(){
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
-                var lastUrl=extracted_url;
+                lastUrl=extracted_url;
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
