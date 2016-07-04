@@ -379,6 +379,7 @@ var news = <?php echo json_encode(@$news)?>;
 var news = "";
 <?php } ?>
 var parent = <?php echo json_encode(@$parent)?>;
+
 var newsReferror={
 		"news":{
 			"offset":"",
@@ -433,13 +434,7 @@ var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 <?php } ?>
 var tagSearch = "<?php echo @$tagSearch ?>";
 var peopleReference=false;
-/*function t(lang, phrase){
-	if(typeof trad[phrase] != "undefined")
-	return trad[phrase];
-	else return phrase;
-}*/
-//var userId = <?php echo isset(Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "null"; ?>
-
+var mentionsContact = [];
 jQuery(document).ready(function() 
 {
 //	console.log(dataNewsSearch);
@@ -495,13 +490,39 @@ jQuery(document).ready(function()
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
 	initFormImages();
+	$.each(myContacts["people"], function (key,value){
+		avatar="";
+	  	if(value.profilThumbImageUrl!="")
+			avatar = baseUrl+value.profilThumbImageUrl;
+	  	object = new Object;
+	  	object.id = value._id.$id;
+	  	object.name = value.name;
+		object.avatar = avatar;
+		object.type = "citoyens";
+		mentionsContact.push(object);
+  	});
+  	$.each(myContacts["organizations"], function (key,value){
+	  	avatar="";
+	  	if(value.profilThumbImageUrl!="")
+			avatar = baseUrl+value.profilThumbImageUrl;
+	  	object = new Object;
+	  	object.id = value._id.$id;
+	  	object.name = value.name;
+		object.avatar = avatar;
+		object.type = "organizations";
+		mentionsContact.push(object);
+  	});
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
-	    var data = {"search" : query};
+		  	var data = mentionsContact;
+		  	data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+			callback.call(this, data);
+
+	   		var search = {"search" : query};
 	  		$.ajax({
 				type: "POST",
 		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
-		        data: data,
+		        data: search,
 		        dataType: "json",
 		        success: function(retdata){
 		        	if(!retdata){
@@ -511,14 +532,23 @@ jQuery(document).ready(function()
 			        	data = [];
 			        	for(var key in retdata){
 				        	for (var id in retdata[key]){
+					        	avatar="";
+					        	if(retdata[key][id].profilThumbImageUrl!="")
+					        		avatar = baseUrl+retdata[key][id].profilThumbImageUrl;
 					        	object = new Object;
 					        	object.id = id;
 					        	object.name = retdata[key][id].name;
-					        	object.avatar = baseUrl+retdata[key][id].profilThumbImageUrl;
+					        	object.avatar = avatar;
 					        	object.type = key;
-					        	data.push(object);
-				        	}
+					        	var findInLocal = _.findWhere(mentionsContact, {
+									name: retdata[key][id].name, 
+									type: key
+								}); 
+								if(typeof(findInLocal) == "undefined")
+									mentionsContact.push(object);
+					 			}
 			        	}
+			        	data=mentionsContact;
 			        	//console.log(data);
 			    		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 						callback.call(this, data);
@@ -528,9 +558,12 @@ jQuery(document).ready(function()
 			})
 	  }
   	});
- 	//Construct the first NewsForm
+   	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
 </script>

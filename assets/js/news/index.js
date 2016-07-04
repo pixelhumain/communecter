@@ -377,7 +377,7 @@ function updateNews(newsObj)
 	$("#newFeedForm").parent().next().css("margin-top","20px");
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
-	$("#form-news .mentions").html("");
+	$('textarea.mention').mentionsInput('reset');
 	$("#form-news #results").html("").hide();
 	$("#form-news #tags").select2('val', "");
 	showFormBlock(false);
