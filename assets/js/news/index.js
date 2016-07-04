@@ -377,6 +377,7 @@ function updateNews(newsObj)
 	$("#newFeedForm").parent().next().css("margin-top","20px");
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
+	$("#form-news .mentions").html("");
 	$("#form-news #results").html("").hide();
 	$("#form-news #tags").select2('val', "");
 	showFormBlock(false);
@@ -693,7 +694,7 @@ function getMediaHtml(data,action,idNews){
 }
 function saveNews(){
 	$('textarea.mention').mentionsInput('getMentions', function(data) {
-      alert(JSON.stringify(data));
+      mentionsInput=data;
     });
 	var formNews = $('#form-news');
 	var errorHandler2 = $('.errorHandler', formNews);
@@ -794,7 +795,9 @@ function saveNews(){
 					newNews.codeInsee = $("input[name='cityInsee']").val();
 				if($("input[name='cityPostalCode']").length && contextParentType == "city")
 					newNews.postalCode = $("input[name='cityPostalCode']").val();
-
+				if (mentionsInput.length != 0){
+					newNews.mentions=mentionsInput;
+				}
 				console.log(newNews);
 				$.ajax({
 			        type: "POST",

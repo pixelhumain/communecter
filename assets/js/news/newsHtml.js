@@ -139,11 +139,17 @@ function buildLineHTML(newsObj,idSession,update)
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		textHtml="";
+		actionTitle="";
 		if(newsObj.text.length > 0){
 			if(typeof(view) != "undefined" && view == "detail")
 				textNews=newsObj.text;
 			else
 				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			//Check if @mentions return text with link
+			if(typeof(newsObj.mentions) != "undefined"){
+				actionTitle = getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
+				textNews = addMentionInText(textNews,newsObj.mentions);
+			}
 			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
@@ -305,6 +311,7 @@ function buildLineHTML(newsObj,idSession,update)
 
 	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
+						actionTitle+
 						tags+
 						manageMenu+
 						scopes+
@@ -776,4 +783,43 @@ function blankNews(id){
 		getAjax('.newsContent',baseUrl+'/'+moduleId+"/news/detail/id/"+id,function(){ 
 		},"html");*/
 	window.open(baseUrl+'/#news.detail.id.'+id,'_blank');
+}
+function getMentionLabel(news){
+	countMentions = news.mentions.length;
+	target="";
+	mentionMe=false;
+	$.each(news.mentions, function( index, value ){
+		if(value.id == idSession){
+			target = news.author.name+" vous a cité dans sa publication";
+			mentionMe=true;
+		}
+		if(value.id == contextParentId && value.id != idSession){
+			target = news.author.name+" a mentionné "+value.name+" dans son post";
+			
+		}	
+		if(typeof(parent.links.memberOf) != "undefined" && typeof(parent.links.memberOf[value["id"]]) != "undefined"){
+			if(mentionMe)
+				target = news.author.name+" vous a mentionné avec "+value.name+" dans son post";
+			else
+				target = news.author.name+" a mentionné "+value.name+" dans son post";	
+		}
+	});
+	return target;
+}
+function addMentionInText(textNews,mentions){
+	$.each(mentions, function( index, value ){
+   		array = textNews.split(value.value);
+   		console.log(array);
+   		if(value.type == "organizations")
+   			controler = "organization";
+   		else
+   			controler = "person"; 
+   		textNews=array[0]+
+   					"<span onclick='loadByHash(\"#"+controler+".detail.id."+value.id+"\")' onmouseover='$(this).addClass(\"text-blue\");this.style.cursor=\"pointer\";' onmouseout='$(this).removeClass(\"text-blue\");' style='color: #719FAB;'>"+
+   						value.name+
+   					"</span>"+
+   				array[1];
+   					
+	});
+	return textNews;
 }
