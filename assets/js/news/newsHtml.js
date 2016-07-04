@@ -134,19 +134,19 @@ function buildLineHTML(newsObj,idSession,update)
 	media="";
 	title="";
 	text="";
+	actionTitle="";
 	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
 		}
 		textHtml="";
-		actionTitle="";
 		if(newsObj.text.length > 0){
 			if(typeof(view) != "undefined" && view == "detail")
 				textNews=newsObj.text;
 			else
 				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
 			//Check if @mentions return text with link
-			if(typeof(newsObj.mentions) != "undefined"){
+			if(typeof(newsObj.mentions) != "undefined" && newsObj.author.id != idSession){
 				actionTitle = getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
@@ -169,18 +169,20 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 	else{
 		if(newsObj.object.objectType=="events" || newsObj.object.objectType=="needs"){
-			if(typeof(newsObj.startDate) == "object")
-				var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
-			else
-				var startDate = new Date( parseInt(newsObj.startDate)*1000 );
-			var startMonth = months[startDate.getMonth()];
-			var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
-			if(typeof(newsObj.endDate) == "object")
-				var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
-			else
-				var endDate = new Date( parseInt(newsObj.endDate)*1000 );
-			var endMonth = months[endDate.getMonth()];
-			var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
+			if(newsObj.startDate && newsObj.endDate){
+				if(typeof(newsObj.startDate) == "object")
+					var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
+				else
+					var startDate = new Date( parseInt(newsObj.startDate)*1000 );
+				var startMonth = months[startDate.getMonth()];
+				var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
+				if(typeof(newsObj.endDate) == "object")
+					var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
+				else
+					var endDate = new Date( parseInt(newsObj.endDate)*1000 );
+				var endMonth = months[endDate.getMonth()];
+				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
+			}
 			if (newsObj.object.objectType=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
@@ -189,13 +191,18 @@ function buildLineHTML(newsObj,idSession,update)
 			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
 			//var min = (startDate.getMinutes() < 10) ?  "0"+startDate.getMinutes() : startDate.getMinutes();
 			//var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding">'+
-						'<div class="col-md-3 col-sm-3 col-xs-3 no-padding center">'+
+			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding">';
+			if (typeof(startDay)!="undefined"){
+				title += '<div class="col-md-3 col-sm-3 col-xs-3 no-padding center">'+
 							'<span class="text-large text-red text-bold light-text timeline_title no-margin">'+startDay+'</span><br/><span class="text-dark light-text timeline_title no-margin">'+startMonth+'</span>'+
-						'</div>'+
-						'<div class="col-md-9  col-sm-9 col-xs-9 no-padding">'+
-							'<span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span><br/>'+
-							'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • <i class="fa fa-map-marker"></i> '+objectLocality+'</span>'+
+						'</div>';
+			}
+			title += 	'<div class="col-md-9  col-sm-9 col-xs-9 no-padding">'+
+							'<span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span><br/>';
+			if (typeof(startDay)!= "undefined" && typeof(endDay) != "undefined"){	
+			title += 		'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • ';
+			}
+			title += 		'<i class="fa fa-map-marker"></i> '+objectLocality+'</span>'+
 						'</div>'+
 					'</a>';
 		} else{
