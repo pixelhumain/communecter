@@ -58,6 +58,10 @@
 									<?php 
 										$type = "comment.index.type.actionRooms";
 										$icon = "comments";
+										if( $e["type"] == ActionRoom::TYPE_FRAMAPAD ){
+											$type = "rooms.external";
+											$icon = "file-text-o";
+										}
 										//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
 										$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
 										$link = 'href="javascript:;" onclick="'.$link.'"';

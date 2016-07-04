@@ -173,9 +173,9 @@ jQuery(document).ready(function() {
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-			showDefinition( $(this).data("id") );
-			return false;
-		});
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 	$(".dataTables_length").append("");
 	
 	activeTab = <?php echo (@$_GET["tab"]) ? $_GET["tab"] : "1"?>;

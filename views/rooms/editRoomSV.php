@@ -23,6 +23,7 @@ $this->renderPartial('../default/panels/toolbar');
     <blockquote style="border-color:transparent !important;"> 
      <i class="fa fa-comments center fa-4x"></i>
       <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('discuss')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, $moduleId)?> <i class="fa fa-arrow-circle-right"></i></span></a>
+      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('framapad')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create un Framapad', null, $moduleId)?> <i class="fa fa-arrow-circle-right"></i></span></a>
       <br/><br><?php echo Yii::t('rooms', "Let's talk about", null, $moduleId)?>
       <br><?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, $moduleId)?>
      
@@ -126,6 +127,7 @@ function selectRoomType(type){
   
   var msg = "Nouvel espace";
   if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
+  if(type=="framapad") msg = "<i class='fa fa-file-text-o'></i> " + msg + " framapad";
   if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
   if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
   $("#proposerloiFormLabel").html(msg);
@@ -181,6 +183,8 @@ function editRoomSV (roomObj) {
                 if(data.result){
                     if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
+                    else if($("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
+                      loadByHash("#rooms.external.id."+data.newInfos["_id"]["$id"]);
                     else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
                       loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
                     else 
