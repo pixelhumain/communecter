@@ -139,7 +139,11 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
                             "fromView" => "rooms.index",
                             "faTitle" => "connectdevelop",
                             "colorTitle" => "azure",
-                            "textTitle" => ""
+                            "textTitle" => "",
+                            "discussions" => $discussions, 
+                            "votes" => $votes, 
+                            "actions" => $actions, 
+                            
                             )); ?>
 	    
 <div class="" id="main-panel-room">
