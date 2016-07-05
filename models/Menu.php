@@ -668,6 +668,11 @@ class Menu {
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
                         "loadByHash('#rooms.editAction.room.".$id."')","addActionBtn",null);
+
+            self::entry("right", 'onclick', 
+                        YYii::t( "rooms", 'Archive this action Room',null,Yii::app()->controller->module->id),
+                        Yii::t( "rooms", 'Archive',null,Yii::app()->controller->module->id), 'plus',
+                        "archive('".ActionRoom::COLLECTION_ACTIONS.")','".$id."')","archiveBtn",null);
         }
         // Help
         //-----------------------------
