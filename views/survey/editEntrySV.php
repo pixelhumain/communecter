@@ -51,7 +51,8 @@ $this->renderPartial('../rooms/header',array(
 var organizerList = {};
 var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
 var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
-
+var docType="<?php echo Document::DOC_TYPE_IMAGE; ?>";
+var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
 var proposalFormDefinition = {
     "jsonSchema" : {
         "title" : "Entry Form",
@@ -77,15 +78,15 @@ var proposalFormDefinition = {
               },
               "value" : "<?php echo ( isset($survey) && isset($survey["name"]) ) ? $survey["name"] : '' ?>",
             },
-            /*"organizer" : {
-              "inputType" : "select",
-              "placeholder" : "Organisateur du sondage",
-              "value" : "currentUser",
-              "rules" : {
-                "required" : true
-              },
-              "options" : organizerList
-            },*/
+            /* "organizer" : {
+              //"inputType" : "select",
+              //"placeholder" : "Organisateur du sondage",
+              //"value" : "currentUser",
+              //"rules" : {
+               // "required" : true
+              //},
+             // "options" : organizerList
+            //}, */
             "message" :{
               "inputType" : "wysiwyg",
               "placeholder" : "Texte de la proposition",
@@ -107,12 +108,19 @@ var proposalFormDefinition = {
                   "placeholder" : "url, informations supplémentaires, actions à faire, etc",
                   "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
+            "image" : {
+                  "inputType" : "image",
+                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
+                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
+                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
+                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
+            },
             "tags" :{
               "inputType" : "tags",
               "placeholder" : "Tags",
               "value" : "<?php echo (isset($survey) && isset($survey['tags'])) ? implode(',', $survey['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
-            }/*,
+            } /*,
               "separator1":{
               "title":"Comment options"
             },
