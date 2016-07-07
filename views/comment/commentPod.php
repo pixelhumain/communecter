@@ -977,6 +977,7 @@ function manageCommentModeContext(id) {
 		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('toggleDisabled');
+			$(value).css('fontWeight', '300');
 		});
 		//$("#btn-update-geopos").removeClass("hidden");
 	} else if (modeComment == "update") {
@@ -985,6 +986,7 @@ function manageCommentModeContext(id) {
 		$.each(listXeditables, function(i,value) {
 			$(value).editable('option', 'pk', id);
 			$(value).editable('toggleDisabled');
+			$(value).css('fontWeight', '500');
 		});
 	}
 }

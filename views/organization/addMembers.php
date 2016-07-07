@@ -44,6 +44,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	.li-dropdown-scope a{
 		padding:15px 25px !important;
 	}
+
+/*
 #addMembers .nav-tabs > li > a {
     border: 0 none;
     border-radius: 5px;
@@ -52,6 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
     padding: 5px !important;
     margin-bottom:10px;
 }
+
 #addMembers .nav-tabs > li > a {
 	background-color: transparent !important;
 }
@@ -62,7 +65,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 #addMembers .nav-tabs > li > a > div:focus {
     background-color: #3C5665;
     color:white !important;
-}
+}*/
 
 
 #listEmailGrid{
@@ -109,6 +112,201 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	font-size: 12px;
 	font-weight: 300;
 }
+.li-dropdown-add-members i.fa, .searchEntry i.fa{
+	width:50px;
+	height:50px;
+	border-radius: 50%;
+	background-color: #e7e7e7;
+	padding-top: 11px;
+	padding-left: 15px;
+	margin-right: 6px;
+	margin-left: 4px;
+}
+.li-dropdown-add-members i.fa{
+	margin-left: 0px;
+}
+#dropdown_search .member-name{
+	max-width:80%;
+	margin-top:10px; 
+	float:left;
+}
+#dropdown_search .li-dropdown-add-members .member-name{
+	float:unset;
+}
+
+
+/* MODAL */
+
+@media screen and (min-width: 768px) {
+	#modalDirectoryForm #modal-scope .modal-dialog{
+		width:760px
+	}
+}
+#modalDirectoryForm  .modal-header, 
+#modalDirectoryForm  .modal-footer{
+	background-color: #EAEAEA;
+	color: #2D6569;
+}
+
+#modalDirectoryForm  .modal-header button.close{
+	color: 2D6569 !important;
+	opacity: 0.6 !important;
+}
+#modalDirectoryForm  #list-scroll-type{
+	max-height:400px;
+	overflow-y:auto; 
+	overflow-x:hidden; 
+	padding-top:15px;
+	border-left: 1px solid rgba(128, 128, 128, 0.26);
+}
+#modalDirectoryForm  #list-scroll-type .panel-default,
+#modalDirectoryForm  #list-scroll-type .panel-heading,
+#modalDirectoryForm  #list-scroll-type .panel-body{
+	margin-bottom: 0px;
+}
+#modalDirectoryForm .modal .panel-heading{
+	padding: 0px;
+	min-height: auto;
+	background-color: transparent;
+	border: none;
+}
+
+#modalDirectoryForm .form-control{
+	width:unset;
+}
+#modalDirectoryForm .modal input#search-contact{
+	width: 66.66666667%;
+	margin-top: -8px;
+	margin-right: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 52px;
+	border-radius: 0px;
+	text-align:left;
+	background-color: rgba(255, 255, 255, 0.54);
+}
+
+#modalDirectoryForm .modal .panel-heading h4{
+	margin:0px;
+	font-size: 18px !important;
+	background-color: rgba(114, 114, 114, 0.1);
+	padding: 10px;
+	border-radius: 0px;
+}
+#modalDirectoryForm .modal-body{
+	padding: 0px 15px;
+}
+
+#modalDirectoryForm .panel-body{
+	background-color: transparent !important;
+}
+#modalDirectoryForm .modal .panel{
+	padding: 0px;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
+#modalDirectoryForm .modal ul{
+	list-style: none !important;
+	padding-left: 0px;
+	margin-bottom:20px;
+}
+
+#modalDirectoryForm .modal .list-group{
+	margin-bottom:0px !important;
+}
+#modalDirectoryForm .modal #list-scroll-type ul{
+	margin-bottom:0px !important;
+}
+#modalDirectoryForm .modal #menu-type ul li{
+	font-size:16px;
+}
+#modalDirectoryForm .modal #menu-type ul li i{
+	width:20px;
+	text-align: center;
+}
+#modalDirectoryForm .modal #menu-type ul li a:hover{
+	color:inherit !important;	
+	text-decoration: underline;
+}
+#modalDirectoryForm .modal .btn-scroll-type{
+	border:none!important;
+    padding: 3px;
+    text-align: left;
+    width: 100%;
+}
+#modalDirectoryForm .modal .btn-select-contact{
+	min-width:70% !important;
+}
+
+#modalDirectoryForm .modal #menu-type .btn-scroll-type{
+	border:none!important;
+    padding: 2px;
+	text-align: left;
+	width: 92%;
+	margin-left: 4%;
+	padding: 6px 4px 4px 8px;
+	margin-bottom: 3px;
+	background:transparent !important;
+}
+#modalDirectoryForm .modal #menu-type .btn-scroll-type:hover{
+	background-color:rgba(0, 0, 0, 0.04) !important;
+}
+#modalDirectoryForm .modal #scope-postal-code{
+	width: 99%;
+	display: none;
+	margin-left: -1% !important;
+}
+#modalDirectoryForm .modal .info-contact{
+	display: inline-block !important;
+	vertical-align: middle;
+}
+#modalDirectoryForm .modal .scope-city-contact{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 160px;
+	display: inline-block;
+	height: 15px;
+ } 
+#modalDirectoryForm .modal .scope-name-contact{
+	display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+}
+#modalDirectoryForm .modal .thumb-send-to {
+    width: 35px;
+    height: 35px;
+    background-color: #DADADA;
+    border-radius: 4px;
+    margin:5px;
+}
+#modalDirectoryForm .modal .text-light{
+	font-weight:500;
+	color:#8C8C8C !important;
+}
+#modalDirectoryForm .modal #menu-type h4 {
+    background-color: rgba(35, 83, 96, 0.15);
+	color: #2D6569;
+	width: 100%;
+	float: left;
+	padding: 10px 10px 10px 20px;
+	margin: 0;
+	margin-bottom: 10px;
+}
+.tools_bar{
+	border-bottom: 1px solid lightgrey;
+}
+
+#btn-submit-form{
+	display: none;
+}
+/* MODAL */
 </style>
 <?php 
 Menu::organization($organization);
@@ -126,35 +324,62 @@ Menu::organization($organization);
 		}
 	?>
     <!-- start: PAGE CONTENT -->
-    <h2 class='radius-10 padding-10 text-bold text-dark'> 
+    <h2 class='radius-10 padding-10 text-bold text-dark text-left'> 
 		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
 		<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>
 	</h2>
 	<?php
 	 
 	?>
-	<div class="col-md-12 " >  
-    	<ul class="nav nav-tabs">
+
+	<a href="javascript:;" onclick="fadeInView('divSearch');" class="btn btn-default pull-left margin-right-15" id="menuInviteSomeone">
+		<div id="titleInviteSomeone" class='titleInviteSV text-dark'>
+			<!-- <i class="fa fa-plus"></i>  -->
+			<i class="fa fa-search"></i> Rechercher ...
+			<?php //echo Yii::t("person","Add a Person") ?>
+		</div>
+	</a>
+	<a href="javascript:;" onclick="fadeInView('divImportFile');" class="btn btn-default pull-left margin-right-15" id="menuImportFile">
+		<div id="titleImportFile" class='text-grey text-dark'>
+			<i class="fa fa-upload"></i> 
+			Importer un fichier
+		</div>
+	</a>
+	<div id="modalDirectoryForm" class="pull-left margin-15"></div>
+
+	<div class="col-md-12">  
+    	<ul class="nav nav-tabs hidden">
 			<li role="presentation">
-				<a href="javascript:;" onclick="fadeInView('divSearch');" class="" id="menuInviteSomeone">
+				<a href="javascript:;" onclick="fadeInView('divSearch');" class="btn btn-default" id="menuInviteSomeone">
 					<div id="titleInviteSomeone" class='titleInviteSV radius-10 padding-10 text-dark'>
 						<!-- <i class="fa fa-plus"></i>  -->
-						<i class="fa fa-search fa-2x"></i> Rechercher ...
+						<i class="fa fa-search"></i> Rechercher ...
 						<?php //echo Yii::t("person","Add a Person") ?>
 					</div>
 				</a>
 			</li>
-		  	<li role="presentation">
-		  		<a href="javascript:;" onclick="fadeInView('divImportFile');" class="" id="menuImportFile">
+		  	
+			<li role="presentation">
+		  		<a href="javascript:;" onclick="fadeInView('divImportFile');" class="btn btn-default" id="menuImportFile">
 		  			<div id="titleImportFile" class='radius-10 padding-10 text-grey text-dark'>
-		  				<i class="fa fa-upload fa-2x"></i> 
+		  				<i class="fa fa-upload"></i> 
 						Importer un fichier
 					</div>
 		  		</a>
 		  	</li>
+
+		  	<li role="presentation">
+		  		<a href="javascript:;" onclick="" class="" id="menuImportFile">
+		  			<div id="titleImportFile" class='radius-10 padding-10 text-grey text-dark'>
+		  				<div id="modalDirectoryForm"></div>
+					</div>
+		  		</a>
+		  		
+		  	</li>
+		  	
 		</ul>
        
-        <div  id="divSearch" class="panel panel-white">
+        <div id="divSearch" class="panel panel-white">
         	<div class="panel-heading border-light">
         	
         		<blockquote>
@@ -165,13 +390,13 @@ Menu::organization($organization);
 		    	 <div class="form-group" id="searchMemberSection" style="margin:0px;">
 	    	    	<div class='row'>
 						<div class="col-md-1">	
-			           		<i class="fa fa-search fa-2x"></i> 
+			           		<i class="fa fa-search fa-2x pull-right" style="padding-top: 6px;"></i> 
 			           	</div>
-			           	<div class="col-md-11">
+			           	<div class="col-md-5 no-padding">
 			           		<span class="input-icon input-icon-right">
 					           	<input class="member-search form-control" placeholder="<?php echo Yii::t("organisation","Search by name, email",null,Yii::app()->controller->module->id) ?>" autocomplete = "off" id="memberSearch" name="memberSearch" value="">
 					           		<i id="iconeChargement" class="fa fa-spinner fa-spin pull-left"></i>
-					        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:200px;overflow:scroll;">
+					        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:265px;overflow:scroll;">
 										<li class="li-dropdown-scope">-</li>
 									</ul>
 								</input>
@@ -183,7 +408,7 @@ Menu::organization($organization);
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$organization["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		            <div class="form-group" id="addMemberSection">
-		            	<div class='row center'>
+		            	<div class='row'>
 		            		<h4>Est-ce un citoyen ou une association ?</h4>
 		            		<input type="hidden" id="memberType"/>
 		            		<div class="btn-group ">
@@ -226,7 +451,7 @@ Menu::organization($organization);
 			               		</div>
 			               	</div>
 			               	<div class="row">
-								<div class="center">
+								<div class="">
 									<div id="divAdmin" class="form-group">
 						    	    	<label class="control-label">
 											Administrateur :
@@ -254,14 +479,18 @@ Menu::organization($organization);
 	        </div>
         </div>
         <div class="panel panel-white" id="divImportFile">
-        	<div class="panel-heading border-light">
+        	<div class="panel-heading border-light text-dark">
         		<blockquote>
-        			Selectionner un ficher csv qui contient les mails de vos membres<br/>
-        			Format : Email;Nom et Prénom;Type;TypeOrga<br/>
-        			Information :<br/> 
-        				- l'email est obligatoire, le reste est facultatif <br/>
-        				- Type : citoyens ou organizations<br/>
-        				- TypeOrga : NGO, LocalBusiness, Group, GovernmentOrganization<br/>
+        			<strong>Selectionnez un ficher csv contenant les mails de vos membres.</strong>
+        		</blockquote>
+        		<blockquote>
+        			Format à respecter : Email;Nom et Prénom;Type;TypeOrga
+        		</blockquote>
+        		<blockquote>
+        			Important :<br/> 
+        				- L'addresse e-mail est obligatoire, le reste est facultatif.<br/>
+        				- La valeur du champ "Type" peut prendre les valeurs suivantes : citoyens ou organizations<br/>
+        				- La valeur du champ "TypeOrga" peut prendre les valeurs suivantes : NGO, LocalBusiness, Group, GovernmentOrganization
         		</blockquote>
 			</div>
 			<div class="panel-body">
@@ -322,13 +551,152 @@ Menu::organization($organization);
 	var listMails = [];
 	var totalMails = 0;
 	var organization = <?php echo json_encode($organization) ?>;
+	
+	var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
+
+	var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Mes contacts" },
+							{ name : "organizations", 	color: "green" 	, icon:"group", label:"Mes organisations" },
+							//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
+							//{ name : "events", 			color: "orange"	, icon:"calendar"		}
+							];
+
+	var importMembreDynForm = {
+		    "jsonSchema" : {
+		        "title" : "News Form",
+		        "type" : "object",
+		        "properties" : {
+		        	"scope" : {
+		          		"inputType" : "scope",
+			            "values" : myContacts,
+			            "mainTitle" : "Inviter vos contacts",
+			            "labelBtnOpenModal" : "<span class='text-dark'><i class='fa fa-group'></i> Sélectionner parmis mes contacts</span>",
+			            "contactTypes" : contactTypes
+			        }
+		        }
+		    }
+		};
+
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-users'></i> ORGANISATION : <?php echo addslashes($organization["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		$(".moduleLabel").html("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($organization["name"]) ?>");
 		initFormAddMember();
 		
 		bindTEST();
+
+		buildDynForm();
+	});
+
+	function buildDynForm(){ 
+		var form = $.dynForm({
+			formId : "#modalDirectoryForm",
+			formObj : importMembreDynForm,
+			onLoad : function  () {
+				bindEventScopeModal();
+			},
+			onSave : function(){
+				console.log("onSave import contact !!");
+				
+				return false;
+			}
+		});
+	}
+	
+	function bindEventScopeModal(){
+	/* initialisation des fonctionnalités de la modale SCOPE */
+	//parcourt tous les types de contacts
+	$.each(contactTypes, function(key, type){ //console.log("BINDEVENT CONTACTTYPES : " + type.name);
+		//initialise le scoll automatique de la liste de contact
+		$("#btn-scroll-type-"+type.name).click(function(){
+			//console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
+			$('#list-scroll-type').animate({
+	         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top 
+	         }, 400);
+		});
+		//initialisation des boutons pour selectionner toutes les checkbox d'un type de contact
+		$("#chk-all-type"+type.name).click(function(){
+			$(".chk-scope-"+type.name).prop("checked", $(this).prop('checked'));
+		});
+	});
+	//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
+	$(".btn-chk-contact").click(function(){
+		var id = $(this).attr("idcontact");
+		$("#chk-scope-"+id).prop("checked", !$("#chk-scope-"+id).prop('checked'));
+	});
+
+
+	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+	$("#btn-scroll-type-my-city").click(function(){
+		$("#chk-my-city").prop("checked", !$("#chk-my-city").prop('checked'));
 	});
 	
+	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+	$("#btn-show-other-cities").mouseover(function(){
+		$("#scope-postal-code").show();
+	});
+	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+	$("#btn-show-other-cities").click(function(){
+		$("#scope-postal-code").show();
+		$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
+	});
+	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
+	$("#btn-show-other-cities").mouseout(function(){
+		$("#scope-postal-code").hide();
+	});
+
+	//initialise la selection de la checkbox "other cities"
+	$("#btn-scroll-type-cities").click(function(){
+		$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
+	});
+	//initialise la selection de la checkbox "other cities" quand le champs text "other cities" n'est pas vide 
+	$("#scope-postal-code").keyup(function(){
+		$("#chk-cities").prop("checked", ($("#scope-postal-code").val() != ""));
+	});
+	//par defaut, marsque le champ txt "other cities"
+	$("#scope-postal-code").hide();
+
+	$("#search-contact").keyup(function(){
+		filterContact($(this).val());
+	});
+
+	$("#btn-cancel").click(function(){
+		//showStateScope("cancel");
+	});
+	$("#btn-save").click(function(){
+		//showStateScope("save");
+	});
+	$("#btn-reset-scope").click(function(){
+		$.each($('.modal input:checkbox'), function(){
+			$(this).prop("checked", false);
+		});
+		$("#scope-postal-code").val("");
+	});
+	$("#scope-my-wall").click(function(){
+		//showStateScope("cancel");
+	});
+	$("#scope-select").click(function(){
+		//showStateScope("save");
+	});
+
+}
+
+function filterContact(searchVal){
+	//masque/affiche tous les contacts présents dans la liste
+	if(searchVal != "")	$(".btn-select-contact").hide();
+	else				$(".btn-select-contact").show();
+	//recherche la valeur recherché dans les 3 champs "name", "cp", et "city"
+	$.each($(".scope-name-contact"), function() { checkSearch($(this), searchVal); });
+	$.each($(".scope-cp-contact"), 	 function()	{ checkSearch($(this), searchVal); });
+	$.each($(".scope-city-contact"), function() { checkSearch($(this), searchVal); });
+}
+
+//si l'élément contient la searchVal, on l'affiche
+function checkSearch(thisElement, searchVal, type){
+	var content = thisElement.html();
+	var found = content.search(new RegExp(searchVal, "i"));
+	if(found >= 0){
+		var id = thisElement.attr("idcontact");
+		$("#contact"+id).show();
+	}
+}
 
 	var mapIcon = {
 		"citoyens":"fa-user", 
@@ -489,7 +857,7 @@ Menu::organization($organization);
 			e.prinviteDefault();
 		});
 	};
-	function initFormAddMember(){checkMail
+	function initFormAddMember(){ //checkMail
 		$("#divImportFile").hide();
 		$("#checkMail").hide();
 		
@@ -631,7 +999,7 @@ Menu::organization($organization);
 	        		toastr.error(data.content);
 	        	}else{
 	        		var icon = "fa-question-circle";
-					str = "<li class='li-dropdown-scope'><a href='javascript:openNewMemberForm()'><i class='fa fa-plus'></i> Non trouvé ? Envoyer une invitation.</a></li>";
+					str = "<li class='li-dropdown-add-members'><a href='javascript:openNewMemberForm()'><i class='fa fa-2x fa-plus'></i> <span class='member-name'>Non trouvé ? Envoyer une invitation.</span></a></li>";
 		 			$.each(data, function(key, value) {
 		 			
 		 				$.each(value, function(i, v){
@@ -656,9 +1024,9 @@ Menu::organization($organization);
                           		"<ol>";
                           	
                           	if ("undefined" != typeof htmlIco) {
-                          		str += "<span>"+ htmlIco +"</span>  " + v.name;
+                          		str += "<span>"+ htmlIco +"</span>  <span class='member-name'>" + v.name + '</span>';
                           	} else {
-								str += '<span><i class="fa '+icon +' fa-2x"></i>' + v.name + '</span>';
+								str += '<span><i class="fa '+icon +' fa-2x"></i><span class="member-name">' + v.name + '</span></span>';
                           	}
 
                           	str +=  "</ol></a>";
