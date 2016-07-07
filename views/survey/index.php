@@ -591,6 +591,7 @@ $this->renderPartial('../default/panels/toolbar');
       $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
       $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
       $this->renderPartial('../rooms/header',array(    
+                "archived"=> (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ,
                 "parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
@@ -645,7 +646,9 @@ $this->renderPartial('../default/panels/toolbar');
               <br/>
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> 
+                <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
+                      $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $where["survey"]["name"].$archived;?> 
               </h1>
                <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
@@ -674,9 +677,7 @@ $this->renderPartial('../default/panels/toolbar');
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">
-            <?php
-                 //echo count($list);
-                 echo (count($list) > 0) ? $blocks : "" ?>
+            <?php echo (count($list) > 0) ? $blocks : "" ?>
         </div>
       </div>
 
@@ -897,6 +898,27 @@ function toggleGraph(){
     $(".stepContainer").removeClass('hide');
     $("#readEntryContainer").addClass('hide');
   }
+}
+var state = "<?php echo ( @$where["survey"]["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>";
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$where["survey"]["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
 }
 
 </script>

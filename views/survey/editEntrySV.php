@@ -108,13 +108,13 @@ var proposalFormDefinition = {
                   "placeholder" : "url, informations supplémentaires, actions à faire, etc",
                   "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
-            "image" : {
+            /*"image" : {
                   "inputType" : "image",
                   "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
                   "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
                   //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
                   "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
-            },
+            },*/
             "tags" :{
               "inputType" : "tags",
               "placeholder" : "Tags",

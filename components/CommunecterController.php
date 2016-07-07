@@ -375,6 +375,9 @@ class CommunecterController extends Controller
     "mailmanagement"=> array(
       "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
     ),
+    "element"=> array(
+      "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
+    ),
   );
 
   function initPage(){
