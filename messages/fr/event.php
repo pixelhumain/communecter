@@ -61,6 +61,9 @@ return array(
     "meeting" => "Réunion",
     "competition" => "Compétition",
     "course" => "Formation",
+    "workshop" => "Atelier",
+    "conference" => "Conférence",
+    "debate" => "Débat",
 
     "Please specify the name of the event"=>"Le nom est obligatoire",
 	"Please specify the postal code"=>"Le code postal est obligatoire",

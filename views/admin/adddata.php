@@ -59,6 +59,7 @@ $userId = Yii::app()->session["userId"] ;
 					<select id="chooseTypeLink" name="chooseTypeLink"> 
 						<option value="Person">Person</option>
 						<option value="Organization">Organisation</option>
+						<option value="Event">Event</option>
 					</select>
 					<label for="inputIdLink">Id de l'entité : </label>
 					<input class="" placeholder="" id="inputIdLink" name="inputIdLink" value="">
