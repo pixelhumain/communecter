@@ -36,6 +36,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .toolbar-DDA .dropdown{
 	display: inline-block;
 }
+
+.fa-university.fa-in-header{
+	width:120px;
+	height:120px;
+}
 </style>	
 
 <?php if(isset($discussions) && false == true) { ?>
@@ -98,8 +103,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	if($parentType == Person::COLLECTION) { $icon = "user"; $colorName = "dark"; }
         if($parentType == City::COLLECTION) { $icon = "group"; $colorName = "red"; }
 	?>
-	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-    
+
+	<?php if($parentType != City::COLLECTION){ ?>
+		<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+    <?php } else { ?>
+    	<!-- <i class="fa fa-university fa-in-header text-red"></i> -->
+    <?php } ?>
     <br>
 	
 	<?php //création de l'url sur le nom du parent

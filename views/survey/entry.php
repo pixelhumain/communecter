@@ -152,11 +152,11 @@ jQuery(document).ready(function()
 		clickedVoteObject = $(this).data("vote");
 		console.log(clickedVoteObject);
 	 });
-	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous etes d'accord avec la proposition"); });
-	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure"); });
-	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engagé, ni pour ni contre"); });
-	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des elements pour prendre une réélle décision"); });
-	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous etes pas d'accord avec la proposition"); });
+	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous êtes d'accord avec la proposition"); });
+	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne, mais il faut encore corriger, améliorer, la rendre meilleure"); });
+	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engager, ni pour ni contre"); });
+	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des éléments pour prendre une décision"); });
+	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous n'êtes pas d'accord avec la proposition"); });
 	$(".voteinfoSection,.citizenAssembly-header ").off().on("mouseover",function() { $(".voteInfoBox").html(""); });
 });
 
