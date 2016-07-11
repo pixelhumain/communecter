@@ -489,19 +489,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i>
-					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="telephone editable editable-click">
-						<?php if(isset($person["telephone"]["fixe"])){
-							foreach ($person["telephone"]["fixe"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
+					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
+						<?php 
+							if(isset($person["telephone"]["fixe"])){
+								foreach ($person["telephone"]["fixe"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
 							}
-						}?>
+						?>
 					</a>
 					<br>
 
-					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
-					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
+					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["mobile"])){
 							foreach ($person["telephone"]["mobile"] as $key => $tel) {
 								if($key > 0)
@@ -513,7 +515,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["fax"])){
 							foreach ($person["telephone"]["fax"] as $key => $tel) {
 								if($key > 0)
@@ -802,27 +804,27 @@ function initXEditable() {
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
-        select2: {
+       /* select2: {
             tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200,
             dropdownCssClass: 'select2-hidden'
-        }		
+        }	*/	
     });
 
     $('#fax').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["fax"])) ? json_encode(implode(",", $person["telephone"]["fax"])) : "''"; ?>,
-        select2: {
+        /*select2: {
             tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200,
             dropdownCssClass: 'select2-hidden'
-        }
+        }*/
     }); 
 
-    $('#fixe').editable({
+    /*$('#fixe').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
@@ -832,7 +834,13 @@ function initXEditable() {
             tokenSeparators: [","],
             width: 200
         }
-    }); 
+    }); */
+
+	$('#fixe').editable({
+		url: baseUrl+"/"+moduleId+"/person/updatefield",
+		mode: 'popup',
+		value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
+	});
 
     $('#addressCountry').editable({
 		url: baseUrl+"/"+moduleId+"/person/updatefield",

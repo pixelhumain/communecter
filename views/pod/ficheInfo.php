@@ -214,8 +214,46 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
 					<div class="col-md-6 col-sm-6">
+						<i class="fa fa-phone fa_telephone hidden"></i>
+						<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
+							<?php 
+								if(isset($organization["telephone"]["fixe"])){
+									foreach ($organization["telephone"]["fixe"] as $key => $tel) {
+										if($key > 0)
+											echo ", ";
+										echo $tel;
+									}
+								}
+							?>
+						</a>
+						<br>
+
+						<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
+						<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+							<?php if(isset($organization["telephone"]["mobile"])){
+								foreach ($organization["telephone"]["mobile"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
+							}?>
+						</a>
+						<br>
+
+						<i class="fa fa-fax fa_telephone_fax hidden"></i> 
+						<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+							<?php if(isset($organization["telephone"]["fax"])){
+								foreach ($organization["telephone"]["fax"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
+							}?>
+						</a>
+						<br>
+
 						<?php 
-							$nbFixe = 0 ;
+							/*$nbFixe = 0 ;
 							$nbMobile = 0 ; 
 
 							if(isset($organization["telephone"]))
@@ -455,7 +493,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$('#telephone').editable('toggleDisabled');
+			$('#fixe').editable('toggleDisabled');
+			$('#mobile').editable('toggleDisabled');
+			$('#fax').editable('toggleDisabled');
 
 			$("#btn-update-geopos").addClass("hidden");
 			$("#add-phone").addClass("hidden");
@@ -472,7 +512,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#tags').editable('option', 'pk', contextId);
 			$('#category').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
-			$('#telephone').editable('option', 'pk', contextId);
+			$('#fixe').editable('option', 'pk', contextId);
+			$('#mobile').editable('option', 'pk', contextId);
+			$('#fax').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
@@ -482,7 +524,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
-			$('#telephone').editable('toggleDisabled');
+			$('#fixe').editable('toggleDisabled');
+			$('#mobile').editable('toggleDisabled');
+			$('#fax').editable('toggleDisabled');
 
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#add-phone").removeClass("hidden");
@@ -495,9 +539,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
 		if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
 		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
-		if($('#telephone').html() != "")		{ $(".fa_telephone").removeClass("hidden"); } else { $(".fa_telephone").addClass("hidden"); }
+		if($('#fixe').html() != "")				{ $(".fa_phone").removeClass("hidden"); } else { $(".fa_phone").addClass("hidden"); }
+		if($('#mobile').html() != "")			{ $(".fa_mobile").removeClass("hidden"); } else { $(".fa_mobile").addClass("hidden"); }
+		if($('#fax').html() != "")				{ $(".fa_fax").removeClass("hidden"); } else { $(".fa_fax").addClass("hidden"); }
 		
 	}
+
+
+	function changeHiddenIcone() 
+{ 
+	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+	console.log("------------", mode);
+	if(mode == "view"){
+		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+	} else {
+		$(".fa_name").removeClass("hidden"); 
+		$(".fa_birthDate").removeClass("hidden"); 
+		$(".fa_email").removeClass("hidden"); 
+		$(".fa_streetAddress").removeClass("hidden"); 
+		$(".fa_postalCode").removeClass("hidden"); 
+		$(".fa_addressCountry").removeClass("hidden"); 
+		$(".fa_telephone_mobile").removeClass("hidden"); 
+		$(".fa_telephone").removeClass("hidden"); 
+		$(".fa_telephone_fax").removeClass("hidden"); 
+	}
+}
 
 	function activateEditableContext() {
 
@@ -561,6 +635,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				tokenSeparators: [",", "/", " "],
 				width: 200,
 			}
+		});
+
+		$('#mobile').editable({
+	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($organization["telephone"]["mobile"])) ? json_encode(implode(",", $organization["telephone"]["mobile"])) : "''"; ?>
+	    });
+
+	    $('#fax').editable({
+	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($organization["telephone"]["fax"])) ? json_encode(implode(",", $organization["telephone"]["fax"])) : "''"; ?>
+	    }); 
+
+		$('#fixe').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield",
+			mode: 'popup',
+			value: <?php echo (isset($organization["telephone"]["fixe"])) ? json_encode(implode(",", $organization["telephone"]["fixe"])) : "''"; ?>
 		});
 
 		
@@ -642,9 +734,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if(mode == "view"){
 			mode = "update";
 			manageModeContext();
+			changeHiddenIcone();
 		}else{
 			mode ="view";
 			manageModeContext();
+			changeHiddenIcone();
 		}
 	}
 
