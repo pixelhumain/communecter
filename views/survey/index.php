@@ -646,10 +646,11 @@ $this->renderPartial('../default/panels/toolbar');
               <?php echo $cpBlock; 
               }?>
               <br/>
-
-              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
-                      $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
+              
+              <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
+                $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";
+                $color = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
+              <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $where["survey"]["name"].$archived;?> 
               </h1>
                <?php if (@$canParticipate) { ?>
@@ -901,7 +902,7 @@ function toggleGraph(){
     $("#readEntryContainer").addClass('hide');
   }
 }
-var state = "<?php echo ( @$where["survey"]["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>";
+
 function archive(collection,id){
   console.warn("--------------- archive ---------------------",collection,id);
     

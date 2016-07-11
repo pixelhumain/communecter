@@ -8,7 +8,7 @@
 </style>
 
 <?php 
-	Menu::comments( $parentType, $parentId );
+	Menu::comments( $parentType, $parentId, $context);
 	$this->renderPartial('../default/panels/toolbar');
 
 }
@@ -19,7 +19,8 @@
 
 <?php if($contextType == "actionRooms"){ ?>
    		 <?php $this->renderPartial('../rooms/header',array(    
-		   					"parent" => $parent, 
+                            "archived"=> (@$context["status"] == ActionRoom::STATE_ARCHIVED) , 
+            		   					"parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "comment.index",
@@ -84,5 +85,26 @@ function checkCommentCount(){
 	    	}
         }
     });
+}
+
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
 }
 </script>

@@ -99,8 +99,13 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
 			<?php if($contextType == "actionRooms"){ ?>
-  				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
-			     <i class="fa fa-comment"></i> "<?php echo $context["name"]; ?>"
+				<?php 
+              $icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
+              $archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
+              $color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
+                
+  				<h1 class="homestead <?php echo $color;?>" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+			     <i class="fa fa-<?php echo $icon;?>"></i> "<?php echo $context["name"].$archived; ?>"
 			  	 </h1>
 			<?php } ?>
 			<?php $currentUser = Yii::app()->session["user"]; ?>
