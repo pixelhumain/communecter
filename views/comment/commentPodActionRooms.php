@@ -10,23 +10,8 @@
 <?php 
 	Menu::comments( $parentType, $parentId );
 	$this->renderPartial('../default/panels/toolbar');
-
-}
-
 ?>
 
-
-
-<?php if($contextType == "actionRooms"){ ?>
-   		 <?php $this->renderPartial('../rooms/header',array(    
-		   					"parent" => $parent, 
-                            "parentId" => $parentId, 
-                            "parentType" => $parentType, 
-                            "fromView" => "comment.index",
-                            "faTitle" => "comments",
-                            "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
-                            )); ?>
 <?php } ?>
 
 

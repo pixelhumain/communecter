@@ -590,18 +590,19 @@ $this->renderPartial('../default/panels/toolbar');
       <?php 
       $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
       $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
-      $this->renderPartial('../rooms/header',array(    
-                "archived"=> (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ,
-                "parent" => $parent, 
-                            "parentId" => $parentId, 
-                            "parentType" => $parentType, 
-                            "fromView" => "survey.entries",
-                            "faTitle" => "gavel",
-                            "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
-                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
+      // $this->renderPartial('../rooms/header',array(    
+      //           "archived"=> (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ,
+      //           "parent" => $parent, 
+      //                       "parentId" => $parentId, 
+      //                       "parentType" => $parentType, 
+      //                       "fromView" => "survey.entries",
+      //                       "faTitle" => "gavel",
+      //                       "colorTitle" => "azure",
+      //                       "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
+      //                               "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
                               
-                            )); ?>
+      //                       )); 
+                            ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    

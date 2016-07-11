@@ -554,27 +554,27 @@ class Menu {
         if( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) 
             $surveyLink = "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"]; 
 
-        self::entry("left", 'onclick', 
-                    Yii::t( "rooms", 'All your Rooms', null, Yii::app()->controller->module->id),
-                    Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
-                    "loadByHash('".$surveyLink."')","roomsListBtn",null);
+        // self::entry("left", 'onclick', 
+        //             Yii::t( "rooms", 'All your Rooms', null, Yii::app()->controller->module->id),
+        //             Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
+        //             "loadByHash('".$surveyLink."')","roomsListBtn",null);
         
         // Add a proposal
         //-----------------------------
         if( Authorisation::canParticipate(Yii::app()->session['userId'],$survey["parentType"],$survey["parentId"]) ) {
             if( @$survey["status"] != ActionRoom::STATE_ARCHIVED )
-                self::entry("right", 'onclick', 
+                self::entry("left", 'onclick', 
                             Yii::t( "common", 'Create a proposal for your community'),
                             Yii::t( "common", 'Add a proposal'), 'plus',
                             "loadByHash('#survey.editEntry.survey.".$id."')","addProposalBtn",null);
-            self::entry("right", 'onclick', 
+            self::entry("left", 'onclick', 
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive',null,Yii::app()->controller->module->id), 'archive text-red',
                         "archive('".ActionRoom::COLLECTION."','".$id."')","archiveBtn",null);
         }
         // Help
         //-----------------------------
-        self::entry("right", 'html', 
+        self::entry("left", 'html', 
                     Yii::t( "common", 'Understanding surveys and proposals'),
                     '', 'question-circle',
                     '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
@@ -661,28 +661,28 @@ class Menu {
         if( isset( $survey["parentType"] ) && isset( $survey["parentId"] ) ) 
             $surveyLink = "#rooms.index.type.".$survey["parentType"].".id.".$survey["parentId"]; 
 
-        self::entry("left", 'onclick', 
-                    Yii::t( "common", 'List of all Surveys'),
-                    Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
-                    "loadByHash('".$surveyLink."')","roomsListBtn",null);
+        // self::entry("left", 'onclick', 
+        //             Yii::t( "common", 'List of all Surveys'),
+        //             Yii::t( "common", 'All Surveys'), 'chevron-circle-left',
+        //             "loadByHash('".$surveyLink."')","roomsListBtn",null);
         
         // Add a proposal
         //-----------------------------
         if( Authorisation::canParticipate( Yii::app()->session['userId'], $survey["parentType"],$survey["parentId"], $survey["parentType"] ) ) {
-            self::entry("right", 'onclick', 
+            self::entry("left", 'onclick', 
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
                         "loadByHash('#rooms.editAction.room.".$id."')","addActionBtn",null);
 
-            self::entry("right", 'onclick', 
+            self::entry("left", 'onclick', 
                         Yii::t( "rooms", 'This will hide and Archive this Decision Room',null,Yii::app()->controller->module->id),
                         Yii::t( "rooms", 'Archive',null,Yii::app()->controller->module->id), 'archive',
                         "archive('".ActionRoom::COLLECTION."','".$id."')","archiveBtn",null);
         }
         // Help
         //-----------------------------
-        self::entry("right", 'html', 
-                    Yii::t( "common", 'Understanding surveys and proposals'),
+        self::entry("left", 'html', 
+                    Yii::t( "rooms", 'Understanding action list',null,Yii::app()->controller->module->id),
                     '', 'question-circle',
                     '<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink"',null,null);
     }

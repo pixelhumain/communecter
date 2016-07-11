@@ -410,18 +410,18 @@ $this->renderPartial('../default/panels/toolbar');
     
       <?php 
       $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']) ) ?  '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.(string)$room["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>' : '';
-      $this->renderPartial('../rooms/header',array(    
-                "parent" => $parent, 
-                            "parentId" => $room['parentId'], 
-                            "parentType" => $room['parentType'], 
-                            "fromView" => "rooms.actions",
-                            "faTitle" => "cogs",
-                            "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
-                            " / ".
-                            "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
+      // $this->renderPartial('../rooms/header',array(    
+      //           "parent" => $parent, 
+      //                       "parentId" => $room['parentId'], 
+      //                       "parentType" => $room['parentType'], 
+      //                       "fromView" => "rooms.actions",
+      //                       "faTitle" => "cogs",
+      //                       "colorTitle" => "azure",
+      //                       "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+      //                       " / ".
+      //                       "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
                            
-                            )); ?>
+      //                       )); ?>
       
 
     <div class="panel-white" style="display:inline-block; width:100%;">
