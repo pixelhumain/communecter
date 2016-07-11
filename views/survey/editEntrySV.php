@@ -186,7 +186,7 @@ function editEntrySV () {
   $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
-              "<form id='ajaxForm'></form>"+
+              "<form id='ajaxForm' enctype='multipart/form-data'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
     
