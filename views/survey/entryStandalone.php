@@ -295,7 +295,14 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 					
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
 					<br/><br/>
-					
+					<?php 
+					$this->renderPartial('../pod/fileupload', array("itemId" => $survey["_id"],
+																	  "type" => Survey::COLLECTION,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
+																	  "image" => $images)); 
+				?>
 					<?php echo $survey["message"]; ?>
 					
 					<br/>
@@ -347,7 +354,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 <script type="text/javascript">
 clickedVoteObject = null;
-
+var images = <?php echo json_encode($images) ?>;
 jQuery(document).ready(function() {
 	//var shareBtns = new ShareButton(".share-button");
 
