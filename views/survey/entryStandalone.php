@@ -193,6 +193,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 		  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
 		  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
 		  $this->renderPartial('../rooms/header',array(    
+		  					"archived"=> (@$room["status"] == ActionRoom::STATE_ARCHIVED) ,
                 			"parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
@@ -241,14 +242,15 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 			</h4>
 
 			
-
 			<div class="col-md-6 col-md-offset-3 center" style="margin-top: -45px; margin-bottom: 10px;">
 
-				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
+				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() || @$room["status"]==ActionRoom::STATE_ARCHIVED ){ 
+					$stateLbl = ( @$room["status"]==ActionRoom::STATE_ARCHIVED ) ? Yii::t("rooms","Archived",null,Yii::app()->controller->module->id) : Yii::t("rooms","Closed",null,Yii::app()->controller->module->id); 
+					?>
 						
 						<div class="box-vote box-pod radius-20" style="">
 							<span class="text-extra-large text-bold text-red"> 
-								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
+								<?php echo $stateLbl ?>
 							</span> 
 							<?php if( isset($organizer) ){ ?>
 								<p><?php echo Yii::t("rooms","Proposed by",null,Yii::app()->controller->module->id) ?> <a href="<?php echo @$organizer['link'] ?>" target="_blank"><?php echo @$organizer['name'] ?></a> </p>
