@@ -203,16 +203,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<?php
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
-				$fieldPreferences["email"] = true;
-				$fieldPreferences["locality"] = true;
-				$fieldPreferences["phone"] = true;
 				$fieldPreferences["isOpenData"] = true;
 
 				//To checked private or public
 				foreach($typePreferences as $type){
 
 					foreach ($fieldPreferences as $field => $hidden) {
-						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
+						if(isset($event["preferences"][$type]) && in_array($field, $event["preferences"][$type])){
 							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
 							$fieldPreferences[$field] = false;
 						} 

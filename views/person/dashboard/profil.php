@@ -229,18 +229,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php echo Yii::t("common","Change password") ?>
 					</span>
 				</a>
-				<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+				<!--<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
 					<i class='fa fa-download'></i> 
 					<span class="hidden-sm hidden-xs">
-					<?php echo Yii::t("common","Télécharger votre profile"); ?>
+					<?php //echo Yii::t("common","Télécharger votre profile"); ?>
 					</span>
 				</a>
 				<a href="#person.updateprofil" class='btn btn-sm btn-default updateProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
 					<i class='fa fa-update'></i> 
 					<span class="hidden-sm hidden-xs">
-					<?php echo Yii::t("common","Mettre à jour votre profil"); ?>
+					<?php //echo Yii::t("common","Mettre à jour votre profil"); ?>
 					</span>
-				</a>
+				</a>-->
 			<?php } /*?>
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
