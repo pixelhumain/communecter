@@ -1,13 +1,13 @@
 <?php 
-Menu::comments( $parentType, $parentId,$room );
+Menu::comments( @$room['parentType'], @$room['parentId'],$room );
 $this->renderPartial('../default/panels/toolbar');
 
-if( @$url){?>
+if( @$room['url']){?>
 <style>
 	iframe {width:100%; padding:0; border:0;}
 </style> 
-original : <a href="<?php echo $url?>" target="_blank"><?php echo $url?></a>
-<iframe id='ifm' name='embed_readwrite' src='<?php echo $url?>?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false' allowfullscreen ></iframe>
+original : <a href="<?php echo @$room['url']?>" target="_blank"><?php echo @$room['url']?></a>
+<iframe id='ifm' name='embed_readwrite' src='<?php echo @$room['url']?>?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false' allowfullscreen ></iframe>
 	   
 <?php } else { ?>
 	<center>
@@ -19,7 +19,7 @@ original : <a href="<?php echo $url?>" target="_blank"><?php echo $url?></a>
 
 jQuery(document).ready(function() {
 	
-	$(".moduleLabel").html("<i class='fa fa-file-text-o'></i> Framapad : <?php echo $name?>");
+	$(".moduleLabel").html("<i class='fa fa-file-text-o'></i> Framapad : <?php echo @$room['name']?>");
 	resizeIframe() 
 });	
 
