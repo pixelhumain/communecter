@@ -8,7 +8,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
  <style>
 
 .assemblyHeadSection {  
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyParisDay.jpg); 
+	<?php $bg = (@$archived) ? "assemblyParisDayArchived" : "assemblyParisDay";?>
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/<?php echo $bg; ?>.jpg); 
   background-repeat: no-repeat !important;
   background-size: 100% 500px !important;
   background-position: 0px -60px !important;

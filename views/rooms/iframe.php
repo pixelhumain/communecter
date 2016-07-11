@@ -11,7 +11,7 @@ original : <a href="<?php echo $url?>" target="_blank"><?php echo $url?></a>
 	   
 <?php } else { ?>
 	<center>
-		<h1 class="text-red text-bold">You must specify a url</h1>
+		<h1 class="text-red text-bold"><?php echo Yii::t("common","You must specify a url") ?></h1>
 	</center>
 <?php } ?>
 
