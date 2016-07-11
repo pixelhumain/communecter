@@ -314,10 +314,14 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ //////console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 
-			if(object.type == "city") { return object.cp + object.insee; }
+			var objectName = (typeof object.name != "undefined") ? this.clearStr(object.name) : "";
+
+			if(object.type == "city") { return object.cp + object.insee + objectName; }
+			if(object["@type"] == "city") { return object.cp + object.insee + objectName; }
+			if(object.typeSig == "city") { return object.cp + object.insee + objectName; }
 			if("undefined" != typeof object._id) 	return object._id.$id.toString();
 			if("undefined" != typeof object.$id) 	return object.$id;
 			if("undefined" != typeof object.id) 	return object.id;
@@ -355,8 +359,8 @@
 	    	if(loading == false){ $( this.cssModuleName + " #ico_reload").css({"display":"none"});	 }
 	 	};
 
-	 	Sig.clearStr = function(str) {
-	 	  str = str.toLowerCase();
+	 	Sig.clearStr = function(str) { if(str == "" || str == null) return "";
+ 	 	  str = str.toLowerCase();
 		  str = str.replace(/^\s+|\s+$/g, ''); // trim
 		  str = str.toLowerCase();
 		  

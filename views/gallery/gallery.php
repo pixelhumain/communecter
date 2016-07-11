@@ -1,15 +1,10 @@
 <?php
 	$cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js',
-	'/assets/js/pages-gallery.js',
+	'/js/pages-gallery.js',
 	);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-/*$cs = Yii::app()->getClientScript();
 
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/css/lightbox.css');
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/lightbox2/js/lightbox.min.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/mixitup/src/jquery.mixitup.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-gallery.js' , CClientScript::POS_END);*/
 $contextIcon = "photo";
 if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
 	Menu::organization( $organization );

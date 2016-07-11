@@ -3,18 +3,59 @@ if(@$event) {
 	Menu::event($event);
 	$this->renderPartial('../default/panels/toolbar'); 
 }
+$cssAnsScriptFilesModule = array(
+	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+$admin = false;
+if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
+	$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
+}
+
 ?>
 <style>
+#newAttendees{
+	display: block;
+	float: left;
+	padding: 10px;
+	background-color: rgba(242, 242, 242, 0.9);
+	width: 100%;
+	box-shadow: 1px 1px 5px 3px #CFCFCF;
+}
+#dropdown_search{
+	padding: 0px 15px; 
+	margin-left:2%; 
+	width:96%;
+}
+#dropdown_search .li-dropdown-scope ol {
+	color: #155869;
+	padding: 5px 5px 5px 15px !important;
+}
 #step3{
 	display:none;
 }
 </style>
 <div id="newAttendees">
-	<div class="space20"></div>
-		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?></h2>
-	<div class="col-md-6 col-md-offset-3">  
+	<?php   
+  		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;  			?>
+
+  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
+  	<?php
+		}
+	?>
+	<h2 class='radius-10 padding-10 text-dark'>
+		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
+		<?php echo Yii::t("event","Add an attendee",null,Yii::app()->controller->module->id); ?>
+	</h2>
+	<div class="col-md-12">  
        	<div class="panel panel-white">
         	<div class="panel-heading border-light">
+	        	<blockquote>
+        			<?php echo Yii::t("event","Only people can attend to an event") ?>
+        		</blockquote>
 			</div>
 		<div class="panel-body">
 			<form class="form-attendees" autocomplete="off">
@@ -34,18 +75,6 @@ if(@$event) {
 						</div>
 					</div>
 				</div>
-				<!--<div class="row" id="step2">
-					<div class="form-group" id="ficheUser">
-						<div class="col-md-7">
-							//Laisser le bouton Add me as attendee (Ergonomique)
-							<a href="javascript:;" data-id = '' class="connectAttendeesBtn btn btn-lg btn-light-blue tooltips " data-placement="top" data-original-title="Add me as attendee" ><i class=" connectBtnIcon fa fa-link "></i> <?php echo Yii::t("event","Add me as attendee",null,Yii::app()->controller->module->id); ?> </a>
-							<hr>
-							<?php echo Yii::t("common", "Name") ?> : <p id="ficheName" name="ficheName"></p><br>
-							<?php echo Yii::t("common","Birth date") ?> : <p id="birth" name="birth" ></p><br>
-							Tags : <p id="tags" name="tags" ></p><br>
-						</div>
-					</div>
-				</div>-->
 				<div class="row" id="step3">
 					<div class="row">
 						<div class="col-md-1 col-md-offset-1" id="iconUser">	
@@ -63,40 +92,46 @@ if(@$event) {
 							<input class="attendees-email form-control" placeholder="Email" id="attendeesEmail" name="attendeesEmail" value="" />
 						</div>
 					</div>
-					<div class ="row">
-				               	<div class="col-md-10  col-md-offset-1">	
-									<a href="javascript:showSearchAttendees()"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
-								</div>
-							</div>
+					<?php if(@$admin && $admin==true){ ?>
 					<div class="row">
-						<div class="col-md-2 col-md-offset-1">
-							<div class="form-group">
-					    	    <button class="btn btn-primary" id="btnInviteNew" ><?php echo Yii::t("common","Invite"); ?></button>
-					    	</div>
-					    </div>
+						<div class="center">
+							<div id="divAdmin" class="form-group">
+				    	    	<label class="control-label">
+									Administrateur :
+								</label><br>
+								<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+							</div>
+						</div>
+					</div>
+					<?php } ?>
+					<input class="hide" id="attendeeIsAdmin" name="attendeeIsAdmin"></input>
+					<div class ="row">
+			            <div class="col-md-10  col-md-offset-1 padding-10">
+				             <button class="btn btn-primary pull-right" id="btnInviteNew" style="margin-left:10px;"><?php echo Yii::t("common","Invite"); ?></button>	
+							<a href="javascript:showSearchAttendees()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
+						</div>
+					</div>
+				</div>
+				<div class="row ">
+				 	<div class="col-md-12">
+				        <table class="table table-striped table-bordered table-hover attendeesAddedTable hide">
+				            <thead>
+				                <tr>
+				                    <th class="hidden-xs">Type</th>
+				                    <th>Name</th>
+				                    <th class="hidden-xs center">Email</th>
+				                    <th>Status</th>
+				                </tr>
+				            </thead>
+				            <tbody class="attendeesAdded"></tbody>
+				        </table>
 				    </div>
 				</div>
-							<div class="row ">
-			 	<div class="col-md-12">
-			        <table class="table table-striped table-bordered table-hover attendeesAddedTable hide">
-			            <thead>
-			                <tr>
-			                    <th class="hidden-xs">Type</th>
-			                    <th>Name</th>
-			                    <th class="hidden-xs center">Email</th>
-			                    <th>Status</th>
-			                </tr>
-			            </thead>
-			            <tbody class="attendeesAdded"></tbody>
-			        </table>
-			    </div>
-			</div>
 			</form>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-	
 	jQuery(document).ready(function() {
 		$(".moduleLabel").html("<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i> <?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	 	bindeventSubViewattendees();
@@ -110,6 +145,17 @@ if(@$event) {
 		$('#attendeesEmail').focusout(function(e){
 			//$(".new-attendees #dropdown_city").css({"display" : "none" });
 		});
+		$("#attendeeIsAdmin").val("false");
+		$("[name='my-checkbox']").bootstrapSwitch();
+		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
+			console.log("state = "+state );
+			if (state == true) {
+				$("#attendeeIsAdmin").val(1);
+			} else {
+				$("#attendeeIsAdmin").val(0);
+			}
+			
+		}); 
 	});
 
 	function bindeventSubViewattendees() {	
@@ -198,13 +244,17 @@ if(@$event) {
 				successHandler2.show();
 				errorHandler2.hide();
 				//newAttendee = new Object;
+				var connectType = "attendee";
+				if ($("#attendeeIsAdmin").val() == true) connectType = "admin";
+
 				var params = {
 					"childId" :  $(".form-attendees .attendees-id").val(),
 					"childName" : $(".form-attendees .attendees-name ").val(),
 					"childEmail" : $('.form-attendees .attendees-email').val(),
 					"childType" : "<?php echo Person::COLLECTION; ?>", 
 					"parentType" : "<?php echo Event::COLLECTION;?>",
-					"parentId" : $(".attendees-parentId").val()
+					"parentId" : $(".attendees-parentId").val(),
+					"connectType":connectType
 				};
 
 				//newAttendee.id = $(".form-attendees .attendees-id").val();
@@ -248,6 +298,12 @@ if(@$event) {
 				        if (data &&  data.result) { 
 					        console.log(data);      
 					        setValidationTable(); 
+					        if ($(".form-attendees .attendees-id").val().length==0){
+			               		var count = parseInt($("#numberOfInvit").data("count")) - 1;
+						   		$("#numberOfInvit").html(count + ' invitation(s)');
+						   		$("#numberOfInvit").data("count", count);
+							}
+
 		        			$(".form-attendees .attendees-name").val("");
 							$(".form-attendees .attendees-name").removeAttr("disabled");
 							$('.form-attendees .attendees-id').val("");
@@ -257,7 +313,10 @@ if(@$event) {
 		        			showSearchAttendees();  
 				        	toastr.success(data.msg);
 				        } else {
-				           toastr.error(data.msg);
+					        if(typeof(data.type)!="undefined" && data.type=="info")
+								toastr.info(data.msg);
+							else
+								toastr.error(data.msg);
 				        }
 				    });
 

@@ -358,7 +358,7 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+				<button class="btn btn-success margin-top-10" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
 					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
@@ -426,7 +426,6 @@
 		}
 		
 		$(".explainLink").click(function() {
-		    $(".removeExplanation").parent().hide();
 			showDefinition( $(this).data("id") );
 			return false;
 		});
@@ -451,7 +450,7 @@
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
-      			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...")
+      			showMapLegende("info-circle", "Sélectionnez la commune où vous vivez actuellement,<br><strong>en cliquant sur \"communecter\"</strong> ...");
       			startNewCommunexion($("#addressCountry").val()); 
       		}, 1200);
   		});
@@ -584,7 +583,6 @@
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
   		var addressCountry = countryCommunexion; //$("#addressCountry").val();
-  		
   		$.ajax({
 			url: baseUrl+"/"+moduleId+"/person/update",
 			type: 'POST',
@@ -593,8 +591,8 @@
 				  "&postalCode="+cpCommunexion+
 				  "&addressLocality="+cityNameCommunexion+
 				  "&addressCountry="+addressCountry+
-				  "&codeInsee="+inseeCommunexion,
-				  //"&two_steps_register=false",
+				  "&codeInsee="+inseeCommunexion+
+				  "&two_steps_register=false",
     		success: function (obj){
     			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
     			showStep2();

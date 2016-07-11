@@ -50,6 +50,7 @@ class ProjectController extends CommunecterController {
 		'dashboardmember'				=> 'citizenToolKit.controllers.organization.DashboardMemberAction',
 		'news'							=> 'citizenToolKit.controllers.organization.NewsAction',
 		'sig'							=> 'citizenToolKit.controllers.organization.SigAction',*/
+
 		);
 	}	
 //}

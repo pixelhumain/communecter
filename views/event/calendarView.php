@@ -1,23 +1,24 @@
 <?php
 
-  $cssAnsScriptFilesModule = array(
-	
-    //Full calendar
-    '/assets/plugins/moment/min/moment.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
-    );
+$cssAnsScriptFilesModule = array(
+  //Full calendar
+  '/assets/plugins/moment/min/moment.min.js',
+  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+  '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
+);
 
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
+if(@$event)
+  Menu::event($event,true);
+$this->renderPartial('../default/panels/toolbar');
 ?>
 
 <style>
 
   #calendar{
-    width:60%;
-    margin-left: 20%;
+    
   }
   #lastEvent{
     width:100%;
@@ -50,6 +51,7 @@
   #showCalendar {
     display: block;
     float: none;
+    margin-top: 40px;
   }
 
   .panel-transparent {
@@ -93,22 +95,21 @@
 <!-- *** SHOW CALENDAR *** -->
 
 
-  <div id="showCalendar" class="col-md-10 col-md-offset-1">
+  <div id="showCalendar" class="col-md-12 ">
       
       <div class="row ">
         <div class="panel panel-white" id="sectionNextEvent">
         	<div class="panel-heading litle-border-color-green">
-        		<h4>PROCHAINS EVENEMENTS</h4>
+        		<h4><?php echo Yii::t("event","UPCOMING EVENTS",null,Yii::app()->controller->module->id)?></h4>
         	</div>
-    		  <div class='panel-body panel-transparent boder-light' id="lastEvent">
-    		  </div>
+    		  <div class='panel-body panel-transparent boder-light' id="lastEvent"></div>
     	  </div>
       </div>
       <div class="space 20"></div>
       <div class="row">
     	   <div class="panel panel-white" id>
       		<div class="panel-heading litle-border-color-green">
-        		<h4>TOUS LES EVENEMENTS</h4>
+        		<h4><?php echo Yii::t("event","ALL EVENTS",null,Yii::app()->controller->module->id)?></h4>
         	</div>
         	<div class="panel-body boder-light">
         		<div id="calendar"></div>
@@ -130,6 +131,7 @@
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
+      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>");
       showCalendar();
       initLastsEvents();
 
@@ -204,9 +206,10 @@ function buildCalObj(eventObj)
       "startDate" : eventObj.startDate,
       "endDate" : eventObj.endDate,
       "className": organiser,
-      "category": organiser,
-      "allDay" : false,
+      "category": organiser
     }
+    if(eventObj.allDay )
+      taskCal.allDay = eventObj.allDay;
     //console.log(taskCal);
   }
   return taskCal;
@@ -229,9 +232,9 @@ function showCalendar() {
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
-		left : 'prev,next',
-		center : 'title',
-		right : 'today, month, agendaWeek, agendaDay'
+  		left : 'prev,next',
+  		center : 'title',
+  		right : 'today, month, agendaWeek, agendaDay'
     },
     lang : 'fr',
     year : dateToShow.getFullYear(),
@@ -240,17 +243,21 @@ function showCalendar() {
     editable : false,
     events : calendar,
     eventLimit: true,
+     <?php if(@$defaultDate){?>
+      defaultDate: '<?php echo $defaultDate?>',
+    <?php 
+    }
+    if(@$defaultView){?>
+      defaultView: '<?php echo $defaultView?>',
+    <?php } ?>
 
 
     eventClick : function(calEvent, jsEvent, view) {
-      //show event in subview
-      dateToShow = calEvent.start;
-      document.location.href = baseUrl+"/"+moduleId+"/event/dashboard/id/"+calEvent._id;
+      loadByHash("#event.detail.id."+calEvent._id);
     }
   });
 
   setCategoryColor(tabOrganiser);
-  dateToShow = new Date();
 };
 
   function getLastsEvent(events){
@@ -318,11 +325,11 @@ function showCalendar() {
         var imageUrl = "";
         var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
 
-        if ("undefined" == typeof currentEvent.imageUrl || currentEvent.imageUrl == "") {
+        if ("undefined" == typeof currentEvent.profilImageUrl || currentEvent.profilImageUrl == "") {
           imageUrl = "";
           baliseImg = '<div class="center"></br><i class="fa fa-calendar fa-5x text-blue" ></i></div>';
         } else {
-          imageUrl = baseUrl+currentEvent.imageUrl;
+          imageUrl = baseUrl+currentEvent.profilImageUrl;
           baliseImg = '<img src="'+imageUrl+'"></img>';
         }
         htmlRes +='<div class="col-md-4">'+
@@ -332,13 +339,12 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="'+baseUrl+"/"+moduleId+"/event/dashboard/id/"+currentEvent["_id"]["$id"]+'">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+
 					'</div>'+
 				'</div>'
-
       }
     }else{
       htlmRes = "<h1>Aucun evenement à venir</h1>";

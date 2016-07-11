@@ -490,7 +490,8 @@
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
 					{			
 						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
-							("undefined" != typeof thisData['author'] && ("undefined" != typeof thisData['author']['geo'] || "undefined" != typeof thisData['author']['geoPosition']))) {
+							("undefined" != typeof thisData['author'] && 
+									(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || ("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) {
 							if(this.verifyPanelFilter(thisData))
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
@@ -607,7 +608,6 @@
 					$.each(dataFilter, function(i, thisData)  {
 						////console.warn("--------------- show each thisData ---------------------");
 						////console.dir(thisData);
-
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}

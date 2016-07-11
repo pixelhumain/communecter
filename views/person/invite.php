@@ -164,8 +164,7 @@ $this->renderPartial('../default/panels/toolbar');
 	<?php   
   		if (@Yii::app()->params['betaTest']) { 
   			$nbOfInvit = empty($currentUser["numberOfInvit"]) ? 0 : $currentUser["numberOfInvit"];
-  			?>
-
+  	?>
   			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
   	<?php
 		}
@@ -799,7 +798,6 @@ function runinviteFormValidation(el) {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
-		        	console.log(data);
 		        	addFloopEntity(data.invitedUser.id, "<?php echo Person::COLLECTION ?>", data.invitedUser);
 				      $('#inviteSearch').val("");
 					//Minus 1 on number of invit
@@ -944,11 +942,13 @@ function newInvitation(){
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if(emailReg.test( $("#newInvite #inviteSearch").val() )){
 		$('#newInvite #inviteEmail').val( $("#newInvite #inviteSearch").val());
+		$("#newInvite #inviteName").val("");
 	}else{
 		$("#newInvite #inviteName").val($("#newInvite #inviteSearch").val());
+		$("#newInvite #inviteEmail").val("");
 	}
 
-	$("#inviteText").val("Bonjour ! \nViens me rejoindre sur ce site ! \nUn email, un code postal et tu es communecter ! \ Tu peux voir tout ce qu'il se passe dans ta commune et agir pour le bien commun ! \n");
+	$("#inviteText").val("<?php echo Yii::t("person","Hello, \\nCome and meet me on that website!\\nAn email, your town and you are connected to your city!\\nYou can see everything that happens in your city and act for the commons."); ?>");
 }
 
 function backToSearch(){

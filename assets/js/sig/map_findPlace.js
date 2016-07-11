@@ -641,7 +641,6 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.markerToBounce.on("popupopen", function(){
 			$("#btn-validate-new-position").click(function(){
 				var position = Sig.markerModifyPosition.getLatLng();
-
 				Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
 										Sig.entityTypeModifyPosition, 
 										position.lat, 
@@ -651,7 +650,6 @@ SigLoader.getSigFindPlace = function (Sig){
 		
 		$("#btn-validate-new-position").click(function(){
 			var position = Sig.markerModifyPosition.getLatLng();
-
 			Sig.saveNewGeoposition(	Sig.entityIdModifyPosition, 
 									Sig.entityTypeModifyPosition, 
 									position.lat, 

@@ -19,7 +19,6 @@ class EventController extends CommunecterController {
       return array(
 
           'saveattendees'         => 'citizenToolKit.controllers.event.SaveAttendeesAction',
-          'dashboard' 					  => 'citizenToolKit.controllers.event.DashboardAction',
           'detail'                => 'citizenToolKit.controllers.event.DetailAction',
           'save'          				=> 'citizenToolKit.controllers.event.SaveAction',
           'update'                => 'citizenToolKit.controllers.event.UpdateAction',

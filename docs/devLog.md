@@ -13,6 +13,24 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.13
+
+@Rapha
+Transforme les telephones au format String dans le nouveaux format
+db.citoyens.find().forEach(function(doc){ 
+    if(typeof doc.telephone == "string") { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
+         })
+    }
+});
+
+@Chil
+Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
+Executer l'url /communecter/test/DeleteAttributRefactorAction 
+
+
 ---------------------------------------------------
 Version 0.12
 
@@ -36,21 +54,38 @@ Version 0.12
 		
 		
 3.Bash on documents (only on qa)
-	31-ph/communecter/datamigration/changesizedocumenttobytesnumber will run actionChangeSizeDocumentToBytesNumber() 
+	31-ph/communecter/datamigration/WashIncorrectAndOldDataDocument will run WashIncorrectAndOldDataDocument()
+		=> Wash data with array in params @size which could be string
+		=> Wash data with no type or no id, represent the target of the document
+		=> Wash data with no contentKey
+	32-ph/communecter/datamigration/changesizedocumenttobytesnumber will run actionChangeSizeDocumentToBytesNumber() 
 		=> Modify @params string $size to a number in bytes
-	32- [!!!!!!!!!!!! CAREFULLY THIS METHOD IS FOR COMMUNECTER AND NOT FOR GRANDDIR !!!!!!!!!!!!!!!!!]
+	33- [!!!!!!!!!!!! CAREFULLY THIS METHOD IS FOR COMMUNECTER AND NOT FOR GRANDDIR !!!!!!!!!!!!!!!!!]
 	ph/communecter/datamigration/refactorcontentkey will run actionRefactorContentKey() 
 		=> Update @params string contentKey type "person.dashboard.profil" to "profil"
 		=> String use is "profil" OR "slider"
 
-
-
-----------------------------------------------------
-
-
-
+@Sylvain
+Create index on citizen email
+db.citizen.createIndex({"email": 1} , { unique: true })
 
 ----------------------------------------------------
+2016/05/23 => Récupérer statistiques sur les logs
+@Chil
+Executer l'url /communecter/test/CreateLastLogStatistics
+
+----------------------------------------------------
+2016/05/20 => Structure en tableau + insertion de la date du jour pour les actions + dans la collections news et comments
+@Chil
+Executer l'url /communecter/test/RefactorNewsCommentsActions
+
+----------------------------------------------------
+2016/05/20 => Suppression des password dans la collection log
+@Chil
+Executer l'url /communecter/test/LogDeletePasswordCitoyen
+
+
+
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
@@ -58,10 +93,47 @@ Version 0.12
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
-----------------------------------------------------
-----------------------------------------------------
-----------------------------------------------------
-----------------------------------------------------
+
+@Rapha
+Ajout du type course dans la liste des events
+db.getCollection('lists').find({name : "eventTypes"}).forEach(function(doc){
+    if(typeof  doc.listcourse == "undefined" ){
+        db.lists.update({"_id":doc._id},{
+            '$set':{'list.course': "Formation" }
+        }) 
+    }
+});
+@Rapha
+Change le type Array en Object de socialNetwork 
+db.citoyens.find().forEach(function(doc){ 
+    if(doc.socialNetwork instanceof Array == true) { 
+         print(doc.name);
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'socialNetwork': {} }
+         })
+    }
+});
+
+@Tib
+db.cities.find().forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    print(doc.country+"_"+doc.insee); 
+    db.organizations.update({"_id":doc._id},{
+        '$set':{'_id': doc.country+"_"+doc.insee}
+    })
+  }
+});
+
+SBA - Add numberOfInvit on every citizen
+db.citoyens.find().forEach(function(doc){ 
+    if(doc.numberOfInvit == null) { 
+         print(doc.name); 
+         db.citoyens.update({"_id":doc._id},{
+                '$set':{'numberOfInvit': NumberLong(10)}
+         }) 
+    }
+});
 ---------------------------------------------------
 2016/03/18
 
@@ -90,8 +162,8 @@ db.organizations.find().forEach(function(doc){
 
 ----------------------------------------------------
 set up indexes 
-db.cities.createIndex({"geoPosition.coordinates": "2dsphere"})
-
+db.cities.createIndex({"geoPosition.coordinates": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition.coordinates": "2dsphere"});
 ----------------------------------------------------
 benchmarkin mongo 
 

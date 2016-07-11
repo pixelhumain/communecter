@@ -35,14 +35,42 @@
 	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
+
+    			<div id="podCooparativeSpace">
+    				<div id="pod-room" class="panel panel-white">
+
+						<div class="panel-heading border-light bg-azure">
+							<h4 class="panel-title">
+									<i class="fa fa-connectdevelop"></i> 
+									<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
+							</h4>		
+						</div>
+
+						<div class="panel-body no-padding">
+							<blockquote>
+							Pour accéder à cet espace, connectez-vous !<br>
+							<span class="text-azure">
+				   				<i class="fa fa-check-circle"></i> Discuter<br>
+				   				<i class="fa fa-check-circle"></i> Débattre<br>
+				   				<i class="fa fa-check-circle"></i> Proposer<br>
+				   				<i class="fa fa-check-circle"></i> Voter<br>
+				   				<i class="fa fa-check-circle"></i> Agir
+				   			</span>
+				   			</blockquote>
+						</div>   
+							
+					</div>
+    			</div>
 	    	</div>
+	    	
 	    	<div class="col-md-4 no-padding">
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
 															"userCategory" => Yii::t("common","COMMUNITY"), 
-															"followers" => $followers,
 															"contentType" => Organization::COLLECTION,
+															"countStrongLinks" => $countStrongLinks,
+															"countLowLinks" => $countLowLinks,
 															"admin" => $admin	));
 					?>
 		    	</div>
@@ -79,6 +107,7 @@
 				</div>
 				<?php } ?>
 			</div>
+
 	    </div>
 	 </div>
 </div>
@@ -99,6 +128,13 @@
      	//	$('.tooltips').tooltip();
    		//}
    		bindFicheInfoBtn();
+
+   		<?php if (isset(Yii::app()->session["userId"])) { ?>
+	   		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
+				var id = "<?php echo (String) $organization['_id']; ?>";
+		   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
+		   			function(){}, "html");
+	   	<?php } ?>
 	});
 	
 	function bindFicheInfoBtn(){

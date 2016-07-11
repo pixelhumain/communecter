@@ -2,22 +2,44 @@
 
 $cssAnsScriptFiles = array(
   '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+  '/assets/plugins/summernote/dist/summernote.css',
+  '/assets/plugins/summernote/dist/summernote.min.js',
+  '/css/rooms/header.css'
 );
-
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+
+//$cssAnsScriptFilesTheme = array('js/form-elements.js');
+//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
 if(isset($survey))
   Menu::proposal( $survey );
 else
   Menu::back() ;
 $this->renderPartial('../default/panels/toolbar');
+
+$parent = ActionRoom::getById($_GET['survey']);
+$parentType = $parent["parentType"];
+$parentId = $parent["parentId"];
+$nameList = (strlen($parent["name"])>20) ? substr($parent["name"],0,20)."..." : $parent["name"];
+$this->renderPartial('../rooms/header',array(   
+                      "parentId" => $parentId, 
+                      "parentType" => $parentType, 
+                      "fromView" => "survey.entry",
+                      "faTitle" => "gavel",
+                      "colorTitle" => "azure",
+                      "hideMenu" => "hide",
+                      "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                              " / ".
+                              "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$_GET['survey']."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
+                            ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
+                      )); 
  ?>
 <div id="editEntryContainer"></div>
 <style type="text/css">
   .addPropBtn{
     width:100%;
-    background-color: #BBBB77;
+    /*background-color: #BBBB77;*/
   }
   .removePropLineBtn {
       background-color: #E33551;
@@ -65,7 +87,7 @@ var proposalFormDefinition = {
               "options" : organizerList
             },*/
             "message" :{
-              "inputType" : "textarea",
+              "inputType" : "wysiwyg",
               "placeholder" : "Texte de la proposition",
               "rules" : {
                 "required" : true
@@ -82,7 +104,7 @@ var proposalFormDefinition = {
             },
             "urls" : {
                   "inputType" : "array",
-                  "placeholder" : "Tapez une url information ou des titre d'actions à faire",
+                  "placeholder" : "url, informations supplémentaires, actions à faire, etc",
                   "value" : <?php echo (isset($survey) && isset($survey['urls'])) ? json_encode($survey['urls']) : "[]" ?>,
             },
             "tags" :{
@@ -153,12 +175,12 @@ $("#editEntryContainer #message").autogrow({vertical: true, horizontal: false});
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editEntryContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faites une proposition</h1>"+
+              "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxForm'></form>"+
               "<div class='space20'></div>"+
-              "</div>");
+              "</div></div>");
     
         var form = $.dynForm({
           formId : "#ajaxForm",
@@ -175,7 +197,7 @@ function editEntrySV () {
                 var year = date.getFullYear().toString();
                 $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
-
+              $("#editEntryContainer #message").code(proposalObj.message);
              
             }
           },
@@ -192,7 +214,7 @@ function editEntrySV () {
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
                  "organizer" : $("#editEntryContainer #organizer").val(),
-                 "message" : ($("#editEntryContainer #message").val() ) ? $("#editEntryContainer #message").val() : $("#editEntryContainer #message").val(),
+                 "message" :  $("#editEntryContainer #message").code() ,
                  "type" : "<?php echo Survey::TYPE_ENTRY?>",
                  "app" : "<?php echo $this->module->id?>",
                  "commentOptions" : {
@@ -262,4 +284,6 @@ function getRandomInt (min, max) {
 }
 
 </script>
+
+
 

@@ -13,6 +13,10 @@
 	box-shadow: 0px 3px 5px -2px #656565;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
 }
+.voteInfoBox{
+	border-radius: 10px;
+	font-weight: 300;
+}
 </style>
 
 <?php
@@ -57,8 +61,14 @@ if( !isset($hideTexts) )
 
 <div class="<?php echo ( @$position ) ? $position : "pull-left"; ?> margin-10">
 	<?php
-
-		$voteLinksAndInfos = Action::voteLinksAndInfos( true , $survey );
+	
+		if(!isset($voteLinksAndInfos)){
+			$logguedAndValid = Person::logguedAndValid();
+			$voteLinksAndInfos = Action::voteLinksAndInfos( $logguedAndValid , $survey );
+		}
+		
+		$room = ActionRoom::getById($survey["survey"]);
+		$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]);
 
 		//echo "<span class='msg-head-tool-vote'>";
 		//if( $voteLinksAndInfos["hasVoted"] )
@@ -66,17 +76,25 @@ if( !isset($hideTexts) )
 		//else
 		//	echo Yii::t("rooms","Feel Free to vote",null,Yii::app()->controller->module->id);
 		//echo "</span>";
-		$room = ActionRoom::getById($survey["survey"]);
-		if( ActionRoom::canParticipate(Yii::app()->session['userId'],$room["parentId"],$room["parentType"]) ) 
+		if( $canParticipate && !$voteLinksAndInfos["hasVoted"] ) 
 			$contentVote = $voteLinksAndInfos["links"]; 
+		else if($canParticipate){
+			$ctrl = Element::getControlerByCollection($room["parentType"]);
+			$contentVote = $voteLinksAndInfos["links"]; 	
+		}
+		else if(!isset( Yii::app()->session["userId"]) ){
+			$ctrl = Element::getControlerByCollection($room["parentType"]);
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","LOGIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
+		}
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-danger text-bold" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')">'.Yii::t("rooms","You must login or join to vote",null,Yii::app()->controller->module->id).'<i class="fa fa-chevron-right-circle"></i></a>';
+			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".
 			"<div class='space1 voteInfoBox text-white bg-dark text-large'></div>";
 
+		//	echo $voteLinksAndInfos["hasVoted"] ? "true" :"false";
 		//if( $voteLinksAndInfos["totalVote"] )
 			//echo "<br/>".$voteLinksAndInfos["totalVote"]." ".Yii::t("rooms","people voted",null,Yii::app()->controller->module->id); 
 	 ?>
@@ -135,7 +153,7 @@ jQuery(document).ready(function()
 		console.log(clickedVoteObject);
 	 });
 	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous etes d'accord avec la proposition"); });
-	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleur"); });
+	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure"); });
 	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engagé, ni pour ni contre"); });
 	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des elements pour prendre une réélle décision"); });
 	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous etes pas d'accord avec la proposition"); });

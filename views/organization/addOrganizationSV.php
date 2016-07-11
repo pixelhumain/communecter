@@ -189,7 +189,7 @@ $this->renderPartial('../default/panels/toolbar');
 								<label class="control-label text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Key Words") ?>
 								</label>
-			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:35px;">		        		    
+			        		    <input id="tagsOrganization" type="hidden" name="tagsOrganization" value="<?php echo ($organization && isset($organization['tags']) ) ? implode(",", $organization['tags']) : ""?>" style="width:100%; height:auto;">		        		    
 							</div>
 							<div class="form-group pull-left">
 								<div class="form-group">
@@ -447,7 +447,7 @@ jQuery(document).ready(function() {
 						postalCode = orga.address.postalCode;
 					}
  					if("undefined" != typeof orga.profilImageUrl && orga.profilImageUrl != ""){
- 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilImageUrl+"'/>";
+ 						var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+orga.profilThumbImageUrl+"'/>";
  					}
  					str += 	"<div class='padding-10'>"+
  							"<a href='#' data-id='"+ orga.id +"' data-type='"+ typeIco +"'>"+
@@ -589,6 +589,9 @@ jQuery(document).ready(function() {
 			insee=$('#city').val();
 			postalCode=$('#postalCode').val();
 			streetAddress=$('#organizationForm #fullStreet').val();
+			country = $('#organizationForm #organizationCountry').val();
+			country = getFullTextCountry(country);
+			
 			if(streetAddress.length < 2){
 	  			$.ajax({
 					url: baseUrl+"/"+moduleId+"/sig/getlatlngbyinsee",
@@ -622,7 +625,7 @@ jQuery(document).ready(function() {
 			
 	  		} else{
 				
-				var requestPart = streetAddress + ", " + postalCode; // + ", " + $("#addressCountry").val();
+				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
 		  		console.log("requestPart", requestPart);

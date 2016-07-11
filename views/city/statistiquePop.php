@@ -1,14 +1,18 @@
+
 <?php
 	$cs = Yii::app()->getClientScript();
-	if(!Yii::app()->request->isAjaxRequest)
-	{
-	  	$cssAnsScriptFilesModule = array(
-	  		'/assets/plugins/nvd3/nv.d3.js',
-	  		);
-	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
-  	}
-	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
-	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
+	// if(!Yii::app()->request->isAjaxRequest)
+	// {
+  	$cssAnsScriptFilesModule = array(
+		'/assets/plugins/nvd3/lib/d3.v3.js',
+  		'/assets/plugins/nvd3/nv.d3.min.js',
+  		'/assets/plugins/nvd3/nv.d3.js',
+  		
+  	);
+  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+  	// }
+	// $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
+	// $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
 ?>
 <style>
 	.chart{
@@ -44,12 +48,12 @@
 						<span id="label-type"> Population </span><span class="caret"></span>
 					</a>
 					<ul role="menu" class="dropdown-menu" id="typeGraph">
-						<!--<li>
+						<li>
 							<a  class="btn-drop typeBtn" data-name="population">Population</a>
 						</li>
 						<li>
 							<a  class="btn-drop typeBtn" data-name="entreprise">Entreprise</a>
-						</li>-->
+						</li>
 						<?php
 							$where = array("insee"=>$_GET['insee']);
      						$fields = array();
@@ -183,6 +187,10 @@
 	
 
 	jQuery(document).ready(function() {
+
+		//Title
+        $(".moduleLabel").html("<i class='fa fa-cog'></i> COMMUNE : Statistiques de population");
+
 		var insee = "<?php echo $_GET['insee']; ?>";
 		var res ="";
 		var map = <?php echo json_encode($cityData) ?>;
@@ -195,6 +203,8 @@
 		//alert('<?php if(isset($inseeCities)) json_encode($inseeCities) ; else json_encode(array()); ?>');
 		var citiesChecked ='<?php if(isset($inseeCities)) echo json_encode($inseeCities) ; else echo json_encode(array()); ?>';
 		var optionChecked = getValueChekbox(name_id);
+		console.log("optionChecked 1 : ",  optionChecked);
+
 		var optionCheckedCities = getValueChekboxCities(insee, name_id);
 
 		modifyListCities(insee, typeData, typeZone, name_id, typeGraph, optionCheckedCities, citiesChecked, optionChecked)
@@ -346,8 +356,10 @@ function modifyListCities(insee, typeData, typeZone, name_id, typeGraph, optionC
 function getValueChekbox(name_id){
 	//console.warn("----------------- getValueChekbox -----------------");
 	var optionChecked = [];
+	// optionChecked.push('Total');
 	$('input:checked[name='+name_id+'optionCheckbox]').each(function() {
 	  optionChecked.push($(this).val());
+	  
 	});
 
 	if(optionChecked.length == 1)
@@ -372,11 +384,10 @@ function getValueChekboxCities(insee, name_id){
 }
 
 function getMultiBarChart(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- getMultiBarChart -----------------");
+	console.warn("----------------- getMultiBarChart -----------------");
 	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
-	//console.log("optionChecked 3 : ",  optionChecked);
+	console.log("optionChecked 3 : ",  optionChecked);
 	var mapData = buildDataSetMulti(map, typeData,  optionChecked, name_id);
-	//console.log(mapData);
 	nv.addGraph(function() {
 	    var chart = nv.models.multiBarChart()
 	    	.stacked(false)
@@ -417,19 +428,20 @@ function getMultiBarChart(map, typeData, optionChecked, name_id){
 }
 
 function buildDataSetMulti(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- buildDataSetMulti -----------------");
+	console.warn("----------------- buildDataSetMulti -----------------");
 	console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData= [];
 	var tabYear = [];
 	
 	$.each(optionChecked, function(keyInd,valuesOptionChecked){
+		console.log("valuesOptionChecked", valuesOptionChecked);
 		
 		var valInfo ;
 		valuesMap=[];
 		$.each(map, function(nameCommune,valuesCommune){
-			
+			console.log("valuesCommune", valuesCommune);
 			$.each(valuesCommune, function(codeInsee,valuesInsee){
-
+				console.log("valuesInfo", valuesInsee);
 				$.each(valuesInsee, function(keyInfo,valuesInfo){
 					console.log("valuesInfo", valuesInfo);
 					valInfo = valuesInfo ;
@@ -457,7 +469,7 @@ function buildDataSetMulti(map, typeData, optionChecked, name_id){
 }
 
 function getPieChart(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- getPieChart -----------------");
+	console.warn("----------------- getPieChart -----------------");
 	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData = buildDataSetPie(map, typeData,  optionChecked, name_id);
 	
@@ -483,7 +495,7 @@ function getPieChart(map, typeData, optionChecked, name_id){
 
 
 function buildDataSetPie(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- buildDataSetPie -----------------");
+	console.warn("----------------- buildDataSetPie -----------------");
 	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
 	//console.log("map",map);
 	//console.log("str",str);
@@ -512,15 +524,15 @@ function buildDataSetPie(map, typeData, optionChecked, name_id){
 
 function sendData(insee, typeData, typeZone, optionChecked, name_id, typeGraph, optionCheckedCities)
 {
-	//console.warn("----------------- sendData -----------------");
-	console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked,optionCheckedCities);
+	console.warn("----------------- sendData -----------------");
+	console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked ,optionCheckedCities);
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getcitydata/insee/"+insee+"/typeData/"+typeData;
 	
 	if("undefined" != typeZone){
 		urlToSend += "/typeZone/"+ typeZone;
 	}
 	
-	//console.log("optionChecked 1 : ",  optionChecked);
+	console.log("optionChecked 2 : ",  optionChecked);
 	$.ajax({
 		type: "POST",
 		url: urlToSend,

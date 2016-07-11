@@ -1,12 +1,31 @@
-debug = true;
-
+var debug = true;
+var countPoll = 0;
 $(document).ready(function() { 
 	
 	initSequence();
-	
+	setTimeout( function () { checkPoll() }, 10000);
 });
 
+function checkPoll(){
+	countPoll++;
+	console.log("countPoll",countPoll,"currentUrl",currentUrl);
+	//refactor check Log to use only one call with pollParams 
+	//returning multple server checks in a unique ajax call
+	if(userId){
+		_checkLoggued();
+		refreshNotifications();
+	}
+	
+	//according to the loaded page 
+	//certain checks can be made  
+	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
+		checkCommentCount();
 
+	if(countPoll < 100){
+		setTimeout( function () { checkPoll() }, 300000); //every5min
+		countPoll++;
+	}
+}
 /* *************************** */
 /* instance du menu questionnaire*/
 /* *************************** */
@@ -63,7 +82,7 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 	});
 }
 
-function updateField(type,id,name,value,reload){
+function updateField(type,id,name,value,reload){ 
     	
 	$.ajax({
 	  type: "POST",
@@ -181,7 +200,8 @@ function connectPerson(connectUserId, callback)
 	);
 }*/
 
-function disconnectTo(parentType,parentId,childId,childType,connectType, callback){
+function disconnectTo(parentType,parentId,childId,childType,connectType, callback) {
+	var messageBox = trad["removeconnection"];
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
@@ -190,36 +210,52 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	bootbox.confirm(trad["removeconnection"], 
-		function(result) {
-			if (!result) {
-			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
-			return;
-		}
-		console.log(formData);
-		$.ajax({
-			type: "POST",
-			url: baseUrl+"/"+moduleId+"/link/disconnect",
-			data : formData,
-			dataType: "json",
-			success: function(data){
-				if ( data && data.result ) {
-					type=formData.parentType;
-					if(formData.parentType==  "citoyens")
-						type="people";
-					removeFloopEntity(data.parentId, type);
-					toastr.success("Le lien a été supprimé avec succès");
-					if (typeof callback == "function") 
-						callback();
-					else
-						loadByHash(location.hash);
-				} else {
-				   toastr.error("You leave succesfully");
-				}
-			}
-		});
-	});
-}
+	bootbox.dialog({
+        onEscape: function() {
+            $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+        },
+        message: '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<span>'+messageBox+' ?</span> ' +
+            '</div></div>',
+        buttons: {
+            success: {
+                label: "Ok",
+                className: "btn-primary",
+                callback: function () {
+                    $.ajax({
+						type: "POST",
+						url: baseUrl+"/"+moduleId+"/link/disconnect",
+						data : formData,
+						dataType: "json",
+						success: function(data){
+							if ( data && data.result ) {
+								type=formData.parentType;
+								if(formData.parentType==  "citoyens")
+									type="people";
+								removeFloopEntity(data.parentId, type);
+								toastr.success("Le lien a été supprimé avec succès");
+								if (typeof callback == "function") 
+									callback();
+								else
+									loadByHash(location.hash);
+							} else {
+							   toastr.error("You leave succesfully");
+							}
+						}
+					});
+                }
+            },
+            cancel: {
+            	label: trad["cancel"],
+            	className: "btn-secondary",
+            	callback: function() {
+            		$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+            	}
+            }
+        }
+    });      
+};
 
 // Javascript function used to validate a link between parent and child (ex : member, admin...)
 function validateConnection(parentType, parentId, childId, childType, linkOption, callback) {
@@ -274,7 +310,10 @@ function follow(parentType, parentId, childId, childType, callback){
 	});
 }
 function connectTo(parentType, parentId, childId, childType, connectType, parentName, actionAdmin) {
-	$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
+	if(parentType=="events" && connectType=="attendee")
+		$(".connectBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
+	else
+		$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
 		"childType" : childType, 
@@ -325,43 +364,75 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
-									else
-										toastr.error(data.msg);
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
 								},
 							});  
                         }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
                     }
                 }
             }
         );
     }
 	else{
-		messageBox=trad["suretojoin"+parentType];
+		messageBox=trad["suretojoin"+parentType];;
 		if (connectType=="admin")
-			messageBox += trad["as"+connectType];
-		bootbox.confirm( messageBox+" ?", 
-		function(result) {
-			if (!result) {
-				$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
-				return;
-			}
-			console.log(formData);
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/connect",
-				data: formData,
-				dataType: "json",
-				success: function(data) {
-					if(data.result){
-						addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-						toastr.success(data.msg);	
-						loadByHash(location.hash);
-					}
-					else
-						toastr.error(data.msg);
-				},
-			});  
-		});             
+			messageBox += " " + trad["as"+connectType];
+		bootbox.dialog({
+                onEscape: function() {
+	                $(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                },
+                message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<span>'+messageBox+' ?</span> ' +
+                    '</div></div>',
+                buttons: {
+                    success: {
+                        label: "Ok",
+                        className: "btn-primary",
+                        callback: function () {
+                            $.ajax({
+								type: "POST",
+								url: baseUrl+"/"+moduleId+"/link/connect",
+								data: formData,
+								dataType: "json",
+								success: function(data) {
+									if(data.result){
+										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										toastr.success(data.msg);	
+										loadByHash(location.hash);
+									}
+									else{
+										if(typeof(data.type)!="undefined" && data.type=="info")
+											toastr.info(data.msg);
+										else
+											toastr.error(data.msg);
+									}
+								},
+							});   
+                        }
+                    },
+                    cancel: {
+                    	label: trad["cancel"],
+                    	className: "btn-secondary",
+                    	callback: function() {
+                    		$(".becomeAdminBtn").removeClass("fa-spinner fa-spin").addClass("fa-user-plus");
+                    	}
+                    }
+                }
+            }
+        );      
 	}
 }		
 var loadableUrls = {
@@ -372,6 +443,8 @@ var loadableUrls = {
 	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
 	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
 	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
+	"#event.directory" : {title:"EVENT VISUALISATION ", icon : "calendar"},
+	"#event.calendarview" : {title:"EVENT CALENDAR ", icon : "calendar"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
@@ -386,6 +459,7 @@ var loadableUrls = {
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
@@ -410,6 +484,9 @@ var loadableUrls = {
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	
 	//"#home" : {"alias":"#default.home"},
+    "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
+    "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
+
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
@@ -474,6 +551,7 @@ function jsController(hash){
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+	currentUrl = hash;
 	allReadyLoad = true;
 	$(".my-main-container").off(); 
 	//alert("loadByHash");
@@ -518,6 +596,8 @@ function loadByHash( hash , back ) {
 	    console.warn("replaceState history.state",history.state);
 	}*/
 }
+
+//ex : #search:bretagneTelecom:all
 function searchByHash (hash) 
 { 
 	var searchT = hash.split(':');
@@ -543,7 +623,7 @@ function searchByHash (hash)
 
 var backUrl = null;
 function checkIsLoggued(uId){
-	if( uId == "" ){
+	if( uId == "" ||  typeof uId == "undefined" ){
 		console.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
@@ -557,9 +637,25 @@ function checkIsLoggued(uId){
 		return true;
 }
 function resetUnlogguedTopBar() { 
+	//put anything that needs to be reset 
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
 							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
+}
+
+function _checkLoggued() { 
+	$.ajax({
+	  type: "POST",
+	  url: baseUrl+"/"+moduleId+"/person/logged",
+	  success: function(data){
+		if( !data.userId || data.userId == "" ||  typeof data.userId == "undefined" ){
+			/*userId = data.userId;
+			resetUnlogguedTopBar();*/
+			window.location.reload();
+		}
+	  },
+	  dataType: "json"
+	});
 }
 
 /* ****************

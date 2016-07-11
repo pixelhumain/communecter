@@ -14,11 +14,16 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	Menu::proposal( $survey );
 	$this->renderPartial('../default/panels/toolbar');
 }
+
 ?>
 <style type="text/css">
 
+	/*.assemblyHeadSection {  
+      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
+    }*/
+  	
 	/*a.btn{margin:3px;}*/
-	a:hover.btn {background-color: pink;border solid #666;}
+	/*a:hover.btn {background-color: pink;border solid #666;}*/
 
 	/*.infolink{border-top:1px solid #fff}*/
 	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
@@ -35,40 +40,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	.commentPod .panel {box-shadow: none;}
 	.commentPod .panel-heading {border-bottom-width: 0px;}
 
-	.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -50px;
-      background-size: 100% auto;
-    }
-
-      .citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-		padding-top: 0px;
-		margin-bottom: -3px;
-		font-size: 32px;
-		top: 115px;
-		z-index: 1;
-		position: absolute;
-		width: 96%;
-		left: 2%;
-		padding-bottom: 15px;
-      }
-
-    .citizenAssembly-header h1{
-    	font-size: 32px;
-		
-    }
-    .row.vote-row {
-	   	position: absolute;
-		padding-top: 5px;
-		top: 300px;
-		background-color: white;
-		width: 100%;
-		z-index: 0;
-    }
+	
 
     .leftlinks a.btn{
     	border: transparent;
@@ -94,49 +66,12 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
   	font-weight: 300;
   }
 
-  #thumb-profil-parent{
-      margin-top:-60px;
-      margin-bottom:20px;
-      -moz-box-shadow: 0px 3px 10px 1px #656565;
-      -webkit-box-shadow: 0px 3px 10px 1px #656565;
-      -o-box-shadow: 0px 3px 10px 1px #656565;
-      box-shadow: 0px 3px 10px 1px #656565;
-    }
 
-@media screen and (min-width: 1060px) {
-  
-}
-@media screen and (max-width: 1060px) {
-  
-  .assemblyHeadSection {  
-    background-position: 0px 50px;
-  }
 
-  .container-tool-vote {
-    font-size: 17px;
-    margin-top: 60px;
-  }
+#commentHistory .panel-scroll{
+	max-height:unset !important;
 }
 
-@media screen and (max-width: 767px) {
-  .assemblyHeadSection {  
-    background-position: 0px 0px;
-  }
-  .citizenAssembly-header{
-  	top: 70px;
-  	height:160px;
-  }
-  .citizenAssembly-header h1 {
-	font-size: 24px;
-  }
-  .row.vote-row {
-    top: 230px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  
-}
 
 </style>
 
@@ -151,7 +86,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 
 
 <!-- start: LOGIN BOX -->
-<div class="padding-20 center" style="margin-top: 20px">
+<div class="center">
 	<?php /* ?>
 	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
 	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
@@ -161,7 +96,6 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	<br/>
 	<span class="subTitle text-white text-bold" style="margin-top:-13px; font-size:1.5em">Se connecter à sa commune.</span>
 	*/?>
-	<br/>
 	<!-- <span class="text-red " style="font-size:40px"><?php echo Yii::t("rooms","VOTE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
 	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
@@ -175,7 +109,7 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 	$nameParentTitle = "";
 	if($parentType == Organization::COLLECTION && isset($parentId)){
 		$orga = Organization::getById($parentId);
-		$nameParentTitle = $orga["name"];
+		$nameParentTitle = htmlentities($orga["name"]);
 	}
 
 		
@@ -219,6 +153,9 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
       if($totalVotes > 1) $msgVote = "votes exprimés";
       else                $msgVote = "vote exprimé"; 
+      
+      if($totalVotes >= 1 && Yii::app()->session['userId'] == $survey['organizerId'])
+      	$msgVote = $msgVote." <span class='text-red'>( donc édition fermé )</span>";
 
       $html .= "<div class='pull-left text-dark' style='margin-top:5px; margin-left:5px; font-size:13px;'>".$totalVotes." ".$msgVote."</div><div class='space1'></div>";
       
@@ -250,31 +187,24 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
  	?>
  	<div>
      
- 		<h1 class="homestead text-dark center citizenAssembly-header">
+ 		
 
 		  <?php 
-		    $urlPhotoProfil = "";
-		    if(isset($parent['profilImageUrl']) && $organizer['profilImageUrl'] != "")
-		        $urlPhotoProfil = Yii::app()->createUrl($organizer['profilImageUrl']);
-		      else
-		        $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-		  
-		    $icon = "comments"; 
-		      if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-		      if($parentType == Organization::COLLECTION) $icon = "group";
-		      if($parentType == Person::CONTROLLER) $icon = "user";
-		  ?>
-		  <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-		    <br>
-		  <span style="padding:0px; border-radius:50px;">
-		    <i class="fa fa-<?php echo $icon; ?>"></i> 
-		    <?php echo $organizer["name"]; ?>
-		  </span>
-		  	<br>
-		  <small class="homestead text-dark center">Propositions, Débats, Votes</small>
-		  
-		</h1>
-     
+		  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
+		  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+		  $this->renderPartial('../rooms/header',array(    
+                			"parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "parentSpace" => $parentSpace,
+                            "fromView" => "survey.entry",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                            				" / ".
+                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn
+                              
+                            )); ?>
 
 		<!-- <span class="pull-right text-right"> 
 			<?php if( $voteLinksAndInfos["hasVoted"] )
@@ -291,11 +221,11 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
     </div>
  </div>
 
-<div class="row vote-row" >
+<div class="row vote-row contentProposal" >
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod box">
+		<div class="box-vote box-pod">
 				
 			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
 				
@@ -316,7 +246,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 				<?php if( @$survey["dateEnd"] && $survey["dateEnd"] < time() ){ ?>
 						
-						<div class="box-vote box-pod box radius-20" style="">
+						<div class="box-vote box-pod radius-20" style="">
 							<span class="text-extra-large text-bold text-red"> 
 								<?php echo Yii::t("rooms","Closed",null,Yii::app()->controller->module->id) ?>
 							</span> 
@@ -328,20 +258,38 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						
 				<?php } else { ?> 
 
-						<div class="box-vote box-pod box radius-20">
+						<div class="box-vote box-pod radius-20">
 							<?php
+
 							$this->renderPartial('entry',array( "survey" => $survey, 
+																"voteLinksAndInfos" => $voteLinksAndInfos,
 																"position" => "center",
 																"showName" => true,
 																"hideTexts" => true
-																 ));?>
+																 ));
+																 ?>
 						</div>
 
 				<?php } ?>
 			</div>	
-			<div class="col-xs-12 voteinfoSection">
-				<div class="col-md-7" style="margin-top:10px;">
-					<?php if( isset($organizer) ){ ?>
+			<div class="col-md-12 voteinfoSection">
+				<?php 
+				$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+				$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+				$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+				$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+				$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+				$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+				$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+				$voteDownCount = $voteDownCount * $oneVote ;
+				$voteAbstainCount = $voteAbstainCount * $oneVote;
+				$voteUpCount = $voteUpCount * $oneVote;
+				$voteUnclearCount = $voteUnclearCount * $oneVote;
+				$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+			   
+				 ?>
+				<div class="col-md-<?php echo ($totalVotes ==0 ) ? "12" : "7" ?>" style="margin-top:10px;">
+					<?php if( @($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 					<?php }	?>
 					
@@ -351,7 +299,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 					<?php echo $survey["message"]; ?>
 					
 					<br/>
-					<?php if( isset( $survey["tags"] ) ){ ?>
+					<?php if( @( $survey["tags"] ) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 						<?php foreach ( $survey["tags"] as $value) {
 								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
@@ -359,83 +307,38 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 						</span><br>
 					<?php }	?>
 
-					<?php if( isset( $survey["urls"] ) ){ ?>
+					<?php if( @( $survey["urls"] ) ){ ?>
 						
 						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 						<?php foreach ( $survey["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large"  target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
+								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
 						}?>
-						<span class="" >Faites des propositions dans les commentaires</span>
+						
 					<?php }	?>
 				</div>
-				<div  class="col-md-5" style="border:1px solid #ccc">
-					<div class="col-md-12 leftInfoSection chartResults" >
+				<?php 
+				
+				if( $totalVotes > 0 ){ ?>
+				<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
+					<div class=" leftInfoSection chartResults" >
 						<?php echo getChartBarResult($survey); ?>
 						<div id="container2"></div>
 					</div>
 				</div>
+				<?php }	?>
 			</div>
 		</div>
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
-		<div class="box-vote box-pod box margin-10 commentPod"></div>
+		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
 </div>
 
-
-<div class="row discuss-row hide"  >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DISCUSS</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-<div class="row decide-row hide" >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> DECIDE</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="row act-row hide"  >
-	<div class="panel panel-white col-xs-8 col-xs-offset-2 ">
-		<div class="panel-heading border-light ">
-			<h4 class="panel-title"> <i class='fa fa-commentsfa-2x icon-big text-center '></i> ACT</h4>
-		</div>
-		<div class="panel-body">
-			<h1></h1>
-
-			<div class="space20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, similique autem, neque provident hic placeat in magnam temporibus laborum, corporis tenetur cumque tempora sit cum dignissimos. Animi molestiae nostrum consequuntur.</div>
-			<div class="space20">Iusto quis facilis officia ullam! Impedit corporis pariatur exercitationem, explicabo possimus nemo non perferendis officiis quam molestias aliquid, doloremque, provident itaque quos fugiat sit totam temporibus repellendus vitae. Culpa, incidunt.</div>
-			<div class="space20">Quos impedit aliquid nemo magnam ipsam corporis sint, distinctio mollitia sunt harum animi, inventore officia. Vitae similique eaque, consequatur voluptatibus, sunt velit adipisci explicabo maxime. Aperiam et totam ipsa molestias.</div>
-			<div class="space20">Optio debitis, id nisi, dolorem, ab iure cumque vero modi eos quisquam unde soluta, blanditiis repellendus fugit delectus perspiciatis accusamus quidem animi voluptates. Eius magni voluptatibus exercitationem est, nostrum deleniti!</div>
-		</div>
-	</div>
-</div>
 
 
 <style type="text/css">
@@ -444,10 +347,6 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 
 <script type="text/javascript">
 clickedVoteObject = null;
-
-//Images
-var images = <?php echo json_encode($images) ?>;
-var contentKeyBase = "<?php echo $contentKeyBase ?>";
 
 jQuery(document).ready(function() {
 	//var shareBtns = new ShareButton(".share-button");
@@ -464,6 +363,7 @@ jQuery(document).ready(function() {
 	
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
 
+
 	buildResults ();
 
 });
@@ -473,7 +373,7 @@ function addaction(id,action)
     console.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	var message = "Vous êtes sûr ? Vous ne pourrez pas changer votre vote";
+    	var message = "Vous êtes sûr ? <span class='text-red text-bold'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>";
     	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
     	var boxNews = bootbox.dialog({
 			title: message,
@@ -509,22 +409,7 @@ function addaction(id,action)
 				}
 			}
     	});
-    	// bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-     //    	function(result) {
-     //    		if (result) {
-			  //     	params = { 
-			  //          "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-			  //          "id" : id ,
-			  //          "collection":"surveys",
-			  //          "action" : action 
-			  //       };
-			  //     	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
-			  //       	loadByHash(location.hash);
-			  //     	});
-			  //   } else {
-			  //   	$("."+clickedVoteObject).removeClass("faa-bounce animated");
-			  //   }
-    	// });
+    	
  	}
  }
 
@@ -556,6 +441,7 @@ function buildResults () {
 		        plotBorderWidth: null,
 		        plotShadow: false,
 		        //marginTop: -20,
+		        backgroundColor: "#ddd"
 		    },
 		    title: {
 		        text: "Resultats"
@@ -579,20 +465,7 @@ function buildResults () {
 		    exporting: {
 			    enabled: false
 			},
-		    <?php 
-		    $voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-			$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-			$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-			$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-			$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-			$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-			$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
-			$voteDownCount = $voteDownCount * $oneVote ;
-			$voteAbstainCount = $voteAbstainCount * $oneVote;
-			$voteUpCount = $voteUpCount * $oneVote;
-			$voteUnclearCount = $voteUnclearCount * $oneVote;
-			$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
-		    ?>
+		    
 		    series: [{
 		        type: 'pie',
 		        name: 'Vote',

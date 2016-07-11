@@ -2,19 +2,18 @@
 $cs = Yii::app()->getClientScript();
 
 $cssAnsScriptFilesModule = array(
-  '/survey/css/mixitup/reset.css',
+  // '/survey/css/mixitup/reset.css',
   '/survey/css/mixitup/style.css',
-  '/survey/js/highcharts.js' , 
-  '/survey/js/exporting.js' , 
   '/survey/js/jquery.mixitup.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 $cssAnsScriptFilesModule = array(
-  '/assets/plugins/share-button/ShareButton.min.js' , 
+  //'/assets/plugins/share-button/ShareButton.min.js' , 
   '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+
 
 $commentActive = true;
 
@@ -23,6 +22,13 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 
 <style type="text/css">
+
+
+  .assemblyHeadSection {  
+    /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); */
+    /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/bg/noise_lines.png); */
+  }
+  
   .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
   button.filter,button.sort{color:#000;}
   /*a.btn{margin:3px;}*/
@@ -63,8 +69,9 @@ $this->renderPartial('../default/panels/toolbar');
   .color-btnvote-purple{  background-color: #C1ABD4!important;}
   .color-btnvote-red{   background-color: #db254e!important;}
   .controls{
-    background: #E7E7E7;
-    border: 1px solid #BDBDBD;
+    background: #fff;
+    border-bottom: 1px solid #BDBDBD;
+    border-top: 1px solid #fff;
   }
 
   .mixcontainer .mix{
@@ -117,6 +124,9 @@ $this->renderPartial('../default/panels/toolbar');
     color:#3C5665;
   }
 
+    .mixcontainer .mix span {
+        margin: 0px;
+    }
 
   .mixcontainer .mix,.mixcontainer .mix a, .mixcontainer .mix span{
     background-color: white;
@@ -130,24 +140,27 @@ $this->renderPartial('../default/panels/toolbar');
     overflow-y: hidden;
   }
 
+  .home .controls {
+    border: 1px solid #E4E4E4;
+  }
 
-    .assemblyHeadSection {  
+    /*.assemblyHeadSection {  
       background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
+      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);* /
       background-color: #fff;
       background-repeat: no-repeat;
       background-position: 0px -40px;
       background-size: 100% auto;
-    }
+    }*/
 
-      h1.citizenAssembly-header{
+   /*   h1.citizenAssembly-header{
         background-color: rgba(255, 255, 255, 0.63);
         padding: 30px;
         margin-bottom: -3px;
         font-size: 32px;
         margin-top:90px;
       }
-
+*/
     .message-propostal{
       font-size: 13px !important;
       font-weight: 300 !important;
@@ -182,11 +195,13 @@ $this->renderPartial('../default/panels/toolbar');
       margin-bottom: 6px;
     }
 
-    .caret {
+   
+
+    /*.caret {
       display: inline;
-    }
+    }*/
 
-
+/*
     #thumb-profil-parent{
       margin-top:-60px;
       margin-bottom:20px;
@@ -194,15 +209,15 @@ $this->renderPartial('../default/panels/toolbar');
       -webkit-box-shadow: 0px 3px 10px 1px #656565;
       -o-box-shadow: 0px 3px 10px 1px #656565;
       box-shadow: 0px 3px 10px 1px #656565;
-    }
+    }*/
 
 
-@media screen and (min-width: 1060px) {
+@media screen and (min-width: 1400px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 31%;
   }
 }
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1399px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 48%;
   }
@@ -217,7 +232,7 @@ $this->renderPartial('../default/panels/toolbar');
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 680px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 98%;
   }
@@ -243,7 +258,7 @@ $this->renderPartial('../default/panels/toolbar');
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate ){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -282,7 +297,7 @@ $this->renderPartial('../default/panels/toolbar');
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter " data-filter=".'.$t.'">'.$t.'</button>';
+              $tagBlock .= ' <button class="filter bgg-red" data-filter=".'.$t.'">'.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -334,10 +349,9 @@ $this->renderPartial('../default/panels/toolbar');
         
         $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
 
-        $graphLink = ($totalVote) ?' <a class="btn" onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$entry["_id"]).'\',\'graph\')" href="javascript:;"><i class="fa fa-pie-chart"></i> '/*.Yii::t("rooms", "Result", null, Yii::app()->controller->module->id)*/.'</a> ' : '';
-        
+       
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
-        $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $graphLink.$infoslink ;
+        $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $ordre = $voteLinksAndInfos["ordre"];
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
@@ -410,9 +424,10 @@ $this->renderPartial('../default/panels/toolbar');
         $leftLinks = "";
         $btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("survey","JOIN TO VOTE", null, Yii::app()->controller->module->id);
         $ctrl = Element::getControlerByCollection($parentType);
-        $btnUrl = "#$ctrl.detail.id.$parentId";
-        
-        if( ActionRoom::canParticipate(Yii::app()->session['userId'],$parentId,$parentType) ){
+        //$btnUrl = "#$ctrl.detail.id.$parentId";
+        $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
+
+        if( @$canParticipate ){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
@@ -503,7 +518,7 @@ $this->renderPartial('../default/panels/toolbar');
     foreach ($list as $key => $entry) 
     {
         $switchcount = -$switchcount;
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount);
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount, $canParticipate);
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
@@ -535,9 +550,7 @@ $this->renderPartial('../default/panels/toolbar');
       $percentNoVote = "0";
       if($totalVotes == 0) $percentNoVote = "100";
 
-      $html .= '<a class="btn btn-xs pull-left text-dark"'.
-                ' onclick="entryDetail(\''.Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/graph/id/".(string)$survey["_id"]).'\',\'graph\')"'.
-                ' href="javascript:;"><i class="fa fa-pie-chart"></i>'.'</a>';
+      
 
       if($totalVotes > 1) $msgVote = "votes exprimés";
       else                $msgVote = "vote exprimé"; 
@@ -574,30 +587,20 @@ $this->renderPartial('../default/panels/toolbar');
     ?>
     
 
-
-    <h1 class="homestead text-dark center citizenAssembly-header">
-
       <?php 
-        $urlPhotoProfil = "";
-        if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
-            $urlPhotoProfil = Yii::app()->createUrl($parent['profilImageUrl']);
-          else
-            $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
-      
-          $icon = "comments"; 
-          if($parentType == Project::COLLECTION) $icon = "lightbulb-o";
-          if($parentType == Organization::COLLECTION) $icon = "group";
-          if($parentType == Person::CONTROLLER) $icon = "user";
-      ?>
-      <img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-        <br>
-      <span style="padding:10px; border-radius:50px;">
-        <i class="fa fa-<?php echo $icon; ?>"></i> 
-        <?php echo $parent["name"]; ?>
-      </span>
-
-      
-    </h1>
+      $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
+      $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+      $this->renderPartial('../rooms/header',array(    
+                "parent" => $parent, 
+                            "parentId" => $parentId, 
+                            "parentType" => $parentType, 
+                            "fromView" => "survey.entries",
+                            "faTitle" => "gavel",
+                            "colorTitle" => "azure",
+                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
+                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
+                              
+                            )); ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
@@ -608,10 +611,10 @@ $this->renderPartial('../default/panels/toolbar');
               <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
               <button class="btn btn-default fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
               <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY){?>
-              <a class="filter btn bg-red" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-red" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".avoter"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'To vote', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".mesvotes"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My votes', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".myentries"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My proposals', null, Yii::app()->controller->module->id)?></a>
+              <a class="filter btn bg-dark" data-filter=".closed"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
         
               <?php } ?>
               
@@ -642,24 +645,32 @@ $this->renderPartial('../default/panels/toolbar');
               <br/>
 
               <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?>
+                <i class="fa fa-caret-down"></i> <i class="fa fa-archive"></i> <?php echo $where["survey"]["name"]; ?> 
               </h1>
-               <?php 
-                 if (isset($list) && count($list) == 0 && ActionRoom::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentId"],$where["survey"]["parentType"])) {
-               ?>
-                <div id="infoPodOrga" class="padding-10">
-                  <blockquote> 
-                    <?php echo Yii::t('rooms', 'Create Room', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Discussions', null, Yii::app()->controller->module->id)?> 
-                    <br><?php echo Yii::t('rooms', 'Decisions', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'Brainstorms', null, Yii::app()->controller->module->id)?>
-                    <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, Yii::app()->controller->module->id)?>
+               <?php if (@$canParticipate) { ?>
+                 <div id="infoPodOrga" class="padding-10">
+                  <?php if (count(@$list) == 0) { ?>
+                  <blockquote class="padding-10"> 
+                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace de décision</span><br>
+                    <small>Un espace de décision peut contenir plusieurs propositions.</small>
+                    <br>Référencez et partagez <b>une par une</b>,
+                    <br>les propositions qui concernent cet espace
                   </blockquote>
-                  <br/><a class="filter btn text-white" style="background-color: #7acf5b" href="javascript:;" onclick="loadByHash('#survey.editEntry.survey.<?php echo (string)$where["survey"]["_id"]; ?>')"><i class="fa fa-plus"></i> <?php echo Yii::t( "common", 'Add a proposal'); ?></a>
+                  <?php }; ?>
+                  
                 </div>
-              <?php 
-                }; 
-               ?>
+                <?php }else{ ?>
+                  <blockquote> 
+                    <span class=""><i class="fa fa-angle-right"></i> 
+                    <?php 
+                      if(isset(Yii::app()->session["userId"]))
+                      echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                      else
+                      echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                    ?> 
+                    </span>
+                  </blockquote>
+                <?php } ?>
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">

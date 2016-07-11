@@ -2,6 +2,9 @@
 <?php 
     if(isset(Yii::app()->session['userId']))
     	$me = Person::getById(Yii::app()->session['userId']);
+    	$newsToModerate = count(News::getNewsToModerate());
+
+
 
     $cssAnsScriptFilesModule = array(
 		'/css/default/menu.css',
@@ -13,16 +16,23 @@
 	$inseeCommunexion = "";
 	$cpCommunexion = "";
 	$cityNameCommunexion = "";
+
+	$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+	
+	$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+	
+	$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+
+	if($cpCommunexion != "" && $cityNameCommunexion != "")
+	$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
-		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
-		
-		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
-		
-		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+		if($cpCommunexion != "" && $cityNameCommunexion != "")
+		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	}
 	//si l'utilisateur est connecté
 	else{
@@ -35,9 +45,24 @@
 		
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
+		
+		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 	}
 
+	
+
 ?>
+
+<style>
+	<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
+			if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
+	?>
+		button.btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9{
+			display: none;
+		}
+	<?php } ?>
+</style>
+
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
@@ -46,15 +71,16 @@
 <div class="hover-menu hidden-xs">
 	
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
+	<?php /* if(!isset(Yii::app()->session['userId'])){ ?>
 		<!-- <button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
 				<i class="fa fa-sign-in"></i>
 		</button> -->
 	<?php }else{ ?>
-		<button class="menu-button btn-menu btn-logout bg-red tooltips visible-md" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+			<button class="menu-button btn-menu btn-logout bg-red tooltips hidden-sm" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
+
 				<i class="fa fa-sign-out"></i>
 		</button>
-	<?php } ?>
+	<?php } */ ?>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
@@ -79,62 +105,50 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button> -->
 	<?php } ?>
-	<?php if($inseeCommunexion != "" && $cpCommunexion != ""){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
-			<i class="fa fa-search"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-search fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+			<!--<i class="fa fa-search"></i>-->
 			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
-		<i class="fa fa-calendar"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-calendar fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+		<!--<i class="fa fa-calendar"></i>-->
 		<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
 	</button>
 
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
-			<i class="fa fa-rss"></i>
+			<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
 			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
 	</button>
-	<?php } ?>
-
-	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark">
-			<span class="lbl-btn-menu-name">Mon répertoire</span>
-			<i class="fa fa-bookmark fa-rotate-270"></i>
-			
-	</button>
-	<?php } ?>
-
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu6 bg-dark" onclick="loadByHash('#news.index.type.pixels')">
-			<i class="fa fa-bullhorn"></i>
-			<span class="lbl-btn-menu-name">Bugs, idées</span></span>
-	</button>
-
-	<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-    <button class="menu-button menu-button-left menu-button-title btn-menu btn-menu7 bg-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
-			<i class="fa fa-cog"></i>
-			<span class="lbl-btn-menu-name"><?php echo Yii::t("common", "ADMIN"); ?></span>
-	</button>
-	<?php } /*?>
 	
-	<div class="homeShortcuts hide menuShortcuts">
-		<ul>
-		<li><a href="javascript:scrollTo('#whySection')" title="POURQUOI POURQUI" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#wwwSection')" title="UN BIEN COMMUN" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#crowfundingSection')" title="CROWDFUNDER" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#valueSection')" title="DES VALEURS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#dicoSection')" title="DES MOTS CLEFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#friendsSection')" title="DES AMIS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#teamSection')" title="COLLABORATIFS" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		<li><a href="javascript:scrollTo('#contactSection')" title="CONTACT" class="tooltips" data-toggle="tooltip" data-placement="right" ><i class="fa fa-dot-circle-o"></i></a></li>
-		</ul>
-	</div>*/?>
+	<?php if(isset($cityCommunexion)) { ?>
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 bg-azure" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
+		<span class="fa-stack">
+				<i class="fa fa-university fa-stack-1x"></i>
+				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
+			</span>	
+			<!--<i class="fa fa-group"></i>-->
+			<span class="lbl-btn-menu-name">Conseil citoyen <span class="text-dark" style="font-size:12px;">communectée</span></span>
+	</button>
+	<?php } ?>
+
+	
 
 	<div class="infoVersion">
 		<a href="javascript:loadByHash('#default.view.page.explain')"><i class="fa fa-book fa-2x text-red"></i></a>
-		<?php /*if (isset(Yii::app()->session["userId"])){ ?>
-			<span><input type="checkbox" class="removeExplanation" onclick="removeExplainations();"/> Ne plus afficher les panneaux d'explications</span>
-		<?php }*/ ?>
+		<a href="javascript:loadByHash('#default.view.page.roadmap.dir.docs');"  class=" text-red"><i class="fa fa-2x text-red fa-map-signs"></i></a>
+		
 		<br/>
 		update <?php echo $this->versionDate ?>
 		<br/>
@@ -150,21 +164,74 @@
 			}
 		?>
     	lang : <a class="homestead text-red" href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/default/switch/lang/'.$lang) ?>" title="switch to <?php echo strtoupper($lang) ?>"><?php echo strtoupper($lang) ?></a> <?php echo $msglang ?>
-    
+    	<?php if (isset(Yii::app() -> session["userId"])){ ?>
+			<br/><span class="removeExplanationCont"><input type="checkbox" class="removeExplanation" style="vertical-align: bottom" onclick="removeExplainations();"/> <?php echo Yii::t("common","Hide info panels") ?></span>
+		<?php } ?>
 	</div>
 </div>
-<!-- 
-<button class="menu-button menu-button-title bg-red" id="btn-param-postal-code">
-	<i class="fa fa-university"></i>
-</button> 
-<div id="input-communexion">
-	<span class="search-loader text-red">Communection : un code postal et c'est parti !</span>
-	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
-</div>
-<button class="menu-button menu-button-title btn-menu bg-dark btn-geoloc-auto" id="btn-geoloc-auto-menu">
-	<i class="fa fa-crosshairs"></i>
-</button> -->
 
+<div class="visible-xs" id="menu-bottom">
+	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
+		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
+		<i class="fa fa-crosshairs"></i>
+	</button> 
+	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
+	<?php 
+	if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
+		</button>
+	<?php } ?>
+</div>
+
+<div class="hover-menu HM-right-side hidden-xs">
+	<div class="main-menu-right">
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark text-white">
+				<i class="fa fa-bookmark fa-rotate-270"></i> 
+				<span class="lbl-btn-menu-name">Mon répertoire</span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu6 text-red" onclick="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')">
+				<i class="fa fa-group"></i>
+				<span class="lbl-btn-menu-name"><?php echo  ucfirst(strtolower(Yii::t("common","MY CITIZEN COUNCIL")));?></span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu7 text-red" onclick="javascript:loadByHash('#city.detail.insee.<?php echo $inseeCommunexion; ?>.postalCode.<?php echo $cpCommunexion; ?>')">
+				<i class="fa fa-university"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","MY CITY")));?></span>
+		</button>
+		<?php } ?>
+
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<button class="menu-button menu-button-title btn-menu8 text-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+				<i class="fa fa-rss fa-rotate-270"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","My News Stream")));?></span>
+		</button>
+		<?php } ?>
+
+		<button class="menu-button menu-button-title btn-menu btn-menu9 text-dark" onclick="loadByHash('#news.index.type.pixels')">
+				<i class="fa fa-bullhorn"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "BUGS, IDEAS"))); ?></span></span>
+		</button>
+
+		<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
+	    <button class="menu-button menu-button-title menu-button-title btn-menu btn-menu10 text-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
+				<i class="fa fa-cog"></i>
+				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "ADMIN"))); ?>
+					<?php if(@$newsToModerate){ ?>
+						<span class="badge count-to-moderate"><?php echo $newsToModerate; ?></span>
+					<?php } ?>
+				</span>
+		</button>
+		<?php } ?>
+	</div>
 
 
 <?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -200,22 +267,13 @@
 
 
 
-<div class="visible-xs" id="menu-bottom">
-	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
-		data-toggle="tooltip" data-placement="bottom" title="modifier communexion" alt="modifier communexion">
-		<i class="fa fa-crosshairs"></i>
-	</button> 
-	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
-	<?php 
-	if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-		<span class="lbl-btn-menu-name">Ajouter</span></span>
-		<i class="fa fa-plus-circle"></i>
-		</button>
-	<?php } ?>
-</div>
-
 <style>
+
+.count-to-moderate{
+	font-weight: 500;
+	font-size:16px;
+	margin-left:2px;
+}
 
 #kkbb-min span.msg{
 	top: -3px;
@@ -266,12 +324,13 @@ text-align: center;
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 		<div class="pull-left homestead text-red msg">
 			Soutenez-nous<br/>
 			à prix libre<br/>
 			sur
 		</div>
-
+		</a>
 		
 		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
@@ -314,11 +373,12 @@ text-align: center;
 
 var timeoutCommunexion = setTimeout(function(){}, 0);
 var showMenuExplanation = <?php echo (@$me["preferences"]["seeExplanations"] || !@Yii::app()->session["userId"]) ? "true" : "false"; ?>;
+var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
 jQuery(document).ready(function() {
 
 	//realTimeKKBB();
 	
-	var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>";
+	
 	bindEventMenu();
 
 });

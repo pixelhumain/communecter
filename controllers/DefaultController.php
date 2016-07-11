@@ -27,11 +27,6 @@ class DefaultController extends CommunecterController {
     $this->layout = "//layouts/mainSearch";
     $this->render("index");
   }
-  public function actionDir() 
-  {
-    $this->layout = "//layouts/mainDirectory";
-    $this->render("dir/indexDirectory");
-  }
 
   public function actionTwoStepRegister() 
   {
@@ -80,6 +75,10 @@ class DefaultController extends CommunecterController {
   public function actionView($page,$dir=null,$layout=null) 
   {
     if(@$dir){
+      
+      if($dir == "docs")
+        $dir = "../".$dir;
+
       if(strpos($dir,"|")){
         $dir=str_replace("|", "/", $dir);
       }

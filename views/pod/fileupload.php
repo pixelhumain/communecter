@@ -7,7 +7,7 @@
 		background-color: #F2F2F2;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
-		margin: 0px 10px 10px 10px;
+		margin: 0px; /*10px 10px 10px;*/
 		border-radius: 5px;
 
 	}
@@ -284,19 +284,22 @@
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ console.log("loading new profil");
+			var profilThumbImageUrl;
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
-		        if(typeof data.profilImageUrl != "undefined"){
-		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        if(typeof data.profilThumbImageUrl != "undefined"){
+		        	profilThumbImageUrl = baseUrl + data.profilThumbImageUrl + "?_=" + Date.now();
+		        	$("#menu-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$("#menu-small-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", profilThumbImageUrl);
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
-		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
+		        console.log("NOUVELLE PATH THUMB PROFIL : " + profilThumbImageUrl);
+		    	Sig.userData.profilImageUrl = profilThumbImageUrl;
 		        console.log(Sig.userData.profilImageUrl);
 		        
 		    });

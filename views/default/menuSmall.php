@@ -54,7 +54,7 @@ width: 100%;
 		<?php }  else { ?>
 		<div class="item">
 			<a class="btn bg-white" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
-				<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; " width="40" height="40" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
+				<img class="img-circle" id="menu-small-thumb-profil" style="margin-left: -5px; margin-top: 3px; " width="40" height="40" src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
 			</a>
 			<br/><?php echo $me["name"]; ?>
 		</div>

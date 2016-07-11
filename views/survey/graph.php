@@ -14,7 +14,14 @@ function setUpGraph(){
 	    chart: {
 	        plotBackgroundColor: null,
 	        plotBorderWidth: null,
-	        plotShadow: false
+	        plotShadow: false,
+	        backgroundColor: {
+		       linearGradient: [0, 0, 500, 500],
+		       stops: [
+		         [0, 'rgb(255, 255, 255)'],
+		         [1, 'rgb(200, 200, 255)']
+		       ]
+		     },
 	    },
 	    title: {
 	        text: "\"<?php echo htmlentities($name)?>\""
