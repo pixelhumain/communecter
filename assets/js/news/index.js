@@ -120,7 +120,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			}
 			newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form+"<div class='col-md-5 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
+					'</div>'+form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
 		
 			$(".spine").css("bottom","0px");
 			$(".tagFilter, .scopeFilter").hide();
