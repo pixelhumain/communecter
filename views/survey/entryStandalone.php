@@ -302,7 +302,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 																	  "contentId" => Document::IMG_PROFIL,
 																	  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
 																	  "image" => $images)); 
-				?>
+					?>
 					<?php echo $survey["message"]; ?>
 					
 					<br/>

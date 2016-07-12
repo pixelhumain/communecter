@@ -114,7 +114,16 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 			<?php } ?>
 			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
 		</div>
-
+		<?php
+			if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
+				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+					  "type" => ActionRoom::TYPE_DISCUSS,
+					  "resize" => false,
+					  "contentId" => Document::IMG_PROFIL,
+					  "editMode" => $canComment,
+					  "image" => $images)); 
+			}
+		?>  
 		<div class="panel-body panel-white">
 			<div class='row'>
 				<div class="tabbable no-margin no-padding partition-dark">

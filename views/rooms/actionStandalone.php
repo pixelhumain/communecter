@@ -170,7 +170,15 @@ if( Yii::app()->request->isAjaxRequest ){
 					
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $action["name"] ?></span>
 					<br/><br/>
-					
+					<?php 
+					$this->renderPartial('../pod/fileupload', array("itemId" => $action['_id'],
+																	  "type" => ActionRoom::COLLECTION_ACTIONS,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
+																	  "image" => $images)); 
+					?>
+
 					<?php echo $action["message"]; ?>
 					
 					<?php if( @$action["tags"] ){ ?>

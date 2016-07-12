@@ -33,7 +33,6 @@
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
 	//		&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
-
 	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
@@ -43,11 +42,12 @@
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,
 											 "canComment" => $canComment,
-											 "context"=>$context));
+											 "context"=>$context,
+											 "images"=>$images));
 ?>
 
 <script type="text/javascript">
-
+var images = <?php echo json_encode($images) ?>;
 var latestComments = <?php echo time(); ?>;
 jQuery(document).ready(function() {
 	
