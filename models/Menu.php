@@ -488,7 +488,8 @@ class Menu {
                     Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('".$roomLink."')",null,null);
         
-        self::entry("right", 'onclick', 
+        if( @$context["email"] == Yii::app()->session['userEmail'] )
+            self::entry("right", 'onclick', 
                     Yii::t( "rooms", ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),
                     Yii::t( "rooms", ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive',null,Yii::app()->controller->module->id), 'archive text-red',
                     "archive('".ActionRoom::COLLECTION."','".$_GET['id']."')","archiveBtn",null);
