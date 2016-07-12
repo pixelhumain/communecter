@@ -228,7 +228,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <section class="mt80 stepContainer">
   <div class=" home ">
-  
+
   <?php 
   $logguedAndValid = Person::logguedAndValid();
   $alltags = array(); 
@@ -477,6 +477,14 @@ $this->renderPartial('../default/panels/toolbar');
               <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $room["name"].$archived;?> 
               </h1>
+                <?php 
+					$this->renderPartial('../pod/fileupload', array("itemId" => $room["_id"],
+																	  "type" => ActionRoom::COLLECTION,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']),
+																	  "image" => $images)); 
+				?>
                 <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>

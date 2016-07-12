@@ -258,7 +258,7 @@ $this->renderPartial('../default/panels/toolbar');
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate, $isArchived ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate, $isArchived){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -653,6 +653,14 @@ $this->renderPartial('../default/panels/toolbar');
               <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $where["survey"]["name"].$archived;?> 
               </h1>
+              	<?php 
+					$this->renderPartial('../pod/fileupload', array("itemId" => (string)$where["survey"]["_id"],
+																	  "type" => ActionRoom::COLLECTION,
+																	  "resize" => false,
+																	  "contentId" => Document::IMG_PROFIL,
+																	  "editMode" => @$canParticipate,
+																	  "image" => $images)); 
+				?>
                <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>
