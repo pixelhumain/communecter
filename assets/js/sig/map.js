@@ -794,22 +794,34 @@
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				//subdomains: 'abc',
+				zIndex:1,
 				minZoom: 3,
 				maxZoom: 20
 			});
 
 			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			
-			var roadTileLayer = L.tileLayer('//otile{s}-s.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
-							type: 'hyb',
+			Sig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
 							ext: 'png',
 							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-							subdomains: '1234',
+							subdomains: 'abcd',
+							zIndex:2,
 							opacity: 0.7,
 							minZoom:12,
 							maxZoom: 20
 						});
-			roadTileLayer.addTo(map);
+			Sig.roadTileLayer.addTo(map);
+			
+			Sig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
+									attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+									subdomains: 'abcd',
+									opacity: 0.7,
+									zIndex:3,
+									minZoom: 12,
+									maxZoom: 20,
+									ext: 'png'
+								});
+			Sig.StamenTonerLabels.addTo(map);
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
