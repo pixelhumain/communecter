@@ -122,7 +122,7 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 		<?php
 			if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
-					  "type" => ActionRoom::TYPE_DISCUSS,
+					  "type" => ActionRoom::COLLECTION,
 					  "resize" => false,
 					  "contentId" => Document::IMG_PROFIL,
 					  "editMode" => $canComment,
