@@ -258,7 +258,7 @@ $this->renderPartial('../default/panels/toolbar');
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
-    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate ){
+    function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate, $isArchived ){
         $logguedAndValid = Person::logguedAndValid();
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
@@ -337,7 +337,7 @@ $this->renderPartial('../default/panels/toolbar');
         Rendering Each block
         ****************************************/
         $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$entry);
-        $avoter = $voteLinksAndInfos["avoter"];
+        $avoter = ( @$entry['status'] == ActionRoom::STATE_ARCHIVED || $isArchived ) ? "archived" :$voteLinksAndInfos["avoter"];
         $hrefComment = "#commentsForm";
         $commentCount = 0;
         //$linkComment = ($logguedAndValid && $commentActive) ? "<a class='btn ".$entry["_id"].Action::ACTION_COMMENT."' role='button' data-toggle='modal' href=\"".$hrefComment."\" title='".$commentCount." Commentaire'><i class='fa fa-comments '></i></a>" : "";
@@ -388,7 +388,7 @@ $this->renderPartial('../default/panels/toolbar');
         $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
         $closeBtn = "";
         $isClosed = "";
-        $stateLbl = "<i class='fa fa-gavel'></i> Voter";
+        $stateLbl = "<i class='fa fa-gavel'></i> ".Yii::t('rooms', "VOTE", null, Yii::app()->controller->module->id);
         $mainClick = 'loadByHash("#survey.entry.id.'.(string)$entry["_id"].'")';
         $titleIcon = 'gavel';
         if( Yii::app()->session["userEmail"] == $entry["email"] && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) && $entry["type"] == Survey::TYPE_ENTRY ) 
@@ -398,7 +398,7 @@ $this->renderPartial('../default/panels/toolbar');
                       "</a>";
         else if($surveyIsClosed){
             $isClosed = " closed";
-            $stateLbl = "<i class='fa fa-times text-red'></i> Fermé";
+            $stateLbl = "<i class='fa fa-times text-red'></i> ".Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id);
             $titleIcon = "times text-red";
         }else{
           $stateLbl = "<i class='fa fa-sign-in text-red'></i> ".Yii::t('rooms', 'Login to vote', null, Yii::app()->controller->module->id);
@@ -427,19 +427,20 @@ $this->renderPartial('../default/panels/toolbar');
         //$btnUrl = "#$ctrl.detail.id.$parentId";
         $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
 
-        if( @$canParticipate ){
+        if( @$canParticipate && !$isArchived){
           $btnLbl = "<i class='fa fa-gavel'></i> ".Yii::t("survey","VOTE", null, Yii::app()->controller->module->id);
           $btnUrl = '#survey.entry.id.'.(string)$entry["_id"];
         }
 
-        if(!$surveyIsClosed && !$surveyHasVoted)        
+        if( !$surveyIsClosed && !$surveyHasVoted && !$isArchived )        
         $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
         else{
           $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
                   " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
         }
-        if($surveyHasVoted || $surveyIsClosed){
+        //ajouter les bouton dans le panels
+        if($surveyHasVoted || $surveyIsClosed ){
             $leftLinks = $voteLinksAndInfos["links"]; //$voteLinksAndInfos["links"];
         }
 
@@ -518,7 +519,8 @@ $this->renderPartial('../default/panels/toolbar');
     foreach ($list as $key => $entry) 
     {
         $switchcount = -$switchcount;
-        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount, $canParticipate);
+        $isArchived = ( @$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED ) ? true : false;
+        $entryMap = buildEntryBlock($entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount, $canParticipate, $isArchived );
         $blocks .= $entryMap["block"]; 
         $alltags = $entryMap["alltags"];
         $tagBlock .= $entryMap["tagBlock"];
@@ -644,10 +646,11 @@ $this->renderPartial('../default/panels/toolbar');
               <?php echo $cpBlock; 
               }?>
               <br/>
-
-              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
-                      $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
+              
+              <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
+                $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";
+                $color = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
+              <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
                 <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $where["survey"]["name"].$archived;?> 
               </h1>
                <?php if (@$canParticipate) { ?>
@@ -899,7 +902,7 @@ function toggleGraph(){
     $("#readEntryContainer").addClass('hide');
   }
 }
-var state = "<?php echo ( @$where["survey"]["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>";
+
 function archive(collection,id){
   console.warn("--------------- archive ---------------------",collection,id);
     

@@ -152,7 +152,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	
 	<?php if( $fromView != "rooms.index" ){ 
 		if( !@$discussions && !@$votes && !@$actions ){
-			$rooms = PHDB::find( ActionRoom::COLLECTION, array("parentType"=>$parentType,"parentId"=>$parentId));
+			$rooms = PHDB::find( ActionRoom::COLLECTION, array("parentType"=>$parentType,"parentId"=>$parentId,"status"=>array('$exists'=>0)));
 			
 			$discussionsCount = 0;
 			$votesCount = 0;

@@ -410,7 +410,8 @@ $this->renderPartial('../default/panels/toolbar');
     
       <?php 
       $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']) ) ?  '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.(string)$room["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>' : '';
-      $this->renderPartial('../rooms/header',array(    
+      $this->renderPartial('../rooms/header',array(   
+                "archived"=> (@$room["status"] == ActionRoom::STATE_ARCHIVED) , 
                 "parent" => $parent, 
                             "parentId" => $room['parentId'], 
                             "parentType" => $room['parentType'], 
@@ -468,9 +469,13 @@ $this->renderPartial('../default/panels/toolbar');
                 <br/>
                <?php } ?>
               
-
-              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> 
+              <?php 
+              $icon = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "cogs";
+              $archived = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
+              $color = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
+                
+              <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
+                <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $room["name"].$archived;?> 
               </h1>
                 <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">
@@ -741,6 +746,26 @@ function toggleGraph(){
   }
 }
 
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$room["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
+}
 </script>
 <div class="hide" id="readEntryContainer"></div>
 

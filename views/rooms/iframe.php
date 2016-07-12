@@ -1,13 +1,13 @@
 <?php 
-Menu::comments( $parentType, $parentId );
+Menu::comments( @$room['parentType'], @$room['parentId'],$room );
 $this->renderPartial('../default/panels/toolbar');
 
-if( @$url){?>
+if( @$room['url']){?>
 <style>
 	iframe {width:100%; padding:0; border:0;}
 </style> 
-original : <a href="<?php echo $url?>" target="_blank"><?php echo $url?></a>
-<iframe id='ifm' name='embed_readwrite' src='<?php echo $url?>?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false' allowfullscreen ></iframe>
+original : <a href="<?php echo @$room['url']?>" target="_blank"><?php echo @$room['url']?></a>
+<iframe id='ifm' name='embed_readwrite' src='<?php echo @$room['url']?>?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false' allowfullscreen ></iframe>
 	   
 <?php } else { ?>
 	<center>
@@ -19,7 +19,7 @@ original : <a href="<?php echo $url?>" target="_blank"><?php echo $url?></a>
 
 jQuery(document).ready(function() {
 	
-	$(".moduleLabel").html("<i class='fa fa-file-text-o'></i> Framapad : <?php echo $name?>");
+	$(".moduleLabel").html("<i class='fa fa-file-text-o'></i> Framapad : <?php echo @$room['name']?>");
 	resizeIframe() 
 });	
 
@@ -46,4 +46,26 @@ jQuery(document).ready(function() {
 	}
 
 	window.onresize = resizeIframe;
+
+
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
+}
 </script>

@@ -67,6 +67,8 @@ return array(
 	"Result" => "Résultats",
 	"You did not vote" => "Vous n'avez pas voté",
 	"Login to vote" => "Connectez-vous",
+	"Closed" => "Fermé",
+	"Archived" => "Archivé",
 
 	"Type / Action" => "Type / Action",
 	"Name" => "Thématique",

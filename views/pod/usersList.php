@@ -210,9 +210,8 @@
 						$strongLinksLabel .= "s";
 					echo "<div class='col-md-4 inline' style='float:inherit;'>".
 							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countStrongLinks."</span><br/>".
-							"<span class='text-dark'>".ucfirst($strongLinksLabel)."</span>".
+							"<span class='text-dark'>".ucfirst(@$strongLinksLabel)."</span>".
 						"</div>";
-					
 				}if (@$countLowLinks && $countLowLinks != 0){
 					$style="";		
 					if ($contentType==Event::COLLECTION)
