@@ -24,6 +24,19 @@
 	    border-radius: 10px !important;
 	    margin: 10px;
 	}
+
+	#accordion .panel-title a{
+		font-weight:200;
+		color:white;
+		font-size:18px;
+	}
+
+	#accordion .panel-title a:hover{
+		font-weight:400;
+	}
+	.text-light{
+		font-weight: 300;
+	}
 }
 </style>
 
@@ -56,7 +69,7 @@
 ?>
 
 <div class="col-md-12">
-	<h1 class="homestead text-<?php echo $colorName; ?>" onclick="loadByHash('#<?php echo $urlParent; ?>');">
+	<h1 class="homestead text-<?php echo $colorName; ?> pull-left" onclick="loadByHash('#<?php echo $urlParent; ?>');">
 		<i class="fa fa-<?php echo $icon; ?>"></i> 
 		<?php
 			if($parentType == City::COLLECTION) echo "Conseil Citoyen - "; 
@@ -65,14 +78,16 @@
 	</h1>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-4" id="col-menu-spaceco">
+	<button class="btn btn-default pull-left" id="btn-reduce-menu"><i class="fa fa-arrows-h"></i></button>
 	<img class="img-responsive thumb-profil-parent-dda thumbnail" src="<?php echo $urlPhotoProfil; ?>" alt="/\" >
 
+	<h4 class="text-dark text-light hide-on-reduce-menu"><i class="fa fa-caret-down"></i> Liste des espaces coopératifs</h4>
 	<div class="panel-group" id="accordion">
 	<?php 
-		createAccordionMenu($discussions, 1, "Discuter", "comments", "discuss", "Aucun espace de discussion");
-		createAccordionMenu($votes, 2, "Décider", "archive", "vote", "Aucun espace de décision");
-		createAccordionMenu($actions, 3, "Agir", "cogs", "actions", "Aucun espace d'action");
+		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion");
+		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision");
+		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action");
 	?>
 	</div>
 </div>
@@ -109,23 +124,30 @@ function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyM
 
 	echo    '<div class="panel-heading bg-dark">
 		      <h4 class="panel-title pull-left">
-		        <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'">
-		        	<i class="fa fa-'.$icon.'"></i> '.$title.'
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'" class="show-menu-co">
+		        	<i class="fa fa-caret-down hide-on-reduce-menu"></i> <i class="fa fa-'.$icon.'"></i> <span class="hide-on-reduce-menu">'.$title.'</span>
 		        </a>
 		      </h4>
-		      <span class="badge pull-right">'.count($elements).'</span>
+		      <span class="badge pull-right hide-on-reduce-menu">'.count($elements).'</span>
 		    </div>';
 
 	echo 	'<div id="collapse'.$index.'" class="panel-collapse collapse '.$in.'">';
 
 		        foreach ($elements as $key => $value) {
-					echo '<div class="panel-body"><a href="javascript:showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')"><i class="fa fa-comments"></i> '.$value["name"].'</a></div>';
+		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
+					echo '<div class="panel-body hide-on-reduce-menu">'.
+							'<a href="javascript:showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
+								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]."".
+							'</a>'.
+						 '</div>';
 		        } 
 
 			    if(empty($elements)) 
-			      	echo '<div class="panel-body"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
+			      	echo '<div class="panel-body hide-on-reduce-menu"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
 
-			    echo '<div class="panel-body text-green"><a href="javascript:selectRoomType(\''.$typeNew.'\')"><i class="fa fa-plus"></i> nouveau</a></div>';
+			    echo '<div class="panel-body hide-on-reduce-menu"><a href="javascript:selectRoomType(\''.$typeNew.'\')" class="text-green">'.
+			    		'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace</a>'.
+			    	 '</div>';
 
 	echo 	'</div>';
 
@@ -139,7 +161,39 @@ function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyM
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> espaces coopératifs");
+
+	$("#btn-reduce-menu").click(function(){
+		toogleMenuCo("toogle");
+	});
+	$(".show-menu-co").click(function(){
+		toogleMenuCo(true);
+	});
 });
+
+function toogleMenuCo(forceOpen){
+	var open = $("#col-menu-spaceco").hasClass("col-md-4");
+	if(open && forceOpen == "toogle"){
+		$("#col-menu-spaceco").removeClass("col-md-4").addClass("col-md-1");
+		$("#room-container").removeClass("col-md-8").addClass("col-md-11");
+		$(".hide-on-reduce-menu").addClass("hidden");
+	}else{
+		$("#col-menu-spaceco").removeClass("col-md-1").addClass("col-md-4");
+		$("#room-container").removeClass("col-md-11").addClass("col-md-8");
+		$(".hide-on-reduce-menu").removeClass("hidden");
+	}
+
+	if(forceOpen==true){
+		$("#col-menu-spaceco").removeClass("col-md-1").addClass("col-md-4");
+		$("#room-container").removeClass("col-md-11").addClass("col-md-8");
+		$(".hide-on-reduce-menu").removeClass("hidden");
+	}
+	if(forceOpen==false){
+		$("#col-menu-spaceco").removeClass("col-md-4").addClass("col-md-1");
+		$("#room-container").removeClass("col-md-8").addClass("col-md-11");
+		$(".hide-on-reduce-menu").addClass("hidden");
+	}
+
+}
 
 function showRoom(type, id){
 
@@ -149,7 +203,7 @@ function showRoom(type, id){
 	if(type=="actions") url = "rooms/actions";
 
 	$("#room-container").html("<h2 class='text-dark text-left'><i class='fa fa-circle-o-notch fa-spin'></i> Chargement en cours</h2>");
-	getAjax('#room-container',baseUrl+'/'+moduleId+'/'+url+"/id/"+id, function(){},"html");
+	getAjax('#room-container',baseUrl+'/'+moduleId+'/'+url+"/id/"+id, function(){ toogleMenuCo(false) },"html");
 }
 
 </script>

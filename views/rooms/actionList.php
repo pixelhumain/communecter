@@ -426,7 +426,10 @@ $this->renderPartial('../default/panels/toolbar');
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
-        
+        <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
+          <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> 
+        </h1>
+       
         <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
               <!-- <label>Filtre:</label> -->
               <!-- <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button> -->
@@ -469,9 +472,6 @@ $this->renderPartial('../default/panels/toolbar');
                <?php } ?>
               
 
-              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> 
-              </h1>
                 <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
                 <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>
