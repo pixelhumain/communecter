@@ -200,6 +200,7 @@
 									<i class="fa fa-lock"></i> </span>
 							</div>
 						</div>
+						<?php if(@Yii::app()->params["betaTest"]){ ?>
 						<div class="col-md-12 padding-5">
 							<a href="javascript:;"  id="inviteCodeLink" onclick="$(this).addClass('hide');$('.inviteCodeForm').removeClass('hide')"><?php echo Yii::t("login","Add invitation code")?></a>
 							<div class="form-group hide inviteCodeForm">
@@ -208,6 +209,7 @@
 									<i class="fa fa-barcode  "></i> </span>
 							</div>
 						</div>
+						<?php } ?>
 						<div class="col-md-12 no-padding no-margin">
 							<hr style="margin-top: 0px; margin-bottom: 15px;">
 						</div>

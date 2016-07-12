@@ -82,85 +82,54 @@ class DataController extends Controller {
 
   public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags=null , $key = null, $insee = null) 
   {
-    $bindMap = null;
-    $data = null;
-
-        if( $type == Person::COLLECTION )
-        {
+        $bindMap = null;
+        if( $type == Person::COLLECTION ){
             if( $format == Translate::FORMAT_SCHEMA)
-                $bindMap = TranslateSchema::$dataBinding_person;
-             else if( $format == Translate::FORMAT_PLP )
-                $bindMap = TranslatePlp::$dataBinding_person;
-             else if( $format == Translate::FORMAT_AS )
-                $bindMap = TranslateActivityStream::$dataBinding_person;
+              $bindMap = TranslateSchema::$dataBinding_person;
+            else if( $format == Translate::FORMAT_PLP )
+              $bindMap = TranslatePlp::$dataBinding_person;
+            else if( $format == Translate::FORMAT_AS )
+              $bindMap = TranslateActivityStream::$dataBinding_person;
+            else 
+              $bindMap = TranslateCommunecter::$dataBinding_person;
         }
-        else if( $type == Event::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_event;
-        else if( $type == Organization::COLLECTION && $format == Translate::FORMAT_SCHEMA)
-            $bindMap = TranslateSchema::$dataBinding_organization;
-        else if( $type == Project::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_project;
-        else if( $type == City::COLLECTION && $format == Translate::FORMAT_SCHEMA )
-            $bindMap = TranslateSchema::$dataBinding_city;
+        else if( $type == Event::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_event;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_event;
+        }
+        else if( $type == Organization::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_organization;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_organization;
+        }
+        else if( $type == Project::COLLECTION){
+              if( $format == Translate::FORMAT_SCHEMA)
+                $bindMap = TranslateSchema::$dataBinding_project;
+              else
+                $bindMap = TranslateCommunecter::$dataBinding_project;
+        }
+        else if( $type == City::COLLECTION){
+            if( $format == Translate::FORMAT_SCHEMA)
+              $bindMap = TranslateSchema::$dataBinding_city;
+            else
+              $bindMap = TranslateCommunecter::$dataBinding_city;
+        }
+            
+        else if( $type == Need::COLLECTION){
+            if( $format == Translate::FORMAT_SCHEMA)
+              $bindMap = TranslateSchema::$dataBinding_need;
+            else
+              $bindMap = TranslateCommunecter::$dataBinding_need;
+        }
+        else
+          $format = null;
         
-        $params = array('isOpendata'=>true );
-        if( @$id ) 
-          $params["_id"] =  new MongoId($id);
-        if( $type == City::COLLECTION && @$_GET["insee"] ) {
-          $params["insee"] = $_GET["insee"];
-          //unset($params["isOpendata"]);
-        }
-
-        if( @$tags ) {
-          $tagsArray = explode(",", $tags);
-          if( $multiTags == true)
-            $params["tags"] =  array('$eq' => $tagsArray) ;
-          else
-            $params["tags"] =  array('$in' => $tagsArray) ;
-        }
-
-        if( @$key )
-          $params["source.key"] = $key ;
-
-        if( @$insee )
-          $params["address.codeInsee"] = $insee ;
-
-        //var_dump($params);
-
-
-        if($limit > 500)
-          $limit = 500 ;
-        else if($limit < 1)
-          $limit = 50 ;
-
-        if($index < 0)
-          $index = 0 ;
-
-        //if( @$id || @$_GET["insee"] )
-        //{
-            //$data = PHDB::find( $type , $params );
-
-            
-            $data = PHDB::findAndLimitAndIndex( $type , $params, $limit, $index);
-
-            $meta["limit"] = $limit;
-            $meta["next"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".($index+$limit) ;
-            if($index != 0){
-                $newIndex = $index - $limit;
-                if($newIndex < 0)
-                    $newIndex = 0 ;
-                $meta["previous"] = "/ph/communecter/data/get/type/projects/limit/".$limit."/index/".$newIndex ;
-            }
-
-            $result["meta"] = $meta ;
-            
-            if($data && $bindMap )
-              $data = Translate::convert( $data, $bindMap );
-
-            $result["entities"] = $data ; 
-            
-        //}
-        //enabling CORS sharing
+        
+        $result = Api::getData($bindMap, $format, $type, $id,$limit, $index, $tags, $multiTags, $key, $insee);
+        
         header("Access-Control-Allow-Origin: *");
         Rest::json($result, JSON_UNESCAPED_SLASHES);
   }
@@ -249,9 +218,7 @@ class DataController extends Controller {
                     }
                   }
 
-
                   $res = json_encode( $exportInitData );
-                  
 
                   file_put_contents( $upload_dir.Yii::app()->session["userId"].".json" , $res , LOCK_EX );
                   echo "<a href='".Yii::app()->createUrl("/".$upload_dir.Yii::app()->session["userId"].".json")."' target='_blank'>See your Exported data</a>"; 

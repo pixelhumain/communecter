@@ -43,6 +43,12 @@ return array(
 	"Follow this organization" => "Suivre cette organisation",
 	"Follow this project" => "Suivre ce projet",
 	"Unfollow" => "Ne plus suivre",
+
+	"Documentation" => "Documentation",
+
+	"Save Processing"=> "Enregistrement en cours"
+
+	
 	
 	
 	

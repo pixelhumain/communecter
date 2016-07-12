@@ -37,6 +37,15 @@ Menu::project($project);
 $this->renderPartial('../default/panels/toolbar'); 
  ?>
 <div id="newContributors">
+	<?php   
+  		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;
+  			?>
+
+  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
+  	<?php
+		}
+	?>
 	<div class="space20"></div>
 		<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("project","Add contributor",null,Yii::app()->controller->module->id) ?></h2>
 	<div class="noteWrap col-md-8 col-md-offset-2">
@@ -329,6 +338,12 @@ $this->renderPartial('../default/panels/toolbar');
 							/*if(typeof updateContributor != "undefined" && typeof updateContributor == "function" && isNotSV==0)
 		        				updateContributor( data.member,  $("#newContributors #contributorType").val()); */
 		        			setValidationTable(); 
+		        			if ($("#newContributors #contributorId").val().length==0){
+			               		var count = parseInt($("#numberOfInvit").data("count")) - 1;
+						   		$("#numberOfInvit").html(count + ' invitation(s)');
+						   		$("#numberOfInvit").data("count", count);
+							}
+
 		        			$("#newContributors #contributorName").val("");
 							$("#newContributors #contributorName").removeAttr("disabled");
 							$("#newContributors #contributorId").val("");
@@ -342,7 +357,7 @@ $this->renderPartial('../default/panels/toolbar');
 		        			showSearchContributor();   
 				        	toastr.success('<?php echo Yii::t("common","Invitation to project successfully sent")?>');
 				        } else {
-				           toastr.error('Something Went Wrong : '+data.content);
+				           toastr.error(data.msg);
 				        }
 				    });
 

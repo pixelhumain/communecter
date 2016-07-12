@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="explainDirectory <?php echo $class?> hide">
-		<h1 class="homestead explainTitle"><i class="fa fa-connectdevelop"></i> L'annuaire Local</h1>
+		<h1 class="homestead explainTitle"><i class="fa fa-connectdevelop"></i> Outil de recherche</h1>
 		<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
 		
@@ -37,7 +37,8 @@
 			<ul>
 				<li><i class="fa fa-angle-right"></i> Retrouvez tous les acteurs locaux par code postal.</li>
 				<li><i class="fa fa-angle-right"></i> Recherchez par #tag ou mots-clés</li>
-				<li><i class="fa fa-angle-right"></i> Ajoutez-les à votre <strong>répertoire personnel</strong> pour les garder à portée de main.</li>	
+				<li><i class="fa fa-angle-right"></i> Recherchez par zone géographique (commune, département, région)</li>
+				<li><i class="fa fa-angle-right"></i> Ajoutez les éléments qui vous intéressent à votre <strong>répertoire personnel</strong> pour les garder à portée de main.</li>	
 				<!-- <li class="text-red">L'Annuaire communecté </li> -->
 				<!-- <li>Le partage d'information continu est un outil qui doit rester 
 			disponible et libre, mais qui doit aussi évoluer avec la technologie.</li> -->

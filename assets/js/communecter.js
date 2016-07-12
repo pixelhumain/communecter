@@ -450,6 +450,7 @@ var loadableUrls = {
     "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
+    "#person.updateprofil" : {title:'Update profil', icon : 'fa-lock' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
@@ -689,8 +690,8 @@ var rand = Math.floor((Math.random() * 7) + 1);
 var urlImgRand = proverbs[rand];
 function  processingBlockUi() { 
 	$.blockUI({
-	 	message : '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i> Chargement en cours...</h2>' +
-	 	"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
+	 	message : '<h4 style="font-weight:300" class=" text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i><br>Chargement en cours...</h4>' //+
+	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
 function showAjaxPanel (url,title,icon) { 
@@ -700,7 +701,7 @@ function showAjaxPanel (url,title,icon) {
 
 	showNotif(false);
 			
-	$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
+	//$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
@@ -725,7 +726,7 @@ function showAjaxPanel (url,title,icon) {
 				window.location.reload();*/
 
 
-			$(".main-col-search").slideDown(); 
+			//$(".main-col-search").slideDown(); 
 			initNotifications(); 
 			
 			$(".explainLink").click(function() {  

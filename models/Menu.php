@@ -724,6 +724,30 @@ class Menu {
                     '<a href="javascript:;" data-id="explainActions" class="tooltips btn btn-default explainLink"',null,null);
                       
     }
+    public static function docs($previousChapter, $nextChapter)
+    {
+         if( !is_array( Yii::app()->controller->toolbarMBZ ))
+            Yii::app()->controller->toolbarMBZ = array();
+        // Help
+        //-----------------------------
+        self::entry("left", 'onclick', 
+                    Yii::t( "common", 'go to documentation Index'),
+                    Yii::t( "common", 'Documentation'), 'binoculars',
+                    "loadByHash('#default.view.page.index.dir.docs')","indexBtn",null);// Help
+        //-----------------------------
+        if($previousChapter != "")
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Previous chapter'),
+                    Yii::t( "common", 'Previous'), 'chevron-circle-left',
+                    "loadByHash('#default.view.page.".$previousChapter.".dir.docs')","indexBtn",null);// Help
+        //-----------------------------
+        if($nextChapter != "")
+        self::entry("right", 'onclick', 
+                    Yii::t( "common", 'Next chapter'),
+                    Yii::t( "common", 'Next').' <i class="fa fa-chevron-circle-right"></i>', 'chevron-circle-right hidden-lg',
+                    "loadByHash('#default.view.page.".$nextChapter.".dir.docs')","indexBtn",null);
+    }
+
     public static function back()
     {
          if( !is_array( Yii::app()->controller->toolbarMBZ ))

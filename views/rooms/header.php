@@ -26,8 +26,60 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	-webkit-box-shadow: 0px 3px 10px 1px #656565;
 	-o-box-shadow: 0px 3px 10px 1px #656565;
 }
- </style>	
+
+.toolbar-DDA{
+	position:absolute;
+	top:115px;
+	left:50px;
 }
+
+.toolbar-DDA .dropdown{
+	display: inline-block;
+}
+
+.fa-university.fa-in-header{
+	width:120px;
+	height:120px;
+}
+</style>	
+
+<?php if(isset($discussions) && false == true) { ?>
+<div class="toolbar-DDA">
+	<div class="dropdown">
+	  <button class="btn btn-default dropdown-toggle" type="button" id="discuter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	    <i class="fa fa-comments"></i> Discuter
+	    <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="discuter">
+	    <?php foreach ($discussions as $key => $value) { ?>
+	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
+	    <?php } ?>
+	  </ul>
+	</div>
+	<div class="dropdown">
+	  <button class="btn btn-default dropdown-toggle" type="button" id="decider" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	    <i class="fa fa-archive"></i> Décider
+	    <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="decider">
+	    <?php foreach ($votes as $key => $value) { ?>
+	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
+	    <?php } ?>
+	  </ul>
+	</div>
+	<div class="dropdown">
+	  <button class="btn btn-default dropdown-toggle" type="button" id="agir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	    <i class="fa fa-cogs"></i> Agir
+	    <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="agir">
+	    <?php foreach ($actions as $key => $value) { ?>
+	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
+	    <?php } ?>
+	  </ul>
+	</div>
+</div>
+<?php } ?>
 
 <h1 class="homestead text-dark center citizenAssembly-header">
  	<?php 
@@ -51,8 +103,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	  	if($parentType == Person::COLLECTION) { $icon = "user"; $colorName = "dark"; }
         if($parentType == City::COLLECTION) { $icon = "group"; $colorName = "red"; }
 	?>
-	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-    
+
+	<?php if($parentType != City::COLLECTION){ ?>
+		<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+    <?php } else { ?>
+    	<!-- <i class="fa fa-university fa-in-header text-red"></i> -->
+    <?php } ?>
     <br>
 	
 	<?php //création de l'url sur le nom du parent
