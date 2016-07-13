@@ -397,7 +397,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left")){
 				$("#activityContent").addClass("hide");
 				$("#contentGeneralInfos").show();
-				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+itemId+"','events')");
+				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+itemId+"','<?php echo Event::COLLECTION ?>')");
 				loadActivity = false;
 			}
 			switchMode();

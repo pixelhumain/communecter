@@ -12,7 +12,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js',
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 
@@ -122,8 +123,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 	<div class="panel-tools">
 		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-			 && Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"])) { 
-				if(!isset($organization["disabled"])){
+			 && $edit) { 
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
 				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
@@ -133,9 +133,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
 					</span>
 				</a>
+				<?php if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $organization["_id"] ?>','<?php echo Organization::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this organization"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+			<?php } ?>
 				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
 
-		<?php }} 
+		<?php } 
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
 		<?php } ?>
@@ -208,8 +211,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 
+	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
 
-	<div class="panel-body border-light panelDetails" id="organizationDetail">
+	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">
 		<div class="row">
 
 			<div class="col-sm-6 col-md-6">
@@ -218,7 +222,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]),
+																	  "editMode" => $edit,
 																	  "image" => $images)); 
 				?>
 			</div>
@@ -507,6 +511,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		bindFicheInfoBtn();
 		$("#editFicheInfo").on("click", function(){
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left")){
+				getBackDetails(contextId,"<?php echo Organization::COLLECTION ?>");
+//				$("#activityContent").addClass("hide");
+//				$("#contentGeneralInfos").show();
+//				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+contextId+"','<?php echo Organization::COLLECTION ?>')");
+//				loadActivity = false;
+			}
 			switchMode();
 		});
 		activateEditableContext();
@@ -667,6 +678,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			onblur: 'submit',
 			success: function(response, newValue) {
 				console.log("yo");
+				loadActivity=true;	
         		if(! response.result) return response.msg; //msg will be shown in editable form
     		}
 		});
@@ -781,6 +793,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				console.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
+				loadActivity=true;	
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {

@@ -4,11 +4,14 @@
 		$this->renderPartial('../default/panels/toolbar'); 
 	}
 ?>
-<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-				 && Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $organization["_id"])) { 
-		if(!isset($organization["disabled"]))
-			$admin=1;
-		else 
+<?php 
+	if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])) {
+		if(!isset($organization["disabled"])) {
+			if($openEdition==true)
+				$admin=true;
+			else 
+				$admin=Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]);
+		}else 
 			$admin=false;
 	}
 	else
@@ -30,7 +33,9 @@
 						"NGOCategories" => $NGOCategories,
 						"localBusinessCategories" => $localBusinessCategories,
 	    				"contextMap" => $contextMap,
-	    				"publics" => $public
+	    				"publics" => $public,
+	    				"edit" => $admin,
+	    				"openEdition"=> $openEdtion
 	    			);
 	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
