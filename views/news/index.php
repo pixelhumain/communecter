@@ -490,28 +490,30 @@ jQuery(document).ready(function()
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
 	initFormImages();
-	$.each(myContacts["people"], function (key,value){
-		avatar="";
-	  	if(value.profilThumbImageUrl!="")
-			avatar = baseUrl+value.profilThumbImageUrl;
-	  	object = new Object;
-	  	object.id = value._id.$id;
-	  	object.name = value.name;
-		object.avatar = avatar;
-		object.type = "citoyens";
-		mentionsContact.push(object);
-  	});
-  	$.each(myContacts["organizations"], function (key,value){
-	  	avatar="";
-	  	if(value.profilThumbImageUrl!="")
-			avatar = baseUrl+value.profilThumbImageUrl;
-	  	object = new Object;
-	  	object.id = value._id.$id;
-	  	object.name = value.name;
-		object.avatar = avatar;
-		object.type = "organizations";
-		mentionsContact.push(object);
-  	});
+	if(myContacts != null){
+		$.each(myContacts["people"], function (key,value){
+			avatar="";
+		  	if(value.profilThumbImageUrl!="")
+				avatar = baseUrl+value.profilThumbImageUrl;
+		  	object = new Object;
+		  	object.id = value._id.$id;
+		  	object.name = value.name;
+			object.avatar = avatar;
+			object.type = "citoyens";
+			mentionsContact.push(object);
+	  	});
+	  	$.each(myContacts["organizations"], function (key,value){
+		  	avatar="";
+		  	if(value.profilThumbImageUrl!="")
+				avatar = baseUrl+value.profilThumbImageUrl;
+		  	object = new Object;
+		  	object.id = value._id.$id;
+		  	object.name = value.name;
+			object.avatar = avatar;
+			object.type = "organizations";
+			mentionsContact.push(object);
+	  	});
+	}
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
 		  	var data = mentionsContact;
