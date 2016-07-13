@@ -395,6 +395,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	
 	jQuery(document).ready(function() {
 		$("#editEventDetail").on("click", function(){
+			$("#activityContent").hide();
+			$("#contentGeneralInfos").hide();
 			switchMode();
 		})
 		$("#editGeoPosition").click(function(){
