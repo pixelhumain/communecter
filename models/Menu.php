@@ -287,7 +287,7 @@ class Menu {
                         "text-red"); 
 	        }
             //Ask Admin button
-            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"]) {
+            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"] || $organization["preferences"]["isOpenEdition"]==true) {
 	            $connectAs="admin";
 	            if(!@$organization["links"]["members"][Yii::app()->session["userId"]]){
 		            $connectAs="member";
