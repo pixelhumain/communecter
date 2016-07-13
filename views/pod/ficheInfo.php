@@ -119,6 +119,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
+			<?php if ($openEdition==true) { ?>
+				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+			<?php } ?>
 		</h4>
 	</div>
 	<div class="panel-tools">
