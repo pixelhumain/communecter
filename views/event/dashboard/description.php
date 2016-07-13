@@ -196,8 +196,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-isOpenData inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="public"><i class="fa fa-group"></i> Oui</button>
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="hide"><i class="fa fa-user-secret"></i> Non</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
 					</div>
 		        </div>
 	        </div>
@@ -207,11 +216,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<?php
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
-				$fieldPreferences["isOpenData"] = true;
+				$fieldPreferences= array();
+
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
 
 				//To checked private or public
 				foreach($typePreferences as $typePref){
-
 					foreach ($fieldPreferences as $field => $hidden) {
 						if(isset($event["preferences"][$typePref]) && in_array($field, $event["preferences"][$typePref])){
 							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $typePref)."\']').addClass('active');";
@@ -223,6 +233,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				foreach ($fieldPreferences as $field => $hidden) {
 					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
 				}
+
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($event["preferences"][$typePrefB]) && $event["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}	
+
 			?> 
 	     </script>
 
