@@ -248,6 +248,9 @@
 											"project" 			: { ico : "lightbulb-o", color : "purple" },
 											"projects" 			: { ico : "lightbulb-o", color : "purple" },
 
+											"need" 				: { ico : "cubes", color : "white" },
+											"needs" 			: { ico : "cubes", color : "white" },
+
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
 

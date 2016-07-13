@@ -12,10 +12,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	display: none;
 }
 .img-logo{
-	height:250px;
+	height:200px;
 }
 .btn-scope{
-  /*display: none;*/
+display: inline;
 }
 
 @media screen and (max-width: 1024px) {
@@ -43,7 +43,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 }
 
 .lbl-scope-list{
-    top:130px !important;
+    top:250px !important;
   }
 
   #btn-filter-scope-news{
@@ -51,30 +51,36 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
   }
 
 </style>
-
-<!-- <h1 class="homestead text-dark text-center" id="main-title"
-	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-rss"></i> L'Actualité</h1>
-
-<h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1> -->
-
 <div class="lbl-scope-list text-red"></div>
 
-
-<div class="img-logo bgpixeltree_little hidden">
-	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
-		<i class="fa fa-university"></i>
-	</button> -->
+<div class="img-logo bgpixeltree_little">
 	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
 
-	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search text-red">
+	<input id="searchBarText" type="text" placeholder="Recherche par tags" class="input-search text-red">
 	
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
-	<!-- <center><a href="javascript:" class="text-dark" style="padding-left:15px;" id="link-start-search">Rechercher</a></center> -->
 </div>
-
+<div class="col-md-12 center" style="margin-top: 20px; margin-bottom: 0px; margin-left: 0px;">
+    <div class="btn-group inline-block" id="menu-directory-type">
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="News" type="news">
+        <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">News</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs hidden-sm">Projets</span>
+      </button>
+      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+        <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
+      </button>
+	  <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Needs" type="needs">
+        <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Needs</span>
+      </button>
+    </div>
+  </div>
 
 <?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
@@ -85,8 +91,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 <script type="text/javascript">
+var searchType = ["organizations", "projects", "events", "needs", "news"];
 jQuery(document).ready(function() {
-	
   	topMenuActivated = true;
   	hideScrollTop = true; 
   	checkScroll();
@@ -112,45 +118,99 @@ jQuery(document).ready(function() {
     $(".btn-geolocate").click(function(e){
     	initHTML5Localisation('prefillSearch');
     });
-
+	$(".btn-filter-type").click(function(e){
+	    var type = $(this).attr("type");
+	    var index = searchType.indexOf(type);
+	
+	    if(type == "all" && searchType.length > 1){
+	      $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+	    }
+	    if(type == "all" && searchType.length == 1){
+	      $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+	    }
+	
+	    if (index > -1) removeSearchType(type);
+	    else addSearchType(type);
+  	});
 
     $(".btn-activate-communexion").click(function(){
       //toogleCommunexion();
     });
     
     $(".moduleLabel").html("<i class='fa fa-rss'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
-  
-	 startSearch();
+	selectScopeLevelCommunexion(levelCommunexion);
 });
 
 
 var timeout;
 function startSearch(){
-
-  if(inseeCommunexion != ""){
-    showNewsStream(inseeCommunexion);
-    $(".lbl-scope-list").html("<i class='fa fa-check'></i> " + cityNameCommunexion.toLowerCase() + ", " + cpCommunexion);
-  }
-
-	
+	$(".my-main-container").off();
+	var name = $('#searchBarText').val();
+	if(inseeCommunexion != ""){
+		if(name.length>=3 || name.length == 0){
+	      var locality = "";
+	      if(communexionActivated){
+		    if(typeof(cityInseeCommunexion) != "undefined"){
+				if(levelCommunexion == 1) locality = cpCommunexion;
+				if(levelCommunexion == 2) locality = inseeCommunexion;
+			}else{
+				if(levelCommunexion == 1) locality = inseeCommunexion;
+				if(levelCommunexion == 2) locality = cpCommunexion;
+			}
+	        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+	        if(levelCommunexion == 4) locality = inseeCommunexion;
+	        if(levelCommunexion == 5) locality = "";
+	      } 
+	      showNewsStream(name, locality);
+	    }else{
+	      
+	    }   
+    }
 }
 
 
-function showNewsStream(insee){
-  console.log("showNewsStream", insee);
-	if(insee == "") insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";
-	//var insee = "<?php echo Yii::app()->request->cookies['insee'] ?>";//$("#searchBarPostalCode").val();
-	//alert();
-	if(insee != ""){
-		$("#newsstream").html("<div class='loader text-dark '>"+
-				"<span style='font-size:25px;' class='homestead'>"+
-					"<i class='fa fa-spin fa-circle-o-notch'></i> "+
-					//"<span class='text-dark'>Chargement en cours ...</span>" + 
-			"</div>");
-    //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Chargement de l'actualité ...");
-		getAjax("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/insee/"+insee+"?isFirst=1",null,"html");
-		$("#dropdown_search").hide(300);
+function showNewsStream(name,locality){
+	if(typeof(cityInseeCommunexion) != "undefined"){
+	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
+	                             2 : "INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}else{
+		var levelCommunexionName = { 1 : "INSEE",
+	                             2 : "CODE_POSTAL_INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
 	}
+	var dataNewsSearch = {"tagSearch" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion]};
+	$("#newsstream").html("<div class='loader text-dark '>"+
+		"<span style='font-size:25px;' class='homestead'>"+
+			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
+			"<span class='text-dark'>Chargement en cours ...</span>" + 
+	"</div>");
+	ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city?isFirst=1",dataNewsSearch, null,"html");
+	$("#dropdown_search").hide(300);
 }
+
+function addSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index == -1) {
+    searchType.push(type);
+    $(".search_"+type).removeClass("fa-circle-o");
+    $(".search_"+type).addClass("fa-check-circle-o");
+  }
+    console.log(searchType);
+}
+function removeSearchType(type){
+  var index = searchType.indexOf(type);
+  if (index > -1) {
+    searchType.splice(index, 1);
+    $(".search_"+type).removeClass("fa-check-circle-o");
+    $(".search_"+type).addClass("fa-circle-o");
+  }
+  console.log(searchType);
+}
+
 </script>
 

@@ -134,6 +134,7 @@ function buildLineHTML(newsObj,idSession,update)
 	media="";
 	title="";
 	text="";
+	actionTitle="";
 	if (newsObj.type != "activityStream"){
 		if("undefined" != typeof newsObj.name){
 			title='<a href="javascript:" id="newsTitle'+newsObj._id.$id+'" data-type="text" data-pk="'+newsObj._id.$id+'" class="editable-news editable editable-click newsTitle"><span class="text-large text-bold light-text timeline_title no-margin" style="color:#719FAB;">'+newsObj.name+"</span></a><br/>";
@@ -144,6 +145,11 @@ function buildLineHTML(newsObj,idSession,update)
 				textNews=newsObj.text;
 			else
 				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
+			//Check if @mentions return text with link
+			if(typeof(newsObj.mentions) != "undefined" && newsObj.author.id != idSession){
+				actionTitle = getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
+				textNews = addMentionInText(textNews,newsObj.mentions);
+			}
 			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
@@ -162,11 +168,50 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 	}
 	else{
-		title = '<a '+urlAction.url+'><span class="text-large text-bold light-text timeline_title no-margin padding-5">'+newsObj.name+'</span></a>';
+		if(newsObj.object.objectType=="events" || newsObj.object.objectType=="needs"){
+			if(newsObj.startDate && newsObj.endDate){
+				if(typeof(newsObj.startDate) == "object")
+					var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
+				else
+					var startDate = new Date( parseInt(newsObj.startDate)*1000 );
+				var startMonth = months[startDate.getMonth()];
+				var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
+				if(typeof(newsObj.endDate) == "object")
+					var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
+				else
+					var endDate = new Date( parseInt(newsObj.endDate)*1000 );
+				var endMonth = months[endDate.getMonth()];
+				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
+			}
+			if (newsObj.object.objectType=="needs")
+				objectLocality=newsObj.target.address.addressLocality;
+			else 
+				objectLocality=newsObj.scope.address.addressLocality;
+ 
+			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
+			//var min = (startDate.getMinutes() < 10) ?  "0"+startDate.getMinutes() : startDate.getMinutes();
+			//var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding">';
+			if (typeof(startDay)!="undefined"){
+				title += '<div class="col-md-3 col-sm-3 col-xs-3 no-padding center">'+
+							'<span class="text-large text-red text-bold light-text timeline_title no-margin">'+startDay+'</span><br/><span class="text-dark light-text timeline_title no-margin">'+startMonth+'</span>'+
+						'</div>';
+			}
+			title += 	'<div class="col-md-9  col-sm-9 col-xs-9 no-padding">'+
+							'<span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span><br/>';
+			if (typeof(startDay)!= "undefined" && typeof(endDay) != "undefined"){	
+			title += 		'<span style="color: #8b91a0 !important;"><i class="fa fa-calendar"></i> '+startDay+' '+startMonth+' • '+endDay+' '+endMonth+' • ';
+			}
+			title += 		'<i class="fa fa-map-marker"></i> '+objectLocality+'</span>'+
+						'</div>'+
+					'</a>';
+		} else{
+			title = '<a '+urlAction.url+' class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-large text-dark light-text timeline_title no-margin">'+newsObj.name+'</span></a>';
+		}
 		if("undefined" != typeof newsObj.text && newsObj.text != ""){
-			title += "</br>";
+			title += "</br><div class='col-md-12 col-sm-12 col-xs-12 no-padding'>";
 			textNews=checkAndCutLongString(newsObj.text,150,newsObj._id.$id);
-			text = '<span class="timeline_text">'+textNews+'</span>';
+			text = '<span class="timeline_text no-padding">'+textNews+'</span></div>';
 		}
 	}
 	tags = "", 
@@ -187,7 +232,7 @@ function buildLineHTML(newsObj,idSession,update)
 	}
 
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
-	if(contextParentType!="city" && ((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
+	if(((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
 	{
 		postalCode = "";
 		city = "";
@@ -273,6 +318,7 @@ function buildLineHTML(newsObj,idSession,update)
 
 	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
+						actionTitle+
 						tags+
 						manageMenu+
 						scopes+
@@ -391,6 +437,13 @@ function buildHtmlUrlAndActionObject(obj){
 			urlParent="";
 			titleAction = "a créé un projet";
 		}
+		else if(obj.object.objectType =="needs"){
+			redirectTypeUrl="need";
+			id=obj.object.id;
+			urlParent="";
+			titleAction = "a créé un besoin";
+		}
+
 		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
 	object=new Object;
@@ -737,4 +790,43 @@ function blankNews(id){
 		getAjax('.newsContent',baseUrl+'/'+moduleId+"/news/detail/id/"+id,function(){ 
 		},"html");*/
 	window.open(baseUrl+'/#news.detail.id.'+id,'_blank');
+}
+function getMentionLabel(news){
+	countMentions = news.mentions.length;
+	target="";
+	mentionMe=false;
+	$.each(news.mentions, function( index, value ){
+		if(value.id == idSession){
+			target = news.author.name+" vous a cité dans sa publication";
+			mentionMe=true;
+		}
+		if(value.id == contextParentId && value.id != idSession){
+			target = news.author.name+" a mentionné "+value.name+" dans son post";
+			
+		}	
+		if(typeof(parent.links.memberOf) != "undefined" && typeof(parent.links.memberOf[value["id"]]) != "undefined"){
+			if(mentionMe)
+				target = news.author.name+" vous a mentionné avec "+value.name+" dans son post";
+			else
+				target = news.author.name+" a mentionné "+value.name+" dans son post";	
+		}
+	});
+	return target;
+}
+function addMentionInText(textNews,mentions){
+	$.each(mentions, function( index, value ){
+   		array = textNews.split(value.value);
+   		console.log(array);
+   		if(value.type == "organizations")
+   			controler = "organization";
+   		else
+   			controler = "person"; 
+   		textNews=array[0]+
+   					"<span onclick='loadByHash(\"#"+controler+".detail.id."+value.id+"\")' onmouseover='$(this).addClass(\"text-blue\");this.style.cursor=\"pointer\";' onmouseout='$(this).removeClass(\"text-blue\");' style='color: #719FAB;'>"+
+   						value.name+
+   					"</span>"+
+   				array[1];
+   					
+	});
+	return textNews;
 }

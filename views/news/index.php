@@ -19,6 +19,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
 	'/plugins/select2/select2.min.js',
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
@@ -99,7 +103,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
-		Menu::city( $city );
 		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
@@ -113,8 +116,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	}
 
 	$imgProfil = "";
-	Menu::news($type);
-	$this->renderPartial('../default/panels/toolbar'); 
+	if($contextParentType != "city"){
+		Menu::news($type);
+		$this->renderPartial('../default/panels/toolbar'); 
+	}
 ?>
 <style>
 	.tools_bar{
@@ -184,29 +189,46 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .thumb_sel .next_thumb:hover {
 	background: url(<?php echo $this->module->assetsUrl ?>/images/news/thumb_selection.gif) no-repeat -26px 0px;
 }
+#dropdown_search{
+	display:none;
+    border: 1px solid #eee;
+    max-height: 160px;
+    overflow-y: auto;
+    position: relative;
+}
+#dropdown_search .li-dropdown-scope{
+	text-align: left;
+	width:100%;
+}
+#dropdown_search .li-dropdown-scope a{
+	font-size:12px;
+	    line-height: 25px;
+}
+/*.results{
+	margin-top: 10px;
+}*/
+
+
 
 </style>
+<!--<textarea class="mention"></textarea>-->
 
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<div class="tools_bar bg-white">
-				<div class="user-image-buttons">
-					<form method="post" id="photoAddNews" enctype="multipart/form-data">
-						<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-							<?php if ($authorizedToStock){ ?>
-								<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
-							<?php } ?>
-							
-						</span>
-					</form>
-				</div>
-				<!--<input type="file" accept=".gif, .jpg, .png" name="avatar">
-				<input class="btn bg-white" type="file" accept=".gif, .jpg, .png" onclick="loadImage(event);">
-					<i class="fa fa-picture-o fa-x"></i>
-				</input>-->
+			<div class="user-image-buttons">
+				<form method="post" id="photoAddNews" enctype="multipart/form-data">
+					<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+						<?php if ($authorizedToStock){ ?>
+							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
+						<?php } ?>
+						
+					</span>
+				</form>
 			</div>
+		</div>
 		<form id='form-news'>
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
@@ -215,7 +237,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea" style="border:none;" name="getUrl" spellcheck="false" ></textarea>
+					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
+					<ul class="dropdown-menu" id="dropdown_search" style="">
+					</ul>
+
 					<div id="results" class="bg-white results"></div>
 				</div>
 			</div>
@@ -260,7 +285,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</ul>
 				</div>		
 				<?php }else if($type=="city"){ ?>
-					<input type="hidden" name="cityInsee" value="<?php echo $_GET["insee"]; ?>"/>
+					<input type="hidden" name="cityInsee" value=""/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
@@ -310,11 +335,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 	
 				<div id="timeline" class="col-md-12">
-					<?php if($type=="city"){ ?>
-					<div class="panel-heading text-center">
-						<h3 class="panel-title text-blue lbl-title-newsstream"><i class="fa fa-rss"></i> Les actualités locales</h3>
-		  			</div>
-		  			<?php } ?>
 					<div class="timeline">
 						<div class="newsTL">
 						</div>
@@ -359,6 +379,7 @@ var news = <?php echo json_encode(@$news)?>;
 var news = "";
 <?php } ?>
 var parent = <?php echo json_encode(@$parent)?>;
+
 var newsReferror={
 		"news":{
 			"offset":"",
@@ -407,16 +428,18 @@ var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
 var docType="<?php echo Document::DOC_TYPE_IMAGE; ?>";
 var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
 var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
-/*function t(lang, phrase){
-	if(typeof trad[phrase] != "undefined")
-	return trad[phrase];
-	else return phrase;
-}*/
-//var userId = <?php echo isset(Yii::app()->session['userId']) ? Yii::app()->session['userId'] : "null"; ?>
-
+<?php if (@$locality){ ?>
+	var locality = "<?php echo $locality ?>";
+	var searchBy = "<?php echo $searchBy ?>";
+<?php } ?>
+var tagSearch = "<?php echo @$tagSearch ?>";
+var peopleReference=false;
+var mentionsContact = [];
 jQuery(document).ready(function() 
 {
+//	console.log(dataNewsSearch);
 	if(contextParentType=="city"){
+		$("#cityInsee").val(inseeCommunexion);
 		$("#cityPostalCode").val(cpCommunexion);
 		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}
@@ -434,30 +457,16 @@ jQuery(document).ready(function()
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
 		$(".moduleLabel").html("<span style='font-size:20px;'><?php echo @$headerName; ?></span>");
-	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
-	//if(contextParentType!="city"){
-		
-		//if(contextParentId == idSession)
-		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
-		else
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" + 
-								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");*/
-		
-		
-	/*}else{
-		
-	}*/
+
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		buildTimeLine (news, 0, indexStep);
-		console.log(news);
+		//console.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;
 		else
 			dateLimit=initLimitDate.created;
-
 		$(".my-main-container").scroll(function(){
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
@@ -481,10 +490,80 @@ jQuery(document).ready(function()
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
 	initFormImages();
+	$.each(myContacts["people"], function (key,value){
+		avatar="";
+	  	if(value.profilThumbImageUrl!="")
+			avatar = baseUrl+value.profilThumbImageUrl;
+	  	object = new Object;
+	  	object.id = value._id.$id;
+	  	object.name = value.name;
+		object.avatar = avatar;
+		object.type = "citoyens";
+		mentionsContact.push(object);
+  	});
+  	$.each(myContacts["organizations"], function (key,value){
+	  	avatar="";
+	  	if(value.profilThumbImageUrl!="")
+			avatar = baseUrl+value.profilThumbImageUrl;
+	  	object = new Object;
+	  	object.id = value._id.$id;
+	  	object.name = value.name;
+		object.avatar = avatar;
+		object.type = "organizations";
+		mentionsContact.push(object);
+  	});
+	$('textarea.mention').mentionsInput({
+	  onDataRequest:function (mode, query, callback) {
+		  	var data = mentionsContact;
+		  	data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+			callback.call(this, data);
 
- 	//Construct the first NewsForm
+	   		var search = {"search" : query};
+	  		$.ajax({
+				type: "POST",
+		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
+		        data: search,
+		        dataType: "json",
+		        success: function(retdata){
+		        	if(!retdata){
+		        		toastr.error(retdata.content);
+		        	}else{
+			        	//console.log(retdata);
+			        	data = [];
+			        	for(var key in retdata){
+				        	for (var id in retdata[key]){
+					        	avatar="";
+					        	if(retdata[key][id].profilThumbImageUrl!="")
+					        		avatar = baseUrl+retdata[key][id].profilThumbImageUrl;
+					        	object = new Object;
+					        	object.id = id;
+					        	object.name = retdata[key][id].name;
+					        	object.avatar = avatar;
+					        	object.type = key;
+					        	var findInLocal = _.findWhere(mentionsContact, {
+									name: retdata[key][id].name, 
+									type: key
+								}); 
+								if(typeof(findInLocal) == "undefined")
+									mentionsContact.push(object);
+					 			}
+			        	}
+			        	data=mentionsContact;
+			        	//console.log(data);
+			    		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+						callback.call(this, data);
+						console.log(callback);
+		  			}
+				}	
+			})
+	  }
+  	});
+   	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
 });
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
 </script>
