@@ -13,7 +13,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
 	'/js/postalCode.js',
-	'/js/activityHistory.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 
@@ -688,8 +688,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			onblur: 'submit',
 			success: function(response, newValue) {
 				console.log("yo");
-				loadActivity=true;	
-        		if(! response.result) return response.msg; //msg will be shown in editable form
+		        if(response.result) {
+		        	toastr.success(response.msg);
+					loadActivity=true;	
+		        }else {
+					return (response.msg);
+			    }  
     		}
 		});
 		
@@ -700,6 +704,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return types;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#shortDescription').editable({
@@ -716,7 +728,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		//Select2 tags
@@ -728,7 +748,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 				tokenSeparators: [","],
 				width: 200
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 
@@ -740,25 +768,57 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				tags:  <?php if(isset($telephone)) echo json_encode($telephone); else echo json_encode(array())?>,
 				tokenSeparators: [",", "/", " "],
 				width: 200,
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#mobile').editable({
 	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
 	        mode : 'popup',
-	        value: <?php echo (isset($organization["telephone"]["mobile"])) ? json_encode(implode(",", $organization["telephone"]["mobile"])) : "''"; ?>
+	        value: <?php echo (isset($organization["telephone"]["mobile"])) ? json_encode(implode(",", $organization["telephone"]["mobile"])) : "''"; ?>,
+	        success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 	    });
 
 	    $('#fax').editable({
 	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
 	        mode : 'popup',
-	        value: <?php echo (isset($organization["telephone"]["fax"])) ? json_encode(implode(",", $organization["telephone"]["fax"])) : "''"; ?>
+	        value: <?php echo (isset($organization["telephone"]["fax"])) ? json_encode(implode(",", $organization["telephone"]["fax"])) : "''"; ?>,
+	        success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 	    }); 
 
 		$('#fixe').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
-			value: <?php echo (isset($organization["telephone"]["fixe"])) ? json_encode(implode(",", $organization["telephone"]["fixe"])) : "''"; ?>
+			value: <?php echo (isset($organization["telephone"]["fixe"])) ? json_encode(implode(",", $organization["telephone"]["fixe"])) : "''"; ?>,
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		
@@ -781,6 +841,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				});
 				return result;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#addressCountry').editable({
@@ -789,6 +857,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return countries;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#address').editable({
@@ -823,7 +899,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			wysihtml5: {
 				html: true,
 				video: false
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		//Validation Rules
