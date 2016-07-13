@@ -71,8 +71,6 @@
 
 		} ?>
 	</div>
-
-	
 </div>
 <script type="text/javascript">
 	<?php $attending[] = $event; ?>

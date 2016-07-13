@@ -165,8 +165,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
 				</span>
 			</a>
-			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>
+			<!--<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>-->
     		<?php } ?>
+    		<?php if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+			<?php } ?>
 		</div>
 	</div>
 
@@ -216,7 +219,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						} 
 					}
 				}
-
 				//To checked if there are hidden
 				foreach ($fieldPreferences as $field => $hidden) {
 					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
@@ -235,19 +237,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 
-	<div class="panel-body no-padding">
+	<!--<div class="panel-body no-padding">
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Edit Event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit Information") ?></span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Modify Position on the map") ?>" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> <?php echo Yii::t("common","Modify Position") ?></span></a>
 			<?php /*?>
 			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Delete this event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> <?php echo Yii::t("event","Cancel Event",null,Yii::app()->controller->module->id); ?></span></a>
 			*/ ?>
-			<?php if ($openEdition==true) { ?>
-				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
-
-    	<?php //} ?>
-		</div>
-	</div>
+	</div>-->
 	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
 	<div id="contentGeneralInfos" class="panel-body no-padding">
 
