@@ -359,14 +359,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-isOpenData inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="public"><i class="fa fa-group"></i> Oui</button>
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="hide"><i class="fa fa-user-secret"></i> Non</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
 
 		        	</div>
 		        </div>
 	        </div>
 	      </div>
-	      
+	      <?php 
+	      	var_dump($person["preferences"]);
+	      	var_dump(is_array($person["preferences"]["privateFields"]));
+	      ?>
 	      <script type="text/javascript">
 			<?php
 				//Params Checked
@@ -374,7 +377,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				$fieldPreferences["email"] = true;
 				$fieldPreferences["locality"] = true;
 				$fieldPreferences["phone"] = true;
-				$fieldPreferences["isOpenData"] = true;
 
 				//To checked private or public
 				foreach($typePreferences as $type){
@@ -382,14 +384,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
 							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
 							$fieldPreferences[$field] = false;
-						} 
+						}
 					}
 				}
-
 				//To checked if there are hidden
 				foreach ($fieldPreferences as $field => $hidden) {
 					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
 				}
+				if(isset($person["preferences"]["isOpenData"]) && $person["preferences"]["isOpenData"] == true)
+					echo "$('.btn-group-isOpenData > button[value=\'true\']').addClass('active');";	
+				else
+					echo "$('.btn-group-isOpenData > button[value=\'false\']').addClass('active');";	
 			?> 
 	     </script>
 
