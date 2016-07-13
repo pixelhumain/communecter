@@ -21,7 +21,6 @@ $countries= OpenData::getCountriesList();
 ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
 	<?php 
-		print_r($activities);
 	foreach($activities as $key => $value){ 
 		if($value["verb"]==ActStr::VERB_UPDATE)
 			$action = Yii::t("common", "has updated");
