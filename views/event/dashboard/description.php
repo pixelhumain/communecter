@@ -211,7 +211,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 				//To checked private or public
 				foreach($typePreferences as $typePref){
-
 					foreach ($fieldPreferences as $field => $hidden) {
 						if(isset($event["preferences"][$typePref]) && in_array($field, $event["preferences"][$typePref])){
 							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $typePref)."\']').addClass('active');";
