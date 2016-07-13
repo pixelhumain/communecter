@@ -526,13 +526,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		bindFicheInfoBtn();
 		$("#editFicheInfo").on("click", function(){
-			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left")){
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
 				getBackDetails(contextId,"<?php echo Organization::COLLECTION ?>");
-//				$("#activityContent").addClass("hide");
-//				$("#contentGeneralInfos").show();
-//				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+contextId+"','<?php echo Organization::COLLECTION ?>')");
-//				loadActivity = false;
-			}
 			switchMode();
 		});
 		activateEditableContext();

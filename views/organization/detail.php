@@ -35,7 +35,7 @@
 	    				"contextMap" => $contextMap,
 	    				"publics" => $public,
 	    				"edit" => $admin,
-	    				"openEdition"=> $openEdtion
+	    				"openEdition"=> $openEdition
 	    			);
 	    			//print_r($params);
 	    			$this->renderPartial('../pod/ficheInfo',$params); 

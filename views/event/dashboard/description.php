@@ -35,7 +35,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
@@ -412,12 +413,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	
 	jQuery(document).ready(function() {
 		$("#editEventDetail").on("click", function(){
-			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left")){
-				$("#activityContent").addClass("hide");
-				$("#contentGeneralInfos").show();
-				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+itemId+"','<?php echo Event::COLLECTION ?>')");
-				loadActivity = false;
-			}
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+				getBackDetails(itemId,"<?php echo Event::COLLECTION ?>");
 			switchMode();
 		});
 		$("#editGeoPosition").click(function(){
