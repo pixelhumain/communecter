@@ -197,14 +197,17 @@ progress[value]::-moz-progress-bar {
 	</div>
 	<div class="panel-tools">
 		<?php if ($isAdmin){ ?>
-			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
-			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
+			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>-->
 			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 				<i class='fa fa-cog'></i> 
 				<span class="hidden-sm hidden-xs">
-				<?php echo Yii::t("common","Paramètres de confidentialité"); ?>
+				<?php echo Yii::t("common","Settings"); ?>
 				</span>
 			</a>
+		<?php } ?>
+		<?php if (Preference::isOpenEdition($project["preferences"])) { ?>
+			<!--<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php //echo $itemId ?>','<?php //echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php //echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php //echo Yii::t("common","History")?></span></a>-->
 		<?php } ?>
 	</div>
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
@@ -229,8 +232,17 @@ progress[value]::-moz-progress-bar {
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-isOpenData inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="public"><i class="fa fa-group"></i> Oui</button>
-		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="hide"><i class="fa fa-user-secret"></i> Non</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
 					</div>
 		        </div>
 	        </div>
@@ -241,7 +253,7 @@ progress[value]::-moz-progress-bar {
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
 				$fieldPreferences["isOpenData"] = true;
-
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
 				//To checked private or public
 				foreach($typePreferences as $type){
 					foreach ($fieldPreferences as $field => $hidden) {
@@ -256,6 +268,12 @@ progress[value]::-moz-progress-bar {
 				foreach ($fieldPreferences as $field => $hidden) {
 					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
 				}
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($project["preferences"][$typePrefB]) && $project["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}	
 			?> 
 	     </script>
 
