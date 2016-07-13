@@ -207,11 +207,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$fieldPreferences["isOpenData"] = true;
 
 				//To checked private or public
-				foreach($typePreferences as $type){
+				foreach($typePreferences as $typePref){
 
 					foreach ($fieldPreferences as $field => $hidden) {
-						if(isset($event["preferences"][$type]) && in_array($field, $event["preferences"][$type])){
-							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+						if(isset($event["preferences"][$typePref]) && in_array($field, $event["preferences"][$typePref])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $typePref)."\']').addClass('active');";
 							$fieldPreferences[$field] = false;
 						} 
 					}
@@ -245,7 +245,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 			<?php } ?>
 
-    	<?php } ?>
+    	<?php //} ?>
 		</div>
 	</div>
 	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
