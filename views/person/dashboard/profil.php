@@ -263,11 +263,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				margin-top:-3px}
 			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
 			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
 		</style>
-		
-			
-		
- 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
 		<?php 	} ?>
 
@@ -287,9 +292,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
 							<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
 						</span>
-
 					</div>
 				<?php } ?>
+				<?php if( Badge::checkBadgeInListBadges("opendata", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="OPENDATA">
+						<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-database main fa-stack-1x text-orange"></i>
+							<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+						</span>
+					</div>
+				<?php } ?>
+
+
 			<?php } ?>
   	</div>
 
