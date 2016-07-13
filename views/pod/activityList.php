@@ -15,7 +15,10 @@ $arrayLabel=array(
 	"geoPosition" => Yii::t("common","the position"),
 	"allDay" => Yii::t("common", "the duration of the event to all day"),
 	"startDate" => Yii::t("common", "the start"),
-	"endDate" => Yii::t("common", "the end")
+	"endDate" => Yii::t("common", "the end"),
+	"event" => Yii::t("common", "the event"),
+	"organization" => Yii::t("common", "the organization"),
+	"project" => Yii::t("common", "the project")
 );
 $countries= OpenData::getCountriesList();
 ?>
@@ -26,6 +29,8 @@ $countries= OpenData::getCountriesList();
 			$action = Yii::t("common", "has updated");
 		else if($value["verb"]==ActStr::VERB_ADD )
 			$action = Yii::t("common", "has added");
+		else if($value["verb"]==ActStr::VERB_CREATE)
+			$action = Yii::t("common", "has created");
 
 	?>
 		<div class='col-md-12 col-sm-12 col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">

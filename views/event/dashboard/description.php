@@ -387,17 +387,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
-	var loadActivity=true;	
+	var loadActivity = true;	
 	if(imagesD != 'null'){
 		var images = imagesD;
 	}
 	
 	jQuery(document).ready(function() {
 		$("#editEventDetail").on("click", function(){
-			$("#activityContent").hide();
-			$("#contentGeneralInfos").hide();
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left")){
+				$("#activityContent").addClass("hide");
+				$("#contentGeneralInfos").show();
+				$("#getHistoryOfActivities").html("<i class='fa fa-history'></i> <span class='hidden-xs'>Historique</span>").attr("onclick","getHistoryOfActivities('"+itemId+"','events')");
+				loadActivity = false;
+			}
 			switchMode();
-		})
+		});
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(itemId, "events", eventData);
 			showMap(true);
