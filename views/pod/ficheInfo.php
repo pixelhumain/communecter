@@ -949,7 +949,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 	
 	function bindFicheInfoBtn() {
-		$("#disableOrganization").off().on("click",function () {
+		/*$("#disableOrganization").off().on("click",function () {
 			console.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
 			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !').' '.Yii::t('organization','Are you sure you want to delete the organization : ') ?><span class='text-red'>"+$(this).data('name')+"</span> ?", 
@@ -963,15 +963,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							success: function(data) {
 								if(data.result) {
 									//remove the organization from floopdrawer
+									alert("bim");
 									removeFloopEntity(id, "organizations");
 									toastr.success(data.msg);
-								} else
+									loadByHash(location.hash);
+								} else{
+									alert("bloui");
 									toastr.error(data.msg);
+								}
 						  	},
 						});
 					}
 			});
-		});
+		});*/
 
 		$(".editConfidentialityBtn").click(function(){
 	    	console.log("confidentiality");

@@ -151,10 +151,13 @@
 							type: "POST",
 							success: function(data)
 							{
-								if(data.result)
+								if(data.result){
+									loadByHash(location.hash);
 									toastr.success(data.msg);
-								else
+								}
+								else{
 									toastr.error(data.msg);
+								}
 						  	},
 						});
 					}
