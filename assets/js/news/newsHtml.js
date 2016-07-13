@@ -146,8 +146,8 @@ function buildLineHTML(newsObj,idSession,update)
 			else
 				textNews=checkAndCutLongString(newsObj.text,500,newsObj._id.$id);
 			//Check if @mentions return text with link
-			if(typeof(newsObj.mentions) != "undefined" && newsObj.author.id != idSession){
-				actionTitle = getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
+			if(typeof(newsObj.mentions) != "undefined"){
+				actionTitle = "";//getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
 			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
