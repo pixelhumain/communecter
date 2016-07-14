@@ -1,25 +1,54 @@
 <?php 
-$cs = Yii::app()->getClientScript();
+  $cs = Yii::app()->getClientScript();
 
-$cssAnsScriptFilesModule = array(
-  // '/survey/css/mixitup/reset.css',
-  '/survey/css/mixitup/style.css',
-  '/survey/js/jquery.mixitup.min.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+  $cssAnsScriptFilesModule = array(
+    // '/survey/css/mixitup/reset.css',
+    '/survey/css/mixitup/style.css',
+    '/survey/js/jquery.mixitup.min.js'
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-$cssAnsScriptFilesModule = array(
-  //'/assets/plugins/share-button/ShareButton.min.js' , 
-  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+  $cssAnsScriptFilesModule = array(
+    //'/assets/plugins/share-button/ShareButton.min.js' , 
+    '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
-
-$commentActive = true;
-
-Menu::survey( $where["survey"] );
-$this->renderPartial('../default/panels/toolbar');
+  $commentActive = true;
 ?>
+
+<?php 
+  $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
+  $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+
+  if(!isset($_GET["renderPartial"])){
+    $this->renderPartial('../rooms/header',array(    
+            "archived"=> (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ,
+            "parent" => $parent, 
+            "parentId" => $parentId, 
+            "parentType" => $parentType, 
+            "fromView" => "survey.entries",
+            "faTitle" => "gavel",
+            "colorTitle" => "azure",
+            "textTitle" => 
+              "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
+              "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
+                          
+    )); 
+    echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+  }
+?>
+
+<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+  <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
+        $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
+  <i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-<?php echo $icon;?>"></i> Espace de décision :</span> <?php echo $where["survey"]["name"].$archived;?> 
+</h1>
+
+<?php
+  Menu::survey( $where["survey"] );
+  $this->renderPartial('../default/panels/toolbar');
+?>    
 
 <style type="text/css">
 
@@ -144,23 +173,6 @@ $this->renderPartial('../default/panels/toolbar');
     border: 1px solid #E4E4E4;
   }
 
-    /*.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/assemblyHead.png); 
-      /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);* /
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 0px -40px;
-      background-size: 100% auto;
-    }*/
-
-   /*   h1.citizenAssembly-header{
-        background-color: rgba(255, 255, 255, 0.63);
-        padding: 30px;
-        margin-bottom: -3px;
-        font-size: 32px;
-        margin-top:90px;
-      }
-*/
     .message-propostal{
       font-size: 13px !important;
       font-weight: 300 !important;
@@ -196,47 +208,31 @@ $this->renderPartial('../default/panels/toolbar');
     }
 
    
-
-    /*.caret {
-      display: inline;
-    }*/
-
-/*
-    #thumb-profil-parent{
-      margin-top:-60px;
-      margin-bottom:20px;
-      -moz-box-shadow: 0px 3px 10px 1px #656565;
-      -webkit-box-shadow: 0px 3px 10px 1px #656565;
-      -o-box-shadow: 0px 3px 10px 1px #656565;
-      box-shadow: 0px 3px 10px 1px #656565;
-    }*/
-
-
-@media screen and (min-width: 1400px) {
-  .mixcontainer .mix, .mixcontainer .gap{
-    width: 31%;
+  @media screen and (min-width: 1400px) {
+    .mixcontainer .mix, .mixcontainer .gap{
+      width: 31%;
+    }
   }
-}
-@media screen and (max-width: 1399px) {
-  .mixcontainer .mix, .mixcontainer .gap{
-    width: 48%;
+  @media screen and (max-width: 1399px) {
+    .mixcontainer .mix, .mixcontainer .gap{
+      width: 48%;
+    }
+    .assemblyHeadSection {  
+      background-position: 0px 50px;
+    }
   }
-  .assemblyHeadSection {  
-    background-position: 0px 50px;
-  }
-}
 
-@media screen and (max-width: 767px) {
-  .assemblyHeadSection {  
-    background-position: 0px 0px;
+  @media screen and (max-width: 767px) {
+    .assemblyHeadSection {  
+      background-position: 0px 0px;
+    }
   }
-}
 
-@media screen and (max-width: 680px) {
-  .mixcontainer .mix, .mixcontainer .gap{
-    width: 98%;
+  @media screen and (max-width: 680px) {
+    .mixcontainer .mix, .mixcontainer .gap{
+      width: 98%;
+    }
   }
-}
 </style>
 
 
@@ -320,19 +316,6 @@ $this->renderPartial('../default/panels/toolbar');
         $infoslink = "";
         $infoslink .= (!empty($followingEntry)) ? "<a class='btn voteAbstain filter' data-filter='.myentries' ><i class='fa fa-rss infolink' ></i></a>" :"";
   
-
-        // $btnEdit = (!empty($meslois)) ? 
-        //               ' <a class="btn btn-xs btn-default filter pull-right" data-filter=".myentries"'.
-        //               ' onclick="loadByHash(\'#survey.editEntry.survey.'.$entry["survey"].'.id.'.(string)$entry["_id"].'\')"'.
-        //               ' href="javascript:;"><i class="fa fa-pencil infolink"></i> '.
-        //                                     Yii::t("rooms", "Edit", null, Yii::app()->controller->module->id ).
-        //               '</a> ' : '';          
-        
-        // if (Yii::app()->session["userIsAdmin"]) {
-        //   $linkStandalone = Yii::app()->createUrl("/".Yii::app()->controller->module->id."/survey/entry/id/".(string)$entry["_id"]);
-        //   $infoslink .= "<a target='_blank' class='btn btn-default voteAbstain' href='".$linkStandalone."' title='Open standalone page'><i class='fa fa-magic infolink'></i></a>";
-        // }
-  
         /* **************************************
         Rendering Each block
         ****************************************/
@@ -413,9 +396,9 @@ $this->renderPartial('../default/panels/toolbar');
         //title + Link
         $link = $name;
         if ( $entry["type"] == Survey::TYPE_SURVEY )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-".$titleIcon."'></i> ".$name.' ('.$count.')</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="showRoom(\'entry\', \''.(string)$entry["_id"].'\')" href="javascript:">'."<i class='fa fa-".$titleIcon."'></i> ".$name.' ('.$count.')</a>' ;
         else if ( $entry["type"] == "entry" )
-          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
+          $link = '<a class="titleMix text-dark '.$meslois.'" onclick="showRoom(\'entry\', \''.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-".$titleIcon."'></i> ".substr($name, 0, 70).'</a>' ;
 
         //$leftLinks = "<button onclick='".$mainClick."' class='btn btn-default homestead col-md-12' style='font-size:20px;'> ".$stateLbl."</button>"; //$voteLinksAndInfos["links"];
 
@@ -435,7 +418,7 @@ $this->renderPartial('../default/panels/toolbar');
         if(!$surveyIsClosed && !$surveyHasVoted)        
         $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
         else{
-          $btnRead = "<button onclick=".'"loadByHash(\'#survey.entry.id.'.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
+          $btnRead = '<button onclick="showRoom(\'entry\', \''.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
                   " style='margin-top: -2px;margin-right: -5px;margin-bottom: -1px;'><i class='fa fa-angle-right'></i></button>"; //$voteLinksAndInfos["links"];
         }
@@ -496,14 +479,8 @@ $this->renderPartial('../default/panels/toolbar');
                             $byInfo.
                         '</div>'.
 
-                        //'<div class="space1"></div><div class="" >'.$leftLinks.'</div>'.
-                        //'<div class="space1"></div>'.$rightLinks.
-
                         $chartBarResult.
                         
-                        //"<div class='col-md-12 text-dark' style='padding:10px 0px;'>".$views."</div>".
-                        
-                        //'<div class="space1"></div>'.$views.
                     '</div>';
 
         return array(
@@ -550,8 +527,6 @@ $this->renderPartial('../default/panels/toolbar');
       $percentNoVote = "0";
       if($totalVotes == 0) $percentNoVote = "100";
 
-      
-
       if($totalVotes > 1) $msgVote = "votes exprimés";
       else                $msgVote = "vote exprimé"; 
 
@@ -577,32 +552,12 @@ $this->renderPartial('../default/panels/toolbar');
                    // $percentNoVote.' '.
                   '</div>'.
                 '</div>';
-      
-      
-      
       return $html;
     }
 
        
     ?>
     
-
-      <?php 
-      $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
-      $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
-      // $this->renderPartial('../rooms/header',array(    
-      //           "archived"=> (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ,
-      //           "parent" => $parent, 
-      //                       "parentId" => $parentId, 
-      //                       "parentType" => $parentType, 
-      //                       "fromView" => "survey.entries",
-      //                       "faTitle" => "gavel",
-      //                       "colorTitle" => "azure",
-      //                       "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
-      //                               "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
-                              
-      //                       )); 
-                            ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
@@ -646,11 +601,7 @@ $this->renderPartial('../default/panels/toolbar');
               }?>
               <br/>
 
-              <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-                <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
-                      $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
-                <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $where["survey"]["name"].$archived;?> 
-              </h1>
+             
                <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>
@@ -933,6 +884,10 @@ if($where["type"]==Survey::TYPE_ENTRY){
     Yii::app()->controller->renderPartial(Yii::app()->params["modulePath"].Yii::app()->controller->module->id.'.views.survey.modals.comments');
   }
 } 
+
+ if(!isset($_GET["renderPartial"])){
+  echo "</div>"; // ferme le id="room-container"
+ }
 ?>
 
 

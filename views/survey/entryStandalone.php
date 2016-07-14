@@ -10,11 +10,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
-if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
-	Menu::proposal( $survey );
-	$this->renderPartial('../default/panels/toolbar');
-}
-
 ?>
 <style type="text/css">
 
@@ -71,35 +66,16 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 #commentHistory .panel-scroll{
 	max-height:unset !important;
 }
-
+.info-survey{
+	font-weight: 500;
+	font-size: 13px;
+	border-top: 1px solid rgb(210, 210, 210);
+	padding-top: 15px;
+	margin-top: 0px;
+}
 
 </style>
 
-<?php /* ?>
-<div class="pull-right" style="padding:20px;">
-	<a href="#" onclick="showMenu()">
-		<i class="menuBtn fa fa-bars fa-3x text-white "></i>
-	</a>
-</div>
-*/?>
-
-
-
-<!-- start: LOGIN BOX -->
-<div class="center">
-	<?php /* ?>
-	<span class="titleRed text-red homestead" style="font-size:40px">CO</span>
-	<span  style="font-size:40px" class="titleWhite homestead">MMU</span>
-	<span  style="font-size:40px" class="titleWhite2 text-red homestead">NECTER</span>
-	<a href="#" class="text-white" onclick="showVideo('133636468')"><i class="fa fa-2x fa-youtube-play"></i></a>
-
-	<br/>
-	<span class="subTitle text-white text-bold" style="margin-top:-13px; font-size:1.5em">Se connecter à sa commune.</span>
-	*/?>
-	<!-- <span class="text-red " style="font-size:40px"><?php echo Yii::t("rooms","VOTE",null,Yii::app()->controller->module->id) ?> </span>
-	<span  style="font-size:40px" class=" "> <?php echo Yii::t("rooms","DECIDE",null,Yii::app()->controller->module->id) ?> </span>
-	<span  style="font-size:40px" class=" text-red "> <?php echo Yii::t("rooms","ACT",null,Yii::app()->controller->module->id) ?></span>
- -->
 <?php 
 	//ca sert a quoi ce doublon ?
 	$survey = Survey::getById($survey["_id"]);
@@ -112,26 +88,26 @@ if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 		$nameParentTitle = htmlentities($orga["name"]);
 	}
 
-		
-//copié coller merdique
-// a sortir de la vue demain
-$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+			
+	//copié coller merdique
+	// a sortir de la vue demain
+	$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+	$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+	$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+	$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+	$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
 
-$totalVotesGbl = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+	$totalVotesGbl = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
 
-		function getChartBarResult($survey){
+			function getChartBarResult($survey){
 
-$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+	$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+	$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+	$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+	$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+	$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
 
-$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+	$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
       
       
       $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
@@ -184,50 +160,47 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
       
       return $html;
     }
- 	?>
- 	<div>
-     
- 		
-
-		  <?php 
-		  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
-		  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
-		  $this->renderPartial('../rooms/header',array(    
-                			"parent" => $parent, 
-                            "parentId" => $parentId, 
-                            "parentType" => $parentType, 
-                            "parentSpace" => $parentSpace,
-                            "fromView" => "survey.entry",
-                            "faTitle" => "gavel",
-                            "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
-                            				" / ".
-                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn
-                              
-                            )); ?>
-
-		<!-- <span class="pull-right text-right"> 
-			<?php if( $voteLinksAndInfos["hasVoted"] )
-				echo Yii::t("rooms","YOU VOTED ALLREADY",null,Yii::app()->controller->module->id); 
-			else
-				echo Yii::t("rooms","FEEL FREE TO VOTE",null,Yii::app()->controller->module->id); ?>
-
-		</span> -->
-
-		<!-- <span class="text-extra-large text-bold"> 
-				<?php echo Yii::t("rooms","INVITATION TO VOTE",null,Yii::app()->controller->module->id) ?>
-		</span>  -->
-		
-    </div>
- </div>
+ ?>
+ 	
+<?php 
+  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
+  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+  
+  if(!isset($_GET["renderPartial"])){
+		$this->renderPartial('../rooms/header',array(    
+        			"parent" => $parent, 
+                    "parentId" => $parentId, 
+                    "parentType" => $parentType, 
+                    "parentSpace" => $parentSpace,
+                    "fromView" => "survey.entry",
+                    "faTitle" => "gavel",
+                    "colorTitle" => "azure",
+                    "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
+                    				" / ".
+                    				"<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$survey["survey"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn
+                      
+                    )); 
+		echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+	  }
+?>
 
 <div class="row vote-row contentProposal" >
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod">
-				
-			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
+			
+			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+				<i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span> <?php echo $parentSpace["name"];?> 
+			</h1>
+			<?php 					
+				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
+					Menu::proposal( $survey );
+					$this->renderPartial('../default/panels/toolbar');
+				}
+			?>
+
+			<h4 class="col-md-12 text-center text-azure info-survey"> 
 				
 				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$survey["created"]) ?></span>
 				
@@ -290,7 +263,7 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 				 ?>
 				<div class="col-md-<?php echo ($totalVotes ==0 ) ? "12" : "7" ?>" style="margin-top:10px;">
 					<?php if( @($organizer) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition à l'assemblée par <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 					<?php }	?>
 					
 					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
@@ -339,7 +312,11 @@ $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$v
 	
 </div>
 
-
+<?php 
+ if(!isset($_GET["renderPartial"])){
+  echo "</div>"; // ferme le id="room-container"
+ }
+ ?>
 
 <style type="text/css">
 	.footerBtn{font-size: 2em; color:white; font-weight: bolder;}

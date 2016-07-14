@@ -98,11 +98,6 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 <div id="commentHistory" class="no-padding">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
-			<?php if($contextType == "actionRooms"){ ?>
-  				<h1 class="" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
-			     <i class="fa fa-comment"></i> "<?php echo $context["name"]; ?>"
-			  	 </h1>
-			<?php } ?>
 			<?php $currentUser = Yii::app()->session["user"]; ?>
 			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
 			<div class="options pull-right">

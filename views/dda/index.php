@@ -19,11 +19,7 @@
 	    font-size: 17px;
 	    padding:10px;
 	}
-
-	.box-ajaxTools .btn.tooltips {
-	    border-radius: 10px !important;
-	    margin: 10px;
-	}
+	
 
 	#accordion .panel-title a{
 		font-weight:200;
@@ -41,6 +37,9 @@
 </style>
 
 <?php 
+	
+	//Menu::rooms($_GET["id"],$_GET["type"]);
+	//$this->renderPartial('../default/panels/toolbar');
 
 	$urlPhotoProfil = "";
 	if(!@$parent){
@@ -66,37 +65,35 @@
 	if($parentType == City::COLLECTION) 
 		$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 
-?>
-
-<div class="col-md-12">
-	<h1 class="homestead text-<?php echo $colorName; ?> pull-left" onclick="loadByHash('#<?php echo $urlParent; ?>');">
-		<i class="fa fa-<?php echo $icon; ?>"></i> 
-		<?php
-			if($parentType == City::COLLECTION) echo "Conseil Citoyen - "; 
-			echo $parent['name']; 
+	if(!isset($_GET["renderPartial"])){
+		$this->renderPartial('../rooms/header',array(    
+		   					"parent" => $parent, 
+	                        "parentId" => $parentId, 
+	                        "parentType" => $parentType, 
+	                        "fromView" => "rooms.index",
+	                        "faTitle" => "connectdevelop",
+	                        "colorTitle" => "azure",
+	                        "textTitle" => "",
+	                        "discussions" => $discussions, 
+	                        "votes" => $votes, 
+	                        "actions" => $actions, 
+	                        "history" => $history, 
+	                        "mainPage" => true
+	                        ));
+		echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+   } 
+ ?>
+  	<div class="panel-group" id="accordion">
+		<?php 
+			createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion");
+			createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision");
+			createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action");
 		?>
-	</h1>
-</div>
-
-<div class="col-md-4" id="col-menu-spaceco">
-	<button class="btn btn-default pull-left" id="btn-reduce-menu"><i class="fa fa-arrows-h"></i></button>
-	<img class="img-responsive thumb-profil-parent-dda thumbnail" src="<?php echo $urlPhotoProfil; ?>" alt="/\" >
-
-	<h4 class="text-dark text-light hide-on-reduce-menu"><i class="fa fa-caret-down"></i> Liste des espaces coopératifs</h4>
-	<div class="panel-group" id="accordion">
-	<?php 
-		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion");
-		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision");
-		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action");
-	?>
 	</div>
-</div>
 
 
-<div class="col-md-8" id="room-container">
-</div>
 
-<div class="col-md-8" id="form-create-room">
+<div class="col-md-12" id="form-create-room">
 <?php 
 	$listRoomTypes = Lists::getListByName("listRoomTypes");
     foreach ($listRoomTypes as $key => $value) {
@@ -112,20 +109,18 @@
 ?>
 </div>
 
-<?php 
 
-function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg){
+<?php 
+	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg){
 	
 	$in = $index == 1 ? "in" : "";
 	
-	$urlCreate = "";
-
 	echo '<div class="panel panel-default">';
 
 	echo    '<div class="panel-heading bg-dark">
 		      <h4 class="panel-title pull-left">
 		        <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'" class="show-menu-co">
-		        	<i class="fa fa-caret-down hide-on-reduce-menu"></i> <i class="fa fa-'.$icon.'"></i> <span class="hide-on-reduce-menu">'.$title.'</span>
+		        	<i class="fa fa-angle-down hide-on-reduce-menu"></i> <i class="fa fa-'.$icon.'"></i> <span class="hide-on-reduce-menu">'.$title.'</span>
 		        </a>
 		      </h4>
 		      <span class="badge pull-right hide-on-reduce-menu">'.count($elements).'</span>
@@ -136,7 +131,7 @@ function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyM
 		        foreach ($elements as $key => $value) {
 		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
 					echo '<div class="panel-body hide-on-reduce-menu">'.
-							'<a href="javascript:showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
+							'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
 								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]."".
 							'</a>'.
 						 '</div>';
@@ -152,67 +147,24 @@ function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyM
 	echo 	'</div>';
 
 	echo '</div>';
+}
 
+if(!isset($_GET["renderPartial"])){
+  echo "</div>"; // ferme le id="room-container"
 }
 ?>
-
-
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> espaces coopératifs");
-
-	$("#btn-reduce-menu").click(function(){
-		toogleMenuCo("toogle");
-	});
-	$(".show-menu-co").click(function(){
-		toogleMenuCo(true);
-	});
+	$(".main-col-search").addClass("assemblyHeadSection");
 });
-
-function toogleMenuCo(forceOpen){
-	var open = $("#col-menu-spaceco").hasClass("col-md-4");
-	if(open && forceOpen == "toogle"){
-		$("#col-menu-spaceco").removeClass("col-md-4").addClass("col-md-1");
-		$("#room-container").removeClass("col-md-8").addClass("col-md-11");
-		$(".hide-on-reduce-menu").addClass("hidden");
-	}else{
-		$("#col-menu-spaceco").removeClass("col-md-1").addClass("col-md-4");
-		$("#room-container").removeClass("col-md-11").addClass("col-md-8");
-		$(".hide-on-reduce-menu").removeClass("hidden");
-	}
-
-	if(forceOpen==true){
-		$("#col-menu-spaceco").removeClass("col-md-1").addClass("col-md-4");
-		$("#room-container").removeClass("col-md-11").addClass("col-md-8");
-		$(".hide-on-reduce-menu").removeClass("hidden");
-	}
-	if(forceOpen==false){
-		$("#col-menu-spaceco").removeClass("col-md-4").addClass("col-md-1");
-		$("#room-container").removeClass("col-md-8").addClass("col-md-11");
-		$(".hide-on-reduce-menu").addClass("hidden");
-	}
-
-}
-
-function showRoom(type, id){
-
-	var url = "";
-	if(type=="discuss") url = "comment/index/type/actionRooms";
-	if(type=="vote") url = "survey/entries";
-	if(type=="actions") url = "rooms/actions";
-
-	$("#room-container").html("<h2 class='text-dark text-left'><i class='fa fa-circle-o-notch fa-spin'></i> Chargement en cours</h2>");
-	getAjax('#room-container',baseUrl+'/'+moduleId+'/'+url+"/id/"+id, function(){ toogleMenuCo(false) },"html");
-}
-
 </script>
+
 <style>
-	
 @media screen and (min-width: 1400px) {
   .mixcontainer .mix, .mixcontainer .gap{
     width: 48%;
   }
 }
-</style>
 </style>

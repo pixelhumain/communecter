@@ -16,8 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 
 $commentActive = true;
 
-Menu::actions( $room );
-$this->renderPartial('../default/panels/toolbar');
+
 
 ?>
 
@@ -167,20 +166,6 @@ $this->renderPartial('../default/panels/toolbar');
       margin-bottom: 6px;
     }
 
-   /* .caret {
-      display: inline;
-    }*/
-
-
-    #thumb-profil-parent{
-      margin-top:-60px;
-      margin-bottom:20px;
-      -moz-box-shadow: 0px 3px 10px 1px #656565;
-      -webkit-box-shadow: 0px 3px 10px 1px #656565;
-      -o-box-shadow: 0px 3px 10px 1px #656565;
-      box-shadow: 0px 3px 10px 1px #656565;
-    }
-
     
   .home .controls {
     border: 1px solid #E4E4E4;
@@ -321,7 +306,7 @@ $this->renderPartial('../default/panels/toolbar');
         
         //title + Link
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
-          $name = '<a class="titleMix text-dark " onclick="loadByHash(\'#rooms.action.id.'.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
+          $name = '<a class="titleMix text-dark " onclick="showRoom(\'action\', \''.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
 
         $btnRead = "";
         $leftLinks = "";
@@ -410,26 +395,35 @@ $this->renderPartial('../default/panels/toolbar');
     
       <?php 
       $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']) ) ?  '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.(string)$room["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>' : '';
-      // $this->renderPartial('../rooms/header',array(    
-      //           "parent" => $parent, 
-      //                       "parentId" => $room['parentId'], 
-      //                       "parentType" => $room['parentType'], 
-      //                       "fromView" => "rooms.actions",
-      //                       "faTitle" => "cogs",
-      //                       "colorTitle" => "azure",
-      //                       "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
-      //                       " / ".
-      //                       "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
-                           
-      //                       )); ?>
+      if(!isset($_GET["renderPartial"])){
+        $this->renderPartial('../rooms/header',array(    
+                  "parent" => $parent, 
+                              "parentId" => $room['parentId'], 
+                              "parentType" => $room['parentType'], 
+                              "fromView" => "rooms.actions",
+                              "faTitle" => "cogs",
+                              "colorTitle" => "azure",
+                              "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                              " / ".
+                              "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
+                             
+                              )); 
+        echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+      }
+      
+   ?>
       
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
-        <h1 class="homestead text-dark" style="font-size: 25px;margin-top: 20px;">
-          <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <?php echo $room["name"]; ?> 
+        <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+          <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <span class="homestead">Espace d'action : </span> <?php echo $room["name"]; ?> 
         </h1>
-       
+        <?php 
+          Menu::actions( $room );
+          $this->renderPartial('../default/panels/toolbar');
+        ?>
+        
         <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
               <!-- <label>Filtre:</label> -->
               <!-- <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button> -->

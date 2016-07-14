@@ -8,12 +8,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
  <style>
 
 .assemblyHeadSection {  
-	<?php $bg = (@$archived) ? "assemblyParisDayArchived" : "assemblyParisDay";?>
-  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/<?php echo $bg; ?>.jpg); 
+  <?php $bg = (@$archived) ? "assemblyParisDayArchived" : "assemblyParisDay";?>
+  /*background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/<?php echo $bg; ?>.jpg); */
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/dda-connexion-lines.jpg); 
+
   background-repeat: no-repeat !important;
-  background-size: 100% 500px !important;
+  background-size: 100% 360px !important;
   background-position: 0px -60px !important;
  }
+ .modal .modal-header{
+  background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/dda-connexion-lines.jpg); 
+  background-repeat: no-repeat !important;
+  background-size: auto;
+}
 .contentProposal{
 	background-color: white;
 }
@@ -21,63 +28,57 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	margin: -15px 10px;
 	padding: 15px 8px 8px;
 	border-radius: 7px 7px 0px 0px;
-	box-shadow: 0px 3px 10px 1px rgb(101, 101, 101);
-	background-color: rgba(255, 255, 255, 0.73);
-	-moz-box-shadow: 0px 3px 10px 1px #656565;
-	-webkit-box-shadow: 0px 3px 10px 1px #656565;
-	-o-box-shadow: 0px 3px 10px 1px #656565;
+	background-color: rgba(255, 255, 255, 0);
 }
 
-.toolbar-DDA{
-	position:absolute;
-	top:115px;
-	left:50px;
+#room-container{
+	min-height:300px;
+}
+.btn-select-room{
+	margin-top: 5px;
+	border: none;
+	font-size: 20px;
+	font-weight: 200;
+	width: 100%;
+	text-align: center;
+	border-radius:100px;
+}
+.btn-select-room.bg-dark:hover{
+	background-color:#58829B !important;
 }
 
-.toolbar-DDA .dropdown{
-	display: inline-block;
+.modal .room-item{
+	width:100%;
+	padding:15px;
+	font-size:16px;
+	border-bottom:1px solid #DBDBDB;
+	border-top:1px solid rgba(230, 230, 230, 0);
+	float:left;
+}
+.modal .room-item:hover{
+	background-color: rgb(230, 230, 230) !important;
+	border-top:1px solid rgb(192, 192, 192);
+}
+
+.title-conseil-citoyen {
+    background-color: rgba(255, 255, 255, 0);
+    margin: 0px;
+    padding: 10px;
+    border-radius: 12px;
+    -moz-box-shadow: 0px 3px 10px 1px #656565;
+    -webkit-box-shadow: 0px 3px 10px 1px #656565;
+    -o-box-shadow: 0px 3px 10px 1px #656565;
+    box-shadow: 0px 3px 10px 1px rgb(101, 101, 101);
+    margin-bottom: 10px;
+}
+.link-tools a:hover{
+	text-decoration: underline;
 }
 </style>	
 
-<?php if(isset($discussions) && false == true) { ?>
-<div class="toolbar-DDA">
-	<div class="dropdown">
-	  <button class="btn btn-default dropdown-toggle" type="button" id="discuter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-	    <i class="fa fa-comments"></i> Discuter
-	    <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu" aria-labelledby="discuter">
-	    <?php foreach ($discussions as $key => $value) { ?>
-	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
-	    <?php } ?>
-	  </ul>
-	</div>
-	<div class="dropdown">
-	  <button class="btn btn-default dropdown-toggle" type="button" id="decider" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-	    <i class="fa fa-archive"></i> Décider
-	    <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu" aria-labelledby="decider">
-	    <?php foreach ($votes as $key => $value) { ?>
-	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
-	    <?php } ?>
-	  </ul>
-	</div>
-	<div class="dropdown">
-	  <button class="btn btn-default dropdown-toggle" type="button" id="agir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-	    <i class="fa fa-cogs"></i> Agir
-	    <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu" aria-labelledby="agir">
-	    <?php foreach ($actions as $key => $value) { ?>
-	    	<li><a href="#"><?php echo $value["name"]; ?></a></li>
-	    <?php } ?>
-	  </ul>
-	</div>
-</div>
-<?php } ?>
 
-<h1 class="homestead text-dark center citizenAssembly-header">
+
+<h1 class="text-dark citizenAssembly-header">
  	<?php 
     	$urlPhotoProfil = "";
 		if(!@$parent){
@@ -97,11 +98,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if($parentType == Project::COLLECTION) { $icon = "lightbulb-o"; $colorName = "purple"; }
 	  	if($parentType == Organization::COLLECTION) { $icon = "group"; $colorName = "green"; }
 	  	if($parentType == Person::COLLECTION) { $icon = "user"; $colorName = "dark"; }
-        if($parentType == City::COLLECTION) { $icon = "group"; $colorName = "red"; }
+        if($parentType == City::COLLECTION) { $icon = "university"; $colorName = "red"; }
 	?>
-	<img class="img-circle" id="thumb-profil-parent" width="120" height="120" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-    
-    <br>
 	
 	<?php //création de l'url sur le nom du parent
 		$urlParent = Element::getControlerByCollection($parentType).".detail.id.".$parentId; 
@@ -109,87 +107,211 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
 	<div class="row header-parent-space">
-		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?>">
-			<i class="fa fa-<?php echo $icon; ?>"></i> 
-				<?php
-					if($parentType == City::COLLECTION) echo "Conseil Citoyen - "; 
-					echo $parent['name']; 
-				?>
-		</a>
-		<br/>
-		<?php 
-			$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
-		    $ctrl = Element::getControlerByCollection($parentType);
-		    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
-			
-			if( $parentType == City::COLLECTION || 
-				($parentType != Person::COLLECTION && 
-				Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))
-				{ 
-					$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
-				    $btnUrl = "loadByHash('#rooms.editroom.type.".$parentType.".id.".$parentId."')";
-				} 
-			if(!isset(Yii::app()->session['userId'])){ 
-				$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","LOGIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
-			    $btnUrl = "showPanel('box-login');";
-			}
+		<div class="col-md-3">
+			<?php if($parentType != City::COLLECTION){ ?>
+				<img class="thumbnail img-responsive" id="thumb-profil-parent" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
+			<?php }else{ ?>
+				<h1 class="homestead title-conseil-citoyen center text-red"><i class="fa fa-group"></i><br>Conseil Citoyen</h1>
+    		<?php } ?>
+    	
+    	</div>
+    	<div class="col-md-9">
+    		<div class="col-md-12 no-padding margin-bottom-15">
+	    		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?> homestead">
+					<i class="fa fa-<?php echo $icon; ?>"></i> 
+						<?php
+							if($parentType == City::COLLECTION) echo "Commune de "; 
+							echo $parent['name']; 
+						?>
+				</a>			
+			</div>
 
-			$addBtn = ( $parentType != Person::COLLECTION ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>' : ""; 
-		?>
-		<span class="Helvetica breadscrum">
-			<a class='text-dark' href='javascript:loadByHash("#rooms.index.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>.tab.1")'>
-				<i class="fa fa-connectdevelop"></i> <?php echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
-			</a> 
 			<?php 
-				if( $parentType != Person::COLLECTION ){
-					echo (@$textTitle) ? "/ ".$textTitle : 
-						' <i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>';
+				if(!@$mainPage){
+					$rooms = ActionRoom::getAllRoomsByTypeId($parentType, $parentId);
+					$discussions = $rooms["discussions"];
+					$votes = $rooms["votes"];
+					$actions = $rooms["actions"];
+					$history = $rooms["history"];
 				}
 			?>
-		</span>
+				<div class="col-md-4 no-padding">
+					<button type="button" class="btn btn-default bg-dark btn-select-room" data-toggle="modal" data-target="#modal-select-room1">
+						<i class="fa fa-comments"></i> Discuter <span class="badge"><?php if(@$discussions) echo count($discussions); else echo "0"; ?></span>
+					</button><br>
+				</div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-default bg-dark btn-select-room" data-toggle="modal" data-target="#modal-select-room2">
+						<i class="fa fa-archive"></i> Décider <span class="badge"><?php if(@$votes) echo count($votes); else echo "0"; ?></span>
+					</button><br>
+				</div>
+				<div class="col-md-4 no-padding">
+					<button type="button" class="btn btn-default bg-dark btn-select-room" data-toggle="modal" data-target="#modal-select-room3">
+						<i class="fa fa-cogs"></i> Agir <span class="badge"><?php if(@$actions) echo count($actions); else echo "0"; ?></span>
+					</button>
+				</div>
+				<div class="col-md-12 margin-top-15 link-tools">
+					<a href="javascript:showRoom('all', '<?php echo $parentId; ?>')" class="pull-left text-dark" style="font-size:15px;"><i class="fa fa-list"></i> Afficher tout</a>
+					<?php //if(@$history && !empty($history)){ ?>
+						<a href="javascript:" class="pull-right text-dark" style="font-size:15px;" data-toggle="modal" data-target="#modal-select-room4">
+							<i class="fa fa-clock-o"></i> Mon historique
+						</a>
+					<?php //} ?>
+				</div>
+
+			<div class="col-md-12 no-padding" style="margin: 15px 0 15px 0 !important;">
+				<?php 
+					$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
+				    $ctrl = Element::getControlerByCollection($parentType);
+				    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
+					
+					if( $parentType == City::COLLECTION || 
+						($parentType != Person::COLLECTION && 
+						Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))
+						{ 
+							$btnLbl = "<i class='fa fa-plus'></i> ".Yii::t("rooms","Add an Action Room", null, Yii::app()->controller->module->id);
+						    $btnUrl = "loadByHash('#rooms.editroom.type.".$parentType.".id.".$parentId."')";
+						} 
+					if(!isset(Yii::app()->session['userId'])){ 
+						$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","LOGIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
+					    $btnUrl = "showPanel('box-login');";
+					}
+
+					$addBtn = ( $parentType != Person::COLLECTION ) ? ' <i class="fa fa-angle-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>' : ""; 
+				?>
+				<!-- <span class="breadscrum">
+					<a class='text-dark' href='javascript:loadByHash("#rooms.index.type.<?php //echo $parentType ?>.id.<?php //echo $parentId ?>.tab.1")'>
+						<i class="fa fa-connectdevelop"></i> <?php //echo Yii::t("rooms","Action Rooms", null, Yii::app()->controller->module->id) ?>
+					</a> 
+					<?php 
+						//if( $parentType != Person::COLLECTION ){
+						//	echo (@$textTitle) ? "/ ".$textTitle : 
+						//		' <i class="fa fa-angle-right"></i> <a class="filter btn btn-default Helvetica" href="javascript:;" onclick="'.$btnUrl.'">'.$btnLbl.'</a>';
+						//}
+					?>
+				</span> -->
+			</div>
 	</div>
 
+</h1>
+
+
+<?php 
+	createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
+	createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
+	createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
+	createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
+?>	
+
+<?php 
+
+function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 	
-	<?php if( $fromView != "rooms.index" ){ 
-		if( !@$discussions && !@$votes && !@$actions ){
-			$rooms = PHDB::find( ActionRoom::COLLECTION, array("parentType"=>$parentType,"parentId"=>$parentId));
-			
-			$discussionsCount = 0;
-			$votesCount = 0;
-			$actionsCount = 0;
-			foreach ($rooms as $value) {
-				if($value["type"] == ActionRoom::TYPE_DISCUSS)
-					$discussionsCount++;
-				else if($value["type"] == ActionRoom::TYPE_VOTE)
-					$votesCount++;
-				else if($value["type"] == ActionRoom::TYPE_ACTIONS)
-					$actionsCount++;
-			}
-		} else {
-			$discussionsCount = count($discussions) ;
-			$votesCount = count($votes);
-			$actionsCount = count($actions);
-		}
-		$actionClass = ( in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, array( "rooms/actions" ,"rooms/action" ))  ) ? "class='active'" : "";
-		$voteClass = ( in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, array( "survey/entries" ,"survey/entry" ))  )  ? "class='active'" : "";
-		$discussClass = ( $voteClass == "" && $actionClass == "" ) ? "class='active'" : "";
+	$iconType = array("discuss"=>"comments", "entry" => "archive", "actions" => "cogs");
+	
+	echo '<div class="panel panel-default no-margin">';
 
-		$isRoomsIndex = (Yii::app()->controller->id."/".Yii::app()->controller->action->id == "rooms/index" ) ? true : false;
-		$discussLink = ($isRoomsIndex) ? "#discussions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.1\')"';
-		$voteLink = ($isRoomsIndex) ? "#votes" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.2\')"';
-		$actionLink = ($isRoomsIndex) ? "#actions" : 'href="javascript:;" onclick="loadByHash(\'#rooms.index.type.'.$parentType.'.id.'.$parentId.'.tab.3\')"';
-		?>
-		<ul class="<?php echo @$hideMenu?> nav nav-tabs nav-justified homestead nav-menu-rooms" role="tablist">
-		  <li <?php echo $discussClass?>><a href="<?php echo $discussLink?>" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?php echo Yii::t("rooms", "Discuss", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $discussionsCount;?> </span></a></li>
-		  <li <?php echo $voteClass?>><a href="<?php echo $voteLink?>" role="tab" data-toggle="tab"><i class="fa fa-archive"></i> <?php echo Yii::t("rooms", "Decide", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $votesCount?></span> </a></li>
-		  <li <?php echo $actionClass?>><a href="<?php echo $actionLink?>" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?php echo Yii::t("rooms", "Act", null, Yii::app()->controller->module->id); ?> <span class="label label-default"><?php echo $actionsCount?></span> </a></li>
-		  <!-- <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li> -->
-		</ul>
-		<?php 
-		if(@$hideMenu)
-			echo "<br/><div class='space20'></div>";
-		?>
+	echo    '<div class="modal fade" id="modal-select-room'.$index.'" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header text-dark">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h2 class="modal-title text-left">
+			        	<i class="fa fa-angle-down"></i> <i class="fa fa-'.$icon.'"></i> 
+			        	<span class="">'.$title.' <span class="badge">'.count($elements).'</span>
+			        </h2>
+			      </div>
+			      <div class="modal-body no-padding">
+			      	<div class="panel-body no-padding">';
 
-		
-	<?php } ?>
-	</h1>
+			      	if(!empty($elements)) 
+			        foreach ($elements as $key => $value) {
+			        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
+			        	//if($typeNew == "history")  var_dump($value); error_log($value["type"]);
+			        	if($typeNew == "history" && @$value["type"]){ //error_log($value["type"]);
+			        		$type = $value["type"]; 
+			        		if(@$iconType[$type]) $icon = $iconType[$type];
+						}
+						echo	'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark room-item" data-dismiss="modal">'.
+									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]."".
+								'</a>';
+							 
+			        } 
+
+				    if(empty($elements)) 
+				      	echo '<div class="panel-body "><i class="fa fa-times"></i> '.$endLbl.'</div>';
+
+	echo 			'</div>';
+	echo 		'</div>';
+
+	echo 		'<div class="modal-footer">';
+	
+	if($typeNew != "history") 
+	echo		    '<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace</button>';
+	echo		    '<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>';
+	
+	echo	    '</div>';
+
+	echo 	   '</div>';
+	echo 	  '</div>';
+
+	echo     '</div>';
+
+	echo   '</div>';
+	//if($typeNew != "history")  var_dump($elements);
+}
+
+?>
+
+
+
+<script>
+	
+function showRoom(type, id){
+	
+	var mapUrl = { 	"all": 
+						{ "url"  : "rooms/index/type/<?php echo $parentType; ?>", 
+						  "hash" : "rooms.index.type.<?php echo $parentType; ?>"
+						} ,
+					"discuss": 
+						{ "url"  : "comment/index/type/actionRooms", 
+						  "hash" : "comment.index.type.actionRooms"
+						} ,
+					"vote": 
+						{ "url"  : "survey/entries", 
+						  "hash" : "survey.entries"
+						} ,
+					"entry" :
+						{ "url"  : "survey/entry",
+						  "hash" : "survey.entry",
+						},
+					"actions": 
+						{ "url"  : "rooms/actions", 
+						  "hash" : "rooms.actions"
+						} ,
+					"action":
+						{
+							"url" : "rooms/action",
+							"hash" : "rooms.action",
+						}
+				}
+
+	var url  = mapUrl[type]["url"]+"/id/"+id;
+	var hash = mapUrl[type]["hash"]+".id."+id;
+
+	$("#room-container").hide(200);
+	$.blockUI({
+				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+			});
+	
+	getAjax('#room-container',baseUrl+'/'+moduleId+'/'+url+"/id/"+id+"?renderPartial=true", 
+			function(){ 
+				history.pushState(null, "New Title", "communecter#" + hash);
+				$("#room-container").show(200);
+				$.unblockUI();
+			},"html");
+}
+
+</script>
+
+
