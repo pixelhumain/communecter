@@ -120,7 +120,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 			<?php if ($openEdition==true) { ?>
-				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				<a href='javascript:' class='pull-right editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="top" title="Paramètrer l'édition" alt="">
+					<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				</a>
 			<?php } ?>
 		</h4>
 	</div>
