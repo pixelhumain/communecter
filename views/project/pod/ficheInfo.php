@@ -499,23 +499,24 @@ function bindAboutPodProjects() {
 	$(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
-    	$(".confidentialitySettings").click(function(){
-	    	param = new Object;
-	    	param.type = $(this).attr("type");
-	    	param.value = $(this).attr("value");
-	    	param.typeEntity = "projects";
-	    	param.idEntity = projectId;
-			$.ajax({
-		        type: "POST",
-		        url: baseUrl+"/"+moduleId+"/project/updatesettings",
-		        data: param,
-		       	dataType: "json",
-		    	success: function(data){
-			    	toastr.success(data.msg);
-			    }
-			});
-    	});
     });
+
+    $(".confidentialitySettings").click(function(){
+    	param = new Object;
+    	param.type = $(this).attr("type");
+    	param.value = $(this).attr("value");
+    	param.typeEntity = "projects";
+    	param.idEntity = projectId;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/project/updatesettings",
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	toastr.success(data.msg);
+		    }
+		});
+	});
 
 }
 

@@ -488,23 +488,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$(".editConfidentialityBtn").click(function(){
 	    	console.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
-	    	$(".confidentialitySettings").click(function(){
-		    	param = new Object;
-		    	param.type = $(this).attr("type");
-		    	param.value = $(this).attr("value");
-		    	param.typeEntity = "events";
-		    	param.idEntity = itemId;
-				$.ajax({
-			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/event/updatesettings",
-			        data: param,
-			       	dataType: "json",
-			    	success: function(data){
-				    	toastr.success(data.msg);
-				    }
-				});
-	    	});
 	    });
+	    
+	    $(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+	    	param.typeEntity = "events";
+	    	param.idEntity = itemId;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/event/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+    	});
 
 
 		$(".panel-btn-confidentiality .btn").click(function(){
