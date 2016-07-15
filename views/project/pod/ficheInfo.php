@@ -17,7 +17,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 $cssAnsScriptFilesModuleSS = array(
@@ -190,13 +191,16 @@ progress[value]::-moz-progress-bar {
 		<h4 class="panel-title text-dark">
 				<i class="fa fa-info-circle"></i> 
 				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
+				<?php if ($openEdition==true) { ?>
+				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				<?php } ?>
 		</h4>
 		<!-- <div class="navigator padding-0 text-right"> -->
 			
 		<!-- </div> -->
 	</div>
 	<div class="panel-tools">
-		<?php if ($isAdmin){ ?>
+		<?php if ($isAdmin || $openEdition){ ?>
 			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>-->
 			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
@@ -206,8 +210,8 @@ progress[value]::-moz-progress-bar {
 				</span>
 			</a>
 		<?php } ?>
-		<?php if (Preference::isOpenEdition($project["preferences"])) { ?>
-			<!--<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php //echo $itemId ?>','<?php //echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php //echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php //echo Yii::t("common","History")?></span></a>-->
+		<?php if ($openEdition) { ?>
+			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("project","See modifications done on this project"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
 	</div>
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
@@ -284,7 +288,12 @@ progress[value]::-moz-progress-bar {
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	<div class="panel-body padding-20">
+	<div id="activityContent" class="panel-body no-padding hide">
+		<h2 class="homestead text-dark" style="padding:40px;">
+			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
+		</h2>
+	</div>
+	<div class="panel-body padding-20" id="contentGeneralInfos">
 		<div class="col-sm-6 col-xs-6 text-dark padding-10">
 			<?php
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
@@ -443,6 +452,8 @@ jQuery(document).ready(function()
 
 function bindAboutPodProjects() {
 	$("#editProjectDetail").on("click", function(){
+		if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+			getBackDetails(projectId,"<?php echo Project::COLLECTION ?>");
 		switchMode();
 	});
 
@@ -478,13 +489,11 @@ function initXEditable() {
 	$.fn.editable.defaults.mode = 'popup';
 	$('.editable-project').editable({
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
-    	//value : <?php echo (isset($project["name"]))?json_encode($project["name"]) : "''";?> ,
-    	//onblur: 'submit',
     	showbuttons: false,
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				console.log(data);
+				loadActivity=true;	
 	        }
 	        else
 	        	toastr.error(data.msg);  
@@ -506,9 +515,10 @@ function initXEditable() {
 			image: false
 		},
 		success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
 	        	toastr.success(data.msg);
-	        else
+				loadActivity=true;	
+	        }else
 	        	toastr.error(data.msg);  
 	    },
 	});
@@ -526,7 +536,15 @@ function initXEditable() {
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 	$('#startDate').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
@@ -539,9 +557,10 @@ function initXEditable() {
 			weekStart: 1,
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
-			else 
+				loadActivity=true;	
+			}else 
 				return data.msg;
 	    }
 	});
@@ -557,9 +576,10 @@ function initXEditable() {
             weekStart: 1,
        },
        success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
 	        	toastr.success(data.msg);
-	        else 
+				loadActivity=true;	
+	        }else 
 				return data.msg;
 	    }
     });
@@ -579,9 +599,10 @@ function initXEditable() {
 			tokenSeparators: [","]
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
-			else 
+				loadActivity=true;	
+			}else 
 				return data.msg;
 	    }
 	});
@@ -607,7 +628,7 @@ function initXEditable() {
 				toastr.success(data.msg);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-				//findGeoPosByAddress();
+				loadActivity=true;	
 			}
 			else {
 				return data.msg;
@@ -622,8 +643,10 @@ function initXEditable() {
 			return countries;
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
+				loadActivity=true;	
+			}
 			else 
 				return data.msg;
 	    }
@@ -638,6 +661,7 @@ function initXEditable() {
 		success : function(data) {
 			if(data.result) {
 				toastr.success(data.msg);
+				loadActivity=true;	
 				if(data.avancement=="idea")
 					val=5;
 				else if(data.avancement=="concept")
