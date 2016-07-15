@@ -9,10 +9,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 $logguedAndValid = Person::logguedAndValid();
 $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
 
-if( Yii::app()->request->isAjaxRequest ){
-	Menu::action( $action );
-	$this->renderPartial('../default/panels/toolbar');
-}
 ?>
 <style type="text/css">
 
@@ -67,15 +63,17 @@ if( Yii::app()->request->isAjaxRequest ){
 #commentHistory .panel-scroll{
 	max-height:unset !important;
 }
-
+.info-survey{
+	font-weight: 500;
+	font-size: 13px;
+	border-top: 1px solid rgb(210, 210, 210);
+	padding-top: 15px;
+	margin-top: 0px;
+}
 
 </style>
 
 
-<!-- start: LOGIN BOX -->
-<div class="center">
-	
-	<br/>
 	
 <?php 
 	//ca sert a quoi ce doublon ?
@@ -88,36 +86,44 @@ if( Yii::app()->request->isAjaxRequest ){
 	}
 
 ?>
- 	<div>
-     
- 		
-		  
-		 <?php 
-		$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).'</a>' : '';
-		 $this->renderPartial('../rooms/header',array(    
-                "parent" => $parent, 
-                            "parentId" => $parentSpace['parentId'], 
-                            "parentType" => $parentSpace['parentType'], 
-                            "fromView" => "rooms.actions",
-                            "faTitle" => "cogs",
-                            "colorTitle" => "azure",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
-                            				" / ".
-                            				"<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parentSpace["_id"]."\")'><i class='fa fa-cogs'></i> ".$parentSpace["name"]."</a>".$extraBtn
-	                            
-	                            )); ?>
-
-
-    </div>
- </div>
+ 	 	  
+<?php 
+	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).'</a>' : '';
+	if(!isset($_GET["renderPartial"])){
+	 	$this->renderPartial('../rooms/header',array(    
+            "parent" => $parent, 
+                        "parentId" => $parentSpace['parentId'], 
+                        "parentType" => $parentSpace['parentType'], 
+                        "fromView" => "rooms.actions",
+                        "faTitle" => "cogs",
+                        "colorTitle" => "azure",
+                        "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                        				" / ".
+                        				"<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parentSpace["_id"]."\")'><i class='fa fa-cogs'></i> ".$parentSpace["name"]."</a>".$extraBtn
+                            
+                            )); 
+		echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+  	}
+?>
 
 <div class="row vote-row contentProposal" >
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod">
-				
-			<h4 class="col-md-12 text-center text-azure" style="font-weight:500; font-size:13px;"> 
+			
+
+			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+				<i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-archive"></i> Espace d'action :</span> <?php echo $parentSpace["name"];?> 
+			</h1>
+			<div class="col-md-12">
+				<?php 
+				if( Yii::app()->request->isAjaxRequest ){
+					Menu::action( $action );
+					$this->renderPartial('../default/panels/toolbar');
+				}?>
+			</div>
+			<h4 class="col-md-12 text-center text-azure info-survey"> 
 				
 				<?php if( @$action["startDate"]  ){ ?>
 				<span class="pull-right"><?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> <i class="fa fa-caret-right"></i> <?php echo date("d/m/y",$action["startDate"]) ?></span>
@@ -236,7 +242,11 @@ if( Yii::app()->request->isAjaxRequest ){
 	
 </div>
 
-
+<?php 
+ if(!isset($_GET["renderPartial"])){
+  echo "</div>"; // ferme le id="room-container"
+ }
+ ?>
 
 <style type="text/css">
 	.footerBtn{font-size: 2em; color:white; font-weight: bolder;}

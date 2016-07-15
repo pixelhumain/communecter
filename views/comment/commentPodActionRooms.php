@@ -6,30 +6,34 @@
 	/*padding:15px !important;*/
 }
 </style>
-
-<?php 
-	Menu::comments( $parentType, $parentId, $context);
-	$this->renderPartial('../default/panels/toolbar');
-
-}
-
-?>
+<?php } ?>
 
 
-
-<?php if($contextType == "actionRooms"){ ?>
-   		 <?php $this->renderPartial('../rooms/header',array(    
-                            "archived"=> (@$context["status"] == ActionRoom::STATE_ARCHIVED) , 
-            		   					"parent" => $parent, 
+<?php
+ if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
+   	$this->renderPartial('../rooms/header',array(    
+		   					"parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "comment.index",
                             "faTitle" => "comments",
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
-                            )); ?>
+                            )); 
+    echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+?>
+
+    <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de disscussion : </span> <?php echo $context["name"]; ?>
+    </h1>
+    
 <?php } ?>
 
+
+<?php 
+  Menu::comments( $parentType, $parentId );
+  $this->renderPartial('../default/panels/toolbar');
+?>
 
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])

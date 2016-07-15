@@ -98,6 +98,7 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 <div id="commentHistory" class="no-padding">
 	<div class="panel panel-white">
 		<div class="panel-heading border-light">
+
 			<?php if($contextType == "actionRooms"){ ?>
 				<?php 
               $icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
