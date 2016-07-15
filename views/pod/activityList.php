@@ -42,7 +42,7 @@ $countries= OpenData::getCountriesList();
 		if(count($activities)==0){ ?>
 			<div id="infoPodOrga" class="padding-10 info-no-need">
 					<blockquote> 
-						<?php echo Yii::t("activityList","There is no activity for the moment<br/>Modify informations<br/> to improve knowledge<br/>To give a better overview of your territories<br/>And liberate your knowledge"); ?>
+						<?php echo Yii::t("activityList","There is no activity for the moment.<br/>Edit...<br/>To improve the commons informations<br/>To give a better overview of territories' actors and activities<br/>And to liberate your knowledge"); ?>
 					</blockquote>
 				</div>
 	<?php } else{
