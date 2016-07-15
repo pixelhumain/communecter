@@ -798,7 +798,10 @@ function bindAboutPodEvents()
     $(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
-    	$(".confidentialitySettings").click(function(){
+    	
+    });
+
+    $(".confidentialitySettings").click(function(){
 	    	param = new Object;
 	    	param.type = $(this).attr("type");
 	    	param.value = $(this).attr("value");
@@ -812,7 +815,6 @@ function bindAboutPodEvents()
 			    }
 			});
     	});
-    });
 
 
 }
