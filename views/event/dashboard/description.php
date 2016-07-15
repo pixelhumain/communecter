@@ -281,7 +281,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#event.detail.id.<?php echo $event['_id'] ;?>');">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -489,7 +489,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	    	console.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
 	    });
-	    
+
 	    $(".confidentialitySettings").click(function(){
 	    	param = new Object;
 	    	param.type = $(this).attr("type");

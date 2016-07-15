@@ -364,10 +364,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 	        </div>
 	      </div>
-	      <?php 
-	      	var_dump($person["preferences"]);
-	      	var_dump(is_array($person["preferences"]["privateFields"]));
-	      ?>
 	      <script type="text/javascript">
 			<?php
 				//Params Checked
@@ -398,7 +394,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#person.detail.id.<?php echo $person['_id'] ;?>');">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -815,6 +811,12 @@ function bindAboutPodEvents()
 			    }
 			});
     	});
+
+    
+
+    $(".btn-confidentialitySettings").click(function(){
+    	
+	});
 
 
 }
