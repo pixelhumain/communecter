@@ -257,13 +257,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div><!-- /.modal -->
 
 
-
-
-
-
-
-	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
-
+	<div id="activityContent" class="panel-body no-padding hide">
+		<h2 class="homestead text-dark" style="padding:40px;">
+			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
+		</h2>
+	</div>
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">
 		<div class="row">
 

@@ -25,7 +25,9 @@ $arrayLabel=array(
 	"telephone.mobile" => Yii::t("common", "the mobile"),
 	"telephone.fixe" => Yii::t("common", "the fix"),
 	"email" => Yii::t("common", "the email"),
-	"url" => Yii::t("common", "the website")
+	"url" => Yii::t("common", "the website"),
+	"licence" => Yii::t("common", "the licence"),
+	"properties.avancement" => Yii::t("common", "the maturity")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
@@ -72,7 +74,7 @@ $countries= OpenData::getCountriesList();
 						echo $tel;
 					}
 				}else	
-					echo $value["object"]["displayValue"];
+					echo Yii::t("common",$value["object"]["displayValue"]);
 				echo "</span>"
 			?>
 		</div>
