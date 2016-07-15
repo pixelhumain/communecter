@@ -638,6 +638,10 @@ class Menu {
                         Yii::t( "common", 'Close'), 'times text-red',
                         "closeEntry('".$id."')","closeProposalBtn",null);
             }
+            self::entry("right", 'onclick', 
+                        Yii::t( "common", 'Move this proposals'),
+                        Yii::t( "common", 'Move'), 'share-alt text-grey',
+                        "move('survey.entry', '".$id."')","moveProposalBtn",null);
         }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         // Help

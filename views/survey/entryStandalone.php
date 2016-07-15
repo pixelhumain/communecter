@@ -509,4 +509,57 @@ function closeEntry(id)
           } 
       });
  }
+
+function listOfDestinations(){
+	str = "<h2>a Decision Room</h2>";
+	str += "<h2>an Action Room</h2>";
+	return str;
+}
+function move(type, id)
+{
+    console.warn("--------------- move ---------------------");
+    
+      bootbox.dialog({
+		title: "Choose where to move ",
+		message: listOfDestinations(),
+		buttons: {
+			annuler: {
+				label: "Annuler",
+				className: "btn-default",
+				callback: function() {}
+			},
+			success: {
+				label: "OK",
+				className: "btn-info",
+				callback: function() {
+					processingBlockUi();
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+'/'+moduleId+url,
+				        data: {
+				        	"discussionId" : context['_id']['$id'],
+				        	"type" : contextType,
+				        	"txt" : selTxt
+				        },
+				        dataType: "json",
+				        success: function(data){
+				          if(data.result){
+				            toastr.success("<h1><?php echo Yii::t("common","Created Successfully") ?>.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'><?php echo Yii::t("common","Quick access here") ?></a><h1>");
+				            $(".selBtn").remove(); 
+				          } else 
+				            toastr.error(data.msg);
+				          
+				          $.unblockUI();
+				        },
+				        error: function(data) {
+				          $.unblockUI();
+				          toastr.error("Something went really bad : "+data.msg);
+				        }
+				    });
+				}
+			}
+		}
+    });
+  }
+
 </script>

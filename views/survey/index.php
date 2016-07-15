@@ -580,8 +580,6 @@ $this->renderPartial('../default/panels/toolbar');
                   '</div>'.
                 '</div>';
       
-      
-      
       return $html;
     }
 
@@ -602,7 +600,6 @@ $this->renderPartial('../default/panels/toolbar');
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>"." / ".
                                     "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".(string)$where["survey"]["_id"]."\")'><i class='fa fa-th'></i> ".$nameList."</a>".$extraBtn 
-                              
                             )); ?>
 
     <div class="panel-white" style="display:inline-block; width:100%;">
