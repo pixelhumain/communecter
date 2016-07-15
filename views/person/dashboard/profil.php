@@ -233,13 +233,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php echo Yii::t("common","Change password") ?>
 					</span>
 				</a>
-				<!--<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+				<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
 					<i class='fa fa-download'></i> 
 					<span class="hidden-sm hidden-xs">
 					<?php //echo Yii::t("common","Télécharger votre profile"); ?>
 					</span>
 				</a>
-				<a href="#person.updateprofil" class='btn btn-sm btn-default updateProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+				<!--<a href="#person.updateprofil" class='btn btn-sm btn-default updateProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
 					<i class='fa fa-update'></i> 
 					<span class="hidden-sm hidden-xs">
 					<?php //echo Yii::t("common","Mettre à jour votre profil"); ?>
@@ -275,8 +275,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
 		<?php 	} ?>
-
-
 		<?php if(!empty($person["badges"])){?>
 				<?php if( Badge::checkBadgeInListBadges("crowdfunder", $person["badges"]) ){?>
 					<div class="badgePH pull-right" data-title="CROWDFUNDER">
@@ -719,6 +717,7 @@ jQuery(document).ready(function()
 
 function buildBgClassesList() 
 { 
+	console.log("-----------------buildBgClassesList----------------------");
 	if( $(".bgClassesContainer").html() == "" )
 	{
 		$.each(bgClasses,function(i,v) { 
@@ -732,6 +731,7 @@ function buildBgClassesList()
 }
 function bindAboutPodEvents() 
 {
+	console.log("-----------------bindAboutPodEvents----------------------");
 	$(".changePasswordBtn").click(function () {
 		console.log("changePasswordbuttton");
 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
@@ -818,6 +818,7 @@ function bindAboutPodEvents()
 }
 
 function initXEditable() {
+	console.log("-----------------initXEditable----------------------");
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-person').editable({
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
@@ -969,6 +970,7 @@ function initXEditable() {
 }
 
 function manageModeContext() {
+	console.log("-----------------manageModeContext----------------------");
 	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 	if (mode == "view") {
@@ -991,6 +993,7 @@ function manageModeContext() {
 }
 
 function switchMode() {
+	console.log("-----------------switchMode----------------------");
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
@@ -1006,6 +1009,7 @@ function switchMode() {
 
 function changeHiddenIcone() 
 { 
+	console.log("-----------------changeHiddenIcone----------------------");
 	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
 	console.log("------------", mode);
 	if(mode == "view"){
@@ -1032,6 +1036,7 @@ function changeHiddenIcone()
 }
 
 function manageSocialNetwork(iconObject, value) {
+	//console.log("-----------------manageSocialNetwork----------------------");
 	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
 			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
@@ -1060,6 +1065,7 @@ function manageSocialNetwork(iconObject, value) {
 	//modification de la position geographique	
 
 	function findGeoPosByAddress(){
+		console.log("-----------------findGeoPosByAddress----------------------");
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe
