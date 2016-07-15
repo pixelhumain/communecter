@@ -450,7 +450,7 @@ class Menu {
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
         }
-        if (isset(Yii::app()->session["userId"]) && ! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
+        if (isset(Yii::app()->session["userId"]) && (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"]) || $project["preferences"]["isOpenEdition"]==true)) {
 	         $connectAs="admin";
 	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]){
 		            $connectAs="contributor";
@@ -461,12 +461,14 @@ class Menu {
 	                        'fa fa-link followBtn',
 	                        "follow('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
                     }
-	            }
+	            } 
+	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]["isAdmin"]){
                 self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as ".$connectAs." of this project"),
                         Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
+                        }
            }
     }
 
