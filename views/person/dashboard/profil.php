@@ -366,10 +366,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 	        </div>
 	      </div>
-	      <?php 
-	      	var_dump($person["preferences"]);
-	      	var_dump(is_array($person["preferences"]["privateFields"]));
-	      ?>
 	      <script type="text/javascript">
 			<?php
 				//Params Checked
