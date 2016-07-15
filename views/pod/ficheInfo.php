@@ -145,6 +145,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
 		<?php } ?>
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
+			}
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
+		</style>
+		<?php if(!empty($organization["badges"])){?>
+			<?php if( Badge::checkBadgeInListBadges("opendata", $organization["badges"]) ){?>
+				<div class="badgePH pull-right" data-title="OPENDATA">
+					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+						<i class="fa fa-database main fa-stack-1x text-orange"></i>
+						<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+					</span>
+				</div>
+		<?php } 
+		} ?>
 	</div>
 
 	<div class="modal fade" role="dialog" id="modal-confidentiality">

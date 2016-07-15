@@ -209,6 +209,40 @@ progress[value]::-moz-progress-bar {
 		<?php if (Preference::isOpenEdition($project["preferences"])) { ?>
 			<!--<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php //echo $itemId ?>','<?php //echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php //echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php //echo Yii::t("common","History")?></span></a>-->
 		<?php } ?>
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
+			}
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
+		</style>
+
+		<?php if(!empty($project["badges"])){?>
+			<?php if( Badge::checkBadgeInListBadges("opendata", $project["badges"]) ){?>
+				<div class="badgePH pull-right" data-title="OPENDATA">
+					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+						<i class="fa fa-database main fa-stack-1x text-orange"></i>
+						<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+					</span>
+				</div>
+		<?php } 
+		} ?>
 	</div>
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
 	  <div class="modal-dialog">
