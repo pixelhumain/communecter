@@ -26,6 +26,7 @@ class RoomsController extends CommunecterController {
 			'closeaction'	=> 'citizenToolKit.controllers.actionRoom.CloseActionAction',
 			'assignme'		=> 'citizenToolKit.controllers.actionRoom.AssignMeAction',
 			"fastaddaction" => 'citizenToolKit.controllers.actionRoom.FastAddActionAction',
+			'move'        => 'citizenToolKit.controllers.actionRoom.MoveAction',
 	    );
 	}
 }

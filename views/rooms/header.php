@@ -197,13 +197,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php 
-	createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
-	createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
-	createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
-	createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
-?>	
 
-<?php 
+createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
+createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
+createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
+createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
 
 function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 	
@@ -259,7 +257,6 @@ function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 	echo     '</div>';
 
 	echo   '</div>';
-	//if($typeNew != "history")  var_dump($elements);
 }
 
 ?>

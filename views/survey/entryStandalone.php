@@ -192,7 +192,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<div class="box-vote box-pod">
 			
 			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-				<i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span> <?php echo $parentSpace["name"];?> 
+				<i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-archive"></i> Espace de décision 
 			</h1>
 			<?php 					
 				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
@@ -488,55 +488,54 @@ function closeEntry(id)
  }
 
 function listOfDestinations(){
-	str = "<h2>a Decision Room</h2>";
-	str += "<h2>an Action Room</h2>";
+
+	str = "<h2>Change Parent, different parentType and Id</h2>";
+	str += "<h2>Move to Decission Room</h2>";
+	str += "<a href='javascript:move(\"survey\",\"57864dc3f6ca47cf4a8b457d\")'>ggggggg</a>";
+	str += "<br/><a href='javascript:move(\"survey\",\"57862323f6ca47ff558b4573\")'>one two three </a>";
+	str += "<h2>Move to Action Room</h2>";
+	str += "<br/><a href='javascript:move(\"survey\",\"5786585cf6ca477b4e8b457d\")'>convert to action and move to qqqq </a>";
 	return str;
 }
-function move(type, id)
-{
-    console.warn("--------------- move ---------------------");
-    
-      bootbox.dialog({
-		title: "Choose where to move ",
-		message: listOfDestinations(),
-		buttons: {
-			annuler: {
-				label: "Annuler",
-				className: "btn-default",
-				callback: function() {}
-			},
-			success: {
-				label: "OK",
-				className: "btn-info",
-				callback: function() {
-					processingBlockUi();
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+'/'+moduleId+url,
-				        data: {
-				        	"discussionId" : context['_id']['$id'],
-				        	"type" : contextType,
-				        	"txt" : selTxt
-				        },
-				        dataType: "json",
-				        success: function(data){
-				          if(data.result){
-				            toastr.success("<h1><?php echo Yii::t("common","Created Successfully") ?>.<br/><a class='btn btn-dark-blue' href='javascript:loadByHash(\""+data.hash+"\")'><?php echo Yii::t("common","Quick access here") ?></a><h1>");
-				            $(".selBtn").remove(); 
-				          } else 
-				            toastr.error(data.msg);
-				          
-				          $.unblockUI();
-				        },
-				        error: function(data) {
-				          $.unblockUI();
-				          toastr.error("Something went really bad : "+data.msg);
-				        }
-				    });
-				}
-			}
-		}
-    });
-  }
 
+function movePrompt(type, id)
+{
+     bootbox.dialog({
+		title: "<b>Choose where to move</b> ",
+		message: listOfDestinations(),
+    });
+}
+
+function move( type,destId ){
+	bootbox.hideAll();
+	console.warn("--------------- move ---------------------",type,destId);
+	bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+'/'+moduleId+'/rooms/move',
+		        data: {
+		        	"type" : type,
+		        	"id" : "<?php echo $_GET["id"]?>",
+		        	"destId":destId
+		        },
+		        dataType: "json",
+		        success: function(data){
+		          if(data.result){
+		            toastr.success("<h1>"+data.msg+".<h1>");
+		            loadByHash(data.url);
+		          } else 
+		            toastr.error(data.msg);
+		          
+		          $.unblockUI();
+		        },
+		        error: function(data) {
+		          $.unblockUI();
+		          toastr.error("Something went really bad : "+data.msg);
+		        }
+		    });
+		}
+	});
+}
 </script>

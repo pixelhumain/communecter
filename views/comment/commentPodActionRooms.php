@@ -12,7 +12,7 @@
 <?php
  if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
    	$this->renderPartial('../rooms/header',array(    
-		   					"parent" => $parent, 
+		   					            "parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "comment.index",

@@ -301,4 +301,56 @@ function assignMe(id)
         } 
     });
  }
+
+ function listOfDestinations(){
+
+	str = "<h2>Change Parent, different parentType and Id</h2>";
+	str += "<h2>Move to Decission Room</h2>";
+	str += "<a href='javascript:move(\"survey\",\"57864dc3f6ca47cf4a8b457d\")'>ggggggg</a>";
+	str += "<br/><a href='javascript:move(\"survey\",\"57862323f6ca47ff558b4573\")'>one two three </a>";
+	str += "<h2>Move to Action Room</h2>";
+	str += "<a href='javascript:move(\"action\",\"57862323f6ca47ff558b4573\")'>convert to survey and move to one two three </a>";
+	return str;
+}
+
+function movePrompt(type, id)
+{
+     bootbox.dialog({
+		title: "<b>Choose where to move</b> ",
+		message: listOfDestinations(),
+    });
+}
+
+function move( type,destId ){
+	bootbox.hideAll();
+	console.warn("--------------- move ---------------------",type,destId);
+	bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+'/'+moduleId+'/rooms/move',
+		        data: {
+		        	"type" : type,
+		        	"id" : "<?php echo $_GET["id"]?>",
+		        	"destId":destId
+		        },
+		        dataType: "json",
+		        success: function(data){
+		          if(data.result){
+		            toastr.success("<h1>"+data.msg+".<h1>");
+		            loadByHash(data.url);
+		          } else 
+		            toastr.error(data.msg);
+		          
+		          $.unblockUI();
+		        },
+		        error: function(data) {
+		          $.unblockUI();
+		          toastr.error("Something went really bad : "+data.msg);
+		        }
+		    });
+		}
+	});
+}
 </script>
