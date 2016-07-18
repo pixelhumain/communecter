@@ -745,7 +745,7 @@ function bindAboutPodEvents()
 			success: function (obj){
 				console.log("obj", obj);
 				$("<a />", {
-				    "download": "data.json",
+				    "download": "profil.json",
 				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
 				  }).appendTo("body")
 				  .click(function() {
