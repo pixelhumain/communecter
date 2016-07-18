@@ -21,155 +21,154 @@ $commentActive = true;
 ?>
 
 <style type="text/css">
-  .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
-  button.filter,button.sort{color:#000;}
-  /*a.btn{margin:3px;}*/
-  .mix{border-radius: 8px;}
-  .home{margin-top: 50px;}
+.connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
+button.filter,button.sort{color:#000;}
+/*a.btn{margin:3px;}*/
+.mix{border-radius: 8px;}
+.home{margin-top: 50px;}
 
-  /*.infolink{border-top:1px solid #fff}*/
+/*.infolink{border-top:1px solid #fff}*/
 
-  .leftlinks a.btn{background-color: yellow;border: 1px solid yellow;}
-  /*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
-  a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
-  a.btn.golink{background-color:green;color:white;border: 1px solid green;}
-  a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
-  a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
-  a.btn.voteMoreInfo{background-color: #C1ABD4 !important;border: 1px solid #789289;}
-  a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
-  a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
-  .step{ background-color: #182129;  opacity: 0.9;}
-  .taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
+.leftlinks a.btn{background-color: yellow;border: 1px solid yellow;}
+/*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
+a.btn.alertlink{background-color:red;color:white;border: 1px solid red;}
+a.btn.golink{background-color:green;color:white;border: 1px solid green;}
+a.btn.voteUp{background-color: #93C22C;border: 1px solid green;}
+a.btn.voteUnclear{background-color: yellow;border: 1px solid yellow;}
+a.btn.voteMoreInfo{background-color: #C1ABD4 !important;border: 1px solid #789289;}
+a.btn.voteAbstain{color: black;background-color: white;border: 1px solid white;}
+a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
+.step{ background-color: #182129;  opacity: 0.9;}
+.taglist{width: 255px;display: inline;background-color:#3490EC;color:#000;padding: 3px 5px;height: 28px; }
 
-  .progress-bar-green{background-color: #93C22C;}
-  .progress-bar-yellow{background-color: yellow; color:black !important;}
-  .progress-bar-white{background-color: #C9C9C9; color:black !important;}
-  .progress-bar-purple{background-color: #C1ABD4;}
-  .progress-bar-red{background-color: #db254e;}
+.progress-bar-green{background-color: #93C22C;}
+.progress-bar-yellow{background-color: yellow; color:black !important;}
+.progress-bar-white{background-color: #C9C9C9; color:black !important;}
+.progress-bar-purple{background-color: #C1ABD4;}
+.progress-bar-red{background-color: #db254e;}
 
-  .btnvote{
-    color: white !important; 
-    padding: 8px!important;
-    font-weight: 500;
-    border-radius: 30px!important;
-    display: inline-block !important;
-  }
+.btnvote{
+  color: white !important; 
+  padding: 8px!important;
+  font-weight: 500;
+  border-radius: 30px!important;
+  display: inline-block !important;
+}
 
-  .color-btnvote-green{   background-color: #93C22C!important;}
-  .color-btnvote-yellow{  background-color: yellow!important; color:black !important;}
-  .color-btnvote-white{   background-color: #FFF!important;  color:black !important; border: 1px solid #939393;}
-  .color-btnvote-purple{  background-color: #C1ABD4!important;}
-  .color-btnvote-red{   background-color: #db254e!important;}
-  .controls{
-    background: #FFF;
-    border-bottom: 1px solid #BDBDBD;
-    border-top: 1px solid #fff;
-  }
+.color-btnvote-green{   background-color: #93C22C!important;}
+.color-btnvote-yellow{  background-color: yellow!important; color:black !important;}
+.color-btnvote-white{   background-color: #FFF!important;  color:black !important; border: 1px solid #939393;}
+.color-btnvote-purple{  background-color: #C1ABD4!important;}
+.color-btnvote-red{   background-color: #db254e!important;}
+.controls{
+  background: #FFF;
+  border-bottom: 1px solid #BDBDBD;
+  border-top: 1px solid #fff;
+}
 
-  .mixcontainer .mix{
-    border-radius:0px;
-    border-color: #CCC;
-    height:250px;
-    margin:1% 1% !important;
-    float:left;
-    moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
-    -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
-    -o-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
-    box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
-    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
-  }
+.mixcontainer .mix{
+  border-radius:0px;
+  border-color: #CCC;
+  height:250px;
+  margin:1% 1% !important;
+  float:left;
+  moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+  -webkit-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+  -o-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+  box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
+  filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+}
 
-  .mixcontainer .mix a.active, .mixcontainer .mix span.active{
-    background-color: transparent;
-    color: #717E87;
-    font-size: 13px;
-    margin: 0px;
+.mixcontainer .mix a.active, .mixcontainer .mix span.active{
+  background-color: transparent;
+  color: #717E87;
+  font-size: 13px;
+  margin: 0px;
+  float: left;
+  border: 0px;
+}
+.mixcontainer .mix a.titleMix{
+  margin-top: 4px !important;
+  float: left;
+  width: 100%;
+  overflow-y:hidden;
+  height:40px;
+}
+.mixcontainer .mix a.titleMix:hover{
+  text-decoration: underline !important;
+}
+
+.leftlinks {
+    text-align: left;
     float: left;
-    border: 0px;
-  }
-  .mixcontainer .mix a.titleMix{
-    margin-top: 4px !important;
-    float: left;
+    /*width: 100%;*/
+}
+
+.leftlinks a.btn{
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  border-radius: 20px;
+  font-size: 18px;
+  width:35px;
+  height:35px;
+}
+
+.leftlinks a.btn:hover{
+  color:#3C5665;
+}
+
+.mixcontainer .mix span {
+  margin: 0px;
+}
+
+.mixcontainer .mix,.mixcontainer .mix a, .mixcontainer .mix span{
+  background-color: white;
+  border-color: #ccc;
+}
+.mixcontainer .switch,.mixcontainer .switch a, .mixcontainer .switch span{
+  background-color: #eee;
+}
+.mixcontainer .mix span.message-propostal{
+  height: 120px;
+  overflow-y: hidden;
+}
+
+.message-propostal{
+  font-size: 13px !important;
+  font-weight: 300 !important;
+  margin-top: 20px !important;
+  line-height: 1.3;
+  width:100%;
+}
+
+.lbl-info-survey{
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  margin-top:3px;
+  /*padding:4px;*/
+}
+
+.progress{
+  margin-bottom:5px;
+  margin-top:5px;
+}
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
     width: 100%;
-    overflow-y:hidden;
-    height:40px;
-  }
-  .mixcontainer .mix a.titleMix:hover{
-    text-decoration: underline !important;
-  }
+    float: left;
+}
 
-  .leftlinks {
-      text-align: left;
-      float: left;
-      /*width: 100%;*/
-  }
-
-  .leftlinks a.btn{
-    border: 1px solid rgba(0, 0, 0, 0.25) !important;
-    border-radius: 20px;
-    font-size: 18px;
-    width:35px;
-    height:35px;
-  }
-
-  .leftlinks a.btn:hover{
-    color:#3C5665;
-  }
-
-   .mixcontainer .mix span {
-        margin: 0px;
-    }
-
-  .mixcontainer .mix,.mixcontainer .mix a, .mixcontainer .mix span{
-    background-color: white;
-    border-color: #ccc;
-  }
-  .mixcontainer .switch,.mixcontainer .switch a, .mixcontainer .switch span{
-    background-color: #eee;
-  }
-  .mixcontainer .mix span.message-propostal{
-    height: 120px;
-    overflow-y: hidden;
-  }
-
-    .message-propostal{
-      font-size: 13px !important;
-      font-weight: 300 !important;
-      margin-top: 20px !important;
-      line-height: 1.3;
-      width:100%;
-    }
-
-    .lbl-info-survey{
-      font-size: 12px !important;
-      font-weight: 500 !important;
-      margin-top:3px;
-      /*padding:4px;*/
-    }
-
-    .progress{
-      margin-bottom:5px;
-      margin-top:5px;
-    }
+.bar-btn-filters .btn{
+  margin-bottom: 6px;
+}
 
 
-    hr {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        border: 0;
-        border-top: 1px solid #e6e6e6;
-        width: 100%;
-        float: left;
-    }
-
-    .bar-btn-filters .btn{
-      margin-bottom: 6px;
-    }
-
-    
-  .home .controls {
-    border: 1px solid #E4E4E4;
-  }
+.home .controls {
+border: 1px solid #E4E4E4;
+}
 
 
 @media screen and (min-width: 1400px) {
@@ -212,7 +211,7 @@ $commentActive = true;
 <div id="surveyDetails"></div>
 
 <section class="mt80 stepContainer">
-  <div class=" home ">
+  <div class="home">
 
   <?php 
   $logguedAndValid = Person::logguedAndValid();
@@ -265,7 +264,7 @@ $commentActive = true;
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter bg-red" data-filter=".'.$t.'">'.$t.'</button>';
+              $tagBlock .= ' <button class="filter bg-azure btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -316,7 +315,6 @@ $commentActive = true;
         $createdInfo .= "</div>";
 
         $ends = "";
-        //if( Yii::app()->session["userEmail"] == $entry["email"] ){
         if($entry["type"]==ActionRoom::TYPE_ACTION && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) ){
           $ends  = "<div class='text-green lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
           $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
@@ -326,7 +324,7 @@ $commentActive = true;
           $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "ended", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
           $ends .= "</div>";
         }
-        //}
+        
         $statusClass = ActionRoom::ACTION_TODO;
         $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
         $statusColor = "default";
@@ -414,114 +412,114 @@ $commentActive = true;
       
    ?>
       
-
     <div class="panel-white" style="display:inline-block; width:100%;">
    
         <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
           <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <span class="homestead">Espace d'action : </span> <?php echo $room["name"]; ?> 
         </h1>
+
         <?php 
           Menu::actions( $room );
           $this->renderPartial('../default/panels/toolbar');
         ?>
+
         
-        <div class="controls col-md-12 bar-btn-filters" style="border-radius:0px;">
-              <!-- <label>Filtre:</label> -->
-              <!-- <button class="btn btn-default" onclick="loadByHash('<?php echo $surveyLoadByHash; ?>')"><i class="fa fa-caret-left"></i> <i class="fa fa-group"></i></button> -->
-              <?php if ( count(@$list) > 0 ) { ?>
-              <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Tout</button>
-              <?php } ?>
-              <?php if( count($alltags) ){?>
-              <button class="btn bg-red fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
-              <?php } ?>
-              <?php if( $logguedAndValid ){?>
-              <a class="filter btn bg-dark" data-filter=".myentries" id="myentriesBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-dark" data-filter=".todo" id="todoBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-dark" data-filter=".inprogress" id="inprogressBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-dark" data-filter=".late" id="lateBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-dark" data-filter=".closed" id="closedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
-              <a class="filter btn bg-dark" data-filter=".unassigned" id="unassignedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
-              <?php } ?>
-              
-        </div>
 
         <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
-              
-              <?php if ( count(@$list) > 0 ) { ?>
-                <div id="tags-container" class="col-md-12 margin-bottom-15 hidden">
-                  <?php echo $tagBlock?>
-                </div>
+            <div class="col-md-4">
+              <?php $this->renderPartial('../pod/fileupload', array("itemId" => $room["_id"],
+                                          "type" => ActionRoom::COLLECTION,
+                                          "resize" => false,
+                                          "contentId" => Document::IMG_PROFIL,
+                                          "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']),
+                                          "image" => $images)); 
+              ?>
+            </div>
+            
+            <?php if ( count(@$list) > 0 ) { ?>
 
+              <div class="controls col-md-8 bar-btn-filters no-border no-padding">
+                    <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Afficher tout</button>
+                    <button id="ChangeLayout" class="btn btn-default" style="margin-bottom: 6px;"><i class="fa fa-reorder"></i></button>
+                    <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
+              </div>
+
+              <div class="controls col-md-8 bar-btn-filters no-border no-padding">
+                    <?php if( count($alltags) && false ){?>
+                      <button class="btn bg-red fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
+                    <?php } ?>
+                    <?php if( $logguedAndValid ){?>
+                      <a class="filter btn bg-dark" data-filter=".myentries" id="myentriesBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'My Todo', null, Yii::app()->controller->module->id)?></a>
+                      <a class="filter btn bg-dark" data-filter=".todo" id="todoBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Todo', null, Yii::app()->controller->module->id)?></a>
+                      <a class="filter btn bg-dark" data-filter=".inprogress" id="inprogressBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'In Progress', null, Yii::app()->controller->module->id)?></a>
+                      <a class="filter btn bg-dark" data-filter=".late" id="lateBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Late', null, Yii::app()->controller->module->id)?></a>
+                      <a class="filter btn bg-dark" data-filter=".closed" id="closedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Closed', null, Yii::app()->controller->module->id)?></a>
+                      <a class="filter btn bg-dark" data-filter=".unassigned" id="unassignedBtn"><i class="fa fa-filter"></i> <?php echo Yii::t('rooms', 'Unassigned', null, Yii::app()->controller->module->id)?></a>
+                    <?php } ?>
+              </div>
+
+              <div class="col-md-8 no-padding">
                 <?php if( $logguedAndValid ) { ?>
-                <label>Participation : </label>
-                <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
-                <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
+                  <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
+                  <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
+                  <label class="margin-right-15">- Participation</label>
                 <?php } ?>
-                <label>Chronologie : </label>
                 <button class="sort btn btn-default" data-sort="time:asc"><i class="fa fa-caret-up"></i></button>
                 <button class="sort btn btn-default" data-sort="time:desc"><i class="fa fa-caret-down"></i></button>
-                <label>Affichage :</label>
-                <button id="ChangeLayout" class="btn btn-default"><i class="fa fa-reorder"></i></button>
-                <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
-                <br/>
-               <?php } ?>
-              
-              <?php 
-              $icon = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "cogs";
-              $archived = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
-              $color = (@$room["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
-                
-              <h1 class="homestead <?php echo $color;?>" style="font-size: 25px;margin-top: 20px;">
-                <i class="fa fa-caret-down"></i> <i class="fa fa-<?php echo $icon;?>"></i> <?php echo $room["name"].$archived;?> 
-              </h1>
-                <?php 
-					$this->renderPartial('../pod/fileupload', array("itemId" => $room["_id"],
-																	  "type" => ActionRoom::COLLECTION,
-																	  "resize" => false,
-																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']),
-																	  "image" => $images)); 
-				?>
-                <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
-                <div id="infoPodOrga" class="padding-10">
-                  <?php if (count(@$list) == 0) { ?>
-                  <blockquote class="padding-10"> 
-                    <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
-                    <small>Un espace d'action peut contenir plusieurs actions.</small>
-                    <br>Référencez et partagez <b>une par une</b>,
-                    <br>les tâches qui concernent cet espace
-                  </blockquote>
-                  <?php }; ?>
-                  
-                </div>
-                <?php }else{ ?>
-                  <blockquote> 
-                    <span class=""><i class="fa fa-angle-right"></i> 
-                    <?php 
-                      if(isset(Yii::app()->session["userId"]))
-                      echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
-                      else
-                      echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
-                    ?> 
-                    </span>
-                  </blockquote>
-                <?php } ?>
-                
+                <label class="margin-right-15">- Chronologie</label>
+              </div>
+            
+            <?php } ?>
+               
+            <?php if ( count(@$list) == 0 && false ) { ?>
+              <div class="col-md-8">
+                <blockquote> 
+                  <span class=""><i class="fa fa-angle-right"></i> 
+                  <?php if(isset(Yii::app()->session["userId"]))
+                          echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                        else
+                          echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                  ?> 
+                  </span>
+                </blockquote>
+              </div>
+            <?php } ?>
+            
+            <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
+              <div id="infoPodOrga" class="col-md-8 padding-10">
+                <?php if (count(@$list) == 0) { ?>
+                <blockquote class="padding-10"> 
+                  <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
+                  <small>Un espace d'action peut contenir plusieurs actions.</small>
+                  <br>Référencez et partagez <b>une par une</b>,
+                  <br>les tâches qui concernent cet espace
+                  <br><br><button class="btn btn-success"><i class="fa fa-plus"></i> Ajouter une action</button>
+                </blockquote>
+                <?php }; ?>
+              </div>
+            <?php } ?>        
+
+        </div>
+
+        <div class="col-md-12">      
+          <?php if ( count(@$list) > 0 ) { ?>
+            <div id="tags-container" class="col-md-12 margin-bottom-15">
+              <?php echo $tagBlock?>
+            </div>
+          <?php } ?>
+     
         </div>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">
-            <?php
-                 //echo count($list);
-                 echo (count($list) > 0) ? $blocks : "" ?>
+            <?php echo (count($list) > 0) ? $blocks : "" ?>
         </div>
       </div>
 
-    </div>
+    </div> <!--home-->
 
-    </section>
+  </section>
 
-    <div class="space20"></div>
-
+<div class="space20"></div>
 
 <script type="text/javascript">
 

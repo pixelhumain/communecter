@@ -13,8 +13,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/dda-connexion-lines.jpg); 
 
   background-repeat: no-repeat !important;
-  background-size: 100% 360px !important;
-  background-position: 0px -60px !important;
+  background-size: 100% 400px !important;
+  background-position: 0px 0px !important;
  }
  .modal .modal-header{
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/dda-connexion-lines.jpg); 
