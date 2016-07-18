@@ -779,7 +779,7 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
-	public function actionAddMediumImage(){
+	public function actionAddPersonMediumImage(){
 		$people=PHDB::find(Person::COLLECTION);
 		foreach ($people as $key => $value){
 			if(@$value["profilImageUrl"]){
@@ -812,6 +812,8 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
 			}
 		}
+	}
+	public function actionAddOrgaMediumImage(){
 		$organization=PHDB::find(Organization::COLLECTION);
 		foreach ($organization as $key => $value){
 			if(@$value["profilImageUrl"]){
@@ -843,6 +845,8 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
 			}
 		}
+	}
+	public function actionAddProjectMediumImage(){
 		$project=PHDB::find(Project::COLLECTION);
 		foreach ($project as $key => $value){
 			if(@$value["profilImageUrl"]){
@@ -874,6 +878,8 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 
 			}
 		}
+	}
+	public function actionAddEventMediumImage(){	
 		$event=PHDB::find(Event::COLLECTION);
 		foreach ($event as $key => $value){
 			if(@$value["profilImageUrl"]){

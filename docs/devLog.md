@@ -16,10 +16,12 @@
 Version 0.14
 
 @Bouboule:
-1.ph/communecter/test/addmediumimage will run actionAddMediumImage()
+1.ph/communecter/test/addpersonmediumimage will run actionAddPersonMediumImage()
 		=> Add medium Image for each entity (Person/Organization/Event/Project)
 		=> Create image in folder /medium and size 400px x 400 px
-
+2.communecter/test/addeventmediumimage actionAddEventMediumImage()
+3.communecter/test/addprojectmediumimage actionAddProjectMediumImage()
+5.communecter/test/addorgamediumimage actionAddOrgaMediumImage()
 
 ----------------------------------------------------
 ----------------------------------------------------
