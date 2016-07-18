@@ -232,7 +232,7 @@ function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 			        		if(@$iconType[$type]) $icon = $iconType[$type];
 						}
 						echo	'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark room-item" data-dismiss="modal">'.
-									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]."".
+									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count(Survey::COLLECTION,array('survey'=>(string)$value["_id"]))."</span>".
 								'</a>';
 							 
 			        } 

@@ -132,7 +132,7 @@
 		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
 					echo '<div class="panel-body hide-on-reduce-menu">'.
 							'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
-								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]."".
+								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count(Survey::COLLECTION,array('survey'=>(string)$value["_id"]))."</span>".
 							'</a>'.
 						 '</div>';
 		        } 

@@ -523,7 +523,7 @@ function move( type,destId ){
 		        dataType: "json",
 		        success: function(data){
 		          if(data.result){
-		            toastr.success("<h1>"+data.msg+".<h1>");
+		            toastr.success(data.msg);
 		            loadByHash(data.url);
 		          } else 
 		            toastr.error(data.msg);

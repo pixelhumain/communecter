@@ -173,7 +173,11 @@ return array(
 	"Archive" => "Archiver",
 	"This will hide and Archive this Decision Room" => "Archiver le contenu de cet espace",
 	"Create an Action for your community" => "Créer une nouvelle action dans cet espace",
-	"Understanding action list" => "Comprendre les listes d'actions"
+	"Understanding action list" => "Comprendre les listes d'actions",
+
+	"Moved Succesfully to " => "Déplacé avec Succés vers ",
+    "Moved Succesfully to Decision room : " => "Déplacé avec Succés vers la salle de décision : ",
+    "Moved Succesfully to action room : " => "Déplacé avec Succés vers la salle d'action : "
 
 );
 
