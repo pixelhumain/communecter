@@ -1001,34 +1001,41 @@ La vie en santé;Santé;;
 		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
 		$res = array();
 		foreach ($types as $key => $type) {
-			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id", "links", "preferences"));
+			$entities = PHDB::find($type,array("preferences.isOpenEdition" => array('$exists' => 0)), array("_id", "links", "preferences"));
 			$eeeee = array();
 			foreach ($entities as $key => $entity) {
 				if(!empty($entity["links"])){
 					$isAdmin = false;
 					if($type == Project::COLLECTION){
-						foreach ($entity["links"]["contributors"] as $key => $contributors) {
-							if($contributors["isAdmin"] == true){
-								$isAdmin = true;
-								break;
-							}	
-						}	
+						if (!empty($entity["links"]["contributors"])) {
+							foreach ($entity["links"]["contributors"] as $key => $contributors) {
+								if(!empty($contributors["isAdmin"]) && $contributors["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
 					}
 					if($type == Event::COLLECTION){
-						foreach ($entity["links"]["attendees"] as $key => $attendees) {
-							if($attendees["isAdmin"] == true){
-								$isAdmin = true;
-								break;
-							}	
-						}	
+						if (!empty($entity["links"]["attendees"])) {
+							foreach ($entity["links"]["attendees"] as $key => $attendees) {
+								if( !empty($attendees["isAdmin"]) && $attendees["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+							
 					}
 
 					if($type == Organization::COLLECTION){
-						foreach ($entity["links"]["members"] as $key => $attendees) {
-							if($attendees["isAdmin"] == true){
-								$isAdmin = true;
-								break;
-							}	
+						if (!empty($entity["links"]["members"])) {
+							foreach ($entity["links"]["members"] as $key => $members) {
+								if( !empty($members["isAdmin"]) && $members["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
 						}	
 					}
 
@@ -1041,12 +1048,15 @@ La vie en santé;Santé;;
 					$entity["preferences"]["isOpenEdition"] = true ;	
 				}
 
+				PHDB::update($type,
+					   		array("_id" => $entity['_id']) , 
+					   		array('$set' => array("preferences" => $entity["preferences"]))
+					   	);
 				$eeeee[] = $entity;
 			}
 			$res[$type] = $eeeee;
 
 		}
-
 		foreach ($res as $key => $val) {
 			echo "</br> </br>".$key;
 			foreach ($val as $key2 => $val2) {
