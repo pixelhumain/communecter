@@ -130,9 +130,15 @@
 
 		        foreach ($elements as $key => $value) {
 		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
+		        	$col = Survey::COLLECTION;
+			        $attr = 'survey';
+		        	if( $value["type"] == ActionRoom::TYPE_ACTIONS ){
+			        	$col = ActionRoom::TYPE_ACTIONS;
+			        	$attr = 'room';
+			        }
 					echo '<div class="panel-body hide-on-reduce-menu">'.
 							'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
-								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count(Survey::COLLECTION,array('survey'=>(string)$value["_id"]))."</span>".
+								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</span>".
 							'</a>'.
 						 '</div>';
 		        } 
