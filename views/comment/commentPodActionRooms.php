@@ -3,14 +3,13 @@
 <style type="text/css">
 
 #commentHistory .panel-heading{
-	/*padding:15px !important;*/
+	min-height:185px !important;
 }
 </style>
 <?php } ?>
 
 
-<?php
- if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
+<?php if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
    	$this->renderPartial('../rooms/header',array(    
 		   					            "parent" => $parent, 
                             "parentId" => $parentId, 
@@ -21,12 +20,13 @@
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
                             )); 
     echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+  }
 ?>
-
+<?php if($contextType == "actionRooms"){ ?>
     <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de disscussion : </span> <?php echo $context["name"]; ?>
-    </h1>
-    
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de disscussion</span> 
+      <?php //echo $context["name"]; ?>
+    </h1> 
 <?php } ?>
 
 
@@ -49,7 +49,12 @@
 											 "canComment" => $canComment,
 											 "context"=>$context,
 											 "images"=>$images));
+
+  if($contextType == "actionRooms" && !isset($_GET["renderPartial"]))
+    echo "</div>";
 ?>
+
+
 
 <script type="text/javascript">
 var images = <?php echo json_encode($images) ?>;

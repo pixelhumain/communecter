@@ -39,7 +39,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	opacity: 1;
 }
 #commentHistory .panel-heading{
-	min-height:0px;
+	/*min-height:50px;*/
 }
 #commentHistory .panel-scroll{
 	/*overflow-y: hsidden;*/
@@ -95,41 +95,51 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 <!-- start: PAGE CONTENT -->
 
 
-<div id="commentHistory" class="no-padding">
+<div id="commentHistory" class="no-padding pull-left col-md-12">
 	<div class="panel panel-white">
-		<div class="panel-heading border-light">
+		<div class="panel-body border-light">
 
 			<?php if($contextType == "actionRooms"){ ?>
-				<?php 
-              $icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
-              $archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
-              $color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";?>
-                
-  				<h1 class="homestead <?php echo $color;?>" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
-			     <i class="fa fa-<?php echo $icon;?>"></i> "<?php echo $context["name"].$archived; ?>"
-			  	 </h1>
+				<?php
+					if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
+						echo "<div class='col-md-4'>";
+						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+							  "type" => ActionRoom::COLLECTION,
+							  "resize" => false,
+							  "contentId" => Document::IMG_PROFIL,
+							  "editMode" => $canComment,
+							  "image" => $images)); 
+						}
+						echo "</div>";
+				
+				  	$icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
+	              	$archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
+	              	$color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";
+                ?>
+                <div class='col-md-8'>
+					<h1 class=" <?php echo $color;?>" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+				      <i class="fa fa-<?php echo $icon;?>"></i> "<?php echo $context["name"].$archived; ?>"
+				  	</h1>
+
+			<?php }else{ ?>
+				<div class='col-md-12'>
 			<?php } ?>
+
 			<?php $currentUser = Yii::app()->session["user"]; ?>
 			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
-			<div class="options pull-right">
-				<?php foreach ($options as $optionKey => $optionValue) {
-					$currentLabel = $optionsLabels[$optionKey][$optionValue];
-					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
-				}?>
-			</div>
+				<div class="options pull-right">
+					<?php foreach ($options as $optionKey => $optionValue) {
+						$currentLabel = $optionsLabels[$optionKey][$optionValue];
+						echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
+					}?>
+				</div>
 			<?php } ?>
-			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
+			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> 
+				<span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?>
+			</h4>
+			</div>
 		</div>
-		<?php
-			if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
-				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
-					  "type" => ActionRoom::COLLECTION,
-					  "resize" => false,
-					  "contentId" => Document::IMG_PROFIL,
-					  "editMode" => $canComment,
-					  "image" => $images)); 
-			}
-		?>  
+		  
 		<div class="panel-body panel-white">
 			<div class='row'>
 				<div class="tabbable no-margin no-padding partition-dark">
