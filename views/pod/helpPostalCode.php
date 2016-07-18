@@ -9,14 +9,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php 
 	$me = Person::getById(Yii::app()->session['userId']);
-	$lat = isset($me["geo"]) ? $me["geo"]["latitude"] : 
-			isset($me["geoPosition"]) ? $me["geoPosition"]["coordinates"][1] : -21.13318 ;
+	
+	/*$lat = isset($me["geo"]) ? $me["geo"]["latitude"] : 
+			@$me["geoPosition"] ? $me["geoPosition"]["coordinates"][1] : -21.13318 ;
 
 	$lng = isset($me["geo"]) ? $me["geo"]["longitude"] : 
 			isset($me["geoPosition"]) ? $me["geoPosition"]["coordinates"][0] : 55.5314 ;
-
-
-
+	*/
+	$lat = -21.13318;
+	if(@$me["geo"]){ $lat = $me["geo"]["latitude"]; } else {
+		if(@$me["geoPosition"]){ $lat = $me["geoPosition"]["coordinates"][1]; }
+	}
+	$lng = 55.5314;
+	if(@$me["geo"]){ $lng = $me["geo"]["longitude"]; } else {
+		if(@$me["geoPosition"]){ $lng = $me["geoPosition"]["coordinates"][0]; }
+	}
+	
 	$sigParams = array(
 
 		/* CLÉ UNIQUE QUI SERT D'IDENTIFIANT POUR CETTE CARTE */
