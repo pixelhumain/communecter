@@ -971,4 +971,90 @@ La vie en santé;Santé;;
 
 	}
 
+	public function actionAddBadgeOpenData(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				$eeeee[] = Badge::addAndUpdateBadges("opendata", (String)$entity["_id"], $type);
+			}
+			$res[$type] = $eeeee;
+
+		}
+
+		//var_dump(count($res));
+
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
+
+	public function actionAddOpenEdition(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id", "links", "preferences"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				if(!empty($entity["links"])){
+					$isAdmin = false;
+					if($type == Project::COLLECTION){
+						foreach ($entity["links"]["contributors"] as $key => $contributors) {
+							if($contributors["isAdmin"] == true){
+								$isAdmin = true;
+								break;
+							}	
+						}	
+					}
+					if($type == Event::COLLECTION){
+						foreach ($entity["links"]["attendees"] as $key => $attendees) {
+							if($attendees["isAdmin"] == true){
+								$isAdmin = true;
+								break;
+							}	
+						}	
+					}
+
+					if($type == Organization::COLLECTION){
+						foreach ($entity["links"]["members"] as $key => $attendees) {
+							if($attendees["isAdmin"] == true){
+								$isAdmin = true;
+								break;
+							}	
+						}	
+					}
+
+					if($isAdmin == false){
+						$entity["preferences"]["isOpenEdition"] = true ;
+					}else{
+						$entity["preferences"]["isOpenEdition"] = false ;
+					}
+				}else{
+					$entity["preferences"]["isOpenEdition"] = true ;	
+				}
+
+				$eeeee[] = $entity;
+			}
+			$res[$type] = $eeeee;
+
+		}
+
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
 }
