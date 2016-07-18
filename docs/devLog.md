@@ -26,6 +26,15 @@ db.citoyens.find().forEach(function(doc){
     }
 });
 
+db.organizations.find().forEach(function(doc){ 
+    if(typeof doc.telephone == "string") { 
+         print(doc.name);
+         db.organizations.update({"_id":doc._id},{
+                '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
+         })
+    }
+});
+
 @Chil
 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
 Executer l'url /communecter/test/DeleteAttributRefactorAction 
