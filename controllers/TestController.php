@@ -779,7 +779,133 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+	public function actionAddMediumImage(){
+		$people=PHDB::find(Person::COLLECTION);
+		foreach ($people as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				echo $upload_dir_medium;
+				if(!file_exists ($upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Person::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
 
+			}
+		}
+		$organization=PHDB::find(Organization::COLLECTION);
+		foreach ($organization as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Organization::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+		$project=PHDB::find(Project::COLLECTION);
+		foreach ($project as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Project::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+		$event=PHDB::find(Event::COLLECTION);
+		foreach ($event as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Event::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
 	// Log
 	public function actionLogDeletePasswordCitoyen(){
 	  	echo "actionLogDeletePasswordCitoyen => ";  	
