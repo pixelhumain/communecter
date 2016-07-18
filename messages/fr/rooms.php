@@ -177,7 +177,8 @@ return array(
 
 	"Moved Succesfully to " => "Déplacé avec Succés vers ",
     "Moved Succesfully to Decision room : " => "Déplacé avec Succés vers la salle de décision : ",
-    "Moved Succesfully to action room : " => "Déplacé avec Succés vers la salle d'action : "
+    "Moved Succesfully to action room : " => "Déplacé avec Succés vers la salle d'action : ",
+    "Destination Room doen't exist" => "L'espace de destination n'existe pas"
 
 );
 

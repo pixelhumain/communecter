@@ -305,9 +305,8 @@ function assignMe(id)
  function listOfDestinations(){
 
 	str = "<h2>Change Parent, different parentType and Id</h2>";
-	str += "<h2>Move to Decission Room</h2>";
-	str += "<a href='javascript:move(\"survey\",\"57864dc3f6ca47cf4a8b457d\")'>ggggggg</a>";
-	str += "<br/><a href='javascript:move(\"survey\",\"57862323f6ca47ff558b4573\")'>one two three </a>";
+	str += "<h2>Move to other Action Room</h2>";
+	str += "<a href='javascript:move(\"action\",\"578c92d7f6ca478c69ae5c7e\")'>kiki</a>";
 	str += "<h2>Move to Action Room</h2>";
 	str += "<a href='javascript:move(\"action\",\"57862323f6ca47ff558b4573\")'>convert to survey and move to one two three </a>";
 	return str;
@@ -340,8 +339,11 @@ function move( type,destId ){
 		          if(data.result){
 		            toastr.success(data.msg);
 		            loadByHash(data.url);
-		          } else 
+		          } else {
 		            toastr.error(data.msg);
+		            if(data.action == "login")
+		            	showPanel( "box-login" );
+		          }
 		          
 		          $.unblockUI();
 		        },

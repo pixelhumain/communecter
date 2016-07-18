@@ -525,8 +525,11 @@ function move( type,destId ){
 		          if(data.result){
 		            toastr.success(data.msg);
 		            loadByHash(data.url);
-		          } else 
+		          } else {
 		            toastr.error(data.msg);
+		            if(data.action == "login")
+		            	showPanel( "box-login" );
+		          }
 		          
 		          $.unblockUI();
 		        },
