@@ -132,7 +132,7 @@
 		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
 		        	$col = Survey::COLLECTION;
 			        $attr = 'survey';
-		        	if( $value["type"] == ActionRoom::TYPE_ACTIONS ){
+		        	if( @$value["type"] == ActionRoom::TYPE_ACTIONS ){
 			        	$col = ActionRoom::TYPE_ACTIONS;
 			        	$attr = 'room';
 			        }

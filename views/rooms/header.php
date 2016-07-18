@@ -231,8 +231,14 @@ function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 			        		$type = $value["type"]; 
 			        		if(@$iconType[$type]) $icon = $iconType[$type];
 						}
+						$col = Survey::COLLECTION;
+			       		$attr = 'survey';
+			        	if( @$value["type"] == ActionRoom::TYPE_ACTIONS ){
+				        	$col = ActionRoom::TYPE_ACTIONS;
+				        	$attr = 'room';
+				        }
 						echo	'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark room-item" data-dismiss="modal">'.
-									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count(Survey::COLLECTION,array('survey'=>(string)$value["_id"]))."</span>".
+									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr=>(string)$value["_id"]))."</span>".
 								'</a>';
 							 
 			        } 
