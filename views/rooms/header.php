@@ -202,8 +202,9 @@ createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comme
 createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
 createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
 createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
+createModalRoom(array_merge($votes,$actions), 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
 
-function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
+function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl,$action=null,$context=null){
 	
 
 	$iconType = array("discuss"=>"comments", "entry" => "archive", "actions" => "cogs");
@@ -237,9 +238,16 @@ function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl){
 				        	$col = ActionRoom::TYPE_ACTIONS;
 				        	$attr = 'room';
 				        }
-						echo	'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark room-item" data-dismiss="modal">'.
-									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr=>(string)$value["_id"]))."</span>".
-								'</a>';
+				        $onclick = 'showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
+				        if( $action == "move"){
+				        	$icon = ($value["type"] == ActionRoom::TYPE_ACTIONS) ? "cogs" : "archive";
+				        	$type = ($context == "cogs") ? "action" : "survey";
+							$onclick = 'move(\''.$type.'\', \''.(string)$value["_id"].'\')';
+				        }
+
+						echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
+								'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr=>(string)$value["_id"]))."</span>".
+							'</a>';
 							 
 			        } 
 

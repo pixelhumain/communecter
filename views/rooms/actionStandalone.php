@@ -314,10 +314,7 @@ function assignMe(id)
 
 function movePrompt(type, id)
 {
-     bootbox.dialog({
-		title: "<b>Choose where to move</b> ",
-		message: listOfDestinations(),
-    });
+     $('#modal-select-room5').modal('show');
 }
 
 function move( type,destId ){

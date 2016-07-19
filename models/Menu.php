@@ -641,7 +641,7 @@ class Menu {
             self::entry("right", 'onclick', 
                         Yii::t( "common", 'Move this proposals'),
                         Yii::t( "common", 'Move'), 'share-alt text-grey',
-                        "movePrompt('survey.entry', '".$id."')","moveProposalBtn",null);
+                        "$('#modal-select-room5').modal('show')","moveProposalBtn",null);
         }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         // Help
@@ -747,7 +747,7 @@ class Menu {
             self::entry("right", 'onclick', 
                     Yii::t( "common", 'Move this proposals'),
                     Yii::t( "common", 'Move'), 'share-alt text-grey',
-                    "movePrompt('rooms.action', '".$id."')","moveProposalBtn",null);
+                    "$('#modal-select-room5').modal('show')","moveProposalBtn",null);
         }
 
         // Help
