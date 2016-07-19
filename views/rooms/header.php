@@ -78,6 +78,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .fileupload-new.thumbnail{
 	width:unset;
 }
+h1.citizenAssembly-header {
+    font-size: 30px;
+}
 </style>	
 
 
@@ -92,10 +95,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	        if($parentType == City::COLLECTION) { $parent = City::getByUnikey($parentId); }
 		}
 
-		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != "")
+		if(isset($parent['profilImageUrl']) && $parent['profilImageUrl'] != ""){
 	      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$parent['profilImageUrl'];
-	    else
-	      $urlPhotoProfil = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+		}
+	    // else{
+	    // 	if($parentType == Person::COLLECTION)
+	    //   		$urlPhotoProfil = $this->module->assetsUrl.'/images/thumb/project-default-image.png';
+	    //   	if($parentType == Organization::COLLECTION)
+	    //   		$urlPhotoProfil = $this->module->assetsUrl.'/images/thumb/orga-default-image.png';
+	    //   	if($parentType == Project::COLLECTION)
+	    //   		$urlPhotoProfil = $this->module->assetsUrl.'/images/thumb/default.png';
+	    // }
 	
 		$icon = "comments";	
 		$colorName = "dark";
@@ -110,16 +120,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if($parentType == City::COLLECTION) 
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
+
 	<div class="row header-parent-space">
-		<div class="col-md-3 col-sm-3 col-xs-12 center">
-			<?php if($parentType != City::COLLECTION){ ?>
+
+		<?php if($parentType != City::COLLECTION && $urlPhotoProfil != ""){ ?>
+			<div class="col-md-3 col-sm-3 col-xs-12 center">
 				<img class="thumbnail img-responsive" id="thumb-profil-parent" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
-			<?php }else{ ?>
+			</div>
+		<?php }else if($parentType == City::COLLECTION){ ?>
+			<div class="col-md-3 col-sm-3 col-xs-12 center">
 				<h1 class="homestead title-conseil-citoyen center text-red"><i class="fa fa-group"></i><br>Conseil Citoyen</h1>
-    		<?php } ?>
+			</div>
+		<?php } ?>
     	
-    	</div>
-    	<div class="col-md-9 col-sm-9">
+		<?php if($parentType == City::COLLECTION || $urlPhotoProfil != "") 
+				$colSize="9"; else $colSize="12"; 
+		?>
+		
+    	<div class="col-md-<?php echo $colSize; ?> col-sm-<?php echo $colSize; ?>">
     		<div class="col-md-12 no-padding margin-bottom-15">
 	    		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?> homestead">
 					<i class="fa fa-<?php echo $icon; ?>"></i> 
@@ -202,13 +220,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php 
 
-createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
-createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
-createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
-createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
+
+createModalRoom($discussions, $parentType, $parentId, 1, 
+	"Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
+createModalRoom($votes, $parentType, $parentId, 2, 
+	"Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
+createModalRoom($actions, $parentType, $parentId, 3, 
+	"Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
+createModalRoom($history, $parentType, $parentId, 4, 
+	"Historique de votre activité", "clock-o", "history", "Aucune activité");
 createModalRoom(array_merge($votes,$actions), 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
 
-function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl,$action=null,$context=null){
+function createModalRoom($elements, $parentType, $parentId, $index, $title, 
+						 $icon, $typeNew, $endLbl,$action=null,$context=null){
 	
 
 	$iconType = array("discuss"=>"comments", "entry" => "archive", "actions" => "cogs");
@@ -263,7 +287,7 @@ function createModalRoom($elements, $index, $title, $icon, $typeNew, $endLbl,$ac
 
 	echo 		'<div class="modal-footer">';
 	
-	if($typeNew != "history") 
+	if($typeNew != "history" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
 	echo		    '<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace</button>';
 	echo		    '<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>';
 	

@@ -194,6 +194,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				</div>
 
 				<div class="col-md-6 no-padding" style="padding-right: 15px !important;">
+					
 					<?php  $this->renderPartial('../pod/fileupload', 
 												 array("itemId" => $survey["_id"],
 												  "type" => Survey::COLLECTION,
@@ -203,6 +204,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 												  "image" => $images)); 
 					?>
 
+					
 					<?php 
 					if(isset( Yii::app()->session["userId"]) && false)
 					{
@@ -235,36 +237,50 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 				</div>
 
-				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px;">
+				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px; font-size:15px;">
 					
 					<span class="text-azure">
-						<i class="fa fa-caret-right"></i> 
+						<i class="fa fa-clock-o"></i> 
 						<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
 						<?php echo date("d/m/y",$survey["created"]) ?>
 					</span>
 					<br>
 					<?php if( @$survey["dateEnd"] ){ ?>
 					<span class="text-red">
-						<i class="fa fa-caret-right"></i> 
+						<i class="fa fa-clock-o"></i> 
 						<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
 						<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
 					</span>
-					<br>
+					<br><hr>
 					<span>
-				 		<i class="fa fa-caret-right"></i> 
+				 		<i class="fa fa-user"></i> 
 				 		<?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : 
 				 		<?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?>
 				 	</span>
 					<br>
 				 	<span>
-						<i class="fa fa-caret-right"></i> 
+						<i class="fa fa-user"></i> 
 						<?php echo Yii::t("rooms","VOTERS",null,Yii::app()->controller->module->id) ?> : 
 						<?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?>
 					</span>
-				 	<br>
+				 	<br><hr>
 				 	<?php } ?>
+				 	<div class="text-bold text-dark">
+				 		<?php 
+							$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
+							if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
+								echo $voteLinksAndInfos["links"]; 
+							else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
+								echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
+							else if( !$canParticipate )
+								echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
+						?>
+					</div>
 
-					<?php /*if( @$survey["dateEnd"] && $survey["dateEnd"] < time() || 
+					<?php 
+
+
+					/*if( @$survey["dateEnd"] && $survey["dateEnd"] < time() || 
 							  @$room["status"]==ActionRoom::STATE_ARCHIVED )
 						 { 
 							$stateLbl = ( @$room["status"]==ActionRoom::STATE_ARCHIVED ) ? 
@@ -309,7 +325,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 						<?php echo $survey["message"]; ?>
 					</div>
 					<div class="col-md-12 padding-15">
-					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos); ?>
+					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos,$parentType,$parentId); ?>
 					</div>
 					
 					<br/>
