@@ -20,10 +20,9 @@
         <div class="panel-body tpl_content">
          
         <div class="col-xs-12">
-	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
-	        	<div class="text-bold text-extra-large" style="padding: 50px;">
-	        		Revenez bientot pour la vidéo
-	        	</div>
+	        <div class=" col-sm-12 col-xs-12 col-md-6 embed-responsive embed-responsive-4by3" style="padding-bottom:35%;">
+				<iframe class="embed-responsive-item" height="300" src="https://www.youtube.com/embed/AI0PbHrVHIE" frameborder="0" allowfullscreen>
+				</iframe>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/annuaire.png" data-title="Schéma notre Open System"  data-lightbox="all">
 			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/annuaire.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
