@@ -190,7 +190,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
 					<?php if( @$action["tags"] ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
 						<?php foreach ( $action["tags"] as $value) {
-								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+								echo '<span class="badge bg-azure text-xss">#'.$value.'</span> ';
 							}?>
 						</span>
 					<?php }	?>

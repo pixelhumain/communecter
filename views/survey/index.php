@@ -44,7 +44,9 @@
 <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
   <?php $icon = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "archive";
         $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
-  <i class="fa fa-angle-down"></i> <span class="homestead"><i class="fa fa-<?php echo $icon;?>"></i> Espace de décision :</span> <?php echo $where["survey"]["name"].$archived;?> 
+    <i class="fa fa-angle-down"></i> 
+    <span class="homestead"><i class="fa fa-<?php echo $icon;?>"></i> Espace de décision :</span> 
+    <?php echo $where["survey"]["name"].$archived;?> 
 </h1>
 
 <?php
@@ -213,11 +215,6 @@
     }
 
    
-  @media screen and (min-width: 1400px) {
-    .mixcontainer .mix, .mixcontainer .gap{
-      width: 31%;
-    }
-  }
   @media screen and (max-width: 1399px) {
     .mixcontainer .mix, .mixcontainer .gap{
       width: 48%;
@@ -226,16 +223,57 @@
       background-position: 0px 50px;
     }
   }
+  @media screen and (min-width: 1400px) {
+    .mixcontainer .mix, .mixcontainer .gap{
+      width: 31%;
+    }
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .message-propostal{
+      min-height: 155px;
+      max-height: 155px;
+    }
+    .mixcontainer .mix {
+      height: 400px;
+    }
+  }
 
-  @media screen and (max-width: 767px) {
+   @media screen and (max-width: 767px) {
     .assemblyHeadSection {  
       background-position: 0px 0px;
+    }
+    .message-propostal{
+      min-height: 165px;
+      max-height: 165px;
+    }
+    .mixcontainer .mix {
+      height: 410px;
     }
   }
 
   @media screen and (max-width: 680px) {
     .mixcontainer .mix, .mixcontainer .gap{
       width: 98%;
+    }
+    .message-propostal{
+      min-height: 155px;
+      max-height: 155px;
+    }
+    .mixcontainer .mix {
+      height: 415px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .mixcontainer .mix, .mixcontainer .gap{
+      width: 98%;
+    }
+    .message-propostal{
+      min-height: 195px;
+      max-height: 195px;
+    }
+    .mixcontainer .mix {
+      height: 455px;
     }
   }
 </style>
@@ -421,7 +459,7 @@
         }
 
         if( !$surveyIsClosed && !$surveyHasVoted && !$isArchived )        
-        $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
+        $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 col-sm-12 col-xs-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
         else{
           $btnRead = '<button onclick="showRoom(\'entry\', \''.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.
@@ -456,7 +494,7 @@
         }
         //}
 
-        $chartBarResult = getChartBarResult($entry);
+        $chartBarResult = Survey::getChartBarResult($entry);
 
         $boxColor = ($entry["type"]==Survey::TYPE_ENTRY ) ? "" : "bg-azure" ;
         $switchClass = ( $switchcount < 0 ) ? "" : "switch" ;
@@ -510,75 +548,12 @@
         $tagBlock .= $entryMap["tagBlock"];
         $cpBlock .= $entryMap["cpBlock"];
     }
-
-
-
-    function getChartBarResult($survey){
-
-      $voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-      $voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-      $voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-      $voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-      $voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-      
-      $totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-      
-      $oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
-      
-      $percentVoteDownCount     = $voteDownCount    * $oneVote;
-      $percentVoteAbstainCount  = $voteAbstainCount * $oneVote;
-      $percentVoteUpCount       = $voteUpCount      * $oneVote;
-      $percentVoteUnclearCount  = $voteUnclearCount * $oneVote;
-      $percentVoteMoreInfoCount = $voteMoreInfoCount * $oneVote;
-
-      $html = "";
-
-      $percentNoVote = "0";
-      if($totalVotes == 0) $percentNoVote = "100";
-
-      if($totalVotes > 1) $msgVote = "votes exprimés";
-      else                $msgVote = "vote exprimé"; 
-
-      $html .=  "<div class='col-md-12 no-padding'>".
-
-                  "<div class='pull-left text-dark' style='margin-top:5px; margin-left:5px; font-size:13px;'>".
-                      $totalVotes." ".$msgVote.
-                  "</div>".
-
-                  "<div class='space1'></div>";
-        
-      $html .=    '<div class="progress">'.
-                    '<div class="progress-bar progress-bar-green progress-bar-striped" style="width: '.$percentVoteUpCount.'%">'.
-                      $voteUpCount.' <i class="fa fa-thumbs-up"></i> ('.$percentVoteUpCount.'%)'.
-                    '</div>'.
-                    '<div class="progress-bar progress-bar-yellow progress-bar-striped" style="width: '.$percentVoteUnclearCount.'%">'.
-                      $voteUnclearCount.' <i class="fa fa-pen"></i> ('.$percentVoteUnclearCount.'%)'.
-                    '</div>'.
-                    '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentVoteAbstainCount.'%">'.
-                      $voteAbstainCount.' <i class="fa fa-circle"></i> ('.$percentVoteAbstainCount.'%)'.
-                    '</div>'.
-                    '<div class="progress-bar progress-bar-purple progress-bar-striped" style="width: '.$percentVoteMoreInfoCount.'%">'.
-                      $voteMoreInfoCount.' <i class="fa fa-question-circle"></i> ('.$percentVoteMoreInfoCount.'%)'.
-                    '</div>'.
-                    '<div class="progress-bar progress-bar-red progress-bar-striped" style="width: '.$percentVoteDownCount.'%">'.
-                      $voteDownCount.' <i class="fa fa-thumbs-down"></i> ('.$percentVoteDownCount.'%)'.
-                    '</div>'.
-                    '<div class="progress-bar progress-bar-white progress-bar-striped" style="width: '.$percentNoVote.'%">'.
-                     // $percentNoVote.' '.
-                    '</div>'.
-                  '</div>'.
-                '</div>';
-
-      return $html;
-    }
-
-       
+    
     ?>
     
 
     <div class="panel-white" style="display:inline-block; width:100%;">
    
-        <div class="col-md-12">
           <div class="col-md-4 col-sm-4 margin-bottom-15">
                 <?php 
                   $this->renderPartial('../pod/fileupload', array("itemId" => (string)$where["survey"]["_id"],
@@ -591,7 +566,7 @@
           </div>   
                 
          <?php if (count(@$list) > 0) { ?>
-           <div class="controls col-md-7 bar-btn-filters no-border no-padding" style="border-radius:0px;">
+           <div class="controls col-md-8 col-sm-8 bar-btn-filters no-border no-padding" style="border-radius:0px;">
                 <div class="pull-left">
                   <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Afficher tout</button>
                   <button id="ChangeLayout" class="btn btn-default" style="margin-bottom: 6px;"><i class="fa fa-reorder"></i></button>
@@ -618,7 +593,7 @@
               </a>
             </div> 
            
-            <div class="col-md-8 no-padding" style="display:inline-block;">
+            <div class="col-md-8 col-sm-8 no-padding" style="display:inline-block;">
                   <?php if( $logguedAndValid && $where["type"]==Survey::TYPE_ENTRY ) { ?>
                   <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
                   <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
@@ -636,16 +611,15 @@
                   }?>
                   <br/>
              </div>
-           </div>
           
-          <div class="col-md-12">
-              <div id="tags-container" class="col-md-12 margin-bottom-15">
-                <?php echo $tagBlock?>
-              </div>
+          <div class="col-md-12 col-sm-12">      
+            <div id="tags-container" class="margin-bottom-15">
+              <?php echo $tagBlock?>
+            </div>
           </div>
         <?php } ?>
 
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12">
            <?php if (@$canParticipate) { ?>
                  <div id="infoPodOrga" class="padding-10">
                   <?php if (count(@$list) == 0) { ?>

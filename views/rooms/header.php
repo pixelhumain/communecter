@@ -74,6 +74,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .link-tools a:hover{
 	text-decoration: underline;
 }
+
+.fileupload-new.thumbnail{
+	width:unset;
+}
 </style>	
 
 

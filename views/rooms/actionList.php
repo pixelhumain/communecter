@@ -22,10 +22,10 @@ $commentActive = true;
 
 <style type="text/css">
 .connect{border-radius: 8px; opacity: 0.9;background-color: #182129; margin-bottom: 10px;border:1px solid #3399FF;width: 100%;padding: 10px }
-button.filter,button.sort{color:#000;}
+/*button.filter,button.sort{color:#000;}*/
 /*a.btn{margin:3px;}*/
 .mix{border-radius: 8px;}
-.home{margin-top: 50px;}
+.home{margin-top: 0px;}
 
 /*.infolink{border-top:1px solid #fff}*/
 
@@ -425,8 +425,8 @@ border: 1px solid #E4E4E4;
 
         
 
-        <div class="col-md-12 col-sm-12 pull-left" style="display:inline-block; margin-top:20px; margin-bottom:20px;">
-            <div class="col-md-4">
+        <div class="panel-white" style="display:inline-block; width:100%;">
+            <div class="col-md-4 col-sm-4 margin-bottom-15">
               <?php $this->renderPartial('../pod/fileupload', array("itemId" => $room["_id"],
                                           "type" => ActionRoom::COLLECTION,
                                           "resize" => false,
@@ -438,13 +438,13 @@ border: 1px solid #E4E4E4;
             
             <?php if ( count(@$list) > 0 ) { ?>
 
-              <div class="controls col-md-8 bar-btn-filters no-border no-padding">
+              <div class="controls col-md-8 col-sm-8 bar-btn-filters no-border no-padding">
                     <button class="filter btn btn-default fr" data-filter="all"><i class="fa fa-eye"></i> Afficher tout</button>
                     <button id="ChangeLayout" class="btn btn-default" style="margin-bottom: 6px;"><i class="fa fa-reorder"></i></button>
                     <button id="reduceInfo" class="btn btn-default"  onclick="reduceInfo();"><i class="fa fa-minus-square"></i></button>
               </div>
 
-              <div class="controls col-md-8 bar-btn-filters no-border no-padding">
+              <div class="controls col-md-8 col-sm-8 bar-btn-filters no-border no-padding">
                     <?php if( count($alltags) && false ){?>
                       <button class="btn bg-red fr" onclick="toogleTags();"><i class="fa fa-filter"></i>  Tags</button>
                     <?php } ?>
@@ -458,7 +458,7 @@ border: 1px solid #E4E4E4;
                     <?php } ?>
               </div>
 
-              <div class="col-md-8 no-padding">
+              <div class="col-md-8 col-sm-8 no-padding">
                 <?php if( $logguedAndValid ) { ?>
                   <button class="sort btn btn-default" data-sort="vote:asc"><i class="fa fa-caret-up"></i></button>
                   <button class="sort btn btn-default" data-sort="vote:desc"><i class="fa fa-caret-down"></i></button>
@@ -472,7 +472,7 @@ border: 1px solid #E4E4E4;
             <?php } ?>
                
             <?php if ( count(@$list) == 0 && false ) { ?>
-              <div class="col-md-8">
+              <div class="col-md-8 col-sm-8">
                 <blockquote> 
                   <span class=""><i class="fa fa-angle-right"></i> 
                   <?php if(isset(Yii::app()->session["userId"]))
@@ -486,7 +486,7 @@ border: 1px solid #E4E4E4;
             <?php } ?>
             
             <?php if (Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"])) { ?>
-              <div id="infoPodOrga" class="col-md-8 padding-10">
+              <div id="infoPodOrga" class="col-md-8 col-sm-8 padding-10">
                 <?php if (count(@$list) == 0) { ?>
                 <blockquote class="padding-10"> 
                   <span class="text-extra-large text-green "><i class="fa fa-check"></i> Espace ouvert</span><br>
@@ -501,14 +501,13 @@ border: 1px solid #E4E4E4;
 
         </div>
 
-        <div class="col-md-12">      
-          <?php if ( count(@$list) > 0 ) { ?>
+        <?php if ( count(@$list) > 0 ) { ?>
+          <div class="col-md-12">      
             <div id="tags-container" class="col-md-12 margin-bottom-15">
               <?php echo $tagBlock?>
             </div>
-          <?php } ?>
-     
-        </div>
+          </div>
+        <?php } ?>
 
         <div id="mixcontainer" class="mixcontainer col-md-12">
             <?php echo (count($list) > 0) ? $blocks : "" ?>
