@@ -111,7 +111,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 	?>
 	<div class="row header-parent-space">
-		<div class="col-md-3">
+		<div class="col-md-3 col-sm-3 col-xs-12 center">
 			<?php if($parentType != City::COLLECTION){ ?>
 				<img class="thumbnail img-responsive" id="thumb-profil-parent" src="<?php echo $urlPhotoProfil; ?>" alt="image" >
 			<?php }else{ ?>
@@ -119,7 +119,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     		<?php } ?>
     	
     	</div>
-    	<div class="col-md-9">
+    	<div class="col-md-9 col-sm-9">
     		<div class="col-md-12 no-padding margin-bottom-15">
 	    		<a href="javascript:loadByHash('#<?php echo $urlParent; ?>');" class="text-<?php echo $colorName; ?> homestead">
 					<i class="fa fa-<?php echo $icon; ?>"></i> 

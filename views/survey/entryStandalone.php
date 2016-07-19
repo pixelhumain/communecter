@@ -305,9 +305,13 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 				<div class="col-md-12 padding-15">
 				
-					<?php echo $survey["message"]; ?>
+					<div class="col-md-12 no-padding">
+						<?php echo $survey["message"]; ?>
+					</div>
+					<div class="col-md-12 padding-15">
 					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos); ?>
-			
+					</div>
+					
 					<br/>
 					<?php if( @( $survey["tags"] ) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>

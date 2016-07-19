@@ -381,7 +381,18 @@
         $rightLinks = ( $entry["type"] == Survey::TYPE_ENTRY ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $ordre = $voteLinksAndInfos["ordre"];
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
-        $views = ( @$entry["viewCount"] ) ? "<span class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</span>" : ""; 
+        
+        $commentBtn = "";
+        if(isset($entry["commentCount"]) && $entry["commentCount"] > 0)
+        $commentBtn = "<br><i class='fa fa-comment'></i> ".@$entry["commentCount"];
+
+        $views = ( @$entry["viewCount"] ) ? 
+            "<span class='no-border pull-right text-dark' style='font-size:13px;'>
+              <i class='fa fa-eye'></i> ".$entry["viewCount"].
+            $commentBtn."</span>"
+            : ""; 
+        
+
         $byInfo = "";
         if ( isset($entry["parentType"]) && isset($entry["parentId"]) ) 
         {
@@ -409,9 +420,7 @@
 
         $contextType = ( $entry["type"] == Survey::TYPE_ENTRY ) ? Survey::COLLECTION : Survey::PARENT_COLLECTION;
 
-        $commentBtn = "";
-        if(isset($entry["commentCount"]) && $entry["commentCount"] > 0)
-        $commentBtn = "<span class='text-dark no-border' style='font-size:13px;'>".@$entry["commentCount"]." <i class='fa fa-comment'></i> "/*.Yii::t("rooms", "Comment", null, Yii::app()->controller->module->id)*/."</span>";
+        
         $closeBtn = "";
         $isClosed = "";
         $stateLbl = "<i class='fa fa-gavel'></i> ".Yii::t('rooms', "VOTE", null, Yii::app()->controller->module->id);
@@ -520,7 +529,7 @@
                         '<br/>'.
                         '<div class="space1"></div>'.
                         '<div class="pull-right" >'.
-                            $commentBtn.$infoslink. 
+                            $infoslink. 
                             $byInfo.
                         '</div>'.
 

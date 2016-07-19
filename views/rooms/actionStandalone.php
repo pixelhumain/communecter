@@ -12,11 +12,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
 ?>
 <style type="text/css">
 
-	.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-    }
-	/*a.btn{margin:3px;}*/
-	/*a:hover.btn {background-color: pink;border solid #666;}*/
+	
 
 	/*.infolink{border-top:1px solid #fff}*/
 	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
