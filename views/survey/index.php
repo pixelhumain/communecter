@@ -336,7 +336,7 @@
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter bg-azure btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
+              $tagBlock .= ' <button class="filter bg-red btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
             }
             $tags .= $t.' ';
           }

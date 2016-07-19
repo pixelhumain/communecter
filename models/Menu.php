@@ -611,9 +611,11 @@ class Menu {
         // Back to Parent Survey
         //-----------------------------
         self::entry("left", 'onclick', 
-                    Yii::t( "rooms", 'Parent Survey',null,Yii::app()->controller->module->id),
-                    Yii::t( "rooms", 'Back to Parent Survey',null,Yii::app()->controller->module->id), 'chevron-circle-left',
-                    "loadByHash('#survey.entries.id.".$parentId."')",null,null);
+                    Yii::t( "rooms", 'Parent Survey', null,Yii::app()->controller->module->id),
+                    Yii::t( "rooms", 'Back to Parent Survey', null,Yii::app()->controller->module->id), 'chevron-circle-left',
+                    "showRoom('vote', '".$parentId."')",null,null);
+                    //"loadByHash('#survey.entries.id.".$parentId."')",null,null);
+
         
         if ( $organiserId == Yii::app()->session["userId"] ) 
         {
@@ -623,7 +625,7 @@ class Menu {
             if( !$hasVote && Yii::app()->controller->action->id != "editentry"  )
             {
                 self::entry("right", 'onclick', 
-                        Yii::t( "common", 'Edit this proposals'),
+                        Yii::t( "rooms", 'Edit this proposal', null,Yii::app()->controller->module->id),
                         Yii::t( "common", 'Edit'), 'pencil',
                         "loadByHash('#survey.editEntry.survey.".$parentId.".id.".$id."')","editProposalBtn",null);
             }
@@ -634,12 +636,12 @@ class Menu {
             if( Yii::app()->controller->action->id != "editentry" && !( ( @$survey["dateEnd"] && $survey["dateEnd"] < time()) )   )
             {
                 self::entry("right", 'onclick', 
-                        Yii::t( "common", 'Close this proposals'),
+                        Yii::t( "rooms", 'Close this proposal', null,Yii::app()->controller->module->id),
                         Yii::t( "common", 'Close'), 'times text-red',
                         "closeEntry('".$id."')","closeProposalBtn",null);
             }
             self::entry("right", 'onclick', 
-                        Yii::t( "common", 'Move this proposals'),
+                        Yii::t( "rooms", 'Move this proposal', null,Yii::app()->controller->module->id),
                         Yii::t( "common", 'Move'), 'share-alt text-grey',
                         "$('#modal-select-room5').modal('show')","moveProposalBtn",null);
         }

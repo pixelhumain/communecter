@@ -149,7 +149,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				<i class="fa fa-angle-down"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span>
 				<?php echo $room["name"]; ?>
+				<hr>
+			
 			</h1>
+
 			<?php 					
 				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
 					Menu::proposal( $survey );
@@ -157,15 +160,6 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				}
 			?>
 
-			<div class="col-md-12 text-center text-azure info-survey"> 
-				
-				
-				
-			</div>
-
-			
-			
-			
 
 			<div class="col-md-12 voteinfoSection">
 				<?php 
@@ -184,14 +178,14 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 			   
 				 ?>
 				<div class="col-md-12 no-padding margin-bottom-15">
-					<?php if( @($organizer) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-caret-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
-					<?php }	?>
-					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-
-					<?php //echo Survey::getChartBarResult($survey); ?>
-					
-				</div>
+						<?php if( @( $survey["tags"] ) ){ ?>
+							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
+							<?php foreach ( $survey["tags"] as $value) {
+									echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+								}?>
+							</span><br>
+						<?php }	?>
+					</div>
 
 				<div class="col-md-6 no-padding" style="padding-right: 15px !important;">
 					
@@ -237,7 +231,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 				</div>
 
-				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px; font-size:15px;">
+				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
 					
 					<span class="text-azure">
 						<i class="fa fa-clock-o"></i> 
@@ -272,8 +266,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 								echo $voteLinksAndInfos["links"]; 
 							else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
 								echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
-							else if( !$canParticipate )
+							else if( !$canParticipate && isset(Yii::app()->session['userId']) )
 								echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
+							else if( !$canParticipate && !isset(Yii::app()->session['userId']) )
+								echo '<i class="fa fa-angle-right"></i> Connectez-vous pour voter';
 						?>
 					</div>
 
@@ -319,23 +315,31 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 					<?php }*/ ?>
 				</div>
 
-				<div class="col-md-12 padding-15">
+				<div class="col-md-12 no-padding">
 				
-					<div class="col-md-12 no-padding">
-						<?php echo $survey["message"]; ?>
-					</div>
-					<div class="col-md-12 padding-15">
-					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos,$parentType,$parentId); ?>
+					<div class="col-md-12 no-padding margin-top-15">
+						<?php if( @($organizer) ){ ?>
+							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-angle-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+						<?php }	?>
+						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
+
+						<?php //echo Survey::getChartBarResult($survey); ?>
+						
 					</div>
 					
-					<br/>
-					<?php if( @( $survey["tags"] ) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
-						<?php foreach ( $survey["tags"] as $value) {
-								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
-							}?>
-						</span><br>
-					<?php }	?>
+					
+					
+					<div class="col-md-12 text-dark" style="font-size:15px">
+						<hr>
+						<?php echo $survey["message"]; ?>
+						<hr>
+						<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
+					</div>
+
+					<div class="col-md-12 padding-15">
+						<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos,$parentType,$parentId); ?>
+						<div class="col-md-12 no-padding margin-top-10"><hr></div>
+					</div>
 
 					<?php if( @( $survey["urls"] ) ){ ?>
 						
@@ -344,7 +348,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
 							else
-								echo '<span class="text-large"><i class="fa fa-caret-right"></i> '.$value.'</span><br/> ';
+								echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
 						}?>
 						
 					<?php }	?>
@@ -373,7 +377,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
  if(!isset($_GET["renderPartial"])){
   echo "</div>"; // ferme le id="room-container"
  }
- ?>
+?>
 
 <style type="text/css">
 	.footerBtn{font-size: 2em; color:white; font-weight: bolder;}
@@ -383,10 +387,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 clickedVoteObject = null;
 var images = <?php echo json_encode($images) ?>;
 jQuery(document).ready(function() {
-	//var shareBtns = new ShareButton(".share-button");
-
-	//titleAnim ();
-
+	
 	$(".main-col-search").addClass("assemblyHeadSection");
   	$(".moduleLabel").html("<i class='fa fa-gavel'></i> Propositions, débats, votes");
   
@@ -394,11 +395,11 @@ jQuery(document).ready(function() {
 		$(this).removeClass("animated flipInX");
 	});
 
+  	$(".tooltips").tooltip();
 	
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
 
-
-	//buildResults ();
+	//buildResults (); //old piechart
 
 });
 
