@@ -287,7 +287,7 @@ class Menu {
                         "text-red"); 
 	        }
             //Ask Admin button
-            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"] || $organization["preferences"]["isOpenEdition"]==true) {
+            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"] /*|| $organization["preferences"]["isOpenEdition"]==true*/) {
 	            $connectAs="admin";
 	            if(!@$organization["links"]["members"][Yii::app()->session["userId"]]){
 		            $connectAs="member";
@@ -450,7 +450,7 @@ class Menu {
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
         }
-        if (isset(Yii::app()->session["userId"]) && (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"]) || $project["preferences"]["isOpenEdition"]==true)) {
+        if (isset(Yii::app()->session["userId"]) && (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"]) /*|| $project["preferences"]["isOpenEdition"]==true*/)) {
 	         $connectAs="admin";
 	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]){
 		            $connectAs="contributor";
