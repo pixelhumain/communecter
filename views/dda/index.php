@@ -93,23 +93,6 @@
 
 
 
-<div class="col-md-12" id="form-create-room">
-<?php 
-	$listRoomTypes = Lists::getListByName("listRoomTypes");
-    foreach ($listRoomTypes as $key => $value) {
-        //error_log("translate ".$value);
-        $listRoomTypes[$key] = Yii::t("rooms",$value, null, Yii::app()->controller->module->id);
-    }
-    $tagsList =  Lists::getListByName("tags");
-    $params = array(
-        "listRoomTypes" => $listRoomTypes,
-        "tagsList" => $tagsList
-    );
-	$this->renderPartial('editRoomSV', $params); 
-?>
-</div>
-
-
 <?php 
 	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg){
 	
@@ -146,8 +129,10 @@
 			    if(empty($elements)) 
 			      	echo '<div class="panel-body hide-on-reduce-menu"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
 
-			    echo '<div class="panel-body hide-on-reduce-menu"><a href="javascript:selectRoomType(\''.$typeNew.'\')" class="text-green">'.
-			    		'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace</a>'.
+			    echo '<div class="panel-body hide-on-reduce-menu">'.
+			    		'<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" data-target="#modal-create-room" class="text-green">'.
+			    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
+			    		'</a>'.
 			    	 '</div>';
 
 	echo 	'</div>';

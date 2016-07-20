@@ -12,15 +12,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 //$cssAnsScriptFilesTheme = array('js/form-elements.js');
 //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
-if(isset($action))
-  Menu::action( $action );
-else
-  Menu::back() ;
-$this->renderPartial('../default/panels/toolbar');
+// if(isset($action))
+//   Menu::action( $action );
+// else
+//   Menu::back() ;
+// $this->renderPartial('../default/panels/toolbar');
+$parent = null;
+if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
+if(@$room) $parent = $room;
+if($parent == null) return;
 
-$parent = ActionRoom::getById($_GET['room']);
 $parentType = $parent["parentType"];
 $parentId = $parent["parentId"];
+/*
 $this->renderPartial('../rooms/header',array(   
                             "parentId" => $parent['parentId'], 
                             "parentType" => $parent['parentType'], 
@@ -32,7 +36,7 @@ $this->renderPartial('../rooms/header',array(
                                     " / ".
                                     "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parent["_id"]."\")'><i class='fa fa-cogs'></i> ".$parent["name"]."</a>".
                             ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
-                              )); 
+                              )); */
  ?>
 <div id="editEntryContainer"></div>
 <style type="text/css">
@@ -105,12 +109,12 @@ var actionFormDefinition = {
                   "placeholder" : "<?php echo Yii::t("rooms","Add urls or Bullet points",null,Yii::app()->controller->module->id) ?>",
                   "value" : <?php echo ( @$action['urls']) ? json_encode($action['urls']) : "[]" ?>,
             },
-            "tags" :{
-              "inputType" : "tags",
-              "placeholder" : "Tags",
-              "value" : "<?php echo ( @$action['tags']) ? implode(',', $action['tags']) : '' ?>",
-              "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
-            }
+            // "tags" :{
+            //   "inputType" : "tags",
+            //   "placeholder" : "Tags",
+            //   "value" : "<?php echo ( @$action['tags']) ? implode(',', $action['tags']) : '' ?>",
+            //   "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
+            // }
         }
     }
 };

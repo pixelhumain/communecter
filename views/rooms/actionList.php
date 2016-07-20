@@ -493,7 +493,10 @@ border: 1px solid #E4E4E4;
                   <small>Un espace d'action peut contenir plusieurs actions.</small>
                   <br>Référencez et partagez <b>une par une</b>,
                   <br>les tâches qui concernent cet espace
-                  <br><br><button class="btn btn-success"><i class="fa fa-plus"></i> Ajouter une action</button>
+                  <br><br>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#modal-create-action">
+                    <i class="fa fa-plus"></i> Ajouter une action
+                  </button>
                 </blockquote>
                 <?php }; ?>
               </div>
@@ -517,6 +520,43 @@ border: 1px solid #E4E4E4;
     </div> <!--home-->
 
   </section>
+
+
+<div class="modal fade" id="modal-create-action" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title text-left">
+          <i class="fa fa-angle-down"></i> <i class="fa fa-plus"></i> Créer un espace
+        </h2>
+      </div>
+      <div class="modal-body no-padding">
+        <div class="panel-body" id="form-create-room">
+          <?php 
+              $params = array(
+                  "room"=>$room,
+                  "action"=>$room,
+              );
+              $params["organizer"] = array(  "name" => $parent["name"],
+                                             "link" => Yii::app()->createUrl('/'.Yii::app()->controller->module->id."/".$room["parentType"]."/dashboard/id/".$room["parentId"]) );
+
+            $this->renderPartial('../rooms/editAction', $params); 
+
+          ?>
+          <?php echo json_encode(Tags::getActiveTags()) ?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-success"
+                data-dismiss="modal" onclick="saveNewRoom()">
+              <i class="fa fa-save"></i> Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="space20"></div>
 

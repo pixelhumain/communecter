@@ -27,9 +27,9 @@ var roomFormDefinition = {
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
             "roomType" :{
-                "inputType" : "select",
+                "inputType" : "hidden",
                 "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, $moduleId)?>",
-                "options" : listRoomTypes
+                // "options" : listRoomTypes
               },
             "name" :{
               "inputType" : "text",
@@ -114,7 +114,7 @@ function editRoomSV (roomObj) {
                <?php  
                //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                ?>
-               "type" : $("#roomType").select2("val"), 
+               "type" : $("#roomType").val(), //select2("val"), 
             };
             if( $("#type").val() != "")
               params.parentType = $("#type").val();
