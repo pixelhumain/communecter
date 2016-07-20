@@ -193,12 +193,12 @@ function editEntrySV () { toastr.success('editEntrySV');
   $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
-              "<form id='ajaxForm' enctype='multipart/form-data'></form>"+
+              "<form id='ajaxFormEntry' enctype='multipart/form-data'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
     
-        var form = $.dynForm({
-          formId : "#ajaxForm",
+        var formSurvey = $.dynForm({
+          formId : "#editEntryContainer #ajaxFormEntry",
           formObj : proposalFormDefinition,
           onLoad : function() {
             console.log("onLoad",proposalObj);
@@ -279,7 +279,7 @@ function editEntrySV () { toastr.success('editEntrySV');
             return false;
           }
         });
-        console.dir(form);
+        console.dir(formSurvey);
       
 }
 

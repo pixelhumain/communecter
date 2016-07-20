@@ -162,7 +162,7 @@ function editEntrySV () {
               "<div class='space20'></div>"+
               "</div></div>");
     
-        var form = $.dynForm({
+        var formAction = $.dynForm({
           formId : "#editActionContainer #ajaxForm",
           formObj : actionFormDefinition,
           onLoad : function() {
@@ -246,7 +246,7 @@ function editEntrySV () {
             return false;
           }
         });
-        console.dir(form);
+        console.dir(formAction);
       
 }
 

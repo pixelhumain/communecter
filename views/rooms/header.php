@@ -263,13 +263,13 @@ h1.citizenAssembly-header {
 
 <?php 
 
-createModalRoom($discussions, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
-createModalRoom($votes, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
-createModalRoom($actions, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
-createModalRoom($history, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
+createModalRoom($discussions,$parentType, $parentId, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
+createModalRoom($votes,$parentType, $parentId, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
+createModalRoom($actions,$parentType, $parentId, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
+createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
 $where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
 if( in_array($where, array("rooms.action","survey.entry")))
-	createModalRoom(array_merge($votes,$actions), 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
+	createModalRoom(array_merge($votes,$actions),$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
 
 
 function createModalRoom($elements, $parentType, $parentId, $index, $title, 
@@ -323,20 +323,16 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 					      $imgIcon = '<img src="'.$urlPhotoProfil.'">';
 						}
 
-						echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
-								'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"].
-								" <span class='badge badge-success pull-right'>".
-									PHDB::count($col,array($attr=>(string)$value["_id"])).
-								"</span>".
-								" <span class='pull-right img-room-modal'>".
-									$imgIcon.
-								"</span>".
-								
-							'</a>';
-
-				        if(!$skip){
+						if(!$skip){
 							echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
-									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr=>(string)$value["_id"]))."</span>".
+									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"].
+									" <span class='badge badge-success pull-right'>".
+										PHDB::count($col,array($attr=>(string)$value["_id"])).
+									"</span>".
+									" <span class='pull-right img-room-modal'>".
+										$imgIcon.
+									"</span>".
+									
 								'</a>';
 						}
 							 
