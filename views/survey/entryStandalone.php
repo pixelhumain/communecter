@@ -27,10 +27,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	/*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
 	
 	  a.btn.alertlink   {background-color:red;color:white;border: 1px solid red;}
-	  a.btn.golink    {background-color:green;color:white;border: 1px solid green;}
-	  a.btn.voteUp    {background-color: #93C22C;border: 1px solid green;}
+	  a.btn.golink    	{background-color:green;color:white;border: 1px solid green;}
+	  a.btn.voteUp    	{background-color: #93C22C;border: 1px solid green;}
 	  a.btn.voteUnclear {background-color: #f3f000;border: 1px solid yellow;}
-	  a.btn.voteMoreInfo  {background-color: #C1ABD4;border: 1px solid #789289;}
+	  a.btn.voteMoreInfo{background-color: #C1ABD4;border: 1px solid #789289;}
 	  a.btn.voteAbstain {color: black;background-color: white;border: 1px solid grey !important;}
 	  a.btn.voteDown    {background-color: #db254e;border: 1px solid #db254e;}
 
@@ -59,11 +59,11 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	    font-size: 15px;
 	}
 
-  .color-btnvote-green{background-color: #93C22C;color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-yellow{background-color: yellow;color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-white{background-color: #FFF;color: black;	padding: 8px;border-radius: 30px;border: 1px solid #939393;}
-  .color-btnvote-purple{background-color: #C1ABD4;color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-red{background-color: #db254e;color: black;		padding: 8px;border-radius: 30px;}
+  .color-btnvote-green	{background-color: #93C22C;	color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-blue	{background-color: #4da9c8;	color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-white	{background-color: #FFF;	color: black;	padding: 8px;border-radius: 30px; border: 1px solid #939393;}
+  .color-btnvote-purple	{background-color: #C1ABD4;	color: black;	padding: 8px;border-radius: 30px;}
+  .color-btnvote-red	{background-color: #db254e;	color: black;	padding: 8px;border-radius: 30px;}
 
   .msg-head-tool-vote{
   	width:100%;

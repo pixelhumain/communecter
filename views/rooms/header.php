@@ -81,6 +81,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 h1.citizenAssembly-header {
     font-size: 30px;
 }
+
+.img-room-modal img{
+	max-width: 35px;
+	margin-top: -5px;
+	margin-right: 10px;
+	border-radius: 4px;
+}
 </style>	
 
 
@@ -273,8 +280,21 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 							$onclick = 'move(\''.$type.'\', \''.(string)$value["_id"].'\')';
 				        }
 
+				        $imgIcon = '';
+				        if(isset($value['profilImageUrl']) && $value['profilImageUrl'] != ""){
+					      $urlPhotoProfil = Yii::app()->getRequest()->getBaseUrl(true).$value['profilImageUrl'];
+					      $imgIcon = '<img src="'.$urlPhotoProfil.'">';
+						}
+
 						echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
-								'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr=>(string)$value["_id"]))."</span>".
+								'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"].
+								" <span class='badge badge-success pull-right'>".
+									PHDB::count($col,array($attr=>(string)$value["_id"])).
+								"</span>".
+								" <span class='pull-right img-room-modal'>".
+									$imgIcon.
+								"</span>".
+								
 							'</a>';
 							 
 			        } 
@@ -288,7 +308,9 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 	echo 		'<div class="modal-footer">';
 	
 	if($typeNew != "history" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
-	echo		    '<button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace</button>';
+	echo		    '<button type="button" class="btn btn-default pull-left" data-dismiss="modal">'.
+						'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace'.
+					'</button>';
 	echo		    '<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>';
 	
 	echo	    '</div>';
