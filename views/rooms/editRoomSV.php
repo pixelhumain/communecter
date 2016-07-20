@@ -48,11 +48,11 @@ var roomFormDefinition = {
 };
 
 var dataBind = {
-   "#message" : "message",
-   "#name" : "name",
-   "#tags" : "tags",
-   "#id"   : "parentId",
-   "#type" : "parentType",
+   "#editEntryContainer #message" : "message",
+   "#editEntryContainer #name" : "name",
+   "#editEntryContainer #tags" : "tags",
+   "#editEntryContainer #id"   : "parentId",
+   "#editEntryContainer #type" : "parentType",
 };
 
 jQuery(document).ready(function() {
@@ -96,7 +96,7 @@ function editRoomSV (roomObj) {
               "</div>");
     
         var form = $.dynForm({
-          formId : "#ajaxForm",
+          formId : "#editRoomsContainer #ajaxForm",
           formObj : roomFormDefinition,
           onLoad : function  () {
             if( roomObj ){
@@ -109,17 +109,17 @@ function editRoomSV (roomObj) {
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-               "name" : $("#name").val() , 
-               "tags" : $("#tags").val().split(","),
+               "name" : $("#editRoomsContainer #name").val() , 
+               "tags" : $("#editRoomsContainer #tags").val().split(","),
                <?php  
                //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                ?>
-               "type" : $("#roomType").val(), //select2("val"), 
+               "type" : $("#editRoomsContainer #roomType").val(), //select2("val"), 
             };
-            if( $("#type").val() != "")
-              params.parentType = $("#type").val();
-            if( $("#id").val() != "")
-              params.parentId = $("#id").val();
+            if( $("#editRoomsContainer #type").val() != "")
+              params.parentType = $("#editRoomsContainer #type").val();
+            if( $("#editRoomsContainer #id").val() != "")
+              params.parentId = $("#editRoomsContainer #id").val();
            console.dir(params);
             $.ajax({
               type: "POST",
@@ -254,23 +254,23 @@ function getRandomInt (min, max) {
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+
               //'<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
               "</div>");
   $.subview({
-        content : "#ajaxSV",
+        content : "#editRoomsContainer #ajaxSV",
         onShow : function() 
         {
-          $("#entryContent").html(data.content);
-          $("#entryTitle").html(data.title);
+          $("#editRoomsContainer #entryContent").html(data.content);
+          $("#editRoomsContainer #entryTitle").html(data.title);
           if(type=="graph")
             setUpGraph();
         },
         onHide : function() {
-          $("#ajaxSV").html('');
+          $("#editRoomsContainer #ajaxSV").html('');
           //$.hideSubview();
         }
       });

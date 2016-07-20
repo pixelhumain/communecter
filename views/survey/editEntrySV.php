@@ -151,15 +151,15 @@ var proposalFormDefinition = {
 };
 
 var dataBind = {
-   "#message" : "message",
-   "#name" : "name",
-   "#tags" : "tags",
-   "#id"   : "typeId",
-   "#type" : "type",
-   "#dateEnd" : "dateEnd",
-   "#<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
-   "#<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
-   "#<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
+   "#editEntryContainer #message" : "message",
+   "#editEntryContainer #name" : "name",
+   "#editEntryContainer #tags" : "tags",
+   "#editEntryContainer #id"   : "typeId",
+   "#editEntryContainer #type" : "type",
+   "#editEntryContainer #dateEnd" : "dateEnd",
+   "#editEntryContainer #<?php echo Comment::COMMENT_ON_TREE ?>" : "<?php echo Comment::COMMENT_ON_TREE ?>",
+   "#editEntryContainer #<?php echo Comment::COMMENT_ANONYMOUS ?>" : "<?php echo Comment::COMMENT_ANONYMOUS ?>",
+   "#editEntryContainer #<?php echo Comment::ONE_COMMENT_ONLY ?>" : "<?php echo Comment::ONE_COMMENT_ONLY ?>"
 };
 
 var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
