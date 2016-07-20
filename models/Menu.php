@@ -725,7 +725,7 @@ class Menu {
         self::entry("left", 'onclick', 
                     Yii::t( "rooms", 'Back to Action List',null,Yii::app()->controller->module->id),
                     Yii::t( "rooms", 'Action List',null,Yii::app()->controller->module->id), 'chevron-circle-left',
-                    "loadByHash('#rooms.actions.id.".$parentId."')",null,null);
+                    "showRoom('actions', '".$parentId."')",null,null);
         
         if ( $organiserId == Yii::app()->session["userId"] ) 
         {
