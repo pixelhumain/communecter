@@ -120,9 +120,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 			<?php if ($openEdition==true) { ?>
-				<a href='javascript:' class='pull-right editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="top" title="Paramètrer l'édition" alt="">
-					<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-				</a>
+				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Paramètrer l'édition" style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 			<?php } ?>
 		</h4>
 	</div>
@@ -176,6 +174,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</style>
 		<?php if(!empty($organization["badges"])){?>
 			<?php if( Badge::checkBadgeInListBadges("opendata", $organization["badges"]) ){?>
+
 				<div class="badgePH pull-right" data-title="OPENDATA">
 					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
 						<i class="fa fa-database main fa-stack-1x text-orange"></i>
