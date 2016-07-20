@@ -12,7 +12,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
 	'/assets/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 	'/assets/plugins/jquery.dynSurvey/jquery.dynForm.js',
-	'/assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js'
+	'/assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+	'/assets/plugins/jquery-validation/dist/jquery.validate.min.js'
 	//'/assets/js/ui-sliders.js',
 );
 
@@ -54,322 +55,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-md-offset-2">
 		<h3><?php echo Yii::t("project","Add values of your project",null,Yii::app()->controller->module->id) ?></h3>
-		<div id="opendata"></div>
-		<form class="form-chart">
-			<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-						<div class="panel panel-default">
-							<div class="panel-heading" role="tab" id="headingOne">
-								<h4 class="panel-title">
-									<input type="checkbox" name="partage" value="" data-toggle="collapse" data-target="#partage" aria-expanded="false" aria-controls="collapseExample"></input> 
-							   Partage
-							   </h4>
-						    </div>
-							<div id="partage" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-								<div class="panel-body">
-									<h4>
-								       Quels sont les "communs" proches ou similaires ? Ont il été contactés pour essayer de mutualiser avec eux ? Comment le "commun" est travaillé pour favoriser sa réplication, sa diffusion ?
-									</h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-						<div class="panel panel-default">
-							<div class="panel-heading" role="tab" id="headingOne">
-								<h4 class="panel-title">
-									<input type="checkbox" name="gouvernance" value="" data-toggle="collapse" data-target="#gouvernance" aria-expanded="false" aria-controls="collapseExample"></input> 
-							   Gouvernance
-							   </h4>
-						    </div>
-							<div id="gouvernance" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-								<div class="panel-body">
-									<h4>
-										Comment est pensée la gouvernance pour permettre à tous de s'approprier le commun sans pour autant réduire l'initiative individuelle ?
-									</h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading" role="tab" id="headingOne">
-								<h4 class="panel-title">
-									<input type="checkbox" name="partenaire" value="" data-toggle="collapse" data-target="#partenaire" aria-expanded="false" aria-controls="collapseExample"></input> 
-							   Partenaires
-							   </h4>
-						    </div>
-							<div id="partenaire" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-								<div class="panel-body">
-									<h4>
-								        Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?
-								    </h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<input type="checkbox" name="juridique" value="" data-toggle="collapse" data-target="#juridique" aria-expanded="false" aria-controls="collapseExample"></input> 
-						   Juridique
-						   </h4>
-					    </div>
-						<div id="juridique" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-							<div class="panel-body">
-								<h4>
-							       Quels choix juridique pour protéger le caractère "commun" du projet ?												</h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<input type="checkbox" name="financement" value="" data-toggle="collapse" data-target="#financement" aria-expanded="false" aria-controls="collapseExample"></input> 
-						   Financement
-						   </h4>
-					    </div>
-						<div id="financement" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-							<div class="panel-body">
-								<h4>
-Quelle logique de financement par les usagers et partenaires ainsi que de redistribution financière dans le commun ?
-								</h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<input type="checkbox" name="contribution" value="" data-toggle="collapse" data-target="#contribution" aria-expanded="false" aria-controls="collapseExample"></input> 
-						   Contribution
-						   </h4>
-					    </div>
-						<div id="contribution" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-							<div class="panel-body">
-								<h4>
-							       Comment le projet permet il la contribution à tous et sur le long terme ? Quels moyens pour rendre visibles les actions ?
-							    </h4>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Ne souhaite pas</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Pas applicable</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Souhait mais pas démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">Démarré</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio">En progression</label>
-								</div>
-								<div class="radio">
-									<label><input type="radio" name="optradio" disabled>Réalisé</label>
-								</div>
-								<textarea class="partage-description form-control" name="description" id="description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>					
-						    </div>
-					    </div>
-					</div>
-				</div>
-					<label for="properties">
-						<?php echo Yii::t("project","Degree of project's openness (0% = very closed, 100% = very opened)",null,Yii::app()->controller->module->id) ?>			
-					</label>
-
-					<input class="" type="checkbox" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-						Solidaire
-					</button>
-					<div class="collapse" id="collapseExample">
-						<div class="well">
-							
-						</div>
-					</div>
-					<div class="col-md-12">
-					<?php if (isset($properties) && !empty($properties)){
-						foreach ($properties as $key => $val){ 
-						if($key!="avancement" && $key!="partenaire"){
-					?>
-						<div class="col-md-4 form-property">
-							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-							<h4 style="text-align:center;width:200px;"><?php echo $key; ?></h4>
-							<input class="knob project-property" name="<?php echo $key; ?>" value="<?php if (!empty($val)) echo $val; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">		
-					<?php if ($key=="gouvernance"){ ?>
-						<label for="properties">
-							Ouverture en terme de décisions, de partenaires, de parties prenantes
-						</label>
-					<?php } else if ($key=="partage"){ ?>
-						<label for="properties">
-							À combien le projet sert le bien communs?
-						</label>
-					<?php }else if ($key=="solidaire"){ ?>
-						<label for="properties">
-							À quel point le projet sert-il l'utilité sociale, le développement durable
-						</label>
-					<?php }else if ($key=="local"){ ?>
-						<label for="properties">
-							Quel est l'impact géographique du projet?
-						</label>
-					<?php } ?>
-					</div>
-				<?php 		} 
-						} 
-					} else { ?>
-						<div class="col-md-4 form-property">
-							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-							<h4 style="text-align:center;width:200px;">Gouvernance</h4>
-							<input class="knob project-property" name="gouvernance" value="0" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-							<label for="properties">
-								Ouverture en terme de décisions, de partenaires, de parties prenantes
-							</label>
-						</div>
-						<div class="col-md-4 form-property">
-							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-							<h4 style="text-align:center;width:200px;">Partage</h4>
-							<input class="knob project-property" value="0" name="partage" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-							<label for="properties">
-								À combien le projet sert le bien communs?			
-							</label>	
-						</div>
-						<div class="col-md-4 form-property">
-							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-							<h4 style="text-align:center;width:200px;">Solidaire</h4>
-							<input class="knob project-property" value="0" name="solidaire" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-							<label for="properties">
-								À quel point le projet est-il d'utilité sociale, du développement durable, etc.?
-							</label>
-						</div>
-						<div class="col-md-4 form-property">
-							<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-							<h4 style="text-align:center;width:200px;">Local</h4>
-							<input class="knob project-property" value="0" name="local" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-							<label for="properties">
-								Quel est l'impact géographique du projet?
-							</label>
-						</div>
-						<?php } ?>
-						<div class="col-md-4">
-							<h4 style="text-align:center;width:200px;"></h4>
-								<div class="flexslider" style="margin-top:35px;">
-							<div id="infoPodOrga" class="padding-10">
-								<blockquote> 
-									<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	<?php echo Yii::t("project","Add<br/>A new<br/>Property",null,Yii::app()->controller->module->id) ?>
-									<br/>
-									<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
-										<i class="fa fa-plus"></i> <?php echo Yii::t("common","ADD"); ?>
-									</a>
-								</blockquote>
-								
-							</div>
-							
-						</div>
-						</div>
-					</div>
-				</div>
-				<div class="">
-					<div class="row center">
-		    	        <button class="btn btn-primary" >Enregistrer</button>
-					</div>
-				</div>
-			</div>
-		</form>
+		<form id="opendata"></form>
 	</div>
 </div>
 
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
-var projectId = $(".form-chart .projectId").val();
+var parentId = $(".form-chart .projectId").val();
 var form1 = {
         "jsonSchema" : {
             "title" : "Partage",
@@ -379,10 +71,9 @@ var form1 = {
                     "title":" Quels sont les communs proches ou similaires ? Ont il été contactés pour essayer de mutualiser avec eux ? Comment le commun est travaillé pour favoriser sa réplication, sa diffusion ?"
                 },
                 "description" : {
-                    "inputType" : "text",
+                    "inputType" : "textarea",
                     "placeholder" : "Description",
-                    "value":"rakiaya"
-                    
+                    "value":""
                 },
                 "value" : {
                     "inputType" : "select",
@@ -394,13 +85,11 @@ var form1 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
                 }
-            }
-        }	   
+            },
+        },
+        "collection":"partage"
     };
 
 var form2 = {
@@ -412,11 +101,8 @@ var form2 = {
                     "title":"Comment est pensée la gouvernance pour permettre à tous de s'approprier le commun sans pour autant réduire l'initiative individuelle ?"
                 },
                 "description" : {
-                    "inputType" : "text",
+                    "inputType" : "textarea",
                     "placeholder" : "Description",
-                    "rules" : {
-                        "required" : true
-                    }
                 },
                 "value" : {
                     "inputType" : "select",
@@ -428,9 +114,6 @@ var form2 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
                 }
             }
@@ -446,11 +129,8 @@ var form3 = {
                     "title":"Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
                 },
                 "description" : {
-                    "inputType" : "text",
-                    "placeholder" : "Description",
-                    "rules" : {
-                        "required" : true
-                    }
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
                 },
                 "value" : {
                     "inputType" : "select",
@@ -462,11 +142,8 @@ var form3 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
-                }
+				}
             }
         }
 };
@@ -479,11 +156,8 @@ var form4 = {
                     "title":"Quels choix juridique pour protéger le caractère commun du projet ?"
                 },
                 "description" : {
-                    "inputType" : "text",
-                    "placeholder" : "Description",
-                    "rules" : {
-                        "required" : true
-                    }
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
                 },
                 "value" : {
                     "inputType" : "select",
@@ -495,9 +169,6 @@ var form4 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
                 }
             }
@@ -512,11 +183,8 @@ var form5 = {
                     "title":"Quelle logique de financement par les usagers et partenaires ainsi que de redistribution financière dans le commun ?"
                 },
                 "description" : {
-                    "inputType" : "text",
-                    "placeholder" : "Description",
-                    "rules" : {
-                        "required" : true
-                    }
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
                 },
                 "value" : {
                     "inputType" : "select",
@@ -528,9 +196,6 @@ var form5 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
                 }
             }
@@ -545,7 +210,7 @@ var form6 = {
                     "title":"Comment le projet permet il la contribution à tous et sur le long terme ? Quels moyens pour rendre visibles les actions ?"
                 },
                 "description" : {
-                    "inputType" : "text",
+                    "inputType" : "textarea",
                     "placeholder" : "Description"
                 },
                 "value" : {
@@ -558,9 +223,6 @@ var form6 = {
 						"60":"Démarré",
 						"80":"En progression",
 						"100":"Réalisé",
-                    },
-                    "rules" : {
-                        "required" : true
                     }
                 }
             }
@@ -581,11 +243,14 @@ jQuery(document).ready(function() {
         surveyObj : { 
             "section1": {dynForm : form1 },
             "section2":{dynForm : form2 },
-            "section3":{dynForm : form3 }
+            "section3":{dynForm : form3 },
+            "section4":{dynForm : form4 },
+            "section5":{dynForm : form5 },
+			"section6":{dynForm : form6 }
         },
-        collection : "smartcitizen",
-        key : "SCSurvey"
-        //"savePath":"/ph/common/opendata"
+        collection : "commonsChart",
+        key : parentId,
+		savePath : baseUrl+"/"+moduleId+"/project/editchart"
     });
 
 	knobInit();
