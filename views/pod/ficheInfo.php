@@ -216,7 +216,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        	<div class="btn-group btn-group-isOpenData inline-block">
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
-						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/organizations/id/'.$organization['_id'] ;?>" id="urlOpenData" class="urlOpenData" target="_blank">Voir</a>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/organizations/id/'.$organization['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
 					</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
