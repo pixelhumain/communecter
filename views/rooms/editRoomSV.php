@@ -22,16 +22,16 @@ var roomFormDefinition = {
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
             },
-            "roomType" :{
+            "type" :{
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
-            "roomTypeCtx" :{
+            "roomType" :{
                 "inputType" : "hidden",
                 "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, $moduleId)?>",
                 // "options" : listRoomTypes
               },
-            "roomName" :{
+            "name" :{
               "inputType" : "text",
               "placeholder" : "Nom de l'espace",
               "rules" : {
@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
 });
 
 function selectRoomType(type){
-  $("#roomTypeCtx").val(type);
+  $("#roomType").val(type);
   
   var msg = "Nouvel espace";
   if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
@@ -95,7 +95,7 @@ function editRoomSV (roomObj) {
              //   "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 
               "</div>");
     
-        var formRoom = $.dynForm({
+        var form = $.dynForm({
           formId : "#editRoomsContainer #ajaxFormRoom",
           formObj : roomFormDefinition,
           onLoad : function  () {
@@ -109,14 +109,14 @@ function editRoomSV (roomObj) {
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-               "name" : $("#editRoomsContainer #roomName").val() , 
-               "tags" : $("#editRoomsContainer #roomTags").val().split(","),
+               "name" : $("#editRoomsContainer #name").val() , 
+               "tags" : $("#editRoomsContainer #tags").val().split(","),
                <?php  
                //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                ?>
-               "type" : $("#editRoomsContainer #roomTypeCtx").val(), //select2("val"), 
+               "type" : $("#editRoomsContainer #roomType").val(), //select2("val"), 
             };
-            if( $("#editRoomsContainer #roomType").val() != "")
+            if( $("#editRoomsContainer #type").val() != "")
               params.parentType = $("#editRoomsContainer #type").val();
             if( $("#editRoomsContainer #id").val() != "")
               params.parentId = $("#editRoomsContainer #id").val();
@@ -127,11 +127,11 @@ function editRoomSV (roomObj) {
               data: params,
               success: function(data){
                 if(data.result){
-                    if( $("#roomTypeCtx").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
+                    if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
-                    else if($("#roomTypeCtx").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
+                    else if($("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
                       loadByHash("#rooms.external.id."+data.newInfos["_id"]["$id"]);
-                    else if( $("#roomTypeCtx").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
+                    else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
                       loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
                     else 
                       loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
@@ -149,7 +149,7 @@ function editRoomSV (roomObj) {
             return false;
           }
         });
-        console.dir(formRoom);
+        console.dir(form);
       
    
 }

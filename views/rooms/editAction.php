@@ -158,12 +158,12 @@ function editEntrySV () {
   $("#editActionContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
-              "<form id='ajaxForm'></form>"+
+              "<form id='ajaxFormAction'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
     
         var formAction = $.dynForm({
-          formId : "#editActionContainer #ajaxForm",
+          formId : "#editActionContainer #ajaxFormAction",
           formObj : actionFormDefinition,
           onLoad : function() {
             console.log("onLoad",proposalObj);
