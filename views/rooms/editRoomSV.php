@@ -1,12 +1,9 @@
-<?php 
-$moduleId = Yii::app()->controller->module->id;
-?>
+
+<?php $moduleId = Yii::app()->controller->module->id; ?>
+
 <style type="text/css">
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 </style>
-
-
-
 
 <div id="editRoomsContainer" class="hidden"></div>
 
@@ -100,7 +97,7 @@ function editRoomSV (roomObj) {
           formObj : roomFormDefinition,
           onLoad : function  () {
             if( roomObj ){
-              $("#name").val(data.title);
+              $("#editRoomsContainer #name").val(data.title);
             }
           },
           onSave : function(){

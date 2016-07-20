@@ -536,7 +536,7 @@ border: 1px solid #E4E4E4;
           <?php 
               $params = array(
                   "room"=>$room,
-                  "action"=>$room,
+                  //"action"=>$room,
               );
               $params["organizer"] = array(  "name" => $parent["name"],
                                              "link" => Yii::app()->createUrl('/'.Yii::app()->controller->module->id."/".$room["parentType"]."/dashboard/id/".$room["parentId"]) );
