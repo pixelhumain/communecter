@@ -376,7 +376,7 @@ class Menu {
         self::entry("right", 'onclick', 
               Yii::t( "common", 'Understanding newspaper and news stream'),
             '', 'question-circle',
-             "loadByHash('#default.view.page.news.dir.docs')",null,null);
+             "loadByHash('#default.view.page.modules.dir.docs?slide=news')",null,null);
 
     }
 
@@ -540,7 +540,7 @@ class Menu {
         self::entry("right", 'onclick', 
                       Yii::t( "common", 'Understanding surveys and proposals'),
                     '', 'question-circle',
-                     "loadByHash('#default.view.page.dda.dir.docs')",null,null);
+                     "loadByHash('#default.view.page.modules.dir.docs?slide=dda')",null,null);
     }
 
     public static function survey($survey)

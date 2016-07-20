@@ -46,7 +46,9 @@ return array(
 
 	"Documentation" => "Documentation",
 
-	"Save Processing"=> "Enregistrement en cours"
+	"Save Processing"=> "Enregistrement en cours",
+	"Understanding newspaper and news stream"=> "Comprendre le journal et le fil d&apos;actualité"
+
 
 	
 	
