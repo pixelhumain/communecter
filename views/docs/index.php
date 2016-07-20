@@ -155,13 +155,14 @@
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.rd.dir.docs');">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> R&D</h4>
+							<h4 class="panel-title homestead text-red"><i class="fa fa-comments"></i> Développement</h4>
 						</a>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
 				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.rd.dir.docs?slide=roadmap');">Roadmap</a>  </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.architecture.dir.docs?slide=roadmap');">Architecture</a>  </li>
 				        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a href="javascript:loadByHash('#default.view.page.fin.dir.docs|slides');">Wish Liste</a> </li>
 				        </ul>
 				    </div>

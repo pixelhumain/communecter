@@ -536,25 +536,6 @@ function closeEntry(id)
       });
  }
 
-function listOfDestinations(){
-
-	str = "<h2>Change Parent, different parentType and Id</h2>";
-	str += "<h2>Move to Decission Room</h2>";
-	str += "<a href='javascript:move(\"survey\",\"57864dc3f6ca47cf4a8b457d\")'>ggggggg</a>";
-	str += "<br/><a href='javascript:move(\"survey\",\"57862323f6ca47ff558b4573\")'>one two three </a>";
-	str += "<h2>Move to Action Room</h2>";
-	str += "<br/><a href='javascript:move(\"survey\",\"5786585cf6ca477b4e8b457d\")'>convert to action and move to qqqq </a>";
-	return str;
-}
-
-function movePrompt(type, id)
-{
-     bootbox.dialog({
-		title: "<b>Choose where to move</b> ",
-		message: listOfDestinations(),
-    });
-}
-
 function move( type,destId ){
 	bootbox.hideAll();
 	console.warn("--------------- move ---------------------",type,destId);

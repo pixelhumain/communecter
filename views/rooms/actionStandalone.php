@@ -87,7 +87,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
 	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).'</a>' : '';
 	if(!isset($_GET["renderPartial"])){
 	 	$this->renderPartial('../rooms/header',array(    
-            "parent" => $parent, 
+            		"parent" => $parent, 
                         "parentId" => $parentSpace['parentId'], 
                         "parentType" => $parentSpace['parentType'], 
                         "fromView" => "rooms.actions",
@@ -297,21 +297,6 @@ function assignMe(id)
         } 
     });
  }
-
- function listOfDestinations(){
-
-	str = "<h2>Change Parent, different parentType and Id</h2>";
-	str += "<h2>Move to other Action Room</h2>";
-	str += "<a href='javascript:move(\"action\",\"578c92d7f6ca478c69ae5c7e\")'>kiki</a>";
-	str += "<h2>Move to Action Room</h2>";
-	str += "<a href='javascript:move(\"action\",\"57862323f6ca47ff558b4573\")'>convert to survey and move to one two three </a>";
-	return str;
-}
-
-function movePrompt(type, id)
-{
-     $('#modal-select-room5').modal('show');
-}
 
 function move( type,destId ){
 	bootbox.hideAll();
