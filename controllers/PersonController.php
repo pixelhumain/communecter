@@ -52,7 +52,7 @@ class PersonController extends CommunecterController {
           'getuseridbymail'   => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
           "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction',
           "updateprofil"      => 'citizenToolKit.controllers.person.UpdateProfilAction',
-          "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction'
+          "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction',
           "telegram"           => 'citizenToolKit.controllers.person.TelegramAction'
 	    );
 	}
