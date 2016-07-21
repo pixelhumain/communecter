@@ -339,7 +339,7 @@ h3{	font-weight: 300;}
 .main-menu-right .lbl-btn-menu-name{
 	font-size: 15px;
 	font-weight: 300;
-	font-family: "Helvetica Neue";
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-transform: none;
 }
 

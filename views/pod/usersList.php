@@ -199,10 +199,10 @@
 
 				}
 				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
-				if (!empty($countStrongLinks)){
+				if (@$countStrongLinks && !empty($countStrongLinks)){
 					if($contentType==Organization::COLLECTION)
 						$strongLinksLabel=Yii::t("common","member");
-					else if ($contentType==Project::COLLECTION)
+					else if ($contentType==Project::COLLECTION || $contentType == ActionRoom::COLLECTION_ACTIONS)
 						$strongLinksLabel=Yii::t("common","contributor");
 					else if ($contentType==Event::COLLECTION)
 						$strongLinksLabel=Yii::t("event","attendee");
@@ -210,10 +210,9 @@
 						$strongLinksLabel .= "s";
 					echo "<div class='col-md-4 inline' style='float:inherit;'>".
 							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countStrongLinks."</span><br/>".
-							"<span class='text-dark'>".ucfirst($strongLinksLabel)."</span>".
+							"<span class='text-dark'>".ucfirst(@$strongLinksLabel)."</span>".
 						"</div>";
-					
-				}if ($countLowLinks != 0){
+				}if (@$countLowLinks && $countLowLinks != 0){
 					$style="";		
 					if ($contentType==Event::COLLECTION)
 						$lowLinksLabel = Yii::t("event","guest");

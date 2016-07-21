@@ -1,65 +1,9 @@
-<?php 
-$moduleId = Yii::app()->controller->module->id;
-//building top page menu
-Yii::app()->controller->toolbarMBZ = array();
-Menu::entry("left", 'onclick', 
-        Yii::t( "rooms", "Back to collaborative space", null, $moduleId), 
-        Yii::t('rooms', 'Collaborative space', null, $moduleId),
-        'arrow-circle-left',
-        "loadByHash('#rooms.index.type.".$_GET["type"].".id.".$_GET["id"]."')","room", "index");
-$this->renderPartial('../default/panels/toolbar');
-?>
+
+<?php $moduleId = Yii::app()->controller->module->id; ?>
+
 <style type="text/css">
     blockquote{border-color: #2BB0C6; cursor: pointer;}
-
-  
 </style>
-
-
-
-<div id="first-step-create-space">
-  <h1 class="homestead center text-dark"><i class="fa fa-caret-down"></i> Quel type d'espace souhaitez-vous créer ?</h1><br/>
-  <div class="col-xs-12 col-sm-6 col-md-4 center text-dark">
-    <blockquote style="border-color:transparent !important;"> 
-     <i class="fa fa-comments center fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('discuss')"><span class="text-bold"><?php echo Yii::t('rooms', 'Create a discussion', null, $moduleId)?> <i class="fa fa-arrow-circle-right"></i></span></a>
-      <br/><br><?php echo Yii::t('rooms', "Let's talk about", null, $moduleId)?>
-      <br><?php echo Yii::t('rooms', 'Collective intelligence sometimes starts by talking', null, $moduleId)?>
-     
-    </blockquote>
-  </div>
-
-  <div class="col-xs-12 col-sm-6 col-md-4 center text-dark">
-    <blockquote style="border-color:transparent !important;"> 
-      <i class="fa fa-gavel center fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('vote')"><span class="text-bold"><?php echo Yii::t('rooms', 'Take decisions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><?php echo Yii::t('rooms', 'Decide Collectivelly', null, $moduleId)?>
-      <br><?php echo Yii::t('rooms', 'to think, develop, build and decide collaboratively', null, $moduleId)?>
-    </blockquote>
-  </div>
-
-  <div class="col-xs-12 col-sm-6 col-md-4  center text-dark">
-    <blockquote style="border-color:transparent !important;"> 
-      <i class="fa fa-cogs fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="selectRoomType('actions')"><span class="text-bold"><?php echo Yii::t('rooms', 'Organize Actions', null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><?php echo Yii::t('rooms', 'Work Collectivelly', null, $moduleId)?>
-      <br><?php echo Yii::t('rooms', "It's time for action", null, $moduleId)?>
-    </blockquote>
-  </div>
-
-  <hr >
-
-  <div class="col-xs-12 col-sm-6 col-md-10 col-md-offset-1 text-dark border-top center hidden">
-    <blockquote style="border-color:transparent !important;"> 
-     <i class="fa fa-lightbulb-o center fa-4x"></i>
-      <br/><br/><a class="btn btn-success" href="javascript:;" onclick="alert('ouvrir le salle de proposition de nouveau type de vote')"><span class="text-bold"><?php echo Yii::t('rooms', "Help us with new ideas", null, $moduleId)?></span> <i class="fa fa-arrow-circle-right"></i></a>
-     <br/><br><?php echo Yii::t('rooms', 'Share Your ideas ', null, $moduleId)?>
-      <br><?php echo Yii::t('rooms', 'Innovate for more democratic actions', null, $moduleId)?>
-      <br><?php echo Yii::t('rooms', 'Action Rooms are made for new approaches', null, $moduleId)?>
-    </blockquote>
-  </div>
-
-</div>
 
 <div id="editRoomsContainer" class="hidden"></div>
 
@@ -71,7 +15,7 @@ var roomFormDefinition = {
         "title" : "News Form",
         "type" : "object",
         "properties" : {
-          "id" :{
+            "id" :{
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
             },
@@ -80,9 +24,9 @@ var roomFormDefinition = {
               "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
             },
             "roomType" :{
-                "inputType" : "select",
+                "inputType" : "hidden",
                 "placeholder" : "<?php echo Yii::t('rooms', 'Type of Room', null, $moduleId)?>",
-                "options" : listRoomTypes
+                // "options" : listRoomTypes
               },
             "name" :{
               "inputType" : "text",
@@ -101,11 +45,11 @@ var roomFormDefinition = {
 };
 
 var dataBind = {
-   "#message" : "message",
-   "#name" : "name",
-   "#tags" : "tags",
-   "#id"   : "parentId",
-   "#type" : "parentType",
+   "#editEntryContainer #message" : "message",
+   "#editEntryContainer #name" : "name",
+   "#editEntryContainer #tags" : "tags",
+   "#editEntryContainer #id"   : "parentId",
+   "#editEntryContainer #type" : "parentType",
 };
 
 jQuery(document).ready(function() {
@@ -126,6 +70,7 @@ function selectRoomType(type){
   
   var msg = "Nouvel espace";
   if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
+  if(type=="framapad") msg = "<i class='fa fa-file-text-o'></i> " + msg + " framapad";
   if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
   if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
   $("#proposerloiFormLabel").html(msg);
@@ -139,20 +84,20 @@ function selectRoomType(type){
 
 function editRoomSV (roomObj) { 
   console.warn("--------------- editEntrySV ---------------------");
-  $("#editRoomsContainer").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editRoomsContainer").html("<div class=''>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
-              "<form id='ajaxForm'></form>"+
+              "<form id='ajaxFormRoom'></form>"+
               "<div class='space20'></div>"+
-                "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 
+             //   "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 
               "</div>");
     
         var form = $.dynForm({
-          formId : "#ajaxForm",
+          formId : "#editRoomsContainer #ajaxFormRoom",
           formObj : roomFormDefinition,
           onLoad : function  () {
             if( roomObj ){
-              $("#name").val(data.title);
+              $("#editRoomsContainer #name").val(data.title);
             }
           },
           onSave : function(){
@@ -161,17 +106,17 @@ function editRoomSV (roomObj) {
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
-               "name" : $("#name").val() , 
-               "tags" : $("#tags").val().split(","),
+               "name" : $("#editRoomsContainer #name").val() , 
+               "tags" : $("#editRoomsContainer #tags").val().split(","),
                <?php  
                //"cp" : "<?php echo (isset($survey['cp']) ) ? $survey['cp'] : ''" , 
                ?>
-               "type" : $("#roomType").select2("val"), 
+               "type" : $("#editRoomsContainer #roomType").val(), //select2("val"), 
             };
-            if( $("#type").val() != "")
-              params.parentType = $("#type").val();
-            if( $("#id").val() != "")
-              params.parentId = $("#id").val();
+            if( $("#editRoomsContainer #type").val() != "")
+              params.parentType = $("#editRoomsContainer #type").val();
+            if( $("#editRoomsContainer #id").val() != "")
+              params.parentId = $("#editRoomsContainer #id").val();
            console.dir(params);
             $.ajax({
               type: "POST",
@@ -181,6 +126,8 @@ function editRoomSV (roomObj) {
                 if(data.result){
                     if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
+                    else if($("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
+                      loadByHash("#rooms.external.id."+data.newInfos["_id"]["$id"]);
                     else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
                       loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
                     else 
@@ -304,23 +251,23 @@ function getRandomInt (min, max) {
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+
               //'<div id="container2" style="min-width: 350px; height: 350px; margin: 0 auto"></div>'+
               "</div>");
   $.subview({
-        content : "#ajaxSV",
+        content : "#editRoomsContainer #ajaxSV",
         onShow : function() 
         {
-          $("#entryContent").html(data.content);
-          $("#entryTitle").html(data.title);
+          $("#editRoomsContainer #entryContent").html(data.content);
+          $("#editRoomsContainer #entryTitle").html(data.title);
           if(type=="graph")
             setUpGraph();
         },
         onHide : function() {
-          $("#ajaxSV").html('');
+          $("#editRoomsContainer #ajaxSV").html('');
           //$.hideSubview();
         }
       });

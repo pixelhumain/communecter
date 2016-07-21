@@ -159,13 +159,15 @@ class CommunecterController extends Controller
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
-      "actions" => array("href" => "/ph/communecter/rooms/actions"),
-      "action" => array("href" => "/ph/communecter/rooms/action"),
+      "external" => array("href" => "/ph/communecter/rooms/external"),
+      "actions"  => array("href" => "/ph/communecter/rooms/actions"),
+      "action"   => array("href" => "/ph/communecter/rooms/action"),
       "editaction" => array("href" => "/ph/communecter/rooms/editaction"),
       'saveaction' => array("href" => "/ph/communecter/rooms/saveaction"),
       'closeaction' => array("href" => "/ph/communecter/rooms/closeaction"),
       'assignme' => array("href" => "/ph/communecter/rooms/assignme"),
       'fastaddaction' => array("href" => "/ph/communecter/rooms/fastaddaction"),
+      'move' => array("href" => "/ph/communecter/rooms/move"),
     ),
     "gantt"=> array(
       "index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
@@ -221,6 +223,8 @@ class CommunecterController extends Controller
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
         
+        "telegram"               => array("href" => "/ph/communecter/person/telegram", "public" => true),
+        
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
         "initdatapeopleall"       => array("href" =>"'/ph/communecter/person/initdatapeopleall'"),
@@ -228,6 +232,7 @@ class CommunecterController extends Controller
         "about"                   => array("href" => "/person/about"),
         "data"                    => array("href" => "/person/scopes"),
         "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        
     ),
     "organization"=> array(
       "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",
@@ -376,6 +381,9 @@ class CommunecterController extends Controller
     ),
     "mailmanagement"=> array(
       "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
+    ),
+    "element"=> array(
+      "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
     ),
   );
 

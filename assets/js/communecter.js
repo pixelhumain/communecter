@@ -451,6 +451,7 @@ var loadableUrls = {
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#person.updateprofil" : {title:'Update profil', icon : 'fa-lock' },
+    "#person.telegram" : {title:'CONTACT PERSON VIA TELEGRAM ', icon : 'send' },
     "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
