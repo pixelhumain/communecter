@@ -93,6 +93,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   width: 100%;
   overflow-y:hidden;
   height:40px;
+  font-size: 17px;
 }
 .mixcontainer .mix a.titleMix:hover{
   text-decoration: underline !important;
@@ -295,6 +296,7 @@ border: 1px solid #E4E4E4;
         $rightLinks = ( $entry["type"] == ActionRoom::TYPE_ACTION ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
         $startDate = ( @$entry["startDate"] ) ? date("d/m/y h:i",$entry["startDate"]) : ""; 
+        $endDate = ( @$entry["dateEnd"] ) ? date("d/m/y",$entry["dateEnd"]) : ""; 
         $views = ( @$entry["viewCount"] ) ? "<div class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</div>" : ""; 
         $byInfo = ( @$entry["links"]["contributors"] && count($entry["links"]["contributors"]) > 0 ) ? " <i class='fa fa-users'></i> ".count($entry["links"]["contributors"]) : "<i class='fa fa-users text-red'></i> 0";
         //$infoslink bring visual detail about the entry
@@ -310,18 +312,30 @@ border: 1px solid #E4E4E4;
         $btnRead = "";
         $leftLinks = "";
 
-        $createdInfo  = "<div class='text-azure lbl-info-survey '><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
-        $createdInfo .= (!empty( $startDate )) ? " ".Yii::t("rooms", "start", null, Yii::app()->controller->module->id) . " : ".$startDate : "";
+        $createdInfo  = "<div class='text-azure lbl-info-survey '>".
+                        "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+        $createdInfo .= (!empty( $startDate )) ? 
+                        Yii::t("rooms", "Start Date", null, Yii::app()->controller->module->id) . 
+                        " : ".$startDate 
+                        : "Non défini";
         $createdInfo .= "</div>";
 
         $ends = "";
         if($entry["type"]==ActionRoom::TYPE_ACTION && (!isset($entry["dateEnd"]) || $entry["dateEnd"] > time() ) ){
-          $ends  = "<div class='text-green lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
-          $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
+          $ends  = "<div class='text-green lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'>".
+                    "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+          $ends .=  (!empty( $endDate )) ? 
+                      Yii::t("rooms", "end", null, Yii::app()->controller->module->id) . 
+                      " : ".$endDate
+                      : "Non défini";
           $ends .= "</div>";
         }else{
-          $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'><i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
-          $ends .=  "".(!empty( $entry["dateEnd"] )) ? " ".Yii::t("rooms", "ended", null, Yii::app()->controller->module->id) . " : ".date("d/m/y",$entry["dateEnd"]) : "";
+          $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'>".
+                    "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+          $ends .=  (!empty( $endDate )) ? 
+                      Yii::t("rooms", "ended", null, Yii::app()->controller->module->id) . 
+                      " : ".$endDate 
+                      : "Non définit";
           $ends .= "</div>";
         }
         
@@ -528,14 +542,15 @@ border: 1px solid #E4E4E4;
       <div class="modal-header text-dark">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h2 class="modal-title text-left">
-          <i class="fa fa-angle-down"></i> <i class="fa fa-plus"></i> Créer un espace
+          <i class="fa fa-angle-down"></i> <i class="fa fa-plus"></i> Ajouter une action
         </h2>
       </div>
       <div class="modal-body no-padding">
-        <div class="panel-body" id="form-create-room">
+        <div class="panel-body" id="form-create-action">
           <?php 
               $params = array(
                   "room"=>$room,
+                  "mode"=>"new",
                   //"action"=>$room,
               );
               $params["organizer"] = array(  "name" => $parent["name"],
@@ -544,12 +559,12 @@ border: 1px solid #E4E4E4;
             $this->renderPartial('../rooms/editAction', $params); 
 
           ?>
-          <?php echo json_encode(Tags::getActiveTags()) ?>
+          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
           <button type="button" class="btn btn-success"
-                data-dismiss="modal" onclick="saveNewRoom()">
+                 onclick="saveNewAction()">
               <i class="fa fa-save"></i> Enregistrer
           </button>
         </div>

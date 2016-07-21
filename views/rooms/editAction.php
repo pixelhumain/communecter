@@ -22,8 +22,8 @@ if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
 if(@$room) $parent = $room;
 if($parent == null) return;
 
-$parentType = $parent["parentType"];
-$parentId = $parent["parentId"];
+//$parentType = $parent["parentType"];
+$parentId = (string)$parent["_id"];
 /*
 $this->renderPartial('../rooms/header',array(   
                             "parentId" => $parent['parentId'], 
@@ -57,12 +57,12 @@ var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizatio
 
 var actionFormDefinition = {
     "jsonSchema" : {
-        "title" : "Entry Form",
+        "title" : "",
         "type" : "object",
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($_GET['id']) && $mode!="new") ? $_GET['id'] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
@@ -111,7 +111,7 @@ var actionFormDefinition = {
             },
             "tags" :{
               "inputType" : "tags",
-              "placeholder" : "Tags" 
+              "placeholder" : "Tags",
               "value" : "<?php echo ( @$action['tags']) ? implode(',', $action['tags']) : '' ?>",
               "values" : <?php echo json_encode(Tags::getActiveTags()) ?>
             }
@@ -128,11 +128,17 @@ var dataBind = {
    "#editActionContainer #dateEnd" : "dateEnd"
 };
 
+
+function saveNewAction(){
+  $('#form-create-action #btn-submit-form').off().click()
+}
+
 var proposalObj = <?php echo (isset($action)) ? json_encode($action) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<i class="fa fa-cogs"></i> <?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?>');
-  
+  $(".moduleLabel").html('<i class="fa fa-cogs"></i> '+
+      '<?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?>');
+
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
 
@@ -141,6 +147,7 @@ jQuery(document).ready(function() {
   });
 
   editEntrySV ();
+  $('#form-create-action #btn-submit-form').addClass("hidden");
 
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -200,14 +207,15 @@ function editEntrySV () {
             {
               processingBlockUi();
               var params = { 
-                 "room" : "<?php echo (isset($_GET['room'])) ? $_GET['room'] : '' ?>", 
+                 "room" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editActionContainer #name").val() , 
                  "organizer" : $("#editActionContainer #organizer").val(),
                  "message" :  $("#editActionContainer #message").code() ,
                  "type" : "<?php echo ActionRoom::TYPE_ACTION ?>"
               };
-              
+              console.log("processingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUi");
+              console.dir(params);
               urls = getUrls();
               if( urls != null )
                 params.urls = urls;
@@ -236,6 +244,7 @@ function editEntrySV () {
                     toastr.error(data.msg);
                   }
                   $.unblockUI();
+                  $('#modal-create-action').modal("toogle");
                 },
                 error: function(data) {
                   $.unblockUI();

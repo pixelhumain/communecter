@@ -126,7 +126,7 @@ return array(
 	"Estimated End Date" => "Date de fin",
 	"Add urls or Bullet points" => "Ajouter des liens ou actions à faire" ,
 	"Assignees" => "Responsable",
-	"start" => "début",
+	"start" => "Début",
 
 	"Todo" => "A faire",
 	'My Todo' => "Mes Actions",

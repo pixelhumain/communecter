@@ -268,8 +268,8 @@ createModalRoom($votes,$parentType, $parentId, 2, "Sélectionnez un espace de d�
 createModalRoom($actions,$parentType, $parentId, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
 createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
 $where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
-if( in_array($where, array("rooms.action","survey.entry")))
-	createModalRoom(array_merge($votes,$actions),$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
+//if( in_array($where, array("rooms.action","survey.entry")))
+	createModalRoom(array_merge($votes,$actions),$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move", $faTitle);
 
 
 function createModalRoom($elements, $parentType, $parentId, $index, $title, 
@@ -371,7 +371,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 	
 
 jQuery(document).ready(function() {
-	$('#form-create-room #btn-submit-form').addClass("hidden");
+	$('#form-create-room #btn-submit-form').off().addClass("hidden");
 });
 
 function saveNewRoom(){

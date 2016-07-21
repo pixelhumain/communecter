@@ -574,7 +574,9 @@ class Menu {
                 self::entry("left", 'onclick', 
                             Yii::t( "common", 'Create a proposal for your community'),
                             Yii::t( "common", 'Add a proposal'), 'plus',
-                            "loadByHash('#survey.editEntry.survey.".$id."')","addProposalBtn",null);
+                            //"loadByHash('#survey.editEntry.survey.".$id."')",
+                            "$('#modal-create-proposal').modal('show')",
+                            "addProposalBtn",null);
             self::entry("left", 'onclick', 
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive',null,Yii::app()->controller->module->id), 'archive text-red',
@@ -688,7 +690,9 @@ class Menu {
                 self::entry("left", 'onclick', 
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
-                        "loadByHash('#rooms.editAction.room.".$id."')","addActionBtn",null);
+                        //"loadByHash('#rooms.editAction.room.".$id."')",
+                        "$('#modal-create-action').modal('show')",
+                        "addActionBtn",null);
 
             /*if ( @$room["organizerId"] == Yii::app()->session["userId"] ) 
                 self::entry("right", 'onclick', 

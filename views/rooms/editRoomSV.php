@@ -15,7 +15,7 @@ var roomFormDefinition = {
         "title" : "News Form",
         "type" : "object",
         "properties" : {
-          "id" :{
+            "id" :{
               "inputType" : "hidden",
               "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
             },
