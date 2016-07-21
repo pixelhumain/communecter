@@ -10,10 +10,11 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/autosize/jquery.autosize.min.js',
 
 	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	'/assets/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 	'/assets/plugins/jquery.dynSurvey/jquery.dynForm.js',
 	'/assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
-	'/assets/plugins/jquery-validation/dist/jquery.validate.min.js'
+	'/assets/plugins/jquery-validation/dist/jquery.validate.min.js',
+	'/assets/js/jsonHelper.js',
+	'/assets/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 	//'/assets/js/ui-sliders.js',
 );
 
@@ -53,15 +54,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 ?>
 <div id="editProjectChart">
-	<div class="noteWrap col-md-8 col-md-offset-2">
-		<h3><?php echo Yii::t("project","Add values of your project",null,Yii::app()->controller->module->id) ?></h3>
+	<div class="noteWrap col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
+		<h3><?php echo Yii::t("project","Evaluate your projet as commons") ?></h3>
 		<form id="opendata"></form>
 	</div>
 </div>
 
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
-var parentId = $(".form-chart .projectId").val();
+var parentId = "<?php echo (string)$project["_id"]; ?>";
 var form1 = {
         "jsonSchema" : {
             "title" : "Partage",
@@ -238,21 +239,53 @@ jQuery(document).ready(function() {
     - the onLoad method
     - the onSave method
     ***************************************** */
+    
     var form = $.dynSurvey({
         surveyId : "#opendata",
         surveyObj : { 
-            "section1": {dynForm : form1 },
-            "section2":{dynForm : form2 },
-            "section3":{dynForm : form3 },
-            "section4":{dynForm : form4 },
-            "section5":{dynForm : form5 },
-			"section6":{dynForm : form6 }
+            "section1":{dynForm : form1, key : "partage" },
+            "section2":{dynForm : form2, key : "gouvernance" },
+            "section3":{dynForm : form3, key : "partenaires" },
+            "section4":{dynForm : form4, key : "finance" },
+            "section5":{dynForm : form5, key : "juridique" },
+			"section6":{dynForm : form6, key : "contribution" }
         },
-        collection : "commonsChart",
-        key : parentId,
-		savePath : baseUrl+"/"+moduleId+"/project/editchart"
-    });
+        onSave : function(params) {
+			//console.dir( $(params.surveyId).serializeFormJSON() );
+			var result = {};
+			console.log(params.surveyObj);
+			$.each( params.surveyObj,function(section,sectionObj) { 
+				result[sectionObj.key] = {};
+				console.log(sectionObj.dynForm.jsonSchema.properties);
+				$.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
+					console.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
+					if( fieldObj.inputType ){
+						result[sectionObj.key][field] = $("#"+section+" #"+field).val();
+					}
+				});
+			});
+			console.dir( result );
+			$.ajax({
+        	  type: "POST",
+        	  url: params.savePath,
+        	  data: {properties:result, parentId: parentId},
+              dataType: "json"
+        	}).done( function(data){
+                toastr.success("Project chart well updated");
+                loadByHash("#project.detail.id."+parentId);
+               // if( afterDynBuildSave && typeof afterDynBuildSave == "function" )
+                 //   afterDynBuildSave(data.map,data.id);
+                console.info('saved successfully !');
 
+        	});
+		},
+        collection : "commonsChart",
+	    key : "SCSurvey",
+		savePath : baseUrl+"/"+moduleId+"/project/editchart"
+		
+
+    });
+	$(".moduleLabel").html("<span style='font-size:20px;'>Charte, valeurs, code social</span>");
 	knobInit();
     $(".addProperties").click(function(){
 	   newProperty=addNewProperties();

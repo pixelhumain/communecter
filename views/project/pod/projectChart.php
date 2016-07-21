@@ -5,6 +5,13 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
+$tabCommons = array(	"0" => "Ne souhaite pas",
+	                    "20" => "Pas applicable",
+	                    "40" => "Souhait mais pas démarré",
+						"60" => "Démarré",
+						"80" => "En progression",
+						"100" => "Réalisé"
+					);
 ?>
 
 <style>
@@ -37,6 +44,26 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		</div>
 		<div class="panel-body no-padding">
 			<canvas id="myChart" width="" height=""></canvas>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+			<?php
+				$inc=0; 
+				foreach($properties as $key => $value){ ?>
+				<?php if($value["value"] || $value["description"]){ ?>
+				<div class="col-md-12 col-sm-12 col-xs-12 no-padding descriptionLabel description<?php echo $key ?> <?php if ($inc > 0) echo 'hide'; ?>">
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+					<h2 class="text-large text-dark text-bold light-text timeline_title no-margin pull-left">
+						<?php echo ucfirst($key) ?>
+					</h2>
+					</div><br/>
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-red light-text timeline_title pull-left"><?php echo $tabCommons[$value["value"]]; ?></span></div><br/>
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+					<span><?php echo $value["description"]; ?></span></div>
+				</div> 
+			<?php 
+					$inc++;
+					} 
+				} ?>
+			</div>
 		</div>
 	<?php } else { ?>
 		<div id="infoPodChart" class="padding-10">
@@ -55,6 +82,11 @@ var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	if (countProperties > 0){
 			setTimeout(function(){ chartInit(properties)}, 0);
+			/*$("#myChart").click( 
+				function(evt){
+				var activePoints = myNewChart.getSegmentsAtEvent(evt);           
+    			}
+);  */
 	}
 });
 
@@ -93,7 +125,7 @@ function chartInit(dataProperties){
 	var valueProperties=[];
 	for (var label in dataProperties){
 		labelProperties.push(label);
-		valueProperties.push(dataProperties[label]);
+		valueProperties.push(dataProperties[label]["value"]);
 	}
 	console.log(labelProperties);
 	console.log(valueProperties);
@@ -205,6 +237,19 @@ var ctx = $("#myChart").get(0).getContext("2d");
 // This will get the first returned node in the jQuery collection.
 myNewChart = new Chart(ctx).Radar(data, options);
 console.log(myNewChart);
+document.getElementById("myChart").onclick = function(evt){
+    var activePoints = myNewChart.getPointsAtEvent(evt);
+    /* this is where we check if event has keys which means is not empty space */       
+    if(Object.keys(activePoints).length > 0)
+    {
+        var label = activePoints[0]["label"];
+        var value = activePoints[0]["value"];
+        $(".descriptionLabel").addClass("hide");
+        $(".description"+label).removeClass("hide");
+        //var url = "http://example.com/?label=" + label + "&value=" + value
+        /* process your url ... */
+    }
+};
 }
 
 function numAttrs(obj) {
