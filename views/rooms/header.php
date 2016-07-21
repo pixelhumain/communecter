@@ -262,15 +262,16 @@ h1.citizenAssembly-header {
 </div>
 
 <?php 
-
 createModalRoom($discussions,$parentType, $parentId, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
 createModalRoom($votes,$parentType, $parentId, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
 createModalRoom($actions,$parentType, $parentId, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
 createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
-$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
-//if( in_array($where, array("rooms.action","survey.entry")))
-	createModalRoom(array_merge($votes,$actions),$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move", $faTitle);
 
+$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
+if( in_array($where, array("rooms.action","survey.entry"))){
+	createModalRoom( array_merge($votes,$actions) ,$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
+
+}
 
 function createModalRoom($elements, $parentType, $parentId, $index, $title, 
 						 $icon, $typeNew, $endLbl,$action=null,$context=null){
@@ -314,7 +315,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 				        	$type = ($context == "cogs") ? "action" : "survey";
 							$onclick = 'move(\''.$type.'\', \''.(string)$value["_id"].'\')';
 							//remove the current context room destination
-							//if((string)$value["_id"] == )
+							//if((string)$value["_id"] == ) //we are missing the current room  object in header
 				        }
 
 				        $imgIcon = '';
@@ -332,7 +333,6 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 									" <span class='pull-right img-room-modal'>".
 										$imgIcon.
 									"</span>".
-									
 								'</a>';
 						}
 							 
@@ -371,7 +371,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 	
 
 jQuery(document).ready(function() {
-	$('#form-create-room #btn-submit-form').off().addClass("hidden");
+	$('#form-create-room #btn-submit-form').addClass("hidden");
 });
 
 function saveNewRoom(){
