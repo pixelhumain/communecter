@@ -550,6 +550,7 @@ border: 1px solid #E4E4E4;
           <?php 
               $params = array(
                   "room"=>$room,
+                  "parentRoomId" => (string)$room["_id"],
                   "mode"=>"new",
                   //"action"=>$room,
               );

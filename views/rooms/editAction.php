@@ -20,10 +20,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 $parent = null;
 if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
 if(@$room) $parent = $room;
+if(@$parentRoom) $parent = $parentRoom;
+
+//echo "parent"; var_dump($parent); return;
 if($parent == null) return;
 
-//$parentType = $parent["parentType"];
-$parentId = (string)$parent["_id"];
+
 /*
 $this->renderPartial('../rooms/header',array(   
                             "parentId" => $parent['parentId'], 
@@ -62,7 +64,7 @@ var actionFormDefinition = {
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id']) && $mode!="new") ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($_GET['id']) && !@$mode) ? $_GET['id'] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
@@ -207,7 +209,7 @@ function editEntrySV () {
             {
               processingBlockUi();
               var params = { 
-                 "room" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>", 
+                 "room" : "<?php echo (isset($parentRoomId)) ? $parentRoomId : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editActionContainer #name").val() , 
                  "organizer" : $("#editActionContainer #organizer").val(),
