@@ -204,6 +204,7 @@
 					</tbody>
 				</table>	
 			  </div>
+			  
 			  <div class="tab-pane col-lg-12 col-md-12" id="history">
 			  	<?php if(count(@$history)){ ?>
 						<div class="actionsTable infoTables" style="padding-top:7px;">	
