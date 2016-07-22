@@ -88,6 +88,10 @@ h1.citizenAssembly-header {
 	margin-right: 10px;
 	border-radius: 4px;
 }
+#room-container .badge-danger {
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
 </style>	
 
 

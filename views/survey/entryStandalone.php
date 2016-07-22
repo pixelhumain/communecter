@@ -89,6 +89,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 #profil_fileUpload{
 	min-height: 180px;
 }
+
+.voteinfoSection .box-ajaxTools{
+
+}
 </style>
 
 <?php 
@@ -154,10 +158,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 			</h1>
 
 			<?php 					
-				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
-					Menu::proposal( $survey );
-					$this->renderPartial('../default/panels/toolbar');
-				}
+				// if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
+				// 	Menu::proposal( $survey );
+				// 	$this->renderPartial('../default/panels/toolbar');
+				// }
 			?>
 
 
@@ -177,15 +181,44 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
 			   
 				 ?>
-				<div class="col-md-12 no-padding margin-bottom-15">
-						<?php if( @( $survey["tags"] ) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
-							<?php foreach ( $survey["tags"] as $value) {
-									echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
-								}?>
-							</span><br>
+				
+
+				<div class="col-md-12 no-padding">
+						<div class="col-md-6 no-padding margin-bottom-15">
+						<?php if( @($organizer) ){ ?>
+							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-angle-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
 						<?php }	?>
+						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
+
+						<?php //echo Survey::getChartBarResult($survey); ?>
+						
 					</div>
+					<div class="col-md-6">
+						<div class="box-ajaxTools">
+							<a class="tooltips btn btn-default  " href="javascript:;" 
+							   onclick="loadByHash('#survey.editEntry.survey.<?php echo $parentId; ?>.id.<?php echo $survey["_id"]; ?>')" 
+							   data-placement="bottom" data-original-title="Editer cette proposition">
+							<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+							</a>
+							<span class="btnSpacer"></span>
+							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
+							   data-placement="bottom" data-original-title="Supprimer cette proposition">
+								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
+							</a>
+							<span class="btnSpacer"></span>
+							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
+								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
+							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
+							</a>
+							<span class="btnSpacer"></span>
+							<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
+							   data-placement="bottom" data-original-title="Comprendre les discussions et les propositions">
+								<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
+							</a>
+							<span class="btnSpacer"></span>						
+						</div>
+					</div>	
+				</div>	
 
 				<div class="col-md-6 no-padding" style="padding-right: 15px !important;">
 					
@@ -228,7 +261,15 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 						<?php } ?>
 
 					<?php } ?>
-
+					<div class="col-md-12 padding-10">
+						<?php if( @( $survey["tags"] ) ){ ?>
+							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
+							<?php foreach ( $survey["tags"] as $value) {
+									echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+								}?>
+							</span><br>
+						<?php }	?>
+					</div>
 				</div>
 
 				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
@@ -316,21 +357,8 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				</div>
 
 				<div class="col-md-12 no-padding">
-				
-					<div class="col-md-12 no-padding margin-top-15">
-						<?php if( @($organizer) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-angle-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
-						<?php }	?>
-						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-
-						<?php //echo Survey::getChartBarResult($survey); ?>
-						
-					</div>
-					
-					
-					
 					<div class="col-md-12 text-dark" style="font-size:15px">
-						<hr>
+						<hr style="margin-top:0px">
 						<?php echo $survey["message"]; ?>
 						<hr>
 						<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
