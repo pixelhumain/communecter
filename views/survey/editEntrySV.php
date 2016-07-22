@@ -179,7 +179,8 @@ jQuery(document).ready(function() {
     organizerList[optKey] = optVal.name;
   });
 
-  editEntrySV (); toastr.success("okokokok");
+  editEntrySV ();
+  //toastr.success("okokokok");
   $('#form-create-proposal #btn-submit-form').addClass("hidden");
 
   /*!

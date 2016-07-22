@@ -637,7 +637,10 @@
                     <small>Un espace de décision peut contenir plusieurs propositions.</small>
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
-                    <br><br><button class="btn btn-success"><i class="fa fa-plus"></i> Ajouter une proposition</button>
+                    <br><br>
+                    <button class="btn btn-success" onclick="$('#modal-create-proposal').modal('show')">
+                      <i class="fa fa-plus"></i> Ajouter une proposition
+                    </button>
                   </blockquote>
                   <?php } ?>
                 </div>
