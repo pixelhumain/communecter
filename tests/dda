@@ -12,8 +12,8 @@
 <tr><td rowspan="1" colspan="3">dda</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/ph/communecter#rooms.index.type.cities.id.RE_97414-97421</td>
+	<td>runScriptAndWait</td>
+	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
 	<td></td>
 </tr>
 <tr>
@@ -47,8 +47,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=span.hidden-xs</td>
+	<td>runScriptAndWait</td>
+	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
 	<td></td>
 </tr>
 <tr>
@@ -82,8 +82,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=span.hidden-xs</td>
+	<td>runScriptAndWait</td>
+	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
 	<td></td>
 </tr>
 <tr>
