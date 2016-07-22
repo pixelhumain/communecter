@@ -41,7 +41,6 @@
 	<td>loadByHash('#person.detail.id.'+userId)</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

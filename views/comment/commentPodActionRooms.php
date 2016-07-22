@@ -19,7 +19,7 @@
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
                             )); 
-    echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+    echo '<div class="col-md-12 panel-white padding-15 discussContainer" id="room-container">';
   }
 ?>
 <?php if($contextType == "actionRooms"){ ?>
