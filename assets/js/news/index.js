@@ -868,7 +868,6 @@ function initFormImages(){
 						"type":contextParentType,
 						"folder":contextParentType+"/"+contextParentId+"/album",
 						"moduleId":moduleId,
-						"author" : userId  , 
 						"name" : data.name , 
 						"date" : new Date() , 
 						"size" : data.size ,

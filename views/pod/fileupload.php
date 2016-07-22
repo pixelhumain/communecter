@@ -160,7 +160,6 @@
 					  		"type":type,
 					  		"folder":type+"/"+id,
 					  		"moduleId":moduleId,
-					  		"author" : "<?php echo (isset(Yii::app()->session['userId'])) ? Yii::app()->session['userId'] : 'unknown'?>"  , 
 					  		"name" : data.name , 
 					  		"date" : new Date() , 
 					  		"size" : data.size ,
