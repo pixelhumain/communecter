@@ -193,7 +193,6 @@ h1.citizenAssembly-header {
 					$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 				    $ctrl = Element::getControlerByCollection($parentType);
 				    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
-					
 					if( $parentType == City::COLLECTION || 
 						($parentType != Person::COLLECTION && 
 						Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))

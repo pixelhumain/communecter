@@ -192,7 +192,7 @@ progress[value]::-moz-progress-bar {
 				<i class="fa fa-info-circle"></i> 
 				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
 				<?php if ($openEdition==true) { ?>
-					<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 					
 				<?php } ?>
 		</h4>

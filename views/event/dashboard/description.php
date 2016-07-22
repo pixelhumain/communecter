@@ -148,7 +148,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","General infos") ?>
 			<?php if ($openEdition==true) { ?>
-				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 
 			<?php } ?>
 		</h4>
