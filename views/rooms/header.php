@@ -243,7 +243,9 @@ h1.citizenAssembly-header {
 			    $tagsList =  Lists::getListByName("tags");
 			    $params = array(
 			        "listRoomTypes" => $listRoomTypes,
-			        "tagsList" => $tagsList
+			        "tagsList" => $tagsList,
+			        "id" => $parentId,
+			        "type" => $parentType
 			    );
 				$this->renderPartial('../rooms/editRoomSV', $params); 
 			?>
@@ -266,11 +268,12 @@ createModalRoom($votes,$parentType, $parentId, 2, "Sélectionnez un espace de d�
 createModalRoom($actions,$parentType, $parentId, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
 createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
 
-$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
-if( in_array($where, array("rooms.action","survey.entry"))){
-	createModalRoom( array_merge($votes,$actions) ,$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move",$faTitle);
+//$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
+//if( in_array($where, array("rooms.action","survey.entry"))){
+	createModalRoom( array_merge($votes,$actions) ,$parentType, $parentId, 5, 
+					"Choisir un nouvel espace", "share-alt", "", "Aucun espace","move",$faTitle);
 
-}
+//}
 
 function createModalRoom($elements, $parentType, $parentId, $index, $title, 
 						 $icon, $typeNew, $endLbl,$action=null,$context=null){
@@ -388,11 +391,10 @@ function selectRoomType(type){
   if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
   $("#proposerloiFormLabel").html(msg);
   $("#proposerloiFormLabel").addClass("text-dark");
-  $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
+  // $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
   
-  $("#first-step-create-space").hide(400);
+  //$("#first-step-create-space").hide(400);
   $(".roomTypeselect").addClass("hidden");
-  $("#editRoomsContainer").removeClass("hidden");
 }
 
 function showRoom(type, id){

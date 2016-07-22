@@ -5,7 +5,7 @@
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 </style>
 
-<div id="editRoomsContainer" class="hidden"></div>
+<div id="editRoomsContainer" class=""></div>
 
 <script type="text/javascript">
 var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;
@@ -17,11 +17,11 @@ var roomFormDefinition = {
         "properties" : {
             "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($id)) ? $id : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+              "value" : "<?php echo (isset($type)) ? $type : '' ?>"
             },
             "roomType" :{
                 "inputType" : "hidden",
@@ -87,7 +87,7 @@ function editRoomSV (roomObj) {
           },
           onSave : function(){
             console.log("saving Room!!");
-            
+            console.log("type : ", $("#editRoomsContainer #roomType").val());
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
@@ -109,11 +109,13 @@ function editRoomSV (roomObj) {
               data: params,
               success: function(data){
                 if(data.result){
-                    if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
+                  console.log("SUCCESS SAVE ROOM :");
+                  console.dir(data);
+                    if( data.newInfos.type == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
-                    else if($("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
+                    else if(data.newInfos.type == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
                       loadByHash("#rooms.external.id."+data.newInfos["_id"]["$id"]);
-                    else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
+                    else if( data.newInfos.type == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
                       loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
                     else 
                       loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);

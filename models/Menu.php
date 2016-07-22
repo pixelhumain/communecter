@@ -646,7 +646,7 @@ class Menu {
             }
             self::entry("right", 'onclick', 
                         Yii::t( "rooms", 'Move this proposal', null,Yii::app()->controller->module->id),
-                        Yii::t( "common", 'Move'), 'share-alt text-grey',
+                        Yii::t( "rooms", 'Move', null,Yii::app()->controller->module->id), 'share-alt text-grey',
                         "$('#modal-select-room5').modal('show')","moveProposalBtn",null);
         }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

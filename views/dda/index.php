@@ -85,16 +85,17 @@
  ?>
   	<div class="panel-group" id="accordion">
 		<?php 
-			createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion");
-			createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision");
-			createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action");
+			$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
+			createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth);
+			createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth);
+			createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth);
 		?>
 	</div>
 
 
 
 <?php 
-	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg){
+	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg, $auth){
 	
 	$in = $index == 1 ? "in" : "";
 	
@@ -129,11 +130,13 @@
 			    if(empty($elements)) 
 			      	echo '<div class="panel-body hide-on-reduce-menu"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
 
-			    echo '<div class="panel-body hide-on-reduce-menu">'.
-			    		'<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" data-target="#modal-create-room" class="text-green">'.
+			    echo '<div class="panel-body hide-on-reduce-menu">';
+			    	if($auth==true) 
+			    	echo '<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" 
+			    			data-target="#modal-create-room" class="text-green">'.
 			    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
-			    		'</a>'.
-			    	 '</div>';
+			    		'</a>';
+			    echo  '</div>';
 
 	echo 	'</div>';
 

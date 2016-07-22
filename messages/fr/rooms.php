@@ -129,6 +129,7 @@ return array(
 	"start" => "Début",
 
 	"Todo" => "A faire",
+	"Move" => "Déplacer",
 	'My Todo' => "Mes Actions",
 	"Progressing"=> "En cours",
 	"In Progress" => "En cours",
