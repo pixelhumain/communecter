@@ -83,17 +83,16 @@
 		echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
    } 
  ?>
-  	<div class="panel-group" id="accordion">
-		<?php 
-			$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
-			createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth);
-			createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth);
-			createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth);
-		?>
-	</div>
+<div class="panel-group" id="accordion">
+	<?php 
+		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
+		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth);
+		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth);
+		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth);
+	?>
+</div>
 
-
-
+<div id="endOfRoom"></div>
 <?php 
 	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg, $auth){
 	

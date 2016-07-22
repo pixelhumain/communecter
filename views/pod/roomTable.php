@@ -25,7 +25,7 @@
 			</ul>
 
 			<!-- Tab panes -->
-			<div class="tab-content">
+			<div class="tab-content " id="ddaIndexContainer">
 			  <div class="tab-pane active col-lg-12 col-md-12" id="discussions">
 	  			<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
@@ -321,3 +321,4 @@
 					<?php } ?>
 			  </div>
 			</div>
+			<div id="endOfRoom"></div>

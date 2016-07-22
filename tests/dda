@@ -12,8 +12,18 @@
 <tr><td rowspan="1" colspan="3">dda</td></tr>
 </thead><tbody>
 <tr>
-	<td>runScriptAndWait</td>
+	<td>echo</td>
+	<td>*************** ADD A DISCUSSION ROOM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
 	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
 	<td></td>
 </tr>
 <tr>
@@ -24,7 +34,7 @@
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>javascript{&quot;test discuss&quot;+Math.floor(Math.random()*111)}</td>
+	<td>javascript{&quot;test discuss room&quot;+Math.floor(Math.random()*111)}</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -33,22 +43,32 @@
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>class=discussContainer</td>
+	<td>id=room-container</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
-	<td>xpath=(//a[@onclick=&quot;showRoom('discuss', '57922743f6ca475b118b4572')&quot;])[2]</td>
+	<td>waitForElementPresent</td>
+	<td>id=main-title</td>
 	<td>Discussion</td>
 </tr>
 <tr>
-	<td></td>
+	<td>break</td>
 	<td></td>
 	<td></td>
 </tr>
 <tr>
-	<td>runScriptAndWait</td>
+	<td>echo</td>
+	<td>*************** ADD A DECISION ROOM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
 	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
 	<td></td>
 </tr>
 <tr>
@@ -64,7 +84,7 @@
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>javascript{&quot;test decision&quot;+Math.floor(Math.random()*111)}</td>
+	<td>javascript{&quot;test decision room&quot;+Math.floor(Math.random()*111)}</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -72,24 +92,94 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
+	<td>waitForElementPresent</td>
+	<td>id=room-container</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
 	<td>id=main-title</td>
 	<td>décider ensemble</td>
 </tr>
 <tr>
-	<td></td>
+	<td>break</td>
 	<td></td>
 	<td></td>
 </tr>
 <tr>
-	<td>runScriptAndWait</td>
+	<td>echo</td>
+	<td>*************** ADD A PROPOSAL</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.hidden-xs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=blockquote.padding-10 &gt; button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.note-editable</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ajaxFormEntry</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.note-editable</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#ajaxFormEntry &gt; div.form-group.nametext &gt; #name</td>
+	<td>javascript{&quot;test decision proposal &quot;+Math.floor(Math.random()*111)}</td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>(&quot;#editEntryContainer #message&quot;).val(&quot;test decision proposal content&quot;+Math.floor(Math.random()*111))</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=dateEnd</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ajaxFormEntry &gt; div.form-actions &gt; #btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>*************** ADD AN ACTION ROOM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
 	<td>loadByHash('#rooms.index.type.cities.id.RE_97414-97421')</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
-	<td>id=main-title</td>
-	<td>décider ensemble</td>
+	<td>break</td>
+	<td></td>
+	<td></td>
 </tr>
 <tr>
 	<td>click</td>
@@ -104,7 +194,7 @@
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>javascript{&quot;test action&quot;+Math.floor(Math.random()*111)}</td>
+	<td>javascript{&quot;test action room&quot;+Math.floor(Math.random()*111)}</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -112,13 +202,23 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
+	<td>waitForElementPresent</td>
+	<td>id=room-container</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
 	<td>id=main-title</td>
 	<td>Actions Réactions</td>
 </tr>
 <tr>
+	<td>break</td>
 	<td></td>
 	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>*************** ADD AN ACTION</td>
 	<td></td>
 </tr>
 <tr>
@@ -127,14 +227,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=#ajaxFormAction &gt; div.form-group.nametext &gt; #name</td>
-	<td></td>
-</tr>
-<tr>
 	<td>type</td>
 	<td>css=#ajaxFormAction &gt; div.form-group.nametext &gt; #name</td>
-	<td>dhghdfgh</td>
+	<td>javascript{&quot;test action&quot;+Math.floor(Math.random()*111)}</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -143,17 +238,17 @@
 </tr>
 <tr>
 	<td>click</td>
+	<td>css=div.row.bg-white</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
 	<td>id=startDate</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//div[@id='sizzle-1469192776830']/div/table/tbody/tr[3]/td[4]</td>
+	<td>break</td>
 	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=#modal-create-action &gt; div.modal-dialog &gt; div.modal-content &gt; div.modal-body.no-padding &gt; div.modal-footer &gt; button.btn.btn-success</td>
 	<td></td>
 </tr>
 <tr>
