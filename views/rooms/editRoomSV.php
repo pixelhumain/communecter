@@ -65,22 +65,7 @@ jQuery(document).ready(function() {
   });
 });
 
-function selectRoomType(type){
-  $("#roomType").val(type);
-  
-  var msg = "Nouvel espace";
-  if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
-  if(type=="framapad") msg = "<i class='fa fa-file-text-o'></i> " + msg + " framapad";
-  if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
-  if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
-  $("#proposerloiFormLabel").html(msg);
-  $("#proposerloiFormLabel").addClass("text-dark");
-  $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
-  
-  $("#first-step-create-space").hide(400);
-  $(".roomTypeselect").addClass("hidden");
-  $("#editRoomsContainer").removeClass("hidden");
-}
+
 
 function editRoomSV (roomObj) { 
   console.warn("--------------- editEntrySV ---------------------");
@@ -147,8 +132,6 @@ function editRoomSV (roomObj) {
           }
         });
         console.dir(form);
-      
-   
 }
 
 /*
