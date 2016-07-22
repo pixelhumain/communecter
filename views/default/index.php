@@ -194,6 +194,7 @@
 
 	.main-col-search{
 		min-height:1000px;
+		padding-right:65px;
 	}
 
 	#logo-main-menu:hover{
@@ -352,14 +353,15 @@
 </div>
 
 
-<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
+<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding">
 	
 	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
+	<a class="pull-left" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
+		<!--<h1 class="homestead text-dark no-margin padding-15"><span class="text-red">COMMUNE</span>CTER</h1>-->
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php }else{ ?> 
-	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" >
+	<a class="pull-left" href="javascript:loadByHash('#default.home')" class="hidden-xs" >
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php } ?>
@@ -374,20 +376,22 @@
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
 		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu">L'Annuaire</span> <span class="text-red">COMMUNE</span>CTÉ</h1>
 
-	<?php $this->renderPartial("short_info_profil"); ?> 
 
-	<button class="menu-button btn-menu btn-menu-top bg-azure tooltips" id="btn-toogle-map"
+	<button class="btn-menu btn-menu-top bg-azure tooltips pull-right" id="btn-toogle-map"
 			data-toggle="tooltip" data-placement="right" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>
 	</button>
+
+	<?php $this->renderPartial("short_info_profil"); ?> 
+
 
 </div>
 
 <?php $this->renderPartial('menu', array("page" => "accueil", "inseeCommunexion" => $inseeCommunexion, "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
 
-	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-col-search">
+	<div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-12 main-col-search">
 	</div>
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>

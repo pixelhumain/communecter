@@ -11,7 +11,7 @@
 	margin-top:10px;
 }
 .my-main-container{
-	background-color: rgba(240, 240, 240, 0.93) !important;
+	background-color: rgba(240, 240, 240, 1) !important;
 	margin-left: 0px !important;
 }
 .container-lbl-info-search{
@@ -52,9 +52,9 @@
 	position: fixed !important;
 	opacity: 0;
 	z-index: 10;
-	top: -60px;
+	top: 0px;
 	/*width: 73% !important;*/
-	margin-left: -15px;
+	/*margin-left: -15px;*/
 	moz-box-shadow: 0px 2px 4px -3px #656565;
 	-webkit-box-shadow: 0px 2px 4px -3px #656565;
 	-o-box-shadow: 0px 2px 4px -3px #656565;
@@ -396,15 +396,16 @@ button.btn-menu-notif{
 }
 
 button#btn-toogle-map{
-	right: -31px;
+	/*right: -31px;*/
 	font-size: 24px;
 	width: 45px;
 	height: 51px;
 	padding: 5px;
 	top: 0px;
-	position: absolute !important;
-	border-radius: 0px 0px 10px 0px;
+	/*position: absolute !important;*/
+	border-radius: 0px 0px 0px 0px;
 	z-index: 15;
+	border: 0;
 	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
@@ -431,8 +432,8 @@ button.main-btn-toogle-map{
 	top: 0px;
 	z-index: 15;
 	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	margin-left: -40px;
-	border-radius: 0px 0px 0px 10px !important;
+	/*margin-left: -40px;
+	border-radius: 0px 0px 0px 10px !important;*/
 	background-color: rgb(255, 255, 255);
 	display: inline;
 	margin-right: 10px;

@@ -68,7 +68,7 @@
 </div>
 
 
-<div class="hover-menu hidden-xs">
+<div class="hidden-xs main-menu-left col-md-2 col-sm-2">
 	
 
 	<?php /* if(!isset(Yii::app()->session['userId'])){ ?>
@@ -82,65 +82,66 @@
 		</button>
 	<?php } */ ?>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu bg-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
-		<span class="lbl-btn-menu-name-city">
+		<span class="">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
 					   echo '<span class="lbl-btn-menu-name hidden-sm">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
 				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
 		</span>
-	</button>
+	</a><hr>
 
 	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 bg-red tooltips" 
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
 			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
 			<i class="fa fa-home"></i>
 	</button>
 	<?php } ?>
 	
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
-	<!-- <button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
+	<?php /*if(!isset(Yii::app()->session['userId'])){ ?>
+	<button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="S'inscrire">
 			<i class="fa fa-plus-circle"></i>
 			<span class="lbl-btn-menu-name">S'inscrire</span>
-	</button> -->
-	<?php } ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 bg-azure <?php echo ($page == 'directory') ? 'selected':'';?>">
-			<span class="fa-stack">
+	</button>
+	<?php } */?>
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 text-dark <?php echo ($page == 'directory') ? 'selected':'';?>">
+			<!--<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-search fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	
-			<!--<i class="fa fa-search"></i>-->
-			<span class="lbl-btn-menu-name">Recherche <span class="text-dark" style="font-size:12px;">communectée</span></span>
-	</button>
+			</span>	-->
+			<i class="fa fa-search"></i>
+			Rechercher
+	</a><hr>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 bg-azure <?php echo ($page == 'agenda') ? 'selected':'';?>">
-			<span class="fa-stack">
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 text-dark <?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<!--<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-calendar fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	
-		<!--<i class="fa fa-calendar"></i>-->
-		<span class="lbl-btn-menu-name">L'Agenda <span class="text-dark" style="font-size:12px;">communecté</span></span>
-	</button>
+			</span>	-->
+		<i class="fa fa-calendar"></i>
+		Agenda
+	</a><hr>
 
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 bg-azure <?php echo ($page == 'news') ? 'selected':'';?>" 
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 text-dark <?php echo ($page == 'news') ? 'selected':'';?>" 
 			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
-			<span class="fa-stack">
+			<!--<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	
-			<span class="lbl-btn-menu-name">L'Actualité <span class="text-dark" style="font-size:12px;">communectée</span></span>
-	</button>
+			</span>	-->
+			<i class="fa fa-rss"></i>
+			Actualités
+	</a><hr>
 	
 	<?php if(isset($cityCommunexion)) { ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 bg-azure" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
-		<span class="fa-stack">
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 text-dark" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
+			<!--<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	
-			<!--<i class="fa fa-group"></i>-->
-			<span class="lbl-btn-menu-name">Conseil citoyen <span class="text-dark" style="font-size:12px;">communectée</span></span>
-	</button>
+			</span>	-->
+			<i class="fa fa-gavel"></i>
+			Conseil citoyen</span>
+	</a><hr>
 	<?php } ?>
 	
 	<?php echo $this->renderPartial('version'); ?>
