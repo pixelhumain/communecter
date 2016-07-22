@@ -144,14 +144,27 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod">
-			
-			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
 				<i class="fa fa-angle-down"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span>
 				<?php echo $room["name"]; ?>
 				<hr>
-			
 			</h1>
+			<div class="col-md-12">
+				
+				
+				<span class="text-extra-large text-bold text-dark col-md-12 no-padding" style="font-size:25px !important;">
+					<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
+				</span>
+				<?php if( @($organizer) ){ ?>
+					<br/><span class="text-red" style="font-size:13px; font-weight:500;">
+						<i class="fa fa-angle-right"></i> Proposition de 
+						<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a>
+					</span>
+				<?php }	?>
+				<hr>
+				<?php //echo Survey::getChartBarResult($survey); ?>
+			</div>
 
 			<?php 					
 				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
@@ -159,8 +172,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 					$this->renderPartial('../default/panels/toolbar');
 				}
 			?>
-
-
+			
 			<div class="col-md-12 voteinfoSection">
 				<?php 
 				$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
@@ -317,15 +329,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 
 				<div class="col-md-12 no-padding">
 				
-					<div class="col-md-12 no-padding margin-top-15">
-						<?php if( @($organizer) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-angle-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
-						<?php }	?>
-						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-
-						<?php //echo Survey::getChartBarResult($survey); ?>
-						
-					</div>
+					
 					
 					
 					
