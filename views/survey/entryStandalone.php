@@ -83,9 +83,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 	padding-top: 15px;
 	margin-top: 0px;
 }
-.progress {
-    height: 30px;
-}
+
 #profil_fileUpload{
 	min-height: 180px;
 }
@@ -152,9 +150,10 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
 				<i class="fa fa-angle-down"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span>
-				<?php echo $room["name"]; ?>
+				<a href="javascript:showRoom('vote', '<?php echo $survey["survey"]; ?>')">
+					<?php echo $room["name"]; ?>
+				</a>
 				<hr>
-			
 			</h1>
 
 			<?php 					
@@ -184,43 +183,44 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				
 
 				<div class="col-md-12 no-padding">
-						<div class="col-md-6 no-padding margin-bottom-15">
+					<div class="col-md-6 no-padding margin-bottom-15">
 						<?php if( @($organizer) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-angle-right"></i> Proposition de <a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a></span><br/>
+							<span class="text-red" style="font-size:13px; font-weight:500;">
+								<i class="fa fa-angle-right"></i> Proposition de 
+								<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
+								<?php echo @$organizer['name'] ?>
+								</a>
+							</span><br/>
 						<?php }	?>
-						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?></span>
-
+						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
+							<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
+						</span>
 						<?php //echo Survey::getChartBarResult($survey); ?>
-						
 					</div>
 					<div class="col-md-6">
 						<div class="box-ajaxTools">
 							<a class="tooltips btn btn-default  " href="javascript:;" 
 							   onclick="loadByHash('#survey.editEntry.survey.<?php echo $parentId; ?>.id.<?php echo $survey["_id"]; ?>')" 
 							   data-placement="bottom" data-original-title="Editer cette proposition">
-							<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 							</a>
-							<span class="btnSpacer"></span>
-							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
-							   data-placement="bottom" data-original-title="Supprimer cette proposition">
-								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
-							</a>
-							<span class="btnSpacer"></span>
 							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
 								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
 							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
 							</a>
-							<span class="btnSpacer"></span>
-							<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
-							   data-placement="bottom" data-original-title="Comprendre les discussions et les propositions">
-								<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
+							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
+							   data-placement="bottom" data-original-title="Supprimer cette proposition">
+								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
 							</a>
-							<span class="btnSpacer"></span>						
+							<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
+							   data-placement="bottom" data-original-title="Comprendre les propositions">
+								<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
+							</a>					
 						</div>
 					</div>	
 				</div>	
 
-				<div class="col-md-6 no-padding" style="padding-right: 15px !important;">
+				<div class="col-md-4 no-padding" style="padding-right: 15px !important;">
 					
 					<?php  $this->renderPartial('../pod/fileupload', 
 												 array("itemId" => $survey["_id"],
@@ -272,17 +272,17 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 					</div>
 				</div>
 
-				<div class="col-md-6 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
+				<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
 					
 					<span class="text-azure">
-						<i class="fa fa-clock-o"></i> 
+						<i class="fa fa-calendar"></i> 
 						<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
 						<?php echo date("d/m/y",$survey["created"]) ?>
 					</span>
 					<br>
 					<?php if( @$survey["dateEnd"] ){ ?>
 					<span class="text-red">
-						<i class="fa fa-clock-o"></i> 
+						<i class="fa fa-calendar"></i> 
 						<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
 						<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
 					</span>
@@ -425,7 +425,9 @@ jQuery(document).ready(function() {
 
   	$(".tooltips").tooltip();
 	
-	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",function(){ $(".commentCount").html( $(".nbComments").html() ); },"html");
+	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",
+		function(){  $(".commentCount").html( $(".nbComments").html() ); 
+	},"html");
 
 	//buildResults (); //old piechart
 

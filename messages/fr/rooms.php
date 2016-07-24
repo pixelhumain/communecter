@@ -24,6 +24,7 @@ return array(
 	"INVITATION TO VOTE" => "INVITATION A VOTER",
 	"VOTERS"=>"Nombre de votants",
 	"Since"=>"Ouvert le",
+	"Started"=>"En cours depuis le",
 	"Ends"=>"Se termine le",
 	"VISITORS"=>"Nombre de visiteurs",
 	"Voted" => "Vous avez voté",

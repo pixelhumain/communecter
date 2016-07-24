@@ -69,7 +69,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
 .mixcontainer .mix{
   border-radius:0px;
   border-color: #CCC;
-  height:250px;
+  height:270px;
   margin:1% 1% !important;
   float:left;
   moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -92,7 +92,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   float: left;
   width: 100%;
   overflow-y:hidden;
-  height:40px;
+  height:50px;
   font-size: 17px;
 }
 .mixcontainer .mix a.titleMix:hover{
@@ -200,7 +200,7 @@ border: 1px solid #E4E4E4;
 .byInfo{
   float: right;
     position: relative;
-    bottom: 18px;
+    bottom: 10px;
     font-size:13px;
 }
 .byInfo i{
@@ -231,7 +231,7 @@ border: 1px solid #E4E4E4;
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = $entry["message"];//substr($entry["message"],0,100);
+        $message = substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -265,7 +265,7 @@ border: 1px solid #E4E4E4;
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter bg-azure btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
+              $tagBlock .= ' <button class="filter bg-red btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -281,7 +281,7 @@ border: 1px solid #E4E4E4;
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
-        $message = "<span class='text-dark no-border message-propostal'>".$message."</span>";
+        $message = "<div class='text-dark no-border message-propostal'>".$message."</div>";
         
         /* **************************************
         Rendering Each block

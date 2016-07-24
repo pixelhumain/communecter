@@ -30,9 +30,10 @@
 <?php } ?>
 
 
-<?php 
+<?php if($contextType == "actionRooms"){
   Menu::comments( $parentType, $parentId );
   $this->renderPartial('../default/panels/toolbar');
+}
 ?>
 
 <?php
