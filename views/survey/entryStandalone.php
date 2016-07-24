@@ -1,96 +1,33 @@
 <?php 
-$cs = Yii::app()->getClientScript();
-$cssAnsScriptFilesModule = array(
-  '/survey/js/highcharts.js',
-  '/js/dataHelpers.js',
-  '/css/circle.css'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	$cs = Yii::app()->getClientScript();
+	$cssAnsScriptFilesModule = array(
+	  '/survey/js/highcharts.js',
+	  '/js/dataHelpers.js',
+	  '/css/circle.css'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 
-$logguedAndValid = Person::logguedAndValid();
-$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
-
+	$logguedAndValid = Person::logguedAndValid();
+	$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 ?>
 <style type="text/css">
 
-	/*.assemblyHeadSection {  
-      background-image:url(<?php echo $this->module->assetsUrl; ?>/images/Discussion.jpg); 
-    }*/
-  	
-	/*a.btn{margin:3px;}*/
-	/*a:hover.btn {background-color: pink;border solid #666;}*/
-
-	/*.infolink{border-top:1px solid #fff}*/
-	.leftlinks a.btn{color:black;background-color: yellow;border: 0px solid yellow;}
-	.leftlinks a.btn:hover{color:white;background-color: #3C5665;}
-	/*.rightlinks a.btn{background-color: beige;border: 1px solid beige;}*/
-	
-	  a.btn.alertlink   {background-color:red;color:white;border: 1px solid red;}
-	  a.btn.golink    	{background-color:green;color:white;border: 1px solid green;}
-	  a.btn.voteUp    	{background-color: #93C22C;border: 1px solid green;}
-	  a.btn.voteUnclear {background-color: #f3f000;border: 1px solid yellow;}
-	  a.btn.voteMoreInfo{background-color: #C1ABD4;border: 1px solid #789289;}
-	  a.btn.voteAbstain {color: black;background-color: white;border: 1px solid grey !important;}
-	  a.btn.voteDown    {background-color: #db254e;border: 1px solid #db254e;}
-
-
-	.commentPod .panel {box-shadow: none;}
-	.commentPod .panel-heading {border-bottom-width: 0px;}
-
-	
-
-    .leftlinks a.btn{
-    	border: transparent;
-		border-radius: 25px;
-		font-size: 25px;
-    }
-
-  .progress-bar-green{background-color: #93C22C;}
-  .progress-bar-blue{background-color: #4da9c8;}
-  .progress-bar-white{background-color: #C9C9C9;}
-  .progress-bar-purple{background-color: #C1ABD4;}
-  .progress-bar-red{background-color: #db254e;}
-
-
-	.progress-bar {
-	    padding-top: 5px;
-	    font-weight: 600;
-	    font-size: 15px;
+	#commentHistory .panel-scroll{
+		max-height:unset !important;
+	}
+	.info-survey{
+		font-weight: 500;
+		font-size: 13px;
+		border-top: 1px solid rgb(210, 210, 210);
+		padding-top: 15px;
+		margin-top: 0px;
 	}
 
-  .color-btnvote-green	{background-color: #93C22C;	color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-blue	{background-color: #4da9c8;	color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-white	{background-color: #FFF;	color: black;	padding: 8px;border-radius: 30px; border: 1px solid #939393;}
-  .color-btnvote-purple	{background-color: #C1ABD4;	color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-red	{background-color: #db254e;	color: black;	padding: 8px;border-radius: 30px;}
+	#profil_fileUpload{
+		min-height: 180px;
+	}
 
-  .msg-head-tool-vote{
-  	width:100%;
-  	font-size: 18px;
-  	font-weight: 300;
-  }
-
-
-
-#commentHistory .panel-scroll{
-	max-height:unset !important;
-}
-.info-survey{
-	font-weight: 500;
-	font-size: 13px;
-	border-top: 1px solid rgb(210, 210, 210);
-	padding-top: 15px;
-	margin-top: 0px;
-}
-
-#profil_fileUpload{
-	min-height: 180px;
-}
-
-.voteinfoSection .box-ajaxTools{
-
-}
 </style>
 
 <?php 
@@ -104,23 +41,16 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		$orga = Organization::getById($parentId);
 		$nameParentTitle = htmlentities($orga["name"]);
 	}
+ 
 
-			
-	//copié coller merdique
-	// a sortir de la vue demain
-	$voteDownCount      = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-	$voteAbstainCount   = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-	$voteUnclearCount   = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-	$voteMoreInfoCount  = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-	$voteUpCount        = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-
-	$totalVotesGbl = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-	
- ?>
- 	
-<?php 
-  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
-  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' : '';
+	  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
+	  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? 
+	  ' <i class="fa fa-caret-right"></i> '.
+	  '<a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" '.
+	 	 'onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')">'.
+	  	'<i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).
+	  '</a>' 
+	  : '';
   
   if(!isset($_GET["renderPartial"])){
 		$this->renderPartial('../rooms/header',array(   
@@ -156,32 +86,22 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 				<hr>
 			</h1>
 
-			<?php 					
-				// if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
-				// 	Menu::proposal( $survey );
-				// 	$this->renderPartial('../default/panels/toolbar');
-				// }
-			?>
-
-
 			<div class="col-md-12 voteinfoSection">
 				<?php 
-				$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
-				$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
-				$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
-				$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
-				$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
-				$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
-				$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
-				$voteDownCount = $voteDownCount * $oneVote ;
-				$voteAbstainCount = $voteAbstainCount * $oneVote;
-				$voteUpCount = $voteUpCount * $oneVote;
-				$voteUnclearCount = $voteUnclearCount * $oneVote;
-				$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
-			   
-				 ?>
+					$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
+					$voteAbstainCount = (isset($survey[Action::ACTION_VOTE_ABSTAIN."Count"])) ? $survey[Action::ACTION_VOTE_ABSTAIN."Count"] : 0;
+					$voteUnclearCount = (isset($survey[Action::ACTION_VOTE_UNCLEAR."Count"])) ? $survey[Action::ACTION_VOTE_UNCLEAR."Count"] : 0;
+					$voteMoreInfoCount = (isset($survey[Action::ACTION_VOTE_MOREINFO."Count"])) ? $survey[Action::ACTION_VOTE_MOREINFO."Count"] : 0;
+					$voteUpCount = (isset($survey[Action::ACTION_VOTE_UP."Count"])) ? $survey[Action::ACTION_VOTE_UP."Count"] : 0;
+					$totalVotes = $voteDownCount+$voteAbstainCount+$voteUpCount+$voteUnclearCount+$voteMoreInfoCount;
+					$oneVote = ($totalVotes!=0) ? 100/$totalVotes:1;
+					$voteDownCount = $voteDownCount * $oneVote ;
+					$voteAbstainCount = $voteAbstainCount * $oneVote;
+					$voteUpCount = $voteUpCount * $oneVote;
+					$voteUnclearCount = $voteUnclearCount * $oneVote;
+					$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
+			    ?>
 				
-
 				<div class="col-md-12 no-padding">
 					<div class="col-md-6 no-padding margin-bottom-15">
 						<?php if( @($organizer) ){ ?>
@@ -190,17 +110,17 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 								<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
 								<?php echo @$organizer['name'] ?>
 								</a>
-							</span><br/>
+							</span>
+							<br/>
 						<?php }	?>
 						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
 							<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
 						</span>
-						<?php //echo Survey::getChartBarResult($survey); ?>
 					</div>
 					<div class="col-md-6">
 						<div class="box-ajaxTools">
-							<a class="tooltips btn btn-default  " href="javascript:;" 
-							   onclick="loadByHash('#survey.editEntry.survey.<?php echo $parentId; ?>.id.<?php echo $survey["_id"]; ?>')" 
+							<a class="tooltips btn btn-default  " href="javascript:" 
+							   data-toggle="modal" data-target="#modal-edit-entry"
 							   data-placement="bottom" data-original-title="Editer cette proposition">
 								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 							</a>
@@ -229,10 +149,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 												  "contentId" => Document::IMG_PROFIL,
 												  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
 												  "image" => $images)); 
-					?>
-
 					
-					<?php 
 					if(isset( Yii::app()->session["userId"]) && false)
 					{
 						if(Yii::app()->session["userEmail"] != $survey["email"])
@@ -342,7 +259,6 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 						}?>
 						
 					<?php }	?>
-
 				</div>
 
 				<?php if( $totalVotes > 0 && false){ ?>
@@ -361,6 +277,38 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
+</div>
+
+
+<div class="modal fade" id="modal-edit-entry" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title text-left">
+        	<i class="fa fa-angle-down"></i> <i class="fa fa-pencil"></i> Éditer la proposition
+        </h2>
+      </div>
+      <div class="modal-body no-padding">
+      	<div class="panel-body" id="form-edit-entry">
+			<?php 
+				$params = array(
+			    	"survey" => $survey, //la proposition actuelle
+			        "roomId" => $survey["survey"] //id de la room
+			    );
+				$this->renderPartial('../survey/editEntrySV', $params); 
+			?>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			<button type="button" class="btn btn-success"
+				    data-dismiss="modal" onclick="javascript:saveEditEntry();">
+					<i class="fa fa-save"></i> Enregistrer
+			</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 </div>
 
 <?php 
@@ -382,7 +330,7 @@ jQuery(document).ready(function() {
   	$(".moduleLabel").html("<i class='fa fa-gavel'></i> Propositions, débats, votes");
   
   	$('.box-vote').show();
- //  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+ 	//  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 	// 	$(this).removeClass("animated flipInX");
 	// });
 
@@ -393,7 +341,6 @@ jQuery(document).ready(function() {
 	},"html");
 
 	//buildResults (); //old piechart
-
 });
 
 function addaction(id,action)
@@ -566,5 +513,9 @@ function move( type,destId ){
 		    });
 		}
 	});
+}
+
+function saveEditEntry(){
+	$("#").modal("show");
 }
 </script>

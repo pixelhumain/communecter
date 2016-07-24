@@ -679,10 +679,9 @@
       </div>
       <div class="modal-body no-padding">
         <div class="panel-body" id="form-create-proposal">
-          <?php 
+          <?php //var_dump($where["survey"]);
               $params = array(
-                  "survey"=>(string)$where["survey"]["_id"],
-                  "mode"=>"new",
+                  "roomId"=>(string)$where["survey"]["_id"]
               );
             $this->renderPartial('../survey/editEntrySV', $params); 
 
