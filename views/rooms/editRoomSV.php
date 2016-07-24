@@ -120,6 +120,7 @@ function editRoomSV (roomObj) {
                     else 
                       loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
                     //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
+                    $("#modal-create-room").modal("toogle");
                 }
                 else {
                   toastr.error(data.msg);
@@ -236,7 +237,7 @@ function getRandomInt (min, max) {
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+

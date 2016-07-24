@@ -141,9 +141,6 @@ var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
 //editEntryContainer
 
-function saveNewProposal(){
-  $('#form-create-proposal #btn-submit-form').off().click()
-}
 
 jQuery(document).ready(function() { 
    
@@ -156,7 +153,6 @@ jQuery(document).ready(function() {
 
   editEntrySV ();
  
-  $('#form-create-proposal #btn-submit-form').addClass("hidden");
 
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -172,7 +168,7 @@ jQuery(document).ready(function() {
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxFormEntry' enctype='multipart/form-data'></form>"+
@@ -250,6 +246,7 @@ function editEntrySV () {
                   }
                   $.unblockUI();
                   $('#modal-create-proposal').modal("toogle");
+                  $('#modal-edit-entry').modal("toogle");                  
                 },
                 error: function(data) {
                   $.unblockUI();

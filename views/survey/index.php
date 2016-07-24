@@ -741,8 +741,15 @@ jQuery(document).ready(function() {
     clickedVoteObject = $(this).data("vote");
     console.log(clickedVoteObject);
    });
+
+  $('#form-create-proposal #btn-submit-form').addClass("hidden");
+  
 });
 
+
+function saveNewProposal(){
+  $('#form-create-proposal #btn-submit-form').off().click()
+}
 
 function toogleTags(){
   if($("#tags-container").hasClass("hidden")){

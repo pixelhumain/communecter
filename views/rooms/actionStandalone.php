@@ -247,6 +247,40 @@
 	
 </div>
 
+
+
+<div class="modal fade" id="modal-edit-entry" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title text-left">
+        	<i class="fa fa-angle-down"></i> <i class="fa fa-pencil"></i> Éditer la proposition
+        </h2>
+      </div>
+      <div class="modal-body no-padding">
+      	<div class="panel-body" id="form-edit-entry">
+			<?php 
+				$params = array(
+			    	"survey" => $survey, //la proposition actuelle
+			        "roomId" => $survey["survey"] //id de la room
+			    );
+				$this->renderPartial('../room/editAction', $params); 
+			?>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			<button type="button" class="btn btn-success"
+				    onclick="$('#form-edit-entry #btn-submit-form').click()">
+					<i class="fa fa-save"></i> Enregistrer
+			</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+
 <?php 
  if(!isset($_GET["renderPartial"])){
   echo "</div>"; // ferme le id="room-container"

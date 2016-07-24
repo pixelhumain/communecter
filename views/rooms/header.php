@@ -257,7 +257,7 @@ h1.citizenAssembly-header {
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    data-dismiss="modal" onclick="javascript:saveNewRoom();">
+				    onclick="javascript:saveNewRoom();">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>
@@ -381,7 +381,7 @@ jQuery(document).ready(function() {
 });
 
 function saveNewRoom(){
-	$('#form-create-room #btn-submit-form').click()
+	$('#form-create-room #btn-submit-form').click();
 }
 
 function selectRoomType(type){

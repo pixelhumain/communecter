@@ -302,7 +302,7 @@
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    data-dismiss="modal" onclick="javascript:saveEditEntry();">
+				    onclick="$('#form-edit-entry #btn-submit-form').click()">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>
@@ -336,12 +336,19 @@ jQuery(document).ready(function() {
 
   	$(".tooltips").tooltip();
 	
+  	$('#form-edit-entry #btn-submit-form').addClass("hidden");
+
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",
 		function(){  $(".commentCount").html( $(".nbComments").html() ); 
 	},"html");
 
 	//buildResults (); //old piechart
 });
+
+function saveEditEntry(){ 
+	alert("ouéoué");
+    $('#form-edit-entry #btn-submit-form').click();
+}
 
 function addaction(id,action)
 {
