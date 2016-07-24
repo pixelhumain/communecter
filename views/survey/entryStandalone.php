@@ -314,46 +314,6 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 						?>
 					</div>
 
-					<?php 
-
-
-					/*if( @$survey["dateEnd"] && $survey["dateEnd"] < time() || 
-							  @$room["status"]==ActionRoom::STATE_ARCHIVED )
-						 { 
-							$stateLbl = ( @$room["status"]==ActionRoom::STATE_ARCHIVED ) ? 
-										Yii::t("rooms","Archived",null,Yii::app()->controller->module->id) : 
-										Yii::t("rooms","Closed",null,Yii::app()->controller->module->id); 
-					?>
-							
-							<div class="box-vote box-pod radius-20" style="">
-								<span class="text-extra-large text-bold text-red"> 
-									<?php echo $stateLbl ?>
-								</span> 
-								<?php if( isset($organizer) ){ ?>
-									<p>
-										<?php echo Yii::t("rooms","Proposed by",null,Yii::app()->controller->module->id) ?> 
-										<a href="<?php echo @$organizer['link'] ?>" target="_blank">
-											<?php echo @$organizer['name'] ?>
-										</a>
-									</p>
-								<?php }	?>
-								
-							</div>
-							
-					<?php } else { ?> 
-
-							<div class="box-vote box-pod radius-20">
-								<?php $this->renderPartial('entry',
-												array( 	"survey" => $survey, 
-														"voteLinksAndInfos" => $voteLinksAndInfos,
-														"position" => "center",
-														"showName" => true,
-														"hideTexts" => true
-														 ));
-														 ?>
-							</div>
-
-					<?php }*/ ?>
 				</div>
 
 				<div class="col-md-12 no-padding">
@@ -365,7 +325,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 					</div>
 
 					<div class="col-md-12 padding-15">
-						<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos,$parentType,$parentId); ?>
+						<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos, $parentType,$parentId); ?>
 						<div class="col-md-12 no-padding margin-top-10"><hr></div>
 					</div>
 
@@ -374,7 +334,9 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
 						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
 						<?php foreach ( $survey["urls"] as $value) {
 							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank"><i class="fa fa-link"></i> '.$value.'</a><br/> ';
+								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
+										'<i class="fa fa-link"></i> '.$value.
+									 '</a><br/> ';
 							else
 								echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
 						}?>
@@ -419,9 +381,10 @@ jQuery(document).ready(function() {
 	$(".main-col-search").addClass("assemblyHeadSection");
   	$(".moduleLabel").html("<i class='fa fa-gavel'></i> Propositions, débats, votes");
   
-  	$('.box-vote').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-		$(this).removeClass("animated flipInX");
-	});
+  	$('.box-vote').show();
+ //  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+	// 	$(this).removeClass("animated flipInX");
+	// });
 
   	$(".tooltips").tooltip();
 	
@@ -438,8 +401,11 @@ function addaction(id,action)
     console.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
-    	var message = "Vous êtes sûr ? <span class='text-red text-bold'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>";
-    	var input = "<span id='modalComment'><input type='text' class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></span><br>";
+    	var message = "<span class='text-dark'>Vous avez choisi de voter <strong>" + trad[action] + "</strong></span><br>";
+    	var input = "<span class='text-red'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>"+
+    				"<span id='modalComment'>"+
+    					"<textarea class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></textarea>"+
+    				"</span><br>";
     	var boxNews = bootbox.dialog({
 			title: message,
 			message: input,
@@ -452,7 +418,7 @@ function addaction(id,action)
 					}
 				},
 				success: {
-					label: "OK",
+					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
 						var voteComment = $("#modalComment .newComment").val();

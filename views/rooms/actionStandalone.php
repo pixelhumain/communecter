@@ -84,7 +84,14 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
 ?>
  	 	  
 <?php 
-	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).'</a>' : '';
+	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? 
+		'<i class="fa fa-caret-right"></i> '.
+		'<a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" '.
+			'onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')">'.
+			'<i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).
+		'</a>' 
+		: '';
+
 	if(!isset($_GET["renderPartial"])){
 	 	$this->renderPartial('../rooms/header',array(    
             		"parent" => $parent, 
@@ -323,7 +330,7 @@ function closeAction(id)
 {
     console.warn("--------------- closeEntry ---------------------");
     
-      bootbox.confirm("Are you sure ? ",
+      bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer à cette action ?</strong>",
           function(result) {
             if (result) {
               params = { "id" : id };
@@ -339,7 +346,9 @@ function closeAction(id)
 
 function assignMe(id)
 {
-    bootbox.confirm("Are you sure ? ",
+    bootbox.confirm("<strong>Êtes-vous sûr de vouloir participer à cette action ?</strong>" +
+    				"Vous serez inscrit dans la liste des participants.",
+
         function(result) {
             if (result) {
               params = { "id" : id };
@@ -356,7 +365,7 @@ function assignMe(id)
 function move( type,destId ){
 	bootbox.hideAll();
 	console.warn("--------------- move ---------------------",type,destId);
-	bootbox.confirm("Vous êtes sûr ? ",
+	bootbox.confirm("<strong>Êtes-vous sûr de vouloir déplacer cette action ?</strong>",
       function(result) {
         if (result) {
 			$.ajax({
