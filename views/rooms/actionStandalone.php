@@ -93,8 +93,8 @@
 				</div>	
 				<div class="col-md-6">
 					<div class="box-ajaxTools">
-						<a class="tooltips btn btn-default  " href="javascript:;" 
-						   onclick="loadByHash('#rooms.editAction.room.<?php echo $parentId; ?>.id.<?php echo $action["_id"]; ?>')" 
+						<a class="tooltips btn btn-default  " href="javascript:" 
+							   data-toggle="modal" data-target="#modal-edit-action"
 						   data-placement="bottom" data-original-title="Editer cette action">
 							<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 						</a>
@@ -249,7 +249,7 @@
 
 
 
-<div class="modal fade" id="modal-edit-entry" tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-edit-action" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header text-dark">
@@ -259,19 +259,19 @@
         </h2>
       </div>
       <div class="modal-body no-padding">
-      	<div class="panel-body" id="form-edit-entry">
+      	<div class="panel-body" id="form-edit-action">
 			<?php 
 				$params = array(
-			    	"survey" => $survey, //la proposition actuelle
-			        "roomId" => $survey["survey"] //id de la room
+			    	"action" => $action, //la proposition actuelle
+			        "roomId" => $parentSpace["_id"] //id de la room
 			    );
-				$this->renderPartial('../room/editAction', $params); 
+				$this->renderPartial('../rooms/editAction', $params); 
 			?>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    onclick="$('#form-edit-entry #btn-submit-form').click()">
+				    onclick="$('#form-edit-action #btn-submit-form').click()">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>

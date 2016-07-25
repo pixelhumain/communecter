@@ -32,5 +32,5 @@
    [ ] form keep my position / my latest psitions  
    [ ] declaration de pb contextualisé
        - bug idée ... sur chaque page , persistent et en mode votable
-   [ ] citoyen recoltant
+   [ ] citoyen recoltant 
   

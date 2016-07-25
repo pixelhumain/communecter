@@ -25,21 +25,7 @@ if(@$parentRoom) $parent = $parentRoom;
 //echo "parent"; var_dump($parent); return;
 if($parent == null) return;
 
-
-/*
-$this->renderPartial('../rooms/header',array(   
-                            "parentId" => $parent['parentId'], 
-                            "parentType" => $parent['parentType'], 
-                            "fromView" => "rooms.actions",
-                            "faTitle" => "cogs",
-                            "colorTitle" => "azure",
-                            "hideMenu" => "hide",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$parent['parentType'].".id.".$parent['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
-                                    " / ".
-                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parent["_id"]."\")'><i class='fa fa-cogs'></i> ".$parent["name"]."</a>".
-                            ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
-                              )); */
- ?>
+?>
 <div id="editActionContainer"></div>
 <style type="text/css">
   .addPropBtn{
@@ -209,7 +195,7 @@ function editEntrySV () {
             {
               processingBlockUi();
               var params = { 
-                 "room" : "<?php echo (isset($parentRoomId)) ? $parentRoomId : '' ?>", 
+                 "room" : "<?php echo (isset($roomId)) ? $roomId : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editActionContainer #name").val() , 
                  "organizer" : $("#editActionContainer #organizer").val(),
