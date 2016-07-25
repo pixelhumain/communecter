@@ -630,6 +630,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$(this).addClass("active");
 		});
 
+
+		
+
 		
 	});
 
