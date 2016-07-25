@@ -93,19 +93,21 @@
 				</div>	
 				<div class="col-md-6">
 					<div class="box-ajaxTools">
-						<a class="tooltips btn btn-default  " href="javascript:;" 
-						   onclick="loadByHash('#rooms.editAction.room.<?php echo $parentId; ?>.id.<?php echo $action["_id"]; ?>')" 
-						   data-placement="bottom" data-original-title="Editer cette action">
-							<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
-						</a>
-						<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
-							data-placement="bottom" data-original-title="Déplacer cette action dans un autre espace">
-						<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
-						</a>
-						<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeAction('<?php echo $action["_id"]; ?>')" 
-						   data-placement="bottom" data-original-title="Supprimer cette action">
-							<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
-						</a>
+						<?php if (  isset(Yii::app()->session["userId"]) && $action["organizerId"] == Yii::app()->session["userId"] )  { ?>
+							<a class="tooltips btn btn-default  " href="javascript:" 
+								   data-toggle="modal" data-target="#modal-edit-action"
+							   data-placement="bottom" data-original-title="Editer cette action">
+								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+							</a>
+							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
+								data-placement="bottom" data-original-title="Déplacer cette action dans un autre espace">
+							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
+							</a>
+							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeAction('<?php echo $action["_id"]; ?>')" 
+							   data-placement="bottom" data-original-title="Supprimer cette action">
+								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
+							</a>
+						<?php } ?>
 						<a href="javascript:;" data-id="explainActions" class="tooltips btn btn-default explainLink" 
 						   data-placement="bottom" data-original-title="Comprendre les listes d'actions">
 							<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
@@ -248,8 +250,8 @@
 </div>
 
 
-
-<div class="modal fade" id="modal-edit-entry" tabindex="-1" role="dialog">
+<?php if ( isset(Yii::app()->session["userId"]) && $action["organizerId"] == Yii::app()->session["userId"] )  { ?>
+<div class="modal fade" id="modal-edit-action" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header text-dark">
@@ -259,19 +261,19 @@
         </h2>
       </div>
       <div class="modal-body no-padding">
-      	<div class="panel-body" id="form-edit-entry">
+      	<div class="panel-body" id="form-edit-action">
 			<?php 
 				$params = array(
-			    	"survey" => $survey, //la proposition actuelle
-			        "roomId" => $survey["survey"] //id de la room
+			    	"action" => $action, //la proposition actuelle
+			        "roomId" => $parentSpace["_id"] //id de la room
 			    );
-				$this->renderPartial('../room/editAction', $params); 
+				$this->renderPartial('../rooms/editAction', $params); 
 			?>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    onclick="$('#form-edit-entry #btn-submit-form').click()">
+				    onclick="$('#form-edit-action #btn-submit-form').click()">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>
@@ -279,7 +281,7 @@
 	</div>
   </div>
 </div>
-
+<?php } ?>
 
 <?php 
  if(!isset($_GET["renderPartial"])){

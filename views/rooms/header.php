@@ -227,6 +227,7 @@ h1.citizenAssembly-header {
 
 </h1>
 
+<?php  if( isset(Yii::app()->session['userId']) && Authorisation::canParticipate(Yii::app()->session['userId'], $parentType, $parentId ) ){ ?>
 <div class="modal fade" id="modal-create-room" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -265,6 +266,7 @@ h1.citizenAssembly-header {
 	</div>
   </div>
 </div>
+<?php } ?>
 
 <?php 
 createModalRoom($discussions,$parentType, $parentId, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
