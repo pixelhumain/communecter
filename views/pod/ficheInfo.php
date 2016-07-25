@@ -131,7 +131,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 				<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>-->
 				
-				<?php if(!empty(Organization::getMembersByOrganizationId($organization["_id"], null,"isAdmin"))){ ?>
+				<?php 
+				$membersAdmin = Organization::getMembersByOrganizationId($organization["_id"], null,"isAdmin") ;
+				if(!empty($membersAdmin)){ ?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
 					<span class="hidden-sm hidden-xs">
