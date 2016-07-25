@@ -552,6 +552,8 @@ border: 1px solid #E4E4E4;
   </section>
 
 
+
+<?php  if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) ) { ?>
 <div class="modal fade" id="modal-create-action" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -587,6 +589,7 @@ border: 1px solid #E4E4E4;
     </div>
   </div>
 </div>
+<?php } ?>
 
 <div class="space20"></div>
 

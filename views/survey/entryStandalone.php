@@ -119,19 +119,22 @@
 					</div>
 					<div class="col-md-6">
 						<div class="box-ajaxTools">
-							<a class="tooltips btn btn-default  " href="javascript:" 
-							   data-toggle="modal" data-target="#modal-edit-entry"
-							   data-placement="bottom" data-original-title="Editer cette proposition">
-								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
-							</a>
-							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
-								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
-							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
-							</a>
-							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
-							   data-placement="bottom" data-original-title="Supprimer cette proposition">
-								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
-							</a>
+							
+							<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
+								<a class="tooltips btn btn-default  " href="javascript:" 
+								   data-toggle="modal" data-target="#modal-edit-entry"
+								   data-placement="bottom" data-original-title="Editer cette proposition">
+									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+								</a>
+								<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
+									data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
+								<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
+								</a>
+								<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
+								   data-placement="bottom" data-original-title="Supprimer cette proposition">
+									<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
+								</a>
+							<?php } ?>
 							<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
 							   data-placement="bottom" data-original-title="Comprendre les propositions">
 								<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
@@ -279,7 +282,7 @@
 	
 </div>
 
-
+<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
 <div class="modal fade" id="modal-edit-entry" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -310,6 +313,7 @@
 	</div>
   </div>
 </div>
+<?php }	?>
 
 <?php 
  if(!isset($_GET["renderPartial"])){

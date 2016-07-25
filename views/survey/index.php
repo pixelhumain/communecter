@@ -667,7 +667,7 @@
 
     </section>
 
-
+<?php  if( Authorisation::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentType"],$where["survey"]["parentId"]) ) { ?>
 <div class="modal fade" id="modal-create-proposal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -698,6 +698,7 @@
     </div>
   </div>
 </div>
+<?php } ?>
 
 <div class="space20"></div>
 
