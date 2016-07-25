@@ -17,13 +17,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 // else
 //   Menu::back() ;
 // $this->renderPartial('../default/panels/toolbar');
-$parent = null;
-if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
-if(@$room) $parent = $room;
-if(@$parentRoom) $parent = $parentRoom;
+// $parent = null;
+// if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
+// if(@$room) $parent = $room;
+// if(@$parentRoom) $parent = $parentRoom;
 
-//echo "parent"; var_dump($parent); return;
-if($parent == null) return;
+// //echo "parent"; var_dump($parent); return;
+// if($parent == null) return;
 
 ?>
 <div id="editActionContainer"></div>
@@ -50,11 +50,11 @@ var actionFormDefinition = {
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id']) && !@$mode) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($action['_id'])) ? $action['_id'] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+              "value" : "<?php echo ActionRoom::TYPE_ACTION?>"
             },
             "organizer" : {
               "inputType" : "hidden",
