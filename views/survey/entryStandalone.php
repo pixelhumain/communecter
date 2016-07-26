@@ -305,7 +305,7 @@
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    onclick="$('#form-edit-entry #btn-submit-form').click()">
+				    onclick="saveEditEntry()">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>
@@ -350,8 +350,7 @@ jQuery(document).ready(function() {
 });
 
 function saveEditEntry(){ 
-	alert("ouéoué");
-    $('#form-edit-entry #btn-submit-form').click();
+	$('#form-edit-entry #btn-submit-form').click();
 }
 
 function addaction(id,action)
@@ -474,7 +473,7 @@ function closeEntry(id)
 {
     console.warn("--------------- closeEntry ---------------------");
     
-      bootbox.confirm("Are you sure ? you cannot revert closing an entry. ",
+      bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer cette proposition ?</strong> (fermeture définitive) ",
           function(result) {
             if (result) {
               params = { 
@@ -493,7 +492,7 @@ function closeEntry(id)
 function move( type,destId ){
 	bootbox.hideAll();
 	console.warn("--------------- move ---------------------",type,destId);
-	bootbox.confirm("Vous êtes sûr ? ",
+	bootbox.confirm("<strong>Êtes-vous sûr de vouloir déplacer cette proposition ?</strong>",
       function(result) {
         if (result) {
 			$.ajax({
@@ -526,7 +525,4 @@ function move( type,destId ){
 	});
 }
 
-function saveEditEntry(){
-	$("#").modal("show");
-}
 </script>
