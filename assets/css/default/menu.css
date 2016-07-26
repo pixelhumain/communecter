@@ -4,8 +4,18 @@
     z-index: 1;
 }
 .menu-button-left{
-	font-size:15px;
+	font-size:16px;
 	margin-bottom:5px;
+	color:#3C5665;
+	font-weight:300;
+}
+.menu-button-left:hover{
+	color:#2BB0C6;
+}
+
+.menu-button-left.selected{
+	color:#2BB0C6;
+	font-weight: 600;
 }
 .main-menu-left hr{
 	margin-top:5px;

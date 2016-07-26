@@ -80,7 +80,7 @@
 	<?php } */ ?>
 
 	<a href="javascript:" class="menu-button menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
-		<i class="fa fa-university"></i>
+		<i class="fa fa-crosshairs"></i>
 		<span class="">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
 					   echo $cityNameCommunexion . ", " . $cpCommunexion;
@@ -102,42 +102,26 @@
 			<span class="lbl-btn-menu-name">S'inscrire</span>
 	</button>
 	<?php } */?>
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu2 text-dark <?php echo ($page == 'directory') ? 'selected':'';?>">
-			<!--<span class="fa-stack">
-				<i class="fa fa-university fa-stack-1x"></i>
-				<i class="fa fa-search fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	-->
-			<i class="fa fa-search"></i>
-			Rechercher
+	<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
+			<?php echo ($page == 'directory') ? 'selected':'';?>">
+			<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
 	</a><hr>
 
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu3 text-dark <?php echo ($page == 'agenda') ? 'selected':'';?>">
-			<!--<span class="fa-stack">
-				<i class="fa fa-university fa-stack-1x"></i>
-				<i class="fa fa-calendar fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	-->
-		<i class="fa fa-calendar"></i>
-		Agenda
+	<a href="javascript:loadByHash('#default.agenda')" class="menu-button menu-button-left menu-button-title btn-menu 
+		<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-angle-right"></i> <i class="fa fa-calendar"></i> Agenda
 	</a><hr>
 
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu4 text-dark <?php echo ($page == 'news') ? 'selected':'';?>" 
-			data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée">
-			<!--<span class="fa-stack">
-				<i class="fa fa-university fa-stack-1x"></i>
-				<i class="fa fa-rss fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	-->
-			<i class="fa fa-rss"></i>
-			Actualités
+	<a href="javascript:loadByHash('#default.news')" class="menu-button menu-button-left menu-button-title btn-menu
+			<?php echo ($page == 'news') ? 'selected':'';?>" >
+			<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
+			<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
 	</a><hr>
 	
 	<?php if(isset($cityCommunexion)) { ?>
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 text-dark" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
-			<!--<span class="fa-stack">
-				<i class="fa fa-university fa-stack-1x"></i>
-				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
-			</span>	-->
-			<i class="fa fa-gavel"></i>
-			Conseil citoyen</span>
+	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11" 
+	id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
+			<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen</span>
 	</a><hr>
 	<?php } ?>
 	
@@ -159,90 +143,6 @@
 		</button>
 	<?php } ?>
 </div>
-
-<div class="hover-menu HM-right-side hidden-xs">
-	<div class="main-menu-right">
-
-		<!--
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark text-white">
-				<i class="fa fa-bookmark fa-rotate-270"></i> 
-				<span class="lbl-btn-menu-name">Mon répertoire</span>
-		</button>
-		<?php } ?>
-
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu6 text-red" onclick="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')">
-				<i class="fa fa-group"></i>
-				<span class="lbl-btn-menu-name"><?php echo  ucfirst(strtolower(Yii::t("common","MY CITIZEN COUNCIL")));?></span>
-		</button>
-		<?php } ?>
-
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu7 text-red" onclick="javascript:loadByHash('#city.detail.insee.<?php echo $inseeCommunexion; ?>.postalCode.<?php echo $cpCommunexion; ?>')">
-				<i class="fa fa-university"></i>
-				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","MY CITY")));?></span>
-		</button>
-		<?php } ?>
-
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu8 text-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
-				<i class="fa fa-rss fa-rotate-270"></i>
-				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","My News Stream")));?></span>
-		</button>
-		<?php } ?>
-
-		<button class="menu-button menu-button-title btn-menu btn-menu9 text-dark" onclick="loadByHash('#news.index.type.pixels')">
-				<i class="fa fa-bullhorn"></i>
-				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "BUGS, IDEAS"))); ?></span></span>
-		</button>
-
-		<?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-	    <button class="menu-button menu-button-title menu-button-title btn-menu btn-menu10 text-dark <?php echo ($page == 'admin') ? 'selected':'';?>" onclick="loadByHash('#admin.index')" >
-				<i class="fa fa-cog"></i>
-				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "ADMIN"))); ?>
-					<?php if(@$newsToModerate){ ?>
-						<span class="badge count-to-moderate"><?php echo $newsToModerate; ?></span>
-					<?php } ?>
-				</span>
-		</button>
-		<?php } ?>
-		-->
-	</div>
-
-
-<?php if(isset(Yii::app()->session['userId']) && false){ ?>
-<button class="menu-button menu-button-title btn-menu btn-menu-add hidden-xs" onclick="">
-	<span class="lbl-btn-menu-name">Ajouter</span></span>
-	<i class="fa fa-plus-circle"></i>
-</button>
-
-<div class="drop-up-btn-add">
-
-	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="loadByHash('#person.invite');" >
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-user"></i>
-		<span class="lbl-btn-menu-name-add">inviter quelqu'un</span></span>
-	</button>
-	<button class="menu-button btn-menu btn-menu-add2 bg-green" onclick="loadByHash('#organization.addorganizationform');">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-group"></i>
-		<span class="lbl-btn-menu-name-add">une organisation</span></span>
-	</button>
-	<button class="menu-button btn-menu btn-menu-add3 bg-purple" onclick="loadByHash('#project.projectsv');">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-lightbulb-o"></i>
-		<span class="lbl-btn-menu-name-add">un projet</span></span>
-	</button>
-	<button class="menu-button btn-menu btn-menu-add4 bg-orange" onclick="loadByHash('#event.eventsv');">
-		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
-		<i class="fa fa-calendar"></i>
-		<span class="lbl-btn-menu-name-add">un événement</span></span>
-	</button>
-</div>
-<?php } ?>
-
-
 
 
 <style>
@@ -358,6 +258,18 @@ jQuery(document).ready(function() {
 	showMenuExplanation = false;
 	
 	bindEventMenu();
+	//$(".menu-button-left .fa-angle-right").hide(100);
+
+	$(".menu-button-left").mouseenter(function(){
+		$(this).addClass("active");
+	});
+	$(".menu-button-left").mouseout(function(){
+		$(this).removeClass("active");
+	});
+	$(".menu-button-left").click(function(){
+		$(".menu-button-left").removeClass("selected");
+		$(this).addClass("selected");
+	});
 
 });
 </script>

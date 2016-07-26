@@ -14,10 +14,10 @@
 	margin-top: -10px;
 	text-align: left;
 	/*padding: 3px;*/
-	-moz-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	-webkit-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	-o-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
+	-moz-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	-webkit-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	-o-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
 	z-index: 1;
 	border-radius: 0px;

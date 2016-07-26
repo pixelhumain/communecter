@@ -398,7 +398,9 @@
 
 </div>
 
-<?php $this->renderPartial('menu', array("page" => "accueil", "inseeCommunexion" => $inseeCommunexion, "cityNameCommunexion" => $cityNameCommunexion)); ?>
+<?php $this->renderPartial('menu', array("page" => "accueil", 
+										 "inseeCommunexion" => $inseeCommunexion, 
+										 "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
 
@@ -407,9 +409,7 @@
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php //if(!isset(Yii::app()->session['userId'])) 
-			$this->renderPartial("login_register"); 
-			?>
+	<?php $this->renderPartial("login_register"); ?>
 
 	
 </div>
@@ -421,38 +421,6 @@
 	}
 ?>
 
-
-
-<div class="modal fade" id="modal-launcher-menu" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-dark">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title text-left">
-        	<i class="fa fa-angle-down"></i> Menu principal
-        </h2>
-      </div>
-      <div class="modal-body no-padding">
-      	<div class="panel-body">
-			<div class="col-md-12 center">
-				<div class="col-md-4">
-					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
-				</div>
-				<div class="col-md-4">
-					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
-				</div>
-				<div class="col-md-4">
-					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-		</div>
-	  </div>
-	</div>
-  </div>
-</div>
 
 <script type="text/javascript">
 	
