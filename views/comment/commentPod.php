@@ -108,7 +108,10 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 							  "resize" => false,
 							  "contentId" => Document::IMG_PROFIL,
 							  "editMode" => $canComment,
-							  "image" => $images)); 
+							  "image" => $images,
+							   "parentType" => $parentType,
+							   "parentId" => $parentId, 
+)); 
 						}
 						echo "</div>";
 				
@@ -162,7 +165,7 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 								</span>
 							</a>
 						</li>
-					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 
+					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditItem(Yii::app()->session["userId"], Survey::COLLECTION, (String) $context["_id"]))) 
 								//|| ($context["type"] == ActionRoom::TYPE_ACTIONS && (Authorisation::canEditAction(Yii::app()->session["userId"], (String) $context["_id"])))  
 								) { ?>
 						<li role="presentation">

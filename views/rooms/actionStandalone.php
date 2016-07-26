@@ -123,8 +123,10 @@
 									  "type" => ActionRoom::COLLECTION_ACTIONS,
 									  "resize" => false,
 									  "contentId" => Document::IMG_PROFIL,
-									  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
-									  "image" => $images)); 
+									  "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],$parentType,$parentId),
+									  "image" => $images,
+									   "parentId" => $parentSpace['parentId'], 
+									   "parentType" => $parentSpace['parentType'])); 
 				?>
 				<div class="col-md-12 padding-10">
 					<?php if( @$action["tags"] ){ ?>

@@ -45,6 +45,7 @@
 											 "options"=>$options,
 											 "canComment"=>$canComment,
 											 "parentType"=>$parentType,
+											 "parentId" => $parentId, 
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,
 											 "canComment" => $canComment,

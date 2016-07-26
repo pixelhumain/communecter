@@ -150,7 +150,7 @@
 												  "type" => Survey::COLLECTION,
 												  "resize" => false,
 												  "contentId" => Document::IMG_PROFIL,
-												  "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId),
+												  "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],Survey::COLLECTION,$survey["_id"],$parentType,$parentId),
 												  "image" => $images)); 
 					
 					if(isset( Yii::app()->session["userId"]) && false)

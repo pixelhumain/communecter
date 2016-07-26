@@ -461,8 +461,10 @@ border: 1px solid #E4E4E4;
                                           "type" => ActionRoom::COLLECTION,
                                           "resize" => false,
                                           "contentId" => Document::IMG_PROFIL,
-                                          "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']),
-                                          "image" => $images)); 
+                                          "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],ActionRoom::COLLECTION,$room['_id'],$room['parentType'],$room['parentId']),
+                                          "image" => $images,
+                                          "parentType" => $room['parentType'],
+                                          "parentId" => $room['parentId'])); 
               ?>
             </div>
             

@@ -570,7 +570,9 @@
                                             "resize" => false,
                                             "contentId" => Document::IMG_PROFIL,
                                             "editMode" => @$canParticipate,
-                                            "image" => $images)); 
+                                            "image" => $images,
+                                            "parentType" => $parentType,
+                                            "parentId" => $parentId)); 
                 ?>
           </div>   
                 
