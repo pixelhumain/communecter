@@ -154,7 +154,7 @@ function editEntrySV () {
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editActionContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
+              //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
               "<form id='ajaxFormAction'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");

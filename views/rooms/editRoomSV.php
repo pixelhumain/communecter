@@ -71,7 +71,7 @@ function editRoomSV (roomObj) {
   console.warn("--------------- editEntrySV ---------------------");
   $("#editRoomsContainer").html("<div class=''>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
+              //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
               "<form id='ajaxFormRoom'></form>"+
               "<div class='space20'></div>"+
              //   "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 

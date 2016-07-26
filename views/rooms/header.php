@@ -277,7 +277,7 @@ createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activit
 //$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
 //if( in_array($where, array("rooms.action","survey.entry"))){
 	createModalRoom( array_merge($votes,$actions) ,$parentType, $parentId, 5, 
-					"Choisir un nouvel espace", "share-alt", "", "Aucun espace","move",$faTitle);
+					"Choisir un nouvel espace", "share-alt", "move", "Aucun espace","move",$faTitle);
 
 //}
 
@@ -354,7 +354,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 
 	echo 		'<div class="modal-footer">';
 	
-	if($typeNew != "history" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
+	if($typeNew != "history" && $typeNew != "move" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
 	echo		    '<button type="button" class="btn btn-default pull-left" onclick="javascript:selectRoomType(\''.$typeNew.'\')"
 						  data-dismiss="modal" data-toggle="modal" data-target="#modal-create-room">'.
 						'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace'.
