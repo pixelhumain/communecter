@@ -24,7 +24,7 @@
 ?>
 <?php if($contextType == "actionRooms"){ ?>
     <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de disscussion</span> 
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
       <?php //echo $context["name"]; ?>
     </h1> 
 <?php } ?>

@@ -166,7 +166,7 @@
 					</span>
 					<span class="text-azure">
 						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("rooms","Start date",null,Yii::app()->controller->module->id) ?> : 
+						<?php echo Yii::t("rooms","Start Date",null,Yii::app()->controller->module->id) ?> : 
 						<?php echo @$action["startDate"] ? date("d/m/y",$action["startDate"]) : "Indéfini" ?>
 					</span>
 					<br>
@@ -303,6 +303,7 @@ jQuery(document).ready(function() {
   
   	$('.box-vote').show()
 
+  	$('#form-edit-action #btn-submit-form').addClass("hidden");
   	/*.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});*/

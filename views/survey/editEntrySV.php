@@ -170,7 +170,7 @@ function editEntrySV () {
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+              //"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxFormEntry' enctype='multipart/form-data'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
