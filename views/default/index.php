@@ -384,13 +384,13 @@
 	</h1>
 
 
-	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" onclick="showFloopDrawer(true)"
-			data-toggle="tooltip" data-placement="left" title="Afficher mes contacts" alt="Carte">
-			<i class="fa fa-users"></i>
-	</button>
 	<button class="btn-menu btn-menu-top bg-white text-azure tooltips pull-right" id="btn-toogle-map"
 			data-toggle="tooltip" data-placement="left" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>
+	</button>
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" onclick="showFloopDrawer(true)"
+			data-toggle="tooltip" data-placement="left" title="Afficher mes contacts" alt="Carte">
+			<i class="fa fa-users"></i>
 	</button>
 	
 	<?php $this->renderPartial("short_info_profil"); ?> 
