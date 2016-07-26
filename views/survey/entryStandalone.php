@@ -121,18 +121,11 @@
 						<div class="box-ajaxTools">
 							
 							<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
-							<?php 
-								$hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || 
-											@$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || 
-											@$survey["voteDownCount"] ) ? true : false;
-								if (  !$hasVote )  { 
-							?>
 								<a class="tooltips btn btn-default  " href="javascript:" 
 								   data-toggle="modal" data-target="#modal-edit-entry"
 								   data-placement="bottom" data-original-title="Editer cette proposition">
 									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 								</a>
-							<?php } ?>
 								<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
 									data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
 								<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
