@@ -1,10 +1,23 @@
 <?php 
-	$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
-	   			    			  $me['address']['codeInsee'] : "";
 
-	$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
-	   			    			  $me['address']['postalCode'] : "";
+	$inseeCommunexion = "";
+	$cpCommunexion = "";
 
+	if( isset( Yii::app()->session['userId']) && !empty($me) ){
+		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
+		   			    			  $me['address']['codeInsee'] : "";
+
+		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
+		   			    			  $me['address']['postalCode'] : "";
+	}else{
+		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
+	   			    			  Yii::app()->request->cookies['inseeCommunexion']->value : "";
+	
+		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
+		   			    			  Yii::app()->request->cookies['cpCommunexion']->value : "";
+	}
+//var_dump($cpCommunexion); return;
+	if($cpCommunexion != "" && $inseeCommunexion != "")
 	$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 ?>
 
@@ -71,13 +84,19 @@ width: 100%;
 	<div class="menuSmallMenu">
 
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
-		<div class="col-md-6 col-sm-6 col-xs-6">
-			<a class="btn bg-red" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();"><i class="fa fa-sign-in"></i></a>
-			</br>Se Connecter
-		</div> 
-		<div class="col-md-6 col-sm-6 col-xs-6">
-			<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();"><i class="fa fa-plus-circle"></i></a>
-			</br>S'inscrire
+		<div class="col-md-4 col-sm-4 col-xs-4 center no-padding">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<a class="btn bg-red" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();">
+					<i class="fa fa-sign-in"></i>
+					</br>Se Connecter
+				</a>
+			</div> 
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();">
+					<i class="fa fa-plus-circle"></i>
+					</br>S'inscrire
+				</a>
+			</div> 
 		</div> 
 		<?php }  else { ?>
 		<div class="col-md-4 col-sm-4 col-xs-4 center no-padding">
@@ -101,7 +120,7 @@ width: 100%;
 		        <i class="fa fa-newspaper-o"></i> 
 		        <br/>Mon journal
 		    </a>
-		    <hr class="hidden-xs" style="border-top: 1px solid #575656;">
+		    <hr class="hidden-xs hidden" style="border-top: 1px solid #575656;">
 			<a class="btn bg-white hidden-xs" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 	            data-toggle="tooltip" data-placement="left" title="Mon journal" alt="Mon journal">
 		        <i class="fa fa-bullhorn"></i> 
@@ -120,7 +139,7 @@ width: 100%;
 
 			<div class="col-md-12 col-sm-12">
 			    
-				<?php if(!@$me["address"]["codeInsee"]){?>
+				<?php if(!isset($myCity)){?>
 					<div class="col-md-12 center">
 						<a class="btn bg-red" href="javascript:$('.btn-geoloc-auto').trigger('click');$.unblockUI();">
 							<i class="fa fa-university"></i>
@@ -144,6 +163,7 @@ width: 100%;
 					
 			</div>
 
+			<?php if(isset($myCity)){?>
 		    <div class="col-md-12 col-sm-12 padding-15">
 				<div class="col-md-4 col-sm-4 center">
 			    	<a class="btn bg-azure" href="loadByHash('#default.directory')" >
@@ -158,6 +178,7 @@ width: 100%;
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
+			<?php } ?>
 
 			<div class="col-md-12 col-sm-12 hidden-xs center" id="">
 	  			<hr style="border-top: 1px solid #575656;">

@@ -46,7 +46,7 @@ $voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$action);
   .color-btnvote-yellow{background-color: yellow;color: black;	padding: 8px;border-radius: 30px;}
   .color-btnvote-white{background-color: #FFF;color: black;	padding: 8px;border-radius: 30px;border: 1px solid #939393;}
   .color-btnvote-purple{background-color: #C1ABD4;color: black;	padding: 8px;border-radius: 30px;}
-  .color-btnvote-red{background-color: #db254e;color: black;		padding: 8px;border-radius: 30px;}
+  .color-btnvote-red{background-color: #db254e;color: black; padding: 8px;border-radius: 30px;}
 
   .msg-head-tool-vote{
   	width:100%;

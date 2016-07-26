@@ -375,7 +375,7 @@
 	<?php 
 		if(!isset($profilThumbImageUrl)) $profilThumbImageUrl = "";
 	 	if(!isset($me)) $me = "";
-	 	$this->renderPartial("menuSmall", array("me"=>$me,"profilThumbImageUrl"=>$profilThumbImageUrl)); 
+	 	$this->renderPartial("menuSmall", array("me"=>$me, "profilThumbImageUrl"=>$profilThumbImageUrl)); 
 	?> 
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
@@ -388,11 +388,14 @@
 			data-toggle="tooltip" data-placement="left" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>
 	</button>
-	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" onclick="showFloopDrawer(true)"
-			data-toggle="tooltip" data-placement="left" title="Afficher mes contacts" alt="Carte">
+	<?php if(isset(Yii::app()->session['userId'])){ ?>
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" 
+			onclick="showFloopDrawer(true)"
+			data-toggle="tooltip" data-placement="left" title="Afficher mes contacts" alt="Afficher mes contacts">
 			<i class="fa fa-users"></i>
 	</button>
-	
+	<?php } ?>
+
 	<?php $this->renderPartial("short_info_profil"); ?> 
 
 
@@ -814,7 +817,7 @@ function setScopeValue(btn){
 		setCookies(location.pathname);
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-		$(".lbl-btn-menu-name-city").html("<i class='fa fa-university'></i> " + cityNameCommunexion + ", " + cpCommunexion);
+		$(".lbl-btn-menu-name-city").html("<i class='fa fa-crosshairs'></i> " + cityNameCommunexion + ", " + cpCommunexion);
 		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 				
 		$("#btn-citizen-council-commun").attr("onclick", 'loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');

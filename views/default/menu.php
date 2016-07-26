@@ -68,18 +68,7 @@
 <div class="hidden-xs main-menu-left col-md-2 col-sm-2">
 	
 
-	<?php /* if(!isset(Yii::app()->session['userId'])){ ?>
-		<!-- <button class="menu-button btn-menu btn-login tooltips" data-toggle="tooltip" data-placement="right" title="Se connecter" alt="Se connecter">
-				<i class="fa fa-sign-in"></i>
-		</button> -->
-	<?php }else{ ?>
-			<button class="menu-button btn-menu btn-logout bg-red tooltips hidden-sm" data-toggle="tooltip" data-placement="right" title="Déconnection" alt="Se déconnecter">
-
-				<i class="fa fa-sign-out"></i>
-		</button>
-	<?php } */ ?>
-
-	<a href="javascript:" class="menu-button menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
+	<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-crosshairs"></i>
 		<span class="">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
@@ -88,20 +77,14 @@
 		</span>
 	</a><hr>
 
-	<?php if(!isset(Yii::app()->session['userId'])){ ?>
+	<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
 	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
 			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
 			<i class="fa fa-home"></i>
 	</button>
 	<?php } ?>
 	
-	<?php /*if(!isset(Yii::app()->session['userId'])){ ?>
-	<button class="menu-button menu-button-title btn-register btn-menu btn-menu1  <?php echo ($page == 'add') ? 'selected':'';?>" 
-			data-toggle="tooltip" data-placement="right" title="S'inscrire" alt="S'inscrire">
-			<i class="fa fa-plus-circle"></i>
-			<span class="lbl-btn-menu-name">S'inscrire</span>
-	</button>
-	<?php } */?>
+	
 	<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
 			<?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
@@ -136,7 +119,7 @@
 	</button> 
 	<input type="text" class="text-dark input-global-search visible-xs" id="input-global-search-xs" placeholder="rechercher ..."/>
 	<?php 
-	if(isset(Yii::app()->session['userId'])){ ?>
+	if(isset(Yii::app()->session['userId']) && false){ ?>
 		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
 		<span class="lbl-btn-menu-name">Ajouter</span></span>
 		<i class="fa fa-plus-circle"></i>
