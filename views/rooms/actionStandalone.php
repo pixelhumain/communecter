@@ -168,7 +168,7 @@
 					</span>
 					<span class="text-azure">
 						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("rooms","Start date",null,Yii::app()->controller->module->id) ?> : 
+						<?php echo Yii::t("rooms","Start Date",null,Yii::app()->controller->module->id) ?> : 
 						<?php echo @$action["startDate"] ? date("d/m/y",$action["startDate"]) : "Indéfini" ?>
 					</span>
 					<br>
@@ -191,8 +191,6 @@
 							$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
 							if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
 								echo $voteLinksAndInfos["links"]; 
-							else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
-								echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
 						?>
 					</div>
 					
@@ -204,7 +202,8 @@
 				<hr>
 			</div>
 			<div class="col-md-7 text-dark" style="font-size:15px">
-				<?php $action["urls"] = array('zeru hzeur gzzer ygzr zerzer', 'zeru hjghjzeur gzeyuhjghjghr gzerzgerghghjgrzer', 'zeru hzeur gzeyur gzerzghjghjghjghjzr zerzer'); if( @$action["urls"] ) { ?>
+				<?php
+				 if( @$action["urls"] ) { ?>
 					<h3 class="label label-info">
 						<i class="fa fa-angle-down"></i> 
 						Informations complémentaires :
@@ -305,6 +304,7 @@ jQuery(document).ready(function() {
   
   	$('.box-vote').show()
 
+  	$('#form-edit-action #btn-submit-form').addClass("hidden");
   	/*.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
 	});*/

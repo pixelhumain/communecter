@@ -12,10 +12,7 @@
 <?php
 	$admin = false;
 	if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
-		if($openEdition==true)
-			$admin=$openEdition;
-		else
-			$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
+		$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
 	}
 ?>
 <div class="row">

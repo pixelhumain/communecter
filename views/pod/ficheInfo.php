@@ -125,15 +125,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-			 && $edit) { 
+		<?php
+		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+			 && ($edit || $openEdition)) { 
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 				<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>-->
 				
-				<?php 
-				$membersAdmin = Organization::getMembersByOrganizationId($organization["_id"], null,"isAdmin") ;
-				if(!empty($membersAdmin)){ ?>
+				<?php if($edit == true){ ?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
 					<span class="hidden-sm hidden-xs">
@@ -144,13 +143,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				}
 				if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $organization["_id"] ?>','<?php echo Organization::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityHistory","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
-				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+			<?php } 
 
-		<?php } 
+			if($edit == true){?>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php 
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
-		<?php } ?>
+		<?php }  } } ?>
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
