@@ -202,7 +202,8 @@
 				<hr>
 			</div>
 			<div class="col-md-7 text-dark" style="font-size:15px">
-				<?php $action["urls"] = array('zeru hzeur gzzer ygzr zerzer', 'zeru hjghjzeur gzeyuhjghjghr gzerzgerghghjgrzer', 'zeru hzeur gzeyur gzerzghjghjghjghjzr zerzer'); if( @$action["urls"] ) { ?>
+				<?php
+				 if( @$action["urls"] ) { ?>
 					<h3 class="label label-info">
 						<i class="fa fa-angle-down"></i> 
 						Informations complémentaires :
