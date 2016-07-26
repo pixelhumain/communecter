@@ -395,21 +395,38 @@ button.btn-menu-notif{
 	color:#2BB0C6 !important;
 }
 
-button#btn-toogle-map{
+button#btn-show-floopdrawer{
 	/*right: -31px;*/
-	font-size: 24px;
+	font-size: 22px;
 	width: 45px;
-	height: 51px;
+	height: 50px;
 	padding: 5px;
 	top: 0px;
 	/*position: absolute !important;*/
 	border-radius: 0px 0px 0px 0px;
 	z-index: 15;
 	border: 0;
-	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	/*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;*/
+}
+button#btn-toogle-map{
+	/*right: -31px;*/
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	/*position: absolute !important;*/
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
+	/*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;*/
 }
 button.main-btn-toogle-map{
 	font-size: 24px;

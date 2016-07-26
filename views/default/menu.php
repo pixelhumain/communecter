@@ -48,9 +48,6 @@
 		
 		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 	}
-
-	
-
 ?>
 
 <style>
@@ -64,7 +61,7 @@
 </style>
 
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
-	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
+	<?php //echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
 
 
@@ -82,12 +79,12 @@
 		</button>
 	<?php } */ ?>
 
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
+	<a href="javascript:" class="menu-button menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
 		<i class="fa fa-university"></i>
 		<span class="">
 			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-					   echo '<span class="lbl-btn-menu-name hidden-sm">'.$cityNameCommunexion . ", </span>" . $cpCommunexion;
-				}else{ echo "<span class='lbl-btn-menu-name'>Communectez-moi</span>"; } ?>
+					   echo $cityNameCommunexion . ", " . $cpCommunexion;
+				}else{ echo "Communectez-moi"; } ?>
 		</span>
 	</a><hr>
 
@@ -166,6 +163,7 @@
 <div class="hover-menu HM-right-side hidden-xs">
 	<div class="main-menu-right">
 
+		<!--
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		<button class="menu-button menu-button-title btn-menu btn-menu5 bg-dark text-white">
 				<i class="fa fa-bookmark fa-rotate-270"></i> 
@@ -209,10 +207,11 @@
 				</span>
 		</button>
 		<?php } ?>
+		-->
 	</div>
 
 
-<?php if(isset(Yii::app()->session['userId'])){ ?>
+<?php if(isset(Yii::app()->session['userId']) && false){ ?>
 <button class="menu-button menu-button-title btn-menu btn-menu-add hidden-xs" onclick="">
 	<span class="lbl-btn-menu-name">Ajouter</span></span>
 	<i class="fa fa-plus-circle"></i>
@@ -242,6 +241,7 @@
 	</button>
 </div>
 <?php } ?>
+
 
 
 
@@ -355,7 +355,7 @@ var urlLogout = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person
 jQuery(document).ready(function() {
 
 	//realTimeKKBB();
-	
+	showMenuExplanation = false;
 	
 	bindEventMenu();
 

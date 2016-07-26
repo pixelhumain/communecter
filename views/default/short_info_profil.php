@@ -11,6 +11,7 @@
       $profilThumbImageUrl = Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"];
     else
       $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
+    $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
   }
 ?>
 

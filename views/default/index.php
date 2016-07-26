@@ -102,8 +102,9 @@
 			}
 		}
 		
-		if(!empty($me['profilThumbImageUrl']))
-          $profilThumbImageUrl = Yii::app()->createUrl($me['profilThumbImageUrl']);
+		if(!empty($me['profilMediumImageUrl'])) //error_log("image : ". $me['profilMediumImageUrl']);
+		if(!empty($me['profilMediumImageUrl'])) 
+          $profilThumbImageUrl = Yii::app()->createUrl($me['profilMediumImageUrl']);
         else
           $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
@@ -355,13 +356,18 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding">
 	
+	<a class="pull-left" href="javascript:openMenuSmall();"  id="main-btn-co">
+		<!-- <i class="fa fa-bars"></i> -->
+		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
+	</a>
+	
 	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a class="pull-left" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
+	<a class="pull-left hidden" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
 		<!--<h1 class="homestead text-dark no-margin padding-15"><span class="text-red">COMMUNE</span>CTER</h1>-->
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php }else{ ?> 
-	<a class="pull-left" href="javascript:loadByHash('#default.home')" class="hidden-xs" >
+	<a class="pull-left hidden"  href="javascript:loadByHash('#default.home')" class="hidden-xs" >
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php } ?>
@@ -374,14 +380,19 @@
 	
 	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
 		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
-		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu">L'Annuaire</span> <span class="text-red">COMMUNE</span>CTÉ</h1>
+		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu"></span> <span class="text-red">COMMUNE</span>CTER
+	</h1>
 
 
-	<button class="btn-menu btn-menu-top bg-azure tooltips pull-right" id="btn-toogle-map"
-			data-toggle="tooltip" data-placement="right" title="Carte" alt="Carte">
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" onclick="showFloopDrawer(true)"
+			data-toggle="tooltip" data-placement="left" title="Afficher mes contacts" alt="Carte">
+			<i class="fa fa-users"></i>
+	</button>
+	<button class="btn-menu btn-menu-top bg-white text-azure tooltips pull-right" id="btn-toogle-map"
+			data-toggle="tooltip" data-placement="left" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>
 	</button>
-
+	
 	<?php $this->renderPartial("short_info_profil"); ?> 
 
 
@@ -411,6 +422,37 @@
 ?>
 
 
+
+<div class="modal fade" id="modal-launcher-menu" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title text-left">
+        	<i class="fa fa-angle-down"></i> Menu principal
+        </h2>
+      </div>
+      <div class="modal-body no-padding">
+      	<div class="panel-body">
+			<div class="col-md-12 center">
+				<div class="col-md-4">
+					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
+				</div>
+				<div class="col-md-4">
+					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
+				</div>
+				<div class="col-md-4">
+					<a class="btn-item-launcher" href=""><i class="fa fa-home"></i><br>Accueil</a>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
 
 <script type="text/javascript">
 	
@@ -652,7 +694,7 @@ function resizeInterface()
   var height = $("#mapCanvasBg").height() - 55;
   $("#ajaxSV").css({"minHeight" : height});
   //$("#menu-container").css({"minHeight" : height});
-  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 77 /* top */ + 30 /* bottom */;
+  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 60 /* top */ + 0 /* bottom */;
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
@@ -804,8 +846,8 @@ function setScopeValue(btn){
 		setCookies(location.pathname);
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-		$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-		$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
+		$(".lbl-btn-menu-name-city").html("<i class='fa fa-university'></i> " + cityNameCommunexion + ", " + cpCommunexion);
+		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 				
 		$("#btn-citizen-council-commun").attr("onclick", 'loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
 				
@@ -1028,7 +1070,7 @@ function showInputCommunexion(){
 	$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200 );
 	
 	$("#input-communexion").show(300);
-	$(".main-col-search").animate({ opacity:0.3 }, 200 );
+	//$(".main-col-search").animate({ opacity:0.3 }, 200 );
 	$(".hover-info").hide();
 }
 

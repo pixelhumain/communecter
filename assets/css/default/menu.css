@@ -423,3 +423,45 @@ button.btn-menu10{
 	font-size: 18px;
 	height: 37px;
 }
+
+#btn-launcher-menu{
+	width:50px;
+	height:50px;
+}
+
+#modal-launcher-menu .modal-dialog {
+    width: 70%;
+}
+#modal-launcher-menu .modal-header{
+	
+}
+#modal-launcher-menu .btn-item-launcher{
+	font-size: 15px;
+	font-family: homestead;
+}
+#modal-launcher-menu .btn-item-launcher i.fa{
+	background-color: rgb(192, 218, 218);
+    border-radius: 50px;
+    padding: 7px;
+}
+
+.menuSmallBlockUI{
+	z-index: 1011 !important;
+	position: fixed !important;
+	padding: 15px !important;
+	margin: 0px !important;
+	text-align: center !important;
+	color: rgb(255, 255, 255) !important;
+	border: medium none !important;
+	border-radius: 3px !important;
+	background-color: rgba(18, 18, 18, 0.88) !important;
+	cursor: unset !important;
+	top: 50px !important;
+	bottom: 0px !important;
+	width: 83.333333% !important;
+	left: 16.66666667% !important;
+	
+}
+.menuSmallMenu .thumbnail{
+	margin-bottom:0px !important;
+}
