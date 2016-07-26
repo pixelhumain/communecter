@@ -189,8 +189,6 @@
 							$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
 							if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
 								echo $voteLinksAndInfos["links"]; 
-							else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
-								echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
 						?>
 					</div>
 					
