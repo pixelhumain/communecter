@@ -7,10 +7,7 @@
 <?php 
 	if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])) {
 		if(!isset($organization["disabled"])) {
-			if($openEdition==true)
-				$admin=true;
-			else 
-				$admin=Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]);
+			$admin=Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]);
 		}else 
 			$admin=false;
 	}
