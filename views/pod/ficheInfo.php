@@ -125,7 +125,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+		<?php
+		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
 			 && ($edit || $openEdition)) { 
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>

@@ -204,15 +204,18 @@ progress[value]::-moz-progress-bar {
 		<?php if ($isAdmin || $openEdition){ ?>
 			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>-->
-			<?php if(!empty(Project::getContributorsByProjectId($project["_id"], null,"isAdmin"))){ ?>
+			<?php }
+
+			if($isAdmin){ ?>
 			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 				<i class='fa fa-cog'></i> 
 				<span class="hidden-sm hidden-xs">
 				<?php echo Yii::t("common","Settings"); ?>
 				</span>
 			</a>
-		<?php }} ?>
-		<?php if ($openEdition) { ?>
+		<?php }
+		
+			if ($openEdition) { ?>
 			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
 		<style type="text/css">

@@ -156,23 +156,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<div class="navigator padding-0 text-right">
 		<div class="panel-tools">
 		<?php 
-			if($edit){
-		?>
-
-			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			if($edit || $openEdition ){ ?>
+				<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
-			<?php if(!empty(Event::getAttendeesByEventId($event["_id"], null,"isAdmin"))){ ?>
-			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètres de confidentialité" alt="">
-				<i class='fa fa-cog'></i> 
-				<span class="hidden-sm hidden-xs">
-				<?php echo Yii::t("common","Settings"); ?>
-				</span>
-			</a>
+		<?php }
+
+			if($edit){ ?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètres de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Settings"); ?>
+					</span>
+				</a>
 			<!--<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>-->
-    		<?php }} ?>
-    		<?php if ($openEdition==true) { ?>
+    	<?php } 
+
+    		if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
+		<?php } ?>
 			<style type="text/css">
 				.badgePH{ 
 					cursor: pointer;
