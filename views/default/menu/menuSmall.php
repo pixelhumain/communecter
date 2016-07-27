@@ -190,8 +190,7 @@ width: 100%;
 								?>')" 
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
-							<span class="hidden-xs">Mon c</span>
-							<span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
+							<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
 						</a>
 					</div>
 				<?php } ?>
@@ -206,25 +205,31 @@ width: 100%;
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
 						<i class="fa fa-user"></i><br>
-						<span class="lbl-btn-menu-name-add">quelqu'un</span>
+						<span class="lbl-btn-menu-name-add">Quelqu'un</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
 						<i class="fa fa-group"></i><br>
-						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">une </span>organisation</span>
+						<span class="lbl-btn-menu-name-add">
+							<span class="hidden-xs">Une o</span><span class="hidden-sm hidden-md hidden-lg">O</span>rganisation
+						</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
 						<i class="fa fa-lightbulb-o"></i><br>
-						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">un </span> projet</span>
+						<span class="lbl-btn-menu-name-add">
+							<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet
+						</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
 						<i class="fa fa-calendar"></i><br>
-						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">un </span> événement</span>
+						<span class="lbl-btn-menu-name-add">
+							<span class="hidden-xs">Un é</span><span class="hidden-sm hidden-md hidden-lg">É</span>vénement
+						</span>
 					</a>
 				</div>
 
