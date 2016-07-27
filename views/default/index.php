@@ -142,14 +142,14 @@
 
 
 
-<?php $this->renderPartial('menuCommunexion'); ?>
+<?php $this->renderPartial('./menu/menuCommunexion'); ?>
 
 <?php if(!isset($me)) $me=""; 
-	  $this->renderPartial('menuTop', array("me" => $me)); ?>
+	  $this->renderPartial('./menu/menuTop', array("me" => $me)); ?>
 
-<?php $this->renderPartial('menu', array("page" => "accueil", 
-										 "inseeCommunexion" => $inseeCommunexion, 
-										 "cityNameCommunexion" => $cityNameCommunexion)); ?>
+<?php $this->renderPartial('./menu/menuLeft', array("page" => "accueil", 
+												 "inseeCommunexion" => $inseeCommunexion, 
+												 "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
 

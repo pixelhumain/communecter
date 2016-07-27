@@ -11,21 +11,17 @@
 		   			    			  $me['address']['postalCode'] : "";
 	}else{
 		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
-	   			    			  Yii::app()->request->cookies['inseeCommunexion']->value : "";
+	   			    			  	  Yii::app()->request->cookies['inseeCommunexion']->value : "";
 	
 		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
 		   			    			  Yii::app()->request->cookies['cpCommunexion']->value : "";
 	}
-//var_dump($cpCommunexion); return;
+
 	if($cpCommunexion != "" && $inseeCommunexion != "")
 	$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 ?>
 
-<!-- <div class="dropdown pull-left hidden-md hidden-lg hidden-sm " style="margin-top: 10px; margin-right: 10px;">
-	<a href="javascript:openMenuSmall();" class=" application-menu text-dark" >
-	  <i class="fa fa-bars fa-2x"></i>
-	</a>
-</div> -->
+
 <style type="text/css">
 .menuSmallMenu{
 width: 100%;
@@ -70,7 +66,7 @@ width: 100%;
 @media screen and (max-width: 1024px) {
 
 	.menuSmallMenu a, .lbl-btn-menu-name-add{
-		font-size: 12px;
+		font-size: 14px;
 	}
 }
 @media screen and (max-width: 767px) {
@@ -140,7 +136,8 @@ width: 100%;
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
+			    <a class="btn bg-dark" 
+			    	href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
 			        <i class="fa fa-comments"></i> <i class="fa fa-gavel"></i> <i class="fa fa-cogs"></i> 
 			        <br/>Coopération
 			    </a>
@@ -179,23 +176,27 @@ width: 100%;
 						</a>
 					</div> 
 				<?php } else { ?>
-					<div class="col-md-6 col-sm-6 center">
-						<a class="btn bg-red" href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>'')" 
+					<div class="col-md-6 col-sm-6 col-xs-12 center">
+						<a class="btn bg-red" 
+							href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')" 
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
 						</a>
 					</div>
-					<div class="col-md-6 col-sm-6 center">
-						<a class="btn bg-red" href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>'')" 
+					<div class="col-md-6 col-sm-6 col-xs-12 center">
+						<a class="btn bg-red" 
+							href="javascript:loadByHash('#city.detail.insee.<?php 
+								echo $myCity["insee"]; ?>.postalCode.<?php echo $myCity["cp"]; 
+								?>')" 
 							id="btn-menu-dropdown-my-city">
-							<i class="fa fa-connectdevelop"></i><br class="hidden-xs"><span class="hidden-xs">Mon </span>Conseil citoyen
+							<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
+							<span class="hidden-xs">Mon c</span>
+							<span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
 						</a>
 					</div>
 				<?php } ?>
-					
 			
-
-				<div class="col-md-12 col-sm-12 no-padding">
+				<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
 					<hr style="border-top: 1px solid #575656; margin:7px;">
 					<h2 class="homestead text-white">
 						<i class="fa fa-plus-circle"></i> Ajouter 
@@ -227,7 +228,7 @@ width: 100%;
 					</a>
 				</div>
 
-				<div class="col-md-12 col-sm-12 no-padding">
+				<div class="col-md-12 col-sm-12 col-xs-12  no-padding">
 					<hr style="border-top: 1px solid #575656; margin:7px;">
 					<h2 class="homestead text-white">
 						Comprendre et aider 
@@ -235,14 +236,16 @@ width: 100%;
 					</h2>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+					<a class="btn bg-dark" href="javascript:" 
+						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
 				        <i class="fa fa-file"></i> 
 				        <br/>Documentation
 				    </a>
 			    </div>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+					<a class="btn bg-dark" href="javascript:" 
+						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Signaler un bug">
 				        <i class="fa fa-bullhorn"></i> 
 				        <br/>Signaler un bug
@@ -250,9 +253,7 @@ width: 100%;
 			    </div>
 			    
 			</div>
-
-		   </div>
-		</div>
-		
-
+			
+	   	</div>
+	</div>
 </div>

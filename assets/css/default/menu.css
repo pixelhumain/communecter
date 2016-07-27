@@ -29,14 +29,14 @@
 
 .lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: none;
-	font-size: 14px;
+	font-size: 15px !important;
 	text-align: left;
 	padding: 0px;
 	border-radius: 26px;
 	z-index: 0;
 	width: 100px;
 	font-weight: 300;
-	font-family: "homestead";
+	/*font-family: "homestead";*/
 }
 .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: inline;

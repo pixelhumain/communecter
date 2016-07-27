@@ -121,7 +121,7 @@
 
 <?php 
 	if(!isset($me)) $me = "";
- 	$this->renderPartial("menuSmall", array("me"=>$me)); 
+ 	$this->renderPartial("./menu/menuSmall", array("me"=>$me)); 
 ?> 
 
 <div class="visible-xs" id="menu-bottom">
@@ -225,7 +225,7 @@ text-align: center;
 
 
 <?php //} ?>
-<!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php echo ($page == 'agenda') ? 'selected':'';?>" 
+<!-- <button class="menu-button btn-menu btn-menu6 tooltips <?php //echo ($page == 'agenda') ? 'selected':'';?>" 
 		data-toggle="tooltip" data-placement="left" title="Ma messagerie" alt="Ma messagerie">
 	<i class="fa fa-envelope"></i>
 </button> -->
