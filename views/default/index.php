@@ -110,6 +110,16 @@
 	}
 
 ?>
+<style>
+	.my-main-container{
+		min-height:1000px;
+	}
+
+	.main-col-search{
+		min-height:1000px;
+		padding-right:15px;
+	}
+</style>
 
 <div id="mainMap">
 	<?php 

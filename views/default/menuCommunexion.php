@@ -59,21 +59,6 @@
 	}*/
 
 
-	.my-main-container{
-		min-height:1000px;
-	}
-
-	.main-col-search{
-		min-height:1000px;
-		padding-right:65px;
-	}
-
-	
-
-	.blockUI.blockMsg.blockPage{
-		/*display:none !important;*/
-	}
-
 	.btn-start-new-communexion{
 	    position: absolute;
 	    bottom: 62px;
