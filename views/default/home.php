@@ -593,7 +593,7 @@ jQuery(document).ready(function() {
 
 	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.org");
+	$(".moduleLabel").html("Accueil");
 
 	$('.tooltips').tooltip();
 

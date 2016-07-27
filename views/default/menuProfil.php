@@ -1,3 +1,9 @@
+
+<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
+          $profilThumbImageUrl = Person::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+      }
+?>
+
 <div class="dropdown pull-right hidden-xs">
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
     <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >

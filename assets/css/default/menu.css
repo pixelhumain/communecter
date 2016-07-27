@@ -1,10 +1,10 @@
 .main-menu-left{
 	position: fixed !important;
-    top: 80px;
+    top: 70px;
     z-index: 1;
 }
 .menu-button-left{
-	font-size:16px;
+	font-size:15px;
 	margin-bottom:5px;
 	color:#3C5665;
 	font-weight:300;
@@ -21,6 +21,10 @@
 	margin-top:5px;
 	margin-bottom:5px;
 	border-top: 1px solid #d4d4d4 !important;
+}
+
+.moduleLabel{
+	margin-left:0px !important;
 }
 
 .lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
@@ -179,7 +183,7 @@
 #input-communexion .search-loader{
 	position: absolute;
 	left: 170px;
-	bottom: 35px;
+	bottom: 105px;
 	font-weight: 600;
 	font-size: 14px;
 	overflow: hidden;
@@ -470,7 +474,7 @@ button.btn-menu10{
 	bottom: 0px !important;
 	width: 83.333333% !important;
 	left: 16.66666667% !important;
-	
+	overflow-y: auto;
 }
 .menuSmallMenu .thumbnail{
 	margin-bottom:0px !important;

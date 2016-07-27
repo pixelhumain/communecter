@@ -440,25 +440,6 @@ button.main-btn-toogle-map{
     right: 10px;
 }
 
-#logo-main-menu{
-	float:left;
-	font-size: 24px;
-	width: 45px;
-	height: 50px;
-	padding: 5px;
-	top: 0px;
-	z-index: 15;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	/*margin-left: -40px;
-	border-radius: 0px 0px 0px 10px !important;*/
-	background-color: rgb(255, 255, 255);
-	display: inline;
-	margin-right: 10px;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-}
 button.btn-activate-communexion{
 	font-size: 18px;
 	position: absolute;

@@ -67,47 +67,63 @@
 
 <div class="hidden-xs main-menu-left col-md-2 col-sm-2">
 	
-
-	<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto hidden-sm" id="btn-geoloc-auto-menu">
-		<i class="fa fa-crosshairs"></i>
-		<span class="">
-			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-					   echo $cityNameCommunexion . ", " . $cpCommunexion;
-				}else{ echo "Communectez-moi"; } ?>
-		</span>
-	</a><hr>
-
-	<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
-			data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
-			<i class="fa fa-home"></i>
-	</button>
-	<?php } ?>
 	
-	
-	<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
-			<?php echo ($page == 'directory') ? 'selected':'';?>">
-			<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
-	</a><hr>
 
-	<a href="javascript:loadByHash('#default.agenda')" class="menu-button menu-button-left menu-button-title btn-menu 
-		<?php echo ($page == 'agenda') ? 'selected':'';?>">
-			<i class="fa fa-angle-right"></i> <i class="fa fa-calendar"></i> Agenda
-	</a><hr>
+	<div class="menu-left-container">
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Communauté
+		</a>
+		<hr><br>
+		<?php } ?>
 
-	<a href="javascript:loadByHash('#default.news')" class="menu-button menu-button-left menu-button-title btn-menu
-			<?php echo ($page == 'news') ? 'selected':'';?>" >
-			<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
-			<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
-	</a><hr>
-	
-	<?php if(isset($cityCommunexion)) { ?>
-	<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11" 
-	id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
-			<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen</span>
-	</a><hr>
-	<?php } ?>
-	
+		<h1 class="homestead text-dark no-padding hidden moduleLabel" id="main-title"
+			style="font-size:18px;margin-bottom: 0px; display: inline-block;">
+			<span id="main-title-menu"></span> <span class="text-red">COMMUNE</span>CTER
+		</h1>
+		
+		<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
+			id="btn-geoloc-auto-menu">
+			<i class="fa fa-crosshairs"></i>
+			<span class="">
+				<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
+						   echo $cityNameCommunexion . ", " . $cpCommunexion;
+					}else{ echo "Communectez-moi"; } ?>
+			</span>
+		</a><hr>
+
+		<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
+		<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
+				data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
+				<i class="fa fa-home"></i>
+		</button>
+		<?php } ?>
+		
+		
+		<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
+		</a><hr>
+
+		<a href="javascript:loadByHash('#default.agenda')" class="menu-button menu-button-left menu-button-title btn-menu 
+			<?php echo ($page == 'agenda') ? 'selected':'';?>">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-calendar"></i> Agenda
+		</a><hr>
+
+		<a href="javascript:loadByHash('#default.news')" class="menu-button menu-button-left menu-button-title btn-menu
+				<?php echo ($page == 'news') ? 'selected':'';?>" >
+				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
+				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
+		</a><hr>
+		
+		<?php if(isset($cityCommunexion)) { ?>
+		<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11" 
+		id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen</span>
+		</a><hr>
+		<?php } ?>
+	</div>
 	<?php echo $this->renderPartial('version'); ?>
 	
 </div>
@@ -210,17 +226,6 @@ text-align: center;
 		</div>
 	</div>
 </div>
-
-<div id="iframe-kkbb" class="hidden">
-	<?php 
-		// $kkbb_html = file_get_contents("http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/widget"); 
-		// $start = strpos($kkbb_html, "<div class='widget'>");
-		// $end = strpos($kkbb_html, "<div class='goal'>", $start);
-		// $kkbb_html = substr($kkbb_html, $start, $end-$start)."</div>";
-		// echo $kkbb_html;
-	?>
-</div>
-
 
 
 <?php //} ?>
