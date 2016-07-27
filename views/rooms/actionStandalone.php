@@ -175,7 +175,7 @@
 					<?php if( @$action["dateEnd"] ){ ?>
 					<span class="text-red">
 						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("rooms","End date",null,Yii::app()->controller->module->id) ?> :
+						<?php echo Yii::t("rooms","End Date",null,Yii::app()->controller->module->id) ?> :
 						<?php echo @$action["dateEnd"] ? date("d/m/y",$action["dateEnd"]) : "Indéfini" ?>
 					</span>
 					<br><hr>
