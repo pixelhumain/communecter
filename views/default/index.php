@@ -553,7 +553,7 @@ function setScopeValue(btn){
 		setCookies(location.pathname);
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-		$(".lbl-btn-menu-name-city").html("<i class='fa fa-crosshairs'></i> " + cityNameCommunexion + ", " + cpCommunexion);
+		$(".lbl-btn-menu-name-city").html("<i class='fa fa-crosshairs'></i> " + cityNameCommunexion);// + ", " + cpCommunexion);
 		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 				
 		$("#btn-citizen-council-commun").attr("onclick", 'loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
@@ -564,9 +564,9 @@ function setScopeValue(btn){
 
 		selectScopeLevelCommunexion(levelCommunexion);
 
-  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
+  		$(".menu-left-container .visible-communected").show(400);
   		if(!userId)
-  		$(".btn-menu9").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
+  		$(".btn-geoloc-auto").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
   		//loadByHash('#rooms.index.type.cities.id.<?php if(isset($myCity)) echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>'
 	
 		Sig.clearMap();

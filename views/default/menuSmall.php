@@ -108,7 +108,7 @@ width: 100%;
 			</div> 
 		</div> 
 		<?php }  else { ?>
-		<div class="col-md-3 col-sm-3 col-xs-4 center margin-top-15">
+		<div class="col-md-3 col-sm-3 col-xs-12 center margin-top-15">
 			<div class="col-md-12 col-sm-12 no-padding">
 				<a class="no-border" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
 					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
@@ -117,58 +117,53 @@ width: 100%;
 				</a>
 			</div>
 
-			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-					<a class="btn bg-dark visible-xs" href="javascript:" 
-						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-			            data-toggle="tooltip" data-placement="left" title="Notifications">
-				        <i class="fa fa-bell"></i> 
-				        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
-			        		  style="position:relative; top:-2px; left:unset;">
-			        		<?php count($this->notifications); ?>
-				        </span>
-				        <br/>Notifications
-				    </a>
-				</div>
-			    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-				    <a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-			            data-toggle="tooltip" data-placement="left" title="Mon journal">
-				        <i class="fa fa-newspaper-o"></i> 
-				        <br/>Mon journal
-				    </a>
-			    </div>
-			    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-				    <a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-			            data-toggle="tooltip" data-placement="left" title="L'actualité de mon réseau">
-				        <i class="fa fa-rss"></i> 
-				        <br/>Communautés
-				    </a>
-			    </div>
-			    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-				    <a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-			            data-toggle="tooltip" data-placement="left" title="L'actualité de mon réseau">
-				        <i class="fa fa-comments"></i> <i class="fa fa-gavel"></i> <i class="fa fa-cogs"></i> 
-				        <br/>Coopération
-				    </a>
-			    </div>
+			<div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+				<a class="btn bg-dark visible-xs" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
+			        <i class="fa fa-bell"></i> 
+			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
+		        		  style="position:relative; top:-2px; left:unset;">
+		        		<?php count($this->notifications); ?>
+			        </span>
+			        <br/>Notifications
+			    </a>
+			</div>
+		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			    <a class="btn bg-dark" href="javascript:loadByHash('#default.directory')">
+			        <i class="fa fa-newspaper-o"></i> 
+			        <br/>Mon journal
+			    </a>
+		    </div>
+		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			    <a class="btn bg-dark" href="javascript:loadByHash('#default.directory')">
+			        <i class="fa fa-rss"></i> 
+			        <br/>Communautés
+			    </a>
+		    </div>
+		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			    <a class="btn bg-dark" href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
+			        <i class="fa fa-comments"></i> <i class="fa fa-gavel"></i> <i class="fa fa-cogs"></i> 
+			        <br/>Coopération
+			    </a>
+		    </div>
 			   
 		</div>
 		<?php } ?>	
 		
 
-	  	<div class="col-md-9 col-sm-9 col-xs-8 no-padding">
+	  	<div class="col-md-9 col-sm-9 col-xs-12 no-padding">
 
 	  		<?php if(isset($myCity)){?>
-		    <div class="col-md-12 col-sm-12 margin-15 hidden-xs">
+		    <div class="col-md-12 col-sm-12 margin-15">
 				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure" href="loadByHash('#default.directory')" >
+			    	<a class="btn bg-azure" href="javascript:loadByHash('#default.directory')" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.agenda')" >
+					<a class="btn bg-azure" href="javascript:loadByHash('#default.agenda')" >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
 				</div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.news')" >
+					<a class="btn bg-azure" href="javascript:loadByHash('#default.news')" >
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
@@ -202,42 +197,42 @@ width: 100%;
 
 				<div class="col-md-12 col-sm-12 no-padding">
 					<hr style="border-top: 1px solid #575656; margin:7px;">
-					<h1 class="homestead text-white">
+					<h2 class="homestead text-white">
 						<i class="fa fa-plus-circle"></i> Ajouter 
 						<i class="fa fa-angle-down"></i> 
-					</h1>
+					</h2>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:" class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+					<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
 						<i class="fa fa-user"></i><br>
 						<span class="lbl-btn-menu-name-add">quelqu'un</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:" class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+					<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
 						<i class="fa fa-group"></i><br>
-						<span class="lbl-btn-menu-name-add">une organisation</span>
+						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">une </span>organisation</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:" class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+					<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
 						<i class="fa fa-lightbulb-o"></i><br>
-						<span class="lbl-btn-menu-name-add">un projet</span>
+						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">un </span> projet</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:" class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+					<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
 						<i class="fa fa-calendar"></i><br>
-						<span class="lbl-btn-menu-name-add">un événement</span>
+						<span class="lbl-btn-menu-name-add"><span class="hidden-xs">un </span> événement</span>
 					</a>
 				</div>
 
 				<div class="col-md-12 col-sm-12 no-padding">
 					<hr style="border-top: 1px solid #575656; margin:7px;">
-					<h1 class="homestead text-white">
-						<i class="fa fa-plus-circle"></i> Comprendre et aider 
+					<h2 class="homestead text-white">
+						Comprendre et aider 
 						<i class="fa fa-angle-down"></i> 
-					</h1>
+					</h2>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a class="btn bg-dark" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
@@ -258,57 +253,6 @@ width: 100%;
 
 		   </div>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
-			
-			<?php if(isset($myCity)){?>
-		    <div class="col-md-12 col-sm-12 padding-15 visible-xs">
-				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure" href="loadByHash('#default.directory')" >
-			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
-			    </div>
-				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.agenda')" >
-					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
-				</div>
-				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.news')" >
-					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
-				</div>
-			</div>
-			<?php } ?>
-			<div class="col-md-12 col-sm-12 padding-10">
-
-		    </div>
-		    
-			<div class="col-md-12 col-sm-12 hidden center" id="">
-	  			<div class="col-md-6 col-sm-6 center">
-					<a href="javascript:" class="btn bg-yellow" onclick="loadByHash('#person.invite');">
-						<i class="fa fa-user"></i><br>
-						<span class="lbl-btn-menu-name-add">quelqu'un</span>
-					</a>
-					<a href="javascript:" class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
-						<i class="fa fa-group"></i><br>
-						<span class="lbl-btn-menu-name-add">une organisation</span>
-					</a>
-				</div>
-				<div class="col-md-6 col-sm-6 center">
-					<a href="javascript:" class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
-						<i class="fa fa-lightbulb-o"></i><br>
-						<span class="lbl-btn-menu-name-add">un projet</span>
-					</a>
-					<a href="javascript:" class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
-						<i class="fa fa-calendar"></i><br>
-						<span class="lbl-btn-menu-name-add">un événement</span>
-					</a>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="col-xs-12 no-padding center fa-small">
-	  			
 		
-
-	</div>
 
 </div>

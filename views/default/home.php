@@ -593,7 +593,7 @@ jQuery(document).ready(function() {
 
 	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("Accueil");
+	$(".moduleLabel").html("<i class='fa fa-home'></i> Bienvenue sur <span class='text-red'>commune</span>cter");
 
 	$('.tooltips').tooltip();
 

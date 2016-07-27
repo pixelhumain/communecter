@@ -10,11 +10,11 @@
 	font-weight:300;
 }
 .menu-button-left:hover{
-	color:#2BB0C6;
+	/*color:#2BB0C6;*/
 }
 
 .menu-button-left.selected{
-	color:#2BB0C6;
+	/*color:#2BB0C6;*/
 	font-weight: 600;
 }
 .main-menu-left hr{
@@ -29,9 +29,9 @@
 
 .lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: none;
-	font-size: 17px;
+	font-size: 14px;
 	text-align: left;
-	padding: 2px 2px;
+	padding: 0px;
 	border-radius: 26px;
 	z-index: 0;
 	width: 100px;

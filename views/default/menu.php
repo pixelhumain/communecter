@@ -65,30 +65,23 @@
 </div>
 
 
-<div class="hidden-xs main-menu-left col-md-2 col-sm-2">
+<div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10">
 	
-	
-
 	<div class="menu-left-container">
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
+		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Communauté
 		</a>
 		<hr><br>
 		<?php } ?>
 
-		<h1 class="homestead text-dark no-padding hidden moduleLabel" id="main-title"
-			style="font-size:18px;margin-bottom: 0px; display: inline-block;">
-			<span id="main-title-menu"></span> <span class="text-red">COMMUNE</span>CTER
-		</h1>
-		
 		<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			id="btn-geoloc-auto-menu">
 			<i class="fa fa-crosshairs"></i>
 			<span class="">
 				<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-						   echo $cityNameCommunexion . ", " . $cpCommunexion;
+						   echo $cityNameCommunexion;// . ", " . $cpCommunexion;
 					}else{ echo "Communectez-moi"; } ?>
 			</span>
 		</a><hr>
@@ -101,32 +94,35 @@
 		<?php } ?>
 		
 		
-		<a href="javascript:loadByHash('#default.directory')" class="menu-button menu-button-left menu-button-title btn-menu 
+		<a href="javascript:loadByHash('#default.directory')" class="menu-button-left visible-communected 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
-		</a><hr>
+		</a><hr class="visible-communected">
 
-		<a href="javascript:loadByHash('#default.agenda')" class="menu-button menu-button-left menu-button-title btn-menu 
+		<a href="javascript:loadByHash('#default.agenda')" class="menu-button-left visible-communected 
 			<?php echo ($page == 'agenda') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> <i class="fa fa-calendar"></i> Agenda
-		</a><hr>
+		</a><hr class="visible-communected">
 
-		<a href="javascript:loadByHash('#default.news')" class="menu-button menu-button-left menu-button-title btn-menu
+		<a href="javascript:loadByHash('#default.news')" class="menu-button-left visible-communected
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
 				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
-		</a><hr>
+		</a><hr class="visible-communected">
 		
-		<?php if(isset($cityCommunexion)) { ?>
-		<a href="javascript:" class="menu-button menu-button-left menu-button-title btn-menu btn-menu11" 
-		id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen</span>
-		</a><hr>
-		<?php } ?>
+		<a href="javascript:" class="menu-button-left visible-communected" 
+			id="btn-citizen-council-commun">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen
+		</a><hr class="visible-communected">
 	</div>
 	<?php echo $this->renderPartial('version'); ?>
 	
 </div>
+
+<?php 
+	if(!isset($me)) $me = "";
+ 	$this->renderPartial("menuSmall", array("me"=>$me)); 
+?> 
 
 <div class="visible-xs" id="menu-bottom">
 	<button class="menu-button menu-button-title bg-red tooltips btn-param-postal-code"
@@ -259,5 +255,8 @@ jQuery(document).ready(function() {
 		$(this).addClass("selected");
 	});
 
+	<?php if($inseeCommunexion == "" && $cpCommunexion == ""){ ?>
+		$(".menu-left-container .visible-communected").hide(400);
+	<?php } ?>
 });
 </script>
