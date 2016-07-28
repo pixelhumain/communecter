@@ -746,7 +746,10 @@ jQuery(document).ready(function() {
    });
 
   $('#form-create-proposal #btn-submit-form').addClass("hidden");
-  
+  $(".explainLink").click(function() {
+    showDefinition( $(this).data("id") );
+    return false;
+  });
 });
 
 

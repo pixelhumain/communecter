@@ -641,6 +641,11 @@ jQuery(document).ready(function() {
   if(!$(".unassigned").length)
     $("#unassignedBtn").hide();
 
+  $(".explainLink").click(function() {
+    showDefinition( $(this).data("id") );
+    return false;
+  });
+
 });
 
 

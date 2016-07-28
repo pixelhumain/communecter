@@ -312,6 +312,11 @@ jQuery(document).ready(function() {
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/actions/id/<?php echo $action['_id'] ?>?renderPartial=true",
 		function(){ $(".commentCount").html( $(".nbComments").html() ); 
 	},"html");
+
+	$(".explainLink").click(function() {
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 });
 
 function closeAction(id)

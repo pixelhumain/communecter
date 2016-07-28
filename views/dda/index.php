@@ -151,6 +151,10 @@ if(!isset($_GET["renderPartial"])){
 jQuery(document).ready(function() {
 	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> espaces coopératifs");
 	$(".main-col-search").addClass("assemblyHeadSection");
+	$(".explainLink").click(function() {
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 });
 </script>
 
