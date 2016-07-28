@@ -25,6 +25,7 @@
 		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
 		border-radius: 0px;
 		margin-top:-10px;
+		padding-bottom: 60px
 	}
 
 	.headerEntity .thumbnail{
@@ -50,7 +51,7 @@
 
 	}
 	.box-ajaxTools{
-		margin-top:0px;
+		margin-top: -70px;
 	}
 	.box-ajaxTools .btn.tooltips, 
 	.box-ajaxTools .btn.tooltips.active{
@@ -73,9 +74,8 @@
 </style>
 
 <div class="row headerEntity bg-light">
-	<?php   
-			$profilThumbImageUrl = 
-			Element::getImgProfil(@$entity, "profilImageUrl", $this->module->assetsUrl);
+	<?php   $profilThumbImageUrl = 
+			Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 	?>
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 		<img class="img-responsive thumbnail" src="<?php echo $profilThumbImageUrl; ?>">
@@ -85,7 +85,7 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 			<div class="col-md-12 no-padding margin-top-15">
 				<span class="lbl-entity-name">
-					<i class="fa fa-user"></i> <?php echo @$entity["name"]; ?>
+					<i class="fa fa-<?php echo Element::getFaIcon($type); ?>"></i> <?php echo @$entity["name"]; ?>
 				</span>
 			</div>
 			<div class="col-md-12 no-padding no-padding margin-bottom-10">
@@ -106,14 +106,6 @@
 	<?php 
 		$colXS = "3";
 		if(!isset($entity["tags"]) && !isset($entity["gamification"])) $colXS = "3 hidden";
-		if(!isset($entity["tags"]) && isset($entity["gamification"])) $colXS = "3";
-		if(isset($entity["tags"])) {
-			if(count($entity["tags"]) <= 6) {
-				$colXS = "3";
-			}else{
-				$colXS = "12";
-			}
-		}
 	?>
 	<div class="col-lg-3 col-md-3 col-sm-<?php echo $colXS; ?> col-xs-12 pull-right padding-10">
 			<?php if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
@@ -125,11 +117,11 @@
 					?> pts
 				</span>
 				<?php if(isset($entity["tags"])){ ?>
-					<?php foreach($entity["tags"] as $tag){ ?>
+					<?php $i=0; foreach($entity["tags"] as $tag){ if($i<6) { $i++;?>
 					<div class="tag label label-danger pull-right">
 						<i class="fa fa-tag"></i> <?php echo  $tag; ?>
 					</div>
-					<?php } ?>
+					<?php }} ?>
 				<?php } ?>
 			</div>
 			<?php } ?>

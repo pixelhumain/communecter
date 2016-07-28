@@ -38,8 +38,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<!-- start: PAGE CONTENT -->
 
 <?php 
-	if($type != City::COLLECTION)
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent)); 
+	if($type != City::CONTROLLER)
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type)); 
 ?>
 
 <?php 
