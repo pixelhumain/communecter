@@ -123,7 +123,7 @@
 		background-repeat: repeat-x;
 		background-size: auto;
 		background-position: left bottom;
-		height: 225px;
+		height: 325px;
 	}
 </style>
 

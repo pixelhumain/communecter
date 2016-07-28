@@ -131,7 +131,7 @@
 
 .btn-param-postal-code{
 	left: 61px;
-	bottom: 57px;
+	bottom: 100px;
 	width: 45px !important;
 	height: 45px !important;
 	border-radius: 50%;
@@ -168,7 +168,7 @@
 #searchBarPostalCode{
 	position: absolute;
 	left: 62px;
-	bottom: 57px;
+	bottom: 100px;
 	height: 45px;
 	margin-top: 10px;
 	width: 350px;
@@ -183,7 +183,7 @@
 #input-communexion .search-loader{
 	position: absolute;
 	left: 170px;
-	bottom: 105px;
+	bottom: 75px;
 	font-weight: 600;
 	font-size: 14px;
 	overflow: hidden;

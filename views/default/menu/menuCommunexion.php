@@ -61,7 +61,7 @@
 
 	.btn-start-new-communexion{
 	    position: absolute;
-	    bottom: 62px;
+	    bottom: 105px;
 	    left: 370px;
 	    border-radius: 50%;
 	    width: 35px;
