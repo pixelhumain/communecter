@@ -33,6 +33,9 @@
     [ ] declaration de pb contextualisé
         - bug idée ... sur chaque page , persistent et en mode votable 
     [ ] citoyen recoltant
+  [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique Sylvain   O/N 
+  [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet.
+ "
 
 * Version 0.14
 ** Tib
