@@ -102,11 +102,6 @@
 			}
 		}
 		
-		if(!empty($me['profilThumbImageUrl'])) //error_log("image : ". $me['profilMediumImageUrl']);
-		if(!empty($me['profilThumbImageUrl'])) 
-          $profilThumbImageUrl = Yii::app()->createUrl($me['profilThumbImageUrl']);
-        else
-          $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
 
 ?>
@@ -118,6 +113,17 @@
 	.main-col-search{
 		min-height:1000px;
 		padding-right:15px;
+	}
+
+	.footer-menu-left{
+		width:100%;
+		bottom:0px;
+		position:fixed;
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");
+		background-repeat: repeat-x;
+		background-size: auto;
+		background-position: left bottom;
+		height: 225px;
 	}
 </style>
 
@@ -151,7 +157,10 @@
 												 "inseeCommunexion" => $inseeCommunexion, 
 												 "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
+
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
+
+	<div class="footer-menu-left"></div>
 
 	<div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-12 main-col-search">
 	</div>
@@ -160,8 +169,8 @@
 
 	<?php $this->renderPartial("login_register"); ?>
 
-	
 </div>
+
 
 <?php  
 	if(isset(Yii::app()->session['userId'])) {

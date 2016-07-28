@@ -58,6 +58,8 @@
 			display: none;
 		}
 	<?php } ?>
+
+	
 </style>
 
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">

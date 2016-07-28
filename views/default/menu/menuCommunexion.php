@@ -159,14 +159,7 @@
 	}
 	
 }
-<?php if (@Yii::app()->session["userId"]){ ?> 
-@media screen and (min-width: 1130px) {
-.main-top-menu .moduleLabel {
-    max-width: 58% !important;
-    font-size:20px !important;
-}
-}
-<?php } ?>
+
 
 </style>
 

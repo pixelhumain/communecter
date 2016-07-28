@@ -81,7 +81,7 @@ width: 100%;
 </style>
 
 <?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-          $profilThumbImageUrl = Person::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);
+          $profilThumbImageUrl = Element::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);
       }
 ?>
 

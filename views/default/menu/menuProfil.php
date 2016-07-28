@@ -1,6 +1,6 @@
 
 <?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-          $profilThumbImageUrl = Person::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
       }
 ?>
 

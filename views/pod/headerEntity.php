@@ -14,9 +14,10 @@
 
 	.headerEntity{
 		/*margin: 0px;*/
-		/*background-image: url("/ph/assets/9d42b974/images/people.jpg");
-		background-repeat: repeat;*/
-		background-position: left bottom -40px;
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
+		background-repeat: repeat;
+		background-size: 100%;
+		/*background-position: left bottom -40px;*/
 		moz-box-shadow: 0px 2px 4px -1px #656565;
 		-webkit-box-shadow: 0px 2px 4px -1px #656565;
 		-o-box-shadow: 0px 2px 4px -1px #656565;
@@ -72,10 +73,9 @@
 </style>
 
 <div class="row headerEntity bg-light">
-	<?php   //var_dump($entity);	
+	<?php   
 			$profilThumbImageUrl = 
-			Person::getImgProfil(@$entity, "profilImageUrl", 
-          						 $this->module->assetsUrl);
+			Element::getImgProfil(@$entity, "profilImageUrl", $this->module->assetsUrl);
 	?>
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 		<img class="img-responsive thumbnail" src="<?php echo $profilThumbImageUrl; ?>">

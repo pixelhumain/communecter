@@ -56,7 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
+		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de l'organisation";//.$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		Menu::person($parent);
@@ -72,11 +72,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if(Yii::app()->session["userId"] ==$contextParentId)
 				$headerName= "Mon journal";
 			else
-				$headerName= "Journal de ".$contextName;
+				$headerName= "Journal de : ".$contextName;
 		}
 		else{
 			$shortName=explode(" ", $parent["name"]);
-			$headerName= "Bonjour <span class='text-red'>".addslashes($shortName[0])."</span>, l'actu de votre réseau";
+			//$headerName= "Bonjour <span class='text-red'>".addslashes($shortName[0])."</span>, l'actu de votre réseau";
+			$headerName= "L'actu de votre réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
 		}
@@ -92,7 +93,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
+		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 		Menu::event( $parent );
 		$contextName = addslashes($parent["name"]);
@@ -101,7 +102,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
-		$headerName= "<i class='fa fa-circle text-orange'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
+		$headerName= "<i class='fa fa-circle text-orange'></i> <i class='fa fa-rss'></i> Journal de l'événement";//.$contextName;
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
