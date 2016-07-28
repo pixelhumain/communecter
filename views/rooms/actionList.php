@@ -646,6 +646,10 @@ jQuery(document).ready(function() {
     return false;
   });
 
+  
+  $('#modal-create-action').on('show.bs.modal', function () {
+    $('.datepicker').css('zIndex',"12000");
+  })
 });
 
 

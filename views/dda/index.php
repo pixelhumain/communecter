@@ -34,6 +34,7 @@
 		font-weight: 300;
 	}
 }
+.datepicker{z-index:12000 !important;}
 </style>
 
 <?php 

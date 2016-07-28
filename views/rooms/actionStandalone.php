@@ -22,9 +22,7 @@
 		padding-top: 15px;
 		margin-top: 0px;
 	}
-
-</style>
-	
+.datepicker{z-index:12000 !important;}</style>	
 <?php 
 	//ca sert a quoi ce doublon ?
 	$parentType = $room["parentType"];
@@ -323,7 +321,7 @@ function closeAction(id)
 {
     console.warn("--------------- closeEntry ---------------------");
     
-      bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer à cette action ?</strong>",
+      bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer cette action ?</strong>",
           function(result) {
             if (result) {
               params = { "id" : id };
