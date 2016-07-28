@@ -69,7 +69,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
 .mixcontainer .mix{
   border-radius:0px;
   border-color: #CCC;
-  height:250px;
+  height:270px;
   margin:1% 1% !important;
   float:left;
   moz-box-shadow: 0px 2px 4px -3px rgba(101, 101, 101, 0.61);
@@ -92,7 +92,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   float: left;
   width: 100%;
   overflow-y:hidden;
-  height:40px;
+  height:50px;
   font-size: 17px;
 }
 .mixcontainer .mix a.titleMix:hover{
@@ -200,7 +200,7 @@ border: 1px solid #E4E4E4;
 .byInfo{
   float: right;
     position: relative;
-    bottom: 18px;
+    bottom: 0px;
     font-size:13px;
 }
 .byInfo i{
@@ -231,7 +231,7 @@ border: 1px solid #E4E4E4;
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = $entry["message"];//substr($entry["message"],0,100);
+        $message = substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -265,7 +265,7 @@ border: 1px solid #E4E4E4;
             if(!empty($t) && !in_array($t, $alltags))
             {
               array_push($alltags, $t);
-              $tagBlock .= ' <button class="filter bg-azure btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
+              $tagBlock .= ' <button class="filter bg-red btn btn-xs" data-filter=".'.$t.'"><i class="fa fa-tag"></i> '.$t.'</button>';
             }
             $tags .= $t.' ';
           }
@@ -281,7 +281,7 @@ border: 1px solid #E4E4E4;
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
-        $message = "<span class='text-dark no-border message-propostal'>".$message."</span>";
+        $message = "<div class='text-dark no-border message-propostal'>".$message."</div>";
         
         /* **************************************
         Rendering Each block
@@ -291,33 +291,52 @@ border: 1px solid #E4E4E4;
         $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
 
        
-        $moderatelink = (   @$entry["applications"][Yii::app()->controller->module->id]["cleared"]  && $isModerator && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";
+        $moderatelink = (   @$entry["applications"][Yii::app()->controller->module->id]["cleared"]  && 
+                            $isModerator && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? 
+              "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'>".
+                "<i class='fa fa-plus ' ></i>".
+              "</a>".
+              "<a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'>".
+                "<i class='fa fa-minus ' ></i>".
+              "</a>" :
+              "";
+
         $rightLinks = (  @$entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? $moderatelink : $infoslink ;
         $rightLinks = ( $entry["type"] == ActionRoom::TYPE_ACTION ) ? "<div class='rightlinks'>".$rightLinks."</div>" : "";
         $created = ( @$entry["created"] ) ? date("d/m/y h:i",$entry["created"]) : ""; 
         $startDate = ( @$entry["startDate"] ) ? date("d/m/y h:i",$entry["startDate"]) : ""; 
         $endDate = ( @$entry["dateEnd"] ) ? date("d/m/y",$entry["dateEnd"]) : ""; 
-        $views = ( @$entry["viewCount"] ) ? "<div class='no-border pull-right text-dark' style='font-size:13px;'><i class='fa fa-eye'></i> ".$entry["viewCount"]."</div>" : ""; 
-        $byInfo = ( @$entry["links"]["contributors"] && count($entry["links"]["contributors"]) > 0 ) ? " <i class='fa fa-users'></i> ".count($entry["links"]["contributors"]) : "<i class='fa fa-users text-red'></i> 0";
+        $views = ( @$entry["viewCount"] ) ? 
+                "<div class='no-border pull-right text-dark' style='font-size:13px;'>".
+                  "<i class='fa fa-eye'></i> ".$entry["viewCount"].
+                "</div>" : ""; 
+
+        $byInfo = ( @$entry["links"]["contributors"] && count($entry["links"]["contributors"]) > 0 ) ? 
+                  " <i class='fa fa-users'></i> ".count($entry["links"]["contributors"]) : 
+                  "<i class='fa fa-users text-red'></i> 0";
+        
         //$infoslink bring visual detail about the entry
         $infoslink = ( @$entry["urls"] && count($entry["urls"]) > 0 ) ? " <i class='fa fa-link'></i> ".count($entry["urls"]) : "";
 
         $commentBtn = "";
-        $commentBtn = (isset($entry["commentCount"]) && $entry["commentCount"] > 0) ? " <i class='fa fa-comment'></i>".@$entry["commentCount"] : "";
+        $commentBtn = (isset($entry["commentCount"]) && $entry["commentCount"] > 0) ? 
+                      " <i class='fa fa-comment'></i>".@$entry["commentCount"] : "";
         
         //title + Link
         if ( $entry["type"] == ActionRoom::TYPE_ACTION )
-          $name = '<a class="titleMix text-dark " onclick="showRoom(\'action\', \''.(string)$entry["_id"].'\')" href="javascript:;">'."<i class='fa fa-cogs'></i> ".substr($name, 0, 70).'</a>' ;
+          $name = '<a class="titleMix text-dark " onclick="showRoom(\'action\', \''.(string)$entry["_id"].'\')" href="javascript:;">'.
+                    "<i class='fa fa-cogs'></i> ".substr($name, 0, 70).
+                  '</a>' ;
 
         $btnRead = "";
         $leftLinks = "";
 
         $createdInfo  = "<div class='text-azure lbl-info-survey '>".
-                        "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
+                          "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
         $createdInfo .= (!empty( $startDate )) ? 
-                        Yii::t("rooms", "Start Date", null, Yii::app()->controller->module->id) . 
-                        " : ".$startDate 
-                        : "Non défini";
+                          Yii::t("rooms", "Start Date", null, Yii::app()->controller->module->id) . 
+                          " : ".$startDate 
+                          : "Non défini";
         $createdInfo .= "</div>";
 
         $ends = "";
@@ -423,7 +442,6 @@ border: 1px solid #E4E4E4;
                               )); 
         echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
       }
-      
    ?>
       
     <div class="panel-white" style="display:inline-block; width:100%;">
@@ -437,16 +455,16 @@ border: 1px solid #E4E4E4;
           $this->renderPartial('../default/panels/toolbar');
         ?>
 
-        
-
-        <div class="panel-white" style="display:inline-block; width:100%;">
+        <div class="panel-white margin-top-15" style="display:inline-block; width:100%;">
             <div class="col-md-4 col-sm-4 margin-bottom-15">
               <?php $this->renderPartial('../pod/fileupload', array("itemId" => $room["_id"],
                                           "type" => ActionRoom::COLLECTION,
                                           "resize" => false,
                                           "contentId" => Document::IMG_PROFIL,
-                                          "editMode" => Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']),
-                                          "image" => $images)); 
+                                          "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],ActionRoom::COLLECTION,$room['_id'],$room['parentType'],$room['parentId']),
+                                          "image" => $images,
+                                          "parentType" => $room['parentType'],
+                                          "parentId" => $room['parentId'])); 
               ?>
             </div>
             
@@ -536,6 +554,8 @@ border: 1px solid #E4E4E4;
   </section>
 
 
+
+<?php  if( Authorisation::canParticipate(Yii::app()->session['userId'],$room["parentType"],$room["parentId"]) ) { ?>
 <div class="modal fade" id="modal-create-action" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -550,7 +570,7 @@ border: 1px solid #E4E4E4;
           <?php 
               $params = array(
                   "room"=>$room,
-                  "parentRoomId" => (string)$room["_id"],
+                  "roomId" => (string)$room["_id"],
                   "mode"=>"new",
                   //"action"=>$room,
               );
@@ -558,9 +578,7 @@ border: 1px solid #E4E4E4;
                                              "link" => Yii::app()->createUrl('/'.Yii::app()->controller->module->id."/".$room["parentType"]."/dashboard/id/".$room["parentId"]) );
 
             $this->renderPartial('../rooms/editAction', $params); 
-
-          ?>
-          
+          ?>  
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -573,6 +591,7 @@ border: 1px solid #E4E4E4;
     </div>
   </div>
 </div>
+<?php } ?>
 
 <div class="space20"></div>
 
@@ -695,47 +714,19 @@ function reduceInfo(){
     } );
   }
 
-  /* **************************************
-  *
-  *  voting and moderation
-  *
-  ***************************************** */
-function addaction(id,action)
-{
-    console.warn("--------------- addaction ---------------------");
-    
-      bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
-          function(result) {
-            if (result) {
-              params = { 
-                 "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
-                 "id" : id ,
-                 "collection":"surveys",
-                 "action" : action 
-              };
-              ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/addaction")?>',params,function(data){
-                window.location.reload();
-              });
-          } else {
-            $("."+clickedVoteObject).removeClass("faa-bounce animated");
-          }
-      });
- }
-
-
-  function dejaVote(){
-    alert("Vous ne pouvez pas votez 2 fois, ni changer de vote.");
-  }
-
   function moderateEntry(id,action)
     {
       console.warn("--------------- moderateEntry ---------------------");
+
       params = { 
         "survey" : id , 
         "action" : action , 
         "app" : "<?php echo Yii::app()->controller->module->id?>"};
-      ajaxPost("moderateEntryResult",'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/moderateentry")?>',params,function(){
-        window.location.reload();
+
+      ajaxPost("moderateEntryResult",
+          '<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/survey/moderateentry")?>',
+          params,function(){
+          window.location.reload();
       });
     }
 
@@ -782,8 +773,6 @@ function readEntrySV(data,type) {
               "<a href='javascript:toggleGraph()' class='pull-left' style='top: 92px; float: right !important; margin-top: -120px; margin-right: 5px;'>"+
                 "<i class='fa fa-times-circle-o  text-dark fa-2x'></i>"+
               "</a>"+
-              // "<h1 id='entryTitle' ></h1>"+
-              //"<div class='space20'></div>"+
               "<div class='space20 center' id='entryContent'></div>"+
               "</div>");
   

@@ -17,29 +17,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 // else
 //   Menu::back() ;
 // $this->renderPartial('../default/panels/toolbar');
-$parent = null;
-if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
-if(@$room) $parent = $room;
-if(@$parentRoom) $parent = $parentRoom;
+// $parent = null;
+// if(@$_GET['room']) $parent = ActionRoom::getById($_GET['room']);
+// if(@$room) $parent = $room;
+// if(@$parentRoom) $parent = $parentRoom;
 
-//echo "parent"; var_dump($parent); return;
-if($parent == null) return;
+// //echo "parent"; var_dump($parent); return;
+// if($parent == null) return;
 
-
-/*
-$this->renderPartial('../rooms/header',array(   
-                            "parentId" => $parent['parentId'], 
-                            "parentType" => $parent['parentType'], 
-                            "fromView" => "rooms.actions",
-                            "faTitle" => "cogs",
-                            "colorTitle" => "azure",
-                            "hideMenu" => "hide",
-                            "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$parent['parentType'].".id.".$parent['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
-                                    " / ".
-                                    "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$parent["_id"]."\")'><i class='fa fa-cogs'></i> ".$parent["name"]."</a>".
-                            ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
-                              )); */
- ?>
+?>
 <div id="editActionContainer"></div>
 <style type="text/css">
   .addPropBtn{
@@ -64,11 +50,11 @@ var actionFormDefinition = {
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id']) && !@$mode) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($action['_id'])) ? $action['_id'] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+              "value" : "<?php echo ActionRoom::TYPE_ACTION?>"
             },
             "organizer" : {
               "inputType" : "hidden",
@@ -166,9 +152,9 @@ jQuery(document).ready(function() {
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editActionContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editActionContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
+              //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
               "<form id='ajaxFormAction'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
@@ -209,7 +195,7 @@ function editEntrySV () {
             {
               processingBlockUi();
               var params = { 
-                 "room" : "<?php echo (isset($parentRoomId)) ? $parentRoomId : '' ?>", 
+                 "room" : "<?php echo (isset($roomId)) ? $roomId : '' ?>", 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editActionContainer #name").val() , 
                  "organizer" : $("#editActionContainer #organizer").val(),

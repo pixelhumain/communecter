@@ -25,7 +25,7 @@
 			</ul>
 
 			<!-- Tab panes -->
-			<div class="tab-content">
+			<div class="tab-content " id="ddaIndexContainer">
 			  <div class="tab-pane active col-lg-12 col-md-12" id="discussions">
 	  			<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
@@ -204,6 +204,7 @@
 					</tbody>
 				</table>	
 			  </div>
+			  
 			  <div class="tab-pane col-lg-12 col-md-12" id="history">
 			  	<?php if(count(@$history)){ ?>
 						<div class="actionsTable infoTables" style="padding-top:7px;">	
@@ -320,3 +321,4 @@
 					<?php } ?>
 			  </div>
 			</div>
+			<div id="endOfRoom"></div>

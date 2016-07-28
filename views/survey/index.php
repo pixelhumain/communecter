@@ -302,7 +302,7 @@
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = substr($entry["message"],0,300);
+        $message = substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -570,7 +570,9 @@
                                             "resize" => false,
                                             "contentId" => Document::IMG_PROFIL,
                                             "editMode" => @$canParticipate,
-                                            "image" => $images)); 
+                                            "image" => $images,
+                                            "parentType" => $parentType,
+                                            "parentId" => $parentId)); 
                 ?>
           </div>   
                 
@@ -637,7 +639,10 @@
                     <small>Un espace de décision peut contenir plusieurs propositions.</small>
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
-                    <br><br><button class="btn btn-success"><i class="fa fa-plus"></i> Ajouter une proposition</button>
+                    <br><br>
+                    <button class="btn btn-success" onclick="$('#modal-create-proposal').modal('show')">
+                      <i class="fa fa-plus"></i> Ajouter une proposition
+                    </button>
                   </blockquote>
                   <?php } ?>
                 </div>
@@ -664,7 +669,7 @@
 
     </section>
 
-
+<?php  if( Authorisation::canParticipate(Yii::app()->session['userId'],$where["survey"]["parentType"],$where["survey"]["parentId"]) ) { ?>
 <div class="modal fade" id="modal-create-proposal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -676,10 +681,9 @@
       </div>
       <div class="modal-body no-padding">
         <div class="panel-body" id="form-create-proposal">
-          <?php 
+          <?php //var_dump($where["survey"]);
               $params = array(
-                  "survey"=>(string)$where["survey"]["_id"],
-                  "mode"=>"new",
+                  "roomId"=>(string)$where["survey"]["_id"]
               );
             $this->renderPartial('../survey/editEntrySV', $params); 
 
@@ -696,6 +700,7 @@
     </div>
   </div>
 </div>
+<?php } ?>
 
 <div class="space20"></div>
 
@@ -739,8 +744,15 @@ jQuery(document).ready(function() {
     clickedVoteObject = $(this).data("vote");
     console.log(clickedVoteObject);
    });
+
+  $('#form-create-proposal #btn-submit-form').addClass("hidden");
+  
 });
 
+
+function saveNewProposal(){
+  $('#form-create-proposal #btn-submit-form').off().click()
+}
 
 function toogleTags(){
   if($("#tags-container").hasClass("hidden")){

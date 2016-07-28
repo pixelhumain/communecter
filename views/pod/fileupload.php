@@ -88,6 +88,8 @@
 		var imageId= "";
 		var imagesPath = [];
 		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
+		var parentType = <?php if(@$parentType) echo json_encode($parentType); else echo "''" ?>;
+		var parentId = <?php if(@$parentId) echo json_encode($parentId); else echo "''" ?>;
 		var contentKey = contentIdtoSend;
 		if("undefined" != typeof(image[contentId])){
 			initFileUpload();
@@ -160,7 +162,6 @@
 					  		"type":type,
 					  		"folder":type+"/"+id,
 					  		"moduleId":moduleId,
-					  		"author" : "<?php echo (isset(Yii::app()->session['userId'])) ? Yii::app()->session['userId'] : 'unknown'?>"  , 
 					  		"name" : data.name , 
 					  		"date" : new Date() , 
 					  		"size" : data.size ,
@@ -248,7 +249,10 @@
 			}
 		}
 		function saveImage(doc, path){
-
+			if(typeof(parentType) != "undefined" && parentType != "")
+				doc.parentType=parentType;
+			if(typeof(parentId) != "undefined" && parentId != "")
+				doc.parentId=parentId;
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",

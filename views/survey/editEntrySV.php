@@ -1,47 +1,21 @@
 <?php  
 
-$cssAnsScriptFiles = array(
-  '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-  '/assets/plugins/summernote/dist/summernote.css',
-  '/assets/plugins/summernote/dist/summernote.min.js',
-  '/css/rooms/header.css'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+  $cssAnsScriptFiles = array(
+    '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+    '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+    '/assets/plugins/summernote/dist/summernote.css',
+    '/assets/plugins/summernote/dist/summernote.min.js',
+    '/css/rooms/header.css'
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
-//$cssAnsScriptFilesTheme = array('js/form-elements.js');
-//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
+  //$cssAnsScriptFilesTheme = array('js/form-elements.js');
+  //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
-// if(isset($survey))
-//   Menu::proposal( $survey );
-// else
-//   Menu::back() ;
-// $this->renderPartial('../default/panels/toolbar');
+  $parent = ActionRoom::getById($roomId);
+  $nameList = (strlen($parent["name"])>20) ? substr($parent["name"],0,20)."..." : $parent["name"];
 
-$idSurvey = @$_GET['survey'] ? $_GET['survey'] : null; //echo $idSurvey; return;
-if($idSurvey == null) $idSurvey = @$survey ? $survey : null;
-if($idSurvey == null) return;
-
-//$survey = $idSurvey;
-$parent = ActionRoom::getById($idSurvey);
-
-$parentType = $parent["parentType"];
-$parentId = $parent["parentId"];
-$nameList = (strlen($parent["name"])>20) ? substr($parent["name"],0,20)."..." : $parent["name"];
-/*
-$this->renderPartial('../rooms/header',array(   
-                      "parentId" => $parentId, 
-                      "parentType" => $parentType, 
-                      "fromView" => "survey.entry",
-                      "faTitle" => "gavel",
-                      "colorTitle" => "azure",
-                      "hideMenu" => "hide",
-                      "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.2\")'><i class='fa fa-gavel'></i> ".Yii::t("rooms","Decide", null, Yii::app()->controller->module->id)."</a>".
-                              " / ".
-                              "<a class='text-dark btn' href='javascript:loadByHash(\"#survey.entries.id.".$idSurvey."\")'><i class='fa fa-th'></i> ".$nameList."</a>".
-                              ' / <i class="fa fa-plus bg-red text-white radius-5 padding-5"></i>'
-                      )); */
- ?>
+?>
 <div id="editEntryContainer"></div>
 <style type="text/css">
   .addPropBtn{
@@ -67,11 +41,11 @@ var proposalFormDefinition = {
         "properties" : {
           "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id']) && !@$mode) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($survey["_id"])) ? (string)$survey["_id"] : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+              "value" : "<?php echo Survey::TYPE_ENTRY?>"
             },
             "organizer" : {
               "inputType" : "hidden",
@@ -165,13 +139,11 @@ var dataBind = {
 
 var proposalObj = <?php echo (isset($survey)) ? json_encode($survey) : "{}" ?>;
 
-function saveNewProposal(){
-  $('#form-create-proposal #btn-submit-form').off().click()
-}
+//editEntryContainer
+
 
 jQuery(document).ready(function() { 
-  //$(".moduleLabel").html('<?php echo Yii::t("rooms","Add a proposal", null, Yii::app()->controller->module->id); ?>');
-  
+   
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
 
@@ -179,8 +151,8 @@ jQuery(document).ready(function() {
     organizerList[optKey] = optVal.name;
   });
 
-  editEntrySV (); toastr.success("okokokok");
-  $('#form-create-proposal #btn-submit-form').addClass("hidden");
+  editEntrySV ();
+ 
 
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -196,9 +168,9 @@ jQuery(document).ready(function() {
 function editEntrySV () {
 
   console.warn("--------------- editEntrySV ---------------------",proposalObj);
-  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+              //"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
               "<form id='ajaxFormEntry' enctype='multipart/form-data'></form>"+
               "<div class='space20'></div>"+
               "</div></div>");
@@ -225,13 +197,12 @@ function editEntrySV () {
           onSave : function(){
             console.log("saving Survey !!");
             console.log($("#editEntryContainer #name").val());
-            //one = getRandomInt(0,10);
-            //two = getRandomInt(0,10);
+            
             if( $("#editEntryContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
               processingBlockUi();
               var params = { 
-                 "survey" : "<?php echo (isset($idSurvey)) ? $idSurvey : '' ?>", 
+                 "survey" : "<?php echo (isset($roomId)) ? $roomId : '' ?>", 
                  //"parentRoomId" : "<?php echo @$parentRoomId ? $parentRoomId : ""; ?>" , 
                  "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
                  "name" : $("#editEntryContainer #name").val() , 
@@ -275,6 +246,7 @@ function editEntrySV () {
                   }
                   $.unblockUI();
                   $('#modal-create-proposal').modal("toogle");
+                  $('#modal-edit-entry').modal("toogle");                  
                 },
                 error: function(data) {
                   $.unblockUI();

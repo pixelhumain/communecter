@@ -88,6 +88,10 @@ h1.citizenAssembly-header {
 	margin-right: 10px;
 	border-radius: 4px;
 }
+#room-container .badge-danger {
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
 </style>	
 
 
@@ -193,7 +197,6 @@ h1.citizenAssembly-header {
 					$btnLbl = "<i class='fa fa-sign-in'></i> ".Yii::t("rooms","JOIN TO PARTICIPATE", null, Yii::app()->controller->module->id);
 				    $ctrl = Element::getControlerByCollection($parentType);
 				    $btnUrl = "loadByHash('#".$ctrl.".detail.id.".$parentId."')";
-					
 					if( $parentType == City::COLLECTION || 
 						($parentType != Person::COLLECTION && 
 						Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ))
@@ -224,6 +227,7 @@ h1.citizenAssembly-header {
 
 </h1>
 
+<?php  if( isset(Yii::app()->session['userId']) && Authorisation::canParticipate(Yii::app()->session['userId'], $parentType, $parentId ) ){ ?>
 <div class="modal fade" id="modal-create-room" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -244,7 +248,9 @@ h1.citizenAssembly-header {
 			    $tagsList =  Lists::getListByName("tags");
 			    $params = array(
 			        "listRoomTypes" => $listRoomTypes,
-			        "tagsList" => $tagsList
+			        "tagsList" => $tagsList,
+			        "id" => $parentId,
+			        "type" => $parentType
 			    );
 				$this->renderPartial('../rooms/editRoomSV', $params); 
 			?>
@@ -252,7 +258,7 @@ h1.citizenAssembly-header {
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 			<button type="button" class="btn btn-success"
-				    data-dismiss="modal" onclick="javascript:saveNewRoom();">
+				    onclick="javascript:saveNewRoom();">
 					<i class="fa fa-save"></i> Enregistrer
 			</button>
 		</div>
@@ -260,17 +266,20 @@ h1.citizenAssembly-header {
 	</div>
   </div>
 </div>
+<?php } ?>
 
 <?php 
-
 createModalRoom($discussions,$parentType, $parentId, 1, "Sélectionnez un espace de discussion", "comments", "discuss", "Aucun espace de discussion");
 createModalRoom($votes,$parentType, $parentId, 2, "Sélectionnez un espace de décision", "archive", "vote", "Aucun espace de décision");
 createModalRoom($actions,$parentType, $parentId, 3, "Sélectionnez un espace d'action", "cogs", "actions", "Aucun espace d'action");
 createModalRoom($history,$parentType, $parentId, 4, "Historique de votre activité", "clock-o", "history", "Aucune activité");
-$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
-//if( in_array($where, array("rooms.action","survey.entry")))
-	createModalRoom(array_merge($votes,$actions),$parentType, $parentId, 5, "Choose where to move", "share-alt", "", "Aucun espace","move", $faTitle);
 
+//$where = Yii::app()->controller->id.'.'.Yii::app()->controller->action->id;
+//if( in_array($where, array("rooms.action","survey.entry"))){
+	createModalRoom( array_merge($votes,$actions) ,$parentType, $parentId, 5, 
+					"Choisir un nouvel espace", "share-alt", "move", "Aucun espace","move",$faTitle);
+
+//}
 
 function createModalRoom($elements, $parentType, $parentId, $index, $title, 
 						 $icon, $typeNew, $endLbl,$action=null,$context=null){
@@ -314,7 +323,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 				        	$type = ($context == "cogs") ? "action" : "survey";
 							$onclick = 'move(\''.$type.'\', \''.(string)$value["_id"].'\')';
 							//remove the current context room destination
-							//if((string)$value["_id"] == )
+							//if((string)$value["_id"] == ) //we are missing the current room  object in header
 				        }
 
 				        $imgIcon = '';
@@ -332,7 +341,6 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 									" <span class='pull-right img-room-modal'>".
 										$imgIcon.
 									"</span>".
-									
 								'</a>';
 						}
 							 
@@ -346,7 +354,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 
 	echo 		'<div class="modal-footer">';
 	
-	if($typeNew != "history" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
+	if($typeNew != "history" && $typeNew != "move" && Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) 
 	echo		    '<button type="button" class="btn btn-default pull-left" onclick="javascript:selectRoomType(\''.$typeNew.'\')"
 						  data-dismiss="modal" data-toggle="modal" data-target="#modal-create-room">'.
 						'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Créer un nouvel espace'.
@@ -371,11 +379,28 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 	
 
 jQuery(document).ready(function() {
-	$('#form-create-room #btn-submit-form').off().addClass("hidden");
+	$('#form-create-room #btn-submit-form').addClass("hidden");
 });
 
 function saveNewRoom(){
-	$('#form-create-room #btn-submit-form').click()
+	$('#form-create-room #btn-submit-form').click();
+}
+
+function selectRoomType(type){
+  console.log("selectRoomType",type);
+  $("#roomType").val(type);
+  
+  var msg = "Nouvel espace";
+  if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
+  if(type=="framapad") msg = "<i class='fa fa-file-text-o'></i> " + msg + " framapad";
+  if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
+  if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
+  $("#proposerloiFormLabel").html(msg);
+  $("#proposerloiFormLabel").addClass("text-dark");
+  // $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
+  
+  //$("#first-step-create-space").hide(400);
+  $(".roomTypeselect").addClass("hidden");
 }
 
 function showRoom(type, id){

@@ -59,6 +59,7 @@ $userId = Yii::app()->session["userId"] ;
 					<select id="chooseTypeLink" name="chooseTypeLink"> 
 						<option value="Person">Person</option>
 						<option value="Organization">Organisation</option>
+						<option value="Event">Event</option>
 					</select>
 					<label for="inputIdLink">Id de l'entité : </label>
 					<input class="" placeholder="" id="inputIdLink" name="inputIdLink" value="">
@@ -67,6 +68,9 @@ $userId = Yii::app()->session["userId"] ;
 					<input id="checkboxAdmin" name="checkboxAdmin" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
+<<<<<<< HEAD
+				
+=======
 				<div id="divSendMail">
 					<label>
 						Envoyer les mails d'invitation : <input class="hide" id="isSendMail" name="isSendMail"></input>
@@ -81,7 +85,13 @@ $userId = Yii::app()->session["userId"] ;
 					<input id="checkboxKissKiss" name="checkboxKissKiss" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
+>>>>>>> master
 			</div>
+			<div class="col-sm-12 col-xs-12">
+					<label>
+						Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
+					</label>
+				</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="col-sm-5 col-xs-12">
 					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
@@ -205,7 +215,7 @@ function bind()
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
 		});
-  		console.log("file", file);
+  		//console.log("file", file);
   		var link = false ;
   		if( $("#isLink").val() == "true" )
   			link = true ;
@@ -233,25 +243,53 @@ function bind()
 	        		typeLink : $("#chooseTypeLink").val(),
 	        		idLink : $("#inputIdLink").val(),
 	        		isAdmin : isAdmin,
-	        		sendMail : sendMail,
+	        		warnings : $("#checkboxWarnings").is(':checked'),
+					sendMail : sendMail,
 	        		isKissKiss : isKissKiss,
 	        		invitorUrl : $("#inputInvitorUrl").val()
+
 	        	},
 	        url: baseUrl+'/communecter/admin/adddataindb/',
 	        dataType : 'json',
 	        success: function(data)
 	        {
-	        	//console.log("data",data);
-	        	var chaine = ""
-
+	        	console.log("data",data);
+	        	var chaine = "";
+	        	var csv = '"name";"url";"info";définir si c\'est un nouvelle organization ou si c\'est bien la bonne(New ou Yes)";' ;
+	        	$.each(data.allbranch, function(key, value){
+	        		csv += '"'+value+'";'
+	        	});
+	        	csv += "\n";
 	        	$.each(data.resData, function(key, value){
-	  				
-	        		chaine += "<tr>" +
-	        					"<td>"+value.name+"</td>"+
-	        					"<td>"+value.info+"</td>"+
-	        				"</tr>";
-
+	  				$.each(value, function(key2, value2){
+		        		chaine += "<tr>" +
+		        					"<td>"+value2.name+"</td>"+
+		        					"<td>"+value2.info+"</td>"+
+		        				"</tr>";
+		        		if(key == "update"){
+		        			csv += '"'+value2.name+'";"'+value2.url+'";"'+value2.info+'";;' ;
+		        		}
+		        		if(key == "error"){
+		        			csv += '"'+value2.name+'";;"'+value2.info+'";;' ;
+		        		}
+		        		if(typeof value2.valueSource != "undefined"){
+		        			$.each(data.allbranch, function(keyBranch, valueBranch){
+		        				if(typeof value2.valueSource[valueBranch] != "undefined")
+				        			csv += '"'+value2.valueSource[valueBranch]+'";' ;
+				        		else
+				        			csv += ';';
+				        	});
+		        		}
+		        		csv += "\n";
+		  			});
 	  			});
+	        	$("<a />", {
+				    "download": "Data_a_verifier.csv",
+				    "href" : "data:application/csv," + encodeURIComponent(csv)
+				  }).appendTo("body")
+				  .click(function() {
+				     $(this).remove()
+				  })[0].click() ;
 
 	  			$("#bodyResult").html(chaine);
 	        	$.unblockUI();

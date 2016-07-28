@@ -173,6 +173,7 @@
 							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":3});
 							thisSig.roadTileLayer.redraw();
 						}
+
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
@@ -185,6 +186,11 @@
 						if(thisSig.roadTileLayer != null) {
 							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":12});
 							thisSig.roadTileLayer.redraw();
+						}
+
+						if(thisSig.StamenTonerLabels != null) {
+							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":20, "minZoom":12});
+							thisSig.StamenTonerLabels.redraw();
 						}
 						
 					}
@@ -241,6 +247,9 @@
 
 											"project" 			: { ico : "lightbulb-o", color : "purple" },
 											"projects" 			: { ico : "lightbulb-o", color : "purple" },
+
+											"need" 				: { ico : "cubes", color : "white" },
+											"needs" 			: { ico : "cubes", color : "white" },
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},

@@ -11,7 +11,8 @@ $this->renderPartial('../default/panels/toolbar');
 																	"countries" => $countries,
 																	"isAdmin"=> $admin,
 																	"tasks" =>$tasks,
-																	"imagesD" => $images
+																	"imagesD" => $images,
+																	"openEdition"=> $openEdition
 																	//"events" => $events
 																	));
 				?>

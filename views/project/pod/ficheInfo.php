@@ -17,7 +17,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 $cssAnsScriptFilesModuleSS = array(
@@ -190,18 +191,158 @@ progress[value]::-moz-progress-bar {
 		<h4 class="panel-title text-dark">
 				<i class="fa fa-info-circle"></i> 
 				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
+				<?php if ($openEdition==true) { ?>
+					<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					
+				<?php } ?>
 		</h4>
 		<!-- <div class="navigator padding-0 text-right"> -->
 			
 		<!-- </div> -->
 	</div>
 	<div class="panel-tools">
-		<?php if ($isAdmin){ ?>
-			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> Éditer les informations</span></a>
-			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>
+		<?php if ($isAdmin || $openEdition){ ?>
+			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>-->
+			<?php }
+
+			if($isAdmin){ ?>
+			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
+				<i class='fa fa-cog'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php echo Yii::t("common","Settings"); ?>
+				</span>
+			</a>
+		<?php }
+		
+			if ($openEdition) { ?>
+			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
+			}
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
+		</style>
+
+		<?php if(!empty($project["badges"])){?>
+			<?php if( Badge::checkBadgeInListBadges("opendata", $project["badges"]) ){?>
+				<div class="badgePH pull-right" data-title="OPENDATA">
+					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+						<i class="fa fa-database main fa-stack-1x text-orange"></i>
+						<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+					</span>
+				</div>
+		<?php } 
+		} ?>
 	</div>
-	<div class="panel-body padding-20">
+
+
+	<style type="text/css">
+		.urlOpenData{
+		    padding: 9px;
+		}
+	</style>
+	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<!--<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>-->
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/projects/id/'.$project['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
+					</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+	        </div>
+	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences["isOpenData"] = true;
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
+				//To checked private or public
+				foreach($typePreferences as $type){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($project["preferences"][$type]) && in_array($field, $project["preferences"][$type])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($project["preferences"][$typePrefB]) && $project["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}	
+			?> 
+	     </script>
+
+
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#project.detail.id.<?php echo $project['_id'] ;?>');">OK</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div id="activityContent" class="panel-body no-padding hide">
+		<h2 class="homestead text-dark" style="padding:40px;">
+			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
+		</h2>
+	</div>
+	<div class="panel-body padding-20" id="contentGeneralInfos">
 		<div class="col-sm-6 col-xs-6 text-dark padding-10">
 			<?php
 				$this->renderPartial('../pod/fileupload', array("itemId" => (string)$project["_id"],
@@ -344,6 +485,14 @@ jQuery(document).ready(function()
 		findGeoPosByAddress();
 	});
 
+
+	$(".panel-btn-confidentiality .btn").click(function(){
+		var type = $(this).attr("type");
+		var value = $(this).attr("value");
+		$(".btn-group-"+type + " .btn").removeClass("active");
+		$(this).addClass("active");
+	});
+
 	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });
@@ -352,6 +501,8 @@ jQuery(document).ready(function()
 
 function bindAboutPodProjects() {
 	$("#editProjectDetail").on("click", function(){
+		if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+			getBackDetails(projectId,"<?php echo Project::COLLECTION ?>");
 		switchMode();
 	});
 
@@ -360,19 +511,39 @@ function bindAboutPodProjects() {
 		showMap(true);
 	});
 
+	$(".editConfidentialityBtn").click(function(){
+    	console.log("confidentiality");
+    	$("#modal-confidentiality").modal("show");
+    });
+
+    $(".confidentialitySettings").click(function(){
+    	param = new Object;
+    	param.type = $(this).attr("type");
+    	param.value = $(this).attr("value");
+    	param.typeEntity = "projects";
+    	param.idEntity = projectId;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/project/updatesettings",
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	toastr.success(data.msg);
+		    }
+		});
+	});
+
 }
 
 function initXEditable() {
 	$.fn.editable.defaults.mode = 'popup';
 	$('.editable-project').editable({
     	url: baseUrl+"/"+moduleId+"/project/updatefield", //this url will not be used for creating new job, it is only for update
-    	//value : <?php echo (isset($project["name"]))?json_encode($project["name"]) : "''";?> ,
-    	//onblur: 'submit',
     	showbuttons: false,
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				console.log(data);
+				loadActivity=true;	
 	        }
 	        else
 	        	toastr.error(data.msg);  
@@ -394,9 +565,10 @@ function initXEditable() {
 			image: false
 		},
 		success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
 	        	toastr.success(data.msg);
-	        else
+				loadActivity=true;	
+	        }else
 	        	toastr.error(data.msg);  
 	    },
 	});
@@ -414,7 +586,15 @@ function initXEditable() {
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 	$('#startDate').editable({
 		url: baseUrl+"/"+moduleId+"/project/updatefield", 
@@ -427,9 +607,10 @@ function initXEditable() {
 			weekStart: 1,
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
-			else 
+				loadActivity=true;	
+			}else 
 				return data.msg;
 	    }
 	});
@@ -445,9 +626,10 @@ function initXEditable() {
             weekStart: 1,
        },
        success : function(data) {
-	        if(data.result) 
+	        if(data.result) {
 	        	toastr.success(data.msg);
-	        else 
+				loadActivity=true;	
+	        }else 
 				return data.msg;
 	    }
     });
@@ -467,9 +649,10 @@ function initXEditable() {
 			tokenSeparators: [","]
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
-			else 
+				loadActivity=true;	
+			}else 
 				return data.msg;
 	    }
 	});
@@ -495,7 +678,7 @@ function initXEditable() {
 				toastr.success(data.msg);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-				//findGeoPosByAddress();
+				loadActivity=true;	
 			}
 			else {
 				return data.msg;
@@ -510,8 +693,10 @@ function initXEditable() {
 			return countries;
 		},
 		success : function(data) {
-			if(data.result) 
+			if(data.result) {
 				toastr.success(data.msg);
+				loadActivity=true;	
+			}
 			else 
 				return data.msg;
 	    }
@@ -526,6 +711,7 @@ function initXEditable() {
 		success : function(data) {
 			if(data.result) {
 				toastr.success(data.msg);
+				loadActivity=true;	
 				if(data.avancement=="idea")
 					val=5;
 				else if(data.avancement=="concept")

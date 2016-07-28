@@ -779,7 +779,139 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+	public function actionAddPersonMediumImage(){
+		$people=PHDB::find(Person::COLLECTION);
+		foreach ($people as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				echo $upload_dir_medium;
+				if(!file_exists ($upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Person::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
 
+			}
+		}
+	}
+	public function actionAddOrgaMediumImage(){
+		$organization=PHDB::find(Organization::COLLECTION);
+		foreach ($organization as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Organization::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddProjectMediumImage(){
+		$project=PHDB::find(Project::COLLECTION);
+		foreach ($project as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Project::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddEventMediumImage(){	
+		$event=PHDB::find(Event::COLLECTION);
+		foreach ($event as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Event::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
 	// Log
 	public function actionLogDeletePasswordCitoyen(){
 	  	echo "actionLogDeletePasswordCitoyen => ";  	
@@ -969,6 +1101,102 @@ La vie en santé;Santé;;
 
 			die('OK');
 
+	}
+
+	public function actionAddBadgeOpenData(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				$eeeee[] = Badge::addAndUpdateBadges("opendata", (String)$entity["_id"], $type);
+			}
+			$res[$type] = $eeeee;
+
+		}
+
+		//var_dump(count($res));
+
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
+
+	public function actionAddOpenEdition(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenEdition" => array('$exists' => 0)), array("_id", "links", "preferences"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				if(!empty($entity["links"])){
+					$isAdmin = false;
+					if($type == Project::COLLECTION){
+						if (!empty($entity["links"]["contributors"])) {
+							foreach ($entity["links"]["contributors"] as $key => $contributors) {
+								if(!empty($contributors["isAdmin"]) && $contributors["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+					}
+					if($type == Event::COLLECTION){
+						if (!empty($entity["links"]["attendees"])) {
+							foreach ($entity["links"]["attendees"] as $key => $attendees) {
+								if( !empty($attendees["isAdmin"]) && $attendees["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+							
+					}
+
+					if($type == Organization::COLLECTION){
+						if (!empty($entity["links"]["members"])) {
+							foreach ($entity["links"]["members"] as $key => $members) {
+								if( !empty($members["isAdmin"]) && $members["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}	
+					}
+
+					if($isAdmin == false){
+						$entity["preferences"]["isOpenEdition"] = true ;
+					}else{
+						$entity["preferences"]["isOpenEdition"] = false ;
+					}
+				}else{
+					$entity["preferences"]["isOpenEdition"] = true ;	
+				}
+
+				PHDB::update($type,
+					   		array("_id" => $entity['_id']) , 
+					   		array('$set' => array("preferences" => $entity["preferences"]))
+					   	);
+				$eeeee[] = $entity;
+			}
+			$res[$type] = $eeeee;
+
+		}
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
 	}
 
 }

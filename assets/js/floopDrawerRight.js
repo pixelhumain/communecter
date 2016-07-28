@@ -26,8 +26,13 @@ var floopTypeUsed = new Array();
 var floopShowLock = false;
 var timeoutShowFloopDrawer = false;
 
+var floopContacts;
+
+function getFloopContacts(){ return floopContacts; }
+
 function buildListContactHtml(contacts, myId){
 
+	floopContacts = contacts;
 	
 	var HTML = 			'<div class="floopHeader bg-dark">'+
 							'<a href="javascript:;" onclick="loadByHash(\'#person.directory.id.'+userId+'?tpl=directory2\')" '+
@@ -224,6 +229,8 @@ function checkFloopSearch(thisElement, searchVal, type){
 function addFloopEntity(entityId, entityType, entityValue){
 	//Exception with citoyens collection which is managed like people in display
 	if(entityType == "citoyens") entityType = "people";
+
+	//floopContacts[entityType].push(entityValue);
 
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);

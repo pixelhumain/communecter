@@ -19,20 +19,21 @@
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
                             )); 
-    echo '<div class="col-md-12 panel-white padding-15" id="room-container">';
+    echo '<div class="col-md-12 panel-white padding-15 discussContainer" id="room-container">';
   }
 ?>
 <?php if($contextType == "actionRooms"){ ?>
     <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de disscussion</span> 
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
       <?php //echo $context["name"]; ?>
     </h1> 
 <?php } ?>
 
 
-<?php 
+<?php if($contextType == "actionRooms"){
   Menu::comments( $parentType, $parentId );
   $this->renderPartial('../default/panels/toolbar');
+}
 ?>
 
 <?php
@@ -44,6 +45,7 @@
 											 "options"=>$options,
 											 "canComment"=>$canComment,
 											 "parentType"=>$parentType,
+											 "parentId" => $parentId, 
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,
 											 "canComment" => $canComment,

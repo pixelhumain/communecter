@@ -287,7 +287,7 @@ class Menu {
                         "text-red"); 
 	        }
             //Ask Admin button
-            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"]) {
+            if (! Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], $id) && @Yii::app()->session["userId"] /*|| $organization["preferences"]["isOpenEdition"]==true*/) {
 	            $connectAs="admin";
 	            if(!@$organization["links"]["members"][Yii::app()->session["userId"]]){
 		            $connectAs="member";
@@ -376,7 +376,7 @@ class Menu {
         self::entry("right", 'onclick', 
               Yii::t( "common", 'Understanding newspaper and news stream'),
             '', 'question-circle',
-             "loadByHash('#default.view.page.news.dir.docs')",null,null);
+             "loadByHash('#default.view.page.modules.dir.docs?slide=news')",null,null);
 
     }
 
@@ -450,7 +450,7 @@ class Menu {
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
         }
-        if (isset(Yii::app()->session["userId"]) && ! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"])) {
+        if (isset(Yii::app()->session["userId"]) && (! Authorisation::isProjectAdmin($id, Yii::app()->session["userId"]) /*|| $project["preferences"]["isOpenEdition"]==true*/)) {
 	         $connectAs="admin";
 	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]){
 		            $connectAs="contributor";
@@ -461,12 +461,14 @@ class Menu {
 	                        'fa fa-link followBtn',
 	                        "follow('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
                     }
-	            }
+	            } 
+	            if(!@$project["links"]["contributors"][Yii::app()->session["userId"]]["isAdmin"]){
                 self::entry("right", 'onclick',
                         Yii::t( "common", "Declare me as ".$connectAs." of this project"),
                         Yii::t( "common", "Become ".$connectAs),
                         'fa fa-user-plus becomeAdminBtn',
                         "connectTo('".Project::COLLECTION."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($project["name"])."')",null,null); 
+                        }
            }
     }
 
@@ -546,7 +548,7 @@ class Menu {
         self::entry("right", 'onclick', 
                       Yii::t( "common", 'Understanding surveys and proposals'),
                     '', 'question-circle',
-                     "loadByHash('#default.view.page.dda.dir.docs')",null,null);
+                     "loadByHash('#default.view.page.modules.dir.docs?slide=dda')",null,null);
     }
 
     public static function survey($survey)
@@ -644,7 +646,7 @@ class Menu {
             }
             self::entry("right", 'onclick', 
                         Yii::t( "rooms", 'Move this proposal', null,Yii::app()->controller->module->id),
-                        Yii::t( "common", 'Move'), 'share-alt text-grey',
+                        Yii::t( "rooms", 'Move', null,Yii::app()->controller->module->id), 'share-alt text-grey',
                         "$('#modal-select-room5').modal('show')","moveProposalBtn",null);
         }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

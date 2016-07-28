@@ -5,6 +5,11 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/plugins/wysihtml5/wysihtml5.js',
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -255,7 +260,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<label for="form-field-24" class="control-label text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 									</label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -297,6 +302,11 @@ jQuery(document).ready(function() {
 		console.log("TYPE : ", val);
 		//$('#type option[value="'+val+'"]').prop('selected', true);
 	});
+
+	/*var editor = new wysihtml5.Editor('description', {
+	    toolbar: 'toolbar',
+	    parserRules:  wysihtml5ParserRules
+	});*/
 
 });
 

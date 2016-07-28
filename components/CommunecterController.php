@@ -5,8 +5,8 @@
  */
 class CommunecterController extends Controller
 {
-  public $version = "v0.1.3.2";
-  public $versionDate = "21/06/2016 18:38";
+  public $version = "v0.1.3.3";
+  public $versionDate = "12/07/2016 18:38";
   public $title = "Communectez";
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
@@ -216,6 +216,9 @@ class CommunecterController extends Controller
         "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
+        "updateprofil"      => array("href" => "/ph/communecter/person/updateprofil"),
+        "updatewithjson"      => array("href" => "/ph/communecter/person/updatewithjson"),
+
         
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
@@ -258,6 +261,7 @@ class CommunecterController extends Controller
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
+      "updatesettings"      => array('href'=>"/ph/communecter/organization/updatesettings"),
     ),
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
@@ -270,7 +274,8 @@ class CommunecterController extends Controller
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
       "eventsv"         => array("href" => "ph/communecter/event/eventsv" , "public" => true),
       "directory"       => array("href"=>"/ph/communecter/event/directory", "public" => true),
-      "addattendeesv"   => array("href"=>"/ph/communecter/event/addattendeesv")
+      "addattendeesv"   => array("href"=>"/ph/communecter/event/addattendeesv"),
+      "updatesettings"      => array('href'=>"/ph/communecter/event/updatesettings")
     ),
     "project"=> array(
       "edit"            => array("href" => "/ph/communecter/project/edit"),
@@ -286,7 +291,8 @@ class CommunecterController extends Controller
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv" => array("href" => "/ph/communecter/project/addcontributorsv"),
       "addchartsv"      => array("href" => "/ph/communecter/project/addchartsv"),
-      "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true)
+      "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true),
+      "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
     ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),

@@ -50,8 +50,11 @@
   </a>
 </div>
 
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+<!-- <a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
   Pour quoi faire ? <i class="fa fa-arrow-right"></i>
+</a> -->
+<a href="javascript:loadByHash('#default.view.page.modules.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+  Modules <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">

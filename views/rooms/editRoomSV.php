@@ -5,7 +5,7 @@
     blockquote{border-color: #2BB0C6; cursor: pointer;}
 </style>
 
-<div id="editRoomsContainer" class="hidden"></div>
+<div id="editRoomsContainer" class=""></div>
 
 <script type="text/javascript">
 var listRoomTypes = <?php echo json_encode($listRoomTypes)?>;
@@ -17,11 +17,11 @@ var roomFormDefinition = {
         "properties" : {
             "id" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>"
+              "value" : "<?php echo (isset($id)) ? $id : '' ?>"
             },
             "type" :{
               "inputType" : "hidden",
-              "value" : "<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>"
+              "value" : "<?php echo (isset($type)) ? $type : '' ?>"
             },
             "roomType" :{
                 "inputType" : "hidden",
@@ -65,28 +65,13 @@ jQuery(document).ready(function() {
   });
 });
 
-function selectRoomType(type){
-  $("#roomType").val(type);
-  
-  var msg = "Nouvel espace";
-  if(type=="discuss") msg = "<i class='fa fa-comments'></i> " + msg + " de discussion";
-  if(type=="framapad") msg = "<i class='fa fa-file-text-o'></i> " + msg + " framapad";
-  if(type=="vote") msg = "<i class='fa fa-gavel'></i> " + msg + " de décision";
-  if(type=="actions") msg = "<i class='fa fa-cogs'></i> Nouvelle Liste d'actions";
-  $("#proposerloiFormLabel").html(msg);
-  $("#proposerloiFormLabel").addClass("text-dark");
-  $("#btn-submit-form").html('<?php echo Yii::t("common", "Submit"); ?> <i class="fa fa-arrow-circle-right"></i>');
-  
-  $("#first-step-create-space").hide(400);
-  $(".roomTypeselect").addClass("hidden");
-  $("#editRoomsContainer").removeClass("hidden");
-}
+
 
 function editRoomSV (roomObj) { 
   console.warn("--------------- editEntrySV ---------------------");
   $("#editRoomsContainer").html("<div class=''>"+
               "<div class='space20'></div>"+
-              "<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
+              //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
               "<form id='ajaxFormRoom'></form>"+
               "<div class='space20'></div>"+
              //   "<div class='clear'><?php echo Yii::t('rooms', 'Surveys contain subject to vote on, brainstorm sessions, discussions...', null, $moduleId)?></div>"+ 
@@ -102,7 +87,7 @@ function editRoomSV (roomObj) {
           },
           onSave : function(){
             console.log("saving Room!!");
-            
+            console.log("type : ", $("#editRoomsContainer #roomType").val());
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
@@ -124,15 +109,18 @@ function editRoomSV (roomObj) {
               data: params,
               success: function(data){
                 if(data.result){
-                    if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
+                  console.log("SUCCESS SAVE ROOM :");
+                  console.dir(data);
+                    if( data.newInfos.type == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
-                    else if($("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
+                    else if(data.newInfos.type == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
                       loadByHash("#rooms.external.id."+data.newInfos["_id"]["$id"]);
-                    else if( $("#roomType").select2("val") == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
+                    else if( data.newInfos.type == "<?php echo ActionRoom::TYPE_ACTIONS ?>")
                       loadByHash("#rooms.actions.id."+data.newInfos["_id"]["$id"]);
                     else 
                       loadByHash("#survey.entries.id."+data.newInfos["_id"]["$id"]);
                     //rooms.index.type.<?php echo (isset($_GET['type'])) ? $_GET['type'] : '' ?>.id.<?php echo (isset($_GET['id'])) ? $_GET['id'] : '' ?>");
+                    $("#modal-create-room").modal("toogle");
                 }
                 else {
                   toastr.error(data.msg);
@@ -147,8 +135,6 @@ function editRoomSV (roomObj) {
           }
         });
         console.dir(form);
-      
-   
 }
 
 /*
@@ -251,7 +237,7 @@ function getRandomInt (min, max) {
 function readEntrySV(data,type) { 
   console.warn("--------------- readEntrySV ---------------------");
   console.dir(data);
-  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
+  $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+
               "<div id='entryContent'></div>"+

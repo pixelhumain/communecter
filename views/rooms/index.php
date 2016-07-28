@@ -147,7 +147,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
                             )); ?>
 	    
 <div class="" id="main-panel-room">
-		     <?php $this->renderPartial('../pod/roomTable',array(    
+		     <?php $this->renderPartial('../pod/roomTable',array( 
 		   					"history" => $history, 
                             "moduleId" => $moduleId, 
                             "discussions" => $discussions, 
