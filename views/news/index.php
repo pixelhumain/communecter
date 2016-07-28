@@ -32,6 +32,12 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
 	<!-- start: PAGE CONTENT -->
+
+<?php 
+	if($type != City::COLLECTION)
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent)); 
+?>
+
 <?php 
 	$viewer = isset($_GET["viewer"]) ? true : false;
 	$contextName = "";
@@ -53,9 +59,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de ".$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
+		Menu::person($parent);
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
-			Menu::person($parent);
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
@@ -433,7 +439,7 @@ jQuery(document).ready(function()
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
-		$(".moduleLabel").html("<span style='font-size:20px;'><?php echo @$headerName; ?></span>");
+		$(".moduleLabel").html("<?php echo @$headerName; ?>");
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
 		

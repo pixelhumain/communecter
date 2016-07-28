@@ -104,7 +104,7 @@
 	</button>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" 
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right hidden-xs" id="btn-show-floopdrawer" 
 			onclick="showFloopDrawer(true)"
 			data-toggle="tooltip" data-placement="bottom" title="Communautés" alt="Afficher mes contacts">
 			<i class="fa fa-group"></i>

@@ -774,7 +774,7 @@ button.btn-infos{
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	    overflow: hidden;
-	    max-width: 37%;
+	    max-width: 26%;
 	    max-height: 36px;
 	    font-size: 18px !important;
 	    height: 36px;
@@ -799,7 +799,7 @@ button.btn-infos{
 
 	.main-top-menu .moduleLabel{
 		font-size: 15px !important;
-		max-width: 75%;
+		max-width: 40%;
 	}
 
 	.main-top-menu{
