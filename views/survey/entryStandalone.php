@@ -346,6 +346,10 @@ jQuery(document).ready(function() {
 		function(){  $(".commentCount").html( $(".nbComments").html() ); 
 	},"html");
 
+	$(".explainLink").click(function() {
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 	//buildResults (); //old piechart
 });
 
