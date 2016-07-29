@@ -63,7 +63,7 @@
 	<?php } ?>
 </style>
 
-<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+<div class="hover-info col-sm-10 col-sm-offset-1 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
 

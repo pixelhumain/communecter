@@ -599,6 +599,7 @@ function loadByHash( hash , back ) {
 }
 
 //ex : #search:bretagneTelecom:all
+//#search:#fablab
 function searchByHash (hash) 
 { 
 	var searchT = hash.split(':');
