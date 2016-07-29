@@ -41,6 +41,16 @@ class ProjectController extends CommunecterController {
 		'addchartsv'				=> 'citizenToolKit.controllers.project.AddChartSvAction',
 		'directory'   				=> 'citizenToolKit.controllers.project.DirectoryAction',
 		'get'   					=> 'citizenToolKit.controllers.project.GetAction',
+		"updatesettings" 			=> 'citizenToolKit.controllers.project.UpdateSettingsAction'
+		/*'delete'						=> 'citizenToolKit.controllers.organization.DeleteAction',
+		'join'							=> 'citizenToolKit.controllers.organization.JoinAction',
+		'addneworganizationasmember'	=> 'citizenToolKit.controllers.organization.AddNewOrganizationAsMemberAction',
+		'dashboard'						=> 'citizenToolKit.controllers.organization.DashboardAction',
+		'dashboard1'					=> 'citizenToolKit.controllers.organization.Dashboard1Action',
+		'dashboardmember'				=> 'citizenToolKit.controllers.organization.DashboardMemberAction',
+		'news'							=> 'citizenToolKit.controllers.organization.NewsAction',
+		'sig'							=> 'citizenToolKit.controllers.organization.SigAction',*/
+
 		);
 	}	
 //}

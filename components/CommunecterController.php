@@ -137,6 +137,7 @@ class CommunecterController extends Controller
       'graphcity'           => array("href" => "/ph/communecter/city/graphcity"),
       'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true),
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
+      'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -158,13 +159,15 @@ class CommunecterController extends Controller
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
-      "actions" => array("href" => "/ph/communecter/rooms/actions"),
-      "action" => array("href" => "/ph/communecter/rooms/action"),
+      "external" => array("href" => "/ph/communecter/rooms/external"),
+      "actions"  => array("href" => "/ph/communecter/rooms/actions"),
+      "action"   => array("href" => "/ph/communecter/rooms/action"),
       "editaction" => array("href" => "/ph/communecter/rooms/editaction"),
       'saveaction' => array("href" => "/ph/communecter/rooms/saveaction"),
       'closeaction' => array("href" => "/ph/communecter/rooms/closeaction"),
       'assignme' => array("href" => "/ph/communecter/rooms/assignme"),
       'fastaddaction' => array("href" => "/ph/communecter/rooms/fastaddaction"),
+      'move' => array("href" => "/ph/communecter/rooms/move"),
     ),
     "gantt"=> array(
       "index"            => array("href" => "/ph/communecter/gantt/index", "public" => true),
@@ -213,9 +216,14 @@ class CommunecterController extends Controller
         "getbyid"         => array("href" => "/ph/communecter/person/getbyid"),
         "getorganization" => array("href" => "/ph/communecter/person/getorganization"),
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
+        "updateprofil"      => array("href" => "/ph/communecter/person/updateprofil"),
+        "updatewithjson"      => array("href" => "/ph/communecter/person/updatewithjson"),
+
         
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),
         "sendmail"=> array('href'   => "/ph/communecter/person/sendmail"),
+        
+        "telegram"               => array("href" => "/ph/communecter/person/telegram", "public" => true),
         
         //Init Data
         "clearinitdatapeopleall"  => array("href" =>"'/ph/communecter/person/clearinitdatapeopleall'"),
@@ -224,6 +232,7 @@ class CommunecterController extends Controller
         "about"                   => array("href" => "/person/about"),
         "data"                    => array("href" => "/person/scopes"),
         "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
+        
     ),
     "organization"=> array(
       "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",
@@ -252,6 +261,7 @@ class CommunecterController extends Controller
       "disabled"            => array("href"=>"/ph/communecter/organization/disabled"),
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
+      "updatesettings"      => array('href'=>"/ph/communecter/organization/updatesettings"),
     ),
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),
@@ -264,7 +274,8 @@ class CommunecterController extends Controller
       "calendarview"    => array("href" => "ph/communecter/event/calendarview"),
       "eventsv"         => array("href" => "ph/communecter/event/eventsv" , "public" => true),
       "directory"       => array("href"=>"/ph/communecter/event/directory", "public" => true),
-      "addattendeesv"   => array("href"=>"/ph/communecter/event/addattendeesv")
+      "addattendeesv"   => array("href"=>"/ph/communecter/event/addattendeesv"),
+      "updatesettings"      => array('href'=>"/ph/communecter/event/updatesettings")
     ),
     "project"=> array(
       "edit"            => array("href" => "/ph/communecter/project/edit"),
@@ -280,7 +291,8 @@ class CommunecterController extends Controller
       "projectsv"       => array("href" => "/ph/communecter/project/projectsv"),
       "addcontributorsv" => array("href" => "/ph/communecter/project/addcontributorsv"),
       "addchartsv"      => array("href" => "/ph/communecter/project/addchartsv"),
-      "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true)
+      "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true),
+      "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
     ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),
@@ -369,6 +381,9 @@ class CommunecterController extends Controller
     ),
     "mailmanagement"=> array(
       "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
+    ),
+    "element"=> array(
+      "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
     ),
   );
 

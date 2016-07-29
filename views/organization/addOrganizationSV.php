@@ -5,6 +5,11 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/plugins/wysihtml5/wysihtml5.js',
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -99,6 +104,7 @@ $this->renderPartial('../default/panels/toolbar');
 ?>
 <div id="addOrganization" >
 	
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
 	
 	<div class="col-md-12 form-add-data" >  
 	<div class="noteWrap">
@@ -223,7 +229,8 @@ $this->renderPartial('../default/panels/toolbar');
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code")?> <span class="symbol required"></span>
 									</label>
 									<input type="text" class="form-control" name="postalCode" id="postalCode" value="<?php if(isset($organization["address"]))echo $organization["address"]["postalCode"]?>" >
-									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
+									<i class="fa fa-spin fa-refresh" id="iconeChargement"></i><br>
+									<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 								</div>
 								<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 									<label for="city" class="text-dark">
@@ -253,7 +260,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<label for="form-field-24" class="control-label text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 									</label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -296,6 +303,11 @@ jQuery(document).ready(function() {
 		//$('#type option[value="'+val+'"]').prop('selected', true);
 	});
 
+	/*var editor = new wysihtml5.Editor('description', {
+	    toolbar: 'toolbar',
+	    parserRules:  wysihtml5ParserRules
+	});*/
+
 });
 
 
@@ -322,7 +334,7 @@ var formValidator = function() {
 		},
 		submitHandler : function(form) {
 			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 	        $.ajax({
 		    	  type: "POST",

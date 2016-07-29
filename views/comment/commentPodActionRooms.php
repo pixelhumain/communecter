@@ -3,51 +3,63 @@
 <style type="text/css">
 
 #commentHistory .panel-heading{
-	/*padding:15px !important;*/
+	min-height:185px !important;
 }
 </style>
-
-<?php 
-	Menu::comments( $parentType, $parentId );
-	$this->renderPartial('../default/panels/toolbar');
-
-}
-
-?>
+<?php } ?>
 
 
-
-<?php if($contextType == "actionRooms"){ ?>
-   		 <?php $this->renderPartial('../rooms/header',array(    
-		   					"parent" => $parent, 
+<?php if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
+   	$this->renderPartial('../rooms/header',array(    
+		   					            "parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "comment.index",
                             "faTitle" => "comments",
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
-                            )); ?>
+                            )); 
+    echo '<div class="col-md-12 panel-white padding-15 discussContainer" id="room-container">';
+  }
+?>
+<?php if($contextType == "actionRooms"){ ?>
+    <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
+      <?php //echo $context["name"]; ?>
+    </h1> 
 <?php } ?>
 
+
+<?php if($contextType == "actionRooms"){
+  Menu::comments( $parentType, $parentId );
+  $this->renderPartial('../default/panels/toolbar');
+}
+?>
 
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
 	//		&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
-
 	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
 											 "canComment"=>$canComment,
 											 "parentType"=>$parentType,
+											 "parentId" => $parentId, 
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,
 											 "canComment" => $canComment,
-											 "context"=>$context));
+											 "context"=>$context,
+											 "images"=>$images));
+
+  if($contextType == "actionRooms" && !isset($_GET["renderPartial"]))
+    echo "</div>";
 ?>
 
-<script type="text/javascript">
 
+
+<script type="text/javascript">
+var images = <?php echo json_encode($images) ?>;
 var latestComments = <?php echo time(); ?>;
 jQuery(document).ready(function() {
 	
@@ -84,5 +96,26 @@ function checkCommentCount(){
 	    	}
         }
     });
+}
+
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
 }
 </script>

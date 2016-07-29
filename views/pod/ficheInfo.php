@@ -12,7 +12,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 
@@ -118,22 +119,164 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
+			<?php if ($openEdition==true) { ?>
+				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+			<?php } ?>
 		</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-			 && Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"])) { 
-				if(!isset($organization["disabled"])){
+		<?php
+		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
+			 && ($edit || $openEdition)) { 
 			 	?>
-				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> Editer les informations</span></a>
-				<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>
+				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+				<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>-->
+				
+				<?php if($edit == true){ ?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Settings"); ?>
+					</span>
+				</a>
+				<?php 
+				}
+				if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $organization["_id"] ?>','<?php echo Organization::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityHistory","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+			<?php } 
+
+			if($edit == true){?>
 				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
-		<?php }} 
+		<?php 
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
-		<?php } ?>
+		<?php }  } } ?>
+		<style type="text/css">
+			.badgePH{ 
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 10px;
+				/*margin-bottom: 10px;*/
+			}
+			/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+			.badgePH .fa-stack .main { font-size:2.2em}
+			.badgePH .fa-stack .mainTop { 
+				/*margin-left:10px;*/
+				margin-top:-3px}
+			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
+		</style>
+		<?php if(!empty($organization["badges"])){?>
+			<?php if( Badge::checkBadgeInListBadges("opendata", $organization["badges"]) ){?>
+
+				<div class="badgePH pull-right" data-title="OPENDATA">
+					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+						<i class="fa fa-database main fa-stack-1x text-orange"></i>
+						<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+					</span>
+				</div>
+		<?php } 
+		} ?>
 	</div>
-	<div class="panel-body border-light panelDetails" id="organizationDetail">
+	<style type="text/css">
+		.urlOpenData{
+		    padding: 9px;
+		}
+	</style>
+	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<!--<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>-->
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/organizations/id/'.$organization['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
+					</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+	        </div>
+	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences["isOpenData"] = true;
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
+
+				//To checked private or public
+				foreach($typePreferences as $type){
+
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($organization["preferences"][$type]) && in_array($field, $organization["preferences"][$type])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($organization["preferences"][$typePrefB]) && $organization["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}
+			?> 
+	     </script>
+
+
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#organization.detail.id.<?php echo $organization['_id'] ;?>');">OK</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+	<div id="activityContent" class="panel-body no-padding hide">
+		<h2 class="homestead text-dark" style="padding:40px;">
+			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
+		</h2>
+	</div>
+	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">
 		<div class="row">
 
 			<div class="col-sm-6 col-md-6">
@@ -142,7 +285,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "type" => Organization::COLLECTION,
 																	  "resize" => false,
 																	  "contentId" => Document::IMG_PROFIL,
-																	  "editMode" => Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]),
+																	  "editMode" => $edit,
 																	  "image" => $images)); 
 				?>
 			</div>
@@ -214,8 +357,46 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<!-- <hr style="margin:10px 0px;"> -->
 					</div>
 					<div class="col-md-6 col-sm-6">
+						<i class="fa fa-phone fa_telephone hidden"></i>
+						<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
+							<?php 
+								if(isset($organization["telephone"]["fixe"])){
+									foreach ($organization["telephone"]["fixe"] as $key => $tel) {
+										if($key > 0)
+											echo ", ";
+										echo $tel;
+									}
+								}
+							?>
+						</a>
+						<br>
+
+						<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
+						<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+							<?php if(isset($organization["telephone"]["mobile"])){
+								foreach ($organization["telephone"]["mobile"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
+							}?>
+						</a>
+						<br>
+
+						<i class="fa fa-fax fa_telephone_fax hidden"></i> 
+						<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+							<?php if(isset($organization["telephone"]["fax"])){
+								foreach ($organization["telephone"]["fax"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
+							}?>
+						</a>
+						<br>
+
 						<?php 
-							$nbFixe = 0 ;
+							/*$nbFixe = 0 ;
 							$nbMobile = 0 ; 
 
 							if(isset($organization["telephone"]))
@@ -390,8 +571,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	
 	jQuery(document).ready(function() {
+
 		bindFicheInfoBtn();
 		$("#editFicheInfo").on("click", function(){
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+				getBackDetails(contextId,"<?php echo Organization::COLLECTION ?>");
 			switchMode();
 		});
 		activateEditableContext();
@@ -441,8 +625,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			findGeoPosByAddress();
 		});
 
-	});
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
+		});
 
+
+		
+
+		
+	});
 
 	function manageModeContext() {
 		if (mode == "view") {
@@ -455,7 +649,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#address').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
 			$('#typeOfPublic').editable('toggleDisabled');
-			$('#telephone').editable('toggleDisabled');
+			$('#fixe').editable('toggleDisabled');
+			$('#mobile').editable('toggleDisabled');
+			$('#fax').editable('toggleDisabled');
 
 			$("#btn-update-geopos").addClass("hidden");
 			$("#add-phone").addClass("hidden");
@@ -472,7 +668,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#tags').editable('option', 'pk', contextId);
 			$('#category').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
-			$('#telephone').editable('option', 'pk', contextId);
+			$('#fixe').editable('option', 'pk', contextId);
+			$('#mobile').editable('option', 'pk', contextId);
+			$('#fax').editable('option', 'pk', contextId);
 			
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
@@ -482,7 +680,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('#addressCountry').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#category').editable('toggleDisabled');
-			$('#telephone').editable('toggleDisabled');
+			$('#fixe').editable('toggleDisabled');
+			$('#mobile').editable('toggleDisabled');
+			$('#fax').editable('toggleDisabled');
 
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#add-phone").removeClass("hidden");
@@ -495,9 +695,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
 		if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
 		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
-		if($('#telephone').html() != "")		{ $(".fa_telephone").removeClass("hidden"); } else { $(".fa_telephone").addClass("hidden"); }
+		if($('#fixe').html() != "")				{ $(".fa_phone").removeClass("hidden"); } else { $(".fa_phone").addClass("hidden"); }
+		if($('#mobile').html() != "")			{ $(".fa_mobile").removeClass("hidden"); } else { $(".fa_mobile").addClass("hidden"); }
+		if($('#fax').html() != "")				{ $(".fa_fax").removeClass("hidden"); } else { $(".fa_fax").addClass("hidden"); }
 		
 	}
+
+
+	function changeHiddenIcone() 
+{ 
+	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+	console.log("------------", mode);
+	if(mode == "view"){
+		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+	} else {
+		$(".fa_name").removeClass("hidden"); 
+		$(".fa_birthDate").removeClass("hidden"); 
+		$(".fa_email").removeClass("hidden"); 
+		$(".fa_streetAddress").removeClass("hidden"); 
+		$(".fa_postalCode").removeClass("hidden"); 
+		$(".fa_addressCountry").removeClass("hidden"); 
+		$(".fa_telephone_mobile").removeClass("hidden"); 
+		$(".fa_telephone").removeClass("hidden"); 
+		$(".fa_telephone_fax").removeClass("hidden"); 
+	}
+}
 
 	function activateEditableContext() {
 
@@ -509,7 +739,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			onblur: 'submit',
 			success: function(response, newValue) {
 				console.log("yo");
-        		if(! response.result) return response.msg; //msg will be shown in editable form
+		        if(response.result) {
+		        	toastr.success(response.msg);
+					loadActivity=true;	
+		        }else {
+					return (response.msg);
+			    }  
     		}
 		});
 		
@@ -520,6 +755,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return types;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#shortDescription').editable({
@@ -536,7 +779,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		//Select2 tags
@@ -548,7 +799,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 				tokenSeparators: [","],
 				width: 200
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 
@@ -560,7 +819,57 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				tags:  <?php if(isset($telephone)) echo json_encode($telephone); else echo json_encode(array())?>,
 				tokenSeparators: [",", "/", " "],
 				width: 200,
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
+		});
+
+		$('#mobile').editable({
+	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($organization["telephone"]["mobile"])) ? json_encode(implode(",", $organization["telephone"]["mobile"])) : "''"; ?>,
+	        success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
+	    });
+
+	    $('#fax').editable({
+	        url: baseUrl+"/"+moduleId+"/organization/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($organization["telephone"]["fax"])) ? json_encode(implode(",", $organization["telephone"]["fax"])) : "''"; ?>,
+	        success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
+	    }); 
+
+		$('#fixe').editable({
+			url: baseUrl+"/"+moduleId+"/organization/updatefield",
+			mode: 'popup',
+			value: <?php echo (isset($organization["telephone"]["fixe"])) ? json_encode(implode(",", $organization["telephone"]["fixe"])) : "''"; ?>,
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		
@@ -583,6 +892,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				});
 				return result;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#addressCountry').editable({
@@ -591,6 +908,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			source: function() {
 				return countries;
 			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		$('#address').editable({
@@ -605,6 +930,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				console.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
+				loadActivity=true;	
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
@@ -624,7 +950,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			wysihtml5: {
 				html: true,
 				video: false
-			}
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
 		});
 
 		//Validation Rules
@@ -642,9 +976,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if(mode == "view"){
 			mode = "update";
 			manageModeContext();
+			changeHiddenIcone();
 		}else{
 			mode ="view";
 			manageModeContext();
+			changeHiddenIcone();
 		}
 	}
 
@@ -771,7 +1107,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 	
 	function bindFicheInfoBtn() {
-		$("#disableOrganization").off().on("click",function () {
+		/*$("#disableOrganization").off().on("click",function () {
 			console.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
 			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !').' '.Yii::t('organization','Are you sure you want to delete the organization : ') ?><span class='text-red'>"+$(this).data('name')+"</span> ?", 
@@ -785,15 +1121,41 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							success: function(data) {
 								if(data.result) {
 									//remove the organization from floopdrawer
+									alert("bim");
 									removeFloopEntity(id, "organizations");
 									toastr.success(data.msg);
-								} else
+									loadByHash(location.hash);
+								} else{
+									alert("bloui");
 									toastr.error(data.msg);
+								}
 						  	},
 						});
 					}
 			});
-		});
+		});*/
+
+		$(".editConfidentialityBtn").click(function(){
+	    	console.log("confidentiality");
+	    	$("#modal-confidentiality").modal("show");
+	    });
+
+	    $(".confidentialitySettings").click(function(){
+		    	param = new Object;
+		    	param.type = $(this).attr("type");
+		    	param.value = $(this).attr("value");
+		    	param.typeEntity = "organizations";
+		    	param.idEntity = contextId;
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/organization/updatesettings",
+			        data: param,
+			       	dataType: "json",
+			    	success: function(data){
+				    	toastr.success(data.msg);
+				    }
+				});
+	    	});
 	}
 
 </script>

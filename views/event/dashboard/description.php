@@ -35,7 +35,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
-	'/js/postalCode.js'
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
@@ -147,29 +148,168 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","General infos") ?>
 			<?php if ($openEdition==true) { ?>
-				<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+
 			<?php } ?>
 		</h4>
 	</div>
 	<div class="navigator padding-0 text-right">
 		<div class="panel-tools">
 		<?php 
-			if($edit){
-		?>
+			if($edit || $openEdition ){ ?>
+				<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
+		<?php }
+
+			if($edit){ ?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètres de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Settings"); ?>
+					</span>
+				</a>
+			<!--<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>-->
+    	<?php } 
+
+    		if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+		<?php } ?>
+			<style type="text/css">
+				.badgePH{ 
+					cursor: pointer;
+					display: inline-block;
+					margin-right: 10px;
+					/*margin-bottom: 10px;*/
+				}
+				/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+				.badgePH .fa-stack .main { font-size:2.2em}
+				.badgePH .fa-stack .mainTop { 
+					/*margin-left:10px;*/
+					margin-top:-3px}
+				.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+				/* Tooltip container */
+				.opendata .mainTop{
+				    color: black;
+				    font-size: 1.3em;
+				    padding: 5px;
+				}
+				.opendata .main{
+				    color: #00cc00;
+				}
+			</style>
+
+			<?php if(!empty($event["badges"])){?>
+				<?php if( Badge::checkBadgeInListBadges("opendata", $event["badges"])){?>
+					<div class="badgePH pull-right" data-title="OPENDATA">
+						<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-database main fa-stack-1x text-orange"></i>
+							<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+						</span>
+					</div>
+			<?php } 
+			} ?>
+		</div>
+	</div>
+
+	<style type="text/css">
+		.urlOpenData{
+		    padding: 9px;
+		}
+	</style>
+	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<!--<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>-->
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/events/id/'.$event['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
+					</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+	        </div>
+	      </div>
+	      
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences= array();
+
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
+
+				//To checked private or public
+				foreach($typePreferences as $typePref){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($event["preferences"][$typePref]) && in_array($field, $event["preferences"][$typePref])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $typePref)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						} 
+					}
+				}
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($event["preferences"][$typePrefB]) && $event["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}	
+
+			?> 
+	     </script>
+
+
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#event.detail.id.<?php echo $event['_id'] ;?>');">OK</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+
+
+	<!--<div class="panel-body no-padding">
 			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Edit Event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit Information") ?></span></a>
 			<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Modify Position on the map") ?>" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> <?php echo Yii::t("common","Modify Position") ?></span></a>
 			<?php /*?>
 			<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Delete this event",null,Yii::app()->controller->module->id); ?>" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> <?php echo Yii::t("event","Cancel Event",null,Yii::app()->controller->module->id); ?></span></a>
 			*/ ?>
-			<?php if ($openEdition==true) { ?>
-				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","See modifications done on this event"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
-
-    	<?php } ?>
-		</div>
-	</div>
+	</div>-->
 	<div id="activityContent" class="panel-body no-padding hide"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des activités ...</h2></div>
 	<div id="contentGeneralInfos" class="panel-body no-padding">
+
 		<div class="col-sm-6 col-xs-12 padding-10">
 			<div class="item" id="imgAdherent">
 				<?php 
@@ -310,15 +450,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var startDate = '<?php echo $event["startDate"]; ?>';
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
-	var loadActivity=true;	
+	var loadActivity = true;	
 	if(imagesD != 'null'){
 		var images = imagesD;
 	}
 	
 	jQuery(document).ready(function() {
 		$("#editEventDetail").on("click", function(){
+			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+				getBackDetails(itemId,"<?php echo Event::COLLECTION ?>");
 			switchMode();
-		})
+		});
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(itemId, "events", eventData);
 			showMap(true);
@@ -350,7 +492,38 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					})
 				}
 			})
-		})
+		});
+
+
+		$(".editConfidentialityBtn").click(function(){
+	    	console.log("confidentiality");
+	    	$("#modal-confidentiality").modal("show");
+	    });
+
+	    $(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+	    	param.typeEntity = "events";
+	    	param.idEntity = itemId;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/event/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+    	});
+
+
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
+		});
 	})
 
 	function activateEditable() {

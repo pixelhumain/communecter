@@ -33,7 +33,7 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
 
       $href = ( isset( $item["href"] ) ) ? $item["href"]  : "" ;
       $iconSize = (isset($item["iconSize"])) ? 'class="'.$item["iconSize"].'"' : "";//"fa-2x";
-      $icon = (isset($item["iconClass"])) ? '<i class="'.$item["iconClass"].' '.$iconSize.'"></i>' : '';
+      $icon = (isset($item["iconClass"]) && $item["iconClass"] != "fa fa-") ? '<i class="'.$item["iconClass"].' '.$iconSize.'"></i>' : '';
       $badge = ( isset( $item["badge"] ) ) ? $item["badge"] : "";
       $label = ( isset( $item["label"] ) ) ? $item["label"] : "";
       $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";

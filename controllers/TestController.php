@@ -779,7 +779,139 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+	public function actionAddPersonMediumImage(){
+		$people=PHDB::find(Person::COLLECTION);
+		foreach ($people as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				echo $upload_dir_medium;
+				if(!file_exists ($upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Person::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
 
+			}
+		}
+	}
+	public function actionAddOrgaMediumImage(){
+		$organization=PHDB::find(Organization::COLLECTION);
+		foreach ($organization as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Organization::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddProjectMediumImage(){
+		$project=PHDB::find(Project::COLLECTION);
+		foreach ($project as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Project::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddEventMediumImage(){	
+		$event=PHDB::find(Event::COLLECTION);
+		foreach ($event as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Event::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
 	// Log
 	public function actionLogDeletePasswordCitoyen(){
 	  	echo "actionLogDeletePasswordCitoyen => ";  	
@@ -847,6 +979,224 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 	  	}
 	  
 		echo $i." stats crééés<br/>";
+	}
+
+	public function actionupdateAlternatiba(){
+
+		$content = "AREC, Association pour le Respect de l'Environnement et du Cadre de vie;Agriculture;Alimentation;
+arTerre;Agriculture;Alimentation;
+AVAB, Association pour la Valorisation d'une Agriculture Biologique;Agriculture;Alimentation;
+Biodynamie Réunion;Agriculture;Alimentation;
+C tout bio;Agriculture;Alimentation;
+Cacao péi;Agriculture;Alimentation;
+Domaine du café grillé;Agriculture;Biodiversité;
+Ecole du Jardin Planétaire ;Agriculture;Alimentation;Biodiversité 
+GAB, Groupement des Agricultures Biologiques;Agriculture;Alimentation;Biodiversité 
+GCEIP, Militan pou la tèr;Agriculture;Alimentation;
+GERME;Agriculture;Alimentation;
+Latitude fruitière;Agriculture;Alimentation;
+Le Labyrinthe En Champ Thé;Agriculture;Alimentation;
+Le lien végétal;Agriculture;Alimentation;
+Le verger de la chapelle;Agriculture;Alimentation;
+AD2R, Association Développement Rural Réunion;Agriculture ;;
+Agro&co;Agriculture ;;
+Passages formation;Agriculture ;Alimentation ;
+SAFER, Société d'Aménagement Foncier et d'Etablissement Rural ;Agriculture ;;
+La Part des Anges ;Alimentation;;
+La Ruche qui dit Oui;Alimentation;;
+la z'olie crèpe;Alimentation;;
+Tisane héritage tradition;Alimentation ;;
+Acquatiris;Aménagement, Transport, Construction;;
+ATR-FNAUT, Alternatives Transport Réunion;Aménagement, Transport, Construction;;
+Bambou, Régis Brinsinger;Aménagement, Transport, Construction;;
+Bambouseraie du Guillaume;Aménagement, Transport, Construction;;
+CAUE 974, Conseil d'Architecture, d'Urbanisme et de l'Environnement ;Aménagement, Transport, Construction;;
+CRPV, Comité Réunionnais pour la Promotion du Vélo ;Aménagement, Transport, Construction;;
+Globice, Groupe Local d'Observation et d'Identification des Cetacés;Biodiversité;;
+Réserve Naturel Marine;Biodiversité;;
+APE, Association d'aménagement et de protection de l'environnement;Biodiversité ;;
+APLAMEDOM Réunion, Association pour les PLantes Aromatiques et MEdicinales de la Réunion;Biodiversité ;;
+APN, Amis des Plantes et de la Nature;Biodiversité ;;
+APPER, Association Promotion Patrimoine Écologie Réunion;Biodiversité ;;
+ARDA, Association Réunionnaise de Développement de l'Aquaculture (Hydrô Réunion);Biodiversité ;;
+Kelonia;Biodiversité ;;
+Le conservatoire du littoral;Biodiversité ;;
+Le Parc National ;Biodiversité ;;
+Nature Océan Indien;Biodiversité ;;
+SEOR, Société d'Etude Ornitologiques de la Réunion;Biodiversité ;;
+SREPEN, Société Réunionnaise pour l'Etue et la Protection de l'ENvironnement;Biodiversité ;;
+Surfrider Foundation;Biodiversité ;Citoyenneté ;
+Vie océane;Biodiversité ;;
+EMMAUS;Citoyenneté;;
+GRANDDIR, Groupement Régional des Acteurs de l’éducation à l’eNvironnement pour un Développement Durable de l’Ile de La Réunion;Citoyenneté;;
+Libre974;Citoyenneté;;
+Réseau WARN-ZIG;Citoyenneté;;
+Unit métis;Citoyenneté ;;
+Yourte en scène;Citoyenneté ;;
+Ecomanifestation;Déchets;;
+Titang recup;Déchets;;
+AIR, Association des Inclassables Réunionnais ;Déchets ;Aménagement, Transport, Construction;
+ART Récup';Déchets ;;
+Carto d'O ;Déchets ;;
+Collectif zéro déchet;Déchets ;;
+Les palettes de Marguerite;Déchets ;;
+Les rencontres alternatives ;Déchets ;;
+OCRE, Organisation des Consommateurs Respectueux de l'Environnement;Déchets ;;
+Poc Poc;Economie Sociale et Solidaire ;;
+Réunion équitable;Economie Sociale et Solidaire ;;
+Réunisel ;Economie Sociale et Solidaire ;;
+Béb' écolo;Education;;
+Ekolo tipa tipa;Education;;
+ADEME, Agence De l'Environnement et de la Maîtrise de l'Energie;Energie;;
+AKUO Fondation;Energie;;
+Robin des mers;Energie;;
+ANPCEN, Association Nationale pour la Protection du Ciel et de l'Environnement Nocturne ;Energie ;;
+ARMSE, Association Réunionnaise Médicale Santé Environnement;Santé;;
+La vie en santé;Santé;;
+";
+		$i = 0;
+		$array_rows = str_getcsv($content, "\n");
+		foreach ($array_rows as $row) {
+			
+			$contentRow = str_getcsv($row, ";");
+			$name = "";
+
+			//Name
+			if(isset($contentRow[0])){
+				$name = $contentRow[0];
+				unset($contentRow[0]);
+
+				//tag
+				$result = Organization::getWhere(array('name' => new MongoRegex("/".$name."/i"), 'source.key' => 'AlternatibaPei'));
+				if(is_array($result) && $result){
+					foreach ($result as $id => $value) {
+
+						//Format
+						foreach ($value["tags"] as $keyTag => $valueTag) {
+							$value["tags"][$keyTag] = TextHelper::createHashTag($valueTag);
+						}
+
+						//merge
+						$value["tags"]= Tags::filterAndSaveNewTags(array_unique(array_merge($value["tags"], $contentRow)));
+
+						//case vide
+						foreach ($value["tags"] as $k => $v) {
+				       		if (empty($v)) unset($value["tags"][$k]);
+				    	}
+					}
+
+					//update
+					$i++;
+					// echo "<br>$i ".$name." ";
+					// print_r($value["tags"]);
+					Organization::updateOrganizationField($id, 'tags', $value["tags"], "5534fd9da1aa14201b0041cb");
+					// die();
+				}
+			}
+			else{
+				// echo "<br> attention => ".$name;
+			}
+
+		}
+
+			die('OK');
+
+	}
+
+	public function actionAddBadgeOpenData(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				$eeeee[] = Badge::addAndUpdateBadges("opendata", (String)$entity["_id"], $type);
+			}
+			$res[$type] = $eeeee;
+
+		}
+
+		//var_dump(count($res));
+
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
+
+	public function actionAddOpenEdition(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenEdition" => array('$exists' => 0)), array("_id", "links", "preferences"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				if(!empty($entity["links"])){
+					$isAdmin = false;
+					if($type == Project::COLLECTION){
+						if (!empty($entity["links"]["contributors"])) {
+							foreach ($entity["links"]["contributors"] as $key => $contributors) {
+								if(!empty($contributors["isAdmin"]) && $contributors["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+					}
+					if($type == Event::COLLECTION){
+						if (!empty($entity["links"]["attendees"])) {
+							foreach ($entity["links"]["attendees"] as $key => $attendees) {
+								if( !empty($attendees["isAdmin"]) && $attendees["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+							
+					}
+
+					if($type == Organization::COLLECTION){
+						if (!empty($entity["links"]["members"])) {
+							foreach ($entity["links"]["members"] as $key => $members) {
+								if( !empty($members["isAdmin"]) && $members["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}	
+					}
+
+					if($isAdmin == false){
+						$entity["preferences"]["isOpenEdition"] = true ;
+					}else{
+						$entity["preferences"]["isOpenEdition"] = false ;
+					}
+				}else{
+					$entity["preferences"]["isOpenEdition"] = true ;	
+				}
+
+				PHDB::update($type,
+					   		array("_id" => $entity['_id']) , 
+					   		array('$set' => array("preferences" => $entity["preferences"]))
+					   	);
+				$eeeee[] = $entity;
+			}
+			$res[$type] = $eeeee;
+
+		}
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
 	}
 
 }

@@ -56,7 +56,7 @@ width: 100%;
 			<a class="btn bg-white" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
 				<img class="img-circle" id="menu-small-thumb-profil" style="margin-left: -5px; margin-top: 3px; " width="40" height="40" src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
 			</a>
-			<br/><?php echo $me["name"]; ?>
+			<br/><?php echo $me["name"]; ?>!!!!
 		</div>
 	  	<div class="item">
 			<a class="btn bg-white" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 

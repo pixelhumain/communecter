@@ -298,7 +298,7 @@
 			data = data.author;
 			//console.log("typeSig : " + allData['typeSig']);
 			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
-			var id = this.getObjectId(data);
+			var id = this.getObjectId(allData);
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(allData);
@@ -329,7 +329,7 @@
 			title = title.replace('"', "");
 
 			var icon = 'fa-'+ this.getIcoByType(data);
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='openMainPanel(\""+url+"\",\"" + title + "\",\"" + icon + "\", \""+id+"\");'>";
+			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='loadByHash(\"#news.detail.id."+id+"\");'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
@@ -582,6 +582,27 @@
 			if(location.hash != "#default.twostepregister")
 			popupContent +=			"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
 										"<i class='fa fa-plus'></i> En savoir plus"+
+									"</button>";
+
+			popupContent +=		'</div>';
+			return popupContent;
+		};
+
+		Sig.getPopupAddress = function(data, label){
+			console.log(data);
+			var cityName = data["name"].replace("'", "\'");;
+			var cp = data["postalCode"];
+			if(typeof(data["countCpByInsee"]) != "undefined"){
+				var nbCpByInsee = data["countCpByInsee"];
+				var cityInsee = data["cityInsee"];
+			}
+			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
+									"<div class='panel-title text-dark center'>"+
+										"<i class='fa fa-map-marker'></i> "+cityName+
+									"</div>" + 
+									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' cp-com='" + cp + "'";					
+				popupContent += 		">"+
+										"<i class='fa fa-check'></i> "+ label +
 									"</button>";
 
 			popupContent +=		'</div>';

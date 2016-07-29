@@ -139,11 +139,15 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
                             "fromView" => "rooms.index",
                             "faTitle" => "connectdevelop",
                             "colorTitle" => "azure",
-                            "textTitle" => ""
+                            "textTitle" => "",
+                            "discussions" => $discussions, 
+                            "votes" => $votes, 
+                            "actions" => $actions, 
+                            
                             )); ?>
 	    
 <div class="" id="main-panel-room">
-		     <?php $this->renderPartial('../pod/roomTable',array(    
+		     <?php $this->renderPartial('../pod/roomTable',array( 
 		   					"history" => $history, 
                             "moduleId" => $moduleId, 
                             "discussions" => $discussions, 
@@ -169,9 +173,9 @@ jQuery(document).ready(function() {
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-			showDefinition( $(this).data("id") );
-			return false;
-		});
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 	$(".dataTables_length").append("");
 	
 	activeTab = <?php echo (@$_GET["tab"]) ? $_GET["tab"] : "1"?>;

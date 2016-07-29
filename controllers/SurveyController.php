@@ -30,6 +30,7 @@ class SurveyController extends CommunecterController {
           'addaction'    => 'citizenToolKit.controllers.action.AddActionAction',
           'editentry'    => 'citizenToolKit.controllers.survey.EditEntryAction',
           "fastaddentry" => 'citizenToolKit.controllers.survey.FastAddEntryAction',
+          
       );
   }
   

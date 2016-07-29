@@ -17,6 +17,8 @@
     <li role="separator" class="divider"></li>
     <li><a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add"><i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i><?php echo Yii::t("person","Create an organization"); ?></a></li>
     <li role="separator" class="divider"></li>
+    <li><a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add"><i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?></a></li>
+    <li role="separator" class="divider"></li>
     <?php
       if(Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))){
         $sourceAdmin = Person::getSourceAdmin(Yii::app()->session['userId']);
