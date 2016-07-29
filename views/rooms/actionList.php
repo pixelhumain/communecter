@@ -526,7 +526,7 @@ border: 1px solid #E4E4E4;
                   <br>Référencez et partagez <b>une par une</b>,
                   <br>les tâches qui concernent cet espace
                   <br><br>
-                  <button class="btn btn-success" data-toggle="modal" data-target="#modal-create-action">
+                  <button class="btn btn-success" onclick='$(".datepicker").css("zIndex","12000");' data-toggle="modal" data-target="#modal-create-action">
                     <i class="fa fa-plus"></i> Ajouter une action
                   </button>
                 </blockquote>
@@ -647,9 +647,6 @@ jQuery(document).ready(function() {
   });
 
   
-  $('#modal-create-action').on('show.bs.modal', function () {
-    $('.datepicker').css('zIndex',"12000");
-  })
 });
 
 
