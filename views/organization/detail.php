@@ -42,13 +42,17 @@
     				<div id="pod-room" class="panel panel-white">
 
 						<div class="panel-heading border-light bg-azure">
-							<h4 class="panel-title">
+								<h4 class="panel-title">
 									<i class="fa fa-connectdevelop"></i> 
-									<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
-							</h4>		
+									<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" class="homestead">
+										<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
+										<i class="fa fa-arrow-circle-right pull-right"></i>
+									</a>
+								</h4>		
+							
 						</div>
 
-						<div class="panel-body no-padding">
+						<div class="panel-body no-padding hidden">
 							<blockquote>
 							Pour accéder à cet espace, connectez-vous !<br>
 							<span class="text-azure">
@@ -121,22 +125,10 @@
 
 	jQuery(document).ready(function() {
 
-		<?php if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly") { ?>
-			$(".moduleLabel").html("<i class='fa fa-circle text-red'></i> <i class='fa fa-users text-red'></i> <?php echo addslashes($organization["name"]) ?> ");
-		<?php }else{ ?>
-			$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
-		<?php } ?>
-		//if($(".tooltips").length) {
-     	//	$('.tooltips').tooltip();
-   		//}
+		$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
+		
    		bindFicheInfoBtn();
 
-   		<?php if (isset(Yii::app()->session["userId"])) { ?>
-	   		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
-				var id = "<?php echo (String) $organization['_id']; ?>";
-		   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
-		   			function(){}, "html");
-	   	<?php } ?>
 	});
 	
 	function bindFicheInfoBtn(){
