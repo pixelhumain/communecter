@@ -347,7 +347,7 @@ Menu::organization($organization);
 	</a>
 	<div id="modalDirectoryForm" class="pull-left margin-15"></div>
 
-	<div class="col-md-12">  
+	<div class="col-md-12 margin-top-15">  
     	<ul class="nav nav-tabs hidden">
 			<li role="presentation">
 				<a href="javascript:;" onclick="fadeInView('divSearch');" class="btn btn-default" id="menuInviteSomeone">
@@ -582,7 +582,7 @@ Menu::organization($organization);
 		
 		bindTEST();
 
-		buildDynForm();
+		//buildDynForm();
 	});
 
 	function buildDynForm(){ 
