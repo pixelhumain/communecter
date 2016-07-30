@@ -129,69 +129,6 @@
 }
 
 
-.btn-param-postal-code{
-	left: 61px;
-	bottom: 100px;
-	width: 45px !important;
-	height: 45px !important;
-	border-radius: 50%;
-	z-index:2;
-	color: #FFF;
-	font-size: 19px;
-	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-}
-
-/*#btn-geoloc-auto-menu{
-	left: 105px;
-	top: 60px;
-	padding-bottom: 6px;
-	padding-top: 4px;
-	padding-right: 10px;
-	padding-left: 12px;
-}*/
-/*#btn-geoloc-auto-menu i.fa{
-	font-size: 16px;
-}*/
-
-#input-communexion{
-	display:none;
-	position:fixed;
-	bottom:0px;
-	left:0px;
-	z-index: 1;
-}
-
-#searchBarPostalCode{
-	position: absolute;
-	left: 62px;
-	bottom: 100px;
-	height: 45px;
-	margin-top: 10px;
-	width: 350px;
-	margin-left: 0px;
-	font-family: "homestead";
-	font-size: 22px !important;
-	border-radius: 55px !important;
-	padding-left: 69px !important;
-	text-align: left;
-}
-
-#input-communexion .search-loader{
-	position: absolute;
-	left: 170px;
-	bottom: 75px;
-	font-weight: 600;
-	font-size: 14px;
-	overflow: hidden;
-	max-width: 450px;
-	width: 450px;
-	height: 20px;
-	max-height: 20px;
-}
 .homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
