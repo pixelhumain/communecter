@@ -808,7 +808,7 @@
 							subdomains: 'abcd',
 							zIndex:2,
 							opacity: 0.7,
-							minZoom:12,
+							minZoom:20,
 							maxZoom: 20
 						});
 			Sig.roadTileLayer.addTo(map);
@@ -818,7 +818,7 @@
 									subdomains: 'abcd',
 									opacity: 0.7,
 									zIndex:3,
-									minZoom: 12,
+									minZoom: 20,
 									maxZoom: 20,
 									ext: 'png'
 								});

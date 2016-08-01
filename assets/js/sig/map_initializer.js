@@ -170,8 +170,12 @@
 						thisSig.map.maxZoom = 17;
 
 						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":3});
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":2});
 							thisSig.roadTileLayer.redraw();
+						}
+						if(thisSig.StamenTonerLabels != null) {
+							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":17, "minZoom":2});
+							thisSig.StamenTonerLabels.redraw();
 						}
 
 					}else if(thisSig.tileMode == "satellite"){
@@ -184,12 +188,12 @@
 						thisSig.map.maxZoom = 20;
 
 						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":12});
+							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":20});
 							thisSig.roadTileLayer.redraw();
 						}
 
 						if(thisSig.StamenTonerLabels != null) {
-							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":20, "minZoom":12});
+							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":20, "minZoom":20});
 							thisSig.StamenTonerLabels.redraw();
 						}
 						
