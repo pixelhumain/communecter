@@ -56,10 +56,10 @@
 
 			//initialise les boutons zoom-in et zoom-out
 			if(params.useZoomButton){
-				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ 
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() < thisSig.maxZoom) thisMap.zoomIn(); 
 				});
-				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ 
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() > thisSig.minZoom) thisMap.zoomOut(); 
 				});
 			}
@@ -162,39 +162,49 @@
 				$(this.cssModuleName + " #btn-satellite").click(function(){
 					if(thisSig.tileMode == "terrain"){
 						thisSig.tileMode = "satellite";
+						
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
 						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 														{maxZoom:17,
 														 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 3;
-						thisSig.map.maxZoom = 17;
-
-						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":2});
-							thisSig.roadTileLayer.redraw();
-						}
-						if(thisSig.StamenTonerLabels != null) {
-							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":17, "minZoom":2});
-							thisSig.StamenTonerLabels.redraw();
-						}
+						
+						thisSig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
+							ext: 'png',
+							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+							subdomains: 'abcd',
+							zIndex:2,
+							opacity: 0.7,
+							minZoom:3,
+							maxZoom: 17
+						});
+						thisSig.roadTileLayer.addTo(thisSig.map);
+						
+						thisSig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
+												attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+												subdomains: 'abcd',
+												opacity: 0.7,
+												zIndex:3,
+												minZoom: 3,
+												maxZoom: 17,
+												ext: 'png'
+											});
+						thisSig.StamenTonerLabels.addTo(thisSig.map);
 
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
-						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
-						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
-												{maxZoom:20,
-												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(Sig.map);
-						thisSig.map.minZoom = 3;
-						thisSig.map.maxZoom = 20;
 
+						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
+
+						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
+												{maxZoom:17,
+												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(thisSig.map);
+						
 						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":20});
-							thisSig.roadTileLayer.redraw();
+							if(thisSig.roadTileLayer != null) thisSig.map.removeLayer(thisSig.roadTileLayer);
 						}
 
 						if(thisSig.StamenTonerLabels != null) {
-							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":20, "minZoom":20});
-							thisSig.StamenTonerLabels.redraw();
+							if(thisSig.StamenTonerLabels != null) thisSig.map.removeLayer(thisSig.StamenTonerLabels);
 						}
 						
 					}

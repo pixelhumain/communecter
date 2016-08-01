@@ -244,11 +244,11 @@
 					});
 					
 					$( "#btn-home" ).off().click(function (){ 
-							thisSig.map.setView(center, 16);
+							thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
 					});
-					$( ".btn-home" ).off().click(function (){ 
-							thisSig.centerSimple(center, 16);
-					});
+					// $( ".btn-home" ).off().click(function (){ 
+					// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
+					// });
 				}
 			}
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
@@ -791,38 +791,19 @@
 			Sig.initEnvironnement(map, initParams);
 			if(canvasId == "") return;
 
+			Sig.map.minZoom = 3;
+			Sig.map.maxZoom = 17;
+
 			Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				//subdomains: 'abc',
 				zIndex:1,
 				minZoom: 3,
-				maxZoom: 20
+				maxZoom: 17
 			});
 
 			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
-			
-			Sig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
-							ext: 'png',
-							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-							subdomains: 'abcd',
-							zIndex:2,
-							opacity: 0.7,
-							minZoom:20,
-							maxZoom: 20
-						});
-			Sig.roadTileLayer.addTo(map);
-			
-			Sig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
-									attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-									subdomains: 'abcd',
-									opacity: 0.7,
-									zIndex:3,
-									minZoom: 20,
-									maxZoom: 20,
-									ext: 'png'
-								});
-			Sig.StamenTonerLabels.addTo(map);
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
