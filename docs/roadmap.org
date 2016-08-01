@@ -13,6 +13,7 @@
       [ ] vision disk dur : en fonction de la consommation de chacun 
 [ ] citoyen recoltant
 [ ] rapatrier les docs module
+[ ] push back vers Open Agenda
 [ ] declaration de pb contextualisé 
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] Count requests DB per page
@@ -32,6 +33,8 @@
   [ ] dashboard activité 
   [ ] multi scope 
   [ ] search and filter tag engine
+  [ ] DDA Ideas : 
+    [ ] Journal d'activités du DDA
   [ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
@@ -42,9 +45,7 @@
     [ ] Best place calculator : utilisant la position des participants
     [ ] Réunion privée pour avancement interne organisation
     [ ] Event intérrsant pour moi, moteur d'affinité
-  [ ] documentation API REST, comme avant
-  [ ] découvrir les gens pret de moi
-[?] POI et Element de base (0.16??)
+[ ] POI et Element de base (0.16??)
 
   ** @Clement
     [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
@@ -56,15 +57,22 @@
   ** @Rapha
     [ ] form keep my position / my latest psitions
     [ ] sur une person, retirer superAdmin false, inutile ? 
+    [ ] finir openAgenda 
+        [ ] evenement récurent
+        [ ] cronJob
   ** @Tango 
     [ ] Bug Repair geoloc sur tous les element
+    [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
-    [ ] Bouton Autour de moi
+    [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
   ** @Tib 
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
+    [ ] checkout Mention
+    [ ] documentation API REST, comme avant
+    [ ] globaliser le system de Tokens et utilisation API Communecter
   ** @Sylvain
     [ ] mailing
         [ ] doc
