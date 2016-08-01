@@ -73,4 +73,6 @@
         [X] deplacer vers une autre room  
             [X] vote proposals : switch survey Id 
             [X] actions : switch room Id
+    [X] Nouvelle interface DDA
+      [X] chargement header / contenu séparé (en ajax)
         
