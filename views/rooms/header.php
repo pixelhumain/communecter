@@ -185,6 +185,9 @@ h1.citizenAssembly-header {
 				</div>
 				<div class="col-md-12 margin-top-15 link-tools">
 					<a href="javascript:showRoom('all', '<?php echo $parentId; ?>')" class="pull-left text-dark" style="font-size:15px;"><i class="fa fa-list"></i> Afficher tout</a>
+					<?php if(@$_GET["archived"] == null){ ?>
+					 <a href="javascript:loadByHash(location.hash+'.archived.1')" class="pull-left text-red" style="font-size:15px;margin-left:30px;"><i class="fa fa-times"></i> Archives</a>
+					<?php } ?>
 					<?php //if(@$history && !empty($history)){ ?>
 						<a href="javascript:" class="pull-right text-dark" style="font-size:15px;" data-toggle="modal" data-target="#modal-select-room4">
 							<i class="fa fa-clock-o"></i> Mon historique

@@ -27,7 +27,7 @@
 	#profil_fileUpload{
 		min-height: 180px;
 	}
-
+.datepicker{z-index:12000 !important;}
 </style>
 
 <?php 
@@ -368,6 +368,10 @@ jQuery(document).ready(function() {
 		function(){  $(".commentCount").html( $(".nbComments").html() ); 
 	},"html");
 
+	$(".explainLink").click(function() {
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 	//buildResults (); //old piechart
 });
 

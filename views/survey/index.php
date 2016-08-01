@@ -276,6 +276,7 @@
       height: 455px;
     }
   }
+  .datepicker{z-index:12000 !important;}
 </style>
 
 
@@ -746,12 +747,15 @@ jQuery(document).ready(function() {
    });
 
   $('#form-create-proposal #btn-submit-form').addClass("hidden");
-  
+  $(".explainLink").click(function() {
+    showDefinition( $(this).data("id") );
+    return false;
+  });
 });
 
 
 function saveNewProposal(){
-  $('#form-create-proposal #btn-submit-form').off().click()
+  $('#form-create-proposal #btn-submit-form').off().click();
 }
 
 function toogleTags(){
