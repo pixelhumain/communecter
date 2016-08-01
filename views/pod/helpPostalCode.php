@@ -746,17 +746,6 @@ function loadMap(canvasId, initParams)
 
 	tileLayer.setOpacity(initParams.mapOpacity).addTo(mapEntity);
 
-	var roadTileLayer = L.tileLayer('//otile{s}-s.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
-					type: 'hyb',
-					ext: 'png',
-					attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-					subdomains: '1234',
-					opacity: 0.7,
-					minZoom:12,
-					maxZoom: 20
-				});
-	roadTileLayer.addTo(mapEntity);
-
 	//rafraichi les tiles après le redimentionnement du mapCanvas
 	mapEntity.invalidateSize(false);
 	return mapEntity;
