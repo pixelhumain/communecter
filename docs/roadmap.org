@@ -67,10 +67,11 @@
         [ ] markdown editor
   ** @Sylvain
     [ ] mailing
+        [ ] doc
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
-        
+
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA
