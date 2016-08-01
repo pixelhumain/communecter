@@ -31,7 +31,7 @@
   [ ] left bar , filter
   [ ] one input add
   [ ] dashboard activité 
-  [ ] multi scope 
+
   [ ] search and filter tag engine
   [ ] DDA Ideas : 
     [ ] Journal d'activités du DDA
@@ -60,13 +60,23 @@
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
+    [ ] ajouter des nouvelles villes venant de la modal CP de Tango 
   ** @Tango 
     [ ] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
+    [ ] tag et scope sont des select dans la top barre
+    [ ] multi scope 
+        [ ] ajouter commune, cp, departement, region 
+        [ ] un element orga , event, projet peut etre multi scope
+            [ ] un actu sera publier aura une diffusion multi scope
+        [ ] ajouter à mon scope, de n'importe où
+        ??? est ce qu'un citoyen peut diffuser en multi scope ?
+            +++ amélioration multi scope + NEWS : un citoyen publie une actu sur plusieur scope 
   ** @Tib 
+    [ ] ajouter un tag avec le surligner + petit menu contextuel 
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
@@ -124,4 +134,11 @@
             [X] deplacer vers une autre room  
                 [X] vote proposals : switch survey Id 
                 [X] actions : switch room Id
-        
+    
+
+modalité Niveau de rémuneration
+- nb d'h passer en demi journée 
+- imaginer un un contrat de confiance qui engagement 
+- s'ouvrir au don de temps benvole 
+- attention 
+ 
