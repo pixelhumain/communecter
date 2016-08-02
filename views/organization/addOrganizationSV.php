@@ -629,7 +629,6 @@ jQuery(document).ready(function() {
 							}else{
 								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
 								callBackFullSearch(obj);
-								//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 							}
 						}
 	

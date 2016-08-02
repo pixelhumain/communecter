@@ -75,6 +75,8 @@
         [ ] ajouter à mon scope, de n'importe où
         ??? est ce qu'un citoyen peut diffuser en multi scope ?
             +++ amélioration multi scope + NEWS : un citoyen publie une actu sur plusieur scope 
+    [ ] Réduire le menu left sur SIG
+    [ ] Compléter le pod DDA sur orga/project
   ** @Tib 
     [ ] ajouter un tag avec le surligner + petit menu contextuel 
     [ ] switcher le titre navigateur

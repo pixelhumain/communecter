@@ -432,7 +432,7 @@ function runShowCity(searchValue) {
 	citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	
 
-	var oneValue = "";
+	var oneValue = "";  var oneName = "";
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;
@@ -535,6 +535,7 @@ function convertDate2(date, num){
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
+		console.dir(resultNominatim);
 		var show = Sig.showCityOnMap(resultNominatim, true, "project");
 		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, true, "project");
@@ -559,24 +560,29 @@ function convertDate2(date, num){
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
 		    			console.log("res getlatlngbyinsee");
 		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ 
-							if(typeof obj.geoShape != "undefined") {
-								//on recherche avec une limit bounds
-								var polygon = L.polygon(obj.geoShape.coordinates);
-								var bounds = polygon.getBounds();
-								Sig.execFullSearchNominatim(0, bounds);
+		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				console.dir(obj);
+		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
+								if(typeof obj.geoShape != "undefined") {
+									//on recherche avec une limit bounds
+									var polygon = L.polygon(obj.geoShape.coordinates);
+									var bounds = polygon.getBounds();
+									Sig.execFullSearchNominatim(0, bounds);
+								}
+								else{
+									//on recherche partout
+									Sig.execFullSearchNominatim(0);
+								}					
+							
+							}else{
+								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
+								callBackFullSearch(obj);
 							}
-							else{
-								//on recherche partout
-								Sig.execFullSearchNominatim(0);
-							}					
-						
-						}else{
-							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
 	
 					},
 					error: function(error){
+						$("#iconeChargement").hide();
 						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
@@ -657,6 +663,7 @@ function convertDate2(date, num){
 			console.log("Erreur getlatlngbyinsee vide");
 		}
 	}
+
 	function callbackGoogleMapsSuccess(result){
 		console.log("callbackGoogleMapsSuccess");
 		console.dir(result);
@@ -677,6 +684,7 @@ function convertDate2(date, num){
 			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 			
   		}else{
+  			$("#iconeChargement").hide();
   			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
   		}
 	}

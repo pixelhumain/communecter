@@ -132,7 +132,7 @@ width: 100%;
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
 			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId'] ?>')">
 			        <i class="fa fa-rss"></i> 
-			        <br/>Communautés
+			        <br/>Actus réseau
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
@@ -178,16 +178,16 @@ width: 100%;
 				<?php } else { ?>
 					<div class="col-md-6 col-sm-6 col-xs-12 center">
 						<a class="btn bg-red" 
-							href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')" 
+							href="javascript:loadByHash('#city.detail.insee.<?php 
+								echo $myCity["insee"]; ?>.postalCode.<?php echo $myCity["cp"]; 
+								?>')" 
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
 						</a>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 center">
 						<a class="btn bg-red" 
-							href="javascript:loadByHash('#city.detail.insee.<?php 
-								echo $myCity["insee"]; ?>.postalCode.<?php echo $myCity["cp"]; 
-								?>')" 
+							href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')" 
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
 							<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
@@ -195,43 +195,45 @@ width: 100%;
 					</div>
 				<?php } ?>
 			
-				<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
-					<hr style="border-top: 1px solid #575656; margin:7px;">
-					<h2 class="homestead text-white">
-						<i class="fa fa-plus-circle"></i> Ajouter 
-						<i class="fa fa-angle-down"></i> 
-					</h2>
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
-						<i class="fa fa-user"></i><br>
-						<span class="lbl-btn-menu-name-add">Quelqu'un</span>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
-						<i class="fa fa-group"></i><br>
-						<span class="lbl-btn-menu-name-add">
-							<span class="hidden-xs">Une o</span><span class="hidden-sm hidden-md hidden-lg">O</span>rganisation
-						</span>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
-						<i class="fa fa-lightbulb-o"></i><br>
-						<span class="lbl-btn-menu-name-add">
-							<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet
-						</span>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
-						<i class="fa fa-calendar"></i><br>
-						<span class="lbl-btn-menu-name-add">
-							<span class="hidden-xs">Un é</span><span class="hidden-sm hidden-md hidden-lg">É</span>vénement
-						</span>
-					</a>
-				</div>
+				<?php if(isset(Yii::app()->session['userId'])){ ?>
+					<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
+						<hr style="border-top: 1px solid #575656; margin:7px;">
+						<h2 class="homestead text-white">
+							<i class="fa fa-plus-circle"></i> Ajouter 
+							<i class="fa fa-angle-down"></i> 
+						</h2>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
+						<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
+							<i class="fa fa-user"></i><br>
+							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
+						</a>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
+						<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
+							<i class="fa fa-group"></i><br>
+							<span class="lbl-btn-menu-name-add">
+								<span class="hidden-xs">Une o</span><span class="hidden-sm hidden-md hidden-lg">O</span>rganisation
+							</span>
+						</a>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
+						<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
+							<i class="fa fa-lightbulb-o"></i><br>
+							<span class="lbl-btn-menu-name-add">
+								<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet
+							</span>
+						</a>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
+						<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
+							<i class="fa fa-calendar"></i><br>
+							<span class="lbl-btn-menu-name-add">
+								<span class="hidden-xs">Un é</span><span class="hidden-sm hidden-md hidden-lg">É</span>vénement
+							</span>
+						</a>
+					</div>
+				<?php } ?>
 
 				<div class="col-md-12 col-sm-12 col-xs-12  no-padding">
 					<hr style="border-top: 1px solid #575656; margin:7px;">
