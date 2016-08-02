@@ -272,6 +272,15 @@ button.btn-start-search:hover{
 	color:#68AE4E !important;
 }
 
+.bg-grey {
+    background-color: #3f3f3f !important;
+    color: white;
+}
+a.bg-grey:hover {
+    background-color: #3f3f3f !important;
+    color: white;
+}
+
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 button.menu-button{
 	position: fixed;
@@ -649,7 +658,7 @@ button.btn-infos{
     position: absolute;
 	left: 25%;
 	z-index: 1;
-	top: 260px;
+	top: 255px;
 	font-size: 20px;
 	font-weight: 300;
 	text-transform: capitalize;
@@ -735,8 +744,8 @@ button.btn-infos{
 		font-weight: 300;
 		font-size: 15px;
 		margin-bottom: 20px;
-		height: 37px;
-		width: 38px;
+		height: 35px;
+		width: 35px;
 		padding: 0px;
 	}
 
@@ -760,7 +769,7 @@ button.btn-infos{
    	}
    	.lbl-scope-list {
 	    /*left: 53%;*/
-	    top: 255px !important;
+	    top: 205px !important;
 	    font-size: 20px;
    	}
 	
@@ -866,7 +875,7 @@ button.btn-infos{
 
 	.lbl-scope-list {
 	    font-size: 14px;
-		top: 214px !important;
+		top: 160px !important;
 	}
 
 	input.input-search {

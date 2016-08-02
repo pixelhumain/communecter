@@ -243,7 +243,7 @@ width: 100%;
 					</h2>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-dark" href="javascript:" 
+					<a class="btn bg-grey" href="javascript:" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
 				        <i class="fa fa-file"></i> 
@@ -251,7 +251,7 @@ width: 100%;
 				    </a>
 			    </div>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-dark" href="javascript:" 
+					<a class="btn bg-grey" href="javascript:" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Signaler un bug">
 				        <i class="fa fa-bullhorn"></i> 

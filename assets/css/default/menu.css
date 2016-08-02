@@ -165,9 +165,9 @@
 	#searchBarPostalCode{
 		position: absolute;
 		left: 40px !important;
-		bottom: 39px;
+		bottom: 39px !important;
 		margin-top: 10px;
-		width: 80% !important;
+		width: 100% !important;
 		margin-left: 0px;
 		font-family: "homestead";
 		font-size: 22px !important;
@@ -175,7 +175,7 @@
 		height: 45px;
 		text-align: center;
 		margin: 0px !important;
-		padding-left: 0px !important;
+		padding-left: 15px !important;
 	}
 
 	#input-communexion {
@@ -185,19 +185,32 @@
 	#input-communexion .search-loader {
 	    position: relative;
 		left: 41px !important;
-		bottom: 88px;
-		width: 96%;
+		width: 100% !important;
+		max-width: 100% !important;
 		font-weight: 600;
 		font-size: 12px;
 		background-color: rgb(255, 255, 255);
 		padding: 5px;
 		border-radius: 0px 5px 0px 0px;
-		text-align: center;
+		text-align: left;
+		bottom: 82px !important;
+		height: 30px !important;
+		max-height: 30px !important;
 		-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
 		-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
 		-o-box-shadow: 0px -2px 5px -2px #353535 !important;
 		box-shadow: 0px -2px 5px -2px #353535 !important;
 		filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+	}
+	.btn-start-new-communexion {
+	    bottom: 40px !important;
+		left: unset !important;
+		right: 0px !important;
+		border-radius: 0% !important;
+		width: 43px !important;
+		padding: 11px 3px 3px 15px !important;
+		box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.39) !important;
+		height: 43px !important;
 	}
 
 	#menu-bottom .input-global-search{

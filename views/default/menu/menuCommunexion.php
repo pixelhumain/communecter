@@ -109,8 +109,8 @@
 	margin-left: 0px;
 	font-family: "homestead";
 	font-size: 22px !important;
-	border-radius: 55px !important;
-	padding-left: 69px !important;
+	border-radius: 55px;
+	padding-left: 69px;
 	text-align: left;
 }
 

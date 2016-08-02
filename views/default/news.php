@@ -18,6 +18,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 display: inline;
 }
 
+
 @media screen and (max-width: 1024px) {
   button.btn-start-search {
     margin-top: -40px;
@@ -41,10 +42,6 @@ display: inline;
 
 
 }
-
-.lbl-scope-list{
-    top:250px !important;
-  }
 
   #btn-filter-scope-news{
     display:none;

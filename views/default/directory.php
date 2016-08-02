@@ -19,9 +19,6 @@
 		width: 24px;
 		margin-top: 4px;
 	}
-  .lbl-scope-list{
-    top:305px;
-  }
   .img-logo {
     height: 290px;
   }
