@@ -239,11 +239,12 @@ width: 100%;
 				<div class="col-md-12 col-sm-12 col-xs-12  no-padding">
 					<hr style="border-top: 1px solid transparent; margin:7px;">
 					<h2 class="homestead text-white">
-						Comprendre et aider 
+						Comprendre<?php if(isset(Yii::app()->session['userId'])) echo " et aider"; ?>
 						<i class="fa fa-angle-down"></i> 
 					</h2>
 				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
+				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6"; else $colDoc="12"; ?>
+				<div class="col-xs-<?php echo $colDoc;?> col-sm-<?php echo $colDoc;?> col-md-<?php echo $colDoc;?> center padding-5">
 					<a class="btn bg-grey" href="javascript:loadByHash('#default.view.page.index.dir.docs')" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
@@ -251,6 +252,7 @@ width: 100%;
 				        <br/>Documentation
 				    </a>
 			    </div>
+			   <?php if(isset(Yii::app()->session['userId'])){ ?>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a class="btn bg-grey" href="javascript:loadByHash('#news.index.type.pixels')" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
@@ -259,6 +261,8 @@ width: 100%;
 				        <br/>Signaler un bug
 				    </a>
 			    </div>
+			    <?php } ?>
+
 			    
 			</div>
 			

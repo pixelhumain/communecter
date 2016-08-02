@@ -112,13 +112,14 @@
 				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
 		</a><hr class="visible-communected">
 		
-		<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
+		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
 		<a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
-			echo City::getUnikey($myCity); ?>')" class="menu-button-left visible-communected" 
+			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
+			class="menu-button-left visible-communected" 
 			id="btn-citizen-council-commun">
 				<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen
 		</a><hr class="visible-communected">
-		<?php } ?>
+		<?php //} ?>
 
 	</div>
 	<?php echo $this->renderPartial('version'); ?>
