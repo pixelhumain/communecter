@@ -97,6 +97,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div id="newProject">
+
+	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"projectCountry"));  ?>
+
 	<div class="noteWrap col-md-12 form-add-data" >  
 		 <div class="panel panel-white">
         	<div class="panel-heading border-light text-dark">
@@ -180,7 +183,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Postal Code") ?> <span class="symbol required"></span>
 								<i class="fa fa-spin fa-refresh" id="iconeChargement"></i>
 								</label>
-								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" >
+								<input type="text" class="form-control" name="postalCode" id="postalCode" value="" ><br>
+								<a href="javascript:" class="btn btn-primary btn-xs" onclick="openModalHelpCP()"><i class="fa fa-info-circle"></i> Trouver un code postal</a>
 							</div>
 							<div class="col-md-8 form-group" id="cityDiv" style="display:none;">
 								<label class="control-label text-purple" for="city">
@@ -354,7 +358,7 @@ function runProjectFormValidation(el) {
 			newProject.tags = $(".form-project #tagsProject").val();
 			console.log(newProject);
 			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Enregistrement en cours ...</span>'
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 			$.ajax({
 		        type: "POST",

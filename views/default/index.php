@@ -27,7 +27,7 @@
 		'/js/default/globalsearch.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
-		'/css/sig/sig.css'
+		'/css/sig/sig.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -85,11 +85,15 @@
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
 		
-		$regionNameCommunexion = isset( $me['address']['regionName'] ) ? 
-		   			    			  $me['address']['regionName'] : "";
+		if(isset($inseeCommunexion) && isset($cpCommunexion)){
+			$city=City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);	
+			$regionNameCommunexion = isset( $city['regionName'] ) ? 
+			   			    			    $city['regionName'] : "";
+		}
+
+		$countryCommunexion = isset( $me['address']['addressCountry'] ) ? 
+		   			    			  $me['address']['addressCountry'] : "";
 		
-		$countryCommunexion = isset( $me['address']['country'] ) ? 
-		   			    			  $me['address']['country'] : "";
 		if (@$inseeCommunexion){
 			$city=SIG::getCityByCodeInsee($inseeCommunexion);
 			$nbCpByInsee=count($city["postalCodes"]);
@@ -194,6 +198,25 @@
 
 	#logo-main-menu:hover{
 		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
+	}
+
+	.blockUI.blockMsg.blockPage{
+		/*display:none !important;*/
+	}
+
+	.btn-start-new-communexion{
+	    position: absolute;
+	    bottom: 62px;
+	    left: 370px;
+	    border-radius: 50%;
+	    width: 35px;
+	    height: 35px;
+	    padding: 7px 3px 3px 11px;
+	    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.39);
+	}
+
+	.btn-start-new-communexion:hover{
+		box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.39);
 	}
 
 @media screen and (min-width:: 767px) and (max-width: 920px){
@@ -322,13 +345,17 @@
 <div id="input-communexion">
 	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
 	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+	<a class="btn-start-new-communexion bg-red tooltips" href="javascript:" onclick="startNewCommunexion();"
+		data-toggle="tooltip" data-placement="right" title="Lancer la recherche" alt="Lancer la recherche">
+		<i class="fa fa-search"></i>
+	</a>
 </div>
 
 
 <div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
 	
 	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" >
+	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
 		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php }else{ ?> 
@@ -502,6 +529,7 @@ jQuery(document).ready(function() {
 
 	toogleCommunexion();
 
+
 	//manages the back button state 
 	//every url change (loadByHash) is pushed into history.pushState 
 	//onclick back btn popstate is launched
@@ -556,7 +584,10 @@ jQuery(document).ready(function() {
 	checkScroll();
 });
 
-function startNewCommunexion(country){
+function startNewCommunexion(country){ 
+
+	clearTimeout(timeoutSearch);
+
 	var locality = $('#searchBarPostalCode').val();
 	locality = locality.replace(/[^\w\s-']/gi, '');
 
@@ -798,7 +829,7 @@ function setScopeValue(btn){
 			startSearch();
 		}else
 		if(location.hash == "#default.news"){
-			//startSearch();
+			startSearch();
 			showMap(false);
 		}else
 		if(location.hash.indexOf("#city.detail") >= 0) {
@@ -1005,7 +1036,8 @@ function showInputCommunexion(){
 var levelCommunexion = 1;
 function selectScopeLevelCommunexion(level){
 
-	var department = "";
+	//var department = "";
+	var department = inseeCommunexion;
 	console.log("selectScopeLevelCommunexion", countryCommunexion, $.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]));
 
 	if($.inArray(countryCommunexion, ["RE", "NC","GP","GF","MQ","YT","PM"]) >= 0){
@@ -1028,6 +1060,7 @@ function selectScopeLevelCommunexion(level){
 			endMsg = "au code postal " + cpCommunexion;
 	}
 	if(level == 3) endMsg = "au département " + department;
+	//if(level == 3) endMsg = "au département ";
 	if(level == 4) endMsg = "à votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "à l'ensemble du réseau";
 
@@ -1044,6 +1077,7 @@ function selectScopeLevelCommunexion(level){
 		else
 			endMsg = cpCommunexion;
 	}
+	//if(level == 3) endMsg = "Département " + department;
 	if(level == 3) endMsg = "Département " + department;
 	if(level == 4) endMsg = "Votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "Tout le réseau";
@@ -1056,6 +1090,7 @@ function selectScopeLevelCommunexion(level){
 	$(".btn-scope-niv-5").attr("data-original-title", "Niveau 5 - Tout le réseau");
 	$(".btn-scope-niv-4").attr("data-original-title", "Niveau 4 - Région " + regionNameCommunexion);
 	$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département " + department);
+	//$(".btn-scope-niv-3").attr("data-original-title", "Niveau 3 - Département ");
 	if(typeof(cityInseeCommunexion)!="undefined"){
 		$(".btn-scope-niv-2").attr("data-original-title", "Niveau 2 - Ville entière : " + cityInseeCommunexion);
 	}

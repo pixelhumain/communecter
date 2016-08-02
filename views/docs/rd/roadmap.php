@@ -8,14 +8,15 @@
 </style>
 <div class="col-sm-12 ">
 
-    <div class="panel panel-white ">
+    <div class="">
         
         <div class="panel-body">
            La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
 
-			<div class="col-sm-12" style="margin-top: 20px">	
-				<div class="col-sm-6">
-					<span class="text-red homestead">version 0.14 ???</span>
+			<div class="col-sm-12" style="margin-top: 20px">
+
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.15 INTERACT</h2>
 					<ul>
 						<li><i class="fa fa-angle-right"></i> Full mobile sur meteor</li>
 						<li><i class="fa fa-angle-right"></i> flux RSS et ESS</li>
@@ -31,8 +32,25 @@
 					</ul>
 				</div>
 
-				<div class="col-sm-6">
-					<span class="text-red homestead">version 0.13</span>
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.14 SEE</h2>
+					<ul>
+						<li><i class="fa fa-angle-right"></i> Refonte interface DDA</li>
+						<li><i class="fa fa-angle-right"></i> Documentation</li>
+						<li><i class="fa fa-angle-right"></i> Open Data préférence</li>
+						<li><i class="fa fa-angle-right"></i> Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )</li>
+						<li><i class="fa fa-angle-right"></i> Open Edition ubiquité en préférence</li>
+						<li><i class="fa fa-angle-right"></i> Mentionner qlq'un dans une actu/News @someone </li>
+						<li><i class="fa fa-angle-right"></i> DDA : Ajouter un Framapad</li>
+						<li><i class="fa fa-angle-right"></i> Archiving : discussion, decision et action rooms</li>
+						<li><i class="fa fa-angle-right"></i> ouverture international </li>
+						<li><i class="fa fa-angle-right"></i> multi scope</li>
+						<li><i class="fa fa-angle-right"></i> refactor full text search </li>
+					</ul>
+				</div>
+
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.13</h2>
 					<ul>
 						<li><i class="fa fa-angle-right"></i> event refactor </li>
 						<li><i class="fa fa-angle-right"></i> no organiser : if you just want to share an event you're not organising </li>
@@ -44,8 +62,8 @@
 				</div>
 			</div>
 			<div class="col-sm-12" style="margin-top: 20px">
-				<div class="col-sm-6">
-					<span class="text-red homestead">version 0.12</span>
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.12</h2>
 					<ul>
 						<li><i class="fa fa-angle-right"></i> amélioration du systeme validation </li>
 						<li><i class="fa fa-angle-right"></i> refactor et ajout des images sur les news</li>
@@ -59,8 +77,8 @@
 					</ul> 
 				</div>
 
-				<div class="col-sm-6">
-					<span class="text-red homestead">version 0.1</span>
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.1</h2>
 					<ul>
 						<li><i class="fa fa-angle-right"></i> Ajouter des citoyens, des organisations, des projets et des événements</li>
 						<li><i class="fa fa-angle-right"></i> Annuaire Personnel</li>
@@ -73,9 +91,11 @@
 					</ul>
 				</div>
 			</div>
+			<?php if(!isset($renderPartial) || $renderPartial != true){ ?>
 			<div class="col-sm-12">
             	<a href="javascript:window.history.back();" class="text-extra-large  bg-dark tooltips pull-left radius-5 padding-10 homestead" style="display: block;" ><i class="fa fa-arrow-left"></i> Retour  </a>
             </div>
+            <?php } ?>
         </div>
     </div>
 </div>

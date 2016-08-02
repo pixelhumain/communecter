@@ -164,6 +164,31 @@ $this->renderPartial('../default/panels/toolbar');
 
 </div>
 
+<div style="" class="col-md-12" id="div-discover">
+    <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
+    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px; float: left; width: 100%;">
+      <i class="fa fa-2x fa-angle-down"></i><br/>
+      Découvrir
+    </h2>
+    <div class="col-md-12 no-padding" style="margin-bottom:40px">
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
+          <i class="fa fa-search"></i>
+        </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
+      </div>
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
+          <i class="fa fa-calendar"></i>
+        </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+      </div>
+      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+        <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
+          <i class="fa fa-rss"></i>
+        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
+      </div>
+    </div>
+  </div>
+
 <div id="podCooparativeSpace"></div>
 
 <div style="" class="col-md-12 " id="div-participate">
@@ -184,31 +209,6 @@ $this->renderPartial('../default/panels/toolbar');
       </div>
       <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
         <blockquote><strong>Tout le monde</strong> peut participer !</blockquote>
-    </div>
-  </div>
-
-<div style="" class="col-md-12" id="div-discover">
-    <!-- <h2 class="btn-success communected">Félicitation, vous êtes communecté !</h2> -->
-    <h2 class="center text-dark" style="margin-bottom:20px; margin-top:0px; float: left; width: 100%;">
-      <i class="fa fa-2x fa-angle-down"></i><br/>
-      Découvrir
-    </h2>
-    <div class="col-md-12 no-padding" style="margin-bottom:40px">
-      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
-          <i class="fa fa-search"></i>
-        </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div>
-      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
-          <i class="fa fa-calendar"></i>
-        </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div>
-      <div class="col-md-4 col-sm-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-        <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
-          <i class="fa fa-rss"></i>
-        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
-      </div>
     </div>
   </div>
 

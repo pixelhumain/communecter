@@ -76,7 +76,7 @@ class DefaultController extends CommunecterController {
   {
     if(@$dir){
       
-      if($dir == "docs")
+      if( strpos($dir,"docs") !== false )
         $dir = "../".$dir;
 
       if(strpos($dir,"|")){

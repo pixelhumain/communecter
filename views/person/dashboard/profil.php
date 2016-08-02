@@ -233,6 +233,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php echo Yii::t("common","Change password") ?>
 					</span>
 				</a>
+				<a href='javascript:' class='btn btn-sm btn-default downloadProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+					<i class='fa fa-download'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php //echo Yii::t("common","Télécharger votre profile"); ?>
+					</span>
+				</a>
+				<!--<a href="#person.updateprofil" class='btn btn-sm btn-default updateProfil tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+					<i class='fa fa-update'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php //echo Yii::t("common","Mettre à jour votre profil"); ?>
+					</span>
+				</a>-->
 			<?php } /*?>
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
@@ -251,15 +263,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				margin-top:-3px}
 			.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
 			/* Tooltip container */
+			.opendata .mainTop{
+			    color: black;
+			    font-size: 1.3em;
+			    padding: 5px;
+			}
+			.opendata .main{
+			    color: #00cc00;
+			}
 		</style>
-		
-			
-		
- 		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
+		<?php   if (Role::isUserBetaTester(@$person["roles"])) { ?>
 					<div class="badge badge-danger pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-user"></i> Beta Tester</div>
 		<?php 	} ?>
-
-
 		<?php if(!empty($person["badges"])){?>
 				<?php if( Badge::checkBadgeInListBadges("crowdfunder", $person["badges"]) ){?>
 					<div class="badgePH pull-right" data-title="CROWDFUNDER">
@@ -275,9 +290,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<i class="fa fa-keyboard-o main fa-2x fa-stack-1x text-red"></i>
 							<?php /* ?><i class="fa fa-circle-o fa-4x stack-right-bottom text-yellow"></i>*/?>
 						</span>
-
 					</div>
 				<?php } ?>
+				<?php if( Badge::checkBadgeInListBadges("opendata", $person["badges"]) ){?>
+					<div class="badgePH pull-right" data-title="OPENDATA">
+						<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+							<i class="fa fa-database main fa-stack-1x text-orange"></i>
+							<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+						</span>
+					</div>
+				<?php } ?>
+
+
 			<?php } ?>
   	</div>
 
@@ -328,9 +352,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
 		        	</div>
 		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+
+		        	</div>
+		        </div>
 	        </div>
 	      </div>
-	      
 	      <script type="text/javascript">
 			<?php
 				//Params Checked
@@ -345,20 +378,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						if(isset($person["preferences"][$type]) && in_array($field, $person["preferences"][$type])){
 							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $type)."\']').addClass('active');";
 							$fieldPreferences[$field] = false;
-						} 
+						}
 					}
 				}
-
 				//To checked if there are hidden
 				foreach ($fieldPreferences as $field => $hidden) {
 					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
 				}
+				if(isset($person["preferences"]["isOpenData"]) && $person["preferences"]["isOpenData"] == true)
+					echo "$('.btn-group-isOpenData > button[value=\'true\']').addClass('active');";	
+				else
+					echo "$('.btn-group-isOpenData > button[value=\'false\']').addClass('active');";	
 			?> 
 	     </script>
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#person.detail.id.<?php echo $person['_id'] ;?>');">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -489,19 +525,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i>
-					<a href="#" id="fixe" data-type="select2" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" data-original-title="<?php echo Yii::t("person","Enter your phones"); ?>" class="telephone editable editable-click">
-						<?php if(isset($person["telephone"]["fixe"])){
-							foreach ($person["telephone"]["fixe"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
+					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
+						<?php 
+							if(isset($person["telephone"]["fixe"])){
+								foreach ($person["telephone"]["fixe"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
 							}
-						}?>
+						?>
 					</a>
 					<br>
 
-					<i class="fa fa-mobile fa_telephone_mobile hidden"></i> 
-					<a href="#" id="mobile" data-type="select2" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-original-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
+					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["mobile"])){
 							foreach ($person["telephone"]["mobile"] as $key => $tel) {
 								if($key > 0)
@@ -513,7 +551,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="select2" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-original-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
 						<?php if(isset($person["telephone"]["fax"])){
 							foreach ($person["telephone"]["fax"] as $key => $tel) {
 								if($key > 0)
@@ -675,6 +713,7 @@ jQuery(document).ready(function()
 
 function buildBgClassesList() 
 { 
+	console.log("-----------------buildBgClassesList----------------------");
 	if( $(".bgClassesContainer").html() == "" )
 	{
 		$.each(bgClasses,function(i,v) { 
@@ -688,9 +727,38 @@ function buildBgClassesList()
 }
 function bindAboutPodEvents() 
 {
+	console.log("-----------------bindAboutPodEvents----------------------");
 	$(".changePasswordBtn").click(function () {
 		console.log("changePasswordbuttton");
 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+	});
+
+	$(".downloadProfil").click(function () {
+		
+		$.ajax({
+			url: baseUrl + "/communecter/data/get/type/citoyens/id/"+personId ,
+			type: 'POST',
+			dataType: 'json',
+			async:false,
+			crossDomain:true,
+			complete: function () {},
+			success: function (obj){
+				console.log("obj", obj);
+				$("<a />", {
+				    "download": "profil.json",
+				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
+				  }).appendTo("body")
+				  .click(function() {
+				    $(this).remove()
+				  })[0].click() ;
+			},
+			error: function (error) {
+				
+			}
+		});
+
+
+		
 	});
 
 	$("#editProfil").click( function(){
@@ -726,7 +794,10 @@ function bindAboutPodEvents()
     $(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
-    	$(".confidentialitySettings").click(function(){
+    	
+    });
+
+    $(".confidentialitySettings").click(function(){
 	    	param = new Object;
 	    	param.type = $(this).attr("type");
 	    	param.value = $(this).attr("value");
@@ -740,12 +811,18 @@ function bindAboutPodEvents()
 			    }
 			});
     	});
-    });
+
+    
+
+    $(".btn-confidentialitySettings").click(function(){
+    	
+	});
 
 
 }
 
 function initXEditable() {
+	console.log("-----------------initXEditable----------------------");
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-person').editable({
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
@@ -802,27 +879,27 @@ function initXEditable() {
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["mobile"])) ? json_encode(implode(",", $person["telephone"]["mobile"])) : "''"; ?>,
-        select2: {
+       /* select2: {
             tags: <?php if(isset($person["telephone"]["mobile"])) echo json_encode($person["telephone"]["mobile"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200,
             dropdownCssClass: 'select2-hidden'
-        }		
+        }	*/	
     });
 
     $('#fax').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["fax"])) ? json_encode(implode(",", $person["telephone"]["fax"])) : "''"; ?>,
-        select2: {
+        /*select2: {
             tags: <?php if(isset($person["telephone"]["fax"])) echo json_encode($person["telephone"]["fax"]); else echo json_encode(array())?>,
             tokenSeparators: [","],
             width: 200,
             dropdownCssClass: 'select2-hidden'
-        }
+        }*/
     }); 
 
-    $('#fixe').editable({
+    /*$('#fixe').editable({
         url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new user, it is only for update
         mode : 'popup',
         value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
@@ -832,7 +909,13 @@ function initXEditable() {
             tokenSeparators: [","],
             width: 200
         }
-    }); 
+    }); */
+
+	$('#fixe').editable({
+		url: baseUrl+"/"+moduleId+"/person/updatefield",
+		mode: 'popup',
+		value: <?php echo (isset($person["telephone"]["fixe"])) ? json_encode(implode(",", $person["telephone"]["fixe"])) : "''"; ?>,
+	});
 
     $('#addressCountry').editable({
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
@@ -891,6 +974,7 @@ function initXEditable() {
 }
 
 function manageModeContext() {
+	console.log("-----------------manageModeContext----------------------");
 	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 	if (mode == "view") {
@@ -913,6 +997,7 @@ function manageModeContext() {
 }
 
 function switchMode() {
+	console.log("-----------------switchMode----------------------");
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
@@ -928,6 +1013,7 @@ function switchMode() {
 
 function changeHiddenIcone() 
 { 
+	console.log("-----------------changeHiddenIcone----------------------");
 	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
 	console.log("------------", mode);
 	if(mode == "view"){
@@ -954,6 +1040,7 @@ function changeHiddenIcone()
 }
 
 function manageSocialNetwork(iconObject, value) {
+	//console.log("-----------------manageSocialNetwork----------------------");
 	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
 			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
@@ -982,6 +1069,7 @@ function manageSocialNetwork(iconObject, value) {
 	//modification de la position geographique	
 
 	function findGeoPosByAddress(){
+		console.log("-----------------findGeoPosByAddress----------------------");
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe

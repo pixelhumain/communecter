@@ -1,0 +1,127 @@
+* Version 0.16 (???) : Vision
+* Easy Feature 
+* Medium Feature
+[ ] internationalisation avec la Belgique 
+[ ] Finance Transparente 
+[ ] comptabiliser le temps + type 
+  [ ] ecrire noir sur blanc les regles de remuneration de chaque 
+  [ ] ecrire la doc de fonctionnement 
+    [ ] a quoi ca peut servir 
+    [ ] .... autres question
+  [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+      [ ] avec analyse de consommation et prix adapté à la conso
+      [ ] vision disk dur : en fonction de la consommation de chacun 
+[ ] citoyen recoltant
+[ ] rapatrier les docs module
+[ ] push back vers Open Agenda
+[ ] declaration de pb contextualisé 
+  - bug idée ... sur chaque page , persistent et en mode votable
+[ ] Count requests DB per page
+[ ] QCM Propriété , common Chart 
+[ ] finir add member refactor
+[ ] Finir Besoin Ressource compétence
+[ ] Module FAQ : posez une questions a cette entité
+[ ] repair fluidlog
+[ ] refactor : chgt de carte avec bcp de data
+  [ ] repertoire
+
+* Version 0.15 (31/08/2016) : En cours
+[ ] interface ND
+  [ ] menu
+  [ ] left bar , filter
+  [ ] one input add
+  [ ] dashboard activité 
+  [ ] multi scope 
+  [ ] search and filter tag engine
+  [ ] DDA Ideas : 
+    [ ] Journal d'activités du DDA
+  [ ] Event ideas (0.16??)
+    [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
+        [ ] affichage triable en mode mixitup
+            [ ] par salle , chrono, tag filter, all subevents
+            [ ] my events : events I participate in , calendrier perso 
+                [ ] doodle : pour comparer facilement les dispo 
+                [ ] covoit : décrire les trajet pour les partagers
+    [ ] Best place calculator : utilisant la position des participants
+    [ ] Réunion privée pour avancement interne organisation
+    [ ] Event intérrsant pour moi, moteur d'affinité
+[ ] POI et Element de base (0.16??)
+
+  ** @Clement
+    [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
+    [ ] sur orga reparer afficher tous les membres
+    [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
+        [ ] visionneur spécialisé par type (image, video, simple lien)
+        [ ] uplodaer de document
+  ** @Rapha
+    [ ] form keep my position / my latest psitions
+    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
+    [ ] sur une person, retirer superAdmin false, inutile ? 
+    [ ] finir openAgenda 
+        [ ] evenement récurent
+        [ ] cronJob
+  ** @Tango 
+    [ ] Bug Repair geoloc sur tous les element
+    [ ] Finir Add member, contributeur et invitation
+    [ ] reactiver viewport filter sur la carte
+    [ ] Bouton Autour de moi : découvrir les gens pret de moi
+    [ ] refactor le design du notifier (0.16??)
+  ** @Tib 
+    [ ] switcher le titre navigateur
+    [ ] wisiwig sur les desc de form create
+        [ ] markdown editor
+    [ ] checkout Mention
+    [ ] documentation API REST, comme avant
+    [ ] globaliser le system de Tokens et utilisation API Communecter
+  ** @Sylvain
+    [ ] mailing
+        [ ] doc
+        [ ] faire un mail hebdomadaire
+        [ ] invitation event 
+        [ ] news privé
+
+* Version 0.14 : Fermé 
+    ** @Tango
+    [X] Refonte interface DDA
+    [X] Documentation
+    ** @Rapha
+    [X] Open Data préférence
+    [X] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
+    ** @Clement
+    [X] Open Edition ubiquité en préférence
+    [X] Mentionner qlq'un dans une actu/News @someone
+    [X] DDA : pouvoir ajouter des images sur les propositions et les actions
+    ** @Tib
+        [X] Ajouter un Framapad
+        [X] Archiving : discussion, decision et action rooms
+          [X] who can archive
+            [X] owner of the vote or the action
+          [X] archiver == passer le status à "archived"
+            [X] survey
+            [X] actions
+            [X] discussions
+          [X] decision & action room archived
+            [X] when archived remove features : 
+              [X] edit features 
+              [X] Add proposals
+              [X] desactivate votes 
+          [X] front ends  
+            [X] differntiate style when archived
+            [X] show index without archived rooms
+            [X] add btn, see archives
+            [X] show only  archived rooms
+        [ ] move Menu::Btn
+            [X] permission 
+                [X] only organizer on survey and actions
+            [ ] open Modal : 
+                [X] list all possible destinations
+                [ ] romve in list the current parent room
+            [X] convertir une proposition en action
+                [X] copy as action 
+                [X] action Room must exist already
+                [X] add moved attribute add room attr
+            [X] convertir une action en proposition
+            [X] deplacer vers une autre room  
+                [X] vote proposals : switch survey Id 
+                [X] actions : switch room Id
+        

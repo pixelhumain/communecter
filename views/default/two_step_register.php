@@ -335,6 +335,8 @@
 		<span class="text-center text-dark" style="font-size:15px; font-weight:300;">
 			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
 			C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
+			<br><br>
+			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" class="btn bg-azure"><i class="fa fa-angle-left"></i> Sortir</a>
 		</span>
 	</div>	
 
@@ -406,12 +408,13 @@
 	cityNameCommunexion = "<?php echo $cityNameCommunexion; ?>";
 	countryCommunexion = "<?php echo $countryCommunexion; ?>";
 
+	var actionBtnCo = "";
+
 	jQuery(document).ready(function() {
 		console.log("userConnected", countryCommunexion);
 		console.dir(userConnected);
 	
 		if(countryCommunexion != ""){
-			//$("#addressCountry").val(countryCommunexion);
 			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
 		}
 
@@ -431,18 +434,12 @@
 		});
 
 		location.hash = "#default.twostepregister";
-		//$('.btn-menu0').off().click( function(e){ loadByHash("#default.twostepregister")} );
 
 		$(".moduleLabel").html("<i class='fa fa-user'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER");
   		
-		//$(".menu-button").hide();
-
-  		<?php if(!isset($inseeCommunexion)){ ?>
-  			//showTwoStep("begin-zone");
-  		<?php }else{ ?>
-  			//showTwoStep("begin-communexion");
-  		<?php } ?>
-  		
+  		actionBtnCo = $("#main-btn-co").attr("href");
+  		$("#main-btn-co").attr("href", "javascript:");
+		
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
@@ -597,7 +594,7 @@
     			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
     			showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
-    			//console.dir(obj);
+    			$("#main-btn-co").attr("href", actionBtnCo);
 			},
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle addresse");

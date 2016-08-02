@@ -14,8 +14,17 @@
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
 }
 .voteInfoBox{
-	border-radius: 10px;
+	border-radius: 5px;
 	font-weight: 300;
+	padding:6px;
+}
+
+.col-tool-vote {
+    margin-bottom: 10px;
+    height: 180px;
+	border-radius: 6px;
+	font-size: 15px;
+	padding: 0px;
 }
 </style>
 
@@ -91,8 +100,16 @@ if( !isset($hideTexts) )
 			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		
-		echo "<div class='container-tool-vote text-dark'>".$contentVote."</div>".
-			"<div class='space1 voteInfoBox text-white bg-dark text-large'></div>";
+		echo "<div class='container-tool-vote text-dark'>";
+
+		if( !$voteLinksAndInfos["hasVoted"] ) 
+		echo 	"<h1 class='text-red homestead margin-bottom-10'><i class='fa fa-angle-down'></i> Voter</h1>";
+
+		echo	$contentVote.
+			 "</div>";
+			 
+		if( !$voteLinksAndInfos["hasVoted"] ) 
+		echo "<div class='space1 voteInfoBox text-white bg-dark'></div>";
 
 		//	echo $voteLinksAndInfos["hasVoted"] ? "true" :"false";
 		//if( $voteLinksAndInfos["totalVote"] )
@@ -101,45 +118,7 @@ if( !isset($hideTexts) )
 
 </div>
 
-<div class="space10"></div>
 
-<?php 
-if(isset( Yii::app()->session["userId"]) )
-{
-	if(Yii::app()->session["userEmail"] != $survey["email"])
-	{
-		if(!(isset($survey[Action::ACTION_FOLLOW]) 
-		    && is_array($survey[Action::ACTION_FOLLOW]) 
-		    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) 
-		{
-?>
-		<br/>
-		<?php /* ?>
-		<a class="btn btn-xs btn-default" href="#" onclick="addaction('<?php echo (string)$survey["_id"]?>','<?php echo Action::ACTION_FOLLOW ?>')">
-			<i class='fa fa-rss' ></i> Follow 
-		</a>
-		*/ ?>
-	<?php } else {?>
-		<br/>
-		<?php echo Yii::t("rooms","You are Following this vote.",null,Yii::app()->controller->module->id) ?> <i class='fa fa-rss' ></i>
-	<?php } 
-	} else {?>
-		<?php echo Yii::t("rooms","You created this vote.",null,Yii::app()->controller->module->id) ?>
-		<br/>
-		<?php if( Yii::app()->request->isAjaxRequest && false){ ?>
-		<a class="btn btn-xs btn-default" onclick="entryDetail('<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;">
-			<i class='fa fa-pencil' ></i> <?php echo Yii::t("rooms","Edit this Entry",null,Yii::app()->controller->module->id) ?>
-		</a>
-	<?php } ?>
-<?php }} ?>
-
-<?php /* ?>
-<a class="btn btn-xs btn-default share-button" href="javascript:;"><i class='fa fa-share' ></i> Share </a>
-
-
-
-<br/>Views : <?php echo @$survey["viewCount"]; ?>
-*/?>
 
 
 <script type="text/javascript">
@@ -152,12 +131,13 @@ jQuery(document).ready(function()
 		clickedVoteObject = $(this).data("vote");
 		console.log(clickedVoteObject);
 	 });
-	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Pour : Si vous etes d'accord avec la proposition"); });
-	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Amender : La base est bonne mais il faut encore corriger, améliorer, la rendre meilleure"); });
-	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Blanc : Si Vous ne souhaitez pas vous engagé, ni pour ni contre"); });
-	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter plus d'information : il manque des elements pour prendre une réélle décision"); });
-	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("Voter Contre : Si vous etes pas d'accord avec la proposition"); });
-	$(".voteinfoSection,.citizenAssembly-header ").off().on("mouseover",function() { $(".voteInfoBox").html(""); });
+	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Pour</strong><br>Je suis d'accord avec la proposition"); });
+	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Amender</strong><br>Je souhaite que la proposition soit complétée"); });
+	$(".voteAbstain").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Blanc</strong><br>Je ne souhaite pas me prononcer"); });
+	$(".voteMoreInfo").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Plus d'informations</strong><br>Je manque d'informations pour prendre votre décision"); });
+	$(".voteDown").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Contre</strong><br>Je ne suis pas d'accord avec la proposition"); });
+	$(".voteIcon").on("mouseout",function() { $(".voteInfoBox").html(""); $(".voteInfoBox").hide(); });
+	$(".voteIcon").on("mouseover",function() { $(".voteInfoBox").show(); });
 });
 
 </script>

@@ -17,7 +17,8 @@ function removeExplainations(){
 	});
 }
 
-
+var timeoutSearch = setTimeout(function(){}, 0);
+	
 
 function realTimeKKBB(){
 
@@ -196,11 +197,10 @@ function bindEventMenu(){
 		clearTimeout(timeoutCommunexion);
 	});
 
-	var timeoutSearch = setTimeout(function(){}, 0);
 	$('#searchBarPostalCode').keyup(function(e){
 		//if(location.hash == "#default.home"){
 	        clearTimeout(timeoutSearch);
-      		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 1200);
+      		timeoutSearch = setTimeout(function(){ startNewCommunexion(); }, 5000);
 	    //}
     });
     
@@ -232,8 +232,8 @@ function bindEventMenu(){
 	$(".hover-menu").mouseenter(function(){
 		////console.log("enter all");
 		positionMouseMenu = "in";
-		$(".main-col-search").animate({ opacity:0.3 }, 400 );
-		$(".lbl-btn-menu-name").show(200);
+		$(".main-col-search").animate({ opacity:0.3 }, 0 );
+		$(".lbl-btn-menu-name").show(0);
 		$(".lbl-btn-menu-name").css("display", "inline");
 		$(".menu-button-title").addClass("large");
 
@@ -252,7 +252,7 @@ function bindEventMenu(){
 		////console.log("enter btn, loginRegister", isLoginRegister());
 		if(!isLoginRegister()){
 			positionMouseMenu = "inBtn";
-			$(".main-col-search").animate({ opacity:0.3 }, 200 );
+			$(".main-col-search").animate({ opacity:0.3 }, 0 );
 			$(".menu-button-title").addClass("large");
 
 			if(!showMenuExplanation)
@@ -274,18 +274,16 @@ function bindEventMenu(){
 	    	hoverPersist = false;
 			clearTimeout(timeoutHover);
 			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 200 );
+			$(".main-col-search").animate({ opacity:1 }, 0 );
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		////console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
+
+		clearTimeout(timeoutSearch);
 		clearTimeout(timeoutHover);
 	});
 
@@ -302,11 +300,9 @@ function bindEventMenu(){
 		$(".hover-info, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
-		////console.log("hide communexion");
-		//timeoutCommunexion = setTimeout(function(){ //console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); }, 800);
-		////console.log("HIDE HIDE");
-		//$("#input-communexion").hide(200); 
 		$("#input-communexion").hide(400);
+
+		clearTimeout(timeoutSearch);
 		clearTimeout(timeoutHover);
 	});
 

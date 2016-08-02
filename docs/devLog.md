@@ -13,6 +13,69 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.14
+
+@Bouboule:
+1.ph/communecter/test/addpersonmediumimage will run actionAddPersonMediumImage()
+		=> Add medium Image for each entity (Person/Organization/Event/Project)
+		=> Create image in folder /medium and size 400px x 400 px
+2.communecter/test/addeventmediumimage actionAddEventMediumImage()
+3.communecter/test/addprojectmediumimage actionAddProjectMediumImage()
+5.communecter/test/addorgamediumimage actionAddOrgaMediumImage()
+
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+Version 0.14
+
+@Rapha Ajout et Modification des préférences pour Orga/Project/Event
+db.organizations.find({"preferences" : {$exists : false}}).forEach(function(doc){ 
+    db.organizations.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : [], "privateFields" : [], "isOpenData" : true}}
+         })
+});
+
+db.organizations.find({"preferences" : {$exists : true}}).forEach(function(doc){ 
+    db.organizations.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : doc.preferences.publicFields, "privateFields" : doc.preferences.privateFields, "isOpenData" : true}}
+         })
+});
+
+db.events.find({"preferences" : {$exists : false}}).forEach(function(doc){ 
+    db.events.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : [], "privateFields" : [], "isOpenData" : true}}
+         })
+});
+
+db.events.find({"preferences" : {$exists : true}}).forEach(function(doc){ 
+    db.events.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : doc.preferences.publicFields, "privateFields" : doc.preferences.privateFields, "isOpenData" : true}}
+         })
+});
+
+
+db.projects.find({"preferences" : {$exists : false}}).forEach(function(doc){ 
+    db.projects.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : [], "privateFields" : [], "isOpenData" : true}}
+         })
+});
+
+db.projects.find({"preferences" : {$exists : true}}).forEach(function(doc){ 
+    db.projects.update({"_id":doc._id},{
+                '$set':{'preferences': {"publicFields" : doc.preferences.publicFields, "privateFields" : doc.preferences.privateFields, "isOpenData" : true}}
+         })
+});
+
+
 Version 0.13
 
 @Rapha
@@ -21,6 +84,15 @@ db.citoyens.find().forEach(function(doc){
     if(typeof doc.telephone == "string") { 
          print(doc.name);
          db.citoyens.update({"_id":doc._id},{
+                '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
+         })
+    }
+});
+
+db.organizations.find().forEach(function(doc){ 
+    if(typeof doc.telephone == "string") { 
+         print(doc.name);
+         db.organizations.update({"_id":doc._id},{
                 '$set':{'telephone': {"fixe" : {0 : doc.telephone } }}
          })
     }

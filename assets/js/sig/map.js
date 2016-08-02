@@ -9,6 +9,7 @@
 			this.Sig.map = null;
 			this.Sig.markersLayer = "";
 			this.Sig.tileLayer = null;
+			this.Sig.roadTileLayer = null;
 			this.Sig.geoJsonCollection = "";
 
 			this.Sig.initParameters = "";
@@ -484,7 +485,7 @@
 				var objectId = this.getObjectId(thisData);
 				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
-				console.log(thisData);
+				//console.log(thisData);
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
@@ -620,7 +621,7 @@
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				console.warn("--------------- showMapElements ---------------------");
-				console.log(data);
+				//console.log(data);
 				if(data == null) return;
 
 				var filterPanelValue = "citoyens";

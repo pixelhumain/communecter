@@ -22,12 +22,23 @@ var loadStream = function(indexMin, indexMax){
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
+    filter = new Object;
+    filter.parent=parent;
+    if (typeof(locality) != "undefined")
+	    filter.locality=locality;
+    if (typeof(searchBy) != "undefined")
+	    filter.searchBy=searchBy;
+	if (typeof(searchType) != "undefined")
+	    filter.searchType=searchType;
+
+	if (typeof(tagSearch) != "undefined")
+	    filter.tagSearch=tagSearch;
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
-	       	data: {"parent" :  parent},
+	       	data: filter,
 	    	success: function(data){
 		    	console.log("LOAD NEWS BY AJAX");
 		    	console.log(data.news);
@@ -120,7 +131,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			}
 			newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form+"<div class='col-md-5 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
+					'</div>'+form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
 		
 			$(".spine").css("bottom","0px");
 			$(".tagFilter, .scopeFilter").hide();
@@ -366,6 +377,7 @@ function updateNews(newsObj)
 	$("#newFeedForm").parent().next().css("margin-top","20px");
 	manageModeContext(newsObj._id.$id);
 	$("#form-news #get_url").val("");
+	$('textarea.mention').mentionsInput('reset');
 	$("#form-news #results").html("").hide();
 	$("#form-news #tags").select2('val', "");
 	showFormBlock(false);
@@ -485,7 +497,7 @@ function getUrlContent(){
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
-                var lastUrl=extracted_url;
+                lastUrl=extracted_url;
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -514,7 +526,79 @@ function getUrlContent(){
                 });
 			}
         }
-    });
+    }); /*.keydown(function( event ) {
+		if ( event.which == 192 ) {
+			peopleReference=true;
+  		}
+  		if(peopleReference == true){
+	  		allValue=getUrl.val();
+	  		search=allValue.split("@").pop();
+	  		var data = {"search" : search,"searchMode":"personOnly"};
+	  		$.ajax({
+				type: "POST",
+		        url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
+		        data: data,
+		        dataType: "json",
+		        success: function(data){
+		        	if(!data){
+		        		toastr.error(data.content);
+		        	}else{
+		        		
+						str = "";
+						console.log(data);
+						if(data.citoyens.length != 0){
+							$("#dropdown_search").show();
+				 			$.each(data, function(key, value) {
+				 				
+				 				$.each(value, function(i, v){
+				 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
+				 					var logoSearch = "";
+				 					console.log(v);
+				 					if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl!=""){
+				 						var imageSearch = '<img alt="image" class="" src="'+baseUrl+v.profilThumbImageUrl+'" style="height:25px;padding-right:5px;"/>'
+				 					}
+				  					str += '<li class="li-dropdown-scope"><a href="javascript:setReferenceInNews(\''+v.id+'\',\''+v.name+'\',\''+v.email+'\',\''+key+'\')">'+imageSearch+' '+v.name +'</a></li>';
+				  				});
+				  			}); 
+				  			$("#dropdown_search").html(str);
+				  		} else{
+					  		$("#dropdown_search").hide();
+		        		peopleReference=false;
+
+				  		}
+		  			}
+				}	
+			})*/
+	  		/*getUrl.select2({
+				  ajax: {
+				    url: "https://api.github.com/search/repositories",
+				    dataType: 'json',
+				    delay: 250,
+				    data: search
+				    },
+				    processResults: function (data, params) {
+				      // parse the results into the format expected by Select2
+				      // since we are using custom formatting functions we do not need to
+				      // alter the remote JSON data, except to indicate that infinite
+				      // scrolling can be used
+				      params.page = params.page || 1;
+				
+				      return {
+				        results: data.items,
+				        pagination: {
+				          more: (params.page * 30) < data.total_count
+				        }
+				      };
+				    },
+				    cache: true
+				  },
+				  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+				  minimumInputLength: 1,
+				  templateResult: formatRepo, // omitted for brevity, see the source of this page
+				  templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+				});*/
+  		//}
+  	//});
 }
 function getMediaHtml(data,action,idNews){
 	if(typeof(data.images)!="undefined"){
@@ -595,7 +679,7 @@ function getMediaHtml(data,action,idNews){
 	else
 		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
@@ -609,6 +693,9 @@ function getMediaHtml(data,action,idNews){
     return content;
 }
 function saveNews(){
+	$('textarea.mention').mentionsInput('getMentions', function(data) {
+      mentionsInput=data;
+    });
 	var formNews = $('#form-news');
 	var errorHandler2 = $('.errorHandler', formNews);
 	var successHandler2 = $('.successHandler', formNews);
@@ -708,7 +795,9 @@ function saveNews(){
 					newNews.codeInsee = $("input[name='cityInsee']").val();
 				if($("input[name='cityPostalCode']").length && contextParentType == "city")
 					newNews.postalCode = $("input[name='cityPostalCode']").val();
-
+				if (mentionsInput.length != 0){
+					newNews.mentions=mentionsInput;
+				}
 				console.log(newNews);
 				$.ajax({
 			        type: "POST",

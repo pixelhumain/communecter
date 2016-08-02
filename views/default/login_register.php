@@ -168,7 +168,7 @@
 					<img style="width:70%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					
 					<fieldset>
-						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> Je crée mon compte</h2>
+						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i><?php echo Yii::t("login","I create my account") ?></h2>
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
@@ -282,7 +282,7 @@ jQuery(document).ready(function() {
 
 	$('.form-register #username').keyup(function(e) {
 		validateUserName();
-	})
+	});
 
 	if(email != ''){
 		$('#email-login').val(email);
@@ -561,7 +561,8 @@ var Login = function() {
 		form3.validate({
 			rules : {
 				name : {
-					required : true
+					required : true,
+					minlength : 4
 				},
 				username : {
 					required : true,

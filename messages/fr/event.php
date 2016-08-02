@@ -48,7 +48,7 @@ return array(
 	'Visualise' => "Visualisez",
 	'View this event as a directory' => "Voir l'événement en annuaire",
 	"Unlink event" => "Détacher cette évènement",
-
+	"Create an event"=>"Créer un événement",
 
 	//Type
 	"concours" => "Concours",
@@ -61,6 +61,9 @@ return array(
     "meeting" => "Réunion",
     "competition" => "Compétition",
     "course" => "Formation",
+    "workshop" => "Atelier",
+    "conference" => "Conférence",
+    "debate" => "Débat",
 
     "Please specify the name of the event"=>"Le nom est obligatoire",
 	"Please specify the postal code"=>"Le code postal est obligatoire",
