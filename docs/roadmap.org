@@ -55,6 +55,7 @@
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
   ** @Rapha
+    [ ] Modifier l'update des préférence pour permettre l'entrée de openData/openEdition dans l'historique
     [ ] form keep my position / my latest psitions
     [ ] sur une person, retirer superAdmin false, inutile ? 
     [ ] finir openAgenda 
