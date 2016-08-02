@@ -106,24 +106,8 @@
 
 ?>
 <style>
-	.my-main-container{
-		min-height:1000px;
-	}
-
-	.main-col-search{
-		min-height:1000px;
-		padding-right:15px;
-	}
-
 	.footer-menu-left{
-		width:100%;
-		bottom:0px;
-		position:fixed;
 		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");
-		background-repeat: repeat-x;
-		background-size: auto;
-		background-position: left bottom;
-		height: 325px;
 	}
 </style>
 
@@ -425,6 +409,8 @@ function resizeInterface()
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
   $(".my-main-container").css("min-height", $(".sigModuleBg").height());
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height());
+   $(".my-main-container").css("height", $(".sigModuleBg").height());
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -527,7 +513,7 @@ function showMap(show)
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
 		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 		$(".my-main-container").animate({
-     							top: 0,
+     							top: 50,
      							opacity:1
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
