@@ -120,7 +120,7 @@ jQuery(document).ready(function() {
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<i class='fa fa-search'></i> <span id='main-title-menu'>Recherche</span> <span class='text-red'>COMMUNE</span>CTÉE");
+	$(".moduleLabel").html("<i class='fa fa-search'></i> <span id='main-title-menu'>Rechercher</span>");
 
 	$('.tooltips').tooltip();
 

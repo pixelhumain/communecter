@@ -222,6 +222,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></span>
 								</label>
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+								<label class="" id="error_street"></label>
 							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
@@ -248,9 +249,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 							<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
 							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
-
-
-							
+			
 						</div>
 
 							
@@ -508,7 +507,7 @@ jQuery(document).ready(function() {
 		citiesByPostalCode;
 		Sig.citiesByPostalCode = citiesByPostalCode;
 		
-		var oneValue = "";
+		var oneValue = ""; var oneName = "";
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + ' data-city="'+ value.text +'">' + value.text + '</option>');
 	    	oneValue = value.value;
@@ -613,24 +612,30 @@ jQuery(document).ready(function() {
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
 		    			console.log("res getlatlngbyinsee");
 		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ 
-							if(typeof obj.geoShape != "undefined") {
-								//on recherche avec une limit bounds
-								var polygon = L.polygon(obj.geoShape.coordinates);
-								var bounds = polygon.getBounds();
-								Sig.execFullSearchNominatim(0, bounds);
+		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				console.dir(obj);
+		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
+								if(typeof obj.geoShape != "undefined") {
+									//on recherche avec une limit bounds
+									var polygon = L.polygon(obj.geoShape.coordinates);
+									var bounds = polygon.getBounds();
+									Sig.execFullSearchNominatim(0, bounds);
+								}
+								else{
+									//on recherche partout
+									Sig.execFullSearchNominatim(0);
+								}					
+							
+							}else{
+								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
+								callBackFullSearch(obj);
+								//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 							}
-							else{
-								//on recherche partout
-								Sig.execFullSearchNominatim(0);
-							}					
-						
-						}else{
-							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
 	
 					},
 					error: function(error){
+						$("#iconeChargement").hide();
 						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
@@ -659,6 +664,7 @@ jQuery(document).ready(function() {
 							if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
 							var coords = L.latLng(result.lat, result.lon);
 							Sig.showCityOnMap(result, true, "organization");
+							$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
 	
 						}else{
 							findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
@@ -669,6 +675,7 @@ jQuery(document).ready(function() {
 						console.dir(obj);
 						$("#error_street").html("Aucun résultat");
 						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+						$("#iconeChargement").hide();
 						$.unblockUI();
 					}
 				});
@@ -728,8 +735,13 @@ jQuery(document).ready(function() {
 			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 			
   		}else{
+  			$("#iconeChargement").hide();
   			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
   		}
+	}
+	function callbackGoogleMapsSuccess(result){
+		$("#iconeChargement").hide();
+  		$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
 	}
 
 	function manageOrganizationCategory(type) {

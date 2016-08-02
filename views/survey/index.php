@@ -755,7 +755,7 @@ jQuery(document).ready(function() {
 
 
 function saveNewProposal(){
-  $('#form-create-proposal #btn-submit-form').off().click()
+  $('#form-create-proposal #btn-submit-form').off().click();
 }
 
 function toogleTags(){

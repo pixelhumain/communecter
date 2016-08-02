@@ -110,7 +110,7 @@ function addCustomValidators() {
 	    } else {
 	    	return false;
 	    }
-	}, "Unknown Postal Code");
+	}, "Code postal inconnu");
 
 	jQuery.validator.addMethod("validUserName", function(value, element) {
 	    //Check authorized caracters

@@ -118,7 +118,8 @@ var dataBind = {
 
 
 function saveNewAction(){
-  $('#form-create-action #btn-submit-form').off().click()
+  toastr.success("saveNewAction");
+  $('#form-create-action #btn-submit-form').off().click();
 }
 
 var proposalObj = <?php echo (isset($action)) ? json_encode($action) : "{}" ?>;

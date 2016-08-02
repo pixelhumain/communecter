@@ -247,7 +247,7 @@ div.timeline .date_separator span{
 max-height: 250px !important;	
 }
 .blockUI{
-	padding:inherit !important;
+	/*padding:inherit !important;*/
 }
 
 

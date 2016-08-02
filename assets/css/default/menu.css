@@ -1,13 +1,42 @@
+.main-menu-left{
+	position: fixed !important;
+    top: 70px;
+    z-index: 1;
+}
+.menu-button-left{
+	font-size:15px;
+	margin-bottom:5px;
+	color:#3C5665;
+	font-weight:300;
+}
+.menu-button-left:hover{
+	/*color:#2BB0C6;*/
+}
+
+.menu-button-left.selected{
+	/*color:#2BB0C6;*/
+	font-weight: 600;
+}
+.main-menu-left hr{
+	margin-top:5px;
+	margin-bottom:5px;
+	border-top: 1px solid #d4d4d4 !important;
+}
+
+.moduleLabel{
+	margin-left:0px !important;
+}
+
 .lbl-btn-menu-name, .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: none;
-	font-size: 17px;
+	font-size: 15px !important;
 	text-align: left;
-	padding: 2px 2px;
+	padding: 0px;
 	border-radius: 26px;
 	z-index: 0;
 	width: 100px;
 	font-weight: 300;
-	font-family: "homestead";
+	/*font-family: "homestead";*/
 }
 .lbl-btn-menu-name-add, .lbl-btn-menu-name-city{
     display: inline;
@@ -100,69 +129,6 @@
 }
 
 
-.btn-param-postal-code{
-	left: 61px;
-	bottom: 57px;
-	width: 45px !important;
-	height: 45px !important;
-	border-radius: 50%;
-	z-index:2;
-	color: #FFF;
-	font-size: 19px;
-	-moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-}
-
-#btn-geoloc-auto-menu{
-	left: 105px;
-	top: 60px;
-	padding-bottom: 6px;
-	padding-top: 4px;
-	padding-right: 10px;
-	padding-left: 12px;
-}
-#btn-geoloc-auto-menu i.fa{
-	font-size: 16px;
-}
-
-#input-communexion{
-	display:none;
-	position:fixed;
-	bottom:0px;
-	left:0px;
-	z-index: 1;
-}
-
-#searchBarPostalCode{
-	position: absolute;
-	left: 62px;
-	bottom: 57px;
-	height: 45px;
-	margin-top: 10px;
-	width: 350px;
-	margin-left: 0px;
-	font-family: "homestead";
-	font-size: 22px !important;
-	border-radius: 55px !important;
-	padding-left: 69px !important;
-	text-align: left;
-}
-
-#input-communexion .search-loader{
-	position: absolute;
-	left: 170px;
-	bottom: 35px;
-	font-weight: 600;
-	font-size: 14px;
-	overflow: hidden;
-	max-width: 450px;
-	width: 450px;
-	height: 20px;
-	max-height: 20px;
-}
 .homeShortcuts{position:absolute;top:420px;right:20px;}
 .homeShortcuts ul{list-style: none; }
 .homeShortcuts a{color: #9D9396;}
@@ -407,4 +373,46 @@ button.btn-menu10{
 	/*background-color: #32454E !important;*/
 	font-size: 18px;
 	height: 37px;
+}
+
+#btn-launcher-menu{
+	width:50px;
+	height:50px;
+}
+
+#modal-launcher-menu .modal-dialog {
+    width: 70%;
+}
+#modal-launcher-menu .modal-header{
+	
+}
+#modal-launcher-menu .btn-item-launcher{
+	font-size: 15px;
+	font-family: homestead;
+}
+#modal-launcher-menu .btn-item-launcher i.fa{
+	background-color: rgb(192, 218, 218);
+    border-radius: 50px;
+    padding: 7px;
+}
+
+.menuSmallBlockUI{
+	z-index: 1011 !important;
+	position: fixed !important;
+	padding: 15px !important;
+	margin: 0px !important;
+	text-align: center !important;
+	color: rgb(255, 255, 255) !important;
+	border: medium none !important;
+	border-radius: 3px !important;
+	background-color: rgba(18, 18, 18, 0.88) !important;
+	cursor: unset !important;
+	top: 50px !important;
+	bottom: 0px !important;
+	width: 83.333333% !important;
+	left: 16.66666667% !important;
+	overflow-y: auto;
+}
+.menuSmallMenu .thumbnail{
+	margin-bottom:0px !important;
 }

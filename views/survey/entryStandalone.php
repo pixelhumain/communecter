@@ -76,8 +76,7 @@
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod">
-			
-			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
 				<i class="fa fa-angle-down"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span>
 				<a href="javascript:showRoom('vote', '<?php echo $survey["survey"]; ?>')">
@@ -85,7 +84,29 @@
 				</a>
 				<hr>
 			</h1>
+			<div class="col-md-12">
+				
+				
+				<span class="text-extra-large text-bold text-dark col-md-12 no-padding" style="font-size:25px !important;">
+					<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
+				</span>
+				<?php if( @($organizer) ){ ?>
+					<br/><span class="text-red" style="font-size:13px; font-weight:500;">
+						<i class="fa fa-angle-right"></i> Proposition de 
+						<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a>
+					</span>
+				<?php }	?>
+				<hr>
+				<?php //echo Survey::getChartBarResult($survey); ?>
+			</div>
 
+			<?php 					
+				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
+					Menu::proposal( $survey );
+					$this->renderPartial('../default/panels/toolbar');
+				}
+			?>
+			
 			<div class="col-md-12 voteinfoSection">
 				<?php 
 					$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
@@ -237,6 +258,7 @@
 				</div>
 
 				<div class="col-md-12 no-padding">
+
 					<div class="col-md-12 text-dark" style="font-size:15px">
 						<hr style="margin-top:0px">
 						<?php echo $survey["message"]; ?>
