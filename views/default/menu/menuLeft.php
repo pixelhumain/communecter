@@ -73,7 +73,7 @@
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Communauté
+				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actus réseau
 		</a>
 		<hr><br>
 		<?php } ?>
