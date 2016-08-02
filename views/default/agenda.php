@@ -27,6 +27,9 @@
   }
 
 
+  .lbl-scope-list {
+    top: 205px;
+  }
   .btn-month-before{
     position:absolute !important;
     top:160px;

@@ -18,6 +18,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 display: inline;
 }
 
+  .lbl-scope-list {
+    top: 200px;
+  }
 
 @media screen and (max-width: 1024px) {
   button.btn-start-search {

@@ -679,7 +679,7 @@ function showLocalActorsCityCommunexion(){
           }
  	});
 
-	}
+}
 
 
 var topMenuActivated = true;

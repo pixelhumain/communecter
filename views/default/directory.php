@@ -28,6 +28,9 @@
   .btn-scope{
     display: inline;
   }
+  .lbl-scope-list {
+    top: 205px;
+  }
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
