@@ -48,7 +48,6 @@
 [ ] POI et Element de base (0.16??)
 
   ** @Clement
-    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
     [ ] sur orga reparer afficher tous les membres
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
@@ -56,6 +55,7 @@
         [ ] uplodaer de document
   ** @Rapha
     [ ] form keep my position / my latest psitions
+    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
     [ ] sur une person, retirer superAdmin false, inutile ? 
     [ ] finir openAgenda 
         [ ] evenement récurent
