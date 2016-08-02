@@ -65,7 +65,16 @@ $this->renderPartial('../default/panels/toolbar');
 			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
 			
 			<div class="col-md-8 col-sm-12 no-padding pull-left" id="podCooparativeSpace">
-				<div id="pod-room" class="panel panel-white">
+				<a href="javascript:loadByHash('#rooms.index.type.projects.id.<?php echo $project["_id"]; ?>')" 
+					class="homestead">
+					<h3 class="homestead text-azure text-right">
+						<i class="fa fa-connectdevelop"></i> 
+						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
+						<i class="fa fa-arrow-circle-right"></i>
+					</h3>
+				</a>
+
+				<div id="pod-room" class="panel panel-white hidden">
 
 					<div class="panel-heading border-light bg-azure">
 							<h4 class="panel-title">
@@ -75,9 +84,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<i class="fa fa-arrow-circle-right pull-right"></i>
 								</a>
 							</h4>		
-						
 					</div>
-						
 				</div>
 			</div>
 		</div>	
