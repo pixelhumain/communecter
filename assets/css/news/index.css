@@ -39,7 +39,6 @@
 
 #newsHistory{
 	overflow-x: hidden;
-
 	/*padding-top:100px !important;*/
 	bottom:0px;
 	right:0px;
@@ -215,7 +214,7 @@ div.timeline .date_separator span{
 
 /*MISE EN PAGE SPECIALE POUR NOUVEAU DESIGN "SEARCH"*/
 #newsHistory{
-	top:110px !important;
+	margin-top:10px !important;
 	width: 100%;
 	left: 16.62% !important;
 	/*border-top: 1px solid #d4d4d4;*/

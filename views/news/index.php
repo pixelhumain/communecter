@@ -39,7 +39,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php 
 	if($type != City::CONTROLLER)
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type)); 
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer)); 
 ?>
 
 <?php 
@@ -63,9 +63,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de l'organisation";//.$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
-		Menu::person($parent);
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
+			Menu::person($parent);
+		
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
@@ -334,7 +335,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
 	</div>-->
-	<div class="<?php if($type!="city") {?>col-md-12<?php } ?>">
+	<div class="col-md-11">
 		<!-- start: TIMELINE PANEL -->
 		<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
 			<div id="top" class="panel-body panel-white">

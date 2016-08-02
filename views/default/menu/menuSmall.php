@@ -124,13 +124,13 @@ width: 100%;
 			    </a>
 			</div>
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>')">
 			        <i class="fa fa-newspaper-o"></i> 
 			        <br/>Mon journal
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId'] ?>')">
+			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?> ?>')">
 			        <i class="fa fa-rss"></i> 
 			        <br/>Actus réseau
 			    </a>
