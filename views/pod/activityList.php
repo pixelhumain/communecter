@@ -27,7 +27,9 @@ $arrayLabel=array(
 	"email" => Yii::t("common", "the email"),
 	"url" => Yii::t("common", "the website"),
 	"licence" => Yii::t("common", "the licence"),
-	"properties.avancement" => Yii::t("common", "the maturity")
+	"properties.avancement" => Yii::t("common", "the maturity"),
+	"isOpenData" => Yii::t("common", "open data"),
+	"isOpenEdition" => Yii::t("common", "open edition")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
@@ -53,7 +55,6 @@ $countries= OpenData::getCountriesList();
 					$action = Yii::t("common", "has added");
 				else if($value["verb"]==ActStr::VERB_CREATE)
 					$action = Yii::t("common", "has created");
-		
 			?>
 				<div class='col-md-12 col-sm-12 col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">
 					<?php echo "<i class='fa fa-clock-o'></i> ".date("d/m/y H:i",$value["date"]->sec)."<br/>".
@@ -80,13 +81,16 @@ $countries= OpenData::getCountriesList();
 									echo ", ";
 								echo $tel;
 							}
-						}else	
+						}else
 							echo Yii::t("common",$value["object"]["displayValue"]);
+						
+							
 						echo "</span>"
 					?>
 				</div>
 			<?php	
 			}
+
 		}
 	?>
 </div>
