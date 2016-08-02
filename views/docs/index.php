@@ -107,9 +107,10 @@
 				</div>
 			</div>
 			
+		</div>	
+		<div class="col-sm-12">
 			
-			
-			<div class="col-sm-12 ">
+			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="javascript:loadByHash('#default.view.page.presentation.dir.docs');">
@@ -128,10 +129,7 @@
 				    </div>
 				</div>
 			</div>
-
-		</div>
-		<div class="col-sm-12">
-		
+	
 			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
@@ -147,10 +145,11 @@
 				    </div>
 				</div>
 			</div>
-
+			
+		</div>
 		<!-- </div>
 		<div class="col-sm-12"> -->
-			
+		<div class="col-sm-12">	
 			<div class="col-sm-6">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
