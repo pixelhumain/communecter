@@ -89,14 +89,14 @@ width: 100%;
 	<div class="menuSmallMenu">
 
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
-		<div class="col-md-3 col-sm-3 col-xs-3 center no-padding">
-			<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="col-md-3 col-sm-3 col-xs-12 center no-padding margin-bottom-15">
+			<div class="col-md-12 col-sm-12 col-xs-6">
 				<a class="btn bg-red" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();">
 					<i class="fa fa-sign-in"></i>
 					</br>Se Connecter
 				</a>
 			</div> 
-			<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-md-12 col-sm-12 col-xs-6">
 				<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();">
 					<i class="fa fa-plus-circle"></i>
 					</br>S'inscrire
@@ -151,8 +151,7 @@ width: 100%;
 
 	  	<div class="col-md-9 col-sm-9 col-xs-12 no-padding">
 
-	  		<?php if(isset($myCity)){?>
-		    <div class="col-md-12 col-sm-12 margin-15">
+	  		<div class="col-md-12 col-sm-12 margin-15 visible-communected">
 				<div class="col-md-4 col-sm-4 center">
 			    	<a class="btn bg-azure" href="javascript:loadByHash('#default.directory')" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
@@ -166,37 +165,37 @@ width: 100%;
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
-			<?php } ?>
+			
 
 			<div class="col-md-12 col-sm-12 padding-15">
 			    
 				<?php if(!isset($myCity)){?>
-					<div class="col-md-12 center">
+					<div class="col-md-12 center hide-communected">
 						<a class="btn bg-red" href="javascript:$('.btn-geoloc-auto').trigger('click');$.unblockUI();">
 							<i class="fa fa-university"></i>
 							</br>Communectez-moi
 						</a>
 					</div> 
-				<?php } else { ?>
-					<div class="col-md-6 col-sm-6 col-xs-12 center">
-						<a class="btn bg-red" 
-							href="javascript:loadByHash('#city.detail.insee.<?php 
-								echo $myCity["insee"]; ?>.postalCode.<?php echo $myCity["cp"]; 
-								?>')" 
-							id="btn-menu-dropdown-my-city">
-							<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
-						</a>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 center">
-						<a class="btn bg-red" 
-							href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')" 
-							id="btn-menu-dropdown-my-city">
-							<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
-							<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
-						</a>
-					</div>
 				<?php } ?>
-			
+
+				<div class="col-md-6 col-sm-6 col-xs-12 center visible-communected">
+					<a class="btn bg-red" 
+						href="javascript:loadByHash('#city.detail.insee.<?php 
+							 if(@$myCity) echo $myCity["insee"]; ?>.postalCode.<?php  if(@$myCity) echo $myCity["cp"]; 
+							?>')" 
+						id="btn-menuSmall-mycity">
+						<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
+					</a>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 center visible-communected">
+					<a class="btn bg-red" 
+						href="javascript:loadByHash('#rooms.index.type.cities.id.<?php if(@$myCity) echo City::getUnikey($myCity); ?>')" 
+						id="btn-menuSmall-citizenCouncil">
+						<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
+						<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
+					</a>
+				</div>
+				
 				<?php if(isset(Yii::app()->session['userId'])){ ?>
 					<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
 						<hr style="border-top: 1px solid transparent; margin:7px;">
@@ -245,7 +244,7 @@ width: 100%;
 					</h2>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-grey" href="javascript:" 
+					<a class="btn bg-grey" href="javascript:loadByHash('#default.view.page.index.dir.docs')" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
 				        <i class="fa fa-file"></i> 
@@ -253,7 +252,7 @@ width: 100%;
 				    </a>
 			    </div>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-grey" href="javascript:" 
+					<a class="btn bg-grey" href="javascript:loadByHash('#news.index.type.pixels')" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Signaler un bug">
 				        <i class="fa fa-bullhorn"></i> 
