@@ -4,7 +4,7 @@
       }
 ?>
 
-<div class="dropdown pull-right hidden-xs">
+<div class="dropdown pull-right">
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
     <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
     <?php //echo $me["name"]; ?>
@@ -26,43 +26,43 @@
         <i class="fa fa-university text-dark"></i><?php echo Yii::t("person","My city"); ?>
       </a>
     </li>
-    <li>
+    <li class="hidden-xs">
       <a href="javascript:;" 
         onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');">
         <i class="fa fa-thumbs-up text-dark"></i><?php echo Yii::t("person","My Votes / Discussions"); ?>
       </a>
     </li>
 
-    <li role="separator" class="divider"></li>
+    <li role="separator" class="divider hidden-xs"></li>
 
-    <li>
+    <li class="hidden-xs">
       <a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add">
         <i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i>
         <?php echo Yii::t("person","Invite someone"); ?>
       </a>
     </li>
-    <li>
+    <li class="hidden-xs">
       <a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add">
         <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
         <?php echo Yii::t("person","Create an event"); ?>
       </a>
     </li>
-    <li>
+    <li class="hidden-xs">
       <a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add">
       <i class="fa fa-plus-circle text-purple"></i> 
         <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?>
       </a>
     </li>
     
-    <li role="separator" class="divider"></li>
-    <li>
+    <li role="separator" class="divider hidden-xs"></li>
+    <li class="hidden-xs">
       <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add">
         <i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i>
         <?php echo Yii::t("person","Create an organization"); ?>
       </a>
     </li>
-    <li role="separator" class="divider"></li>
-    <li>
+    <li role="separator" class="divider hidden-xs"></li>
+    <li class="hidden-xs">
       <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add">
         <i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?>
       </a>
@@ -89,8 +89,8 @@
   </ul>
 </div>
 
-<button class="menu-button btn-menu btn-menu-notif tooltips text-dark hidden-xs" 
+<button class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
       data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
-  <i class="fa fa-bell"></i>
+  <i class="fa fa-bell hidden-xs"></i>
   <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?></span>
 </button>

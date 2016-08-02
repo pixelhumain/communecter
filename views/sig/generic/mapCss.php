@@ -163,6 +163,7 @@
 		.<?php echo $moduleName; ?>
 		.btn-group-map{
 			right:0% !important;
+			left:unset!important;
 		}
 	}
 

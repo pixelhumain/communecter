@@ -417,7 +417,7 @@ button.btn-menu10{
 	text-align: center !important;
 	color: rgb(255, 255, 255) !important;
 	border: medium none !important;
-	border-radius: 3px !important;
+	border-radius: 0px !important;
 	background-color: rgba(18, 18, 18, 0.88) !important;
 	cursor: unset !important;
 	top: 50px !important;

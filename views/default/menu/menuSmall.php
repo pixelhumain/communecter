@@ -138,7 +138,9 @@ width: 100%;
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
 			    <a class="btn bg-dark" 
 			    	href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
-			        <i class="fa fa-comments"></i> <i class="fa fa-gavel"></i> <i class="fa fa-cogs"></i> 
+			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
+			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
+			        <i class="fa fa-cogs" style="font-size: 1em!important;"></i> 
 			        <br/>Coopération
 			    </a>
 		    </div>
@@ -197,7 +199,7 @@ width: 100%;
 			
 				<?php if(isset(Yii::app()->session['userId'])){ ?>
 					<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
-						<hr style="border-top: 1px solid #575656; margin:7px;">
+						<hr style="border-top: 1px solid transparent; margin:7px;">
 						<h2 class="homestead text-white">
 							<i class="fa fa-plus-circle"></i> Ajouter 
 							<i class="fa fa-angle-down"></i> 
@@ -236,7 +238,7 @@ width: 100%;
 				<?php } ?>
 
 				<div class="col-md-12 col-sm-12 col-xs-12  no-padding">
-					<hr style="border-top: 1px solid #575656; margin:7px;">
+					<hr style="border-top: 1px solid transparent; margin:7px;">
 					<h2 class="homestead text-white">
 						Comprendre et aider 
 						<i class="fa fa-angle-down"></i> 

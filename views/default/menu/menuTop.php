@@ -1,5 +1,5 @@
 <style>
-	@media screen and (min-width:: 767px) and (max-width: 920px){
+	@media screen and (min-width: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
     	max-width: 42% !important;
 	}
@@ -66,6 +66,24 @@
 #main-title {
     margin-top: 16px !important;
 }
+
+@media screen and (max-width: 767px){
+	#notificationPanelSearch{
+		position: fixed;
+		top: 51px;
+		right: 50px;
+		width: 300px;
+		/*max-height: 80%;
+		overflow-y: auto;
+		background-color: white;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-radius: 0px 0px 10px 10px;*/
+	}
+	#main-btn-co{
+		margin-right:0px;
+	}
+}
 </style>
 
 <div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding">
@@ -79,10 +97,10 @@
 		title="Lire la documentation" 
 		alt="Lire la documentation">
 		<img class="" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-		<i class="fa fa-question-circle" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
+		<i class="fa fa-question-circle hidden-xs" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
 	</a>
 
-	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
+	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
 	</h1>
 	
@@ -104,7 +122,7 @@
 	</button>
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
-	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right hidden-xs" id="btn-show-floopdrawer" 
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" 
 			onclick="showFloopDrawer(true)"
 			data-toggle="tooltip" data-placement="bottom" title="Communautés" alt="Afficher mes contacts">
 			<i class="fa fa-group"></i>

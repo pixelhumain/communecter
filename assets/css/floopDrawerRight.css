@@ -245,8 +245,11 @@
 
 
 
-
-
+@media screen and (max-width: 767px){
+.floopDrawer{
+	width: 273px;
+	max-width: 273px;
+}
 
 
 
