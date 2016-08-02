@@ -26,47 +26,49 @@
         <i class="fa fa-university text-dark"></i><?php echo Yii::t("person","My city"); ?>
       </a>
     </li>
-    <li class="hidden-xs">
-      <a href="javascript:;" 
-        onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');">
-        <i class="fa fa-thumbs-up text-dark"></i><?php echo Yii::t("person","My Votes / Discussions"); ?>
-      </a>
-    </li>
+    <?php if (false) { ?>
+      <li class="hidden-xs">
+        <a href="javascript:;" 
+          onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');">
+          <i class="fa fa-thumbs-up text-dark"></i><?php echo Yii::t("person","My Votes / Discussions"); ?>
+        </a>
+      </li>
 
-    <li role="separator" class="divider hidden-xs"></li>
+      <li role="separator" class="divider hidden-xs"></li>
 
-    <li class="hidden-xs">
-      <a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add">
-        <i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i>
-        <?php echo Yii::t("person","Invite someone"); ?>
-      </a>
-    </li>
-    <li class="hidden-xs">
-      <a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add">
-        <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
-        <?php echo Yii::t("person","Create an event"); ?>
-      </a>
-    </li>
-    <li class="hidden-xs">
-      <a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add">
-      <i class="fa fa-plus-circle text-purple"></i> 
-        <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?>
-      </a>
-    </li>
-    
-    <li role="separator" class="divider hidden-xs"></li>
-    <li class="hidden-xs">
-      <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add">
-        <i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i>
-        <?php echo Yii::t("person","Create an organization"); ?>
-      </a>
-    </li>
-    <li role="separator" class="divider hidden-xs"></li>
-    <li class="hidden-xs">
-      <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add">
-        <i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?>
-      </a>
-    </li>
+      <li class="hidden-xs">
+        <a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add">
+          <i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i>
+          <?php echo Yii::t("person","Invite someone"); ?>
+        </a>
+      </li>
+      <li class="hidden-xs">
+        <a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add">
+          <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
+          <?php echo Yii::t("person","Create an event"); ?>
+        </a>
+      </li>
+      <li class="hidden-xs">
+        <a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add">
+        <i class="fa fa-plus-circle text-purple"></i> 
+          <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?>
+        </a>
+      </li>
+      
+      <li role="separator" class="divider hidden-xs"></li>
+      <li class="hidden-xs">
+        <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add">
+          <i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i>
+          <?php echo Yii::t("person","Create an organization"); ?>
+        </a>
+      </li>
+      <li role="separator" class="divider hidden-xs"></li>
+      <li class="hidden-xs">
+        <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add">
+          <i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?>
+        </a>
+      </li>
+    <?php } ?>
     <li role="separator" class="divider"></li>
     <?php
       if(Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))){
