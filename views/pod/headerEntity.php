@@ -20,8 +20,8 @@
 			background-size: 100%;
 		<?php }else{ ?>
 			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
-			min-height:126px;
-			background-position: center bottom -100px;
+			min-height:70px;
+			background-position: center bottom 0px;
 		<?php } ?>
 		/*background-position: left bottom -40px;*/
 		moz-box-shadow: 0px 2px 4px -1px #656565;
