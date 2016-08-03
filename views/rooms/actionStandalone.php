@@ -36,7 +36,7 @@
  	 	  
 <?php 
 	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? 
-		'<i class="fa fa-caret-right"></i> '.
+		'<i class="fa fa-angle-right"></i> '.
 		'<a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" '.
 			'onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')">'.
 			'<i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).
@@ -64,9 +64,8 @@
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod">
-			
-			<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+		<div class="box-vote box-pod">	
+			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
 				<i class="fa fa-angle-down"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace d'action :</span> 
 				<a href="javascript:showRoom('actions', '<?php echo $parentSpace["_id"]; ?>')">
@@ -76,24 +75,28 @@
 			</h1>
 			
 			<div class="col-md-12 voteinfoSection">
+
+
+
 				<div class="col-md-6 no-padding margin-bottom-15">
-					<?php if( isset($organizer) ){ ?>
+					<?php if( @($organizer) ){ ?>
 						<span class="text-red" style="font-size:13px; font-weight:500;">
-							<i class="fa fa-caret-right"></i> 
+							<i class="fa fa-angle-right"></i> 
 							<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> 
 							<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
 								<?php echo @$organizer['name'] ?>
 							</a>
 						</span><br/>
 					<?php }	?>
-					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;"><i class="fa fa-file-text"></i> 	<?php echo  $action["name"] ?>
+					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
+						<i class="fa fa-file-text"></i> <?php echo  $action["name"] ?>
 					</span>
 				</div>	
 				<div class="col-md-6">
 					<div class="box-ajaxTools">
 						<?php if (  isset(Yii::app()->session["userId"]) && $action["organizerId"] == Yii::app()->session["userId"] )  { ?>
 							<a class="tooltips btn btn-default  " href="javascript:" 
-								   data-toggle="modal" data-target="#modal-edit-action"
+							   data-toggle="modal" data-target="#modal-edit-action"
 							   data-placement="bottom" data-original-title="Editer cette action">
 								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 							</a>

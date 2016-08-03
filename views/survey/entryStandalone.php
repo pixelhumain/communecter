@@ -84,29 +84,7 @@
 				</a>
 				<hr>
 			</h1>
-			<div class="col-md-12">
-				
-				
-				<span class="text-extra-large text-bold text-dark col-md-12 no-padding" style="font-size:25px !important;">
-					<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
-				</span>
-				<?php if( @($organizer) ){ ?>
-					<br/><span class="text-red" style="font-size:13px; font-weight:500;">
-						<i class="fa fa-angle-right"></i> Proposition de 
-						<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark"><?php echo @$organizer['name'] ?></a>
-					</span>
-				<?php }	?>
-				<hr>
-				<?php //echo Survey::getChartBarResult($survey); ?>
-			</div>
-
-			<?php 					
-				if( Yii::app()->request->isAjaxRequest && isset($survey["survey"]) ){
-					Menu::proposal( $survey );
-					$this->renderPartial('../default/panels/toolbar');
-				}
-			?>
-			
+	
 			<div class="col-md-12 voteinfoSection">
 				<?php 
 					$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
@@ -123,178 +101,175 @@
 					$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
 			    ?>
 				
-				<div class="col-md-12 no-padding">
-					<div class="col-md-6 no-padding margin-bottom-15">
-						<?php if( @($organizer) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;">
-								<i class="fa fa-angle-right"></i> Proposition de 
-								<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
+				<div class="col-md-6 no-padding margin-bottom-15">
+					<?php if( @($organizer) ){ ?>
+						<span class="text-red" style="font-size:13px; font-weight:500;">
+							<i class="fa fa-angle-right"></i> 
+							<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> 
+							<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
 								<?php echo @$organizer['name'] ?>
-								</a>
-							</span>
-							<br/>
-						<?php }	?>
-						<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
-							<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
-						</span>
-					</div>
-					<div class="col-md-6">
-						<div class="box-ajaxTools">
-							
-							<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
-								<a class="tooltips btn btn-default  " href="javascript:" 
-								   data-toggle="modal" data-target="#modal-edit-entry"
-								   data-placement="bottom" data-original-title="Editer cette proposition">
-									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
-								</a>
-								<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
-									data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
-								<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
-								</a>
-								<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
-								   data-placement="bottom" data-original-title="Supprimer cette proposition">
-									<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
-								</a>
-							<?php } ?>
-							<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
-							   data-placement="bottom" data-original-title="Comprendre les propositions">
-								<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
-							</a>					
-						</div>
-					</div>	
-				</div>	
-
-				<div class="col-md-4 no-padding" style="padding-right: 15px !important;">
-					
-					<?php  $this->renderPartial('../pod/fileupload', 
-												 array("itemId" => $survey["_id"],
-												  "type" => Survey::COLLECTION,
-												  "resize" => false,
-												  "contentId" => Document::IMG_PROFIL,
-												  "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],Survey::COLLECTION,$survey["_id"],$parentType,$parentId),
-												  "image" => $images)); 
-					
-					if(isset( Yii::app()->session["userId"]) && false)
-					{
-						if(Yii::app()->session["userEmail"] != $survey["email"])
-						{
-							if(!(isset($survey[Action::ACTION_FOLLOW]) 
-							    && is_array($survey[Action::ACTION_FOLLOW]) 
-							    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) 
-							{} 
-							else { 
-								
-								echo '<div class="space10"></div>'.
-									Yii::t("rooms","You are Following this vote.",null,Yii::app()->controller->module->id). 
-										"<i class='fa fa-rss' ></i>";
-							} 
-						} else {
-
-							echo '<div class="space10"></div>'.
-									Yii::t("rooms","You created this vote.",null,Yii::app()->controller->module->id);
-
-						    if( Yii::app()->request->isAjaxRequest){ ?>
-								<a class="btn btn-xs btn-default" onclick="entryDetail('<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;">
-									<i class='fa fa-pencil' ></i> 
-									<?php echo Yii::t("rooms","Edit this Entry",null,Yii::app()->controller->module->id) ?>
-								</a>
-							<?php } ?>
+							</a>
+						</span><br/>
+					<?php }	?>
+					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
+						<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
+					</span>
+				</div>
+				<div class="col-md-6">
+					<div class="box-ajaxTools">					
+						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
+							<a class="tooltips btn btn-default  " href="javascript:" 
+							   data-toggle="modal" data-target="#modal-edit-entry"
+							   data-placement="bottom" data-original-title="Editer cette proposition">
+								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+							</a>
+							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
+								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
+							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
+							</a>
+							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
+							   data-placement="bottom" data-original-title="Supprimer cette proposition">
+								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
+							</a>
 						<?php } ?>
+						<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
+						   data-placement="bottom" data-original-title="Comprendre les propositions">
+							<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
+						</a>					
+					</div>
+				</div>	
+			</div>	
 
+			<div class="col-md-4 no-padding" style="padding-right: 15px !important;">
+				
+				<?php  $this->renderPartial('../pod/fileupload', 
+											 array("itemId" => $survey["_id"],
+											  "type" => Survey::COLLECTION,
+											  "resize" => false,
+											  "contentId" => Document::IMG_PROFIL,
+											  "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],Survey::COLLECTION,$survey["_id"],$parentType,$parentId),
+											  "image" => $images)); 
+				
+				if(isset( Yii::app()->session["userId"]) && false)
+				{
+					if(Yii::app()->session["userEmail"] != $survey["email"])
+					{
+						if(!(isset($survey[Action::ACTION_FOLLOW]) 
+						    && is_array($survey[Action::ACTION_FOLLOW]) 
+						    && in_array(Yii::app()->session["userId"], $survey[Action::ACTION_FOLLOW]))) 
+						{} 
+						else { 
+							
+							echo '<div class="space10"></div>'.
+								Yii::t("rooms","You are Following this vote.",null,Yii::app()->controller->module->id). 
+									"<i class='fa fa-rss' ></i>";
+						} 
+					} else {
+
+						echo '<div class="space10"></div>'.
+								Yii::t("rooms","You created this vote.",null,Yii::app()->controller->module->id);
+
+					    if( Yii::app()->request->isAjaxRequest){ ?>
+							<a class="btn btn-xs btn-default" onclick="entryDetail('<?php echo Yii::app()->createUrl("/communecter/survey/entry/id/".(string)$survey["_id"])?>','edit')" href="javascript:;">
+								<i class='fa fa-pencil' ></i> 
+								<?php echo Yii::t("rooms","Edit this Entry",null,Yii::app()->controller->module->id) ?>
+							</a>
+						<?php } ?>
 					<?php } ?>
-					<div class="col-md-12 padding-10">
-						<?php if( @( $survey["tags"] ) ){ ?>
-							<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
-							<?php foreach ( $survey["tags"] as $value) {
-									echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
-								}?>
-							</span><br>
-						<?php }	?>
-					</div>
-				</div>
 
-				<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
-					
-					<span class="text-azure">
-						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
-						<?php echo date("d/m/y",$survey["created"]) ?>
-					</span>
-					<br>
-					<?php if( @$survey["dateEnd"] ){ ?>
-					<span class="text-red">
-						<i class="fa fa-calendar"></i> 
-						<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
-						<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
-					</span>
-					<br><hr>
-					<span>
-				 		<i class="fa fa-user"></i> 
-				 		<?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : 
-				 		<?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?>
-				 	</span>
-					<br>
-				 	<span>
-						<i class="fa fa-user"></i> 
-						<?php echo Yii::t("rooms","VOTERS",null,Yii::app()->controller->module->id) ?> : 
-						<?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?>
-					</span>
-				 	<br><hr>
-				 	<?php } ?>
-				 	<div class="text-bold text-dark">
-				 		<?php 
-							$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
-							if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
-								echo $voteLinksAndInfos["links"]; 
-							else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
-								echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
-							else if( !$canParticipate && isset(Yii::app()->session['userId']) )
-								echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
-							else if( !$canParticipate && !isset(Yii::app()->session['userId']) )
-								echo '<i class="fa fa-angle-right"></i> Connectez-vous pour voter';
-						?>
-					</div>
-
-				</div>
-
-				<div class="col-md-12 no-padding">
-
-					<div class="col-md-12 text-dark" style="font-size:15px">
-						<hr style="margin-top:0px">
-						<?php echo $survey["message"]; ?>
-						<hr>
-						<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
-					</div>
-
-					<div class="col-md-12 padding-15">
-						<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos, $parentType,$parentId); ?>
-						<div class="col-md-12 no-padding margin-top-10"><hr></div>
-					</div>
-
-					<?php if( @( $survey["urls"] ) ){ ?>
-						
-						<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
-						<?php foreach ( $survey["urls"] as $value) {
-							if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
-								echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
-										'<i class="fa fa-link"></i> '.$value.
-									 '</a><br/> ';
-							else
-								echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
-						}?>
-						
+				<?php } ?>
+				<div class="col-md-12 padding-10">
+					<?php if( @( $survey["tags"] ) ){ ?>
+						<span class="text-red" style="font-size:13px; font-weight:500;"><i class="fa fa-tags"></i>
+						<?php foreach ( $survey["tags"] as $value) {
+								echo '<span class="badge badge-danger text-xss">#'.$value.'</span> ';
+							}?>
+						</span><br>
 					<?php }	?>
 				</div>
+			</div>
 
-				<?php if( $totalVotes > 0 && false){ ?>
-				<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
-					<div class="leftInfoSection chartResults" >
-						<?php //echo getChartBarResult($survey); ?>
-						<div id="container2"></div>
-					</div>
+			<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
+				
+				<span class="text-azure">
+					<i class="fa fa-calendar"></i> 
+					<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
+					<?php echo date("d/m/y",$survey["created"]) ?>
+				</span>
+				<br>
+				<?php if( @$survey["dateEnd"] ){ ?>
+				<span class="text-red">
+					<i class="fa fa-calendar"></i> 
+					<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
+					<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
+				</span>
+				<br><hr>
+				<span>
+			 		<i class="fa fa-user"></i> 
+			 		<?php echo Yii::t("rooms","VISITORS",null,Yii::app()->controller->module->id) ?> : 
+			 		<?php echo (isset($survey["viewCount"])) ? $survey["viewCount"] : "0"  ?>
+			 	</span>
+				<br>
+			 	<span>
+					<i class="fa fa-user"></i> 
+					<?php echo Yii::t("rooms","VOTERS",null,Yii::app()->controller->module->id) ?> : 
+					<?php  echo ( @$voteLinksAndInfos["totalVote"] ) ? $voteLinksAndInfos["totalVote"] : "0";  ?>
+				</span>
+			 	<br><hr>
+			 	<?php } ?>
+			 	<div class="text-bold text-dark">
+			 		<?php 
+						$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
+						if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
+							echo $voteLinksAndInfos["links"]; 
+						else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
+							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
+						else if( !$canParticipate && isset(Yii::app()->session['userId']) )
+							echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
+						else if( !$canParticipate && !isset(Yii::app()->session['userId']) )
+							echo '<i class="fa fa-angle-right"></i> Connectez-vous pour voter';
+					?>
 				</div>
+
+			</div>
+
+			<div class="col-md-12 no-padding">
+
+				<div class="col-md-12 text-dark" style="font-size:15px">
+					<hr style="margin-top:0px">
+					<?php echo $survey["message"]; ?>
+					<hr>
+					<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
+				</div>
+
+				<div class="col-md-12 padding-15">
+					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos, $parentType,$parentId); ?>
+					<div class="col-md-12 no-padding margin-top-10"><hr></div>
+				</div>
+
+				<?php if( @( $survey["urls"] ) ){ ?>
+					
+					<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
+					<?php foreach ( $survey["urls"] as $value) {
+						if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
+							echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
+									'<i class="fa fa-link"></i> '.$value.
+								 '</a><br/> ';
+						else
+							echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
+					}?>
+					
 				<?php }	?>
 			</div>
+
+			<?php if( $totalVotes > 0 && false){ ?>
+			<div  class="col-md-5 radius-10" style="border:1px solid #666; background-color:#ddd;">
+				<div class="leftInfoSection chartResults" >
+					<?php //echo getChartBarResult($survey); ?>
+					<div id="container2"></div>
+				</div>
+			</div>
+			<?php }	?>
 		</div>
 	</div>
 		
