@@ -84,9 +84,10 @@
         [X] only when loggued
     [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
         [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
-            [ ] survey/proposals : create , votes, edit
-            [ ] actions : create, assign, edit
-            [ ] discuss : create, new post, edit
+            [X] survey/proposals : create , votes, edit
+            [X] actions : create, assign, edit
+            [ ] discuss : create, new post, edit post
+            [ ] person lastConnected
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
