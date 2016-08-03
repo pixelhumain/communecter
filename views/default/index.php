@@ -567,6 +567,7 @@ function setScopeValue(btn){
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 		$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);// + ", " + cpCommunexion);
+		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("data-original-title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 		

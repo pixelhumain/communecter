@@ -57,7 +57,7 @@ $this->renderPartial('../default/panels/toolbar');
     /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
     background-color: #fff;
     background-repeat: no-repeat;
-    background-position: 0px 50px;
+    background-position: 0px 0px;
     background-size: 100% auto;
   }
 
