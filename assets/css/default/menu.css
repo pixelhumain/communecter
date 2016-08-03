@@ -20,7 +20,7 @@
 .main-menu-left hr{
 	margin-top:5px;
 	margin-bottom:5px;
-	border-top: 1px solid #d4d4d4 !important;
+	border-top: 1px solid rgba(72, 72, 72, 0.1) !important;
 }
 
 .moduleLabel{

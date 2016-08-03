@@ -61,8 +61,16 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 				<?php } ?>
 			</div>
-
+			
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
+				<div class="row padding-15">
+					<hr>
+					<a href='javascript:loadByHash("#rooms.index.type.projects.id.<?php echo (String) $project["_id"]; ?>")'>
+			        	<h1 class="text-azure text-left homestead no-margin">
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
+			        	</h1>
+			        </a>
+			    </div>
 				<?php 
 						$rooms = ActionRoom::getAllRoomsByTypeId(Project::COLLECTION, (string)$project["_id"]);	
 						$this->renderPartial('../dda/index',array(    
@@ -81,8 +89,17 @@ $this->renderPartial('../default/panels/toolbar');
 		                    ));
 					?>	
 			</div>
-			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
-			
+
+			<div class="col-md-8 col-sm-12 no-padding pull-left">
+				<div class="row padding-15">
+					<hr>
+					<h1 class="text-azure pull-left homestead no-margin">
+		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
+		        	</h1>        
+			    </div>
+			    <div class="timesheetphp">
+			</div>
+
 		</div>	
 	</div>
 </div>

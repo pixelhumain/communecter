@@ -38,7 +38,14 @@
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 
-	    		
+	    		<div class="row padding-15">
+					<hr>
+					<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
+			        	<h1 class="text-azure pull-left homestead no-margin">
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif
+			        	</h1>
+			        </a>
+			    </div>
 				<?php 
 					$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
 					$this->renderPartial('../dda/index',array(    
