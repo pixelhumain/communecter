@@ -118,7 +118,7 @@
 		position: fixed;
 		top: 0px;
 		left: 0px;
-		width: 16.5%;
+		width: 47px;
 		height: 100%;
 		-moz-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
 		-webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);

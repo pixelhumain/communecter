@@ -13,7 +13,7 @@
 		<!-- <center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/shattered.png"></center> -->
     </div>
 
-	<div class="bg-main-menu bgpixeltree_sig hidden-xs"></div>
+	<div class="bg-main-menu bgpixeltree_sig"></div>
 
 	
 

@@ -59,7 +59,24 @@
 		}
 	<?php } ?>
 
+	.hidden-xs.main-menu-left.inSig{
+		display:inline !important;
+	}
 	
+	.main-menu-left.inSig hr{
+		border-top: 1px solid transparent !important;
+	}
+	.main-menu-left.inSig .fa-angle-right, 
+	.main-menu-left.inSig .lbl-btn-menu{
+		display:none;
+	}
+	.main-menu-left.inSig .fa{
+		margin-left:5px;
+	}
+	.main-menu-left.inSig hr{
+		max-width:5px!important;
+	}
+
 </style>
 
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
@@ -73,24 +90,27 @@
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actus réseau
+				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
+					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
 		</a>
 		<hr><br>
 		<?php } ?>
 
 		<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			id="btn-geoloc-auto-menu">
-			<i class="fa fa-crosshairs"></i>
-			<span class="">
-				<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
-						   echo $cityNameCommunexion;// . ", " . $cpCommunexion;
-					}else{ echo "Communectez-moi"; } ?>
+			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
+						   $title = $cityNameCommunexion;// . ", " . $cpCommunexion;
+					}else{ $title = "Communectez-moi"; } ?>		
+			<i class="fa fa-crosshairs tooltips"
+					data-toggle="tooltip" data-placement="right" title="<?php echo $title; ?>"></i>
+			<span class="lbl-btn-menu">
+				<?php echo $title; ?>
 			</span>
 		</a><hr>
 
 		<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
 		<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
-				data-toggle="tooltip" data-placement="right" title="Accueil" alt="Accueil">
+				data-toggle="tooltip" data-placement="right" title="Accueil">
 				<i class="fa fa-home"></i>
 		</button>
 		<?php } ?>
@@ -98,18 +118,24 @@
 		
 		<a href="javascript:loadByHash('#default.directory')" class="menu-button-left visible-communected 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-search"></i> Rechercher
+				<i class="fa fa-angle-right"></i> 
+				<i class="fa fa-search tooltips"
+					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
 		</a><hr class="visible-communected">
 
 		<a href="javascript:loadByHash('#default.agenda')" class="menu-button-left visible-communected 
 			<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-calendar"></i> Agenda
+				<i class="fa fa-angle-right"></i> 
+				<i class="fa fa-calendar tooltips"
+					data-toggle="tooltip" data-placement="right" title="Agenda"></i> <span class="lbl-btn-menu">Agenda</span>
 		</a><hr class="visible-communected">
 
 		<a href="javascript:loadByHash('#default.news')" class="menu-button-left visible-communected
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss"></i> Actualités
+				<i class="fa fa-angle-right "></i> 
+				<i class="fa fa-rss tooltips"
+					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
 		</a><hr class="visible-communected">
 		
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
@@ -117,7 +143,9 @@
 			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
 			class="menu-button-left visible-communected" 
 			id="btn-citizen-council-commun">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-gavel"></i> Conseil citoyen
+				<i class="fa fa-angle-right"></i> 
+				<i class="fa fa-connectdevelop tooltips"
+					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
 		</a><hr class="visible-communected">
 		<?php //} ?>
 
