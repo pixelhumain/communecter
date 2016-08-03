@@ -114,17 +114,17 @@
 
 	.<?php echo $moduleName; ?>
 	.bg-main-menu{
-		background-color: rgba(26, 33, 38, 0.68);
+		background-color: rgba(237, 237, 237, 0.88);
 		position: fixed;
 		top: 0px;
 		left: 0px;
-		width: 16.5%;
+		width: 47px;
 		height: 100%;
 		-moz-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    -webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    -o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+		-webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		-o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		box-shadow: 0px 0px 5px 1px rgba(44, 44, 44, 0.87);
+		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 	}
 
 
@@ -163,6 +163,7 @@
 		.<?php echo $moduleName; ?>
 		.btn-group-map{
 			right:0% !important;
+			left:unset!important;
 		}
 	}
 

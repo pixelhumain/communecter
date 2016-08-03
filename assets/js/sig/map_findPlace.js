@@ -409,10 +409,9 @@ SigLoader.getSigFindPlace = function (Sig){
 		var position = null;
 		console.log("typof geoPosition.geo", typeof geoPosition.geo);
 		if(typeof geoPosition.lat != "undefined"){
-			lat=geoPosition.lat;
-			lon=geoPosition.lon;
-			latlon = new Object;
-			latlon = {"latitude":lat,"longitude":lon};
+			var lat=geoPosition.lat;
+			var lon=geoPosition.lon;
+			var latlon = {"latitude":lat,"longitude":lon};
 			geoPosition["geo"]=latlon;
 			
 		}

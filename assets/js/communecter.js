@@ -1,7 +1,6 @@
 var debug = true;
 var countPoll = 0;
 $(document).ready(function() { 
-	
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 });
@@ -731,10 +730,8 @@ function showAjaxPanel (url,title,icon) {
 			//$(".main-col-search").slideDown(); 
 			initNotifications(); 
 			
-			$(".explainLink").click(function() {  
-			    showDefinition( $(this).data("id") );
-			    return false;
-			 });
+			bindExplainLinks();
+			bindTags();
 
 			$.unblockUI();
 
@@ -840,16 +837,63 @@ function openMenuSmall () {
 		message : menuContent,
 		onOverlayClick: $.unblockUI,
         css: { 
-            border: 'none', 
-            padding: '15px', 
-            backgroundColor: 'rgba(0,0,0,0.7)', 
-            '-webkit-border-radius': '10px', 
-            '-moz-border-radius': '10px', 
-            color: '#fff' ,
-        	"cursor": "pointer"
+         //    border: 'none', 
+         //    padding: '15px', 
+         //    backgroundColor: 'rgba(0,0,0,0.7)', 
+         //    '-webkit-border-radius': '10px', 
+         //    '-moz-border-radius': '10px', 
+         //    color: '#fff' ,
+        	// "cursor": "pointer"
         },
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
 }
+
+var selection;
+function  bindHighlighter() { 
+	//console.clear();  
+	console.log("bindHighlighter");
+  	console.dir(window.getSelection());
+	$(".my-main-container").bind('mouseup', function(e){
+		if (window.getSelection) {
+	      selection = window.getSelection();
+	    } else if (document.selection) {
+	      selection = document.selection.createRange();
+	    }
+	    selTxt = selection.toString();
+	    if( selTxt){
+	    	//alert(selTxt);
+	    	/*
+	    	if($(".selBtn").length)
+	    		$(".selBtn").remove();
+	    	links = "<a href='javascript:;' onclick='fastAdd(\"/rooms/fastaddaction\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
+	    			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>";
+
+	    	$(this).parent().find("div.bar_tools_post").append(links);
+	    	*/
+	    }
+	});
+}
+
+function  bindTags() { 
+	console.log("bindTags");
+	var tagClasses = ".tag,.label tag_item_map_list"
+	$(".tag,.label tag_item_map_list").off().on('click', function(e){
+		if(userId){
+			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
+			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
+		} else {
+			toastr.error("must be loggued");
+		}
+	});
+}
+
+function  bindExplainLinks() { 
+	$(".explainLink").click(function() {  
+	    showDefinition( $(this).data("id") );
+	    return false;
+	 });
+}
+
 

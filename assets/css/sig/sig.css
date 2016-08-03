@@ -907,6 +907,9 @@ creer des conflits : regle pas assez specfique
 		font-size:0.9em;
 		/*color:rgb(230, 212, 20) !important;*/
 	 }
+	 .btn-group-map .btn-group {
+	    margin-right: 10px;
+	}
 
 
 

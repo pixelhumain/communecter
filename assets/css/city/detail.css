@@ -27,7 +27,7 @@
     border-radius: 10px;
     border: none;
     position: absolute;
-    top: 105px;
+    top: 10px;
     right: 5%;
     z-index:1;
     background-color: rgba(255, 255, 255, 0.63);
@@ -182,7 +182,7 @@
 
   @media screen and (max-width: 768px) {
    h1.cityName-header{
-    margin-top:-30px;
+    margin-top:0px;
    }
    #pod-local-actors .list-group-item{
     height:90px;
@@ -192,6 +192,6 @@
     text-transform: capitalize;
    }
    #btn-communecter{
-      top:60px;
+      top:10px;
    }
 }

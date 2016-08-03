@@ -61,25 +61,45 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 				<?php } ?>
 			</div>
-
-			<div class="col-md-8 col-sm-12 no-padding timesheetphp pull-left"></div>
 			
-			<div class="col-md-8 col-sm-12 no-padding pull-left" id="podCooparativeSpace">
-				<div id="pod-room" class="panel panel-white">
-
-					<div class="panel-heading border-light bg-azure">
-							<h4 class="panel-title">
-								<i class="fa fa-connectdevelop"></i> 
-								<a href="javascript:loadByHash('#rooms.index.type.projects.id.<?php echo $project["_id"]; ?>')" class="homestead">
-									<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
-									<i class="fa fa-arrow-circle-right pull-right"></i>
-								</a>
-							</h4>		
-						
-					</div>
-						
-				</div>
+			<div class="col-md-8 col-sm-12 no-padding pull-left">
+				<div class="row padding-15">
+					<hr>
+					<a href='javascript:loadByHash("#rooms.index.type.projects.id.<?php echo (String) $project["_id"]; ?>")'>
+			        	<h1 class="text-azure text-left homestead no-margin">
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
+			        	</h1>
+			        </a>
+			    </div>
+				<?php 
+						$rooms = ActionRoom::getAllRoomsByTypeId(Project::COLLECTION, (string)$project["_id"]);	
+						$this->renderPartial('../dda/index',array(    
+		   					"parent" => $project, 
+		                    "parentId" => (string)$project["_id"], 
+		                    "parentType" => Project::COLLECTION, 
+		                    "faTitle" => "connectdevelop",
+		                    "colorTitle" => "azure",
+		                    "textTitle" => "",
+		                    "fromView" => "entity.detail",
+                        	"discussions" => @$rooms["discussions"], 
+		                    "votes" => @$rooms["votes"], 
+		                    "actions" => @$rooms["actions"], 
+		                    "history" => @$rooms["history"], 
+		                    "renderPartial" => true
+		                    ));
+					?>	
 			</div>
+
+			<div class="col-md-8 col-sm-12 no-padding pull-left">
+				<div class="row padding-15">
+					<hr>
+					<h1 class="text-azure pull-left homestead no-margin">
+		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
+		        	</h1>        
+			    </div>
+			    <div class="timesheetphp">
+			</div>
+
 		</div>	
 	</div>
 </div>

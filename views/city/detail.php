@@ -57,7 +57,7 @@ $this->renderPartial('../default/panels/toolbar');
     /*background-image: url(/ph/assets/449afa38/images/city/cityDefaultHead_BW.jpg);*/
     background-color: #fff;
     background-repeat: no-repeat;
-    background-position: 0px 50px;
+    background-position: 0px 0px;
     background-size: 100% auto;
   }
 
@@ -78,7 +78,7 @@ $this->renderPartial('../default/panels/toolbar');
 <div class="col-sm-12 col-xs-12">
 
     <h1 class="homestead text-red cityName-header">
-      <center><i class="fa fa-university"></i> <?php echo $city["name"]." "; ?></center>
+      <center><?php echo $city["cp"]; ?> <i class="fa fa-university"></i> <?php echo $city["name"]; ?></center>
     </h1>
    
 </div>
@@ -202,7 +202,7 @@ $this->renderPartial('../default/panels/toolbar');
         <blockquote><strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision</blockquote>
       </div>
       <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-         <a href="javascript:;" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>')" class="btn btn-participate bg-red">
+         <a href="javascript:;" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>')" class="btn btn-participate bg-red">
           <i class="fa fa-group"></i>
         </a><br>
         <span class='text-red'><strong>Conseil citoyen</strong><br><?php echo $city["name"]." "; ?></span>

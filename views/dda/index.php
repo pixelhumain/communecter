@@ -35,6 +35,10 @@
 	}
 }
 .datepicker{z-index:12000 !important;}
+
+a h1.text-azure:hover{
+	color:#3C5665 !important;
+}
 </style>
 
 <?php 
@@ -66,7 +70,7 @@
 	if($parentType == City::COLLECTION) 
 		$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 
-	if(!isset($_GET["renderPartial"])){
+	if(!isset($_GET["renderPartial"]) && !isset($renderPartial)){
 		$this->renderPartial('../rooms/header',array(    
 		   					"parent" => $parent, 
 	                        "parentId" => $parentId, 
@@ -86,16 +90,16 @@
  ?>
 <div class="panel-group" id="accordion">
 	<?php 
-		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
-		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth);
-		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth);
-		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth);
+		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) && (@$fromView != "entity.detail");
+		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth, @$fromView);
+		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth, @$fromView);
+		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth, @$fromView);
 	?>
 </div>
 
 <div id="endOfRoom"></div>
 <?php 
-	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg, $auth){
+	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg, $auth, $fromView){
 	
 	$in = $index == 1 ? "in" : "";
 	
@@ -120,30 +124,34 @@
 			        	$col = ActionRoom::TYPE_ACTIONS;
 			        	$attr = 'room';
 			        }
+			        $onclick = 'showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
+			        if(@$fromView == "entity.detail") $onclick = 'loadRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
+			        
 					echo '<div class="panel-body hide-on-reduce-menu">'.
-							'<a href="javascript:" onclick="showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')" class="text-dark">'.
+							'<a href="javascript:'.$onclick.'" class="text-dark">'.
 								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</span>".
 							'</a>'.
 						 '</div>';
 		        } 
 
-			    if(empty($elements)) 
+		         if(empty($elements)) 
 			      	echo '<div class="panel-body hide-on-reduce-menu"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
 
-			    echo '<div class="panel-body hide-on-reduce-menu">';
-			    	if($auth==true) 
-			    	echo '<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" 
-			    			data-target="#modal-create-room" class="text-green">'.
-			    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
-			    		'</a>';
-			    echo  '</div>';
+			     if($auth==true) {
+				    echo '<div class="panel-body hide-on-reduce-menu">';
+				    	echo '<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" 
+				    			data-target="#modal-create-room" class="text-green">'.
+				    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
+				    		'</a>';
+				    echo  '</div>';
+				}
 
 	echo 	'</div>';
 
 	echo '</div>';
 }
 
-if(!isset($_GET["renderPartial"])){
+if(!isset($_GET["renderPartial"]) && !isset($renderPartial)){
   echo "</div>"; // ferme le id="room-container"
 }
 ?>
@@ -157,6 +165,41 @@ jQuery(document).ready(function() {
 		return false;
 	});
 });
+
+<?php if(isset($renderPartial)){ ?>
+function loadRoom(type, id){
+	
+	var mapUrl = { 	"all": 
+						{ "url"  : "rooms/index/type/<?php echo $parentType; ?>", 
+						  "hash" : "rooms.index.type.<?php echo $parentType; ?>"
+						} ,
+					"discuss": 
+						{ "url"  : "comment/index/type/actionRooms", 
+						  "hash" : "comment.index.type.actionRooms"
+						} ,
+					"vote": 
+						{ "url"  : "survey/entries", 
+						  "hash" : "survey.entries"
+						} ,
+					"entry" :
+						{ "url"  : "survey/entry",
+						  "hash" : "survey.entry",
+						},
+					"actions": 
+						{ "url"  : "rooms/actions", 
+						  "hash" : "rooms.actions"
+						} ,
+					"action":
+						{
+							"url" : "rooms/action",
+							"hash" : "rooms.action",
+						}
+				}
+
+	var thiHash = "#"+mapUrl[type]["hash"]+".id."+id;
+	loadByHash(thiHash);
+}
+<?php } ?>
 </script>
 
 <style>

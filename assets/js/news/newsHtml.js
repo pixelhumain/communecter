@@ -222,7 +222,7 @@ function buildLineHTML(newsObj,idSession,update)
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
-			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
+			tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
 				contextMap.tags.push(tag);
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';

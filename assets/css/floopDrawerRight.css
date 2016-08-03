@@ -7,24 +7,24 @@
 	width: 250px;
 	display:none;
 	/*height: 780px;*/
-	top: 77px;
-	right: 25px;
+	top: 60px;
+	right: 0px;
 	position: fixed;
 	background-color: white;
 	margin-top: -10px;
 	text-align: left;
 	/*padding: 3px;*/
-	-moz-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	-webkit-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	-o-box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
-	box-shadow: 0px 0px 30px 10px rgba(28, 41, 50, 0.6);
+	-moz-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	-webkit-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	-o-box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
+	box-shadow: 0px 0px 6px 0px rgba(28, 41, 50, 0.6);
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=4);
 	z-index: 1;
-	border-radius: 10px 10px;
+	border-radius: 0px;
 }
 .floopDrawer .floopHeader{
 	width: 100%;
-	border-radius: 10px 10px 0px 0px;
+	border-radius: 0px;
 	height: 40px;
 	padding-top: 10px;
 	padding-left: 10px;
@@ -245,8 +245,11 @@
 
 
 
-
-
+@media screen and (max-width: 767px){
+.floopDrawer{
+	width: 273px;
+	max-width: 273px;
+}
 
 
 

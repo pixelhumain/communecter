@@ -19,9 +19,6 @@
 		width: 24px;
 		margin-top: 4px;
 	}
-  .lbl-scope-list{
-    top:305px;
-  }
   .img-logo {
     height: 290px;
   }
@@ -31,6 +28,9 @@
   .btn-scope{
     display: inline;
   }
+  .lbl-scope-list {
+    top: 255px;
+}
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
@@ -120,16 +120,16 @@ jQuery(document).ready(function() {
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<i class='fa fa-search'></i> <span id='main-title-menu'>Recherche</span> <span class='text-red'>COMMUNE</span>CTÉE");
+	$(".moduleLabel").html("<i class='fa fa-search'></i> <span id='main-title-menu'>Rechercher</span>");
 
 	$('.tooltips').tooltip();
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
 
-	$('#searchBarText').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
-  });
+	// $('#searchBarText').keyup(function(e){
+ //      clearTimeout(timeoutSearch);
+ //      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
+ //  });
   
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé

@@ -39,31 +39,47 @@
 	    		?>
 
     			<div id="podCooparativeSpace">
+	    			<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" 
+						class="homestead">
+						<h3 class="homestead text-azure text-right">
+							<i class="fa fa-connectdevelop"></i> 
+							<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
+							<i class="fa fa-arrow-circle-right"></i>
+						</h3>
+					</a>
+				
     				<div id="pod-room" class="panel panel-white">
 
 						<div class="panel-heading border-light bg-azure">
 								<h4 class="panel-title">
 									<i class="fa fa-connectdevelop"></i> 
-									<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" class="homestead">
+									<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" 
+										class="homestead">
 										<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
 										<i class="fa fa-arrow-circle-right pull-right"></i>
 									</a>
 								</h4>		
-							
+								
 						</div>
 
-						<div class="panel-body no-padding hidden">
-							<blockquote>
-							Pour accéder à cet espace, connectez-vous !<br>
-							<span class="text-azure">
-				   				<i class="fa fa-check-circle"></i> Discuter<br>
-				   				<i class="fa fa-check-circle"></i> Débattre<br>
-				   				<i class="fa fa-check-circle"></i> Proposer<br>
-				   				<i class="fa fa-check-circle"></i> Voter<br>
-				   				<i class="fa fa-check-circle"></i> Agir
-				   			</span>
-				   			</blockquote>
-						</div>   
+						<div class="panel-body">
+							<?php 
+								$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);
+								
+								echo "/view/organization/detail.php l.68.<br>Si quelqu'un comprend pourquoi aucun résultat ne remonte je lui offre un sandwish à la fraise<br><br>";
+
+								var_dump($rooms); //return;
+								foreach ($rooms["discussions"] as $key => $room) {
+									echo $room["name"]."<br>";
+								}
+								foreach ($rooms["votes"] as $key => $room) {
+									echo $room["name"]."<br>";
+								}
+								foreach ($rooms["actions"] as $key => $room) {
+									echo $room["name"]."<br>";
+								}
+							?>
+						</div>
 							
 					</div>
     			</div>

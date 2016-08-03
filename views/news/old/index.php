@@ -212,7 +212,7 @@ function buildLineHTML(newsObj)
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
-			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
+			tags += "<span class='label tag_item_map_list coco'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags )  == -1)
 				contextMap.tags.push(tag);
 		});

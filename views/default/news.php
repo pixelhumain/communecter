@@ -18,6 +18,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 display: inline;
 }
 
+  .lbl-scope-list {
+    top: 200px;
+  }
+
 @media screen and (max-width: 1024px) {
   button.btn-start-search {
     margin-top: -40px;
@@ -41,10 +45,6 @@ display: inline;
 
 
 }
-
-.lbl-scope-list{
-    top:250px !important;
-  }
 
   #btn-filter-scope-news{
     display:none;
@@ -76,8 +76,8 @@ display: inline;
       <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
         <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
       </button>
-	  <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Needs" type="needs">
-        <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Needs</span>
+	  <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Besoins" type="needs">
+        <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Besoins</span>
       </button>
     </div>
   </div>
@@ -103,10 +103,10 @@ jQuery(document).ready(function() {
   	$('.main-btn-toogle-map').click(function(e){ showMap(); });
   	
   	
-  	$('#searchBarText').keyup(function(e){
-        clearTimeout(timeoutSearch);
-        timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-    });
+  	// $('#searchBarText').keyup(function(e){
+   //      clearTimeout(timeoutSearch);
+   //      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+   //  });
 
   
     $('#btn-start-search').click(function(e){

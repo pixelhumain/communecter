@@ -102,13 +102,14 @@
 			}
 		}
 		
-		if(!empty($me['profilThumbImageUrl']))
-          $profilThumbImageUrl = Yii::app()->createUrl($me['profilThumbImageUrl']);
-        else
-          $profilThumbImageUrl = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	}
 
 ?>
+<style>
+	.footer-menu-left{
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");
+	}
+</style>
 
 <div id="mainMap">
 	<?php 
@@ -127,277 +128,33 @@
 
     }
 ?>
-<style>
-
-	#menu-bottom .btn-param-postal-code{
-		border-radius: 0px;
-		left: 0px;
-		bottom: 0px;
-		height: 40px !important;
-		width: 40px !important;
-		font-size: 23px;
-	}
-
-	.btn-scope{
-		display: none;
-		position: fixed;
-		border-radius: 50%;
-		z-index: 1;
-		border: none;
-		background-color: rgba(255, 255, 255, 0.45) !important;
-		box-shadow: 0px 0px 3px 3px rgba(114, 114, 114, 0.1);
-	} 
-	.btn-scope.selected{
-		background-color: rgb(233, 96, 118) !important;
-	}
-	.btn-scope:hover{
-		background-color: rgb(233, 96, 118) !important;
-	}
-	.btn-scope-niv-2{
-		bottom: 43px;
-		width: 74px;
-		height: 73px;
-		left: 46px;
-	}
-	.btn-scope-niv-3{
-		bottom: 29px;
-		width: 105px;
-		height: 104px;
-		left: 31px;
-	}
-	.btn-scope-niv-4{
-		bottom: 15px;
-		width: 136px;
-		height: 135px;
-		left: 16px;
-	}
-	
-	.btn-scope-niv-5{
-		bottom: 0px;
-		width: 167px;
-		height: 166px;
-		left: 0px;
-		border-radius: 50% 50% 50% 0%;
-		background-color: rgb(177, 194, 204) !important;
-	}
-	/*.btn-scope-niv-5:hover{
-		background-color: rgb(109, 120, 140) !important;
-	}
-	.btn-scope-niv-5.selected{
-		background-color: rgb(109, 120, 140) !important;
-	}*/
 
 
-	.my-main-container{
-		min-height:1000px;
-	}
-
-	.main-col-search{
-		min-height:1000px;
-	}
-
-	#logo-main-menu:hover{
-		box-shadow: -3px 0px 5px 1px rgba(66, 66, 66, 0.79) !important;
-	}
-
-	.blockUI.blockMsg.blockPage{
-		/*display:none !important;*/
-	}
-
-	.btn-start-new-communexion{
-	    position: absolute;
-	    bottom: 62px;
-	    left: 370px;
-	    border-radius: 50%;
-	    width: 35px;
-	    height: 35px;
-	    padding: 7px 3px 3px 11px;
-	    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.39);
-	}
-
-	.btn-start-new-communexion:hover{
-		box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.39);
-	}
-
-@media screen and (min-width:: 767px) and (max-width: 920px){
-	.main-top-menu .moduleLabel {
-    	max-width: 42% !important;
-	}
-
-}
-@media screen and (min-width: 900px) and (max-width: 1130px) {
-	.main-top-menu .moduleLabel {
-    	max-width: 50% !important;
-	}
-
-	/*.box-ajaxTools{
-		width:95%;
-		margin-left:5%;
-	}*/
-}
-
-@media screen and (min-height: 100px) and (max-height: 450px) {
-	button.btn-menu2{
-		top:75px;
-	}
-	button.btn-menu3{
-		top:130px;
-	}
-	button.btn-menu4{
-		top:185px;
-	}
-	button.btn-menu6{
-		/*top:250px;*/
-	}
-	button.btn-menu7{
-		/*top: 210px;*/
-		right: 27px;
-   	}
-   	button.btn-menu9{
-		top: 240px;
-    }
-	button.btn-geoloc-auto{
-		display:none;
-		left: 60px !important;
-		top: 14px !important;
-	}
-	button.btn-logout {
-    	left: 10px;
-		top: 15px;
-	}
-	.btn-param-postal-code {
-    	left: 15px;
-		bottom: 12px;
-    }
-    @media screen and (min-width: 765px){
-	    #searchBarPostalCode{
-		    left: 62px;
-			bottom: 12px;
-	    height: 40px;
-	        width: 186px;
-	        padding: 10px 15px !important;
-	    }
-    }
-    button.btn-menu-add{
-	    bottom: 12px;
-    }
-    #input-communexion .search-loader{
-	    left: 70px;
-		bottom: 50px;
-    }
-	/*.box-ajaxTools{
-		width:88%;
-		margin-left:12%;
-	}*/
-}
-
-@media screen and (max-width: 767px) {
-	.btn-scope{
-		display: none;
-		left:0px !important;
-		width:40px !important;
-		margin-bottom:40px !important;
-		border-radius: 0px 40px 0px 0px !important;
-		bottom:0px !important;
-		position: fixed;
-		z-index: 1;
-		border: none;
-		box-shadow: 0px 0px 3px 3px rgba(114, 114, 114, 0.1);
-	} 
-	.btn-scope-niv-2{
-		height: 43px;
-	}
-	.btn-scope-niv-3{
-		height: 83px;
-	}
-	.btn-scope-niv-4{
-		height: 123px;
-	}
-	
-	.btn-scope-niv-5{
-		height: 163px;
-	}
-	
-}
-<?php if (@Yii::app()->session["userId"]){ ?> 
-@media screen and (min-width: 1130px) {
-.main-top-menu .moduleLabel {
-    max-width: 58% !important;
-    font-size:20px !important;
-}
-}
-<?php } ?>
-
-</style>
-<button class="btn-scope btn-scope-niv-5 tooltips" level="5"
-		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
-<button class="bg-red btn-scope btn-scope-niv-4 tooltips" level="4"
-		data-toggle="tooltip" data-placement="top" title="Niveau 4 : Région" alt="Niveau 4 : Région" ></button>
-<button class="bg-red btn-scope btn-scope-niv-3 tooltips" level="3"
-		data-toggle="tooltip" data-placement="top" title="Niveau 3 : Déparement" alt="Niveau 3 : Département" ></button>
-<button class="bg-red btn-scope btn-scope-niv-2 tooltips" level="2"
-		data-toggle="tooltip" data-placement="top" title="Niveau 2 : Code postal" alt="Niveau 2 : Code postal" ></button>
-
-<button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code btn-scope-niv-1"
-		data-toggle="tooltip" data-placement="top" title="Niveau 1 :  Commune" alt="Niveau 1 : Commune" >
-	<i class="fa fa-crosshairs"></i>
-</button> 
-<div id="input-communexion">
-	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
-	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
-	<a class="btn-start-new-communexion bg-red tooltips" href="javascript:" onclick="startNewCommunexion();"
-		data-toggle="tooltip" data-placement="right" title="Lancer la recherche" alt="Lancer la recherche">
-		<i class="fa fa-search"></i>
-	</a>
-</div>
 
 
-<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-top-menu">
-	
-	<?php if(isset(Yii::app()->session['userId'])) { ?>
-	<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" class="hidden-xs" id="main-btn-co">
-		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-	</a>
-	<?php }else{ ?> 
-	<a href="javascript:loadByHash('#default.home')" class="hidden-xs" >
-		<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-	</a>
-	<?php } ?>
+<?php $this->renderPartial('./menu/menuCommunexion'); ?>
 
-	<?php 
-		if(!isset($profilThumbImageUrl)) $profilThumbImageUrl = "";
-	 	if(!isset($me)) $me = "";
-	 	$this->renderPartial("menuSmall", array("me"=>$me,"profilThumbImageUrl"=>$profilThumbImageUrl)); 
-	?> 
-	
-	<h1 class="homestead text-dark no-padding moduleLabel" id="main-title"
-		style="font-size:22px;margin-bottom: 0px; margin-top: 15px; display: inline-block;">
-		<i class="fa fa-connectdevelop"></i> <span id="main-title-menu">L'Annuaire</span> <span class="text-red">COMMUNE</span>CTÉ</h1>
+<?php if(!isset($me)) $me=""; 
+	  $this->renderPartial('./menu/menuTop', array("me" => $me)); ?>
 
-	<?php $this->renderPartial("short_info_profil"); ?> 
+<?php $this->renderPartial('./menu/menuLeft', array("page" => "accueil", 
+												 "inseeCommunexion" => $inseeCommunexion, 
+												 "cityNameCommunexion" => $cityNameCommunexion)); ?>
 
-	<button class="menu-button btn-menu btn-menu-top bg-azure tooltips" id="btn-toogle-map"
-			data-toggle="tooltip" data-placement="right" title="Carte" alt="Carte">
-			<i class="fa fa-map-marker"></i>
-	</button>
 
-</div>
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
 
-<?php $this->renderPartial('menu', array("page" => "accueil", "inseeCommunexion" => $inseeCommunexion, "cityNameCommunexion" => $cityNameCommunexion)); ?>
+	<div class="footer-menu-left"></div>
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container bgpixeltree">
-
-	<div class="col-md-9 col-md-offset-2 col-sm-9 col-sm-offset-2 col-xs-12 main-col-search">
+	<div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-12 main-col-search">
 	</div>
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php //if(!isset(Yii::app()->session['userId'])) 
-			$this->renderPartial("login_register"); 
-			?>
+	<?php $this->renderPartial("login_register"); ?>
 
-	
 </div>
+
 
 <?php  
 	if(isset(Yii::app()->session['userId'])) {
@@ -405,7 +162,6 @@
 		$this->renderPartial($layoutPath.'notifications2');
 	}
 ?>
-
 
 
 <script type="text/javascript">
@@ -648,11 +404,13 @@ function resizeInterface()
   var height = $("#mapCanvasBg").height() - 55;
   $("#ajaxSV").css({"minHeight" : height});
   //$("#menu-container").css({"minHeight" : height});
-  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 77 /* top */ + 30 /* bottom */;
+  var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 60 /* top */ + 0 /* bottom */;
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
   $(".my-main-container").css("min-height", $(".sigModuleBg").height());
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height());
+   $(".my-main-container").css("height", $(".sigModuleBg").height());
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -735,6 +493,12 @@ function showMap(show)
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 		$("#btn-toogle-map").css("display","inline !important");
 		$("#btn-toogle-map").show();
+		//$(".lbl-btn-menu").hide(400);
+		//$(".fa-angle-right").hide(400);
+		//$(".menu-left-container hr").css({opacity:0});
+		$(".main-menu-left").addClass("inSig");
+		$("body").addClass("inSig");
+
 		$(".my-main-container").animate({
      							top: -1000,
      							opacity:0,
@@ -754,8 +518,13 @@ function showMap(show)
 		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
 		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+		//$(".lbl-btn-menu").show(400);
+		//$(".fa-angle-right").show(400);		
+		//$(".menu-left-container hr").css({opacity:1} );
+		$(".main-menu-left").removeClass("inSig");
+		$("body").removeClass("inSig");
 		$(".my-main-container").animate({
-     							top: 0,
+     							top: 50,
      							opacity:1
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
@@ -800,10 +569,16 @@ function setScopeValue(btn){
 		setCookies(location.pathname);
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-		$(".btn-geoloc-auto .lbl-btn-menu-name-city").html("<span class='lbl-btn-menu-name'>" + cityNameCommunexion + ", </span>" + cpCommunexion);
-		$(".btn-geoloc-auto").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
+		$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);// + ", " + cpCommunexion);
+		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("data-original-title", cityNameCommunexion);
+		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("title", cityNameCommunexion);
+		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
+		
+		$("#btn-menuSmall-mycity").attr("href", 'javascript:loadByHash("#city.detail.insee.' + inseeCommunexion+"."+"postalCode."+cpCommunexion + '")');
 				
-		$("#btn-citizen-council-commun").attr("onclick", 'loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+		$("#btn-citizen-council-commun").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+				
+		$("#btn-menuSmall-citizenCouncil").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
 				
 		
 		if(location.hash.indexOf("#default.twostepregister") == -1)
@@ -811,9 +586,13 @@ function setScopeValue(btn){
 
 		selectScopeLevelCommunexion(levelCommunexion);
 
-  		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
+  		$(".menu-left-container .visible-communected, .menuSmall .visible-communected").show(400);
+  		$(".menu-left-container .hide-communected, .menuSmall .hide-communected").hide(400);
+  		
   		if(!userId)
-  		$(".btn-menu9").attr("onclick", "loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)")
+  		$(".btn-geoloc-auto").attr("onclick", 
+  			"loadByHash('#rooms.index.type.cities.id.' + countryCommunexion + '_'+ inseeCommunexion + '-'+ cpCommunexion)");
+
   		//loadByHash('#rooms.index.type.cities.id.<?php if(isset($myCity)) echo $myCity['country']."_".$myCity['insee']."-".$myCity['cp']; ?>'
 	
 		Sig.clearMap();
@@ -912,7 +691,7 @@ function showLocalActorsCityCommunexion(){
           }
  	});
 
-	}
+}
 
 
 var topMenuActivated = true;
@@ -1024,7 +803,7 @@ function showInputCommunexion(){
 	$("#searchBarPostalCode").animate({"width" : "350px !important", "padding-left" : "70px !important;"}, 200 );
 	
 	$("#input-communexion").show(300);
-	$(".main-col-search").animate({ opacity:0.3 }, 200 );
+	//$(".main-col-search").animate({ opacity:0.3 }, 200 );
 	$(".hover-info").hide();
 }
 

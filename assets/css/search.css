@@ -2,6 +2,7 @@
  html, body {
   min-height: 100%;
   height: 100%;
+  overflow:hidden !important;
 }
 #mapCanvasBg {
     visibility: visible !important;
@@ -11,8 +12,12 @@
 	margin-top:10px;
 }
 .my-main-container{
-	background-color: rgba(240, 240, 240, 0.93) !important;
+	background-color: rgb(226, 231, 234) !important;
 	margin-left: 0px !important;
+	min-height:1000px;
+	overflow-x: auto;
+	top: 50px;
+	z-index: 0;
 }
 .container-lbl-info-search{
 	position: absolute;
@@ -45,16 +50,24 @@
 	background-color: transparent;
 	
 }
-
+.footer-menu-left{
+	width:97%;
+	bottom:0px;
+	position:fixed;
+	background-repeat: repeat-x;
+	background-size: auto;
+	background-position: left bottom;
+	height: 325px;
+}
 .main-top-menu{
 	height: 50px;
 	background-color: #FFF;
 	position: fixed !important;
 	opacity: 0;
 	z-index: 10;
-	top: -60px;
+	top: 0px;
 	/*width: 73% !important;*/
-	margin-left: -15px;
+	/*margin-left: -15px;*/
 	moz-box-shadow: 0px 2px 4px -3px #656565;
 	-webkit-box-shadow: 0px 2px 4px -3px #656565;
 	-o-box-shadow: 0px 2px 4px -3px #656565;
@@ -259,6 +272,15 @@ button.btn-start-search:hover{
 	color:#68AE4E !important;
 }
 
+.bg-grey {
+    background-color: #3f3f3f !important;
+    color: white;
+}
+a.bg-grey:hover {
+    background-color: #3f3f3f !important;
+    color: white;
+}
+
 /* * * * * * * * * * * BIG BUTTONS MENU CUSTOM * * * * * * * * */
 button.menu-button{
 	position: fixed;
@@ -395,20 +417,38 @@ button.btn-menu-notif{
 	color:#2BB0C6 !important;
 }
 
-button#btn-toogle-map{
-	right: -31px;
-	font-size: 24px;
+button#btn-show-floopdrawer{
+	/*right: -31px;*/
+	font-size: 22px;
 	width: 45px;
-	height: 51px;
+	height: 50px;
 	padding: 5px;
 	top: 0px;
-	position: absolute !important;
-	border-radius: 0px 0px 10px 0px;
+	/*position: absolute !important;*/
+	border-radius: 0px 0px 0px 0px;
 	z-index: 15;
-	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	border: 0;
+	box-shadow: 0px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+}
+button#btn-toogle-map{
+	/*right: -31px;*/
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	/*position: absolute !important;*/
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
+	/*box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 2px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;*/
 }
 button.main-btn-toogle-map{
 	font-size: 24px;
@@ -422,25 +462,6 @@ button.main-btn-toogle-map{
     right: 10px;
 }
 
-#logo-main-menu{
-	float:left;
-	font-size: 24px;
-	width: 45px;
-	height: 50px;
-	padding: 5px;
-	top: 0px;
-	z-index: 15;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	margin-left: -40px;
-	border-radius: 0px 0px 0px 10px !important;
-	background-color: rgb(255, 255, 255);
-	display: inline;
-	margin-right: 10px;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: -3px 0px 5px -1px rgba(66, 66, 66, 0.79) !important;
-}
 button.btn-activate-communexion{
 	font-size: 18px;
 	position: absolute;
@@ -486,7 +507,9 @@ button.btn-infos{
 
 
 .main-col-search{
-	padding-top: 60px;
+	min-height:1000px;
+	padding-right:15px;
+	padding-top: 10px;
 	padding-bottom: 100px;
 	min-height: 100%;
 	background-color: white !important;
@@ -635,7 +658,7 @@ button.btn-infos{
     position: absolute;
 	left: 25%;
 	z-index: 1;
-	top: 260px;
+	top: 255px;
 	font-size: 20px;
 	font-weight: 300;
 	text-transform: capitalize;
@@ -721,8 +744,8 @@ button.btn-infos{
 		font-weight: 300;
 		font-size: 15px;
 		margin-bottom: 20px;
-		height: 37px;
-		width: 38px;
+		height: 35px;
+		width: 35px;
 		padding: 0px;
 	}
 
@@ -746,7 +769,7 @@ button.btn-infos{
    	}
    	.lbl-scope-list {
 	    /*left: 53%;*/
-	    top: 255px !important;
+	    top: 205px !important;
 	    font-size: 20px;
    	}
 	
@@ -775,7 +798,7 @@ button.btn-infos{
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	    overflow: hidden;
-	    max-width: 37%;
+	    max-width: 26%;
 	    max-height: 36px;
 	    font-size: 18px !important;
 	    height: 36px;
@@ -800,7 +823,7 @@ button.btn-infos{
 
 	.main-top-menu .moduleLabel{
 		font-size: 15px !important;
-		max-width: 75%;
+		max-width: 40%;
 	}
 
 	.main-top-menu{
@@ -852,7 +875,7 @@ button.btn-infos{
 
 	.lbl-scope-list {
 	    font-size: 14px;
-		top: 214px !important;
+		top: 160px !important;
 	}
 
 	input.input-search {

@@ -1,0 +1,66 @@
+[ ] comptabiliser le temps + type 
+  [ ] ecrire noir sur blanc les regles de remuneration de chaque 
+  [ ] ecrire la doc de fonctionnement 
+    [ ] a quoi ca peut servir 
+    [ ] .... autres question
+  [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+      [ ] avec analyse de consommation et prix adapté à la conso
+      [ ] vision disk dur : en fonction de la consommation de chacun 
+
+modalité Niveau de rémuneration
+- nb d'h passer en demi journée 
+- imaginer un un contrat de confiance qui engagement 
+- s'ouvrir au don de temps benvole 
+- attention 
+
+* 35K€
+** Tib
+    date d'entrée : oct 2012
+    date d'entrée dev : juin 2013
+    1ere remuneration : jan 2015 à 1000€
+** Sylvain 
+    date d'entrée : oct 2012
+    date d'entrée dev : dec 2014
+** Tango
+    contribution : mars 2014 
+        ??? 
+    date d'entrée dev : sept 2014
+    1ere remuneration : sept 2014 à 1000€
+** Clement
+    date d'entrée : mars 2015
+    1ere remuneration : janvier 2015 à 1000€
+** Thomas 
+    dette : 4.5K€
+** Jerome (demarchage)
+    date d'entrée : oct 
+    dette : 12K
+** Livin Coop 
+    *** Florent 
+        @Clement >> à voir
+** Comm1possible 
+    @Tibor >> à voir
+** Simon Sarazin 
+    Pourcentage sur une presta 
+    Apport :
+      de personne
+          Clement 
+          Alexis 
+      de contrat :
+        Hors Cadre : 25K => 2.5k
+        TelecomBretagne : 2K : 200€
+        la MEL : 4K > 400€
+        à 10% de l'apport
+        dette : 3.1K
+** Maia Dereva 
+    Travail Crowdfunding : 1.5K€
+** Steph
+    au forfait : 3K
+
+Souteneur / Educateur 
+** Mathieu Coste ???
+** Simon Louvet ??
+** Guillaume Rouyer ??
+** Thomas Wolff ??
+** Armel Le Coz ??
+** Pierre Lalu ??
+** Xavier Canal 
