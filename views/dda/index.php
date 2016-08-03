@@ -66,7 +66,7 @@
 	if($parentType == City::COLLECTION) 
 		$urlParent = Element::getControlerByCollection($parentType).".detail.insee.".$parent["insee"].".postalCode.".$parent["cp"]; 
 
-	if(!isset($_GET["renderPartial"])){
+	if(!isset($_GET["renderPartial"]) && !isset($renderPartial)){
 		$this->renderPartial('../rooms/header',array(    
 		   					"parent" => $parent, 
 	                        "parentId" => $parentId, 
@@ -86,7 +86,7 @@
  ?>
 <div class="panel-group" id="accordion">
 	<?php 
-		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
+		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) && @$fromView!="entity.detail";
 		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth);
 		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth);
 		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth);
@@ -130,20 +130,21 @@
 			    if(empty($elements)) 
 			      	echo '<div class="panel-body hide-on-reduce-menu"><i class="fa fa-times"></i> '.$emptyMsg.'</div>';
 
-			    echo '<div class="panel-body hide-on-reduce-menu">';
-			    	if($auth==true) 
-			    	echo '<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" 
-			    			data-target="#modal-create-room" class="text-green">'.
-			    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
-			    		'</a>';
-			    echo  '</div>';
+			     if($auth==true) {
+				    echo '<div class="panel-body hide-on-reduce-menu">';
+				    	echo '<a href="javascript:" onclick="selectRoomType(\''.$typeNew.'\')" data-toggle="modal" 
+				    			data-target="#modal-create-room" class="text-green">'.
+				    			'<i class="fa fa-plus"></i> <i class="fa fa-'.$icon.'"></i> Nouvel espace'.
+				    		'</a>';
+				    echo  '</div>';
+				}
 
 	echo 	'</div>';
 
 	echo '</div>';
 }
 
-if(!isset($_GET["renderPartial"])){
+if(!isset($_GET["renderPartial"]) && !isset($renderPartial)){
   echo "</div>"; // ferme le id="room-container"
 }
 ?>
