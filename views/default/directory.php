@@ -29,8 +29,8 @@
     display: inline;
   }
   .lbl-scope-list {
-    top: 205px;
-  }
+    top: 255px;
+}
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
@@ -126,10 +126,10 @@ jQuery(document).ready(function() {
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
 
-	$('#searchBarText').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
-  });
+	// $('#searchBarText').keyup(function(e){
+ //      clearTimeout(timeoutSearch);
+ //      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
+ //  });
   
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé

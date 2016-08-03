@@ -205,10 +205,10 @@ jQuery(document).ready(function() {
 
   $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
-  $('#searchBarText').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  });
+  // $('#searchBarText').keyup(function(e){
+  //     clearTimeout(timeoutSearch);
+  //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
+  // });
   // $('#searchBarPostalCode').keyup(function(e){
   //     clearTimeout(timeoutSearch);
   //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
