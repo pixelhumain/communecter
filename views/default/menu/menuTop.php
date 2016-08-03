@@ -1,7 +1,7 @@
 <style>
 	@media screen and (min-width: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
-    	max-width: 42% !important;
+    	max-width: 28% !important;
 	}
 
 }
