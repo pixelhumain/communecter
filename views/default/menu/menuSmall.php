@@ -137,7 +137,7 @@ width: 100%;
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
 			    <a class="btn bg-dark" 
-			    	href="javascript:loadByHash('#rooms.index.type.citoyen.id.<?php echo Yii::app()->session['userId']?>')">
+			    	href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-cogs" style="font-size: 1em!important;"></i> 
