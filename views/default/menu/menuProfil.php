@@ -26,7 +26,7 @@
         <i class="fa fa-university text-dark"></i><?php echo Yii::t("person","My city"); ?>
       </a>
     </li>
-    <?php if (false) { ?>
+    <?php if (true) { ?>
       <li class="hidden-xs">
         <a href="javascript:;" 
           onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');">

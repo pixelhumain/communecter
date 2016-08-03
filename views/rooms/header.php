@@ -307,7 +307,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 			      	<div class="panel-body no-padding">';
 
 			      	if(!empty($elements)) 
-			        foreach ($elements as $key => $value) {
+			        foreach ($elements as $key => $value) { if(isset($value["_id"])) {
 			        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
 			        	//if($typeNew == "history")  var_dump($value); error_log($value["type"]);
 			        	if($typeNew == "history" && @$value["type"]){ //error_log($value["type"]);
@@ -320,6 +320,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 				        	$col = ActionRoom::TYPE_ACTIONS;
 				        	$attr = 'room';
 				        }
+
 				        $onclick = 'showRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
 				        $skip = false;
 				        if( $action == "move"){
@@ -347,8 +348,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 									"</span>".
 								'</a>';
 						}
-							 
-			        } 
+					} } 
 
 				    if(empty($elements)) 
 				      	echo '<div class="panel-body "><i class="fa fa-times"></i> '.$endLbl.'</div>';
