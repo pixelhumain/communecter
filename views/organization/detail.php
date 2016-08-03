@@ -48,7 +48,7 @@
 						</h3>
 					</a>
 				
-    				<div id="pod-room" class="panel panel-white hidden">
+    				<div id="pod-room" class="panel panel-white">
 
 						<div class="panel-heading border-light bg-azure">
 								<h4 class="panel-title">
@@ -66,7 +66,7 @@
 							<?php 
 								$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, $organization["_id"]);
 								
-								echo "/view/organization/detail.php l.60.<br>Si quelqu'un comprend pourquoi aucun résultat ne remonte je lui offre un sandwish à la fraise<br><br>";
+								echo "/view/organization/detail.php l.68.<br>Si quelqu'un comprend pourquoi aucun résultat ne remonte je lui offre un sandwish à la fraise<br><br>";
 
 								var_dump($rooms); //return;
 								foreach ($rooms["discussions"] as $key => $room) {
