@@ -87,7 +87,7 @@
             [X] survey/proposals : create , votes, edit
             [X] actions : create, assign, edit
             [X] discuss : create, new post
-            [ ] person lastConnected
+            
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
@@ -100,6 +100,7 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+    [ ] add on login person.lastConnection
   ** @Thomas 
     [ ] mise en PROD de CommunEvent application Mobile sur meteor
     [X] LinQR : application de connection d'une person a n'importe quelle entité ( event, orga, projet, person )
