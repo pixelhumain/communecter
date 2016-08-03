@@ -882,7 +882,7 @@ function  bindTags() {
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
-			toastr.success("tag : "+tag+"<br/>to connect to top bar actions communecter.js > bindTags");
+			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
 		} else {
 			toastr.error("must be loggued");
 		}
