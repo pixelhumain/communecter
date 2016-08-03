@@ -497,6 +497,8 @@ function showMap(show)
 		//$(".fa-angle-right").hide(400);
 		//$(".menu-left-container hr").css({opacity:0});
 		$(".main-menu-left").addClass("inSig");
+		$("body").addClass("inSig");
+
 		$(".my-main-container").animate({
      							top: -1000,
      							opacity:0,
@@ -520,6 +522,7 @@ function showMap(show)
 		//$(".fa-angle-right").show(400);		
 		//$(".menu-left-container hr").css({opacity:1} );
 		$(".main-menu-left").removeClass("inSig");
+		$("body").removeClass("inSig");
 		$(".my-main-container").animate({
      							top: 50,
      							opacity:1

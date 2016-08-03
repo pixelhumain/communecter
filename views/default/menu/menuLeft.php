@@ -62,7 +62,7 @@
 	.hidden-xs.main-menu-left.inSig{
 		display:inline !important;
 	}
-	
+
 	.main-menu-left.inSig hr{
 		border-top: 1px solid transparent !important;
 	}
@@ -80,7 +80,7 @@
 </style>
 
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
-	<?php //echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
+	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
 
 

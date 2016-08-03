@@ -241,6 +241,8 @@
 	    right: 0px;
 	    background-color: rgba(255, 255, 255, 0.8);
 	}
+
+	
 }
 
 #iframe-kkbb {
@@ -425,6 +427,10 @@ button.btn-menu10{
 	width: 83.333333% !important;
 	left: 16.66666667% !important;
 	overflow-y: auto;
+}
+body.inSig .menuSmallBlockUI{
+	width: 100% !important;
+	left: 0% !important;
 }
 .menuSmallMenu .thumbnail{
 	margin-bottom:0px !important;
