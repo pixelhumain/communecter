@@ -78,7 +78,7 @@ $this->renderPartial('../default/panels/toolbar');
 <div class="col-sm-12 col-xs-12">
 
     <h1 class="homestead text-red cityName-header">
-      <center><i class="fa fa-university"></i> <?php echo $city["name"]." "; ?></center>
+      <center><?php echo $city["cp"]; ?> <i class="fa fa-university"></i> <?php echo $city["name"]; ?></center>
     </h1>
    
 </div>
