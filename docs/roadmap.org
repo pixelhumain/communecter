@@ -78,7 +78,8 @@
     [ ] Réduire le menu left sur SIG
     [ ] Compléter le pod DDA sur orga/project
   ** @Tib 
-    [ ] ajouter un tag avec le surligner + petit menu contextuel 
+    [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
+        [X] only when loggued
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
@@ -91,6 +92,12 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+  ** @Thomas 
+    [ ] mise en PROD de CommunEvent application Mobile sur meteor
+    [X] LinQR : application de connection d'une person a n'importe quelle entité ( event, orga, projet, person )
+    [X] ajout des images header, et outil de retouche d'images
+    [X] inviter des participants idem plateforme web 
+    [X] build pour Desktop pour Linux
 
 * Version 0.14 : Fermé 
     ** @Tango
@@ -138,9 +145,3 @@
                 [X] actions : switch room Id
     
 
-modalité Niveau de rémuneration
-- nb d'h passer en demi journée 
-- imaginer un un contrat de confiance qui engagement 
-- s'ouvrir au don de temps benvole 
-- attention 
- 

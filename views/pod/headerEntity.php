@@ -65,6 +65,9 @@
 		margin-top:15px;
 		border-radius: 10px !important;
 	}
+	.tag{
+		cursor: pointer;
+	}
 
 
 
@@ -128,7 +131,7 @@
 				</span>
 				<?php if(isset($entity["tags"])){ ?>
 					<?php $i=0; foreach($entity["tags"] as $tag){ if($i<6) { $i++;?>
-					<div class="tag label label-danger pull-right">
+					<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
 						<i class="fa fa-tag"></i> <?php echo  $tag; ?>
 					</div>
 					<?php }} ?>
