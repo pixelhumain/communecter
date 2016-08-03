@@ -44,7 +44,7 @@ var loadStream = function(indexMin, indexMax){
 		    	console.log(data.news);
 		    	if(data){
 					buildTimeLine (data.news, indexMin, indexMax);
-					//bindTags();
+					bindTags();
 					if(typeof(data.limitDate.created) == "object")
 						dateLimit=data.limitDate.created.sec;
 					else

@@ -75,14 +75,15 @@
         [ ] un element orga , event, projet peut etre multi scope
             [ ] un actu sera publier aura une diffusion multi scope
         [ ] ajouter à mon scope, de n'importe où
-        ??? est ce qu'un citoyen peut diffuser en multi scope ?
-            +++ amélioration multi scope + NEWS : un citoyen publie une actu sur plusieur scope 
+        [???] est ce qu'un citoyen peut diffuser en multi scope ?
+            [+++] amélioration multi scope + NEWS : un citoyen publie une actu sur plusieur scope 
     [ ] Réduire le menu left sur SIG
     [ ] Compléter le pod DDA sur orga/project
   ** @Tib 
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
     [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+        [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
