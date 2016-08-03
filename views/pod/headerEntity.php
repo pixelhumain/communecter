@@ -106,7 +106,9 @@
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
-				<?php echo @$entity["shortDescription"]; ?>
+				<?php echo substr(@$entity["shortDescription"], 0, 140);
+						if(strlen(@$entity["shortDescription"])>140) echo "...";
+				 ?>
 			</div>
 
 
