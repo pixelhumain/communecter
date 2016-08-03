@@ -877,11 +877,12 @@ function  bindHighlighter() {
 }
 
 function  bindTags() { 
+	console.log("bindTags");
 	var tagClasses = ".tag,.label tag_item_map_list"
-	$(".tag,.label tag_item_map_list").bind('click', function(e){
+	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
-			toastr.success(tag);
+			toastr.success("tag : "+tag+"<br/>to connect to top bar actions communecter.js > bindTags");
 		} else {
 			toastr.error("must be loggued");
 		}

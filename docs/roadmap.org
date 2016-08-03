@@ -25,6 +25,8 @@
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
 
+--- ***********************************************************
+
 * Version 0.15 (31/08/2016) : En cours
 [ ] interface ND
   [ ] menu
@@ -80,6 +82,7 @@
   ** @Tib 
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
+    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
     [ ] switcher le titre navigateur
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
@@ -98,6 +101,8 @@
     [X] ajout des images header, et outil de retouche d'images
     [X] inviter des participants idem plateforme web 
     [X] build pour Desktop pour Linux
+
+--- ***********************************************************
 
 * Version 0.14 : Fermé 
     ** @Tango
