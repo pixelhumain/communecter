@@ -54,6 +54,7 @@
 		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 	}else{
 		error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
+		if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 
 	}
