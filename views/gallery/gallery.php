@@ -6,26 +6,12 @@
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
-if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
-	Menu::organization( $organization );
-	$contextName = $organization["name"];
-	$parentName=$organization["name"];
+if( isset($parent) ){
+	$contextName = $parent["name"];
+	$parentName=$parent["name"];
 }
-else if( isset($itemType) && $itemType == Person::COLLECTION && isset($person) ){
-	Menu::person( $person );
-	$contextName = $person["name"];
-
-}
-else if( isset($itemType) && $itemType == Project::COLLECTION && isset($project) ){
-	Menu::project( $project );
-	$contextName = $project["name"];
-}
-else if( isset($itemType) && $itemType == Event::COLLECTION && isset($event) ){
-	Menu::event( $event );
-	$contextName = $event["name"];
-
-}
-$this->renderPartial('../default/panels/toolbar'); 
+if(!@$_GET["renderPartial"])
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType)); 
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -101,15 +87,19 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
-
+<?php if(!@$_GET["renderPartial"]){ 
+	// End div .pad-element-container if newspaper of orga, project, event and person 
+	// Present in pod/headerEntity.php
+?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 
 var images;
 var tabButton = [];
 var mapButton = {"media": "Media", "slider": "Album", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
-var itemId = "<?php echo $itemId; ?>"
-var itemType = "<?php echo $itemType; ?>"
-var controllerId = "<?php echo $controllerId; ?>"
+var itemId = "<?php echo $itemId; ?>";
+var itemType = "<?php echo $itemType; ?>";
 
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = <?php echo json_encode($images); ?>;

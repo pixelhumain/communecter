@@ -1,4 +1,4 @@
-var contextMap = {
+var contextScopesTags = {
 	"tags" : [],
 	"scopes" : {
 		codeInsee : [],
@@ -223,8 +223,8 @@ function buildLineHTML(newsObj,idSession,update)
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
 			tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				contextMap.tags.push(tag);
+			if( $.inArray(tag, contextScopesTags.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+				contextScopesTags.tags.push(tag);
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
 			}
 		});
@@ -258,18 +258,18 @@ function buildLineHTML(newsObj,idSession,update)
 		{
 			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
 			scopeClass += postalCode+" ";
-			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(postalCode);
+			if( $.inArray(postalCode, contextScopesTags.scopes.codePostal )  == -1){
+				contextScopesTags.scopes.codePostal.push(postalCode);
 			}
 		}
 		if( typeof city != "undefined" && city != "")
 		{
 			scopes += "<span class='label label-danger'>"+city+"</span> ";
 			scopeClass += city+" ";
-			if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
+			if( $.inArray(city, contextScopesTags.scopes.addressLocality )  == -1){
 				cityFilter=city.replace(/\s/g, "");
 				console.log(city);
-				contextMap.scopes.addressLocality.push(cityFilter);
+				contextScopesTags.scopes.addressLocality.push(cityFilter);
 				scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
 			}
 		}

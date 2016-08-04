@@ -463,7 +463,8 @@ var loadableUrls = {
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
-
+	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
+    "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
     "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
     "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},

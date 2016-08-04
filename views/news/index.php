@@ -38,8 +38,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<!-- start: PAGE CONTENT -->
 
 <?php 
-	if($type != City::CONTROLLER)
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer)); 
+	if($type != City::CONTROLLER && !@$_GET["renderPartial"])
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer)); 
 ?>
 
 <?php 
@@ -65,7 +65,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
-			Menu::person($parent);
+			//Menu::person($parent);
 		
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "user";
@@ -90,7 +90,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "connectdevelop";
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
-		Menu::project( $parent );
+		//Menu::project( $parent );
 		$contextName = addslashes($parent["name"]);
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
@@ -100,7 +100,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "lock";
 		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
-		Menu::event( $parent );
+	//	Menu::event( $parent );
 		$contextName = addslashes($parent["name"]);
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
@@ -126,7 +126,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$imgProfil = "";
 	if($contextParentType != "city"){
 		Menu::news($type);
-		$this->renderPartial('../default/panels/toolbar'); 
+		//$this->renderPartial('../default/panels/toolbar'); 
 	}
 ?>
 <style>
@@ -357,7 +357,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<!-- end: TIMELINE PANEL -->
 	</div>
 </div>
-
+<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$viewer && $viewer != null))))){ 
+	// End div .pad-element-container if newspaper of orga, project, event and person 
+	// Present in pod/headerEntity.php
+?>
+</div>
+<?php } ?>
 <div id="modal_scope_extern" class="form-create-news-container hide"></div>
 
 
@@ -412,15 +417,6 @@ var	dateLimit = 0;
 var lastOffset="";
 var streamType="news";
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
-var contextMap = {
-	"tags" : [],
-	"scopes" : {
-		codeInsee : [],
-		codePostal : [], 
-		region :[],
-		addressLocality : []
-	},
-};
 var formCreateNews;
 var indexStep = 5;
 var currentIndexMin = 0;
@@ -510,8 +506,8 @@ jQuery(document).ready(function()
 		});
 	},500);
 
-	Sig.restartMap();
-	Sig.showMapElements(Sig.map, news);
+	//Sig.restartMap();
+	//Sig.showMapElements(Sig.map, news);
 	initFormImages();
 	if(myContacts != null){
 		$.each(myContacts["people"], function (key,value){

@@ -143,3 +143,87 @@
 		
 	<?php } ?>
 </div>
+<?php 
+Menu::element($entity,$type);
+$this->renderPartial('../default/panels/toolbar');
+if(!@$_GET["renderPartial"]){ 
+?>
+<div class="col-md-12 padding-15" id="pad-element-container">
+
+<script type="text/javascript">
+var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+var contextMap = [];
+var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
+console.log(elementLinks);
+jQuery(document).ready(function() {
+	setTimeout(function () {
+		// Cette fonction s'exécutera dans 5 seconde (1000 millisecondes)
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>",
+			type: 'POST',
+			data:{ "links" : elementLinks },
+			async:false,
+			dataType: "json",
+			complete: function () {},
+			success: function (obj){
+				console.log("conntext/////");
+				console.log(obj);
+				Sig.restartMap();
+				Sig.showMapElements(Sig.map, obj);	
+				contextMap = obj;	
+				$(".communityBtn").removeClass("hide");
+			},
+			error: function (error) {
+				console.log("error findGeoposByInsee");
+				callbackFindByInseeError(error);	
+				$("#iconeChargement").hide();	
+			}
+		});	
+	}, 1000);
+});
+
+function showElementPad(type){
+	var mapUrl = { 	"detail": 
+						{ 
+							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						} ,
+					"news": 
+						{ 
+							"url"  : "news/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?isFirst=1&", 
+							"hash" : "news.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						} ,
+					"directory": 
+						{ "url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
+						  "hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+						  "data" : {"links":contextMap, "element":element}
+						} ,
+					"gallery" :
+						{ 
+							"url"  : "gallery/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "gallery.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						}
+					}
+
+	var url  = mapUrl[type]["url"];
+	var hash = mapUrl[type]["hash"];
+	var data = mapUrl[type]["data"];
+	console.log(data);
+	$("#pad-element-container").hide(200);
+	$.blockUI({
+				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+			});
+	
+	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
+			data,
+			function(){ 
+				history.pushState(null, "New Title", "#" + hash);
+				$("#pad-element-container").show(200);
+				$.unblockUI();
+			},"html");
+}
+</script>
+<?php } ?>

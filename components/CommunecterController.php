@@ -384,6 +384,11 @@ class CommunecterController extends Controller
     ),
     "element"=> array(
       "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
+       "detail"          => array("href" => "/ph/communecter/element/detail", "public" => true),
+      "getalllinks"     => array("href" => "/ph/communecter/element/getalllinks"),
+      "simply"          => array("href" => "/ph/communecter/element/simply", "public" => true),
+      "directory"       => array("href" => "/ph/communecter/element/directory", "public" => true),
+      "directory2"       => array("href" => "/ph/communecter/element/directory2", "public" => true),
     ),
   );
 
