@@ -66,9 +66,6 @@
 							<?php 
 								$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);
 								
-								echo "/view/organization/detail.php l.68.<br>Si quelqu'un comprend pourquoi aucun résultat ne remonte je lui offre un sandwish à la fraise<br><br>";
-
-								var_dump($rooms); //return;
 								foreach ($rooms["discussions"] as $key => $room) {
 									echo $room["name"]."<br>";
 								}

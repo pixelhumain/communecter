@@ -84,13 +84,24 @@
   ** @Tib 
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
-    [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
         [X] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
             [X] survey/proposals : create , votes, edit
             [X] actions : create, assign, edit
             [X] discuss : create, new post
-    [ ] switcher le titre navigateur
-        [ ] replacing all $(".moduleLabel").html(
+            [ ] archiving
+        [ ] getRoomsListByActivity
+    [ ] badge organisation "Communecteur" + documentation 
+        - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
+        - association référante de communecter
+        - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
+    [ ] DDA 
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] changer les lien des DDA sur les parent insee
+        [ ] généré les catégories principale
+        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+    [X] switcher le titre navigateur
+        [X] replacing all $(".moduleLabel").html(
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
     [ ] checkout Mention
