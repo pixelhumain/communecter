@@ -634,7 +634,7 @@
   		$("#menu-step-addr-active").html(
   			"Pays : " + 
   			$("#addressCountry option:selected" ).text() + 
-  			"<br><a class='text-white' href='javascript:showTSR(\"begin-zone\")'><i class=\"fa fa-pencil\"></i> Modifier</a>");
+  			"<br><a class='text-white' href='javascript:showTwoStep(\"begin-zone\")'><i class=\"fa fa-pencil\"></i> Modifier</a>");
   		
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
