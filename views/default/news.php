@@ -137,7 +137,7 @@ jQuery(document).ready(function() {
       //toogleCommunexion();
     });
     
-    $(".moduleLabel").html("<i class='fa fa-rss'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
+    setTitle("<span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE","rss","L'Actualité COMMUNECTÉE");
 	selectScopeLevelCommunexion(levelCommunexion);
 });
 

@@ -120,9 +120,9 @@ jQuery(document).ready(function() {
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<i class='fa fa-search'></i> <span id='main-title-menu'>Rechercher</span>");
-
-	$('.tooltips').tooltip();
+	setTitle("<span id='main-title-menu'>Rechercher</span>","search","Recherche");
+	
+  $('.tooltips').tooltip();
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
 

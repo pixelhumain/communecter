@@ -205,7 +205,7 @@ $moduleId = Yii::app()->controller->module->id;
 	jQuery(document).ready(function() {
 		//change le titre global uniquement si on est sur le pod d'activation d'un citoyen
 		<?php if($canEdit && !$surveyOpen && ($parentType == Person::COLLECTION || $parentType == City::COLLECTION)){ ?>
-			$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Activer votre espace coopératif");
+			setTitle("Activer votre espace coopératif","<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i>");
 		<?php } ?>
 
 		if($(".tooltips").length) {

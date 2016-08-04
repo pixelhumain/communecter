@@ -409,7 +409,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	bindPostalCodeAction();
-	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-group'></i> Référencer votre organisation");
+	setTitle("Référencer votre organisation","<i class='fa fa-plus'></i> <i class='fa fa-group'></i>");
  }); 
 
 	function initForm() {

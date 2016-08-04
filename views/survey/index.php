@@ -721,8 +721,7 @@ clickedVoteObject = null;
 var nbSurveyTotal = <?php echo count($list); ?>;
 
 jQuery(document).ready(function() {
-  //$(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
-  $(".moduleLabel").html("<i class='fa fa-gavel text-red'></i> " + "décider ensemble");
+  setTitle("Décider ensemble","gavel text-red");
   $(".main-col-search").addClass("assemblyHeadSection");
   $('.tooltips').tooltip();
 

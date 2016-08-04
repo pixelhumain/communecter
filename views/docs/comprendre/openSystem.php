@@ -207,8 +207,6 @@
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-  			"<i class='fa fa-book'></i> "+
-  			"<span class='text-red'>DOC</span> : OPEN SYSTEM</span>");
+  setTitle("<span class='text-red'>DOC</span> : OPEN SYSTEM</span>","book","DOCUMENTATION : OPEN SYSTEM");
 });
 </script>

@@ -193,8 +193,8 @@ jQuery(document).ready(function() {
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
   
-  $(".moduleLabel").html("<i class='fa fa-calendar'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
-
+  setTitle("<span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ","calendar","Agenda Communecté");
+  
   $(".btn-month-next").click(function(){
     $("#btn-month-next").click();
   });

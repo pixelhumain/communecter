@@ -141,8 +141,7 @@
 
 	jQuery(document).ready(function() {
 
-		$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
-		
+		setTitle("<?php echo addslashes($organization["name"]) ?>","<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>");
    		bindFicheInfoBtn();
 
 	});

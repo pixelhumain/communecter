@@ -301,8 +301,7 @@ clickedVoteObject = null;
 jQuery(document).ready(function() {
 	
 	$(".main-col-search").addClass("assemblyHeadSection");
-  	$(".moduleLabel").html("<i class='fa fa-cogs'></i> Espace d'actions");
-  
+  	setTitle("Espace d'actions","cogs");
   	$('.box-vote').show()
 
   	$('#form-edit-action #btn-submit-form').addClass("hidden");

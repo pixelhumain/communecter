@@ -434,9 +434,8 @@
 		});
 
 		location.hash = "#default.twostepregister";
-
-		$(".moduleLabel").html("<i class='fa fa-user'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER");
-  		
+		
+  		setTitle("<span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER","user","Bienvenue sur COMMUNECTER");
   		actionBtnCo = $("#main-btn-co").attr("href");
   		$("#main-btn-co").attr("href", "javascript:");
 		

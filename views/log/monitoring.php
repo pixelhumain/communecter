@@ -60,7 +60,7 @@ $displayResult[1] = 'true';
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-cog'></i> <span id='main-title-menu'>Espace administrateur");
+		setTitle("<span id='main-title-menu'>Espace administrateur</span>","cog","Espace administrateur");
 	    $('#summary').DataTable({
 	    	"paging":   false,
 	    	"language": {

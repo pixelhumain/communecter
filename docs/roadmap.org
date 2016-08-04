@@ -48,6 +48,8 @@
     [ ] Réunion privée pour avancement interne organisation
     [ ] Event intérrsant pour moi, moteur d'affinité
 [ ] POI et Element de base (0.16??)
+[ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
+[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -82,17 +84,16 @@
   ** @Tib 
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
-    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
-        [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
+    [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+        [X] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
             [X] survey/proposals : create , votes, edit
             [X] actions : create, assign, edit
             [X] discuss : create, new post
-            
     [ ] switcher le titre navigateur
+        [ ] replacing all $(".moduleLabel").html(
     [ ] wisiwig sur les desc de form create
         [ ] markdown editor
     [ ] checkout Mention
-    [ ] documentation API REST, comme avant
     [ ] globaliser le system de Tokens et utilisation API Communecter
   ** @Sylvain
     [ ] mailing

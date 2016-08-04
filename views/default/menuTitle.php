@@ -32,7 +32,7 @@
 	}
 	if( icon || title ){
 		icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
-		$(".moduleLabel").html( icon+title );
+		setTitle(title,icon);
 	}
 	if(!box)
 		box = "box-login";
@@ -105,8 +105,7 @@ function showAjaxPanel (url,title,icon)
 	showPanel('box-ajax');
 	if( icon && icon != "" && icon.indexOf('fa-') < 0) icon = "fa-"+icon;
 	icon = (icon) ? " <i class='fa "+icon+"'></i> " : "";
-	$(".moduleLabel").html( icon+title );
-
+	setTitle(title,icon);
 	showMap(false);
 	//$(".box-ajaxTitle").html( icon + title );
 }

@@ -328,8 +328,7 @@ var images = <?php echo json_encode($images) ?>;
 jQuery(document).ready(function() {
 	
 	$(".main-col-search").addClass("assemblyHeadSection");
-  	$(".moduleLabel").html("<i class='fa fa-gavel'></i> Propositions, débats, votes");
-  
+  	setTitle("Propositions, débats, votes","gavel");
   	$('.box-vote').show();
  	//  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 	// 	$(this).removeClass("animated flipInX");

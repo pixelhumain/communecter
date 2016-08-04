@@ -610,8 +610,8 @@ clickedVoteObject = null;
 var nbSurveyTotal = <?php echo count($list); ?>;
 
 jQuery(document).ready(function() {
-  //$(".moduleLabel").html('<?php echo "Sondages : ".$room["name"] ?>');
-  $(".moduleLabel").html("<i class='fa fa-cogs text-red'></i> " + "Actions Réactions");
+  
+  setTitle("Actions Réactions","cogs text-red");
   $(".main-col-search").addClass("assemblyHeadSection");
   $('.tooltips').tooltip();
 

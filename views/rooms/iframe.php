@@ -19,7 +19,7 @@ original : <a href="<?php echo @$room['url']?>" target="_blank"><?php echo @$roo
 
 jQuery(document).ready(function() {
 	
-	$(".moduleLabel").html("<i class='fa fa-file-text-o'></i> Framapad : <?php echo @$room['name']?>");
+	setTitle("Framapad : <?php echo @$room['name']?>","<i class='fa fa-file-text-o'></i>");
 	resizeIframe() 
 });	
 

@@ -116,7 +116,7 @@ var images = <?php echo json_encode($images); ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> Galerie photos de " + contextName);
+	setTitle("Galerie photos de " + contextName,contextIcon);
 	initGrid();
 	$(".portfolio-item").mouseenter(function(){
 		$(this).find(".tools.tools-bottom").show();

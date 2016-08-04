@@ -465,7 +465,7 @@ jQuery(document).ready(function()
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
 
-		$(".moduleLabel").html("<?php echo @$headerName; ?>");
+	setTitle("<?php echo @$headerName; ?>","");
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
 		

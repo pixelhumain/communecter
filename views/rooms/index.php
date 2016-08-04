@@ -166,8 +166,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 var nameParentTitle = "<?php echo htmlspecialchars($nameParentTitle); ?>";
 jQuery(document).ready(function() {
 	
-	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
-	
+	setTitle("espaces coopératifs","connectdevelop");
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");

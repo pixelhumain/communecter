@@ -450,7 +450,7 @@ jQuery(document).ready(function() {
  	bindInviteSubViewInvites();
  	runinviteFormValidation();
 
- 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
+ 	setTitle("Inviter quelqu'un","<i class='fa fa-plus'></i> <i class='fa fa-user'></i>");
 });
 
 function bindInviteSubViewInvites() {

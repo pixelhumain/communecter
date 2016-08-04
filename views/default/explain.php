@@ -28,7 +28,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	$(".moduleLabel").html('<?php echo Yii::t("common","Frequently Asked Questions") ?>');
+	setTitle("<?php echo Yii::t("common","Frequently Asked Questions") ?>","");
 	/*
 	$(".explain").each(function(i,e) { 
 		title = $(e).find(".explainTitle").text();

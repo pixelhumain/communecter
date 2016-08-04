@@ -35,8 +35,10 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Entités mal géolocalisé");
+
 jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Entités mal géolocalisé","cog");
+	
 	bindCheckGeo();
 });
 

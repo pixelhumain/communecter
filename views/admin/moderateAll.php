@@ -321,8 +321,7 @@ jQuery(document).ready(function() {
 	if(openingFilter != "")$('.filter'+openingFilter).trigger("click");
 
 	//Title
-	$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Modération");
-
+	setTitle("Espace administrateur : Modération","cog");
 	//Modal configuration
 	bindModalEvent();
 

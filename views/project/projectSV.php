@@ -262,7 +262,7 @@ jQuery(document).ready(function() {
  		console.log("ok");
  	});
 
- 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i> Créer un projet");
+ 	setTitle("Créer un projet","<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i>");
 });
 
 function bindProjectSubViewProjects() {

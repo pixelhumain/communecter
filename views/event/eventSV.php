@@ -400,7 +400,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
+	 	setTitle("<?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> ");
 	});
 
 	function runShowCity(searchValue) {

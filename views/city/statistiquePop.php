@@ -189,8 +189,7 @@
 	jQuery(document).ready(function() {
 
 		//Title
-        $(".moduleLabel").html("<i class='fa fa-cog'></i> COMMUNE : Statistiques de population");
-
+        setTitle("COMMUNE : Statistiques de population","cog");
 		var insee = "<?php echo $_GET['insee']; ?>";
 		var res ="";
 		var map = <?php echo json_encode($cityData) ?>;

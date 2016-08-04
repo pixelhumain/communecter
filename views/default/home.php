@@ -593,8 +593,7 @@ jQuery(document).ready(function() {
 
 	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	$(".moduleLabel").html("<i class='fa fa-home'></i> Bienvenue sur <span class='text-red'>commune</span>cter");
-
+	setTitle("Bienvenue sur <span class='text-red'>commune</span>cter","home","Bienvenue sur Communecter");
 	$('.tooltips').tooltip();
 
 	$("#btn-param-postal-code").click(function(){
@@ -663,7 +662,7 @@ function showTagOnMap (tag) {
             		 "indexMax" : 500
             		};
 
-        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+        //setTitle("","");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"

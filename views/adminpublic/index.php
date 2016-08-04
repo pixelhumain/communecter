@@ -43,9 +43,9 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
-jQuery(document).ready(function() {
 
+jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Import de données","cog");
 	var nbWarnings = "<?php echo $nb ?>" ;
 	console.log(nbWarnings);
 	$("#nbWarnings").html(nbWarnings);

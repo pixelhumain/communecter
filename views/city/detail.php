@@ -247,12 +247,12 @@ jQuery(document).ready(function() {
 
   <?php if( @$city["communected"] ){ ?>
   iconCity = "<span class='fa-stack'>"+
-                  "<i class='fa fa-university fa-stack-1x'></i>";                  
+                  "<i class='fa fa-university fa-stack-1x'></i>"+                
                   "<i class='fa fa-circle-thin fa-stack-2x' style='color:#93C020'></i>"+
                 "</span>";
   <?php } ?>
 
-  $(".moduleLabel").html(iconCity + mine + " COMMUNE : <?php echo $city["name"] ?>");
+  setTitle(mine + " COMMUNE : <?php echo $city["name"] ?>",iconCity);
   
   //si on est sur la page de MA commune, on change le texte du bouton "communecter"
   if(mineCity){

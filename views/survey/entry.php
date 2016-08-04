@@ -125,7 +125,7 @@ if( !isset($hideTexts) )
 
 jQuery(document).ready(function() 
 {
-	$(".moduleLabel").html('<?php echo Yii::t("common","VOTE DECIDE ACT") ?>');
+	setTitle("<?php echo Yii::t("common","VOTE DECIDE ACT") ?>","");
 	$('.voteIcon').off().on("click",function() { 
 		$(this).addClass("faa-bounce animated");
 		clickedVoteObject = $(this).data("vote");

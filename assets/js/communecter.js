@@ -460,6 +460,7 @@ var loadableUrls = {
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university' },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
+    "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
@@ -597,6 +598,15 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function setTitle(str, icon,topTitle) { 
+	if(icon != "")
+		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
+	$(".moduleLabel").html( icon +" "+ str);
+	if(topTitle)
+		str = topTitle;
+	$(document).prop('title', ( str != "" ) ? str : "Communecter, se connecter à sa commune" );
+}
+
 //ex : #search:bretagneTelecom:all
 //#search:#fablab
 function searchByHash (hash) 
@@ -628,7 +638,7 @@ function checkIsLoggued(uId){
 		console.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
-		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Section Sécuriser");
+		setTitle("Section Sécuriser", "user-secret");
 
 		backUrl = location.hash;
 		showPanel( "box-login" );
@@ -708,7 +718,7 @@ function showAjaxPanel (url,title,icon) {
 		$(".main-col-search").html("");
 		$(".hover-info").hide();
 		processingBlockUi();
-		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+		setTitle("Chargement en cours ...", "spin fa-circle-o-notch");
 		//$(".main-col-search").show();
 		showMap(false);
 	}, 800);
@@ -764,7 +774,7 @@ function showTagOnMap (tag) {
             		 "indexMax" : 500  
             		};
 
-        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+        //setTitle("", "");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 		
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
@@ -785,7 +795,7 @@ function showTagOnMap (tag) {
 	            else{
 	            	console.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
-	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+	            	//setTitle("", "");$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
 					$.unblockUI();

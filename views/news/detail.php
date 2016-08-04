@@ -260,7 +260,7 @@ var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('co
 jQuery(document).ready(function() 
 {
 	$(".my-main-container").off(); 
-	$(".moduleLabel").html("<i class='fa fa-rss'></i> L'actualité");
+	setTitle("L'actualité","rss");
 	newsTLLine=buildLineHTML(news,idSession);
 	$(".newsList").append(newsTLLine);
 	initXEditable();

@@ -131,7 +131,7 @@ $this->renderPartial('../default/panels/toolbar');
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
-      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>");
+      setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>","calendar");
       showCalendar();
       initLastsEvents();
 

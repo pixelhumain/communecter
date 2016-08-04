@@ -90,8 +90,6 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-			"<span class='text-red'>MODULE</span> : Agenda</span>");
+  setTitle("<span class='text-red'>MODULE</span> : Agenda</span>","cube","MODULE : Agenda");
 });
 </script>

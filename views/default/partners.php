@@ -659,7 +659,7 @@ var keywords = [
 jQuery(document).ready(function() 
 {
 	var link, endlink;
-	$(".moduleLabel").html('<?php echo Yii::t("common","Project Partners") ?>');
+	setTitle("<?php echo Yii::t("common","Project Partners") ?>","");
 	$(".keywordList").html('');
 	$.each(keywords,function(i,obj) { 
 		icon = (obj.icon) ? obj.icon : "fa-tag" ;

@@ -577,7 +577,7 @@ Menu::organization($organization);
 		};
 
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($organization["name"]) ?>");
+		setTitle("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($organization["name"]) ?>",""," ORGANISATION : <?php echo addslashes($organization["name"]) ?>");
 		initFormAddMember();
 		
 		bindTEST();

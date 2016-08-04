@@ -70,9 +70,8 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Open Agenda");
-
 jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Open Agenda","cog");
 	$("#divCheckEvents").hide();
 	bindEvents();
 });
