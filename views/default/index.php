@@ -127,6 +127,8 @@
       $myFormContact = null;
 
     }
+
+    error_log("load IndexDefault");
 ?>
 
 
@@ -544,7 +546,7 @@ function showMap(show)
 }
 
 
-function setScopeValue(btn){
+function setScopeValue(btn){ console.log("setScopeValue");
 	if( typeof btn === "object" ){
 		//récupère les valeurs
 		inseeCommunexion = btn.attr("insee-com");
@@ -635,7 +637,7 @@ function setScopeValue(btn){
 			$(".btn-param-postal-code").attr("data-original-title", cityNameCommunexion + " en détail");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
-			$(".lbl-btn-menu-name-city").html('<span class="lbl-btn-menu-name">'+cityNameCommunexion + ", </span>" + cpCommunexion);
+			$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);
 			setTimeout(function(){ showTwoStep("street");  }, 2000);
 			//showMap(false);
 		}else{

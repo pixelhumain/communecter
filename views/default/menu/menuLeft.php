@@ -26,27 +26,36 @@
 	$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
 	   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
 
-	if($cpCommunexion != "" && $cityNameCommunexion != "")
-	$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
-
+	//if($cpCommunexion != "" && $cityNameCommunexion != "")
+	//$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+	
+	error_log("1---menuLeft Cookie address : ". $cityNameCommunexion);
+	
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
 		if($cpCommunexion != "" && $cityNameCommunexion != "")
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+		error_log("user not connected, address : ". $cityNameCommunexion);
 	}
 	//si l'utilisateur est connecté
-	else{
+	else if(isset($me['address']) && !empty($me['address']['codeInsee'])){ 
+		error_log("user connected with own address : ". (string)$me['address']['addressLocality']);
+		
 		$me = Person::getById(Yii::app()->session['userId']);
 		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
-		   			    			  $me['address']['codeInsee'] : "";
+		   			    			  $me['address']['codeInsee'] : $inseeCommunexion;
 		
 		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
-		   			    			  $me['address']['postalCode'] : "";
+		   			    			  $me['address']['postalCode'] : $cpCommunexion;
 		
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
-		   			    			  $me['address']['addressLocality'] : "";
+		   			    			  $me['address']['addressLocality'] : $cityNameCommunexion;
 		
 		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
+	}else{
+		error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
+		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+
 	}
 ?>
 
@@ -87,7 +96,8 @@
 <div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10">
 	
 	<div class="menu-left-container">
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<?php //var_dump($me);
+		 if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
@@ -96,9 +106,9 @@
 		<hr><br>
 		<?php } ?>
 
-		<a href="javascript:" class="menu-button lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
+		<a href="javascript:" class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			id="btn-geoloc-auto-menu">
-			<?php if($inseeCommunexion != "" && $cpCommunexion != ""){
+			<?php if(isset($myCity) && $myCity != ""){
 						   $title = $cityNameCommunexion;// . ", " . $cpCommunexion;
 					}else{ $title = "Communectez-moi"; } ?>		
 			<i class="fa fa-crosshairs tooltips"
@@ -107,13 +117,6 @@
 				<?php echo $title; ?>
 			</span>
 		</a><hr>
-
-		<?php if(!isset(Yii::app()->session['userId']) && false){ ?>
-		<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu0 text-red tooltips" 
-				data-toggle="tooltip" data-placement="right" title="Accueil">
-				<i class="fa fa-home"></i>
-		</button>
-		<?php } ?>
 		
 		
 		<a href="javascript:loadByHash('#default.directory')" class="menu-button-left visible-communected 

@@ -26,9 +26,12 @@
 		padding-top:50px;
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
-	.menu-button, .menu-info-profil, .globale-announce {
+	.menu-button-left,  .menu-button, .menu-info-profil, 
+	.globale-announce, .menu-left-container hr,
+	.footer-menu-left {
 		display:none;
 	}
+
 	#TSR-conf-communected, #step2, #step3{
 		display:none;
 	}
@@ -440,6 +443,9 @@
   		actionBtnCo = $("#main-btn-co").attr("href");
   		$("#main-btn-co").attr("href", "javascript:");
 		
+		$("#btn-menu-launch").hide();
+  		$("#logo-main-menu").hide();
+  		
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
@@ -591,8 +597,14 @@
 				  "&codeInsee="+inseeCommunexion+
 				  "&two_steps_register=false",
     		success: function (obj){
-    			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
-    			showStep2();
+    			//$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
+    			console.log("SUCCESS UPDATE ADDRESS");
+    			$("#btn-menu-launch").show();
+		  		$("#logo-main-menu").show();
+		  		$(".menu-button-left, .menu-button, .menu-left-container hr, .menu-left-container .visible-communected, .menuSmall .visible-communected").show(400);
+  				$(".menu-left-container .hide-communected, .menuSmall .hide-communected").hide(400);
+  		
+		  		showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
     			$("#main-btn-co").attr("href", actionBtnCo);
 			},
