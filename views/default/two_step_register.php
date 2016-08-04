@@ -226,9 +226,9 @@
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
-		<div class="badge badge-success text-white current" id="menu-step-addr-1">
+		<a href="javascript:showTwoStep('begin-zone')" class="badge badge-success text-white current" id="menu-step-addr-1">
 			1 - Mon pays<br>
-		</div>
+		</a>
 		<div class="badge text-white" id="menu-step-addr-2">
 			2 - Ma commune
 			<span id="conf-commune" class="text-red hidden">
@@ -293,7 +293,9 @@
 				Saisissez le nom de votre commune, ou votre code postal ...
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
-			<h3 class="text-dark search-loader"></div>
+			<button class="btn btn-danger btn-start-tsr-communexion margin-top-5"><i class="fa fa-search"></i> Rechercher</button>
+			<h4 class="text-dark" id="menu-step-addr-active"></h4><br>
+			<h3 class="text-dark search-loader"></h3>
 		</div>	
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
 		</div>
@@ -449,7 +451,7 @@
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
-  		$(".input-communexion-twostep").keyup(function(e){
+  		$(".btn-start-tsr-communexion").click(function(e){
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
@@ -570,7 +572,7 @@
 				error: function (error) {
 					console.log("nominatim error");
 					console.dir(obj);
-					$("#error_street").html("Aucun résultat");
+					$("#error_street").html("Aucun résultat"+$("#addressCountry option:selected" ).text());
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 					$.unblockUI();
 				}
@@ -629,7 +631,11 @@
   		$("#menu-step-addr-1").removeClass("current");
   		$("#menu-step-addr-1").addClass("checked");
   		$("#menu-step-addr-2").addClass("current");
-
+  		$("#menu-step-addr-active").html(
+  			"Pays : " + 
+  			$("#addressCountry option:selected" ).text() + 
+  			"<br><a class='text-white' href='javascript:showTSR(\"begin-zone\")'><i class=\"fa fa-pencil\"></i> Modifier</a>");
+  		
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
   		}else{
