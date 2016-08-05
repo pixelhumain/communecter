@@ -38,52 +38,35 @@
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 
-    			<div id="podCooparativeSpace">
-	    			<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" 
-						class="homestead">
-						<h3 class="homestead text-azure text-right">
-							<i class="fa fa-connectdevelop"></i> 
-							<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
-							<i class="fa fa-arrow-circle-right"></i>
-						</h3>
-					</a>
-				
-    				<div id="pod-room" class="panel panel-white">
-
-						<div class="panel-heading border-light bg-azure">
-								<h4 class="panel-title">
-									<i class="fa fa-connectdevelop"></i> 
-									<a href="javascript:loadByHash('#rooms.index.type.organizations.id.<?php echo $organization["_id"]; ?>')" 
-										class="homestead">
-										<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
-										<i class="fa fa-arrow-circle-right pull-right"></i>
-									</a>
-								</h4>		
-								
-						</div>
-
-						<div class="panel-body">
-							<?php 
-								$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);
-								
-								echo "/view/organization/detail.php l.68.<br>Si quelqu'un comprend pourquoi aucun résultat ne remonte je lui offre un sandwish à la fraise<br><br>";
-
-								var_dump($rooms); //return;
-								foreach ($rooms["discussions"] as $key => $room) {
-									echo $room["name"]."<br>";
-								}
-								foreach ($rooms["votes"] as $key => $room) {
-									echo $room["name"]."<br>";
-								}
-								foreach ($rooms["actions"] as $key => $room) {
-									echo $room["name"]."<br>";
-								}
-							?>
-						</div>
-							
-					</div>
-    			</div>
+    			<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
+				<div class="row padding-15">
+					<hr>
+					<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
+			        	<h1 class="text-azure text-left homestead no-margin">
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
+			        	</h1>
+			        </a>
+			    </div>
+				<?php 
+						$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
+						$this->renderPartial('../dda/index',array(    
+		   					"parent" => $organization, 
+		                    "parentId" => (string)$organization["_id"], 
+		                    "parentType" => Organization::COLLECTION, 
+		                    "faTitle" => "connectdevelop",
+		                    "colorTitle" => "azure",
+		                    "textTitle" => "",
+		                    "fromView" => "entity.detail",
+                        	"discussions" => @$rooms["discussions"], 
+		                    "votes" => @$rooms["votes"], 
+		                    "actions" => @$rooms["actions"], 
+		                    "history" => @$rooms["history"], 
+		                    "renderPartial" => true
+		                    ));
+					?>	
+			</div>
 	    	</div>
+
 	    	
 	    	<div class="col-md-4 no-padding">
 		    	<div class="col-md-12 col-xs-12">
