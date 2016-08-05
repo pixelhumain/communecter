@@ -171,7 +171,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         	<i class="fa fa-angle-down"></i> Trouver un code postal <span class="badge bg-green title-helpCP"></span>
         </h3>
       </div>
-      <div class="modal-body pull-left col-md-12">
+      <div class="modal-body col-md-12">
 		<div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 			<div class="col-md-3 no-padding hidden">
 				<form class="form-postalcode">
