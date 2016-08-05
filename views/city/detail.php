@@ -68,9 +68,14 @@ $this->renderPartial('../default/panels/toolbar');
 
  <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
-  <a href="javascript:;" class="btn homestead text-red no-margin"
-     ctry-com="<?php echo $city['country']; ?>" insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
-     id="btn-communecter" onclick="setScopeValue($(this));">
+  <a href="javascript:;" class="btn homestead text-red no-margin tooltips"
+     ctry-com="<?php echo $city['country']; ?>" 
+     insee-com="<?php echo $city['insee']; ?>" 
+     name-com="<?php echo $city['name']; ?>" 
+     cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
+     id="btn-communecter" onclick="setScopeValue($(this));"
+     data-toggle="tooltip" data-placement="bottom"
+     >
      <i class="fa fa-crosshairs"></i> COMMUNECTER
   </a>
 <?php //} ?>
@@ -242,8 +247,8 @@ jQuery(document).ready(function() {
   $(".main-col-search").addClass("cityHeadSection");
 
   var iconCity = "<i class='fa fa-university'></i>";
-  var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
-  var mineCity = (city["insee"] == inseeCommunexion) ? true : false;
+  var mine = (city["insee"] == inseeCommunexion && city["cp"] == cpCommunexion) ? " MA" : "";
+  var mineCity = (city["insee"] == inseeCommunexion && city["cp"] == cpCommunexion) ? true : false;
 
   <?php if( @$city["communected"] ){ ?>
   iconCity = "<span class='fa-stack'>"+

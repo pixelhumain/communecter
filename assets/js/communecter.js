@@ -456,11 +456,13 @@ var loadableUrls = {
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
+    "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
-    "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
+    "#rooms.index.type.cities" : {title:'ACTION ROOMS ', icon : 'cubes', menuId:"btn-citizen-council-commun"},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
 
@@ -476,9 +478,9 @@ var loadableUrls = {
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
-    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
-    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1", menuId:"menu-btn-directory"},
+    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
+    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
@@ -508,6 +510,8 @@ function jsController(hash){
 		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
+			checkMenu(urlObj, hash);
+		
 			endPoint = loadableUrls[urlIndex];
 			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
@@ -531,7 +535,7 @@ function jsController(hash){
 						hash = endPoint.hash;
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
 					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
-
+					
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
 				}
@@ -573,11 +577,11 @@ function loadByHash( hash , back ) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }
-    else if( hash.indexOf("#news.index.type") >= 0 ){
+    /*else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
 
-    } 
+    } */
     else if( hash.indexOf("#city.directory") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
@@ -620,6 +624,16 @@ function searchByHash (hash)
 	//startGlobalSearch();
 	if( scopeBtn )
 		$(scopeBtn).trigger("click"); 
+}
+
+function checkMenu(urlObj, hash){
+	console.log("checkMenu *******************", hash);
+	console.dir(urlObj);
+	$(".menu-button-left").removeClass("selected");
+	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
+		if($("#"+urlObj.menuId).data("hash") == hash)
+			$("#"+urlObj.menuId).addClass("selected");
+	}
 }
 
 var backUrl = null;

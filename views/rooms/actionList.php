@@ -153,7 +153,7 @@ a.btn.voteDown{background-color: #db254e;border: 1px solid #db254e;}
   margin-top:5px;
 }
 
-hr {
+.stepContainer hr {
     margin-top: 5px;
     margin-bottom: 5px;
     border: 0;
