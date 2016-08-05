@@ -119,8 +119,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$headerName= "Actualités de ".$city["name"];
 	}
 	else if( isset($type) && $type == "pixels"){
-		$contextName = "Pixels : participez au projet";
-		$contextTitle = Yii::t("common", "Contributors of project");
+		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
+		//$contextTitle = Yii::t("common", "Contributors of project");
+		$headerName= "<i class='fa fa-rss'></i> Signaler un bug";
 	}
 
 	$imgProfil = "";
