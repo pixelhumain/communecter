@@ -263,7 +263,7 @@ width: 100%;
 						<i class="fa fa-angle-down"></i> 
 					</h2>
 				</div>
-				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6";// else $colDoc="12"; ?>
+				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6"; else $colDoc="6"; ?>
 				<div class="col-xs-<?php echo $colDoc;?> col-sm-<?php echo $colDoc;?> col-md-<?php echo $colDoc;?> center padding-5">
 					<a class="btn bg-grey" href="javascript:loadByHash('#default.view.page.index.dir.docs')" 
 						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
