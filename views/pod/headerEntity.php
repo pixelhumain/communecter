@@ -84,7 +84,7 @@
 
 <div class="row headerEntity bg-light">
 
-	<?php if($type != Person::COLLECTION || !empty($viewer)){ ?>
+	<?php if(($type != Person::COLLECTION && $type != "pixels") || !empty($viewer)){ ?>
 		<?php   $profilThumbImageUrl = 
 				Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 		?>
