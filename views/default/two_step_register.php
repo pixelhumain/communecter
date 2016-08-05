@@ -294,8 +294,8 @@
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
 			<button class="btn btn-danger btn-start-tsr-communexion margin-top-5"><i class="fa fa-search"></i> Rechercher</button>
-			<h4 class="text-dark" id="menu-step-addr-active"></h4><br>
-			<h3 class="text-dark search-loader"></h3>
+			<h3 class="text-dark search-loader"></h3><br>
+			<h4 class="text-dark" id="menu-step-addr-active"></h4>
 		</div>	
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
 		</div>
