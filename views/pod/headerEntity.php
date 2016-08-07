@@ -85,11 +85,20 @@
 <div class="row headerEntity bg-light">
 
 	<?php if($type != Person::COLLECTION || !empty($viewer)){ ?>
-		<?php   $profilThumbImageUrl = 
-				Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
-		?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
-			<img class="img-responsive thumbnail" src="<?php echo $profilThumbImageUrl; ?>">
+			<?php   
+				if(@$entity["profilMediumImageUrl"] && !empty($entity["profilMediumImageUrl"]))
+					$images=array("profil"=> array($entity["profilMediumImageUrl"]));
+				else 
+					$images="";	
+				$this->renderPartial('../pod/fileupload', array("itemId" => $entity["_id"],
+																  "type" => $type,
+																  "contentId" => Document::IMG_PROFIL,
+																  "editMode" => false,
+																  "image" => $images)); 
+			
+			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
+			?>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
 

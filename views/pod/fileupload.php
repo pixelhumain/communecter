@@ -7,7 +7,7 @@
 		background-color: #F2F2F2;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
-		margin: 0px; /*10px 10px 10px;*/
+		margin: 0px 10px 10px 10px;
 		border-radius: 5px;
 
 	}
@@ -48,9 +48,7 @@
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_fileUpload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgPreview">
-					
 				</div>
-				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
 				<?php if(isset($editMode) && $editMode){ ?>
 				<div class="user-image-buttons">
 					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> Photo</span>
@@ -88,9 +86,11 @@
 		var imageId= "";
 		var imagesPath = [];
 		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
-		var parentType = <?php if(@$parentType) echo json_encode($parentType); else echo "''" ?>;
-		var parentId = <?php if(@$parentId) echo json_encode($parentId); else echo "''" ?>;
-		var contentKey = contentIdtoSend;
+
+		if("undefined" != typeof(contentKeyBase))
+			var contentKey = contentKeyBase+"."+contentIdtoSend;
+		else
+			contentKey = contentIdtoSend;
 		if("undefined" != typeof(image[contentId])){
 			initFileUpload();
 		}else{
@@ -106,11 +106,13 @@
 			if($("."+contentId+"_isSubmit").val()== "true" ){
 				setTimeout(function(){
 					if(resize){
+						
 						$(".fileupload-preview img").css("height", parseInt($("#"+contentId+"_fileUpload").css("width"))*45/100+"px");
 						$(".fileupload-preview img").css("width", "auto");
 					}
 					var file = document.getElementById(contentId+'_avatar').files[0];
 					if(file && file.size < 2097152){
+						
 						$("#"+contentId+"_photoAdd").submit();
 					}else{
 						if(file && file.size > 2097152){
@@ -122,6 +124,8 @@
 						$("#"+contentId+"_fileUpload").fileupload("clear");
 					}
 				}, 200);
+
+
 			}else{
 				setTimeout(function(){
 					if(resize){
@@ -143,7 +147,6 @@
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
-			console.log(new FormData(this));
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				url : baseUrl+"/"+moduleId+"/document/<?php echo Yii::app()->params['uploadUrl'] ?>dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
@@ -158,16 +161,17 @@
 			  		if(data.success){
 			  			imageName = data.name;
 			  			var doc = { 
-					  		"id":id,
-					  		"type":type,
-					  		"folder":type+"/"+id,
-					  		"moduleId":moduleId,
-					  		"name" : data.name , 
-					  		"date" : new Date() , 
-					  		"size" : data.size ,
-					  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
-					  		"contentKey" : contentKey
-					  	};
+						  		"id":id,
+						  		"type":type,
+						  		"folder":type+"/"+id,
+						  		"moduleId":moduleId,
+						  		"author" : "<?php echo (isset(Yii::app()->session['userId'])) ? Yii::app()->session['userId'] : 'unknown'?>"  , 
+						  		"name" : data.name , 
+						  		"date" : new Date() , 
+						  		"size" : data.size ,
+						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
+						  		"contentKey" : contentKey
+						  	};
 			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else
@@ -223,9 +227,8 @@
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html('<img class="img-responsive" src="'+imageUrl+'" />');	
 			}else{
-				imageUrl = "<div class='center' style='padding-top: 35px;'>"+
-								"<i class='fa fa-picture-o fa-5x text-dark'></i>"+
-								//"<br>Click on <i class='fa fa-plus'></i> to add a pictures"+
+				imageUrl = "<div class='center'>"+
+								'<img class="img-responsive thumbnail" src="<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg"/>'+
 							"</div>";
 				j= j+1;
 				$("#"+contentId+"_imgPreview").html(imageUrl);
@@ -249,10 +252,7 @@
 			}
 		}
 		function saveImage(doc, path){
-			if(typeof(parentType) != "undefined" && parentType != "")
-				doc.parentType=parentType;
-			if(typeof(parentId) != "undefined" && parentId != "")
-				doc.parentId=parentId;
+
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",
@@ -288,22 +288,19 @@
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ console.log("loading new profil");
-			var profilThumbImageUrl;
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
-		        if(typeof data.profilThumbImageUrl != "undefined"){
-		        	profilThumbImageUrl = baseUrl + data.profilThumbImageUrl + "?_=" + Date.now();
-		        	$("#menu-thumb-profil").attr("src", profilThumbImageUrl);
-		        	$("#menu-small-thumb-profil").attr("src", profilThumbImageUrl);
-		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", profilThumbImageUrl);
+		        if(typeof data.profilImageUrl != "undefined"){
+		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : " + profilThumbImageUrl);
-		    	Sig.userData.profilImageUrl = profilThumbImageUrl;
+		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
 		        console.log(Sig.userData.profilImageUrl);
 		        
 		    });
