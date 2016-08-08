@@ -186,13 +186,13 @@ function showTagInMultitag(tagValue){ console.log("showTagInMultitag()", tagValu
 		'<span class="item-tag-input bg-red" data-tag-value="'+tagValue+'">' +
 				'<a  href="javascript:" class="item-tag-checker tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
-					'title="Activer/Désactiver">' +
+					'title="Activer/Désactiver" data-tag-value="'+tagValue+'">' +
 					'<i class="fa fa-check-circle"></i>' +
 				'</a>' +
 				'<span class="item-tag-name">#'+tagValue+'</span>' +
 				'<a href="javascript:" class="item-tag-deleter tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
-					'title="Supprimer">' +
+					'title="Supprimer" data-tag-value="'+tagValue+'">' +
 					'<i class="fa fa-times"></i>' +
 			'</a>' +
 		'</span>';
@@ -204,13 +204,13 @@ function showTagInMultitag(tagValue){ console.log("showTagInMultitag()", tagValu
 	$("#multi-tag-list").append(html);
 	$(".tooltips").tooltip();
 	showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
-	$(".item-tag-checker").click(function(){ toogleTagMultitag(tagValue); });
-	$(".item-tag-deleter").click(function(){ deleteTagInMultitag(tagValue); });
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+	$(".item-tag-deleter").off().click(function(){ deleteTagInMultitag( $(this).data("tag-value")); });
 }
 
 
-function addTagToMultitag(tagValue){  console.log("addTagToMultitag()", tagValue);
-	console.log("$.inArray(tagValue, myMultiTags)", $.inArray(tagValue, myMultiTags));
+function addTagToMultitag(tagValue){  
+	if(tagValue == "") return;
 	if(typeof myMultiTags[tagValue] == "undefined"){
 		console.log("adding", tagValue);
 		myMultiTags[tagValue] = { active: true };
@@ -219,10 +219,9 @@ function addTagToMultitag(tagValue){  console.log("addTagToMultitag()", tagValue
 	}else{
 		showMsgInfoMultiTag("Ce tag est déjà dans votre liste", "info");
 	}
-	console.dir(myMultiTags);
 }
 
-function deleteTagInMultitag(tagValue){ console.log("deleteTagInMultitag(tagValue)", tagValue);
+function deleteTagInMultitag(tagValue){ //console.log("deleteTagInMultitag(tagValue)", tagValue);
 	if(typeof myMultiTags[tagValue] != "undefined"){
 		delete myMultiTags[tagValue];
 		$("[data-tag-value="+tagValue+"]").remove();
@@ -230,10 +229,10 @@ function deleteTagInMultitag(tagValue){ console.log("deleteTagInMultitag(tagValu
 	console.dir(myMultiTags);
 }
 
-function toogleTagMultitag(tagValue){ console.log("toogleTagMultitag(tagValue)", tagValue);
+function toogleTagMultitag(tagValue){ //console.log("toogleTagMultitag(tagValue)", tagValue);
 	if(typeof myMultiTags[tagValue] != "undefined"){
 		myMultiTags[tagValue].active = !myMultiTags[tagValue].active;
-
+		
 		if(myMultiTags[tagValue].active){
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-circle-o");
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-ckeck-circle");
@@ -241,8 +240,9 @@ function toogleTagMultitag(tagValue){ console.log("toogleTagMultitag(tagValue)",
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-circle-o");
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-ckeck-circle");
 		}
+	}else{
+		showMsgInfoMultiTag("Ce tag n'existe pas", "danger");
 	}
-	console.dir(myMultiTags);
 }
 
 function getMultiTagList(){ return myMultiTags; }
