@@ -64,16 +64,16 @@
 
 						<div class="panel-body">
 							<?php 
-								$rooms = ActionRoom::getAllRoomsByTypeId(Organization::COLLECTION, (string)$organization["_id"]);
+								$rooms = ActionRoom::getAllRoomsActivityByTypeId(Organization::COLLECTION, (string)$organization["_id"]);
 								
 								foreach ($rooms["discussions"] as $key => $room) {
-									echo $room["name"]."<br>";
+									echo "discussion : ".$room["name"]."<br>";
 								}
 								foreach ($rooms["votes"] as $key => $room) {
-									echo $room["name"]."<br>";
+									echo "decision : ".$room["name"]."<br>";
 								}
 								foreach ($rooms["actions"] as $key => $room) {
-									echo $room["name"]."<br>";
+									echo "action : ".$room["name"]."<br>";
 								}
 							?>
 						</div>

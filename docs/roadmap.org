@@ -91,15 +91,19 @@
             [X] discuss : create, new post
             [ ] archiving
         [ ] getRoomsListByActivity
+        [ ] getRoomsActivity
+            [ ] Action:addAction : add update parent
     [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
     [ ] DDA 
+        [ ] remettre le contexte sur la room dans mon DDA
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
         [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [ ] ajouter un scope geo sur une proposition
     [X] switcher le titre navigateur
         [X] replacing all $(".moduleLabel").html(
     [ ] wisiwig sur les desc de form create
