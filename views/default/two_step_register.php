@@ -26,9 +26,12 @@
 		padding-top:50px;
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
-	.menu-button, .menu-info-profil, .globale-announce {
+	.menu-button-left,  .menu-button, .menu-info-profil, 
+	.globale-announce, .menu-left-container hr,
+	.footer-menu-left {
 		display:none;
 	}
+
 	#TSR-conf-communected, #step2, #step3{
 		display:none;
 	}
@@ -223,9 +226,9 @@
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
-		<div class="badge badge-success text-white current" id="menu-step-addr-1">
+		<a href="javascript:showTwoStep('begin-zone')" class="badge badge-success text-white current" id="menu-step-addr-1">
 			1 - Mon pays<br>
-		</div>
+		</a>
 		<div class="badge text-white" id="menu-step-addr-2">
 			2 - Ma commune
 			<span id="conf-commune" class="text-red hidden">
@@ -290,7 +293,9 @@
 				Saisissez le nom de votre commune, ou votre code postal ...
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
-			<h3 class="text-dark search-loader"></div>
+			<button class="btn btn-danger btn-start-tsr-communexion margin-top-5"><i class="fa fa-search"></i> Rechercher</button>
+			<h3 class="text-dark search-loader"></h3><br>
+			<h4 class="text-dark" id="menu-step-addr-active"></h4>
 		</div>	
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
 		</div>
@@ -439,10 +444,13 @@
   		actionBtnCo = $("#main-btn-co").attr("href");
   		$("#main-btn-co").attr("href", "javascript:");
 		
+		$("#btn-menu-launch").hide();
+  		$("#logo-main-menu").hide();
+  		
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
-  		$(".input-communexion-twostep").keyup(function(e){
+  		$(".btn-start-tsr-communexion").click(function(e){
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
@@ -563,7 +571,7 @@
 				error: function (error) {
 					console.log("nominatim error");
 					console.dir(obj);
-					$("#error_street").html("Aucun résultat");
+					$("#error_street").html("Aucun résultat"+$("#addressCountry option:selected" ).text());
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 					$.unblockUI();
 				}
@@ -590,8 +598,14 @@
 				  "&codeInsee="+inseeCommunexion+
 				  "&two_steps_register=false",
     		success: function (obj){
-    			$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
-    			showStep2();
+    			//$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
+    			console.log("SUCCESS UPDATE ADDRESS");
+    			$("#btn-menu-launch").show();
+		  		$("#logo-main-menu").show();
+		  		$(".menu-button-left, .menu-button, .menu-left-container hr, .menu-left-container .visible-communected, .menuSmall .visible-communected").show(400);
+  				$(".menu-left-container .hide-communected, .menuSmall .hide-communected").hide(400);
+  		
+		  		showStep2();
     			toastr.success("Votre addresse a été mise à jour avec succès");
     			$("#main-btn-co").attr("href", actionBtnCo);
 			},
@@ -616,7 +630,11 @@
   		$("#menu-step-addr-1").removeClass("current");
   		$("#menu-step-addr-1").addClass("checked");
   		$("#menu-step-addr-2").addClass("current");
-
+  		$("#menu-step-addr-active").html(
+  			"Pays : " + 
+  			$("#addressCountry option:selected" ).text() + 
+  			"<br><a class='text-white' href='javascript:showTwoStep(\"begin-zone\")'><i class=\"fa fa-pencil\"></i> Modifier</a>");
+  		
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
   		}else{

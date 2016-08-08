@@ -14,7 +14,7 @@
 
 	.headerEntity{
 		/*margin: 0px;*/
-		<?php if(!empty($viewer)){ ?>
+		<?php if($type != Person::COLLECTION || !empty($viewer)){ ?>
 			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
 			background-repeat: repeat;
 			background-size: 100%;
@@ -84,7 +84,7 @@
 
 <div class="row headerEntity bg-light">
 
-	<?php if(!empty($viewer)){ ?>
+	<?php if(($type != Person::COLLECTION && $type != "pixels") || !empty($viewer)){ ?>
 		<?php   $profilThumbImageUrl = 
 				Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 		?>

@@ -107,18 +107,6 @@
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
 	</h1>
 	
-	<?php if(isset(Yii::app()->session['userId'])) { ?>
-		<a class="pull-left hidden" 
-			href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')" 
-			class="hidden-xs" id="main-btn-co">
-			<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-		</a>
-	<?php }else{ ?> 
-		<a class="pull-left hidden"  href="javascript:loadByHash('#default.home')" class="hidden-xs" >
-			<img class="hidden-xs" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-		</a>
-	<?php } ?>
-
 	<button class="btn-menu btn-menu-top bg-white text-azure tooltips pull-right" id="btn-toogle-map"
 			data-toggle="tooltip" data-placement="bottom" title="Carte" alt="Carte">
 			<i class="fa fa-map-marker"></i>

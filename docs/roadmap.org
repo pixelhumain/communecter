@@ -25,15 +25,13 @@
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
 
---- ***********************************************************
-
 * Version 0.15 (31/08/2016) : En cours
 [ ] interface ND
   [ ] menu
   [ ] left bar , filter
   [ ] one input add
   [ ] dashboard activité 
-
+  [ ] multi scope 
   [ ] search and filter tag engine
   [ ] DDA Ideas : 
     [ ] Journal d'activités du DDA
@@ -58,29 +56,18 @@
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
   ** @Rapha
-    [X] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
     [ ] form keep my position / my latest psitions
+    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
     [ ] sur une person, retirer superAdmin false, inutile ? 
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
-    [ ] ajouter des nouvelles villes venant de la modal CP de Tango 
   ** @Tango 
     [ ] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
-    [ ] tag et scope sont des select dans la top barre
-    [ ] multi scope 
-        [ ] ajouter commune, cp, departement, region 
-        [ ] un element orga , event, projet peut etre multi scope
-            [ ] un actu sera publier aura une diffusion multi scope
-        [ ] ajouter à mon scope, de n'importe où
-        [???] est ce qu'un citoyen peut diffuser en multi scope ?
-            [+++] amélioration multi scope + NEWS : un citoyen publie une actu sur plusieur scope 
-    [ ] Réduire le menu left sur SIG
-    [ ] Compléter le pod DDA sur orga/project
   ** @Tib 
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
@@ -116,15 +103,6 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
-    [ ] add on login person.lastConnection
-  ** @Thomas 
-    [ ] mise en PROD de CommunEvent application Mobile sur meteor
-    [X] LinQR : application de connection d'une person a n'importe quelle entité ( event, orga, projet, person )
-    [X] ajout des images header, et outil de retouche d'images
-    [X] inviter des participants idem plateforme web 
-    [X] build pour Desktop pour Linux
-
---- ***********************************************************
 
 * Version 0.14 : Fermé 
     ** @Tango
@@ -170,5 +148,4 @@
             [X] deplacer vers une autre room  
                 [X] vote proposals : switch survey Id 
                 [X] actions : switch room Id
-    
-
+        
