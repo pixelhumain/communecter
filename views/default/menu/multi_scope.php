@@ -17,6 +17,11 @@
 #btn-group-scope-type .btn-secondary.active{
 	background-color: #E33551;
 	color:white;
+}
+.scope-count{
+	left: 15px;
+    position: absolute;
+    top: 4px;
 }	
 </style>
 
@@ -26,6 +31,7 @@
 	data-toggle="tooltip" data-placement="bottom" 
 	title="Mes lieux favoris">
 	<i class="fa fa-bullseye" style=""></i>
+	<span class="scope-count topbar-badge badge animated bounceIn badge-default">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-scope">
       <div class="panel-body text-dark padding-bottom-10">

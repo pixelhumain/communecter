@@ -2,7 +2,11 @@
 
 <style type="text/css">
 
-
+.tags-count{
+	left: 15px;
+    position: absolute;
+    top: 4px;
+}	
 
 </style>
 
@@ -12,6 +16,7 @@
 	data-toggle="tooltip" data-placement="bottom" 
 	title="Mes tags favoris">
 	<i class="fa fa-tag" style=""></i>
+	<span class="tags-count topbar-badge badge animated bounceIn badge-default">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-tag">
       <div class="panel-body text-dark padding-bottom-10">

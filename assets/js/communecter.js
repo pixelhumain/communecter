@@ -906,6 +906,10 @@ function  bindTags() {
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
+
+			showTagInMultitag(tag);
+			$('#btn-modal-multi-tag').trigger("click");
+			$('.tags-count').html($(".item-tag-name").length);
 			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
 		} else {
 			toastr.error("must be loggued");
