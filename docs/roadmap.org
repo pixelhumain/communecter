@@ -69,18 +69,20 @@
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
   ** @Tib 
+    [ ] wisiwig sur les desc de form create
+        [ ] markdown editor
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
-    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+    [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
         [X] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
             [X] survey/proposals : create , votes, edit
             [X] actions : create, assign, edit
             [X] discuss : create, new post
-            [ ] archiving
+            [X] archiving
         [X] getRoomsListByActivity
-        [ ] getRoomsActivity
-            [ ] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
-        [ ] finish fromNow method
+        [X] getRoomsActivity
+            [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+    [ ] finish fromNow method
     [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
         - association référante de communecter
@@ -94,8 +96,7 @@
         [ ] ajouter un scope geo sur une proposition
     [X] switcher le titre navigateur
         [X] replacing all $(".moduleLabel").html(
-    [ ] wisiwig sur les desc de form create
-        [ ] markdown editor
+    
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecter
   ** @Sylvain

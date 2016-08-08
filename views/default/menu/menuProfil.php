@@ -37,19 +37,19 @@
       <li role="separator" class="divider hidden-xs"></li>
 
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add">
+        <a href="javascript:;" onclick="loadByHash('#person.invite');">
           <i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i>
           <?php echo Yii::t("person","Invite someone"); ?>
         </a>
       </li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add">
+        <a href="javascript:;" onclick="javascript:getModal({'title':'toto'},'/communecter/event/eventsv');">
           <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
           <?php echo Yii::t("person","Create an event"); ?>
         </a>
       </li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add">
+        <a href="javascript:;" onclick="loadByHash('#project.projectsv');">
         <i class="fa fa-plus-circle text-purple"></i> 
           <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?>
         </a>
@@ -57,14 +57,14 @@
       
       <li role="separator" class="divider hidden-xs"></li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add">
+        <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');">
           <i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i>
           <?php echo Yii::t("person","Create an organization"); ?>
         </a>
       </li>
       <li role="separator" class="divider hidden-xs"></li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add">
+        <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');">
           <i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?>
         </a>
       </li>
@@ -75,7 +75,7 @@
         $sourceAdmin = Person::getSourceAdmin(Yii::app()->session['userId']);
         foreach ($sourceAdmin as $key => $value) { ?>
             <li>
-              <a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add">
+              <a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');">
                 <i class="fa fa-cog text-blue"></i> <?php echo $value ; ?>
               </a>
             </li>
