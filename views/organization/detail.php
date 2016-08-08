@@ -53,7 +53,7 @@
 		   					"parent" => $organization, 
 		                    "parentId" => (string)$organization["_id"], 
 		                    "parentType" => Organization::COLLECTION, 
-		                    "title" => "Activté Coop",
+		                    "title" => "Activité Coop",
                         	"list" => @$list, 
 		                    "renderPartial" => true
 		                    ));

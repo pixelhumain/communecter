@@ -79,7 +79,8 @@
             [ ] archiving
         [X] getRoomsListByActivity
         [ ] getRoomsActivity
-            [ ] Action:addAction : add update parent
+            [ ] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+        [ ] finish fromNow method
     [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
         - association référante de communecter
