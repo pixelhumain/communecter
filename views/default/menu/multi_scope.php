@@ -79,7 +79,7 @@
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
 	      		</div>
 	      		<div id="multi-scope-list-dep" class="col-md-12 margin-top-15">
-	      			<h4><i class="fa fa-angle-down"></i> Déparements</h4>
+	      			<h4><i class="fa fa-angle-down"></i> Départements</h4>
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
 	      		</div>
 	      		<div id="multi-scope-list-region" class="col-md-12 margin-top-15">
@@ -179,7 +179,7 @@ function deleteScopeInMultiscope(scopeValue){ //console.log("deleteScopeInMultis
 	console.dir(myMultiScopes);
 }
 
-function toogleScopeMultiscope(scopeValue){ //console.log("toogleScopeMultiscope(scopeValue)", scopeValue);
+function toogleScopeMultiscope(scopeValue){ console.log("toogleScopeMultiscope(scopeValue)", scopeValue);
 	if(typeof myMultiScopes[scopeValue] != "undefined"){
 		myMultiScopes[scopeValue].active = !myMultiScopes[scopeValue].active;
 		
@@ -193,6 +193,7 @@ function toogleScopeMultiscope(scopeValue){ //console.log("toogleScopeMultiscope
 	}else{
 		showMsgInfoMultiScope("Ce lieu n'existe pas", "danger");
 	}
+	console.dir(myMultiScopes);
 }
 
 function getMultiScopeList(){ return myMultiScopes; }
