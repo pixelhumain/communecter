@@ -77,7 +77,7 @@
             [X] actions : create, assign, edit
             [X] discuss : create, new post
             [ ] archiving
-        [ ] getRoomsListByActivity
+        [X] getRoomsListByActivity
         [ ] getRoomsActivity
             [ ] Action:addAction : add update parent
     [ ] badge organisation "Communecteur" + documentation 

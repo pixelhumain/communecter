@@ -43,24 +43,18 @@
 					<hr>
 					<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
 			        	<h1 class="text-azure text-left homestead no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <span class="text-small helvetica">(activité récente)</span> <i class='fa fa-sign-in'></i> 
 			        	</h1>
 			        </a>
 			    </div>
 				<?php 
-						$rooms = ActionRoom::getAllRoomsActivityByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
-						$this->renderPartial('../dda/index',array(    
+						$list = ActionRoom::getAllRoomsActivityByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
+						$this->renderPartial('../pod/activityList2',array(    
 		   					"parent" => $organization, 
 		                    "parentId" => (string)$organization["_id"], 
 		                    "parentType" => Organization::COLLECTION, 
-		                    "faTitle" => "connectdevelop",
-		                    "colorTitle" => "azure",
-		                    "textTitle" => "",
-		                    "fromView" => "entity.detail",
-                        	"discussions" => @$rooms["discussions"], 
-		                    "votes" => @$rooms["votes"], 
-		                    "actions" => @$rooms["actions"], 
-		                    "history" => @$rooms["history"], 
+		                    "title" => "Activté Coop",
+                        	"list" => @$list, 
 		                    "renderPartial" => true
 		                    ));
 					?>	
