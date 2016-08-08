@@ -138,7 +138,7 @@
 	margin-top: -10px;
 }
 .box-ajaxTools .btn.tooltips {
-	border-radius: 0px 0px 10px 10px !important;
+	border-radius: 0px 0px 1px 1px !important;
 	background-color: #FFF !important;
 	border-bottom: 0px solid #337793 !important;
     moz-box-shadow: 0px 2px 4px 0px #656565;
@@ -160,7 +160,7 @@
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
 }
 .box-ajaxTools .btn.tooltips.active {
-    border-radius: 0px 0px 10px 10px !important;
+    /*border-radius: 0px 0px 10px 10px !important;*/
 	border-bottom: 0px solid #337793 !important;
     background-color: rgba(49, 92, 110, 0.73) !important;
 }

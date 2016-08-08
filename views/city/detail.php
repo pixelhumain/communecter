@@ -226,7 +226,6 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 
-
 <!-- end: PAGE CONTENT-->
 
 <script>

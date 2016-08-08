@@ -25,6 +25,7 @@
 
 	$cssAnsScriptFilesModule = array(
 		'/js/default/globalsearch.js',
+		'/js/jquery.filter_input.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
 		'/css/sig/sig.css',

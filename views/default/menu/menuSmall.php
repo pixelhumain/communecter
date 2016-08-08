@@ -205,13 +205,13 @@ width: 100%;
 						</h2>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
+						<a href="javascript:loadByHash('person.invite');" class="btn bg-yellow">
 							<i class="fa fa-user"></i><br>
 							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
+						<a href="javascript:loadByHash('organization.addorganizationform');" class="btn bg-green">
 							<i class="fa fa-group"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Une o</span><span class="hidden-sm hidden-md hidden-lg">O</span>rganisation
@@ -219,7 +219,7 @@ width: 100%;
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
+						<a href="javascript:loadByHash('project.projectsv');" class="btn bg-purple">
 							<i class="fa fa-lightbulb-o"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet
@@ -227,7 +227,7 @@ width: 100%;
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
+						<a href="javascript:loadByHash('event.eventsv');" class="btn bg-orange">
 							<i class="fa fa-calendar"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Un é</span><span class="hidden-sm hidden-md hidden-lg">É</span>vénement

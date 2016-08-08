@@ -21,7 +21,7 @@
 	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 }
 #main-btn-co{
-	margin-right:20px;
+	margin-right:5px;
 	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
@@ -67,6 +67,7 @@
     margin-top: 16px !important;
 }
 
+
 @media screen and (max-width: 767px){
 	#notificationPanelSearch{
 		position: fixed;
@@ -97,8 +98,10 @@
 		title="Lire la documentation" 
 		alt="Lire la documentation">
 		<img class="" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
-		<i class="fa fa-question-circle hidden-xs" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
+		<i class="fa fa-question-circle hidden" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
 	</a>
+
+	<?php $this->renderPartial('../default/menu/multi_tag_scope'); ?>
 
 	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
@@ -131,4 +134,5 @@
 
 	<?php $this->renderPartial("./menu/short_info_profil", array("me"=>$me)); ?> 
 
+	
 </div>
