@@ -80,7 +80,7 @@ class DataController extends Controller {
   }
   
 
-  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags=null , $key = null, $insee = null) 
+  public function actionGet( $type, $id = null, $format = null ,$limit=50, $index=0, $tags = null, $multiTags=null , $key = null, $insee = null, $typeNews = null) 
   {
         $bindMap = null;
         if( $type == Person::COLLECTION ){
@@ -116,19 +116,22 @@ class DataController extends Controller {
               $bindMap = TranslateSchema::$dataBinding_city;
             else
               $bindMap = TranslateCommunecter::$dataBinding_city;
-        }
-            
+        }   
         else if( $type == Need::COLLECTION){
             if( $format == Translate::FORMAT_SCHEMA)
               $bindMap = TranslateSchema::$dataBinding_need;
             else
               $bindMap = TranslateCommunecter::$dataBinding_need;
         }
+        else if( $type == News::COLLECTION){
+            if($format == Translate::FORMAT_RSS)
+              $bindMap = TranslateSchema::$dataBinding_news;
+        }
         else
           $format = null;
         
         
-        $result = Api::getData($bindMap, $format, $type, $id,$limit, $index, $tags, $multiTags, $key, $insee);
+        $result = Api::getData($bindMap, $format, $type, $id,$limit, $index, $tags, $multiTags, $key, $insee, $typeNews);
         
         header("Access-Control-Allow-Origin: *");
         Rest::json($result, JSON_UNESCAPED_SLASHES);
