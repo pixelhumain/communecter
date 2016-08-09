@@ -34,7 +34,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 							<td class="center  hidden-sm hidden-xs" style="padding-left: 18px; ">
 								<?php  
-								$url = '#event.detail.id.'.$e["_id"]; 
+								$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
 								if(@$organiserImgs && @$e["links"]["organizer"]){
 
 									$id = array_keys($e["links"]["organizer"])[0];

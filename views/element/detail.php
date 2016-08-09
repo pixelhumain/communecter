@@ -48,12 +48,13 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 		    				"contextMap" => @$contextMap,
 		    				"publics" => @$public,
 							"type" => @$type,
-							"organizer" =>$organizer,
+							"organizer" =>@$organizer,
 		    				"contentKeyBase" => "profil"
 		    			);
 		    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 		    		?>
 		    	</div>
+		    	
 			    <div class="col-md-4 no-padding">
 					<div class="col-md-12 col-xs-12">
 						<?php   $this->renderPartial('../pod/usersList', array(  $controller => $element,
@@ -65,6 +66,31 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 																"admin" => false	));
 						?>
 			    	</div>
+			    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION) && !empty($events)){ ?>
+						<div class="col-md-12 col-xs-12">
+							<?php 
+								$organizerImg=false;
+								if($type==Event::COLLECTION) $organizerImg=true;
+								if(!isset($eventTypes)) $eventTypes = array();
+								$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+																					"contextId" => (String) $element["_id"],
+																					"contextType" => $controller,
+																					"list" => $eventTypes,
+																					"authorised" => false,
+																					"organiserImgs"=> $organizerImg
+																				  )); ?>
+						</div>
+						<?php } ?>
+						<?php if ($type==Organization::COLLECTION && !empty($projects)){ ?>
+						<div class="col-md-12 col-xs-12">
+				 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
+																	"contextId" => (String) $element["_id"],
+																	"contextType" => $type,
+																	"authorised" =>	false
+							)); ?>
+						</div>
+						<?php } ?>
+
 				</div>
 			</div>
 		 </div>

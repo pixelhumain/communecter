@@ -35,7 +35,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					?>
 					<tr id="project<?php echo (string)$e["_id"];?>" style="padding:5px 0px;">
 						<td class="center" style="padding-left: 15px;">
-							<?php $url = '#project.detail.id.'.$e["_id"];?>
+							<?php $url = '#element.detail.type.'.Project::COLLECTION.'.id.'.$e["_id"];?>
 							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
 							<?php if ($e && isset($e["imagePath"])){ ?>
 								<img width="50" height="50" alt="image" class="img-circle" src="<?php echo $e["imagePath"]; ?>">
