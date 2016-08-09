@@ -127,6 +127,23 @@ jQuery(document).ready(function() {
 	loadMultiScopes();
 });
 
+function saveMultiScope(){
+	$.ajax({
+		url: baseUrl+"/"+moduleId+"/person/update",
+		type: 'POST',
+		data: "personId=<?php echo Yii::app()->session['userId']; ?>"+
+			  "&scopes="+scopes,
+			  
+		success: function (obj){
+			
+		},
+		error: function(error){
+			console.log("Une erreur est survenue pendant l'enregistrement des scopes");
+		}
+	});
+}
+
+/**********************************************/
 function loadMultiScopes(){
 	$.each(myMultiScopes, function(key, value){
 		showScopeInMultiscope(key);
@@ -222,34 +239,5 @@ function showMsgInfoMultiScope(msg, type){
 	if(typeof timerMsgMultiscope != "undefined") clearTimeout(timerMsgMultiscope);
 	timerMsgMultiscope = setTimeout(function(){ $(id).off().hide(500)}, 3000);
 }
-/*function openCommonModal(hash){ console.log("search for modal key :", hash);
-	var urls = {
-		"organization.addorganizationform": { 
-			what: { 
-				title: 	"Créer une organisation",
-				icon: 	"users",
-				desc: 	""
-			},
-			//url:"organization/addorganizationform",
-			id: ""
-		},
-		"project.projectsv": { 
-			what: { 
-				title: 	"Créer un projet",
-				icon: 	"lightbulb-o",
-				desc: 	""
-			},
-			//url:"project/projectsv",
-			id: ""
-		},
-	};
-
-	if(typeof urls[hash] != "undefined"){ console.log("modal key found");
-		var slashHash = hash.replace( /\./g,"/" );
-		var url = "/" + moduleId + "/" + slashHash; //urls[hash]["url"];
-		getModal(urls[hash]["what"], url); //, urls[hash]["id"])
-	}else{
-		console.log("modal key not found");
-	}
-}*/
+/**********************************************/
 </script>

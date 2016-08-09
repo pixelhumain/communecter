@@ -100,7 +100,10 @@
 	    border: 1px solid rgba(128, 128, 128, 0) !important;
 	}
 
-
+	#dropdown-multi-scope .item-tag-input.bg-red.disabled,
+	#dropdown-multi-tag .item-tag-input.bg-red.disabled{
+		background-color:#DBBCC1 !important;
+	}
 
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,

@@ -218,6 +218,7 @@ class CommunecterController extends Controller
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
         "updateprofil"      => array("href" => "/ph/communecter/person/updateprofil"),
         "updatewithjson"      => array("href" => "/ph/communecter/person/updatewithjson"),
+        "updatemultitag"      => array("href" => "/ph/communecter/person/updatemultitag"),
 
         
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),

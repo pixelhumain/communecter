@@ -12,6 +12,7 @@
 
 
 <div class="dropdown pull-left">
+
   <button class="pull-left tooltips"  data-toggle="dropdown"  id="btn-modal-multi-tag"
 	data-toggle="tooltip" data-placement="bottom" 
 	title="Mes tags favoris">
@@ -40,16 +41,28 @@
 				    <div class="label label-info label-sm block text-left" id="lbl-info-select-multi-tag"></div>
 	      		</div>
 	      		<div id="multi-tag-list" class="col-md-12 margin-top-15"></div>
+	      		<div class="col-md-12">
+		      		<hr style="margin-top: 10px; margin-bottom: 10px;">
+		      		<button class="btn btn-default" onclick="javascript:selectAllTags(true)">
+		      			<i class="fa fa-check-circle"></i>
+		      		</button>
+		      		<button class="btn btn-default" onclick="javascript:selectAllTags(false)">
+		      			<i class="fa fa-circle-o"></i>
+		      		</button>
+	      		</div>
+	      			
       		</div>
       		
       	</div>
    </ul>
 </div>
 
-
+<?php $me = Person::getById(Yii::app()->session['userId']); ?>
 <script type="text/javascript"> 
 
-var myMultiTags = new Array();
+var myMultiTags = <?php echo isset($me["multitags"]) ? json_encode($me["multitags"]) : "{}"; ?>;
+//console.log("init myMultiTags");
+//console.dir(myMultiTags);
 
 jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
@@ -63,22 +76,48 @@ jQuery(document).ready(function() {
 	loadMultiTags();
 });
 
+
+function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
+        data: {multitags : myMultiTags},
+       	dataType: "json",
+    	success: function(data){
+	    	//console.log("saveMultiTag() success");
+	    },
+		error: function(error){
+			console.log("Une erreur est survenue pendant l'enregistrement des tags");
+		}
+	});
+}
+
+
 function loadMultiTags(){
 	$.each(myMultiTags, function(key, value){
 		showTagInMultitag(key);
 	});
 }
-
-function showTagInMultitag(tagValue){ console.log("showTagInMultitag()", tagValue);
+function tagExists(tagValue){
+	return typeof myMultiTags[tagValue] != "undefined";
+}
+function selectAllTags(select){
+	$.each(myMultiTags, function(key, value){
+		 toogleTagMultitag(key, select);
+	});
+	saveMultiTag();
+}
+function showTagInMultitag(tagValue){ //console.log("showTagInMultitag()", tagValue);
 	var html = "";
-	if(myMultiTags.indexOf(tagValue) < 0){
-		var tag = myMultiTags[tagValue];
+	if(tagExists(tagValue)){
+		var faActive = myMultiTags[tagValue].active == true ? "check-circle" : "circle-o";
+		var classDisable = myMultiTags[tagValue].active == false ? "disabled" : "";
 		html = 
-		'<span class="item-tag-input bg-red" data-tag-value="'+tagValue+'">' +
+		'<span class="item-tag-input bg-red '+classDisable+'" data-tag-value="'+tagValue+'">' +
 				'<a  href="javascript:" class="item-tag-checker tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Activer/Désactiver" data-tag-value="'+tagValue+'">' +
-					'<i class="fa fa-check-circle"></i>' +
+					'<i class="fa fa-'+faActive+'"></i>' +
 				'</a>' +
 				'<span class="item-tag-name">#'+tagValue+'</span>' +
 				'<a href="javascript:" class="item-tag-deleter tooltips"' +
@@ -87,25 +126,27 @@ function showTagInMultitag(tagValue){ console.log("showTagInMultitag()", tagValu
 					'<i class="fa fa-times"></i>' +
 			'</a>' +
 		'</span>';
+		$("#multi-tag-list").append(html);
+		$(".tooltips").tooltip();
+		$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+		$(".item-tag-deleter").off().click(function(){ deleteTagInMultitag( $(this).data("tag-value")); });
+		//showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
 	}else{
 		html = "";
-		showMsgInfoMultiTag("showTagInMultitag error : ce tag n'existe pas - " + tagValue, "error");
+		//showMsgInfoMultiTag("showTagInMultitag error : ce tag n'existe pas - " + tagValue, "danger");
 	}
 	
-	$("#multi-tag-list").append(html);
-	$(".tooltips").tooltip();
-	showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
-	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
-	$(".item-tag-deleter").off().click(function(){ deleteTagInMultitag( $(this).data("tag-value")); });
+	
 }
 
 
 function addTagToMultitag(tagValue){  
 	if(tagValue == "") return;
-	if(typeof myMultiTags[tagValue] == "undefined"){
-		console.log("adding", tagValue);
-		myMultiTags[tagValue] = { active: true };
+	if(!tagExists(tagValue)){
+		//console.log("adding", tagValue);
+		myMultiTags[tagValue] = { active: "true" };
 		showTagInMultitag(tagValue);
+		saveMultiTag();
 		$("#input-add-multi-tag").val("");
 	}else{
 		showMsgInfoMultiTag("Ce tag est déjà dans votre liste", "info");
@@ -113,27 +154,33 @@ function addTagToMultitag(tagValue){
 }
 
 function deleteTagInMultitag(tagValue){ //console.log("deleteTagInMultitag(tagValue)", tagValue);
-	if(typeof myMultiTags[tagValue] != "undefined"){
+	if(tagExists(tagValue)){
 		delete myMultiTags[tagValue];
 		$("[data-tag-value="+tagValue+"]").remove();
-		showMsgInfoMultiTag("Le tag a bien été supprimé", "success");
+		saveMultiTag();
+		//showMsgInfoMultiTag("Le tag a bien été supprimé", "success");
 	}
-	console.dir(myMultiTags);
+	//console.dir(myMultiTags);
 }
 
-function toogleTagMultitag(tagValue){ //console.log("toogleTagMultitag(tagValue)", tagValue);
-	if(typeof myMultiTags[tagValue] != "undefined"){
+function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag(tagValue)", tagValue);
+	if(tagExists(tagValue)){
 		myMultiTags[tagValue].active = !myMultiTags[tagValue].active;
+		
+		if(typeof selected == "undefined") saveMultiTag();
+		else myMultiTags[tagValue].active = selected;
 		
 		if(myMultiTags[tagValue].active){
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-circle-o");
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-ckeck-circle");
+			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-check-circle");
+			$("[data-tag-value="+tagValue+"].item-tag-input").removeClass("disabled");
 		}else{
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-circle-o");
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-ckeck-circle");
+			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-check-circle");
+			$("[data-tag-value="+tagValue+"].item-tag-input").addClass("disabled");
 		}
 	}else{
-		showMsgInfoMultiTag("Ce tag n'existe pas", "danger");
+		//showMsgInfoMultiTag("Ce tag n'existe pas", "danger");
 	}
 }
 
@@ -157,34 +204,6 @@ function showMsgInfoMultiTag(msg, type){
 	if(typeof timerMsgMultitag != "undefined") clearTimeout(timerMsgMultitag);
 	timerMsgMultitag = setTimeout(function(){ $(id).off().hide(500)}, 3000);
 }
-/*function openCommonModal(hash){ console.log("search for modal key :", hash);
-	var urls = {
-		"organization.addorganizationform": { 
-			what: { 
-				title: 	"Créer une organisation",
-				icon: 	"users",
-				desc: 	""
-			},
-			//url:"organization/addorganizationform",
-			id: ""
-		},
-		"project.projectsv": { 
-			what: { 
-				title: 	"Créer un projet",
-				icon: 	"lightbulb-o",
-				desc: 	""
-			},
-			//url:"project/projectsv",
-			id: ""
-		},
-	};
 
-	if(typeof urls[hash] != "undefined"){ console.log("modal key found");
-		var slashHash = hash.replace( /\./g,"/" );
-		var url = "/" + moduleId + "/" + slashHash; //urls[hash]["url"];
-		getModal(urls[hash]["what"], url); //, urls[hash]["id"])
-	}else{
-		console.log("modal key not found");
-	}
-}*/
+
 </script>

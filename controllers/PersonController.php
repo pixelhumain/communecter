@@ -53,7 +53,8 @@ class PersonController extends CommunecterController {
           "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction',
           "updateprofil"      => 'citizenToolKit.controllers.person.UpdateProfilAction',
           "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction',
-          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction'
+          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction',
+          "updatemultitag"      => 'citizenToolKit.controllers.person.UpdateMultiTagAction',
 	    );
 	}
 
