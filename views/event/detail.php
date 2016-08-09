@@ -27,8 +27,8 @@
 									"imagesD" => $images,
 									"edit"=>$admin,
 									"openEdition"=>$openEdition
-								));
-								?>
+				));
+		?>
 		
 
 		

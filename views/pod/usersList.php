@@ -68,11 +68,11 @@
 		</div> 
 		<div class="panel-tools">
 			<?php if ( @$admin && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
-					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#element.detail.type.<?php echo $contentType ?>.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 					</a>								
 			<?php } else if ($contentType != ActionRoom::COLLECTION_ACTIONS){ ?>
-				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#element.detail.type.<?php echo $contentType ?>.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-eye"></i> <?php echo Yii::t("common","Visualize"); ?>
 					</a>								
 
@@ -87,7 +87,7 @@
 			if(@$invitedMe && !empty($invitedMe)){
 				echo "<div class='no-padding' style='border-bottom: 1px solid lightgray;margin-bottom:10px !important;'>".
 					"<div class='padding-5'>".
-						"<a href='javascript:;' onclick='loadByHash(\'#person.detail.id.".$invitedMe["invitorId"]."\')'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
+						"<a href='javascript:;' onclick='loadByHash(\'#element.detail.type.".Person::COLLECTION.".id.".$invitedMe["invitorId"]."\')'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
 						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="connectTo(\''.Event::COLLECTION.'\',\''.(string)$event["_id"].'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendee\')" data-placement="bottom" data-original-title="Go to the event">'.
 							'<i class="fa fa-check "></i> '.Yii::t("event","I go").
 						'</a>'.
@@ -154,7 +154,7 @@
 						
 					?>
 					
-						<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php echo $grayscale ?>">
+						<a href="javascript:;" onclick="loadByHash('#element.detail.type.<?php echo $e["type"] ?>.id.<?php echo $e["id"] ?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php echo $grayscale ?>">
 	
 						<?php if($e && !empty($e["profilThumbImageUrl"])) {
 							// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
@@ -180,7 +180,7 @@
 						$fontSize="font-size:14px;";
 					}
 				?>
-				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
+				<a href="javascript:;" onclick="loadByHash('#element.directory.type.<?php echo $contentType ?>.id.<?php echo $parentId ?>?tpl=directory2')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
 					<span style="line-height:50px;<?php echo $fontSize ?>">+ <?php echo $nbCommunity ?></span>
 				</a>
 				<?php } 

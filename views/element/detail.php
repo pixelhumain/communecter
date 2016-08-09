@@ -47,6 +47,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 							"localBusinessCategories" => @$localBusinessCategories,
 		    				"contextMap" => @$contextMap,
 		    				"publics" => @$public,
+							"type" => @$type,
+							"organizer" =>$organizer,
 		    				"contentKeyBase" => "profil"
 		    			);
 		    			$this->renderPartial('../pod/ficheInfoElement',$params); 

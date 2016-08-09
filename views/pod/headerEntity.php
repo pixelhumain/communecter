@@ -1,3 +1,41 @@
+<?php 
+$cssAnsScriptFilesTheme = array(
+	//X-editable
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	//DatePicker
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	
+	//DateTime Picker
+	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	//Wysihtml5
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js',
+	
+	'/assets/plugins/moment/min/moment.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js',
+	'/js/postalCode.js',
+	'/js/activityHistory.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$cssAnsScriptFilesModuleSS = array(
+	'/plugins/Chart.js/Chart.min.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
+?>
+
 <style>
 	/*.headerEntity{
 		margin-top:-10px;
@@ -104,9 +142,23 @@
 
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 				<div class="col-md-12 no-padding margin-top-15">
+					<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
+							<i class="fa fa-angle-right"></i> 
+							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
+							</a>
+					</h2>
 					<span class="lbl-entity-name">
-						<i class="fa fa-<?php echo Element::getFaIcon($type); ?>"></i> <?php echo @$entity["name"]; ?>
+						<i class="fa fa-<?php echo Element::getFaIcon($type); ?>">
+						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+								class="editable-context editable editable-click required">
+</i> <?php echo @$entity["name"]; ?>
+						</a>
 					</span>
+					<?php if($type==Event::COLLECTION && isset($element["parentId"])) {
+						$parentEvent = Event::getSimpleEventById($event["parentId"]);
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="javascript:;" onclick="loadByHash(\'#element.detail.type.'.Event::COLLECTION.'.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+					}
+					?>
 				</div>
 				<div class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
@@ -117,6 +169,38 @@
 					</span>
 				</div>
 			</div>
+			<?php if($type==Project::COLLECTION){ ?>
+			<div class="col-md-12 text-dark no-padding" style="margin-top:10px;">
+					<a  href="#" id="avancement" data-type="select" data-title="avancement" 
+						data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
+						class="entityDetails editable editable-click">
+						<?php if(isset($project["properties"]["avancement"])){ 
+							//idea => concept => Started => development => testing => mature
+							if($project["properties"]["avancement"]=="idea")
+								$val=5;
+							else if($project["properties"]["avancement"]=="concept")
+								$val=20;
+							else if ($project["properties"]["avancement"]== "started")
+								$val=40;
+							else if ($project["properties"]["avancement"] == "development")
+								$val=60;
+							else if ($project["properties"]["avancement"] == "testing")
+								$val=80;
+							else 
+								$val=100;
+							echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
+						} ?>
+					</a>
+					<?php if(isset($project["properties"]["avancement"])){ ?>
+					<progress max="100" value="<?php echo $val;?>" class="progressStyle">
+					</progress>
+					<?php } else { ?>
+					<progress max="100" value="0" class="progressStyle hide">
+					</progress>
+
+					<?php } ?>
+			</div>
+			<?php } ?>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
 				<?php echo substr(@$entity["shortDescription"], 0, 140);
 						if(strlen(@$entity["shortDescription"])>140) echo "...";
@@ -132,12 +216,14 @@
 		<div class="col-lg-3 col-md-3 col-sm-<?php echo $colXS; ?> col-xs-12 pull-right padding-10">
 			<?php if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
+				<?php if ($type==Person::COLLECTION){ ?>
 				<span class="tag label label-warning pull-right">
 					<?php echo  @$entity["gamification"]['total'] ? 
 								@$entity["gamification"]['total'] :
 								"0"; 
 					?> pts
 				</span>
+				<?php } ?>
 				<?php if(isset($entity["tags"])){ ?>
 					<?php $i=0; foreach($entity["tags"] as $tag){ if($i<6) { $i++;?>
 					<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">

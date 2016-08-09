@@ -381,7 +381,7 @@ progress[value]::-moz-progress-bar {
 					</progress>
 
 					<?php } ?>
-				</div>
+			</div>
 		</div>
 		<div class="col-sm-6 col-xs-6 text-dark padding-20" style="padding-top:0px!important;">
 			<div class="row text-dark" style="margin-top:10px !important;">
