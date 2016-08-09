@@ -19,7 +19,7 @@
 	color:white;
 }
 .scope-count{
-	left: 15px;
+	right: 8px;
     position: absolute;
     top: 4px;
 }	
@@ -27,11 +27,11 @@
 
 
 <div class="dropdown pull-left">
-  <button class="pull-left tooltips"  data-toggle="dropdown"  id="btn-modal-multi-scope"
-	data-toggle="tooltip" data-placement="bottom" 
+  <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
+	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
 	<i class="fa fa-bullseye" style=""></i>
-	<span class="scope-count topbar-badge badge animated bounceIn badge-default">0</span>
+	<span class="scope-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-scope">
       <div class="panel-body text-dark padding-bottom-10">
@@ -63,19 +63,28 @@
 						  </button>
 						</div>
 					</div>
-	      			<div class="input-group margin-bottom-10">
-				      <span class="input-group-btn">
-				        <div class="input-group-addon" type="button">
-				        	<i class="fa fa-plus"></i> <i class="fa fa-bullseye"></i>
-				        </div>
-				      </span>
-				      <input id="input-add-multi-scope" type="text" class="form-control" placeholder="Ajouter une commune ...">
-				      <span class="input-group-btn">
-				        <button class="btn btn-success btn-add-scope" type="button"><i class="fa fa-check"></i></button>
-				      </span>
-				    </div>
-				    <div class="label label-info label-sm block text-left" id="lbl-info-select-multi-scope"></div>
-	      		</div>
+	      			<div class="col-md-9 no-padding">
+			      		<div class="input-group margin-bottom-10">
+					      <span class="input-group-btn">
+					        <div class="input-group-addon" type="button">
+					        	<i class="fa fa-plus"></i> <i class="fa fa-bullseye"></i>
+					        </div>
+					      </span>
+					      <input id="input-add-multi-scope" type="text" class="form-control" placeholder="Ajouter une commune ...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-success btn-add-scope" type="button"><i class="fa fa-check"></i></button>
+					      </span>
+					    </div>
+					</div>
+					<div class="col-md-3">
+	      				<button class="btn btn-default" onclick="javascript:selectAllScopes(true)">
+		      			<i class="fa fa-check-circle"></i>
+			      		</button>
+			      		<button class="btn btn-default" onclick="javascript:selectAllScopes(false)">
+			      			<i class="fa fa-circle-o"></i>
+			      		</button>
+	      			</div>
+				</div>
 	      		<div id="multi-scope-list-city" class="col-md-12 margin-top-15">
 	      			<h4><i class="fa fa-angle-down"></i> Communes</h4>
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
@@ -92,22 +101,29 @@
 	      			<h4><i class="fa fa-angle-down"></i> Régions</h4>
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
 	      		</div>
-      		</div>
-      		
+	      		<div class="col-md-12">
+		      		<hr style="margin-top: 10px; margin-bottom: 10px;">
+		      		<div class="label label-info label-sm block text-left" id="lbl-info-select-multi-scope"></div>
+	      		</div>
+			</div>   		
       	</div>
    </ul>
 </div>
 
 
+<?php 
+	if(isset(Yii::app()->session['userId']))
+	$me = Person::getById(Yii::app()->session['userId']); 
+?>
 <script type="text/javascript"> 
 
-var myMultiScopes = new Array();
+var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? json_encode($me["multiscopes"]) : "{}"; ?>;;
 var currentScopeType = "city";
 
 jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
 
-	$(".btn-add-scope").click(function(){ console.log("btn-add-scope click()");
+	$(".btn-add-scope").click(function(){
 		addScopeToMultiscope($("#input-add-multi-scope").val())
 	});
 
@@ -117,7 +133,7 @@ jQuery(document).ready(function() {
 		currentScopeType = $(this).data("scope-type");
 		$("#btn-group-scope-type .btn-default").removeClass("active");
 		$(this).addClass("active");
-		console.log("change scope type :", currentScopeType);
+		//console.log("change scope type :", currentScopeType);
 		if(currentScopeType == "city") $('#input-add-multi-scope').attr("placeholder", "Ajouter une commune ...");
 		if(currentScopeType == "cp") $('#input-add-multi-scope').attr("placeholder", "Ajouter un code postal ...");
 		if(currentScopeType == "dep") $('#input-add-multi-scope').attr("placeholder", "Ajouter un département ...");
@@ -127,16 +143,21 @@ jQuery(document).ready(function() {
 	loadMultiScopes();
 });
 
-function saveMultiScope(){
+
+function scopeExists(scopeValue){
+	return typeof myMultiScopes[scopeValue] != "undefined";
+}
+
+function saveMultiScope(){ //console.log("saveMultiScope() try"); console.dir(myMultiScopes);
 	$.ajax({
-		url: baseUrl+"/"+moduleId+"/person/update",
-		type: 'POST',
-		data: "personId=<?php echo Yii::app()->session['userId']; ?>"+
-			  "&scopes="+scopes,
-			  
-		success: function (obj){
-			
-		},
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
+        data: {multiscopes : myMultiScopes},
+       	dataType: "json",
+    	success: function(data){
+    		showCountScope();
+	    	//console.log("saveMultiScope() success");
+	    },
 		error: function(error){
 			console.log("Une erreur est survenue pendant l'enregistrement des scopes");
 		}
@@ -148,11 +169,31 @@ function loadMultiScopes(){
 	$.each(myMultiScopes, function(key, value){
 		showScopeInMultiscope(key);
 	});
+	showCountScope();
 }
-
+function showCountScope(){
+	var count = 0; 
+	var types = new Array("city", "cp", "dep", "region");
+	$.each(myMultiScopes, function(key, value){
+		if(value.active==true) count++;
+		console.log(types.indexOf(value.type), value.type);
+		if(types.indexOf(value.type)>-1)
+			types.splice(types.indexOf(value.type), 1);
+	});
+	$.each(types, function(key, value){
+		$("#multi-scope-list-"+value).hide();
+	});
+	$(".scope-count").html(count);
+}
+function selectAllScopes(select){
+	$.each(myMultiScopes, function(key, value){
+		 toogleScopeMultiscope(key, select);
+	});
+	saveMultiScope();
+}
 function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()", scopeValue);
 	var html = "";
-	if(myMultiScopes.indexOf(scopeValue) < 0){
+	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
 		html = 
 		'<span class="item-scope-input bg-red" data-scope-value="'+scopeValue+'">' +
@@ -169,54 +210,59 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 			'</a>' +
 		'</span>';
 		$("#multi-scope-list-"+scope.type).append(html);
-		showMsgInfoMultiScope("Le scope a bien été ajouté", "success");
+		$("#multi-scope-list-"+scope.type).show();
 		$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
 		$(".item-scope-deleter").off().click(function(){ deleteScopeInMultiscope( $(this).data("scope-value")); });
+		//showMsgInfoMultiScope("Le scope a bien été ajouté", "success");
 	}else{
 		html = "";
-		showMsgInfoMultiScope("showScopeInMultiscope error : ce lieu n'existe pas - " + scopeValue, "error");
+		//showMsgInfoMultiScope("showScopeInMultiscope error : ce lieu n'existe pas - " + scopeValue, "error");
 	}
 	
 	$(".tooltips").tooltip();
-	
 }
 
 
 function addScopeToMultiscope(scopeValue){  
 	if(scopeValue == "") return;
-	if(typeof myMultiScopes[scopeValue] == "undefined"){
-		console.log("adding", scopeValue);
+	if(!scopeExists(scopeValue)){ //console.log("adding", scopeValue);
 		myMultiScopes[scopeValue] = { active: true, type: currentScopeType };
 		showScopeInMultiscope(scopeValue);
 		$("#input-add-multi-scope").val("");
 	}else{
 		showMsgInfoMultiScope("Ce lieu est déjà dans votre liste", "info");
 	}
+	saveMultiScope();
 }
 
 function deleteScopeInMultiscope(scopeValue){ //console.log("deleteScopeInMultiscope(scopeValue)", scopeValue);
-	if(typeof myMultiScopes[scopeValue] != "undefined"){
+	if(scopeExists(scopeValue)){
 		delete myMultiScopes[scopeValue];
 		$("[data-scope-value="+scopeValue+"]").remove();
+		saveMultiScope();
 	}
-	console.dir(myMultiScopes);
+	//console.dir(myMultiScopes);
 }
 
-function toogleScopeMultiscope(scopeValue){ console.log("toogleScopeMultiscope(scopeValue)", scopeValue);
-	if(typeof myMultiScopes[scopeValue] != "undefined"){
+function toogleScopeMultiscope(scopeValue, selected){ //console.log("toogleScopeMultiscope(scopeValue)", scopeValue);
+	if(scopeExists(scopeValue)){
 		myMultiScopes[scopeValue].active = !myMultiScopes[scopeValue].active;
+		
+		if(typeof selected == "undefined") saveMultiScope();
+		else myMultiScopes[scopeValue].active = selected;
 		
 		if(myMultiScopes[scopeValue].active){
 			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-circle-o");
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").addClass("fa-ckeck-circle");
+			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").addClass("fa-check-circle");
+			$("[data-scope-value="+scopeValue+"].item-scope-input").removeClass("disabled");
 		}else{
 			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").addClass("fa-circle-o");
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-ckeck-circle");
+			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-check-circle");
+			$("[data-scope-value="+scopeValue+"].item-scope-input").addClass("disabled");
 		}
 	}else{
-		showMsgInfoMultiScope("Ce lieu n'existe pas", "danger");
+		//showMsgInfoMultiScope("Ce scope n'existe pas", "danger");
 	}
-	console.dir(myMultiScopes);
 }
 
 function getMultiScopeList(){ return myMultiScopes; }

@@ -10,7 +10,7 @@
 	#dropdown-multi-tag, 
 	#dropdown-multi-scope{
 		position: absolute;
-	    top: -5px;
+	    top: 45px;
 		left: -5px;
 	    z-index: 1000;
 	    display: none;
@@ -72,14 +72,6 @@
 	}
 
 	#btn-modal-multi-scope, #btn-modal-multi-tag{
-		/*border-radius: 30px;
-		border: 0px none;
-		padding: 10px;
-		width: 40px;
-		height: 40px;
-		margin-top: 5px;
-		font-size: 15px;
-		margin-right:8px;*/
 		border-radius: 30px;
 		border: 0px none;
 		padding: 5px;
@@ -89,6 +81,16 @@
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;
+	}
+	#btn-modal-multi-scope:hover, #btn-modal-multi-tag:hover{
+		background-color: #ddd;
+	}
+
+	#btn-modal-multi-tag{
+		margin-left:10px;
+	}
+	#btn-modal-multi-scope{
+		margin-right:15px;
 	}
 
 	#dropdown-multi-scope .input-group-addon, 
@@ -100,7 +102,7 @@
 	    border: 1px solid rgba(128, 128, 128, 0) !important;
 	}
 
-	#dropdown-multi-scope .item-tag-input.bg-red.disabled,
+	#dropdown-multi-scope .item-scope-input.bg-red.disabled,
 	#dropdown-multi-tag .item-tag-input.bg-red.disabled{
 		background-color:#DBBCC1 !important;
 	}
