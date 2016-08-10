@@ -89,8 +89,19 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	                           };
 	}
     //console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
-                "indexMin" : indexMin, "indexMax" : indexMax  };
+    var data = {
+      "name" : name, 
+      "locality" : locality, 
+      "searchType" : searchType, 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchBy" : levelCommunexionName[levelCommunexion], 
+      "indexMin" : indexMin, 
+      "indexMax" : indexMax  };
 				
     loadingData = true;
     
@@ -100,9 +111,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".btn-start-search").removeClass("bg-dark");
     
     if(indexMin > 0)
-    $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+      $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     else
-    $("#dropdown_search").html("<span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span>");
+      $("#dropdown_search").html("<span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span>");
       
     if(isMapEnd)
       $.blockUI({

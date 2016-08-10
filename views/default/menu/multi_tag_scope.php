@@ -153,7 +153,7 @@ function showTagsScopesMin(htmlId){
 			    '<button class="btn btn-xs" onclick="javascript:selectAllTags(false)">' +
 			        '<i class="fa fa-circle-o"></i>' +
 			    '</button> ';
-
+	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+

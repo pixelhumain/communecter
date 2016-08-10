@@ -148,6 +148,11 @@
       	</div>
    </ul>
 </div>
+<input id="searchLocalityNAME" type="hidden" />
+<input id="searchLocalityCODE_POSTAL_INSEE" type="hidden" />
+<input id="searchLocalityDEPARTEMENT" type="hidden" />
+<input id="searchLocalityINSEE" type="hidden" />
+<input id="searchLocalityREGION" type="hidden" />
 
 
 <?php 
@@ -198,6 +203,7 @@ jQuery(document).ready(function() {
 	});
 
 	loadMultiScopes();
+	rebuildSearchScopeInput();
 });
 
 
@@ -213,6 +219,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try"); console.dir(my
        	dataType: "json",
     	success: function(data){
     		showCountScope();
+    		rebuildSearchScopeInput();
 	    	//console.log("saveMultiScope() success");
 	    },
 		error: function(error){
@@ -291,16 +298,16 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	var html = "";
 	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
-		var faActive = myMultiScopes[scopeValue].active == true ? "check-circle" : "circle-o";
-		var classDisable = myMultiScopes[scopeValue].active == false ? "disabled" : "";
+		var faActive = (myMultiScopes[scopeValue].active == true) ? "check-circle" : "circle-o";
+		var classDisable = (myMultiScopes[scopeValue].active == false) ? "disabled" : "";
 		html = 
-		'<span class="item-scope-input bg-red '+classDisable+'" data-scope-value="'+scopeValue+'">' +
+		'<span class="item-scope-input bg-red item-scope-'+scope.type+'" '+classDisable+'" data-scope-value="'+scopeValue+'">' +
 				'<a  href="javascript:" class="item-scope-checker tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Activer/Désactiver" data-scope-value="'+scopeValue+'">' +
 					'<i class="fa fa-'+faActive+'"></i>' +
 				'</a>' +
-				'<span class="item-scope-name">'+scopeValue+'</span>' +
+				'<span class="item-scope-name" >'+scopeValue+'</span>' +
 				'<a href="javascript:" class="item-scope-deleter tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Supprimer" data-scope-value="'+scopeValue+'">' +
@@ -359,6 +366,7 @@ function toogleScopeMultiscope(scopeValue, selected){ //console.log("toogleScope
 			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-check-circle");
 			$("[data-scope-value="+scopeValue+"].item-scope-input").addClass("disabled");
 		}
+		rebuildSearchScopeInput();
 	}else{
 		//showMsgInfoMultiScope("Ce scope n'existe pas", "danger");
 	}
@@ -384,5 +392,69 @@ function showMsgInfoMultiScope(msg, type){
 	if(typeof timerMsgMultiscope != "undefined") clearTimeout(timerMsgMultiscope);
 	timerMsgMultiscope = setTimeout(function(){ $(id).off().hide(500)}, 3000);
 }
+
 /**********************************************/
+
+function rebuildSearchScopeInput()
+{
+	searchLocalityNAMEs = "";
+	$.each($('.item-scope-city'), function(key, value){
+		if(!$(value).hasClass('disabled')){
+			key = $(value).data("scope-value");
+			searchLocalityNAMEs += (searchLocalityNAMEs == "") ? key :   ","+key;
+		}
+	});
+	console.log("searchLocalityNAMEs",searchLocalityNAMEs);
+	if( $("#searchLocalityNAME") )
+		$("#searchLocalityNAME").val(searchLocalityNAMEs);
+
+	searchLocalityCODE_POSTAL_INSEEs = "";
+	$.each($('.item-scope-cp'), function(key, value){
+		if(!$(value).hasClass('disabled')){
+			key = $(value).data("scope-value");
+			searchLocalityCODE_POSTAL_INSEEs += (searchLocalityCODE_POSTAL_INSEEs == "") ? key :   ","+key;
+		}
+	});
+	console.log("searchLocalityCODE_POSTAL_INSEEs",searchLocalityCODE_POSTAL_INSEEs);
+	if( $("#searchLocalityCODE_POSTAL_INSEE") )
+		$("#searchLocalityCODE_POSTAL_INSEE").val(searchLocalityCODE_POSTAL_INSEEs);
+
+	searchLocalityDEPARTEMENTs = "";
+	$.each($('.item-scope-dep'), function(key, value){
+		if(!$(value).hasClass('disabled')){
+			key = $(value).data("scope-value");
+			searchLocalityDEPARTEMENTs += (searchLocalityDEPARTEMENTs == "") ? key :   ","+key;
+		}
+	});
+	console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
+	if( $("#searchLocalityDEPARTEMENT") )
+		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
+
+	searchLocalityINSEEs = "";
+	$.each($('.item-scope-insee'), function(key, value){
+		if(!$(value).hasClass('disabled')){
+			key = $(value).data("scope-value");
+			searchLocalityINSEEs += (searchLocalityINSEEs == "") ? key :   ","+key;
+		}
+	});
+	console.log("searchLocalityINSEEs",searchLocalityINSEEs);
+	if( $("#searchLocalityINSEE") )
+		$("#searchLocalityINSEE").val(searchLocalityINSEEs);
+
+	searchLocalityREGIONs = "";
+	$.each($('.item-scope-region'), function(key, value){
+		if(!$(value).hasClass('disabled')){
+			key = $(value).data("scope-value");
+			searchLocalityREGIONs += (searchLocalityREGIONs == "") ? key :   ","+key;
+		}
+	});
+	console.log("searchLocalityREGIONs",searchLocalityREGIONs);
+	if( $("#searchLocalityREGION") )
+		$("#searchLocalityREGION").val(searchLocalityREGIONs);
+
+
+	if( typeof searchCallback == "function" )
+		searchCallback();
+}
+
 </script>

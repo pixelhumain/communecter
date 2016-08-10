@@ -53,6 +53,7 @@
 	      		<div class="col-md-12">
 		      		<hr style="margin-top: 10px; margin-bottom: 10px;">
 		      		<div class="label label-info label-sm block text-left" id="lbl-info-select-multi-tag"></div>
+		      		<input id="searchTags" type="hidden" />
 	      		</div>	      			
       		</div>    		
       	</div>
@@ -66,6 +67,7 @@
 <script type="text/javascript"> 
 
 var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ? json_encode($me["multitags"]) : "{}"; ?>;
+var searchTags = "";
 //console.log("init myMultiTags");
 //console.dir(myMultiTags);
 
@@ -79,6 +81,7 @@ jQuery(document).ready(function() {
 	$('#input-add-multi-tag').filter_input({regex:'[a-zA-Z0-9_]'}); 
 
 	loadMultiTags();
+	rebuildSearchTagInput();
 });
 
 
@@ -90,6 +93,7 @@ function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMult
        	dataType: "json",
     	success: function(data){
     		showCountTag();
+    		rebuildSearchTagInput();
 	    	//console.log("saveMultiTag() success");
 	    },
 		error: function(error){
@@ -195,6 +199,8 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-check-circle");
 			$("[data-tag-value="+tagValue+"].item-tag-input").addClass("disabled");
 		}
+		rebuildSearchTagInput();
+
 	}else{
 		//showMsgInfoMultiTag("Ce tag n'existe pas", "danger");
 	}
@@ -221,5 +227,18 @@ function showMsgInfoMultiTag(msg, type){
 	timerMsgMultitag = setTimeout(function(){ $(id).off().hide(500)}, 3000);
 }
 
+function rebuildSearchTagInput()
+{
+	searchTags = "";
+	$.each(myMultiTags, function(key, value){
+		if(value.active)
+			searchTags += (searchTags == "") ? key :   ","+key;
+	});
+	console.log("searchTags",searchTags);
+	if( $("#searchTags") )
+		$("#searchTags").val(searchTags);
 
+	if( typeof searchCallback == "function" )
+		searchCallback();
+}
 </script>

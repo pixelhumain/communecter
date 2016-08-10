@@ -122,6 +122,7 @@
       
     </div>
     <div id="list_tags_scopes" class="hidden-xs"></div>
+
   </div>
   
 
@@ -228,6 +229,11 @@ jQuery(document).ready(function() {
   //startSearch(0, 100);
 
 });
+
+function searchCallback() { 
+  console.log("searchCallback");
+  startSearch(0, 100);
+}
 </script>
 
 
