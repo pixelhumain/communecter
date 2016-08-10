@@ -80,8 +80,10 @@
             [X] discuss : create, new post
             [X] archiving
         [X] getRoomsListByActivity
+            [ ] latest DDA on city page
         [X] getRoomsActivity
             [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+
     [ ] finish fromNow method
     [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
@@ -95,7 +97,7 @@
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [ ] ajouter un scope geo sur une proposition
     [X] switcher le titre navigateur
-        [X] replacing all $(".moduleLabel").html(
+        [X] replacing all $(".moduleLabel").html
     
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecter

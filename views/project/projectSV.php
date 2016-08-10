@@ -14,7 +14,10 @@
 	'/plugins/select2/select2.min.js',
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
-	'/plugins/autosize/jquery.autosize.min.js'
+	'/plugins/autosize/jquery.autosize.min.js',
+
+	'/plugins/summernote/dist/summernote.css',
+    '/plugins/summernote/dist/summernote.min.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -210,7 +213,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<div>
 								<label for="form-field-24" class="control-label text-purple">
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
-								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
 							</div>
 					</div>
 						
@@ -424,6 +427,27 @@ function initProjectForm(el) {
 	$('.form-project .project-range-date').data('daterangepicker').setStartDate(startDate);
 	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
+	$(".wysiwygInput").summernote({
+
+				oninit: function() {
+					/*if ($(this).code() == "" || $(this).code().replace(/(<([^>]+)>)/ig, "") == "") {
+						$(this).code($(this).attr("placeholder"));
+					}*/
+				}, onfocus: function(e) {
+					/*if ($(this).code() == $(this).attr("placeholder")) {
+						$(this).code("");
+					}*/
+				}, onblur: function(e) {
+					/*if ($(this).code() == "" || $(this).code().replace(/(<([^>]+)>)/ig, "") == "") {
+						$(this).code($(this).attr("placeholder"));
+					}*/
+				}, onkeyup: function(e) {},
+				toolbar: [
+				['style', ['bold', 'italic', 'underline', 'clear']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				]
+			});
 };
 
 
