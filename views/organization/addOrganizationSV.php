@@ -134,13 +134,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 										foreach ($types as $key=>$value) {
 											$icon = "" ;
 											if($key=="NGO")
-												$icon = '<i class="fa fa-group"></i>' ;
+												$icon = '<i class="fa fa-group"></i>';
 											if($key=="LocalBusiness")
-												$icon = '<i class="fa fa-industry"></i>' ;
+												$icon = '<i class="fa fa-industry"></i>';
 											if($key=="Group")
-												$icon = '<i class="fa fa-circle"></i>' ;
+												$icon = '<i class="fa fa-circle"></i>';
 											if($key=="GovernmentOrganization")
-												$icon = '<i class="fa fa-lightbulb-o"></i>' ;
+												$icon = '<i class="fa fa-lightbulb-o"></i>';
 									?>
 										<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="<?php echo $key?>"><?php echo $icon ." ".$value ; ?></div>
 										
