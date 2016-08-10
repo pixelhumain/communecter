@@ -23,6 +23,19 @@
     position: absolute;
     top: 4px;
 }	
+#dropdown-multi-scope-found {
+	display: block;
+	margin-top: 33px;
+	width: 100%;
+	border-radius: 0px;
+	padding: 3px;
+}
+#dropdown-multi-scope-found.dropdown-menu > li > a {
+	padding: 3px 5px;
+}
+#dropdown-multi-scope-found.dropdown-menu > li > a:hover {
+	background-color: #f2d2d2;
+}
 </style>
 
 
@@ -71,9 +84,12 @@
 					        </div>
 					      </span>
 					      <input id="input-add-multi-scope" type="text" class="form-control" placeholder="Ajouter une commune ...">
-					      <span class="input-group-btn">
-					        <button class="btn btn-success btn-add-scope" type="button"><i class="fa fa-check"></i></button>
-					      </span>
+					      <div class="dropdown">
+							  <ul class="dropdown-menu" id="dropdown-multi-scope-found">
+							  	<li>hellohoho</li>
+							  </ul>
+						  </div>
+					     
 					    </div>
 					</div>
 					<div class="col-md-3">
@@ -124,10 +140,22 @@ jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
 
 	$(".btn-add-scope").click(function(){
-		addScopeToMultiscope($("#input-add-multi-scope").val())
+		addScopeToMultiscope($("#input-add-multi-scope").val());
 	});
 
+	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
+		$("#dropdown-multi-scope-found").hide();
+	});
 	$('#input-add-multi-scope').filter_input({regex:'[a-zA-Z0-9_]'}); 
+	$('#input-add-multi-scope').keyup(function(){ 
+		$("#dropdown-multi-scope-found").show();
+		if($('#input-add-multi-scope').val()!="")
+			autocompleteMultiScope();
+	});
+	$('#input-add-multi-scope').click(function(){ console.log("$('#input-add-multi-scope').click");
+		if($('#input-add-multi-scope').val()!="")
+			setTimeout(function(){$("#dropdown-multi-scope-found").show();}, 500);
+	});
 
 	$("#btn-group-scope-type .btn-default").click(function(){
 		currentScopeType = $(this).data("scope-type");
@@ -163,7 +191,45 @@ function saveMultiScope(){ //console.log("saveMultiScope() try"); console.dir(my
 		}
 	});
 }
+function autocompleteMultiScope(){
+	var scopeValue = $('#input-add-multi-scope').val();
+	$("#dropdown-multi-scope-found").html("<li><i class='fa fa-refresh fa-spin'></i></li>");
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/city/autocompletemultiscope",
+        data: {
+        		type: currentScopeType, 
+        		scopeValue: scopeValue
+        },
+       	dataType: "json",
+    	success: function(data){
+    		//console.log("autocompleteMultiScope() success");
+    		//console.dir(data);
+    		$("#dropdown-multi-scope-found").html("ok");
+    		html="";
+    		$.each(data.cities, function(key, value){
+    			if(currentScopeType == "city") { 
+    				val = value.name; 
+    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    			}; 
+    			if(currentScopeType == "cp") { 
+    				val = value.postalCodes[0].postalCode; 
+    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    			}; 
+    			if(currentScopeType == "dep") 	{ val = value; lbl = value }; 
+    			if(currentScopeType == "region"){ val = value; lbl = value }; 
 
+    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\")'>"+lbl+"</a></li>";
+    		});
+    		$("#dropdown-multi-scope-found").html(html);
+    		
+	    },
+		error: function(error){
+    		$("#dropdown-multi-scope-found").html("error");
+			console.log("Une erreur est survenue pendant autocompleteMultiScope");
+		}
+	});
+}
 /**********************************************/
 function loadMultiScopes(){
 	$.each(myMultiScopes, function(key, value){
@@ -225,14 +291,15 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 
 function addScopeToMultiscope(scopeValue){  
 	if(scopeValue == "") return;
-	if(!scopeExists(scopeValue)){ //console.log("adding", scopeValue);
+	if(!scopeExists(scopeValue)){ console.log("adding", scopeValue);
 		myMultiScopes[scopeValue] = { active: true, type: currentScopeType };
 		showScopeInMultiscope(scopeValue);
 		$("#input-add-multi-scope").val("");
+		saveMultiScope();
 	}else{
 		showMsgInfoMultiScope("Ce lieu est déjà dans votre liste", "info");
 	}
-	saveMultiScope();
+	$("#dropdown-multi-scope-found").hide();
 }
 
 function deleteScopeInMultiscope(scopeValue){ //console.log("deleteScopeInMultiscope(scopeValue)", scopeValue);
