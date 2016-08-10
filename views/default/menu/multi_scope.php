@@ -86,7 +86,6 @@
 					      <input id="input-add-multi-scope" type="text" class="form-control" placeholder="Ajouter une commune ...">
 					      <div class="dropdown">
 							  <ul class="dropdown-menu" id="dropdown-multi-scope-found">
-							  	<li>hellohoho</li>
 							  </ul>
 						  </div>
 					     
@@ -135,8 +134,12 @@
 
 var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? json_encode($me["multiscopes"]) : "{}"; ?>;;
 var currentScopeType = "city";
+var timeoutAddScope;
 
 jQuery(document).ready(function() {
+
+	$("#dropdown-multi-scope-found").hide();
+
 	$('ul.dropdown-menu').click(function(){ return false });
 
 	$(".btn-add-scope").click(function(){
@@ -149,8 +152,10 @@ jQuery(document).ready(function() {
 	$('#input-add-multi-scope').filter_input({regex:'[a-zA-Z0-9_]'}); 
 	$('#input-add-multi-scope').keyup(function(){ 
 		$("#dropdown-multi-scope-found").show();
-		if($('#input-add-multi-scope').val()!="")
-			autocompleteMultiScope();
+		if($('#input-add-multi-scope').val()!=""){
+			if(typeof timeoutAddScope != "undefined") clearTimeout(timeoutAddScope);
+			timeoutAddScope = setTimeout(function(){ autocompleteMultiScope(); }, 500);
+		}
 	});
 	$('#input-add-multi-scope').click(function(){ console.log("$('#input-add-multi-scope').click");
 		if($('#input-add-multi-scope').val()!="")
