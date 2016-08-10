@@ -69,8 +69,8 @@
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
   ** @Tib 
-    [ ] wisiwig sur les desc de form create
-        [ ] markdown editor
+    [X] wisiwig sur les desc de form create
+    [ ] markdown editor sur les desc de form create
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
     [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 

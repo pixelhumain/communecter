@@ -909,7 +909,7 @@ function  bindTags() {
 
 			showTagInMultitag(tag);
 			$('#btn-modal-multi-tag').trigger("click");
-			$('.tags-count').html($(".item-tag-name").length);
+			$('.tags-count').html( $(".item-tag-name").length );
 			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
 		} else {
 			toastr.error("must be loggued");

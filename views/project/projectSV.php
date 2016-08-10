@@ -44,8 +44,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		display: none;
 	}
 
-
-
 /* design alpha tango*/
 .main-col-search{
 	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-purple.png");
@@ -91,6 +89,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .input-icon > input {
     padding-left: 25px;
     padding-right: 6px;
+}
+.noteWrap .note-editor .note-editable{
+	background-color: rgba(255, 255, 255, 1) url("../images/line_detail.png") repeat scroll 0 0;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 </style>
 
@@ -218,13 +221,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 						
 				</div>
-				<?php if(!isset(Yii::app()->session["userEmail"])){?>
-				<div class="col-md-12">
-					<div class="form-group">
-						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
-					</div>
-				</div>
-				<?php } 
+				
+				<?php 
 				if( Yii::app()->session['userId'] ){ ?>
 				<div class= "row col-xs-12">
 					<button class="pull-right btn bg-purple" onclick="$('.form-event').submit();"><i class="fa fa-save"></i> Enregistrer</button>
@@ -428,26 +426,12 @@ function initProjectForm(el) {
 	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
 	$(".wysiwygInput").summernote({
-
-				oninit: function() {
-					/*if ($(this).code() == "" || $(this).code().replace(/(<([^>]+)>)/ig, "") == "") {
-						$(this).code($(this).attr("placeholder"));
-					}*/
-				}, onfocus: function(e) {
-					/*if ($(this).code() == $(this).attr("placeholder")) {
-						$(this).code("");
-					}*/
-				}, onblur: function(e) {
-					/*if ($(this).code() == "" || $(this).code().replace(/(<([^>]+)>)/ig, "") == "") {
-						$(this).code($(this).attr("placeholder"));
-					}*/
-				}, onkeyup: function(e) {},
-				toolbar: [
-				['style', ['bold', 'italic', 'underline', 'clear']],
-				['color', ['color']],
-				['para', ['ul', 'ol', 'paragraph']],
-				]
-			});
+		toolbar: [
+		['style', ['bold', 'italic', 'underline', 'clear']],
+		['color', ['color']],
+		['para', ['ul', 'ol', 'paragraph']],
+		]
+	});
 };
 
 

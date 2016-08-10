@@ -5,11 +5,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/summernote/dist/summernote.css',
+    '/plugins/summernote/dist/summernote.min.js'
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -97,11 +94,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	width: 924px;
 	min-height: 250px !important;
 }
-
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
+}
 </style>
-<?php 
-$this->renderPartial('../default/panels/toolbar');  
-?>
+
 <div id="addOrganization" >
 	
 	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
@@ -259,7 +258,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<label for="form-field-24" class="control-label text-dark">
 										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 									</label>
-									<textarea  class="form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<textarea  class="wysiwygInput form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -302,10 +301,13 @@ jQuery(document).ready(function() {
 		//$('#type option[value="'+val+'"]').prop('selected', true);
 	});
 
-	/*var editor = new wysihtml5.Editor('description', {
-	    toolbar: 'toolbar',
-	    parserRules:  wysihtml5ParserRules
-	});*/
+	$(".wysiwygInput").summernote({
+		toolbar: [
+		['style', ['bold', 'italic', 'underline', 'clear']],
+		['color', ['color']],
+		['para', ['ul', 'ol', 'paragraph']],
+		]
+	});
 
 });
 

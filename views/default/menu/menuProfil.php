@@ -43,7 +43,7 @@
         </a>
       </li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="javascript:getModal({'title':'toto'},'/communecter/event/eventsv');">
+        <a href="javascript:;" onclick="loadByHash('#event.eventsv')">
           <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
           <?php echo Yii::t("person","Create an event"); ?>
         </a>
