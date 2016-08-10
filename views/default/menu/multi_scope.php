@@ -2,19 +2,19 @@
 
 <style type="text/css">
 
-#btn-group-scope-type .btn-secondary{
+.btn-group-scope-type .btn-secondary{
 	font-size:12px;
 	/*border-right: 2px solid rgb(191, 191, 191);*/
 }
-#btn-group-scope-type .btn-group > .btn:last-child:not(:first-child), 
-#btn-group-scope-type .btn-group > .dropdown-toggle:not(:first-child){
+.btn-group-scope-type .btn-group > .btn:last-child:not(:first-child), 
+.btn-group-scope-type .btn-group > .dropdown-toggle:not(:first-child){
 	border-right: 0px solid transparent !important;
 }
-#btn-group-scope-type .btn-secondary:focus{
+.btn-group-scope-type .btn-secondary:focus{
 	background-color: #E33551;
 	color:white;
 }	
-#btn-group-scope-type .btn-secondary.active{
+.btn-group-scope-type .btn-secondary.active{
 	background-color: #E33551;
 	color:white;
 }
@@ -54,7 +54,7 @@
 	      				<i class="fa fa-angle-down"></i> <i class="fa fa-bullseye"></i> Mes <strong>lieux</strong> favoris
 	      			</h3>
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
-	      			<div class="btn-group  btn-group-justified margin-bottom-10" role="group" id="btn-group-scope-type">
+	      			<div class="btn-group  btn-group-justified margin-bottom-10 hidden-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
 						  <button type="button" class="btn btn-default active" data-scope-type="city">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
@@ -65,6 +65,30 @@
 						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
 						  </button>
 						</div>
+						<div class="btn-group btn-group-justified">
+						  <button type="button" class="btn btn-default" data-scope-type="dep">
+						  	<strong><i class="fa fa-bullseye"></i></strong>Département
+						  </button>
+						</div>
+						<div class="btn-group btn-group-justified">
+						  <button type="button" class="btn btn-default" data-scope-type="region">
+						  	<strong><i class="fa fa-bullseye"></i></strong>Région
+						  </button>
+						</div>
+					</div>
+	      			<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
+						<div class="btn-group btn-group-justified">
+						  <button type="button" class="btn btn-default active" data-scope-type="city">
+						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
+						  </button>
+						</div>
+						<div class="btn-group btn-group-justified">
+						  <button type="button" class="btn btn-default" data-scope-type="cp">
+						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
+						  </button>
+						</div>
+					</div>
+					<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
 						  <button type="button" class="btn btn-default" data-scope-type="dep">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Département
@@ -162,9 +186,9 @@ jQuery(document).ready(function() {
 			setTimeout(function(){$("#dropdown-multi-scope-found").show();}, 500);
 	});
 
-	$("#btn-group-scope-type .btn-default").click(function(){
+	$(".btn-group-scope-type .btn-default").click(function(){
 		currentScopeType = $(this).data("scope-type");
-		$("#btn-group-scope-type .btn-default").removeClass("active");
+		$(".btn-group-scope-type .btn-default").removeClass("active");
 		$(this).addClass("active");
 		//console.log("change scope type :", currentScopeType);
 		if(currentScopeType == "city") $('#input-add-multi-scope').attr("placeholder", "Ajouter une commune ...");

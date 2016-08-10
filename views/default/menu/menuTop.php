@@ -84,6 +84,9 @@
 	#main-btn-co{
 		margin-right:0px;
 	}
+	button.btn-menu-notif{
+		margin-right: -10px;
+	}
 }
 </style>
 
@@ -93,7 +96,7 @@
 		<i class="fa fa-bars fa-2x"></i>
 	</a>
 
-	<a class="pull-left tooltips" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
+	<a class="pull-left tooltips hidden-xs" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
 		data-toggle="tooltip" data-placement="bottom" 
 		title="Lire la documentation" 
 		alt="Lire la documentation">

@@ -127,7 +127,7 @@ width: 100%;
 			    </a>
 		    </div>
 			<?php } ?>	
-			<div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 				<a class="btn bg-dark visible-xs" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
 			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
 			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
@@ -137,25 +137,25 @@ width: 100%;
 			        Notifications
 			    </a>
 			</div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>')">
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
-		     <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+		     <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 			    <a class="btn bg-dark" href="javascript:loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2')">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
 			        <i class="fa fa-rss" style="font-size: 1em!important;"></i> 
 			        Actus réseau
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 			    <a class="btn bg-dark" 
 			    	href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 

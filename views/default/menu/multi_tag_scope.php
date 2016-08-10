@@ -36,6 +36,8 @@
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
+	    max-height: 610px;
+		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,
 	#dropdown-multi-scope input.form-control {
@@ -113,6 +115,23 @@
 			width: 100% !important;
 			min-width: 100% !important;
 			max-width: 100% !important;	
+		}
+		#dropdown-multi-tag, 
+		#dropdown-multi-scope{
+			left: 0px;
+			right: 0px;
+			position: fixed;
+			min-width: 100% !important;
+			width: 100% !important;
+			max-width: 100% !important;
+			max-height: 85%;
+			min-height: 85%;
+		}
+		#btn-modal-multi-tag{
+			margin-left:0px;
+		}
+		#btn-modal-multi-scope{
+			margin-right:5px;
 		}
 	}
 </style>
