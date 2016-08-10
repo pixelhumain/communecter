@@ -26,15 +26,9 @@
   [ ] repertoire
 
 * Version 0.15 (31/08/2016) : En cours
-[ ] interface ND
-  [ ] menu
-  [ ] left bar , filter
+
   [ ] one input add
   [ ] dashboard activité 
-  [ ] multi scope 
-  [ ] search and filter tag engine
-  [ ] DDA Ideas : 
-    [ ] Journal d'activités du DDA
   [ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
@@ -63,14 +57,20 @@
         [ ] evenement récurent
         [ ] cronJob
   ** @Tango 
+    [ ] interface ND
+        [ ] menu
+        [X] multi scope 
+        [X] multi tags
     [ ] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
   ** @Tib 
+    [ ] search and filter tag engine
     [X] wisiwig sur les desc de form create
-    [ ] markdown editor sur les desc de form create
+    [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
+        - not activated globaly because front end isn't ready
     [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
         [X] only when loggued
     [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
@@ -83,7 +83,8 @@
             [ ] latest DDA on city page
         [X] getRoomsActivity
             [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
-
+    [X] switcher le titre navigateur
+        [X] replacing all $(".moduleLabel").html
     [ ] finish fromNow method
     [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
@@ -96,9 +97,6 @@
         [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [ ] ajouter un scope geo sur une proposition
-    [X] switcher le titre navigateur
-        [X] replacing all $(".moduleLabel").html
-    
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecter
   ** @Sylvain
