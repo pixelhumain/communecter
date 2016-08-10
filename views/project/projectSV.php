@@ -17,7 +17,10 @@
 	'/plugins/autosize/jquery.autosize.min.js',
 
 	'/plugins/summernote/dist/summernote.css',
-    '/plugins/summernote/dist/summernote.min.js'
+    '/plugins/summernote/dist/summernote.min.js',
+
+    //'/plugins/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css',
+    //'/plugins/toopay-bootstrap-markdown/js/bootstrap-markdown.js',
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -91,7 +94,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
     padding-right: 6px;
 }
 .noteWrap .note-editor .note-editable{
-	background-color: rgba(255, 255, 255, 1) url("../images/line_detail.png") repeat scroll 0 0;
+	background-color: white;
     border: 1px solid #aaa;
     padding: 5px;
 }
@@ -217,6 +220,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 								<label for="form-field-24" class="control-label text-purple">
 								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
 								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+
 							</div>
 					</div>
 						
@@ -432,6 +436,7 @@ function initProjectForm(el) {
 		['para', ['ul', 'ol', 'paragraph']],
 		]
 	});
+	//$(".mdInput").markdown({autofocus:false,savable:false})
 };
 
 
