@@ -11,7 +11,7 @@
 </style>
 
 
-<div class="dropdown pull-left">
+<div class="dropdown pull-left" id="dropdown-content-multi-tag">
 
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-tag"
 	data-toggle="tooltip" data-placement="right" 
@@ -112,6 +112,7 @@ function showCountTag(){
 		if(value.active==true) count++;
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
+	showTagsScopesMin("#list_tags_scopes");
 }
 function tagExists(tagValue){
 	return typeof myMultiTags[tagValue] != "undefined";
@@ -159,7 +160,7 @@ function addTagToMultitag(tagValue){
 	if(tagValue == "") return;
 	if(!tagExists(tagValue)){
 		//console.log("adding", tagValue);
-		myMultiTags[tagValue] = { active: "true" };
+		myMultiTags[tagValue] = { active: true };
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");

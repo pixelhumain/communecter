@@ -239,7 +239,7 @@ width: 100%;
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('project.projectsv');" class="btn bg-purple">
+						<a href="javascript:" onclick="loadByHash('project.projectsv');" class="btn bg-purple">
 							<i class="fa fa-lightbulb-o"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet

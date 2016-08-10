@@ -53,7 +53,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 /* design alpha tango*/
-#ajax-modal .modal-body{
+.main-col-search{
 	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-green.png");
 	background-size:100%;
 	background-repeat: no-repeat;

@@ -141,6 +141,56 @@
 
 
 <script>
+
+jQuery(document).ready(function() {
+	
+});
+
+function showTagsScopesMin(htmlId){
+	var html =  '<button class="btn btn-xs" onclick="javascript:selectAllTags(true)">' +
+			        '<i class="fa fa-check-circle"></i>' +
+			    '</button> ' +
+			    '<button class="btn btn-xs" onclick="javascript:selectAllTags(false)">' +
+			        '<i class="fa fa-circle-o"></i>' +
+			    '</button> ';
+
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+"'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
+		        '<i class="fa fa-check-circle"></i>' +
+		    '</button> ' +
+		    '<button class="btn btn-xs" onclick="javascript:selectAllScopes(false)">' +
+		        '<i class="fa fa-circle-o"></i>' +
+		    '</button> ';
+	$.each(myMultiScopes, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
+					"class='text-red "+disabled+"'>" + 
+					"<i class='fa fa-bullseye'></i> " + key + 
+				"</span> ";
+	});
+	$(htmlId).html(html);
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+		//else
+		//$("#dropdown-content-multi-tag").removeClass('open');
+	});
+	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-scope").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+		//else
+		//dropdown-content-multi-scope").removeClass('open');
+	});
+}
+
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {
 		"organization.addorganizationform": { 

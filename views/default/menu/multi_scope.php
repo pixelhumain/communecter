@@ -39,7 +39,7 @@
 </style>
 
 
-<div class="dropdown pull-left">
+<div class="dropdown pull-left" id="dropdown-content-multi-scope">
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
@@ -279,6 +279,7 @@ function showCountScope(){
 		$("#multi-scope-list-"+value).hide();
 	});
 	$(".scope-count").html(count);
+	showTagsScopesMin("#list_tags_scopes");
 }
 function selectAllScopes(select){
 	$.each(myMultiScopes, function(key, value){
@@ -290,12 +291,14 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	var html = "";
 	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
+		var faActive = myMultiScopes[scopeValue].active == true ? "check-circle" : "circle-o";
+		var classDisable = myMultiScopes[scopeValue].active == false ? "disabled" : "";
 		html = 
-		'<span class="item-scope-input bg-red" data-scope-value="'+scopeValue+'">' +
+		'<span class="item-scope-input bg-red '+classDisable+'" data-scope-value="'+scopeValue+'">' +
 				'<a  href="javascript:" class="item-scope-checker tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Activer/Désactiver" data-scope-value="'+scopeValue+'">' +
-					'<i class="fa fa-check-circle"></i>' +
+					'<i class="fa fa-'+faActive+'"></i>' +
 				'</a>' +
 				'<span class="item-scope-name">'+scopeValue+'</span>' +
 				'<a href="javascript:" class="item-scope-deleter tooltips"' +

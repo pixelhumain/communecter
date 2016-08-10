@@ -102,7 +102,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     if(indexMin > 0)
     $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     else
-    $("#dropdown_search").html("<center><span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
+    $("#dropdown_search").html("<span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span>");
       
     if(isMapEnd)
       $.blockUI({
@@ -201,29 +201,38 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                   //template principal
-                  str += "<div class='col-md-12 searchEntity'>";
-  	                str += "<div class='col-md-5 col-sm-4 entityLeft'>";
-  	                	if(userId != null){
-    	                	isFollowed=false;
-    	                	if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="city" && id != userId && userId != null && userId != "")
-            						str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                							'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
-                							" data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                								"</a>";
-            					}
-          						str += tags;
-  						
-  	                str += "</div>";
+                  str += "<div class='col-md-12 searchEntity no-padding'>";
 
-  	                str += "<div class='col-md-2 col-sm-2 entityCenter'>";
-  						      str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
+                    
+                    if(userId != null){
+                        isFollowed=false;
+                        str += "<div class='col-md-1 col-sm-1 col-xs-1'>";
+                        if(typeof o.isFollowed != "undefined" ) isFollowed=true;
+                        if(type!="city" && id != userId && userId != null && userId != ""){
+                        str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                              'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+                              " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                                  "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                                "</a>";
+                        }
+                        str += '</div>';
+                      }
+
+                    
+  	                str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
+
+                    str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
   	                str += "</div>";
   					         target = "";
-  	                str += "<div class='col-md-5 col-sm-5 entityRight no-padding'>";
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
-  	                	if(fullLocality != "" && fullLocality != " ")
+
+                     
+
+                      
+  	                str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+  	                	
+                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+                      
+                      if(fullLocality != "" && fullLocality != " ")
   	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
   	                	if(startDate != null)
   	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
@@ -231,7 +240,15 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
   	                	if(description != "")
   	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
-  	                str += "</div>";
+  	                //str += "</div>";
+
+                    //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
+                      
+                      str += tags;
+              
+                    str += "</div>";
+
+                    
   	                					
   				        str += "</div>";
               }); //end each
