@@ -175,6 +175,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                  // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
                   var url = '#' + type + '.detail.id.' + id + '';
                   var onclick = 'loadByHash("' + url + '");';
+
                   var onclickCp = "";
                   var target = " target='_blank'";
                   var dataId = "";

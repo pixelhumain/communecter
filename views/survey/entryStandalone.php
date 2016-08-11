@@ -46,8 +46,7 @@
 	  $nameList = (strlen($room["name"])>20) ? substr($room["name"],0,20)."..." : $room["name"];
 	  $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ) ? 
 	  ' <i class="fa fa-caret-right"></i> '.
-	  '<a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" '.
-	 	 'onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$room["_id"].'\')">'.
+	  '<a class="filter btn  btn-xs btn-primary Helvetica lbh" href="#survey.editEntry.survey.'.(string)$room["_id"].'">'.
 	  	'<i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).
 	  '</a>' 
 	  : '';

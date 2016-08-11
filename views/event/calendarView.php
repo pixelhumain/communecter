@@ -339,7 +339,7 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft lbh" href="#event.detail.id.'+currentEvent["_id"]["$id"]+'">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+

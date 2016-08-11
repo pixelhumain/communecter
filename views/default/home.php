@@ -448,12 +448,12 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</h1>
 		</div>
 		<div class="col-md-12 hidden" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead center"><a href="javascript:loadByHash('#default.view.page.crowdfunding')"  class="text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
+			<h1 class="homestead center"><a href="#default.view.page.crowdfunding"  class="lbh text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
 		
 
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
-			<a href="javascript:loadByHash('#default.view.page.index.dir.docs')">
+			<a href="#default.view.page.index.dir.docs" class="lbh">
 				<h1 class="homestead text-white center">
 					<i class="fa fa-book fa-2x"></i> Documentation
 				</h1>
@@ -493,7 +493,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	
 	<div class="col-sm-12 no-padding " style="max-width:100%; float:left;">
 		<div class="col-md-12 bg-dark" style="width:100%;padding:8px 0px 8px 0%;">
-			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.explain')">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
+			<h1 class="homestead center text-white"><a href="#default.view.page.explain" class="lbh">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
 		</div>
 	</div>
 	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
@@ -532,7 +532,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 	<div class="col-sm-12 no-padding" style="background-color:#E33551; max-width:100%; float:left;" id="teamSection">
 		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
-			<h1 class="homestead center text-white"><a href="javascript:loadByHash('#default.view.page.partners')">Partenaires & Contributeurs</a> <i class="fa fa-share-alt fa-2x"></i></h1>
+			<h1 class="homestead center text-white"><a href="#default.view.page.partners" class="lbh">Partenaires & Contributeurs</a> <i class="fa fa-share-alt fa-2x"></i></h1>
 		</div>
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
@@ -544,14 +544,14 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				Nous sommes en amélioration continue, cette plateforme est open source et construite de façon collaborative.
 				<h3 class="homestead">Rejoignez nous : </h3>
 
-				<a href="javascript:loadByHash('#showTagOnMap.tag.developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a>
+				<a href="#showTagOnMap.tag.developpeur" data-id="explainDeveloper"  class="lbh btn btn-default text-bold">Développeurs</a>
 				<a href="javascript:showTagOnMap ('#communecteur')" data-id="explainCommunecteur" class=" btn btn-default text-bold">Communecteurs</a>
 				<a href="javascript:showTagOnMap ('#editeur')" data-id="explainEditor" class=" btn btn-default text-bold">Editeurs </a>
 				<a href="javascript:showTagOnMap ('#designeur')" data-id="explainDesigner" class=" btn btn-default text-bold">Designeur </a>
 				<a href="javascript:showTagOnMap ('#contributeur')" data-id="explainContributor" class=" btn btn-default text-bold">Contributeurs</a>
 				<div class="space20"></div>
-				<a href="javascript:loadByHash('#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>');" class=" btn btn-default text-bold">Association Open Atlas</a>
-				<a href="javascript:loadByHash('#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>')"  class="btn btn-default text-bold">Projet Communecter</a>
+				<a href="#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>" class="lbh btn btn-default text-bold">Association Open Atlas</a>
+				<a href="#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>"  class="lbh btn btn-default text-bold">Projet Communecter</a>
 			</div>
 		</center>
 		<div class="space20"></div>
@@ -571,8 +571,8 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
-			<br/><a href="javascript:loadByHash('#default.view.page.mention');" >Mentions Légales</a>
-			<br/><a href="javascript:loadByHash('#default.view.page.partners');" >Partenaires</a>
+			<br/><a href="#default.view.page.mention" class="lbh" >Mentions Légales</a>
+			<br/><a href="#default.view.page.partners" class="lbh">Partenaires</a>
 		<center>
 	</div>
 </div>

@@ -10,7 +10,7 @@
 		<?php if (isset($isDetailView)){ ?>
 			<?php foreach ($attending as $member) { 
 			?>
-				<a href="javascript:;" onclick="loadByHash( '#person.detail.id.<?php echo $member['_id']?>')" title="<?php echo $member["name"];?>" class="btn block text-left">
+				<a href="#person.detail.id.<?php echo $member['_id']?>" title="<?php echo $member["name"];?>" class="lbh btn block text-left">
 				<?php if($member && isset($member["imagePath"])) { ?>
 					<img width="30" height="30"  alt="image" class="" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/30x30'.$member['imagePath']) ?>"></td>
 				<?php } else{ ?>

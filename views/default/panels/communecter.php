@@ -39,27 +39,27 @@
 			<div class="col-sm-6">
 				Connected Cities
 				<br/>
-				<a href="javascript:;" onclick="loadByHash('#city.detail.insee.97408')" class="text-red btn btn-xs btn-default">La Possession</a> 
-				<a href="javascript:;" onclick="loadByHash('#city.detail.insee.97414')" class="text-red btn btn-xs btn-default">St Louis</a> 
-				<a href="javascript:;" onclick="loadByHash('#city.detail.insee.97411')" class="text-red btn btn-xs btn-default">Camélias</a> 
+				<a href="#city.detail.insee.97408" class="lbh text-red btn btn-xs btn-default">La Possession</a> 
+				<a href="#city.detail.insee.97414" class="lbh text-red btn btn-xs btn-default">St Louis</a> 
+				<a href="#city.detail.insee.97411" class="lbh text-red btn btn-xs btn-default">Camélias</a> 
 			</div>
 			<div class="col-sm-6">
 				Connected People
 				<br/>
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Tango</a> 
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Maroual</a> 
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Mr Green</a> 
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Oceatoon</a> 
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Jeronimo</a> 
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Dori</a>
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Rap pha</a>
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Xabi</a>
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Pierrot</a>
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Pif</a>     
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Chlorofib</a>    
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">JR</a>   
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Costa</a>   
-				<a href="javascript:;" onclick="loadByHash('#person.detail.id.97411')" class="text-red btn btn-xs btn-default">Ontologist</a>   
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Tango</a> 
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Maroual</a> 
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Mr Green</a> 
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Oceatoon</a> 
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Jeronimo</a> 
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Dori</a>
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Rap pha</a>
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Xabi</a>
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Pierrot</a>
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Pif</a>     
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Chlorofib</a>    
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">JR</a>   
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Costa</a>   
+				<a href="#person.detail.id.97411" class="lbh text-red btn btn-xs btn-default">Ontologist</a>   
 			</div>
 		</div>
 		

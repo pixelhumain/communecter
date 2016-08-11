@@ -365,7 +365,7 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success margin-top-10" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+				<button class="btn btn-success margin-top-10 lbh" data-hash="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>">
 					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
@@ -376,19 +376,19 @@
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 			</h1>
-			<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+			<button class="btn bg-yellow lbh" data-hash="#person.invite">
 				<i class="fa fa-user"></i>
 				<span class="lbl-btn-menu-name-add">quelqu'un</span>
 			</button>
-			<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+			<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
 				<i class="fa fa-group"></i>
 				<span class="lbl-btn-menu-name-add">une organisation</span>
 			</button>
-			<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+			<button class="btn bg-purple lbh" data-hash="#project.projectsv">
 				<i class="fa fa-lightbulb-o"></i>
 				<span class="lbl-btn-menu-name-add">un projet</span>
 			</button>
-			<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+			<button class="btn bg-orange lbh" data-hash="#event.eventsv">
 				<i class="fa fa-calendar"></i>
 				<span class="lbl-btn-menu-name-add">un événement</span>
 			</button>

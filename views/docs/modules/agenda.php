@@ -82,7 +82,7 @@
 
 	    </div>
 		<div class="center col-md-12">
-			<button onclick="loadByHash('#event.eventsv');" class="btn bg-orange"><i class="fa fa-calendar-plus-o"></i> Ajouter un événement</button><br>
+			<button data-hash="#event.eventsv" class="btn bg-orange lbh" ><i class="fa fa-calendar-plus-o"></i> Ajouter un événement</button><br>
 			<label>Vous organisez un événement ? Partagez-le dans l'agenda ! </label>
 		</div>
     </div>

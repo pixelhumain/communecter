@@ -67,7 +67,10 @@
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
   ** @Tib 
-    [ ] search and filter tag engine
+    [X] reparer le click du milieu
+        - en mettant simplement notre hash dans le href
+    [ ] refactor links.loadByHash + chemin dans href
+    [X] search and filter tag engine
     [X] wisiwig sur les desc de form create
     [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
         - not activated globaly because front end isn't ready

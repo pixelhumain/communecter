@@ -216,7 +216,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 							<div>
 								<h3 class="text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <a href="javascript:;" onclick="activateSummernote('#description')" class="btnEditAdv pull-right">Éditeur avancé</a>
 								</h3>
 								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
 
@@ -267,6 +266,10 @@ jQuery(document).ready(function() {
  	});
 
  	setTitle("Créer un projet","<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i>");
+
+ 	$(".wysiwygInput").off().on("focus", function(){
+	 	activateSummernote('#description');
+	 });
 });
 
 function bindProjectSubViewProjects() {

@@ -425,7 +425,7 @@ border: 1px solid #E4E4E4;
     ?>
     
       <?php 
-      $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']) ) ?  '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#rooms.editAction.room.'.(string)$room["_id"].'\')"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>' : '';
+      $extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$room['parentType'],$room['parentId']) ) ?  '<i class="fa fa-caret-right"></i> <a class="filter btn btn-xs btn-primary Helvetica lbh" href="#rooms.editAction.room.'.(string)$room["_id"].'"> <i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add an Action', null, Yii::app()->controller->module->id).'</a>' : '';
 
       if(!isset($_GET["renderPartial"])){
         $this->renderPartial('../rooms/header',array(    
@@ -435,9 +435,9 @@ border: 1px solid #E4E4E4;
                               "fromView" => "rooms.actions",
                               "faTitle" => "cogs",
                               "colorTitle" => "azure",
-                              "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3\")'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
+                              "textTitle" => "<a class='text-dark btn' href='#rooms.index.type.".$room['parentType'].".id.".$room['parentId'].".tab.3'><i class='fa fa-cogs'></i> ".Yii::t("rooms","Actions", null, Yii::app()->controller->module->id)."</a>".
                               " / ".
-                              "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.actions.id.".$room["_id"]."\")'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
+                              "<a class='text-dark btn' href='#rooms.actions.id.".$room["_id"]."'><i class='fa fa-cogs'></i> ".$room["name"]."</a>".$extraBtn
                              
                               )); 
         echo '<div class="col-md-12 panel-white padding-15" id="room-container">';

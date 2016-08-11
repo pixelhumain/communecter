@@ -255,7 +255,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<div>
 									<h3 class="text-dark">
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <a href="javascript:;" onclick="activateSummernote('#description')" class="btnEditAdv pull-right">Éditeur avancé</a>
 								</h3>
 									<textarea  class="wysiwygInput form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
@@ -298,9 +297,12 @@ jQuery(document).ready(function() {
 		$("#type").val(val);
 		console.log("TYPE : ", val);
 		//$('#type option[value="'+val+'"]').prop('selected', true);
+		
 	});
 
-	
+	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#description');
+		 });
 });
 
 

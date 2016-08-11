@@ -354,7 +354,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				
 				<h3 class="text-dark">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-					<a href="javascript:;" onclick="activateSummernote('#eventDetail')" class="btnEditAdv pull-right">Éditeur avancé</a>
 				</h3>
                         
 					<div class="form-group">
@@ -410,6 +409,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		initMyOrganization();
 	 	runEventFormValidation();
 	 	setTitle("<?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> ");
+	 	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#eventDetail');
+		 });
 	});
 
 	function runShowCity(searchValue) {

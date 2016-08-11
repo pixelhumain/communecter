@@ -91,13 +91,13 @@ $moduleId = Yii::app()->controller->module->id;
 		<div class="panel-heading border-light bg-azure">
 			<h4 class="panel-title">
 				<?php if($surveyOpen){ ?>
-					<a href="javascript:" onclick="loadByHash('#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>');" class="text-white-hover homestead">
+					<a href="#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>" class="lbh text-white-hover homestead">
 						<i class="fa fa-connectdevelop"></i> 
 						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
 					</a>
 					<?php if($canParticipate){ ?>
-						<a  href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" 
-							class="text-white pull-right helvetica tooltips"
+						<a  href="#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>" 
+							class="text-white pull-right helvetica tooltips lbh"
 							data-toggle="tooltip" data-placement="left" title="Créer un nouvel espace"
 						> 
 							<i class="fa fa-plus-circle"></i> nouveau
