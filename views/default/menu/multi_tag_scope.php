@@ -109,6 +109,11 @@
 		background-color:#DBBCC1 !important;
 	}
 
+	.toggle-tag-dropdown,
+	.toggle-scope-dropdown{
+		cursor:pointer;
+	}
+
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -147,35 +152,30 @@ jQuery(document).ready(function() {
 });
 
 function showTagsScopesMin(htmlId){
-	var html =  '<button class="btn btn-xs" onclick="javascript:selectAllTags(true)">' +
-			        '<i class="fa fa-check-circle"></i>' +
-			    '</button> ' +
-			    '<button class="btn btn-xs" onclick="javascript:selectAllTags(false)">' +
-			        '<i class="fa fa-circle-o"></i>' +
-			    '</button> ';
+	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
+			        //'<i class="fa fa-cogs"></i>' +
+			//    '</button> ';
 	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
-					"class='text-red "+disabled+"'>" + 
+					"class='text-red "+disabled+" toggle-tag-dropdown'>" + 
 					"#" + key + 
 				"</span> ";
 	});
 	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
-	html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
-		        '<i class="fa fa-check-circle"></i>' +
-		    '</button> ' +
-		    '<button class="btn btn-xs" onclick="javascript:selectAllScopes(false)">' +
-		        '<i class="fa fa-circle-o"></i>' +
-		    '</button> ';
+	// html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
+	// 	        '<i class="fa fa-cogs"></i>' +
+	// 	    '</button> ';
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
-					"class='text-red "+disabled+"'>" + 
+					"class='text-red "+disabled+" toggle-scope-dropdown'>" + 
 					"<i class='fa fa-bullseye'></i> " + key + 
 				"</span> ";
 	});
 	$(htmlId).html(html);
+
 	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);

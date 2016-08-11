@@ -312,7 +312,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //$(".my-main-container").scrollTop(95);
                 }
                 //remet l'icon "loupe" du bouton search
-                $(".btn-start-search").html("<i class='fa fa-search'></i>");
+                $(".btn-start-search").html("<i class='fa fa-refresh'></i>");
                 $.unblockUI();
 				        showMap(false);
                 
