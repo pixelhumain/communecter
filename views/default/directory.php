@@ -31,7 +31,10 @@
   .lbl-scope-list {
     top: 255px;
   }
-
+  .btn-tag{
+    font-weight:300;
+    padding-left: 0px;
+  }
   #list_tags_scopes span.text-red.disabled{
     color:#DBBCC1 !important;
   }

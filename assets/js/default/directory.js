@@ -91,7 +91,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     //console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {
       "name" : name, 
-      "locality" : locality, 
+      "locality" : "",//locality, 
       "searchType" : searchType, 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
@@ -172,8 +172,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
                   if(type=="citoyen") type = "person";
-                  var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
+                 // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
+                  var url = '#' + type + '.detail.id.' + id + '';
+                  var onclick = 'loadByHash("' + url + '");';
                   var onclickCp = "";
                   var target = " target='_blank'";
                   var dataId = "";
@@ -189,7 +190,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a> ";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag'>#" + value + "</a> ";
   		              });
                   }
 

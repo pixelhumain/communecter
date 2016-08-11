@@ -301,7 +301,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 		var faActive = (myMultiScopes[scopeValue].active == true) ? "check-circle" : "circle-o";
 		var classDisable = (myMultiScopes[scopeValue].active == false) ? "disabled" : "";
 		html = 
-		'<span class="item-scope-input bg-red item-scope-'+scope.type+'" '+classDisable+'" data-scope-value="'+scopeValue+'">' +
+		'<span class="item-scope-input bg-red item-scope-'+scope.type+' '+classDisable+'" data-scope-value="'+scopeValue+'">' +
 				'<a  href="javascript:" class="item-scope-checker tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Activer/Désactiver" data-scope-value="'+scopeValue+'">' +
