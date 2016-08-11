@@ -60,6 +60,9 @@
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
+    [X] Bug 
+      [X] voteUp voteDown
+      [X] Recherche sur le département
   ** @Tango 
     [ ] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
