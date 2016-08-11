@@ -1,13 +1,13 @@
 <style>
 	@media screen and (min-width: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
-    	max-width: 28% !important;
+    	max-width: 19% !important;
 	}
 
 }
-@media screen and (min-width: 900px) and (max-width: 1130px) {
+@media screen and (min-width: 920px) and (max-width: 1130px) {
 	.main-top-menu .moduleLabel {
-    	max-width: 50% !important;
+    	max-width: 32% !important;
 	}
 }
 

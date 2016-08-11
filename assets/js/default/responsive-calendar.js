@@ -165,7 +165,8 @@
         var items = "";
         var startDate = "";
 
-        console.log("allDayEvents", allDayEvents);
+        console.log("allDayEvents");
+        console.dir(allDayEvents);
         
         $.each(allDayEvents, function(key, dayEvents){
 
@@ -174,7 +175,7 @@
               var item = "<li>";
               var imgProfil = "<i class='badge bg-orange fa fa-calendar'></i>";
               if (dayEvents.thumb_url != "") {
-                      imgProfil = "<img class='badge bg-orange' src='"+dayEvents.thumb_url+"'>"; 
+                  imgProfil = "<img class='badge bg-orange' src='"+dayEvents.thumb_url+"'>"; 
               }
               item += "<a href='javascript:' onclick='"+action+"' class=''>" +
                         imgProfil + 
@@ -189,11 +190,19 @@
           countEvent++;
          });
 
-         var dropdown =     '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown"><span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
-                            ' <span class="caret"></span></button>'+
-                            '<ul class="dropdown-menu date'+startDate+'">'+
-                              items +
-                            '</ul>';
+         var align = "pull-right";
+         var d = new Date(startDate);
+         var numDay = d.getDay();
+         console.log("ce jour est le "+numDay+" de la semaine");
+         if(numDay>0&&numDay<4) align = "pull-left";
+         var dropdown =     
+            '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown">'+
+              '<span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
+              ' <span class="caret"></span>'+
+            '</button>'+
+            '<ul class="'+align+' dropdown-menu date'+startDate+'">'+
+              items +
+            '</ul>';
 
         dropdown = $(dropdown);
         day.append(dropdown);

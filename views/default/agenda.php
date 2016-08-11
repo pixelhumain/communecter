@@ -51,9 +51,13 @@
     }
   }
 
+/*responsive calendar*/
+
+
+
 @media screen and (max-width: 767px) {
   .searchEntity{
-        margin-left: 25px !important;
+        /*margin-left: 25px !important;*/
   }
   #searchBarText{
     font-size:13px !important;
@@ -67,6 +71,29 @@
 }
 
 </style>
+
+
+<div class="row calendar"></div>
+<div class="responsive-calendar-init hidden"> 
+  <div class="responsive-calendar col-md-12 no-padding">   
+      <div class="day-headers">
+        <div class="day header">Lun</div>
+        <div class="day header">Mar</div>
+        <div class="day header">Mer</div>
+        <div class="day header">Jeu</div>
+        <div class="day header">Ven</div>
+        <div class="day header">Sam</div>
+        <div class="day header">Dim</div>
+      </div>
+      <div class="days" data-group="days"></div>   
+      <div class="controls">
+          <a id="btn-month-before" class="" data-go="prev"><div class="btn"><i class="fa fa-arrow-left"></i></div></a>
+          <h4 class="text-white"><span data-head-month></span> <span data-head-year></span></h4>
+          <a id="btn-month-next" class="" data-go="next"><div class="btn"><i class="fa fa-arrow-right"></i></div></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="col-md-12">
   <div class="col-md-12 no-padding margin-top-15">
@@ -100,33 +127,9 @@
 
 </div>
 
-<div class="col-md-12 no-padding calendar"></div>
-
-<div class="responsive-calendar-init hidden"> 
-  <div class="responsive-calendar col-md-12">
-      <div class="controls ">
-        <a id="btn-month-before" class="" data-go="prev"><div class="btn"><i class="fa fa-arrow-left"></i></div></a>
-        <h4 class="text-dark"><span data-head-month></span> <span data-head-year></span></h4>
-        <a id="btn-month-next" class="" data-go="next"><div class="btn"><i class="fa fa-arrow-right"></i></div></a>
-    </div>
-      <hr/>
-      <div class="day-headers">
-        <div class="day header">Lun</div>
-        <div class="day header">Mar</div>
-        <div class="day header">Mer</div>
-        <div class="day header">Jeu</div>
-        <div class="day header">Ven</div>
-        <div class="day header">Sam</div>
-        <div class="day header">Dim</div>
-      </div>
-      <div class="days" data-group="days"></div>
-    </div>
-    <!-- Responsive calendar - END -->
-  </div>
-</div>
 
 
-<div style="" class="col-md-12 col-sm-12 col-xs-12 margin-top-15" id="dropdown_search"></div>
+<div style="" class="col-sm-12 col-xs-12 no-padding no-margin" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 

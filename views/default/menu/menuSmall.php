@@ -119,7 +119,7 @@ width: 100%;
 
 
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-			<div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 			    <a class="btn bg-dark-red" 
 			    	href="javascript:loadByHash('#admin.index')">
 			        <i class="fa fa-user-secret" style="font-size: 1em!important;"></i> 

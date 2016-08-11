@@ -47,7 +47,7 @@
 
 @media screen and (max-width: 767px) {
   .searchEntity{
-        margin-left: 25px !important;
+        /*margin-left: 25px !important;*/
   }
   #searchBarText{
     font-size:13px !important;

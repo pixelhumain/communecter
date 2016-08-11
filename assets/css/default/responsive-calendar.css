@@ -1,5 +1,10 @@
+.responsive-calendar{
+  background-color: rgb(42, 59, 68);
+  margin-top: -10px;
+}
 .responsive-calendar .controls {
-  text-align: center;
+  text-align: left;
+  padding-left:15px;
 }
 .responsive-calendar .controls a {
   cursor: pointer;
@@ -26,28 +31,32 @@
   position: relative;
   font-size: 14px;
   width: 14.285714285714286%;
-  height:70px;
-  text-align: center;
-  border: 1px solid white;
-  border-radius: 6px;
+  height: 43px;
+  text-align: left;
+  border: 1px solid rgba(45, 45, 45, 0.83);
+  border-radius: 0px;
+  padding: 10px;
+  border-top: 0px;
+  border-right: 0px;
 }
 .responsive-calendar .day .dayNum {
-  color: #3C5665;
+  color: #EAEAEA;
   display: block;
   cursor: pointer;
-  /*padding: 33% 0 5% 0;*/
-  font-family: "homestead";
-  font-size: 20px;
+  font-size: 17px;
 }
 .responsive-calendar .day a:hover {
   background-color: #eee;
   text-decoration: none;
 }
 .responsive-calendar .day.header {
-  border-bottom: 1px gray solid;
+  border-bottom: 1px #4a4a4a solid;
+  background-color: rgba(0, 0, 0, 0.29);
+  color: white;
+  font-weight: 600;
 }
 .responsive-calendar .day.active {
-  background-color: #fbbb8d;
+  background-color: #6c4b34;
   bottom:0px;
   z-index:1;
   /*color: #ffffff;*/
@@ -55,9 +64,9 @@
 
 .responsive-calendar .day.active .btn{
   position: absolute;
-  left:10%;
-  width:80%;
+  right: 4px;
   border-radius: 30px;
+  top: 4px;
 }
 .responsive-calendar .day.active .not-current {
   background-color: #8fcaef;
@@ -92,3 +101,20 @@
   padding-left:30px;
 }
 
+#btn-month-before.btn:hover, 
+#btn-month-next.btn:hover{
+  color:white !important;
+}
+
+@media screen and (max-width: 767px) {
+  .responsive-calendar .day.active .btn {
+      position: absolute;
+      right: 0px;
+      border-radius: 0px;
+      top: 1px;
+      padding: 9px 4px;
+      width: 100%;
+      background-color: transparent !important;
+      text-align: right;
+  }
+}

@@ -214,7 +214,7 @@
 
 </style>
 
-
+<div class="hidden-xs">
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
 <button class="bg-red btn-scope btn-scope-niv-4 tooltips" level="4"
@@ -223,6 +223,7 @@
 		data-toggle="tooltip" data-placement="top" title="Niveau 3 : Déparement" alt="Niveau 3 : Département" ></button>
 <button class="bg-red btn-scope btn-scope-niv-2 tooltips" level="2"
 		data-toggle="tooltip" data-placement="top" title="Niveau 2 : Code postal" alt="Niveau 2 : Code postal" ></button>
+</div>
 
 <button class="menu-button menu-button-title bg-red tooltips hidden-xs btn-param-postal-code btn-scope-niv-1"
 		data-toggle="tooltip" data-placement="top" title="Niveau 1 :  Commune" alt="Niveau 1 : Commune" >

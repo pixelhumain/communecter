@@ -31,7 +31,7 @@ display: inline;
   font-weight:600;
 }
 @media screen and (max-width: 1024px) {
-  button.btn-start-search {
+  /*button.btn-start-search {
     margin-top: -40px;
     margin-left: 47%;
     color: white;
@@ -49,7 +49,7 @@ display: inline;
   }
   #newsHistory #timeline {
     margin-top: -50px;
-  }
+  }*/
 }
 </style>
 
@@ -80,7 +80,7 @@ display: inline;
   </div>
 </div>
 
-<div class="col-md-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
+<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
   <div class="btn-group inline-block" id="menu-directory-type">
     <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="News" type="news">
       <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">News</span>
@@ -110,7 +110,7 @@ display: inline;
 
 
 <div class="" id="dropdown_search"></div>
-<div class="col-md-12" id="newsstream"></div>
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="newsstream"></div>
 
 
 <script type="text/javascript">
