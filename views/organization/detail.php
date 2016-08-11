@@ -43,7 +43,7 @@
 					<hr>
 					<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
 			        	<h1 class="text-azure text-left homestead no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <span class="text-small helvetica">(activité récente)</span> <i class='fa fa-sign-in'></i> 
+			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> <span class="text-small helvetica">(activité récente)</span>
 			        	</h1>
 			        </a>
 			    </div>

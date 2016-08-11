@@ -190,7 +190,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag'>#" + value + "</a> ";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag' data-tag-value='"+value+"'>#" + value + "</a> ";
   		              });
                   }
 
@@ -247,11 +247,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       if(fullLocality != "" && fullLocality != " ")
   	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
   	                	if(startDate != null)
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
+  	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
   	                	if(endDate != null)
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
+  	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	if(description != "")
-  	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
+  	                	str += "<div class='entityDescription'>" + description + "</div>";
   	                //str += "</div>";
 
                     //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
@@ -309,6 +309,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 }else{
                   //on affiche le résultat à l'écran
                   $("#dropdown_search").html(str);
+
+                  if(typeof myMultiTags != "undefined"){
+                    $.each(myMultiTags, function(key, value){ console.log("binding bold "+key);
+                      $("[data-tag-value="+key+"].btn-tag").addClass("bold");
+                    });
+                  }
+                  
                   //on scroll pour coller le haut de l'arbre au menuTop
                   //$(".my-main-container").scrollTop(95);
                 }

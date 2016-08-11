@@ -109,9 +109,10 @@
 		background-color:#DBBCC1 !important;
 	}
 
-	.toggle-tag-dropdown,
-	.toggle-scope-dropdown{
+	.item-scope-checker,
+	.item-tag-checker{
 		cursor:pointer;
+		font-weight: 600 !important;
 	}
 
 	@media screen and (max-width: 767px) {
@@ -159,7 +160,7 @@ function showTagsScopesMin(htmlId){
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
-					"class='text-red "+disabled+" toggle-tag-dropdown'>" + 
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
 					"#" + key + 
 				"</span> ";
 	});
@@ -170,12 +171,16 @@ function showTagsScopesMin(htmlId){
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
-					"class='text-red "+disabled+" toggle-scope-dropdown'>" + 
+					"class='text-red "+disabled+" item-scope-checker' data-scope-value='"+ key + "'>" + 
 					"<i class='fa fa-bullseye'></i> " + key + 
 				"</span> ";
 	});
+
 	$(htmlId).html(html);
 
+	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+	
 	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);

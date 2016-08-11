@@ -35,8 +35,12 @@
     font-weight:300;
     padding-left: 0px;
   }
+  .btn-tag.bold{
+    font-weight:600;
+  }
   #list_tags_scopes span.text-red.disabled{
     color:#DBBCC1 !important;
+    font-weight:300 !important;
   }
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
@@ -80,16 +84,19 @@
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
       <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
       <span class="input-group-btn">
-            <button class="btn btn-success btn-start-search" id="btn-start-search"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+                    data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+                    <i class="fa fa-refresh"></i>
+            </button>
       </span>
     </div>
     <button class="btn btn-sm tooltips hidden-xs" id="btn-slidup-scopetags" 
             style="margin-left:15px;margin-top:5px;"
             data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
-            <i class="fa fa-filter"></i>
+            <i class="fa fa-minus"></i>
     </button>
     <button data-id="explainDirectory" class="explainLink btn btn-sm tooltips hidden-xs" 
-            style="margin-left:15px;margin-top:5px;"
+            style="margin-left:7px;margin-top:5px;"
             data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
           <i class="fa fa-question-circle"></i>
     </button>
@@ -169,10 +176,14 @@ jQuery(document).ready(function() {
 
 	$('.main-btn-toogle-map').click(function(e){ showMap(); });
   $("#btn-slidup-scopetags").click(function(){
-    if($("#list_filters").hasClass("hidden"))
+    if($("#list_filters").hasClass("hidden")){
       $("#list_filters").removeClass("hidden");
-    else
+      $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+    }
+    else{
       $("#list_filters").addClass("hidden");
+      $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+    }
   });
 
   showTagsScopesMin("#list_tags_scopes");
