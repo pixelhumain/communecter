@@ -77,7 +77,7 @@
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
       <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
       <span class="input-group-btn">
-            <button class="btn btn-success btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button>
+            <button class="btn btn-success btn-start-search" id="btn-start-search"><i class="fa fa-refresh"></i></button>
       </span>
     </div>
     <button class="btn btn-sm tooltips hidden-xs" id="btn-slidup-scopetags" 
@@ -181,11 +181,11 @@ jQuery(document).ready(function() {
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé
       loadingData = false;
-      startSearch(0, 100);
+      startSearch(0, indexStepInit);
   });
 
   $('#link-start-search').click(function(e){
-      startSearch(0, 100);
+      startSearch(0, indexStepInit);
   });
 
   $(".my-main-container").scroll(function(){
@@ -232,7 +232,7 @@ jQuery(document).ready(function() {
 
 function searchCallback() { 
   console.log("searchCallback");
-  startSearch(0, 100);
+  startSearch(0, indexStepInit);
 }
 </script>
 

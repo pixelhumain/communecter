@@ -29,7 +29,7 @@
 	//if($cpCommunexion != "" && $cityNameCommunexion != "")
 	//$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	
-	error_log("1---menuLeft Cookie address : ". $cityNameCommunexion);
+	//error_log("1---menuLeft Cookie address : ". $cityNameCommunexion);
 	
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){

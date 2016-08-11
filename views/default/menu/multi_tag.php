@@ -187,9 +187,11 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 	if(tagExists(tagValue)){
 		myMultiTags[tagValue].active = !myMultiTags[tagValue].active;
 		
-		if(typeof selected == "undefined") saveMultiTag();
-		else myMultiTags[tagValue].active = selected;
+		if(typeof selected != "undefined") 
+			myMultiTags[tagValue].active = selected;
 		
+		saveMultiTag();
+
 		if(myMultiTags[tagValue].active){
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-circle-o");
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-check-circle");
@@ -199,7 +201,8 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-check-circle");
 			$("[data-tag-value="+tagValue+"].item-tag-input").addClass("disabled");
 		}
-		rebuildSearchTagInput();
+		
+		//rebuildSearchTagInput();
 
 	}else{
 		//showMsgInfoMultiTag("Ce tag n'existe pas", "danger");
@@ -238,7 +241,7 @@ function rebuildSearchTagInput()
 	if( $("#searchTags") )
 		$("#searchTags").val(searchTags);
 
-	if( typeof searchCallback == "function" )
-		searchCallback();
+	//if( typeof searchCallback == "function" )
+	//	searchCallback();
 }
 </script>

@@ -453,8 +453,8 @@ function rebuildSearchScopeInput()
 		$("#searchLocalityREGION").val(searchLocalityREGIONs);
 
 
-	if( typeof searchCallback == "function" )
-		searchCallback();
+	//if( typeof searchCallback == "function" )
+		//searchCallback();
 }
 
 </script>

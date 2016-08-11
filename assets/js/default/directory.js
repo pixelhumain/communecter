@@ -1,5 +1,5 @@
 
-var indexStepInit = 100;
+var indexStepInit = 30;
 var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
@@ -9,7 +9,7 @@ var totalData = 0;
 var timeout = null;
 
 function startSearch(indexMin, indexMax){
-    //console.log("startSearch", indexMin, indexMax, indexStep);
+    console.log("startSearch", indexMin, indexMax, indexStep);
 
     if(loadingData) return;
     loadingData = true;
@@ -130,7 +130,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
              //signal que le chargement est terminé
             loadingData = false;     
           },
-          success: function(data){
+          success: function(data){ console.log("success autocomplete search"); //console.dir(data);
             if(!data){ toastr.error(data.content); }
             else
             {
@@ -154,9 +154,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                   
-                  htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+                  var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
                  	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                    htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                   }
 
                   city="";
@@ -172,7 +172,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
                   if(type=="citoyen") type = "person";
-                  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+                  var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
                   var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
                   var onclickCp = "";
                   var target = " target='_blank'";
@@ -189,7 +189,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
+  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a> ";
   		              });
                   }
 
@@ -217,7 +217,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
                     if(userId != null){
                         isFollowed=false;
-                        str += "<div class='col-md-1 col-sm-1 col-xs-1'>";
+                        str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
                         if(type!="city" && id != userId && userId != null && userId != ""){
                         str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
@@ -267,7 +267,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               if(str == "") { 
 	              $.unblockUI();
 	              showMap(false);
-                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
+                  $(".btn-start-search").html("<i class='fa fa-refresh'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer   
                     var msg = "Aucun résultat";    
@@ -460,5 +460,5 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearch(0, 100);
+    startSearch(0, indexStepInit);
   }
