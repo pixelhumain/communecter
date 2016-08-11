@@ -16,9 +16,6 @@
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
 	'/plugins/autosize/jquery.autosize.min.js',
 
-	'/plugins/summernote/dist/summernote.css',
-    '/plugins/summernote/dist/summernote.min.js',
-
     //'/plugins/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css',
     //'/plugins/toopay-bootstrap-markdown/js/bootstrap-markdown.js',
 );
@@ -217,8 +214,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 					<div class="form-group col-md-12">
 							<div>
-								<label for="form-field-24" class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
+								<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <a href="javascript:;" onclick="activateSummernote('#description')" class="btnEditAdv pull-right">Éditeur avancé</a>
+								</h3>
 								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
 
 							</div>
@@ -429,13 +428,7 @@ function initProjectForm(el) {
 	$('.form-project .project-range-date').data('daterangepicker').setStartDate(startDate);
 	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
-	$(".wysiwygInput").summernote({
-		toolbar: [
-		['style', ['bold', 'italic', 'underline', 'clear']],
-		['color', ['color']],
-		['para', ['ul', 'ol', 'paragraph']],
-		]
-	});
+	
 	//$(".mdInput").markdown({autofocus:false,savable:false})
 };
 

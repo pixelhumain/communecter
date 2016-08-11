@@ -14,8 +14,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-select/bootstrap-select.min.css',
 	'/plugins/bootstrap-select/bootstrap-select.min.js',
 
-	'/plugins/summernote/dist/summernote.css',
-    '/plugins/summernote/dist/summernote.min.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -354,7 +352,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 			<div class="col-md-12">
 				
-				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
+				<h3 class="text-dark">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+					<a href="javascript:;" onclick="activateSummernote('#eventDetail')" class="btnEditAdv pull-right">Éditeur avancé</a>
+				</h3>
                         
 					<div class="form-group">
 						<textarea name="eventDetail" id="eventDetail" class="wysiwygInput eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
@@ -504,15 +505,43 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			data : countries,
 		});
 
-		$(".wysiwygInput").summernote({
-			toolbar: [
-			['style', ['bold', 'italic', 'underline', 'clear']],
-			['color', ['color']],
-			['para', ['ul', 'ol', 'paragraph']],
-			]
-		});
+		
 	};
-
+	function activateSummernote(elem) { 
+		
+		if( $('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+		{
+			$("<link/>", {
+			   rel: "stylesheet",
+			   type: "text/css",
+			   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+			}).appendTo("head");
+			$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+			  console.log( data ); // Data returned
+			  console.log( textStatus ); // Success
+			  console.log( jqxhr.status ); // 200
+			  console.log( "Load was performed." );
+			  
+			  $(".btnEditAdv").hide();
+			  $(elem).summernote({
+					toolbar: [
+						['style', ['bold', 'italic', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+					]
+				});
+			});
+		} else {
+			$(".btnEditAdv").hide();
+			$(elem).summernote({
+					toolbar: [
+						['style', ['bold', 'italic', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+					]
+			});
+		}
+	}
 	//validate new event form
 	function runEventFormValidation(el) {
 		console.log("runEventFormValidation");

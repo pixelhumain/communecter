@@ -924,4 +924,38 @@ function  bindExplainLinks() {
 	 });
 }
 
-
+function activateSummernote(elem) { 
+		
+		if( $('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+		{
+			$("<link/>", {
+			   rel: "stylesheet",
+			   type: "text/css",
+			   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+			}).appendTo("head");
+			$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+			  console.log( data ); // Data returned
+			  console.log( textStatus ); // Success
+			  console.log( jqxhr.status ); // 200
+			  console.log( "Load was performed." );
+			  
+			  $(".btnEditAdv").hide();
+			  $(elem).summernote({
+					toolbar: [
+						['style', ['bold', 'italic', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+					]
+				});
+			});
+		} else {
+			$(".btnEditAdv").hide();
+			$(elem).summernote({
+					toolbar: [
+						['style', ['bold', 'italic', 'underline', 'clear']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+					]
+			});
+		}
+	}

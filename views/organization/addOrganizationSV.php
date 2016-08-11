@@ -5,8 +5,6 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
-	'/plugins/summernote/dist/summernote.css',
-    '/plugins/summernote/dist/summernote.min.js'
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -255,9 +253,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<label for="form-field-24" class="control-label text-dark">
-										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-									</label>
+									<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?> <a href="javascript:;" onclick="activateSummernote('#description')" class="btnEditAdv pull-right">Éditeur avancé</a>
+								</h3>
 									<textarea  class="wysiwygInput form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
@@ -301,14 +300,7 @@ jQuery(document).ready(function() {
 		//$('#type option[value="'+val+'"]').prop('selected', true);
 	});
 
-	$(".wysiwygInput").summernote({
-		toolbar: [
-		['style', ['bold', 'italic', 'underline', 'clear']],
-		['color', ['color']],
-		['para', ['ul', 'ol', 'paragraph']],
-		]
-	});
-
+	
 });
 
 
