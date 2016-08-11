@@ -114,7 +114,10 @@
 		cursor:pointer;
 		font-weight: 600 !important;
 	}
-
+	#list_tags_scopes span.text-red.disabled{
+	    color:#DBBCC1 !important;
+	    font-weight:300 !important;
+	  }
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{

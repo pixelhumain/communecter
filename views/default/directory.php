@@ -38,10 +38,7 @@
   .btn-tag.bold{
     font-weight:600;
   }
-  #list_tags_scopes span.text-red.disabled{
-    color:#DBBCC1 !important;
-    font-weight:300 !important;
-  }
+  
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
@@ -64,19 +61,6 @@
 }
 
 </style>
-
-<!-- <h1 class="homestead text-dark text-center" id="main-title"
-	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-search"></i> Recherche</h1>
-
-<h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉE</span></h1> -->
-
-<!-- <div class="lbl-scope-list text-red"></div> -->
-
-<!-- <button class="menu-button btn-menu btn-menu-top bg-azure tooltips main-btn-toogle-map"
-		data-toggle="tooltip" data-placement="right" title="Carte">
-		<i class="fa fa-map-marker"></i>
-</button> -->
 
 <div class="col-md-12">
   <div class="col-md-12 no-padding margin-top-15">
@@ -101,9 +85,6 @@
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
-
-  
-  
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
     <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
@@ -135,15 +116,13 @@
 
   </div>
   
-
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
 
 </div>
 
-
 <div style="" class="col-md-12 col-sm-12 col-xs-12 margin-top-15" id="dropdown_search"></div>
 
-<?php $this->renderPartial(@$path."first_step_directory"); ?> 
+<?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 
 <script type="text/javascript">
 
@@ -174,7 +153,6 @@ jQuery(document).ready(function() {
 	
   $('.tooltips').tooltip();
 
-	$('.main-btn-toogle-map').click(function(e){ showMap(); });
   $("#btn-slidup-scopetags").click(function(){
     if($("#list_filters").hasClass("hidden")){
       $("#list_filters").removeClass("hidden");
@@ -187,10 +165,6 @@ jQuery(document).ready(function() {
   });
 
   showTagsScopesMin("#list_tags_scopes");
-	// $('#searchBarText').keyup(function(e){
- //      clearTimeout(timeoutSearch);
- //      timeoutSearch = setTimeout(function(){ startSearch(0, 100); }, 800);
- //  });
   
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé
@@ -198,9 +172,9 @@ jQuery(document).ready(function() {
       startSearch(0, indexStepInit);
   });
 
-  $('#link-start-search').click(function(e){
-      startSearch(0, indexStepInit);
-  });
+  // $('#link-start-search').click(function(e){
+  //     startSearch(0, indexStepInit);
+  // });
 
   $(".my-main-container").scroll(function(){
     if(!loadingData && !scrollEnd){
@@ -238,10 +212,8 @@ jQuery(document).ready(function() {
   //  toogleCommunexion();
   //});
 
-
   //initBtnScopeList();
   //startSearch(0, 100);
-
 });
 
 function searchCallback() { 

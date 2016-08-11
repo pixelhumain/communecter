@@ -354,6 +354,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               scrollEnd = false;
             }
 
+            if(typeof showResultInCalendar != "undefined")
+              showResultInCalendar(mapElements);
             //affiche les éléments sur la carte
             Sig.showMapElements(Sig.map, mapElements);
           }
