@@ -76,7 +76,12 @@
   ** @Tib 
     [X] script devlog pour ajouter updated sur les anciennes data 
     [ ] demarrage dashboard 
+        [ ] live controller 
+            [ ] not connected > shows live , public information 
+            [ ] 
         [ ] switcher de home a dashB
+        [ ] latest DDA on city page
+        [ ] element activity
     [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
     [X] refactor links.loadByHash + chemin dans href
@@ -93,7 +98,6 @@
             [X] discuss : create, new post
             [X] archiving
         [X] getRoomsListByActivity
-            [ ] latest DDA on city page
         [X] getRoomsActivity
             [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
     [X] switcher le titre navigateur
@@ -103,15 +107,17 @@
         - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
-    [ ] DDA 
-        [ ] remettre le contexte sur la room dans mon DDA
+    [ ] wisiwig sur les commentaires
+    [ ] DDA
+        [ ] bug : sur archiver , persiste dans les listes 
+        [X] remettre le contexte sur la room dans mon DDA
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
         [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [ ] ajouter un scope geo sur une proposition
     [ ] checkout Mention
-    [ ] globaliser le system de Tokens et utilisation API Communecter
+    [ ] globaliser le system de Tokens et utilisation API Communecte
   ** @Sylvain
     [ ] ajouter updated on login
     [ ] mailing
@@ -119,8 +125,13 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
-    
-
+    ** @Thomas communEvent
+        [ ] mettre en PROD 
+        [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
+        [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
+        [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
+        [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
+        [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA

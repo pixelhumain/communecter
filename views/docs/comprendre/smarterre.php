@@ -182,7 +182,7 @@
 	<div class="col-md-12 no-padding" id="valueSection" style="width:100%; float:left;">
 		
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
-			<a href="javascript:loadByHash('#default.view.page.index.dir.docs')">
+			<a href="#default.view.page.index.dir.docs" class="lbh ">
 				<h1 class="homestead text-white center">
 					<i class="fa fa-book fa-2x"></i> Coopération et Transition
 				</h1>

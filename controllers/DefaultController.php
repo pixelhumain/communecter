@@ -35,19 +35,22 @@ class DefaultController extends CommunecterController {
   }
   public function actionAgenda() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("agenda");
+  }
+
+  public function actionLive() 
+  {
+    
+    $this->renderPartial("live");
   }
 
   public function actionNews() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("news");
   }
 
   public function actionDirectory() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("directory");
   }
 
