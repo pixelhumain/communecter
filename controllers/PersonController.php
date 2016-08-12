@@ -50,10 +50,11 @@ class PersonController extends CommunecterController {
           'checklinkmailwithuser'   => 'citizenToolKit.controllers.person.CheckLinkMailWithUserAction',
           'validateinvitation' => 'citizenToolKit.controllers.person.ValidateInvitationAction',
           'getuseridbymail'   => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
-          "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction',
+          "updatesettings"    => 'citizenToolKit.controllers.person.UpdateSettingsAction',
           "updateprofil"      => 'citizenToolKit.controllers.person.UpdateProfilAction',
           "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction',
-          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction'
+          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction',
+          'get'              => 'citizenToolKit.controllers.person.GetAction',
 	    );
 	}
 
