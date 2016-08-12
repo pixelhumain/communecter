@@ -230,7 +230,6 @@ function buildLineHTML(newsObj,idSession,update)
 		});
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
-
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if(((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
 	{

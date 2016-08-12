@@ -236,6 +236,8 @@ class CommunecterController extends Controller
         "data"                    => array("href" => "/person/scopes"),
         "directory"               => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"My Directory", "subTitle"=>"My Network : People, Organizations, Events"),
         
+
+        "get"      => array("href" => "/ph/communecter/person/get"),
     ),
     "organization"=> array(
       "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",
@@ -265,6 +267,7 @@ class CommunecterController extends Controller
       "detail"              => array("href"=>"/ph/communecter/organization/detail", "public" => true),
       "addmember"           => array("href"=>"/ph/communecter/organization/addmember"),
       "updatesettings"      => array('href'=>"/ph/communecter/organization/updatesettings"),
+      "get"                 => array("href" => "/ph/communecter/organization/get"),
     ),
     "event"=> array(
       "save"            => array("href" => "/ph/communecter/event/save"),

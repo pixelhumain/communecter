@@ -56,6 +56,9 @@
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
+    [X] Bug 
+      [X] voteUp voteDown
+      [X] Recherche sur le département
   ** @Tango 
     [X] interface ND
         [X] menu
