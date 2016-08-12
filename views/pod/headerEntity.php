@@ -52,14 +52,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 	.headerEntity{
 		/*margin: 0px;*/
-		<?php if($type != Person::COLLECTION || !empty($viewer)){ ?>
-			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
-			background-repeat: repeat;
-			background-size: 100%;
-		<?php }else{ ?>
+		<?php if(!empty($viewer)){ ?>
 			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
 			min-height:70px;
 			background-position: center bottom 0px;
+			
+		<?php }else { ?>
+			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
+			background-repeat: repeat;
+			background-size: 100%;
 		<?php } ?>
 		/*background-position: left bottom -40px;*/
 		moz-box-shadow: 0px 2px 4px -1px #656565;
@@ -193,7 +194,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 </style>
 
 <div class="row headerEntity bg-light">
-	<?php if(($type != Person::COLLECTION && $type != "pixels") || !empty($viewer)){ ?>
+	<?php if($type != "pixels" || !empty($viewer)){ ?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 			<?php   
 				if(@$entity["profilMediumImageUrl"] && !empty($entity["profilMediumImageUrl"]))
@@ -222,9 +223,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					<?php } ?>
 					<span class="lbl-entity-name">
 						<i class="fa fa-<?php echo Element::getFaIcon($type); ?>">
-						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
+						</i> <a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
 								class="editable-context editable editable-click required">
-</i> <?php echo @$entity["name"]; ?>
+<?php echo @$entity["name"]; ?>
 						</a>
 					</span>
 					<?php if($type==Event::COLLECTION && isset($element["parentId"])) {
@@ -275,11 +276,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 			</div>
 			<?php } ?>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
-				<?php echo substr(@$entity["shortDescription"], 0, 140);
-						if(strlen(@$entity["shortDescription"])>140) echo "...";
-				 ?>
+				<a href="javascript:;" id="shortDescription" data-placement="bottom" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("common","Short Description") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Short Description") ?>" class="editable editable-click">
+						<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
+					</a>
+
 			</div>
 
+
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+			<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 
 		</div>
 		<?php 
@@ -348,6 +355,11 @@ jQuery(document).ready(function() {
 			}
 		});	
 	}, 1000);
+	$("#editElementDetail").on("click", function(){
+		//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+		//	getBackDetails(projectId,"<?php echo Project::COLLECTION ?>");
+		switchMode();
+	});
 });
 
 function showElementPad(type){
@@ -390,6 +402,7 @@ function showElementPad(type){
 			function(){ 
 				history.pushState(null, "New Title", "#" + hash);
 				$("#pad-element-container").show(200);
+				bindLBHLinks();
 				$.unblockUI();
 			},"html");
 }

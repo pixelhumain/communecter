@@ -35,6 +35,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
     		?>
     	</div>
 		<div class="col-md-4 no-padding pull-right">
+			<?php if($type != Person::COLLECTION){ ?>
 			<div class="col-md-12 col-xs-12">
 				<?php   $this->renderPartial('../pod/usersList', array(  $controller => $element,
 														"users" => $members,
@@ -45,6 +46,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 														"admin" => false	));
 				?>
 			</div>
+			<?php } ?>
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION) && !empty($events)){ ?>
 			<div class="col-md-12 col-xs-12">
 				<?php 

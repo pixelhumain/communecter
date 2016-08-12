@@ -447,18 +447,18 @@ var loadableUrls = {
 	"#event.calendarview" : {title:"EVENT CALENDAR ", icon : "calendar"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
-    "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#person.detail" : {aliasParam: "#element.detail.type.citoyens.id.$id", params: ["id"], title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#person.updateprofil" : {title:'Update profil', icon : 'fa-lock' },
     "#person.telegram" : {title:'CONTACT PERSON VIA TELEGRAM ', icon : 'send' },
-    "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
-    "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#event.detail" : {aliasParam: "#element.detail.type.events.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
+    "#project.detail" : {aliasParam: "#element.detail.type.projects.id.$id", params: ["id"], title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
-    "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
+    "#organization.detail" : {aliasParam: "#element.detail.type.organizations.id.$id", params: ["id"], title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
@@ -521,6 +521,20 @@ function jsController(hash){
 				//alises are renaming of urls example default.home could be #home
 				if( endPoint.alias ){
 					endPoint = jsController(endPoint.alias);
+					return false;
+				} 
+				if( endPoint.aliasParam ){
+					hashT=hash.split(".");
+					alias=endPoint.aliasParam;
+					$.each(endPoint.params, function(i, v){
+						$.each(hashT, function(ui, e){
+							if (v == e){
+								paramId=hashT[ui+1];
+								alias = alias.replace("$"+v, paramId);
+							}
+						});
+					});		
+					endPoint = jsController(alias);	
 					return false;
 				} 
 				// an action can be connected to a url, and executed
@@ -593,6 +607,11 @@ function loadByHash( hash , back ) {
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
 	} 
+	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	        hashT = hash.split(".");
+	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
+	} 
+
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 

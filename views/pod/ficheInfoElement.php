@@ -300,7 +300,9 @@
 		<?php } ?>
 		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
-			 <?php echo (isset($element["description"])) ? $element["description"] : ""; ?>
+			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"></a>	
+
+			 <?php // echo (isset($element["description"])) ? $element["description"] : ""; ?>
 		</div>
 	</div>
 </div>
@@ -369,8 +371,8 @@
 	});
 	function bindAboutPodElement() {
 		$("#editElementDetail").on("click", function(){
-			if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-				getBackDetails(contextId,"<?php echo $type ?>");
+			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+			//	getBackDetails(contextId,"<?php echo $type ?>");
 			switchMode();
 		});
 	
@@ -465,26 +467,43 @@
 		
 		$.fn.editable.defaults.mode = 'popup';
 		$('.editable-context').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield",
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
 			onblur: 'submit',
 			success: function(response, newValue) {
 				console.log("yo");
         		if(! response.result) return response.msg; //msg will be shown in editable form
-    		}
+    		},
+    		success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		});
 		
 		//Type Organization
 		 $('#type').editable({
-		 	url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+		 	url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 		 	value: '<?php echo (isset($element["type"])) ? $element["type"] : ""; ?>',
+		 	placement: 'bottom',
 		 	source: function() {
 		 		return types;
 		 	},
+		 	success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		 });
 
 		$('#shortDescription').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 			wysihtml5: {
 				color: false,
 				html: false,
@@ -497,6 +516,14 @@
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
 			}
 		});
 
@@ -514,20 +541,28 @@
 
 
 		$('#telephone').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 			mode: 'popup',
 			value: returntel(),
 			select2: {
 				tags:  <?php if(isset($telephone)) echo json_encode($telephone); else echo json_encode(array())?>,
 				tokenSeparators: [",", "/", " "],
 				width: 200,
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
 			}
 		});
 
 		
 
 		$('#category').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 			mode: 'popup',
 			value: <?php echo (isset($element["category"])) ? json_encode(implode(",", $element["category"])) : "''"; ?>,
 			source: function() {
@@ -544,10 +579,18 @@
 				});
 				return result;
 			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		});
 
 		$('#addressCountry').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType,  
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			value: '<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>',
 			source: function() {
 				return countries;
@@ -564,7 +607,7 @@
 		});
 
 		$('#address').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 			mode: 'popup',
 			success: function(response, newValue) {
 				console.log("success update postal Code : "+newValue);
@@ -576,10 +619,18 @@
             	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
-            }
+            },
+            success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		});
 		$('#avancement').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType,  
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			source: function() {
 				//idea => concept => Started => development => testing => mature
 				avancement=["idea","concept","started","development","testing","mature"];
@@ -610,12 +661,20 @@
 		
 
 		$('#description').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType,  
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			value: <?php echo (isset($element["description"])) ? json_encode($element["description"]) : "''"; ?>,
 			placement: 'top',
 			wysihtml5: {
 				html: true,
 				video: false
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
 			}
 		});
 		/*$('#startDate').editable({
@@ -637,7 +696,7 @@
 		    }
 		});*/
 		$('#allDay').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType,  
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			mode: "popup",
 			value: allDay,
 			source:[{value: "true", text: "Oui"}, {value: "false", text: "Non"}],
@@ -650,6 +709,14 @@
 		        else
 		        	return data.msg;  
 		    },
+		    success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		});
 
 	
@@ -672,7 +739,7 @@
 		$('#endDate').editable('destroy');
 		if (isAllDay == '') {
 			$('#startDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefiel/type/"+contextType,  
+				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 				pk: contextId,
 				type: "date",
 				mode: "popup",
@@ -692,7 +759,7 @@
 			});
 
 			$('#endDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType,  
+				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 				pk: contextId,
 				type: "date",
 				mode: "popup",
@@ -714,7 +781,7 @@
 			formatDate = "YYYY-MM-DD";
 		} else {
 			$('#startDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 				pk: contextId,
 				type: "datetime",
 				mode: "popup",
@@ -736,7 +803,7 @@
 			});
 
 		$('#endDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefield/type/"+contextType, 
+				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 				pk: contextId,
 				mode: "popup",
 				type: "datetime",

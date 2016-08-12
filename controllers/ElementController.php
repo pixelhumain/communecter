@@ -16,6 +16,7 @@ class ElementController extends CommunecterController {
   {
       return array(
           'updatefield' 				  => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'updatefields' 				  => 'citizenToolKit.controllers.element.UpdateFieldsAction',
            'detail'                => 'citizenToolKit.controllers.element.DetailAction',
            'getalllinks'                => 'citizenToolKit.controllers.element.GetAllLinksAction',
            'directory'                => 'citizenToolKit.controllers.element.directoryAction'
