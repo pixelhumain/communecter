@@ -129,10 +129,13 @@ a h1.text-azure:hover{
 			        if(@$value["type"] == "action") $onclick = 'loadByHash(\'#room.action.id.'.(string)$value["_id"].'\')';
 			        if(@$fromView == "entity.detail") $onclick = 'loadRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
 			        
+			        $name = $value["name"];
+			        if(@$value["type"] == "citoyens")
+			        	$name .= "xx";
 			        $updated = (@$value["updated"]) ? "<span class='text-extra-small'>(".DateHelper::fromNow($value["updated"]).")</span>" : "";
 					echo '<div class="panel-body hide-on-reduce-menu">'.
 							'<a href="javascript:'.$onclick.'" class="text-dark">'.
-								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." $updated <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</span>".
+								'<i class="fa fa-'.$icon.'"></i> '.$name." $updated <span class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</span>".
 							'</a>'.
 						 '</div>';
 		        } 

@@ -110,7 +110,7 @@ width: 100%;
 		<?php }  else { ?>
 		<div class="col-md-3 col-sm-3 col-xs-12 center margin-top-15">
 			<div class="col-md-12 col-sm-12 no-padding">
-				<a class="no-border" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" class="lbh" >
+				<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
 					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
 						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
 					<span class="text-white label text-bold" style="font-size:18px;"><?php echo $me["name"]; ?></span>
@@ -120,8 +120,7 @@ width: 100%;
 
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
 			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark-red" 
-			    	href="#admin.index"  class="lbh">
+			    <a class="btn bg-dark-red lbh" href="#admin.index">
 			        <i class="fa fa-user-secret" style="font-size: 1em!important;"></i> 
 			        Admin
 			    </a>
@@ -138,26 +137,26 @@ width: 100%;
 			    </a>
 			</div>
 		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  class="lbh">
+			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
 		     <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2"  class="lbh">
+			    <a class="btn bg-dark lbh" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"  class="lbh">
+			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>">
 			        <i class="fa fa-rss" style="font-size: 1em!important;"></i> 
 			        Actus réseau
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark" 
-			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>"  class="lbh">
+			    <a class="btn bg-dark lbh" 
+			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-cogs" style="font-size: 1em!important;"></i> 

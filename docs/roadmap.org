@@ -76,7 +76,8 @@
   ** @Tib 
     [X] script devlog pour ajouter updated sur les anciennes data 
     [ ] demarrage dashboard 
-     [X] reparer le click du milieu
+        [ ] switcher de home a dashB
+    [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
     [X] refactor links.loadByHash + chemin dans href
     [X] search and filter tag engine
@@ -98,8 +99,8 @@
     [X] switcher le titre navigateur
         [X] replacing all $(".moduleLabel").html
     [ ] finish fromNow method
-    [ ] badge organisation "Communecteur" + documentation 
-        - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
+    [X] badge organisation "Communecteur" + documentation 
+        - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
     [ ] DDA 
@@ -118,6 +119,7 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+    
 
 * Version 0.14 : Fermé 
     ** @Tango
