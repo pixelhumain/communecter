@@ -149,7 +149,7 @@ jQuery(document).ready(function() {
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
 
-	setTitle("<span id='main-title-menu'>Rechercher</span>","search","Recherche");
+	setTitle("<span id='main-title-menu'>Rechercher</span>","search","Rechercher");
 	
   $('.tooltips').tooltip();
 
@@ -220,6 +220,9 @@ function searchCallback() {
   console.log("searchCallback");
   startSearch(0, indexStepInit);
 }
+
+function showResultInCalendar(mapElements){}
+
 </script>
 
 

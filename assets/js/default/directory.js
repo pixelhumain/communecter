@@ -143,6 +143,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
+              console.dir(data);
               $.each(data, function(i, o) {
                   var typeIco = i;
                   var ico = mapIconTop["default"];
@@ -171,9 +172,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
-                  if(type=="citoyen") type = "person";
-                 // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  var url = '#' + type + '.detail.id.' + id + '';
+                  // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
+                  type += "s";
+                  var url = '#news.index.type.'+type+'.id.' + id;
+                  if(type == "citoyens") url += '.viewer.' + userId;
+
+                  //if(type=="citoyen") type = "person";
+                 
                   var onclick = 'loadByHash("' + url + '");';
 
                   var onclickCp = "";
@@ -312,7 +317,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   $("#dropdown_search").html(str);
 
                   if(typeof myMultiTags != "undefined"){
-                    $.each(myMultiTags, function(key, value){ console.log("binding bold "+key);
+                    $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
                       $("[data-tag-value="+key+"].btn-tag").addClass("bold");
                     });
                   }

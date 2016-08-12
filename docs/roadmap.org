@@ -57,8 +57,8 @@
         [ ] evenement récurent
         [ ] cronJob
   ** @Tango 
-    [ ] interface ND
-        [ ] menu
+    [X] interface ND
+        [X] menu
         [X] multi scope 
         [X] multi tags
     [ ] Bug Repair geoloc sur tous les element

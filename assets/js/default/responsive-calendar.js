@@ -186,27 +186,29 @@
 
               items += item;      
           }
-          startDate = dayEvents["startDate"].substr(0, 10);
-          countEvent++;
+          if(typeof dayEvents["startDate"] != "undefined")
+            startDate = dayEvents["startDate"].substr(0, 10);
+            countEvent++;
          });
 
-         var align = "pull-right";
-         var d = new Date(startDate);
-         var numDay = d.getDay();
-         console.log("ce jour est le "+numDay+" de la semaine");
-         if(numDay>0&&numDay<4) align = "pull-left";
-         var dropdown =     
-            '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown">'+
-              '<span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
-              ' <span class="caret"></span>'+
-            '</button>'+
-            '<ul class="'+align+' dropdown-menu date'+startDate+'">'+
-              items +
-            '</ul>';
-
-        dropdown = $(dropdown);
-        day.append(dropdown);
-
+        // if(typeof dayEvents["startDate"] != "undefined"){
+           var align = "pull-right";
+           var d = new Date(startDate);
+           var numDay = d.getDay();
+           console.log("ce jour est le "+numDay+" de la semaine");
+           if(numDay>0&&numDay<4) align = "pull-left";
+           var dropdown =     
+              '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown">'+
+                '<span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
+                ' <span class="caret"></span>'+
+              '</button>'+
+              '<ul class="'+align+' dropdown-menu date'+startDate+'">'+
+                items +
+              '</ul>';
+           dropdown = $(dropdown);
+           day.append(dropdown);
+        // }
+        
         return day;
       },
       makeActive: function(day, dayEvents) {

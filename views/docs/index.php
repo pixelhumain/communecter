@@ -197,7 +197,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  setTitle("<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>","connectdevelop", "Commune : La Doc");
+  setTitle("<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>","connectdevelop", "Communeecter : La Doc");
 });
 </script>
 

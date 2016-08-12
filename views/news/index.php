@@ -60,7 +60,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-green'></i> <i class='fa fa-rss'></i> Journal de l'organisation";//.$contextName;
+		$headerName= "<i class='fa fa-circle text-green'></i> Journal de l'organisation";//.$contextName;
+		$topTitle= "Journal de l'organisation";//.$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
@@ -74,10 +75,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 			}	
-			if(Yii::app()->session["userId"] ==$contextParentId)
-				$headerName= "Mon journal";
-			else
-				$headerName= "Journal de : ".$contextName;
+			if(Yii::app()->session["userId"] ==$contextParentId){
+				$headerName= "<i class='fa fa-circle text-yellow'></i> Mon journal";
+				$topTitle = $headerName;
+			}else{
+				$headerName= "<i class='fa fa-circle text-yellow'></i> Journal de : ".$contextName;
+				$topTitle = $headerName;
+			}
 		}
 		else{
 			$shortName=explode(" ", $parent["name"]);
@@ -98,7 +102,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-purple'></i> <i class='fa fa-rss'></i> Journal du projet";//.$contextName;
+		$headerName= "<i class='fa fa-circle text-purple'></i> Journal du projet";//.$contextName;
+		$topTitle = "Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 		Menu::event( $parent );
 		$contextName = addslashes($parent["name"]);
@@ -107,7 +112,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
-		$headerName= "<i class='fa fa-circle text-orange'></i> <i class='fa fa-rss'></i> Journal de l'événement";//.$contextName;
+		$headerName= "<i class='fa fa-circle text-orange'></i> Journal de l'événement";//.$contextName;
+		$topTitle = "Journal de l'événement";//.$contextName;
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -117,11 +123,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$scopeBegin= "Public";	
 		$iconBegin= "globe";
 		$headerName= "Actualités de ".$city["name"];
+		$topTitle = $headerName;
 	}
 	else if( isset($type) && $type == "pixels"){
 		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
 		//$contextTitle = Yii::t("common", "Contributors of project");
-		$headerName= "<i class='fa fa-rss'></i> Signaler un bug";
+		$headerName= " Signaler un bug";
 	}
 
 	$imgProfil = "";
@@ -466,7 +473,7 @@ jQuery(document).ready(function()
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
 
-	setTitle("<?php echo @$headerName; ?>","");
+	setTitle("<?php echo @$headerName; ?>","rss", "<?php echo @$topTitle; ?>");
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
 		
