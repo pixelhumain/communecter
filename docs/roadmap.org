@@ -75,7 +75,6 @@
     [ ] lazy loading sur la carto
   ** @Tib 
     [X] script devlog pour ajouter updated sur les anciennes data 
-        [X] ajouter updated on login  
     [ ] demarrage dashboard 
      [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
@@ -113,6 +112,7 @@
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecter
   ** @Sylvain
+    [ ] ajouter updated on login
     [ ] mailing
         [ ] doc
         [ ] faire un mail hebdomadaire
