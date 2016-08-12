@@ -213,7 +213,17 @@ function showNewsStream(name,locality){
 	                             4 : "REGION"
 	                           };
 	}
-	var dataNewsSearch = {"tagSearch" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion]};
+	var dataNewsSearch = {
+      "tagSearch" : name, 
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchType" : searchType, 
+      //"searchBy" : levelCommunexionName[levelCommunexion]
+  };
+
 	$("#newsstream").html("<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
 			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
@@ -241,6 +251,7 @@ function removeSearchType(type){
   }
   console.log(searchType);
 }
+
 
 </script>
 

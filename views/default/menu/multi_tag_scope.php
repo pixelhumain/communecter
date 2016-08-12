@@ -173,9 +173,10 @@ function showTagsScopesMin(htmlId){
 	// 	    '</button> ';
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
+		if(typeof value.name == "undefined") value.name = key;
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
 					"class='text-red "+disabled+" item-scope-checker' data-scope-value='"+ key + "'>" + 
-					"<i class='fa fa-bullseye'></i> " + key + 
+					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
 

@@ -171,9 +171,9 @@ jQuery(document).ready(function() {
 
 	$('ul.dropdown-menu').click(function(){ return false });
 
-	$(".btn-add-scope").click(function(){
-		addScopeToMultiscope($("#input-add-multi-scope").val());
-	});
+	// $(".btn-add-scope").click(function(){
+	// 	addScopeToMultiscope($("#input-add-multi-scope").val());
+	// });
 
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
@@ -244,18 +244,20 @@ function autocompleteMultiScope(){
     		$("#dropdown-multi-scope-found").html("ok");
     		html="";
     		$.each(data.cities, function(key, value){
-    			if(currentScopeType == "city") { 
-    				val = value.name; 
-    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    			if(currentScopeType == "city") { console.log("in scope city");
+    				val = value.country + "_" + value.insee + "-" + value.postalCodes[0].postalCode; 
+    				lbl = value.name;
+    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
     			}; 
     			if(currentScopeType == "cp") { 
     				val = value.postalCodes[0].postalCode; 
-    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    				lbl = value.postalCodes[0].postalCode ;
+    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
     			}; 
-    			if(currentScopeType == "dep") 	{ val = value; lbl = value }; 
-    			if(currentScopeType == "region"){ val = value; lbl = value }; 
+    			if(currentScopeType == "dep") 	{ val = value; lbl = value; lblList = value; }; 
+    			if(currentScopeType == "region"){ val = value; lbl = value; lblList = value; }; 
 
-    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\")'>"+lbl+"</a></li>";
+    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
     		});
     		$("#dropdown-multi-scope-found").html(html);
     		
@@ -298,6 +300,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	var html = "";
 	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
+		if(typeof scope.name == "undefined") scope.name = scopeValue;
 		var faActive = (myMultiScopes[scopeValue].active == true) ? "check-circle" : "circle-o";
 		var classDisable = (myMultiScopes[scopeValue].active == false) ? "disabled" : "";
 		html = 
@@ -307,7 +310,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 					'title="Activer/Désactiver" data-scope-value="'+scopeValue+'">' +
 					'<i class="fa fa-'+faActive+'"></i>' +
 				'</a>' +
-				'<span class="item-scope-name" >'+scopeValue+'</span>' +
+				'<span class="item-scope-name" >'+scope.name+'</span>' +
 				'<a href="javascript:" class="item-scope-deleter tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Supprimer" data-scope-value="'+scopeValue+'">' +
@@ -327,11 +330,12 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	$(".tooltips").tooltip();
 }
 
-
-function addScopeToMultiscope(scopeValue){  
+//scopeValue est la valeur utilisée pour la recherche
+//scopeName est la valeur affichée
+function addScopeToMultiscope(scopeValue, scopeName){  
 	if(scopeValue == "") return;
 	if(!scopeExists(scopeValue)){ console.log("adding", scopeValue);
-		myMultiScopes[scopeValue] = { active: true, type: currentScopeType };
+		myMultiScopes[scopeValue] = { name: scopeName, active: true, type: currentScopeType };
 		showScopeInMultiscope(scopeValue);
 		$("#input-add-multi-scope").val("");
 		saveMultiScope();
@@ -397,6 +401,7 @@ function showMsgInfoMultiScope(msg, type){
 
 function rebuildSearchScopeInput()
 {
+	/*****************************************************************************************/
 	searchLocalityNAMEs = "";
 	$.each($('.item-scope-city'), function(key, value){
 		if(!$(value).hasClass('disabled')){
@@ -408,6 +413,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityNAME") )
 		$("#searchLocalityNAME").val(searchLocalityNAMEs);
 
+	/*****************************************************************************************/
 	searchLocalityCODE_POSTAL_INSEEs = "";
 	$.each($('.item-scope-cp'), function(key, value){
 		if(!$(value).hasClass('disabled')){
@@ -419,6 +425,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityCODE_POSTAL_INSEE") )
 		$("#searchLocalityCODE_POSTAL_INSEE").val(searchLocalityCODE_POSTAL_INSEEs);
 
+	/*****************************************************************************************/
 	searchLocalityDEPARTEMENTs = "";
 	$.each($('.item-scope-dep'), function(key, value){
 		if(!$(value).hasClass('disabled')){
@@ -430,6 +437,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityDEPARTEMENT") )
 		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
 
+	/*****************************************************************************************/
 	searchLocalityINSEEs = "";
 	$.each($('.item-scope-insee'), function(key, value){
 		if(!$(value).hasClass('disabled')){
@@ -441,6 +449,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityINSEE") )
 		$("#searchLocalityINSEE").val(searchLocalityINSEEs);
 
+	/*****************************************************************************************/
 	searchLocalityREGIONs = "";
 	$.each($('.item-scope-region'), function(key, value){
 		if(!$(value).hasClass('disabled')){
