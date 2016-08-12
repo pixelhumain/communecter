@@ -264,7 +264,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#organization.detail.id.<?php echo $organization['_id'] ;?>');">OK</button>
+	        <button type="button" class="btn btn-success lbh" data-dismiss="modal" aria-label="Close" data-hash="#organization.detail.id.<?php echo $organization['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

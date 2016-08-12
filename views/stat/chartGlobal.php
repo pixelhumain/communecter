@@ -257,8 +257,7 @@ var chartSurveys = c3.generate({
 <script>
     //Title
     jQuery(document).ready(function() {
-        $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
-
+        setTitle("Espace administrateur : Statistiques","cog");
         chartCitoyens.load({
           url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/citoyens/chart/global",
           mimeType: 'json'

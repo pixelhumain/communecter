@@ -231,7 +231,7 @@ var modeComment = "view";
 //var canParticipate = <?php //echo ( $canParticipate ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
-	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+	//setTitle("","");$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
   	
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");

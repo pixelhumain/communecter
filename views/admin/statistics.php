@@ -20,7 +20,7 @@
 ?>
 <script>
     //Title
-    $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
+    setTitle("Espace administrateur : Statistiques","cog");
 
 </script>
 <!-- ***** CITOYENS ***** -->

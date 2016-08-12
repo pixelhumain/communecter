@@ -286,7 +286,7 @@ function buildLineHTML(newsObj,idSession,update)
 			nameAuthor = newsObj.target.name.substr(0,25)+"...";
 		else
 			nameAuthor = newsObj.target.name;
-		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
+		urlTarget = 'href="#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'" ';
 		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
@@ -294,7 +294,7 @@ function buildLineHTML(newsObj,idSession,update)
 			authorId=newsObj.author.id;
 		else
 			authorId=newsObj.author._id.$id;
-			urlTarget = 'href="javascript:" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
+			urlTarget = 'href="#person.detail.id.'+authorId+'" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
 		if (newsObj.author.name.length > 25)
 			nameAuthor = newsObj.author.name.substr(0,25)+"...";
 		else
@@ -405,7 +405,7 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			titleAction += ' <i class="fa fa-caret-right"></i> <a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction += "a partagé un lien";
@@ -444,7 +444,7 @@ function buildHtmlUrlAndActionObject(obj){
 			titleAction = "a créé un besoin";
 		}
 
-		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
+		url = 'href="#'+redirectTypeUrl+'.detail.id.'+id+'" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
 	object=new Object;
 	object.url= url,

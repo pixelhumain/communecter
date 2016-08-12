@@ -84,8 +84,6 @@
 		
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-  			"<i class='fa fa-connectdevelop'></i> "+
-  			"<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>");
+  setTitle("<span class='text-red'>Commune<span class='text-dark'>cter</span> : la doc</span>","connectdevelop","Communecter Documentation");
 });
 </script>

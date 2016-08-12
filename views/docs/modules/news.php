@@ -88,6 +88,6 @@
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		$(".moduleLabel").html("<span style='font-size:18px;'>Tout comprendre sur communecter</span>");
+		setTitle("<span style='font-size:18px;'>Tout comprendre sur communecter</span>","","Tout comprendre sur communecter");
 	});
 </script>

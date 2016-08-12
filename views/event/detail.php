@@ -77,7 +77,7 @@
 	var thisEvent = <?php echo json_encode($event)?>;
 	
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i> <?php echo addslashes($event["name"]) ?> ");
+		setTitle("<?php echo addslashes($event["name"]) ?>","<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i>");
 		console.dir(contextMap);
 		
 		Sig.restartMap();

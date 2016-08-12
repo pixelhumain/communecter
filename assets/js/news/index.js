@@ -30,7 +30,6 @@ var loadStream = function(indexMin, indexMax){
 	    filter.searchBy=searchBy;
 	if (typeof(searchType) != "undefined")
 	    filter.searchType=searchType;
-
 	if (typeof(tagSearch) != "undefined")
 	    filter.tagSearch=tagSearch;
     if(typeof(dateLimit)!="undefined"){

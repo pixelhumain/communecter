@@ -133,7 +133,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i> <?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		setTitle("<?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>","<i class='fa fa-circle text-orange'></i><i class='fa fa-calendar'></i>", "ADD EVENT PARTICIPANTS");
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
 	 	$('#attendeesSearch').keyup(function(e){

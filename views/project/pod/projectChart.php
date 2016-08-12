@@ -22,9 +22,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<div class="panel-tools">
 			
 				<?php if ($admin){	?>
-				<a href="javascript:;" id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
-					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>"
-					onclick="loadByHash('#project.addchartsv.id.<?php echo $itemId ?>')">
+				<a href="#project.addchartsv.id.<?php echo $itemId ?>" id="" class="lbh edit-chart btn btn-xs btn-light-blue tooltips" 
+					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>">
 					<i class="fa fa-pencil"></i> Editer la charte 
 				</a>
 				<?php } ?>

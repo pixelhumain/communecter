@@ -12,7 +12,8 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	'/plugins/bootstrap-select/bootstrap-select.min.css',
-	'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/bootstrap-select/bootstrap-select.min.js',
+
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -127,6 +128,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .input-icon > input {
     padding-left: 25px;
     padding-right: 6px;
+}
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 </style>
 
@@ -346,10 +352,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 			<div class="col-md-12">
 				
-				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
+				<h3 class="text-dark">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+				</h3>
                         
 					<div class="form-group">
-						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
+						<textarea name="eventDetail" id="eventDetail" class="wysiwygInput eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
 					</div>
 				
 					<?php if( Yii::app()->session['userId'] ){ ?>
@@ -400,7 +408,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
+	 	setTitle("<?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> ");
+	 	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#eventDetail');
+		 });
 	});
 
 	function runShowCity(searchValue) {
@@ -495,8 +506,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$('#eventCountry').select2({
 			data : countries,
 		});
-	};
 
+		
+	};
+	
 	//validate new event form
 	function runEventFormValidation(el) {
 		console.log("runEventFormValidation");

@@ -226,9 +226,9 @@
 	</div>
 
 	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
-		<div class="badge badge-success text-white current" id="menu-step-addr-1">
+		<a href="javascript:showTwoStep('begin-zone')" class="badge badge-success text-white current" id="menu-step-addr-1">
 			1 - Mon pays<br>
-		</div>
+		</a>
 		<div class="badge text-white" id="menu-step-addr-2">
 			2 - Ma commune
 			<span id="conf-commune" class="text-red hidden">
@@ -293,7 +293,9 @@
 				Saisissez le nom de votre commune, ou votre code postal ...
 			</h3>
 			<input type="text" class="input-communexion-twostep" placeholder="commune / code postal"/><br>
-			<h3 class="text-dark search-loader"></div>
+			<button class="btn btn-danger btn-start-tsr-communexion margin-top-5"><i class="fa fa-search"></i> Rechercher</button>
+			<h3 class="text-dark search-loader"></h3><br>
+			<h4 class="text-dark" id="menu-step-addr-active"></h4>
 		</div>	
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-load-conf-communexion">
 		</div>
@@ -363,7 +365,7 @@
 																	  "editMode" => true,
 																	  "image" => null )); 
 				?>
-				<button class="btn btn-success margin-top-10" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']; ?>')">
+				<button class="btn btn-success margin-top-10 lbh" data-hash="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>">
 					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
 				</button>
 			</span>
@@ -374,19 +376,19 @@
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 			</h1>
-			<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+			<button class="btn bg-yellow lbh" data-hash="#person.invite">
 				<i class="fa fa-user"></i>
 				<span class="lbl-btn-menu-name-add">quelqu'un</span>
 			</button>
-			<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+			<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
 				<i class="fa fa-group"></i>
 				<span class="lbl-btn-menu-name-add">une organisation</span>
 			</button>
-			<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+			<button class="btn bg-purple lbh" data-hash="#project.projectsv">
 				<i class="fa fa-lightbulb-o"></i>
 				<span class="lbl-btn-menu-name-add">un projet</span>
 			</button>
-			<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+			<button class="btn bg-orange lbh" data-hash="#event.eventsv">
 				<i class="fa fa-calendar"></i>
 				<span class="lbl-btn-menu-name-add">un événement</span>
 			</button>
@@ -437,9 +439,8 @@
 		});
 
 		location.hash = "#default.twostepregister";
-
-		$(".moduleLabel").html("<i class='fa fa-user'></i> <span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER");
-  		
+		
+  		setTitle("<span id='main-title-menu'>Bienvenue sur</span> <span class='text-red'>COMMUNE</span>CTER","user","Bienvenue sur COMMUNECTER");
   		actionBtnCo = $("#main-btn-co").attr("href");
   		$("#main-btn-co").attr("href", "javascript:");
 		
@@ -449,7 +450,7 @@
   		showTwoStep("begin-zone");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
-  		$(".input-communexion-twostep").keyup(function(e){
+  		$(".btn-start-tsr-communexion").click(function(e){
   			$("#searchBarPostalCode").val($(".input-communexion-twostep").val());
   			clearTimeout(timeoutSearch);
       		timeoutSearch = setTimeout(function(){ 
@@ -570,7 +571,7 @@
 				error: function (error) {
 					console.log("nominatim error");
 					console.dir(obj);
-					$("#error_street").html("Aucun résultat");
+					$("#error_street").html("Aucun résultat"+$("#addressCountry option:selected" ).text());
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 					$.unblockUI();
 				}
@@ -629,7 +630,11 @@
   		$("#menu-step-addr-1").removeClass("current");
   		$("#menu-step-addr-1").addClass("checked");
   		$("#menu-step-addr-2").addClass("current");
-
+  		$("#menu-step-addr-active").html(
+  			"Pays : " + 
+  			$("#addressCountry option:selected" ).text() + 
+  			"<br><a class='text-white' href='javascript:showTwoStep(\"begin-zone\")'><i class=\"fa fa-pencil\"></i> Modifier</a>");
+  		
   		if(inseeCommunexion != ""){
   			showTwoStep("begin-communexion");
   		}else{

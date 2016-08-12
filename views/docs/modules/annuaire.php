@@ -86,8 +86,6 @@
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-			"<span class='text-red'>MODULE</span> Annuaire</span>");
+  setTitle("<span class='text-red'>MODULE</span> Annuaire</span>","cube","MODULE Annuaire");
 });
 </script>

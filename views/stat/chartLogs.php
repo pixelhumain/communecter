@@ -92,8 +92,8 @@ var chartLogs = c3.generate({
 <script>
     //Title
     jQuery(document).ready(function() {
-        $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
-
+        
+        setTitle("Espace administrateur : Statistiques","cog");
         chartLogs.load({
           url: baseUrl+"/"+moduleId+"/stat/getstatjson/sector/logs/chart/global",
           mimeType: 'json'

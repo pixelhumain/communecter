@@ -13,8 +13,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised && !isset($noAddLink) ) { ?>
-			<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash('#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>')">
-	    		
+			<a class="tooltips btn btn-xs btn-light-blue lbh" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>">
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
 	    	</a>
 		
@@ -50,7 +49,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 										$refIcon="fa-group";
 									}
 									?>
-									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
+									<a href="#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>" class="lbh" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
 									<?php if(@$o["profilThumbImageUrl"]) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
@@ -63,7 +62,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php } 
 								else 
 								{ ?>
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+								<a href="<?php echo $url?>" class="lbh text-dark">
 								<?php if (@$o["profilThumbImageUrl"]){ ?>
 									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$o["profilThumbImageUrl"]) ?>">
 								<?php } else { ?>
@@ -73,7 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php } ?>
 							</td>
 							<td>
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+								<a href="<?php echo $url?>" class="lbh text-dark">
 									<?php 
 									if(@$e["name"]) echo $e["name"];
 									if(@$e["links"]["subEvents"]) echo "(".count($e["links"]["subEvents"]).")";

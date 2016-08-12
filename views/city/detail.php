@@ -68,9 +68,14 @@ $this->renderPartial('../default/panels/toolbar');
 
  <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
   <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
-  <a href="javascript:;" class="btn homestead text-red no-margin"
-     ctry-com="<?php echo $city['country']; ?>" insee-com="<?php echo $city['insee']; ?>" name-com="<?php echo $city['name']; ?>" cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
-     id="btn-communecter" onclick="setScopeValue($(this));">
+  <a href="javascript:;" class="btn homestead text-red no-margin tooltips"
+     ctry-com="<?php echo $city['country']; ?>" 
+     insee-com="<?php echo $city['insee']; ?>" 
+     name-com="<?php echo $city['name']; ?>" 
+     cp-com="<?php if(@$city['cp']) echo $city['cp']; ?>" 
+     id="btn-communecter" onclick="setScopeValue($(this));"
+     data-toggle="tooltip" data-placement="bottom"
+     >
      <i class="fa fa-crosshairs"></i> COMMUNECTER
   </a>
 <?php //} ?>
@@ -202,7 +207,7 @@ $this->renderPartial('../default/panels/toolbar');
         <blockquote><strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision</blockquote>
       </div>
       <div class="col-md-4 col-xs-12 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-         <a href="javascript:;" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>')" class="btn btn-participate bg-red">
+         <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="btn btn-participate bg-red lbh">
           <i class="fa fa-group"></i>
         </a><br>
         <span class='text-red'><strong>Conseil citoyen</strong><br><?php echo $city["name"]." "; ?></span>
@@ -226,7 +231,6 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 
-
 <!-- end: PAGE CONTENT-->
 
 <script>
@@ -242,17 +246,17 @@ jQuery(document).ready(function() {
   $(".main-col-search").addClass("cityHeadSection");
 
   var iconCity = "<i class='fa fa-university'></i>";
-  var mine = (city["insee"] == inseeCommunexion) ? " MA" : "";
-  var mineCity = (city["insee"] == inseeCommunexion) ? true : false;
+  var mine = (city["insee"] == inseeCommunexion && city["cp"] == cpCommunexion) ? " MA" : "";
+  var mineCity = (city["insee"] == inseeCommunexion && city["cp"] == cpCommunexion) ? true : false;
 
   <?php if( @$city["communected"] ){ ?>
   iconCity = "<span class='fa-stack'>"+
-                  "<i class='fa fa-university fa-stack-1x'></i>";                  
+                  "<i class='fa fa-university fa-stack-1x'></i>"+                
                   "<i class='fa fa-circle-thin fa-stack-2x' style='color:#93C020'></i>"+
                 "</span>";
   <?php } ?>
 
-  $(".moduleLabel").html(iconCity + mine + " COMMUNE : <?php echo $city["name"] ?>");
+  setTitle(mine + " COMMUNE : <?php echo $city["name"] ?>",iconCity);
   
   //si on est sur la page de MA commune, on change le texte du bouton "communecter"
   if(mineCity){

@@ -115,7 +115,7 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i> <?php echo addslashes($project["name"]) ?> ");
+	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>

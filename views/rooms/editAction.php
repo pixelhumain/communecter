@@ -125,9 +125,7 @@ function saveNewAction(){
 var proposalObj = <?php echo (isset($action)) ? json_encode($action) : "{}" ?>;
 
 jQuery(document).ready(function() {
-  $(".moduleLabel").html('<i class="fa fa-cogs"></i> '+
-      '<?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?>');
-
+  setTitle("<?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?>","cogs");
   //add current user as the default value
   organizerList["currentUser"] = currentUser.name + " (You)";
 

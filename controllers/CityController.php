@@ -37,6 +37,7 @@ class CityController extends CommunecterController {
 	        'updatecitiesgeoformat' => 'citizenToolKit.controllers.city.UpdateCitiesGeoFormatAction',
 	        'getinfoadressbyinsee'  => 'citizenToolKit.controllers.city.GetInfoAdressByInseeAction',
 	        'cityexists'  			=> 'citizenToolKit.controllers.city.CityExistsAction',
+	        'autocompletemultiscope'=> 'citizenToolKit.controllers.city.AutocompleteMultiScopeAction',
 
 	    );
 	}

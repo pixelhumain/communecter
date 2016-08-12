@@ -81,8 +81,7 @@
 
 
 		//Title
-		$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Modération");
-
+		setTitle("Espace administrateur : Modération","cog");
 		$('.toModerateContent').html(htmlSpiner);
 		$('.buttonBar').hide();
 		

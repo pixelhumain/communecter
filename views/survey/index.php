@@ -20,7 +20,7 @@
 <?php 
   $nameList = (strlen($where["survey"]["name"])>20) ? substr($where["survey"]["name"],0,20)."..." : $where["survey"]["name"];
   $extraBtn = ( Authorisation::canParticipate( Yii::app()->session['userId'], $parentType, $parentId ) ) 
-    ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica" href="javascript:;" onclick="loadByHash(\'#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'\')"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' 
+    ?  ' <i class="fa fa-caret-right"></i> <a class="filter btn  btn-xs btn-primary Helvetica lbh" href="#survey.editEntry.survey.'.(string)$where["survey"]["_id"].'"><i class="fa fa-plus"></i> '.Yii::t( "survey", 'Add a proposal', null, Yii::app()->controller->module->id).'</a>' 
     : '';
 
   if(!isset($_GET["renderPartial"])){
@@ -201,7 +201,7 @@
     }
 
 
-    hr {
+    .stepContainer hr {
         margin-top: 5px;
         margin-bottom: 5px;
         border: 0;
@@ -721,8 +721,7 @@ clickedVoteObject = null;
 var nbSurveyTotal = <?php echo count($list); ?>;
 
 jQuery(document).ready(function() {
-  //$(".moduleLabel").html('<?php echo "Sondages : ".$where["survey"]["name"] ?>');
-  $(".moduleLabel").html("<i class='fa fa-gavel text-red'></i> " + "décider ensemble");
+  setTitle("Décider ensemble","gavel text-red");
   $(".main-col-search").addClass("assemblyHeadSection");
   $('.tooltips').tooltip();
 

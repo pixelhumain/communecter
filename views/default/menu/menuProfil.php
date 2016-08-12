@@ -12,8 +12,7 @@
   </button>
   <ul class="dropdown-menu dropdown-menu-right">
     <li>
-      <a href="javascript:;" 
-        onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');" id="btn-menu-dropdown-my-profil">
+      <a class="lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" id="btn-menu-dropdown-my-profil">
         <i class="fa fa-user text-dark"></i><?php echo Yii::t("person","My space"); ?> 
         <span class="badge badge-warning"><i class="fa fa-bookmark"></i>
         <?php echo Gamification::badge( Yii::app()->session['userId'] ) ?> 
@@ -21,15 +20,15 @@
       </a>
     </li>
     <li>
-      <a href="javascript:;" 
-        onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>.postalCode.<?php echo $me["address"]["postalCode"]?>');"id="btn-menu-dropdown-my-city">
+      <a href="#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>.postalCode.<?php echo $me["address"]["postalCode"]?>" 
+        class="lbh" id="btn-menu-dropdown-my-city">
         <i class="fa fa-university text-dark"></i><?php echo Yii::t("person","My city"); ?>
       </a>
     </li>
     <?php if (true) { ?>
       <li class="hidden-xs">
-        <a href="javascript:;" 
-          onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');">
+        <a href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>" 
+          class="lbh" >
           <i class="fa fa-thumbs-up text-dark"></i><?php echo Yii::t("person","My Votes / Discussions"); ?>
         </a>
       </li>
@@ -37,19 +36,19 @@
       <li role="separator" class="divider hidden-xs"></li>
 
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#person.invite');" id="btn-menu-dropdown-add">
+        <a href="#person.invite" class="lbh" >
           <i class="fa fa-plus-circle text-yellow"></i> <i class="fa fa-item-menu fa-user text-yellow"></i>
           <?php echo Yii::t("person","Invite someone"); ?>
         </a>
       </li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#event.eventsv');" id="btn-menu-dropdown-add">
+        <a href="#event.eventsv" class="lbh" >
           <i class="fa fa-plus-circle text-orange"></i> <i class="fa fa-calendar text-orange"></i>
           <?php echo Yii::t("person","Create an event"); ?>
         </a>
       </li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#project.projectsv');" id="btn-menu-dropdown-add">
+        <a href="#project.projectsv" class="lbh" >
         <i class="fa fa-plus-circle text-purple"></i> 
           <i class="fa fa-lightbulb-o text-purple"></i><?php echo Yii::t("person","Create a project"); ?>
         </a>
@@ -57,14 +56,14 @@
       
       <li role="separator" class="divider hidden-xs"></li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#organization.addorganizationform');" id="btn-menu-dropdown-add">
+        <a href="#organization.addorganizationform" class="lbh" >
           <i class="fa fa-plus-circle text-green"></i> <i class="fa fa-users text-green"></i>
           <?php echo Yii::t("person","Create an organization"); ?>
         </a>
       </li>
       <li role="separator" class="divider hidden-xs"></li>
       <li class="hidden-xs">
-        <a href="javascript:;" onclick="loadByHash('#default.view.page.index.dir.docs');" id="btn-menu-dropdown-add">
+        <a href="#default.view.page.index.dir.docs" class="lbh" >
           <i class="fa fa-file text-dark"></i> <?php echo Yii::t("common","Documentation", null, Yii::app()->controller->module->id); ?>
         </a>
       </li>
@@ -75,7 +74,7 @@
         $sourceAdmin = Person::getSourceAdmin(Yii::app()->session['userId']);
         foreach ($sourceAdmin as $key => $value) { ?>
             <li>
-              <a href="javascript:;" onclick="loadByHash('#adminpublic.index?key=<?php echo $value ;?>');" id="btn-menu-dropdown-add">
+              <a href="#adminpublic.index?key=<?php echo $value ;?>" class="lbh" >
                 <i class="fa fa-cog text-blue"></i> <?php echo $value ; ?>
               </a>
             </li>

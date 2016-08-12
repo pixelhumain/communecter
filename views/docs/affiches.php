@@ -29,6 +29,6 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-      $(".moduleLabel").html( "<i class='fa fa-cube'></i> <span class='text-red'>MODULE</span> : Affiches</span>");
+      setTitle("<span class='text-red'>MODULE</span> : Affiches</span>","cube","MODULE : Affiches");
     });
 </script>

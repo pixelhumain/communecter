@@ -12,6 +12,35 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.15
+db.citoyens.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.citoyens.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.projects.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.projects.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.events.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.events.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.organizations.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.organizations.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
 ----------------------------------------------------
 Version 0.14
 

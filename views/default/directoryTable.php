@@ -246,8 +246,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 <script type="text/javascript">
 var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Répertoire");
-
+	setTitle("Espace administrateur : Répertoire","cog");
 	bindAdminBtnEvents();
 	resetDirectoryTable() ;
 	if(openingFilter != "")

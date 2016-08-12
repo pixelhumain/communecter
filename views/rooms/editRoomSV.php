@@ -55,8 +55,7 @@ var dataBind = {
 jQuery(document).ready(function() {
   console.warn("--------------- newRoom ---------------------");
   
-  $(".moduleLabel").html("<i class='fa fa-connectdevelop fa-red'></i> <i class='fa fa-plus fa-red'></i><span class='text-dark'> Créer un nouvel espace coopératif</span>");
-
+  setTitle("<span class='text-dark'> Créer un nouvel espace coopératif</span>","<i class='fa fa-connectdevelop fa-red'></i> <i class='fa fa-plus fa-red'></i>","Créer un nouvel espace coopératif");
   //getAjax("#editRoomsContainer",baseUrl+"/"+moduleId+"/rooms/editRoom", "html");
   editRoomSV();
   $(".newRoom").off().on("click",function() { 

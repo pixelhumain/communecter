@@ -123,7 +123,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <script type="text/javascript">
 var parentId = $('.parentId').val();
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-tasks'></i> Editer la timeline</a>");
+	setTitle("Editer la timeline","tasks");
 	bindSubViewTimesheet();
 	initValidationTaskTable();
 	bindBtnRemoveTask();

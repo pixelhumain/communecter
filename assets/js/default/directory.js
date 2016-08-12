@@ -1,5 +1,5 @@
 
-var indexStepInit = 100;
+var indexStepInit = 30;
 var indexStep = indexStepInit;
 var currentIndexMin = 0;
 var currentIndexMax = indexStep;
@@ -9,7 +9,7 @@ var totalData = 0;
 var timeout = null;
 
 function startSearch(indexMin, indexMax){
-    //console.log("startSearch", indexMin, indexMax, indexStep);
+    console.log("startSearch", indexMin, indexMax, indexStep);
 
     if(loadingData) return;
     loadingData = true;
@@ -89,8 +89,19 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	                           };
 	}
     //console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
-    var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
-                "indexMin" : indexMin, "indexMax" : indexMax  };
+    var data = {
+      "name" : name, 
+      "locality" : "",//locality, 
+      "searchType" : searchType, 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchBy" : levelCommunexionName[levelCommunexion], 
+      "indexMin" : indexMin, 
+      "indexMax" : indexMax  };
 				
     loadingData = true;
     
@@ -100,9 +111,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".btn-start-search").removeClass("bg-dark");
     
     if(indexMin > 0)
-    $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+      $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
     else
-    $("#dropdown_search").html("<center><span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></center>");
+      $("#dropdown_search").html("<span class='search-loaderr text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span>");
       
     if(isMapEnd)
       $.blockUI({
@@ -119,7 +130,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
              //signal que le chargement est terminé
             loadingData = false;     
           },
-          success: function(data){
+          success: function(data){ console.log("success autocomplete search"); //console.dir(data);
             if(!data){ toastr.error(data.content); }
             else
             {
@@ -132,6 +143,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
+              console.dir(data);
               $.each(data, function(i, o) {
                   var typeIco = i;
                   var ico = mapIconTop["default"];
@@ -143,9 +155,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                   
-                  htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+                  var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
                  	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+                    htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
                   }
 
                   city="";
@@ -160,9 +172,15 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
-                  if(type=="citoyen") type = "person";
-                  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                  var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
+                  // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
+                  type += "s";
+                  var url = '#news.index.type.'+type+'.id.' + id;
+                  if(type == "citoyens") url += '.viewer.' + userId;
+
+                  //if(type=="citoyen") type = "person";
+                 
+                  var onclick = 'loadByHash("' + url + '");';
+
                   var onclickCp = "";
                   var target = " target='_blank'";
                   var dataId = "";
@@ -178,7 +196,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-red btn-tag'>#" + value + "</a>";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag' data-tag-value='"+value+"'>#" + value + "</a> ";
   		              });
                   }
 
@@ -201,37 +219,54 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 
                   //template principal
-                  str += "<div class='col-md-12 searchEntity'>";
-  	                str += "<div class='col-md-5 col-sm-4 entityLeft'>";
-  	                	if(userId != null){
-    	                	isFollowed=false;
-    	                	if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="city" && id != userId && userId != null && userId != "")
-            						str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                							'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
-                							" data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                									"<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                								"</a>";
-            					}
-          						str += tags;
-  						
-  	                str += "</div>";
+                  str += "<div class='col-md-12 searchEntity no-padding'>";
 
-  	                str += "<div class='col-md-2 col-sm-2 entityCenter'>";
-  						      str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
+                    
+                    if(userId != null){
+                        isFollowed=false;
+                        str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
+                        if(typeof o.isFollowed != "undefined" ) isFollowed=true;
+                        if(type!="city" && id != userId && userId != null && userId != ""){
+                        str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                              'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+                              " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                                  "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                                "</a>";
+                        }
+                        str += '</div>';
+                      }
+
+                    
+  	                str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
+
+                    str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
   	                str += "</div>";
   					         target = "";
-  	                str += "<div class='col-md-5 col-sm-5 entityRight no-padding'>";
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
-  	                	if(fullLocality != "" && fullLocality != " ")
+
+                     
+
+                      
+  	                str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+  	                	
+                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+                      
+                      if(fullLocality != "" && fullLocality != " ")
   	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
   	                	if(startDate != null)
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
+  	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
   	                	if(endDate != null)
-  	                	str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
+  	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	if(description != "")
-  	                	str += "<div onclick='"+onclick+"'"+target+"  class='entityDescription'>" + description + "</div>";
-  	                str += "</div>";
+  	                	str += "<div class='entityDescription'>" + description + "</div>";
+  	                //str += "</div>";
+
+                    //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
+                      
+                      str += tags;
+              
+                    str += "</div>";
+
+                    
   	                					
   				        str += "</div>";
               }); //end each
@@ -239,7 +274,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               if(str == "") { 
 	              $.unblockUI();
 	              showMap(false);
-                  $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
+                  $(".btn-start-search").html("<i class='fa fa-refresh'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer   
                     var msg = "Aucun résultat";    
@@ -280,11 +315,18 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 }else{
                   //on affiche le résultat à l'écran
                   $("#dropdown_search").html(str);
+
+                  if(typeof myMultiTags != "undefined"){
+                    $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+                      $("[data-tag-value="+key+"].btn-tag").addClass("bold");
+                    });
+                  }
+                  
                   //on scroll pour coller le haut de l'arbre au menuTop
                   //$(".my-main-container").scrollTop(95);
                 }
                 //remet l'icon "loupe" du bouton search
-                $(".btn-start-search").html("<i class='fa fa-search'></i>");
+                $(".btn-start-search").html("<i class='fa fa-refresh'></i>");
                 $.unblockUI();
 				        showMap(false);
                 
@@ -318,6 +360,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               scrollEnd = false;
             }
 
+            if(typeof showResultInCalendar != "undefined")
+              showResultInCalendar(mapElements);
             //affiche les éléments sur la carte
             Sig.showMapElements(Sig.map, mapElements);
           }
@@ -432,5 +476,5 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearch(0, 100);
+    startSearch(0, indexStepInit);
   }

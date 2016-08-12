@@ -89,9 +89,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-			"<span class='text-red'>MODULE</span> SIG</span>");
+  setTitle("MODULE : SIG","cube");
 });
 </script>
 

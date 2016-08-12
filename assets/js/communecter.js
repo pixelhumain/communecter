@@ -3,6 +3,7 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
+
 });
 
 function checkPoll(){
@@ -456,11 +457,14 @@ var loadableUrls = {
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
+    "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
     "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
-    "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
+    "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
+    "#rooms.index.type.cities" : {title:'ACTION ROOMS ', icon : 'cubes', menuId:"btn-citizen-council-commun"},
     "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
 	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
@@ -477,9 +481,9 @@ var loadableUrls = {
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
-    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
-    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1", menuId:"menu-btn-directory"},
+    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
+    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
@@ -509,6 +513,8 @@ function jsController(hash){
 		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
+			checkMenu(urlObj, hash);
+		
 			endPoint = loadableUrls[urlIndex];
 			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
@@ -532,7 +538,7 @@ function jsController(hash){
 						hash = endPoint.hash;
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
 					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
-
+					
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
 				}
@@ -574,11 +580,11 @@ function loadByHash( hash , back ) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }
-    else if( hash.indexOf("#news.index.type") >= 0 ){
+    /*else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
 
-    } 
+    } */
     else if( hash.indexOf("#city.directory") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
@@ -596,6 +602,15 @@ function loadByHash( hash , back ) {
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
 	    console.warn("replaceState history.state",history.state);
 	}*/
+}
+
+function setTitle(str, icon,topTitle) { 
+	if(icon != "")
+		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
+	$(".moduleLabel").html( icon +" "+ str);
+	if(topTitle)
+		str = topTitle;
+	$(document).prop('title', ( str != "" ) ? str : "Communecter, se connecter à sa commune" );
 }
 
 //ex : #search:bretagneTelecom:all
@@ -623,13 +638,23 @@ function searchByHash (hash)
 		$(scopeBtn).trigger("click"); 
 }
 
+function checkMenu(urlObj, hash){
+	console.log("checkMenu *******************", hash);
+	console.dir(urlObj);
+	$(".menu-button-left").removeClass("selected");
+	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
+		if($("#"+urlObj.menuId).data("hash") == hash)
+			$("#"+urlObj.menuId).addClass("selected");
+	}
+}
+
 var backUrl = null;
 function checkIsLoggued(uId){
 	if( uId == "" ||  typeof uId == "undefined" ){
 		console.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
-		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Section Sécuriser");
+		setTitle("Section Sécuriser", "user-secret");
 
 		backUrl = location.hash;
 		showPanel( "box-login" );
@@ -709,7 +734,7 @@ function showAjaxPanel (url,title,icon) {
 		$(".main-col-search").html("");
 		$(".hover-info").hide();
 		processingBlockUi();
-		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+		setTitle("Chargement en cours ...", "spin fa-circle-o-notch");
 		//$(".main-col-search").show();
 		showMap(false);
 	}, 800);
@@ -733,6 +758,7 @@ function showAjaxPanel (url,title,icon) {
 			
 			bindExplainLinks();
 			bindTags();
+			bindLBHLinks();
 
 			$.unblockUI();
 
@@ -765,7 +791,7 @@ function showTagOnMap (tag) {
             		 "indexMax" : 500  
             		};
 
-        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+        //setTitle("", "");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 		
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
@@ -786,7 +812,7 @@ function showTagOnMap (tag) {
 	            else{
 	            	console.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
-	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+	            	//setTitle("", "");$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
 					$.unblockUI();
@@ -883,6 +909,10 @@ function  bindTags() {
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
+
+			showTagInMultitag(tag);
+			$('#btn-modal-multi-tag').trigger("click");
+			$('.tags-count').html( $(".item-tag-name").length );
 			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
 		} else {
 			toastr.error("must be loggued");
@@ -897,4 +927,50 @@ function  bindExplainLinks() {
 	 });
 }
 
+function  bindLBHLinks() { 
+	$("a.lbh").off().on("click",function() {  
+		console.warn("***************************************");
+		console.warn("bindLBHLinks",$(this).attr("href"));
+		console.warn("***************************************");
+		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
+	    loadByHash( h );
+	 });
+}
+
+
+function activateSummernote(elem) { 
+		
+	if( !$('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+	{
+		$("<link/>", {
+		   rel: "stylesheet",
+		   type: "text/css",
+		   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+		}).appendTo("head");
+		$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+		  //console.log( data ); // Data returned
+		  //console.log( textStatus ); // Success
+		  //console.log( jqxhr.status ); // 200
+		  //console.log( "Load was performed." );
+		  
+		  $(".btnEditAdv").hide();
+		  $(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+			});
+		});
+	} else {
+		$(".btnEditAdv").hide();
+		$(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+		});
+	}
+}
 

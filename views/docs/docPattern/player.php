@@ -58,6 +58,6 @@
 <script type="text/javascript">
   
 jQuery(document).ready(function() {
-  $(".moduleLabel").html("<i class='fa fa-file'></i> DOCUMENTATION");
+  setTitle("DOCUMENTATION","file");
 });
 </script>

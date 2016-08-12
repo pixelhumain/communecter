@@ -193,8 +193,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 </style>
 
 <div class="row headerEntity bg-light">
-
-	<?php if($type != Person::COLLECTION || !empty($viewer)){ ?>
+	<?php if(($type != Person::COLLECTION && $type != "pixels") || !empty($viewer)){ ?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 			<?php   
 				if(@$entity["profilMediumImageUrl"] && !empty($entity["profilMediumImageUrl"]))
@@ -230,7 +229,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</span>
 					<?php if($type==Event::COLLECTION && isset($element["parentId"])) {
 						$parentEvent = Event::getSimpleEventById($event["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="javascript:;" onclick="loadByHash(\'#element.detail.type.'.Event::COLLECTION.'.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#element.detail.type.'.Event::COLLECTION.'.id.'.$event["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
 					}
 					?>
 				</div>

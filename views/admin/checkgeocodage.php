@@ -35,8 +35,10 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Entités mal géolocalisé");
+
 jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Entités mal géolocalisé","cog");
+	
 	bindCheckGeo();
 });
 
@@ -60,7 +62,7 @@ function bindCheckGeo(){
 	  					textHTML += "<tr>"+
 	  									"<td>"+typeEntity+"</td>"+          
 	  									"<td>"+								    
-	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity["id"]+'\')" class=""> '+
+	  										'<a  href="#'+typeEntity+'.detail.id.'+entity["id"]+'" class="lbh"> '+
 	  										entity["name"]+ "</a></td>"+
 	  									"<td>"+entity["error"]+"</td>"+
 	  								"</tr>";

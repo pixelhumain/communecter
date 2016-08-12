@@ -625,8 +625,10 @@ if (@$follows){
 
 						//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
 						$name = ( @$e["name"] ) ? $e["name"] : "" ;
-						$url = "loadByHash('#".$type.".detail.id.".$id."')";
-						$url = 'href="javascript:;" onclick="'.$url.'"';	
+						if($type=="person")
+							$type="citoyen";
+						$url = "#element.detail.type.".$type."s.id.".$id;
+						$url = 'href="'.$url.'" class="lbh"';	
 						$process = "";
 						if(@$e["isAdminPending"])
 							$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";

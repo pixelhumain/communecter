@@ -5,11 +5,6 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
 	'/assets/plugins/autosize/jquery.autosize.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js',
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -97,11 +92,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	width: 924px;
 	min-height: 250px !important;
 }
-
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
+}
 </style>
-<?php 
-$this->renderPartial('../default/panels/toolbar');  
-?>
+
 <div id="addOrganization" >
 	
 	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
@@ -135,13 +132,13 @@ $this->renderPartial('../default/panels/toolbar');
 										foreach ($types as $key=>$value) {
 											$icon = "" ;
 											if($key=="NGO")
-												$icon = '<i class="fa fa-group"></i>' ;
+												$icon = '<i class="fa fa-group"></i>';
 											if($key=="LocalBusiness")
-												$icon = '<i class="fa fa-industry"></i>' ;
+												$icon = '<i class="fa fa-industry"></i>';
 											if($key=="Group")
-												$icon = '<i class="fa fa-circle"></i>' ;
+												$icon = '<i class="fa fa-circle"></i>';
 											if($key=="GovernmentOrganization")
-												$icon = '<i class="fa fa-lightbulb-o"></i>' ;
+												$icon = '<i class="fa fa-lightbulb-o"></i>';
 									?>
 										<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="<?php echo $key?>"><?php echo $icon ." ".$value ; ?></div>
 										
@@ -256,10 +253,10 @@ $this->renderPartial('../default/panels/toolbar');
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<label for="form-field-24" class="control-label text-dark">
-										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-									</label>
-									<textarea  class="form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+								</h3>
+									<textarea  class="wysiwygInput form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -300,13 +297,12 @@ jQuery(document).ready(function() {
 		$("#type").val(val);
 		console.log("TYPE : ", val);
 		//$('#type option[value="'+val+'"]').prop('selected', true);
+		
 	});
 
-	/*var editor = new wysihtml5.Editor('description', {
-	    toolbar: 'toolbar',
-	    parserRules:  wysihtml5ParserRules
-	});*/
-
+	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#description');
+		 });
 });
 
 
@@ -409,7 +405,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	bindPostalCodeAction();
-	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-group'></i> Référencer votre organisation");
+	setTitle("Référencer votre organisation","<i class='fa fa-plus'></i> <i class='fa fa-group'></i>");
  }); 
 
 	function initForm() {

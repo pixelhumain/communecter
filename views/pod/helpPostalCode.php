@@ -171,7 +171,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
         	<i class="fa fa-angle-down"></i> Trouver un code postal <span class="badge bg-green title-helpCP"></span>
         </h3>
       </div>
-      <div class="modal-body pull-left col-md-12">
+      <div class="modal-body col-md-12">
 		<div class="sigModule<?php echo $sigParams['sigKey']; ?>">
 			<div class="col-md-3 no-padding hidden">
 				<form class="form-postalcode">
@@ -240,8 +240,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var typeSearchInternational;
 
 	jQuery(document).ready(function() {
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> Créer un événement");
-		
+		setTitle("Créer un événement","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i>");
 
 	 	$("#btn-geolocInternational").click(function(){
 	 		var country = $(idCountryInput).val(); 

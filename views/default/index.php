@@ -25,6 +25,7 @@
 
 	$cssAnsScriptFilesModule = array(
 		'/js/default/globalsearch.js',
+		'/js/jquery.filter_input.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
 		'/css/sig/sig.css',
@@ -130,9 +131,6 @@
 
     error_log("load IndexDefault");
 ?>
-
-
-
 
 <?php $this->renderPartial('./menu/menuCommunexion'); ?>
 
@@ -572,13 +570,18 @@ function setScopeValue(btn){ console.log("setScopeValue");
 		
 		$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 		$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);// + ", " + cpCommunexion);
+		
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("data-original-title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("title", cityNameCommunexion);
-		$("#btn-geoloc-auto-menu").off().click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
-		
+		$("#btn-geoloc-auto-menu").off();//.click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
+		$("#btn-geoloc-auto-menu").attr("href", 'javascript:loadByHash("#city.detail.insee.' + inseeCommunexion+'.'+'postalCode.'+cpCommunexion + '")');
+		$("#btn-geoloc-auto-menu").data("hash", "#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion);
+		console.log("HASHHHHHHHHHHHHHHHHHHHH", $("#btn-geoloc-auto-menu").data("hash"));
 		$("#btn-menuSmall-mycity").attr("href", 'javascript:loadByHash("#city.detail.insee.' + inseeCommunexion+"."+"postalCode."+cpCommunexion + '")');
 				
 		$("#btn-citizen-council-commun").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+
+		$("#btn-citizen-council-commun").data("hash", "#rooms.index.type.cities.id." + countryCommunexion+"_" + inseeCommunexion+"-"+cpCommunexion);
 				
 		$("#btn-menuSmall-citizenCouncil").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
 				
@@ -663,8 +666,8 @@ function showLocalActorsCityCommunexion(){
     		 "indexMax" : 500  
     		};
 
-    $(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
-	
+	setTitle("Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>","spin fa-circle-o-notch","Les acteurs locaux : " + cityNameCommunexion + ", " + cpCommunexion);
+
 	$.blockUI({
 		message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + cpCommunexion + " : Commune<span class='text-dark'>xion en cours ...</span></h1>"
 	});
@@ -684,7 +687,7 @@ function showLocalActorsCityCommunexion(){
             else{
             	//console.dir(data);
             	Sig.showMapElements(Sig.map, data);
-            	$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+				setTitle("Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>","connect-develop","Les acteurs locaux : " + cityNameCommunexion + ", " + cpCommunexion );
 				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
 				
 				toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);

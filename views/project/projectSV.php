@@ -14,7 +14,10 @@
 	'/plugins/select2/select2.min.js',
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
-	'/plugins/autosize/jquery.autosize.min.js'
+	'/plugins/autosize/jquery.autosize.min.js',
+
+    //'/plugins/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css',
+    //'/plugins/toopay-bootstrap-markdown/js/bootstrap-markdown.js',
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -40,8 +43,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 #iconeChargement{
 		display: none;
 	}
-
-
 
 /* design alpha tango*/
 .main-col-search{
@@ -88,6 +89,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .input-icon > input {
     padding-left: 25px;
     padding-right: 6px;
+}
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 </style>
 
@@ -208,20 +214,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 					<div class="form-group col-md-12">
 							<div>
-								<label for="form-field-24" class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
-								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+								<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+								</h3>
+								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+
 							</div>
 					</div>
 						
 				</div>
-				<?php if(!isset(Yii::app()->session["userEmail"])){?>
-				<div class="col-md-12">
-					<div class="form-group">
-						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
-					</div>
-				</div>
-				<?php } 
+				
+				<?php 
 				if( Yii::app()->session['userId'] ){ ?>
 				<div class= "row col-xs-12">
 					<button class="pull-right btn bg-purple" onclick="$('.form-event').submit();"><i class="fa fa-save"></i> Enregistrer</button>
@@ -262,7 +265,11 @@ jQuery(document).ready(function() {
  		console.log("ok");
  	});
 
- 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i> Créer un projet");
+ 	setTitle("Créer un projet","<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i>");
+
+ 	$(".wysiwygInput").off().on("focus", function(){
+	 	activateSummernote('#description');
+	 });
 });
 
 function bindProjectSubViewProjects() {
@@ -424,6 +431,8 @@ function initProjectForm(el) {
 	$('.form-project .project-range-date').data('daterangepicker').setStartDate(startDate);
 	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
+	
+	//$(".mdInput").markdown({autofocus:false,savable:false})
 };
 
 

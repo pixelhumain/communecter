@@ -200,7 +200,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		iconRedirect="fa-lightbulb-o";
 	}
 	jQuery(document).ready(function() {
-		 $(".moduleLabel").html("<i class='fa fa-cubes'></i> <span id='main-title-menu'>Ajouter un besoin</span>");
+		 setTitle("<span id='main-title-menu'>Ajouter un besoin</span>","cubes","Ajouter un besoin");
 	 	bindSubViewNeed();
 	 	runNeedFormValidation();
 	});

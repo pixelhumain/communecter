@@ -128,7 +128,7 @@ var formValidator = function() {
 }
 
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-lock'></i> <?php echo Yii::t("common","Change password") ?>");
+	setTitle("<?php echo Yii::t("common","Change password") ?>","lock");
 	$("#changePassword").show();
 	formValidator();
 });

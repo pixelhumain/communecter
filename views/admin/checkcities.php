@@ -28,10 +28,10 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+
 var file = [];
 jQuery(document).ready(function() {
-	
+	setTitle("Espace administrateur : Import de données","cog");
 	//init();
 	 bindCheck();
 });

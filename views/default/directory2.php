@@ -888,7 +888,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+	setTitle(contextName,contextIcon);
 
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;

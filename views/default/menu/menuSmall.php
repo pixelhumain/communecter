@@ -110,7 +110,7 @@ width: 100%;
 		<?php }  else { ?>
 		<div class="col-md-3 col-sm-3 col-xs-12 center margin-top-15">
 			<div class="col-md-12 col-sm-12 no-padding">
-				<a class="no-border" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
+				<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
 					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
 						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
 					<span class="text-white label text-bold" style="font-size:18px;"><?php echo $me["name"]; ?></span>
@@ -119,15 +119,14 @@ width: 100%;
 
 
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-			<div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark-red" 
-			    	href="javascript:loadByHash('#admin.index')">
+			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			    <a class="btn bg-dark-red lbh" href="#admin.index">
 			        <i class="fa fa-user-secret" style="font-size: 1em!important;"></i> 
 			        Admin
 			    </a>
 		    </div>
 			<?php } ?>	
-			<div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
+			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
 				<a class="btn bg-dark visible-xs" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
 			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
 			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
@@ -137,27 +136,27 @@ width: 100%;
 			        Notifications
 			    </a>
 			</div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>')">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
-		     <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2')">
+		     <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			    <a class="btn bg-dark lbh" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>">
 			        <i class="fa fa-rss" style="font-size: 1em!important;"></i> 
 			        Actus réseau
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-6 center padding-5">
-			    <a class="btn bg-dark" 
-			    	href="javascript:loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>')">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			    <a class="btn bg-dark lbh" 
+			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-cogs" style="font-size: 1em!important;"></i> 
@@ -173,15 +172,15 @@ width: 100%;
 
 	  		<div class="col-md-12 col-sm-12 margin-15 visible-communected">
 				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure" href="javascript:loadByHash('#default.directory')" >
+			    	<a class="btn bg-azure lbh" href="#default.directory"" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="javascript:loadByHash('#default.agenda')" >
+					<a class="btn bg-azure lbh" href="#default.agenda"  >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
 				</div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="javascript:loadByHash('#default.news')" >
+					<a class="btn bg-azure lbh" href="#default.news"  >
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
@@ -199,17 +198,16 @@ width: 100%;
 				<?php } ?>
 
 				<div class="col-md-6 col-sm-6 col-xs-12 center visible-communected">
-					<a class="btn bg-red" 
-						href="javascript:loadByHash('#city.detail.insee.<?php 
+					<a class="btn bg-red lbh" 
+						href="#city.detail.insee.<?php 
 							 if(@$myCity) echo $myCity["insee"]; ?>.postalCode.<?php  if(@$myCity) echo $myCity["cp"]; 
-							?>')" 
-						id="btn-menuSmall-mycity">
+							?>" id="btn-menuSmall-mycity">
 						<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
 					</a>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12 center visible-communected">
-					<a class="btn bg-red" 
-						href="javascript:loadByHash('#rooms.index.type.cities.id.<?php if(@$myCity) echo City::getUnikey($myCity); ?>')" 
+					<a class="btn bg-red lbh" 
+						href="#rooms.index.type.cities.id.<?php if(@$myCity) echo City::getUnikey($myCity); ?>" 
 						id="btn-menuSmall-citizenCouncil">
 						<i class="fa fa-connectdevelop"></i><br class="hidden-xs">
 						<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
@@ -225,13 +223,17 @@ width: 100%;
 						</h2>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#person.invite');" class="btn bg-yellow">
+
+						<a href="#person.invite" class="lbh btn bg-yellow">
+
 							<i class="fa fa-user"></i><br>
 							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#organization.addorganizationform');" class="btn bg-green">
+
+						<a href="#organization.addorganizationform" class="lbh btn bg-green">
+
 							<i class="fa fa-group"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Une o</span><span class="hidden-sm hidden-md hidden-lg">O</span>rganisation
@@ -239,7 +241,9 @@ width: 100%;
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#project.projectsv');" class="btn bg-purple">
+
+						<a href="#project.projectsv" class="lbh btn bg-purple">
+
 							<i class="fa fa-lightbulb-o"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Un p</span><span class="hidden-sm hidden-md hidden-lg">P</span>rojet
@@ -247,7 +251,9 @@ width: 100%;
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-						<a href="javascript:loadByHash('#event.eventsv');" class="btn bg-orange">
+
+						<a href="#event.eventsv" class="lbh btn bg-orange">
+
 							<i class="fa fa-calendar"></i><br>
 							<span class="lbl-btn-menu-name-add">
 								<span class="hidden-xs">Un é</span><span class="hidden-sm hidden-md hidden-lg">É</span>vénement
@@ -263,25 +269,25 @@ width: 100%;
 						<i class="fa fa-angle-down"></i> 
 					</h2>
 				</div>
-				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6"; else $colDoc="12"; ?>
+				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6"; else $colDoc="6"; ?>
 				<div class="col-xs-<?php echo $colDoc;?> col-sm-<?php echo $colDoc;?> col-md-<?php echo $colDoc;?> center padding-5">
-					<a class="btn bg-grey" href="javascript:loadByHash('#default.view.page.index.dir.docs')" 
-						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+					<a href="#default.view.page.index.dir.docs" 
+						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
 				        <i class="fa fa-file"></i> 
 				        <br/>Documentation
 				    </a>
 			    </div>
-			   <?php if(isset(Yii::app()->session['userId'])){ ?>
+			   <?php //if(isset(Yii::app()->session['userId'])){ ?>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
-					<a class="btn bg-grey" href="javascript:loadByHash('#news.index.type.pixels')" 
-						class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+					<a  href="#news.index.type.pixels" 
+						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Signaler un bug">
 				        <i class="fa fa-bullhorn"></i> 
 				        <br/>Signaler un bug
 				    </a>
 			    </div>
-			    <?php } ?>
+			    <?php //} ?>
 
 			    
 			</div>

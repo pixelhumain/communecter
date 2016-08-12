@@ -21,7 +21,7 @@
 			$("body.login").removeClass("bgCity").addClass(bgcolorClass);
 			$(".connectMarker").fadeIn();
 		}
-		$(".moduleLabel").html( ( (title) ? title : "") );
+		setTitle((title) ? title : "","");
 		if(!box)
 			box = "box-login";
 		$('.box-menu').slideUp();
