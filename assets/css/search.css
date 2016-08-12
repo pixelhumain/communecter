@@ -174,21 +174,18 @@
 }
 
 input[type="text"].input-search{
-	margin-top: 100px;
-	margin-left: 15%;
-	width: 70%;
-	border-radius: 50px !important;
-	height: 75px;
-	font-size: 20px !important;
-	padding: 10px 77px !important;
-	text-align: center;
-	font-weight: 300;
-	border-color: #C5C5C5 !important;
-	-moz-box-shadow: 0px 0px 5px -2px #656565 !important;
-	-webkit-box-shadow: 0px 0px 5px -2px #656565 !important;
-	-o-box-shadow: 0px 0px 5px -2px #656565 !important;
-	box-shadow: 0px 0px 5px -2px #656565 !important;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+	border-radius: 3px 0px 0px 3px !important;
+    font-size: 18px !important;
+    padding: 10px 15px !important;
+    font-weight: 300;
+    text-align: left;
+    border-color: #CCC !important;
+    -moz-box-shadow: 0px 0px 5px -3px #656565 !important;
+    -webkit-box-shadow: 0px 0px 5px -3px #656565 !important;
+    -o-box-shadow: 0px 0px 5px -3px #656565 !important;
+    box-shadow: 0px 0px 5px -3px #656565 !important;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5) !important;
+}
 }
 /*input[type="text"].input-search{
 	margin-top: 100px;
@@ -246,20 +243,11 @@ input[type="text"].input-search.postalCode:focus{
 }
 
 button.btn-start-search{
-	position: relative;
-	margin-bottom: 5px;
-	top: 0px;
-	right: 11%;
-	/*background-color: #3C5665 !important;*/
 	background-color: #7ACF5B;
 	color: white;
-	border-color: rgba(180, 180, 180, 0.77) !important;
-	border-radius: 30px;
-	font-weight: 300;
-	font-size: 18px;
-	padding: 10px;
 	width: 50px;
-	height: 50px;
+	height: 40px;
+	border-color: transparent !important;
 	-moz-box-shadow: 0px 0px 5px -2px #656565 !important;
 	-webkit-box-shadow: 0px 0px 5px -2px #656565 !important;
 	-o-box-shadow: 0px 0px 5px -2px #656565 !important;
@@ -713,7 +701,7 @@ button.btn-infos{
 		position: relative;
 	}
 
-	input[type="text"].input-search{
+	/*input[type="text"].input-search{
 		margin-top: 68px;
 		margin-left: 14%;
 		width: 72%;
@@ -747,7 +735,7 @@ button.btn-infos{
 		height: 35px;
 		width: 35px;
 		padding: 0px;
-	}
+	}*/
 
 	#dropdown_searchTop .li-dropdown-scope ol{
 		width:50%;
@@ -814,7 +802,7 @@ button.btn-infos{
 
 
 @media screen and (max-width: 767px) {
-	.searchEntity .entityRight{
+	/*.searchEntity .entityRight{
 		text-align: center !important;
 	}
 	.searchEntity .entityCenter{
@@ -825,7 +813,7 @@ button.btn-infos{
 		font-size: 15px !important;
 		max-width: 40%;
 	}
-
+*/
 	.main-top-menu{
 		margin-left:0px !important;
 	}
@@ -834,7 +822,7 @@ button.btn-infos{
 		right:0px !important;
 		border-radius: 0px !important;
 	}
-	.searchEntity .entityLeft{
+	/*.searchEntity .entityLeft{
 		text-align: center !important;
 	}
 	#dropdown_search .searchEntity .entityRight{
@@ -842,7 +830,7 @@ button.btn-infos{
 	}
 	#dropdown_search .searchEntity .entityCenter{
 		max-width:100% !important;
-	}
+	}*/
 
 
 	#main-title-communect{
@@ -878,11 +866,11 @@ button.btn-infos{
 		top: 160px !important;
 	}
 
-	input.input-search {
+	/*input.input-search {
 	    margin-top: 47px !important;
 	    margin-left: 8% !important;
 	    width: 81% !important;
-	}
+	}*/
 
 	.blockMsg {
 	    width: 80% !important;
@@ -906,8 +894,8 @@ button.btn-infos{
 }
 
 .searchEntity{
-	margin-bottom:10px;
-	margin-left:7px;
+	margin-bottom:15px;
+	margin-left:0px;
 	min-height: 60px !important;
 	float: left;
 	width: 100%;
@@ -968,8 +956,8 @@ button.btn-infos{
 	font-size:18px;
 	line-height: 20px;
 	font-weight: 300;
-	width:100%;
-	display: block;
+	/*width:100%;*/
+	display: inline-block;
 }
 .searchEntity .entityRight .entityLocality{
 	font-size: 13px;
@@ -987,6 +975,7 @@ button.btn-infos{
 	font-weight: 300;
 	max-height: 205px;
 	overflow: hidden;
+	margin-bottom:5px;
 }
 
 .searchEntity .entityRight .entityDate{
@@ -1046,6 +1035,22 @@ button.btn-infos{
 	button.menu-button.menu-button-left{
 		left:5% !important;
 		display:none !important;
+	}
+
+	.searchEntity .entityCenter i.fa, 
+	.searchEntity .entityCenter img{
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		font-size: 17px !important;
+		padding: 11px !important;
+		margin-top: 8px !important;
+	}
+	.searchEntity .entityCenter img{
+		padding: 3px !important;
+	}
+	.searchEntity .entityRight .entityName {
+	    font-size: 15px !important;
 	}
 }
 

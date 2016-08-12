@@ -394,7 +394,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#person.detail.id.<?php echo $person['_id'] ;?>');">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#person.detail.id.<?php echo $person['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -505,7 +505,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("email",$person, $isLinked);?>
 					</a>
 					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
+					<i class="fa fa-bookmark"></i> <a href="#define.Gamification"  class="lbh">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<hr style="margin:10px 0px 3px 0px;">
 					
@@ -624,19 +624,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<h1 class="homestead text-white">
 					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 				</h1>
-				<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+				<button class="btn bg-yellow lbh" data-hash="#person.invite">
 					<i class="fa fa-user"></i>
 					<span class="lbl-btn-menu-name-add">quelqu'un</span>
 				</button>
-				<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+				<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
 					<i class="fa fa-group"></i>
 					<span class="lbl-btn-menu-name-add">une organisation</span>
 				</button>
-				<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+				<button class="btn bg-purple lbh" data-hash="#project.projectsv">
 					<i class="fa fa-lightbulb-o"></i>
 					<span class="lbl-btn-menu-name-add">un projet</span>
 				</button>
-				<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+				<button class="btn bg-orange lbh" data-hash="#event.eventsv">
 					<i class="fa fa-calendar"></i>
 					<span class="lbl-btn-menu-name-add">un événement</span>
 				</button>

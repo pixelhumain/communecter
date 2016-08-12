@@ -291,7 +291,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close" onclick="loadByHash('#event.detail.id.<?php echo $event['_id'] ;?>');">OK</button>
+	        <button type="button" class="btn btn-success lbh" data-dismiss="modal" aria-label="Close" data-hash="#event.detail.id.<?php echo $event['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -337,7 +337,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 					<?php if(isset($event["parentId"])) {
 						$parentEvent = Event::getSimpleEventById($event["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="javascript:;" onclick="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a class="lbh" href="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
 					}
 					?>
 						
@@ -392,7 +392,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					if($icon == "fa-lightbulb-o") $color = "purple";
 					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
+					 ?> <a href="#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>" class="lbh"><?php echo @$organizer["name"]; ?></a><br/>
 					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>

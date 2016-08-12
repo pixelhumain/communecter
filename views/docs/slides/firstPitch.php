@@ -35,7 +35,7 @@
                 Offrir une Boite à idée : un Système décisionnel ouvert, participatif et démocratique <br/>
                 Proposer un Annuaire interactif des compétences locales pour particuliers et professionnels<br/>
                 </p>
-                <a href="javascript:;" onclick="loadByHash('#default.view.page.why.dir.docs|slides')" class="text-extra-large homestead bg-dark tooltips pull-right radius-5 padding-10" style="display: block;" > Hein... <i class="fa fa-arrow-right"></i> </a>
+                <a href="#default.view.page.why.dir.docs|slides" class="lbh text-extra-large homestead bg-dark tooltips pull-right radius-5 padding-10" style="display: block;" > Hein... <i class="fa fa-arrow-right"></i> </a>
              </blockquote>
         </div>
     </div>

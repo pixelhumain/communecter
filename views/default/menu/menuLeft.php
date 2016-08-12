@@ -29,17 +29,17 @@
 	//if($cpCommunexion != "" && $cityNameCommunexion != "")
 	//$cityCommunexion = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	
-	error_log("1---menuLeft Cookie address : ". $cityNameCommunexion);
+	//error_log("1---menuLeft Cookie address : ". $cityNameCommunexion);
 	
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
 		if($cpCommunexion != "" && $cityNameCommunexion != "")
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
-		error_log("user not connected, address : ". $cityNameCommunexion);
+		//error_log("user not connected, address : ". $cityNameCommunexion);
 	}
 	//si l'utilisateur est connecté
 	else if(isset($me['address']) && !empty($me['address']['codeInsee'])){ 
-		error_log("user connected with own address : ". (string)$me['address']['addressLocality']);
+		//error_log("user connected with own address : ". (string)$me['address']['addressLocality']);
 		
 		$me = Person::getById(Yii::app()->session['userId']);
 		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
@@ -53,7 +53,7 @@
 		
 		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 	}else{
-		error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
+		//error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
 		if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 

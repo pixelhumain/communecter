@@ -5,7 +5,7 @@
 	<ul class="dropdown-menu dropdown-menu-left">
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		<li>
-			<a href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
+			<a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" class='lbh'>
 				<img class="img-circle" id="menu-thumb-profil" style="margin-left: -5px; margin-top: 3px; margin-bottom: 5px;" width="27" height="27" src="<?php echo $urlPhotoProfil; ?>" alt="image"> 
 				<?php echo $me["name"]; ?>
 			</a>
@@ -20,19 +20,19 @@
 		</li>
 		<li role="separator" class="divider"></li>
 	  	<?php } ?>
-	  	<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
-		<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-calendar"></i> L'Agenda communecté</a></li>
-		<li><a href="javascript:;" onclick="loadByHash('#')" ><i class="fa fa-rss"></i> L'Actualité communecté</a></li>
-	  	<li><a href="javascript:;" onclick="loadByHash('#news.index.type.pixels')" ><i class="fa fa-bullhorn"></i> Bugs, idées</a></li>
+	  	<li><a href="#" class='lbh' ><i class="fa fa-connectdevelop"></i> L'Annuaire communecté</a></li>
+		<li><a href="#" class='lbh' ><i class="fa fa-calendar"></i> L'Agenda communecté</a></li>
+		<li><a href="#" class='lbh' ><i class="fa fa-rss"></i> L'Actualité communecté</a></li>
+	  	<li><a href="#news.index.type.pixels" class='lbh' ><i class="fa fa-bullhorn"></i> Bugs, idées</a></li>
 	  	
 	  	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	  	<li role="separator" class="divider"></li>
-	  	<li><a href="javascript:;" onclick="loadByHash('#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>');" id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
-	  	<li><a href="javascript:;" onclick="loadByHash('#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>');"><i class="fa thumbs-up text-dark"></i> Mes Votes / Discussions</a></li>
+	  	<li><a class='lbh' href="#city.detail.insee.<?php echo $me["address"]["codeInsee"]?>" id="btn-menu-dropdown-my-city"><i class="fa fa-university text-dark"></i> Ma commune</a></li>
+	  	<li><a class='lbh' href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"><i class="fa thumbs-up text-dark"></i> Mes Votes / Discussions</a></li>
 
 		<li role="separator" class="divider"></li>
 			<?php if(isset($me)) if(Role::isDeveloper($me['roles'])){?>
-			<li><a href="javascript:;" onclick="loadByHash('#admin.index')" ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "Admin"); ?></a></li>
+			<li><a href="#admin.index" class='lbh' ><i class="fa fa-cog"></i> <?php echo Yii::t("common", "Admin"); ?></a></li>
 			<?php } ?>
 		<li><a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
 			   id="btn-menu-dropdown-logout" class="text-red">

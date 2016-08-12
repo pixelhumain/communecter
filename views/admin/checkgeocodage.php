@@ -62,7 +62,7 @@ function bindCheckGeo(){
 	  					textHTML += "<tr>"+
 	  									"<td>"+typeEntity+"</td>"+          
 	  									"<td>"+								    
-	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity["id"]+'\')" class=""> '+
+	  										'<a  href="#'+typeEntity+'.detail.id.'+entity["id"]+'" class="lbh"> '+
 	  										entity["name"]+ "</a></td>"+
 	  									"<td>"+entity["error"]+"</td>"+
 	  								"</tr>";

@@ -25,7 +25,7 @@
                   <li>Localement, "territoire experimental" dynamique mutli thematique </li>
                   <li><span class="text-bold bg-azure radius-5 padding-5" >CODE INVITATION : "smarterre" </span></li>
               </ul>
-              <a href="javascript:;" onclick="loadByHash('#default.home')" class="text-extra-large homestead bg-dark tooltips pull-right radius-5 padding-10" style="display: block;" > En Film <i class="fa fa-arrow-right"></i> </a>
+              <a href="#default.home" class="lbh text-extra-large homestead bg-dark tooltips pull-right radius-5 padding-10" style="display: block;" > En Film <i class="fa fa-arrow-right"></i> </a>
         </div>
     </div>
 </div>

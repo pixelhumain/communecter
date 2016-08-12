@@ -28,7 +28,7 @@
 									<td>
 									</td>
 									<td>
-										<a  href='javascript:;' onclick='loadByHash("#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
+										<a  href='#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>' class='lbh'>
 											<?php echo $entity["name"]; ?> 
 										</a>
 									</td>

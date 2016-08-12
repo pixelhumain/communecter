@@ -37,8 +37,7 @@
 <?php 
 	$extraBtn = ( Authorisation::canParticipate(Yii::app()->session['userId'],$parentSpace['parentType'],$parentSpace['parentId']) ) ? 
 		'<i class="fa fa-angle-right"></i> '.
-		'<a class="filter btn btn-xs btn-primary Helvetica" href="javascript:;" '.
-			'onclick="loadByHash(\'#rooms.editAction.room.'.$parentSpace["_id"].'\')">'.
+		'<a class="filter btn btn-xs btn-primary Helvetica lbh" href="#rooms.editAction.room.'.$parentSpace["_id"].'">'.
 			'<i class="fa fa-plus"></i> '.Yii::t( "survey", "Add an Action", null, Yii::app()->controller->module->id).
 		'</a>' 
 		: '';

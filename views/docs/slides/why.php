@@ -17,7 +17,7 @@
             <blockquote class=" text-dark">Découvrir, Comprendre et Dynamiser</blockquote>
             <blockquote class=" text-dark">Créer du lien</blockquote>
             <blockquote class=" text-dark"><b>Libre</b> : L'Opensource porte les valeurs du bien communs</blockquote>
-            <a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');" class="text-extra-large  bg-dark tooltips pull-right radius-5 padding-10 homestead" style="display: block;" > Concrètement <i class="fa fa-arrow-right"></i> </a>
+            <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" class="lbh text-extra-large  bg-dark tooltips pull-right radius-5 padding-10 homestead" style="display: block;" > Concrètement <i class="fa fa-arrow-right"></i> </a>
         </div>
     </div>
 </div>

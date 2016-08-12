@@ -138,7 +138,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 										else
 											echo Yii::t("common", "the ".$urlType);
 								?>
-							<a href="javascript:;" onclick="loadByHash('#<?php echo $urlType ?>.detail.id.<?php echo $parentId; ?>')" class="text-<?php echo $color ?>"><?php echo $parent["name"]; ?></a> 
+							<a href="#<?php echo $urlType ?>.detail.id.<?php echo $parentId; ?>" class="lbh text-<?php echo $color ?>"><?php echo $parent["name"]; ?></a> 
 						</h2>					
 					</div>
 				</div>

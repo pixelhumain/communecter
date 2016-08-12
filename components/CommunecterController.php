@@ -138,6 +138,7 @@ class CommunecterController extends Controller
       'updatecitiesgeoformat' => array("href" => "/ph/communecter/city/updatecitiesgeoformat","public" => true),
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
+      'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -218,6 +219,8 @@ class CommunecterController extends Controller
         "updatename"      => array("href" => "/ph/communecter/person/updatename"),
         "updateprofil"      => array("href" => "/ph/communecter/person/updateprofil"),
         "updatewithjson"      => array("href" => "/ph/communecter/person/updatewithjson"),
+        "updatemultitag"      => array("href" => "/ph/communecter/person/updatemultitag"),
+        "updatemultiscope"      => array("href" => "/ph/communecter/person/updatemultiscope"),
 
         
         "chooseinvitecontact"=> array('href'    => "/ph/communecter/person/chooseinvitecontact"),

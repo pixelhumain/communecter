@@ -1,13 +1,13 @@
 <style>
 	@media screen and (min-width: 767px) and (max-width: 920px){
 	.main-top-menu .moduleLabel {
-    	max-width: 28% !important;
+    	max-width: 19% !important;
 	}
 
 }
-@media screen and (min-width: 900px) and (max-width: 1130px) {
+@media screen and (min-width: 920px) and (max-width: 1130px) {
 	.main-top-menu .moduleLabel {
-    	max-width: 50% !important;
+    	max-width: 32% !important;
 	}
 }
 
@@ -84,6 +84,9 @@
 	#main-btn-co{
 		margin-right:0px;
 	}
+	button.btn-menu-notif{
+		margin-right: -10px;
+	}
 }
 </style>
 
@@ -93,7 +96,7 @@
 		<i class="fa fa-bars fa-2x"></i>
 	</a>
 
-	<a class="pull-left tooltips" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
+	<a class="pull-left tooltips hidden-xs" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
 		data-toggle="tooltip" data-placement="bottom" 
 		title="Lire la documentation" 
 		alt="Lire la documentation">

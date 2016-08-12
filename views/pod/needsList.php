@@ -14,7 +14,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<?php if($isAdmin) { ?>
 		<div class="panel-tools">
-    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" onclick="loadByHash('#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>')">
+    		<a class="tooltips btn btn-xs btn-light-blue lbh"  data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" href="#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>">
 	    		
 	    		<i class="fa fa-plus"></i> Ajouter un besoin
 	    	</a>
@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								</td>
 								<td class="text-left">
 									<span class="text-large"><?php echo $data["name"]; ?></span>
-									<a href="javascript:;" onclick="loadByHash('#need.detail.id.<?php echo $data["_id"] ?>')" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
+									<a href="#need.detail.id.<?php echo $data["_id"] ?>" class="lbh btn"><i class="fa fa-chevron-circle-right"></i></a>
 								</td>
 							</tr>
 				<?php } } } ?>

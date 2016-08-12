@@ -110,7 +110,7 @@ width: 100%;
 		<?php }  else { ?>
 		<div class="col-md-3 col-sm-3 col-xs-4 center margin-top-15">
 			<div class="col-md-12 col-sm-12 no-padding">
-				<a class="no-border" href="javascript:" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');">
+				<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
 					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
 						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
 					<span class="text-white label text-bold" style="font-size:18px;"><?php echo $me["name"]; ?></span>
@@ -125,15 +125,15 @@ width: 100%;
 	  		<?php if(isset($myCity)){?>
 		    <div class="col-md-12 col-sm-12 margin-15 hidden-xs">
 				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure" href="loadByHash('#default.directory')" >
+			    	<a class="btn bg-azure lbh" href="#default.directory"  >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.agenda')" >
+					<a class="btn bg-azure lbh" href="#default.agenda" >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
 				</div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.news')" >
+					<a class="btn bg-azure lbh" href="#default.news"  >
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
@@ -150,13 +150,13 @@ width: 100%;
 					</div> 
 				<?php } else { ?>
 					<div class="col-md-6 col-sm-6 center">
-						<a class="btn bg-red" href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>'')" 
+						<a class="btn bg-red lbh" href="#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>" 
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-university"></i> <br class="hidden-xs">Ma commune
 						</a>
 					</div>
 					<div class="col-md-6 col-sm-6 center">
-						<a class="btn bg-red" href="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>'')" 
+						<a class="btn bg-red lbh" href="#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>"  
 							id="btn-menu-dropdown-my-city">
 							<i class="fa fa-connectdevelop"></i><br class="hidden-xs"><span class="hidden-xs">Mon </span>Conseil citoyen
 						</a>
@@ -172,15 +172,15 @@ width: 100%;
 			<?php if(isset($myCity)){?>
 		    <div class="col-md-12 col-sm-12 padding-15 visible-xs">
 				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure" href="loadByHash('#default.directory')" >
+			    	<a class="btn bg-azure lbh" href="#default.directory" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.agenda')" >
+					<a class="btn bg-azure lbh" href="#default.agenda" >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
 				</div>
 				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure" href="loadByHash('#default.news')" >
+					<a class="btn bg-azure lbh" href="#default.news" >
 					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
@@ -236,21 +236,21 @@ width: 100%;
 		    
 			<div class="col-md-12 col-sm-12 hidden center" id="">
 	  			<div class="col-md-6 col-sm-6 center">
-					<a href="javascript:" class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+					<a href="#person.invite" class="btn bg-yellow lbh">
 						<i class="fa fa-user"></i><br>
 						<span class="lbl-btn-menu-name-add">quelqu'un</span>
 					</a>
-					<a href="javascript:" class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+					<a href="#organization.addorganizationform" class="btn bg-green lbh">
 						<i class="fa fa-group"></i><br>
 						<span class="lbl-btn-menu-name-add">une organisation</span>
 					</a>
 				</div>
 				<div class="col-md-6 col-sm-6 center">
-					<a href="javascript:" class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+					<a href="#project.projectsv" class="btn bg-purple lbh">
 						<i class="fa fa-lightbulb-o"></i><br>
 						<span class="lbl-btn-menu-name-add">un projet</span>
 					</a>
-					<a href="javascript:" class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+					<a href="#event.eventsv" class="btn bg-orange lbh">
 						<i class="fa fa-calendar"></i><br>
 						<span class="lbl-btn-menu-name-add">un événement</span>
 					</a>
@@ -266,25 +266,25 @@ width: 100%;
 					<i class="fa fa-angle-down"></i> 
 				</h1>
 				<div class="col-xs-6 col-sm-3 col-md-3 center padding-5">
-					<a href="javascript:" class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+					<a href="#person.invite" class="btn bg-yellow lbh">
 						<i class="fa fa-user"></i><br>
 						<span class="lbl-btn-menu-name-add">quelqu'un</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-3 col-md-3 center padding-5">
-					<a href="javascript:" class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+					<a href="#organization.addorganizationform" class="btn bg-green lbh">
 						<i class="fa fa-group"></i><br>
 						<span class="lbl-btn-menu-name-add">une organisation</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-3 col-md-3 center padding-5">
-					<a href="javascript:" class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+					<a href="#project.projectsv" class="btn bg-purple lbh">
 						<i class="fa fa-lightbulb-o"></i><br>
 						<span class="lbl-btn-menu-name-add">un projet</span>
 					</a>
 				</div>
 				<div class="col-xs-6 col-sm-3 col-md-3 center padding-5">
-					<a href="javascript:" class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+					<a href="#event.eventsv" class="btn bg-orange lbh">
 						<i class="fa fa-calendar"></i><br>
 						<span class="lbl-btn-menu-name-add">un événement</span>
 					</a>

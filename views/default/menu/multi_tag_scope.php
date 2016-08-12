@@ -10,7 +10,7 @@
 	#dropdown-multi-tag, 
 	#dropdown-multi-scope{
 		position: absolute;
-	    top: -5px;
+	    top: 45px;
 		left: -5px;
 	    z-index: 1000;
 	    display: none;
@@ -36,6 +36,8 @@
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
+	    max-height: 610px;
+		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,
 	#dropdown-multi-scope input.form-control {
@@ -72,14 +74,6 @@
 	}
 
 	#btn-modal-multi-scope, #btn-modal-multi-tag{
-		/*border-radius: 30px;
-		border: 0px none;
-		padding: 10px;
-		width: 40px;
-		height: 40px;
-		margin-top: 5px;
-		font-size: 15px;
-		margin-right:8px;*/
 		border-radius: 30px;
 		border: 0px none;
 		padding: 5px;
@@ -89,6 +83,16 @@
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;
+	}
+	#btn-modal-multi-scope:hover, #btn-modal-multi-tag:hover{
+		background-color: #ddd;
+	}
+
+	#btn-modal-multi-tag{
+		margin-left:10px;
+	}
+	#btn-modal-multi-scope{
+		margin-right:15px;
 	}
 
 	#dropdown-multi-scope .input-group-addon, 
@@ -100,14 +104,43 @@
 	    border: 1px solid rgba(128, 128, 128, 0) !important;
 	}
 
+	#dropdown-multi-scope .item-scope-input.bg-red.disabled,
+	#dropdown-multi-tag .item-tag-input.bg-red.disabled{
+		background-color:#DBBCC1 !important;
+	}
 
-
+	.item-scope-checker,
+	.item-tag-checker{
+		cursor:pointer;
+		font-weight: 600 !important;
+	}
+	#list_tags_scopes span.text-red.disabled{
+	    color:#DBBCC1 !important;
+	    font-weight:300 !important;
+	  }
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
 			width: 100% !important;
 			min-width: 100% !important;
 			max-width: 100% !important;	
+		}
+		#dropdown-multi-tag, 
+		#dropdown-multi-scope{
+			left: 0px;
+			right: 0px;
+			position: fixed;
+			min-width: 100% !important;
+			width: 100% !important;
+			max-width: 100% !important;
+			max-height: 85%;
+			min-height: 85%;
+		}
+		#btn-modal-multi-tag{
+			margin-left:0px;
+		}
+		#btn-modal-multi-scope{
+			margin-right:5px;
 		}
 	}
 </style>
@@ -117,6 +150,55 @@
 
 
 <script>
+
+jQuery(document).ready(function() {
+	
+});
+
+function showTagsScopesMin(htmlId){
+	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
+			        //'<i class="fa fa-cogs"></i>' +
+			//    '</button> ';
+	
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	// html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
+	// 	        '<i class="fa fa-cogs"></i>' +
+	// 	    '</button> ';
+	$.each(myMultiScopes, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
+					"class='text-red "+disabled+" item-scope-checker' data-scope-value='"+ key + "'>" + 
+					"<i class='fa fa-bullseye'></i> " + key + 
+				"</span> ";
+	});
+
+	$(htmlId).html(html);
+
+	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+	
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+		//else
+		//$("#dropdown-content-multi-tag").removeClass('open');
+	});
+	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-scope").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+		//else
+		//dropdown-content-multi-scope").removeClass('open');
+	});
+}
+
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {
 		"organization.addorganizationform": { 

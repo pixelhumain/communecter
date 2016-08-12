@@ -249,7 +249,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               }); //end each
 
               if(str == "") { 
-				  $.unblockUI();
+				        $.unblockUI();
 	              showMap(false);
 
                   $(".btn-start-search").html("<i class='fa fa-search'></i>"); 
@@ -324,7 +324,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               //quand la recherche est terminé, on remet la couleur normal du bouton search
               $(".btn-start-search").removeClass("bg-azure");
             }
-			 $('.tooltips').tooltip();
+			      
+            $('.tooltips').tooltip();
             console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
             if(indexMax - countData > indexMin){

@@ -3,6 +3,7 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
+
 });
 
 function checkPoll(){
@@ -756,6 +757,7 @@ function showAjaxPanel (url,title,icon) {
 			
 			bindExplainLinks();
 			bindTags();
+			bindLBHLinks();
 
 			$.unblockUI();
 
@@ -906,6 +908,10 @@ function  bindTags() {
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
+
+			showTagInMultitag(tag);
+			$('#btn-modal-multi-tag').trigger("click");
+			$('.tags-count').html( $(".item-tag-name").length );
 			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
 		} else {
 			toastr.error("must be loggued");
@@ -920,4 +926,50 @@ function  bindExplainLinks() {
 	 });
 }
 
+function  bindLBHLinks() { 
+	$("a.lbh").off().on("click",function() {  
+		console.warn("***************************************");
+		console.warn("bindLBHLinks",$(this).attr("href"));
+		console.warn("***************************************");
+		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
+	    loadByHash( h );
+	 });
+}
+
+
+function activateSummernote(elem) { 
+		
+	if( !$('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+	{
+		$("<link/>", {
+		   rel: "stylesheet",
+		   type: "text/css",
+		   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+		}).appendTo("head");
+		$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+		  //console.log( data ); // Data returned
+		  //console.log( textStatus ); // Success
+		  //console.log( jqxhr.status ); // 200
+		  //console.log( "Load was performed." );
+		  
+		  $(".btnEditAdv").hide();
+		  $(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+			});
+		});
+	} else {
+		$(".btnEditAdv").hide();
+		$(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+		});
+	}
+}
 

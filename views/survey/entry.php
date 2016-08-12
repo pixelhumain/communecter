@@ -97,7 +97,7 @@ if( !isset($hideTexts) )
 		}
 		else{
 			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="loadByHash(\'#'.$ctrl.'.detail.id.'.$room["parentId"].'\')"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
+			$contentVote = '<a href="#'.$ctrl.'.detail.id.'.$room["parentId"].'" class="btn btn-success lbh"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>";

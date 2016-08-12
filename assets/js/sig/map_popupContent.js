@@ -329,7 +329,7 @@
 			title = title.replace('"', "");
 
 			var icon = 'fa-'+ this.getIcoByType(data);
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='loadByHash(\"#news.detail.id."+id+"\");'>";
+			popupContent += "<button class='item_map_list popup-marker lbh' id='popup"+id+"' data-hash='#news.detail.id."+id+"'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
