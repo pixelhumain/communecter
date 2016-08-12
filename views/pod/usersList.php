@@ -68,11 +68,11 @@
 		</div> 
 		<div class="panel-tools">
 			<?php if ( @$admin && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
-					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#element.detail.type.<?php echo $contentType ?>.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 					</a>								
 			<?php } else if ($contentType != ActionRoom::COLLECTION_ACTIONS){ ?>
-				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#element.detail.type.<?php echo $contentType ?>.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-eye"></i> <?php echo Yii::t("common","Visualize"); ?>
 					</a>								
 

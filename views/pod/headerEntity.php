@@ -117,7 +117,79 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 			font-size:13px;
 		}
 	}
-
+	progress[value] {
+    /* Get rid of the default appearance */
+    appearance: none;   
+    /* This unfortunately leaves a trail of border behind in Firefox and Opera. We can remove that by setting the border to none. */
+    border: none;
+    /* Add dimensions */
+	width: 100%; height: 20px;
+    /* Although firefox doesn't provide any additional pseudo class to style the progress element container, any style applied here works on the container. */
+    background-color: whiteSmoke;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+    /* Of all IE, only IE10 supports progress element that too partially. It only allows to change the background-color of the progress value using the 'color' attribute. */
+    color: royalblue;
+    position: relative;
+	}
+	/*
+	Webkit browsers provide two pseudo classes that can be use to style HTML5 progress element.
+	-webkit-progress-bar -> To style the progress element container
+	-webkit-progress-value -> To style the progress element value.
+	*/
+	
+	progress[value]::-webkit-progress-bar {
+	    background-color: whiteSmoke;
+	    border-radius: 3px;
+	    box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+	}
+	
+	progress[value]::-webkit-progress-value {
+	    position: relative;
+	    
+	    background-size: 35px 20px, 100% 100%, 100% 100%;
+	    border-radius:3px;
+	    
+	    /* Let's animate this */
+	    animation: animate-stripes 5s linear infinite;
+	}
+	
+	@keyframes animate-stripes { 100% { background-position: -100px 0; } }
+	
+	/* Firefox provides a single pseudo class to style the progress element value and not for container. -moz-progress-bar */
+	progress[value]::-moz-progress-bar {
+	    /* Gradient background with Stripes */
+	    background-image:
+	    -moz-linear-gradient( 135deg,
+		    transparent,
+		    transparent 33%,
+		    rgba(0,0,0,.1) 33%,
+		    rgba(0,0,0,.1) 66%,
+		    transparent 66%),
+	    -moz-linear-gradient( top,
+	        rgba(255, 255, 255, .25),
+	        rgba(0,0,0,.2)),
+	    -moz-linear-gradient( left, #09c, #f44);    
+	    background-size: 35px 20px, 100% 100%, 100% 100%;
+	    border-radius:3px;
+	    /* Firefox doesn't support CSS3 keyframe animations on progress element. Hence, we did not include animate-stripes in this code block */
+	}
+	
+	.progressStyle::-webkit-progress-value
+	{
+	    /* Gradient background with Stripes */
+	    background-image:
+	    -webkit-linear-gradient( 135deg,
+	        transparent,
+		    transparent 33%,
+		    rgba(0,0,0,.1) 33%,
+		    rgba(0,0,0,.1) 66%,
+		    transparent 66%),
+	    -webkit-linear-gradient( top,
+	        rgba(255, 255, 255, .25),
+	        rgba(0,0,0,.2)),
+	    -webkit-linear-gradient( left, #09c, #ff0);
+	}
 </style>
 
 <div class="row headerEntity bg-light">
@@ -142,11 +214,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 				<div class="col-md-12 no-padding margin-top-15">
-					<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
-							<i class="fa fa-angle-right"></i> 
-							<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-							</a>
-					</h2>
+					<?php if($type == Organization::COLLECTION || $type == Event::COLLECTION){ ?>
+						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
+								<i class="fa fa-angle-right"></i> 
+								<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
+								</a>
+						</h2>
+					<?php } ?>
 					<span class="lbl-entity-name">
 						<i class="fa fa-<?php echo Element::getFaIcon($type); ?>">
 						<a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
@@ -169,29 +243,29 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</span>
 				</div>
 			</div>
-			<?php if($type==Project::COLLECTION){ ?>
+			<?php if($type == Project::COLLECTION){ ?>
 			<div class="col-md-12 text-dark no-padding" style="margin-top:10px;">
 					<a  href="#" id="avancement" data-type="select" data-title="avancement" 
 						data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
 						class="entityDetails editable editable-click">
-						<?php if(isset($project["properties"]["avancement"])){ 
+						<?php if(isset($entity["properties"]["avancement"])){ 
 							//idea => concept => Started => development => testing => mature
-							if($project["properties"]["avancement"]=="idea")
+							if($entity["properties"]["avancement"]=="idea")
 								$val=5;
-							else if($project["properties"]["avancement"]=="concept")
+							else if($entity["properties"]["avancement"]=="concept")
 								$val=20;
-							else if ($project["properties"]["avancement"]== "started")
+							else if ($entity["properties"]["avancement"]== "started")
 								$val=40;
-							else if ($project["properties"]["avancement"] == "development")
+							else if ($entity["properties"]["avancement"] == "development")
 								$val=60;
-							else if ($project["properties"]["avancement"] == "testing")
+							else if ($entity["properties"]["avancement"] == "testing")
 								$val=80;
 							else 
 								$val=100;
-							echo Yii::t("project",$project["properties"]["avancement"],null,Yii::app()->controller->module->id);
+							echo Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id);
 						} ?>
 					</a>
-					<?php if(isset($project["properties"]["avancement"])){ ?>
+					<?php if(isset($entity["properties"]["avancement"])){ ?>
 					<progress max="100" value="<?php echo $val;?>" class="progressStyle">
 					</progress>
 					<?php } else { ?>

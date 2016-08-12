@@ -140,7 +140,6 @@
 				<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
 					<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
 				</a> 
-				<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null;?>
 				<br>
 			
 				<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
@@ -154,7 +153,6 @@
 				<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
 					data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 				</a> 
-				<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>
 				<br>
 
 				<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
@@ -227,7 +225,6 @@
 
 							
 						}
-						echo '<i class="fa fa-phone fa_telephone  hidden"></i>'.@$telephone.'<br>';
 					}
 				?>
 
@@ -438,6 +435,7 @@
 			$('#tags').editable('option', 'pk', contextId);
 			$('#category').editable('option', 'pk', contextId);
 			$('#typeOfPublic').editable('option', 'pk', contextId);
+			$('#avancement').editable('option', 'pk', contextId);
 			$('#telephone').editable('option', 'pk', contextId);			
 			$('#startDate').editable('option', 'pk', contextId);
 			$('#endDate').editable('option', 'pk', contextId);
