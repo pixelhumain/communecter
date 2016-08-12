@@ -27,9 +27,11 @@
 
 * Version 0.15 (31/08/2016) : En cours
 
-  [ ] one input add
-  [ ] dashboard activité 
-  [ ] Event ideas (0.16??)
+** TODO
+    [ ] one input add
+    [ ] dashboard activité 
+    [ ] multi scope on element forms
+    [ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
             [ ] par salle , chrono, tag filter, all subevents
@@ -39,9 +41,9 @@
     [ ] Best place calculator : utilisant la position des participants
     [ ] Réunion privée pour avancement interne organisation
     [ ] Event intérrsant pour moi, moteur d'affinité
-[ ] POI et Element de base (0.16??)
-[ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
-[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
+    [ ] POI et Element de base (0.16??)
+    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
+    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -61,15 +63,23 @@
         [X] menu
         [X] multi scope 
         [X] multi tags
-    [ ] Bug Repair geoloc sur tous les element
+    [X] Refactor design top bar 
+    [X] Refactor agenda
+    [X] REcherche connecté au multi scope
+    [ ] REcherche par 100, 500, 1000, all
+    [X] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
+    [ ] lazy loading sur la carto
   ** @Tib 
-    [X] reparer le click du milieu
+    [X] script devlog pour ajouter updated sur les anciennes data 
+        [X] ajouter updated on login  
+    [ ] demarrage dashboard 
+     [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
-    [ ] refactor links.loadByHash + chemin dans href
+    [X] refactor links.loadByHash + chemin dans href
     [X] search and filter tag engine
     [X] wisiwig sur les desc de form create
     [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
