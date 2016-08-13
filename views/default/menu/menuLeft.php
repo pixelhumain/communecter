@@ -135,7 +135,7 @@
 				data-hash="#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
 				class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
-				<img class="img-circle tooltips" id="menu-thumb-profil" width="24" height="24"
+				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
 					 title="Mon profil : <?php echo $me["name"]; ?>"
 					 src="<?php echo $profilThumbImageUrl; ?>" alt="image" >

@@ -297,6 +297,7 @@
 		        if(typeof data.profilThumbImageUrl != "undefined"){
 		        	profilThumbImageUrl = baseUrl + data.profilThumbImageUrl + "?_=" + Date.now();
 		        	$("#menu-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$("#menu-left-thumb-profil").attr("src", profilThumbImageUrl);
 		        	$("#menu-small-thumb-profil").attr("src", profilThumbImageUrl);
 		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", profilThumbImageUrl);
 		        }
