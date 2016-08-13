@@ -56,46 +56,62 @@
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
 	      			<div class="btn-group  btn-group-justified margin-bottom-10 hidden-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default active" data-scope-type="city">
+						  <button type="button" class="btn btn-default tooltips active" data-scope-type="city"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une commune">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="cp">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="cp"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un code postal">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="dep">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="dep"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un département">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Département
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="region">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="region"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une région">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Région
 						  </button>
 						</div>
 					</div>
 	      			<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default active" data-scope-type="city">
+						  <button type="button" class="btn btn-default tooltips active" data-scope-type="city"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une commune">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="cp">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="cp"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un code postal">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
 						  </button>
 						</div>
 					</div>
 					<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="dep">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="dep"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un département">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Département
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="region">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="region"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une région">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Région
 						  </button>
 						</div>
@@ -116,10 +132,14 @@
 					    </div>
 					</div>
 					<div class="col-md-3">
-	      				<button class="btn btn-default" onclick="javascript:selectAllScopes(true)">
+	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner tout les lieux">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default" onclick="javascript:selectAllScopes(false)">
+			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner aucun lieu">
 			      			<i class="fa fa-circle-o"></i>
 			      		</button>
 	      			</div>

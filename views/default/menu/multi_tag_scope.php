@@ -36,7 +36,7 @@
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
-	    max-height: 610px;
+	    max-height: 510px;
 		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,

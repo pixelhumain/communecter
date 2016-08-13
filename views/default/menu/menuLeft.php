@@ -81,10 +81,19 @@
 		display:none;
 	}
 	.main-menu-left.inSig .fa{
-		margin-left:5px;
+		/*margin-left:5px;*/
 	}
 	.main-menu-left.inSig hr{
 		max-width:5px!important;
+	}
+
+	.menu-left-container i.fa{
+		padding: 5px;
+		border-radius: 30px;
+		width: 24px;
+		text-align: center;
+		font-size: 18px;
+		height: 24px;
 	}
 
 </style>
@@ -109,7 +118,6 @@
 			data-hash="<?php echo $hash; ?>"
 			id="btn-geoloc-auto-menu">
 			
-			<i class="fa fa-angle-right"></i> 
 			<i class="fa fa-home tooltips"
 					data-toggle="tooltip" data-placement="right" title="Ma commune : <?php echo $title; ?>"></i>
 			<span class="lbl-btn-menu">
@@ -117,15 +125,37 @@
 			</span>
 		</a><hr>
 		
+		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
+		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+		      }
+		?>
+		<?php //var_dump($me);
+		 if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId'] ?>')" 
+				data-hash="#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
+				<img class="img-circle tooltips" id="menu-thumb-profil" width="24" height="24"
+					 data-toggle="tooltip" data-placement="right" 
+					 title="Mon profil : <?php echo $me["name"]; ?>"
+					 src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
+    
+				<i class="fa fa-user tooltips hidden"
+					data-toggle="tooltip" data-placement="right" 
+					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
+		</a>
+		<hr><br>
+		<?php } ?>
+
 		<a href="#default.live" id="menu-btn-directory"
 				data-hash="#default.live"
 				class="lbh menu-button-left visible-communected 
 				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-heartbeat  tooltips"
-					data-toggle="tooltip" data-placement="right" title="L'espace le plus chaud bouillant"></i> <span class="lbl-btn-menu">Live</span>
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
 		</a><hr class="visible-communected">
-
+		
+		
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
@@ -133,19 +163,18 @@
 				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
 				class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
+				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
 		</a>
-		<hr><br>
+		<hr>
 		<?php } ?>
-
-
+		<br>
 		
+
 		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
 				data-hash="#default.directory"
 				class="menu-button-left  
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-search tooltips"
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
 		</a><hr class="">
@@ -154,7 +183,6 @@
 				data-hash="#default.agenda"
 				class="menu-button-left 
 			<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> <span class="lbl-btn-menu">Agenda</span>
 		</a><hr class="">
@@ -164,7 +192,6 @@
 				class="menu-button-left 
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
-				<i class="fa fa-angle-right "></i> 
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
 		</a><hr class="">
@@ -176,7 +203,6 @@
 			if(@$myCity) echo City::getUnikey($myCity); ?>"
 			class="hidden menu-button-left " 
 			id="btn-citizen-council-commun">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-connectdevelop tooltips"
 					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
 		</a><hr class="hidden ">

@@ -164,7 +164,7 @@
         var countEvent = 0;
         var items = "";
         var startDate = "";
-
+        var zIndex=31;
         console.log("allDayEvents");
         console.dir(allDayEvents);
         
@@ -208,7 +208,7 @@
            dropdown = $(dropdown);
            day.append(dropdown);
         // }
-        
+        zIndex--;
         return day;
       },
       makeActive: function(day, dayEvents) {
@@ -233,6 +233,7 @@
       drawDay: function(lastDayOfMonth, yearNum, monthNum, dayNum, i) {
         var calcDate, dateNow, dateString, day, dayDate, pastFutureClass;
         day = $("<div></div>").addClass("day dropdown");
+        day.css("zIndex",100-dayNum);
         dateNow = new Date();
         dateNow.setHours(0, 0, 0, 0);
         dayDate = new Date(yearNum, monthNum - 1, dayNum);

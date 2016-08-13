@@ -15,7 +15,9 @@
   border-radius:30px;
 }
 .responsive-calendar .controls h4 {
-  display: inline;
+  min-width: 145px;
+  text-align: center;
+  display: inline-block;
 }
 .responsive-calendar .day-headers,
 .responsive-calendar .days {
@@ -61,7 +63,9 @@
   z-index:1;
   /*color: #ffffff;*/
 }
-
+.responsive-calendar .day.active .dropdown-menu {
+    top: 97%;
+}
 .responsive-calendar .day.active .btn{
   position: absolute;
   right: 4px;

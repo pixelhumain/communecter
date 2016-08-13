@@ -214,7 +214,7 @@
 
 </style>
 
-<div class="">
+<div class="hidden">
 <button class="btn-scope btn-scope-niv-5 tooltips" level="5"
 		data-toggle="tooltip" data-placement="top" title="Niveau 5 : Global" alt="Niveau 5 : Global" ></button>
 <button class="bg-red btn-scope btn-scope-niv-4 tooltips" level="4"

@@ -108,8 +108,17 @@
 ?>
 <style>
 	.footer-menu-left{
-		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");
+		/*background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");*/
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
 	}
+
+@media screen and (max-height: 580px) {
+	.footer-menu-left{
+		display:none;
+	}
+}
+
+
 </style>
 
 <div id="mainMap">
