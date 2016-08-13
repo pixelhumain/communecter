@@ -277,8 +277,31 @@ text-align: center;
     z-index: 2;
 }
 
+.helloasso{
+	position: fixed;
+	bottom: 58px;
+	left: 10px;
+	z-index: 10;
+	border-radius:10px;
+}
+.helloasso img{
+	width:120px; 
+	border-radius:10px;
+	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
+	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
+	box-shadow: 0px -2px 5px -2px #353535 !important;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
 </style>
-<div class="globale-announce text-dark hidden-xs">
+
+<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips"
+		data-toggle="tooltip" data-placement="top" title="faire un don pour soutenir communecter">
+	<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+</a>
+
+<div class="globale-announce text-dark hidden-xs hidden">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<span class="homestead msg hidden">Soutenez-nous</span>
 		<img class="piggy" style="height:30px;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
