@@ -38,10 +38,16 @@ class DefaultController extends CommunecterController {
     $this->renderPartial("agenda");
   }
 
-  public function actionLive() 
+  public function actionLive($type=null) 
   {
-    
-    $this->renderPartial("live");
+    $stream = array();
+    $now = array();
+    if($type == "dda"){
+      $stream = ActionRoom::getAllRoomsActivityByTypeId(Person::COLLECTION, Yii::app()->session['userId'] );  
+    }
+    $this->renderPartial("live", array( "stream"=>$stream,
+                                        "now"=>$now,
+                                        "type"=>$type ));
   }
 
   public function actionNews() 

@@ -154,6 +154,13 @@
 				<i class="fa fa-heartbeat  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
 		</a><hr class="visible-communected">
+		<a href="#default.live.type.dda" id="menu-btn-directory"
+				data-hash="#default.live"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-archive  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Propositions"></i> <span class="lbl-btn-menu">DDA</span>
+		</a><hr class="visible-communected">
 		
 		
 		<?php //var_dump($me);
