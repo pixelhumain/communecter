@@ -164,6 +164,7 @@ jQuery(document).ready(function() {
     }
   });
 
+//  if(userId != 'null')
   showTagsScopesMin("#list_tags_scopes");
   
   $('#btn-start-search').click(function(e){

@@ -104,7 +104,8 @@
 		<i class="fa fa-question-circle hidden" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
 	</a>
 
-	<?php $this->renderPartial('../default/menu/multi_tag_scope'); ?>
+	<?php //if(isset(Yii::app()->session['userId'])) 
+	$this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
 
 	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">

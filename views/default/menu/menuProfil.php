@@ -83,7 +83,7 @@
       <?php } ?>
     <li>
       <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
-         id="btn-menu-dropdown-logout" class="text-red">
+         id="" class="text-red">
         <i class="fa fa-sign-out"></i><?php echo Yii::t("person","Sign out"); ?>
       </a>
     </li>  

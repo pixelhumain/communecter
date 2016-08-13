@@ -62,12 +62,12 @@
 
 <style>
 	<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-			if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
+			//if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
 	?>
 		button.btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9{
 			display: none;
 		}
-	<?php } ?>
+	<?php //} ?>
 
 	.hidden-xs.main-menu-left.inSig{
 		display:inline !important;
@@ -97,32 +97,21 @@
 <div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10">
 	
 	<div class="menu-left-container">
-		<?php //var_dump($me);
-		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>" 
-				id="menu-btn-news-network"
-				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
-				class=" lbh menu-button menu-button-left menu-button-title btn-menu 
-				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
-					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
-		</a>
-		<hr><br>
-		<?php } ?>
 
 		<?php 
 			$cityExists = (isset($myCity) && $myCity != "");
 			$title = $cityExists ? $cityNameCommunexion : "Communectez-moi";
 			$hash = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] : "";
-			$onclick = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"]: "javascript:";
+			$onclick = $cityExists ? "javascript:loadByHash('#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"]."')": "javascript:";
 		?>
 		<a href="<?php echo $onclick; ?>" 
-			class="lbh menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
+			class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			data-hash="<?php echo $hash; ?>"
 			id="btn-geoloc-auto-menu">
 			
-			<i class="fa fa-crosshairs tooltips"
-					data-toggle="tooltip" data-placement="right" title="<?php echo $title; ?>"></i>
+			<i class="fa fa-angle-right"></i> 
+			<i class="fa fa-home tooltips"
+					data-toggle="tooltip" data-placement="right" title="Ma commune : <?php echo $title; ?>"></i>
 			<span class="lbl-btn-menu">
 				<?php echo $title; ?>
 			</span>
@@ -136,46 +125,61 @@
 				<i class="fa fa-heartbeat  tooltips"
 					data-toggle="tooltip" data-placement="right" title="L'espace le plus chaud bouillant"></i> <span class="lbl-btn-menu">Live</span>
 		</a><hr class="visible-communected">
+
+		<?php //var_dump($me);
+		 if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
+				id="menu-btn-news-network"
+				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
+					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
+		</a>
+		<hr><br>
+		<?php } ?>
+
+
 		
-		<a href="#default.directory" id="menu-btn-directory"
+		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
 				data-hash="#default.directory"
-				class="lbh menu-button-left visible-communected 
+				class="menu-button-left  
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-search tooltips"
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
-		<a href="#default.agenda" id="menu-btn-agenda"
+		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
 				data-hash="#default.agenda"
-				class="lbh menu-button-left visible-communected 
+				class="menu-button-left 
 			<?php echo ($page == 'agenda') ? 'selected':'';?>">
 				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> <span class="lbl-btn-menu">Agenda</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
-		<a href="#default.news" id="menu-btn-news"
+		<a href="javascript:loadByHash('#default.news')" id="menu-btn-news"
 				data-hash="#default.news"
-				class="lbh menu-button-left visible-communected
+				class="menu-button-left 
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
 				<i class="fa fa-angle-right "></i> 
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 		
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
-		<a href="#rooms.index.type.cities.id.<?php 
-			if(@$myCity) echo City::getUnikey($myCity); ?>" 
+		<a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
+			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
 			data-hash="#rooms.index.type.cities.id.<?php 
 			if(@$myCity) echo City::getUnikey($myCity); ?>"
-			class="lbh menu-button-left visible-communected" 
+			class="hidden menu-button-left " 
 			id="btn-citizen-council-commun">
 				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-connectdevelop tooltips"
 					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
-		</a><hr class="visible-communected">
+		</a><hr class="hidden ">
 		<?php //} ?>
 
 	</div>
@@ -197,8 +201,8 @@
 	<?php 
 	if(isset(Yii::app()->session['userId']) && false){ ?>
 		<button class="menu-button menu-button-title btn-menu btn-menu-add" onclick="">
-			<span class="lbl-btn-menu-name">Ajouter</span></span>
-			<i class="fa fa-plus-circle"></i>
+		<span class="lbl-btn-menu-name">Ajouter</span></span>
+		<i class="fa fa-plus-circle"></i>
 		</button>
 	<?php } ?>
 </div>

@@ -61,15 +61,17 @@
 </div>
 
 <?php 
-	if(isset(Yii::app()->session['userId']))
-	$me = Person::getById(Yii::app()->session['userId']); 
+	$multitags = empty($me) && isset( Yii::app()->request->cookies['multitags'] ) ? 
+		   			    	Yii::app()->request->cookies['multitags'] : "{}";	
 ?>
 <script type="text/javascript"> 
 
-var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ? json_encode($me["multitags"]) : "{}"; ?>;
+var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ? 
+						json_encode($me["multitags"]) : 
+						$multitags; 
+				    ?>;
+
 var searchTags = "";
-//console.log("init myMultiTags");
-//console.dir(myMultiTags);
 
 jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
@@ -86,28 +88,40 @@ jQuery(document).ready(function() {
 
 
 function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
-        data: {multitags : myMultiTags},
-       	dataType: "json",
-    	success: function(data){
-    		showCountTag();
-    		rebuildSearchTagInput();
-	    	//console.log("saveMultiTag() success");
-	    },
-		error: function(error){
-			console.log("Une erreur est survenue pendant l'enregistrement des tags");
-		}
-	});
+	if(userId != null && userId != ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
+	        data: {multitags : myMultiTags},
+	       	dataType: "json",
+	    	success: function(data){
+	    		showCountTag();
+	    		rebuildSearchTagInput();
+	    		saveCookieMultitags();
+		    	//console.log("saveMultiTag() success");
+		    },
+			error: function(error){
+				console.log("Une erreur est survenue pendant l'enregistrement des tags");
+			}
+		});
+	}else{
+		showCountTag();
+		rebuildSearchTagInput();
+	    saveCookieMultitags();
+	}
 }
 
+function saveCookieMultitags(){ console.log("saveCookieMultitags", myMultiTags);
+	$.cookie('multitags',   	JSON.stringify(myMultiTags),  	{ expires: 365, path: "/" });
+
+}
 
 function loadMultiTags(){
 	$.each(myMultiTags, function(key, value){
 		showTagInMultitag(key);
 	});
 	showCountTag();
+	saveCookieMultitags();
 }
 
 function showCountTag(){

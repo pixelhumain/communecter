@@ -170,7 +170,7 @@ width: 100%;
 
 	  	<div class="col-md-9 col-sm-9 col-xs-12 no-padding">
 
-	  		<div class="col-md-12 col-sm-12 margin-15 visible-communected">
+	  		<div class="col-md-12 col-sm-12 margin-15">
 				<div class="col-md-4 col-sm-4 center">
 			    	<a class="btn bg-azure lbh" href="#default.directory"" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
@@ -272,7 +272,7 @@ width: 100%;
 				<?php if(isset(Yii::app()->session['userId'])) $colDoc="6"; else $colDoc="6"; ?>
 				<div class="col-xs-<?php echo $colDoc;?> col-sm-<?php echo $colDoc;?> col-md-<?php echo $colDoc;?> center padding-5">
 					<a href="#default.view.page.index.dir.docs" 
-						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-dark" 
+						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-white" 
 			            data-toggle="tooltip" data-placement="left" title="Documentation">
 				        <i class="fa fa-file"></i> 
 				        <br/>Documentation
@@ -281,7 +281,7 @@ width: 100%;
 			   <?php //if(isset(Yii::app()->session['userId'])){ ?>
 			    <div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 					<a  href="#news.index.type.pixels" 
-						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-dark" 
+						class="btn bg-grey lbh menu-button btn-menu btn-menu-notif tooltips text-white" 
 			            data-toggle="tooltip" data-placement="left" title="Signaler un bug">
 				        <i class="fa fa-bullhorn"></i> 
 				        <br/>Signaler un bug

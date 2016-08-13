@@ -145,8 +145,8 @@
 	}
 </style>
 
-<?php $this->renderPartial('../default/menu/multi_tag'); ?>
-<?php $this->renderPartial('../default/menu/multi_scope'); ?>
+<?php $this->renderPartial('../default/menu/multi_tag', array("me"=>$me)); ?>
+<?php $this->renderPartial('../default/menu/multi_scope', array("me"=>$me)); ?>
 
 
 <script>

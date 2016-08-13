@@ -563,7 +563,7 @@ function setScopeValue(btn){ console.log("setScopeValue");
 
 		}
 		//var path = location.pathname;
-		setCookies();
+		//setCookies();
 		//definit le path du cookie selon si on est en local, ou en prod
 		
 		setCookies(location.pathname);
@@ -888,15 +888,17 @@ function selectScopeLevelCommunexion(level){
 	startSearch();
 }
 function setCookies(path){
-	$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
-	$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-	$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
-	$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
-	$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
-	if(typeof(nbCpbyInseeCommunexion) != "undefined"){
-		$.cookie('nbCpbyInseeCommunexion',   	nbCpbyInseeCommunexion,  	{ expires: 365, path: path });
-		$.cookie('cityInseeCommunexion',   	cityInseeCommunexion,  	{ expires: 365, path: path });
-	}
+	//if(false){
+		$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+		$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+		$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
+		$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+		$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+		if(typeof(nbCpbyInseeCommunexion) != "undefined"){
+			$.cookie('nbCpbyInseeCommunexion',   	nbCpbyInseeCommunexion,  	{ expires: 365, path: path });
+			$.cookie('cityInseeCommunexion',   	cityInseeCommunexion,  	{ expires: 365, path: path });
+		}
+	//}
 }
 </script>
 

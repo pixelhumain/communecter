@@ -154,14 +154,19 @@
 <input id="searchLocalityINSEE" type="hidden" />
 <input id="searchLocalityREGION" type="hidden" />
 
-
 <?php 
-	if(isset(Yii::app()->session['userId']))
-	$me = Person::getById(Yii::app()->session['userId']); 
+	$multiscopes = (empty($me) && isset( Yii::app()->request->cookies['multiscopes'] )) ? 
+		   			    	Yii::app()->request->cookies['multiscopes']->value : "{}";	
+
+	//var_dump($multiscopes); echo " cookie : ".Yii::app()->request->cookies['multiscopes'];//return;
 ?>
 <script type="text/javascript"> 
 
-var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? json_encode($me["multiscopes"]) : "{}"; ?>;;
+var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? 
+								json_encode($me["multiscopes"]) :  
+								$multiscopes; 
+					?>;
+
 var currentScopeType = "city";
 var timeoutAddScope;
 
@@ -211,22 +216,33 @@ function scopeExists(scopeValue){
 	return typeof myMultiScopes[scopeValue] != "undefined";
 }
 
-function saveMultiScope(){ //console.log("saveMultiScope() try"); console.dir(myMultiScopes);
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
-        data: {multiscopes : myMultiScopes},
-       	dataType: "json",
-    	success: function(data){
-    		showCountScope();
-    		rebuildSearchScopeInput();
-	    	//console.log("saveMultiScope() success");
-	    },
-		error: function(error){
-			console.log("Une erreur est survenue pendant l'enregistrement des scopes");
-		}
-	});
+function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); //console.dir(myMultiScopes);
+	if(userId != null && userId != ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
+	        data: {multiscopes : myMultiScopes},
+	       	dataType: "json",
+	    	success: function(data){
+	    		showCountScope();
+	    		rebuildSearchScopeInput();
+	    		saveCookieMultiscope();
+		    	//console.log("saveMultiScope() success");
+		    },
+			error: function(error){
+				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
+			}
+		});
+	}else{
+		showCountScope();
+		rebuildSearchScopeInput();
+		saveCookieMultiscope();
+	}
 }
+function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
+	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+}
+
 function autocompleteMultiScope(){
 	var scopeValue = $('#input-add-multi-scope').val();
 	$("#dropdown-multi-scope-found").html("<li><i class='fa fa-refresh fa-spin'></i></li>");
@@ -274,6 +290,7 @@ function loadMultiScopes(){
 		showScopeInMultiscope(key);
 	});
 	showCountScope();
+	saveCookieMultiscope()
 }
 function showCountScope(){
 	var count = 0; 
