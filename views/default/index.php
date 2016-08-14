@@ -113,7 +113,7 @@
 	}
 
 @media screen and (max-height: 580px) {
-	.footer-menu-left{
+	.footer-menu-left, .helloasso{
 		display:none;
 	}
 }

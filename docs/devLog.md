@@ -292,7 +292,7 @@ db.cities.find().forEach(function(doc)
 {
     if(typeof doc.insee != "undefined"){
         if(doc.insee.indexOf("988")==0 )
-            db.cities.update({"_id":doc._id},{'$set':{'regionName':'Nouvelle-Calédonie'}});
+            db.cities.update({"_id":doc._id},{'$set':{'regionName':'Nouvelle-Calédonie', 'depName':'Nouvelle-Calédonie'}});
     }
 });
 ----------------------------------------------------

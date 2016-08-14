@@ -286,7 +286,7 @@ text-align: center;
 
 .helloasso{
 	position: fixed;
-	bottom: 58px;
+	bottom: 161px;
 	left: 10px;
 	z-index: 10;
 	border-radius:10px;
