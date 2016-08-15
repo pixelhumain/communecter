@@ -201,14 +201,27 @@
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
-		</a><hr class="">
+		</a><hr class=""><br>
 		
+		<a style="margin-bottom:5px;float:left;" href="https://www.helloasso.com/associations/open-atlas" target="_blank"
+				class="menu-button-left">
+				<i class="fa fa-gift tooltips"
+					data-toggle="tooltip" data-placement="right" title="Faire un don"></i> 
+					<!-- <i class="fa fa-gift"></i> -->
+					<span class="lbl-btn-menu">Faire un don</span>
+		</a><br><hr style="float: left; width: 100%; border-color: transparent ! important; margin: 0px;">
+
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips pull-left"
+				data-toggle="tooltip" data-placement="right" title="soutenir communecter">
+			<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+		</a>
+
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
 		<a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
 			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
 			data-hash="#rooms.index.type.cities.id.<?php 
 			if(@$myCity) echo City::getUnikey($myCity); ?>"
-			class="hidden menu-button-left " 
+			class="hidden menu-button-left" 
 			id="btn-citizen-council-commun">
 				<i class="fa fa-connectdevelop tooltips"
 					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
@@ -285,19 +298,19 @@ text-align: center;
 }
 
 .helloasso{
-	position: fixed;
+	/*position: fixed;
 	bottom: 161px;
 	left: 10px;
-	z-index: 10;
+	z-index: 10;*/
 	border-radius:10px;
 }
 .helloasso img{
 	width:120px; 
 	border-radius:10px;
-	-moz-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-webkit-box-shadow: 0px -2px 5px -2px #353535 !important;
-	-o-box-shadow: 0px -2px 5px -2px #353535 !important;
-	box-shadow: 0px -2px 5px -2px #353535 !important;
+	-moz-box-shadow: 0px 0px 5px -3px #353535 !important;
+	-webkit-box-shadow: 0px 0px 5px -3px #353535 !important;
+	-o-box-shadow: 0px 0px 5px -3px #353535 !important;
+	box-shadow: 0px 0px 5px -3px #353535 !important;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
