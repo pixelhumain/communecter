@@ -134,7 +134,7 @@ function showCountTag(){
 		if(value.active==true) count++;
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
-	showTagsScopesMin("#list_tags_scopes");
+	showTagsScopesMin(".list_tags_scopes");
 }
 function tagExists(tagValue){
 	return typeof myMultiTags[tagValue] != "undefined";

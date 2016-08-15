@@ -224,7 +224,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	margin-top: 10px;
 }*/
 
-
+.timeline_element .timeline_text{
+	font-size:14px !important;
+}
+.timeline_element .img-responsive{
+	max-height:300px !important;
+}
+#form-news{
+	display: inline-block;
+    width: 100%;
+    padding-bottom: 10px;
+}
+#btn-submit-form {
+    right: 30px;
+    position: absolute;
+    bottom: 10px;
+}
+.form-group.tagstags{
+	margin-bottom:0px !important;
+}
 
 </style>
 <!--<textarea class="mention"></textarea>-->
@@ -263,7 +281,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="form-group tagstags" style="">
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
-			<div class="form-actions" style="display: block;">
+			<div class="form-actions no-padding" style="display: block;">
 				<?php if((@$canManageNews && $canManageNews==true) || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
@@ -301,13 +319,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</ul>
 				</div>		
 				<?php }else if($type=="city"){ ?>
+					<?php /* ?>
 					<input type="hidden" name="cityInsee" value=""/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
-					</div>
+					</div><?php */ ?>
+					<div id="scopeListContainer" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
 					<input type="hidden" name="scope" value="public"/>
-				
 				<?php } ?>
 				<?php if((@$canManageNews && $canManageNews=="true") || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
@@ -595,6 +614,7 @@ jQuery(document).ready(function()
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
+ 	showFormBlock(false);
 });
 function isInArray(value, array) {
   return array.indexOf(value) > -1;

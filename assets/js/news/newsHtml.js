@@ -78,7 +78,7 @@ function buildLineHTML(newsObj,idSession,update)
 		//alert(canPostNews);
 		if (currentMonth == null  && canPostNews == true){
 		//	alert();
-			form = "<div class='newsFeed'>"+
+			form = "<div class='newsFeed newsFeedForm'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
 			addForm=true;
@@ -150,7 +150,7 @@ function buildLineHTML(newsObj,idSession,update)
 				actionTitle = "";//getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
-			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+			textHtml='<span class="timeline_text no-padding text-dark" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
@@ -353,8 +353,18 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			$("#newFeedForm").append($("#formCreateNewsTemp"));
-			$("#formCreateNewsTemp").css("display", "inline");
+			if(location.hash == "#default.live"){ 
+				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+				$(".newsFeedForm").css("display", "none");
+
+			}else{
+				$("#newFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+			}
+
+			//$("#newFeedForm").append($("#formCreateNewsTemp"));
+			//$("#formCreateNewsTemp").css("display", "inline");
 		}
 		// Bug on timeline style increment due to the two part
 		// Still have few news at the same level (but tempory fixed
