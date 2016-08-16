@@ -69,117 +69,15 @@
 
 	<?php //$this->renderPartial("first_step_news"); ?> 
 	<?php //$this->renderPartial("news/index"); ?> 
-
-</div>
-
-
-<div class="col-sm-12 col-xs-12 col-md-4 pull-right">
-	<h3 class="col-sm-12 text-red"><i class="fa fa-clock-o"></i> En ce moment</h3>
-	<div class="col-sm-12 col-xs-12 col-md-6 ">
-    	
-    	<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5 ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-
-		<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5 ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-
-		<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5 ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-	</div>
-
-	<div class="col-sm-12 col-xs-12 col-md-6 ">
-    	<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5 ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-
-		<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5  ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-
-		<div class="border-dark margin-bottom-30">
-			
-		    <div class=" ">
-				<img src="http://placehold.it/250x100" class="img-responsive">
-		    </div>
-		    <div class="padding-5 ">
-				27/07/50 - Luke Rony 
-				<br/><div class="text-right">Hacking Debout</div>
-		    </div>
-		</div>
-	</div>
-</div>
-
-<div class="col-sm-12 col-xs-12 col-md-12">
-	<!-- <h1 class="col-sm-12">Live Stream <?php echo @$type?></h1> -->
 	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="newsstream"></div>
-	
-
-	<?php if(false) foreach ($stream as $key => $v) { ?>
-	<div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-30 border-dark padding-5">
-		<div class=" border-bottom">
-			<?php echo date("d/m/Y",@$v["updated"])?> - <?php echo Element::getLink(@$v["organizerType"],@$v["organizerId"])?>  > <?php echo Element::getLink(@$v["parentType"],@$v["parentId"])?>
-	    </div>
-	    <div class=" border-bottom padding-bottom-10">
-	    	<img src="http://placehold.it/450x200" class="img-responsive">
-			<div class="text-bold text-extra-large">
-				<i class="fa fa-<?php echo Element::getFaIcon(@$v["type"])?>"></i>			
-				<?php echo Element::getLink(@$v["type"],(string)@$v["_id"])?>
-			</div>
-			<?php echo @$v["message"]?>
-	    </div>
-	    <div class=" padding-5">
-	    	<div class="pull-left">
-				<i class="fa fa-thumbs-up"></i> 540 
-				<i class="fa fa-comment"></i> 54 
-			</div>
-			<div class="pull-right">
-				<i class="fa fa-hand-grab-o"></i> 
-				<i class="fa fa-share-alt"></i>
-			</div>
-	    </div>
-	</div>
-	<?php } ?>
 </div>
 
 
+<div class="col-sm-12 col-xs-12 col-md-4">
+	<h3 class="col-sm-12 text-red"><i class="fa fa-clock-o"></i> En ce moment</h3>
+	
+	<div class="col-sm-12 col-xs-12" id="nowList"></div>
+</div>
 
 <!-- end: PAGE CONTENT-->
 <script>
@@ -213,8 +111,39 @@ jQuery(document).ready(function() {
 
 	//$("#formCreateNewsLive").append()
 	startSearch();
+
+	var searchParams = {
+	  "name":"",
+	  "tpl":"/pod/nowList",
+      "latest" : true,
+      "searchType" : ["events","organizations","projects"], 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "indexMin" : 0, 
+      "indexMax" : 20  };
+	ajaxPost("#nowList", baseUrl + "/" + moduleId + '/search/globalautocomplete', searchParams, null,"html");
+
 });
-	
+
+function buildHotStuffList(list) { 
+	$.each(list,function(i,v) { 
+		
+	html = '<div class="border-dark margin-bottom-30 col-xs-12 col-md-6">'+
+		'<div class=" "><img src="http://placehold.it/250x100" class="img-responsive"></div>'+
+	    '<div class="padding-5 ">'+
+			'<br/>'+
+			'<div class="text-right">'+
+				'<i class="fa fa-<?php echo Element::getFaIcon(@$v["type"])?>"></i> <?php echo Element::getLink(@$v["type"],(string)@$v["_id"])?>'+
+			'</div>'+
+	    '</div>'+
+	'</div>';
+	$('#nowList').html(html);
+	});
+}	
 
 function slidupScopetagsMin(show){
 	if($("#list_filters").hasClass("hidden")){
