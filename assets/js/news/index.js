@@ -123,7 +123,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			form ="";
 			if(canPostNews==true){
 				form = "<div class='newsFeed'>"+
-						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
+						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
 					"</div>";
 				msg = "Aucune activité.<br/>Soyez le premier à publier ici";
 			}
@@ -139,8 +139,15 @@ function buildTimeLine (news, indexMin, indexMax)
 			
 			$(".newsTL").append(newsTLLine);
 			if(canPostNews==true){
-				$("#newFeedForm").append(formCreateNews);
-				$("#formCreateNewsTemp").css("display", "inline");
+				if(location.hash == "#default.live"){ 
+					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
+					$("#formCreateNewsTemp").css("display", "inline");
+					$(".newsFeedForm").css("display", "none");
+
+				}else{
+					$("#newFeedForm").append($("#formCreateNewsTemp"));
+					$("#formCreateNewsTemp").css("display", "inline");
+				}
 			}
 		}
 		else {
@@ -225,8 +232,9 @@ function bindEvent(){
 		}
 	});
 
-	$(".form-create-news-container #get_url").focus(function(){
-		showFormBlock(true);	
+	$(".form-create-news-container #get_url").keyup(function(){
+		if($(this).val() != "")
+			showFormBlock(true);	
 	});
 	$(".form-create-news-container #get_url").focusout(function(){
 		if($(this).val() == "")
@@ -796,6 +804,14 @@ function saveNews(){
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
+				if($('#searchLocalityNAME') && location.hash("#default.live")){
+				  newNews.searchLocalityNAME = $('#searchLocalityNAME').val().split(',');
+			      newNews.searchLocalityCODE_POSTAL_INSEE = $('#searchLocalityCODE_POSTAL_INSEE').val().split(',');
+			      newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
+			      newNews.searchLocalityINSEE = $('#searchLocalityINSEE').val().split(',');
+			      newNews.searchLocalityREGION = $('#searchLocalityREGION').val().split(',');
+			    }
+
 				newNews.parentId = $("#form-news #parentId").val(),
 				newNews.parentType = $("#form-news #parentType").val(),
 				newNews.scope = $("input[name='scope']").val(),

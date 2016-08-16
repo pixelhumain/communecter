@@ -8,11 +8,36 @@
 
 <div class="col-sm-12 col-xs-12 col-md-8">
 
-	<div class="col-sm-12 col-xs-12 col-md-12 margin-top-15">
+	<div class="col-sm-12 col-xs-12 col-md-12" style="margin-top: 50px;">
 		<div id="newLiveFeedForm"></div>
 	</div>
 
-	<div class="lbl-scope-list text-red hidden"></div>
+	
+
+	<div class="col-md-12 col-sm-12 col-xs-12 center">
+		
+	  <div class="col-md-12 no-padding margin-top-15">
+	  	<div class="input-group col-md-12 col-sm-12 col-xs-12 pull-left">
+	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
+	        <span class="input-group-btn">
+	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+	                      <i class="fa fa-refresh"></i>
+	              </button>
+	        </span>
+	    </div>
+	    <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
+	            style="margin-left:15px;margin-top:5px;"
+	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
+	            <i class="fa fa-minus"></i>
+	    </button>
+	    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs hidden  pull-left" 
+	            style="margin-left:7px;margin-top:5px;"
+	            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
+	          <i class="fa fa-question-circle"></i>
+	    </button>
+	  </div>
+	</div>
 
 	<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
 	  <div class="col-md-12 col-sm-12 col-xs-12 margin-top-15 no-padding">
@@ -37,34 +62,8 @@
 	    </button>
 	  </div>
 	  
+	  <div class="lbl-scope-list text-red hidden"></div>
 	</div>
-	
-	<div class="col-md-12 col-sm-12 col-xs-12 center">
-		
-	  <div class="col-md-12 no-padding margin-top-15">
-	  	<div class="input-group col-md-9 col-sm-8 col-xs-12 pull-left">
-	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
-	        <span class="input-group-btn">
-	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
-	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
-	                      <i class="fa fa-refresh"></i>
-	              </button>
-	        </span>
-	    </div>
-	    <button class="btn btn-sm tooltips hidden-xs pull-left" id="btn-slidup-scopetags" 
-	            style="margin-left:15px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
-	            <i class="fa fa-minus"></i>
-	    </button>
-	    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs hidden  pull-left" 
-	            style="margin-left:7px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
-	          <i class="fa fa-question-circle"></i>
-	    </button>
-	  </div>
-	</div>
-
-
 
 	<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
 
@@ -267,16 +266,16 @@ function startSearch(){
 function showNewsStream(name,locality){
 	if(typeof(cityInseeCommunexion) != "undefined"){
 	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
-	                             2 : "INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
+		                             2 : "INSEE",
+		                             3 : "DEPARTEMENT",
+		                             4 : "REGION"
+		                           };
 	}else{
 		var levelCommunexionName = { 1 : "INSEE",
-	                             2 : "CODE_POSTAL_INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
+		                             2 : "CODE_POSTAL_INSEE",
+		                             3 : "DEPARTEMENT",
+		                             4 : "REGION"
+		                           };
 	}
 	var dataNewsSearch = {
       "tagSearch" : name, 
