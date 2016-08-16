@@ -804,7 +804,7 @@ function saveNews(){
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				if($('#searchLocalityNAME') && location.hash("#default.live")){
+				if($('#searchLocalityNAME') && location.hash == "#default.live"){
 				  newNews.searchLocalityNAME = $('#searchLocalityNAME').val().split(',');
 			      newNews.searchLocalityCODE_POSTAL_INSEE = $('#searchLocalityCODE_POSTAL_INSEE').val().split(',');
 			      newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
