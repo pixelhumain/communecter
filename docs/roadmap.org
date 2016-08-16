@@ -85,6 +85,9 @@
                 [ ] en ce moment : most active updated 
                     - how to define activity ? vote counts, comment counts
                         algorythm based on vote and comment dates 
+            [ ] projects
+            [ ] organisations
+            [ ] events
         [ ] switcher de home a dashB
         [ ] latest DDA on city page
         [ ] element activity
