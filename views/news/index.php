@@ -251,6 +251,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
+	<?php if(false) { ?>
 		<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
 		  
 		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
@@ -282,8 +283,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		  </div>
 
 		</div>
+	<?php } ?>
 
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
+		</h5>
 		<div class="tools_bar bg-white">
 			<div class="user-image-buttons">
 				<form method="post" id="photoAddNews" enctype="multipart/form-data">
@@ -663,27 +666,4 @@ function isInArray(value, array) {
 }
 
 
-function initSelectTypeNews(){
-
-	var msgTypesNews = { 
-		"news" : "Partagez un message",
-		"idea" : "Partagez une idée",
-		"question" : "Posez votre question",
-		"announce" : "Rédigez votre annonce",
-		"information" : "Partagez votre information"
-	};
-
-	$(".btn-type-news").click(function(e){
-	    var type = $(this).data("type");
-	    
-	    $(".btn-type-news").removeClass("active");
-	    $(this).addClass("active");
-	    
-	    $("input[name='type']").val(type);
-
-	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
-	    $(".header-form-create-news").html("<i class='fa fa-pencil'></i> "+msg);
-	    
-  	});
-}
 </script>
