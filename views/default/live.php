@@ -196,7 +196,9 @@ jQuery(document).ready(function() {
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
       "indexMax" : 20  };
-	ajaxPost("#nowList", baseUrl + "/" + moduleId + '/search/globalautocomplete', searchParams, null,"html");
+	ajaxPost("#nowList", baseUrl + "/" + moduleId + '/search/globalautocomplete', searchParams, function() { 
+		bindLBHLinks();
+	 },"html");
 
 });
 
