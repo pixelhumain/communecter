@@ -648,19 +648,23 @@
 
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
-					$.each(data, function (key, value){
+					$.each(data, function (key, value){ console.log("type SIG ?"); console.dir(value);
 						var oneData = key;
-						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
-							oneData = key.author;
+						if((value.typeSig == "news" || 
+							value.typeSig == "idea" || 
+							value.typeSig == "question" || 
+							value.typeSig == "announce" || 
+							value.typeSig == "information"
+							) && typeof value.author !== "undefined") 
+							data = value.author;
+						console.log("type oneData ?"); console.dir(data);
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 					
 				}else{
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
-
-
-				
+			
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données

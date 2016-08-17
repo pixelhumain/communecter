@@ -310,6 +310,7 @@ function buildLineHTML(newsObj,idSession,update)
 	else 
 		authorLine="";*/
 	//END OF CREATED BY OR INVITED BY
+
 	var commentCount = 0;
 	idVote=newsObj._id['$id'];
 	if ("undefined" != typeof newsObj.commentCount) 
@@ -353,7 +354,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			if(location.hash == "#default.live"){ 
+			if(location.hash.indexOf("#default.live")==0){ 
 				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 				$("#formCreateNewsTemp").css("display", "inline");
 				$(".newsFeedForm").css("display", "none");
@@ -386,7 +387,7 @@ function buildHtmlUrlAndActionObject(obj){
 	else 
 		redirectTypeUrl="news";
 
-	if(obj.type=="news"){
+	if(obj.type!="activityStream"){
 		url = '';
 		// Check media content is gallery image
 		if(typeof(obj.media) != "undefined" && typeof(obj.media.type) != "undefined" && obj.media.type=="gallery_images"){
@@ -461,15 +462,18 @@ function buildHtmlUrlAndActionObject(obj){
 	object.titleAction= titleAction;
 	return object; 
 }
-function builHtmlAuthorImageObject(obj){
+function builHtmlAuthorImageObject(obj){ //console.log("[[[[[[[[[[[[[[[[[[[[[[[[[["); console.dir(obj);
+	var icon = "fa-rss";
+	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		var colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
+		colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
 		if (icon == "fa-circle")
 			icon = obj.icon;
-	}else{ 
-		icon = "fa-rss";
-		colorIcon="blue";
+	}
+	if(obj.type != "activityStream"){
+		icon = "fa-" + Sig.getIcoByType({type : obj.type});
+		colorIcon = Sig.getIcoColorByType({type : obj.type});
 	}
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA

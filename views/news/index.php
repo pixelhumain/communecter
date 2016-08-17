@@ -250,6 +250,39 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
+
+		<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
+		  
+		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
+		    <button class="btn btn-default btn-type-news tooltips text-dark active" 
+		    		data-toggle="tooltip" data-placement="top" title="Messages" data-type="news">
+		      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
+		      <span class="hidden-xs hidden-sm hidden-md">Message</span>
+		    </button>
+		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    		data-toggle="tooltip" data-placement="top" title="Idée" data-type="idea">
+		      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
+		      <span class="hidden-xs hidden-sm hidden-md">Idée</span>
+		    </button>
+		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    		data-toggle="tooltip" data-placement="top" title="Question" data-type="question">
+		      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
+		      <span class="hidden-xs hidden-sm hidden-md">Question</span>
+		    </button>
+		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    		data-toggle="tooltip" data-placement="top" title="Annonce" data-type="announce">
+		      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
+		      <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
+		    </button>
+		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    		data-toggle="tooltip" data-placement="top" title="Information" data-type="information">
+		      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
+		      <span class="hidden-xs hidden-sm hidden-md">Information</span>
+		    </button>
+		  </div>
+
+		</div>
+
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> </h5>
 		<div class="tools_bar bg-white">
 			<div class="user-image-buttons">
@@ -268,10 +301,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
 			
+			<input type="hidden" id="typeNews" name="type" value="news"/>
+
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<textarea id="get_url" placeholder="..." class="get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
+					<textarea id="get_url" placeholder="Exprimez-vous ..." class="get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>
 
@@ -390,7 +425,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php 
 foreach($news as $key => $oneNews){
-	$news[$key]["typeSig"] = "news";	
+	if(@$news[$key]["type"] && $news[$key]["type"] != "activityStream")
+		$news[$key]["typeSig"] = $news[$key]["type"];
+	//else
+		//$news[$key]["typeSig"] = "news";	
 }
 ?>
 
@@ -537,6 +575,7 @@ jQuery(document).ready(function()
 		});
 	},500);
 
+	
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, news);
 	initFormImages();
@@ -610,6 +649,9 @@ jQuery(document).ready(function()
 			})
 	  }
   	});
+
+	initSelectTypeNews();
+
    	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
@@ -618,5 +660,30 @@ jQuery(document).ready(function()
 });
 function isInArray(value, array) {
   return array.indexOf(value) > -1;
+}
+
+
+function initSelectTypeNews(){
+
+	var msgTypesNews = { 
+		"news" : "Partagez un message",
+		"idea" : "Partagez une idée",
+		"question" : "Posez votre question",
+		"announce" : "Rédigez votre annonce",
+		"information" : "Partagez votre information"
+	};
+
+	$(".btn-type-news").click(function(e){
+	    var type = $(this).data("type");
+	    
+	    $(".btn-type-news").removeClass("active");
+	    $(this).addClass("active");
+	    
+	    $("input[name='type']").val(type);
+
+	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
+	    $(".header-form-create-news").html("<i class='fa fa-pencil'></i> "+msg);
+	    
+  	});
 }
 </script>

@@ -139,7 +139,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			
 			$(".newsTL").append(newsTLLine);
 			if(canPostNews==true){
-				if(location.hash == "#default.live"){ 
+				if(location.hash.indexOf("#default.live")==0){ 
 					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
@@ -455,6 +455,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").show("fast");
 		$(".form-create-news-container .tools_bar").show("fast");
 		$(".form-create-news-container .scopescope").show("fast");	
+		$(".form-create-news-container #list_type_news").show("fast");	
 		$(".form-create-news-container #btn-slidup-scopetags").hide("fast");
 		//$("#list_tags_scopes").appendTo(".form-create-news-container #scopeListContainer");
 		if(typeof slidupScopetagsMin != "undefined") slidupScopetagsMin(false);
@@ -467,6 +468,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 		$(".form-create-news-container .tools_bar").hide();
 		$(".form-create-news-container .scopescope").hide();
+		$(".form-create-news-container #list_type_news").hide("fast");	
 		$(".form-create-news-container #btn-slidup-scopetags").show("fast");
 		//$(".form-create-news-container #scopeListContainer").appendTo("#list_tags_scopes_container");
 		if(typeof slidupScopetagsMin != "undefined") slidupScopetagsMin(true);
@@ -804,7 +806,7 @@ function saveNews(){
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				if($('#searchLocalityNAME') && location.hash == "#default.live"){
+				if($('#searchLocalityNAME') && location.hash.indexOf("#default.live")==0){
 				  newNews.searchLocalityNAME = $('#searchLocalityNAME').val().split(',');
 			      newNews.searchLocalityCODE_POSTAL_INSEE = $('#searchLocalityCODE_POSTAL_INSEE').val().split(',');
 			      newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
@@ -815,6 +817,7 @@ function saveNews(){
 				newNews.parentId = $("#form-news #parentId").val(),
 				newNews.parentType = $("#form-news #parentType").val(),
 				newNews.scope = $("input[name='scope']").val(),
+				newNews.type = $("input[name='type']").val(),
 				newNews.text = $("#form-news #get_url").val();
 				console.log("contextParentType", contextParentType);
 				if($("input[name='cityInsee']").length && contextParentType == "city")

@@ -63,6 +63,7 @@
         [X] menu
         [X] multi scope 
         [X] multi tags
+        [X] type sur les news (idea, question announce, information)
     [X] Refactor design top bar 
     [X] Refactor agenda
     [X] REcherche connecté au multi scope

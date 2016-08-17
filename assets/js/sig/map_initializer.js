@@ -221,6 +221,10 @@
 										  	"city" 				: "COLLECTIVITE_A",
 											
 											"news" 				: "NEWS_A",
+											"idea" 				: "NEWS_A",
+											"question" 			: "NEWS_A",
+											"announce" 			: "NEWS_A",
+											"information" 		: "NEWS_A",
 
 											"citoyen" 			: "CITOYEN_A",
 											"citoyens" 			: "CITOYEN_A",
@@ -243,7 +247,11 @@
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"news" 				: { ico : "rss", color : "blue" 	},
+										  	"news" 				: { ico : "rss", 			 color : "blue" 	},
+										  	"idea" 				: { ico : "info-circle",	 color : "white" 	},
+										  	"question" 			: { ico : "question-circle", color : "white" 	},
+										  	"announce" 			: { ico : "ticket", 		 color : "white" 	},
+										  	"information" 		: { ico : "newspaper-o", 	 color : "white" 	},
 
 										  	"city" 				: { ico : "university", color : "red" 	},
 
@@ -350,6 +358,7 @@
 		};
 		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
+			if(typeof object == "undefined") return null; //if(object["type"] == "meeting") alert("trouvé !");
 
 			var objectName = (typeof object.name != "undefined") ? this.clearStr(object.name) : "";
 

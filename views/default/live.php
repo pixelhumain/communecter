@@ -2,13 +2,40 @@
 	.border-dark{
 		border:1px solid #ccc;
 	}
+	.btn-filter-type{
+		font-size:13px;
+	}
+	.timeline-scrubber{
+		display:none;
+	}
 </style>
 
 
 
-<div class="col-sm-12 col-xs-12 col-md-8">
+<div class="col-sm-12 col-xs-12 col-md-9">
 
-	<div class="col-sm-12 col-xs-12 col-md-12" style="margin-top: 50px;">
+	  <h3 class="text-dark homestead pull-left">
+		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier
+	  </h3>
+	  <div class="pull-right" style="margin:15px 15px 0 0;">
+		  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips pull-right"  style="margin-left:5px;"
+		  		data-toggle="tooltip" data-placement="top" title="Événement" type="needs">
+		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-calendar"></i> 
+		  	<span class="hidden-xs hidden-sm hidden">Événement</span>
+		  </a> 
+		  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips pull-right" style="margin-left:5px;"
+		  		data-toggle="tooltip" data-placement="top" title="Projet" type="needs">
+		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-lightbulb-o"></i> 
+		  	<span class="hidden-xs hidden-sm hidden">Projet</span>
+		  </a> 
+		  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips pull-right"  style="margin-left:5px;"
+		  		data-toggle="tooltip" data-placement="top" title="Organisation" type="needs">
+		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-group"></i> 
+		  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
+		  </a>
+	  </div>
+	
+	<div class="col-sm-12 col-xs-12 col-md-12" style="margin-top: 15px;">
 		<div id="newLiveFeedForm"></div>
 	</div>
 
@@ -73,15 +100,22 @@
 </div>
 
 
-<div class="col-sm-12 col-xs-12 col-md-4">
-	<h3 class="col-sm-12 text-red"><i class="fa fa-clock-o"></i> En ce moment</h3>
-	
+<div class="col-sm-12 col-xs-12 col-md-3">
+	<h3 class="col-sm-12 text-dark homestead"><i class="fa fa-clock-o"></i> En ce moment</h3>
 	<div class="col-sm-12 col-xs-12" id="nowList"></div>
 </div>
 
 <!-- end: PAGE CONTENT-->
 <script>
 var searchType = ["organizations", "projects", "events", "needs", "news"];
+var allNewsType = ["news", "idea", "question", "announce", "information"];
+
+<?php if(@$type && !empty($type)){ ?>
+	searchType = ["<?php echo $type; ?>"];
+<?php }else{ ?>
+	searchType = $.merge(allNewsType, searchType);
+<?php } ?>
+
 jQuery(document).ready(function() {
 	setTitle("Live'n'Direct","<i class='fa fa-heartbeat '></i>");
 	
@@ -94,7 +128,7 @@ jQuery(document).ready(function() {
       slidupScopetagsMin();
     });
 
-	  $(".btn-filter-type").click(function(e){
+	$(".btn-filter-type").click(function(e){
 	    var type = $(this).attr("type");
 	    var index = searchType.indexOf(type);
 	
@@ -109,7 +143,6 @@ jQuery(document).ready(function() {
 	    else addSearchType(type);
   	});
 
-	//$("#formCreateNewsLive").append()
 	startSearch();
 
 	var searchParams = {
@@ -132,7 +165,7 @@ jQuery(document).ready(function() {
 function buildHotStuffList(list) { 
 	$.each(list,function(i,v) { 
 		
-	html = '<div class="border-dark margin-bottom-30 col-xs-12 col-md-6">'+
+	html = '<div class="border-dark margin-bottom-30 col-xs-12 col-md-12 no-padding">'+
 		'<div class=" "><img src="http://placehold.it/250x100" class="img-responsive"></div>'+
 	    '<div class="padding-5 ">'+
 			'<br/>'+
@@ -224,7 +257,8 @@ function showNewsStream(name,locality){
 	"</div>");
 	ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city?isFirst=1",dataNewsSearch, function(){
 		showTagsScopesMin("#scopeListContainer");
-		//$(".form-create-news-container #scopeListContainer").html($("#list_tags_scopes").html());
+		showFormBlock(false);
+ 	//$(".form-create-news-container #scopeListContainer").html($("#list_tags_scopes").html());
 	},"html");
 	$("#dropdown_search").hide(300);
 }

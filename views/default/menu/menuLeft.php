@@ -144,25 +144,9 @@
 					data-toggle="tooltip" data-placement="right" 
 					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
 		</a>
-		<hr><br>
+		<hr>
 		<?php } ?>
 
-		<a href="#default.live" id="menu-btn-directory"
-				data-hash="#default.live"
-				class="lbh menu-button-left visible-communected 
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-heartbeat  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
-		</a><hr class="visible-communected">
-		<a href="#default.live.type.dda" id="menu-btn-directory"
-				data-hash="#default.live"
-				class="lbh menu-button-left visible-communected 
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-archive  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Propositions"></i> <span class="lbl-btn-menu">DDA</span>
-		</a><hr class="visible-communected">
-		
-		
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
@@ -176,6 +160,49 @@
 		<hr>
 		<?php } ?>
 		<br>
+
+		<a href="#default.live" id="menu-btn-live"
+				data-hash="#default.live"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-heartbeat  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
+		</a><hr class="visible-communected">
+
+		<a href="#default.live.type.idea" id="menu-btn-live-idea"
+				data-hash="#default.live.type.idea"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-info-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Idées"></i> <span class="lbl-btn-menu">Idées</span>
+		</a><hr class="visible-communected">
+		
+		<a href="#default.live.type.question" id="menu-btn-live-question"
+				data-hash="#default.live.type.question"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-question-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Questions"></i> <span class="lbl-btn-menu">Questions</span>
+		</a><hr class="visible-communected">
+		
+		<a href="#default.live.type.announce" id="menu-btn-live-announce"
+				data-hash="#default.live.type.announce"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-ticket  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Annonces"></i> <span class="lbl-btn-menu">Annonces</span>
+		</a><hr class="visible-communected">
+		
+		<a href="#default.live.type.information" id="menu-btn-live-information"
+				data-hash="#default.live.type.information"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-newspaper-o  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
+		</a><hr class="visible-communected">
+		<br>
+		
+		
 		
 
 		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
@@ -196,12 +223,12 @@
 
 		<a href="javascript:loadByHash('#default.news')" id="menu-btn-news"
 				data-hash="#default.news"
-				class="menu-button-left 
+				class="menu-button-left hidden 
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
-		</a><hr class=""><br>
+		</a><hr class="hidden"><br>
 		
 		<a style="margin-bottom:5px;float:left;" href="https://www.helloasso.com/associations/open-atlas" target="_blank"
 				class="menu-button-left">
