@@ -146,6 +146,11 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
+    [ ] add QR code to invite mail / and create mail 
+    * Appli CO
+        [ ] login >
+        [ ] liste mon rep 
+        [ ] ouvrir 
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA
