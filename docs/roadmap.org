@@ -76,7 +76,7 @@
     [ ] lazy loading sur la carto
   ** @Tib 
     [ ] QR code generator 
-
+        [ ] onclick : explain why QR Codes
     [X] script devlog pour ajouter updated sur les anciennes data 
     [ ] dashboard 
         [ ] live controller 
@@ -135,6 +135,7 @@
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecte
     [ ] integrate France Connect
+    [ ] script trouver les duplicated keys ex: email
   ** @Sylvain
     [ ] ajouter updated on login
     [ ] mailing
@@ -155,6 +156,10 @@
         [ ] login >
         [ ] liste mon rep 
         [ ] ouvrir 
+        [ ] linqr
+        [ ] plus de data dans le texte qrcode 
+            add contact to my phone
+            
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA

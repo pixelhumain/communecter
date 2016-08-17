@@ -9,6 +9,8 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' ,
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js',
 	'/plugins/moment/min/moment.min.js',
+
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
@@ -584,18 +586,26 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<div class="hidden" id="entity-cp-value" 
 							 cp-val="<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : ""; ?>">
 						</div>
+
+
+					
 				</div>
+				<div class="col-sm-6 col-md-7" id="qrCode"> </div>
+				<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
+				<br/>avec l'application communEvent
 			</div>
+
 		</div>
 		
 		<div class="row text-dark">
-			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
+			<div class="padding-20 col-sm-12 col-md-12 border-light" style="border-width: 1px">
 				<!-- Description -->
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
 					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
 				</a>
 			</div>
 		</div>
+		
 		<div class="padding-10 row text-dark">
 			<div class="pull-left col-sm-7 col-md-8 tag_group">
 				
@@ -708,7 +718,8 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
-
+	buildQRCode("person","<?php echo (string)$person["_id"]?>",'<?php echo (string)$person["name"]?>');
+	
 });
 
 function buildBgClassesList() 

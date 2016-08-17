@@ -6,7 +6,8 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/js/bootstrap-editable.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js'
+	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
@@ -310,6 +311,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
+
+					<div class="row" id="qrCode"> </div>
+					<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
+					<br/>avec l'application communEvent
 				</div>
 			</div>
 			
@@ -632,9 +637,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$(this).addClass("active");
 		});
 
-
+		buildQRCode("organization","<?php echo (string)$organization["_id"]?>",'<?php echo (string)$organization["name"]?>');
 		
-
 		
 	});
 

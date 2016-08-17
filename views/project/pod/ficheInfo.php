@@ -11,7 +11,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-	'/assets/plugins/Chart.js/Chart.min.js'
+	'/assets/plugins/Chart.js/Chart.min.js',
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -400,7 +401,9 @@ progress[value]::-moz-progress-bar {
 						<?php echo (isset($project["shortDescription"])) ? $project["shortDescription"] : null; ?>
 					</a>
 				</div>
-				
+				<div class="row" id="qrCode"> </div>
+					<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
+					<br/>avec l'application communEvent
 
 			</div>
 		</div>
@@ -492,7 +495,7 @@ jQuery(document).ready(function()
 		$(".btn-group-"+type + " .btn").removeClass("active");
 		$(this).addClass("active");
 	});
-
+	buildQRCode("project","<?php echo (string)$project["_id"]?>",'<?php echo (string)$project["name"]?>');
 	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });

@@ -23,13 +23,9 @@ $cssAnsScriptFilesTheme = array(
 '/assets/plugins/wysihtml5/wysihtml5.js',
 
 '/assets/plugins/moment/min/moment.min.js' , 
+'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-$cssAnsScriptFilesModule = array(
-	
-	
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 $cssAnsScriptFilesModule = array(
@@ -355,6 +351,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
+					<div class="row" id="qrCode"> </div>
+					<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
+					<br/>avec l'application communEvent
 				</div>
 			</div>
 		</div>
@@ -524,6 +523,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
+
+		buildQRCode("event","<?php echo (string)$event["_id"]?>",'<?php echo (string)$event["name"]?>');
+		
 	})
 
 	function activateEditable() {
