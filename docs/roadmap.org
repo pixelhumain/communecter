@@ -75,11 +75,13 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
   ** @Tib 
+    [ ] QR code generator 
+
     [X] script devlog pour ajouter updated sur les anciennes data 
-    [ ] demarrage dashboard 
+    [ ] dashboard 
         [ ] live controller 
             [ ] not connected > shows live , public information 
-            [X] else show user centric information ? 
+            [ ] else show user centric information ? 
             [???] or live is always the public stream
             [ ] getActivity
                 - global activity based on scope and tags search filters
@@ -89,9 +91,9 @@
                     [ ] en ce moment : most active updated 
                         - how to define activity ? vote counts, comment counts
                             algorythm based on vote and comment dates 
-                [ ] projects
-                [ ] organisations
-                [ ] events
+                [X] projects
+                [X] organisations
+                [X] events
         [ ] switcher de home a dashB
         [ ] latest DDA on city page
         [ ] element activity
@@ -121,6 +123,7 @@
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
     [ ] wisiwig sur les commentaires
+    [ ] add QR code to invite mail / and create mail
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
         [X] remettre le contexte sur la room dans mon DDA
@@ -131,6 +134,7 @@
         [ ] ajouter un scope geo sur une proposition
     [ ] checkout Mention
     [ ] globaliser le system de Tokens et utilisation API Communecte
+    [ ] integrate France Connect
   ** @Sylvain
     [ ] ajouter updated on login
     [ ] mailing
@@ -146,7 +150,7 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [ ] add QR code to invite mail / and create mail 
+     
     * Appli CO
         [ ] login >
         [ ] liste mon rep 
