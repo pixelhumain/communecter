@@ -354,16 +354,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
 					<?php 
-						$address = "";
-						$address .= (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
-						$address .= (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
-						$address .= (isset( $event["address"]["addressCountry"])) ? $event["address"]["addressCountry"] : "";
+						$address = (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
+						$address2 = (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
+						$address2 .= (isset( $event["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $event["address"]["addressCountry"] ] : "";
 
 						$this->renderPartial('../pod/qrcode',array(
-																"name" => $event['name'],
+																"type" => @$event['type'],
+																"name" => @$event['name'],
 																"address" => $address,
-																"email " => $event['email'],
-																"img"=>$event['profilThumbImageUrl']));?>
+																"address2" => $address2,
+																"email" => @$event['email'],
+																"img"=>@$event['profilThumbImageUrl']));?>
 				</div>
 			</div>
 		</div>

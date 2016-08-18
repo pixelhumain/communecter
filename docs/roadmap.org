@@ -77,6 +77,7 @@
     [ ] lazy loading sur la carto
   ** @Tib 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
+    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
     [X] QR code  
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
@@ -128,7 +129,9 @@
     [ ] wisiwig sur les commentaires
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
-        [ ] bug : une décision terminé, on peut toujours voté dessus  
+        [ ] bug : une décision terminé, on peut toujours voté dessus
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
         [X] remettre le contexte sur la room dans mon DDA
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
@@ -156,13 +159,18 @@
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
      
     * Appli CO
-        [ ] login >
-        [ ] liste mon rep 
-        [ ] ouvrir 
+        [ ] login / create account
+        [ ] define scope
+        [ ] mon rep 
+        [ ] simple element reader
         [ ] linqr
         [ ] plus de data dans le texte qrcode 
             add contact to my phone
-            
+        [ ] notifier 
+        [ ] dda module
+            commenting
+            voting
+            actions            
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA

@@ -3,11 +3,14 @@
     <div class=" ">
         
         <?php 
-            $img = "http://placehold.it/250x100";
-            if(@$v["profilMediumImageUrl"] && $v["profilMediumImageUrl"] != "")
-                $img = $v["profilMediumImageUrl"];
+            $img = "";
+            if(@$v["profilMediumImageUrl"] && $v["profilMediumImageUrl"] != ""){
+                $img = $v["profilMediumImageUrl"];?>
+                <img src="<?php echo $img ?>" class="img-responsive">
+        <?php
+            }
         ?> 
-        <img src="<?php echo $img ?>" class="img-responsive">
+        
     </div>
     <div class="padding-5 ">
         <?php 

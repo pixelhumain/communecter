@@ -12,7 +12,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
 	'/assets/plugins/Chart.js/Chart.min.js',
-	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -406,16 +406,18 @@ progress[value]::-moz-progress-bar {
 				</div>
 
 				<?php 
-						$address = "";
-						$address .= (isset( $project["address"]["streetAddress"])) ? $project["address"]["streetAddress"] : "";
-						$address .= (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : "";
-						$address .= (isset( $project["address"]["addressCountry"])) ? $project["address"]["addressCountry"] : "";
+					$address = (isset( $project["address"]["streetAddress"])) ? $project["address"]["streetAddress"] : "";
+					$address2 = (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : "";
+					$address2 .= (isset( $project["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $project["address"]["addressCountry"] ] : "";
 
-						$this->renderPartial('../pod/qrcode',array(
-																"name" => $project['name'],
-																"address" => $address,
-																"email " => $project['email'],
-																"img"=>$project['profilThumbImageUrl']));?>
+					$this->renderPartial('../pod/qrcode',array(
+															"type" => @$project['type'],
+															"name" => @$project['name'],
+															"address" => $address,
+															"address2" => $address2,
+															"email" => @$project['email'],
+															"img"=>@$project['profilThumbImageUrl']));
+				?>
 
 			</div>
 		</div>

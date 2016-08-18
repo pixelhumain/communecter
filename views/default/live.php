@@ -154,8 +154,15 @@
 
 
 <div class="col-sm-12 col-xs-12 col-md-3">
-	<h3 class="col-sm-12 text-dark homestead"><i class="fa fa-clock-o"></i> En ce moment</h3>
-	<div class="col-sm-12 col-xs-12" id="nowList"></div>
+	
+	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>
+	<div class="col-sm-12 col-xs-12" id="nowListevents"></div>
+	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>
+	<div class="col-sm-12 col-xs-12" id="nowListprojects"></div>
+	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>
+	<div class="col-sm-12 col-xs-12" id="nowListorga"></div>
+	
+	
 </div>
 
 <!-- end: PAGE CONTENT-->
@@ -199,11 +206,17 @@ jQuery(document).ready(function() {
 	initSelectTypeNews();
 	startSearch();
 
-	var searchParams = {
+	loadLiveNow();
+
+});
+
+function loadLiveNow () { 
+
+/*var searchParams = {
 	  "name":"",
 	  "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : ["events","organizations","projects"], 
+      "searchType" : ["<?php echo Event::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
       "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
@@ -211,12 +224,57 @@ jQuery(document).ready(function() {
       "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
-      "indexMax" : 20  };
-	ajaxPost("#nowList", baseUrl + "/" + moduleId + '/search/globalautocomplete', searchParams, function() { 
-		bindLBHLinks();
-	 },"html");
+      "indexMax" : 10 
+  	};
 
-});
+	ajaxPost( "#nowListevents", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+		bindLBHLinks();
+		$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
+	 } , "html" );
+
+	var searchParams = {
+	  "name":"",
+	  "tpl":"/pod/nowList",
+      "latest" : true,
+      "searchType" : ["<?php echo Project::COLLECTION?>"], 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "indexMin" : 0, 
+      "indexMax" : 10 
+  	};
+
+	ajaxPost( "#nowListprojects", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+		bindLBHLinks();
+		$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
+	 } , "html" );
+*/
+	
+
+	var searchParams = {
+	  "name":"",
+	  "tpl":"/pod/nowList",
+      "latest" : true,
+      "searchType" : ["<?php echo Organization::COLLECTION?>"], 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "indexMin" : 0, 
+      "indexMax" : 10 
+  	};
+
+	ajaxPost( "#nowListorga", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+		bindLBHLinks();
+		$("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
+	 } , "html" );
+
+}
 
 function buildHotStuffList(list) { 
 	$.each(list,function(i,v) { 

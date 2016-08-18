@@ -591,22 +591,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</div>
 
 					<?php 
-						$address = "";
-						$address .= (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
-						$address .= (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
-						$address .= (isset( $event["address"]["addressCountry"])) ? $event["address"]["addressCountry"] : "";
+						$address = ( @$person["address"]["streetAddress"]) ? $person["address"]["streetAddress"] : "";
+						$address2 = ( @$person["address"]["postalCode"]) ? $person["address"]["postalCode"] : "";
+						$address2 .= ( @$person["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $person["address"]["addressCountry"] ] : "";
 
 						$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
-																"name" => $organizer['name'],
+																"name" => @$person['name'],
 																"address" => $address,
-																"email " => $organizer['email'],
-																"img"=>$organizer['profilThumbImageUrl']));?>
+																"address2" => $address2,
+																"email" => @$person['email'],
+																"img"=>@$person['profilThumbImageUrl']));?>
 				</div>
 
 				
 				
 			</div>
-
 		</div>
 		
 		<div class="row text-dark">
