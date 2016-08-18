@@ -317,13 +317,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php 
 						$address = "";
 						$address .= (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : "";
-						$address .= (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : "";
-						$address .= (isset( $organization["address"]["addressCountry"])) ? $organization["address"]["addressCountry"] : "";
+						$address .= (isset( $organization["address"]["postalCode"])) ? ", ".$organization["address"]["postalCode"] : "";
+						$address .= (isset( $organization["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
 						
+						if(isset($organization["telephone"]["fixe"])){
+							foreach ($organization["telephone"]["fixe"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}
+							
 						$this->renderPartial('../pod/qrcode',array(
 																"name" => $organization['name'],
 																"address" => $address,
 																"email " => $organization['email'],
+																"url" => $organization["url"],
+																"tel" => $tel,
 																"img"=>$organization['profilThumbImageUrl']));?>
 				</div>
 			</div>

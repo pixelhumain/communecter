@@ -8,6 +8,7 @@
 				<?php echo (@$name) ? "<li>".$name."</li>" : '' ?>
 				<?php echo (@$address) ? "<li>".$address."</li>" : '' ?>
 				<?php echo (@$email) ? "<li>".$email."</li>" : '' ?>
+				<?php echo (@$url) ? "<li>".$url."</li>" : '' ?>
 				<?php echo (@$tel) ? "<li>".$tel."</li>" : '' ?>
 			</ul>
 		</div>
@@ -23,6 +24,7 @@
 					<?php echo (@$name) ? "<li>".$name."</li>" : '' ?>
 					<?php echo (@$address) ? "<li>".$address."</li>" : '' ?>
 					<?php echo (@$email) ? "<li>".$email."</li>" : '' ?>
+					<?php echo (@$url) ? "<li>".$url."</li>" : '' ?>
 					<?php echo (@$tel) ? "<li>".$tel."</li>" : '' ?>
 				</ul>
 			</div>
