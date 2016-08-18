@@ -648,7 +648,7 @@
 
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
-					$.each(data, function (key, value){ console.log("type SIG ?"); console.dir(value);
+					$.each(data, function (key, value){ //console.log("type SIG ?"); console.dir(value);
 						var oneData = key;
 						if((value.typeSig == "news" || 
 							value.typeSig == "idea" || 
@@ -657,7 +657,7 @@
 							value.typeSig == "information"
 							) && typeof value.author !== "undefined") 
 							data = value.author;
-						console.log("type oneData ?"); console.dir(data);
+						//console.log("type oneData ?"); console.dir(data);
 						thisSig.showFilterOnMap(data, key, thisMap);
 					});
 					

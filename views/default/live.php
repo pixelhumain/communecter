@@ -8,6 +8,22 @@
 	.timeline-scrubber{
 		display:none;
 	}
+
+	.newsFeed{
+		width:100% !important;
+	}
+	.timeline_element{
+		margin-left:0px !important;
+		margin-right:0px !important;
+		max-width:100% !important;
+		width:100% !important;	
+	}
+	.timeline_element::before {
+		border:0!important;
+	}
+	#newsHistory .col-md-11{
+		width:100% !important;
+	}
 </style>
 
 
