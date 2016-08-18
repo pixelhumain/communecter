@@ -53,17 +53,17 @@
 		    </button>
 		  </div>
 
-		  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips pull-right"  style="margin-left:5px;"
+		  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips"  style="margin-left:5px;"
 		  		data-toggle="tooltip" data-placement="bottom" title="Créer une organisation" type="needs">
 		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-group"></i> 
 		  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
 		  </a>
-		  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips pull-right" style="margin-left:5px;"
+		  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips" style="margin-left:5px;"
 		  		data-toggle="tooltip" data-placement="bottom" title="Créer un projet" type="needs">
 		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-lightbulb-o"></i> 
 		  	<span class="hidden-xs hidden-sm hidden">Projet</span>
 		  </a> 
-		  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips pull-right"  style="margin-left:5px;"
+		  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips"  style="margin-left:5px;"
 		  		data-toggle="tooltip" data-placement="bottom" title="Créer un événement" type="needs">
 		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-calendar"></i> 
 		  	<span class="hidden-xs hidden-sm hidden">Événement</span>
@@ -325,11 +325,11 @@ function removeSearchType(type){
 function initSelectTypeNews(){
 
 	var msgTypesNews = { 
-		"news" : "Rédiger votre message",
-		"idea" : "Partager, expliquer, détailler votre idée",
-		"question" : "Poser votre question",
-		"announce" : "Rédiger votre annonce, dans ses moindre détails",
-		"information" : "Partager votre information"
+		"news" 			: "<i class='fa fa-file-text-o'></i> Rédiger votre message",
+		"idea" 			: "<i class='fa fa-info-circle'></i> Partager, expliquer, détailler votre idée",
+		"question" 		: "<i class='fa fa-question-circle'></i> Poser votre question",
+		"announce" 		: "<i class='fa fa-ticket'></i> Rédiger votre annonce, dans ses moindre détails",
+		"information" 	: "<i class='fa fa-newspaper-o'></i> Partager votre information"
 	};
 
 	$(".btn-type-news").click(function(e){
@@ -344,10 +344,11 @@ function initSelectTypeNews(){
 	    msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
 	    		'<i class="fa fa-times"></i>'+
 	    	 '</button>';
-	    $(".header-form-create-news").html("<i class='fa fa-pencil'></i> "+msg);
+	    $(".header-form-create-news").html("<i class='fa fa-angle-down'></i> "+msg);
 
 	    //showFormBlock(true);
 	    $("#newLiveFeedForm").show(200);
+	    showFormBlock(true);
   	});
 }
 

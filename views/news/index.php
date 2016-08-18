@@ -653,8 +653,6 @@ jQuery(document).ready(function()
 	  }
   	});
 
-	initSelectTypeNews();
-
    	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire

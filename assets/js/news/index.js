@@ -237,7 +237,7 @@ function bindEvent(){
 			showFormBlock(true);	
 	});
 	$(".form-create-news-container #get_url").focusout(function(){
-		if($(this).val() == "")
+		if($(this).val() == "" && location.hash.indexOf("#default.live")!=0)
 			showFormBlock(false);	
 	});
 	
