@@ -126,6 +126,7 @@
     [ ] add QR code to invite mail / and create mail
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
+        [ ] bug : une décision terminé, on peut toujours voté dessus  
         [X] remettre le contexte sur la room dans mon DDA
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee

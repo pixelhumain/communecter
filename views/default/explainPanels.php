@@ -816,4 +816,42 @@
 		</div>
 	</div>
 
+	<div class="qrCodeExplain <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">QR CODES</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				
+				<li>La création de lien simplifié</li>
+				<li>Imprimer votre QR Code pour vous connecter dans le reel </li>
+				<li>avec l'application <a href="https://play.google.com/store/apps/details?id=org.communevent.meteor.pixelhumain&ah=lVN3mXqHKQjIOg3qHn0YzhiUebc&hl=fr" target="_blank">communEvent</a></li>
+				<li><b>Pour les personnes</b> 
+					<ul>
+						<li>porter sur vous un système de création de lien</li>
+						<li>ne perdez jamais une occasion pour créer un lien lors d'une rencontre</li>
+						<li>vous croisez une organisation, avec un QR, connectez vous directement pour suivre son activité</li>
+					</ul>
+				</li>
+				<li><b>Pour les organisations</b> 
+					<ul>
+						<li>Afficher le dans vos locaux ou documents, les gens pourront alors se connecter automatiquement à vous</li>
+						<li>les plus facilement vous suivre</li>
+						<li>Rien de mieux comme communication que d'etre dans les réseaux des gens qui vous soutiennent </li>
+					</ul>
+				</li>
+				<li><b>Pour vos évennements</b> 
+					<ul>
+						<li>transmettez sur vos documents de communication</li>
+						<li> les gens pourront rejoindre l'event</li>
+						<li>retrouver les autres participants</li>
+						<li>viraliser le système d'invitation</li>
+						<li>si nécessaire, émargé les présences lors de l'event</li>
+					</ul>
+				</li>
+				
+				
+			</ul>
+		</div>
+	</div>
+
 

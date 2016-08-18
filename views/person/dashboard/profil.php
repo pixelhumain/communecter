@@ -590,11 +590,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							 cp-val="<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : ""; ?>">
 						</div>
 
-
+					<?php $this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10"));?>
 					
 				</div>
 
-				<?php $this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-7"));?>
+				
 				
 			</div>
 
