@@ -937,6 +937,11 @@ function  bindLBHLinks() {
 	 });
 }
 
+
+/* **************************************
+maybe movebale into Element.js
+***************************************** */
+
 function  buildQRCode(type,id,name) { 
 		
 	$("#qrCode").qrcode({

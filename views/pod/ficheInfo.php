@@ -152,6 +152,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
 		<?php }  } } ?>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -186,6 +187,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 		<?php } 
 		} ?>
+
+		<a class="btn btn-sm tooltips" href="javascript:;" onclick=" $('#qrCodeContainer').toggleClass('hidden');" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
 	</div>
 	<style type="text/css">
 		.urlOpenData{
@@ -311,10 +314,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
-
-					<div class="row" id="qrCode"> </div>
-					<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
-					<br/>avec l'application communEvent
+					<?php $this->renderPartial('../pod/qrcode');?>
 				</div>
 			</div>
 			
@@ -638,7 +638,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 		buildQRCode("organization","<?php echo (string)$organization["_id"]?>",'<?php echo (string)$organization["name"]?>');
-		
 		
 	});
 

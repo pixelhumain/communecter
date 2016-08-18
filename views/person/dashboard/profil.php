@@ -251,6 +251,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
 		?>
+		
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" $('#qrCodeContainer').toggleClass('hidden');" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -590,9 +593,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 					
 				</div>
-				<div class="col-sm-6 col-md-7" id="qrCode"> </div>
-				<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
-				<br/>avec l'application communEvent
+
+				<?php $this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-7"));?>
+				
 			</div>
 
 		</div>

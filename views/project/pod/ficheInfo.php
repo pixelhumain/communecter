@@ -219,6 +219,8 @@ progress[value]::-moz-progress-bar {
 			if ($openEdition) { ?>
 			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" $('#qrCodeContainer').toggleClass('hidden');" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+		
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -401,9 +403,8 @@ progress[value]::-moz-progress-bar {
 						<?php echo (isset($project["shortDescription"])) ? $project["shortDescription"] : null; ?>
 					</a>
 				</div>
-				<div class="row" id="qrCode"> </div>
-					<br/>Imprimer votre QR ccode pour vous connecter dans le reel 
-					<br/>avec l'application communEvent
+
+				<?php $this->renderPartial('../pod/qrcode');?>
 
 			</div>
 		</div>
