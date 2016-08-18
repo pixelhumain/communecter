@@ -297,7 +297,6 @@ function bindEventMenu(){
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		console.log("click main col");
 		$(".hover-info,.hover-info2, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
@@ -319,7 +318,6 @@ function bindEventMenu(){
 						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
 					}, 300);
 				}
-				console.log("mousenter main col");
 				//$(".hover-info,.hover-info2").hide();
 				$(".drop-up-btn-add").hide(400);
 				$("#notificationPanelSearch").hide();
