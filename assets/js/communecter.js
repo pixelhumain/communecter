@@ -829,7 +829,7 @@ show a definition in the focus menu panel
 **************/
 function showDefinition( id,copySection ){ setTimeout(function(){
 	console.log("showDefinition",id,copySection);
-	//$(".main-col-search").animate({ opacity:0.3 }, 400 );
+	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	
 	if(copySection){
 		contentHTML = $("."+id).html();
