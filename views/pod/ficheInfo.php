@@ -316,25 +316,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</div>
 					<?php 
 						$address = "";
-						$address .= (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : "";
-						$address .= (isset( $organization["address"]["postalCode"])) ? ", ".$organization["address"]["postalCode"] : "";
-						$address .= (isset( $organization["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
-						
-						if(isset($organization["telephone"]["fixe"])){
-							foreach ($organization["telephone"]["fixe"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
+						$address .= (@$organization["address"]["streetAddress"]) ? $organization["address"]["streetAddress"] : "";
+						$address .= (@$organization["address"]["postalCode"]) ? ", ".$organization["address"]["postalCode"] : "";
+						$address .= (@$organization["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
+						$tel = "";
+						if( @$organization["telephone"]["fixe"]){
+							foreach ($organization["telephone"]["fixe"] as $key => $num) {
+								$tel .= ($tel == "") ? ", ".$num : $num;
 							}
 						}
 							
 						$this->renderPartial('../pod/qrcode',array(
-																"name" => $organization['name'],
+																"name" => @$organization['name'],
 																"address" => $address,
-																"email " => $organization['email'],
-																"url" => $organization["url"],
+																"email " => @$organization['email'],
+																"url" => @$organization["url"],
 																"tel" => $tel,
-																"img"=>$organization['profilThumbImageUrl']));?>
+																"img"=>@$organization['profilThumbImageUrl']));?>
 				</div>
 			</div>
 			
