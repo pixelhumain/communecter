@@ -827,9 +827,9 @@ function showTagOnMap (tag) {
 /* ****************
 show a definition in the focus menu panel
 **************/
-function showDefinition( id,copySection ){
+function showDefinition( id,copySection ){ setTimeout(function(){
 	console.log("showDefinition",id,copySection);
-	$(".main-col-search").animate({ opacity:0.3 }, 400 );
+	//$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	
 	if(copySection){
 		contentHTML = $("."+id).html();
@@ -843,6 +843,7 @@ function showDefinition( id,copySection ){
 		$("."+id+" .explainDesc").removeClass("hide");
 	}
 	return false;
+}, 500);
 }
 
 var timeoutHover = setTimeout(function(){}, 0);
