@@ -170,7 +170,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     		if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
-		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" $('#qrCodeContainer').toggleClass('hidden');" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
 		
 			<style type="text/css">
 				.badgePH{ 
@@ -353,7 +353,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
-					<?php $this->renderPartial('../pod/qrcode');?>
+					<?php 
+						$address = "";
+						$address .= (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
+						$address .= (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
+						$address .= (isset( $event["address"]["addressCountry"])) ? $event["address"]["addressCountry"] : "";
+
+						$this->renderPartial('../pod/qrcode',array(
+																"name" => $organizer['name'],
+																"address" => $address,
+																"email " => $organizer['email'],
+																"img"=>$organizer['profilThumbImageUrl']));?>
 				</div>
 			</div>
 		</div>

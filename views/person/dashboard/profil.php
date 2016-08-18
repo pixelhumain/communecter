@@ -252,7 +252,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			*/ 
 		?>
 		
-		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" $('#qrCodeContainer').toggleClass('hidden');" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
 
 		<style type="text/css">
 			.badgePH{ 

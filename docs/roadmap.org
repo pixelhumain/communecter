@@ -29,8 +29,9 @@
 
 ** TODO
     [ ] one input add
-    [ ] dashboard activité 
     [ ] multi scope on element forms
+    [???] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone 
     [ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
@@ -75,8 +76,10 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
   ** @Tib 
-    [ ] QR code generator 
-        [ ] onclick : explain why QR Codes
+    
+    [X] QR code  
+        [X] onclick : explain why QR Codes
+        [???] add QR code to invite mail / and create mail
     [X] script devlog pour ajouter updated sur les anciennes data 
     [ ] dashboard 
         [ ] live controller 
@@ -123,7 +126,6 @@
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
     [ ] wisiwig sur les commentaires
-    [ ] add QR code to invite mail / and create mail
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
         [ ] bug : une décision terminé, on peut toujours voté dessus  

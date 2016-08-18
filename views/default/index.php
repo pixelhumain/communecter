@@ -818,7 +818,7 @@ function showInputCommunexion(){
 	
 	$("#input-communexion").show(300);
 	//$(".main-col-search").animate({ opacity:0.3 }, 200 );
-	$(".hover-info").hide();
+	$(".hover-info,.hover-info2").hide();
 }
 
 //niv 1 : city

@@ -56,7 +56,6 @@
 		//error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
 		if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
-
 	}
 ?>
 
@@ -101,6 +100,7 @@
 <div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
+<div class="hover-info2 col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20"></div>
 
 
 <div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10">

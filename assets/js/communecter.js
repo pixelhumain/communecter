@@ -732,7 +732,7 @@ function showAjaxPanel (url,title,icon) {
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
-		$(".hover-info").hide();
+		$(".hover-info,.hover-info2").hide();
 		processingBlockUi();
 		setTitle("Chargement en cours ...", "spin fa-circle-o-notch");
 		//$(".main-col-search").show();
@@ -748,7 +748,7 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
+		getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
@@ -827,12 +827,21 @@ function showTagOnMap (tag) {
 /* ****************
 show a definition in the focus menu panel
 **************/
-function showDefinition( id ){
-	console.log("showDefinition",id);
+function showDefinition( id,copySection ){
+	console.log("showDefinition",id,copySection);
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
-	$(".hover-info").css("display" , "inline");
-	toggle( "."+id , ".explain" );
-	$("."+id+" .explainDesc").removeClass("hide");
+	
+	if(copySection){
+		contentHTML = $("."+id).html();
+		if(copySection != true)
+			contentHTML = copySection;
+		$(".hover-info2").css("display" , "inline").html( contentHTML );	
+	}
+	else {
+		$(".hover-info").css("display" , "inline");
+		toggle( "."+id , ".explain" );
+		$("."+id+" .explainDesc").removeClass("hide");
+	}
 	return false;
 }
 
@@ -953,14 +962,14 @@ function  buildQRCode(type,id,name) {
 		    size: 150,
 		    radius: 0,
 		    quiet: 2,
-		    mode: 2,
+		    /*mode: 2,
 		    mSize: 0.1,
-		    mPosX: 0.93,
-		    mPosY: 0.95,
+		    mPosX: 0.5,
+		    mPosY: 0.5,
 
 		    label: name,
 		    fontname: 'Ubuntu',
-		    fontcolor: '#E33551',
+		    fontcolor: '#E33551',*/
 		});
 }
 
