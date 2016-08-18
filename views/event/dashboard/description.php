@@ -360,10 +360,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						$address .= (isset( $event["address"]["addressCountry"])) ? $event["address"]["addressCountry"] : "";
 
 						$this->renderPartial('../pod/qrcode',array(
-																"name" => $organizer['name'],
+																"name" => $event['name'],
 																"address" => $address,
-																"email " => $organizer['email'],
-																"img"=>$organizer['profilThumbImageUrl']));?>
+																"email " => $event['email'],
+																"img"=>$event['profilThumbImageUrl']));?>
 				</div>
 			</div>
 		</div>

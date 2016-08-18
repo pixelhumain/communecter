@@ -590,8 +590,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							 cp-val="<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : ""; ?>">
 						</div>
 
-					<?php $this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10"));?>
-					
+					<?php 
+						$address = "";
+						$address .= (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
+						$address .= (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
+						$address .= (isset( $event["address"]["addressCountry"])) ? $event["address"]["addressCountry"] : "";
+
+						$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
+																"name" => $organizer['name'],
+																"address" => $address,
+																"email " => $organizer['email'],
+																"img"=>$organizer['profilThumbImageUrl']));?>
 				</div>
 
 				

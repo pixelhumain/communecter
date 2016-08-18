@@ -314,7 +314,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
-					<?php $this->renderPartial('../pod/qrcode');?>
+					<?php 
+						$address = "";
+						$address .= (isset( $organization["address"]["streetAddress"])) ? $organization["address"]["streetAddress"] : "";
+						$address .= (isset( $organization["address"]["postalCode"])) ? $organization["address"]["postalCode"] : "";
+						$address .= (isset( $organization["address"]["addressCountry"])) ? $organization["address"]["addressCountry"] : "";
+						
+						$this->renderPartial('../pod/qrcode',array(
+																"name" => $organization['name'],
+																"address" => $address,
+																"email " => $organization['email'],
+																"img"=>$organization['profilThumbImageUrl']));?>
 				</div>
 			</div>
 			

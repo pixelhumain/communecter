@@ -405,7 +405,17 @@ progress[value]::-moz-progress-bar {
 					</a>
 				</div>
 
-				<?php $this->renderPartial('../pod/qrcode');?>
+				<?php 
+						$address = "";
+						$address .= (isset( $project["address"]["streetAddress"])) ? $project["address"]["streetAddress"] : "";
+						$address .= (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : "";
+						$address .= (isset( $project["address"]["addressCountry"])) ? $project["address"]["addressCountry"] : "";
+
+						$this->renderPartial('../pod/qrcode',array(
+																"name" => $project['name'],
+																"address" => $address,
+																"email " => $project['email'],
+																"img"=>$project['profilThumbImageUrl']));?>
 
 			</div>
 		</div>

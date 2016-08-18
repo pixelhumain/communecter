@@ -76,7 +76,7 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
   ** @Tib 
-    
+    [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [X] QR code  
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail

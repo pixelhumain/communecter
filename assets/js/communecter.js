@@ -953,24 +953,24 @@ maybe movebale into Element.js
 
 function  buildQRCode(type,id,name) { 
 		
-	$("#qrCode").qrcode({
-		    text: '{type:"'+type+'",_id:"'+id+'"}',
-		    render: 'image',
-			minVersion: 8,
-		    maxVersion: 40,
-		    ecLevel: 'L',
-		    size: 150,
-		    radius: 0,
-		    quiet: 2,
-		    /*mode: 2,
-		    mSize: 0.1,
-		    mPosX: 0.5,
-		    mPosY: 0.5,
+	$(".qrCode").qrcode({
+	    text: '{type:"'+type+'",_id:"'+id+'"}',
+	    render: 'image',
+		minVersion: 8,
+	    maxVersion: 40,
+	    ecLevel: 'L',
+	    size: 150,
+	    radius: 0,
+	    quiet: 2,
+	    /*mode: 2,
+	    mSize: 0.1,
+	    mPosX: 0.5,
+	    mPosY: 0.5,
 
-		    label: name,
-		    fontname: 'Ubuntu',
-		    fontcolor: '#E33551',*/
-		});
+	    label: name,
+	    fontname: 'Ubuntu',
+	    fontcolor: '#E33551',*/
+	});
 }
 
 function activateSummernote(elem) { 
