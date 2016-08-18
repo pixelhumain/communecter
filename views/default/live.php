@@ -212,7 +212,7 @@ jQuery(document).ready(function() {
 
 function loadLiveNow () { 
 
-/*var searchParams = {
+var searchParams = {
 	  "name":"",
 	  "tpl":"/pod/nowList",
       "latest" : true,
@@ -251,7 +251,7 @@ function loadLiveNow () {
 		bindLBHLinks();
 		$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
 	 } , "html" );
-*/
+
 	
 
 	var searchParams = {
