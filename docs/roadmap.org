@@ -60,6 +60,7 @@
         [ ] evenement récurent
         [ ] cronJob
   ** @Tango 
+    [ ] onChange search criteria, empty list + reload button
     [X] interface ND
         [X] menu
         [X] multi scope 
@@ -76,6 +77,8 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
   ** @Tib 
+    [ ] bug : on search 
+        - on event  click event 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
     [X] QR code  
@@ -149,7 +152,7 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
-    [???] profilMediumImageUrl on orga empty 
+    [???] all ImageUrl on elements why have them if empty
   ** @Thomas communEvent
     [ ] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
