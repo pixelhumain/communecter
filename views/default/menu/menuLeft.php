@@ -240,7 +240,7 @@
 
 		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips pull-left"
 				data-toggle="tooltip" data-placement="right" title="soutenir communecter">
-			<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+			<img class="lbl-btn-menu" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
 		</a>
 
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>

@@ -99,20 +99,18 @@ function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMult
 	        data: {multitags : myMultiTags},
 	       	dataType: "json",
 	    	success: function(data){
-	    		showCountTag();
-	    		rebuildSearchTagInput();
-	    		saveCookieMultitags();
-		    	//console.log("saveMultiTag() success");
+	    		//console.log("saveMultiTag() success");
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des tags");
 			}
 		});
 	}else{
-		showCountTag();
-		rebuildSearchTagInput();
-	    saveCookieMultitags();
+		
 	}
+	showCountTag();
+	rebuildSearchTagInput();
+    saveCookieMultitags();
 }
 
 function saveCookieMultitags(){ console.log("saveCookieMultitags", myMultiTags);

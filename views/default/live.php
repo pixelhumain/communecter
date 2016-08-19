@@ -9,6 +9,11 @@
 		display:none;
 	}
 
+
+	#newsHistory .col-md-11{
+		width:100% !important;
+	}
+@media screen and (max-width: 1500px) {	
 	.newsFeed{
 		width:100% !important;
 	}
@@ -21,9 +26,19 @@
 	.timeline_element::before {
 		border:0!important;
 	}
-	#newsHistory .col-md-11{
-		width:100% !important;
+	.timeline_element .ico-type-account {
+	    text-align: center;
+	    height: 40px;
+	    width: 40px;
+	    font-size: 20px;
+	    padding: 5px;
+	    float: left;
+	    margin-left: -25px;
+	    border-radius: 3px 0px 0px 3px;
+	    margin-top: 5px;
+	    margin-right: 37px;
 	}
+}
 </style>
 
 
@@ -155,12 +170,12 @@
 
 <div class="col-sm-12 col-xs-12 col-md-3">
 	
-	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>
-	<div class="col-sm-12 col-xs-12" id="nowListevents"></div>
-	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>
-	<div class="col-sm-12 col-xs-12" id="nowListprojects"></div>
-	<h3 class="col-sm-12 text-red homestead"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>
-	<div class="col-sm-12 col-xs-12" id="nowListorga"></div>
+	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>
+	<div class="col-sm-12 col-xs-12 no-padding" id="nowListevents"></div>
+	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>
+	<div class="col-sm-12 col-xs-12 no-padding" id="nowListprojects"></div>
+	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>
+	<div class="col-sm-12 col-xs-12 no-padding" id="nowListorga"></div>
 	
 	
 </div>
@@ -332,6 +347,7 @@ function startSearch(){
 	        if(levelCommunexion == 5) locality = "";
 	      } 
 	      showNewsStream(name, locality);
+	      loadLiveNow();
 	    }else{
 	      
 	    }   

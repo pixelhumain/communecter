@@ -244,20 +244,18 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	        data: {multiscopes : myMultiScopes},
 	       	dataType: "json",
 	    	success: function(data){
-	    		showCountScope();
-	    		rebuildSearchScopeInput();
-	    		saveCookieMultiscope();
-		    	//console.log("saveMultiScope() success");
+	    		//console.log("saveMultiScope() success");
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
 			}
 		});
 	}else{
-		showCountScope();
-		rebuildSearchScopeInput();
-		saveCookieMultiscope();
+		
 	}
+	showCountScope();
+	rebuildSearchScopeInput();
+	saveCookieMultiscope();
 }
 function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
 	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });

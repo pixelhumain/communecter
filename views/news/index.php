@@ -243,6 +243,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .form-group.tagstags{
 	margin-bottom:0px !important;
 }
+.timeline_shared_picture{
+	margin-top:5px;
+}
 
 </style>
 <!--<textarea class="mention"></textarea>-->

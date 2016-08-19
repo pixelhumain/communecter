@@ -112,7 +112,7 @@
       </div>
       
     </div>
-    <div id="list_tags_scopes" class="hidden-xs"></div>
+    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 
   </div>
   

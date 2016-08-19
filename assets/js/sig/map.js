@@ -649,24 +649,27 @@
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
 					$.each(data, function (key, value){ //console.log("type SIG ?"); console.dir(value);
-						var oneData = key;
+						var oneData = value;
 						if((value.typeSig == "news" || 
 							value.typeSig == "idea" || 
 							value.typeSig == "question" || 
 							value.typeSig == "announce" || 
 							value.typeSig == "information"
 							) && typeof value.author !== "undefined") 
-							data = value.author;
-						//console.log("type oneData ?"); console.dir(data);
-						thisSig.showFilterOnMap(data, key, thisMap);
+							oneData = value.author;
+						thisSig.showFilterOnMap(oneData, key, thisMap);
 					});
 					
 				}else{
+					console.log("showOneElementOnMap");
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
 			
+				console.log("before onEachFeature");
+				console.dir(this.geoJsonCollection);
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
+							console.log("onEachFeature");
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
@@ -682,9 +685,8 @@
 								thisSig.currentMarkerPopupOpen = layer;
 								thisMap.panTo(layer.getLatLng());	
 								layer.openPopup(); 
-								
 							});
-							
+						
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisSig.allowMouseoverMaker = false;
@@ -723,7 +725,7 @@
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;
 								setTimeout("Sig.openCurrentMarker()", 700);
-							});						
+							});			
 						}
 
 					});
