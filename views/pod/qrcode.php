@@ -10,7 +10,8 @@
 		<div  class="pull-left qrCode"> </div>
 			
 		<ul class="pull-left" style="list-style: none;margin-top:10px;">
-			<?php echo (@$type) ? "<li class='btn btn-sm'>".OpenData::$elementTypes[$type]."</li>" : '' ?>
+			<?php echo (@$type && @OpenData::$elementTypes[$type]) ? 
+				"<li class='btn btn-sm'>".OpenData::$elementTypes[$type]."</li>" : '' ?>
 			<?php echo (@$name) ? "<li>".$name."</li>" : '' ?>
 			<?php echo (@$address) ? "<li>".$address."</li>" : '' ?>
 			<?php echo (@$address2) ? "<li>".$address2."</li>" : '' ?>

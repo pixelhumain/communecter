@@ -12,7 +12,7 @@
         color:#3C5665;
     }
     .elemt_name a:hover{
-       text-decoration: underline;
+       text-decoration: underline !important;
     }
 </style>
 <?php foreach ($result as $key => $v) { ?>
@@ -28,15 +28,14 @@
 
             $specs = Element::getElementSpecsByType(@$type);
 
-            $img = "";
-            if(@$v["profilMediumImageUrl"] && $v["profilMediumImageUrl"] != ""){
-                $img = $v["profilMediumImageUrl"];?>
-                <a href="<?php echo $specs["hash"].@$v["_id"]; ?>" class="lbh">
-                    <img src="<?php echo $img ?>" class="pull-left img-responsive">
-                </a>
-        <?php
-            }
-        ?> 
+            $classMin = "";
+            $img = Element::getImgProfil($v, "profilMediumImageUrl", $this->module->assetsUrl);
+            if(!@$v["profilMediumImageUrl"] || $v["profilMediumImageUrl"] == "") $classMin = "min";
+        ?>
+        <a href="<?php echo $specs["hash"].@$v["_id"]; ?>" class="lbh">
+            <img src="<?php echo $img ?>" class="pull-left img-responsive elemt_img <?php echo $classMin; ?>">
+        </a>
+       
         <div class="elemt_name">
             <i class="fa fa-<?php echo Element::getFaIcon(@$type)?>"></i> 
             <?php 
