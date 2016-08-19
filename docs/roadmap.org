@@ -24,6 +24,9 @@
 [ ] repair fluidlog
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
+[ ] checkout Mention
+[ ] globaliser le system de Tokens et utilisation API Communecte
+[ ] integrate France Connect
 
 * Version 0.15 (31/08/2016) : En cours
 
@@ -52,6 +55,7 @@
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
+
   ** @Rapha
     [ ] form keep my position / my latest psitions
     [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
@@ -59,6 +63,7 @@
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
+
   ** @Tango 
     [ ] onChange search criteria, empty list + reload button
     [X] interface ND
@@ -76,16 +81,12 @@
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
+
   ** @Tib 
-    [ ] qrCode explain 
+    [ ] bug : qrCode explain 
     [ ] bug : on search 
         - on event  click event 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
-    [X] QR code  
-        [X] onclick : explain why QR Codes
-        [???] add QR code to invite mail / and create mail
-    [X] script devlog pour ajouter updated sur les anciennes data 
     [ ] dashboard 
         [ ] live controller 
             [ ] not connected > shows live , public information 
@@ -105,6 +106,24 @@
         [ ] switcher de home a dashB
         [ ] latest DDA on city page
         [ ] element activity
+    [ ] wisiwig sur les commentaires
+    [ ] finish fromNow method
+    [ ] DDA
+        [ ] bug : sur archiver , persiste dans les listes 
+        [ ] bug : une décision terminé, on peut toujours voté dessus
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+        [X] remettre le contexte sur la room dans mon DDA
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] changer les lien des DDA sur les parent insee
+        [ ] généré les catégories principale
+        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [ ] ajouter un scope geo sur une proposition
+    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
+    [X] QR code  
+        [X] onclick : explain why QR Codes
+        [???] add QR code to invite mail / and create mail
+    [X] script devlog pour ajouter updated sur les anciennes data 
     [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
     [X] refactor links.loadByHash + chemin dans href
@@ -125,27 +144,12 @@
             [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
     [X] switcher le titre navigateur
         [X] replacing all $(".moduleLabel").html
-    [ ] finish fromNow method
     [X] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
-    [ ] wisiwig sur les commentaires
-    [ ] DDA
-        [ ] bug : sur archiver , persiste dans les listes 
-        [ ] bug : une décision terminé, on peut toujours voté dessus
-        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
-        [X] remettre le contexte sur la room dans mon DDA
-        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [ ] changer les lien des DDA sur les parent insee
-        [ ] généré les catégories principale
-        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
-        [ ] ajouter un scope geo sur une proposition
-    [ ] checkout Mention
-    [ ] globaliser le system de Tokens et utilisation API Communecte
-    [ ] integrate France Connect
-    [ ] script trouver les duplicated keys ex: email
+    
+    
   ** @Sylvain
     [ ] ajouter updated on login
     [ ] mailing

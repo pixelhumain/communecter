@@ -198,13 +198,17 @@
 
 <div class="col-xs-12 col-md-3 col-updated">
 	
+	<a href="javascript:toggle('#nowListevents','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
+	<a href="javascript:toggle('#nowListDDA','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
+	<a href="javascript:toggle('#nowListprojects','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
+	<a href="javascript:toggle('#nowListorga','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-users "></i></a>
 	<a href="javascript:enlargeNow();" class="pull-right btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
-	<div class="col-xs-12 no-padding" id="nowListevents"></div>
-	<div class="col-xs-12 no-padding" id="nowListDDA"></div>
-	<div class="col-xs-12 no-padding" id="nowListprojects"></div>
-	<div class="col-xs-12 no-padding" id="nowListorga"></div>
-	
-	
+	<div class="space20"></div>
+	<div class="col-xs-12 no-padding col-nowListC" id="nowListevents"></div>
+	<div class="col-xs-12 no-padding col-nowListC" id="nowListDDA"></div>
+	<div class="col-xs-12 no-padding col-nowListC" id="nowListprojects"></div>
+	<div class="col-xs-12 no-padding col-nowListC" id="nowListorga"></div>
+
 </div>
 
 <!-- end: PAGE CONTENT-->
@@ -360,7 +364,7 @@ function loadLiveNow () {
 	ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length )
-			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : Discuter, Décider, Agir</h3>');	
+			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');	
 	 } , "html" );
 
 }
