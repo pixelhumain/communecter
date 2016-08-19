@@ -378,7 +378,7 @@ class Menu {
         */
         // ADD MEMBER
         //-----------------------------
-        if( Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
+        if($type == Organization::COLLECTION && Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
 	        self::entry("right", 'onclick',
             			Yii::t('common','Add a member to this organization'), 
             			Yii::t("common",'Add member'),'plus',

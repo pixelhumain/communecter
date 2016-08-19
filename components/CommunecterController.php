@@ -386,13 +386,14 @@ class CommunecterController extends Controller
       "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
     ),
     "element"=> array(
-      "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
-      "updatefields" => array("href" => "/ph/communecter/element/updatefields"),
-       "detail"          => array("href" => "/ph/communecter/element/detail", "public" => true),
-      "getalllinks"     => array("href" => "/ph/communecter/element/getalllinks"),
-      "simply"          => array("href" => "/ph/communecter/element/simply", "public" => true),
-      "directory"       => array("href" => "/ph/communecter/element/directory", "public" => true),
-      "directory2"       => array("href" => "/ph/communecter/element/directory2", "public" => true),
+      "updatesettings"      => array('href' => "/ph/communecter/element/updatesettings"),
+      "updatefield"         => array("href" => "/ph/communecter/element/updatefield"),
+      "updatefields"        => array("href" => "/ph/communecter/element/updatefields"),
+      "detail"              => array("href" => "/ph/communecter/element/detail", "public" => true),
+      "getalllinks"         => array("href" => "/ph/communecter/element/getalllinks"),
+      "simply"              => array("href" => "/ph/communecter/element/simply", "public" => true),
+      "directory"           => array("href" => "/ph/communecter/element/directory", "public" => true),
+      "directory2"          => array("href" => "/ph/communecter/element/directory2", "public" => true),
     ),
   );
 

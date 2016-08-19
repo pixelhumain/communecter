@@ -285,10 +285,30 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 
 		</div>
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+		  
+
+
+		<?php if(!empty($admin) && $admin == true){ ?>
+		<div id="divBtnDetail" class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
 			<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			<a href="javascript:" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+			<?php if($type == Person::COLLECTION){ ?>
+			<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
+				<i class='fa fa-key'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php echo Yii::t("common","Change password") ?>
+				</span>
+			</a>
+			<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default  tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+				<i class='fa fa-download'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php //echo Yii::t("common","Télécharger votre profile"); ?>
+				</span>
+			</a>
+			<?php } ?>
 
 		</div>
+		<?php } ?>
 		<?php 
 			$colXS = "3";
 			if(!isset($entity["tags"]) && !isset($entity["gamification"])) $colXS = "3 hidden";
@@ -317,8 +337,136 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	<?php }else{ ?>
 		
 	<?php } ?>
+
+	<div class="modal fade" role="dialog" id="modal-confidentiality">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><i class="fa fa-cog"></i> Confidentialité de vos informations personnelles</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
+	        <div class="row">
+	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
+	        		<?php if ($type==Person::COLLECTION){ ?>
+	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        		<?php } ?>
+
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<?php if ($type!=Person::COLLECTION){ ?>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
+	        		<?php } ?>
+	        	</div>
+		    </div>
+		    <div class="row text-dark panel-btn-confidentiality">
+		    	<?php if ($type==Person::COLLECTION){ ?>
+	            <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon e-mail :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-email inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="email" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Ma localité :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-locality inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Mon téléphone :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-phone inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="public"><i class="fa fa-group"></i> Public</button>
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="private"><i class="fa fa-user-secret"></i> Privé</button>
+		        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> Masqué</button>
+		        	</div>
+		        </div>
+		        <?php } ?>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Data :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenData inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<?php
+							$url = Yii::app()->baseUrl.'/api/';
+							if($type == Person::COLLECTION)
+								$url .= Person::CONTROLLER;
+							else if($type == Organization::COLLECTION)
+								$url .= Organization::CONTROLLER;
+							else if($type == Event::COLLECTION)
+								$url .= Event::CONTROLLER;
+							else if($type == Project::COLLECTION)
+								$url .= Project::CONTROLLER;
+						?>
+						<a href="<?php echo $url.'/get/id/'.$entity['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
+					</div>
+		        </div>
+		        <?php if($type != Person::COLLECTION){ ?>
+		        <div class="col-sm-4 text-right padding-10 margin-top-10">
+		        	<i class="fa fa-message"></i> <strong>Open Edition :</strong>
+		        </div>
+		        <div class="col-sm-8 text-left padding-10">
+		        	<div class="btn-group btn-group-isOpenEdition inline-block">
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="true"><i class="fa fa-group"></i> Oui</button>
+		        		<button class="btn btn-default confidentialitySettings" type="isOpenEdition" value="false"><i class="fa fa-user-secret"></i> Non</button>
+					</div>
+		        </div>
+		        <?php } ?>
+	        </div>
+	      </div>
+	      <script type="text/javascript">
+			<?php
+				//Params Checked
+				$typePreferences = array("privateFields", "publicFields");
+				$fieldPreferences["email"] = true;
+				$fieldPreferences["locality"] = true;
+				$fieldPreferences["phone"] = true;
+				$typePreferencesBool = array("isOpenData", "isOpenEdition");
+
+				//To checked private or public
+				foreach($typePreferences as $typePref){
+					foreach ($fieldPreferences as $field => $hidden) {
+						if(isset($entity["preferences"][$typePref]) && in_array($field, $entity["preferences"][$typePref])){
+							echo "$('.btn-group-$field > button[value=\'".str_replace("Fields", "", $typePref)."\']').addClass('active');";
+							$fieldPreferences[$field] = false;
+						}
+					}
+				}
+				//To checked if there are hidden
+				foreach ($fieldPreferences as $field => $hidden) {
+					if($hidden) echo "$('.btn-group-$field > button[value=\'hide\']').addClass('active');";
+				}
+				foreach ($typePreferencesBool as $field => $typePrefB) {
+					if(isset($entity["preferences"][$typePrefB]) && $entity["preferences"][$typePrefB] == true)
+						echo "$('.btn-group-$typePrefB > button[value=\'true\']').addClass('active');";	
+					else
+						echo "$('.btn-group-$typePrefB > button[value=\'false\']').addClass('active');";
+				}	
+			?> 
+	     </script>
+	      <div class="modal-footer">
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 </div>
 <?php 
+$urlServer =$_SERVER['REQUEST_URI'];
 Menu::element($entity,$type);
 $this->renderPartial('../default/panels/toolbar');
 if(!@$_GET["renderPartial"]){ 
@@ -329,12 +477,18 @@ if(!@$_GET["renderPartial"]){
 var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextMap = [];
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
-console.log(elementLinks);
+var urlServer = "<?php echo $urlServer ; ?>";
+
+if(urlServer.indexOf("element/detail") == -1)
+	$("#divBtnDetail").hide();
+else
+	$("#divBtnDetail").show();
+
 jQuery(document).ready(function() {
 	setTimeout(function () {
 		// Cette fonction s'exécutera dans 5 seconde (1000 millisecondes)
 		$.ajax({
-			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>",
+			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
 			type: 'POST',
 			data:{ "links" : elementLinks },
 			async:false,
@@ -355,11 +509,13 @@ jQuery(document).ready(function() {
 			}
 		});	
 	}, 1000);
-	$("#editElementDetail").on("click", function(){
+
+	/*$("#editElementDetail").on("click", function(){
 		//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-		//	getBackDetails(projectId,"<?php echo Project::COLLECTION ?>");
+		//	getBackDetails(contextId,"<?php echo $type ?>");
 		switchMode();
-	});
+	});*/
+
 });
 
 function showElementPad(type){
@@ -391,12 +547,16 @@ function showElementPad(type){
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];
 	var data = mapUrl[type]["data"];
-	console.log(data);
+	//console.log(data);
 	$("#pad-element-container").hide(200);
 	$.blockUI({
-				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
-			});
-	
+		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+	});
+
+	if(type == "detail")
+		$("#divBtnDetail").show();
+	else
+		$("#divBtnDetail").hide();
 	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
 			data,
 			function(){ 

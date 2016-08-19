@@ -60,6 +60,9 @@
 		$parentId = (string)$event["_id"];	
 		$tooltips = "La communauté de l'évènement";						
 	}
+
+
+	$addLink = (empty($users[Yii::app()->session["userId"]])?false:true);
 ?>
 	<div class="panel panel-white user-list">
 		<div class="panel-heading border-light text-white bg-yellow">
@@ -77,11 +80,24 @@
 					</a>								
 
 			<?php } 
-			if ($contentType == "events" && !@$noAddLink){ ?>
+			if ($contentType == Event::COLLECTION && $addLink == true){ ?>
 				<a href="#event.addattendeesv.eventId.<?php echo (string)$event["_id"];?>" class="lbh btn btn-xs btn-default tooltips lbh" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" >
-					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ?>
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ; ?>
+				</a>			
+			<?php } 
+			
+			if ($contentType == Organization::COLLECTION && $addLink == true){ ?>
+				<a href="#organization.addmember.id.<?php echo (string)$organization["_id"];?>" class="lbh btn btn-xs btn-default tooltips lbh" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a member to this organization'); ?>" >
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add member') ; ?>
+				</a>			
+			<?php }
+
+			if ($contentType == Project::COLLECTION && $addLink == true){ ?>
+				<a href="#project.addcontributorsv.projectId.<?php echo (string)$project["_id"];?>" class="lbh btn btn-xs btn-default tooltips lbh" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a contributor to this project'); ?>" >
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add contributor') ; ?>
 				</a>			
 			<?php } ?>
+
 		</div>
 		<?php
 			if(@$invitedMe && !empty($invitedMe)){

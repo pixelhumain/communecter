@@ -794,7 +794,6 @@ function bindAboutPodEvents()
     $(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
-    	
     });
 
     $(".confidentialitySettings").click(function(){

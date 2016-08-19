@@ -26,22 +26,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<tbody>
 					<?php
 					if (isset($needs) && !empty($needs)){
-						foreach ($needs as $data){ 
+						foreach ($needs as $key => $data) {
 							if(!empty($data["name"])){
-							if ($data["type"]=="materials")
-								$icon="fa-bullhorn";
-							else 
-								$icon="fa-gears"; ?>
-							<tr>
-								<td class="center">
-									<i class="fa <?php echo $icon; ?> fa-2 text-blue"></i> 
-								</td>
-								<td class="text-left">
-									<span class="text-large"><?php echo $data["name"]; ?></span>
-									<a href="#need.detail.id.<?php echo $data["_id"] ?>" class="lbh btn"><i class="fa fa-chevron-circle-right"></i></a>
-								</td>
-							</tr>
-				<?php } } } ?>
+								if ($data["type"]=="materials")
+									$icon="fa-bullhorn";
+								else 
+									$icon="fa-gears"; ?>
+								<tr>
+									<td class="center">
+										<i class="fa <?php echo $icon; ?> fa-2 text-blue"></i> 
+									</td>
+									<td class="text-left">
+										<span class="text-large"><?php echo $data["name"]; ?></span>
+										<a href="#need.detail.id.<?php echo $data['_id']; ?>" class="lbh btn"><i class="fa fa-chevron-circle-right"></i></a>
+									</td>
+								</tr>
+				<?php 		} 
+						}
+					} ?>
 						</tbody>
 			</table>
 			<?php if(isset($needs) && !empty($needs)){ ?>

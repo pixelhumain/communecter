@@ -132,7 +132,7 @@
 				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ? 
 			<?php }else{ ?>
 				<i class="fa fa-angle-down"></i> Coordonnées
-			<? } ?>
+			<?php } ?>
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
 			<div class="col-md-6 col-sm-6">	
@@ -305,6 +305,7 @@
 			 <?php // echo (isset($element["description"])) ? $element["description"] : ""; ?>
 		</div>
 	</div>
+
 </div>
 
 <script type="text/javascript"> 
@@ -370,7 +371,7 @@
 
 	});
 	function bindAboutPodElement() {
-		$("#editElementDetail").on("click", function(){
+		$("#editElementDetail").click(function () {
 			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
 			//	getBackDetails(contextId,"<?php echo $type ?>");
 			switchMode();
@@ -381,11 +382,40 @@
 			showMap(true);
 		});
 	
-		$(".editConfidentialityBtn").click(function(){
+		/*$(".editConfidentialityBtn").click(function(){
 	    	console.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
-	    });
+	    });*/
 	
+		$("#changePasswordBtn").click(function () {
+			console.log("changePasswordbuttton");
+			loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+		});
+
+		$("#downloadProfil").click(function () {
+			$.ajax({
+				url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextId ,
+				type: 'POST',
+				dataType: 'json',
+				async:false,
+				crossDomain:true,
+				complete: function () {},
+				success: function (obj){
+					console.log("obj", obj);
+					$("<a />", {
+					    "download": "profil.json",
+					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
+					  }).appendTo("body")
+					  .click(function() {
+					    $(this).remove()
+					  })[0].click() ;
+				},
+				error: function (error) {
+					
+				}
+			});
+		});
+
 	    $(".confidentialitySettings").click(function(){
 	    	param = new Object;
 	    	param.type = $(this).attr("type");
@@ -401,6 +431,18 @@
 			    	toastr.success(data.msg);
 			    }
 			});
+		});
+
+		$("#editConfidentialityBtn").on("click", function(){
+	    	console.log("confidentiality");
+	    	$("#modal-confidentiality").modal("show");
+	    });
+
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
 		});
 	}
 
