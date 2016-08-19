@@ -235,8 +235,7 @@ jQuery(document).ready(function() {
 	showTagsScopesMin("#list_tags_scopes");
 	
 	$('#btn-start-search').click(function(e){
-        startSearch();
-        //loadStream(0, indexStep);
+		startSearch(false);
     });
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
@@ -258,7 +257,7 @@ jQuery(document).ready(function() {
   	});
 
 	initSelectTypeNews();
-	startSearch();
+	startSearch(true);
 
 
 });
@@ -302,6 +301,7 @@ function loadLiveNow () {
 
 	ajaxPost( "#nowListevents", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
+
 		if( !$(".titleNowEvents").length ){
 			$("#nowListevents").prepend('<h3 class="text-red homestead pull-left titleNowEvents"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>');
 			$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
@@ -372,7 +372,7 @@ function loadLiveNow () {
 	ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length )
-			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');	
+			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
 	 } , "html" );
 
 }
@@ -414,49 +414,24 @@ function slidupScopetagsMin(show){
 }
 
 var timeout;
-function startSearch(){
+function startSearch(isFirst){
 	$(".my-main-container").off();
-	var name = $('#searchBarText').val();
-	if(inseeCommunexion != ""){
-		if(name.length>=3 || name.length == 0){
-	      var locality = "";
-	      if(communexionActivated){
-		    if(typeof(cityInseeCommunexion) != "undefined"){
-				if(levelCommunexion == 1) locality = cpCommunexion;
-				if(levelCommunexion == 2) locality = inseeCommunexion;
-			}else{
-				if(levelCommunexion == 1) locality = inseeCommunexion;
-				if(levelCommunexion == 2) locality = cpCommunexion;
-			}
-	        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
-	        if(levelCommunexion == 4) locality = inseeCommunexion;
-	        if(levelCommunexion == 5) locality = "";
-	      } 
-	      showNewsStream(name, locality);
-	      loadLiveNow();
-	    }else{
-	      
-	    }   
-    }
+	showNewsStream(isFirst);
+	loadLiveNow();
 }
 
 
-function showNewsStream(name,locality){
-	if(typeof(cityInseeCommunexion) != "undefined"){
-	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
-		                             2 : "INSEE",
-		                             3 : "DEPARTEMENT",
-		                             4 : "REGION"
-		                           };
-	}else{
-		var levelCommunexionName = { 1 : "INSEE",
-		                             2 : "CODE_POSTAL_INSEE",
-		                             3 : "DEPARTEMENT",
-		                             4 : "REGION"
-		                           };
-	}
+function showNewsStream(isFirst){
+	isFirst = isFirst ? "?isFirst=1" : "";
+	var search = $('#searchBarText').val();
+	var levelCommunexionName = { 1 : "INSEE",
+	                             2 : "CODE_POSTAL_INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	
 	var dataNewsSearch = {
-      "tagSearch" : name, 
+      "tagSearch" : search, 
       "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
       "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
@@ -471,13 +446,42 @@ function showNewsStream(name,locality){
 			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 			"<span class='text-dark'>Chargement en cours ...</span>" + 
 	"</div>");
-	ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city?isFirst=1",dataNewsSearch, function(){
-		showTagsScopesMin("#scopeListContainer");
-		showFormBlock(false);
-		$("#newLiveFeedForm").hide();
- 	},"html");
+
+	if(isFirst){
+		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
+			if(!isFirst) buildTimeLine (news, indexMin, indexMax)
+			showTagsScopesMin("#scopeListContainer");
+			showFormBlock(false);
+			$("#newLiveFeedForm").hide();
+	 	},"html");
+	}else{
+		$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/news/index/type/city/date/"+dateLimit,
+		       	dataType: "json",
+		       	data: dataNewsSearch,
+		    	success: function(data){
+			    	console.log("LOAD NEWS BY AJAX");
+			    	console.log(data.news);
+			    	if(data){
+						buildTimeLine (data.news, indexMin, indexMax);
+						bindTags();
+						if(typeof(data.limitDate.created) == "object")
+							dateLimit=data.limitDate.created.sec;
+						else
+							dateLimit=data.limitDate.created;
+					}
+					loadingData = false;
+				},
+				error: function(){
+					loadingData = false;
+				}
+			});
+	}
 	$("#dropdown_search").hide(300);
+	
 }
+
 
 function addSearchType(type){
   var index = searchType.indexOf(type);

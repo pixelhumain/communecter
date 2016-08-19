@@ -33,6 +33,9 @@ var loadStream = function(indexMin, indexMax){
 
 	if (typeof(tagSearch) != "undefined")
 	    filter.tagSearch=tagSearch;
+
+	console.log("loadStream");
+	console.dir(filter);
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
