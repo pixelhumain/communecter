@@ -165,7 +165,7 @@ function buildTimeLine (news, indexMin, indexMax)
 					$(".spine").css('bottom',"0px");
 			}
 		}
-			$(".stream-processing").hide();
+		$(".stream-processing").hide();
 	}
 	
 	bindEvent();
@@ -186,7 +186,7 @@ function bindEvent(){
 		scopeChange=$(this).data("value");
 		$("input[name='scope']").val(scopeChange);
 	});
-
+	
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");

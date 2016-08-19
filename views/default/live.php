@@ -441,20 +441,24 @@ function showNewsStream(isFirst){
       //"searchBy" : levelCommunexionName[levelCommunexion]
   };
 
-	$("#newsstream").html("<div class='loader text-dark '>"+
+  var loading = "<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
 			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
 			"<span class='text-dark'>Chargement en cours ...</span>" + 
-	"</div>");
+	"</div>";
+
+	
 
 	if(isFirst){
+		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
-			if(!isFirst) buildTimeLine (news, indexMin, indexMax)
 			showTagsScopesMin("#scopeListContainer");
 			showFormBlock(false);
 			$("#newLiveFeedForm").hide();
 	 	},"html");
 	}else{
+		dateLimit=0;currentMonth = null;
+		$(".newsTL").html(loading);
 		$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+"/news/index/type/city/date/"+dateLimit,
@@ -463,8 +467,9 @@ function showNewsStream(isFirst){
 		    	success: function(data){
 			    	console.log("LOAD NEWS BY AJAX");
 			    	console.log(data.news);
-			    	if(data){
-						buildTimeLine (data.news, indexMin, indexMax);
+			    	$(".newsTL").html("");
+					if(data){
+						buildTimeLine (data.news, 0, 5);
 						bindTags();
 						if(typeof(data.limitDate.created) == "object")
 							dateLimit=data.limitDate.created.sec;
@@ -472,6 +477,16 @@ function showNewsStream(isFirst){
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
+					$(".my-main-container").scroll(function(){
+		    if(!loadingData && !scrollEnd){
+		          var heightContainer = $(".my-main-container")[0].scrollHeight;
+		          var heightWindow = $(window).height();
+		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+		            console.log("scroll in news/index MAX");
+		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		          }
+		    }
+		});
 				},
 				error: function(){
 					loadingData = false;

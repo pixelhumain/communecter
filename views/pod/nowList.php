@@ -13,6 +13,7 @@
 
                 $specs = Element::getElementSpecsByType(@$type);
 
+
                 $classMin = "";
                 $img = Element::getImgProfil($v, "profilMediumImageUrl", $this->module->assetsUrl);
                 if(!@$v["profilMediumImageUrl"] || $v["profilMediumImageUrl"] == "") $classMin = "min";

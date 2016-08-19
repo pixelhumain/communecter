@@ -173,7 +173,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
                   // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  //type += "s";
+                  type += "s";
                   var url = '#news.index.type.'+type+'.id.' + id;
                   if(type == "citoyens") url += '.viewer.' + userId;
 
