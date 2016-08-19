@@ -1,20 +1,4 @@
-<style>
-    .elemt_name {
-        font-size: 16px;
-        margin-top: -32px;
-        height: 32px;
-        background-color: rgba(255, 255, 255, 0.85);
-        padding: 5px 15px;
-        width: 100%;
-        float:left;
-    }
-    .elemt_name a{
-        color:#3C5665;
-    }
-    .elemt_name a:hover{
-       text-decoration: underline !important;
-    }
-</style>
+
 <?php foreach ($result as $key => $v) { ?>
 <div class="border-dark margin-bottom-15 col-xs-12 col-lg-12 no-padding">
     <div class="pull-left">

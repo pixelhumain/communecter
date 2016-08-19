@@ -13,6 +13,34 @@
 	#newsHistory .col-md-11{
 		width:100% !important;
 	}
+
+	.border-dark {
+	    border: 1px solid #ccc;
+	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+	}
+
+	/*en ce moment*/
+	.elemt_name {
+        font-size: 16px;
+        margin-top: -32px;
+        height: 32px;
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 5px 15px;
+        width: 100%;
+        float:left;
+    }
+    .elemt_name a{
+        color:#3C5665;
+    }
+    .elemt_name a:hover{
+       text-decoration: underline !important;
+    }
+    .col-updated .border-dark {
+	    border: 0;
+	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+	}
+    /*en ce moment*/
+
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
 		width:100% !important;
@@ -168,7 +196,7 @@
 </div>
 
 
-<div class="col-sm-12 col-xs-12 col-md-3">
+<div class="col-sm-12 col-xs-12 col-md-3 col-updated">
 	
 	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>
 	<div class="col-sm-12 col-xs-12 no-padding" id="nowListevents"></div>

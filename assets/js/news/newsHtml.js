@@ -183,9 +183,11 @@ function buildLineHTML(newsObj,idSession,update)
 				var endMonth = months[endDate.getMonth()];
 				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
 			}
+			var objectLocality = "";
 			if (newsObj.object.objectType=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
+				if(typeof newsObj.scope != "undefined")
 				objectLocality=newsObj.scope.address.addressLocality;
  
 			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
