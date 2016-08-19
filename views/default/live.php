@@ -198,11 +198,9 @@
 
 <div class="col-sm-12 col-xs-12 col-md-3 col-updated">
 	
-	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>
+	
 	<div class="col-sm-12 col-xs-12 no-padding" id="nowListevents"></div>
-	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>
 	<div class="col-sm-12 col-xs-12 no-padding" id="nowListprojects"></div>
-	<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>
 	<div class="col-sm-12 col-xs-12 no-padding" id="nowListorga"></div>
 	
 	
@@ -249,7 +247,6 @@ jQuery(document).ready(function() {
 	initSelectTypeNews();
 	startSearch();
 
-	loadLiveNow();
 
 });
 
@@ -272,6 +269,7 @@ var searchParams = {
 
 	ajaxPost( "#nowListevents", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
+		$("#nowListevents").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>');
 		$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
 	 } , "html" );
 
@@ -292,6 +290,7 @@ var searchParams = {
 
 	ajaxPost( "#nowListprojects", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
+		$("#nowListprojects").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
 		$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
 	 } , "html" );
 
@@ -314,6 +313,7 @@ var searchParams = {
 
 	ajaxPost( "#nowListorga", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
+		$("#nowListorga").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
 		$("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
 	 } , "html" );
 
