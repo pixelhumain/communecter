@@ -236,6 +236,7 @@ jQuery(document).ready(function() {
 	
 	$('#btn-start-search').click(function(e){
         startSearch();
+        //loadStream(0, indexStep);
     });
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
