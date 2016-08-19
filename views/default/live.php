@@ -308,21 +308,7 @@ function loadLiveNow () {
 		}
 	 } , "html" );
 
-	var searchParams = {
-	  "name":"",
-	  "tpl":"/pod/nowList",
-      "latest" : true,
-      "searchType" : ["<?php echo Project::COLLECTION?>"], 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "indexMin" : 0, 
-      "indexMax" : 10 
-  	};
-
+	searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
 	ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length ){
@@ -331,21 +317,7 @@ function loadLiveNow () {
 		}
 	 } , "html" );
 
-	var searchParams = {
-	  "name":"",
-	  "tpl":"/pod/nowList",
-      "latest" : true,
-      "searchType" : ["<?php echo Organization::COLLECTION?>"], 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "indexMin" : 0, 
-      "indexMax" : 10 
-  	};
-
+	searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
 	ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length ){
@@ -354,21 +326,7 @@ function loadLiveNow () {
 		}
 	 } , "html" );
 
-	var searchParams = {
-	  "name":"",
-	  "tpl":"/pod/nowList",
-      "latest" : true,
-      "searchType" : ["<?php echo ActionRoom::COLLECTION?>"], 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "indexMin" : 0, 
-      "indexMax" : 10 
-  	};
-
+	searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
 	ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length )
