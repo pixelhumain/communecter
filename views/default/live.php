@@ -28,9 +28,15 @@
         padding: 5px 15px;
         width: 100%;
         float:left;
+        text-overflow: ellipsis;
+		/*white-space: nowrap;*/
+		overflow: hidden;
+		max-width: 100%;
+        
     }
     .elemt_name a{
         color:#3C5665;
+
     }
     .elemt_name a:hover{
        text-decoration: underline !important;
@@ -39,6 +45,7 @@
 	    border: 0;
 	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 	}
+
     /*en ce moment*/
 
 @media screen and (max-width: 1500px) {	
