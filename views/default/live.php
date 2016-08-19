@@ -71,13 +71,13 @@
 
 
 
-<div class="col-sm-12 col-xs-12 col-md-9">
+<div class="col-xs-12 col-md-9 col-feed">
 
 	  <h3 class="text-dark homestead pull-left hidden">
 		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier
 	  </h3>
-	  <div class="pull-left col-md-12 col-sm-12 col-xs-12" style="margin:15px 15px 0 0;">
-	  	  <div class="col-md-12 col-sm-12 col-xs-12" 
+	  <div class="pull-left col-xs-12" style="margin:15px 15px 0 0;">
+	  	  <div class="col-xs-12" 
 	  	  style="margin-top: 10px; margin-bottom: 5px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
 		  
 		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
@@ -131,16 +131,16 @@
 	  </div>
 	  </div>
 	
-	<div class="col-sm-12 col-xs-12 col-md-12">
+	<div class="col-xs-12">
 		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
 	</div>
 
 	
 
-	<div class="col-md-12 col-sm-12 col-xs-12 center">
+	<div class="col-xs-12 center">
 		
 	  <div class="col-md-12 no-padding margin-top-15">
-	  	<div class="input-group col-md-12 col-sm-12 col-xs-12 pull-left">
+	  	<div class="input-group col-xs-12 pull-left">
 	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
@@ -162,8 +162,8 @@
 	  </div>
 	</div>
 
-	<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
-	  <div class="col-md-12 col-sm-12 col-xs-12 margin-top-15 no-padding">
+	<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
+	  <div class="col-xs-12 margin-top-15 no-padding">
 	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 	  </div>
 	  
@@ -188,20 +188,21 @@
 	  <div class="lbl-scope-list text-red hidden"></div>
 	</div>
 
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+	<div class="col-xs-12 no-padding"><hr></div>
 
 	<?php //$this->renderPartial("first_step_news"); ?> 
 	<?php //$this->renderPartial("news/index"); ?> 
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="newsstream"></div>
+	<div class="col-xs-12 no-padding" id="newsstream"></div>
 </div>
 
 
-<div class="col-sm-12 col-xs-12 col-md-3 col-updated">
+<div class="col-xs-12 col-md-3 col-updated">
 	
-	
-	<div class="col-sm-12 col-xs-12 no-padding" id="nowListevents"></div>
-	<div class="col-sm-12 col-xs-12 no-padding" id="nowListprojects"></div>
-	<div class="col-sm-12 col-xs-12 no-padding" id="nowListorga"></div>
+	<a href="javascript:enlargeNow();" class="pull-right btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
+	<div class="col-xs-12 no-padding" id="nowListevents"></div>
+	<div class="col-xs-12 no-padding" id="nowListDDA"></div>
+	<div class="col-xs-12 no-padding" id="nowListprojects"></div>
+	<div class="col-xs-12 no-padding" id="nowListorga"></div>
 	
 	
 </div>
@@ -250,9 +251,29 @@ jQuery(document).ready(function() {
 
 });
 
+function enlargeNow() { 
+	if(!$(".col-feed.closed").length){
+		$("#enlargeNow").attr("class","fa fa-caret-right");
+		$(".col-feed").attr("class","hidden col-feed closed");
+		$(".col-updated").attr("class","col-xs-12 col-updated");
+		$("#nowListevents").attr("class","col-xs-3 no-padding");
+		$("#nowListDDA").attr("class","col-xs-3 no-padding");
+		$("#nowListprojects").attr("class","col-xs-3 no-padding");
+		$("#nowListorga").attr("class","col-xs-3 no-padding");
+	} else {
+		$("#enlargeNow").attr("class","fa fa-caret-left");
+		$(".col-feed").attr("class","col-xs-12 col-md-9 col-feed");
+		$(".col-updated").attr("class","col-xs-12 col-md-3 col-updated");
+		$("#nowListevents").attr("class","col-xs-12 no-padding");
+		$("#nowListDDA").attr("class","col-xs-12 no-padding");
+		$("#nowListprojects").attr("class","col-xs-12 no-padding");
+		$("#nowListorga").attr("class","col-xs-12 no-padding");
+	}
+}
+
 function loadLiveNow () { 
 
-var searchParams = {
+	var searchParams = {
 	  "name":"",
 	  "tpl":"/pod/nowList",
       "latest" : true,
@@ -267,10 +288,12 @@ var searchParams = {
       "indexMax" : 10 
   	};
 
-	ajaxPost( "#nowListevents", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+	ajaxPost( "#nowListevents", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
-		$("#nowListevents").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>');
-		$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
+		if( !$(".titleNowEvents").length ){
+			$("#nowListevents").prepend('<h3 class="text-red homestead pull-left titleNowEvents"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>');
+			$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
+		}
 	 } , "html" );
 
 	var searchParams = {
@@ -288,13 +311,13 @@ var searchParams = {
       "indexMax" : 10 
   	};
 
-	ajaxPost( "#nowListprojects", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+	ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
-		$("#nowListprojects").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
-		$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
+		if( !$(".titleNowDDA").length ){
+			$("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
+			$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
+		}
 	 } , "html" );
-
-	
 
 	var searchParams = {
 	  "name":"",
@@ -311,10 +334,33 @@ var searchParams = {
       "indexMax" : 10 
   	};
 
-	ajaxPost( "#nowListorga", baseUrl + "/" + moduleId + '/search/globalautocomplete' , searchParams, function() { 
+	ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
-		$("#nowListorga").before('<h3 class="text-red homestead pull-left"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
-		$("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
+		if( !$(".titleNowDDA").length ){
+			$("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
+			$("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
+		}
+	 } , "html" );
+
+	var searchParams = {
+	  "name":"",
+	  "tpl":"/pod/nowList",
+      "latest" : true,
+      "searchType" : ["<?php echo ActionRoom::COLLECTION?>"], 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
+      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "indexMin" : 0, 
+      "indexMax" : 10 
+  	};
+
+	ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+		bindLBHLinks();
+		if( !$(".titleNowDDA").length )
+			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : Discuter, Décider, Agir</h3>');	
 	 } , "html" );
 
 }
