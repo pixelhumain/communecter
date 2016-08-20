@@ -94,10 +94,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       "locality" : "",//locality, 
       "searchType" : searchType, 
       "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "searchBy" : levelCommunexionName[levelCommunexion], 
       "indexMin" : indexMin, 

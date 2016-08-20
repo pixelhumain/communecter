@@ -45,7 +45,9 @@
 	    border: 0;
 	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 	}
-
+	.newsFeedForm{
+		display:none;
+	}
     /*en ce moment*/
 
 @media screen and (max-width: 1500px) {	
@@ -223,6 +225,14 @@
 var searchType = ["organizations", "projects", "events", "needs", "news"];
 var allNewsType = ["news", "idea", "question", "announce", "information"];
 
+var liveTypeName = { "news":"<i class='fa fa-rss'></i> Les messages",
+					 "idea":"<i class='fa fa-info-circle'></i> Les idées",
+					 "question":"<i class='fa fa-question-circle'></i> Les questions",
+					 "announce":"<i class='fa fa-ticket'></i> Les annonces",
+					 "information":"<i class='fa fa-newspaper-o'></i> Les informations"
+					};
+
+
 <?php if(@$type && !empty($type)){ ?>
 	searchType = ["<?php echo $type; ?>"];
 <?php }else{ ?>
@@ -230,7 +240,12 @@ var allNewsType = ["news", "idea", "question", "announce", "information"];
 <?php } ?>
 
 jQuery(document).ready(function() {
-	setTitle("Live'n'Direct","<i class='fa fa-heartbeat '></i>");
+	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
+	if(typeof liveTypeName[liveType] != "undefined") 
+		 liveType = liveTypeName[liveType];
+	else liveType = "Toute l'actu";
+
+	setTitle("Live'n'Direct <i class='fa fa-angle-right'></i> " + liveType, "<i class='fa fa-heartbeat '></i>");
 	
 	showTagsScopesMin("#list_tags_scopes");
 	
@@ -290,10 +305,9 @@ function loadLiveNow () {
       "latest" : true,
       "searchType" : ["<?php echo Event::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
       "indexMax" : 10 
@@ -382,18 +396,17 @@ function startSearch(isFirst){
 function showNewsStream(isFirst){
 	isFirst = isFirst ? "?isFirst=1" : "";
 	var search = $('#searchBarText').val();
-	var levelCommunexionName = { 1 : "INSEE",
-	                             2 : "CODE_POSTAL_INSEE",
+	var levelCommunexionName = { 1 : "CITYKEY",
+	                             2 : "CODE_POSTAL",
 	                             3 : "DEPARTEMENT",
 	                             4 : "REGION"
 	                           };
 	
 	var dataNewsSearch = {
       "tagSearch" : search, 
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "searchType" : searchType, 
       //"searchBy" : levelCommunexionName[levelCommunexion]
@@ -428,7 +441,7 @@ function showNewsStream(isFirst){
 			    	$(".newsTL").html("");
 					if(data){
 						buildTimeLine (data.news, 0, 5);
-						bindTags();
+						//bindTags();
 						if(typeof(data.limitDate.created) == "object")
 							dateLimit=data.limitDate.created.sec;
 						else

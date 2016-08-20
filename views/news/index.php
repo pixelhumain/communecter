@@ -246,7 +246,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .timeline_shared_picture{
 	margin-top:5px;
 }
-
+.timeline_element .tag_item_map_list {
+    color: #F00;
+    font-weight: 200 !important;
+    font-size: 12px !important;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -419,7 +423,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
 			</div>
 			<div class="stream-processing center">
-				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-spin fa-circle-o-notch"></i></span>
+				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-chevron-down"></i></span>
 			</div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
@@ -532,6 +536,9 @@ jQuery(document).ready(function()
 	}
 	/////// A réintégrer pour la version last
 	var $scrollElement = $(".my-main-container");
+
+	$(".main-col-search").css("minHeight", 1300);
+
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")

@@ -36,6 +36,7 @@ var loadStream = function(indexMin, indexMax){
 
 	console.log("loadStream");
 	console.dir(filter);
+	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
@@ -54,6 +55,7 @@ var loadStream = function(indexMin, indexMax){
 						dateLimit=data.limitDate.created;
 				}
 				loadingData = false;
+				$(".search-loader").html('<i class="fa fa-chevron-down"></i>');
 			},
 			error: function(){
 				loadingData = false;
@@ -809,11 +811,10 @@ function saveNews(){
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				if($('#searchLocalityNAME') && location.hash.indexOf("#default.live")==0){
-				  newNews.searchLocalityNAME = $('#searchLocalityNAME').val().split(',');
-			      newNews.searchLocalityCODE_POSTAL_INSEE = $('#searchLocalityCODE_POSTAL_INSEE').val().split(',');
+				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0){
+				  newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
+			      newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');
 			      newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
-			      newNews.searchLocalityINSEE = $('#searchLocalityINSEE').val().split(',');
 			      newNews.searchLocalityREGION = $('#searchLocalityREGION').val().split(',');
 			    }
 

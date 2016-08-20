@@ -1012,3 +1012,15 @@ function activateSummernote(elem) {
 	}
 }
 
+function exists(val){
+	return typeof val != "undefined";
+}
+function notNull(val){
+	return typeof val != "undefined"
+			&& val != null;
+}
+function notEmpty(val){
+	return typeof val != "undefined"
+			&& val != null
+			&& val != "";
+}

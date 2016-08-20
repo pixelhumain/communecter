@@ -458,6 +458,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var mode = "view";
 	var allDay = '<?php echo (@$event["allDay"] == true) ? "true" : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
+	alert(startDate);
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
 	var loadActivity = true;	

@@ -288,7 +288,7 @@
 		
 		Sig.switchDropDown = function(panelId){		
 			$(".panel_map").hide();
-			$("#"+panelId).show(400);
+			$("#"+panelId).show(100);
 		}
 
 		Sig.vMarker = 1;

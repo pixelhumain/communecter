@@ -168,10 +168,9 @@
       	</div>
    </ul>
 </div>
-<input id="searchLocalityNAME" type="hidden" />
-<input id="searchLocalityCODE_POSTAL_INSEE" type="hidden" />
+<input id="searchLocalityCITYKEY" type="hidden" />
+<input id="searchLocalityCODE_POSTAL" type="hidden" />
 <input id="searchLocalityDEPARTEMENT" type="hidden" />
-<input id="searchLocalityINSEE" type="hidden" />
 <input id="searchLocalityREGION" type="hidden" />
 
 <?php 
@@ -437,28 +436,28 @@ function showMsgInfoMultiScope(msg, type){
 function rebuildSearchScopeInput()
 {
 	/*****************************************************************************************/
-	searchLocalityNAMEs = "";
+	searchLocalityCITYKEYs = "";
 	$.each($('.item-scope-city'), function(key, value){
 		if(!$(value).hasClass('disabled')){
 			key = $(value).data("scope-value");
-			searchLocalityNAMEs += (searchLocalityNAMEs == "") ? key :   ","+key;
+			searchLocalityCITYKEYs += (searchLocalityCITYKEYs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityNAMEs",searchLocalityNAMEs);
-	if( $("#searchLocalityNAME") )
-		$("#searchLocalityNAME").val(searchLocalityNAMEs);
+	console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
+	if( $("#searchLocalityCITYKEY") )
+		$("#searchLocalityCITYKEY").val(searchLocalityCITYKEYs);
 
 	/*****************************************************************************************/
-	searchLocalityCODE_POSTAL_INSEEs = "";
+	searchLocalityCODE_POSTALs = "";
 	$.each($('.item-scope-cp'), function(key, value){
 		if(!$(value).hasClass('disabled')){
 			key = $(value).data("scope-value");
-			searchLocalityCODE_POSTAL_INSEEs += (searchLocalityCODE_POSTAL_INSEEs == "") ? key :   ","+key;
+			searchLocalityCODE_POSTALs += (searchLocalityCODE_POSTALs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCODE_POSTAL_INSEEs",searchLocalityCODE_POSTAL_INSEEs);
-	if( $("#searchLocalityCODE_POSTAL_INSEE") )
-		$("#searchLocalityCODE_POSTAL_INSEE").val(searchLocalityCODE_POSTAL_INSEEs);
+	console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
+	if( $("#searchLocalityCODE_POSTAL") )
+		$("#searchLocalityCODE_POSTAL").val(searchLocalityCODE_POSTALs);
 
 	/*****************************************************************************************/
 	searchLocalityDEPARTEMENTs = "";
@@ -471,18 +470,6 @@ function rebuildSearchScopeInput()
 	console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
 	if( $("#searchLocalityDEPARTEMENT") )
 		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
-
-	/*****************************************************************************************/
-	searchLocalityINSEEs = "";
-	$.each($('.item-scope-insee'), function(key, value){
-		if(!$(value).hasClass('disabled')){
-			key = $(value).data("scope-value");
-			searchLocalityINSEEs += (searchLocalityINSEEs == "") ? key :   ","+key;
-		}
-	});
-	console.log("searchLocalityINSEEs",searchLocalityINSEEs);
-	if( $("#searchLocalityINSEE") )
-		$("#searchLocalityINSEE").val(searchLocalityINSEEs);
 
 	/*****************************************************************************************/
 	searchLocalityREGIONs = "";

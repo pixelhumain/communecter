@@ -200,28 +200,14 @@ function startSearch(){
 
 
 function showNewsStream(name,locality){
-	if(typeof(cityInseeCommunexion) != "undefined"){
-	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
-	                             2 : "INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}else{
-		var levelCommunexionName = { 1 : "INSEE",
-	                             2 : "CODE_POSTAL_INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}
-	var dataNewsSearch = {
+	
+  var dataNewsSearch = {
       "tagSearch" : name, 
-      "searchLocalityNAME" : $('#searchLocalityNAME').val().split(','),
-      "searchLocalityCODE_POSTAL_INSEE" : $('#searchLocalityCODE_POSTAL_INSEE').val().split(','), 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityINSEE" : $('#searchLocalityINSEE').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "searchType" : searchType, 
-      //"searchBy" : levelCommunexionName[levelCommunexion]
+      "searchType" : searchType,
   };
 
 	$("#newsstream").html("<div class='loader text-dark '>"+

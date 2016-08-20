@@ -231,19 +231,19 @@ jQuery(document).ready(function() {
 
 var calendarInit = false;
 function showResultInCalendar(mapElements){
-  console.log("showResultInCalendar");
-  console.dir(mapElements);
+  //console.log("showResultInCalendar");
+  //console.dir(mapElements);
 
   var events = new Array();
   $.each(mapElements, function(key, thisEvent){
     
-    var startDate = thisEvent["startDate"].substr(0, 10);
-    var endDate = thisEvent["endDate"].substr(0, 10);
+    var startDate = exists(thisEvent["startDate"]) ? thisEvent["startDate"].substr(0, 10) : "";
+    var endDate = exists(thisEvent["endDate"]) ? thisEvent["endDate"].substr(0, 10) : "";
 
     var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
 
-    var name = (typeof thisEvent["name"] != "undefined") ? thisEvent["name"] : "";
-    var thumb_url = (typeof thisEvent["profilThumbImageUrl"] != "undefined" && thisEvent["profilThumbImageUrl"] != "") ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
+    var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
+    var thumb_url = notNull(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
     
     if(typeof events[startDate] == "undefined") events[startDate] = new Array();
     events[startDate].push({  "id" : thisEvent["_id"]["$id"],
