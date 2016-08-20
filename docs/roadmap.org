@@ -81,6 +81,8 @@
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
+    [ ] two step refactor
+    [ ] DDA framapad
 
   ** @Tib 
     [ ] bug : qrCode explain 
