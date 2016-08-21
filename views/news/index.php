@@ -123,7 +123,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$scopeBegin= "Public";	
 		$iconBegin= "globe";
 		$headerName= "Actualités de ".$city["name"];
-		$topTitle = $headerName;
+		$topTitle = ""; //$headerName;
 	}
 	else if( isset($type) && $type == "pixels"){
 		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
@@ -251,10 +251,26 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     font-weight: 200 !important;
     font-size: 12px !important;
 }
+.main-col-search{
+	min-height:1300px !important;
+}
+/*.btn-type-news{
+	background-color: rgb(255, 255, 255);
+	border-color: #C9C9C9;
+	padding: 23px 20px !important;
+	border-radius: 0px !important;
+	font-size: 15px !important;
+}*/
 </style>
 <!--<textarea class="mention"></textarea>-->
 
 
+<?php 
+	//if($type != City::CONTROLLER)
+	$this->renderPartial('../news/podBtnTypeNews'); 
+?>
+
+<div id="newLiveFeedForm"></div>
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
@@ -423,7 +439,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
 			</div>
 			<div class="stream-processing center">
-				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-chevron-down"></i></span>
+				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
 			</div>
 		</div>
 		<!-- end: TIMELINE PANEL -->
@@ -515,7 +531,7 @@ var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 	var locality = "<?php echo $locality ?>";
 	var searchBy = "<?php echo $searchBy ?>";
 <?php } ?>
-var tagSearch = "<?php echo @$tagSearch ?>";
+//var tagSearch = "<?php //echo @$tagSearch ?>";
 var peopleReference=false;
 var mentionsContact = [];
 jQuery(document).ready(function() 
@@ -537,13 +553,15 @@ jQuery(document).ready(function()
 	/////// A réintégrer pour la version last
 	var $scrollElement = $(".my-main-container");
 
-	$(".main-col-search").css("minHeight", 1300);
-
+	
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
 
+	smoothScroll('0px');
+	<?php if(@$topTitle != ""){ ?>
 	setTitle("<?php echo @$headerName; ?>","rss", "<?php echo @$topTitle; ?>");
+	<?php } ?>
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
 		
@@ -568,7 +586,8 @@ jQuery(document).ready(function()
 			dateLimit=initLimitDate.created.sec;
 		else
 			dateLimit=initLimitDate.created;
-		$(".my-main-container").scroll(function(){
+		
+		$(".my-main-container").scroll(function(){ //console.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
 		          var heightWindow = $(window).height();
@@ -589,8 +608,8 @@ jQuery(document).ready(function()
 	},500);
 
 	
-	Sig.restartMap();
-	Sig.showMapElements(Sig.map, news);
+	//Sig.restartMap();
+	//Sig.showMapElements(Sig.map, news);
 	initFormImages();
 	if(myContacts != null){
 		$.each(myContacts["people"], function (key,value){
@@ -666,6 +685,8 @@ jQuery(document).ready(function()
    	//Construct the first NewsForm
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
+
+
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
  	showFormBlock(false);
 });

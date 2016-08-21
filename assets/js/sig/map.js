@@ -600,7 +600,6 @@
 					}
 					return false;
 				}
-					console.log("bonjour 3");
 
 			};
 
@@ -660,12 +659,12 @@
 							value.typeSig == "idea" || 
 							value.typeSig == "question" || 
 							value.typeSig == "announce" || 
-							value.typeSig == "information"|| 
+							value.typeSig == "information" || 
 							value.type == "activityStream"
 							) && typeof value.author !== "undefined") {
 							oneData = value.author;
 						}
-						// if(value.typeSig == "activityStream" && typeof value.target !== "undefined") { console.log("newsStream");
+						// if(value.type == "activityStream" && typeof value.target !== "undefined") { //console.log("newsStream");
 						// 	oneData = value.target;
 						// }
 						thisSig.showFilterOnMap(oneData, key, thisMap);

@@ -252,11 +252,8 @@ jQuery(document).ready(function() {
   	if(inseeCommunexion != "" && cpCommunexion != ""){
   		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
   	}
-
-  	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
-    $(".main-col-search").css("min-height", $(".sigModuleBg").height());
-
-    $('#btn-toogle-map').click(function(e){ showMap();  	});
+  	
+  	$('#btn-toogle-map').click(function(e){ showMap();  	});
     $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
     $("#mapCanvasBg").show();
@@ -417,9 +414,9 @@ function resizeInterface()
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
-  $(".my-main-container").css("min-height", $(".sigModuleBg").height());
-  $(".my-main-container").css("max-height", $(".sigModuleBg").height());
-   $(".my-main-container").css("height", $(".sigModuleBg").height());
+  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("height", $(".sigModuleBg").height()-50);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 

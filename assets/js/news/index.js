@@ -5,7 +5,7 @@
 * @param string contextParentId indicates the precise parent id 
 * @param strotime dateLimite indicates the date to load news
 */
-var loadStream = function(indexMin, indexMax){
+var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	loadingData = true;
     indexStep = 5;
     if(typeof indexMin == "undefined") indexMin = 0;
@@ -22,17 +22,27 @@ var loadStream = function(indexMin, indexMax){
     	simpleUserData="/viewer/"+viewer;
     else
     	simpleUserData="";
+
     filter = new Object;
     filter.parent=parent;
-    if (typeof(locality) != "undefined")
-	    filter.locality=locality;
-    if (typeof(searchBy) != "undefined")
-	    filter.searchBy=searchBy;
-	if (typeof(searchType) != "undefined")
-	    filter.searchType=searchType;
+    if (typeof(locality) != "undefined")   filter.locality=locality;
+    if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
+	if (typeof(searchType) != "undefined") filter.searchType=searchType;
+	//if (typeof(tagSearch) != "undefined") filter.tagSearch=tagSearch;
 
-	if (typeof(tagSearch) != "undefined")
-	    filter.tagSearch=tagSearch;
+    if(location.hash.indexOf("#default.live")==0){ 
+    	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
+		filter = {
+	      "tagSearch" : tagSearch, 
+	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+	      "searchType" : searchType, 
+	      "type" : "city"
+	      //"searchBy" : levelCommunexionName[levelCommunexion]
+	    };
+    }	
 
 	console.log("loadStream");
 	console.dir(filter);
@@ -44,8 +54,8 @@ var loadStream = function(indexMin, indexMax){
 	       	dataType: "json",
 	       	data: filter,
 	    	success: function(data){
-		    	console.log("LOAD NEWS BY AJAX");
-		    	console.log(data.news);
+		    	//console.log("LOAD NEWS BY AJAX");
+		    	//console.log(data.news);
 		    	if(data){
 					buildTimeLine (data.news, indexMin, indexMax);
 					bindTags();
@@ -812,10 +822,14 @@ function saveNews(){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
 				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0){
-				  newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
-			      newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');
-			      newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
-			      newNews.searchLocalityREGION = $('#searchLocalityREGION').val().split(',');
+					
+					newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
+				    newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');
+				    newNews.searchLocalityDEPARTEMENT = $('#searchLocalityDEPARTEMENT').val().split(',');
+				    newNews.searchLocalityREGION = $('#searchLocalityREGION').val().split(',');
+
+				    if(typeof newNews.tags != "undefined") newNews.tags = newNews.tags.concat($('#searchTags').val().split(','));
+					else newNews.tags = $('#searchTags').val().split(',');			
 			    }
 
 				newNews.parentId = $("#form-news #parentId").val(),

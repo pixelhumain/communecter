@@ -155,7 +155,8 @@
 				class="menu-button menu-button-left menu-button-title btn-menu 
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-rss tooltips"
-					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
+					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
+					<span class="lbl-btn-menu">Ma communauté</span>
 		</a>
 		<hr>
 		<?php } ?>

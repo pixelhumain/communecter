@@ -45,7 +45,7 @@
 	    border: 0;
 	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 	}
-	.newsFeedForm{
+	#newsFeedForm{
 		display:none;
 	}
     /*en ce moment*/
@@ -85,60 +85,60 @@
 	  <h3 class="text-dark homestead pull-left hidden">
 		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier
 	  </h3>
-	  <div class="pull-left col-xs-12" style="margin:15px 15px 0 0;">
-	  	  <div class="col-xs-12" 
-	  	  style="margin-top: 10px; margin-bottom: 5px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
+	  <!-- <div class="pull-left col-xs-12" style="margin:15px 15px 0 0;">
+	  	  <div class="col-xs-12"  style="margin-top: 10px; margin-bottom: 5px; margin-left: 0px;padding: 0px 10px;"  
+	  	  	   id="list_type_news">
 		  
-		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
-		    <button class="btn btn-success disabled" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Choisissez le type de message que vous souhaitez partager" data-type="news">
-		      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-plus"></i>
-		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Publier un messages" data-type="news">
-		      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
-		      <span class="hidden-xs hidden-sm hidden-md">Message</span>
-		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Partager une idée" data-type="idea">
-		      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
-		      <span class="hidden-xs hidden-sm hidden-md">Idée</span>
-		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Poser une question" data-type="question">
-		      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
-		      <span class="hidden-xs hidden-sm hidden-md">Question</span>
-		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Diffuser une annonce" data-type="announce">
-		      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
-		      <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
-		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
-		    		data-toggle="tooltip" data-placement="bottom" title="Partager une information" data-type="information">
-		      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
-		      <span class="hidden-xs hidden-sm hidden-md">Information</span>
-		    </button>
-		  </div>
+			  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
+			    <button class="btn btn-success disabled" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Choisissez le type de message que vous souhaitez partager" data-type="news">
+			      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-plus"></i>
+			    </button>
+			    <button class="btn btn-default btn-type-news tooltips text-dark" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Publier un messages" data-type="news">
+			      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
+			      <span class="hidden-xs hidden-sm hidden-md">Message</span>
+			    </button>
+			    <button class="btn btn-default btn-type-news tooltips text-dark" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Partager une idée" data-type="idea">
+			      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
+			      <span class="hidden-xs hidden-sm hidden-md">Idée</span>
+			    </button>
+			    <button class="btn btn-default btn-type-news tooltips text-dark" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Poser une question" data-type="question">
+			      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
+			      <span class="hidden-xs hidden-sm hidden-md">Question</span>
+			    </button>
+			    <button class="btn btn-default btn-type-news tooltips text-dark" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Diffuser une annonce" data-type="announce">
+			      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
+			      <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
+			    </button>
+			    <button class="btn btn-default btn-type-news tooltips text-dark" 
+			    		data-toggle="tooltip" data-placement="bottom" title="Partager une information" data-type="information">
+			      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
+			      <span class="hidden-xs hidden-sm hidden-md">Information</span>
+			    </button>
+			  </div>
 
-		  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips"  style="margin-left:5px;"
-		  		data-toggle="tooltip" data-placement="bottom" title="Créer une organisation" type="needs">
-		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-group"></i> 
-		  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
-		  </a>
-		  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips" style="margin-left:5px;"
-		  		data-toggle="tooltip" data-placement="bottom" title="Créer un projet" type="needs">
-		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-lightbulb-o"></i> 
-		  	<span class="hidden-xs hidden-sm hidden">Projet</span>
-		  </a> 
-		  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips"  style="margin-left:5px;"
-		  		data-toggle="tooltip" data-placement="bottom" title="Créer un événement" type="needs">
-		  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-calendar"></i> 
-		  	<span class="hidden-xs hidden-sm hidden">Événement</span>
-		  </a> 
-		  
-	  </div>
-	  </div>
+			  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips"  style="margin-left:5px;"
+			  		data-toggle="tooltip" data-placement="bottom" title="Créer une organisation" type="needs">
+			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-group"></i> 
+			  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
+			  </a>
+			  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips" style="margin-left:5px;"
+			  		data-toggle="tooltip" data-placement="bottom" title="Créer un projet" type="needs">
+			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-lightbulb-o"></i> 
+			  	<span class="hidden-xs hidden-sm hidden">Projet</span>
+			  </a> 
+			  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips"  style="margin-left:5px;"
+			  		data-toggle="tooltip" data-placement="bottom" title="Créer un événement" type="needs">
+			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-calendar"></i> 
+			  	<span class="hidden-xs hidden-sm hidden">Événement</span>
+			  </a> 
+			  
+		  </div>
+	  </div> -->
 	
 	<div class="col-xs-12">
 		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 	    else addSearchType(type);
   	});
 
-	initSelectTypeNews();
+	//initSelectTypeNews();
 	startSearch(true);
 
 
@@ -393,9 +393,9 @@ function startSearch(isFirst){
 }
 
 
-function showNewsStream(isFirst){
+function showNewsStream(isFirst){ console.log("showNewsStream");
 	isFirst = isFirst ? "?isFirst=1" : "";
-	var search = $('#searchBarText').val();
+	var tagSearch = $('#searchTags').val().split(',');; //$('#searchBarText').val();
 	var levelCommunexionName = { 1 : "CITYKEY",
 	                             2 : "CODE_POSTAL",
 	                             3 : "DEPARTEMENT",
@@ -403,14 +403,15 @@ function showNewsStream(isFirst){
 	                           };
 	
 	var dataNewsSearch = {
-      "tagSearch" : search, 
+      "tagSearch" : tagSearch, 
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "searchType" : searchType, 
+      "type" : "city"
       //"searchBy" : levelCommunexionName[levelCommunexion]
-  };
+    };
 
   var loading = "<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
@@ -420,14 +421,14 @@ function showNewsStream(isFirst){
 
 	
 
-	if(isFirst){
+	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
 			showTagsScopesMin("#scopeListContainer");
 			showFormBlock(false);
 			$("#newLiveFeedForm").hide();
 	 	},"html");
-	}else{
+	}else{ //data JSON for load next
 		dateLimit=0;currentMonth = null;
 		$(".newsTL").html(loading);
 		$.ajax({
@@ -436,8 +437,8 @@ function showNewsStream(isFirst){
 		       	dataType: "json",
 		       	data: dataNewsSearch,
 		    	success: function(data){
-			    	console.log("LOAD NEWS BY AJAX");
-			    	console.log(data.news);
+			    	//console.log("LOAD NEWS BY AJAX");
+			    	//console.log(data.news);
 			    	$(".newsTL").html("");
 					if(data){
 						buildTimeLine (data.news, 0, 5);
@@ -448,16 +449,16 @@ function showNewsStream(isFirst){
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").scroll(function(){
-		    if(!loadingData && !scrollEnd){
-		          var heightContainer = $(".my-main-container")[0].scrollHeight;
-		          var heightWindow = $(window).height();
-		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-		            console.log("scroll in news/index MAX");
-		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-		          }
-		    }
-		});
+					$(".my-main-container").scroll(function(){ console.log(loadingData, scrollEnd);
+				    if(!loadingData && !scrollEnd){
+				          var heightContainer = $(".my-main-container")[0].scrollHeight;
+				          var heightWindow = $(window).height();
+				          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+				            console.log("scroll in news/index MAX");
+				            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+				          }
+				    }
+				});
 				},
 				error: function(){
 					loadingData = false;
@@ -488,35 +489,6 @@ function removeSearchType(type){
   console.log(searchType);
 }
 
-function initSelectTypeNews(){
-
-	var msgTypesNews = { 
-		"news" 			: "<i class='fa fa-file-text-o'></i> Rédiger votre message",
-		"idea" 			: "<i class='fa fa-info-circle'></i> Partager, expliquer, détailler votre idée",
-		"question" 		: "<i class='fa fa-question-circle'></i> Poser votre question",
-		"announce" 		: "<i class='fa fa-ticket'></i> Rédiger votre annonce, dans ses moindre détails",
-		"information" 	: "<i class='fa fa-newspaper-o'></i> Partager votre information"
-	};
-
-	$(".btn-type-news").click(function(e){
-	    var type = $(this).data("type");
-	    
-	    $(".btn-type-news").removeClass("active");
-	    $(this).addClass("active");
-	    
-	    $("input[name='type']").val(type);
-
-	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
-	    msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
-	    		'<i class="fa fa-times"></i>'+
-	    	 '</button>';
-	    $(".header-form-create-news").html("<i class='fa fa-angle-down'></i> "+msg);
-
-	    //showFormBlock(true);
-	    $("#newLiveFeedForm").show(200);
-	    showFormBlock(true);
-  	});
-}
 
 function hideNewLiveFeedForm(){
 	$("#newLiveFeedForm").hide(200);
