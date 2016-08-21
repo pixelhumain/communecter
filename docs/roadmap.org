@@ -83,6 +83,9 @@
     [ ] lazy loading sur la carto
     [ ] two step refactor
     [ ] DDA framapad
+    [ ] multiscope on elements (project, event, orga)
+    [ ] synchronize new item menu (on selected)
+    [ ] home page : switch to live ?
 
   ** @Tib 
     [ ] bug : qrCode explain 

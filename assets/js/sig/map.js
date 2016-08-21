@@ -376,7 +376,7 @@
 
 			this.Sig.addPolygon = function(polygonPoints, options)
 			{
-				console.log("addPolygon");
+				//console.log("addPolygon");
 				var poly = L.polygon(polygonPoints, {
 										color: '#FFF', 
 										opacity:0.7,
@@ -399,7 +399,7 @@
 
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
-				console.log("showPolygon");
+				//console.log("showPolygon");
 				//console.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
@@ -483,6 +483,7 @@
 				//console.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
+							
 				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				//console.log(thisData);
@@ -494,8 +495,9 @@
 							("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
 
 							("undefined" != typeof thisData['author'] && 
-								(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || 
-								("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) {
+							(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || 
+							("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) 
+						{
 							
 							if(this.verifyPanelFilter(thisData))
 							{
@@ -518,7 +520,8 @@
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
 								//TODO : refactor notClusteredTag > notClusteredType
-								
+								//console.log("getCoordinates");
+								//console.dir(thisData);
 								if($.inArray(type, this.notClusteredTag) > -1){ 
 									coordinates = this.getCoordinates(thisData, "markerSingle");
 									marker = this.getMarkerSingle(thisMap, properties, coordinates);
@@ -572,35 +575,32 @@
 								});	
 							}	
 						}
-
-
-				
 					}
 					
-
 					//affiche les MEMBERS
 					var thisSig = this;
-					if(thisData.links != null)
-						if(thisData.links.members != null){
+					if(thisData.links != null){
+						if(thisData.links.members != null){ 
 							$.each(thisData.links.members, function(i, thisMember)  {
 								thisMember._id = { $id : i };
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-
-					}else {
-						if(thisData == null) return false;
-
-						//console.warn("--------------- PAS D'ID ---------------------");
-						//console.dir(thisData);
-
-						if("undefined" != typeof thisData["chartOptions"]){
-							//console.warn("--------------- LOAD CHART ---------------------");
-							this.addChart(thisData)
-						}
-						return false;
 					}
-					
+
+				}else {
+					if(thisData == null) return false;
+
+					//console.warn("--------------- PAS D'ID ---------------------");
+					//console.dir(thisData);
+
+					if("undefined" != typeof thisData["chartOptions"]){
+						//console.warn("--------------- LOAD CHART ---------------------");
+						this.addChart(thisData)
+					}
+					return false;
+				}
+					console.log("bonjour 3");
 
 			};
 
@@ -660,9 +660,14 @@
 							value.typeSig == "idea" || 
 							value.typeSig == "question" || 
 							value.typeSig == "announce" || 
-							value.typeSig == "information"
-							) && typeof value.author !== "undefined") 
+							value.typeSig == "information"|| 
+							value.type == "activityStream"
+							) && typeof value.author !== "undefined") {
 							oneData = value.author;
+						}
+						// if(value.typeSig == "activityStream" && typeof value.target !== "undefined") { console.log("newsStream");
+						// 	oneData = value.target;
+						// }
 						thisSig.showFilterOnMap(oneData, key, thisMap);
 					});
 					
