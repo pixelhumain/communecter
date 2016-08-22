@@ -80,7 +80,7 @@
 
 
 
-<div class="col-xs-12 col-md-9 col-feed">
+<div class="col-xs-12 col-md-9 col-feed"  data-tpl="live">
 
 	  <h3 class="text-dark homestead pull-left hidden">
 		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier

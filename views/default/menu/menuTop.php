@@ -90,7 +90,7 @@
 }
 </style>
 
-<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding">
+<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding"  data-tpl="menuTop">
 	
 	<a class="pull-left text-dark" href="javascript:openMenuSmall();"  id="btn-menu-launch">
 		<i class="fa fa-bars fa-2x"></i>
@@ -104,8 +104,7 @@
 		<i class="fa fa-question-circle hidden" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
 	</a>
 
-	<?php //if(isset(Yii::app()->session['userId'])) 
-	$this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
+
 
 	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
