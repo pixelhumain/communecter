@@ -256,9 +256,9 @@ $this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50
 $contextName = "";
 $contextIcon = "connectdevelop";
 $contextTitle = "";
-$parentId="";
-$parentType="";
-$manage="";
+//$parentId="";
+//$parentType="";
+//$manage="";
 
 if( @$type == Organization::CONTROLLER){
 	$contextTitle = Yii::t("common","Community of organization");
