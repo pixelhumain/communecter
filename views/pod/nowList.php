@@ -23,7 +23,7 @@
            
             <div class="elemt_name">
 
-                <i style="color:<?php echo $specs["color"]?>" class="fa fa-<?php echo $specs["icon"]?>"></i> 
+                <i style="color:<?php echo @$specs["color"]?>" class="fa fa-<?php echo $specs["icon"]?>"></i> 
                 <?php 
                 $id = null;
                 if(@$v["_id"])

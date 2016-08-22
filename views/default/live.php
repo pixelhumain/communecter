@@ -346,7 +346,6 @@ function loadLiveNow () {
 		if( !$(".titleNowDDA").length )
 			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
 	 } , "html" );
-
 }
 
 function buildHotStuffList(list) { 
