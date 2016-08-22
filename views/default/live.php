@@ -170,7 +170,7 @@
 	  </div>
 	</div>
 
-	<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
+	<div id="list_filters">
 	 <!--  <div class="col-xs-12 margin-top-15 no-padding">
 	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 	  </div> -->

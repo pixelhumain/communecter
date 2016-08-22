@@ -322,9 +322,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
-			<div class="extract_url hidden">
+			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
+					class="col-sm-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
+
+			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
+					<input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
 					<textarea id="get_url" placeholder="Exprimez-vous ..." class=" get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>

@@ -27,8 +27,8 @@
 }
 </style>
 
-<span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
-<hr style='margin-top:0px;margin-bottom:0px;border:0!important;'>
+<!-- <span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
+<hr style='margin-top:0px;margin-bottom:0px;border:0!important;'> -->
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding" 
 	 style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
@@ -117,10 +117,11 @@
 
 </div>
 
-<input type="text" name="" onclick="$(this).addClass('hidden');$('.extract_url').removeClass('hidden');showFormBlock(true);" class="col-sm-12" placeholder="Exprimez-vous ..."   />
+<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
 
 <div id="toogle_filters">
-	<div class='text-dark col-xs-12 no-padding pull-left margin-top-15'>
+	<div class="space-20"></div>
+	<div class='text-dark col-xs-12 no-padding pull-left margin-top-15 hidden'>
 		<i class='fa fa-angle-down'></i> Filtrer par tags et lieux<br>
 		<hr style='margin-top:5px;margin-bottom:5px; width:100%;'>
 	</div>
