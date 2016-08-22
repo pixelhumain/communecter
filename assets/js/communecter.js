@@ -561,6 +561,8 @@ function loadByHash( hash , back ) {
 	currentUrl = hash;
 	allReadyLoad = true;
 	$(".my-main-container").off(); 
+	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
+	searchPage = false;
 	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){

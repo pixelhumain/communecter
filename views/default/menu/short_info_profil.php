@@ -50,23 +50,34 @@
 
     $('.input-global-search').keyup(function(e){
         clearTimeout(timeoutGS);
-        if($('*[data-searchPage]').length>0){
+        if($('*[data-searchPage]').length > 0 && searchPage ){
           $('#searchBarText').val( $('.input-global-search').val() );
           timeoutGS = setTimeout(function(){startSearch(false); }, 800);
         }
-        else
+        else {
           timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
+        }
     });
 
     $('.searchIcon').click(function(e){
-       if($('.searchIcon').hasClass('fa-search')){
+       if($('*[data-searchPage]').length > 0 && $('.searchIcon').hasClass('fa-search')){
+          $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche ne concerne que cette page.</span>');
+          showDropDownGS(true);
           searchPage = true;
           $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-          $(".searchIcon").attr("title","Recherche ciblé (ne concerne que cette page)");
+          $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+          $('.tooltips').tooltip();
+          if( $("input-global-search").val() != "")
+            timeoutGS = setTimeout(function(){startSearch(false); }, 800);
        }else{
           $(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
-          $(".searchIcon").attr("title","Recherche Globale");
+          $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche sera globale.</span>');
+          $(".searchIcon").attr("title","Mode Recherche Globale");
+          $('.tooltips').tooltip();
+          showDropDownGS(true);
           searchPage = false;
+          if( $("input-global-search").val() != "")
+            timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
        }
 
     });

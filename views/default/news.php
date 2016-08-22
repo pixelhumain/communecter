@@ -59,7 +59,7 @@ display: inline;
 	
   <div class="col-md-12 no-padding margin-top-15">
   	<div class="input-group col-md-8 col-sm-8 col-xs-12 pull-left">
-        <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
+        <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
         <span class="input-group-btn">
               <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
                       data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">

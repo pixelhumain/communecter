@@ -107,7 +107,7 @@
 	<button data-id="explainAgenda" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
 		<i class="fa fa-question-circle"></i>
 	</button>
-	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
+	<input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
 
 	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
 

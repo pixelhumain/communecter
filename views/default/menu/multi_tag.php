@@ -16,7 +16,7 @@
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-tag"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes tags favoris">
-	<i class="fa fa-tag" style=""></i>
+	<i class="fa fa-tags fa-2x" style=""></i>
 	<span class="tags-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-tag">
