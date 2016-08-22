@@ -158,8 +158,8 @@
 
 <span data-tpl="default.menu.multi_tag_scope">
 <?php 
-$this->renderPartial('../default/menu/multi_scope', array("me"=>$me)); 
 $this->renderPartial('../default/menu/multi_tag', array("me"=>$me)); 
+$this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 ?>
 
 </span>
