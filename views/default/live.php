@@ -140,15 +140,13 @@
 		  </div>
 	  </div> -->
 	
-	<!-- <div class="col-xs-12">
-		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
-	</div> -->
+	
 
 	
 
 	<div class="col-xs-12 center">
 		
-	  <div class="col-md-12 no-padding margin-top-15">
+	  <div class="col-md-12 no-padding margin-top-15 hidden">
 	  	<div class="input-group col-xs-12 pull-left">
 	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
@@ -197,7 +195,7 @@
 	  <div class="lbl-scope-list text-red hidden"></div>
 	</div>
 
-	<div class="col-xs-12 no-padding"><hr></div>
+	<div class="col-xs-12 no-padding hidden"><hr></div>
 
 	<?php //$this->renderPartial("first_step_news"); ?> 
 	<?php //$this->renderPartial("news/index"); ?> 
@@ -423,9 +421,9 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
-			showTagsScopesMin("#scopeListContainer");
+			showTagsScopesMin(".list_tags_scopes");
 			showFormBlock(false);
-			$("#newLiveFeedForm").hide();
+			//$("#newLiveFeedForm").hide();
 	 	},"html");
 	}else{ //data JSON for load next
 		dateLimit=0;currentMonth = null;
@@ -490,7 +488,7 @@ function removeSearchType(type){
 
 
 function hideNewLiveFeedForm(){
-	$("#newLiveFeedForm").hide(200);
+	//$("#newLiveFeedForm").hide(200);
 	showFormBlock(false);
 }
 </script>

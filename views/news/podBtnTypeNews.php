@@ -37,7 +37,9 @@
 
 </div>
 <div id="scopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
-
+<div class="col-xs-12">
+		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
+	</div>
 <script type="text/javascript">
 
 jQuery(document).ready(function() 
@@ -49,11 +51,11 @@ jQuery(document).ready(function()
 function initSelectTypeNews(){
 
 	var msgTypesNews = { 
-		"news" 			: "<i class='fa fa-file-text-o'></i> Rédiger votre message",
-		"idea" 			: "<i class='fa fa-info-circle'></i> Partager, expliquer, détailler votre idée",
-		"question" 		: "<i class='fa fa-question-circle'></i> Poser votre question",
-		"announce" 		: "<i class='fa fa-ticket'></i> Rédiger votre annonce, dans ses moindre détails",
-		"information" 	: "<i class='fa fa-newspaper-o'></i> Partager votre information"
+		"news" 			: "<i class='fa fa-file-text-o'></i> Rédiger un message",
+		"idea" 			: "<i class='fa fa-info-circle'></i> Partager, expliquer, détailler une idée",
+		"question" 		: "<i class='fa fa-question-circle'></i> Poser une question",
+		"announce" 		: "<i class='fa fa-ticket'></i> Rédiger une annonce, dans ses moindre détails",
+		"information" 	: "<i class='fa fa-newspaper-o'></i> Partager une information"
 	};
 
 	$(".btn-type-news").click(function(e){
@@ -65,14 +67,14 @@ function initSelectTypeNews(){
 	    $("input[name='type']").val(type);
 
 	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
-	    msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
-	    		'<i class="fa fa-times"></i>'+
-	    	 '</button>';
+	    // msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
+	    // 		'<i class="fa fa-times"></i>'+
+	    // 	 '</button>';
 	    $(".header-form-create-news").html("<i class='fa fa-angle-down'></i> "+msg);
 
 	    //showFormBlock(true);
 	    $("#newLiveFeedForm").show(200);
-	    showFormBlock(true);
+	    //showFormBlock(true);
   	});
 }
 
