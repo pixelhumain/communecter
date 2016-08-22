@@ -34,7 +34,7 @@
 	 style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
 	 id="list_type_news">
 			  
-  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
+  <div class="btn-group btn-group-sm inline-block margin-top-10" id="menu-type-news">
     <button class="btn btn-default btn-type-news tooltips text-dark active" 
     		data-toggle="tooltip" data-placement="top" title="Toute l'actu" data-type="all">
       <i class="fa fa-heartbeat"></i> 
@@ -79,7 +79,7 @@
 
 
   <?php if(@$type=="city"){ ?>
-  	<div class="pull-right">
+  	<div class="pull-right margin-top-10">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
   		<div class="btn-group btn-group-sm inline-block">
 		  <a href="javascript:setLiveScope('global')" class="btn btn-sm btn-default tooltips btn-network-toogle text-dark active"
@@ -190,7 +190,7 @@ function initSelectTypeNews(){
 
 	    //var allNewsType = ["news", "idea", "question", "announce", "information"];
 	    if(type != "all")
-	    searchType = ["organizations", "projects", "events", "needs", type];
+	    searchType = [type];
 		else 
 		searchType = $.merge( ["organizations", "projects", "events", "needs"], allNewsType);
 
