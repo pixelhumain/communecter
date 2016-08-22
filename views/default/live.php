@@ -147,7 +147,7 @@
 	<div class="col-xs-12 center ">
 		
 	  <div class="col-md-12 no-padding margin-top-15 hidden">
-	  	<!-- <div class="input-group col-xs-12 pull-left">
+	  	<div class="input-group col-xs-12 pull-left">
 	        <input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
 
 	        <span class="input-group-btn">
@@ -156,7 +156,7 @@
 	                      <i class="fa fa-refresh"></i>
 	              </button>
 	        </span>
-	    </div> -->
+	    </div> 
 	    <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
 	            style="margin-left:15px;margin-top:5px;"
 	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">

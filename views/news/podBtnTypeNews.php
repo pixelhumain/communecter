@@ -76,6 +76,8 @@
     </button>
   </div>
 
+
+
   <?php if(@$type=="city"){ ?>
   	<div class="pull-right">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
@@ -116,6 +118,8 @@
   <?php } ?>
 
 </div>
+
+<input type="text" name="" onclick="$(this).addClass('hidden');$('.extract_url').removeClass('hidden');showFormBlock(true);" class="col-sm-12" placeholder="Exprimez-vous ..."   />
 
 <div id="toogle_filters">
 	<div class='text-dark col-xs-12 no-padding pull-left margin-top-15'>
