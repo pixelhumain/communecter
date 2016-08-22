@@ -821,7 +821,7 @@ function saveNews(){
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
-				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0){
+				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0 && currentLiveScope=="global" ){
 					
 					newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
 				    newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');

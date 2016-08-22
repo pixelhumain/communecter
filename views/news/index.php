@@ -690,6 +690,7 @@ jQuery(document).ready(function()
 
 
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
+ 	
  	//showTagsScopesMin("#tagScopeListContainer");
  	showFormBlock(false);
 });

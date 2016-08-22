@@ -232,6 +232,8 @@ var liveTypeName = { "news":"<i class='fa fa-rss'></i> Les messages",
 					};
 
 
+var liveScope = "global";
+
 <?php if(@$type && !empty($type)){ ?>
 	searchType = ["<?php echo $type; ?>"];
 <?php }else{ ?>
@@ -492,5 +494,12 @@ function removeSearchType(type){
 function hideNewLiveFeedForm(){
 	//$("#newLiveFeedForm").hide(200);
 	showFormBlock(false);
+}
+
+
+function setLiveScopeType(scopeType){
+	if(scopeType == "global" || scopeType == "community")
+	liveScopeType = scopeType;
+	console.log("liveScopeType", liveScopeType);
 }
 </script>

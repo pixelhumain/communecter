@@ -82,15 +82,13 @@
   	<div class="pull-right">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
   		<div class="btn-group btn-group-sm inline-block">
-		  <a href="javascript:" class="btn btn-sm btn-default tooltips btn-network-toogle text-dark active"
+		  <a href="javascript:setLiveScope('global')" class="btn btn-sm btn-default tooltips btn-network-toogle text-dark active"
 	  		data-toggle="tooltip" data-placement="bottom" title="Tout le réseau">
 		  	<i class="fa fa-globe"></i>
-		  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
 		  </a>
-		  <a href="javascript:" class="btn btn-sm btn-default btn-network-toogle tooltips text-dark"
+		  <a href="javascript:setLiveScopeType('community')" class="btn btn-sm btn-default btn-network-toogle tooltips text-dark"
 	  		data-toggle="tooltip" data-placement="bottom" title="Seulement ma communauté">
 		  	<i class="fa fa-users"></i>
-		  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
 		  </a>
 		</div>
   	<!--
