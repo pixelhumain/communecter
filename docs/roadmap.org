@@ -110,6 +110,7 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
+    [ ] bug sur event > globale search
     [ ] bug : qrCode explain 
     [ ] bug : on search 
         - on event  click event 

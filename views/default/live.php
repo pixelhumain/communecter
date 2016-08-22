@@ -80,7 +80,7 @@
 
 
 
-<div class="col-xs-12 col-md-9 col-feed"  data-tpl="live">
+<div class="col-xs-12 col-md-9 col-feed"  data-tpl="default.live">
 
 	  <h3 class="text-dark homestead pull-left hidden">
 		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier
@@ -144,11 +144,12 @@
 
 	
 
-	<div class="col-xs-12 center">
+	<div class="col-xs-12 center ">
 		
 	  <div class="col-md-12 no-padding margin-top-15 hidden">
 	  	<!-- <div class="input-group col-xs-12 pull-left">
-	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
+	        <input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
+
 	        <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
 	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
@@ -270,6 +271,7 @@ jQuery(document).ready(function() {
   	});
 
 	//initSelectTypeNews();
+	$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
 	startSearch(true);
 
 

@@ -11,9 +11,9 @@
 </style>
 
 
-<div class="dropdown pull-left" id="dropdown-content-multi-tag">
+<div class="dropdown pull-right" id="dropdown-content-multi-tag">
 
-  <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-tag"
+  <button class="pull-right"  data-toggle="dropdown"  id="btn-modal-multi-tag"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes tags favoris">
 	<i class="fa fa-tag" style=""></i>

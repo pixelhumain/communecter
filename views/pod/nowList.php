@@ -1,5 +1,5 @@
 
-<div class="col-xs-12 no-padding col-nowList"  data-tpl="nowList">
+<div class="col-xs-12 no-padding col-nowList"  data-tpl="pod.nowList">
     <?php foreach ($result as $key => $v) { ?>
     <div class="border-dark margin-bottom-15 col-xs-12 no-padding">
         <div class="pull-left">
