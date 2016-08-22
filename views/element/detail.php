@@ -147,7 +147,11 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 				    	</div>
 				    	<div class="timesheetphp">
 					</div>
-				<?php } ?>	
+				<?php } ?>
+				<?php if($type==Event::COLLECTION){ ?> 
+				<div class="col-xs-12 no-padding calendar pull-left"></div>
+				<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
+				<?php } ?>
 			</div>
     	<div class="col-md-8 col-sm-12 no-padding pull-left">
 	    	
@@ -169,7 +173,6 @@ jQuery(document).ready(function() {
 
 
 	<?php if($type == Event::COLLECTION){ ?>
-		console.log("-----------------------------");
 		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"]?>/pod/1?date=1",null,"html");
 	<?php } ?>
 });
