@@ -260,4 +260,33 @@ function rebuildSearchTagInput()
 	//if( typeof searchCallback == "function" )
 	//	searchCallback();
 }
+
+
+function showTagsMin(htmlId){
+	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
+			        //'<i class="fa fa-cogs"></i>' +
+			//    '</button> ';
+	
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	
+	$(htmlId).html(html);
+
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+	
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+		//else
+		//$("#dropdown-content-multi-tag").removeClass('open');
+	});
+}
+
 </script>

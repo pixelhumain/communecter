@@ -140,9 +140,9 @@
 		  </div>
 	  </div> -->
 	
-	<div class="col-xs-12">
+	<!-- <div class="col-xs-12">
 		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
-	</div>
+	</div> -->
 
 	
 
@@ -172,9 +172,9 @@
 	</div>
 
 	<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
-	  <div class="col-xs-12 margin-top-15 no-padding">
+	 <!--  <div class="col-xs-12 margin-top-15 no-padding">
 	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
-	  </div>
+	  </div> -->
 	  
 	  <div class="btn-group inline-block hidden" id="menu-directory-type">
 	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
@@ -247,7 +247,7 @@ jQuery(document).ready(function() {
 
 	setTitle("Live'n'Direct <i class='fa fa-angle-right'></i> " + liveType, "<i class='fa fa-heartbeat '></i>");
 	
-	showTagsScopesMin("#list_tags_scopes");
+	//showTagsScopesMin("#list_tags_scopes");
 	
 	$('#btn-start-search').click(function(e){
 		startSearch(false);

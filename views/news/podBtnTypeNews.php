@@ -1,9 +1,14 @@
-<div class="col-md-12 col-sm-12 col-xs-12 center" 
+<div class="col-md-12 col-sm-12 col-xs-12" 
 	 style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
 	 id="list_type_news">
 		  
   <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
-    <button class="btn btn-default btn-type-news tooltips text-dark active" 
+    <button class="btn btn-default btn-type-news disabled tooltips text-dark active" 
+    		data-toggle="tooltip" data-placement="top" title="Messages">
+      <i class="fa fa-angle-down"></i> <i class="fa fa-filter"></i> 
+      <span class="hidden-xs hidden-sm hidden-md"></span>
+    </button>
+     <button class="btn btn-default btn-type-news tooltips text-dark active" 
     		data-toggle="tooltip" data-placement="top" title="Messages" data-type="news">
       <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Message</span>
@@ -31,12 +36,14 @@
   </div>
 
 </div>
+<div id="scopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
 
 <script type="text/javascript">
 
 jQuery(document).ready(function() 
 {
 	initSelectTypeNews();
+	showTagsScopesMin("#scopeListContainer");
 });
 
 function initSelectTypeNews(){
