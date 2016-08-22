@@ -419,7 +419,11 @@ class Menu {
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
             } else if(@$element["_id"] && @Yii::app()->session["userId"] && 
-                !@$element["links"]["followers"][Yii::app()->session["userId"]] && $type == Person::COLLECTION){
+                !@$element["links"]["followers"][Yii::app()->session["userId"]] && 
+                $type == Person::COLLECTION /*  && 
+               (!@$element["links"]["attendees"][Yii::app()->session["userId"]] &&
+                !@$element["links"]["members"][Yii::app()->session["userId"]] &&
+                !@$element["links"]["contributors"][Yii::app()->session["userId"]])*/){
 	                self::entry("right", 'onclick',
 	                        Yii::t( "common", "Follow this ".$controller),
 	                        Yii::t( "common", "Follow"),
@@ -427,9 +431,12 @@ class Menu {
 	                        "follow('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
             }
             //Ask Admin button
-            if ($type != Person::COLLECTION && !in_array(Yii::app()->session["userId"], Authorisation::listAdmins($id, $type,true)) && @Yii::app()->session["userId"]) {
+            if (    $type != Person::COLLECTION 
+                && !in_array(Yii::app()->session["userId"], Authorisation::listAdmins($id, $type,true)) 
+                && @Yii::app()->session["userId"]) {
+
 	            $connectAs="admin";
-	            if(!@$element["links"][$type][Yii::app()->session["userId"]]){
+	            /*if(!@$element["links"][$type][Yii::app()->session["userId"]]){
 		            $connectAs=substr ( $strongLinks , 0 , (strlen($strongLinks)-1));
 		            if (!@$element["links"]["followers"][Yii::app()->session["userId"]]){
 			            self::entry("right", 'onclick',
@@ -438,7 +445,7 @@ class Menu {
 	                        'fa fa-link followBtn',
 	                        "follow('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
                        }
-	            }
+	            }*/
 
                 //Test if user has already asked to become an admin
                 if(!in_array(Yii::app()->session["userId"], Authorisation::listAdmins($id, $type,true))){

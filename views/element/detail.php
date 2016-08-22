@@ -44,7 +44,17 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 															"contentType" => $type,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
-															"admin" => $admin	));
+															"admin" => $admin, 
+															"invitedMe" => @$invitedMe));
+
+					/*$this->renderPartial('../pod/usersList', array(  "event"=> $event,
+															"users" => $attending,
+															"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
+															"contentType" => Event::COLLECTION,
+															"admin" => $admin,
+															"countLowLinks" => $invitedNumber,
+															"countStrongLinks"=> $attendeeNumber,
+															"invitedMe" => @$invitedMe));*/
 					?>
 				</div>
 				<?php } ?>
