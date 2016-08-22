@@ -56,18 +56,17 @@
 		//error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
 		if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
 		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
-
 	}
 ?>
 
 <style>
 	<?php 	//masque les boutons Directory, Agenda, News si l'utilisateur n'est pas communecté
-			if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
+			//if(!isset( Yii::app()->request->cookies['inseeCommunexion'] )) {  
 	?>
 		button.btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9{
 			display: none;
 		}
-	<?php } ?>
+	<?php //} ?>
 
 	.hidden-xs.main-menu-left.inSig{
 		display:inline !important;
@@ -81,34 +80,32 @@
 		display:none;
 	}
 	.main-menu-left.inSig .fa{
-		margin-left:5px;
+		/*margin-left:5px;*/
 	}
 	.main-menu-left.inSig hr{
 		max-width:5px!important;
 	}
 
+	.menu-left-container i.fa{
+		padding: 5px;
+		border-radius: 30px;
+		width: 24px;
+		text-align: center;
+		font-size: 18px;
+		height: 24px;
+	}
+
 </style>
 
-<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20" >
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
+<div class="hover-info2 col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20"></div>
 
 
-<div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10">
+<div class="hidden-xs main-menu-left col-md-2 col-sm-2 padding-10"  data-tpl="menuLeft">
 	
 	<div class="menu-left-container">
-		<?php //var_dump($me);
-		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
-				id="menu-btn-news-network"
-				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu 
-				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> <i class="fa fa-rss tooltips"
-					data-toggle="tooltip" data-placement="right" title="Actu réseau"></i> <span class="lbl-btn-menu">Actu réseau</span>
-		</a>
-		<hr><br>
-		<?php } ?>
 
 		<?php 
 			$cityExists = (isset($myCity) && $myCity != "");
@@ -121,53 +118,142 @@
 			data-hash="<?php echo $hash; ?>"
 			id="btn-geoloc-auto-menu">
 			
-			<i class="fa fa-crosshairs tooltips"
-					data-toggle="tooltip" data-placement="right" title="<?php echo $title; ?>"></i>
+			<i class="fa fa-home tooltips"
+					data-toggle="tooltip" data-placement="right" title="Ma commune : <?php echo $title; ?>"></i>
 			<span class="lbl-btn-menu">
 				<?php echo $title; ?>
 			</span>
 		</a><hr>
 		
+		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
+		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+		      }
+		?>
+		<?php //var_dump($me);
+		 if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId'] ?>')" 
+				data-hash="#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
+				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
+					 data-toggle="tooltip" data-placement="right" 
+					 title="Mon profil : <?php echo $me["name"]; ?>"
+					 src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
+    
+				<i class="fa fa-user tooltips hidden"
+					data-toggle="tooltip" data-placement="right" 
+					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
+		</a>
+		<hr>
+		<?php } ?>
+
+		<?php //var_dump($me);
+		 if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
+				id="menu-btn-news-network"
+				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu 
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-rss tooltips"
+					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
+					<span class="lbl-btn-menu">Ma communauté</span>
+		</a>
+		<hr>
+		<?php } ?>
+		<br>
+
+		<a href="#default.live" id="menu-btn-live"
+				data-hash="#default.live"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-heartbeat  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
+		</a><hr class="visible-communected">
+
+		<a href="#default.live.type.idea" id="menu-btn-live-idea"
+				data-hash="#default.live.type.idea"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-info-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Idées"></i> <span class="lbl-btn-menu">Idées</span>
+		</a><hr class="visible-communected">
 		
+		<a href="#default.live.type.question" id="menu-btn-live-question"
+				data-hash="#default.live.type.question"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-question-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Questions"></i> <span class="lbl-btn-menu">Questions</span>
+		</a><hr class="visible-communected">
+		
+		<a href="#default.live.type.announce" id="menu-btn-live-announce"
+				data-hash="#default.live.type.announce"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-ticket  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Annonces"></i> <span class="lbl-btn-menu">Annonces</span>
+		</a><hr class="visible-communected">
+		
+		<a href="#default.live.type.information" id="menu-btn-live-information"
+				data-hash="#default.live.type.information"
+				class="lbh menu-button-left visible-communected 
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-newspaper-o  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
+		</a><hr class="visible-communected">
+		<br>
+		
+		
+		
+
 		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
 				data-hash="#default.directory"
-				class="menu-button-left visible-communected 
+				class="menu-button-left  
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-search tooltips"
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
 		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
 				data-hash="#default.agenda"
-				class="menu-button-left visible-communected 
+				class="menu-button-left 
 			<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> <span class="lbl-btn-menu">Agenda</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
 		<a href="javascript:loadByHash('#default.news')" id="menu-btn-news"
 				data-hash="#default.news"
-				class="menu-button-left visible-communected
+				class="menu-button-left hidden 
 				<?php echo ($page == 'news') ? 'selected':'';?>" >
 				<!-- data-toggle="tooltip" data-placement="right" title="L'Actu Communectée" alt="L'Actu Communectée" -->
-				<i class="fa fa-angle-right "></i> 
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Actualités"></i> <span class="lbl-btn-menu">Actualités</span>
-		</a><hr class="visible-communected">
+		</a><hr class="hidden"><br>
 		
+		<a style="margin-bottom:5px;float:left;" href="https://www.helloasso.com/associations/open-atlas" target="_blank"
+				class="menu-button-left">
+				<i class="fa fa-gift tooltips"
+					data-toggle="tooltip" data-placement="right" title="Faire un don"></i> 
+					<!-- <i class="fa fa-gift"></i> -->
+					<span class="lbl-btn-menu">Faire un don</span>
+		</a><br><hr style="float: left; width: 100%; border-color: transparent ! important; margin: 0px;">
+
+		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips pull-left"
+				data-toggle="tooltip" data-placement="right" title="soutenir communecter">
+			<img class="lbl-btn-menu" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+		</a>
+
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
 		<a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
 			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
 			data-hash="#rooms.index.type.cities.id.<?php 
 			if(@$myCity) echo City::getUnikey($myCity); ?>"
-			class="menu-button-left visible-communected" 
+			class="hidden menu-button-left" 
 			id="btn-citizen-council-commun">
-				<i class="fa fa-angle-right"></i> 
 				<i class="fa fa-connectdevelop tooltips"
 					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
-		</a><hr class="visible-communected">
+		</a><hr class="hidden ">
 		<?php //} ?>
 
 	</div>
@@ -239,8 +325,31 @@ text-align: center;
     z-index: 2;
 }
 
+.helloasso{
+	/*position: fixed;
+	bottom: 161px;
+	left: 10px;
+	z-index: 10;*/
+	border-radius:10px;
+}
+.helloasso img{
+	width:120px; 
+	border-radius:10px;
+	-moz-box-shadow: 0px 0px 5px -3px #353535 !important;
+	-webkit-box-shadow: 0px 0px 5px -3px #353535 !important;
+	-o-box-shadow: 0px 0px 5px -3px #353535 !important;
+	box-shadow: 0px 0px 5px -3px #353535 !important;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
+}
+
 </style>
-<div class="globale-announce text-dark hidden-xs">
+
+<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips"
+		data-toggle="tooltip" data-placement="top" title="faire un don pour soutenir communecter">
+	<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
+</a>
+
+<div class="globale-announce text-dark hidden-xs hidden">
 	<div id="kkbb-min" style="margin-bottom: -12px;">
 		<span class="homestead msg hidden">Soutenez-nous</span>
 		<img class="piggy" style="height:30px;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>

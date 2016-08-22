@@ -12,6 +12,35 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.15
+db.citoyens.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.citoyens.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.projects.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.projects.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.events.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.events.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
+db.organizations.find({}).forEach(function(doc){ 
+    if(!doc.updated){
+        var d = new Date();
+        db.organizations.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        //print(doc.email+" | "+d.getTime() )
+     }
+})
 ----------------------------------------------------
 Version 0.14
 
@@ -63,7 +92,7 @@ db.projects.find({"preferences" : {$exists : true}}).forEach(function(doc){
 
 
 Version 0.13
-
+----------------------------------------------------
 @Rapha
 Transforme les telephones au format String dans le nouveaux format
 db.citoyens.find().forEach(function(doc){ 
@@ -88,7 +117,17 @@ db.organizations.find().forEach(function(doc){
 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
 Executer l'url /communecter/test/DeleteAttributRefactorAction 
 
-
+//script d'inversion coordinates
+db.events.find({}).forEach(function(c){ 
+    if( c.geo && c.geo.longitude){
+        print(c.geo.longitude)
+        
+        db.events.update({_id:c._id}, {$set: {'geoPosition': {
+                      type: "Point",
+                      'coordinates': [parseFloat(c.geo.longitude), parseFloat(c.geo.latitude)]
+                  }}});
+}
+})
 ---------------------------------------------------
 Version 0.12
 
@@ -263,7 +302,7 @@ db.cities.find().forEach(function(doc)
 {
     if(typeof doc.insee != "undefined"){
         if(doc.insee.indexOf("988")==0 )
-            db.cities.update({"_id":doc._id},{'$set':{'regionName':'Nouvelle-Calédonie'}});
+            db.cities.update({"_id":doc._id},{'$set':{'regionName':'Nouvelle-Calédonie', 'depName':'Nouvelle-Calédonie'}});
     }
 });
 ----------------------------------------------------

@@ -2,19 +2,19 @@
 <style>
 	.main-login{
 		position:absolute;
-		top:80px;
+		top:20px;
 	}
 	@media screen and (min-width: 1025px) {
 		.box-login, .box-register, .box-email{
 			left: unset !important;
-			right: 14% !important;
+			right: 0% !important;
 			border-radius:15px;
 			display:none;
 		}
 	}
 	.form-login, .form-register, .form-email{
 		left: unset !important;
-		right: 14% !important;
+		right: 0% !important;
 		border-radius:15px;
 	}
 	.btn-round{
@@ -165,10 +165,10 @@
 			<div class="box-register box box-white-round no-padding" style=" margin-top:-25px !important;">
 				<button class="btn btn-default btn-close-box" id=""><i class="fa fa-times"></i></button>
 				<form class="form-register center box-white-round" style="background-color:white !important;">
-					<img style="width:70%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
+					<img style="width:0%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					
 					<fieldset>
-						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i><?php echo Yii::t("login","I create my account") ?></h2>
+						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> <?php echo Yii::t("login","I create my account") ?></h2>
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">

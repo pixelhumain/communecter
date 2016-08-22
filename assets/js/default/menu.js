@@ -173,7 +173,7 @@ function bindEventMenu(){
 
 	$(".btn-scope, .btn-param-postal-code").mouseenter(function(e){
 		clearTimeout(timeoutHover);
-		$(".hover-info").hide();
+		$(".hover-info,.hover-info2").hide();
 	});
 
 	$(".btn-param-postal-code").mouseenter(function(e){
@@ -278,7 +278,7 @@ function bindEventMenu(){
 			// $(".main-menu-right .lbl-btn-menu-name").hide();
 			// $(".main-menu-right .menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
 		$("#input-communexion").hide(400);
@@ -297,7 +297,7 @@ function bindEventMenu(){
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
 		$("#input-communexion").hide(400);
@@ -318,7 +318,7 @@ function bindEventMenu(){
 						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
 					}, 300);
 				}
-				$(".hover-info").hide();
+				//$(".hover-info,.hover-info2").hide();
 				$(".drop-up-btn-add").hide(400);
 				$("#notificationPanelSearch").hide();
 				clearTimeout(timeoutHover);
@@ -339,7 +339,7 @@ function bindEventMenu(){
 			$(".main-menu-right .lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		//$(".drop-up-btn-add").hide(400);
 	});
 

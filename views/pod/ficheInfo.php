@@ -6,7 +6,8 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/js/bootstrap-editable.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js'
+	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
@@ -151,6 +152,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
 		<?php }  } } ?>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -185,6 +187,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 		<?php } 
 		} ?>
+
+		<a class="btn btn-sm tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
 	</div>
 	<style type="text/css">
 		.urlOpenData{
@@ -310,6 +314,31 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
+					<?php 
+						$address = (@$organization["address"]["streetAddress"]) ? $organization["address"]["streetAddress"] : "";
+						$address2 = (@$organization["address"]["postalCode"]) ? $organization["address"]["postalCode"] : "";
+						$address2 .= (@$organization["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
+						$tel = "";
+						if( @$organization["telephone"]["fixe"]){
+							foreach ($organization["telephone"]["fixe"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+						if(isset($organization["telephone"]["mobile"])){
+							foreach ($organization["telephone"]["mobile"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+							
+						$this->renderPartial('../pod/qrcode',array(
+																"type" => @$organization['type'],
+																"name" => @$organization['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$organization['email'],
+																"url" => @$organization["url"],
+																"tel" => $tel,
+																"img"=>@$organization['profilThumbImageUrl']));?>
 				</div>
 			</div>
 			
@@ -632,9 +661,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$(this).addClass("active");
 		});
 
-
-		
-
+		buildQRCode("organization","<?php echo (string)$organization["_id"]?>",'<?php echo (string)$organization["name"]?>');
 		
 	});
 

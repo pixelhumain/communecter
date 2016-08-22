@@ -115,6 +115,7 @@ class CommunecterController extends Controller
       "dir"                  => array("href" => "/ph/communecter/default/dir", "public" => true),
       "twostepregister"      => array("href" => "/ph/communecter/default/twostepregister"),
       "switch"               => array("href" => "/ph/communecter/default/switch"),
+      "live"                   => array("href" => "/ph/communecter/default/live"),
     ),
     "city"=> array(
       "index"               => array("href" => "/ph/communecter/city/index", "public" => true),

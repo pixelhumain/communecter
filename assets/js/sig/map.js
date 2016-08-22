@@ -164,7 +164,7 @@
 			{
 				if(typeof showMe == "undefined") showMe = true;
 
-				console.warn("--------------- clearMap ---------------------");
+				//console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
@@ -325,7 +325,7 @@
 			}
 
 			this.Sig.verifyPanelFilter = function (thisData){
-				//console.warn("--------------- verifyPanelFilter ---------------------");
+				console.warn("--------------- verifyPanelFilter ---------------------");
 
 				if(this.panelFilter == "all") return true;
 
@@ -376,7 +376,7 @@
 
 			this.Sig.addPolygon = function(polygonPoints, options)
 			{
-				console.log("addPolygon");
+				//console.log("addPolygon");
 				var poly = L.polygon(polygonPoints, {
 										color: '#FFF', 
 										opacity:0.7,
@@ -399,7 +399,7 @@
 
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
-				console.log("showPolygon");
+				//console.log("showPolygon");
 				//console.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
@@ -479,20 +479,26 @@
 
 
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				//console.warn("--------------- showOneElementOnMap ---------------------");
+				console.warn("--------------- showOneElementOnMap ---------------------");
 				//console.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
+							
 				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
 				//console.log(thisData);
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
-					{			
-						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
+					{	
+						if( ("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || 
+							("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
+
 							("undefined" != typeof thisData['author'] && 
-									(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || ("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) {
+							(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || 
+							("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) 
+						{
+							
 							if(this.verifyPanelFilter(thisData))
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
@@ -514,13 +520,14 @@
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
 								//TODO : refactor notClusteredTag > notClusteredType
-								
-								if($.inArray(type, this.notClusteredTag) > -1){
+								//console.log("getCoordinates");
+								//console.dir(thisData);
+								if($.inArray(type, this.notClusteredTag) > -1){ 
 									coordinates = this.getCoordinates(thisData, "markerSingle");
 									marker = this.getMarkerSingle(thisMap, properties, coordinates);
 								}
 								//sinon on crée un nouveau marker pour cluster
-								else {
+								else { 
 									coordinates = this.getCoordinates(thisData, "markerGeoJson");
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
@@ -568,42 +575,40 @@
 								});	
 							}	
 						}
-
-
-				
 					}
 					
-
 					//affiche les MEMBERS
 					var thisSig = this;
-					if(thisData.links != null)
-						if(thisData.links.members != null){
+					if(thisData.links != null){
+						if(thisData.links.members != null){ 
 							$.each(thisData.links.members, function(i, thisMember)  {
 								thisMember._id = { $id : i };
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-
-					}else {
-						if(thisData == null) return false;
-
-						//console.warn("--------------- PAS D'ID ---------------------");
-						//console.dir(thisData);
-
-						if("undefined" != typeof thisData["chartOptions"]){
-							//console.warn("--------------- LOAD CHART ---------------------");
-							this.addChart(thisData)
-						}
-						return false;
 					}
-					
+
+				}else {
+					if(thisData == null) return false;
+
+					//console.warn("--------------- PAS D'ID ---------------------");
+					//console.dir(thisData);
+
+					if("undefined" != typeof thisData["chartOptions"]){
+						//console.warn("--------------- LOAD CHART ---------------------");
+						this.addChart(thisData)
+					}
+					return false;
+				}
 
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
-				var dataFilter = (data != null) ? data[thisFilter] : thisFilter;	//alert(JSON.stringify(dataFilter));
+				//console.dir(data);
+				//console.dir(thisFilter);
+				var dataFilter = data; //(data != null) ? data[thisFilter] : thisFilter;	alert(JSON.stringify(dataFilter));
 				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
@@ -648,21 +653,33 @@
 
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
-					$.each(data, function (key, value){
-						var oneData = key;
-						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
-							oneData = key.author;
-						thisSig.showFilterOnMap(data, key, thisMap);
+					$.each(data, function (key, value){ //console.log("type SIG ?"); console.dir(value);
+						var oneData = value;
+						if((value.typeSig == "news" || 
+							value.typeSig == "idea" || 
+							value.typeSig == "question" || 
+							value.typeSig == "announce" || 
+							value.typeSig == "information" || 
+							value.type == "activityStream"
+							) && typeof value.author !== "undefined") {
+							oneData = value.author;
+						}
+						// if(value.type == "activityStream" && typeof value.target !== "undefined") { //console.log("newsStream");
+						// 	oneData = value.target;
+						// }
+						thisSig.showFilterOnMap(oneData, key, thisMap);
 					});
 					
 				}else{
+					//console.log("showOneElementOnMap");
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
-
-
-				
+			
+				//console.log("before onEachFeature");
+				//console.dir(this.geoJsonCollection);
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
+							//console.log("onEachFeature");
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
@@ -678,9 +695,8 @@
 								thisSig.currentMarkerPopupOpen = layer;
 								thisMap.panTo(layer.getLatLng());	
 								layer.openPopup(); 
-								
 							});
-							
+						
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisSig.allowMouseoverMaker = false;
@@ -719,11 +735,11 @@
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;
 								setTimeout("Sig.openCurrentMarker()", 700);
-							});						
+							});			
 						}
 
 					});
-					////console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
+					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
@@ -829,7 +845,7 @@
 
 		this.Sig = this.getSigInitializer(this.Sig);
 
-		console.log("load");
+		//console.log("load");
 
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);

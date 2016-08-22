@@ -6,7 +6,12 @@
 ?>
 
 
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="short_info_profil">
+
+    <?php //if(isset(Yii::app()->session['userId'])) 
+    $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
+    
+    <i class="fa fa-search"></i>
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     <div class="dropdown-result-global-search"></div>
     

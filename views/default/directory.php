@@ -112,7 +112,7 @@
       </div>
       
     </div>
-    <div id="list_tags_scopes" class="hidden-xs"></div>
+    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 
   </div>
   
@@ -164,6 +164,7 @@ jQuery(document).ready(function() {
     }
   });
 
+//  if(userId != 'null')
   showTagsScopesMin("#list_tags_scopes");
   
   $('#btn-start-search').click(function(e){

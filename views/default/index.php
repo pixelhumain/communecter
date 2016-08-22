@@ -108,8 +108,17 @@
 ?>
 <style>
 	.footer-menu-left{
-		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");
+		/*background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");*/
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
 	}
+
+@media screen and (max-height: 580px) {
+	.footer-menu-left, .helloasso{
+		display:none;
+	}
+}
+
+
 </style>
 
 <div id="mainMap">
@@ -243,11 +252,8 @@ jQuery(document).ready(function() {
   	if(inseeCommunexion != "" && cpCommunexion != ""){
   		$(".btn-menu2, .btn-menu3, .btn-menu4, .btn-menu9 ").show(400);
   	}
-
-  	$(".my-main-container").css("min-height", $(".sigModuleBg").height());
-    $(".main-col-search").css("min-height", $(".sigModuleBg").height());
-
-    $('#btn-toogle-map').click(function(e){ showMap();  	});
+  	
+  	$('#btn-toogle-map').click(function(e){ showMap();  	});
     $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
     $("#mapCanvasBg").show();
@@ -408,9 +414,9 @@ function resizeInterface()
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
-  $(".my-main-container").css("min-height", $(".sigModuleBg").height());
-  $(".my-main-container").css("max-height", $(".sigModuleBg").height());
-   $(".my-main-container").css("height", $(".sigModuleBg").height());
+  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("height", $(".sigModuleBg").height()-50);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -563,7 +569,7 @@ function setScopeValue(btn){ console.log("setScopeValue");
 
 		}
 		//var path = location.pathname;
-		setCookies();
+		//setCookies();
 		//definit le path du cookie selon si on est en local, ou en prod
 		
 		setCookies(location.pathname);
@@ -809,7 +815,7 @@ function showInputCommunexion(){
 	
 	$("#input-communexion").show(300);
 	//$(".main-col-search").animate({ opacity:0.3 }, 200 );
-	$(".hover-info").hide();
+	$(".hover-info,.hover-info2").hide();
 }
 
 //niv 1 : city
@@ -888,15 +894,17 @@ function selectScopeLevelCommunexion(level){
 	startSearch();
 }
 function setCookies(path){
-	$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
-	$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
-	$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
-	$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
-	$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
-	if(typeof(nbCpbyInseeCommunexion) != "undefined"){
-		$.cookie('nbCpbyInseeCommunexion',   	nbCpbyInseeCommunexion,  	{ expires: 365, path: path });
-		$.cookie('cityInseeCommunexion',   	cityInseeCommunexion,  	{ expires: 365, path: path });
-	}
+	//if(false){
+		$.cookie('inseeCommunexion',   	inseeCommunexion,  	{ expires: 365, path: path });
+		$.cookie('cityNameCommunexion', cityNameCommunexion,{ expires: 365, path: path });
+		$.cookie('cpCommunexion',   	cpCommunexion,  	{ expires: 365, path: path });		
+		$.cookie('regionNameCommunexion',   regionNameCommunexion,  { expires: 365, path: path });
+		$.cookie('countryCommunexion',   	countryCommunexion,  	{ expires: 365, path: path });
+		if(typeof(nbCpbyInseeCommunexion) != "undefined"){
+			$.cookie('nbCpbyInseeCommunexion',   	nbCpbyInseeCommunexion,  	{ expires: 365, path: path });
+			$.cookie('cityInseeCommunexion',   	cityInseeCommunexion,  	{ expires: 365, path: path });
+		}
+	//}
 }
 </script>
 

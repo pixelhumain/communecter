@@ -491,6 +491,7 @@ var loadableUrls = {
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
 
+    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat'},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
@@ -731,7 +732,7 @@ function showAjaxPanel (url,title,icon) {
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
-		$(".hover-info").hide();
+		$(".hover-info,.hover-info2").hide();
 		processingBlockUi();
 		setTitle("Chargement en cours ...", "spin fa-circle-o-notch");
 		//$(".main-col-search").show();
@@ -747,7 +748,7 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
+		getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
@@ -826,14 +827,26 @@ function showTagOnMap (tag) {
 /* ****************
 show a definition in the focus menu panel
 **************/
-function showDefinition( id ){
-	console.log("showDefinition",id);
-	$(".main-col-search").animate({ opacity:0.3 }, 400 );
-	$(".hover-info").css("display" , "inline");
-	toggle( "."+id , ".explain" );
-	$("."+id+" .explainDesc").removeClass("hide");
-	return false;
+function showDefinition( id,copySection ){ 
+	setTimeout(function(){
+		console.log("showDefinition",id,copySection);
+		$(".main-col-search").animate({ opacity:0.3 }, 400 );
+		
+		if(copySection){
+			contentHTML = $("."+id).html();
+			if(copySection != true)
+				contentHTML = copySection;
+			$(".hover-info2").css("display" , "inline").html( contentHTML );	
+		}
+		else {
+			$(".hover-info").css("display" , "inline");
+			toggle( "."+id , ".explain" );
+			$("."+id+" .explainDesc").removeClass("hide");
+		}
+		return false;
+	}, 500);
 }
+
 
 var timeoutHover = setTimeout(function(){}, 0);
 var hoverPersist = false;
@@ -937,6 +950,32 @@ function  bindLBHLinks() {
 }
 
 
+/* **************************************
+maybe movebale into Element.js
+***************************************** */
+
+function  buildQRCode(type,id,name) { 
+		
+	$(".qrCode").qrcode({
+	    text: '{type:"'+type+'",_id:"'+id+'"}',
+	    render: 'image',
+		minVersion: 8,
+	    maxVersion: 40,
+	    ecLevel: 'L',
+	    size: 150,
+	    radius: 0,
+	    quiet: 2,
+	    /*mode: 2,
+	    mSize: 0.1,
+	    mPosX: 0.5,
+	    mPosY: 0.5,
+
+	    label: name,
+	    fontname: 'Ubuntu',
+	    fontcolor: '#E33551',*/
+	});
+}
+
 function activateSummernote(elem) { 
 		
 	if( !$('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
@@ -973,3 +1012,15 @@ function activateSummernote(elem) {
 	}
 }
 
+function exists(val){
+	return typeof val != "undefined";
+}
+function notNull(val){
+	return typeof val != "undefined"
+			&& val != null;
+}
+function notEmpty(val){
+	return typeof val != "undefined"
+			&& val != null
+			&& val != "";
+}

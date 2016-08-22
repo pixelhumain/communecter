@@ -36,7 +36,7 @@
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
-	    max-height: 610px;
+	    max-height: 510px;
 		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,
@@ -114,10 +114,14 @@
 		cursor:pointer;
 		font-weight: 600 !important;
 	}
-	#list_tags_scopes span.text-red.disabled{
+
+	.list_tags_scopes span.text-red.disabled,
+	#list_tags_scopes span.text-red.disabled,
+	#scopeListContainer span.text-red.disabled{
 	    color:#DBBCC1 !important;
 	    font-weight:300 !important;
-	  }
+	}
+
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -145,8 +149,8 @@
 	}
 </style>
 
-<?php $this->renderPartial('../default/menu/multi_tag'); ?>
-<?php $this->renderPartial('../default/menu/multi_scope'); ?>
+<?php $this->renderPartial('../default/menu/multi_tag', array("me"=>$me)); ?>
+<?php $this->renderPartial('../default/menu/multi_scope', array("me"=>$me)); ?>
 
 
 <script>
@@ -173,9 +177,10 @@ function showTagsScopesMin(htmlId){
 	// 	    '</button> ';
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
+		if(typeof value.name == "undefined") value.name = key;
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
 					"class='text-red "+disabled+" item-scope-checker' data-scope-value='"+ key + "'>" + 
-					"<i class='fa fa-bullseye'></i> " + key + 
+					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
 

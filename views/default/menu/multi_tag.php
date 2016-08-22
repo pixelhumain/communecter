@@ -41,10 +41,14 @@
 					    </div>
 				    </div>
 				    <div class="col-md-3">
-	      				<button class="btn btn-default" onclick="javascript:selectAllTags(true)">
+	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllTags(true)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner tout les tags">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default" onclick="javascript:selectAllTags(false)">
+			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllTags(false)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner aucun tag">
 			      			<i class="fa fa-circle-o"></i>
 			      		</button>
 	      			</div>
@@ -61,15 +65,17 @@
 </div>
 
 <?php 
-	if(isset(Yii::app()->session['userId']))
-	$me = Person::getById(Yii::app()->session['userId']); 
+	$multitags = empty($me) && isset( Yii::app()->request->cookies['multitags'] ) ? 
+		   			    	Yii::app()->request->cookies['multitags'] : "{}";	
 ?>
 <script type="text/javascript"> 
 
-var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ? json_encode($me["multitags"]) : "{}"; ?>;
+var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ? 
+						json_encode($me["multitags"]) : 
+						$multitags; 
+				    ?>;
+
 var searchTags = "";
-//console.log("init myMultiTags");
-//console.dir(myMultiTags);
 
 jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
@@ -86,28 +92,38 @@ jQuery(document).ready(function() {
 
 
 function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
-        data: {multitags : myMultiTags},
-       	dataType: "json",
-    	success: function(data){
-    		showCountTag();
-    		rebuildSearchTagInput();
-	    	//console.log("saveMultiTag() success");
-	    },
-		error: function(error){
-			console.log("Une erreur est survenue pendant l'enregistrement des tags");
-		}
-	});
+	if(userId != null && userId != ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
+	        data: {multitags : myMultiTags},
+	       	dataType: "json",
+	    	success: function(data){
+	    		//console.log("saveMultiTag() success");
+		    },
+			error: function(error){
+				console.log("Une erreur est survenue pendant l'enregistrement des tags");
+			}
+		});
+	}else{
+		
+	}
+	showCountTag();
+	rebuildSearchTagInput();
+    saveCookieMultitags();
 }
 
+function saveCookieMultitags(){ console.log("saveCookieMultitags", myMultiTags);
+	$.cookie('multitags',   	JSON.stringify(myMultiTags),  	{ expires: 365, path: "/" });
+
+}
 
 function loadMultiTags(){
 	$.each(myMultiTags, function(key, value){
 		showTagInMultitag(key);
 	});
 	showCountTag();
+	saveCookieMultitags();
 }
 
 function showCountTag(){
@@ -116,7 +132,7 @@ function showCountTag(){
 		if(value.active==true) count++;
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
-	showTagsScopesMin("#list_tags_scopes");
+	showTagsScopesMin(".list_tags_scopes");
 }
 function tagExists(tagValue){
 	return typeof myMultiTags[tagValue] != "undefined";
@@ -244,4 +260,33 @@ function rebuildSearchTagInput()
 	//if( typeof searchCallback == "function" )
 	//	searchCallback();
 }
+
+
+function showTagsMin(htmlId){
+	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
+			        //'<i class="fa fa-cogs"></i>' +
+			//    '</button> ';
+	
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	
+	$(htmlId).html(html);
+
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
+	
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+		//else
+		//$("#dropdown-content-multi-tag").removeClass('open');
+	});
+}
+
 </script>

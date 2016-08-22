@@ -78,7 +78,7 @@ function buildLineHTML(newsObj,idSession,update)
 		//alert(canPostNews);
 		if (currentMonth == null  && canPostNews == true){
 		//	alert();
-			form = "<div class='newsFeed'>"+
+			form = "<div class='newsFeed newsFeedForm'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
 			addForm=true;
@@ -150,7 +150,7 @@ function buildLineHTML(newsObj,idSession,update)
 				actionTitle = "";//getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
-			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+			textHtml='<span class="timeline_text no-padding text-dark" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
@@ -183,9 +183,11 @@ function buildLineHTML(newsObj,idSession,update)
 				var endMonth = months[endDate.getMonth()];
 				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
 			}
+			var objectLocality = "";
 			if (newsObj.object.objectType=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
+				if(typeof newsObj.scope != "undefined")
 				objectLocality=newsObj.scope.address.addressLocality;
  
 			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
@@ -220,14 +222,17 @@ function buildLineHTML(newsObj,idSession,update)
 	scopeClass = "";
 	if( "object" == typeof newsObj.tags && newsObj.tags )
 	{
-		$.each( newsObj.tags , function(i,tag){
+		var countTag = 0;
+		var maxTag = 5;
+		$.each( newsObj.tags , function(i,tag){ if(countTag < maxTag){
+			countTag++;
 			tagsClass += tag+" ";
 			tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
 				contextMap.tags.push(tag);
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
 			}
-		});
+		} });
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
@@ -236,43 +241,64 @@ function buildLineHTML(newsObj,idSession,update)
 		postalCode = "";
 		city = "";
 		if(newsObj.type != "activityStream"){
-			if(newsObj.target.type=="citoyens"){
-				if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
-					postalCode=newsObj.scope.cities[0].postalCode;
-				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
-					city=newsObj.scope.cities[0].addressLocality;			
-			}
-			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
-				postalCode=newsObj.target.address.postalCode;
-				city=newsObj.target.address.addressLocality;			
-			}
-		}else{
+			// if(newsObj.target.type=="citoyens"){
+			// 	if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
+			// 		postalCode=newsObj.scope.cities[0].postalCode;
+			// 	if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+			// 		city=newsObj.scope.cities[0].addressLocality;			
+			// }
+			// else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
+			// 	postalCode=newsObj.target.address.postalCode;
+			// 	city=newsObj.target.address.addressLocality;			
+			// }
+			var countScope = 0;
+			var maxScope = 6;
+			if(typeof(newsObj.scope.cities) != "undefined")
+			$.each(newsObj.scope.cities, function(key, value){ countScope++;
+				var name = value.postalCode;
+				name += (value.addressLocality != "" && value.addressLocality != null) ? ", " + value.addressLocality : "";
+				if(countScope<maxScope)
+				scopes += "<span class='label label-danger'>" + name + "</span> ";
+			});
+			if(typeof(newsObj.scope.departements) != "undefined")
+			$.each(newsObj.scope.departements, function(key, value){ countScope++;
+				if(countScope<maxScope)
+					scopes += "<span class='label label-danger'>"+value.name + "</span> ";
+			});
+			if(typeof(newsObj.scope.regions) != "undefined")
+			$.each(newsObj.scope.regions, function(key, value){ countScope++;
+				if(countScope<maxScope)
+					scopes += "<span class='label label-danger'>"+value.name + "</span> ";
+			});
+			
+		}else  { //activityStream
 			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
 			}
 		}
 		
-		if( typeof postalCode != "undefined" && postalCode!="")
-		{
-			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
-			scopeClass += postalCode+" ";
-			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(postalCode);
-			}
-		}
-		if( typeof city != "undefined" && city != "")
-		{
-			scopes += "<span class='label label-danger'>"+city+"</span> ";
-			scopeClass += city+" ";
-			if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
-				cityFilter=city.replace(/\s/g, "");
-				console.log(city);
-				contextMap.scopes.addressLocality.push(cityFilter);
-				scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
-			}
-		}
-		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
+		// if( typeof postalCode != "undefined" && postalCode!="")
+		// {
+		// 	scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
+		// 	scopeClass += postalCode+" ";
+		// 	if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
+		// 		contextMap.scopes.codePostal.push(postalCode);
+		// 	}
+		// }
+		// if( typeof city != "undefined" && city != "")
+		// {
+		// 	scopes += "<span class='label label-danger'>"+city+"</span> ";
+		// 	scopeClass += city+" ";
+		// 	if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
+		// 		cityFilter=city.replace(/\s/g, "");
+		// 		console.log(city);
+		// 		contextMap.scopes.addressLocality.push(cityFilter);
+		// 		scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
+		// 	}
+		// }
+		if(scopes != "")
+		scopes = '<div class="pull-right" style="margin: 5px 0px;"><i class="fa fa-bullseye"></i> '+scopes+'</div>'; //<i class="fa fa-circle-o"></i>
 	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+urlAction.url+'>'+iconStr+'</a>' : iconStr;
@@ -309,6 +335,7 @@ function buildLineHTML(newsObj,idSession,update)
 	else 
 		authorLine="";*/
 	//END OF CREATED BY OR INVITED BY
+
 	var commentCount = 0;
 	idVote=newsObj._id['$id'];
 	if ("undefined" != typeof newsObj.commentCount) 
@@ -352,8 +379,18 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			$("#newFeedForm").append($("#formCreateNewsTemp"));
-			$("#formCreateNewsTemp").css("display", "inline");
+			if(location.hash.indexOf("#default.live")==0){ 
+				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+				$(".newsFeedForm").css("display", "none");
+
+			}else{
+				$("#newFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+			}
+
+			//$("#newFeedForm").append($("#formCreateNewsTemp"));
+			//$("#formCreateNewsTemp").css("display", "inline");
 		}
 		// Bug on timeline style increment due to the two part
 		// Still have few news at the same level (but tempory fixed
@@ -375,7 +412,7 @@ function buildHtmlUrlAndActionObject(obj){
 	else 
 		redirectTypeUrl="news";
 
-	if(obj.type=="news"){
+	if(obj.type!="activityStream"){
 		url = '';
 		// Check media content is gallery image
 		if(typeof(obj.media) != "undefined" && typeof(obj.media.type) != "undefined" && obj.media.type=="gallery_images"){
@@ -450,15 +487,18 @@ function buildHtmlUrlAndActionObject(obj){
 	object.titleAction= titleAction;
 	return object; 
 }
-function builHtmlAuthorImageObject(obj){
+function builHtmlAuthorImageObject(obj){ //console.log("[[[[[[[[[[[[[[[[[[[[[[[[[["); console.dir(obj);
+	var icon = "fa-rss";
+	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		var colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
+		colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
 		if (icon == "fa-circle")
 			icon = obj.icon;
-	}else{ 
-		icon = "fa-rss";
-		colorIcon="blue";
+	}
+	if(obj.type != "activityStream"){
+		icon = "fa-" + Sig.getIcoByType({type : obj.type});
+		colorIcon = Sig.getIcoColorByType({type : obj.type});
 	}
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA

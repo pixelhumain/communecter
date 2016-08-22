@@ -193,7 +193,23 @@ class TestController extends CommunecterController {
 		}
     }
   public function actionTest() {
-  	echo hash('sha256', "mc420011@gmail.com"."communecter974");
+  	$allOrganizations = PHDB::findAndSort ( Organization::COLLECTION ,array("disabled" => array('$exists' => false)), 
+	  												array("updated" => -1, "name" => 1), 100, 
+
+	  												array("name", "address", "shortDescription", "description","updated"));
+  	foreach ($allOrganizations as $key => $value) 
+  	{
+  		echo $value['name']." > ".$value['updated']."<br/>";
+  	}
+  	echo "*************************************";
+  	$all = PHDB::findAndSort ( Event::COLLECTION ,array(), 
+	  												array("updated" => -1, "startDate" => 1), 100, 
+													array("name","updated",'startDate'));
+  	foreach ($all as $key => $value) 
+  	{
+  		echo $value['name']." > ".date("d/m/Y",$value['updated'])." > ".$value['startDate']."<br/>";
+  	}
+  	//echo hash('sha256', "mc420011@gmail.com"."communecter974");
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 

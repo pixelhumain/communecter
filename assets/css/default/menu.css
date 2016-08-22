@@ -100,7 +100,7 @@
 	top:165px;
 	right:15px;
 }
-.hover-info{
+.hover-info,.hover-info2{
 	display: none;
 	margin-top: 130px;
 	position: fixed !important;

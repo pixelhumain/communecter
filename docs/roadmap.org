@@ -24,12 +24,18 @@
 [ ] repair fluidlog
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
+[ ] checkout Mention
+[ ] globaliser le system de Tokens et utilisation API Communecte
+[ ] integrate France Connect
 
 * Version 0.15 (31/08/2016) : En cours
 
-  [ ] one input add
-  [ ] dashboard activité 
-  [ ] Event ideas (0.16??)
+** TODO
+    [ ] one input add
+    [ ] multi scope on element forms
+    [???] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone 
+    [ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
             [ ] par salle , chrono, tag filter, all subevents
@@ -39,9 +45,9 @@
     [ ] Best place calculator : utilisant la position des participants
     [ ] Réunion privée pour avancement interne organisation
     [ ] Event intérrsant pour moi, moteur d'affinité
-[ ] POI et Element de base (0.16??)
-[ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
-[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
+    [ ] POI et Element de base (0.16??)
+    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
+    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -49,6 +55,7 @@
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
+
   ** @Rapha
     [ ] form keep my position / my latest psitions
     [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
@@ -58,21 +65,95 @@
         [ ] cronJob
     [X] Bug 
       [X] voteUp voteDown
-      [X] Recherche sur le département
+    [ ] Refactor Element
+      [X] Preferences avec open data / open edition / public-hide-private data
+      [ ] Formulaire d'édition:
+        [ ] Depuis orga
+          [X] Ajouter un evenement ou un projet d'un element à partir des pods
+          [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
+          [ ] FAire appaitre sur l'event parent dans un sous événement
+        [X] AddContributors / AddMembers / AddAttendees
+        [X] AddTasksGantt / AddChartSV pour les projets
+      [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
+      [X] Ajout du dda pour project et orga
+      [X] Authorization (admin-membre-openedition) à rajouter coté ctk 
+      [ ] le pod et le btn menu pour le calendrier des événements
+      [ ] Réglage des btn follow et member [pour event surtout]
+      [ ] TEST
+        [ ] Test des updatefields
+        [ ] Test private/masque de tel, email , addresse,
+      [ ] Bugs
+        [ ] Btn Editer 
+        [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
+  
   ** @Tango 
+    [ ] onChange search criteria, empty list + reload button
     [X] interface ND
         [X] menu
         [X] multi scope 
         [X] multi tags
-    [ ] Bug Repair geoloc sur tous les element
+        [X] type sur les news (idea, question announce, information)
+    [X] Refactor design top bar 
+    [X] Refactor agenda
+    [X] REcherche connecté au multi scope
+    [ ] REcherche par 100, 500, 1000, all
+    [X] Bug Repair geoloc sur tous les element
     [ ] Finir Add member, contributeur et invitation
     [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] refactor le design du notifier (0.16??)
+    [ ] lazy loading sur la carto
+    [ ] two step refactor
+    [ ] DDA framapad
+    [ ] multiscope on elements (project, event, orga)
+    [ ] synchronize new item menu (on selected)
+    [ ] home page : switch to live ?
+
   ** @Tib 
+    [ ] bug : qrCode explain 
+    [ ] bug : on search 
+        - on event  click event 
+    [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
+    [ ] dashboard 
+        [ ] live controller 
+            [ ] not connected > shows live , public information 
+            [ ] else show user centric information ? 
+            [???] or live is always the public stream
+            [ ] getActivity
+                - global activity based on scope and tags search filters
+                - can be filtered by userId
+                [ ] dda 
+                    [ ] stream : shows recent sorted by "updated"
+                    [ ] en ce moment : most active updated 
+                        - how to define activity ? vote counts, comment counts
+                            algorythm based on vote and comment dates 
+                [X] projects
+                [X] organisations
+                [X] events
+        [ ] switcher de home a dashB
+        [ ] latest DDA on city page
+        [ ] element activity
+    [ ] wisiwig sur les commentaires
+    [ ] finish fromNow method
+    [ ] DDA
+        [ ] bug : sur archiver , persiste dans les listes 
+        [ ] bug : une décision terminé, on peut toujours voté dessus
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+        [X] remettre le contexte sur la room dans mon DDA
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] changer les lien des DDA sur les parent insee
+        [ ] généré les catégories principale
+        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [ ] ajouter un scope geo sur une proposition
+    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
+    [X] QR code  
+        [X] onclick : explain why QR Codes
+        [???] add QR code to invite mail / and create mail
+    [X] script devlog pour ajouter updated sur les anciennes data 
     [X] reparer le click du milieu
         - en mettant simplement notre hash dans le href
-    [ ] refactor links.loadByHash + chemin dans href
+    [X] refactor links.loadByHash + chemin dans href
     [X] search and filter tag engine
     [X] wisiwig sur les desc de form create
     [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
@@ -86,32 +167,45 @@
             [X] discuss : create, new post
             [X] archiving
         [X] getRoomsListByActivity
-            [ ] latest DDA on city page
         [X] getRoomsActivity
             [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
     [X] switcher le titre navigateur
         [X] replacing all $(".moduleLabel").html
-    [ ] finish fromNow method
-    [ ] badge organisation "Communecteur" + documentation 
-        - association "communecteuse" (Livin Coop ,omm1possible , cheznous, ekprotik,cyberungame, frum des debats)
+    [X] badge organisation "Communecteur" + documentation 
+        - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
-    [ ] DDA 
-        [ ] remettre le contexte sur la room dans mon DDA
-        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [ ] changer les lien des DDA sur les parent insee
-        [ ] généré les catégories principale
-        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
-        [ ] ajouter un scope geo sur une proposition
-    [ ] checkout Mention
-    [ ] globaliser le system de Tokens et utilisation API Communecter
+    
+    
   ** @Sylvain
+    [ ] ajouter updated on login
     [ ] mailing
         [ ] doc
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
-
+    [???] all ImageUrl on elements why have them if empty
+  ** @Thomas communEvent
+    [ ] mettre en PROD 
+    [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
+    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
+    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
+    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
+    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
+     
+    * Appli CO
+        [ ] login / create account
+        [ ] define scope
+        [ ] mon rep 
+        [ ] simple element reader
+        [ ] linqr
+        [ ] plus de data dans le texte qrcode 
+            add contact to my phone
+        [ ] notifier 
+        [ ] dda module
+            commenting
+            voting
+            actions            
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA
