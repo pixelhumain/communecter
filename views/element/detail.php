@@ -64,6 +64,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 						$organizerImg=false;
 						if($type==Event::COLLECTION) $organizerImg=true;
 						if(!isset($eventTypes)) $eventTypes = array();
+						if(empty($subEvents)) $subEvents = array();
 						$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
 																			"contextId" => (String) $element["_id"],
 																			"contextType" => $controller,
