@@ -152,13 +152,13 @@
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
 				id="menu-btn-news-network"
 				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu 
+				class="menu-button menu-button-left menu-button-title btn-menu hidden
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-rss tooltips"
 					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
 					<span class="lbl-btn-menu">Ma communauté</span>
 		</a>
-		<hr>
+		<hr class="hidden">
 		<?php } ?>
 		<br>
 
@@ -172,36 +172,36 @@
 
 		<a href="#default.live.type.idea" id="menu-btn-live-idea"
 				data-hash="#default.live.type.idea"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left visible-communected hidden
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-info-circle  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Idées"></i> <span class="lbl-btn-menu">Idées</span>
-		</a><hr class="visible-communected">
+		</a><hr class="visible-communected hidden">
 		
 		<a href="#default.live.type.question" id="menu-btn-live-question"
 				data-hash="#default.live.type.question"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left visible-communected hidden
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-question-circle  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Questions"></i> <span class="lbl-btn-menu">Questions</span>
-		</a><hr class="visible-communected">
+		</a><hr class="visible-communected hidden">
 		
 		<a href="#default.live.type.announce" id="menu-btn-live-announce"
 				data-hash="#default.live.type.announce"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left visible-communected hidden
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-ticket  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Annonces"></i> <span class="lbl-btn-menu">Annonces</span>
-		</a><hr class="visible-communected">
+		</a><hr class="visible-communected hidden">
 		
 		<a href="#default.live.type.information" id="menu-btn-live-information"
 				data-hash="#default.live.type.information"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left visible-communected hidden
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-newspaper-o  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
-		</a><hr class="visible-communected">
-		<br>
+		</a><hr class="visible-communected hidden">
+		<!-- <br> -->
 		
 		
 		

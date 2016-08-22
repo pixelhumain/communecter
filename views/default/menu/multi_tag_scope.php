@@ -183,7 +183,7 @@ function showTagsScopesMin(htmlId){
 					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
-
+	
 	$(htmlId).html(html);
 
 	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
