@@ -3,15 +3,14 @@
     <?php foreach ($result as $key => $v) { ?>
     <div class="border-dark margin-bottom-15 col-xs-12 no-padding">
         <div class="pull-left">
-            
             <?php 
+                $specs = Element::getElementSpecsByType(@$v["type"]);
+
                  $type = null;
-                if(@Element::getFaIcon(@$v["type"]))
+                if(@$specs)
                     $type = @$v["type"];
                 else if(@$v["typeSig"])
                     $type = $v["typeSig"];
-
-                $specs = Element::getElementSpecsByType(@$type);
 
 
                 $classMin = "";
@@ -23,7 +22,8 @@
             </a>
            
             <div class="elemt_name">
-                <i class="fa fa-<?php echo Element::getFaIcon(@$type)?>"></i> 
+
+                <i style="color:<?php echo $specs["color"]?>" class="fa fa-<?php echo $specs["icon"]?>"></i> 
                 <?php 
                 $id = null;
                 if(@$v["_id"])
@@ -37,7 +37,6 @@
             <i class="fa fa-clock"></i> 
             <?php 
                echo date("d/m/Y H:i",@$v["updated"]);
-                //echo "<br/>".$type
             ?> 
             <?php //DDA : if( @$v["organizerType"] && @$v["organizerId"] ) echo "-".Element::getLink( @$v["organizerType"],@$v["organizerId"] )?>
             <?php //DDA : if( @$v["parentType"] && @$v["parentId"] ) echo ">".Element::getLink( @$v["parentType"],@$v["parentId"] )?>
