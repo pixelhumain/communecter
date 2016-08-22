@@ -36,7 +36,7 @@
 			  
   <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
     <button class="btn btn-default btn-type-news tooltips text-dark active" 
-    		data-toggle="tooltip" data-placement="top" title="Messages" data-type="all">
+    		data-toggle="tooltip" data-placement="top" title="Toute l'actu" data-type="all">
       <i class="fa fa-heartbeat"></i> 
       <span class="hidden-xs hidden-sm hidden-md"></span>
     </button>

@@ -21,7 +21,7 @@
 .scope-count{
 	right: 8px;
     position: absolute;
-    top: 4px;
+    top: -1px;
 }	
 #dropdown-multi-scope-found {
 	display: block;

@@ -9,9 +9,11 @@
 
 	#dropdown-multi-tag, 
 	#dropdown-multi-scope{
-		position: absolute;
-	    top: 45px;
-		left: -5px;
+		position: fixed!important;
+		top: 46px!important;
+		right: 0px!important;
+		left:unset!important;
+
 	    z-index: 1000;
 	    display: none;
 	    float: left;
@@ -28,15 +30,16 @@
 	    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 	    box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
-	    width: 550px;
-		min-width: 550px;
-		max-width: 550px;
+	    width: 570px;
+		min-width: 570px;
+		max-width: 570px;
 		margin-top: 4px;
 		border-radius: 0px 0px 4px 4px;
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
-	    max-height: 510px;
+	    max-height: 90%;
+	    min-height: 70%;
 		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,
@@ -79,7 +82,7 @@
 		padding: 5px;
 		width: 35px;
 		height: 35px;
-		margin-top: 8px;
+		margin-top: 2px;
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;
@@ -122,6 +125,10 @@
 	    font-weight:300 !important;
 	}
 
+	#dropdown-multi-scope-found{
+		max-height:250px;
+		overflow: auto;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{

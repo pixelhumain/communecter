@@ -5,7 +5,7 @@
 .tags-count{
 	right: 0px;
     position: absolute;
-    top: 4px;
+    top: -1px;
 }	
 
 </style>
