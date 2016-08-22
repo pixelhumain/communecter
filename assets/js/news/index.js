@@ -252,7 +252,7 @@ function bindEvent(){
 			showFormBlock(true);	
 	});
 	$(".form-create-news-container #get_url").focusout(function(){
-		if($(this).val() == "" && location.hash.indexOf("#default.live")!=0)
+		if($(this).val() == "")// && location.hash.indexOf("#default.live")!=0)
 			showFormBlock(false);	
 	});
 	
@@ -470,7 +470,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").show("fast");
 		$(".form-create-news-container .tools_bar").show("fast");
 		$(".form-create-news-container .scopescope").show("fast");	
-		$(".form-create-news-container #list_type_news").show("fast");	
+		$("#toogle_filters").hide("fast");	
 		$(".form-create-news-container #btn-slidup-scopetags").hide("fast");
 		//$("#list_tags_scopes").appendTo(".form-create-news-container #scopeListContainer");
 		if(typeof slidupScopetagsMin != "undefined") slidupScopetagsMin(false);
@@ -483,7 +483,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 		$(".form-create-news-container .tools_bar").hide();
 		$(".form-create-news-container .scopescope").hide();
-		$(".form-create-news-container #list_type_news").hide("fast");	
+		$("#toogle_filters").show("fast");	
 		$(".form-create-news-container #btn-slidup-scopetags").show("fast");
 		//$(".form-create-news-container #scopeListContainer").appendTo("#list_tags_scopes_container");
 		if(typeof slidupScopetagsMin != "undefined") slidupScopetagsMin(true);

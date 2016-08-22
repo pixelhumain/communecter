@@ -140,16 +140,14 @@
 		  </div>
 	  </div> -->
 	
-	<!-- <div class="col-xs-12">
-		<div id="newLiveFeedForm" style="margin-top: 15px;"></div>
-	</div> -->
+	
 
 	
 
 	<div class="col-xs-12 center">
 		
-	  <div class="col-md-12 no-padding margin-top-15">
-	  	<div class="input-group col-xs-12 pull-left">
+	  <div class="col-md-12 no-padding margin-top-15 hidden">
+	  	<!-- <div class="input-group col-xs-12 pull-left">
 	        <input id="searchBarText" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
@@ -157,7 +155,7 @@
 	                      <i class="fa fa-refresh"></i>
 	              </button>
 	        </span>
-	    </div>
+	    </div> -->
 	    <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
 	            style="margin-left:15px;margin-top:5px;"
 	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
@@ -197,7 +195,7 @@
 	  <div class="lbl-scope-list text-red hidden"></div>
 	</div>
 
-	<div class="col-xs-12 no-padding"><hr></div>
+	<div class="col-xs-12 no-padding hidden"><hr></div>
 
 	<?php //$this->renderPartial("first_step_news"); ?> 
 	<?php //$this->renderPartial("news/index"); ?> 
@@ -222,7 +220,7 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
-var searchType = ["organizations", "projects", "events", "needs", "news"];
+var searchType = ["organizations", "projects", "events", "needs"];
 var allNewsType = ["news", "idea", "question", "announce", "information"];
 
 var liveTypeName = { "news":"<i class='fa fa-rss'></i> Les messages",
@@ -249,13 +247,13 @@ jQuery(document).ready(function() {
 	
 	//showTagsScopesMin("#list_tags_scopes");
 	
-	$('#btn-start-search').click(function(e){
-		startSearch(false);
-    });
+	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
-
+	$('#btn-start-search').click(function(e){ console.log("alo");
+		startSearch(false);
+    });
 	$(".btn-filter-type").click(function(e){
 	    var type = $(this).attr("type");
 	    var index = searchType.indexOf(type);
@@ -423,9 +421,9 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
-			showTagsScopesMin("#scopeListContainer");
+			showTagsScopesMin(".list_tags_scopes");
 			showFormBlock(false);
-			$("#newLiveFeedForm").hide();
+			//$("#newLiveFeedForm").hide();
 	 	},"html");
 	}else{ //data JSON for load next
 		dateLimit=0;currentMonth = null;
@@ -490,7 +488,7 @@ function removeSearchType(type){
 
 
 function hideNewLiveFeedForm(){
-	$("#newLiveFeedForm").hide(200);
+	//$("#newLiveFeedForm").hide(200);
 	showFormBlock(false);
 }
 </script>

@@ -254,23 +254,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .main-col-search{
 	min-height:1300px !important;
 }
-.btn-type-news{
-	background-color: rgb(255, 255, 255);
-	border-color: #C9C9C9;
-	padding: 15px 20px !important;
-	border-radius: 0px !important;
-	font-size: 15px !important;
-}
 </style>
 <!--<textarea class="mention"></textarea>-->
 
 
 <?php 
 	//if($type != City::CONTROLLER)
-	$this->renderPartial('../news/podBtnTypeNews'); 
+	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type)); 
 ?>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12"></div>
+<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
@@ -308,7 +301,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	<?php } ?>
 
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-pencil'></i> <?php echo Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <?php echo "Rédiger un message"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
 		</h5>
 		<div class="tools_bar bg-white">
 			<div class="user-image-buttons">
@@ -345,8 +338,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="form-actions no-padding" style="display: block;">
 				<?php if((@$canManageNews && $canManageNews==true) || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
 				
-				<div id="tagScopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
-				<input type="hidden" name="scope" value="public"/>
+				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
+				<input type="hidden" name="scope" value="public"/>-->
 				
 				<div class="dropdown">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
@@ -390,11 +383,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
 					</div><?php */ ?>
-					<div id="scopeListContainer" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
+					<div id="" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
-				<div id="scopeListContainer" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
+				<!-- <div id="scopeListContainer" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div> -->
 				<input type="hidden" name="scope" value="public"/>
 				<?php if((@$canManageNews && $canManageNews=="true") || (
 						@Yii::app()->session["userId"] && 
@@ -697,7 +690,7 @@ jQuery(document).ready(function()
 
 
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
- 	showTagsScopesMin("#tagScopeListContainer");
+ 	//showTagsScopesMin("#tagScopeListContainer");
  	showFormBlock(false);
 });
 function isInArray(value, array) {
