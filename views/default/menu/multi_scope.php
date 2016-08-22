@@ -39,8 +39,8 @@
 </style>
 
 
-<div class="dropdown pull-right" id="dropdown-content-multi-scope">
-  <button class="pull-right"  data-toggle="dropdown"  id="btn-modal-multi-scope"
+<div class="dropdown pull-left" id="dropdown-content-multi-scope">
+  <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
 	<i class="fa fa-bullseye" style=""></i>

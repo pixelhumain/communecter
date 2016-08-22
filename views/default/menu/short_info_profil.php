@@ -18,11 +18,9 @@
     //if(isset(Yii::app()->session['userId'])) 
     $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    
-    <div class="input-group pull-right">
-      <span class="input-group-addon"><i class="fa fa-search searchIcon tooltips" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i></span>
-      <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
-    </div>
+    &nbsp;<i class="fa fa-search fa-2x searchIcon tooltips" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>&nbsp;
+   
+    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     <div class="dropdown-result-global-search"></div>
     
     <div class="topMenuButtons pull-right">
@@ -68,6 +66,7 @@
        }else{
           $(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
           $(".searchIcon").attr("title","Recherche Globale");
+          searchPage = false;
        }
 
     });
