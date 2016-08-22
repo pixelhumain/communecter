@@ -299,7 +299,7 @@
 		</div>
 		<?php } ?>
 		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> <?php var_dump($edit); ?> Description</div>
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"></a>	
 
 			 <?php // echo (isset($element["description"])) ? $element["description"] : ""; ?>
@@ -311,25 +311,27 @@
 <script type="text/javascript"> 
 
 	var contextData = <?php echo json_encode($element)?>;
-	var contextType = <?php echo json_encode($type)?>;
+	//var contextType = <?php echo json_encode($type)?>;
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
-	var mode = "view";
+	//var mode = "view";
 	var images = <?php echo json_encode($images) ?>;
 	var types = <?php echo json_encode($elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
 	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>'
+	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>'
 	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	
 	jQuery(document).ready(function() {
-		$("#editFicheInfo").on("click", function(){
+		console.log("edit",edit);
+		if(edit == "true"){
 			switchMode();
-		});
+		}
 		// activateEditableContext();
 		bindAboutPodElement() 
 		activateEditableContext();
@@ -371,12 +373,12 @@
 
 	});
 	function bindAboutPodElement() {
-		$("#editElementDetail").click(function () {
+		/*$("#editElementDetail").click(function () {
 			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
 			//	getBackDetails(contextId,"<?php echo $type ?>");
 			switchMode();
-		});
-	
+		});*/
+
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(contextId, "<?php echo $type ?>", contextData);
 			showMap(true);
@@ -387,71 +389,16 @@
 	    	$("#modal-confidentiality").modal("show");
 	    });*/
 	
-		$("#changePasswordBtn").click(function () {
-			console.log("changePasswordbuttton");
-			loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
-		});
-
-		$("#downloadProfil").click(function () {
-			$.ajax({
-				url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextId ,
-				type: 'POST',
-				dataType: 'json',
-				async:false,
-				crossDomain:true,
-				complete: function () {},
-				success: function (obj){
-					console.log("obj", obj);
-					$("<a />", {
-					    "download": "profil.json",
-					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
-					  }).appendTo("body")
-					  .click(function() {
-					    $(this).remove()
-					  })[0].click() ;
-				},
-				error: function (error) {
-					
-				}
-			});
-		});
-
-	    $(".confidentialitySettings").click(function(){
-	    	param = new Object;
-	    	param.type = $(this).attr("type");
-	    	param.value = $(this).attr("value");
-	    	param.typeEntity = "<?php echo $type; ?>";
-	    	param.idEntity = contextId;
-			$.ajax({
-		        type: "POST",
-		        url: baseUrl+"/"+moduleId+"/element/updatesettings",
-		        data: param,
-		       	dataType: "json",
-		    	success: function(data){
-			    	toastr.success(data.msg);
-			    }
-			});
-		});
-
-		$("#editConfidentialityBtn").on("click", function(){
-	    	console.log("confidentiality");
-	    	$("#modal-confidentiality").modal("show");
-	    });
-
-		$(".panel-btn-confidentiality .btn").click(function(){
-			var type = $(this).attr("type");
-			var value = $(this).attr("value");
-			$(".btn-group-"+type + " .btn").removeClass("active");
-			$(this).addClass("active");
-		});
+		
 	}
 
 
 	function manageModeContext() {
+		console.log("manageModeContext", mode);
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
-			$('#shortDescription').editable('toggleDisabled');
+			//$('#shortDescription').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
 			$('#tags').editable('toggleDisabled');
 			$('#addressCountry').editable('toggleDisabled');
@@ -471,7 +418,7 @@
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
 			$('#type').editable('option', 'pk', contextId);
-			$('#shortDescription').editable('option', 'pk', contextId);
+			//$('#shortDescription').editable('option', 'pk', contextId);
 			$('#description').editable('option', 'pk', contextId);
 			$('#type').editable('option', 'pk', contextId);
 			$('#address').editable('option', 'pk', contextId);
@@ -484,13 +431,12 @@
 			$('#startDate').editable('option', 'pk', contextId);
 			$('#endDate').editable('option', 'pk', contextId);
 			$('#allDay').editable('option', 'pk', contextId);
-
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#add-phone").removeClass("hidden");
 			$("#url").css('cursor', 'default');
 		}
 		//alert($('#url').html() );
-		if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
+		//if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
 		if($('#url').html() != "")				{ $(".fa_url").removeClass("hidden"); } else { $(".fa_url").addClass("hidden"); }
 		if($('#email').html() != "")			{ $(".fa_email").removeClass("hidden"); } else { $(".fa_email").addClass("hidden"); }
 		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
@@ -544,30 +490,7 @@
 			}
 		 });
 
-		$('#shortDescription').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			wysihtml5: {
-				color: false,
-				html: false,
-				video: false,
-				image: false,
-				table : false
-			},
-			validate: function(value) {
-			    console.log(value);
-			    if($.trim(value).length > 140) {
-			        return 'La description courte ne doit pas dépasser 140 caractères.';
-			    }
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-		});
+		
 
 		//Select2 tags
 		// $('#tags').editable({
@@ -873,15 +796,7 @@
 		$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 	}
 
-	function switchMode() {
-		if(mode == "view"){
-			mode = "update";
-			manageModeContext();
-		}else{
-			mode ="view";
-			manageModeContext();
-		}
-	}
+
 
 	function returnttag() {
 		var tel = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;

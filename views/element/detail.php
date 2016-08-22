@@ -8,7 +8,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 </script>
 <?php 
 		if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-			$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "admin" => @$admin)); 
+			$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, /*"admin" => $admin*/)); 
 		//End isset renderPartial
 ?>
 <div class="row">
@@ -29,7 +29,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 	    				"publics" => @$public,
 						"type" => @$type,
 						"organizer" =>@$organizer,
-	    				"contentKeyBase" => "profil"
+	    				"contentKeyBase" => "profil",
+	    				"edit" => @$edit
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
@@ -53,7 +54,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 						$organizerImg=false;
 						if($type==Event::COLLECTION) $organizerImg=true;
 						if(!isset($eventTypes)) $eventTypes = array();
-						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
 																			"contextId" => (String) $element["_id"],
 																			"contextType" => $controller,
 																			"list" => $eventTypes,
@@ -167,7 +168,8 @@ jQuery(document).ready(function() {
 	<?php } ?>
 
 
-	<?php if (!empty($subEvents)){ ?>
+	<?php if($type == Event::COLLECTION){ ?>
+		console.log("-----------------------------");
 		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"]?>/pod/1?date=1",null,"html");
 	<?php } ?>
 });

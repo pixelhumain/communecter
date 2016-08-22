@@ -225,7 +225,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 						<i class="fa fa-<?php echo Element::getFaIcon($type); ?>">
 						</i> <a href="#" id="name" data-type="text" data-title="<?php echo Yii::t("common","Name") ?>" data-emptytext="<?php echo Yii::t("common","Name") ?>" 
 								class="editable-context editable editable-click required">
-<?php echo @$entity["name"]; ?>
+						<?php echo @$entity["name"]; ?>
 						</a>
 					</span>
 					<?php if($type==Event::COLLECTION && isset($element["parentId"])) {
@@ -288,27 +288,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 		  
 
 
-		<?php if(!empty($admin) && $admin == true){ ?>
+		<?php 
+		//var_dump($admin);
+		//if(!empty($admin) && $admin == true){ ?>
 		<div id="divBtnDetail" class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
 			<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<a href="javascript:" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
-			<?php if($type == Person::COLLECTION){ ?>
-			<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
-				<i class='fa fa-key'></i> 
-				<span class="hidden-sm hidden-xs">
-				<?php echo Yii::t("common","Change password") ?>
-				</span>
-			</a>
-			<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default  tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
-				<i class='fa fa-download'></i> 
-				<span class="hidden-sm hidden-xs">
-				<?php //echo Yii::t("common","Télécharger votre profile"); ?>
-				</span>
-			</a>
-			<?php } ?>
 
 		</div>
-		<?php } ?>
+		<?php //} ?>
 		<?php 
 			$colXS = "3";
 			if(!isset($entity["tags"]) && !isset($entity["gamification"])) $colXS = "3 hidden";
@@ -475,14 +463,19 @@ if(!@$_GET["renderPartial"]){
 
 <script type="text/javascript">
 var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+var contextType = <?php echo json_encode($type)?>;
 var contextMap = [];
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
 var urlServer = "<?php echo $urlServer ; ?>";
+var mode = "view";
+var isDetail = -1 ;
 
-if(urlServer.indexOf("element/detail") == -1)
+ if(document.URL.indexOf("element.detail") != -1)
+		isDetail = 	document.URL.indexOf("element.detail") ;
+/*if(urlServer.indexOf("element/detail") == -1)
 	$("#divBtnDetail").hide();
 else
-	$("#divBtnDetail").show();
+	$("#divBtnDetail").show();*/
 
 jQuery(document).ready(function() {
 	setTimeout(function () {
@@ -510,13 +503,99 @@ jQuery(document).ready(function() {
 		});	
 	}, 1000);
 
-	/*$("#editElementDetail").on("click", function(){
-		//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-		//	getBackDetails(contextId,"<?php echo $type ?>");
-		switchMode();
-	});*/
+	bindHeaderElement();
+	activateEditableContextHeader();
+	manageModeContextHeader();
+	
 
 });
+
+function switchMode() {
+	console.log("switchMode");
+	if(mode == "view"){
+		mode = "update";
+		manageModeContextHeader();
+		manageModeContext();
+	}else{
+		mode ="view";
+		manageModeContextHeader();
+		manageModeContext();
+	}
+}
+
+function bindHeaderElement() {
+	$("#editElementDetail").on("click", function(){
+		console.log("editElementDetail", document.URL);
+		if(isDetail == -1){
+			showElementPad("detail.edit");
+		}else{
+			switchMode();
+		}
+
+		//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+		//	getBackDetails(contextId,"<?php echo $type ?>");
+		
+	});
+
+	$("#changePasswordBtn").click(function () {
+		console.log("changePasswordbuttton");
+		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+	});
+
+	$("#downloadProfil").click(function () {
+		$.ajax({
+			url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextId ,
+			type: 'POST',
+			dataType: 'json',
+			async:false,
+			crossDomain:true,
+			complete: function () {},
+			success: function (obj){
+				console.log("obj", obj);
+				$("<a />", {
+				    "download": "profil.json",
+				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
+				  }).appendTo("body")
+				  .click(function() {
+				    $(this).remove()
+				  })[0].click() ;
+			},
+			error: function (error) {
+				
+			}
+		});
+	});
+
+    $(".confidentialitySettings").click(function(){
+    	param = new Object;
+    	param.type = $(this).attr("type");
+    	param.value = $(this).attr("value");
+    	param.typeEntity = "<?php echo $type; ?>";
+    	param.idEntity = contextId;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatesettings",
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	toastr.success(data.msg);
+		    }
+		});
+	});
+
+	$("#editConfidentialityBtn").on("click", function(){
+    	console.log("confidentiality");
+    	$("#modal-confidentiality").modal("show");
+    });
+
+	$(".panel-btn-confidentiality .btn").click(function(){
+		var type = $(this).attr("type");
+		var value = $(this).attr("value");
+		$(".btn-group-"+type + " .btn").removeClass("active");
+		$(this).addClass("active");
+	});
+
+}
 
 function showElementPad(type){
 	var mapUrl = { 	"detail": 
@@ -524,6 +603,12 @@ function showElementPad(type){
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
+						} ,
+					"detail.edit": 
+						{ 
+							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : {"edit":true}
 						} ,
 					"news": 
 						{ 
@@ -553,10 +638,11 @@ function showElementPad(type){
 		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
 	});
 
-	if(type == "detail")
+	/*if(type == "detail")
 		$("#divBtnDetail").show();
 	else
-		$("#divBtnDetail").hide();
+		$("#divBtnDetail").hide();*/
+
 	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
 			data,
 			function(){ 
@@ -565,6 +651,71 @@ function showElementPad(type){
 				bindLBHLinks();
 				$.unblockUI();
 			},"html");
+}
+
+
+function manageModeContextHeader() {
+	console.log("manageModeContextHeader", mode);
+	if (mode == "view") {
+		$('#name').editable('toggleDisabled');
+		$('#shortDescription').editable('toggleDisabled');		
+	
+	} else if (mode == "update") {
+		// Add a pk to make the update process available on X-Editable
+		$('#name').editable('option', 'pk', contextId);
+		$('#shortDescription').editable('option', 'pk', contextId);
+		
+	}
+	//alert($('#url').html() );
+	if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
+	
+	
+}
+
+function activateEditableContextHeader(){
+	$.fn.editable.defaults.mode = 'popup';
+	$('.editable-context').editable({
+		url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		title : $(this).data("title"),
+		onblur: 'submit',
+		success: function(response, newValue) {
+			console.log("yo");
+    		if(! response.result) return response.msg; //msg will be shown in editable form
+		},
+		success : function(data) {
+			if(data.result) {
+				toastr.success(data.msg);
+				loadActivity=true;	
+			}
+			else 
+				return data.msg;
+		}
+	});
+
+	$('#shortDescription').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			wysihtml5: {
+				color: false,
+				html: false,
+				video: false,
+				image: false,
+				table : false
+			},
+			validate: function(value) {
+			    console.log(value);
+			    if($.trim(value).length > 140) {
+			        return 'La description courte ne doit pas dépasser 140 caractères.';
+			    }
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
+		});
 }
 </script>
 <?php } ?>
