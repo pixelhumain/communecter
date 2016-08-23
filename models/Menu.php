@@ -377,12 +377,30 @@ class Menu {
         */
         // ADD MEMBER
         //-----------------------------
-        if($type == Organization::COLLECTION && Authorisation::isOrganizationAdmin(Yii::app()->session['userId'],$id) ){
-	        self::entry("right", 'onclick',
-            			Yii::t('common','Add a member to this organization'), 
-            			Yii::t("common",'Add member'),'plus',
-            			"loadByHash('#organization.addmember.id.".$id."')",null,null);
+
+        if(Authorisation::canEditItem(Yii::app()->session['userId'], $type, $id)){
+            if($type == Organization::COLLECTION){
+                self::entry("right", 'onclick',
+                            Yii::t('common','Add a member to this organization'), 
+                            Yii::t("common",'Add member'),'fa fa-user-plus',
+                            "loadByHash('#organization.addmember.id.".$id."')",null,null);
+            }
+
+            if($type == Project::COLLECTION){
+                self::entry("right", 'onclick',
+                            Yii::t('common','Add a contributor to this organization'), 
+                            Yii::t("common",'Add contributor'),'fa fa-user-plus',
+                            "loadByHash('#project.addcontributorsv.projectId.".$id."')",null,null);
+            }
+
+            if($type == Event::COLLECTION){
+                self::entry("right", 'onclick',
+                            Yii::t('common','Add a attendee to this organization'), 
+                            Yii::t("common",'Add attendee'),'fa fa-user-plus',
+                            "loadByHash('#event.addattendeesv.eventId.".$id."')",null,null);
+            }
         }
+        
 
         //SEND MESSAGE
         //-----------------------------
