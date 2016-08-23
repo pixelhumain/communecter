@@ -831,15 +831,18 @@ function showTagOnMap (tag) {
 show a definition in the focus menu panel
 **************/
 function showDefinition( id,copySection ){ 
+
 	setTimeout(function(){
 		console.log("showDefinition",id,copySection);
+		$(".hover-info,.hover-info2").hide();
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
 		
 		if(copySection){
 			contentHTML = $("."+id).html();
 			if(copySection != true)
 				contentHTML = copySection;
-			$(".hover-info2").css("display" , "inline").html( contentHTML );	
+			$(".hover-info2").css("display" , "inline").html( contentHTML );
+			bindExplainLinks()	
 		}
 		else {
 			$(".hover-info").css("display" , "inline");
@@ -849,7 +852,6 @@ function showDefinition( id,copySection ){
 		return false;
 	}, 500);
 }
-
 
 var timeoutHover = setTimeout(function(){}, 0);
 var hoverPersist = false;

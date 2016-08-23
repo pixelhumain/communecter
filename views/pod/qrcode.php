@@ -17,11 +17,13 @@
 			<?php echo (@$address2) ? "<li>".$address2."</li>" : '' ?>
 			<?php echo (@$email) ? "<li>".$email."</li>" : '' ?>
 			<?php echo (@$url) ? "<li>".$url."</li>" : '' ?>
-			<?php echo (@$tel) ? "<li>".$tel."</li>" : '' ?>
+			<?php echo (@$tel) ? "<li>".$tel."</li>" : '' ?>m
 		</ul>
 		
 	</div>
 	<div class="space20"></div>
+	<span class="text-red"><i class="fa fa-warning "></i> Ce QR Code ne marche qu'avec l'application <a href="https://play.google.com/store/apps/details?id=org.communevent.meteor.pixelhumain&ah=lVN3mXqHKQjIOg3qHn0YzhiUebc&hl=fr" target="_blank">communEvent</a></span>
+	<br/>
 	<a class="explainLink btn btn-default btn-sm" data-id="qrCodeExplain" href="">En savoir plus <i class="fa fa-question-circle"></i></a>
 
 </div>
