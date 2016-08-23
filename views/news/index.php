@@ -340,7 +340,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
-				<?php if((@$canManageNews && $canManageNews==true) || (@Yii::app()->session["userId"] && $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
+				<?php if((@$canManageNews && $canManageNews==true) 
+							|| (@Yii::app()->session["userId"] 
+							&& $contextParentType==Person::COLLECTION 
+							&& Yii::app()->session["userId"]==$contextParentId)){ ?>
 				
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
@@ -362,12 +365,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</a>
 						</li>
 						<?php } ?>
+						<?php if(false){ ?>
 						<li>
 							<a href="javascript:;" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
 								<!--<div class="small" style="padding-left:12px;">-->
 							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on the city's wall")?></p>
 							</a>
 						</li>
+						<?php } ?>
 						<?php if (@$private && $contextParentType==Person::COLLECTION){ ?>
 						<li>
 							<a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
@@ -387,15 +392,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
 					</div><?php */ ?>
-					<div id="" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
 					<input type="hidden" name="scope" value="public"/>
 				
 				<?php } ?>
-				<!-- <div id="scopeListContainer" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div> -->
-				<input type="hidden" name="scope" value="public"/>
+				<div id="" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
+					
 				<?php if((@$canManageNews && $canManageNews=="true") || (
 						@Yii::app()->session["userId"] && 
 						$contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
+						
+						
+
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
 						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
@@ -405,6 +412,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<?php } ?>
 				<?php }else{ if($contextParentType==Event::COLLECTION){?>
 					<input type="hidden" name="scope" value="restricted"/>
+
 				<?php } else { ?>
 					<input type="hidden" name="scope" value="private"/>
 				<?php } } ?>
@@ -547,6 +555,8 @@ jQuery(document).ready(function()
 		$("#cityInsee").val(inseeCommunexion);
 		$("#cityPostalCode").val(cpCommunexion);
 		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
+	}else{
+		$(".list_tags_scopes").addClass("tagOnly");
 	}
 	//canManageNews="";
 	$(".my-main-container").off(); 
@@ -698,7 +708,7 @@ jQuery(document).ready(function()
 
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
  	
- 	//showTagsScopesMin("#tagScopeListContainer");
+ 	showTagsScopesMin(".list_tags_scopes");
  	showFormBlock(false);
 });
 function isInArray(value, array) {

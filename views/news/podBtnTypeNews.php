@@ -171,9 +171,15 @@ jQuery(document).ready(function()
   		if(scopeType == "community") {
   			parent = "<?php echo @Yii::app()->session["userId"]; ?>";
   			parentType = "citoyens";
+  			$("input[name='scope']").val("restricted");
+  			showTagsScopesMin("#scopeListContainer");
+  			$("#scopeListContainer").addClass("tagOnly");
   		}else{
   			parent = null;
   			parentType = "city";
+  			$("input[name='type']").val("public");
+  			showTagsScopesMin("#scopeListContainer");
+  			$("#scopeListContainer").removeClass("tagOnly");
   		}
 		$(".btn-scope-type").removeClass("active");
 		$(this).addClass("active");
@@ -213,10 +219,7 @@ function initSelectTypeNews(){
 	    // 	 '</button>';
 	    $(".header-form-create-news").html("<i class='fa fa-angle-down'></i> "+msg);
 
-	    //showFormBlock(true);
-	    //$("#newLiveFeedForm").show(200);
-
-	    //var allNewsType = ["news", "idea", "question", "announce", "information"];
+	    
 	    if(type != "all")
 	    searchType = [type];
 		else 

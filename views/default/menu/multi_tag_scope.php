@@ -129,6 +129,10 @@
 		max-height:250px;
 		overflow: auto;
 	}
+
+	.tagOnly .list-select-scopes{
+		display: none;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -171,9 +175,7 @@ jQuery(document).ready(function() {
 });
 
 function showTagsScopesMin(htmlId){
-	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
-			        //'<i class="fa fa-cogs"></i>' +
-			//    '</button> ';
+	var html =  "";
 	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
@@ -182,10 +184,9 @@ function showTagsScopesMin(htmlId){
 					"#" + key + 
 				"</span> ";
 	});
+
+	html += "<div class='list-select-scopes'>";
 	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
-	// html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
-	// 	        '<i class="fa fa-cogs"></i>' +
-	// 	    '</button> ';
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		if(typeof value.name == "undefined") value.name = key;
@@ -194,7 +195,7 @@ function showTagsScopesMin(htmlId){
 					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
-
+	html += "</div>";
 	$(htmlId).html(html);
 
 	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
@@ -213,6 +214,20 @@ function showTagsScopesMin(htmlId){
 		//else
 		//dropdown-content-multi-scope").removeClass('open');
 	});
+}
+
+function showTagsMin(htmlId){
+	var html =  "";
+	
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	$(htmlId).html(html);
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 }
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);

@@ -72,6 +72,8 @@
 
 
 
+
+
 	@media screen and (max-width: 1024px) {
 		.headerEntity .lbl-entity-name{
 			font-size:20px;
