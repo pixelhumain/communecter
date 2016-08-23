@@ -111,28 +111,11 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] bug sur event > globale search
-    [X] bug : qrCode explain 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    [ ] dashboard 
-        [ ] live controller 
-            [ ] not connected > shows live , public information 
-            [ ] else show user centric information ? 
-            [???] or live is always the public stream
-            [X] getActivity
-                - global activity based on scope and tags search filters
-                - can be filtered by userId
-                [X] dda 
-                    [X] stream : shows recent sorted by "updated"
-                    [X] en ce moment : most active updated 
-                        - how to define activity ? vote counts, comment counts
-                            algorythm based on vote and comment dates 
-                [X] projects
-                [X] organisations
-                [X] events
-        [ ] switcher de home a dashB
-        [ ] latest DDA on city page
-        [ ] element activity
+    
+    [ ] switcher de home a dashB
+    [ ] latest DDA on city page
+    [ ] element activity
     [ ] wisiwig sur les commentaires
     [ ] finish fromNow method
     [ ] DDA
@@ -146,7 +129,22 @@
         [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [ ] ajouter un scope geo sur une proposition
-    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
+    [X] bug sur event > globale search
+    [X] bug : qrCode explain 
+    [X] dashboard 
+        [X] live controller 
+            [X] not connected > shows live , public information 
+            [X] getActivity
+                - global activity based on scope and tags search filters
+                - can be filtered by userId
+                [X] dda 
+                    [X] stream : shows recent sorted by "updated"
+                    [X] en ce moment : most active updated 
+                        - how to define activity ? vote counts, comment counts
+                            algorythm based on vote and comment dates 
+                [X] projects
+                [X] organisations
+                [X] events
     [X] QR code  
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
