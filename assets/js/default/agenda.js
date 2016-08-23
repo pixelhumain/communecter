@@ -56,7 +56,8 @@ function startSearch(indexMin, indexMax){
 			if(levelCommunexion == 1) locality = inseeCommunexion;
 			if(levelCommunexion == 2) locality = cpCommunexion;
 		}
-        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+        if(levelCommunexion == 3) locality = inseeCommunexion;
+        /*if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);*/
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
