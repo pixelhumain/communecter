@@ -959,6 +959,26 @@ function  bindLBHLinks() {
 maybe movebale into Element.js
 ***************************************** */
 
+var typeObj = {
+	"person" : {col:"citoyens",ctrl:"person"},
+	"persons" : {col:"citoyens",ctrl:"person"},
+	"citoyen" : {col:"citoyens",ctrl:"person"},
+	"citoyens" : {col:"citoyens",ctrl:"person"},
+	"organization" : {col:"organizations",ctrl:"organization"},
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {col:"events",ctrl:"event"},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {col:"projects",ctrl:"project"},
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city"},
+	"entry" : {col:"surveys",ctrl:"survey"},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {col:"actions",ctrl:"room"},
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+}
+
 function  buildQRCode(type,id,name) { 
 		
 	$(".qrCode").qrcode({
