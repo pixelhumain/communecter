@@ -17,7 +17,7 @@
 	min-height:1000px;
 	overflow-x: auto;
 	top: 50px;
-	z-index: 0;
+	/*z-index: 0;*/
 }
 .container-lbl-info-search{
 	position: absolute;
