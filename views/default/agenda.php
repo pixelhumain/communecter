@@ -99,7 +99,7 @@
 </div>
 
 <div class="col-md-12">
-  <div class="col-md-12 no-padding margin-top-15">
+  <div class="col-md-12 no-padding margin-top-15 hidden">
 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
@@ -121,7 +121,7 @@
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
-
+  <div class="space20"></div>
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
     <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
   </div>
