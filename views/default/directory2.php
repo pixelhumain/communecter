@@ -319,8 +319,6 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 $this->renderPartial('../default/panels/toolbar'); 
 
 $countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0; $countAttendees = 0; $countGuests = 0;
-if (@$people)
-	foreach (@$people as $key => $onePeople) { if( @$onePeople["name"]) $countPeople++;}
 if (@$organizations)
 	foreach (@$organizations as $key => $orga) { if( @$orga["name"]) $countOrga++;	}
 if (@$projects)
@@ -490,15 +488,6 @@ if (@$follows){
 						{ 	
 							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						};
-					}
-
-					/* ********** PEOPLE ****************** */
-					if(@$people) 
-					{ 
-						foreach ($people as $e) 
-						{
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
-						}
 					}
 
 					/* ************ EVENTS ************************ */
@@ -850,24 +839,17 @@ if (@$follows){
 <!-- end: PAGE CONTENT-->
 
 <?php 
-    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-    //et pour ouvrir le panel info correctement
-    if(@$people)
-	    foreach($people as $key => $data) { 
-	    	$people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    if(@$organizations)
-    	foreach($organizations as $key => $data) { 
-    		$organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    if(@$events)
-    	foreach($events as $key => $data) { 
-    		$events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    if(@$projects)
-    	foreach($projects as $key => $data) { 
-    		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
     if(@$contextData) $contextMap = array("context" => $contextData);
-    if(@$people)          $contextMap = array_merge($contextMap, $people);
+    //Add follows : people, organization and project
+    if(@$follows) {    
+    	if (@$follows[Person::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Person::COLLECTION]);
+    	if (@$follows[Organization::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Organization::COLLECTION]);
+    	if (@$follows[Project::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Project::COLLECTION]);
+    }
     if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
     if(@$events)         $contextMap = array_merge($contextMap, $events);
     if(@$projects)        $contextMap = array_merge($contextMap, $projects);
@@ -885,6 +867,7 @@ var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'fa
 var images = [];
 var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
+var follows = <?php echo json_encode($follows) ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
