@@ -121,12 +121,12 @@
             [ ] not connected > shows live , public information 
             [ ] else show user centric information ? 
             [???] or live is always the public stream
-            [ ] getActivity
+            [X] getActivity
                 - global activity based on scope and tags search filters
                 - can be filtered by userId
-                [ ] dda 
-                    [ ] stream : shows recent sorted by "updated"
-                    [ ] en ce moment : most active updated 
+                [X] dda 
+                    [X] stream : shows recent sorted by "updated"
+                    [X] en ce moment : most active updated 
                         - how to define activity ? vote counts, comment counts
                             algorythm based on vote and comment dates 
                 [X] projects

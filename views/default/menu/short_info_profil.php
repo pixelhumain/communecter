@@ -10,7 +10,7 @@
     cursor: pointer;
   }
 </style>
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="short_info_profil">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="default.menu.short_info_profil">
     
     <?php
     //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
