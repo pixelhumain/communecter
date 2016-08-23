@@ -16,10 +16,12 @@ var openPanelType = { 	"people" 		 : "person",
 						"events" 		 : "event",
 					};
 
-var tooltips_lbl = { 	"people" 		 : "Ajouter quelqu'un à votre répertoire.",
-						"organizations"  : "Créer une nouvelle organisation",
-						"projects" 	 	 : "Créer un nouveau projet",
-						"events" 		 : "Créer un nouvel événement",
+var tooltips_lbl = { 	"people" 		  : "Ajouter quelqu'un à votre répertoire.",
+						"organizations"   : "Créer une nouvelle organisation",
+						"projects" 	 	  : "Créer un nouveau projet",
+						"projectsHistory" : "Afficher/Cacher les vieux projets",
+						"events" 		  : "Créer un nouvel événement",
+						"eventsHistory"   : "Afficher/Cacher les vieux événements",
 					};
 
 var floopTypeUsed = new Array();
@@ -71,7 +73,12 @@ function buildListContactHtml(contacts, myId){
 										if(myId != ""){
 		HTML += 						'<button onclick="'+urlBtnAdd+'" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add text-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name]+'">'+
 											'<i class="fa fa-plus"></i>'+
+										'</button>';
+											if (type.name == "events" || type.name == "projects") {
+		HTML += 						'<button onclick="showHideOldElements(\''+type.name+'\')" class="tooltips btn btn-default btn-sm pull-right btn_shortcut_add text-'+type.color+'" data-placement="left" data-original-title="'+tooltips_lbl[type.name+'History']+'">'+
+											'<i class="fa fa-history"></i>'+
 										'</button>';		
+											}
 										}
 		HTML += 					'</h4>'+
 								'</div>'+
@@ -102,12 +109,17 @@ function buildListContactHtml(contacts, myId){
 
 //création HTML d'un élément
 function getFloopItem(id, type, value){
+	var oldElement = isOldElement(value);
+
 	var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
 	var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/news/profile_default_l.png";
 	var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : id;
 	var path = "loadByHash( '#"+openPanelType[type.name]+".detail.id."+id+"')";
-	var HTML = '<li id="floopItem-'+type.name+'-'+id+'">' +
+	var elementClass = oldElement ? "oldFloopDrawer"+type.name : "";
+	var elementStyle = oldElement ? "display:none" : ""; 
+
+	var HTML = '<li style="'+elementStyle+'" class="'+elementClass+'" id="floopItem-'+type.name+'-'+id+'">' +
 					'<div onclick="'+path+'" class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+id+'">' +
 						'<div class="btn-chk-contact" idcontact="'+id+'">' +
 							'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to bg-'+type.color+'" height="35" width="35">'+
@@ -265,4 +277,15 @@ function addFloopEntity(entityId, entityType, entityValue){
 //ajout d'un élément dans la liste
 function removeFloopEntity(entityId, entityType){
 	$('#floopItem-'+entityType+'-'+entityId).remove();
+}
+
+function showHideOldElements(type) {
+	$(".oldFloopDrawer"+type).toggle("slow");
+}
+
+// Return true if the endDate of the Element is before the current Date. 
+function isOldElement(value) {
+	var endDate = (typeof value["endDate"] != undefined) ? value["endDate"] : "";
+	if (endDate == "") return false;
+	return new Date(endDate) < new Date();
 }
