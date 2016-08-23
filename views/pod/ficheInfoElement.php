@@ -449,13 +449,11 @@
 		if($('#url').html() != "")				{ $(".fa_url").removeClass("hidden"); } else { $(".fa_url").addClass("hidden"); }
 		if($('#email').html() != "")			{ $(".fa_email").removeClass("hidden"); } else { $(".fa_email").addClass("hidden"); }
 		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
-<<<<<<< HEAD
+
 		//console.log("manageModeContext", mode);
 		//if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
 		//console.log("manageModeContext", mode);
-=======
-		if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
->>>>>>> development
+
 		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
 		if($('#telephone').html() != "")		{ $(".fa_telephone").removeClass("hidden"); } else { $(".fa_telephone").addClass("hidden"); }
 		if(endDate == ""){
@@ -469,11 +467,10 @@
 
 		
 		$.fn.editable.defaults.mode = 'popup';
-<<<<<<< HEAD
+
 		/*$('.editable-context').editable({
-=======
-		$('.editable-context').editable({
->>>>>>> development
+
+
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
 			onblur: 'submit',
@@ -489,11 +486,9 @@
 				else 
 					return data.msg;
 			}
-<<<<<<< HEAD
+
 		});*/
-=======
-		});
->>>>>>> development
+
 		
 		//Type Organization
 		 $('#type').editable({
@@ -604,11 +599,7 @@
 				//updateGeoPosEntity("CP", newValue);
 			},
 			value : {
-<<<<<<< HEAD
             	//postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
-=======
-            	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
->>>>>>> development
             	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
             },
