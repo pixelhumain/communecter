@@ -221,6 +221,9 @@
 
 <!-- end: PAGE CONTENT-->
 <script>
+
+<?php  $parent = Person::getById(@Yii::app()->session["userId"]); ?>
+
 var searchType = ["organizations", "projects", "events", "needs"];
 var allNewsType = ["news", "idea", "question", "announce", "information"];
 
@@ -232,7 +235,7 @@ var liveTypeName = { "news":"<i class='fa fa-rss'></i> Les messages",
 					};
 
 
-var liveScope = "global";
+var liveScopeType = "global";
 
 <?php if(@$type && !empty($type)){ ?>
 	searchType = ["<?php echo $type; ?>"];
@@ -391,7 +394,11 @@ function slidupScopetagsMin(show){
 var timeout;
 function startSearch(isFirst){
 	$(".my-main-container").off();
-	showNewsStream(isFirst);
+	if(liveScopeType == "global"){
+		showNewsStream(isFirst);
+	}else{
+		showNewsStream(isFirst);//loadStream(0,5);
+	}
 	loadLiveNow();
 }
 
@@ -405,16 +412,34 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	                             4 : "REGION"
 	                           };
 	
-	var dataNewsSearch = {
-      "tagSearch" : tagSearch, 
-      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
-      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "searchType" : searchType, 
-      "type" : "city"
-      //"searchBy" : levelCommunexionName[levelCommunexion]
-    };
+	var thisType="ko";
+	var urlCtrl = ""
+	if(liveScopeType == "global") {
+		thisType = "city";
+		urlCtrl = "/news/index/type/city";
+	}
+	<?php if(@Yii::app()->session["userId"]){ ?>
+	else if(liveScopeType == "community"){
+		thisType = "citoyens";
+		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>";
+	}
+	<?php } ?>
+	
+	var dataNewsSearch = {};
+	if(liveScopeType == "global")
+		dataNewsSearch = {
+	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(',')
+	    };
+
+    dataNewsSearch.tagSearch = tagSearch;
+    dataNewsSearch.searchType = searchType; 
+        
+    //dataNewsSearch.type = thisType;
+    //var myParent = <?php echo json_encode(@$parent)?>;
+    //dataNewsSearch.parent = { }
 
   var loading = "<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
@@ -426,7 +451,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
-		ajaxPost("#newsstream",baseUrl+"/"+moduleId+"/news/index/type/city/date/0"+isFirst,dataNewsSearch, function(news){
+		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirst,dataNewsSearch, function(news){
 			showTagsScopesMin(".list_tags_scopes");
 			showFormBlock(false);
 			//$("#newLiveFeedForm").hide();
@@ -436,7 +461,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 		$(".newsTL").html(loading);
 		$.ajax({
 		        type: "POST",
-		        url: baseUrl+"/"+moduleId+"/news/index/type/city/date/"+dateLimit,
+		        url: baseUrl+"/"+moduleId+urlCtrl+"/date/"+dateLimit,
 		       	dataType: "json",
 		       	data: dataNewsSearch,
 		    	success: function(data){
@@ -498,10 +523,4 @@ function hideNewLiveFeedForm(){
 	showFormBlock(false);
 }
 
-
-function setLiveScopeType(scopeType){
-	if(scopeType == "global" || scopeType == "community")
-	liveScopeType = scopeType;
-	console.log("liveScopeType", liveScopeType);
-}
 </script>

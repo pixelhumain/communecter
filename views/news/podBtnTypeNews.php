@@ -1,5 +1,5 @@
 <style>
-.btn-type-news, .btn-network-toogle{
+.btn-type-news, .btn-scope-type{
 	background-color: rgb(255, 255, 255);
 	border-color: #C9C9C9;
 	padding: 10px !important;
@@ -10,7 +10,7 @@
 	border-color: #3C5665;
 	color:white !important;
 }
-.btn-network-toogle.active{
+.btn-scope-type.active{
 	background-color: #2BB0C6;
 	border-color: #2BB0C6;
 	color:white !important;
@@ -82,14 +82,14 @@
   	<div class="pull-right margin-top-10">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
   		<div class="btn-group btn-group-sm inline-block">
-		  <a href="javascript:setLiveScope('global')" class="btn btn-sm btn-default tooltips btn-network-toogle text-dark active"
+		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
 	  		data-toggle="tooltip" data-placement="bottom" title="Tout le réseau">
 		  	<i class="fa fa-globe"></i>
-		  </a>
-		  <a href="javascript:setLiveScopeType('community')" class="btn btn-sm btn-default btn-network-toogle tooltips text-dark"
+		  </button>
+		  <button class="btn btn-sm btn-default btn-scope-type tooltips text-dark" data-scope-type="community"
 	  		data-toggle="tooltip" data-placement="bottom" title="Seulement ma communauté">
 		  	<i class="fa fa-users"></i>
-		  </a>
+		  </button>
 		</div>
   	<!--
 	  <a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default tooltips"  style="margin-left:5px;"
@@ -134,6 +134,8 @@
 </div>
 <script type="text/javascript">
 
+var currentType = "<?php echo @$type ? $type : ""; ?>";
+
 jQuery(document).ready(function() 
 {
 	initSelectTypeNews();
@@ -157,7 +159,33 @@ jQuery(document).ready(function()
 	    if (index > -1) removeSearchType(type);
 	    else addSearchType(type);
   	});
+
+
+  if(currentType == "city"){
+  	$(".btn-scope-type").click(function(){
+
+  		var scopeType = $(this).data("scope-type");
+  		if(scopeType == "global" || scopeType == "community") 
+  			liveScopeType = scopeType;
+
+  		if(scopeType == "community") {
+  			parent = "<?php echo @Yii::app()->session["userId"]; ?>";
+  			parentType = "citoyens";
+  		}else{
+  			parent = null;
+  			parentType = "city";
+  		}
+		$(".btn-scope-type").removeClass("active");
+		$(this).addClass("active");
+
+		console.log("liveScopeType", liveScopeType);
+		startSearch(false);
+  	});
+  }
+
 });
+
+
 
 function initSelectTypeNews(){
 

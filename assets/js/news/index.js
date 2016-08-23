@@ -30,7 +30,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
 	//if (typeof(tagSearch) != "undefined") filter.tagSearch=tagSearch;
 
-    if(location.hash.indexOf("#default.live")==0){ 
+	//console.log("index.js liveScopeType", liveScopeType);
+    if(location.hash.indexOf("#default.live")==0 && typeof liveScopeType != "undefined" && liveScopeType == "global"){ 
     	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
 	      "tagSearch" : tagSearch, 

@@ -252,7 +252,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     font-size: 12px !important;
 }
 .main-col-search{
-	min-height:1300px !important;
+	min-height:1100px !important;
 }
 </style>
 <!--<textarea class="mention"></textarea>-->
