@@ -23,6 +23,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<?php if( @$authorised ) { ?>
 			<a href="javascript:;" onclick="loadByHash('#project.projectsv.id.<?php echo $contextId ?>.type.<?php echo $contextType ?>')" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
 		<?php  } ?>
+			<a id="showHideOldProject" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("project","Display/Hide old projects",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldProject()"">
+	    		
+	    		<i class="fa fa-history"></i> <?php echo Yii::t("project","Old projects",null,Yii::app()->controller->module->id) ?>
+	    	</a>
 	</div>
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">			
@@ -30,10 +34,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<tbody>
 					<?php
 						//print_r($projects);
+					$nbOldProjects = 0;
 					if(isset($projects) && count($projects)>0){
 					foreach ($projects as $e) {
+						if (!@$e["endDate"] || (!@$e["endDate"] && @$e["endDate"]->sec > time())) {
+							$projectStyle = "";
+							$projectClass = "";
+						} else {
+							$projectStyle = "display:none;";
+							$projectClass = "oldProject";
+							$nbOldProjects++;
+						}
 					?>
-					<tr id="project<?php echo (string)$e["_id"];?>" style="padding:5px 0px;">
+					<tr class="<?php echo $projectClass ?>" style="<?php echo $projectStyle ?>" id="project<?php echo (string)$e["_id"];?>" style="padding:5px 0px;">
 						<td class="center" style="padding-left: 15px;">
 							<?php $url = '#project.detail.id.'.$e["_id"];?>
 							<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
@@ -76,36 +89,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 </div>
 <script type="text/javascript">
-
+	var nbOldProjects = <?php echo (String) @$nbOldProjects;?>;
 	jQuery(document).ready(function() {
-		//bindBtnAddProject();
+		if (nbOldProjects == 0) $("#showHideOldProject").hide();
 		bindBtnRemoveProject();
 	});
-
-	/*function bindBtnAddProject() {
-		$('.new-project').off().on("click", function(){
-			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
-			$.subview({
-				content : "#ajaxSV",
-				onShow : function() {
-					var url = baseUrl+"/"+moduleId+"/project/projectsv/id/<?php echo @$contextId; ?>/type/<?php echo @$contextType; ?>";
-					getAjax("#ajaxSV", url, 
-							function(){
-								console.log('toto');
-								initProjectForm();
-							}, 
-							"html");
-				},
-				onSave : function() {
-					$('.form-project').submit();
-				},
-				onHide : function() {
-					$.hideSubview();
-				}
-			});
-			
-		});
-	}*/
 
 	function bindBtnRemoveProject() {
 		$(".removeProjectbtn").off().on("click",function () {
@@ -144,26 +132,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 		});
 	}
-	function updateProject( nProject, projectId ){
-		console.log(projectId);
-		if('undefined' != typeof contextMap){
-			contextMap["projects"][projectId] = nProject;
-		}
-		var viewBtn = '<a href="'+baseUrl+'/'+moduleId+'/project/dashboard/id/'+projectId.$id+'" class="text-dark">';
-		var unlinkBtn = '<div class="visible-md visible-lg hidden-sm hidden-xs">'+
-							'<a href="#" class="removeProjectbtn btn btn-xs btn-grey tooltips delBtn" data-id="'+projectId.$id+'" data-name="'+nProject.name+'" data-placement="left" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>'+
-						'</div>';
-		var projectLine  = 
-		'<tr id="project'+projectId.$id+'">'+
-					'<td class="center">'+viewBtn+'<i class="fa fa-lightbulb-o fa-2x"></i></a></td>'+
-					'<td>'+viewBtn+nProject.name+'</a></td>'+
-					'<td class="center">'+
-					unlinkBtn+
-					"</td>"+
-				"</tr>";
-		$("#projects").prepend(projectLine);
-		$('.tooltips').tooltip();
-		$('#info').hide();
-		bindBtnRemoveProject();	
+
+	function toogleOldProject() {
+		$(".oldProject").toggle("slow");
 	}
 </script>
