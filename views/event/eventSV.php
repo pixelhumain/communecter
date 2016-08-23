@@ -12,8 +12,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	'/plugins/bootstrap-select/bootstrap-select.min.css',
-	'/plugins/bootstrap-select/bootstrap-select.min.js',
-
+	'/plugins/bootstrap-select/bootstrap-select.min.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -356,19 +355,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
 				</h3>
                         
-					<div class="form-group">
-						<textarea name="eventDetail" id="eventDetail" class="wysiwygInput eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
-					</div>
-				
-					<?php if( Yii::app()->session['userId'] ){ ?>
+				<div class="form-group">
+					<textarea name="eventDetail" id="eventDetail" class="wysiwygInput eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
+				</div>
+			
+				<?php if( Yii::app()->session['userId'] ){ ?>
+				<div class= "row  col-xs-12">
+					<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> <?php echo Yii::t("common","Save") ?></button>
+				</div>
+				<?php } else {  ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> <?php echo Yii::t("common","Save") ?></button>
+						<button class="pull-right btn btn-primary" onclick="showPanel('box-login')"><?php echo Yii::t("common","Please Login First") ?></button>
 					</div>
-					<?php } else {  ?>
-						<div class= "row  col-xs-12">
-							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')"><?php echo Yii::t("common","Please Login First") ?></button>
-						</div>
-					<?php } ?>
+				<?php } ?>
 			</div>
 		</form>
 	</div>
@@ -409,6 +408,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		initMyOrganization();
 	 	runEventFormValidation();
 	 	setTitle("<?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> ");
+	 	
 	 	$(".wysiwygInput").off().on("focus", function(){
 		 	activateSummernote('#eventDetail');
 		 });

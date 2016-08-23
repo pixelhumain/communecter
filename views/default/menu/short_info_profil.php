@@ -9,26 +9,22 @@
   .searchIcon{
     cursor: pointer;
   }
-  .menu-info-profil{
-    cursor: pointer;
-  }
 </style>
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="default.menu.short_info_profil">
-      
-    <div class="menu-search-fields pull-left ">
-      <?php
-      //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
-      
-      //if(isset(Yii::app()->session['userId'])) 
-      $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
-      
-      <i class="fa fa-search fa-2x searchIcon tooltips hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
-     
-      <input type="text" class="text-dark input-global-search hidden-xs" 
-             placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
-      <div class="dropdown-result-global-search"></div>
-    </div>
-
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
+     data-tpl="default.menu.short_info_profil">
+    
+    <?php
+    //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
+    
+    //if(isset(Yii::app()->session['userId'])) 
+    $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
+    
+    <i class="fa fa-search fa-2x searchIcon tooltips hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
+   
+    <input type="text" class="text-dark input-global-search hidden-xs" 
+           placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
+    <div class="dropdown-result-global-search"></div>
+    
     <div class="topMenuButtons pull-right">
     <?php 
     if( isset( Yii::app()->session['userId']) )

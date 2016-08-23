@@ -9,9 +9,10 @@ $cssAnsScriptFiles = array(
 	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
 	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
 	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	/*'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js'
+	'/assets/plugins/wysihtml5/wysihtml5.js'*/
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
@@ -239,6 +240,7 @@ jQuery(document).ready(function() {
 	bindEvent();
 	$('.ps-container').perfectScrollbar({suppressScrollX : true});
 
+	
 
 	/*!
 	  Non-Sucking Autogrow 1.1.1
@@ -456,6 +458,7 @@ function bindEvent(){
 			$('.saySomething').hide();
 			addEmptyCommentOnTop();
 			bindEvent();
+			activateSummernote('.newComment');
 		}
 	});
 	$('.newComment').unbind('keydown').keydown(function(event) {
@@ -833,6 +836,7 @@ function replyComment(parentCommentId) {
 	}
 	bindEvent();
 	$(".newComment").focus();
+	activateSummernote('.newComment');
 }
 
 function buildNewCommentLine(parentCommentId) {
@@ -846,7 +850,7 @@ function buildNewCommentLine(parentCommentId) {
 	
 	var name = currentUser.name;
 	var city = "";
-	var text = '<textarea class="newComment" rows="2" style="width: 100%" data-id="'+id+'" data-parentid="'+parentCommentId+'"></textarea>';
+	var text = '<textarea class="newComment wysiwygInput" rows="2" style="width: 100%" data-id="'+id+'" data-parentid="'+parentCommentId+'"></textarea>';
 	
 	if (canUserComment == true) {
 		commentsTLLine = 
@@ -886,7 +890,7 @@ function cancelComment(commentId) {
 }
 
 function validateComment(commentId, parentCommentId) {
-	content = $.trim($('#'+commentId+' .newComment').val());
+	content = $.trim($('#'+commentId+' .newComment').code());
 	if (content == "" || content == null) {
 		$('#'+commentId).remove();
 	}
@@ -895,7 +899,7 @@ function validateComment(commentId, parentCommentId) {
 		url: baseUrl+'/'+moduleId+"/comment/save/",
 		data: {
 			parentCommentId: parentCommentId,
-			content : $('#'+commentId+' .newComment').val(),
+			content : $('#'+commentId+' .newComment').code(),
 			contextId : context["_id"]["$id"],
 			contextType : contextType
 		},

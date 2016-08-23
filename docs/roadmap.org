@@ -112,11 +112,8 @@
 
   ** @Tib 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    
-    [ ] switcher de home a dashB
     [ ] latest DDA on city page
-    [ ] element activity
-    [ ] wisiwig sur les commentaires
+    [ ] switcher de home a dashB
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
@@ -129,6 +126,7 @@
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
+    [X] wisiwig sur les commentaires
     [X] bug sur event > globale search
     [X] bug : qrCode explain 
     [X] dashboard 
