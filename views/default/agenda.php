@@ -177,7 +177,8 @@ jQuery(document).ready(function() {
   });
 
   showTagsScopesMin("#list_tags_scopes");
-  
+
+
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé
       loadingData = false;

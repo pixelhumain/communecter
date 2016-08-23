@@ -113,8 +113,6 @@
   ** @Tib 
     [ ] bug sur event > globale search
     [X] bug : qrCode explain 
-    [ ] bug : on search 
-        - on event  click event 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] dashboard 
         [ ] live controller 

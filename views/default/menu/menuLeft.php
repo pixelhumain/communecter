@@ -239,7 +239,7 @@
 					<span class="lbl-btn-menu">Faire un don</span>
 		</a><br><hr style="float: left; width: 100%; border-color: transparent ! important; margin: 0px;">
 
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips pull-left"
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank" class="helloasso tooltips pull-left"
 				data-toggle="tooltip" data-placement="right" title="soutenir communecter">
 			<img class="lbl-btn-menu" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
 		</a>
@@ -344,7 +344,7 @@ text-align: center;
 
 </style>
 
-<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips"
+<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank" class="helloasso tooltips"
 		data-toggle="tooltip" data-placement="top" title="faire un don pour soutenir communecter">
 	<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
 </a>
@@ -362,7 +362,7 @@ text-align: center;
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank">
 		<div class="pull-left homestead text-red msg">
 			Soutenez-nous<br/>
 			à prix libre<br/>
@@ -370,7 +370,7 @@ text-align: center;
 		</div>
 		</a>
 		
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
 		</a>
 <!-- 

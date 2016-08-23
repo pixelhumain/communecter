@@ -204,15 +204,12 @@ function showTagsScopesMin(htmlId){
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
-		//else
-		//$("#dropdown-content-multi-tag").removeClass('open');
 	});
 	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
-		//else
-		//dropdown-content-multi-scope").removeClass('open');
 	});
+	bindRefreshBtns();
 }
 
 function showTagsMin(htmlId){

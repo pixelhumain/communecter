@@ -167,8 +167,6 @@ jQuery(document).ready(function() {
 //  if(userId != 'null')
   showTagsScopesMin("#list_tags_scopes");
 
-  
-  bindRefreshBtns();
 
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé

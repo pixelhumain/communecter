@@ -479,13 +479,4 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     startSearch(0, indexStepInit);
   }
 
-  function bindRefreshBtns () { 
-$('.item-scope-checker, .item-tag-checker,.btn-filter-type').click(function(e){
-      //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
-      str = '<div class="center" id="footerDropdown">';
-      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
-      str += '<button class="btn btn-default" onclick="startSearch(0, indexStepInit);"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
-      str += "</div>";
-      $("#dropdown_search").html( str );
-  });
-   }
+  

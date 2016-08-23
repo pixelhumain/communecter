@@ -954,6 +954,25 @@ function  bindLBHLinks() {
 	 });
 }
 
+function bindRefreshBtns() { 
+	if( $("#dropdown_search").length || $(".newsTL").length)
+	{
+		var searchFeed = "#dropdown_search";
+		var method = "startSearch(0, indexStepInit);"
+		if( $(".newsTL").length){
+			searchFeed = ".newsTL";
+			method = "startSearch(false);"
+		}
+	    $('.item-scope-checker, .item-tag-checker,.btn-filter-type').click(function(e){
+	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+	          str = '<div class="center" id="footerDropdown">';
+	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
+	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
+	          str += "</div>";
+	          $(searchFeed).html( str );
+	      });
+	}
+}
 
 /* **************************************
 maybe movebale into Element.js
