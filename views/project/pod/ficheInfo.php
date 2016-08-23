@@ -11,7 +11,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-	'/assets/plugins/Chart.js/Chart.min.js'
+	'/assets/plugins/Chart.js/Chart.min.js',
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -218,6 +219,9 @@ progress[value]::-moz-progress-bar {
 			if ($openEdition) { ?>
 			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
+		
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -400,7 +404,20 @@ progress[value]::-moz-progress-bar {
 						<?php echo (isset($project["shortDescription"])) ? $project["shortDescription"] : null; ?>
 					</a>
 				</div>
-				
+
+				<?php 
+					$address = (isset( $project["address"]["streetAddress"])) ? $project["address"]["streetAddress"] : "";
+					$address2 = (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : "";
+					$address2 .= (isset( $project["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $project["address"]["addressCountry"] ] : "";
+
+					$this->renderPartial('../pod/qrcode',array(
+															"type" => @$project['type'],
+															"name" => @$project['name'],
+															"address" => $address,
+															"address2" => $address2,
+															"email" => @$project['email'],
+															"img"=>@$project['profilThumbImageUrl']));
+				?>
 
 			</div>
 		</div>
@@ -492,7 +509,7 @@ jQuery(document).ready(function()
 		$(".btn-group-"+type + " .btn").removeClass("active");
 		$(this).addClass("active");
 	});
-
+	buildQRCode("project","<?php echo (string)$project["_id"]?>",'<?php echo (string)$project["name"]?>');
 	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });

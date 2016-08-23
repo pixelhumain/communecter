@@ -4,7 +4,7 @@
       }
 ?>
 
-<div class="dropdown pull-right">
+<div class="dropdown pull-right" data-tpl="default.menu.menuProfile">
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
     <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
     <?php //echo $me["name"]; ?>
@@ -82,8 +82,7 @@
         <li role="separator" class="divider"></li>
       <?php } ?>
     <li>
-      <a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" 
-         id="btn-menu-dropdown-logout" class="text-red">
+      <a href="javascript:;" onclick="window.location.href='<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>'" class="text-red">
         <i class="fa fa-sign-out"></i><?php echo Yii::t("person","Sign out"); ?>
       </a>
     </li>  

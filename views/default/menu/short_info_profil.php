@@ -5,8 +5,21 @@
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
-
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?>">
+<style type="text/css">
+  .searchIcon{
+    cursor: pointer;
+  }
+</style>
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="default.menu.short_info_profil">
+    
+    <?php
+    //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
+    
+    //if(isset(Yii::app()->session['userId'])) 
+    $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
+    
+    &nbsp;<i class="fa fa-search fa-2x searchIcon tooltips" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>&nbsp;
+   
     <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     <div class="dropdown-result-global-search"></div>
     
@@ -21,14 +34,15 @@
     </div>
   </div>
 
-
 <script>
 
   /* global search code is in assets/js/default/globalsearch.js */
 
   var timeoutGS = setTimeout(function(){ }, 100);
   var timeoutDropdownGS = setTimeout(function(){ }, 100);
+  var searchPage = false;
   jQuery(document).ready(function() {
+
     $('.dropdown-toggle').dropdown();
     $(".menu-name-profil").click(function(){
       showNotif(false);
@@ -36,14 +50,46 @@
 
     $('.input-global-search').keyup(function(e){
         clearTimeout(timeoutGS);
-        timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
+        if($(".newsTL")){
+          $(".newsTL").html("");
+          $("#nowListevents,#nowListDDA,#nowListprojects,#nowListorga").html("");
+        }
+        if($('*[data-searchPage]').length > 0 && searchPage ){
+          $('#searchBarText').val( $('.input-global-search').val() );
+          timeoutGS = setTimeout(function(){startSearch(false); }, 800);
+        }
+        else {
+          timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
+        }
+    });
+
+    $('.searchIcon').click(function(e){
+       if($('*[data-searchPage]').length > 0 && $('.searchIcon').hasClass('fa-search')){
+          $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche ne concerne que cette page.</span>');
+          showDropDownGS(true);
+          searchPage = true;
+          $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+          $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+          $('.tooltips').tooltip();
+          if( $("input-global-search").val() != "")
+            timeoutGS = setTimeout(function(){startSearch(false); }, 800);
+       }else{
+          $(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
+          $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche sera globale.</span>');
+          $(".searchIcon").attr("title","Mode Recherche Globale");
+          $('.tooltips').tooltip();
+          showDropDownGS(true);
+          searchPage = false;
+          if( $("input-global-search").val() != "")
+            timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
+       }
+
     });
 
     $('.input-global-search').click(function(e){
         if($(".dropdown-result-global-search").html() != ""){
           showDropDownGS(true);
         }
-
     });
 
     $('.dropdown-result-global-search').mouseenter(function(e){

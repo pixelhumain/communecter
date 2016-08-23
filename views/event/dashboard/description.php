@@ -23,13 +23,9 @@ $cssAnsScriptFilesTheme = array(
 '/assets/plugins/wysihtml5/wysihtml5.js',
 
 '/assets/plugins/moment/min/moment.min.js' , 
+'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-$cssAnsScriptFilesModule = array(
-	
-	
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 $cssAnsScriptFilesModule = array(
@@ -174,6 +170,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     		if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+		
 			<style type="text/css">
 				.badgePH{ 
 					cursor: pointer;
@@ -355,6 +353,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
+					<?php 
+						$address = (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
+						$address2 = (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
+						$address2 .= (isset( $event["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $event["address"]["addressCountry"] ] : "";
+
+						$this->renderPartial('../pod/qrcode',array(
+																"type" => @$event['type'],
+																"name" => @$event['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$event['email'],
+																"img"=>@$event['profilThumbImageUrl']));?>
 				</div>
 			</div>
 		</div>
@@ -448,6 +458,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var mode = "view";
 	var allDay = '<?php echo (@$event["allDay"] == true) ? "true" : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
+	//alert(startDate);
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
 	var loadActivity = true;	
@@ -524,6 +535,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
+
+		buildQRCode("event","<?php echo (string)$event["_id"]?>",'<?php echo (string)$event["name"]?>');
+		
 	})
 
 	function activateEditable() {

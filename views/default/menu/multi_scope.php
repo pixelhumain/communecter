@@ -21,7 +21,7 @@
 .scope-count{
 	right: 8px;
     position: absolute;
-    top: 4px;
+    top: -1px;
 }	
 #dropdown-multi-scope-found {
 	display: block;
@@ -43,7 +43,7 @@
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
-	<i class="fa fa-bullseye" style=""></i>
+	<i class="fa fa-bullseye fa-2x" style=""></i>
 	<span class="scope-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-scope">
@@ -56,46 +56,62 @@
 	      			<hr style="margin-top: 10px; margin-bottom: 10px;">
 	      			<div class="btn-group  btn-group-justified margin-bottom-10 hidden-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default active" data-scope-type="city">
+						  <button type="button" class="btn btn-default tooltips active" data-scope-type="city"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une commune">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="cp">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="cp"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un code postal">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="dep">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="dep"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un département">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Département
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="region">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="region"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une région">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Région
 						  </button>
 						</div>
 					</div>
 	      			<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default active" data-scope-type="city">
+						  <button type="button" class="btn btn-default tooltips active" data-scope-type="city"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une commune">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Commune
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="cp">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="cp"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un code postal">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Code postal
 						  </button>
 						</div>
 					</div>
 					<div class="btn-group  btn-group-justified margin-bottom-10 visible-xs btn-group-scope-type" role="group">
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="dep">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="dep"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter un département">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Département
 						  </button>
 						</div>
 						<div class="btn-group btn-group-justified">
-						  <button type="button" class="btn btn-default" data-scope-type="region">
+						  <button type="button" class="btn btn-default tooltips" data-scope-type="region"
+	      						  data-toggle="tooltip" data-placement="top" 
+								  title="Ajouter une région">
 						  	<strong><i class="fa fa-bullseye"></i></strong>Région
 						  </button>
 						</div>
@@ -116,10 +132,14 @@
 					    </div>
 					</div>
 					<div class="col-md-3">
-	      				<button class="btn btn-default" onclick="javascript:selectAllScopes(true)">
+	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner tout les lieux">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default" onclick="javascript:selectAllScopes(false)">
+			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
+	      						data-toggle="tooltip" data-placement="bottom" 
+								title="Sélectionner aucun lieu">
 			      			<i class="fa fa-circle-o"></i>
 			      		</button>
 	      			</div>
@@ -148,20 +168,24 @@
       	</div>
    </ul>
 </div>
-<input id="searchLocalityNAME" type="hidden" />
-<input id="searchLocalityCODE_POSTAL_INSEE" type="hidden" />
+<input id="searchLocalityCITYKEY" type="hidden" />
+<input id="searchLocalityCODE_POSTAL" type="hidden" />
 <input id="searchLocalityDEPARTEMENT" type="hidden" />
-<input id="searchLocalityINSEE" type="hidden" />
 <input id="searchLocalityREGION" type="hidden" />
 
-
 <?php 
-	if(isset(Yii::app()->session['userId']))
-	$me = Person::getById(Yii::app()->session['userId']); 
+	$multiscopes = (empty($me) && isset( Yii::app()->request->cookies['multiscopes'] )) ? 
+		   			    	Yii::app()->request->cookies['multiscopes']->value : "{}";	
+
+	//var_dump($multiscopes); echo " cookie : ".Yii::app()->request->cookies['multiscopes'];//return;
 ?>
 <script type="text/javascript"> 
 
-var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? json_encode($me["multiscopes"]) : "{}"; ?>;;
+var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ? 
+								json_encode($me["multiscopes"]) :  
+								$multiscopes; 
+					?>;
+
 var currentScopeType = "city";
 var timeoutAddScope;
 
@@ -171,9 +195,9 @@ jQuery(document).ready(function() {
 
 	$('ul.dropdown-menu').click(function(){ return false });
 
-	$(".btn-add-scope").click(function(){
-		addScopeToMultiscope($("#input-add-multi-scope").val());
-	});
+	// $(".btn-add-scope").click(function(){
+	// 	addScopeToMultiscope($("#input-add-multi-scope").val());
+	// });
 
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
@@ -211,22 +235,31 @@ function scopeExists(scopeValue){
 	return typeof myMultiScopes[scopeValue] != "undefined";
 }
 
-function saveMultiScope(){ //console.log("saveMultiScope() try"); console.dir(myMultiScopes);
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
-        data: {multiscopes : myMultiScopes},
-       	dataType: "json",
-    	success: function(data){
-    		showCountScope();
-    		rebuildSearchScopeInput();
-	    	//console.log("saveMultiScope() success");
-	    },
-		error: function(error){
-			console.log("Une erreur est survenue pendant l'enregistrement des scopes");
-		}
-	});
+function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); //console.dir(myMultiScopes);
+	if(userId != null && userId != ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
+	        data: {multiscopes : myMultiScopes},
+	       	dataType: "json",
+	    	success: function(data){
+	    		//console.log("saveMultiScope() success");
+		    },
+			error: function(error){
+				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
+			}
+		});
+	}else{
+		
+	}
+	showCountScope();
+	rebuildSearchScopeInput();
+	saveCookieMultiscope();
 }
+function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
+	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+}
+
 function autocompleteMultiScope(){
 	var scopeValue = $('#input-add-multi-scope').val();
 	$("#dropdown-multi-scope-found").html("<li><i class='fa fa-refresh fa-spin'></i></li>");
@@ -244,18 +277,20 @@ function autocompleteMultiScope(){
     		$("#dropdown-multi-scope-found").html("ok");
     		html="";
     		$.each(data.cities, function(key, value){
-    			if(currentScopeType == "city") { 
-    				val = value.name; 
-    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    			if(currentScopeType == "city") { console.log("in scope city");
+    				val = value.country + "_" + value.insee + "-" + value.postalCodes[0].postalCode; 
+    				lbl = value.name;
+    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
     			}; 
     			if(currentScopeType == "cp") { 
     				val = value.postalCodes[0].postalCode; 
-    				lbl = value.name + ", " +value.postalCodes[0].postalCode ;
+    				lbl = value.postalCodes[0].postalCode ;
+    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
     			}; 
-    			if(currentScopeType == "dep") 	{ val = value; lbl = value }; 
-    			if(currentScopeType == "region"){ val = value; lbl = value }; 
+    			if(currentScopeType == "dep") 	{ val = value; lbl = value; lblList = value; }; 
+    			if(currentScopeType == "region"){ val = value; lbl = value; lblList = value; }; 
 
-    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\")'>"+lbl+"</a></li>";
+    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
     		});
     		$("#dropdown-multi-scope-found").html(html);
     		
@@ -272,6 +307,7 @@ function loadMultiScopes(){
 		showScopeInMultiscope(key);
 	});
 	showCountScope();
+	saveCookieMultiscope()
 }
 function showCountScope(){
 	var count = 0; 
@@ -286,7 +322,7 @@ function showCountScope(){
 		$("#multi-scope-list-"+value).hide();
 	});
 	$(".scope-count").html(count);
-	showTagsScopesMin("#list_tags_scopes");
+	showTagsScopesMin(".list_tags_scopes");
 }
 function selectAllScopes(select){
 	$.each(myMultiScopes, function(key, value){
@@ -298,6 +334,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	var html = "";
 	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
+		if(typeof scope.name == "undefined") scope.name = scopeValue;
 		var faActive = (myMultiScopes[scopeValue].active == true) ? "check-circle" : "circle-o";
 		var classDisable = (myMultiScopes[scopeValue].active == false) ? "disabled" : "";
 		html = 
@@ -307,7 +344,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 					'title="Activer/Désactiver" data-scope-value="'+scopeValue+'">' +
 					'<i class="fa fa-'+faActive+'"></i>' +
 				'</a>' +
-				'<span class="item-scope-name" >'+scopeValue+'</span>' +
+				'<span class="item-scope-name" >'+scope.name+'</span>' +
 				'<a href="javascript:" class="item-scope-deleter tooltips"' +
 					'data-toggle="tooltip" data-placement="bottom" ' +
 					'title="Supprimer" data-scope-value="'+scopeValue+'">' +
@@ -327,11 +364,12 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 	$(".tooltips").tooltip();
 }
 
-
-function addScopeToMultiscope(scopeValue){  
+//scopeValue est la valeur utilisée pour la recherche
+//scopeName est la valeur affichée
+function addScopeToMultiscope(scopeValue, scopeName){  
 	if(scopeValue == "") return;
 	if(!scopeExists(scopeValue)){ console.log("adding", scopeValue);
-		myMultiScopes[scopeValue] = { active: true, type: currentScopeType };
+		myMultiScopes[scopeValue] = { name: scopeName, active: true, type: currentScopeType };
 		showScopeInMultiscope(scopeValue);
 		$("#input-add-multi-scope").val("");
 		saveMultiScope();
@@ -397,28 +435,31 @@ function showMsgInfoMultiScope(msg, type){
 
 function rebuildSearchScopeInput()
 {
-	searchLocalityNAMEs = "";
+	/*****************************************************************************************/
+	searchLocalityCITYKEYs = "";
 	$.each($('.item-scope-city'), function(key, value){
 		if(!$(value).hasClass('disabled')){
 			key = $(value).data("scope-value");
-			searchLocalityNAMEs += (searchLocalityNAMEs == "") ? key :   ","+key;
+			searchLocalityCITYKEYs += (searchLocalityCITYKEYs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityNAMEs",searchLocalityNAMEs);
-	if( $("#searchLocalityNAME") )
-		$("#searchLocalityNAME").val(searchLocalityNAMEs);
+	console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
+	if( $("#searchLocalityCITYKEY") )
+		$("#searchLocalityCITYKEY").val(searchLocalityCITYKEYs);
 
-	searchLocalityCODE_POSTAL_INSEEs = "";
+	/*****************************************************************************************/
+	searchLocalityCODE_POSTALs = "";
 	$.each($('.item-scope-cp'), function(key, value){
 		if(!$(value).hasClass('disabled')){
 			key = $(value).data("scope-value");
-			searchLocalityCODE_POSTAL_INSEEs += (searchLocalityCODE_POSTAL_INSEEs == "") ? key :   ","+key;
+			searchLocalityCODE_POSTALs += (searchLocalityCODE_POSTALs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCODE_POSTAL_INSEEs",searchLocalityCODE_POSTAL_INSEEs);
-	if( $("#searchLocalityCODE_POSTAL_INSEE") )
-		$("#searchLocalityCODE_POSTAL_INSEE").val(searchLocalityCODE_POSTAL_INSEEs);
+	console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
+	if( $("#searchLocalityCODE_POSTAL") )
+		$("#searchLocalityCODE_POSTAL").val(searchLocalityCODE_POSTALs);
 
+	/*****************************************************************************************/
 	searchLocalityDEPARTEMENTs = "";
 	$.each($('.item-scope-dep'), function(key, value){
 		if(!$(value).hasClass('disabled')){
@@ -430,17 +471,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityDEPARTEMENT") )
 		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
 
-	searchLocalityINSEEs = "";
-	$.each($('.item-scope-insee'), function(key, value){
-		if(!$(value).hasClass('disabled')){
-			key = $(value).data("scope-value");
-			searchLocalityINSEEs += (searchLocalityINSEEs == "") ? key :   ","+key;
-		}
-	});
-	console.log("searchLocalityINSEEs",searchLocalityINSEEs);
-	if( $("#searchLocalityINSEE") )
-		$("#searchLocalityINSEE").val(searchLocalityINSEEs);
-
+	/*****************************************************************************************/
 	searchLocalityREGIONs = "";
 	$.each($('.item-scope-region'), function(key, value){
 		if(!$(value).hasClass('disabled')){

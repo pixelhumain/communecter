@@ -9,9 +9,11 @@
 
 	#dropdown-multi-tag, 
 	#dropdown-multi-scope{
-		position: absolute;
-	    top: 45px;
-		left: -5px;
+		position: fixed!important;
+		top: 46px!important;
+		right: 0px!important;
+		left:unset!important;
+
 	    z-index: 1000;
 	    display: none;
 	    float: left;
@@ -28,15 +30,16 @@
 	    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 	    box-shadow: 0 6px 12px rgba(0,0,0,.175);
 
-	    width: 550px;
-		min-width: 550px;
-		max-width: 550px;
+	    width: 570px;
+		min-width: 570px;
+		max-width: 570px;
 		margin-top: 4px;
 		border-radius: 0px 0px 4px 4px;
 	}
 	#dropdown-multi-scope {
 	    left: 0px;
-	    max-height: 610px;
+	    max-height: 90%;
+	    min-height: 70%;
 		overflow-y: auto;
 	}
 	#dropdown-multi-tag input.form-control,
@@ -79,7 +82,7 @@
 		padding: 5px;
 		width: 35px;
 		height: 35px;
-		margin-top: 8px;
+		margin-top: 2px;
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;
@@ -114,10 +117,22 @@
 		cursor:pointer;
 		font-weight: 600 !important;
 	}
-	#list_tags_scopes span.text-red.disabled{
+
+	.list_tags_scopes span.text-red.disabled,
+	#list_tags_scopes span.text-red.disabled,
+	#scopeListContainer span.text-red.disabled{
 	    color:#DBBCC1 !important;
 	    font-weight:300 !important;
-	  }
+	}
+
+	#dropdown-multi-scope-found{
+		max-height:250px;
+		overflow: auto;
+	}
+
+	.tagOnly .list-select-scopes{
+		display: none;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -145,9 +160,13 @@
 	}
 </style>
 
-<?php $this->renderPartial('../default/menu/multi_tag'); ?>
-<?php $this->renderPartial('../default/menu/multi_scope'); ?>
+<span data-tpl="default.menu.multi_tag_scope">
+<?php 
+$this->renderPartial('../default/menu/multi_tag', array("me"=>$me)); 
+$this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
+?>
 
+</span>
 
 <script>
 
@@ -156,9 +175,7 @@ jQuery(document).ready(function() {
 });
 
 function showTagsScopesMin(htmlId){
-	var html =  ""; //'<a href="javascript" onclick="javascript:selectAllTags(true)">' +
-			        //'<i class="fa fa-cogs"></i>' +
-			//    '</button> ';
+	var html =  "";
 	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
@@ -167,18 +184,18 @@ function showTagsScopesMin(htmlId){
 					"#" + key + 
 				"</span> ";
 	});
+
+	html += "<div class='list-select-scopes'>";
 	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
-	// html += '<button class="btn btn-xs" onclick="javascript:selectAllScopes(true)">' +
-	// 	        '<i class="fa fa-cogs"></i>' +
-	// 	    '</button> ';
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
+		if(typeof value.name == "undefined") value.name = key;
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
 					"class='text-red "+disabled+" item-scope-checker' data-scope-value='"+ key + "'>" + 
-					"<i class='fa fa-bullseye'></i> " + key + 
+					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
-
+	html += "</div>";
 	$(htmlId).html(html);
 
 	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
@@ -197,6 +214,20 @@ function showTagsScopesMin(htmlId){
 		//else
 		//dropdown-content-multi-scope").removeClass('open');
 	});
+}
+
+function showTagsMin(htmlId){
+	var html =  "";
+	
+	$.each(myMultiTags, function(key, value){
+		var disabled = value.active == false ? "disabled" : "";
+		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
+					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
+					"#" + key + 
+				"</span> ";
+	});
+	$(htmlId).html(html);
+	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 }
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);

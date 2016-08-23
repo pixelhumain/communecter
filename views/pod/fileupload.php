@@ -293,9 +293,18 @@
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
 			  	dataType: "json"
 			}).done( function(data){
-		        if(typeof data.profilImageUrl != "undefined"){
+
+		        /*if(typeof data.profilImageUrl != "undefined"){
 		        	$("#menu-thumb-profil").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
 		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+				*/
+		        if(typeof data.profilThumbImageUrl != "undefined"){
+		        	profilThumbImageUrl = baseUrl + data.profilThumbImageUrl + "?_=" + Date.now();
+		        	$("#menu-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$("#menu-left-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$("#menu-small-thumb-profil").attr("src", profilThumbImageUrl);
+		        	$(".item_map_list_"+Sig.getObjectId(Sig.userData)+" .thumbnail-profil img").attr("src", profilThumbImageUrl);
+
 		        }
 
 		        console.log(Sig.userData.profilImageUrl);

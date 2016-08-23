@@ -59,7 +59,7 @@ display: inline;
 	
   <div class="col-md-12 no-padding margin-top-15">
   	<div class="input-group col-md-8 col-sm-8 col-xs-12 pull-left">
-        <input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
+        <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
         <span class="input-group-btn">
               <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
                       data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
@@ -82,8 +82,8 @@ display: inline;
 
 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
   <div class="btn-group inline-block" id="menu-directory-type">
-    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="News" type="news">
-      <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">News</span>
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
+      <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">Messages</span>
     </button>
     <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
       <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
@@ -200,20 +200,16 @@ function startSearch(){
 
 
 function showNewsStream(name,locality){
-	if(typeof(cityInseeCommunexion) != "undefined"){
-	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
-	                             2 : "INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}else{
-		var levelCommunexionName = { 1 : "INSEE",
-	                             2 : "CODE_POSTAL_INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}
-	var dataNewsSearch = {"tagSearch" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion]};
+	
+  var dataNewsSearch = {
+      "tagSearch" : name, 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchType" : searchType,
+  };
+
 	$("#newsstream").html("<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
 			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
@@ -241,6 +237,7 @@ function removeSearchType(type){
   }
   console.log(searchType);
 }
+
 
 </script>
 

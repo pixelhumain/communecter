@@ -70,6 +70,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
 		border-radius: 0px;
 		margin-top:-10px;
+		margin-bottom:10px;
 		padding-bottom: 60px
 	}
 
@@ -107,6 +108,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	.tag{
 		cursor: pointer;
 	}
+
+
 
 
 

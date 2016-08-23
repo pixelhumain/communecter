@@ -251,6 +251,7 @@ div.timeline .newsTL > .newsFeed .timeline_element:before {
 <script type="text/javascript">
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
+var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 var news = <?php echo json_encode($news) ?>;
 var canManageNews="";
 var mode="view";

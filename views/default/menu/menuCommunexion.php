@@ -231,7 +231,7 @@
 </button> 
 <div id="input-communexion">
 	<span class="search-loader text-red">Communexion : <span style='font-weight:300;'>un code postal et c'est parti !</span></span>
-	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?">
+	<input id="searchBarPostalCode" class="input-search text-red" type="text" placeholder="un code postal ?" style="border-radius:100px !important; padding-left:60px !important;">
 	<a class="btn-start-new-communexion bg-red tooltips" href="javascript:" onclick="startNewCommunexion();"
 		data-toggle="tooltip" data-placement="right" title="Lancer la recherche" alt="Lancer la recherche">
 		<i class="fa fa-search"></i>

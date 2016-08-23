@@ -90,7 +90,7 @@
 }
 </style>
 
-<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding">
+<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
 	
 	<a class="pull-left text-dark" href="javascript:openMenuSmall();"  id="btn-menu-launch">
 		<i class="fa fa-bars fa-2x"></i>
@@ -103,8 +103,6 @@
 		<img class="" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 		<i class="fa fa-question-circle hidden" style="margin-top: 20px;margin-left: -14px;margin-right: 10px;"></i>
 	</a>
-
-	<?php $this->renderPartial('../default/menu/multi_tag_scope'); ?>
 
 	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
