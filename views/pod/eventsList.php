@@ -12,7 +12,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised && !isset($noAddLink) ) { ?>
+		<?php if( (@$authorised || @$openEdition) && !isset($noAddLink) ) { ?>
 			<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash('#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>')">
 	    		
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
@@ -122,7 +122,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </div>
 
 <script type="text/javascript">
-	
 	jQuery(document).ready(function() {	 
 
 		var itemId = '<?php echo @$contextId;?>';
