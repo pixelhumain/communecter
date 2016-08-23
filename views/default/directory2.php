@@ -867,7 +867,6 @@ var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'fa
 var images = [];
 var actions = [];
 var mapData = <?php echo json_encode($contextMap) ?>;
-var follows = <?php echo json_encode($follows) ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
