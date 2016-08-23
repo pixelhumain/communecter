@@ -427,7 +427,7 @@ progress[value]::-moz-progress-bar {
 				<div class="col-md-6 col-sm-6">
 					<i class="fa fa-calendar"></i> 
 					<?php if(!empty($project["startDate"])) echo Yii::t("common","From") ; ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
-					<label id="labelTo"><?php echo Yii::t("common","To"); ?></label><a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a><br>
+					<label id="labelTo"><?php echo Yii::t("common","To"); ?></label> <a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a><br>
 					<i class="fa fa-file-text-o"></i>
 					<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project licence") ?>" class="editable-project editable editable-click"><?php if(isset($project["licence"])) echo $project["licence"];?></a><br>
 					<i class="fa fa-desktop"></i> 
