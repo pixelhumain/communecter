@@ -70,6 +70,9 @@ return array(
 	"Please specify the city"=>"La commune est obligatoire",
 
 	'Calendar' => "Calendrier",
-	"No Parent Event" => "Pas de parent"
+	"No Parent Event" => "Pas de parent",
+	"Display/Hide old events" => "Afficher/Cacher les événements passés",
+	"Old events" => "Evénements passés",
+
 );
 ?>
