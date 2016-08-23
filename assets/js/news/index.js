@@ -24,11 +24,11 @@ var loadStream = function(indexMin, indexMax){
     	simpleUserData="";
     filter = new Object;
     filter.parent=parent;
-    if (typeof(locality) != "undefined")
+    if (typeof(locality) != "undefined" && locality != "")
 	    filter.locality=locality;
-    if (typeof(searchBy) != "undefined")
+    if (typeof(searchBy) != "undefined" && searchBy != "")
 	    filter.searchBy=searchBy;
-	if (typeof(searchType) != "undefined")
+	if (typeof(searchType) != "undefined" && searchType != "")
 	    filter.searchType=searchType;
 
 	if (typeof(tagSearch) != "undefined")

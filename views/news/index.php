@@ -437,10 +437,8 @@ var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
 var docType="<?php echo Document::DOC_TYPE_IMAGE; ?>";
 var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
 var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
-<?php if (@$locality){ ?>
-	var locality = "<?php echo $locality ?>";
-	var searchBy = "<?php echo $searchBy ?>";
-<?php } ?>
+var locality = "<?php echo @$locality ?>";
+var searchBy = "<?php echo @$searchBy ?>";
 var tagSearch = "<?php echo @$tagSearch ?>";
 var peopleReference=false;
 var mentionsContact = [];
