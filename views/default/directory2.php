@@ -319,6 +319,8 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 $this->renderPartial('../default/panels/toolbar'); 
 
 $countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0; $countAttendees = 0; $countGuests = 0;
+if (@$people)
+	foreach (@$people as $key => $onePeople) { if( @$onePeople["name"]) $countPeople++;}
 if (@$organizations)
 	foreach (@$organizations as $key => $orga) { if( @$orga["name"]) $countOrga++;	}
 if (@$projects)
@@ -488,6 +490,15 @@ if (@$follows){
 						{ 	
 							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						};
+					}
+
+					/* ********** PEOPLE ****************** */
+					if(@$people) 
+					{ 
+						foreach ($people as $e) 
+						{
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+						}
 					}
 
 					/* ************ EVENTS ************************ */
