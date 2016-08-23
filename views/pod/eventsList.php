@@ -31,8 +31,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
+					$nbOldEvents = 0;
 					if(isset($events) && count($events)>0 ) { 
-						$nbOldEvents = 0;
 						foreach ($events as $e) {
 							if (@$e["endDate"] && @$e["endDate"]->sec > time()) {
 								$eventStyle = "";
@@ -115,9 +115,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					?>
 				</tbody>
 			</table>
-			<?php if(isset($events) && count($events)>0 ){ ?>
-			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
-			<?php } ?>
+			
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
@@ -136,7 +134,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </div>
 
 <script type="text/javascript">
-	var nbOldEvents = <?php echo (String) $nbOldEvents;?>;
+	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
 	jQuery(document).ready(function() {	 
 		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
 
