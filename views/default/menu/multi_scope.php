@@ -43,7 +43,7 @@
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
-	<i class="fa fa-bullseye fa-2x" style=""></i>
+	<i class="fa fa-bullseye text-dark" style="font-size:19px;"></i>
 	<span class="scope-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-scope">

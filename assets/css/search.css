@@ -172,7 +172,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	max-width: 42%;
-	margin-left:0px !important;
+	margin-left:15px !important;
 }
 
 input[type="text"].input-search{

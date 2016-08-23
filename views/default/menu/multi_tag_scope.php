@@ -35,13 +35,12 @@
 		max-width: 570px;
 		margin-top: 4px;
 		border-radius: 0px 0px 4px 4px;
-	}
-	#dropdown-multi-scope {
-	    left: 0px;
-	    max-height: 90%;
-	    min-height: 70%;
+
 		overflow-y: auto;
+		bottom: 0px;
 	}
+	
+	
 	#dropdown-multi-tag input.form-control,
 	#dropdown-multi-scope input.form-control {
 	    text-align: left;

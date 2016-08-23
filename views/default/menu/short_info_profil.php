@@ -10,7 +10,8 @@
     cursor: pointer;
   }
 </style>
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="default.menu.short_info_profil">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
+     data-tpl="default.menu.short_info_profil">
     
     <?php
     //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
@@ -20,7 +21,8 @@
     
     &nbsp;<i class="fa fa-search fa-2x searchIcon tooltips" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>&nbsp;
    
-    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
+    <input type="text" class="text-dark input-global-search hidden-xs" 
+           placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     <div class="dropdown-result-global-search"></div>
     
     <div class="topMenuButtons pull-right">
