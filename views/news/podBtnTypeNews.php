@@ -173,12 +173,12 @@ jQuery(document).ready(function()
   			parentType = "citoyens";
   			$("input[name='scope']").val("restricted");
   			showTagsScopesMin("#scopeListContainer");
-  			$("#scopeListContainer").addClass("tagOnly");
+  			$(".list_tags_scopes").addClass("tagOnly");
   		}else{
   			parent = null;
   			parentType = "city";
   			$("input[name='type']").val("public");
-  			showTagsScopesMin("#scopeListContainer");
+  			showTagsScopesMin(".list_tags_scopes");
   			$("#scopeListContainer").removeClass("tagOnly");
   		}
 		$(".btn-scope-type").removeClass("active");
