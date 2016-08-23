@@ -596,6 +596,9 @@ jQuery(document).ready(function()
 		$(".my-main-container").scroll(function(){ //console.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
+		          if(location.hash.indexOf("#default.live")==0){
+		          	heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+		          }
 		          var heightWindow = $(window).height();
 		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
 		            console.log("scroll in news/index MAX");

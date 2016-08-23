@@ -479,7 +479,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 					loadingData = false;
 					$(".my-main-container").scroll(function(){ console.log(loadingData, scrollEnd);
 				    if(!loadingData && !scrollEnd){
-				          var heightContainer = $(".my-main-container")[0].scrollHeight;
+				          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
 				          var heightWindow = $(window).height();
 				          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
 				            console.log("scroll in news/index MAX");
