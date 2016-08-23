@@ -123,12 +123,12 @@
         [ ] bug : une décision terminé, on peut toujours voté dessus
         [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
         [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
-        [X] remettre le contexte sur la room dans mon DDA
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
         [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
-        [ ] ajouter un scope geo sur une proposition
+        [X] remettre le contexte sur la room dans mon DDA
+        [X] ajouter un scope geo sur une proposition
     [X] bug sur event > globale search
     [X] bug : qrCode explain 
     [X] dashboard 
