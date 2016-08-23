@@ -17,7 +17,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	    		
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
 	    	</a>
-	    	<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()"">
+	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()"">
 	    		
 	    		<i class="fa fa-history"></i> <?php echo Yii::t("event","Old events",null,Yii::app()->controller->module->id) ?>
 	    	</a>
@@ -32,16 +32,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<tbody>
 					<?php
 					if(isset($events) && count($events)>0 ) { 
+						$nbOldEvents = 0;
 						foreach ($events as $e) {
-							$oldEventStyle = "display:none;";
-							$oldEventClass = "oldEvent";
-							if (@$e["endDate"] && @$e["endDate"]->sec < time()) {
-								$oldEventStyle = "";
-								$oldEventClass = "oldEvent";
+							if (@$e["endDate"] && @$e["endDate"]->sec > time()) {
+								$eventStyle = "";
+								$eventClass = "";
+							} else {
+								$eventStyle = "display:none;";
+								$eventClass = "oldEvent";
+								$nbOldEvents++;
 							}
 
 						?>
-						<tr class="<?php echo $oldEventClass ?>" style="<?php echo $oldEventStyle ?>" id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
+						<tr class="<?php echo $eventClass ?>" style="<?php echo $eventStyle ?>" id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
 							<td class="center hidden-sm hidden-xs" style="padding-left: 18px; ">
 								<?php  
 								$url = '#event.detail.id.'.$e["_id"];
@@ -133,7 +136,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </div>
 
 <script type="text/javascript">
+	var nbOldEvents = <?php echo (String) $nbOldEvents;?>;
 	jQuery(document).ready(function() {	 
+		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
 
 		var itemId = '<?php echo @$contextId;?>';
 		$('.init-event').off().on("click", function(){
