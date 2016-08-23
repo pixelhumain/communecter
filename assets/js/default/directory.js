@@ -227,7 +227,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
                         if(type!="city" && id != userId && userId != null && userId != ""){
                         str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                              'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+                              'data-toggle="tooltip" data-placement="right" data-original-title="Suivre"'+
                               " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                                   "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                                 "</a>";
@@ -425,10 +425,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
 		//console.log(formData);
+    var linkType = (type == "events") ? "connect" : "follow";
 		if ($(this).attr("data-ownerlink")=="follow"){
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/follow",
+				url: baseUrl+"/"+moduleId+"/link/"+linkType,
 				data: formData,
 				dataType: "json",
 				success: function(data) {
@@ -477,3 +478,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $("#searchBarText").val(value);
     startSearch(0, indexStepInit);
   }
+
+  function bindRefreshBtns () { 
+$('.item-scope-checker, .item-tag-checker,.btn-filter-type').click(function(e){
+      //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+      str = '<div class="center" id="footerDropdown">';
+      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
+      str += '<button class="btn btn-default" onclick="startSearch(0, indexStepInit);"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
+      str += "</div>";
+      $("#dropdown_search").html( str );
+  });
+   }
