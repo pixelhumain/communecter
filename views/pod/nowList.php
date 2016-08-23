@@ -1,9 +1,7 @@
 
 <div class="col-xs-12 no-padding col-nowList"  data-tpl="pod.nowList">
-    <?php foreach ($result as $key => $v) { ?>
-    <div class="border-dark margin-bottom-15 col-xs-12 no-padding">
-        <div class="pull-left">
-            <?php 
+    <?php foreach ($result as $key => $v) 
+    { 
                 $specs = Element::getElementSpecsByType(@$v["type"]);
 
                  $type = null;
@@ -11,17 +9,28 @@
                     $type = @$v["type"];
                 else if(@$v["typeSig"])
                     $type = $v["typeSig"];
+    ?>
+    <div class="border-dark margin-bottom-15 col-xs-12 no-padding el-nowList <?php echo $type?>">
+        <div class="pull-left">
+            <?php 
 
 
                 $classMin = "";
                 $img = Element::getImgProfil($v, "profilMediumImageUrl", $this->module->assetsUrl);
-                if(!@$v["profilMediumImageUrl"] || $v["profilMediumImageUrl"] == "") $classMin = "min";
-            ?>
-            <a href="<?php echo $specs["hash"].@$v["_id"]; ?>" class="lbh">
-                <img src="<?php echo $img ?>" class="pull-left img-responsive elemt_img <?php echo $classMin; ?>">
-            </a>
+                if(!@$v["profilMediumImageUrl"] || $v["profilMediumImageUrl"] == "") 
+                    $classMin = "min";
+            
+                $style = "";
+                if(@$v["profilMediumImageUrl"] && @$v["profilMediumImageUrl"] != ""){ ?>
+                    <a href="<?php echo $specs["hash"].@$v["_id"]; ?>" class="lbh">
+                    <img src="<?php echo $img ?>" class="pull-left img-responsive elemt_img <?php echo $classMin; ?>">
+                    </a>
+                <?php 
+                $style = "margin-top: -32px;";
+                } ?> 
+            
            
-            <div class="elemt_name">
+            <div class="elemt_name" style="<?php echo $style ?>">
 
                 <i style="color:<?php echo @$specs["color"]?>" class="fa fa-<?php echo $specs["icon"]?>"></i> 
                 <?php 

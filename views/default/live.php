@@ -22,7 +22,7 @@
 	/*en ce moment*/
 	.elemt_name {
         font-size: 16px;
-        margin-top: -32px;
+        
         height: 32px;
         background-color: rgba(255, 255, 255, 0.85);
         padding: 5px 15px;
@@ -206,16 +206,17 @@
 
 <div class="col-xs-12 col-md-3 col-updated">
 	
-	<a href="javascript:toggle('#nowListevents','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
-	<a href="javascript:toggle('#nowListDDA','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
-	<a href="javascript:toggle('#nowListprojects','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
-	<a href="javascript:toggle('#nowListorga','.col-nowListC')" class="pull-right btn btn-sm btn-default"><i class="fa fa-users "></i></a>
-	<a href="javascript:enlargeNow();" class="pull-right btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
+	<h3 class="text-red homestead titleNowEvents">
+		<i class="fa fa-clock-o"></i> En ce moment
+		<a href="javascript:toggle('.el-nowList','.el-nowList')" class="pull-right btn btn-sm btn-default">Tout</a>
+		<a href="javascript:toggle('.event,.events','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
+		<a href="javascript:toggle('.entre,.action,.discuss','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
+		<a href="javascript:toggle('.project,.projects','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
+		<a href="javascript:toggle('.organization,.organisations','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-users "></i></a>
+		<a href="javascript:enlargeNow();" class="pull-right btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
+	</h3>
 	<div class="space20"></div>
-	<div class="col-xs-12 no-padding col-nowListC" id="nowListevents"></div>
-	<div class="col-xs-12 no-padding col-nowListC" id="nowListDDA"></div>
-	<div class="col-xs-12 no-padding col-nowListC" id="nowListprojects"></div>
-	<div class="col-xs-12 no-padding col-nowListC" id="nowListorga"></div>
+	<div class="col-xs-12 no-padding col-nowListC" id="nowList"></div>
 
 </div>
 
@@ -279,9 +280,8 @@ jQuery(document).ready(function() {
 	$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
 	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
     $('.tooltips').tooltip();
+    searchPage = true;
 	startSearch(true);
-
-
 });
 
 function enlargeNow() { 
@@ -289,47 +289,39 @@ function enlargeNow() {
 		$("#enlargeNow").attr("class","fa fa-caret-right");
 		$(".col-feed").attr("class","hidden col-feed closed");
 		$(".col-updated").attr("class","col-xs-12 col-updated");
-		$("#nowListevents").attr("class","col-xs-3 no-padding");
-		$("#nowListDDA").attr("class","col-xs-3 no-padding");
-		$("#nowListprojects").attr("class","col-xs-3 no-padding");
-		$("#nowListorga").attr("class","col-xs-3 no-padding");
+		$("#nowList").attr("class","col-xs-12 no-padding");
+		$(".el-nowList").removeClass("col-xs-12").addClass('col-xs-3');
+		
 	} else {
 		$("#enlargeNow").attr("class","fa fa-caret-left");
 		$(".col-feed").attr("class","col-xs-12 col-md-9 col-feed");
 		$(".col-updated").attr("class","col-xs-12 col-md-3 col-updated");
-		$("#nowListevents").attr("class","col-xs-12 no-padding");
-		$("#nowListDDA").attr("class","col-xs-12 no-padding");
-		$("#nowListprojects").attr("class","col-xs-12 no-padding");
-		$("#nowListorga").attr("class","col-xs-12 no-padding");
+		$("#nowList").attr("class","col-xs-12 no-padding");
+		$(".el-nowList").removeClass('col-xs-3').addClass("col-xs-12");
 	}
 }
 
 function loadLiveNow () { 
 
 	var searchParams = {
-	  "name":"",
+	  "name":$('.input-global-search').val(),
 	  "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>"], 
+      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
-      "indexMax" : 10 
+      "indexMax" : 40 
   	};
 
-	ajaxPost( "#nowListevents", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+	ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
-
-		if( !$(".titleNowEvents").length ){
-			$("#nowListevents").prepend('<h3 class="text-red homestead pull-left titleNowEvents"><i class="fa fa-clock-o"></i> En ce moment : évènements</h3>');
-			$("#nowListevents").append('<a href="#event.eventsv" class="lbh btn btn-sm btn-default">Vous bougez localement ?</a>');
-		}
 	 } , "html" );
 
-	searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
+	/*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
 	ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length ){
@@ -352,7 +344,7 @@ function loadLiveNow () {
 		bindLBHLinks();
 		if( !$(".titleNowDDA").length )
 			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
-	 } , "html" );
+	 } , "html" );*/
 }
 
 function buildHotStuffList(list) { 

@@ -87,6 +87,7 @@
         [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
+    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
     [ ] onChange search criteria, empty list + reload button
     [X] interface ND
         [X] menu

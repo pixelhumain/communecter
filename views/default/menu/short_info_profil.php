@@ -50,6 +50,10 @@
 
     $('.input-global-search').keyup(function(e){
         clearTimeout(timeoutGS);
+        if($(".newsTL")){
+          $(".newsTL").html("");
+          $("#nowListevents,#nowListDDA,#nowListprojects,#nowListorga").html("");
+        }
         if($('*[data-searchPage]').length > 0 && searchPage ){
           $('#searchBarText').val( $('.input-global-search').val() );
           timeoutGS = setTimeout(function(){startSearch(false); }, 800);
