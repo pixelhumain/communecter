@@ -24,7 +24,6 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	simpleUserData="";
 
     filter = new Object;
-
     //filter.parent=parent;
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
@@ -36,7 +35,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
 	      "tagSearch" : tagSearch, 
-	      "searchLocalityCITYKEY" : ["97414"],
+	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
 	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
@@ -44,7 +43,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	      "type" : "city"
 	      //"searchBy" : levelCommunexionName[levelCommunexion]
 	    };
-    }
+    }	
 
 	console.log("loadStream", dateLimit);
 	console.dir(filter);
