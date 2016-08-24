@@ -236,9 +236,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     padding-bottom: 10px;
 }
 #btn-submit-form {
-    right: 30px;
+    /*right: 30px;
     position: absolute;
-    bottom: 10px;
+    bottom: 10px;*/
+    position:relative;
+    float: right;
 }
 .form-group.tagstags{
 	margin-bottom:0px !important;
@@ -340,6 +342,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
+				
+				<div class="list_tags_scopes col-md-9 no-padding margin-bottom-10"></div>
+
 				<?php if((@$canManageNews && $canManageNews==true) 
 							|| (@Yii::app()->session["userId"] 
 							&& $contextParentType==Person::COLLECTION 
@@ -348,7 +353,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
 				
-				<div class="dropdown">
+				<div class="dropdown col-md-9">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<?php if (@$private && ($contextParentType==Project::COLLECTION || $contextParentType==Organization::COLLECTION)){ ?>
@@ -385,7 +390,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</li>-->
 					</ul>
 				</div>		
-				<?php }else if($type=="city"){ ?>
+				<?php } ?>
+
+				<?php if($type=="city"){ ?>
 					<?php /* ?>
 					<input type="hidden" name="cityInsee" value=""/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
@@ -393,16 +400,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
 					</div><?php */ ?>
 					<input type="hidden" name="scope" value="public"/>
-				
 				<?php } ?>
-				<div id="" class="list_tags_scopes col-md-9 col-sm-9 col-xs-6 no-padding"></div>
-					
+									
+				
 				<?php if((@$canManageNews && $canManageNews=="true") || (
 						@Yii::app()->session["userId"] && 
 						$contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
-						
-						
-
+				
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
 						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
@@ -410,13 +414,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<?php } else { ?>
 						<input type="hidden" name="scope" value="public"/>
 						<?php } ?>
+
 				<?php }else{ if($contextParentType==Event::COLLECTION){?>
+					
 					<input type="hidden" name="scope" value="restricted"/>
 
 				<?php } else { ?>
+
 					<input type="hidden" name="scope" value="private"/>
+
 				<?php } } ?>
-				<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
+				<div class="row col-md-3 pull-right">
+					<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
+				</div>
 			</div>
 		</form>
 	 </div>
@@ -447,6 +457,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div id="timeline" class="col-md-12">
 					<div class="timeline">
 						<div class="newsTL">
+							<div class="spine"></div>
 						</div>
 					</div>
 				</div>

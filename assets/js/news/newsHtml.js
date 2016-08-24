@@ -342,7 +342,7 @@ function buildLineHTML(newsObj,idSession,update)
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
 
-	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
 						tags+

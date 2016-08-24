@@ -961,19 +961,31 @@ function bindRefreshBtns() {
 		var method = "startSearch(0, indexStepInit);"
 		if( $(".newsTL").length){
 			searchFeed = ".newsTL";
-			method = "startSearch(false);"
+			method = "reloadNewsSearch();"
 		}
-	    $('.item-scope-checker, .item-tag-checker,.btn-filter-type').click(function(e){
+	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
 	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
 	          str = '<div class="center" id="footerDropdown">';
 	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
 	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
 	          str += "</div>";
-	          $(searchFeed).html( str );
+	          if(location.hash.indexOf("#default.live")!=0){ 
+		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+		          $(searchFeed).append( str );
+		      }else{
+		          $(searchFeed).html( str );
+		      }
 	      });
 	}
 }
-
+function reloadNewsSearch(){
+	if(location.hash.indexOf("#default.live")==0)
+    	startSearch(false);
+	else{
+		dateLimit = 0;
+		loadStream(0, 5);
+	}
+}
 /* **************************************
 maybe movebale into Element.js
 ***************************************** */

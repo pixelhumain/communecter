@@ -142,7 +142,12 @@ jQuery(document).ready(function()
 	showTagsScopesMin("#scopeListContainer");
 
 	$('#btn-start-search').click(function(e){
-		startSearch(false);
+		if(location.hash.indexOf("#default.live")==0)
+	    	startSearch(false);
+		else{
+			dateLimit = 0;
+			loadStream(0, 5);
+		}
     });
 
 	$(".btn-filter-type").click(function(e){
@@ -191,7 +196,7 @@ jQuery(document).ready(function()
 
 });
 
-
+var allNewsType = ["news", "idea", "question", "announce", "information"];
 
 function initSelectTypeNews(){
 
@@ -225,7 +230,12 @@ function initSelectTypeNews(){
 		else 
 		searchType = $.merge( ["organizations", "projects", "events", "needs"], allNewsType);
 
-	    startSearch(false);
+		if(location.hash.indexOf("#default.live")==0)
+	    	startSearch(false);
+		else{
+			dateLimit = 0;
+			loadStream(0, 5);
+		}
 	    
 	    //showFormBlock(true);
   	});

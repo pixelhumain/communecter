@@ -24,7 +24,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	simpleUserData="";
 
     filter = new Object;
-    filter.parent=parent;
+    //filter.parent=parent;
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
@@ -45,7 +45,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	    };
     }	
 
-	console.log("loadStream");
+	console.log("loadStream", dateLimit);
 	console.dir(filter);
 	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
     if(typeof(dateLimit)!="undefined"){
@@ -55,7 +55,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	       	dataType: "json",
 	       	data: filter,
 	    	success: function(data){
-		    	//console.log("LOAD NEWS BY AJAX");
+		    	console.log("LOAD NEWS BY AJAX");
 		    	//console.log(data.news);
 		    	if(data){
 					buildTimeLine (data.news, indexMin, indexMax);
@@ -80,7 +80,8 @@ var scopesFilterListHTML = "";
 function buildTimeLine (news, indexMin, indexMax)
 {
 	if (dateLimit==0){
-		$(".newsTL").html('<div class="spine"></div>');
+		//$(".newsTL").html('<div class="spine"></div>');
+		$(".newsFeedNews, #backToTop, #footerDropdown").remove();
 	}
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp");
@@ -137,22 +138,24 @@ function buildTimeLine (news, indexMin, indexMax)
 		if( dateLimit == 0 && countEntries == 0){
 			var date = new Date(); 
 			form ="";
+
 			if(canPostNews==true){
-				form = "<div class='newsFeed'>"+
-						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
-					"</div>";
-				msg = "Aucune activité.<br/>Soyez le premier à publier ici";
+				// form = "<div class='newsFeed'>"+
+				// 		"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
+				// 	"</div>";
+				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Soyez le premier à publier ici</div>";
 			}
 			else{
-				msg = "Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur";
+				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur.</div>";
 			}
-			newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
+			// newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+			// 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+			// 		'</div>'+
+			newsTLLine = form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews newsFeedNews"+"'><i class='fa fa-ban'></i> "+msg+"</div>";
 		
 			$(".spine").css("bottom","0px");
 			$(".tagFilter, .scopeFilter").hide();
-			
+			//$(".date_separator").remove();
 			$(".newsTL").append(newsTLLine);
 			if(canPostNews==true){
 				if(location.hash.indexOf("#default.live")==0){ 
@@ -160,7 +163,7 @@ function buildTimeLine (news, indexMin, indexMax)
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
 
-				}else{
+				}else{ console.log("newFeedForm");
 					$("#newFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 				}

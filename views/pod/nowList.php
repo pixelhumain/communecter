@@ -109,53 +109,6 @@ function enlargeNow() {
         $(".el-nowList").removeClass('col-xs-3').addClass("col-xs-12");
     }
 }
-
-function loadLiveNow () { 
-
-    var searchParams = {
-      "name":$('.input-global-search').val(),
-      "tpl":"/pod/nowList",
-      "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
-      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "indexMin" : 0, 
-      "indexMax" : 40 
-    };
-
-    ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-     } , "html" );
-
-    /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
-    ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length ){
-            $("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
-            $("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
-        }
-     } , "html" );
-
-    searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
-    ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length ){
-            $("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
-            $("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
-        }
-     } , "html" );
-
-    searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
-    ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length )
-            $("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
-     } , "html" );*/
-}
-
 function buildHotStuffList(list) { 
     $.each(list,function(i,v) { 
         

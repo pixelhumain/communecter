@@ -211,21 +211,6 @@ function showTagsScopesMin(htmlId){
 	});
 	bindRefreshBtns();
 }
-
-function showTagsMin(htmlId){
-	var html =  "";
-	
-	$.each(myMultiTags, function(key, value){
-		var disabled = value.active == false ? "disabled" : "";
-		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
-					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
-					"#" + key + 
-				"</span> ";
-	});
-	$(htmlId).html(html);
-	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
-}
-
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {
 		"organization.addorganizationform": { 
