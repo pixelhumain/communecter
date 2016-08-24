@@ -27,6 +27,9 @@
 [ ] checkout Mention
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
+[ ] donner le choix lorsqu'on est invité a une orga 
+    [ ] inviter les gens a suivre 
+[ ] filtrer par type d'event 
 
 ** @Tango
     [ ] Finir Add member, contributeur et invitation
@@ -192,6 +195,7 @@
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
     [ ] remplacer la map par une url parser dans les QR code
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
 
     * Appli CO
         [ ] login / create account
@@ -205,7 +209,8 @@
         [ ] dda module
             commenting
             voting
-            actions            
+            actions    
+
 * Version 0.14 : Fermé 
     ** @Tango
     [X] Refonte interface DDA
