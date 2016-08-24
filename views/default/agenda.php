@@ -41,7 +41,7 @@
   .btn-tag.bold{
     font-weight:600;
   }
-  #list_tags_scopes span.text-red.disabled{
+  #scopeListContainer span.text-red.disabled{
     color:#DBBCC1 !important;
     font-weight:300 !important;
   }
@@ -123,7 +123,7 @@
   </div>
   <div class="space20"></div>
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
-    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
   </div>
   
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
@@ -177,7 +177,7 @@ jQuery(document).ready(function() {
     }
   });
 
-  showTagsScopesMin("#list_tags_scopes");
+  showTagsScopesMin("#scopeListContainer");
 
 
   $('#btn-start-search').click(function(e){

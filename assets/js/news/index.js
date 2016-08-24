@@ -30,13 +30,13 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
-	//if (typeof(tagSearch) != "undefined") filter.tagSearch=tagSearch;
+	if (typeof(tagSearch) != "undefined") filter.tagSearch=$('#searchTags').val().split(',');
 
 	//console.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
-    	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
+    	//var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
-	      "tagSearch" : tagSearch, 
+	      //"tagSearch" : tagSearch, 
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),

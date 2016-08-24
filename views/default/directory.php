@@ -112,7 +112,7 @@
       </div>
       
     </div>
-    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     
   </div>
   
@@ -166,7 +166,7 @@ jQuery(document).ready(function() {
   });
 
 //  if(userId != 'null')
-  showTagsScopesMin("#list_tags_scopes");
+  showTagsScopesMin("#scopeListContainer");
 
 
   $('#btn-start-search').click(function(e){
