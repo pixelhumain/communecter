@@ -969,12 +969,13 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
 	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
 	          str += "</div>";
-	          if(location.hash.indexOf("#news.index")==0){  console.log("vide news stream perso");
+	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
 		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
 		          $(searchFeed).append( str );
 		      }else { console.log("vide autre news stream perso", searchFeed);
 		          $(searchFeed).html( str );
 		      }
+		      $(".search-loader").html("<i class='fa fa-ban'></i>");
 	      });
 	}
 }

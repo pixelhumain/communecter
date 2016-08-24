@@ -31,6 +31,12 @@
 	.titleNowEvents{
 		margin-top:30px;
 	}
+	
+	#footerDropdown {
+	    position: absolute;
+	    width: 100%;
+	    background-color: white;
+	}
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{

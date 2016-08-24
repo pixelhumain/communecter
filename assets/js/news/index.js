@@ -34,9 +34,9 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 
 	//console.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
-    	//var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
+    	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
-	      //"tagSearch" : tagSearch, 
+	      "tagSearch" : tagSearch, 
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
