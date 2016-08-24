@@ -78,10 +78,10 @@
 	#btn-modal-multi-scope, #btn-modal-multi-tag{
 		border-radius: 30px;
 		border: 0px none;
-		padding: 5px;
+		padding: 8px;
 		width: 35px;
 		height: 35px;
-		margin-top: 2px;
+		margin-top: 0px;
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;

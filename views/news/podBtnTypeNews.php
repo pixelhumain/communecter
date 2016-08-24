@@ -178,8 +178,8 @@ jQuery(document).ready(function()
   			parent = null;
   			parentType = "city";
   			$("input[name='type']").val("public");
-  			showTagsScopesMin(".list_tags_scopes");
-  			$("#scopeListContainer").removeClass("tagOnly");
+  			showTagsScopesMin("#scopeListContainer");
+  			$(".list_tags_scopes").removeClass("tagOnly");
   		}
 		$(".btn-scope-type").removeClass("active");
 		$(this).addClass("active");
