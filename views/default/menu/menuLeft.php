@@ -131,9 +131,8 @@
 		?>
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="javascript:loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId'] ?>')" 
-				data-hash="#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu 
+		<a href=#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh
 				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
@@ -145,10 +144,16 @@
 					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
 		</a>
 		<hr>
-		<?php } ?>
+		
+		<a href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-newspaper-o tooltips"
+					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
+					<span class="lbl-btn-menu">Mon journal</span>
+		</a>
+		<hr>
 
-		<?php //var_dump($me);
-		 if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
 				id="menu-btn-news-network"
 				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
