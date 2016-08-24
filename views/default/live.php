@@ -37,6 +37,7 @@
 	    width: 100%;
 	    background-color: white;
 	}
+	
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
@@ -67,6 +68,12 @@
 </style>
 
 
+<div class="row headerHome">
+<?php 
+	if(!@Yii::app()->session["userId"])
+		$this->renderPartial('../pod/headerHome');
+?>
+</div>
 
 <div class="col-xs-12 col-md-9 col-feed"  data-tpl="default.live">
 

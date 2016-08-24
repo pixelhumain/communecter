@@ -210,6 +210,7 @@ jQuery(document).ready(function() {
 	// 	addScopeToMultiscope($("#input-add-multi-scope").val());
 	// });
 
+
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});

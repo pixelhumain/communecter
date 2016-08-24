@@ -78,7 +78,7 @@
 
 
 
-  <?php if(@$type=="city"){ ?>
+  <?php if(@$type=="city" && @Yii::app()->session["userId"]){ ?>
   	<div class="pull-right margin-top-10">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
   		<div class="btn-group btn-group-sm inline-block scope-global-community">
