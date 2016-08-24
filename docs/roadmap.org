@@ -116,7 +116,6 @@
   ** @Tib 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] latest DDA on city page
-    [ ] switcher de home a dashB
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
@@ -132,7 +131,7 @@
     [X] wisiwig sur les commentaires
     [X] bug sur event > globale search
     [X] bug : qrCode explain 
-    [X] dashboard 
+    [X] dashboard
         [X] live controller 
             [X] not connected > shows live , public information 
             [X] getActivity
