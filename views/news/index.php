@@ -554,15 +554,15 @@ var contentKey = "<?php echo Document::IMG_SLIDER; ?>";
 var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 var locality = "<?php echo @$locality ?>";
 var searchBy = "<?php echo @$searchBy ?>";
-var tagSearch = "<?php echo @$tagSearch ?>";
+var tagSearch = "<?php //echo @$tagSearch ?>";
 var peopleReference=false;
 var mentionsContact = [];
 jQuery(document).ready(function() 
 {
 //	console.log(dataNewsSearch);
-	if(contextParentType=="city"){
-		$("#cityInsee").val(inseeCommunexion);
-		$("#cityPostalCode").val(cpCommunexion);
+	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
+		//$("#cityInsee").val(inseeCommunexion);
+		//$("#cityPostalCode").val(cpCommunexion);
 		$(".cityBadge").html("<i class=\"fa fa-university\"></i> "+cpCommunexion);
 	}else{
 		$(".list_tags_scopes").addClass("tagOnly");
@@ -615,7 +615,7 @@ jQuery(document).ready(function()
 		$(".my-main-container").scroll(function(){ //console.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
-		          if(location.hash.indexOf("#default.live")==0){
+		          if(isLiveGlobal()){
 		          	heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
 		          }
 		          var heightWindow = $(window).height();

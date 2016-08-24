@@ -63,6 +63,9 @@ $this->renderPartial('../default/panels/toolbar');
   .bborder{
     border-bottom: 1px solid #ccc;
   }
+  .scope-global-community{
+    display: none;
+  }
 
 </style>
 <!-- start: PAGE CONTENT -->
@@ -199,7 +202,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 <div class="col-xs-12">
-	<?php $this->renderPartial('../default/live'); ?>
+	<?php $this->renderPartial('../default/live', array("lockCityKey" => City::getUnikey($city))); ?>
 </div>
 
 
@@ -210,12 +213,16 @@ $this->renderPartial('../default/panels/toolbar');
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
+//var cityKey = "<?php //echo City::getUnikey($city) ?>";
 var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
+var liveScopeType = "global";
 
 jQuery(document).ready(function() {
+
   $(".main-col-search").addClass("cityHeadSection");
+
 
   var iconCity = "<i class='fa fa-university'></i>";
   var mine = (city["insee"] == inseeCommunexion && city["cp"] == cpCommunexion) ? " MA" : "";

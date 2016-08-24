@@ -181,7 +181,9 @@ jQuery(document).ready(function() {
 	setTitle("Live'n'Direct > " + liveType, "<i class='fa fa-heartbeat '></i>");
 	
 	//showTagsScopesMin("#list_tags_scopes");
-	
+	<?php if(@$lockCityKey){ ?>
+		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php } ?>
 	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();

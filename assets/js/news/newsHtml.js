@@ -379,7 +379,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			if(location.hash.indexOf("#default.live")==0){ 
+			if(isLiveGlobal()){ 
 				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 				$("#formCreateNewsTemp").css("display", "inline");
 				$(".newsFeedForm").css("display", "none");

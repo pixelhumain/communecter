@@ -81,7 +81,7 @@
   <?php if(@$type=="city"){ ?>
   	<div class="pull-right margin-top-10">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
-  		<div class="btn-group btn-group-sm inline-block">
+  		<div class="btn-group btn-group-sm inline-block scope-global-community">
 		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
 	  		data-toggle="tooltip" data-placement="bottom" title="Tout le réseau">
 		  	<i class="fa fa-globe"></i>

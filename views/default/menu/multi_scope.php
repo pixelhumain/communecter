@@ -174,7 +174,7 @@
    			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
    			
    			<blockquote>
-   				 <strong>Exemple : <strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
+   				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
    			</blockquote>
    		</div>
    </ul>
@@ -497,6 +497,14 @@ function rebuildSearchScopeInput()
 
 	//if( typeof searchCallback == "function" )
 		//searchCallback();
+}
+
+
+function lockScopeOnCityKey(cityKey){ console.log("lockScopeOnCityKey", cityKey);
+	$("#searchLocalityCITYKEY").val(cityKey);
+	$("#searchLocalityCODE_POSTAL").val("");
+	$("#searchLocalityDEPARTEMENT").val("");
+	$("#searchLocalityREGION").val("");
 }
 
 </script>

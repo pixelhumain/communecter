@@ -214,6 +214,9 @@ function showTagsScopesMin(htmlId){
 	});
 	bindRefreshBtns();
 }
+
+
+
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {
 		"organization.addorganizationform": { 

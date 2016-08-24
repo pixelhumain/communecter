@@ -1,4 +1,6 @@
-
+function isLiveGlobal(){
+	return typeof liveScopeType != "undefined";// && liveScopeType == "global";
+}
 /*
 * function loadStream() loads news for timeline: 5 news are download foreach call
 * @param string contextParentType indicates type of wall news
@@ -31,7 +33,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	//if (typeof(tagSearch) != "undefined") filter.tagSearch=tagSearch;
 
 	//console.log("index.js liveScopeType", liveScopeType);
-    if(location.hash.indexOf("#default.live")==0 && typeof liveScopeType != "undefined" && liveScopeType == "global"){ 
+    if(isLiveGlobal() && liveScopeType == "global"){ 
     	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
 	      "tagSearch" : tagSearch, 
@@ -158,7 +160,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			//$(".date_separator").remove();
 			$(".newsTL").append(newsTLLine);
 			if(canPostNews==true){
-				if(location.hash.indexOf("#default.live")==0){ 
+				if(isLiveGlobal()){ 
 					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
@@ -833,7 +835,7 @@ function saveNews(){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
 				
-				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0 && liveScopeType=="global" ){
+				if($('#searchLocalityCITYKEY') && isLiveGlobal() && liveScopeType=="global" ){
 					
 					newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
 				    newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');
