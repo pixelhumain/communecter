@@ -24,6 +24,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	simpleUserData="";
 
     filter = new Object;
+
     //filter.parent=parent;
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
@@ -43,7 +44,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	      "type" : "city"
 	      //"searchBy" : levelCommunexionName[levelCommunexion]
 	    };
-    }	
+    }
 
 	console.log("loadStream", dateLimit);
 	console.dir(filter);

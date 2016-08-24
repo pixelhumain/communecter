@@ -165,8 +165,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</div>
 					<div class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
 						<i class="fa fa-calendar"></i> 
-							De <a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a>
-						<label id="labelTo">Au</label> <a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a>
+							<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a>
+						<label id="labelTo"><?php echo Yii::t("common","To"); ?></label> <a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a>
 					</div>
 					<div class="col-md-6 no-padding">
 						<label class="control-label text-dark">

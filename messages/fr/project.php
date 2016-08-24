@@ -46,8 +46,9 @@ return array(
 	"Add<br/>A new<br/>Property" => "Ajouter<br/>Une nouvelle<br/>Propriété",
 	"No contributor for this project" => "Pas de contributeur sur le projet",
 	"Your project is updated" => "Projet mis à jour avec succés",
-	"Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects" => "Créer ou Contribuer<br>Construire<br>Trouver de l'Aide<br>Organiser des Projets<br>Localement ou à distance"
-
+	"Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects" => "Créer ou Contribuer<br>Construire<br>Trouver de l'Aide<br>Organiser des Projets<br>Localement ou à distance",
+	"Old projects" => "Anciens projects",
+	"Display/Hide old projects" => "Afficher/Cacher les anciens projets",
 
 	//Erreur
 );

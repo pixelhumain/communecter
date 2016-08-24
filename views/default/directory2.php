@@ -850,24 +850,17 @@ if (@$follows){
 <!-- end: PAGE CONTENT-->
 
 <?php 
-    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-    //et pour ouvrir le panel info correctement
-    if(@$people)
-	    foreach($people as $key => $data) { 
-	    	$people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    if(@$organizations)
-    	foreach($organizations as $key => $data) { 
-    		$organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    if(@$events)
-    	foreach($events as $key => $data) { 
-    		$events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    if(@$projects)
-    	foreach($projects as $key => $data) { 
-    		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
     if(@$contextData) $contextMap = array("context" => $contextData);
-    if(@$people)          $contextMap = array_merge($contextMap, $people);
+    //Add follows : people, organization and project
+    if(@$follows) {    
+    	if (@$follows[Person::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Person::COLLECTION]);
+    	if (@$follows[Organization::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Organization::COLLECTION]);
+    	if (@$follows[Project::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Project::COLLECTION]);
+    }
     if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
     if(@$events)         $contextMap = array_merge($contextMap, $events);
     if(@$projects)        $contextMap = array_merge($contextMap, $projects);
