@@ -372,33 +372,13 @@
 		});
 
 	});
-<<<<<<< HEAD
 
 	function bindAboutPodElement() {
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(contextId, "<?php echo $type ?>", contextData);
 			showMap(true);
 		});		
-=======
-	function bindAboutPodElement() {
-		/*$("#editElementDetail").click(function () {
-			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-			//	getBackDetails(contextId,"<?php echo $type ?>");
-			switchMode();
-		});*/
 
-		$("#editGeoPosition").click(function(){
-			Sig.startModifyGeoposition(contextId, "<?php echo $type ?>", contextData);
-			showMap(true);
-		});
-	
-		/*$(".editConfidentialityBtn").click(function(){
-	    	console.log("confidentiality");
-	    	$("#modal-confidentiality").modal("show");
-	    });*/
-	
-		
->>>>>>> development
 	}
 
 
@@ -468,9 +448,7 @@
 		
 		$.fn.editable.defaults.mode = 'popup';
 
-		/*$('.editable-context').editable({
-
-
+		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
 			onblur: 'submit',
@@ -487,7 +465,7 @@
 					return data.msg;
 			}
 
-		});*/
+		});
 
 		
 		//Type Organization

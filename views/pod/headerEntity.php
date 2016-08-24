@@ -292,8 +292,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 
 		<?php 
-		//var_dump($admin);
-		//if(!empty($admin) && $admin == true){ ?>
+		var_dump($admin);
+		if(!empty($admin) && $admin == true){ ?>
 		<div id="divBtnDetail" class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
 			<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<a href="javascript:" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
@@ -312,7 +312,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 			</a>
 			<?php } ?>
 		</div>
-		<?php //} ?>
+		<?php } ?>
 		<?php 
 			$colXS = "3";
 			if(!isset($entity["tags"]) && !isset($entity["gamification"])) $colXS = "3 hidden";
