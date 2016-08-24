@@ -138,7 +138,7 @@
 
     }
 
-    error_log("load IndexDefault");
+   // error_log("load IndexDefault");
 ?>
 
 <?php $this->renderPartial('./menu/menuCommunexion'); ?>

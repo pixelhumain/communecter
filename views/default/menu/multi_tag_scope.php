@@ -132,6 +132,9 @@
 	.tagOnly .list-select-scopes{
 		display: none;
 	}
+	.visible-empty{
+		display: none;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{

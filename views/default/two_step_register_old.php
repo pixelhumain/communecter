@@ -26,11 +26,7 @@
 		padding-top:50px;
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
-	/*.menu-button-left,  .menu-button, .menu-info-profil, 
-	.globale-announce, .menu-left-container hr,
-	.footer-menu-left {*/
-	.menu-button-left,  .menu-button, 
-	.group-globalsearch, .topMenuButtons, #btn-show-floopdrawer, .helloasso,
+	.menu-button-left,  .menu-button, .menu-info-profil, 
 	.globale-announce, .menu-left-container hr,
 	.footer-menu-left {
 		display:none;
@@ -197,37 +193,9 @@
 		}
 	}
 
-	.visible-empty{
-		display: inline-block !important;
-	}
+
 </style>
-
 <div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
-
-	<div class="col-md-12 center bg-dark section-tsr" id="congrats">
-		<h1 class="homestead" style="color:#7ACF5B;">
-			<i class="fa fa-thumbs-up fa-2x"></i>
-			 Félicitation <span class="text-yellow"><?php echo $userConnected["name"]; ?></span>
-		</h1>
-
-		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Votre compte personnel est sur le point d'être activé !
-			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
-		</span>
-	</div>
-
-	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center padding-15">
-		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Pour commencer, il est important de définir vos <strong>#tags</strong> et <strong>lieux favoris</strong> :<br><br>
-			<button class="btn bg-azure" id="open-multi-tag"><i class="fa fa-tags"></i> Mes tags favoris</button>
-			<button class="btn bg-azure"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
-
-			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
-		</span>
-	</div>
-</div>
-
-<div class="col-md-12 no-padding hidden" id="whySection" style="max-width:100%;">
 
 	<div class="col-md-12 center bg-dark section-tsr" id="congrats">
 		<h1 class="homestead" style="color:#7ACF5B;">
@@ -451,19 +419,6 @@
 		console.log("userConnected", countryCommunexion);
 		console.dir(userConnected);
 	
-		$("#open-multi-tag").click(function(){
-			setTimeout(function(){
-				$("#dropdown-content-multi-tag").addClass("open");
-			}, 200);
-		})
-
-		$("#open-multi-scope").click(function(){ 
-			setTimeout(function(){
-				$("#dropdown-content-multi-scope").addClass("open");
-			}, 200);
-		})
-
-		/***************************/
 		if(countryCommunexion != ""){
 			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
 		}

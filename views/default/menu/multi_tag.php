@@ -61,6 +61,9 @@
 	      		</div>	      			
       		</div>    		
       	</div>
+   		<div class="panel-body padding-bottom-10 visible-empty">
+   			<blockquote>Votre liste de #tags favoris permet au système de vous envoyer le contenu qui vous intéresse.</blockquote>
+   		</div>
    </ul>
 </div>
 

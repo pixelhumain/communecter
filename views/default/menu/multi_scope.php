@@ -166,6 +166,10 @@
 	      		</div>
 			</div>   		
       	</div>
+
+   		<div class="panel-body padding-bottom-10 visible-empty">
+   			<blockquote>Votre liste de lieux favoris permet au système de récolter les informations en fonction de lieux ou des zones géographique qui vous intéressent le plus.</blockquote>
+   		</div>
    </ul>
 </div>
 <input id="searchLocalityCITYKEY" type="hidden" />

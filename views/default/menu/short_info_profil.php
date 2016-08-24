@@ -25,7 +25,7 @@
     //if(isset(Yii::app()->session['userId'])) 
     $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    <div class="input-group inline">
+    <div class="input-group group-globalsearch inline">
       <span class="input-group-addon" id="basic-addon1">
         <i class="fa fa-search text-dark searchIcon tooltips hidden-xs" 
            data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
