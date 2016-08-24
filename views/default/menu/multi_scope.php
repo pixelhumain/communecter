@@ -167,8 +167,15 @@
 			</div>   		
       	</div>
 
-   		<div class="panel-body padding-bottom-10 visible-empty">
-   			<blockquote>Votre liste de lieux favoris permet au système de récolter les informations en fonction de lieux ou des zones géographique qui vous intéressent le plus.</blockquote>
+   		<div class="panel-body padding-10 visible-empty text-dark">
+   			<blockquote>
+   				Pour rester en contact permanent avec les zones géographiques qui vous intéressent le plus, définissez votre liste de lieux favoris, en sélectionnant <strong>des communes, des codes postaux, des départements, ou des régions</strong>.
+   			</blockquote>
+   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
+   			
+   			<blockquote>
+   				 <strong>Exemple : <strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
+   			</blockquote>
    		</div>
    </ul>
 </div>

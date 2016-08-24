@@ -200,6 +200,11 @@
 	.visible-empty{
 		display: inline-block !important;
 	}
+	.visible-empty blockquote{
+		/*color:grey;*/
+		font-size:16px;
+		border-left: 5px solid #a7c9c4;
+	}
 </style>
 
 <div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
@@ -220,7 +225,7 @@
 		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
 			Pour commencer, il est important de définir vos <strong>#tags</strong> et <strong>lieux favoris</strong> :<br><br>
 			<button class="btn bg-azure" id="open-multi-tag"><i class="fa fa-tags"></i> Mes tags favoris</button>
-			<button class="btn bg-azure"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
+			<button class="btn bg-azure" id="open-multi-scope"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
 
 			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
 		</span>
