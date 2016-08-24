@@ -116,6 +116,7 @@
   ** @Tib 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] latest DDA on city page
+    [ ] search by name on live page
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
@@ -190,7 +191,8 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-     
+    [ ] remplacer la map par une url parser dans les QR code
+
     * Appli CO
         [ ] login / create account
         [ ] define scope

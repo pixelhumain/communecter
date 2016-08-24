@@ -36,7 +36,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
 	      "tagSearch" : tagSearch, 
-	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+	      "searchLocalityCITYKEY" : ["97414"],
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
 	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
