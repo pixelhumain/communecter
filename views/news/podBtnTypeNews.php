@@ -216,7 +216,8 @@ function initSelectTypeNews(){
 	    $(".btn-type-news").removeClass("active");
 	    $(this).addClass("active");
 	    
-	    $("input[name='type']").val(type);
+	    var newsType = type != "all" ? type : "news";
+	    $("input[name='type']").val(newsType);
 
 	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
 	    // msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
