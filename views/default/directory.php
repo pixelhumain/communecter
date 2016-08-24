@@ -130,6 +130,7 @@ var searchType = [ "persons", "organizations", "projects", "events" ];
 var allSearchType = [ "persons", "organizations", "projects", "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
+var cityKey = <?php echo (@$_GET['city']) ? "'".$_GET['city']."'" : "null" ?>;
 
 jQuery(document).ready(function() {
 
@@ -213,6 +214,10 @@ jQuery(document).ready(function() {
   $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
     $('.tooltips').tooltip();
     searchPage = true;
+
+    if(cityKey){
+      lockScopeOnCityKey(cityKey);
+    }
   //initBtnToogleCommunexion();
   //$(".btn-activate-communexion").click(function(){
   //  toogleCommunexion();

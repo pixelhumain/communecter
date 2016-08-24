@@ -142,7 +142,7 @@ var searchType = [ "events" ];
 var allSearchType = [ "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
-var cityKey = <?php echo (@$_GET['city']) ? "'".$_GET['city']."'" : null ?>;
+var cityKey = <?php echo (@$_GET['city']) ? "'".$_GET['city']."'" : "null" ?>;
 
 jQuery(document).ready(function() {
 

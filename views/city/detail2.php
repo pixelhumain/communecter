@@ -156,19 +156,19 @@ $this->renderPartial('../default/panels/toolbar');
                 <div class="col-md-12 no-padding" style="margin-top:20px">
                     
                     <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="javascript:;" onclick="discover('#default.directory')" class="btn btn-discover bg-azure">
+                        <a href="#default.directory?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-search"></i>
                         </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div>
                     
                     <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="javascript:;" onclick="discover('#default.agenda')" class="btn btn-discover bg-azure">
+                        <a href="#default.agenda?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-calendar"></i>
                         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
                     </div>
                     
                     <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="javascript:;" onclick="discover('#default.news')" class="btn btn-discover bg-azure">
+                        <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-rss"></i>
                         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div>
@@ -367,11 +367,6 @@ function initCityMap(){
   showMap(false);
   
   Sig.allowMouseoverMaker = true;
-}
-
-function discover(hash){
-  $("#btn-communecter").click();
-  loadByHash(hash);
 }
 
 	
