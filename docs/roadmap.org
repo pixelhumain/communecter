@@ -34,6 +34,10 @@
 [ ] turn notification list into a header panel 
 [ ] ajouter la gestion des quartier Isis dans les scope
 [ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)
+[ ] POI : name,desc, url, location
+    periscope
+    youtube
+    
 
 ** @Tango
     [ ] Finir Add member, contributeur et invitation
@@ -122,6 +126,8 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
+    [ ] login url to live not home
+    [ ] repairing localisation  
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] search by name on live page
     [ ] finish fromNow method
