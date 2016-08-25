@@ -173,7 +173,7 @@
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-heartbeat  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
 		<a href="#default.live.type.idea" id="menu-btn-live-idea"
 				data-hash="#default.live.type.idea"
