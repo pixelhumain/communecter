@@ -988,7 +988,7 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 		          $(searchFeed).html( str );
 		      }
 		      $(".search-loader").html("<i class='fa fa-ban'></i>");
-	      });
+	    });
 	}
 }
 function reloadNewsSearch(){
