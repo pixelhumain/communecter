@@ -31,6 +31,7 @@
     [ ] inviter les gens a suivre 
 [ ] filtrer par type d'event 
 [ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
+[ ] turn notification list into a header panel 
 
 ** @Tango
     [ ] Finir Add member, contributeur et invitation
@@ -120,7 +121,6 @@
 
   ** @Tib 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    [X] live on city page
     [ ] search by name on live page
     [ ] finish fromNow method
     [ ] DDA
@@ -134,6 +134,7 @@
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
+    [X] live on city page
     [X] wisiwig sur les commentaires
     [X] bug sur event > globale search
     [X] bug : qrCode explain 
