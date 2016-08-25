@@ -435,6 +435,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
         );      
 	}
 }		
+
 var loadableUrls = {
 	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
 	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
@@ -621,8 +622,10 @@ function setTitle(str, icon,topTitle) {
 function searchByHash (hash) 
 { 
 	var searchT = hash.split(':');
+	// 1 : is the search term
 	var search = searchT[1]; 
 	scopeBtn = null;
+	// 2 : is the scope
 	if( searchT.length > 2 )
 	{
 		if( searchT[2] == "all" )
@@ -639,6 +642,9 @@ function searchByHash (hash)
 	//startGlobalSearch();
 	if( scopeBtn )
 		$(scopeBtn).trigger("click"); 
+
+	if( searchT.length > 3 && searchT[3] == "map" )
+		setTimeout(function(){ showMap(true); }, 3000);
 }
 
 function checkMenu(urlObj, hash){
@@ -724,7 +730,7 @@ function  processingBlockUi() {
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
-function showAjaxPanel (url,title,icon) { 
+function showAjaxPanel (url,title,icon, showMap) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
@@ -764,6 +770,7 @@ function showAjaxPanel (url,title,icon) {
 			bindLBHLinks();
 
 			$.unblockUI();
+
 
 			// setTimeout(function(){
 			// 	console.log("call timeout MAP MAP");
