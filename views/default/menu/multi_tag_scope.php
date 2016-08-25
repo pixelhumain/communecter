@@ -222,10 +222,10 @@ function showTagsScopesMin(htmlId){
 function showEmptyMsg(){
 	var c=0; $.each(myMultiScopes, function(key, value){ c++; });
 	if(c==0) $("#dropdown-multi-scope .visible-empty").show(); else $("#dropdown-multi-scope .visible-empty").hide();
-alert("il y a " + c + " scope");
+
 	c=0; $.each(myMultiTags, function(key, value){ c++; });
 	if(c==0) $("#dropdown-multi-tag .visible-empty").show(); else $("#dropdown-multi-tag .visible-empty").hide();
-alert("il y a " + c + " tag");
+	
 }
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
