@@ -325,7 +325,7 @@
 			}
 
 			this.Sig.verifyPanelFilter = function (thisData){
-				console.warn("--------------- verifyPanelFilter ---------------------");
+				//console.warn("--------------- verifyPanelFilter ---------------------");
 
 				if(this.panelFilter == "all") return true;
 

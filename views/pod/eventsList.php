@@ -12,10 +12,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised && !isset($noAddLink) ) { ?>
+		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) ) { ?>
 			<a class="tooltips btn btn-xs btn-light-blue lbh" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>">
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
 	    	</a>
+	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()">
+	    		
+	    		<i class="fa fa-history"></i> <?php echo Yii::t("event","Old events",null,Yii::app()->controller->module->id) ?>
+	    	</a>
+	    	
 		
 		<?php } ?>
 	</div>
@@ -25,15 +30,27 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<table class="table table-striped table-hover" id="events">
 				<tbody>
 					<?php
-					if(isset($events) && count($events)>0 )
-					{ 
-						foreach ($events as $e) 
-						{
+					$nbOldEvents = 0;
+					if(isset($events) && count($events)>0 ) { 
+						foreach ($events as $e) {
+							if (@$e["endDate"] && @$e["endDate"]->sec > time()) {
+								$eventStyle = "";
+								$eventClass = "";
+							} else {
+								$eventStyle = "display:none;";
+								$eventClass = "oldEvent";
+								$nbOldEvents++;
+							}
+
 						?>
-						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-							<td class="center  hidden-sm hidden-xs" style="padding-left: 18px; ">
+						<tr class="<?php echo $eventClass ?>" style="<?php echo $eventStyle ?>" id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
+							<td class="center hidden-sm hidden-xs" style="padding-left: 18px; ">
 								<?php  
-								$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
+
+								//$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
+
+								$url = '#event.detail.id.'.$e["_id"];
+
 								if(@$organiserImgs && @$e["links"]["organizer"]){
 
 									$id = array_keys($e["links"]["organizer"])[0];
@@ -100,9 +117,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					?>
 				</tbody>
 			</table>
-			<?php if(isset($events) && count($events)>0 ){ ?>
-			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
-			<?php } ?>
+			
 		<?php if(isset($events) && count($events) == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
@@ -121,8 +136,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </div>
 
 <script type="text/javascript">
-	
+	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
 	jQuery(document).ready(function() {	 
+		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
 
 		var itemId = '<?php echo @$contextId;?>';
 		$('.init-event').off().on("click", function(){
@@ -144,36 +160,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			
 		})
 	})
-	// TODO BOUBOULE - TO DELETE OLD MAN LONG
-	/*function updateMyEvents(nEvent) {
-		if('undefined' != typeof contextMap){
-			contextMap["events"].push(nEvent);
-		}
-		var image = "<i class='fa fa-calendar fa-2x'></i>";
-		if('undefined' != typeof(nEvent["imagePath"]))
-			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
-		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
-							"<td class='center'>" +
-								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" +
-								 	image +
-								 "</a>" +
-							"</td>" +
-							"<td>" +
-								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" + 
-									nEvent["name"] +
-								"</a>" +
-							"</td>" +
-							"<td>" +
-								nEvent["type"] +
-							"</td>" +
-							"<td class='center'>" +
-								"<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-									"<a href='#'' class='btn btn-xs btn-grey tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='left' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
-								"</div>" +
-							"</td>" +
-						"</tr>";
-		$("#events").append(htmlEvent);
-		$('.tooltips').tooltip();
-		$('#infoEventPod').hide();
-	}*/
+
+	function toogleOldEvent() {
+		$(".oldEvent").toggle("slow");
+	}
+
 </script>

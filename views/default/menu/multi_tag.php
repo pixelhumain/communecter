@@ -16,7 +16,7 @@
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-tag"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes tags favoris">
-	<i class="fa fa-tags fa-2x" style=""></i>
+	<i class="fa fa-tags text-dark" style="font-size:19px;"></i>
 	<span class="tags-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-tag">
@@ -61,6 +61,14 @@
 	      		</div>	      			
       		</div>    		
       	</div>
+   		<div class="panel-body padding-10 visible-empty text-dark">
+   			<blockquote>
+   				Vos #tags favoris permettent au système de vous envoyer le contenu qui vous intéresse, 
+   				<strong>en fonction de vos envies</strong>.
+   			</blockquote>
+   			<blockquote><strong>Ajoutez, supprimez, activez, désactivez</strong> vos #tag à volonté.</blockquote>
+   			<blockquote><strong>Exemple :</strong> #biodiversite #nature #laVieEstBelle #sauverLeMonde</blockquote>
+   		</div>
    </ul>
 </div>
 
@@ -133,6 +141,7 @@ function showCountTag(){
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
 	showTagsScopesMin(".list_tags_scopes");
+	showEmptyMsg();
 }
 function tagExists(tagValue){
 	return typeof myMultiTags[tagValue] != "undefined";

@@ -9,8 +9,15 @@
   .searchIcon{
     cursor: pointer;
   }
+  #basic-addon1{
+    background-color: white !important;
+    border-radius: 4px 0 0 4px !important;
+    height: 36px;
+    border-color: #C8C8C8;
+  }
 </style>
-<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " data-tpl="default.menu.short_info_profil">
+<div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
+     data-tpl="default.menu.short_info_profil">
     
     <?php
     //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
@@ -18,9 +25,14 @@
     //if(isset(Yii::app()->session['userId'])) 
     $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    &nbsp;<i class="fa fa-search fa-2x searchIcon tooltips" data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>&nbsp;
-   
-    <input type="text" class="text-dark input-global-search hidden-xs" placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
+    <div class="input-group group-globalsearch inline">
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="fa fa-search text-dark searchIcon tooltips hidden-xs" 
+           data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
+      </span>
+      <input type="text" class="text-dark input-global-search hidden-xs" 
+             placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
+    </div>
     <div class="dropdown-result-global-search"></div>
     
     <div class="topMenuButtons pull-right">

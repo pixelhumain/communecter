@@ -170,9 +170,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
-                  type = o.type;
+                  type = typeObj[o.type].col;
                   // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  type += "s";
+                  //type += "s";
                   var url = '#news.index.type.'+type+'.id.' + id;
                   if(type == "citoyens") url += '.viewer.' + userId;
 
@@ -227,7 +227,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
                         if(type!="city" && id != userId && userId != null && userId != ""){
                         str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                              'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
+                              'data-toggle="tooltip" data-placement="right" data-original-title="Suivre"'+
                               " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                                   "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                                 "</a>";
@@ -377,8 +377,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
    		if(type == "person") type = "people";
-   		else type = type + "s";
-   		//console.log("#floopItem-"+type+"-"+id);
+   		else type = typeObj[type].col;
+      //console.log("#floopItem-"+type+"-"+id);
    		if($("#floopItem-"+type+"-"+id).length){
    			//console.log("I FOLLOW THIS");
    			if(type=="people"){
@@ -416,19 +416,20 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    		var name = $(this).attr("data-name");
    		var id = $(this).attr("data-id");
    		//traduction du type pour le floopDrawer
-   		var typeOrigine = type + "s";
-   		if(typeOrigine == "persons"){ typeOrigine = personCOLLECTION;}
+   		var typeOrigine = typeObj[type].col;
+      if(typeOrigine == "persons"){ typeOrigine = personCOLLECTION;}
    		formData.parentType = typeOrigine;
    		if(type == "person") type = "people";
-   		else type = type + "s";
+   		else type = typeObj[type].col;
 
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
 		//console.log(formData);
+    var linkType = (type == "events") ? "connect" : "follow";
 		if ($(this).attr("data-ownerlink")=="follow"){
 			$.ajax({
 				type: "POST",
-				url: baseUrl+"/"+moduleId+"/link/follow",
+				url: baseUrl+"/"+moduleId+"/link/"+linkType,
 				data: formData,
 				dataType: "json",
 				success: function(data) {
@@ -477,3 +478,5 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $("#searchBarText").val(value);
     startSearch(0, indexStepInit);
   }
+
+  

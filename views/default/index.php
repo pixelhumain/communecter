@@ -138,7 +138,7 @@
 
     }
 
-    error_log("load IndexDefault");
+   // error_log("load IndexDefault");
 ?>
 
 <?php $this->renderPartial('./menu/menuCommunexion'); ?>
@@ -328,16 +328,16 @@ jQuery(document).ready(function() {
 		return;
 	} 
 	else{ //si l'utilisateur est déjà passé par le two_step_register
- 		if(location.hash != "#default.home" && location.hash != "#" && location.hash != ""){
+ 		if(/*location.hash != "#default.live" &&*/ location.hash != "#" && location.hash != ""){
 			loadByHash(location.hash);
 			return;
 		}
 		else{ 
 			//console.log("userConnected", userConnected);
 			if(userConnected != null && userId != null  && userId != "" && typeof userId != "undefined")
-				loadByHash("#news.index.type.citoyens.id."+userId);
+				loadByHash("#default.live");//news.index.type.citoyens.id."+userId);
 			else
-				loadByHash("#default.home");
+				loadByHash("#default.live");
 			//}
 
 			//loadByHash("#default.home");

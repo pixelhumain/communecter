@@ -131,9 +131,8 @@
 		?>
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="javascript:loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId'] ?>')" 
-				data-hash="#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu 
+		<a href=#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh
 				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
@@ -145,10 +144,16 @@
 					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
 		</a>
 		<hr>
-		<?php } ?>
+		
+		<a href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-newspaper-o tooltips"
+					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
+					<span class="lbl-btn-menu">Mon journal</span>
+		</a>
+		<hr>
 
-		<?php //var_dump($me);
-		 if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
 				id="menu-btn-news-network"
 				data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>"
@@ -239,7 +244,7 @@
 					<span class="lbl-btn-menu">Faire un don</span>
 		</a><br><hr style="float: left; width: 100%; border-color: transparent ! important; margin: 0px;">
 
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips pull-left"
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank" class="helloasso tooltips pull-left"
 				data-toggle="tooltip" data-placement="right" title="soutenir communecter">
 			<img class="lbl-btn-menu" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
 		</a>
@@ -344,7 +349,7 @@ text-align: center;
 
 </style>
 
-<a href="https://www.helloasso.com/associations/open-atlas" target="_blank" class="helloasso tooltips"
+<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank" class="helloasso tooltips"
 		data-toggle="tooltip" data-placement="top" title="faire un don pour soutenir communecter">
 	<img style="" src="<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png"/>
 </a>
@@ -362,7 +367,7 @@ text-align: center;
 			<img class="pull-left" style="width:20%;" src='<?php echo $this->module->assetsUrl?>/images/piggybank.png'/>
 		</a>
 		
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank">
 		<div class="pull-left homestead text-red msg">
 			Soutenez-nous<br/>
 			à prix libre<br/>
@@ -370,7 +375,7 @@ text-align: center;
 		</div>
 		</a>
 		
-		<a href="https://www.helloasso.com/associations/open-atlas" target="_blank">
+		<a href="https://www.helloasso.com/associations/open-atlas/adhesions/soutenez-et-adherez-a-open-atlas" target="_blank">
 			<img class="pull-right" style="height:40px; position:relative; top:20px;" src='<?php echo $this->module->assetsUrl?>/images/helloasso-logo.png'/>
 		</a>
 <!-- 

@@ -18,7 +18,7 @@
 	overflow-x: auto;
 	top: 50px;
 	bottom:0px;
-	z-index: 0;
+	/*z-index: 0;*/
 	position:fixed !important;
 }
 .container-lbl-info-search{
@@ -172,7 +172,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	max-width: 42%;
-	margin-left:0px !important;
+	margin-left:15px !important;
 }
 
 input[type="text"].input-search{

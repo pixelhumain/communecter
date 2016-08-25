@@ -46,7 +46,7 @@
 															"countLowLinks" => $invitedNumber,
 															"countStrongLinks"=> $attendeeNumber,
 															"invitedMe" => @$invitedMe));
-		if (!empty($subEvents) || $admin==1)
+		if (!empty($subEvents) || $admin==1 || $openEdition)
 		{ 
 				//ORGANISER LIST
 				/*if( !empty($subEventsOrganiser) ){
@@ -63,7 +63,8 @@
 																"contextType" => Event::CONTROLLER,
 																"list" => $eventTypes,
 																"authorised" => $admin,
-																"organiserImgs"=> true
+																"organiserImgs"=> true,
+																"openEdition" => $openEdition
 																  )); 
 
 		} ?>

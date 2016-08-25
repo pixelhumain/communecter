@@ -435,6 +435,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
         );      
 	}
 }		
+
 var loadableUrls = {
 	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
 	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
@@ -502,7 +503,7 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
-	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ searchByHash(hash);} },
+	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
 function jsController(hash){
@@ -546,13 +547,14 @@ function jsController(hash){
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
 					//execute actions before teh ajax request
+					res = false;
 					if( endPoint.preaction && typeof endPoint.preaction == "function")
-						endPoint.preaction(hash);
+						res = endPoint.preaction(hash);
 					//hash can be iliased
 					if (endPoint.hash) 
 						hash = endPoint.hash;
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
-					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
+					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon, res );
 					
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
@@ -638,11 +640,15 @@ function setTitle(str, icon,topTitle) {
 
 //ex : #search:bretagneTelecom:all
 //#search:#fablab
+//#search:#fablab:all:map
 function searchByHash (hash) 
 { 
+	var mapEnd = false;
 	var searchT = hash.split(':');
+	// 1 : is the search term
 	var search = searchT[1]; 
 	scopeBtn = null;
+	// 2 : is the scope
 	if( searchT.length > 2 )
 	{
 		if( searchT[2] == "all" )
@@ -659,6 +665,10 @@ function searchByHash (hash)
 	//startGlobalSearch();
 	if( scopeBtn )
 		$(scopeBtn).trigger("click"); 
+
+	if( searchT.length > 3 && searchT[3] == "map" )
+		mapEnd = true;
+	return mapEnd;
 }
 
 function checkMenu(urlObj, hash){
@@ -744,7 +754,7 @@ function  processingBlockUi() {
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
-function showAjaxPanel (url,title,icon) { 
+function showAjaxPanel (url,title,icon, mapEnd) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
@@ -785,6 +795,8 @@ function showAjaxPanel (url,title,icon) {
 
 			$.unblockUI();
 
+			if(mapEnd)
+				showMap(true);
 			// setTimeout(function(){
 			// 	console.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
@@ -974,10 +986,62 @@ function  bindLBHLinks() {
 	 });
 }
 
-
+function bindRefreshBtns() { console.log("bindRefreshBtns");
+	if( $("#dropdown_search").length || $(".newsTL").length)
+	{
+		var searchFeed = "#dropdown_search";
+		var method = "startSearch(0, indexStepInit);"
+		if( $(".newsTL").length){
+			searchFeed = ".newsTL";
+			method = "reloadNewsSearch();"
+		}
+	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
+	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+	          str = '<div class="center" id="footerDropdown">';
+	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
+	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
+	          str += "</div>";
+	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+		          $(searchFeed).append( str );
+		      }else { console.log("vide autre news stream perso", searchFeed);
+		          $(searchFeed).html( str );
+		      }
+		      $(".search-loader").html("<i class='fa fa-ban'></i>");
+	    });
+	}
+}
+function reloadNewsSearch(){
+	if(location.hash.indexOf("#default.live")==0)
+    	startSearch(false);
+	else{
+		dateLimit = 0;
+		loadStream(0, 5);
+	}
+}
 /* **************************************
 maybe movebale into Element.js
 ***************************************** */
+
+var typeObj = {
+	"person" : {col:"citoyens",ctrl:"person"},
+	"persons" : {col:"citoyens",ctrl:"person"},
+	"citoyen" : {col:"citoyens",ctrl:"person"},
+	"citoyens" : {col:"citoyens",ctrl:"person"},
+	"organization" : {col:"organizations",ctrl:"organization"},
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {col:"events",ctrl:"event"},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {col:"projects",ctrl:"project"},
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city"},
+	"entry" : {col:"surveys",ctrl:"survey"},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {col:"actions",ctrl:"room"},
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+}
 
 function  buildQRCode(type,id,name) { 
 		

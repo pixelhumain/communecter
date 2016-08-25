@@ -27,8 +27,25 @@
 [ ] checkout Mention
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
+[ ] donner le choix lorsqu'on est invité a une orga 
+    [ ] inviter les gens a suivre 
+[ ] filtrer par type d'event 
+[ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
+[ ] turn notification list into a header panel 
+[ ] ajouter la gestion des quartier Isis dans les scope
+[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)
 
+** @Tango
+    [ ] Finir Add member, contributeur et invitation
+    [ ] reactiver viewport filter sur la carte
+    [ ] refactor le design du notifier (0.16??)
+    [ ] lazy loading sur la carto
+    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
+    [ ] DDA framapad
+
+* ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
+* ************************************************************
 
 ** TODO
     [ ] one input add
@@ -87,7 +104,6 @@
         [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
-    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
     [ ] onChange search criteria, empty list + reload button
     [X] interface ND
         [X] menu
@@ -99,28 +115,34 @@
     [X] REcherche connecté au multi scope
     [ ] REcherche par 100, 500, 1000, all
     [X] Bug Repair geoloc sur tous les element
-    [ ] Finir Add member, contributeur et invitation
-    [ ] reactiver viewport filter sur la carte
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
-    [ ] refactor le design du notifier (0.16??)
-    [ ] lazy loading sur la carto
     [ ] two step refactor
-    [ ] DDA framapad
     [ ] multiscope on elements (project, event, orga)
     [ ] synchronize new item menu (on selected)
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] bug sur event > globale search
-    [ ] bug : qrCode explain 
-    [ ] bug : on search 
-        - on event  click event 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    [ ] dashboard 
-        [ ] live controller 
-            [ ] not connected > shows live , public information 
-            [ ] else show user centric information ? 
-            [???] or live is always the public stream
+    [ ] search by name on live page
+    [ ] finish fromNow method
+    [ ] DDA
+        [ ] bug : sur archiver , persiste dans les listes 
+        [ ] bug : une décision terminé, on peut toujours voté dessus
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] changer les lien des DDA sur les parent insee
+        [ ] généré les catégories principale
+        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [X] remettre le contexte sur la room dans mon DDA
+        [X] ajouter un scope geo sur une proposition
+    [X] live on city page
+    [X] wisiwig sur les commentaires
+    [X] bug sur event > globale search
+    [X] bug : qrCode explain 
+    [X] dashboard
+        [X] live controller 
+            [X] not connected > shows live , public information 
             [X] getActivity
                 - global activity based on scope and tags search filters
                 - can be filtered by userId
@@ -132,23 +154,6 @@
                 [X] projects
                 [X] organisations
                 [X] events
-        [ ] switcher de home a dashB
-        [ ] latest DDA on city page
-        [ ] element activity
-    [ ] wisiwig sur les commentaires
-    [ ] finish fromNow method
-    [ ] DDA
-        [ ] bug : sur archiver , persiste dans les listes 
-        [ ] bug : une décision terminé, on peut toujours voté dessus
-        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
-        [X] remettre le contexte sur la room dans mon DDA
-        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [ ] changer les lien des DDA sur les parent insee
-        [ ] généré les catégories principale
-        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
-        [ ] ajouter un scope geo sur une proposition
-    [???] //@Kgneo : pourquoi on va chercher le get simple alors qu'on vient de recup l'orga ?
     [X] QR code  
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
@@ -194,7 +199,9 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-     
+    [ ] remplacer la map par une url parser dans les QR code
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
+
     * Appli CO
         [ ] login / create account
         [ ] define scope
@@ -207,8 +214,12 @@
         [ ] dda module
             commenting
             voting
-            actions            
+            actions    
+
+* ************************************************************
 * Version 0.14 : Fermé 
+* ************************************************************
+
     ** @Tango
     [X] Refonte interface DDA
     [X] Documentation

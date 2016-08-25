@@ -19,36 +19,25 @@
 	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 	}
 
-	/*en ce moment*/
-	.elemt_name {
-        font-size: 16px;
-        
-        height: 32px;
-        background-color: rgba(255, 255, 255, 0.85);
-        padding: 5px 15px;
-        width: 100%;
-        float:left;
-        text-overflow: ellipsis;
-		/*white-space: nowrap;*/
-		overflow: hidden;
-		max-width: 100%;
-        
-    }
-    .elemt_name a{
-        color:#3C5665;
-
-    }
-    .elemt_name a:hover{
-       text-decoration: underline !important;
-    }
-    .col-updated .border-dark {
-	    border: 0;
-	    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
-	}
+	
 	#newsFeedForm{
 		display:none;
 	}
-    /*en ce moment*/
+
+	#menu-directory-type{
+		margin-top:-5px;
+		margin-left:10px;
+	}
+	.titleNowEvents{
+		margin-top:30px;
+	}
+	
+	#footerDropdown {
+	    position: absolute;
+	    width: 100%;
+	    background-color: white;
+	}
+	
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
@@ -79,76 +68,24 @@
 </style>
 
 
+<div class="row headerHome">
+<?php 
+	if(!@Yii::app()->session["userId"])
+		$this->renderPartial('../pod/headerHome');
+?>
+</div>
 
 <div class="col-xs-12 col-md-9 col-feed"  data-tpl="default.live">
 
 	  <h3 class="text-dark homestead pull-left hidden">
 		<i class="fa fa-angle-down"></i> <i class="fa fa-send"></i> Publier
 	  </h3>
-	  <!-- <div class="pull-left col-xs-12" style="margin:15px 15px 0 0;">
-	  	  <div class="col-xs-12"  style="margin-top: 10px; margin-bottom: 5px; margin-left: 0px;padding: 0px 10px;"  
-	  	  	   id="list_type_news">
-		  
-			  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
-			    <button class="btn btn-success disabled" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Choisissez le type de message que vous souhaitez partager" data-type="news">
-			      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-plus"></i>
-			    </button>
-			    <button class="btn btn-default btn-type-news tooltips text-dark" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Publier un messages" data-type="news">
-			      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
-			      <span class="hidden-xs hidden-sm hidden-md">Message</span>
-			    </button>
-			    <button class="btn btn-default btn-type-news tooltips text-dark" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Partager une idée" data-type="idea">
-			      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
-			      <span class="hidden-xs hidden-sm hidden-md">Idée</span>
-			    </button>
-			    <button class="btn btn-default btn-type-news tooltips text-dark" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Poser une question" data-type="question">
-			      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
-			      <span class="hidden-xs hidden-sm hidden-md">Question</span>
-			    </button>
-			    <button class="btn btn-default btn-type-news tooltips text-dark" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Diffuser une annonce" data-type="announce">
-			      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
-			      <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
-			    </button>
-			    <button class="btn btn-default btn-type-news tooltips text-dark" 
-			    		data-toggle="tooltip" data-placement="bottom" title="Partager une information" data-type="information">
-			      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
-			      <span class="hidden-xs hidden-sm hidden-md">Information</span>
-			    </button>
-			  </div>
-
-			  <a href="#organization.addorganizationform" class="lbh btn btn-sm bg-green tooltips"  style="margin-left:5px;"
-			  		data-toggle="tooltip" data-placement="bottom" title="Créer une organisation" type="needs">
-			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-group"></i> 
-			  	<span class="hidden-xs hidden-sm hidden">Organisation</span>
-			  </a>
-			  <a href="#project.projectsv" class="lbh btn btn-sm bg-purple tooltips" style="margin-left:5px;"
-			  		data-toggle="tooltip" data-placement="bottom" title="Créer un projet" type="needs">
-			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-lightbulb-o"></i> 
-			  	<span class="hidden-xs hidden-sm hidden">Projet</span>
-			  </a> 
-			  <a href="#event.eventsv" class="lbh btn btn-sm bg-orange tooltips"  style="margin-left:5px;"
-			  		data-toggle="tooltip" data-placement="bottom" title="Créer un événement" type="needs">
-			  	<i class="fa fa-plus hidden-xs hidden-sm hidden-md"></i> <i class="fa fa-calendar"></i> 
-			  	<span class="hidden-xs hidden-sm hidden">Événement</span>
-			  </a> 
-			  
-		  </div>
-	  </div> -->
-	
-	
-
-	
-
+	  
 	<div class="col-xs-12 center ">
 		
 	  <div class="col-md-12 no-padding margin-top-15 hidden">
 	  	<div class="input-group col-xs-12 pull-left">
-	        <input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
+	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
 
 	        <!-- <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
@@ -207,14 +144,18 @@
 <div class="col-xs-12 col-md-3 col-updated">
 	
 	<h3 class="text-red homestead titleNowEvents">
-		<i class="fa fa-clock-o"></i> En ce moment
-		<a href="javascript:toggle('.el-nowList','.el-nowList')" class="pull-right btn btn-sm btn-default">Tout</a>
-		<a href="javascript:toggle('.event,.events','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
-		<a href="javascript:toggle('.entre,.action,.discuss','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
-		<a href="javascript:toggle('.project,.projects','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
-		<a href="javascript:toggle('.organization,.organisations','.el-nowList')" class="pull-right btn btn-sm btn-default"><i class="fa fa-users "></i></a>
-		<a href="javascript:enlargeNow();" class="pull-right btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
+		<div class="btn-group inline-block pull-right" id="menu-directory-type">
+			<a href="javascript:toggle('.el-nowList','.el-nowList')" 	class="btnhidden btn btn-sm btn-default">Tout</a>
+			<a href="javascript:toggle('.event,.events','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
+			<a href="javascript:toggle('.entre,.action,.discuss','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
+			<a href="javascript:toggle('.project,.projects','.el-nowList')" 	class="btnhidden btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
+			<a href="javascript:toggle('.organization,.organisations','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-users "></i></a>
+			<a href="javascript:enlargeNow();" class="btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
+			
+		</div>
+		<span class="pull-right"><i class="fa fa-clock-o"></i> En ce moment</span>
 	</h3>
+	
 	<div class="space20"></div>
 	<div class="col-xs-12 no-padding col-nowListC" id="nowList"></div>
 
@@ -250,10 +191,12 @@ jQuery(document).ready(function() {
 		 liveType = liveTypeName[liveType];
 	else liveType = "Toute l'actu";
 
-	setTitle("Live'n'Direct <i class='fa fa-angle-right'></i> " + liveType, "<i class='fa fa-heartbeat '></i>");
+	setTitle("Live'n'Direct > " + liveType, "<i class='fa fa-heartbeat '></i>");
 	
 	//showTagsScopesMin("#list_tags_scopes");
-	
+	<?php if(@$lockCityKey){ ?>
+		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php } ?>
 	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
@@ -282,86 +225,8 @@ jQuery(document).ready(function() {
     $('.tooltips').tooltip();
     searchPage = true;
 	startSearch(true);
+	$(".titleNowEvents .btnhidden").hide();
 });
-
-function enlargeNow() { 
-	if(!$(".col-feed.closed").length){
-		$("#enlargeNow").attr("class","fa fa-caret-right");
-		$(".col-feed").attr("class","hidden col-feed closed");
-		$(".col-updated").attr("class","col-xs-12 col-updated");
-		$("#nowList").attr("class","col-xs-12 no-padding");
-		$(".el-nowList").removeClass("col-xs-12").addClass('col-xs-3');
-		
-	} else {
-		$("#enlargeNow").attr("class","fa fa-caret-left");
-		$(".col-feed").attr("class","col-xs-12 col-md-9 col-feed");
-		$(".col-updated").attr("class","col-xs-12 col-md-3 col-updated");
-		$("#nowList").attr("class","col-xs-12 no-padding");
-		$(".el-nowList").removeClass('col-xs-3').addClass("col-xs-12");
-	}
-}
-
-function loadLiveNow () { 
-
-	var searchParams = {
-	  "name":$('.input-global-search').val(),
-	  "tpl":"/pod/nowList",
-      "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
-      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
-      "indexMin" : 0, 
-      "indexMax" : 40 
-  	};
-
-	ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-		bindLBHLinks();
-	 } , "html" );
-
-	/*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
-	ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-		bindLBHLinks();
-		if( !$(".titleNowDDA").length ){
-			$("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
-			$("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
-		}
-	 } , "html" );
-
-	searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
-	ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-		bindLBHLinks();
-		if( !$(".titleNowDDA").length ){
-			$("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
-			$("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
-		}
-	 } , "html" );
-
-	searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
-	ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-		bindLBHLinks();
-		if( !$(".titleNowDDA").length )
-			$("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
-	 } , "html" );*/
-}
-
-function buildHotStuffList(list) { 
-	$.each(list,function(i,v) { 
-		
-	html = '<div class="border-dark margin-bottom-30 col-xs-12 col-md-12 no-padding">'+
-		'<div class=" "><img src="http://placehold.it/250x100" class="img-responsive"></div>'+
-	    '<div class="padding-5 ">'+
-			'<br/>'+
-			'<div class="text-right">'+
-				'<i class="fa fa-<?php echo Element::getFaIcon(@$v["type"])?>"></i> <?php echo Element::getLink(@$v["type"],(string)@$v["_id"])?>'+
-			'</div>'+
-	    '</div>'+
-	'</div>';
-	$('#nowList').html(html);
-	});
-}	
 
 function slidupScopetagsMin(show){
 	if($("#list_filters").hasClass("hidden")){
@@ -392,6 +257,53 @@ function startSearch(isFirst){
 		showNewsStream(isFirst);//loadStream(0,5);
 	}
 	loadLiveNow();
+}
+
+
+function loadLiveNow () { 
+
+    var searchParams = {
+      "name":$('.input-global-search').val(),
+      "tpl":"/pod/nowList",
+      "latest" : true,
+      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "indexMin" : 0, 
+      "indexMax" : 40 
+    };
+
+    ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+     } , "html" );
+
+    /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
+    ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length ){
+            $("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
+            $("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
+        }
+     } , "html" );
+
+    searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
+    ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length ){
+            $("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
+            $("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
+        }
+     } , "html" );
+
+    searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
+    ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length )
+            $("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
+     } , "html" );*/
 }
 
 
@@ -459,7 +371,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 		    	success: function(data){
 			    	//console.log("LOAD NEWS BY AJAX");
 			    	//console.log(data.news);
-			    	$(".newsTL").html("");
+			    	$(".newsTL").html('<div class="spine"></div>');
 					if(data){
 						buildTimeLine (data.news, 0, 5);
 						//bindTags();

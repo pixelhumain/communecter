@@ -342,7 +342,7 @@ function buildLineHTML(newsObj,idSession,update)
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
 
-	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
 						tags+
@@ -379,7 +379,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			if(location.hash.indexOf("#default.live")==0){ 
+			if(isLiveGlobal()){ 
 				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 				$("#formCreateNewsTemp").css("display", "inline");
 				$(".newsFeedForm").css("display", "none");

@@ -43,7 +43,7 @@
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
 	data-toggle="tooltip" data-placement="right" 
 	title="Mes lieux favoris">
-	<i class="fa fa-bullseye fa-2x" style=""></i>
+	<i class="fa fa-bullseye text-dark" style="font-size:19px;"></i>
 	<span class="scope-count topbar-badge badge animated bounceIn bg-red">0</span>
   </button>
   <ul class="dropdown-menu" id="dropdown-multi-scope">
@@ -166,6 +166,17 @@
 	      		</div>
 			</div>   		
       	</div>
+
+   		<div class="panel-body padding-10 visible-empty text-dark">
+   			<blockquote>
+   				Pour rester en contact permanent avec les zones géographiques qui vous intéressent le plus, définissez votre liste de lieux favoris, en sélectionnant <strong>des communes, des codes postaux, des départements, ou des régions</strong>.
+   			</blockquote>
+   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
+   			
+   			<blockquote>
+   				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
+   			</blockquote>
+   		</div>
    </ul>
 </div>
 <input id="searchLocalityCITYKEY" type="hidden" />
@@ -198,6 +209,7 @@ jQuery(document).ready(function() {
 	// $(".btn-add-scope").click(function(){
 	// 	addScopeToMultiscope($("#input-add-multi-scope").val());
 	// });
+
 
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
@@ -323,6 +335,7 @@ function showCountScope(){
 	});
 	$(".scope-count").html(count);
 	showTagsScopesMin(".list_tags_scopes");
+	showEmptyMsg();
 }
 function selectAllScopes(select){
 	$.each(myMultiScopes, function(key, value){
@@ -486,6 +499,14 @@ function rebuildSearchScopeInput()
 
 	//if( typeof searchCallback == "function" )
 		//searchCallback();
+}
+
+
+function lockScopeOnCityKey(cityKey){ console.log("lockScopeOnCityKey", cityKey);
+	$("#searchLocalityCITYKEY").val(cityKey);
+	$("#searchLocalityCODE_POSTAL").val("");
+	$("#searchLocalityDEPARTEMENT").val("");
+	$("#searchLocalityREGION").val("");
 }
 
 </script>

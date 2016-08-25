@@ -56,7 +56,8 @@ function startSearch(indexMin, indexMax){
 			if(levelCommunexion == 1) locality = inseeCommunexion;
 			if(levelCommunexion == 2) locality = cpCommunexion;
 		}
-        if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+        if(levelCommunexion == 3) locality = inseeCommunexion;
+        /*if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);*/
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
@@ -170,8 +171,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //console.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
-                  type = o.type;
-                  if(type=="citoyen") type = "person";
+                  type = typeObj[o.type].ctrl;
+                  //if(type=="citoyen") type = "person";
                   var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
                   var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
                   var onclickCp = "";
@@ -361,7 +362,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $.each($(".followBtn"), function(index, value){
       var id = $(value).attr("data-id");
       var type = $(value).attr("data-type");
-	  type = type + "s";
+	  type = typeObj[type].col;
 
       //console.log("#floopItem-"+type+"-"+id);
       if($("#floopItem-"+type+"-"+id).length){
@@ -384,7 +385,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    		//traduction du type pour le floopDrawer
    		var typeOrigine = type + "s";
    		formData.parentType = typeOrigine;
-   		type = type + "s";
+   		type = type2collection[type];
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
 		console.log(formData);

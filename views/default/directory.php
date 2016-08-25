@@ -63,7 +63,7 @@
 </style>
 
 <div class="col-md-12">
-  <div class="col-md-12 no-padding margin-top-15">
+  <div class="col-md-12 no-padding margin-top-15 ">
 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
@@ -112,8 +112,8 @@
       </div>
       
     </div>
-    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
-
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    
   </div>
   
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
@@ -130,6 +130,7 @@ var searchType = [ "persons", "organizations", "projects", "events" ];
 var allSearchType = [ "persons", "organizations", "projects", "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
+var cityKey = <?php echo (@$_GET['city']) ? "'".$_GET['city']."'" : "null" ?>;
 
 jQuery(document).ready(function() {
 
@@ -165,8 +166,9 @@ jQuery(document).ready(function() {
   });
 
 //  if(userId != 'null')
-  showTagsScopesMin("#list_tags_scopes");
-  
+  showTagsScopesMin("#scopeListContainer");
+
+
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé
       loadingData = false;
@@ -212,6 +214,10 @@ jQuery(document).ready(function() {
   $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
     $('.tooltips').tooltip();
     searchPage = true;
+
+    if(cityKey){
+      lockScopeOnCityKey(cityKey);
+    }
   //initBtnToogleCommunexion();
   //$(".btn-activate-communexion").click(function(){
   //  toogleCommunexion();

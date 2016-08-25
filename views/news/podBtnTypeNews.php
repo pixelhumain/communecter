@@ -78,10 +78,10 @@
 
 
 
-  <?php if(@$type=="city"){ ?>
+  <?php if(@$type=="city" && @Yii::app()->session["userId"]){ ?>
   	<div class="pull-right margin-top-10">
   		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
-  		<div class="btn-group btn-group-sm inline-block">
+  		<div class="btn-group btn-group-sm inline-block scope-global-community">
 		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
 	  		data-toggle="tooltip" data-placement="bottom" title="Tout le réseau">
 		  	<i class="fa fa-globe"></i>
@@ -142,7 +142,12 @@ jQuery(document).ready(function()
 	showTagsScopesMin("#scopeListContainer");
 
 	$('#btn-start-search').click(function(e){
-		startSearch(false);
+		if(location.hash.indexOf("#default.live")==0)
+	    	startSearch(false);
+		else{
+			dateLimit = 0;
+			loadStream(0, 5);
+		}
     });
 
 	$(".btn-filter-type").click(function(e){
@@ -173,13 +178,13 @@ jQuery(document).ready(function()
   			parentType = "citoyens";
   			$("input[name='scope']").val("restricted");
   			showTagsScopesMin("#scopeListContainer");
-  			$("#scopeListContainer").addClass("tagOnly");
+  			$(".list_tags_scopes").addClass("tagOnly");
   		}else{
   			parent = null;
   			parentType = "city";
   			$("input[name='type']").val("public");
   			showTagsScopesMin("#scopeListContainer");
-  			$("#scopeListContainer").removeClass("tagOnly");
+  			$(".list_tags_scopes").removeClass("tagOnly");
   		}
 		$(".btn-scope-type").removeClass("active");
 		$(this).addClass("active");
@@ -191,7 +196,7 @@ jQuery(document).ready(function()
 
 });
 
-
+var allNewsType = ["news", "idea", "question", "announce", "information"];
 
 function initSelectTypeNews(){
 
@@ -211,7 +216,8 @@ function initSelectTypeNews(){
 	    $(".btn-type-news").removeClass("active");
 	    $(this).addClass("active");
 	    
-	    $("input[name='type']").val(type);
+	    var newsType = type != "all" ? type : "news";
+	    $("input[name='type']").val(newsType);
 
 	    var msg = typeof msgTypesNews[type] != "undefined" ? msgTypesNews[type] : "";
 	    // msg+='<button class="btn pull-right" onclick="hideNewLiveFeedForm()" style="margin-top: -10px;margin-right: -10px;">'+
@@ -225,7 +231,12 @@ function initSelectTypeNews(){
 		else 
 		searchType = $.merge( ["organizations", "projects", "events", "needs"], allNewsType);
 
-	    startSearch(false);
+		if(location.hash.indexOf("#default.live")==0)
+	    	startSearch(false);
+		else{
+			dateLimit = 0;
+			loadStream(0, 5);
+		}
 	    
 	    //showFormBlock(true);
   	});

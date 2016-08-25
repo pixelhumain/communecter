@@ -35,13 +35,12 @@
 		max-width: 570px;
 		margin-top: 4px;
 		border-radius: 0px 0px 4px 4px;
-	}
-	#dropdown-multi-scope {
-	    left: 0px;
-	    max-height: 90%;
-	    min-height: 70%;
+
 		overflow-y: auto;
+		bottom: 0px;
 	}
+	
+	
 	#dropdown-multi-tag input.form-control,
 	#dropdown-multi-scope input.form-control {
 	    text-align: left;
@@ -79,10 +78,10 @@
 	#btn-modal-multi-scope, #btn-modal-multi-tag{
 		border-radius: 30px;
 		border: 0px none;
-		padding: 5px;
+		padding: 8px;
 		width: 35px;
 		height: 35px;
-		margin-top: 2px;
+		margin-top: 0px;
 		font-size: 15px;
 		margin-right: 2px;
 		background-color: white;
@@ -133,6 +132,12 @@
 	.tagOnly .list-select-scopes{
 		display: none;
 	}
+	.visible-empty{
+		display: none;
+	}
+	.visible-empty blockquote{
+		font-size:15px;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -157,6 +162,9 @@
 		#btn-modal-multi-scope{
 			margin-right:5px;
 		}
+		.item-scope-input{
+			cursor: pointer;
+		}
 	}
 </style>
 
@@ -171,7 +179,16 @@ $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 <script>
 
 jQuery(document).ready(function() {
-	
+	showEmptyMsg();
+
+	$(".item-scope-name").click(function() { 
+		$(".communectScope > span.item-scope-name ").html( $(".communectScope ").data("scope-value") );
+		$(".communectScope").removeClass("communectScope").removeClass("bg-azure").addClass("bg-red");
+
+		$(this).prepend('<i class="fa fa-home"></i> ').parent().removeClass("bg-red").addClass("bg-azure").addClass("communectScope");
+		toastr.info("Vous etes commuencter à "+$(this).html());
+	 })
+
 });
 
 function showTagsScopesMin(htmlId){
@@ -205,29 +222,22 @@ function showTagsScopesMin(htmlId){
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
-		//else
-		//$("#dropdown-content-multi-tag").removeClass('open');
 	});
 	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
-		//else
-		//dropdown-content-multi-scope").removeClass('open');
 	});
+	bindRefreshBtns();
 }
 
-function showTagsMin(htmlId){
-	var html =  "";
+
+function showEmptyMsg(){
+	var c=0; $.each(myMultiScopes, function(key, value){ c++; });
+	if(c==0) $("#dropdown-multi-scope .visible-empty").show(); else $("#dropdown-multi-scope .visible-empty").hide();
+
+	c=0; $.each(myMultiTags, function(key, value){ c++; });
+	if(c==0) $("#dropdown-multi-tag .visible-empty").show(); else $("#dropdown-multi-tag .visible-empty").hide();
 	
-	$.each(myMultiTags, function(key, value){
-		var disabled = value.active == false ? "disabled" : "";
-		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
-					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
-					"#" + key + 
-				"</span> ";
-	});
-	$(htmlId).html(html);
-	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 }
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);

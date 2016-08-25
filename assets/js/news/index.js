@@ -1,4 +1,6 @@
-
+function isLiveGlobal(){
+	return typeof liveScopeType != "undefined";// && liveScopeType == "global";
+}
 /*
 * function loadStream() loads news for timeline: 5 news are download foreach call
 * @param string contextParentType indicates type of wall news
@@ -24,15 +26,15 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     	simpleUserData="";
 
     filter = new Object;
-    filter.parent=parent;
+	//filter.parent=parent;
 
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
-	//if (typeof(tagSearch) != "undefined") filter.tagSearch=tagSearch;
+	if (typeof(tagSearch) != "undefined") filter.tagSearch=$('#searchTags').val().split(',');
 
 	//console.log("index.js liveScopeType", liveScopeType);
-    if(location.hash.indexOf("#default.live")==0 && typeof liveScopeType != "undefined" && liveScopeType == "global"){ 
+    if(isLiveGlobal() && liveScopeType == "global"){ 
     	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
 	      "tagSearch" : tagSearch, 
@@ -46,7 +48,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	    };
     }	
 
-	console.log("loadStream");
+	console.log("loadStream", dateLimit);
 	console.dir(filter);
 	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
 
@@ -57,7 +59,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	       	dataType: "json",
 	       	data: filter,
 	    	success: function(data){
-		    	//console.log("LOAD NEWS BY AJAX");
+		    	console.log("LOAD NEWS BY AJAX");
 		    	//console.log(data.news);
 		    	if(data){
 					buildTimeLine (data.news, indexMin, indexMax);
@@ -82,7 +84,8 @@ var scopesFilterListHTML = "";
 function buildTimeLine (news, indexMin, indexMax)
 {
 	if (dateLimit==0){
-		$(".newsTL").html('<div class="spine"></div>');
+		//$(".newsTL").html('<div class="spine"></div>');
+		$(".newsFeedNews, #backToTop, #footerDropdown").remove();
 	}
 	//insertion du formulaire CreateNews dans le stream
 	var formCreateNews = $("#formCreateNewsTemp");
@@ -139,30 +142,32 @@ function buildTimeLine (news, indexMin, indexMax)
 		if( dateLimit == 0 && countEntries == 0){
 			var date = new Date(); 
 			form ="";
+
 			if(canPostNews==true){
-				form = "<div class='newsFeed'>"+
-						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
-					"</div>";
-				msg = "Aucune activité.<br/>Soyez le premier à publier ici";
+				// form = "<div class='newsFeed'>"+
+				// 		"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
+				// 	"</div>";
+				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Soyez le premier à publier ici</div>";
 			}
 			else{
-				msg = "Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur";
+				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur.</div>";
 			}
-			newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-					'</div>'+form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews"+"'><i class='fa fa-ban'></i> "+msg+".</div>";
+			// newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+			// 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+			// 		'</div>'+
+			newsTLLine = form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews newsFeedNews"+"'><i class='fa fa-ban'></i> "+msg+"</div>";
 		
 			$(".spine").css("bottom","0px");
 			$(".tagFilter, .scopeFilter").hide();
-			
+			//$(".date_separator").remove();
 			$(".newsTL").append(newsTLLine);
 			if(canPostNews==true){
-				if(location.hash.indexOf("#default.live")==0){ 
+				if(isLiveGlobal()){ 
 					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
 
-				}else{
+				}else{ console.log("newFeedForm");
 					$("#newFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 				}
@@ -832,7 +837,7 @@ function saveNews(){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
 				
-				if($('#searchLocalityCITYKEY') && location.hash.indexOf("#default.live")==0 && liveScopeType=="global" ){
+				if($('#searchLocalityCITYKEY') && isLiveGlobal() && liveScopeType=="global" ){
 					
 					newNews.searchLocalityCITYKEY = $('#searchLocalityCITYKEY').val().split(',');
 				    newNews.searchLocalityCODE_POSTAL = $('#searchLocalityCODE_POSTAL').val().split(',');
