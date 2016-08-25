@@ -28,13 +28,22 @@
      
 
     }
-	.entityTitle{
+
+    .entityTitle{
       background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
       margin-top: -10px;
       font-weight: 200;
+      text-align: left;
     }
+	/*.entityTitle{
+      background-color: #FFF;
+      margin-bottom: 10px;
+      border-radius: 0px 0px 4px 4px;
+      margin-top: -10px;
+      font-weight: 200;
+    }*/
     .entityTitle h2{
     	font-size: 30px;
     	font-weight: 200;
@@ -94,6 +103,20 @@
     	font-family: "homestead";
     }
 
+    #telegramAccount {
+	    float: left;
+		font-size: 13px;
+		border-radius: 50px;
+		background-color: rgb(43, 176, 198) !important;
+		height: 26px;
+		text-align: center;
+		padding: 4px 10px 8px 7px;
+		margin-top: 5px;
+		color: white;
+		font-weight: 200;
+		cursor: pointer;
+	}
+
 </style>
 
 <div class="panel panel-white">
@@ -102,11 +125,116 @@
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
 	</div>
+	<div id="divBtnDetail"  >
+		<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+		<a href="javascript:" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+		<?php if($type == Person::COLLECTION){ ?>
+		<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
+			<i class='fa fa-key'></i> 
+			<span class="hidden-sm hidden-xs">
+			<?php echo Yii::t("common","Change password") ?>
+			</span>
+		</a>
+		<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default  tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+			<i class='fa fa-download'></i> 
+			<span class="hidden-sm hidden-xs">
+			<?php //echo Yii::t("common","Télécharger votre profile"); ?>
+			</span>
+		</a>
+		<?php } ?>
+	</div>
 	<div id="activityContent" class="panel-body no-padding hide">
 		<h2 class="homestead text-dark" style="padding:40px;">
 			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
 		</h2>
 	</div>
+	<div class="col-sm-6 col-md-5 padding-15">
+		<div class="padding-10">
+			<div id="divName">
+				<h2 class="entityTitle">
+					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
+						<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
+					</a>
+				</h2>
+			</div>
+			<?php 
+			$isLinked = Link::isLinked((string)$element["_id"],Person::COLLECTION, Yii::app()->session['userId']);
+			?>
+			<i class="fa fa-smile-o fa_name hidden"></i> 		
+			<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
+				<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
+			</a>
+		</div>
+
+		<?php if($type==Person::COLLECTION){ ?>
+				<div class="socialNetwork col-md-12">
+					<div class="col-md-12 no-padding">
+						<span class=""><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
+						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($element["socialNetwork"]["skype"])) echo $element["socialNetwork"]["skype"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($element["socialNetwork"]["facebook"])) echo $element["socialNetwork"]["facebook"]; else echo "#"; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($element["socialNetwork"]["facebook"])) echo $element["socialNetwork"]["facebook"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($element["socialNetwork"]["twitter"])) echo $element["socialNetwork"]["twitter"]; else echo "#"; ?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($element["socialNetwork"]["twitter"])) echo $element["socialNetwork"]["twitter"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($element["socialNetwork"]["googleplus"])) echo $element["socialNetwork"]["googleplus"]; else echo "#"; ?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($element["socialNetwork"]["googleplus"])) echo $element["socialNetwork"]["googleplus"]; else echo ""; ?>
+						</a>
+						<a href="<?php if (isset($element["socialNetwork"]["github"])) echo $element["socialNetwork"]["github"]; else echo "#"; ?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
+							<?php if (isset($element["socialNetwork"]["github"])) echo $element["socialNetwork"]["github"]; else echo ""; ?>
+						</a>
+
+					</div>
+
+					<div class="col-md-12 no-padding">
+					
+						<?php if (  (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != "")
+								 || ((string)$element["_id"] == Yii::app()->session["userId"] ))
+								 { ?>
+							<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+							<a 	href="<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != "") echo $element["socialNetwork"]["telegram"]; else echo "javascript:switchMode()"; ?>" 
+								id="telegramAccount" data-emptytext='<i class="fa fa-send"></i> Telegram' 
+								data-type="text" 
+
+								<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != ""){ ?> 
+									<?php if ((string)$element["_id"] == Yii::app()->session["userId"]){ ?> 
+										data-original-title="aller sur Telegram" 
+									<?php }else{ ?>
+										data-original-title="contacter via Telegram" 
+									<?php } ?>
+								<?php }else{ ?>
+										data-original-title="votre pseudo sur Telegram ?" 
+									<?php } ?>
+								
+								data-emptytext='<i class="fa fa-send"></i> Telegram'
+								class="editable editable-click socialIcon" 
+								<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != ""){ ?> 
+									target="_blank" 
+								<?php } ?>
+								>
+								<?php if (isset($element["socialNetwork"]["telegram"])) echo $element["socialNetwork"]["telegram"]; else echo ""; ?>
+							</a> 
+							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+							 		<i class="fa fa-question-circle text-dark" style="">
+							 		</i>
+							</a> 
+
+						<?php }else{ ?>
+							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
+							<?php } ?>
+					</div>
+
+				</div>
+			<?php } ?>
+		</div>		
+	<?php 
+	//var_dump($admin);
+	//if(!empty($admin) && $admin == true){
+	//<!-- class=" col-lg-6 col-md-6 col-sm-6 col-xs-8"--> ?>
+	
+	<?php //} ?>
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
 		<?php if($type==Event::COLLECTION){ ?>
 			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding" style="padding-right:10px !important;">
@@ -227,7 +355,12 @@
 						}
 					}
 				?>
-
+				<?php if ($type==Person::COLLECTION){ ?>
+				<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
+				<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
+				</a>
+				<br>	
+				<?php } ?>
 				<?php if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
 				<i class="fa fa-envelope fa_email  hidden"></i> 
 				<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
@@ -256,6 +389,46 @@
 				<i class="fa fa-file-text-o"></i>
 				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project licence") ?>" class="editable-context editable editable-click"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
 				<?php } ?>
+
+				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
+				<i class="fa fa-phone fa_telephone hidden"></i>
+					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
+						<?php 
+							if(isset($element["telephone"]["fixe"])){
+								foreach ($element["telephone"]["fixe"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
+							}
+						?>
+					</a>
+					<br>
+
+					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
+					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
+						<?php if(isset($element["telephone"]["mobile"])){
+							foreach ($element["telephone"]["mobile"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+
+					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
+					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
+						<?php if(isset($element["telephone"]["fax"])){
+							foreach ($element["telephone"]["fax"] as $key => $tel) {
+								if($key > 0)
+									echo ", ";
+								echo $tel;
+							}
+						}?>
+					</a>
+					<br>
+				<?php } ?>	
 			</div>	
 			<?php } ?>		
 		</div>
@@ -298,15 +471,44 @@
 			</div>
 		</div>
 		<?php } ?>
+		<div id="divShortDescription" class="col-sm-12 col-xs-12 col-md-12 no-padding">
+			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Short Description</div>
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","shortDescription") ?>" class="editable editable-click">
+				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
+			</a>	
+			
+		</div>
 		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> <?php var_dump($edit); ?> Description</div>
-			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"></a>	
-
-			 <?php // echo (isset($element["description"])) ? $element["description"] : ""; ?>
+			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
+				<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
+			</a>	
 		</div>
 	</div>
-
+	<div class="padding-10 row text-dark">
+		<div class="pull-left col-sm-7 col-md-8 tag_group">
+			
+		</div>
+		
+		<div class="pull-right text-right col-sm-5 col-md-4">
+			<div class="form-group tag_group no-margin">
+				<label class="control-label  text-red">
+					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+				</label>
+				
+				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+					<?php if(isset($element["tags"])){
+						foreach ($element["tags"] as $tag) {
+							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+						}
+					}?>
+				</a>
+			</div>	
+		</div>
+	</div>
 </div>
+
+
 
 <script type="text/javascript"> 
 
@@ -315,7 +517,7 @@
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
-	//var mode = "view";
+	var mode = "view";
 	var images = <?php echo json_encode($images) ?>;
 	var types = <?php echo json_encode($elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
@@ -336,6 +538,8 @@
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContext();
+		changeHiddenIcone();
+		manageDivEdit();
 
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
@@ -377,70 +581,174 @@
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(contextId, "<?php echo $type ?>", contextData);
 			showMap(true);
-		});		
+		});
+
+		$("#editElementDetail").on("click", function(){
+				switchMode();
+			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
+			//	getBackDetails(contextId,"<?php echo $type ?>");
+		});
+
+		$("#changePasswordBtn").click(function () {
+			console.log("changePasswordbuttton");
+			loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+		});
+
+		$("#downloadProfil").click(function () {
+			$.ajax({
+				url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextId ,
+				type: 'POST',
+				dataType: 'json',
+				async:false,
+				crossDomain:true,
+				complete: function () {},
+				success: function (obj){
+					console.log("obj", obj);
+					$("<a />", {
+					    "download": "profil.json",
+					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
+					  }).appendTo("body")
+					  .click(function() {
+					    $(this).remove()
+					  })[0].click() ;
+				},
+				error: function (error) {
+					
+				}
+			});
+		});
+
+	    $(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+	    	param.typeEntity = "<?php echo $type; ?>";
+	    	param.idEntity = contextId;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/element/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+		});
+
+		$("#editConfidentialityBtn").on("click", function(){
+	    	console.log("confidentiality");
+	    	$("#modal-confidentiality").modal("show");
+	    });
+
+		$(".panel-btn-confidentiality .btn").click(function(){
+			var type = $(this).attr("type");
+			var value = $(this).attr("value");
+			$(".btn-group-"+type + " .btn").removeClass("active");
+			$(this).addClass("active");
+		});	
 
 	}
 
+	function switchMode() {
+		console.log("switchMode");
+		if(mode == "view"){
+			mode = "update";
+		}else{
+			mode ="view";
+		}
+		manageModeContext();
+		changeHiddenIcone();
+		manageDivEdit();
+	}
 
 	function manageModeContext() {
-		console.log("manageModeContext", mode);
+		console.log("-----------------manageModeContext----------------------");
+		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
-			$('#type').editable('toggleDisabled');
-			//$('#shortDescription').editable('toggleDisabled');
-			$('#description').editable('toggleDisabled');
-			$('#tags').editable('toggleDisabled');
-			$('#addressCountry').editable('toggleDisabled');
-			$('#address').editable('toggleDisabled');
-			$('#category').editable('toggleDisabled');
-			$('#typeOfPublic').editable('toggleDisabled');
-			$('#telephone').editable('toggleDisabled');
-			$('#avancement').editable('toggleDisabled');
-			$('#startDate').editable('toggleDisabled');
-			$('#endDate').editable('toggleDisabled');
+			$.each(listXeditables, function(i,value) {
+				$(value).editable('toggleDisabled');
+			});
 			$("#btn-update-geopos").addClass("hidden");
-			$("#add-phone").addClass("hidden");
-			$("#url").css('cursor', 'pointer');
-			$('#allDay').editable('toggleDisabled');
-		
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
-			$('#type').editable('option', 'pk', contextId);
-			//$('#shortDescription').editable('option', 'pk', contextId);
-			$('#description').editable('option', 'pk', contextId);
-			$('#type').editable('option', 'pk', contextId);
-			$('#address').editable('option', 'pk', contextId);
-			$('#addressCountry').editable('option', 'pk', contextId);
-			$('#tags').editable('option', 'pk', contextId);
-			$('#category').editable('option', 'pk', contextId);
-			$('#typeOfPublic').editable('option', 'pk', contextId);
-			$('#avancement').editable('option', 'pk', contextId);
-			$('#telephone').editable('option', 'pk', contextId);			
-			$('#startDate').editable('option', 'pk', contextId);
-			$('#endDate').editable('option', 'pk', contextId);
-			$('#allDay').editable('option', 'pk', contextId);
+			$('.editable-context').editable('toggleDisabled');
+			$.each(listXeditables, function(i,value) {
+				//add primary key to the x-editable field
+				$(value).editable('option', 'pk', contextId);
+				$(value).editable('toggleDisabled');
+			})
 			$("#btn-update-geopos").removeClass("hidden");
-			$("#add-phone").removeClass("hidden");
-			$("#url").css('cursor', 'default');
 		}
-		//alert($('#url').html() );
-		//if($('#name').html() != "")				{ $(".fa_name").removeClass("hidden"); } else { $(".fa_name").addClass("hidden"); }
-		if($('#url').html() != "")				{ $(".fa_url").removeClass("hidden"); } else { $(".fa_url").addClass("hidden"); }
-		if($('#email').html() != "")			{ $(".fa_email").removeClass("hidden"); } else { $(".fa_email").addClass("hidden"); }
-		if($('#streetAddress').html() != "")	{ $(".fa_streetAddress").removeClass("hidden"); } else { $(".fa_streetAddress").addClass("hidden"); }
+	}
 
-		//console.log("manageModeContext", mode);
-		//if($('#postalCode').html() != "")		{ $(".fa_postalCode").removeClass("hidden"); } else { $(".fa_postalCode").addClass("hidden"); }
-		//console.log("manageModeContext", mode);
-
-		if($('#addressCountry').html() != "")	{ $(".fa_addressCountry").removeClass("hidden"); } else { $(".fa_addressCountry").addClass("hidden"); }
-		if($('#telephone').html() != "")		{ $(".fa_telephone").removeClass("hidden"); } else { $(".fa_telephone").addClass("hidden"); }
-		if(endDate == ""){
-			$("#labelTo").addClass("hidden");
-			$("#btn-update-geopos").addClass("hidden");
+	function manageDivEdit() {
+		console.log("-----------------manageDivEdit----------------------");
+		listXeditables = [	'#divName', '#divShortDescription'];
+		if (mode == "view") {
+			$.each(listXeditables, function(i,value) {
+				$(value).hide();
+			});
+		} else if (mode == "update") {
+			$.each(listXeditables, function(i,value) {
+				$(value).show();
+			})
 		}
-		
+	}
+
+	function manageSocialNetwork(iconObject, value) {
+		//console.log("-----------------manageSocialNetwork----------------------");
+		tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
+				"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
+
+		var fa = tabId2Icon[iconObject.attr("id")];
+		console.log(value);
+		iconObject.empty();
+		if (value != "") {
+			
+			//else{
+			if(iconObject.attr("id") != "telegramAccount"){
+				iconObject.tooltip({title: value, placement: "bottom"});
+				iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+			}
+		} 
+
+		if(iconObject.attr("id") == "telegramAccount"){
+			iconObject.tooltip({title: value, placement: "left"});
+			iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+		}
+
+		console.log(iconObject);
+	}
+
+	function changeHiddenIcone() 
+	{ 
+		console.log("-----------------changeHiddenIcone----------------------");
+		/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+		console.log("------------", mode);
+		if(mode == "view"){
+			if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+			if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+			if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+			if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+			if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+			if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+			if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+			if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+			if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+		} else {
+			$(".fa_name").removeClass("hidden"); 
+			$(".fa_birthDate").removeClass("hidden"); 
+			$(".fa_email").removeClass("hidden"); 
+			$(".fa_streetAddress").removeClass("hidden"); 
+			$(".fa_postalCode").removeClass("hidden"); 
+			$(".fa_addressCountry").removeClass("hidden"); 
+			$(".fa_telephone_mobile").removeClass("hidden"); 
+			$(".fa_telephone").removeClass("hidden"); 
+			$(".fa_telephone_fax").removeClass("hidden"); 
+		}
 	}
 
 	function activateEditableContext() {
@@ -453,13 +761,20 @@
 			title : $(this).data("title"),
 			onblur: 'submit',
 			success: function(response, newValue) {
-				console.log("yo");
-        		if(! response.result) return response.msg; //msg will be shown in editable form
+				console.log(response, newValue);
+				if(! response.result) return response.msg; //msg will be shown in editable form
     		},
     		success : function(data) {
+    			console.log(data);
 				if(data.result) {
 					toastr.success(data.msg);
-					loadActivity=true;	
+					loadActivity=true;
+
+					if(typeof data.name != "undefined" && $('#nameHeader').length ){
+						$('#nameHeader').html(data.name);
+					}else if(typeof data.shortDescription != "undefined" && $('#shortDescriptionHeader').length ){
+						$('#shortDescriptionHeader').html(data.shortDescription);
+					}	
 				}
 				else 
 					return data.msg;
@@ -467,7 +782,15 @@
 
 		});
 
-		
+		$('.socialIcon').editable({
+			display: function(value) {
+				manageSocialNetwork($(this), value);
+			},
+			url: baseUrl+"/"+moduleId+"/element/updatefield",
+			mode: 'popup'
+		}); 
+
+
 		//Type Organization
 		 $('#type').editable({
 		 	url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
@@ -618,6 +941,31 @@
 				else 
 					return data.msg;
 		    }
+		});
+
+		$('#shortDescription').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			wysihtml5: {
+				color: false,
+				html: false,
+				video: false,
+				image: false,
+				table : false
+			},
+			validate: function(value) {
+			    console.log(value);
+			    if($.trim(value).length > 140) {
+			        return 'La description courte ne doit pas dépasser 140 caractères.';
+			    }
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+				}
+				else 
+					return data.msg;
+			}
 		});
 		
 
