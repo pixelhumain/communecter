@@ -502,7 +502,7 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
-	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ searchByHash(hash);} },
+	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
 function jsController(hash){
@@ -532,13 +532,14 @@ function jsController(hash){
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
 					//execute actions before teh ajax request
+					res = false;
 					if( endPoint.preaction && typeof endPoint.preaction == "function")
-						endPoint.preaction(hash);
+						res = endPoint.preaction(hash);
 					//hash can be iliased
 					if (endPoint.hash) 
 						hash = endPoint.hash;
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
-					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
+					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon, res );
 					
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
@@ -619,8 +620,10 @@ function setTitle(str, icon,topTitle) {
 
 //ex : #search:bretagneTelecom:all
 //#search:#fablab
+//#search:#fablab:all:map
 function searchByHash (hash) 
 { 
+	var mapEnd = false;
 	var searchT = hash.split(':');
 	// 1 : is the search term
 	var search = searchT[1]; 
@@ -644,7 +647,8 @@ function searchByHash (hash)
 		$(scopeBtn).trigger("click"); 
 
 	if( searchT.length > 3 && searchT[3] == "map" )
-		setTimeout(function(){ showMap(true); }, 3000);
+		mapEnd = true;
+	return mapEnd;
 }
 
 function checkMenu(urlObj, hash){
@@ -730,7 +734,7 @@ function  processingBlockUi() {
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
-function showAjaxPanel (url,title,icon, showMap) { 
+function showAjaxPanel (url,title,icon, mapEnd) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
@@ -771,7 +775,8 @@ function showAjaxPanel (url,title,icon, showMap) {
 
 			$.unblockUI();
 
-
+			if(mapEnd)
+				showMap(true);
 			// setTimeout(function(){
 			// 	console.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
