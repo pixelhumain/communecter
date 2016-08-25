@@ -135,6 +135,9 @@
 	.visible-empty{
 		display: none;
 	}
+	.visible-empty blockquote{
+		font-size:15px;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
