@@ -32,6 +32,8 @@
 [ ] filtrer par type d'event 
 [ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
 [ ] turn notification list into a header panel 
+[ ] ajouter la gestion des quartier Isis dans les scope
+[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)
 
 ** @Tango
     [ ] Finir Add member, contributeur et invitation
