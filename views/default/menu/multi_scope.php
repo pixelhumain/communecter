@@ -335,6 +335,7 @@ function showCountScope(){
 	});
 	$(".scope-count").html(count);
 	showTagsScopesMin(".list_tags_scopes");
+	showEmptyMsg();
 }
 function selectAllScopes(select){
 	$.each(myMultiScopes, function(key, value){
