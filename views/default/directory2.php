@@ -280,9 +280,10 @@ if( @$type == Organization::CONTROLLER && @$organization ){
 }
 else if( @$type == City::CONTROLLER && @$city ){
 	Menu::city( $city );
-	$contextName = Yii::t("common","City")." : ".$city["name"];
+	//$contextName = Yii::t("common","City")." : ".$city["name"];
+	$contextName = Yii::t("common","City")." : ".(($cityGlobal == false) ? $city["namePc"]." ".Yii::t("common", "town of")." ".$city["name"] : $city["name"]);
 	$contextIcon = "university";
-	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".(($cityGlobal == false) ? $city["namePc"]." ".Yii::t("common", "town of")." ".$city["name"] : $city["name"]);
 }
 else if( @$type == Event::CONTROLLER && @$event ){
 	Menu::event( $event,true );

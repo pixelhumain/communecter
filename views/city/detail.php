@@ -67,6 +67,20 @@ $this->renderPartial('../default/panels/toolbar');
     display: none;
   }
 
+  .townof {  
+    font-size:12px;
+    color: #3c5665;
+  }
+
+  .cityGlobal {  
+    font-size:16px;
+    color: #3c5665;
+  }
+
+  .cityGlobal:hover {
+    color: #2bb0c6;
+  }
+
 </style>
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
@@ -91,11 +105,15 @@ $this->renderPartial('../default/panels/toolbar');
           if($cityGlobal == true)
             echo $city["name"]; 
           else{
-            echo $city["namePc"] ." / " ;
+            echo $city["namePc"];
+          
         ?>
-          <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="">
-            <?php echo $city["name"];  ?>
-          </a>        
+          <label class="townof">
+            <?php echo Yii::t("common", "town of") ; ?>
+            <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="lbh cityGlobal">
+              <?php echo $city["name"];  ?>
+            </a> 
+          </label>       
         <?php } ?>
         </center>
       </h1>
@@ -111,9 +129,15 @@ $this->renderPartial('../default/panels/toolbar');
               </div>
               <div class="panel-body ">
 
-                
+                    <?php
+                    $baseUrlPc = ($cityGlobal == false)?".postalCode.".$city["cp"]:"" ;
+                    $baseUrlDirectory = "#city.directory.insee.".$city["insee"].$baseUrlPc.".tpl.directory2.type" ;
+                    
+                      
 
-                    <div class="text-yellow homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.citoyens");'>
+                    ?>
+
+                    <div class="text-yellow homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("<?php echo $baseUrlDirectory; ?>.citoyens");'>
                       <i class="fa fa-user"></i>
                       <?php $cnt= (isset($people)) ? count($people): 0; ?>
                       <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
