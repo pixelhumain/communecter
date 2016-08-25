@@ -171,7 +171,7 @@
    			<blockquote>
    				Pour rester en contact permanent avec les zones géographiques qui vous intéressent le plus, définissez votre liste de lieux favoris, en sélectionnant <strong>des communes, des codes postaux, des départements, ou des régions</strong>.
    			</blockquote>
-   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
+   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos <i>lieux favoris</i> à volonté.</blockquote>
    			
    			<blockquote>
    				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc

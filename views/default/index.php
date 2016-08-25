@@ -647,7 +647,7 @@ function setScopeValue(btn){ console.log("setScopeValue");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);
-			setTimeout(function(){ showTwoStep("street");  }, 2000);
+			setTimeout(function(){ achiveTSRAddress(); /*showTwoStep("street");*/  }, 2000);
 			//showMap(false);
 		}else{
 			//showLocalActorsCityCommunexion();

@@ -63,7 +63,7 @@
       	</div>
    		<div class="panel-body padding-10 visible-empty text-dark">
    			<blockquote>
-   				Vos #tags favoris permettent au système de vous envoyer le contenu qui vous intéresse, 
+   				Vos #tags favoris permettent au système de trouver le contenu qui vous intéresse, 
    				<strong>en fonction de vos envies</strong>.
    			</blockquote>
    			<blockquote><strong>Ajoutez, supprimez, activez, désactivez</strong> vos #tag à volonté.</blockquote>
