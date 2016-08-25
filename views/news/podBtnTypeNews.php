@@ -120,7 +120,7 @@ input.form-control.input-search{
 
 </div>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>
@@ -135,7 +135,7 @@ input.form-control.input-search{
 		<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
 	</div>
 
-	<div class="col-sm-12 col-md-8 col-lg-4 no-padding">
+	<div class="col-sm-12 col-md-8 col-lg-5 no-padding">
 	  	<div class="input-group col-xs-12 pull-left">
 	        
 	        <span class="input-group-btn">

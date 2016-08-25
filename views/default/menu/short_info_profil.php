@@ -25,12 +25,12 @@
     //if(isset(Yii::app()->session['userId'])) 
     $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    <div class="input-group group-globalsearch inline">
+    <div class="input-group group-globalsearch inline hidden-xs">
       <span class="input-group-addon" id="basic-addon1">
-        <i class="fa fa-search text-dark searchIcon tooltips hidden-xs" 
+        <i class="fa fa-search text-dark searchIcon tooltips" 
            data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
       </span>
-      <input type="text" class="text-dark input-global-search hidden-xs" 
+      <input type="text" class="text-dark input-global-search" 
              placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     </div>
     <div class="dropdown-result-global-search"></div>

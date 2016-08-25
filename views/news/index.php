@@ -325,7 +325,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
 			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
-					class="col-sm-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
+					class="col-sm-12 col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
