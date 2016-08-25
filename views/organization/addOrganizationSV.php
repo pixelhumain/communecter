@@ -287,7 +287,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 <script type="text/javascript">
-
+var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
 jQuery(document).ready(function() {
 	$(".btn-select-type-orga").click(function(){
 		var val = $(this).attr("val");
@@ -379,7 +379,7 @@ jQuery(document).ready(function() {
 	var localBusinessCategories = formatDataForSelect(<?php echo empty($localBusinessCategories) ? "[]" : json_encode($localBusinessCategories); ?>, "select2");
 	console.log(countries, NGOcategories);
 	$('#tagsOrganization').select2({ tags: <?php echo empty($tags) ? "''" : $tags; ?> });
-	
+
 	$('#categoryNGO').select2({ 
 		data : NGOcategories,
 		multiple: true,
@@ -395,7 +395,7 @@ jQuery(document).ready(function() {
 	$('#organizationCountry').select2({
 		data : countries,
 	});
-
+	$("#addOrganization #organizationCountry").select2('val', userCountry);
 
 	Sig.clearMap();
 	

@@ -381,6 +381,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	var citiesByPostalCode;
 	var organizerParentType = "<?php if (@$parentType) echo $parentType; ?>";
 	var organizerParentId = "<?php if (@$parentId) echo $parentId; ?>";
+	
 	//var organizerParentName = "<?php if (@$_GET["organizerParentName"]) echo $_GET["organizerParentName"]; ?>"; 
 	/*if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
@@ -495,6 +496,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$('#eventCountry').select2({
 			data : countries,
 		});
+		var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
+		$("#newEvent #eventCountry").select2('val', userCountry);
 	};
 
 	//validate new event form
@@ -716,7 +719,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function initMyOrganization(){
 
-		$("#eventCountry").select2('val', "");
+		//$("#eventCountry").select2('val', "");
 
 		if(organizerParentType.length > 0){
 			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";
