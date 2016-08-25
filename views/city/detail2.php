@@ -87,9 +87,14 @@ $this->renderPartial('../default/panels/toolbar');
   <?php //} ?>
 
   <div class="col-xs-12">
-
       <h1 class="homestead text-red cityName-header">
-        <center><?php echo $city["cp"]; ?> <i class="fa fa-university"></i> <?php echo $city["name"]; ?></center>
+        <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 
+        <?php
+          if($cityGlobal == true)
+            echo $city["name"] . "jj"; 
+          else
+            echo $city["namePC"] . " / " . $city["name"]; 
+        ?></center>
       </h1>
      
   </div>
