@@ -1,17 +1,13 @@
+Tibor Katelbach (oceatoon@gmail.com)
 <?php 
 $cssAnsScriptFilesTheme = array(
-	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
-	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js',
-
+//Select2
+'/assets/plugins/select2/select2.css',
+'/assets/plugins/select2/select2.min.js',
+//autosize
+'/assets/plugins/autosize/jquery.autosize.min.js',
 );
+
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
@@ -25,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		padding: 0px 15px; 
 		margin-left:2%; 
 		width:96%;
-	};
+	}
 	.select2-input {
 		width:100%;
 	}

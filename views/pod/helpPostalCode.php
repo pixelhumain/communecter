@@ -649,7 +649,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 		//verifie que le countryCode correspond au choix dans le formulaire, 
 		//et que la donnée a au moins un nom ou un code postal
 		if(obj.countryCode.toLowerCase() == countryCode.toLowerCase() && 
-		   (typeof obj.cityName != "undefined" || 
+		   (//typeof obj.cityName != "undefined" || 
 		   typeof obj.postalCode != "undefined")){ totalShown++;
 				showOneElementOnMap(obj, mapEntity);
 		}
