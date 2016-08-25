@@ -9,7 +9,9 @@
 		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
 	}
 	.btn-go-home {
-	    margin-top: 33%;
+	    position: absolute;
+		bottom: 56%;
+		right: -36%;
 	    font-size: 23px;
 	}
 	.btn-go-home-sm {
@@ -27,19 +29,50 @@
 		right: 20%;
 		padding: 1px 3px;
 	}
+	.btn-co {
+	    position: absolute;
+		bottom: 29%;
+		right: -44%;
+	    font-size: 23px;
+	}
+	.btn-co-sm {
+		font-size: 19px;
+		font-weight: 100 !important;
+		position: absolute;
+		bottom: 45%;
+		left: 2%;
+	}
+	.btn-co-xs {
+		font-size: 11px;
+		font-weight: 100 !important;
+		position: absolute;
+		bottom: 45%;
+		left: 2%;
+		padding: 1px 3px;
+	}
 </style>
 <div class="col-md-8 no-padding">
 	<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
 
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm">
-		<i class="fa fa-angle-right"></i> En savoir plus
-	</a>
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home-xs homestead visible-xs">
-		<i class="fa fa-angle-right"></i> En savoir plus
-	</a>
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm"><i class="fa fa-angle-right"></i> En savoir plus</a>
+	<a href="javascript:;" class="btn btn-xs bg-red btn-co-sm homestead btn-geo-auto visible-sm"> <i class="fa fa-crosshairs"></i></a>
+	
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home-xs homestead visible-xs"><i class="fa fa-angle-right"></i> En savoir plus</a>
+	<a href="javascript:;" class="btn btn-xs bg-red btn-co-xs homestead visible-xs btn-geo-auto"> <i class="fa fa-crosshairs"></i></a>
+
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs"><i class="fa fa-angle-right"></i> En savoir plus</a>
+	<a href="javascript:;" class="lbh btn bg-red btn-co homestead btn-geo-auto hidden-sm hidden-xs"><i class="fa fa-angle-right"></i> Communectez-moi <i class="fa fa-crosshairs"></i></a>
 
 </div>
 
-<div class="col-md-4 no-padding center hidden-sm hidden-xs">
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead"><i class="fa fa-angle-right"></i> En savoir plus</a>
-</div>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	$(".btn-geo-auto").on("click",function(e){
+		e.preventDefault();
+		alert();
+    	
+    })
+});
+</script>
