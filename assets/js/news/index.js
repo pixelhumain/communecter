@@ -30,7 +30,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     if (typeof(locality) != "undefined")   filter.locality=locality;
     if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
-	if (typeof(tagSearch) != "undefined") filter.tagSearch=$('#searchTags').val().split(',');
+	//if (typeof(tagSearch) != "undefined") 
+	filter.tagSearch=$('#searchTags').val().split(',');
 
 	//console.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
@@ -46,6 +47,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	      //"searchBy" : levelCommunexionName[levelCommunexion]
 	    };
     }	
+
+    filter.textSearch=$('#searchBarText').val();
 
 	console.log("loadStream", dateLimit);
 	console.dir(filter);
@@ -145,7 +148,7 @@ function buildTimeLine (news, indexMin, indexMax)
 				// form = "<div class='newsFeed'>"+
 				// 		"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
 				// 	"</div>";
-				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Soyez le premier à publier ici</div>";
+				msg = "<div class='newsFeed newsFeedNews'>Aucune message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
 				msg = "<div class='newsFeed newsFeedNews'>Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur.</div>";

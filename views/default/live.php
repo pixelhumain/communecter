@@ -83,29 +83,7 @@
 	  
 	<div class="col-xs-12 center ">
 		
-	  <div class="col-md-12 no-padding margin-top-15 hidden">
-	  	<div class="input-group col-xs-12 pull-left">
-	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
-
-	        <!-- <span class="input-group-btn">
-	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
-	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
-	                      <i class="fa fa-refresh"></i>
-	              </button>
-	        </span> -->
-	    </div> 
-	    <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
-	            style="margin-left:15px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
-	            <i class="fa fa-minus"></i>
-	    </button>
-	    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs hidden  pull-left" 
-	            style="margin-left:7px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
-	          <i class="fa fa-question-circle"></i>
-	    </button>
-	  </div>
-	</div>
+	
 
 	<div id="list_filters">
 	 <!--  <div class="col-xs-12 margin-top-15 no-padding">
@@ -131,6 +109,9 @@
 	  </div>
 	  
 	  <div class="lbl-scope-list text-red hidden"></div>
+
+	  
+	</div>
 	</div>
 
 	<div class="col-xs-12 no-padding hidden"><hr></div>
@@ -276,6 +257,7 @@ function loadLiveNow () {
       "indexMax" : 40 
     };
 
+    
     ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
         bindLBHLinks();
      } , "html" );
@@ -340,7 +322,8 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 
     dataNewsSearch.tagSearch = tagSearch;
     dataNewsSearch.searchType = searchType; 
-        
+    dataNewsSearch.textSearch = $('#searchBarText').val();
+       
     //dataNewsSearch.type = thisType;
     //var myParent = <?php echo json_encode(@$parent)?>;
     //dataNewsSearch.parent = { }
