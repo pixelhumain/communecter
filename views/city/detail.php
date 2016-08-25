@@ -69,7 +69,6 @@ $this->renderPartial('../default/panels/toolbar');
 
 </style>
 <!-- start: PAGE CONTENT -->
-
 <div class="row padding-20" id="cityDetail">
 
    <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
@@ -90,10 +89,15 @@ $this->renderPartial('../default/panels/toolbar');
         <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 
         <?php
           if($cityGlobal == true)
-            echo $city["name"] . "jj"; 
-          else
-            echo $city["namePC"] . " / " . $city["name"]; 
-        ?></center>
+            echo $city["name"]; 
+          else{
+            echo $city["namePc"] ." / " ;
+        ?>
+          <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="">
+            <?php echo $city["name"];  ?>
+          </a>        
+        <?php } ?>
+        </center>
       </h1>
      
   </div>
