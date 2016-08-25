@@ -256,6 +256,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .main-col-search{
 	min-height:1100px !important;
 }
+.timeline_element .label-danger {
+    margin-bottom: 3px;
+    display: inline-block;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 

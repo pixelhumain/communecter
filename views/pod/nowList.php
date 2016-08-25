@@ -28,7 +28,6 @@
     
     .elemt_img{
         max-height:150px;
-        min-height:150px; 
         overflow: hidden;
         width:100%;
         text-align:center;

@@ -169,7 +169,7 @@
 
 		<a href="#default.live" id="menu-btn-live"
 				data-hash="#default.live"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-heartbeat  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>

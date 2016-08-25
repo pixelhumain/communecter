@@ -10,7 +10,7 @@
 	}
 	.btn-go-home {
 	    position: absolute;
-		bottom: 56%;
+		bottom: 54%;
 		right: -36%;
 	    font-size: 23px;
 	}
@@ -31,8 +31,8 @@
 	}
 	.btn-co {
 	    position: absolute;
-		bottom: 29%;
-		right: -44%;
+		bottom: 30%;
+		right: -36%;
 	    font-size: 23px;
 	}
 	.btn-co-sm {
@@ -54,14 +54,28 @@
 <div class="col-md-8 no-padding">
 	<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
 
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm"><i class="fa fa-angle-right"></i> En savoir plus</a>
-	<a href="javascript:;" class="btn btn-xs bg-red btn-co-sm homestead btn-geoloc-auto visible-sm"> <i class="fa fa-crosshairs"></i></a>
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm">
+		<i class="fa fa-angle-right"></i> En savoir plus
+	</a>
+	<a href="javascript:;" class="btn btn-xs bg-red btn-co-sm homestead btn-geoloc-auto visible-sm tooltips"
+		data-toggle="tooltip" data-placement="right" title="Communectez-moi">
+		<i class="fa fa-crosshairs"></i>
+	</a>
 	
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home-xs homestead visible-xs"><i class="fa fa-angle-right"></i> En savoir plus</a>
-	<a href="javascript:;" class="btn btn-xs bg-red btn-co-xs homestead visible-xs btn-geoloc-auto"> <i class="fa fa-crosshairs"></i></a>
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home-xs homestead visible-xs">
+		<i class="fa fa-angle-right"></i> En savoir plus
+	</a>
+	<a href="javascript:;" class="btn btn-xs bg-red btn-co-xs homestead visible-xs btn-geoloc-auto tooltips"
+		data-toggle="tooltip" data-placement="right" title="Communectez-moi">
+		<i class="fa fa-crosshairs"></i>
+	</a>
 
-	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs"><i class="fa fa-angle-right"></i> En savoir plus</a>
-	<a href="javascript:;" class="lbh btn bg-red btn-co homestead btn-geoloc-auto hidden-sm hidden-xs"><i class="fa fa-angle-right"></i> Communectez-moi <i class="fa fa-crosshairs"></i></a>
+	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs">
+		<i class="fa fa-angle-right"></i> En savoir plus
+	</a>
+	<a href="javascript:;" class="lbh btn bg-red btn-co homestead btn-geoloc-auto hidden-sm hidden-xs">
+		<i class="fa fa-angle-right"></i> Communectez-moi <i class="fa fa-crosshairs"></i>
+	</a>
 
 </div>
 
