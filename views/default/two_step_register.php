@@ -253,74 +253,21 @@
 			<!-- <i class="fa fa-cogs fa-2x text-white"></i><br> -->
 			<h1 class="homestead text-white">
 				<i class="fa fa-circle"></i>
-				 Étape 1 : Paramètres de recherche
+				 Paramètres optionnel
 			</h1>
 
-			Pour commencer, il est important de définir vos <strong>#tags</strong> et <strong>lieux favoris</strong> :<br><br>
-			<button class="btn bg-azure" id="open-multi-tag"><i class="fa fa-tags"></i> Mes tags favoris</button>
-			<button class="btn bg-azure" id="open-multi-scope"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
-			<br><br>
-			<button class="btn btn-success" id="open-multi-scope" onclick="showTwoStep('begin-zone')">
-				<i class="fa fa-angle-right"></i> Étape suivante
-			</button>
+			Pour mieux profiter de la plateforme  :<br><br>
+			Ajouter une image 
+			Trier par tags : <button class="btn bg-azure" id="open-multi-tag"><i class="fa fa-tags"></i> Mes tags favoris</button><br/><br/>
+			Définir plusieur lieux d'interet : <button class="btn bg-azure" id="open-multi-scope"><i class="fa fa-bullseye"></i> Mes lieux favoris</button><br/><br/>
+			Définir ma Localité pour agir localement  
+			
 
 			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
 		</span>
 	</div>
 
-	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center hidden" id="menu-step-addr">
-		<a href="javascript:showTwoStep('begin-zone')" class="badge badge-success text-white current" id="menu-step-addr-1">
-			1 - Mon pays<br>
-		</a>
-		<div class="badge text-white" id="menu-step-addr-2">
-			2 - Ma commune
-			<span id="conf-commune" class="text-red hidden">
-				<?php //echo $cityNameCommunexion.", ".$cpCommunexion; ?>
-			</span>
-
-		</div>
-		<div class="badge text-white" id="menu-step-addr-3">
-			3 - Ma rue<br><br>
-			<span id="conf-street"></span>
-		</div>
-	</div>
-
-
-	<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
-			<h1 class="homestead text-white">
-				<i class="fa fa-circle"></i>
-				 Étape 2 : Votre position
-			</h1>
-
-			<div class="col-md-6 col-md-offset-3">
-				<select class="form-control" id="addressCountry">
-				  <option value="FR">France</option>
-				  <option value="GP">Guadeloupe</option>
-				  <option value="GF">Guyanne Française</option>
-				  <option value="MQ">Martinique</option>
-				  <option value="YT">Mayotte</option>
-				  <option value="NC">Nouvelle-Calédonie</option>
-				  <option value="RE">Réunion</option>
-				  <option value="PM">St Pierre et Miquelon</option>
-				</select>
-			</div>
-			<div class="col-md-12">
-				<button class="btn btn-success margin-top-15" onclick="validateZone()">Continuer <i class="fa fa-angle-right"></i></button>
-			</div>
-
-			<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px; padding:10px;">
-		Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
-		nous aurions besoin de quelques informations sur votre position géographique ...
-		<br><a href="javascript:" data-id="explainYourData" class="explainLink bold strong">En savoir + sur l'utilisation de vos données</a>
-	<br><br>
-		<span class="text-center text-dark hidden" style="font-size:15px; font-weight:300;">
-			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
-			C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
-			<br><br>
-			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" class="btn bg-azure"><i class="fa fa-angle-left"></i> Sortir</a>
-		</span>
-	</div>	
-	</div>
+	
 
 
 	<?php if(!isset($inseeCommunexion)){ ?>
@@ -387,31 +334,7 @@
 	
 
 
-		<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step2">
-			<h1 class="homestead text-white">
-				<i class="fa fa-circle"></i>
-				 Étape 3 : Photo de profil
-			</h1>
-			<div class="col-md-8 col-md-offset-2">
-			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-				<div class="margin-bottom-15">Sélectionnez votre première photo de profil.</div>
-				<button class="btn bg-dark margin-bottom-15" onclick="$('#profil_avatar').click();">
-					<i class="fa fa-download"></i> Choisir une image
-				</button>
-				<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string) Yii::app()->session['userId'],
-																	  "type" => Person::COLLECTION,
-																	  "resize" => false,
-																	  "contentId" => Document::IMG_PROFIL,
-																	  "show" => true,
-																	  "editMode" => true,
-																	  "image" => null )); 
-				?>
-				<a class="btn btn-success margin-top-10 lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>">
-					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
-				</a>
-			</span>
-			</div>
-		</div>
+		
 
 		<div class="col-md-12 center bg-dark section-tsr" id="step3">
 			<h1 class="homestead text-white">
