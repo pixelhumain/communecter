@@ -1,7 +1,7 @@
  <div class="cityHeadSection"></div>
  <?php 
 
-Menu::city($city);
+Menu::city($city, $cityGlobal);
 $this->renderPartial('../default/panels/toolbar'); 
 
  $cssAnsScriptFilesModule = array(
@@ -67,7 +67,7 @@ $this->renderPartial('../default/panels/toolbar');
     display: none;
   }
 
-  .townof {  
+  .town {  
     font-size:12px;
     color: #3c5665;
   }
@@ -110,15 +110,16 @@ $this->renderPartial('../default/panels/toolbar');
             echo $city["name"]; 
           else{
             echo $city["namePc"];
-          
+            if(count($city["postalCodes"]) > 1 ){
         ?>
-          <label class="townof">
-            <?php echo Yii::t("common", "town of") ; ?>
-            <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="lbh cityGlobal">
-              <?php echo $city["name"];  ?>
-            </a> 
-          </label>       
-        <?php } ?>
+              <div class="town">
+                <?php echo Yii::t("common", "Access to all common information of") ; ?>
+                <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="lbh cityGlobal">
+                  <?php echo $city["name"];  ?>
+                </a> 
+              </div>       
+      <?php } 
+          } ?>
         </center>
       </h1>
      
