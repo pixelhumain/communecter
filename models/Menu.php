@@ -312,20 +312,28 @@ class Menu {
         } 
     }
 
-    public static function city($city)
+    public static function city($city, $cityGlobal = false)
     {
         if( !is_array( Yii::app()->controller->toolbarMBZ ))
             Yii::app()->controller->toolbarMBZ = array();
         //$mbz = array("<li id='linkBtns'><a href='javascript:;' class='tooltips ' data-placement='top' data-original-title='This Organization is disabled' ><i class='text-red fa fa-times '></i>DISABLED</a></li>");
         $insee = (string)$city["insee"];
-        $cp = (string)$city["cp"];
+        $paramsUrl = ".insee.".$insee ;
+        if($cityGlobal == false){
+            $cp = (string)$city["cp"];
+            $paramsUrl .= ".postalCode.".$cp ;
+        }
+            
+
+
+        
         
         //HOME
         //-----------------------------
         self::entry("left", 'onclick', 
         			Yii::t( "common", 'City Home page'),
 					Yii::t( "common", 'Details'), 'university',
-					"loadByHash('#city.detail.insee.".$insee.".postalCode.".$cp."')",null,null);
+					"loadByHash('#city.detail".$paramsUrl."')",null,null);
         
         //SEND MESSAGE
         //-----------------------------
@@ -357,7 +365,7 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t( "common", 'Local network'), 
         			Yii::t( "common", 'Directory'),'bookmark fa-rotate-270',
-        			"loadByHash('#city.directory.insee.".$insee.".postalCode.".$cp.".tpl.directory2')",null,null);
+        			"loadByHash('#city.directory".$paramsUrl.".tpl.directory2')",null,null);
 
         //STATISTICS
         //-----------------------------

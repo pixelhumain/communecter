@@ -1259,7 +1259,7 @@ La vie en santé;Santé;;
 			
 			if(!empty($cities)){
 
-				/*$res = PHDB::update( City::COLLECTION, 
+				/*$res = PHDB::updateWithOption( City::COLLECTION, 
 									  	array("region"=> $region[2]),
 				                        array('$set' => array(	"region" => $region[0],
 				                        						"regionName" => $region[1])),
