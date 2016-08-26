@@ -135,8 +135,9 @@ input.form-control.input-search{
 		<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
 	</div>
 
-	<div class="col-sm-12 col-md-8 col-lg-5 no-padding">
-	  	<div class="input-group col-xs-12 pull-left">
+
+	<div class="col-sm-12 col-md-8 col-lg-4 no-padding">
+	  	<div class="input-group col-xs-12 pull-left hidden">
 	        
 	        <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"

@@ -86,7 +86,7 @@
 	
 
 	<div id="list_filters">
-	 <!--  <div class="col-xs-12 margin-top-15 no-padding">
+	  <!--  <div class="col-xs-12 margin-top-15 no-padding">
 	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 	  </div> -->
 	  
@@ -110,7 +110,6 @@
 	  
 	  <div class="lbl-scope-list text-red hidden"></div>
 
-	  
 	</div>
 	</div>
 

@@ -125,7 +125,6 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] login url to live not home
     [ ] repairing localisation HTML5 
     [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] search by name on live page
@@ -143,8 +142,6 @@
         [X] ajouter un scope geo sur une proposition
     [X] live on city page
     [X] wisiwig sur les commentaires
-    [X] bug sur event > globale search
-    [X] bug : qrCode explain 
     [X] dashboard
         [X] live controller 
             [X] not connected > shows live , public information 
