@@ -171,7 +171,7 @@
    			<blockquote>
    				Pour rester en contact permanent avec les zones géographiques qui vous intéressent le plus, définissez votre liste de lieux favoris, en sélectionnant <strong>des communes, des codes postaux, des départements, ou des régions</strong>.
    			</blockquote>
-   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
+   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos <i>lieux favoris</i> à volonté.</blockquote>
    			
    			<blockquote>
    				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
@@ -248,6 +248,8 @@ function scopeExists(scopeValue){
 }
 
 function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); //console.dir(myMultiScopes);
+	
+	hideSearchResults();
 	if(userId != null && userId != ""){
 		$.ajax({
 	        type: "POST",
@@ -256,6 +258,8 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	       	dataType: "json",
 	    	success: function(data){
 	    		//console.log("saveMultiScope() success");
+	    		if(location.hash.indexOf("#city.detail")==0)
+					loadByHash("#default.live");
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
@@ -496,7 +500,7 @@ function rebuildSearchScopeInput()
 	if( $("#searchLocalityREGION") )
 		$("#searchLocalityREGION").val(searchLocalityREGIONs);
 
-
+	
 	//if( typeof searchCallback == "function" )
 		//searchCallback();
 }

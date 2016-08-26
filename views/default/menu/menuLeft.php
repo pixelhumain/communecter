@@ -131,7 +131,7 @@
 		?>
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href=#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
 				class="menu-button menu-button-left menu-button-title btn-menu lbh
 				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
@@ -169,11 +169,11 @@
 
 		<a href="#default.live" id="menu-btn-live"
 				data-hash="#default.live"
-				class="lbh menu-button-left visible-communected 
+				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-heartbeat  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
-		</a><hr class="visible-communected">
+		</a><hr class="">
 
 		<a href="#default.live.type.idea" id="menu-btn-live-idea"
 				data-hash="#default.live.type.idea"

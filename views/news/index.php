@@ -256,6 +256,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .main-col-search{
 	min-height:1100px !important;
 }
+.timeline_element .label-danger {
+    margin-bottom: 3px;
+    display: inline-block;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -265,7 +269,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type)); 
 ?>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
+<!-- <div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div> -->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
@@ -325,12 +329,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
 			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
-					class="col-sm-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
+					class="col-sm-12 col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
 					<textarea id="get_url" placeholder="Exprimez-vous ..." class=" get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>
