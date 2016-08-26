@@ -1215,4 +1215,74 @@ La vie en santé;Santé;;
 		}
 	}
 
+
+
+	public function actionUpdateRegion(){
+
+		$newsRegions = array(
+						//array("new_code","new_name","former_code","former_name"),
+						array("01","Guadeloupe","971","Guadeloupe"),
+						array("02","Martinique","972","Martinique"),
+						array("03","Guyane","973","Guyane"),
+						array("04","La Réunion","974","La Réunion"),
+						array("06","Mayotte","976","Mayotte"),
+						array("11","Île-de-France","11","Île-de-France"),
+						array("24","Centre-Val de Loire","24","Centre"),
+						array("27","Bourgogne-Franche-Comté","26","Bourgogne"),
+						array("27","Bourgogne-Franche-Comté","43","Franche-Comté"),
+						array("28","Normandie","23","Haute-Normandie"),
+						array("28","Normandie","25","Basse-Normandie"),
+						array("32","Nord-Pas-de-Calais-Picardie","31","Nord-Pas-de-Calais"),
+						array("32","Nord-Pas-de-Calais-Picardie","22","Picardie"),
+						array("44","Alsace-Champagne-Ardenne-Lorraine","41","Lorraine"),
+						array("44","Alsace-Champagne-Ardenne-Lorraine","42","Alsace"),
+						array("44","Alsace-Champagne-Ardenne-Lorraine","21","Champagne-Ardenne"),
+						array("52","Pays de la Loire","52","Pays de la Loire"),
+						array("53","Bretagne","53","Bretagne"),
+						array("75","Aquitaine-Limousin-Poitou-Charentes","72","Aquitaine"),
+						array("75","Aquitaine-Limousin-Poitou-Charentes","54","Poitou-Charentes"),
+						array("75","Aquitaine-Limousin-Poitou-Charentes","74","Limousin"),
+						array("76","Languedoc-Roussillon-Midi-Pyrénées","73","Midi-Pyrénées"),
+						array("76","Languedoc-Roussillon-Midi-Pyrénées","91","Languedoc-Roussillon"),
+						array("84","Auvergne-Rhône-Alpes","82","Rhône-Alpes"),
+						array("84","Auvergne-Rhône-Alpes","83","Auvergne"),
+						array("93","Provence-Alpes-Côte d'Azur","93","Provence-Alpes-Côte d'Azur"),
+						array("94","Corse","94","Corse")
+					);
+
+		foreach ($newsRegions as $key => $region){
+
+			echo "News : (".$region[0].") ".$region[1]." ---- Ancien : (".$region[2].") ".$region[3]."</br>" ;
+
+			$cities = PHDB::find(City::COLLECTION,array("region" => $region[2]));
+			$res = array("result" => false , "msg" => "La région (".$region[0].") ".$region[1]." n'existe pas");
+			
+			if(!empty($cities)){
+
+				/*$res = PHDB::update( City::COLLECTION, 
+									  	array("region"=> $region[2]),
+				                        array('$set' => array(	"region" => $region[0],
+				                        						"regionName" => $region[1])),
+				                        array("multi"=> true)
+				                    );*/
+				foreach ($cities as $key => $city) {
+					$res = PHDB::update( City::COLLECTION, 
+									  	array("_id"=>new MongoId($key)),
+				                        array('$set' => array(	"region" => $region[0],
+				                        						"regionName" => $region[1]))
+				                    );
+
+				}
+				
+				var_dump($res);
+				echo "</br></br></br>";
+
+			}
+			else
+				echo "Result : ".$res["result"]." | ".$res["msg"]."</br></br></br>";
+
+		}
+
+	}
+
 }
