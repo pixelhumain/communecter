@@ -198,6 +198,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <div class="col-md-12 no-padding" style="margin-top:20px">
                     
                     <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+
                         <a href="#default.directory?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-search"></i>
                         </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>

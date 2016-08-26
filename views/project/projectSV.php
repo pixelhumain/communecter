@@ -259,6 +259,9 @@ jQuery(document).ready(function() {
 	$('#projectCountry').select2({
 		data : countries
 	});
+	var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
+	$("#projectCountry").select2('val', userCountry);
+
 	$("textarea.autosize").autosize();
 
     $(".daterangepicker").on("hide.daterangepicker", function(){
