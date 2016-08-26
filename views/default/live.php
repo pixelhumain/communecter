@@ -247,7 +247,8 @@ function loadLiveNow () {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
+      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>",
+      				  "<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 

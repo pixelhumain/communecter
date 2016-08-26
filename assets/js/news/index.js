@@ -26,6 +26,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     else
     	simpleUserData="";
 
+    searchType = ["organizations", "projects", "events", "needs"];
+
     filter = new Object;
     //filter.parent=parent;
     if (typeof(locality) != "undefined")   filter.locality=locality;
