@@ -238,10 +238,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				</div>
 				<div class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
-						<i class="fa fa-globe"></i> 
-						<?php echo @$entity["address"]["addressLocality"].", ".
-									@$entity["address"]["postalCode"].", ".
-									@$entity["address"]["addressCountry"]; ?>
+						<i class="fa fa-globe"></i>
+						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?>,</label>
+						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?>,</label> 
+						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
+						
 					</span>
 				</div>
 			</div>
@@ -302,6 +303,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					?> pts
 				</span>
 				<?php } ?>
+				<div id="divTagsHeader">
 				<?php if(isset($entity["tags"])){ ?>
 					<?php $i=0; foreach($entity["tags"] as $tag){ if($i<6) { $i++;?>
 					<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
@@ -309,6 +311,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</div>
 					<?php }} ?>
 				<?php } ?>
+				</div>
 			</div>
 			<?php } ?>
 		</div>

@@ -355,11 +355,13 @@
 						}
 					}
 				?>
-				<?php if ($type==Person::COLLECTION){ ?>
-				<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-				<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
-				</a>
-				<br>	
+
+				<?php if($type==Person::COLLECTION){?>
+					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
+					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="">
+						<?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?>
+					</a>
+					<br>	
 				<?php } ?>
 				<?php if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
 				<i class="fa fa-envelope fa_email  hidden"></i> 
@@ -519,12 +521,14 @@
 	//By default : view mode
 	var mode = "view";
 	var images = <?php echo json_encode($images) ?>;
+	var tags = <?php echo json_encode($tags)?>;
 	var types = <?php echo json_encode($elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
 	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>'
 	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>'
+	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
@@ -538,7 +542,7 @@
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContext();
-		changeHiddenIcone();
+		changeHiddenIcone(true);
 		manageDivEdit();
 
 		$('#avatar').change(function() {
@@ -645,8 +649,8 @@
 			var value = $(this).attr("value");
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
-		});	
-
+		});
+		//if(<?php echo isset($element["birthDate"]) 					? "true" : "false"; ?>){ $(".fa_birthDate").removeClass("hidden"); }
 	}
 
 	function switchMode() {
@@ -657,7 +661,7 @@
 			mode ="view";
 		}
 		manageModeContext();
-		changeHiddenIcone();
+		changeHiddenIcone(false);
 		manageDivEdit();
 	}
 
@@ -723,31 +727,34 @@
 		console.log(iconObject);
 	}
 
-	function changeHiddenIcone() 
-	{ 
+	function changeHiddenIcone(init) { 
 		console.log("-----------------changeHiddenIcone----------------------");
-		/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
-		console.log("------------", mode);
-		if(mode == "view"){
-			if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
-			if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
-			if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
-			if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
-			if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
-			if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
-			if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
-			if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
-			if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
-		} else {
-			$(".fa_name").removeClass("hidden"); 
-			$(".fa_birthDate").removeClass("hidden"); 
-			$(".fa_email").removeClass("hidden"); 
-			$(".fa_streetAddress").removeClass("hidden"); 
-			$(".fa_postalCode").removeClass("hidden"); 
-			$(".fa_addressCountry").removeClass("hidden"); 
-			$(".fa_telephone_mobile").removeClass("hidden"); 
-			$(".fa_telephone").removeClass("hidden"); 
-			$(".fa_telephone_fax").removeClass("hidden"); 
+		
+		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_streetAddress", ".fa_postalCode", 
+						".fa_addressCountry", ".fa_telephone_mobile",".fa_telephone",".fa_telephone_fax",
+						".fa_url"];
+
+		listXeditables = [	'#username','#birthDate',"#email", "#streetAddress", "#address",
+						"#addressCountry", "#mobile", "#fixe", "#fax","#url"];
+		if (init == true) {
+			$.each(listIcones, function(i,value) {
+				console.log("here");
+				if($(listXeditables[i]).text().length != 0){
+					console.log(listXeditables[i], " : ", value);
+					$(value).removeClass("hidden");	
+				}
+					 
+			});
+		}
+		else if (mode == "view") {
+			$.each(listIcones, function(i,value) {
+				if($(listXeditables[i]).text().length == 0)
+					$(value).editable('toggleDisabled');
+			});
+		} else if (mode == "update") {
+			$.each(listXeditables, function(i,value) {
+				$(value).removeClass("hidden"); 
+			});
 		}
 	}
 
@@ -772,8 +779,6 @@
 
 					if(typeof data.name != "undefined" && $('#nameHeader').length ){
 						$('#nameHeader').html(data.name);
-					}else if(typeof data.shortDescription != "undefined" && $('#shortDescriptionHeader').length ){
-						$('#shortDescriptionHeader').html(data.shortDescription);
 					}	
 				}
 				else 
@@ -809,19 +814,51 @@
 			}
 		 });
 
+		$('#birthDate').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			mode: 'popup',
+			placement: "right",
+			format: 'yyyy-mm-dd',   
+	    	viewformat: 'dd/mm/yyyy',
+	    	datepicker: {
+	            weekStart: 1,
+	        },
+	        showbuttons: true
+		});
+		//$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
+
 		
 
 		//Select2 tags
-		// $('#tags').editable({
-		// 	url: baseUrl+"/"+moduleId+"/organization/updatefield", 
-		// 	mode: 'popup',
-		// 	value: returnttag(),
-		// 	select2: {
-		// 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-		// 		tokenSeparators: [","],
-		// 		width: 200
-		// 	}
-		// });
+		$('#tags').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		 	mode: 'popup',
+		 	value: returnttag(),
+		 	select2: {
+		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+		 		tokenSeparators: [","],
+		 		width: 200
+		 	},
+		 	success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;
+					var str = "";
+					if($('#divTagsHeader').length ){
+						
+						$.each(data.tags, function (key, tag){
+							str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
+										'<i class="fa fa-tag"></i>'+tag+
+									'</div>';
+						});
+						
+					}
+					$('#divTagsHeader').html(str);	
+				}
+				else 
+					return data.msg;
+			}
+		});
 
 
 		$('#telephone').editable({
@@ -891,28 +928,38 @@
 		});
 
 		$('#address').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			validate: function(value) {
+	            value.streetAddress=$("#streetAddress").text();
+	            console.log(value);
+	        },
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			mode: 'popup',
-			success: function(response, newValue) {
-				console.log("success update postal Code : "+newValue);
+			/*success: function(response, newValue) {
+				console.log("success update postal Code : ");
 				console.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
-				//updateGeoPosEntity("CP", newValue);
-			},
+				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
+				$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
+			},*/
 			value : {
-            	//postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
+	        	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
-            },
+	    	},
             success : function(data) {
+            	console.log("data", data);
 				if(data.result) {
 					toastr.success(data.msg);
-					loadActivity=true;	
+					loadActivity=true;
+					$('#localityHeader').html(data.address.addressLocality);
+					$('#pcHeader').html(data.address.postalCode);	
 				}
 				else 
 					return data.msg;
 			}
 		});
+
+
 		$('#avancement').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			source: function() {
@@ -961,7 +1008,11 @@
 			success : function(data) {
 				if(data.result) {
 					toastr.success(data.msg);
-					loadActivity=true;	
+					loadActivity=true;
+
+					if(typeof data.shortDescription != "undefined" && $('#shortDescriptionHeader').length ){
+						$('#shortDescriptionHeader').html(data.shortDescription);
+					}
 				}
 				else 
 					return data.msg;
