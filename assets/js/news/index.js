@@ -1,4 +1,5 @@
 function isLiveGlobal(){
+	return (location.hash.indexOf("#default.live") == 0 || location.hash.indexOf("#city.detail") == 0);
 	return typeof liveScopeType != "undefined";// && liveScopeType == "global";
 }
 /*
@@ -145,30 +146,36 @@ function buildTimeLine (news, indexMin, indexMax)
 			form ="";
 
 			if(canPostNews==true){
-				// form = "<div class='newsFeed'>"+
-				// 		"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
-				// 	"</div>";
-				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucune message ne correspond à vos critères de recherche.</div>";
+				if(!isLiveGlobal()){
+					form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+				 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+				 		 '</div>'+
+				 		 "<div class='newsFeed'>"+
+							"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
+						"</div>";
+				}
+				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
-				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucune activité.<br/>Participez à l'activité de ce fil d'actualité<br/>En devenant membre ou contributeur.</div>";
+				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message.<br/>Participez à l'activité de ce fil d'actualité<br/>en devenant membre ou contributeur.</div>";
 			}
-			// newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-			// 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-			// 		'</div>'+
+			 // newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+			 // 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+			 // 		'</div>';
 			newsTLLine = form+"<div class='col-md-5 col-sm-5 col-xs-12 text-extra-large emptyNews newsFeedNews"+"'>"+msg+"</div>";
 		
 			$(".spine").css("bottom","0px");
 			$(".tagFilter, .scopeFilter").hide();
 			//$(".date_separator").remove();
 			$(".newsTL").append(newsTLLine);
-			if(canPostNews==true){
+			if(canPostNews==true){ //alert(isLiveGlobal());
 				if(isLiveGlobal()){ 
 					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
 
 				}else{ console.log("newFeedForm");
+					//$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#newFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
 				}

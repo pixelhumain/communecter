@@ -230,7 +230,7 @@
 	
 </div>
 
-<div class="col-md-12 no-padding " id="whySection" style="max-width:100%;">
+<div class="col-md-12 no-padding hidden" id="whySection" style="max-width:100%;">
 
 	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr hidden section-tsr center">
 		<div class="homestead text-white" id="menu-step-1">

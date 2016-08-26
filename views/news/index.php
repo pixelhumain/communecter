@@ -269,7 +269,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type)); 
 ?>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
+<!-- <div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div> -->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 

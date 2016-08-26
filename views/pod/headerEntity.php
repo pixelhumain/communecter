@@ -71,7 +71,10 @@
 	}
 
 
-
+	.short-desc-header{
+		max-height: 80px;
+		overflow: hidden;
+	}
 
 
 	@media screen and (max-width: 1024px) {
@@ -111,9 +114,9 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
-				<?php echo substr(@$entity["shortDescription"], 0, 140);
-						if(strlen(@$entity["shortDescription"])>140) echo "...";
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs short-desc-header">
+				<?php echo @$entity["shortDescription"]; //echo substr(@$entity["shortDescription"], 0, 140);
+						//if(strlen(@$entity["shortDescription"])>140) echo "...";
 				 ?>
 			</div>
 

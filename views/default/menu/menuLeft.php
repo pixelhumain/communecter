@@ -131,7 +131,7 @@
 		?>
 		<?php //var_dump($me);
 		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href=#person.detail.id.id.<?php echo Yii::app()->session['userId'] ?>"
+		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
 				class="menu-button menu-button-left menu-button-title btn-menu lbh
 				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
