@@ -51,7 +51,7 @@
 		padding: 1px 3px;
 	}
 </style>
-<div class="col-md-8 no-padding">
+<div class="col-md-8 no-padding header-home">
 	<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
 
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm">

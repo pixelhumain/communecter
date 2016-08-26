@@ -81,6 +81,10 @@ $this->renderPartial('../default/panels/toolbar');
     color: #2bb0c6;
   }
 
+  .header-home{
+    display:none; 
+  }
+
 </style>
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
@@ -120,7 +124,7 @@ $this->renderPartial('../default/panels/toolbar');
      
   </div>
 
-    <div id="pod-local-actors" class="col-sm-3">
+    <div id="pod-local-actors" class="col-sm-4">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -137,29 +141,32 @@ $this->renderPartial('../default/panels/toolbar');
 
                     ?>
 
-                    <div class="text-yellow homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("<?php echo $baseUrlDirectory; ?>.citoyens");'>
+                    <a href="<?php echo $baseUrlDirectory; ?>.citoyens" 
+                      class="lbh text-yellow homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-user"></i>
                       <?php $cnt= (isset($people)) ? count($people): 0; ?>
                       <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
                       <span class="badge bg-yellow pull-right"><?php echo $cnt;?></span>
-                    </div>
+                    </a>
 
-                    <div class="text-purple homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects");'>
+                    <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
                       <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
                       <span class="badge bg-purple pull-right"><?php echo $cnt;?></span>
-                    </div>
+                    </a>
 
-                    <div class="text-orange homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events");'>
+                    <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events" 
+                       class="lbh text-orange homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-calendar"></i> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
                       <span class="badge bg-orange pull-right"><?php echo count($events);?></span>
-                    </div>
+                    </a>
 
-                    <div class="text-green homestead col-xs-12 text-extra-large padding-5 bborder" onclick='loadByHash("#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations");'>
+                    <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations" 
+                      class="lbh text-green homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-users"></i> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?>
                       <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                       <span class="badge bg-green pull-right"><?php echo $cnt;?></span>
-                    </div>
+                    </a>
                     <?php /*
                     <div class="text-prune" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                       <i class="fa fa-male"></i><i class="fa fa-male"></i><i class="fa fa-male"></i><?php echo strtolower (Yii::t("common", "GROUPES")); ?>
@@ -180,7 +187,7 @@ $this->renderPartial('../default/panels/toolbar');
         </div>
     </div>
 
-    <div id="div-discover" class="col-md-9 col-xs-12">
+    <div id="div-discover" class="col-md-8 col-xs-12">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -190,25 +197,25 @@ $this->renderPartial('../default/panels/toolbar');
 
                 <div class="col-md-12 no-padding" style="margin-top:20px">
                     
-                    <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
                         <a href="#default.directory?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-search"></i>
                         </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div>
                     
-                    <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
                         <a href="#default.agenda?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-calendar"></i>
                         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
                     </div>
                     
-                    <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                    <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
                         <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-rss"></i>
                         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
-                    </div>
+                    </div> -->
 
-                    <div class="col-xs-3 center text-red " style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                    <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:20px; font-weight: 300;">
                         <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
                           <i class="fa fa-group"></i>
                         </a>
