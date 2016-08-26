@@ -37,7 +37,7 @@
 	    width: 100%;
 	    background-color: white;
 	}
-	
+
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
@@ -176,8 +176,9 @@ jQuery(document).ready(function() {
 	//showTagsScopesMin("#list_tags_scopes");
 	<?php if(@$lockCityKey){ ?>
 		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php }else{ ?>
+		rebuildSearchScopeInput();
 	<?php } ?>
-	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });

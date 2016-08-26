@@ -165,8 +165,8 @@
         var items = "";
         var startDate = "";
         var zIndex=31;
-        console.log("allDayEvents");
-        console.dir(allDayEvents);
+        //console.log("allDayEvents");
+        //console.dir(allDayEvents);
         
         $.each(allDayEvents, function(key, dayEvents){
 
@@ -195,7 +195,7 @@
            var align = "pull-right";
            var d = new Date(startDate);
            var numDay = d.getDay();
-           console.log("ce jour est le "+numDay+" de la semaine");
+           //console.log("ce jour est le "+numDay+" de la semaine");
            if(numDay>0&&numDay<4) align = "pull-left";
            var dropdown =     
               '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown">'+
@@ -341,7 +341,7 @@
         return currentMonth;
       }
     };
-    $.fn.responsiveCalendar = function(option, params) { console.log("RELOAD CALENDAR");
+    $.fn.responsiveCalendar = function(option, params) { //console.log("RELOAD CALENDAR");
       var init, options, publicFunc;
       options = $.extend({}, $.fn.responsiveCalendar.defaults, typeof option === 'object' && option);
       publicFunc = {

@@ -85,6 +85,10 @@ $this->renderPartial('../default/panels/toolbar');
     display:none; 
   }
 
+  #pod-local-actors .text-extra-large{
+    font-size:15px;
+  }
+
 </style>
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
@@ -102,7 +106,7 @@ $this->renderPartial('../default/panels/toolbar');
        <i class="fa fa-crosshairs"></i> COMMUNECTER
     </a>
   <?php //} ?>
-  <div class="col-xs-12">
+  <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
       <h1 class="homestead text-red cityName-header">
         <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 
         <?php
@@ -125,7 +129,7 @@ $this->renderPartial('../default/panels/toolbar');
      
   </div>
 
-    <div id="pod-local-actors" class="col-sm-4">
+    <div id="pod-local-actors" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -188,7 +192,7 @@ $this->renderPartial('../default/panels/toolbar');
         </div>
     </div>
 
-    <div id="div-discover" class="col-md-8 col-xs-12">
+    <div id="div-discover" class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -197,16 +201,16 @@ $this->renderPartial('../default/panels/toolbar');
               <div class="panel-body no-padding ">
 
                 <div class="col-md-12 no-padding" style="margin-top:20px">
-                    
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
 
-                        <a href="#default.directory?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+
                           <i class="fa fa-search"></i>
                         </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div>
                     
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="#default.agenda?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-calendar"></i>
                         </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
                     </div>
@@ -217,7 +221,7 @@ $this->renderPartial('../default/panels/toolbar');
                         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div> -->
 
-                    <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                    <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
                           <i class="fa fa-group"></i>
                         </a>

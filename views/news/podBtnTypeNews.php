@@ -137,14 +137,14 @@ input.form-control.input-search{
 
 	<div class="col-sm-12 col-md-8 col-lg-5 no-padding margin-bottom-15">
 	  	<div class="input-group col-xs-12 pull-left">	        
+	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
 	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
 	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
 	                      <i class="fa fa-refresh"></i>
 	              </button>
 	        </span>
-	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
-
+	        
 	    </div> 
 	    <!-- <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
 	            style="margin-left:15px;margin-top:5px;"
