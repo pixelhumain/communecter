@@ -1,4 +1,4 @@
-Tibor Katelbach (oceatoon@gmail.com)
+
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//Select2

@@ -72,7 +72,7 @@
 
 
 	.short-desc-header{
-		max-height: 80px;
+		max-height: 75px;
 		overflow: hidden;
 	}
 

@@ -396,11 +396,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	$(".daterangepicker").on("hide.daterangepicker", function(){
 	 	console.log("ok");
-	})
+	});
 
 	$(".daterangepicker").on("apply.daterangepicker", function(ev, picker){
  		console.log("ok");
- 	})
+ 	});
 
 	jQuery(document).ready(function() {
 	 	bindEventSubViewEvents();
@@ -513,8 +513,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	};
 
 
-		
-	};
 	
 	//validate new event form
 	function runEventFormValidation(el) {
