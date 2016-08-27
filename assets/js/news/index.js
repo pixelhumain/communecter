@@ -19,6 +19,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     if(indexMin == 0 && indexMax == indexStep) {
       totalData = 0;
       mapElements = new Array(); 
+      $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+      scrollEnd = false;
     }
     else{ if(scrollEnd) return; }
     if(viewer != "")
@@ -26,13 +28,12 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     else
     	simpleUserData="";
 
-    searchType = $('#searchTags').val().split(',');//["organizations", "projects", "events", "needs"];
-
+    
     filter = new Object;
     //filter.parent=parent;
    // if (typeof(locality) != "undefined")   filter.locality=locality;
    // if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
-	//if (typeof(searchType) != "undefined") filter.searchType=searchType;
+	if (typeof(searchType) != "undefined") filter.searchType=searchType;
 	//if (typeof(tagSearch) != "undefined") 
 	filter.tagSearch=$('#searchTags').val().split(',');
 
@@ -46,20 +47,25 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
 	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
 	      "searchType" : searchType, 
-	      "type" : "city"
+	     // "type" : "city"
 	      //"searchBy" : levelCommunexionName[levelCommunexion]
 	    };
+	    //contextParentType = "city";
     }	
 
     filter.textSearch=$('#searchBarText').val();
 
+    var thisParentId = "";
+    if(contextParentType != "city") thisParentId = "/id/"+contextParentId;
+
 	console.log("loadStream", dateLimit);
 	console.dir(filter);
+	$(".stream-processing").show();
 	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+"/id/"+contextParentId+"/date/"+dateLimit+simpleUserData,
+	        url: baseUrl+"/"+moduleId+"/news/index/type/"+contextParentType+thisParentId+"/date/"+dateLimit+simpleUserData,
 	       	dataType: "json",
 	       	data: filter,
 	    	success: function(data){
@@ -72,12 +78,15 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 						dateLimit=data.limitDate.created.sec;
 					else
 						dateLimit=data.limitDate.created;
+
+					console.log(dateLimit);
 				}
 				loadingData = false;
-				$(".search-loader").html('<i class="fa fa-chevron-down"></i>');
+				$(".stream-processing").hide();
 			},
 			error: function(){
 				loadingData = false;
+				$(".stream-processing").hide();
 			}
 		});
 	}
@@ -161,6 +170,7 @@ function buildTimeLine (news, indexMin, indexMax)
 			else{
 				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message.<br/>Participez à l'activité de ce fil d'actualité<br/>en devenant membre ou contributeur.</div>";
 			}
+			scrollEnd = true;
 			 // newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 			 // 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 			 // 		'</div>';
@@ -170,6 +180,14 @@ function buildTimeLine (news, indexMin, indexMax)
 			$(".tagFilter, .scopeFilter").hide();
 			//$(".date_separator").remove();
 			$(".newsTL").append(newsTLLine);
+
+			titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
+						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
+							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+						'</a>'+
+					'</div>';
+			$(".newsTL").append(titleHTML);
+
 			if(canPostNews==true){ //alert(isLiveGlobal());
 				if(isLiveGlobal()){ 
 					$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
@@ -193,11 +211,14 @@ function buildTimeLine (news, indexMin, indexMax)
 					'</div>';
 					$(".newsTL").append(titleHTML);
 					$(".spine").css('bottom',"0px");
+					scrollEnd = true;
+			}else{
+				scrollEnd = false;
 			}
 		}
-		$(".stream-processing").hide();
+		
 	}
-	
+	$(".stream-processing").hide();
 	bindEvent();
 	//Unblock message when click to change type stream
 	if (dateLimit==0)

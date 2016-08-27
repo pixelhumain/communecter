@@ -168,6 +168,7 @@ jQuery(document).ready(function()
 	showTagsScopesMin("#scopeListContainer");
 
 	$('#btn-start-search').click(function(e){
+		scrollEnd = false;
 		if(location.hash.indexOf("#default.live")==0)
 	    	startSearch(false);
 		else{
@@ -202,13 +203,17 @@ jQuery(document).ready(function()
   		if(scopeType == "community") {
   			parent = "<?php echo @Yii::app()->session["userId"]; ?>";
   			parentType = "citoyens";
+  			contextParentType = "citoyens";
+  			contextParentId = "<?php echo @Yii::app()->session["userId"]; ?>";
   			$("input[name='scope']").val("restricted");
   			showTagsScopesMin("#scopeListContainer");
   			$(".list_tags_scopes").addClass("tagOnly");
   		}else{
   			parent = null;
   			parentType = "city";
-  			$("input[name='type']").val("public");
+  			contextParentType = "city";
+  			contextParentId = "";
+  			$("input[name='scope']").val("public");
   			showTagsScopesMin("#scopeListContainer");
   			$(".list_tags_scopes").removeClass("tagOnly");
   		}
@@ -216,7 +221,8 @@ jQuery(document).ready(function()
 		$(this).addClass("active");
 
 		console.log("liveScopeType", liveScopeType);
-		startSearch(false);
+		//scrollEnd = false;
+		showNewsStream(false);
   	});
   }
 

@@ -252,6 +252,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     color: #F00;
     font-weight: 200 !important;
     font-size: 12px !important;
+    cursor: pointer;
 }
 .main-col-search{
 	min-height:1100px !important;
@@ -613,6 +614,7 @@ jQuery(document).ready(function()
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		buildTimeLine (news, 0, indexStep);
+		bindTags();
 		//console.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;
