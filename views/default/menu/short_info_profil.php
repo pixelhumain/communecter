@@ -15,7 +15,7 @@
     height: 36px;
     border-color: #C8C8C8;
   }
-  .input-group-addon, .input-group-btn {
+  .group-globalsearch .input-group-addon {
     width: 100%;
   }
 </style>
