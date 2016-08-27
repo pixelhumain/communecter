@@ -26,13 +26,13 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
     else
     	simpleUserData="";
 
-    searchType = ["organizations", "projects", "events", "needs"];
+    searchType = $('#searchTags').val().split(',');//["organizations", "projects", "events", "needs"];
 
     filter = new Object;
     //filter.parent=parent;
-    if (typeof(locality) != "undefined")   filter.locality=locality;
-    if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
-	if (typeof(searchType) != "undefined") filter.searchType=searchType;
+   // if (typeof(locality) != "undefined")   filter.locality=locality;
+   // if (typeof(searchBy) != "undefined")   filter.searchBy=searchBy;
+	//if (typeof(searchType) != "undefined") filter.searchType=searchType;
 	//if (typeof(tagSearch) != "undefined") 
 	filter.tagSearch=$('#searchTags').val().split(',');
 
@@ -147,8 +147,8 @@ function buildTimeLine (news, indexMin, indexMax)
 			var date = new Date(); 
 			form ="";
 
-			if(canPostNews==true){
-				if(!isLiveGlobal()){
+			if(canPostNews==true){ //alert($("#month"+date.getMonth()+date.getFullYear()).length );
+				if(!isLiveGlobal() && $("#month"+date.getMonth()+date.getFullYear()).length < 1){
 					form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
 				 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
 				 		 '</div>'+
