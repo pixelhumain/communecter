@@ -23,11 +23,10 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
       scrollEnd = false;
     }
     else{ if(scrollEnd) return; }
-    
-    //if(viewer != "")
-    	//simpleUserData="/viewer/"+viewer;
-    //else
-    simpleUserData="";
+    if(viewer != "")
+    	simpleUserData="/viewer/"+viewer;
+    else
+    	simpleUserData="";
 
     
     filter = new Object;
