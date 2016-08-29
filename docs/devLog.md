@@ -13,6 +13,7 @@
 ----------------------------------------------------
 ----------------------------------------------------
 Version 0.15
+@tib : Update sur element
 db.citoyens.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
@@ -42,8 +43,8 @@ db.organizations.find({}).forEach(function(doc){
      }
 })
 
-29/08 
-
+@Sylvain/Thomas/Tib : Créer les index corrects sur cities
+db.cities.dropIndexes();
 db.cities.createIndex({"geoPosition": "2dsphere"});
 db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
 db.cities.createIndex({"geoShape" : "2dsphere" });
@@ -54,14 +55,6 @@ db.cities.createIndex({"cp" : 1});
 db.cities.createIndex({"country" : 1});
 db.cities.createIndex({"postalCodes.name" : 1});
 db.cities.createIndex({"postalCodes.postalCode" : 1});
-db.events.createIndex({"geoPosition" : "2dsphere" });
-db.events.createIndex({"parentId" : 1});
-db.events.createIndex({"name" : 1});
-db.organizations.createIndex({"geoPosition" : "2dsphere" });
-db.projects.createIndex({"geoPosition" : "2dsphere" });
-db.citoyens.createIndex({"email": 1} , { unique: true });
-db.citoyens.createIndex({"geoPosition" : "2dsphere" });
-
 ----------------------------------------------------
 Version 0.14
 
@@ -283,8 +276,8 @@ db.organizations.find().forEach(function(doc){
 
 ----------------------------------------------------
 set up indexes 
-db.cities.createIndex({"geoPosition.coordinates": "2dsphere"});
-db.cities.createIndex({"postalCodes.geoPosition.coordinates": "2dsphere"});
+db.cities.createIndex({"geoPosition": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
 ----------------------------------------------------
 benchmarkin mongo 
 
