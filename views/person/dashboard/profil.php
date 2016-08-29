@@ -773,32 +773,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>
 		</div>
 
-		<?php /*if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
-		<div class="text-dark">
-			<div class="col-md-12 center bg-dark" id="panel-add">
-				<?php
-				<h1 class="homestead text-white">
-					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
-				</h1>
-				<button class="btn bg-yellow lbh" data-hash="#person.invite">
-					<i class="fa fa-user"></i>
-					<span class="lbl-btn-menu-name-add">quelqu'un</span>
-				</button>
-				<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
-					<i class="fa fa-group"></i>
-					<span class="lbl-btn-menu-name-add">une organisation</span>
-				</button>
-				<button class="btn bg-purple lbh" data-hash="#project.projectsv">
-					<i class="fa fa-lightbulb-o"></i>
-					<span class="lbl-btn-menu-name-add">un projet</span>
-				</button>
-				<button class="btn bg-orange lbh" data-hash="#event.eventsv">
-					<i class="fa fa-calendar"></i>
-					<span class="lbl-btn-menu-name-add">un événement</span>
-				</button>
-			</div>
-		</div>
-		<?php } */?>
 	</div>
 </div>
 

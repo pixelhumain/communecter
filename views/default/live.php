@@ -262,6 +262,10 @@ function loadLiveNow () {
     
     ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
         bindLBHLinks();
+        if($('.el-nowList').length==0)
+        	$('.titleNowEvents').addClass("hidden");
+        else
+        	$('.titleNowEvents').removeClass("hidden");
      } , "html" );
 
     /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];

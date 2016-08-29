@@ -1,4 +1,4 @@
-<?php 
+    <?php 
   $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',
     '/js/default/directory.js',
@@ -131,8 +131,6 @@
 
 </div>
 
-
-
 <div style="" class="col-sm-12 col-xs-12 no-padding no-margin" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
@@ -153,9 +151,7 @@ jQuery(document).ready(function() {
 
   $("#searchBarText").val($(".input-global-search").val());
 
-  //selectScopeLevelCommunexion(levelCommunexion);
-
-    
+  //selectScopeLevelCommunexion(levelCommunexion);  
   searchType = [ "events" ];
   allSearchType = [ "events" ];
 
