@@ -12,6 +12,20 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+Version 0.15
+
+@Sylvain/Thomas/Tib : Créet les index corrects sur cities
+db.cities.dropIndexes();
+db.cities.createIndex({"geoPosition": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
+db.cities.createIndex({"geoShape" : "2dsphere" });
+db.cities.createIndex({"insee" : 1});
+db.cities.createIndex({"region" : 1});
+db.cities.createIndex({"dep" : 1});
+db.cities.createIndex({"cp" : 1});
+db.cities.createIndex({"country" : 1});
+db.cities.createIndex({"postalCodes.name" : 1});
+db.cities.createIndex({"postalCodes.postalCode" : 1});
 ----------------------------------------------------
 Version 0.14
 
@@ -220,8 +234,8 @@ db.organizations.find().forEach(function(doc){
 
 ----------------------------------------------------
 set up indexes 
-db.cities.createIndex({"geoPosition.coordinates": "2dsphere"});
-db.cities.createIndex({"postalCodes.geoPosition.coordinates": "2dsphere"});
+db.cities.createIndex({"geoPosition": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
 ----------------------------------------------------
 benchmarkin mongo 
 
