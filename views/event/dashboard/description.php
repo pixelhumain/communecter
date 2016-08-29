@@ -335,7 +335,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 					<?php if(isset($event["parentId"])) {
 						$parentEvent = Event::getSimpleEventById($event["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a class="lbh" href="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a class="lbh" href="#event.detail.id.'.$event["parentId"].'" >'.$parentEvent["name"]."</a>";
 					}
 					?>
 						
