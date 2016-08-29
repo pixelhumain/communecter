@@ -15,6 +15,9 @@
     height: 36px;
     border-color: #C8C8C8;
   }
+  .group-globalsearch .input-group-addon {
+    width: 100%;
+  }
 </style>
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
      data-tpl="default.menu.short_info_profil">

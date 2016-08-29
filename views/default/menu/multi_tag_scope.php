@@ -228,6 +228,8 @@ function showTagsScopesMin(htmlId){
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
 	bindRefreshBtns();
+	
+	//$(".list_tags_scopes").removeClass("tagOnly");
 }
 
 

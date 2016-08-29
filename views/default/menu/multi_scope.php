@@ -36,6 +36,10 @@
 #dropdown-multi-scope-found.dropdown-menu > li > a:hover {
 	background-color: #f2d2d2;
 }
+.city-name-locked{
+	font-size:19px;
+	margin-top:10px;
+}
 </style>
 
 
@@ -258,8 +262,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	       	dataType: "json",
 	    	success: function(data){
 	    		//console.log("saveMultiScope() success");
-	    		if(location.hash.indexOf("#city.detail")==0)
-					loadByHash("#default.live");
+	    		
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
@@ -274,6 +277,8 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 }
 function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
 	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+	if(location.hash.indexOf("#city.detail")==0)
+		loadByHash("#default.live");
 }
 
 function autocompleteMultiScope(){
@@ -501,16 +506,21 @@ function rebuildSearchScopeInput()
 		$("#searchLocalityREGION").val(searchLocalityREGIONs);
 
 	
+	$(".list_tags_scopes").removeClass("tagOnly");
+	$(".city-name-locked").html("");
 	//if( typeof searchCallback == "function" )
 		//searchCallback();
 }
 
 
-function lockScopeOnCityKey(cityKey){ console.log("lockScopeOnCityKey", cityKey);
+function lockScopeOnCityKey(cityKey, cityName){ console.log("lockScopeOnCityKey", cityKey);
 	$("#searchLocalityCITYKEY").val(cityKey);
 	$("#searchLocalityCODE_POSTAL").val("");
 	$("#searchLocalityDEPARTEMENT").val("");
 	$("#searchLocalityREGION").val("");
+	$(".list_tags_scopes").addClass("tagOnly");
+
+	$(".city-name-locked").html("<i class='fa fa-lock'></i> "+ cityName);
 }
 
 </script>

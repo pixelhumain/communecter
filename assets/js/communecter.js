@@ -481,7 +481,7 @@ var loadableUrls = {
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1", menuId:"menu-btn-directory"},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
@@ -934,18 +934,22 @@ function  bindHighlighter() {
 
 function  bindTags() { 
 	console.log("bindTags");
-	var tagClasses = ".tag,.label tag_item_map_list"
+	//var tagClasses = ".tag,.label tag_item_map_list"
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
-		if(userId){
+		//if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
-
-			showTagInMultitag(tag);
-			$('#btn-modal-multi-tag').trigger("click");
-			$('.tags-count').html( $(".item-tag-name").length );
-			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
-		} else {
-			toastr.error("must be loggued");
-		}
+			//alert(tag);
+			//showTagInMultitag(tag);
+			//$('#btn-modal-multi-tag').trigger("click");
+			//$('.tags-count').html( $(".item-tag-name").length );
+			if(addTagToMultitag(tag))
+				toastr.success("Le tag \""+tag+"\" ajouté à vos favoris");
+			else
+				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags favoris");
+			
+		//} else {
+		//	toastr.error("must be loggued");
+		//}
 	});
 }
 

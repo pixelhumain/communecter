@@ -252,6 +252,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     color: #F00;
     font-weight: 200 !important;
     font-size: 12px !important;
+    cursor: pointer;
 }
 .main-col-search{
 	min-height:1100px !important;
@@ -259,6 +260,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .timeline_element .label-danger {
     margin-bottom: 3px;
     display: inline-block;
+}
+#footerDropdown{
+	position:relative;
+	/*background-color: white;*/
 }
 </style>
 <!--<textarea class="mention"></textarea>-->
@@ -437,7 +442,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
-<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 0px; ">
+<div class="alert col-md-11 col-xs-12 center" style="margin-bottom: 0px; margin-top: 0px; ">
   <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
   <!-- <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
   <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button>  -->
@@ -609,6 +614,7 @@ jQuery(document).ready(function()
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		buildTimeLine (news, 0, indexStep);
+		bindTags();
 		//console.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;

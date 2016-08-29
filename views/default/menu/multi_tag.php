@@ -193,8 +193,10 @@ function addTagToMultitag(tagValue){
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");
+		return true;
 	}else{
 		showMsgInfoMultiTag("Ce tag est déjà dans votre liste", "info");
+		return false;
 	}
 }
 

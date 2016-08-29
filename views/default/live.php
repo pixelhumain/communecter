@@ -37,7 +37,7 @@
 	    width: 100%;
 	    background-color: white;
 	}
-	
+
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
@@ -70,7 +70,8 @@
 
 <div class="row headerHome">
 <?php 
-	if(!@Yii::app()->session["userId"])
+	$dontShowHeaderPages = array("city/detail");
+	if(!@Yii::app()->session["userId"] && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id,$dontShowHeaderPages)  )
 		$this->renderPartial('../pod/headerHome');
 ?>
 </div>
@@ -176,8 +177,9 @@ jQuery(document).ready(function() {
 	//showTagsScopesMin("#list_tags_scopes");
 	<?php if(@$lockCityKey){ ?>
 		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php }else{ ?>
+		rebuildSearchScopeInput();
 	<?php } ?>
-	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
@@ -246,7 +248,8 @@ function loadLiveNow () {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
+      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>",
+      				  "<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
@@ -289,7 +292,10 @@ function loadLiveNow () {
 
 
 function showNewsStream(isFirst){ console.log("showNewsStream");
-	isFirst = isFirst ? "?isFirst=1" : "";
+
+	scrollEnd = false;
+
+	var isFirstParam = isFirst ? "?isFirst=1" : "";
 	var tagSearch = $('#searchTags').val().split(',');; //$('#searchBarText').val();
 	var levelCommunexionName = { 1 : "CITYKEY",
 	                             2 : "CODE_POSTAL",
@@ -316,7 +322,8 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(',')
+	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+
 	    };
 
     dataNewsSearch.tagSearch = tagSearch;
@@ -333,13 +340,14 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 			"<span class='text-dark'>Chargement en cours ...</span>" + 
 	"</div>";
 
-	
+	//loading = "";
 
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
-		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirst,dataNewsSearch, function(news){
+		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
 			showTagsScopesMin(".list_tags_scopes");
 			showFormBlock(false);
+			bindTags();
 			//$("#newLiveFeedForm").hide();
 	 	},"html");
 	}else{ //data JSON for load next
@@ -356,23 +364,24 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 			    	$(".newsTL").html('<div class="spine"></div>');
 					if(data){
 						buildTimeLine (data.news, 0, 5);
-						//bindTags();
+						bindTags();
 						if(typeof(data.limitDate.created) == "object")
 							dateLimit=data.limitDate.created.sec;
 						else
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").scroll(function(){ console.log(loadingData, scrollEnd);
-				    if(!loadingData && !scrollEnd){
-				          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
-				          var heightWindow = $(window).height();
-				          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-				            console.log("scroll in news/index MAX");
-				            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-				          }
-				    }
-				});
+					$(".my-main-container").scroll(function(){ console.log("in linve", loadingData, scrollEnd);
+					    if(!loadingData && !scrollEnd){
+					          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+					          var heightWindow = $(window).height();
+					          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+					            console.log("scroll in news/index MAX");
+					            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+					        	
+					          }
+					    }
+					});
 				},
 				error: function(){
 					loadingData = false;

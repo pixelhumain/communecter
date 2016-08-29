@@ -149,9 +149,9 @@ width: 100%;
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>">
+			    <a class="btn bg-dark lbh" href="#default.live">
 			        <i class="fa fa-rss" style="font-size: 1em!important;"></i> 
-			        Actus réseau
+			        Live
 			    </a>
 		    </div>
 		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">

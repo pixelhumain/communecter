@@ -41,6 +41,27 @@ db.organizations.find({}).forEach(function(doc){
         //print(doc.email+" | "+d.getTime() )
      }
 })
+
+29/08 
+
+db.cities.createIndex({"geoPosition": "2dsphere"});
+db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
+db.cities.createIndex({"geoShape" : "2dsphere" });
+db.cities.createIndex({"insee" : 1});
+db.cities.createIndex({"region" : 1});
+db.cities.createIndex({"dep" : 1});
+db.cities.createIndex({"cp" : 1});
+db.cities.createIndex({"country" : 1});
+db.cities.createIndex({"postalCodes.name" : 1});
+db.cities.createIndex({"postalCodes.postalCode" : 1});
+db.events.createIndex({"geoPosition" : "2dsphere" });
+db.events.createIndex({"parentId" : 1});
+db.events.createIndex({"name" : 1});
+db.organizations.createIndex({"geoPosition" : "2dsphere" });
+db.projects.createIndex({"geoPosition" : "2dsphere" });
+db.citoyens.createIndex({"email": 1} , { unique: true });
+db.citoyens.createIndex({"geoPosition" : "2dsphere" });
+
 ----------------------------------------------------
 Version 0.14
 
@@ -117,16 +138,19 @@ db.organizations.find().forEach(function(doc){
 Efface le flag "refactorAction" mis dans comment et news via la précédente fonction RefractorNewsCommentsActions
 Executer l'url /communecter/test/DeleteAttributRefactorAction 
 
+
+db.getCollection('events').find({"geoPosition.type":"point"});
+
 //script d'inversion coordinates
-db.events.find({}).forEach(function(c){ 
-    if( c.geo && c.geo.longitude){
+db.events.find({}).forEach( function(c){ 
+    if( c.geo && c.geo.longitude ){
         print(c.geo.longitude)
         
         db.events.update({_id:c._id}, {$set: {'geoPosition': {
-                      type: "Point",
-                      'coordinates': [parseFloat(c.geo.longitude), parseFloat(c.geo.latitude)]
-                  }}});
-}
+            type: "Point",
+            'coordinates': [parseFloat(c.geo.longitude), parseFloat(c.geo.latitude)]
+          }}});
+  geoPos}
 })
 ---------------------------------------------------
 Version 0.12
