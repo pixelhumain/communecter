@@ -89,7 +89,7 @@ jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
 
 	$(".btn-add-tag").click(function(){ console.log("btn-add-tag click()");
-		addTagToMultitag($("#input-add-multi-tag").val())
+		addTagToMultitag( $("#input-add-multi-tag").val() );
 	});
 
 	$('#input-add-multi-tag').filter_input({regex:'[a-zA-Z0-9_]'}); 

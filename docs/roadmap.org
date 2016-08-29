@@ -128,7 +128,6 @@
 
   ** @Tib 
     [ ] repairing localisation HTML5 
-    [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
