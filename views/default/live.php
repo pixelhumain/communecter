@@ -70,7 +70,8 @@
 
 <div class="row headerHome">
 <?php 
-	if(!@Yii::app()->session["userId"])
+	$dontShowHeaderPages = array("city/detail");
+	if(!@Yii::app()->session["userId"] && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id,$dontShowHeaderPages)  )
 		$this->renderPartial('../pod/headerHome');
 ?>
 </div>
