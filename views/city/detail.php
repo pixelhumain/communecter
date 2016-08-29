@@ -151,26 +151,26 @@ $this->renderPartial('../default/panels/toolbar');
                       <i class="fa fa-user"></i>
                       <?php $cnt= (isset($people)) ? count($people): 0; ?>
                       <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
-                      <span class="badge bg-yellow pull-right"><?php echo $cnt;?></span>
+                      <span class="badge bg-yellow pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
                       <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                      <span class="badge bg-purple pull-right"><?php echo $cnt;?></span>
+                      <span class="badge bg-purple pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events" 
                        class="lbh text-orange homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-calendar"></i> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
-                      <span class="badge bg-orange pull-right"><?php echo count($events);?></span>
+                      <span class="badge bg-orange pull-right helvetica"><?php echo count($events);?></span>
                     </a>
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations" 
                       class="lbh text-green homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-users"></i> <?php echo strtolower (Yii::t("common", "ORGANIZATIONS")); ?>
                       <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
-                      <span class="badge bg-green pull-right"><?php echo $cnt;?></span>
+                      <span class="badge bg-green pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
                     <?php /*
                     <div class="text-prune" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
