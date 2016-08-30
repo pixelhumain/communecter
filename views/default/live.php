@@ -210,26 +210,6 @@ jQuery(document).ready(function() {
 	$(".titleNowEvents .btnhidden").hide();
 });
 
-function slidupScopetagsMin(show){
-	if($("#list_filters").hasClass("hidden")){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else{
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-
-	if(show==true){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else if(show==false){
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-}
-
 var timeout;
 function startSearch(isFirst){
 	$(".my-main-container").off();

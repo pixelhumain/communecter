@@ -195,7 +195,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
   		              });
                   }
 

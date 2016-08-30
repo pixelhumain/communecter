@@ -161,16 +161,16 @@ jQuery(document).ready(function() {
 	
   $('.tooltips').tooltip();
 
-  $("#btn-slidup-scopetags").click(function(){
-    if($("#list_filters").hasClass("hidden")){
-      $("#list_filters").removeClass("hidden");
-      $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-    }
-    else{
-      $("#list_filters").addClass("hidden");
-      $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-    }
-  });
+  // $("#btn-slidup-scopetags").click(function(){
+  //   if($("#list_filters").hasClass("hidden")){
+  //     $("#list_filters").removeClass("hidden");
+  //     $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+  //   }
+  //   else{
+  //     $("#list_filters").addClass("hidden");
+  //     $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+  //   }
+  // });
 
   showTagsScopesMin("#scopeListContainer");
 

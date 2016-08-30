@@ -265,6 +265,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	position:relative;
 	/*background-color: white;*/
 }
+.tag.bold{
+	font-weight:600 !important;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 

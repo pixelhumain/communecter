@@ -272,6 +272,28 @@ function showEmptyMsg(){
 	
 }
 
+
+function slidupScopetagsMin(show){ console.log("slidupScopetagsMin", show);
+	if($("#list_filters").hasClass("hidden")){
+	    $("#list_filters").removeClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else{
+	    $("#list_filters").addClass("hidden"); console.log("hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+
+	if(show==true){
+	    $("#list_filters").removeClass("hidden"); console.log("removeClass hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else if(show==false){
+	    $("#list_filters").addClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+}
+
+
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {
 		"organization.addorganizationform": { 
