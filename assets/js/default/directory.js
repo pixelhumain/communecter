@@ -318,7 +318,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                   if(typeof myMultiTags != "undefined"){
                     $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
-                      $("[data-tag-value="+key+"].btn-tag").addClass("bold");
+                      $("[data-tag-value='"+key+"'].btn-tag").addClass("bold");
                     });
                   }
                   

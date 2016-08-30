@@ -257,7 +257,7 @@ function showTagsScopesMin(htmlId){
 	if(tagSelected)  { $(".btnShowAllTag").hide(); $(".btnHideAllTag").show(); } 
 	else 			 { $(".btnShowAllTag").show(); $(".btnHideAllTag").hide(); }
 
-	bindRefreshBtns();
+	//bindRefreshBtns();
 	
 	//$(".list_tags_scopes").removeClass("tagOnly");
 }
