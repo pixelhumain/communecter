@@ -217,8 +217,8 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
   
-  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-  $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+/*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
   $('.tooltips').tooltip();
   searchPage = true;
 

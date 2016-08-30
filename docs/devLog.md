@@ -43,6 +43,7 @@ db.organizations.find({}).forEach(function(doc){
      }
 })
 
+
 @Sylvain/Thomas/Tib : Créer les index corrects sur cities
 db.cities.dropIndexes();
 db.cities.createIndex({"geoPosition": "2dsphere"});
@@ -55,6 +56,40 @@ db.cities.createIndex({"cp" : 1});
 db.cities.createIndex({"country" : 1});
 db.cities.createIndex({"postalCodes.name" : 1});
 db.cities.createIndex({"postalCodes.postalCode" : 1});
+
+
+//deja mis sur dev
+db.cities.find().forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    //print(doc.country+"_"+doc.insee); 
+    
+    if(doc.postalCodes){
+        doc.postalCodes.forEach(function(v)
+        {
+        //print(">>"+doc.country+"_"+doc.insee+"_"+v.postalCode); 
+            //if(v.postalCode == "97450")
+            //{
+                var d = new Date();
+                var categs = ["Agriculture / Alimentation", "Santé","Déchets","Aménagement, Transport, Construction","Éducation, Petite-enfance","Citoyenneté","Economie Social et Solidaire","Energie-Climat","Culture / Animation ","Biodiversité "];
+                categs.forEach(function(c)
+                {
+                    print(c+">>"+doc.country+"_"+doc.insee+"_"+v.postalCode);
+                    db.actionRooms.insert({
+                        "email" : "contact@communecter.org",
+                        "name" : c,
+                        "type" : "vote",
+                        "parentType" : "cities",
+                        "parentId" : doc.country+"_"+doc.insee+"-"+v.postalCode,
+                        "created" : parseInt(Math.round(d.getTime()/1000)),
+                        "updated" : parseInt(Math.round(d.getTime()/1000))
+                    });
+                });
+            //}
+        });
+    }  
+  }
+});
 ----------------------------------------------------
 Version 0.14
 
