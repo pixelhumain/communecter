@@ -256,11 +256,10 @@ function buildCommentsTree(where, commentsList, withActions) {
 	$(where).append(buildComments(commentsList, 0, withActions,where));
 	if(where != ".communityCommentTable")
 		initCommentUpdate(commentsList);
-	
-	
 }
+
 function initCommentUpdate(comment){
-	$.each( comment , function(key,o){
+	$.each( comment , function(key,o) {
 		if (o.replies.length != 0){
 				initCommentUpdate(o.replies);
 		}
@@ -440,7 +439,8 @@ function commentDisabledActions(commentObj) {
 }
 
 function bindEvent(){
-	var separator, anchor;
+	var separator;
+	var anchor;
 	$('.commentline-scrubber').scrollToFixed({
 		marginTop: $('header').outerHeight() + 100
 	}).find("a").on("click", function(e){			
@@ -734,7 +734,7 @@ function reportAbuse(comment, contextId) {
 	});
 }
 
-function actionAbuseComment(comment, action, reason, reasonComment=null) {
+function actionAbuseComment(comment, action, reason, reasonComment) {
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: {
@@ -948,7 +948,8 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 	bindEvent();
 }
 
-function getProfilImageUrl(imageURL) {console.log("imageURL",imageURL);
+function getProfilImageUrl(imageURL) {
+	console.log("imageURL",imageURL);
 	var iconStr = '<div class="avatar">';
 	
 	if ("undefined" != typeof imageURL && imageURL != "") {
@@ -985,9 +986,11 @@ function deleteComment(id,$this){
 	    }
 	});
 }
+
 function modifyComment(id){
 	switchModeCommentEdit(id);
 }
+
 function switchModeCommentEdit(id){
 	//alert(mode);
 	if(modeComment == "view"){

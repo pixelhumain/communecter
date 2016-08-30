@@ -14,7 +14,7 @@
 ----------------------------------------------------
 Version 0.15
 
-@Sylvain/Thomas/Tib : Créet les index corrects sur cities
+@Sylvain/Thomas/Tib : Créer les index corrects sur cities
 db.cities.dropIndexes();
 db.cities.createIndex({"geoPosition": "2dsphere"});
 db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
