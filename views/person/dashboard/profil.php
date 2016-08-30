@@ -406,10 +406,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="col-md-8 col-xs-12" >
-			<div class="col-sm-6 col-md-5 padding-15">
-
+			<div class="col-sm-12 col-md-12 col-lg-5 padding-15">
+				<button class="btn btn-success" onclick="javascript:switchMode()" id="btn-validate-changes" style="display:none;">
+					<i class="fa fa-check"></i> Enregistrer les changements
+				</button>
 				<div class="padding-10">
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
@@ -614,15 +618,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				
 				  #div-discover .btn-discover{
 				    border-radius: 60px;
-				    font-size: 50px;
-				    font-weight: 200;
-				    border: 1px solid transparent;
-				    width: 90px;
-				    height: 90px;
+					font-size: 27px;
+					font-weight: 200;
+					border: 1px solid transparent;
+					width: 60px;
+					height: 60px;
+					padding-top: 10px;
 				  }
 				  #div-discover .btn-discover.bg-red{
-				    font-size: 43px;
-				    padding-top: 12px;
+				    /*font-size: 43px;
+				    padding-top: 12px;*/
 				  }
 				  #div-discover .btn-discover.bg-azure:hover{
 				    background-color: white !important;
@@ -635,10 +640,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				    color: #E33551 !important;
 				  }
 				  .btnSubTitle{
-					  margin-bottom:10px; font-size:17px; font-weight: 300;
+					  margin-bottom:10px; font-size:13px; font-weight: 300; height: 95px;
 					}
 					@media screen and (max-width: 768px) {
-					    #div-discover .btn-discover.bg-red{
+					    /*#div-discover .btn-discover.bg-red{
 						    font-size: 30px;
 						    padding-top: 3px;
 
@@ -650,96 +655,94 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						}
 						.btnSubTitle{
 						  font-size:14px; font-weight: 100;
-						}
+						}*/
 					}
 			</style>
 			<div id="div-discover" class="center col-xs-12 col-md-4">
-
-				<div class="panel-heading text-center border-light">
-	                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètre</h3>
-	            </div>
-		        <div class="panel panel-white padding-10">
-		            <div id="local-actors-popup-sig">
-		              
-		              <div class="panel-body no-padding ">
-
-		                <div class="col-md-12 no-padding" style="margin-top:20px">
-
-		                    <div class="col-xs-6 col-sm-3 center text-azure btnSubTitle">
-		                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
-
-		                          <i class="fa fa-camera"></i>
-		                        </a><br/><br/><span class="text-red discover-subtitle">Avatar / Image</span>
-		                    </div>
-		                    
-		                    <div class="col-xs-6 col-sm-3 center text-red btnSubTitle">
-		                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
-		                          <i class="fa fa-home"></i>
-		                        </a>
-		                        <br/><br/><span class="text-red discover-subtitle">Ma commune</span>
-		                    </div>
-
-		                    <div class="col-xs-6 col-sm-3 center text-azure btnSubTitle">
-		                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-azure">
-		                          <i class="fa fa-tags"></i>
-		                        </a><br/><br/><span class="text-red discover-subtitle">Mes tags préférés</span>
-		                    </div>
-		                    
-		                    <div class="col-xs-6 col-sm-3 center text-red btnSubTitle">
-		                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-red">
-		                          <i class="fa fa-bullseye"></i>
-		                        </a><br/><br/><span class="text-red discover-subtitle">Mes lieux préférés</span>
-		                    </div>
-
-		                </div>
-
-		              </div>
+				<div class="panel no-padding margin-top-15">
+		            
+					<div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
 		            </div>
-		           
+			        <div class="panel panel-white padding-10 text-left">
+		               	<div class="panel-body no-padding ">
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-sm-3 col-md-6 center text-azure btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
+
+			                          <i class="fa fa-camera"></i>
+			                        </a><br>
+			                        <span class="text-azure discover-subtitle"> Image de profil</span>
+			                    </div>
+			                    
+			                    <div class="col-sm-3 col-md-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-home"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Ma commune</span>
+			                    </div>
+
+			                   
+			                    <div class="col-sm-3 col-md-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-bullseye"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
+			                    </div>
+			                    <div class="col-sm-3 col-md-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+			                    </div>                    
+			                </div>
+		                </div>
+			        </div>
 		        </div>
 
-		        <div class="panel-heading text-center border-light">
-	                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
-	            </div>
-		        <div class="panel panel-white padding-10">
-		            <div id="local-actors-popup-sig">
-		              
-		              <div class="panel-body no-padding ">
-
-		                <div class="col-md-12 no-padding" style="margin-top:20px">
-
-		                    <div class="col-xs-6 col-sm-3  center text-yellow btnSubTitle">
-		                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
-
-		                          <i class="fa fa-user"></i>
-		                        </a><br/><br/><span class="discover-subtitle">quelqu'un</span>
-		                    </div>
-		                    
-		                    <div class="col-xs-6 col-sm-3  center text-green btnSubTitle">
-		                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
-		                          <i class="fa fa-group"></i>
-		                        </a>
-		                        <br/><br/><span class="discover-subtitle">organisation</span>
-		                    </div>
-
-		                    <div class="col-xs-6 col-sm-3  center text-purple btnSubTitle">
-		                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
-		                          <i class="fa fa-calendar"></i>
-		                        </a><br/><br/><span class="discover-subtitle">évènement</span>
-		                    </div>
-		                    
-		                    <div class="col-xs-6 col-sm-3  center text-orange btnSubTitle">
-		                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
-		                          <i class="fa fa-lightbulb-o"></i>
-		                        </a><br/><br/><span class="discover-subtitle">un projet</span>
-		                    </div>
-
-		                </div>
-
-		              </div>
+		        <div class="panel no-padding margin-top-15 hidden">
+			        <div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
 		            </div>
-		           
-		        </div>
+			        <div class="panel panel-white padding-10">
+			            <div id="local-actors-popup-sig">
+			              
+			              <div class="panel-body no-padding ">
+
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-12 col-sm-6  center text-yellow btnSubTitle">
+			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
+
+			                          <i class="fa fa-user"></i>
+			                        </a><br/><span class="discover-subtitle">Une personne</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-12 col-sm-6  center text-green btnSubTitle">
+			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
+			                          <i class="fa fa-group"></i>
+			                        </a>
+			                        <br/><span class="discover-subtitle">Organisation</span>
+			                    </div>
+
+			                    <div class="col-xs-12 col-sm-6  center text-orange btnSubTitle">
+			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
+			                          <i class="fa fa-calendar"></i>
+			                        </a><br/><span class="discover-subtitle">Évènement</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-12 col-sm-6  center text-purple btnSubTitle">
+			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
+			                          <i class="fa fa-lightbulb-o"></i>
+			                        </a><br/><span class="discover-subtitle">Projet</span>
+			                    </div>
+
+			                </div>
+
+			              </div>
+			            </div>
+			           
+			        </div>
+			    </div>
 		    </div>
 		</div>
 		<div class="col-xs-12 text-dark">
@@ -773,6 +776,34 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>
 		</div>
 
+
+		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+		<div class="text-dark">
+			<div class="col-md-12 center bg-dark" id="panel-add">
+				
+				<h1 class="homestead text-white">
+					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
+				</h1>
+				<a class="btn bg-yellow lbh" href="#person.invite">
+					<i class="fa fa-user"></i>
+					<span class="lbl-btn-menu-name-add">quelqu'un</span>
+				</a>
+				<a class="btn bg-green lbh" href="#organization.addorganizationform">
+					<i class="fa fa-group"></i>
+					<span class="lbl-btn-menu-name-add">une organisation</span>
+				</a>
+				<a class="btn bg-purple lbh" href="#project.projectsv">
+					<i class="fa fa-lightbulb-o"></i>
+					<span class="lbl-btn-menu-name-add">un projet</span>
+				</a>
+				<a class="btn bg-orange lbh" href="#event.eventsv">
+					<i class="fa fa-calendar"></i>
+					<span class="lbl-btn-menu-name-add">un événement</span>
+				</a>
+			</div>
+		</div>
+		<?php } ?>
+		
 	</div>
 </div>
 
@@ -1115,8 +1146,10 @@ function initXEditable() {
 
 function manageModeContext() {
 	console.log("-----------------manageModeContext----------------------");
-	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', 
+						'#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
+
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -1142,10 +1175,12 @@ function switchMode() {
 		mode = "update";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").show();
 	} else {
 		mode ="view";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").hide();
 	}
 }
 
