@@ -301,14 +301,19 @@ function autocompleteMultiScope(){
     		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				$.each(value.postalCodes, function(key, valueCP){
+    				val = value.insee; 
+		    		lbl = value.name ;
+		    		lblList = lbl + " (" +value.depName + ")";
+		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    				/*$.each(value.postalCodes, function(key, valueCP){
     					if($.inArray(valueCP.postalCode, allCP)<0){ 
 	    					allCP.push(valueCP.postalCode);
 		    				val = valueCP.postalCode; 
 		    				lbl = valueCP.postalCode ;
 		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
 		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
-	    			}});
+	    			}
+	    			});*/
     			}; 
     			if(currentScopeType == "cp") { 
     				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
