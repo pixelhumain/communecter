@@ -78,7 +78,7 @@
         }
     });
 
-    $('.searchIcon').click(function(e){
+    /*$('.searchIcon').click(function(e){
        if($('*[data-searchPage]').length > 0 && $('.searchIcon').hasClass('fa-search')){
           $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche ne concerne que cette page.</span>');
           showDropDownGS(true);
@@ -99,7 +99,7 @@
             timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
        }
 
-    });
+    });*/
 
     $('.input-global-search').click(function(e){
         if($(".dropdown-result-global-search").html() != ""){

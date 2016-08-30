@@ -317,6 +317,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 																		  "show" => "true" ,
 																		  "resize" => false,
 																		  "editMode" => $edit,
+																		  "openEdition" => $openEdition,
 																		  "image" => $imagesD )); ?>
 			</div>
 		</div>

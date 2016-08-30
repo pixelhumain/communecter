@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});
-	//$('#input-add-multi-scope').filter_input({regex:'[a-zA-Z0-9_]'}); 
+	$('#input-add-multi-scope').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_] 
 	$('#input-add-multi-scope').keyup(function(){ 
 		$("#dropdown-multi-scope-found").show();
 		if($('#input-add-multi-scope').val()!=""){
