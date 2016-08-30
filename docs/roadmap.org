@@ -69,6 +69,7 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
     [ ] agenda : les events prennent pas la durée sur plusieurs jours 
+    [ ] repairing localisation HTML5 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -127,7 +128,7 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] repairing localisation HTML5 
+    [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
