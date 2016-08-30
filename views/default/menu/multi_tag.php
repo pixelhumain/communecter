@@ -41,12 +41,12 @@
 					    </div>
 				    </div>
 				    <div class="col-md-3">
-	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllTags(true)"
+	      				<button class="btnShowAllTag btn btn-default tooltips" onclick="javascript:selectAllTags(true)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner tout les tags">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllTags(false)"
+			      		<button class="btnHideAllTag btn btn-default tooltips" onclick="javascript:selectAllTags(false)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner aucun tag">
 			      			<i class="fa fa-circle-o"></i>
@@ -147,6 +147,11 @@ function tagExists(tagValue){
 	return typeof myMultiTags[tagValue] != "undefined";
 }
 function selectAllTags(select){
+	if(typeof select == "undefined"){ select = true;
+		$.each(myMultiTags, function(key, value){
+			 if(value.active) select = false;
+		});
+	}
 	$.each(myMultiTags, function(key, value){
 		 toogleTagMultitag(key, select);
 	});
