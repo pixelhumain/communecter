@@ -174,7 +174,7 @@
               var action = 'loadByHash("#event.detail.id.'+dayEvents.id+'");';
               var item = "<li>";
               var imgProfil = "<i class='badge bg-orange fa fa-calendar'></i>";
-              if (dayEvents.thumb_url != "") {
+              if (typeof dayEvents.thumb_url != "undefined" && dayEvents.thumb_url != "") {
                   imgProfil = "<img class='badge bg-orange' src='"+dayEvents.thumb_url+"'>"; 
               }
               item += "<a href='javascript:' onclick='"+action+"' class=''>" +
