@@ -1,5 +1,7 @@
 <?php 
-		if(isset(Yii::app()->session["userId"]) && $openEdition==true){
+		
+		//if(isset(Yii::app()->session["userId"]) && $openEdition==true)
+		if(@$event["links"]["attendees"][Yii::app()->session["userId"]]["isAdmin"]!=true){
 			Menu::entry("right", 'onclick',
 	                            Yii::t( "common", "Become admin of this event"),
 	                            Yii::t( "common", "Become admin"), 
@@ -7,13 +9,6 @@
 	                            "connectTo('".Event::COLLECTION."','".(string)$event["_id"]."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','admin')",null,null);
         }
 		$this->renderPartial('../default/panels/toolbar'); 
-?>
-
-<?php
-	$admin = false;
-	if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
-		$admin = Authorisation::canEditItem(Yii::app()->session["userId"], Event::COLLECTION, (string)$event["_id"]);
-	}
 ?>
 <div class="row">
 	<div class="col-md-8 col-sm-12 col-xs-12">
