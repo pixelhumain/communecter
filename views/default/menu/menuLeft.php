@@ -107,6 +107,28 @@
 	
 	<div class="menu-left-container">
 
+		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
+		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+		      }
+		?>
+		
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh
+				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
+				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
+					 data-toggle="tooltip" data-placement="right" 
+					 title="Mon profil : <?php echo $me["name"]; ?>"
+					 src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
+    
+				<i class="fa fa-user tooltips hidden"
+					data-toggle="tooltip" data-placement="right" 
+					title="Mon profil : <?php echo $me["name"]; ?>"></i> 
+				<span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
+		</a>
+		<hr>
+		<?php } ?>
+
 		<?php 
 			$cityExists = (isset($myCity) && $myCity != "");
 			$title = $cityExists ? $cityNameCommunexion : "Communectez-moi";
@@ -125,34 +147,16 @@
 			</span>
 		</a><hr>
 		
-		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
-		      }
-		?>
-		<?php //var_dump($me);
-		 if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu lbh
-				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
-				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
-					 data-toggle="tooltip" data-placement="right" 
-					 title="Mon profil : <?php echo $me["name"]; ?>"
-					 src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
-    
-				<i class="fa fa-user tooltips hidden"
-					data-toggle="tooltip" data-placement="right" 
-					title="Mon profil : <?php echo $me["name"]; ?>"></i> <span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
-		</a>
-		<hr>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		
 		<a href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu lbh
+				class="menu-button menu-button-left menu-button-title btn-menu lbh hidden
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-newspaper-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Ma communauté"></i> 
 					<span class="lbl-btn-menu">Mon journal</span>
 		</a>
-		<hr>
+		<hr class="hidden">
 
 		<a href="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')" 
 				id="menu-btn-news-network"

@@ -112,22 +112,22 @@ width: 100%;
 			<div class="col-md-12 col-sm-12 no-padding">
 				<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
 					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
-						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> 
+						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> <br>
 					<span class="text-white label text-bold" style="font-size:18px;"><?php echo $me["name"]; ?></span>
 				</a>
 			</div>
 
 
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+			<div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
 			    <a class="btn bg-dark-red lbh" href="#admin.index">
 			        <i class="fa fa-user-secret" style="font-size: 1em!important;"></i> 
 			        Admin
 			    </a>
 		    </div>
 			<?php } ?>	
-			<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-				<a class="btn bg-dark visible-xs" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
+			<div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+				<a class="btn bg-dark visible-xs padding-5" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
 			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
 			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
 		        		  style="position:relative; top:-2px; left:unset;">
@@ -136,26 +136,20 @@ width: 100%;
 			        Notifications
 			    </a>
 			</div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark lbh" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
+		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			    <a class="btn bg-dark lbh padding-5" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
-		     <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark lbh" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
+		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			    <a class="btn bg-dark lbh padding-5" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark lbh" href="#default.live">
-			        <i class="fa fa-rss" style="font-size: 1em!important;"></i> 
-			        Live
-			    </a>
-		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
-			    <a class="btn bg-dark lbh" 
+		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			    <a class="btn bg-dark lbh padding-5" 
 			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
@@ -172,16 +166,16 @@ width: 100%;
 
 	  		<div class="col-md-12 col-sm-12 margin-15">
 				<div class="col-md-4 col-sm-4 center">
+					<a class="btn bg-azure lbh" href="#default.live"  >
+					<i class="fa fa-heartbeat"></i> <br class="hidden-xs">Live</a>
+				</div>
+				<div class="col-md-4 col-sm-4 center">
 			    	<a class="btn bg-azure lbh" href="#default.directory"" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Rechercher</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">
 					<a class="btn bg-azure lbh" href="#default.agenda"  >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
-				</div>
-				<div class="col-md-4 col-sm-4 center">
-					<a class="btn bg-azure lbh" href="#default.news"  >
-					<i class="fa fa-rss"></i> <br class="hidden-xs">Actualités</a>
 				</div>
 			</div>
 			
