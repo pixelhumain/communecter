@@ -479,7 +479,7 @@ function rebuildSearchScopeInput()
 			searchLocalityCITYKEYs += (searchLocalityCITYKEYs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
+	//console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
 	if( $("#searchLocalityCITYKEY") )
 		$("#searchLocalityCITYKEY").val(searchLocalityCITYKEYs);
 
@@ -491,7 +491,7 @@ function rebuildSearchScopeInput()
 			searchLocalityCODE_POSTALs += (searchLocalityCODE_POSTALs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
+	//console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
 	if( $("#searchLocalityCODE_POSTAL") )
 		$("#searchLocalityCODE_POSTAL").val(searchLocalityCODE_POSTALs);
 
@@ -503,7 +503,7 @@ function rebuildSearchScopeInput()
 			searchLocalityDEPARTEMENTs += (searchLocalityDEPARTEMENTs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
+	//console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
 	if( $("#searchLocalityDEPARTEMENT") )
 		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
 
@@ -515,7 +515,7 @@ function rebuildSearchScopeInput()
 			searchLocalityREGIONs += (searchLocalityREGIONs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityREGIONs",searchLocalityREGIONs);
+	//console.log("searchLocalityREGIONs",searchLocalityREGIONs);
 	if( $("#searchLocalityREGION") )
 		$("#searchLocalityREGION").val(searchLocalityREGIONs);
 
@@ -527,7 +527,7 @@ function rebuildSearchScopeInput()
 }
 
 
-function lockScopeOnCityKey(cityKey, cityName){ console.log("lockScopeOnCityKey", cityKey);
+function lockScopeOnCityKey(cityKey, cityName){ //console.log("lockScopeOnCityKey", cityKey);
 	$("#searchLocalityCITYKEY").val(cityKey);
 	$("#searchLocalityCODE_POSTAL").val("");
 	$("#searchLocalityDEPARTEMENT").val("");
