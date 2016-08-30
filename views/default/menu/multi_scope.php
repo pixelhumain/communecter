@@ -136,12 +136,12 @@
 					    </div>
 					</div>
 					<div class="col-md-3">
-	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
+	      				<button class="btnShowAllScope btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner tout les lieux">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
+			      		<button class="btnHideAllScope btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner aucun lieu">
 			      			<i class="fa fa-circle-o"></i>
@@ -361,6 +361,11 @@ function showCountScope(){
 	showEmptyMsg();
 }
 function selectAllScopes(select){
+	if(typeof select == "undefined"){ select = true;
+		$.each(myMultiScopes, function(key, value){
+			 if(value.active) select = false;
+		});
+	}
 	$.each(myMultiScopes, function(key, value){
 		 toogleScopeMultiscope(key, select);
 	});

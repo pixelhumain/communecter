@@ -192,7 +192,18 @@ jQuery(document).ready(function() {
 });
 
 function showTagsScopesMin(htmlId){
-	var html =  "";
+
+	/************** TAGS **************/
+	var iconSelectTag = "<i class='fa fa-circle-o'></i>";
+	var tagSelected = false;
+	$.each(myMultiTags, function(key, value){
+		if(value.active){
+		 	iconSelectTag = "<i class='fa fa-check-circle-o'></i>";
+		 	tagSelected = true;
+		}
+	});
+	var html =  "<button class='btn text-dark btn-sm' id='toogle-tags-selected' onclick='javascript:selectAllTags();'>"+
+				iconSelectTag + "</button> ";
 	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
@@ -202,8 +213,20 @@ function showTagsScopesMin(htmlId){
 				"</span> ";
 	});
 
+
+	/************** SCOPES **************/
+	var iconSelectScope = "<i class='fa fa-circle-o'></i>";
+	var scopeSelected = false;
+	$.each(myMultiScopes, function(key, value){
+		 if(value.active){
+		 	iconSelectScope = "<i class='fa fa-check-circle-o'></i>";
+		 	scopeSelected = true;
+		 }
+	});
 	html += "<div class='list-select-scopes'>";
-	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	html += 	"<hr style='margin-top:5px;margin-bottom:5px;'>";
+	html +=  	"<button class='btn text-dark btn-sm' id='toogle-scopes-selected' onclick='javascript:selectAllScopes();'>"+
+				iconSelectScope + "</button> ";
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		if(typeof value.name == "undefined") value.name = key;
@@ -227,6 +250,13 @@ function showTagsScopesMin(htmlId){
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
+	
+	if(scopeSelected){ $(".btnShowAllScope").hide(); $(".btnHideAllScope").show(); } 
+	else 			 { $(".btnShowAllScope").show(); $(".btnHideAllScope").hide(); }
+
+	if(tagSelected)  { $(".btnShowAllTag").hide(); $(".btnHideAllTag").show(); } 
+	else 			 { $(".btnShowAllTag").show(); $(".btnHideAllTag").hide(); }
+
 	bindRefreshBtns();
 	
 	//$(".list_tags_scopes").removeClass("tagOnly");
