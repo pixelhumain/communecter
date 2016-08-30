@@ -49,8 +49,6 @@
     <div class="border-dark margin-bottom-15 col-xs-12 no-padding el-nowList <?php echo $type?>">
         <div class="pull-left col-xs-12 no-padding">
             <?php 
-
-
                 $classMin = "";
                 $img = Element::getImgProfil($v, "profilMediumImageUrl", $this->module->assetsUrl);
                 if(!@$v["profilMediumImageUrl"] || $v["profilMediumImageUrl"] == "") 
@@ -75,10 +73,8 @@
             echo ($type) ? Element::getLink(@$type."s",$id) : "no type"; //echo @$type;?>
         </div>
         <div class="elemt_date pull-left no-margin text-red">
-            <i class="fa fa-clock-o"></i> 
-            <?php 
-               echo date("d/m/Y H:i",@$v["updated"]);
-            ?> 
+            <i class="fa fa-clock-o"></i>
+            <span class="dateTZ" data-time="<?php echo @$v["updated"];?>"> </span>            
             <?php //DDA : if( @$v["organizerType"] && @$v["organizerId"] ) echo "-".Element::getLink( @$v["organizerType"],@$v["organizerId"] )?>
             <?php //DDA : if( @$v["parentType"] && @$v["parentId"] ) echo ">".Element::getLink( @$v["parentType"],@$v["parentId"] )?>
 
@@ -89,7 +85,15 @@
 </div>
 
 <script>
-    
+
+jQuery(document).ready(function() {
+    $(".elemt_date").each(function() {
+        var elementTime = $(this).children(".dateTZ").attr("data-time");
+        var elementDate = new Date(elementTime * 1000);
+        $(this).children(".dateTZ").text(elementDate.toLocaleDateString() + " " + elementDate.toLocaleTimeString());
+    });
+});
+
 function enlargeNow() { 
     if(!$(".col-feed.closed").length){
         $(".titleNowEvents .btnhidden").show();
@@ -122,6 +126,10 @@ function buildHotStuffList(list) {
     '</div>';
     $('#nowList').html(html);
     });
-}   
+}
+
+function dateWithCurrentTimeZone() {
+
+}
 
 </script>
