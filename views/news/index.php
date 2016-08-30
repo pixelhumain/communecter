@@ -60,7 +60,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-green'></i> Journal de l'organisation";//.$contextName;
+		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
@@ -69,17 +69,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			Menu::person($parent);
 		
 			$contextName =addslashes($parent["name"]);
-			$contextIcon = "user";
+			$contextIcon = "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user text-dark'></i> ";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 			}	
 			if(Yii::app()->session["userId"] ==$contextParentId){
-				$headerName= "<i class='fa fa-circle text-yellow'></i> Mon journal";
+				$headerName= "Mon journal";
 				$topTitle = $headerName;
 			}else{
-				$headerName= "<i class='fa fa-circle text-yellow'></i> Journal de : ".$contextName;
+				$headerName= "Journal de : ".$contextName;
 				$topTitle = $headerName;
 			}
 		}
@@ -102,7 +102,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-purple'></i> Journal du projet";//.$contextName;
+		$headerName= "Journal du projet";//.$contextName;
 		$topTitle = "Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 		Menu::event( $parent );
@@ -112,7 +112,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
-		$headerName= "<i class='fa fa-circle text-orange'></i> Journal de l'événement";//.$contextName;
+		$headerName= "Journal de l'événement";//.$contextName;
 		$topTitle = "Journal de l'événement";//.$contextName;
 	}
 

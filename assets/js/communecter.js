@@ -609,7 +609,7 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
-function setTitle(str, icon,topTitle) { 
+function setTitle(str, icon, topTitle) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
 	$(".moduleLabel").html( icon +" "+ str);

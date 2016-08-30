@@ -295,24 +295,38 @@ function autocompleteMultiScope(){
     	success: function(data){
     		//console.log("autocompleteMultiScope() success");
     		//console.dir(data);
-    		$("#dropdown-multi-scope-found").html("ok");
+    		$("#dropdown-multi-scope-found").html("Aucun résultat");
     		html="";
+    		var allCP = new Array();
+    		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				val = value.country + "_" + value.insee + "-" + value.postalCodes[0].postalCode; 
-    				lbl = value.name;
-    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
+    				$.each(value.postalCodes, function(key, valueCP){
+    					if($.inArray(valueCP.postalCode, allCP)<0){ 
+	    					allCP.push(valueCP.postalCode);
+		    				val = valueCP.postalCode; 
+		    				lbl = valueCP.postalCode ;
+		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+	    			}});
     			}; 
     			if(currentScopeType == "cp") { 
-    				val = value.postalCodes[0].postalCode; 
-    				lbl = value.postalCodes[0].postalCode ;
-    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
+    				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
+		    			if($.inArray(valueCP.name, allCities)<0){ 
+	    					allCities.push(valueCP.name);
+		    				val = valueCP.postalCode; 
+		    				lbl = valueCP.postalCode ;
+		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    				}});
     			}; 
-    			if(currentScopeType == "dep") 	{ val = value; lbl = value; lblList = value; }; 
-    			if(currentScopeType == "region"){ val = value; lbl = value; lblList = value; }; 
-
-    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    			
+    			if(currentScopeType == "dep" || currentScopeType == "region"){
+    				val = value; lbl = value; lblList = value;
+	    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+	    		}
     		});
+    		if(html != "")
     		$("#dropdown-multi-scope-found").html(html);
     		
 	    },
