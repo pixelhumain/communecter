@@ -640,7 +640,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				    color: #E33551 !important;
 				  }
 				  .btnSubTitle{
-					  margin-bottom:10px; font-size:13px; font-weight: 300; height: 95px;
+					  margin-bottom:10px; 
+					  font-size:13px; 
+					  font-weight: 300; height: 95px;
 					}
 					@media screen and (max-width: 768px) {
 					    /*#div-discover .btn-discover.bg-red{
@@ -724,13 +726,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			                        <br/><span class="discover-subtitle">Organisation</span>
 			                    </div>
 
-			                    <div class="col-xs-6  center text-orange btnSubTitle">
+			                    <div class="col-xs-6  center text-purple btnSubTitle">
 			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
 			                          <i class="fa fa-calendar"></i>
 			                        </a><br/><span class="discover-subtitle">Évènement</span>
 			                    </div>
 			                    
-			                    <div class="col-xs-6  center text-purple btnSubTitle">
+			                    <div class="col-xs-6  center text-orange btnSubTitle">
 			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
 			                          <i class="fa fa-lightbulb-o"></i>
 			                        </a><br/><span class="discover-subtitle">Projet</span>
@@ -869,7 +871,7 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
-	buildQRCode("person","<?php echo (string)$person["_id"]?>",'<?php echo (string)$person["name"]?>');
+	buildQRCode("person","<?php echo (string)$person["_id"]?>");
 	
 	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
