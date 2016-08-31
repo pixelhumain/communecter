@@ -287,7 +287,7 @@ jQuery(document).ready(function() {
 
 
 	$('.form-register #username').keyup(function(e) {
-		validateUserName();
+		//validateUserName();
 	});
 
 	if(email != ''){
@@ -686,7 +686,7 @@ function validateUserName() {
   						"username": '<?php echo Yii::t("login","The user name is not unique : please change it.")?>'
 					});
 				}
-			}, 200);
+			}, 3000);
 	}
 }
 
