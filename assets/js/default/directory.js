@@ -195,7 +195,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
   		              });
                   }
 
@@ -226,11 +226,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
                         if(type!="city" && id != userId && userId != null && userId != ""){
-                        str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                              'data-toggle="tooltip" data-placement="right" data-original-title="Suivre"'+
-                              " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                                  "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                                "</a>";
+                          tip = (type == "events") ? "Participer" : 'Suivre';
+                          str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                                'data-toggle="tooltip" data-placement="right" data-original-title="'+tip+'"'+
+                                " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                                    "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                                  "</a>";
                         }
                         str += '</div>';
                       }
@@ -317,7 +318,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                   if(typeof myMultiTags != "undefined"){
                     $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
-                      $("[data-tag-value="+key+"].btn-tag").addClass("bold");
+                      $("[data-tag-value='"+key+"'].btn-tag").addClass("bold");
                     });
                   }
                   
@@ -399,8 +400,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	   		}
    		}
    		if($(value).attr("data-isFollowed")=="true"){
+
 	   		$(value).html("<i class='fa fa-unlink text-green'></i>");
-	   		$(value).attr("data-original-title", "Ne plus suivre");
+	   		$(value).attr("data-original-title", (type == "events") ? "Ne plus participer" : "Ne plus suivre" );
 			  $(value).attr("data-ownerlink","unfollow");
         $(value).addClass("followBtn");
    		}
@@ -437,7 +439,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						toastr.success(data.msg);	
 						$(thiselement).html("<i class='fa fa-unlink text-green'></i>");
 						$(thiselement).attr("data-ownerlink","unfollow");
-						$(thiselement).attr("data-original-title", "Ne plus suivre");
+						$(thiselement).attr("data-original-title", (type == "events") ? "Ne plus participer" : "Ne plus suivre");
 						addFloopEntity(id, type, data.parentEntity);
 					}
 					else
@@ -456,7 +458,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 					if ( data && data.result ) {
 						$(thiselement).html("<i class='fa fa-chain'></i>");
 						$(thiselement).attr("data-ownerlink","follow");
-						$(thiselement).attr("data-original-title", "Suivre");
+						$(thiselement).attr("data-original-title", (type == "events") ? "Participer" : "Suivre");
 						removeFloopEntity(data.parentId, type);
 						toastr.success(trad["You are not following"]+data.parentEntity.name);
 					} else {

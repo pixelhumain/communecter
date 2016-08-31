@@ -161,16 +161,16 @@ jQuery(document).ready(function() {
 	
   $('.tooltips').tooltip();
 
-  $("#btn-slidup-scopetags").click(function(){
-    if($("#list_filters").hasClass("hidden")){
-      $("#list_filters").removeClass("hidden");
-      $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-    }
-    else{
-      $("#list_filters").addClass("hidden");
-      $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-    }
-  });
+  // $("#btn-slidup-scopetags").click(function(){
+  //   if($("#list_filters").hasClass("hidden")){
+  //     $("#list_filters").removeClass("hidden");
+  //     $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+  //   }
+  //   else{
+  //     $("#list_filters").addClass("hidden");
+  //     $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+  //   }
+  // });
 
   showTagsScopesMin("#scopeListContainer");
 
@@ -217,8 +217,8 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
   
-  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-  $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+/*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
   $('.tooltips').tooltip();
   searchPage = true;
 

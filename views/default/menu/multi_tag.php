@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 		addTagToMultitag( $("#input-add-multi-tag").val() );
 	});
 
-	$('#input-add-multi-tag').filter_input({regex:'[a-zA-Z0-9_]'}); 
+	$('#input-add-multi-tag').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_]
 
 	loadMultiTags();
 	rebuildSearchTagInput();
@@ -100,6 +100,7 @@ jQuery(document).ready(function() {
 
 
 function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
+	hideSearchResults();
 	if(userId != null && userId != ""){
 		$.ajax({
 	        type: "POST",
@@ -192,6 +193,7 @@ function showTagInMultitag(tagValue){ //console.log("showTagInMultitag()", tagVa
 
 function addTagToMultitag(tagValue){  
 	if(tagValue == "") return;
+	if(tagValue.indexOf("#") == 0) tagValue = tagValue.substr(1, tagValue.length);
 	if(!tagExists(tagValue)){
 		//console.log("adding", tagValue);
 		myMultiTags[tagValue] = { active: true };
@@ -208,7 +210,7 @@ function addTagToMultitag(tagValue){
 function deleteTagInMultitag(tagValue){ //console.log("deleteTagInMultitag(tagValue)", tagValue);
 	if(tagExists(tagValue)){
 		delete myMultiTags[tagValue];
-		$("[data-tag-value="+tagValue+"]").remove();
+		$("[data-tag-value='"+tagValue+"']").remove();
 		saveMultiTag();
 		//showMsgInfoMultiTag("Le tag a bien été supprimé", "success");
 	}
@@ -225,13 +227,13 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 		saveMultiTag();
 
 		if(myMultiTags[tagValue].active){
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-circle-o");
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-check-circle");
-			$("[data-tag-value="+tagValue+"].item-tag-input").removeClass("disabled");
+			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-input").removeClass("disabled");
 		}else{
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").addClass("fa-circle-o");
-			$("[data-tag-value="+tagValue+"] .item-tag-checker i.fa").removeClass("fa-check-circle");
-			$("[data-tag-value="+tagValue+"].item-tag-input").addClass("disabled");
+			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-input").addClass("disabled");
 		}
 		
 		//rebuildSearchTagInput();

@@ -967,7 +967,7 @@ function  bindLBHLinks() {
 		console.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
-	 });
+	});
 }
 
 function bindRefreshBtns() { console.log("bindRefreshBtns");
@@ -1048,7 +1048,7 @@ var typeObj = {
 	"discuss" : {col:"actionRooms",ctrl:"room"},
 }
 
-function  buildQRCode(type,id,name) { 
+function  buildQRCode(type,id) { 
 		
 	$(".qrCode").qrcode({
 	    text: '{type:"'+type+'",_id:"'+id+'"}',

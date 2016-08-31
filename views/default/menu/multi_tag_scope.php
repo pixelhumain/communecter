@@ -257,7 +257,7 @@ function showTagsScopesMin(htmlId){
 	if(tagSelected)  { $(".btnShowAllTag").hide(); $(".btnHideAllTag").show(); } 
 	else 			 { $(".btnShowAllTag").show(); $(".btnHideAllTag").hide(); }
 
-	bindRefreshBtns();
+	//bindRefreshBtns();
 	
 	//$(".list_tags_scopes").removeClass("tagOnly");
 }
@@ -271,6 +271,28 @@ function showEmptyMsg(){
 	if(c==0) $("#dropdown-multi-tag .visible-empty").show(); else $("#dropdown-multi-tag .visible-empty").hide();
 	
 }
+
+
+function slidupScopetagsMin(show){ console.log("slidupScopetagsMin", show);
+	if($("#list_filters").hasClass("hidden")){
+	    $("#list_filters").removeClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else{
+	    $("#list_filters").addClass("hidden"); console.log("hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+
+	if(show==true){
+	    $("#list_filters").removeClass("hidden"); console.log("removeClass hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else if(show==false){
+	    $("#list_filters").addClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+}
+
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {

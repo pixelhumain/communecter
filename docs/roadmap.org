@@ -69,6 +69,7 @@
     [ ] refactor le design du notifier (0.16??)
     [ ] lazy loading sur la carto
     [ ] agenda : les events prennent pas la durée sur plusieurs jours 
+    [ ] repairing localisation HTML5 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -127,7 +128,7 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] repairing localisation HTML5 
+    [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
@@ -136,8 +137,9 @@
         [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
-        [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [ ] généré les catégories principale
+           [ ] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
     [X] live on city page

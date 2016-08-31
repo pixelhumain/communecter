@@ -26,7 +26,7 @@
 	font-size: 15px !important;
 }
 input.form-control.input-search{
-	border-radius:0 4px 4px 0 !important;
+	border-radius:4px 0 0 4px !important;
 }
 </style>
 

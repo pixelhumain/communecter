@@ -555,7 +555,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$(this).addClass("active");
 		});
 
-		buildQRCode("event","<?php echo (string)$event["_id"]?>",'<?php echo (string)$event["name"]?>');
+		buildQRCode("event","<?php echo (string)$event["_id"]?>");
 		
 	})
 

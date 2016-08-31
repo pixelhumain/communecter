@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});
-	//$('#input-add-multi-scope').filter_input({regex:'[a-zA-Z0-9_]'}); 
+	$('#input-add-multi-scope').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_] 
 	$('#input-add-multi-scope').keyup(function(){ 
 		$("#dropdown-multi-scope-found").show();
 		if($('#input-add-multi-scope').val()!=""){
@@ -276,7 +276,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	saveCookieMultiscope();
 }
 function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
-	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes), { expires: 365, path: "/" });
 	if(location.hash.indexOf("#city.detail")==0)
 		loadByHash("#default.live");
 }
@@ -301,14 +301,19 @@ function autocompleteMultiScope(){
     		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				$.each(value.postalCodes, function(key, valueCP){
+    				val = value.insee; 
+		    		lbl = value.name ;
+		    		lblList = lbl + " (" +value.depName + ")";
+		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    				/*$.each(value.postalCodes, function(key, valueCP){
     					if($.inArray(valueCP.postalCode, allCP)<0){ 
 	    					allCP.push(valueCP.postalCode);
 		    				val = valueCP.postalCode; 
 		    				lbl = valueCP.postalCode ;
 		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
 		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
-	    			}});
+	    			}
+	    			});*/
     			}; 
     			if(currentScopeType == "cp") { 
     				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);

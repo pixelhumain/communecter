@@ -509,7 +509,7 @@ jQuery(document).ready(function()
 		$(".btn-group-"+type + " .btn").removeClass("active");
 		$(this).addClass("active");
 	});
-	buildQRCode("project","<?php echo (string)$project["_id"]?>",'<?php echo (string)$project["name"]?>');
+	buildQRCode("project","<?php echo (string)$project["_id"]?>");
 	
 		//getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo (string)$project["_id"]?>/isAdmin/<?php echo $isAdmin?>",null,"html");
 });

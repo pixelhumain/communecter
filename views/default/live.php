@@ -202,33 +202,13 @@ jQuery(document).ready(function() {
   	});
 
 	//initSelectTypeNews();
-	$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+	/*$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
     $('.tooltips').tooltip();
     searchPage = true;
 	startSearch(true);
 	$(".titleNowEvents .btnhidden").hide();
 });
-
-function slidupScopetagsMin(show){
-	if($("#list_filters").hasClass("hidden")){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else{
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-
-	if(show==true){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else if(show==false){
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-}
 
 var timeout;
 function startSearch(isFirst){

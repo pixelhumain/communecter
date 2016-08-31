@@ -640,7 +640,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				    color: #E33551 !important;
 				  }
 				  .btnSubTitle{
-					  margin-bottom:10px; font-size:13px; font-weight: 300; height: 95px;
+					  margin-bottom:10px; 
+					  font-size:13px; 
+					  font-weight: 300; height: 95px;
 					}
 					@media screen and (max-width: 768px) {
 					    /*#div-discover .btn-discover.bg-red{
@@ -668,7 +670,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		               	<div class="panel-body no-padding ">
 			                <div class="col-md-12 no-padding" style="margin-top:20px">
 
-			                    <div class="col-sm-3 col-md-6 center text-azure btnSubTitle">
+			                    <div class="col-xs-6 center text-azure btnSubTitle">
 			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
 
 			                          <i class="fa fa-camera"></i>
@@ -676,7 +678,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			                        <span class="text-azure discover-subtitle"> Image de profil</span>
 			                    </div>
 			                    
-			                    <div class="col-sm-3 col-md-6 center text-red btnSubTitle">
+			                    <div class="col-xs-6 center text-red btnSubTitle">
 			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
 			                          <i class="fa fa-home"></i>
 			                        </a><br>
@@ -684,12 +686,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			                    </div>
 
 			                   
-			                    <div class="col-sm-3 col-md-6 center text-dark btnSubTitle">
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
 			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
 			                          <i class="fa fa-bullseye"></i>
 			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
 			                    </div>
-			                    <div class="col-sm-3 col-md-6 center text-dark btnSubTitle">
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
 			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
 			                          <i class="fa fa-tags"></i>
 			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
@@ -699,7 +701,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			        </div>
 		        </div>
 
-		        <div class="panel no-padding margin-top-15 hidden">
+		        <div class="panel no-padding margin-top-15 ">
 			        <div class="panel-heading text-center border-light">
 		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
 		            </div>
@@ -710,27 +712,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			                <div class="col-md-12 no-padding" style="margin-top:20px">
 
-			                    <div class="col-xs-12 col-sm-6  center text-yellow btnSubTitle">
+			                    <div class="col-xs-6  center text-yellow btnSubTitle">
 			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
 
 			                          <i class="fa fa-user"></i>
 			                        </a><br/><span class="discover-subtitle">Une personne</span>
 			                    </div>
 			                    
-			                    <div class="col-xs-12 col-sm-6  center text-green btnSubTitle">
+			                    <div class="col-xs-6  center text-green btnSubTitle">
 			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
 			                          <i class="fa fa-group"></i>
 			                        </a>
 			                        <br/><span class="discover-subtitle">Organisation</span>
 			                    </div>
 
-			                    <div class="col-xs-12 col-sm-6  center text-orange btnSubTitle">
+			                    <div class="col-xs-6  center text-purple btnSubTitle">
 			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
 			                          <i class="fa fa-calendar"></i>
 			                        </a><br/><span class="discover-subtitle">Évènement</span>
 			                    </div>
 			                    
-			                    <div class="col-xs-12 col-sm-6  center text-purple btnSubTitle">
+			                    <div class="col-xs-6  center text-orange btnSubTitle">
 			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
 			                          <i class="fa fa-lightbulb-o"></i>
 			                        </a><br/><span class="discover-subtitle">Projet</span>
@@ -777,7 +779,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</div>
 
 
-		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+		<?php /* if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 		<div class="text-dark">
 			<div class="col-md-12 center bg-dark" id="panel-add">
 				
@@ -802,7 +804,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 			</div>
 		</div>
-		<?php } ?>
+		<?php } */ ?>
 		
 	</div>
 </div>
@@ -869,7 +871,7 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
-	buildQRCode("person","<?php echo (string)$person["_id"]?>",'<?php echo (string)$person["name"]?>');
+	buildQRCode("person","<?php echo (string)$person["_id"]?>");
 	
 	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
