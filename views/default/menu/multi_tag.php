@@ -100,6 +100,7 @@ jQuery(document).ready(function() {
 
 
 function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
+	hideSearchResults();
 	if(userId != null && userId != ""){
 		$.ajax({
 	        type: "POST",

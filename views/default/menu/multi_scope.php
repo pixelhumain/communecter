@@ -276,7 +276,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	saveCookieMultiscope();
 }
 function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
-	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes), { expires: 365, path: "/" });
 	if(location.hash.indexOf("#city.detail")==0)
 		loadByHash("#default.live");
 }

@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 	
 	setTitle("<?php echo addslashes($person["name"]) ?>",
 			 "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user'></i>", 
-			 "haha <?php echo addslashes($person["name"]) ?>");
+			 "<?php echo addslashes($person["name"]) ?>");
 
 	$("#btn-center-person").click(function(){
 		showMap(true);

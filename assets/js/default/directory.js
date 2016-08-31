@@ -195,7 +195,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(typeof o.tags != "undefined" && o.tags != null){
           					$.each(o.tags, function(key, value){
           						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+  		                tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
   		              });
                   }
 
@@ -318,7 +318,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                   if(typeof myMultiTags != "undefined"){
                     $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
-                      $("[data-tag-value="+key+"].btn-tag").addClass("bold");
+                      $("[data-tag-value='"+key+"'].btn-tag").addClass("bold");
                     });
                   }
                   

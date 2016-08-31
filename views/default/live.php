@@ -127,10 +127,10 @@
 	<h3 class="text-red homestead titleNowEvents">
 		<div class="btn-group inline-block pull-right" id="menu-directory-type">
 			<a href="javascript:toggle('.el-nowList','.el-nowList')" 	class="btnhidden btn btn-sm btn-default">Tout</a>
-			<a href="javascript:toggle('.event,.events','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
-			<a href="javascript:toggle('.entre,.action,.discuss','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
-			<a href="javascript:toggle('.project,.projects','.el-nowList')" 	class="btnhidden btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
-			<a href="javascript:toggle('.organization,.organisations','.el-nowList')" class="btnhidden btn btn-sm btn-default"><i class="fa fa-users "></i></a>
+			<a href="javascript:toggle('.event,.events','.el-nowList',1)" class="eventBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
+			<a href="javascript:toggle('.entry,.action,.discuss','.el-nowList',1)" class="entryBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
+			<a href="javascript:toggle('.project,.projects','.el-nowList',1)" 	class="projectBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
+			<a href="javascript:toggle('.organization,.organisations','.el-nowList',1)" class="organizationBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-users "></i></a>
 			<a href="javascript:enlargeNow();" class="btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
 			
 		</div>
@@ -209,26 +209,6 @@ jQuery(document).ready(function() {
 	startSearch(true);
 	$(".titleNowEvents .btnhidden").hide();
 });
-
-function slidupScopetagsMin(show){
-	if($("#list_filters").hasClass("hidden")){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else{
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-
-	if(show==true){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else if(show==false){
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-}
 
 var timeout;
 function startSearch(isFirst){

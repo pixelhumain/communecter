@@ -265,6 +265,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	position:relative;
 	/*background-color: white;*/
 }
+.tag.bold{
+	font-weight:600 !important;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -313,6 +316,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<?php } ?>
 
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <?php echo "Rédiger un message"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
+		<a class="btn btn-xs pull-right" style="margin-top: -4px;" onclick="javasctipt:showFormBlock(false);">
+			<i class="fa fa-times"></i>
+		</a>
 		</h5>
 		<div class="tools_bar bg-white">
 			<div class="user-image-buttons">

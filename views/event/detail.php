@@ -14,6 +14,7 @@
 	<div class="col-md-8 col-sm-12 col-xs-12">
 		<?php $this->renderPartial('dashboard/description',array(
 									"event" => $event,
+									"tags" => $tags,
 									"organizer" =>$organizer,
 									"itemId" => (string)$event["_id"],
 									"eventTypes" => $eventTypes,

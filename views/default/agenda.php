@@ -258,7 +258,7 @@ function showResultInCalendar(mapElements){
     var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
 
     var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
-    var thumb_url = notNull(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
+    var thumb_url = notEmpty(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
     
     if(typeof events[startDate] == "undefined") events[startDate] = new Array();
     events[startDate].push({  "id" : thisEvent["_id"]["$id"],
