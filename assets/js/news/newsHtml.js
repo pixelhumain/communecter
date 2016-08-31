@@ -227,9 +227,15 @@ function buildLineHTML(newsObj,idSession,update)
 		$.each( newsObj.tags , function(i,tag){ if(countTag < maxTag){
 			countTag++;
 			tagsClass += tag+" ";
-			tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
+
+			/*tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextScopesTags.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				contextScopesTags.tags.push(tag);
+				contextScopesTags.tags.push(tag);*/
+
+			tags += "<span class='label tag_item_map_list tag' data-tag-value='"+tag+"'>#"+tag+"</span> ";
+			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+				contextMap.tags.push(tag);
+
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
 			}
 		} });
@@ -403,6 +409,12 @@ function buildLineHTML(newsObj,idSession,update)
 		if(typeof(offsetLastNews) == "undefined" || (minusOff < $(".newsFeed").last().position().top && $(".newsFeed").last().position().top < maxOff)){
 			$(".newsFeed").last().css("margin-top","20px");
 		}
+		//affiche en gras les tags qui font parti de mes favoris
+		if(typeof myMultiTags != "undefined"){
+        $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+          $("[data-tag-value='"+key+"'].tag").addClass("bold");
+        });
+      }
 	}
 }
 

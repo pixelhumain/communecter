@@ -279,17 +279,30 @@ if( @$type == Organization::CONTROLLER && @$organization ){
 	$projects=array();
 }
 else if( @$type == City::CONTROLLER && @$city ){
-	Menu::city( $city );
+	Menu::city($city, $cityGlobal);
 	//$contextName = Yii::t("common","City")." : ".$city["name"];
-	$contextName = Yii::t("common","City")." : ".(($cityGlobal == false) ? $city["namePc"]." ".Yii::t("common", "town of")." ".$city["name"] : $city["name"]);
+	$contextName = Yii::t("common","City")." : ".(($cityGlobal == false) ? $city["namePc"]. " ( ".$city["cp"]." ) " /*((count($city["postalCodes"]) > 1) ? ." ".Yii::t("common", "town of")." ".$city["name"])*/ : $city["name"]);
 	$contextIcon = "university";
-	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".(($cityGlobal == false) ? $city["namePc"]." ".Yii::t("common", "town of")." ".$city["name"] : $city["name"]);
+	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".(($cityGlobal == false) ? $city["namePc"]. " ( ".$city["cp"]." ) " /*." ".Yii::t("common", "town of")." ".$city["name"] */: $city["name"]);
 }
 else if( @$type == Event::CONTROLLER && @$event ){
 	Menu::event( $event,true );
 	$contextName = Yii::t("common","Event")." : ".$event["name"];
 	$contextIcon = "calendar";
 	$contextTitle = Yii::t("common", "Visualize Event")." ".$event["name"];
+	if (isset($event["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isEventAdmin($event["_id"], Yii::app()->session["userId"])) { 
+			$manage=1;
+	}
+	$parentName=$event["name"];
+	$parentId=$event["_id"];
+	$parentType=Event::COLLECTION;
+	$connectType="contributors";
+	$contextData = $event;
+	$projects=array();
+	$events=array();
+
+
 }
 else if( @$type == Person::CONTROLLER && @$person ){
 	Menu::person( $person );
@@ -309,6 +322,7 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 			 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 		$manage=1;
 	}
+
 	$parentName=$project["name"];
 	$parentId=$project["_id"];
 	$parentType=Project::COLLECTION;
@@ -460,7 +474,7 @@ if (@$follows){
 					</div>
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
-					<?php	if (@$manage){ ?> 
+					<?php if (@$manage){ ?> 
 						<input type="hidden" id="parentType" value="<?php echo $parentType ?>"/>
 						<input type="hidden" id="parentId" value="<?php echo $parentId ?>"/>
 						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
@@ -507,7 +521,7 @@ if (@$follows){
 					{ 
 						foreach ($events as $e) 
 						{ 
-							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 	
@@ -516,7 +530,7 @@ if (@$follows){
 					{ 
 						foreach ($projects as $e) 
 						{ 
-							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 					/* ************ ATTENDEES OF AN EVENT ************************ */
@@ -524,7 +538,7 @@ if (@$follows){
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Person::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -532,7 +546,7 @@ if (@$follows){
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 
@@ -801,6 +815,7 @@ if (@$follows){
 													'</a>'.
 												'</li>';
 							}
+
 							if(@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
 													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.

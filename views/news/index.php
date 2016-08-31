@@ -60,7 +60,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-green'></i> Journal de l'organisation";//.$contextName;
+		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
@@ -69,17 +69,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			//Menu::person($parent);
 		
 			$contextName =addslashes($parent["name"]);
-			$contextIcon = "user";
+			$contextIcon = "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user text-dark'></i> ";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 			}	
 			if(Yii::app()->session["userId"] ==$contextParentId){
-				$headerName= "<i class='fa fa-circle text-yellow'></i> Mon journal";
+				$headerName= "Mon journal";
 				$topTitle = $headerName;
 			}else{
-				$headerName= "<i class='fa fa-circle text-yellow'></i> Journal de : ".$contextName;
+				$headerName= "Journal de : ".$contextName;
 				$topTitle = $headerName;
 			}
 		}
@@ -102,7 +102,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
-		$headerName= "<i class='fa fa-circle text-purple'></i> Journal du projet";//.$contextName;
+		$headerName= "Journal du projet";//.$contextName;
 		$topTitle = "Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 	//	Menu::event( $parent );
@@ -112,7 +112,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
-		$headerName= "<i class='fa fa-circle text-orange'></i> Journal de l'événement";//.$contextName;
+		$headerName= "Journal de l'événement";//.$contextName;
 		$topTitle = "Journal de l'événement";//.$contextName;
 	}
 
@@ -252,9 +252,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     color: #F00;
     font-weight: 200 !important;
     font-size: 12px !important;
+    cursor: pointer;
 }
 .main-col-search{
 	min-height:1100px !important;
+}
+.timeline_element .label-danger {
+    margin-bottom: 3px;
+    display: inline-block;
+}
+#footerDropdown{
+	position:relative;
+	/*background-color: white;*/
+}
+.tag.bold{
+	font-weight:600 !important;
 }
 </style>
 <!--<textarea class="mention"></textarea>-->
@@ -265,7 +277,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type)); 
 ?>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
+<!-- <div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div> -->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
@@ -304,6 +316,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<?php } ?>
 
 		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <?php echo "Rédiger un message"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
+		<a class="btn btn-xs pull-right" style="margin-top: -4px;" onclick="javasctipt:showFormBlock(false);">
+			<i class="fa fa-times"></i>
+		</a>
 		</h5>
 		<div class="tools_bar bg-white">
 			<div class="user-image-buttons">
@@ -325,12 +340,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
 			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
-					class="col-sm-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
+					class="col-sm-12 col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
 					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
-					<input id="searchBarText" data-searchPage="true" type="hidden" placeholder="rechercher ..." class="input-search form-control">
 					<textarea id="get_url" placeholder="Exprimez-vous ..." class=" get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>
@@ -434,7 +448,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
-<div class="alert col-md-7 col-md-offset-3 center" style="margin-bottom: 0px; margin-top: 0px; ">
+<div class="alert col-md-11 col-xs-12 center" style="margin-bottom: 0px; margin-top: 0px; ">
   <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
   <!-- <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
   <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button>  -->
@@ -602,6 +616,7 @@ jQuery(document).ready(function()
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		buildTimeLine (news, 0, indexStep);
+		bindTags();
 		//console.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;

@@ -388,6 +388,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	var citiesByPostalCode;
 	var organizerParentType = "<?php if (@$parentType) echo $parentType; ?>";
 	var organizerParentId = "<?php if (@$parentId) echo $parentId; ?>";
+	
 	//var organizerParentName = "<?php if (@$_GET["organizerParentName"]) echo $_GET["organizerParentName"]; ?>"; 
 	/*if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
@@ -395,11 +396,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	$(".daterangepicker").on("hide.daterangepicker", function(){
 	 	console.log("ok");
-	})
+	});
 
 	$(".daterangepicker").on("apply.daterangepicker", function(ev, picker){
  		console.log("ok");
- 	})
+ 	});
 
 	jQuery(document).ready(function() {
 	 	bindEventSubViewEvents();
@@ -507,8 +508,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			data : countries,
 		});
 
-		
+		var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
+		$("#newEvent #eventCountry").select2('val', userCountry);
 	};
+
+
 	
 	//validate new event form
 	function runEventFormValidation(el) {
@@ -729,7 +733,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function initMyOrganization(){
 
-		$("#eventCountry").select2('val', "");
+		//$("#eventCountry").select2('val', "");
 
 		if(organizerParentType.length > 0){
 			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";

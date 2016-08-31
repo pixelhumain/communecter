@@ -229,7 +229,7 @@ div.timeline .date_separator span{
 #newsHistory .timeline-scrubber {
     right: 0%;
 	position: fixed;
-	top: 375px;
+	top: 500px;
 }
 #newsHistory .timeline-scrubber li:last-child a {
     border-color: #50687d;
@@ -305,7 +305,9 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 }
 
 
-
+#newLiveFeedForm{
+	z-index:2;
+}
 
 .timeline_element {
     padding: 10px;

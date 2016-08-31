@@ -201,6 +201,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.select2-hidden {
 	    display:none !important;
 	}
+
+
 </style>
 
 <div class="panel panel-white">
@@ -404,10 +406,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-  	<div class="panel-body" style="padding-top: 0px">
-		<div class="row" style="">
-			<div class="col-sm-6 col-md-5 padding-15">
 
+
+  	<div class="panel-body" style="padding-top: 0px">
+		<div class="col-md-8 col-xs-12" >
+			<div class="col-sm-12 col-md-12 col-lg-5 padding-15">
+				<button class="btn btn-success" onclick="javascript:switchMode()" id="btn-validate-changes" style="display:none;">
+					<i class="fa fa-check"></i> Enregistrer les changements
+				</button>
 				<div class="padding-10">
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
@@ -504,12 +510,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
 					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
 					</a>
-					<br>
+					<br/>
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
 						<?php echo Person::showField("email",$person, $isLinked);?>
 					</a>
-					<br>
+					<br/>
 					<i class="fa fa-bookmark"></i> <a href="#define.Gamification"  class="lbh">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<hr style="margin:10px 0px 3px 0px;">
@@ -519,15 +525,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("address.streetAddress",$person, $isLinked)?>
 					</a>
 
-					<br>
+					<br/>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom">
 					</a>
-					<br>
+					<br/>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					
 					</a>
-					<br>
+					<br/>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i>
 					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
@@ -541,7 +547,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						?>
 					</a>
-					<br>
+					<br/>
 
 					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
 					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
@@ -553,7 +559,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}?>
 					</a>
-					<br>
+					<br/>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
 					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
@@ -565,7 +571,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}?>
 					</a>
-					<br>
+					<br/>
 					
 					
 				</div>
@@ -606,9 +612,142 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				
 				
 			</div>
-		</div>
 		
-		<div class="row text-dark">
+		
+			<style type="text/css">
+				
+				  #div-discover .btn-discover{
+				    border-radius: 60px;
+					font-size: 27px;
+					font-weight: 200;
+					border: 1px solid transparent;
+					width: 60px;
+					height: 60px;
+					padding-top: 10px;
+				  }
+				  #div-discover .btn-discover.bg-red{
+				    /*font-size: 43px;
+				    padding-top: 12px;*/
+				  }
+				  #div-discover .btn-discover.bg-azure:hover{
+				    background-color: white !important;
+				    border-color: #2BB0C6 !important;
+				    color: #2BB0C6 !important;
+				  }
+				  #div-discover .btn-discover.bg-red:hover{
+				    background-color: white !important;
+				    border-color: #E33551 !important;
+				    color: #E33551 !important;
+				  }
+				  .btnSubTitle{
+					  margin-bottom:10px; 
+					  font-size:13px; 
+					  font-weight: 300; height: 95px;
+					}
+					@media screen and (max-width: 768px) {
+					    /*#div-discover .btn-discover.bg-red{
+						    font-size: 30px;
+						    padding-top: 3px;
+
+						}
+						#div-discover .btn-discover {
+						    height: 50px;
+						    width: 50px;
+						    font-size: 25px;
+						}
+						.btnSubTitle{
+						  font-size:14px; font-weight: 100;
+						}*/
+					}
+			</style>
+			<div id="div-discover" class="center col-xs-12 col-md-4">
+				<div class="panel no-padding margin-top-15">
+		            
+					<div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
+		            </div>
+			        <div class="panel panel-white padding-10 text-left">
+		               	<div class="panel-body no-padding ">
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6 center text-azure btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
+
+			                          <i class="fa fa-camera"></i>
+			                        </a><br>
+			                        <span class="text-azure discover-subtitle"> Image de profil</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-home"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Ma commune</span>
+			                    </div>
+
+			                   
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-bullseye"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
+			                    </div>
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+			                    </div>                    
+			                </div>
+		                </div>
+			        </div>
+		        </div>
+
+		        <div class="panel no-padding margin-top-15 ">
+			        <div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
+		            </div>
+			        <div class="panel panel-white padding-10">
+			            <div id="local-actors-popup-sig">
+			              
+			              <div class="panel-body no-padding ">
+
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6  center text-yellow btnSubTitle">
+			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
+
+			                          <i class="fa fa-user"></i>
+			                        </a><br/><span class="discover-subtitle">Une personne</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-green btnSubTitle">
+			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
+			                          <i class="fa fa-group"></i>
+			                        </a>
+			                        <br/><span class="discover-subtitle">Organisation</span>
+			                    </div>
+
+			                    <div class="col-xs-6  center text-purple btnSubTitle">
+			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
+			                          <i class="fa fa-calendar"></i>
+			                        </a><br/><span class="discover-subtitle">Évènement</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-orange btnSubTitle">
+			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
+			                          <i class="fa fa-lightbulb-o"></i>
+			                        </a><br/><span class="discover-subtitle">Projet</span>
+			                    </div>
+
+			                </div>
+
+			              </div>
+			            </div>
+			           
+			        </div>
+			    </div>
+		    </div>
+		</div>
+		<div class="col-xs-12 text-dark">
 			<div class="padding-20 col-sm-12 col-md-12 border-light" style="border-width: 1px">
 				<!-- Description -->
 				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
@@ -639,31 +778,34 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>
 		</div>
 
-		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+
+		<?php /* if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 		<div class="text-dark">
 			<div class="col-md-12 center bg-dark" id="panel-add">
+				
 				<h1 class="homestead text-white">
 					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 				</h1>
-				<button class="btn bg-yellow lbh" data-hash="#person.invite">
+				<a class="btn bg-yellow lbh" href="#person.invite">
 					<i class="fa fa-user"></i>
 					<span class="lbl-btn-menu-name-add">quelqu'un</span>
-				</button>
-				<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
+				</a>
+				<a class="btn bg-green lbh" href="#organization.addorganizationform">
 					<i class="fa fa-group"></i>
 					<span class="lbl-btn-menu-name-add">une organisation</span>
-				</button>
-				<button class="btn bg-purple lbh" data-hash="#project.projectsv">
+				</a>
+				<a class="btn bg-purple lbh" href="#project.projectsv">
 					<i class="fa fa-lightbulb-o"></i>
 					<span class="lbl-btn-menu-name-add">un projet</span>
-				</button>
-				<button class="btn bg-orange lbh" data-hash="#event.eventsv">
+				</a>
+				<a class="btn bg-orange lbh" href="#event.eventsv">
 					<i class="fa fa-calendar"></i>
 					<span class="lbl-btn-menu-name-add">un événement</span>
-				</button>
+				</a>
 			</div>
 		</div>
-		<?php } ?>
+		<?php } */ ?>
+		
 	</div>
 </div>
 
@@ -729,8 +871,17 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
-	buildQRCode("person","<?php echo (string)$person["_id"]?>",'<?php echo (string)$person["name"]?>');
+	buildQRCode("person","<?php echo (string)$person["_id"]?>");
 	
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+	});
+	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-scope").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+	});
 });
 
 function buildBgClassesList() 
@@ -996,8 +1147,10 @@ function initXEditable() {
 
 function manageModeContext() {
 	console.log("-----------------manageModeContext----------------------");
-	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', 
+						'#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
+
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -1023,10 +1176,12 @@ function switchMode() {
 		mode = "update";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").show();
 	} else {
 		mode ="view";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").hide();
 	}
 }
 

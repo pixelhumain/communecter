@@ -479,7 +479,7 @@
 
 
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				console.warn("--------------- showOneElementOnMap ---------------------");
+				//console.warn("--------------- showOneElementOnMap ---------------------");
 				//console.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
@@ -604,7 +604,7 @@
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
 				//console.dir(data);
 				//console.dir(thisFilter);

@@ -53,7 +53,7 @@
 }
 
 .main-top-menu{
-	background-color: rgba(255, 255, 255, 0.82) !important;
+	/*background-color: rgba(255, 255, 255, 0.82) !important;*/
 }
 .select2-container .select2-choice .select2-arrow b::before{
 	/*content:"";*/

@@ -482,7 +482,7 @@ var loadableUrls = {
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1", menuId:"menu-btn-directory"},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
@@ -629,7 +629,7 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
-function setTitle(str, icon,topTitle) { 
+function setTitle(str, icon, topTitle) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
 	$(".moduleLabel").html( icon +" "+ str);
@@ -954,18 +954,22 @@ function  bindHighlighter() {
 
 function  bindTags() { 
 	console.log("bindTags");
-	var tagClasses = ".tag,.label tag_item_map_list"
+	//var tagClasses = ".tag,.label tag_item_map_list"
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
-		if(userId){
+		//if(userId){
 			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
-
-			showTagInMultitag(tag);
-			$('#btn-modal-multi-tag').trigger("click");
-			$('.tags-count').html( $(".item-tag-name").length );
-			toastr.success("tag filters : "+tag+"<br/>coming soon in top Bar!!");
-		} else {
-			toastr.error("must be loggued");
-		}
+			//alert(tag);
+			//showTagInMultitag(tag);
+			//$('#btn-modal-multi-tag').trigger("click");
+			//$('.tags-count').html( $(".item-tag-name").length );
+			if(addTagToMultitag(tag))
+				toastr.success("Le tag \""+tag+"\" ajouté à vos favoris");
+			else
+				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags favoris");
+			
+		//} else {
+		//	toastr.error("must be loggued");
+		//}
 	});
 }
 
@@ -983,7 +987,7 @@ function  bindLBHLinks() {
 		console.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
-	 });
+	});
 }
 
 function bindRefreshBtns() { console.log("bindRefreshBtns");
@@ -1010,6 +1014,27 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 		      $(".search-loader").html("<i class='fa fa-ban'></i>");
 	    });
 	}
+}
+function hideSearchResults(){
+	var searchFeed = "#dropdown_search";
+		var method = "startSearch(0, indexStepInit);"
+		if( $(".newsTL").length){
+			searchFeed = ".newsTL";
+			method = "reloadNewsSearch();"
+		}
+      //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+      str = '<div class="center" id="footerDropdown">';
+      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
+      str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
+      str += "</div>";
+      if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+          $(searchFeed).append( str );
+      }else { console.log("vide autre news stream perso", searchFeed);
+          $(searchFeed).html( str );
+      }
+      $(".search-loader").html("<i class='fa fa-ban'></i>");
+	    
 }
 function reloadNewsSearch(){
 	if(location.hash.indexOf("#default.live")==0)
@@ -1043,7 +1068,7 @@ var typeObj = {
 	"discuss" : {col:"actionRooms",ctrl:"room"},
 }
 
-function  buildQRCode(type,id,name) { 
+function  buildQRCode(type,id) { 
 		
 	$(".qrCode").qrcode({
 	    text: '{type:"'+type+'",_id:"'+id+'"}',

@@ -450,7 +450,7 @@ var Login = function() {
 		        			else {
 		        				//console.log("login 3 reload");
 		        				//for urls like notifications/get/not/id...
-		        				window.location.href = baseUrl+'#default.home';
+		        				window.location.href = baseUrl+'#default.live';
 		        				//window.location.reload();
 		        			}
 		        		}

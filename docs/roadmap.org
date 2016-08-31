@@ -33,38 +33,43 @@
 [ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
 [ ] turn notification list into a header panel 
 [ ] ajouter la gestion des quartier Isis dans les scope
-[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)
-
-** @Tango
-    [ ] Finir Add member, contributeur et invitation
-    [ ] reactiver viewport filter sur la carte
-    [ ] refactor le design du notifier (0.16??)
-    [ ] lazy loading sur la carto
-    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
-    [ ] DDA framapad
-
-* ************************************************************    
-* Version 0.15 (31/08/2016) : En cours
-* ************************************************************
-
-** TODO
-    [ ] one input add
-    [ ] multi scope on element forms
-    [???] representation du multi scoping sur la carte
-        - peut etre tracer les perimtres de chaque zone 
-    [ ] Event ideas (0.16??)
+[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[ ] passer configDB en externe configdb.example.php 
+[???] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone
+[ ] Event ideas (0.16??)
     [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
         [ ] affichage triable en mode mixitup
             [ ] par salle , chrono, tag filter, all subevents
             [ ] my events : events I participate in , calendrier perso 
                 [ ] doodle : pour comparer facilement les dispo 
                 [ ] covoit : décrire les trajet pour les partagers
+    [ ] Event intérrsant pour moi, moteur d'affinité
+    [ ] filtrer les event par type 
+* ************************************************************    
+* Version 0.15 (31/08/2016) : En cours
+* ************************************************************
+
+** TODO
+    [ ] one input add
+    [ ] POI et Element de base (0.16??) : name,desc, url, location
+        periscope
+        youtube
+        twitter journal 
+    [ ] multi scope on element forms
+    
     [ ] Best place calculator : utilisant la position des participants
     [ ] Réunion privée pour avancement interne organisation
-    [ ] Event intérrsant pour moi, moteur d'affinité
-    [ ] POI et Element de base (0.16??)
+    
     [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
     [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
+     
+    [ ] Finir Add member, contributeur et invitation
+    [ ] reactiver viewport filter sur la carte
+    [ ] refactor le design du notifier (0.16??)
+    [ ] lazy loading sur la carto
+    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
+    [ ] repairing localisation HTML5 
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -113,6 +118,7 @@
     [X] Refactor design top bar 
     [X] Refactor agenda
     [X] REcherche connecté au multi scope
+    [X] search by name on live page
     [ ] REcherche par 100, 500, 1000, all
     [X] Bug Repair geoloc sur tous les element
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
@@ -122,8 +128,7 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] bug : persistent .modal-open { SyntaxError: expected expression, got '.'
-    [ ] search by name on live page
+    [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
@@ -132,14 +137,13 @@
         [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
-        [ ] généré les catégories principale
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [ ] généré les catégories principale
+           [ ] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
     [X] live on city page
     [X] wisiwig sur les commentaires
-    [X] bug sur event > globale search
-    [X] bug : qrCode explain 
     [X] dashboard
         [X] live controller 
             [X] not connected > shows live , public information 
@@ -199,7 +203,7 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [ ] remplacer la map par une url parser dans les QR code
+    [X] remplacer la map par une url parser dans les QR code
     [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
 
     * Appli CO

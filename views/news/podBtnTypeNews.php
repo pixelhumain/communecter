@@ -25,6 +25,9 @@
 	padding: 10px !important;
 	font-size: 15px !important;
 }
+input.form-control.input-search{
+	border-radius:4px 0 0 4px !important;
+}
 </style>
 
 <!-- <span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
@@ -70,10 +73,10 @@
       <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Information</span>
     </button>
-    <button class="btn btn-success tooltips" id="btn-start-search"
+   <!--  <button class="btn btn-success tooltips" id="btn-start-search"
               data-toggle="tooltip" data-placement="right" title="Actualiser les résultats">
               <i class="fa fa-refresh"></i>
-    </button>
+    </button> -->
   </div>
 
 
@@ -117,7 +120,7 @@
 
 </div>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>
@@ -131,6 +134,29 @@
 	<div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
 		<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
 	</div>
+
+	<div class="col-sm-12 col-md-8 col-lg-5 no-padding margin-bottom-15">
+	  	<div class="input-group col-xs-12 pull-left">	        
+	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
+	        <span class="input-group-btn">
+	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+	                      <i class="fa fa-refresh"></i>
+	              </button>
+	        </span>
+	        
+	    </div> 
+	    <!-- <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
+	            style="margin-left:15px;margin-top:5px;"
+	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
+	            <i class="fa fa-minus"></i>
+	    </button>
+	    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs hidden  pull-left" 
+	            style="margin-left:7px;margin-top:5px;"
+	            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
+	          <i class="fa fa-question-circle"></i>
+	    </button> -->
+	</div>
 </div>
 <script type="text/javascript">
 
@@ -142,6 +168,7 @@ jQuery(document).ready(function()
 	showTagsScopesMin("#scopeListContainer");
 
 	$('#btn-start-search').click(function(e){
+		scrollEnd = false;
 		if(location.hash.indexOf("#default.live")==0)
 	    	startSearch(false);
 		else{
@@ -176,13 +203,17 @@ jQuery(document).ready(function()
   		if(scopeType == "community") {
   			parent = "<?php echo @Yii::app()->session["userId"]; ?>";
   			parentType = "citoyens";
+  			contextParentType = "citoyens";
+  			contextParentId = "<?php echo @Yii::app()->session["userId"]; ?>";
   			$("input[name='scope']").val("restricted");
   			showTagsScopesMin("#scopeListContainer");
   			$(".list_tags_scopes").addClass("tagOnly");
   		}else{
   			parent = null;
   			parentType = "city";
-  			$("input[name='type']").val("public");
+  			contextParentType = "city";
+  			contextParentId = "";
+  			$("input[name='scope']").val("public");
   			showTagsScopesMin("#scopeListContainer");
   			$(".list_tags_scopes").removeClass("tagOnly");
   		}
@@ -190,7 +221,8 @@ jQuery(document).ready(function()
 		$(this).addClass("active");
 
 		console.log("liveScopeType", liveScopeType);
-		startSearch(false);
+		//scrollEnd = false;
+		showNewsStream(false);
   	});
   }
 

@@ -323,8 +323,9 @@ jQuery(document).ready(function() {
     console.log("userConnected");
 	console.dir(userConnected);
 	//si l'utilisateur doit passer par le two_step_register
+
 	if(userConnected != null && typeof userConnected["two_steps_register"] != "undefined" && userConnected["two_steps_register"] == true){
-		loadByHash("#default.twostepregister");
+		loadByHash("#person.detail.id."+userId);
 		return;
 	} 
 	else{ //si l'utilisateur est déjà passé par le two_step_register
@@ -647,7 +648,7 @@ function setScopeValue(btn){ console.log("setScopeValue");
 			//$(".btn-param-postal-code").attr("onclick", "loadByHash('#city.detail.insee."+inseeCommunexion+"')");
 			$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 			$(".lbl-btn-menu-name-city .lbl-btn-menu").html(cityNameCommunexion);
-			setTimeout(function(){ showTwoStep("street");  }, 2000);
+			setTimeout(function(){ achiveTSRAddress(); /*showTwoStep("street");*/  }, 2000);
 			//showMap(false);
 		}else{
 			//showLocalActorsCityCommunexion();

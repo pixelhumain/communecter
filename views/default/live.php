@@ -37,7 +37,7 @@
 	    width: 100%;
 	    background-color: white;
 	}
-	
+
 
 @media screen and (max-width: 1500px) {	
 	.newsFeed{
@@ -70,7 +70,8 @@
 
 <div class="row headerHome">
 <?php 
-	if(!@Yii::app()->session["userId"])
+	$dontShowHeaderPages = array("city/detail");
+	if(!@Yii::app()->session["userId"] && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id,$dontShowHeaderPages)  )
 		$this->renderPartial('../pod/headerHome');
 ?>
 </div>
@@ -83,32 +84,10 @@
 	  
 	<div class="col-xs-12 center ">
 		
-	  <div class="col-md-12 no-padding margin-top-15 hidden">
-	  	<div class="input-group col-xs-12 pull-left">
-	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
-
-	        <!-- <span class="input-group-btn">
-	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
-	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
-	                      <i class="fa fa-refresh"></i>
-	              </button>
-	        </span> -->
-	    </div> 
-	    <button class="btn btn-sm tooltips hidden-xs pull-left hidden" id="btn-slidup-scopetags" 
-	            style="margin-left:15px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
-	            <i class="fa fa-minus"></i>
-	    </button>
-	    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs hidden  pull-left" 
-	            style="margin-left:7px;margin-top:5px;"
-	            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
-	          <i class="fa fa-question-circle"></i>
-	    </button>
-	  </div>
-	</div>
+	
 
 	<div id="list_filters">
-	 <!--  <div class="col-xs-12 margin-top-15 no-padding">
+	  <!--  <div class="col-xs-12 margin-top-15 no-padding">
 	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
 	  </div> -->
 	  
@@ -131,6 +110,8 @@
 	  </div>
 	  
 	  <div class="lbl-scope-list text-red hidden"></div>
+
+	</div>
 	</div>
 
 	<div class="col-xs-12 no-padding hidden"><hr></div>
@@ -196,8 +177,9 @@ jQuery(document).ready(function() {
 	//showTagsScopesMin("#list_tags_scopes");
 	<?php if(@$lockCityKey){ ?>
 		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php }else{ ?>
+		rebuildSearchScopeInput();
 	<?php } ?>
-	
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
@@ -220,33 +202,13 @@ jQuery(document).ready(function() {
   	});
 
 	//initSelectTypeNews();
-	$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+	/*$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
     $('.tooltips').tooltip();
     searchPage = true;
 	startSearch(true);
 	$(".titleNowEvents .btnhidden").hide();
 });
-
-function slidupScopetagsMin(show){
-	if($("#list_filters").hasClass("hidden")){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else{
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-
-	if(show==true){
-	    $("#list_filters").removeClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-	}
-	else if(show==false){
-	    $("#list_filters").addClass("hidden");
-	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-	}
-}
 
 var timeout;
 function startSearch(isFirst){
@@ -266,7 +228,8 @@ function loadLiveNow () {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>","<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
+      "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>",
+      				  "<?php echo Organization::COLLECTION?>","<?php echo ActionRoom::COLLECTION?>"], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
@@ -276,8 +239,13 @@ function loadLiveNow () {
       "indexMax" : 40 
     };
 
+    
     ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
         bindLBHLinks();
+        if($('.el-nowList').length==0)
+        	$('.titleNowEvents').addClass("hidden");
+        else
+        	$('.titleNowEvents').removeClass("hidden");
      } , "html" );
 
     /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
@@ -308,7 +276,10 @@ function loadLiveNow () {
 
 
 function showNewsStream(isFirst){ console.log("showNewsStream");
-	isFirst = isFirst ? "?isFirst=1" : "";
+
+	scrollEnd = false;
+
+	var isFirstParam = isFirst ? "?isFirst=1" : "";
 	var tagSearch = $('#searchTags').val().split(',');; //$('#searchBarText').val();
 	var levelCommunexionName = { 1 : "CITYKEY",
 	                             2 : "CODE_POSTAL",
@@ -335,12 +306,14 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(',')
+	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+
 	    };
 
     dataNewsSearch.tagSearch = tagSearch;
     dataNewsSearch.searchType = searchType; 
-        
+    dataNewsSearch.textSearch = $('#searchBarText').val();
+       
     //dataNewsSearch.type = thisType;
     //var myParent = <?php echo json_encode(@$parent)?>;
     //dataNewsSearch.parent = { }
@@ -351,13 +324,14 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 			"<span class='text-dark'>Chargement en cours ...</span>" + 
 	"</div>";
 
-	
+	//loading = "";
 
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
-		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirst,dataNewsSearch, function(news){
+		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
 			showTagsScopesMin(".list_tags_scopes");
 			showFormBlock(false);
+			bindTags();
 			//$("#newLiveFeedForm").hide();
 	 	},"html");
 	}else{ //data JSON for load next
@@ -374,23 +348,24 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 			    	$(".newsTL").html('<div class="spine"></div>');
 					if(data){
 						buildTimeLine (data.news, 0, 5);
-						//bindTags();
+						bindTags();
 						if(typeof(data.limitDate.created) == "object")
 							dateLimit=data.limitDate.created.sec;
 						else
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").scroll(function(){ console.log(loadingData, scrollEnd);
-				    if(!loadingData && !scrollEnd){
-				          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
-				          var heightWindow = $(window).height();
-				          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-				            console.log("scroll in news/index MAX");
-				            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-				          }
-				    }
-				});
+					$(".my-main-container").scroll(function(){ console.log("in linve", loadingData, scrollEnd);
+					    if(!loadingData && !scrollEnd){
+					          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+					          var heightWindow = $(window).height();
+					          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
+					            console.log("scroll in news/index MAX");
+					            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+					        	
+					          }
+					    }
+					});
 				},
 				error: function(){
 					loadingData = false;

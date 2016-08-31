@@ -177,22 +177,33 @@ $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 </span>
 
 <script>
-
 jQuery(document).ready(function() {
+	
 	showEmptyMsg();
-
+	/* permet de selectionner sa zone de communection
 	$(".item-scope-name").click(function() { 
 		$(".communectScope > span.item-scope-name ").html( $(".communectScope ").data("scope-value") );
 		$(".communectScope").removeClass("communectScope").removeClass("bg-azure").addClass("bg-red");
 
 		$(this).prepend('<i class="fa fa-home"></i> ').parent().removeClass("bg-red").addClass("bg-azure").addClass("communectScope");
 		toastr.info("Vous etes commuencter à "+$(this).html());
-	 })
+	})*/
 
 });
 
 function showTagsScopesMin(htmlId){
-	var html =  "";
+
+	/************** TAGS **************/
+	var iconSelectTag = "<i class='fa fa-circle-o'></i>";
+	var tagSelected = false;
+	$.each(myMultiTags, function(key, value){
+		if(value.active){
+		 	iconSelectTag = "<i class='fa fa-check-circle-o'></i>";
+		 	tagSelected = true;
+		}
+	});
+	var html =  "<button class='btn text-dark btn-sm' id='toogle-tags-selected' onclick='javascript:selectAllTags();'>"+
+				iconSelectTag + "</button> ";
 	
 	$.each(myMultiTags, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
@@ -202,8 +213,20 @@ function showTagsScopesMin(htmlId){
 				"</span> ";
 	});
 
+
+	/************** SCOPES **************/
+	var iconSelectScope = "<i class='fa fa-circle-o'></i>";
+	var scopeSelected = false;
+	$.each(myMultiScopes, function(key, value){
+		 if(value.active){
+		 	iconSelectScope = "<i class='fa fa-check-circle-o'></i>";
+		 	scopeSelected = true;
+		 }
+	});
 	html += "<div class='list-select-scopes'>";
-	html += "<hr style='margin-top:5px;margin-bottom:5px;'>";
+	html += 	"<hr style='margin-top:5px;margin-bottom:5px;'>";
+	html +=  	"<button class='btn text-dark btn-sm' id='toogle-scopes-selected' onclick='javascript:selectAllScopes();'>"+
+				iconSelectScope + "</button> ";
 	$.each(myMultiScopes, function(key, value){
 		var disabled = value.active == false ? "disabled" : "";
 		if(typeof value.name == "undefined") value.name = key;
@@ -227,7 +250,16 @@ function showTagsScopesMin(htmlId){
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
-	bindRefreshBtns();
+	
+	if(scopeSelected){ $(".btnShowAllScope").hide(); $(".btnHideAllScope").show(); } 
+	else 			 { $(".btnShowAllScope").show(); $(".btnHideAllScope").hide(); }
+
+	if(tagSelected)  { $(".btnShowAllTag").hide(); $(".btnHideAllTag").show(); } 
+	else 			 { $(".btnShowAllTag").show(); $(".btnHideAllTag").hide(); }
+
+	//bindRefreshBtns();
+	
+	//$(".list_tags_scopes").removeClass("tagOnly");
 }
 
 
@@ -239,6 +271,28 @@ function showEmptyMsg(){
 	if(c==0) $("#dropdown-multi-tag .visible-empty").show(); else $("#dropdown-multi-tag .visible-empty").hide();
 	
 }
+
+
+function slidupScopetagsMin(show){ console.log("slidupScopetagsMin", show);
+	if($("#list_filters").hasClass("hidden")){
+	    $("#list_filters").removeClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else{
+	    $("#list_filters").addClass("hidden"); console.log("hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+
+	if(show==true){
+	    $("#list_filters").removeClass("hidden"); console.log("removeClass hidden slidupScopetagsMin", show);
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+	}
+	else if(show==false){
+	    $("#list_filters").addClass("hidden");
+	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+	}
+}
+
 
 /*function openCommonModal(hash){ console.log("search for modal key :", hash);
 	var urls = {

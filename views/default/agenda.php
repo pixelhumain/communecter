@@ -1,4 +1,4 @@
-<?php 
+    <?php 
   $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',
     '/js/default/directory.js',
@@ -124,17 +124,19 @@
   <div class="space20"></div>
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
     <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    <div class='city-name-locked homestead text-red'></div>
   </div>
   
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
 
 </div>
 
-
-
 <div style="" class="col-sm-12 col-xs-12 no-padding no-margin" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
+<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
+       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+?> 
 
 <script type="text/javascript">
 
@@ -142,14 +144,14 @@ var searchType = [ "events" ];
 var allSearchType = [ "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
-var cityKey = <?php echo (@$_GET['city']) ? "'".$_GET['city']."'" : "null" ?>;
+var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+var cityNameLocked = "<?php echo $cityName; ?>";
 
 jQuery(document).ready(function() {
 
   $("#searchBarText").val($(".input-global-search").val());
 
-  selectScopeLevelCommunexion(levelCommunexion);
-
+  //selectScopeLevelCommunexion(levelCommunexion);  
   searchType = [ "events" ];
   allSearchType = [ "events" ];
 
@@ -177,8 +179,14 @@ jQuery(document).ready(function() {
     }
   });
 
-  showTagsScopesMin("#scopeListContainer");
 
+  showTagsScopesMin("#scopeListContainer");
+  
+  if(lockCityKey != null){
+    lockScopeOnCityKey(lockCityKey, cityNameLocked);
+  }else{
+    rebuildSearchScopeInput();
+  }
 
   $('#btn-start-search').click(function(e){
       //signal que le chargement est terminé
@@ -221,14 +229,10 @@ jQuery(document).ready(function() {
     else addSearchType(type);
   });
  
-  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
-  $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+  //$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  //$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
   $('.tooltips').tooltip();
   searchPage = true;
-
-  if(cityKey){
-    lockScopeOnCityKey(cityKey);
-  }
 
   //initBtnToogleCommunexion();
   //$(".btn-activate-communexion").click(function(){
@@ -236,7 +240,7 @@ jQuery(document).ready(function() {
   //});
 
   //initBtnScopeList();
-  //startSearch(0, 100);
+  startSearch(0, 30);
 });
 
 
@@ -254,7 +258,7 @@ function showResultInCalendar(mapElements){
     var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
 
     var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
-    var thumb_url = notNull(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
+    var thumb_url = notEmpty(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
     
     if(typeof events[startDate] == "undefined") events[startDate] = new Array();
     events[startDate].push({  "id" : thisEvent["_id"]["$id"],

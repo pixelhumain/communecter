@@ -21,9 +21,11 @@
 
 <style>
 	.main-col-search{
+		width:100%!important;
+		margin-left:0px !important;
 		padding-left:0px;
 		padding-right:0px;
-		padding-top:50px;
+		padding-top:0px;
 		background-color: rgba(43, 176, 198, 0.3) !important;
 	}
 	/*.menu-button-left,  .menu-button, .menu-info-profil, 
@@ -205,6 +207,35 @@
 		font-size:16px;
 		border-left: 5px solid #a7c9c4;
 	}
+	.menu-left-container{
+		display: none !important;
+	}
+
+  
+  
+  #div-discover .btn-discover{
+    border-radius: 60px;
+    font-size: 50px;
+    font-weight: 200;
+    border: 1px solid transparent;
+    width: 90px;
+    height: 90px;
+  }
+  #div-discover .btn-discover.bg-red{
+    font-size: 43px;
+    padding-top: 12px;
+  }
+  #div-discover .btn-discover.bg-azure:hover{
+    background-color: white !important;
+    border-color: #2BB0C6 !important;
+    color: #2BB0C6 !important;
+  }
+  #div-discover .btn-discover.bg-red:hover{
+    background-color: white !important;
+    border-color: #E33551 !important;
+    color: #E33551 !important;
+  }
+
 </style>
 
 <div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
@@ -221,32 +252,12 @@
 		</span>
 	</div>
 
-	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center padding-15">
-		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Pour commencer, il est important de définir vos <strong>#tags</strong> et <strong>lieux favoris</strong> :<br><br>
-			<button class="btn bg-azure" id="open-multi-tag"><i class="fa fa-tags"></i> Mes tags favoris</button>
-			<button class="btn bg-azure" id="open-multi-scope"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
-
-			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
-		</span>
-	</div>
+	
 </div>
 
-<div class="col-md-12 no-padding hidden" id="whySection" style="max-width:100%;">
+<div class="col-md-12 no-padding " id="whySection" style="max-width:100%;">
 
-	<div class="col-md-12 center bg-dark section-tsr" id="congrats">
-		<h1 class="homestead" style="color:#7ACF5B;">
-			<i class="fa fa-thumbs-up fa-2x"></i>
-			 Félicitation <span class="text-yellow"><?php echo $userConnected["name"]; ?></span>
-		</h1>
-
-		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-			Votre compte personnel est sur le point d'être activé !
-			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
-		</span>
-	</div>
-
-	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center">
+	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr hidden section-tsr center hidden">
 		<div class="homestead text-white" id="menu-step-1">
 			<i class="fa fa-2x fa-check-circle"></i><br>Inscription
 		</div>
@@ -262,54 +273,76 @@
 		</div> -->
 	</div>
 
-	<div class="col-md-12 center bg-azure-light-2 menu-step-tsr section-tsr center" id="menu-step-addr">
-		<a href="javascript:showTwoStep('begin-zone')" class="badge badge-success text-white current" id="menu-step-addr-1">
-			1 - Mon pays<br>
-		</a>
-		<div class="badge text-white" id="menu-step-addr-2">
-			2 - Ma commune
-			<span id="conf-commune" class="text-red hidden">
-				<?php echo $cityNameCommunexion.", ".$cpCommunexion; ?>
+	<div class="col-md-12 center bg-azure-light-3 menu-step-tsr section-tsr center padding-15" id="TSR-tag-scope">
+		<span class="text-center text-white" style="font-size:15px; font-weight:300;">
+			<!-- <i class="fa fa-cogs fa-2x text-white"></i><br> -->
+			<h1 class="homestead text-white">
+				<i class="fa fa-circle"></i>
+				 Paramètres optionnel
+			</h1>
+
+			Pour mieux profiter de la plateforme  :<br><br>
+			Ajouter une image 
+			Trier par tags : <button class="btn bg-azure"><i class="fa fa-tags"></i> Mes tags favoris</button><br/><br/>
+			Définir plusieur lieux d'interet : <button class="btn bg-azure" id="open-multi-scope"><i class="fa fa-bullseye"></i> Mes lieux favoris</button>
+			<span class="hidden"><br/><br/>
+			Définir ma Localité pour agir localement  
 			</span>
 
-		</div>
-		<div class="badge text-white" id="menu-step-addr-3">
-			3 - Ma rue<br><br>
-			<span id="conf-street"></span>
-		</div>
+			<button class="btn btn-success" onclick="showTwoStep('begin-zone')"><i class="fa fa-angle-right"></i> continuer</button>
+
+			<!-- <br>Merci de suivre les dernières étapes d'inscription ... -->
+		</span>
 	</div>
 
+	<div id="div-discover" class="center col-xs-12">
+        <div class="panel panel-white padding-10">
+            <div id="local-actors-popup-sig">
+              
+              <div class="panel-body no-padding ">
 
-	<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
-			<h3 class=" text-dark">
-				Dans quel pays vous situez-vous ? 
-			</h3>
+                <div class="col-md-12 no-padding" style="margin-top:20px">
 
-			<div class="col-md-6 col-md-offset-3">
-				<select class="form-control" id="addressCountry">
-				  <option value="FR">France</option>
-				  <option value="GP">Guadeloupe</option>
-				  <option value="GF">Guyanne Française</option>
-				  <option value="MQ">Martinique</option>
-				  <option value="YT">Mayotte</option>
-				  <option value="NC">Nouvelle-Calédonie</option>
-				  <option value="RE">Réunion</option>
-				  <option value="PM">St Pierre et Miquelon</option>
-				</select>
-			</div>
-			<div class="col-md-12">
-				<button class="btn btn-success margin-top-15" onclick="validateZone()">Continuer <i class="fa fa-angle-right"></i></button>
-			</div>
+                    <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="javascript:;" id="open-multi-tag" class="lbh btn btn-discover bg-azure">
 
-			
-	</div>
+                          <i class="fa fa-camera"></i>
+                        </a><br/><br/><span class="text-red discover-subtitle">Avatar / Image</span>
+                    </div>
+                    
+                    <div class="col-xs-3 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#rooms.index.type.cities.id." class="lbh btn btn-discover bg-red">
+                          <i class="fa fa-map-marker"></i>
+                        </a>
+                        <br/><br/><span class="text-red discover-subtitle">Ma commune</span>
+                    </div>
+
+                    <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="javascript:;" id="open-multi-tag" class="lbh btn btn-discover bg-azure">
+                          <i class="fa fa-tags"></i>
+                        </a><br/><br/><span class="text-red discover-subtitle">Mes tags préférés</span>
+                    </div>
+                    
+                    <div class="col-xs-3 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="javascript:;" id="open-multi-scope" class="lbh btn btn-discover bg-red">
+                          <i class="fa fa-bullseye"></i>
+                        </a><br/><br/><span class="text-red discover-subtitle">Mes lieux préférés</span>
+                    </div>
+
+                </div>
+
+              </div>
+            </div>
+           
+        </div>
+    </div>
 
 
 	<?php if(!isset($inseeCommunexion)){ ?>
-		<!-- <div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
+		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-zone">
 			<h1 class="homestead text-dark">Pour commencer :</h1>
 			<h2 class="homestead text-dark">Dans quelle zone vous situez-vous ?</h2>
-		</div> -->
+		</div>
 	<?php }else{ ?>
 		<div class="col-md-12 center section-tsr bg-azure-light-1" id="TSR-begin-communexion">
 			<!-- <h1 class="homestead text-dark">Continuons :</h1> -->
@@ -318,7 +351,7 @@
 			</h3>
 			<h3 class=" text-dark">
 				Souhaitez-vous conserver cette commune dans votre addresse ?<br><br>
-				<button class="btn btn-success" onclick="showTwoStep('street');">Oui, j'habite ici</button>
+				<button class="btn btn-success" onclick="achiveTSRAddress();">Oui, j'habite ici</button>
 				<button class="btn btn-danger" onclick="showTwoStep('communexion');">Non, j'habite ailleurs</button>
 			</h3>
 		</div>	
@@ -343,8 +376,8 @@
 				<button class="btn btn-sm bg-dark tooltips" onclick="backToSetCity();" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fa fa-pencil"></i></button>
 			</h1>
 		</div>
-		<div class="col-md-12 center section-tsr bg-azure-light-1" style="padding:0px;" id="TSR-street">
-			<div class="col-md-8 col-md-offset-2" style="padding:30px;padding-top:0px;">
+		<div class="col-md-12 center section-tsr bg-azure-light-1 " style="padding:0px;" id="TSR-street">
+			<div class="col-md-8 col-md-offset-2 hidden" style="padding:30px;padding-top:0px;">
 				<h3 class=" text-dark">
 					Saisissez le nom de votre rue ...
 				</h3>
@@ -364,71 +397,33 @@
 			<button class="btn bg-white text-dark homestead" id="btn-go-photo" style="width:100%; padding:15px; font-size:22px; border-radius: 0px;" style="margin-top:15px;" onclick="achiveTSRAddress();">
 				<i class="fa fa-chevron-right"></i> Étape suivante : Ma Photo
 			</button>
-
 		</div>	
 	
 	
-	
-	<div class="text-center text-dark pull-left" id="txt-info-geopos" style="font-size:15px; font-weight:300; width:100%; margin-top:15px; padding:10px;">
-		Afin d'utiliser tout le potentiel du réseau <strong>Communecter</strong>, <br>
-		nous aurions besoin de quelques informations sur votre position géographique ...
-		<br><a href="javascript:" data-id="explainYourData" class="explainLink bold strong">En savoir + sur l'utilisation de vos données</a>
-	<br><br>
-		<span class="text-center text-dark" style="font-size:15px; font-weight:300;">
-			Tout l'intéret du réseau réside dans les liens proximité qui existent entre les acteurs d'une même commune. <br>
-			C'est pourquoi nous vous conseillons de vous géolocaliser le plus précisément possible.
-			<br><br>
-			<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>" class="btn bg-azure"><i class="fa fa-angle-left"></i> Sortir</a>
-		</span>
-	</div>	
 
 
-		<div class="col-md-12 center bg-azure-light-2 section-tsr" id="step2">
-			<h1 class="homestead text-white">
-				<i class="fa fa-circle"></i>
-				 Étape 3 : Photo de profil
-			</h1>
-			<div class="col-md-8 col-md-offset-2">
-			<span class="text-center text-white" style="font-size:15px; font-weight:300;">
-				<div class="margin-bottom-15">Sélectionnez votre première photo de profil.</div>
-				<button class="btn bg-dark margin-bottom-15" onclick="$('#profil_avatar').click();">
-					<i class="fa fa-download"></i> Choisir une image
-				</button>
-				<?php $this->renderPartial('../pod/fileupload', array("itemId" => (string) Yii::app()->session['userId'],
-																	  "type" => Person::COLLECTION,
-																	  "resize" => false,
-																	  "contentId" => Document::IMG_PROFIL,
-																	  "show" => true,
-																	  "editMode" => true,
-																	  "image" => null )); 
-				?>
-				<button class="btn btn-success margin-top-10 lbh" data-hash="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>">
-					<i class="fa fa-sign-in"></i> Entrer dans mon espace personnel
-				</button>
-			</span>
-			</div>
-		</div>
+		
 
 		<div class="col-md-12 center bg-dark section-tsr" id="step3">
 			<h1 class="homestead text-white">
 				<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 			</h1>
-			<button class="btn bg-yellow lbh" data-hash="#person.invite">
+			<a class="btn bg-yellow lbh" href="#person.invite">
 				<i class="fa fa-user"></i>
 				<span class="lbl-btn-menu-name-add">quelqu'un</span>
-			</button>
-			<button class="btn bg-green lbh" data-hash="#organization.addorganizationform">
+			</a>
+			<a class="btn bg-green lbh" href="#organization.addorganizationform">
 				<i class="fa fa-group"></i>
 				<span class="lbl-btn-menu-name-add">une organisation</span>
-			</button>
-			<button class="btn bg-purple lbh" data-hash="#project.projectsv">
+			</a>
+			<a class="btn bg-purple lbh" href="#project.projectsv">
 				<i class="fa fa-lightbulb-o"></i>
 				<span class="lbl-btn-menu-name-add">un projet</span>
-			</button>
-			<button class="btn bg-orange lbh" data-hash="#event.eventsv">
+			</a>
+			<a class="btn bg-orange lbh" href="#event.eventsv">
 				<i class="fa fa-calendar"></i>
 				<span class="lbl-btn-menu-name-add">un événement</span>
-			</button>
+			</a>
 		</div>
 </div>
 
@@ -467,7 +462,7 @@
 				$("#dropdown-content-multi-scope").addClass("open");
 			}, 200);
 		})
-
+		bindLBHLinks();
 		/***************************/
 		if(countryCommunexion != ""){
 			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
@@ -497,7 +492,7 @@
 		$("#btn-menu-launch").hide();
   		$("#logo-main-menu").hide();
   		
-  		showTwoStep("begin-zone");
+  		//showTwoStep("tag-scope");
 
   		var timeoutSearch = setTimeout(function(){}, 0);
   		$(".btn-start-tsr-communexion").click(function(e){
@@ -513,7 +508,7 @@
 
   	function showTwoStep(id){
   		console.log("showTwoStep(#TSR-"+id+")");
-  		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion, #TSR-load-conf-communexion,#TSR-street").hide();
+  		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion, #TSR-load-conf-communexion,#TSR-street,#TSR-tag-scope").hide();
   		$("#TSR-"+id).show(400);
   		$("#my-main-container").scrollTop(0);
   		setTimeout(function(){ 
@@ -675,7 +670,7 @@
   	}
 
   	function validateZone(){
-  		$("#congrats").hide(300);
+  		//$("#congrats").hide(300);
   		$("#menu-step-addr-1").html($("#addressCountry option:selected" ).text());
   		$("#menu-step-addr-1").removeClass("current");
   		$("#menu-step-addr-1").addClass("checked");

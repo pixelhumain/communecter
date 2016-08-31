@@ -110,7 +110,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	}
 
 
-
+	.short-desc-header{
+		max-height: 75px;
+		overflow: hidden;
+	}
 
 
 	@media screen and (max-width: 1024px) {
@@ -246,6 +249,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</span>
 				</div>
 			</div>
+<<<<<<< HEAD
 			<?php if($type == Project::COLLECTION){ ?>
 			<div class="col-md-12 text-dark no-padding" style="margin-top:10px;">
 					<a  href="#" id="avancement" data-type="select" data-title="avancement" 
@@ -280,6 +284,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 			<?php } ?>
 			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
 				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
+=======
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs short-desc-header">
+				<?php echo @$entity["shortDescription"]; //echo substr(@$entity["shortDescription"], 0, 140);
+						//if(strlen(@$entity["shortDescription"])>140) echo "...";
+				 ?>
+>>>>>>> development
 			</div>
 
 

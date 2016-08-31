@@ -15,6 +15,9 @@
     height: 36px;
     border-color: #C8C8C8;
   }
+  .group-globalsearch .input-group-addon {
+    width: 100%;
+  }
 </style>
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
      data-tpl="default.menu.short_info_profil">
@@ -25,12 +28,12 @@
     //if(isset(Yii::app()->session['userId'])) 
     $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    <div class="input-group group-globalsearch inline">
+    <div class="input-group group-globalsearch inline hidden-xs">
       <span class="input-group-addon" id="basic-addon1">
-        <i class="fa fa-search text-dark searchIcon tooltips hidden-xs" 
+        <i class="fa fa-search text-dark searchIcon tooltips" 
            data-toggle="tooltip" data-placement="bottom" title="Recherche Globale"></i>
       </span>
-      <input type="text" class="text-dark input-global-search hidden-xs" 
+      <input type="text" class="text-dark input-global-search" 
              placeholder="<?php echo Yii::t("common","Search") ?> ..."/>
     </div>
     <div class="dropdown-result-global-search"></div>
@@ -75,7 +78,7 @@
         }
     });
 
-    $('.searchIcon').click(function(e){
+    /*$('.searchIcon').click(function(e){
        if($('*[data-searchPage]').length > 0 && $('.searchIcon').hasClass('fa-search')){
           $(".dropdown-result-global-search").html('<span class="padding-10 text-bold">Cette recherche ne concerne que cette page.</span>');
           showDropDownGS(true);
@@ -96,7 +99,7 @@
             timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
        }
 
-    });
+    });*/
 
     $('.input-global-search').click(function(e){
         if($(".dropdown-result-global-search").html() != ""){

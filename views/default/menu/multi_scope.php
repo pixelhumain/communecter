@@ -36,6 +36,10 @@
 #dropdown-multi-scope-found.dropdown-menu > li > a:hover {
 	background-color: #f2d2d2;
 }
+.city-name-locked{
+	font-size:19px;
+	margin-top:10px;
+}
 </style>
 
 
@@ -132,12 +136,12 @@
 					    </div>
 					</div>
 					<div class="col-md-3">
-	      				<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
+	      				<button class="btnShowAllScope btn btn-default tooltips" onclick="javascript:selectAllScopes(true)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner tout les lieux">
 		      			<i class="fa fa-check-circle"></i>
 			      		</button>
-			      		<button class="btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
+			      		<button class="btnHideAllScope btn btn-default tooltips" onclick="javascript:selectAllScopes(false)"
 	      						data-toggle="tooltip" data-placement="bottom" 
 								title="Sélectionner aucun lieu">
 			      			<i class="fa fa-circle-o"></i>
@@ -171,7 +175,7 @@
    			<blockquote>
    				Pour rester en contact permanent avec les zones géographiques qui vous intéressent le plus, définissez votre liste de lieux favoris, en sélectionnant <strong>des communes, des codes postaux, des départements, ou des régions</strong>.
    			</blockquote>
-   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos lieux favoris à volonté.</blockquote>
+   			<blockquote> <strong>Ajoutez, supprimez, activez, désactivez </strong> vos <i>lieux favoris</i> à volonté.</blockquote>
    			
    			<blockquote>
    				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
@@ -214,7 +218,7 @@ jQuery(document).ready(function() {
 	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});
-	//$('#input-add-multi-scope').filter_input({regex:'[a-zA-Z0-9_]'}); 
+	$('#input-add-multi-scope').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_] 
 	$('#input-add-multi-scope').keyup(function(){ 
 		$("#dropdown-multi-scope-found").show();
 		if($('#input-add-multi-scope').val()!=""){
@@ -248,6 +252,8 @@ function scopeExists(scopeValue){
 }
 
 function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); //console.dir(myMultiScopes);
+	
+	hideSearchResults();
 	if(userId != null && userId != ""){
 		$.ajax({
 	        type: "POST",
@@ -256,6 +262,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	       	dataType: "json",
 	    	success: function(data){
 	    		//console.log("saveMultiScope() success");
+	    		
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des scopes");
@@ -269,7 +276,9 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	saveCookieMultiscope();
 }
 function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
-	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes),  	{ expires: 365, path: "/" });
+	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes), { expires: 365, path: "/" });
+	if(location.hash.indexOf("#city.detail")==0)
+		loadByHash("#default.live");
 }
 
 function autocompleteMultiScope(){
@@ -286,24 +295,43 @@ function autocompleteMultiScope(){
     	success: function(data){
     		//console.log("autocompleteMultiScope() success");
     		//console.dir(data);
-    		$("#dropdown-multi-scope-found").html("ok");
+    		$("#dropdown-multi-scope-found").html("Aucun résultat");
     		html="";
+    		var allCP = new Array();
+    		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				val = value.country + "_" + value.insee + "-" + value.postalCodes[0].postalCode; 
-    				lbl = value.name;
-    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
+    				val = value.insee; 
+		    		lbl = value.name ;
+		    		lblList = lbl + " (" +value.depName + ")";
+		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    				/*$.each(value.postalCodes, function(key, valueCP){
+    					if($.inArray(valueCP.postalCode, allCP)<0){ 
+	    					allCP.push(valueCP.postalCode);
+		    				val = valueCP.postalCode; 
+		    				lbl = valueCP.postalCode ;
+		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+	    			}
+	    			});*/
     			}; 
     			if(currentScopeType == "cp") { 
-    				val = value.postalCodes[0].postalCode; 
-    				lbl = value.postalCodes[0].postalCode ;
-    				lblList = value.name + ", " +value.postalCodes[0].postalCode ;
+    				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
+		    			if($.inArray(valueCP.name, allCities)<0){ 
+	    					allCities.push(valueCP.name);
+		    				val = valueCP.postalCode; 
+		    				lbl = valueCP.postalCode ;
+		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    				}});
     			}; 
-    			if(currentScopeType == "dep") 	{ val = value; lbl = value; lblList = value; }; 
-    			if(currentScopeType == "region"){ val = value; lbl = value; lblList = value; }; 
-
-    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+    			
+    			if(currentScopeType == "dep" || currentScopeType == "region"){
+    				val = value; lbl = value; lblList = value;
+	    			html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+	    		}
     		});
+    		if(html != "")
     		$("#dropdown-multi-scope-found").html(html);
     		
 	    },
@@ -338,6 +366,11 @@ function showCountScope(){
 	showEmptyMsg();
 }
 function selectAllScopes(select){
+	if(typeof select == "undefined"){ select = true;
+		$.each(myMultiScopes, function(key, value){
+			 if(value.active) select = false;
+		});
+	}
 	$.each(myMultiScopes, function(key, value){
 		 toogleScopeMultiscope(key, select);
 	});
@@ -456,7 +489,7 @@ function rebuildSearchScopeInput()
 			searchLocalityCITYKEYs += (searchLocalityCITYKEYs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
+	//console.log("searchLocalityCITYKEYs",searchLocalityCITYKEYs);
 	if( $("#searchLocalityCITYKEY") )
 		$("#searchLocalityCITYKEY").val(searchLocalityCITYKEYs);
 
@@ -468,7 +501,7 @@ function rebuildSearchScopeInput()
 			searchLocalityCODE_POSTALs += (searchLocalityCODE_POSTALs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
+	//console.log("searchLocalityCODE_POSTALs",searchLocalityCODE_POSTALs);
 	if( $("#searchLocalityCODE_POSTAL") )
 		$("#searchLocalityCODE_POSTAL").val(searchLocalityCODE_POSTALs);
 
@@ -480,7 +513,7 @@ function rebuildSearchScopeInput()
 			searchLocalityDEPARTEMENTs += (searchLocalityDEPARTEMENTs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
+	//console.log("searchLocalityDEPARTEMENTs",searchLocalityDEPARTEMENTs);
 	if( $("#searchLocalityDEPARTEMENT") )
 		$("#searchLocalityDEPARTEMENT").val(searchLocalityDEPARTEMENTs);
 
@@ -492,21 +525,26 @@ function rebuildSearchScopeInput()
 			searchLocalityREGIONs += (searchLocalityREGIONs == "") ? key :   ","+key;
 		}
 	});
-	console.log("searchLocalityREGIONs",searchLocalityREGIONs);
+	//console.log("searchLocalityREGIONs",searchLocalityREGIONs);
 	if( $("#searchLocalityREGION") )
 		$("#searchLocalityREGION").val(searchLocalityREGIONs);
 
-
+	
+	$(".list_tags_scopes").removeClass("tagOnly");
+	$(".city-name-locked").html("");
 	//if( typeof searchCallback == "function" )
 		//searchCallback();
 }
 
 
-function lockScopeOnCityKey(cityKey){ console.log("lockScopeOnCityKey", cityKey);
+function lockScopeOnCityKey(cityKey, cityName){ //console.log("lockScopeOnCityKey", cityKey);
 	$("#searchLocalityCITYKEY").val(cityKey);
 	$("#searchLocalityCODE_POSTAL").val("");
 	$("#searchLocalityDEPARTEMENT").val("");
 	$("#searchLocalityREGION").val("");
+	$(".list_tags_scopes").addClass("tagOnly");
+
+	$(".city-name-locked").html("<i class='fa fa-lock'></i> "+ cityName);
 }
 
 </script>

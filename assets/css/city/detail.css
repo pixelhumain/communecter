@@ -47,6 +47,7 @@
     padding: 30px;
     margin-bottom: -3px;
     font-size: 32px;
+    border-radius: 5px;
   }
 
   h1.you-live{
@@ -158,10 +159,19 @@
     width: 90px;
     height: 90px;
   }
-  #div-discover .btn-discover:hover{
+  #div-discover .btn-discover.bg-red{
+    font-size: 43px;
+    padding-top: 12px;
+  }
+  #div-discover .btn-discover.bg-azure:hover{
     background-color: white !important;
     border-color: #2BB0C6 !important;
     color: #2BB0C6 !important;
+  }
+  #div-discover .btn-discover.bg-red:hover{
+    background-color: white !important;
+    border-color: #E33551 !important;
+    color: #E33551 !important;
   }
 
 
@@ -181,6 +191,7 @@
   }
 
   @media screen and (max-width: 768px) {
+    
    h1.cityName-header{
     margin-top:0px;
    }

@@ -49,7 +49,13 @@
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgPreview">
 				</div>
+<<<<<<< HEAD
 				<?php if(isset($editMode) && $editMode){ ?>
+=======
+				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
+				<?php
+				if(isset($editMode) && $editMode || isset($openEdition) && $openEdition){ ?>
+>>>>>>> development
 				<div class="user-image-buttons">
 					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> Photo</span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
