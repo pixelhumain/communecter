@@ -43,6 +43,22 @@ db.organizations.find({}).forEach(function(doc){
      }
 })
 
+db.cities.find({dep:/987/}).forEach(function(doc)
+{
+    print( '"'+doc.name+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
+   db.cities.update({"_id":doc._id},{'$set':{'region': '07','regionName':'POLYNESIE'} })
+});
+db.cities.find({dep:/986/}).forEach(function(doc)
+{
+    print( '"'+doc.name+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
+   db.cities.update({"_id":doc._id},{'$set':{'region': '06','regionName':'POLYNESIE'} })
+});
+db.cities.find({dep:/988/}).forEach(function(doc)
+{
+    print( '"'+doc.name+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
+   db.cities.update({"_id":doc._id},{'$set':{'region': '08','regionName':'NOUVELLE-CALEDONIE'} })
+});
+
 
 @Sylvain/Thomas/Tib : Créer les index corrects sur cities
 db.cities.dropIndexes();
@@ -57,7 +73,7 @@ db.cities.createIndex({"country" : 1});
 db.cities.createIndex({"postalCodes.name" : 1});
 db.cities.createIndex({"postalCodes.postalCode" : 1});
 
-
+----------------------------------------------------
 //deja mis sur dev
 db.cities.find().forEach(function(doc)
 {
@@ -89,6 +105,23 @@ db.cities.find().forEach(function(doc)
         });
     }  
   }
+});
+ var t = {};
+db.cities.find().forEach(function(doc)
+{
+  if(!t[ doc.region ] ){
+      t[ doc.region ] = doc.regionName;
+    print( '"'+doc.regionName+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
+  }
+});
+
+db.cities.find({dep:/987/}).forEach(function(doc)
+{
+  
+    print( '"'+doc.regionName+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
+    db.cities.update({"_id":doc._id},{'$set':{'region': '07','regionName':'POLYNESIE'} })
+     
+  
 });
 ----------------------------------------------------
 Version 0.14

@@ -180,8 +180,8 @@ $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 jQuery(document).ready(function() {
 	
 	showEmptyMsg();
-	/* permet de selectionner sa zone de communection
-	$(".item-scope-name").click(function() { 
+	// permet de selectionner sa zone de communection
+	/*$(".item-scope-name").click(function() { 
 		$(".communectScope > span.item-scope-name ").html( $(".communectScope ").data("scope-value") );
 		$(".communectScope").removeClass("communectScope").removeClass("bg-azure").addClass("bg-red");
 
