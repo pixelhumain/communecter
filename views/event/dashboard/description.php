@@ -439,13 +439,31 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-12">
-            <!-- <hr/> -->
+		<!--<div class="col-sm-12">
             <div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
         </div>
 		<div class="col-sm-12 hidden-xs padding-20">
 			<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 			</a>
+		</div>-->
+		<div class="row">
+			<div class="col-sm-12 col-xs-12">
+				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
+				</a>
+			</div>
+		</div>
+		<div class="row tag_group">
+			<!-- <div class="col-sm-6 col-xs-6 padding-20 text-dark">
+				<h3><i class="fa fa-angle-down"></i> Activités</h3>
+				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
+			</div> -->
+			<div class="col-md-12 padding-20 text-red text-right pull-right">
+				<!-- <h3><i class="fa fa-angle-down"></i> Thématiques</h3> -->
+				<i class="fa fa-tags"></i> Tags : 
+				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click">
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
@@ -647,6 +665,29 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        	toastr.error(data.msg);  
 		    },
 		});
+
+
+		//Select2 tags
+		$('#tags').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield", 
+			mode: 'popup',
+			value: returnttag(),
+			select2: {
+				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+				tokenSeparators: [","],
+				width: 200
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
+		});
+
+
 	}
 
 	function switchMode() {
@@ -669,7 +710,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
-
+			$('#tags').editable('toggleDisabled');
 			$("#btn-update-geopos").addClass("hidden");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -681,7 +722,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('option', 'pk', itemId);
 			$('#address').editable('option', 'pk', itemId);
 			$('#description').editable('option', 'pk', itemId);
-			
+			$('#tags').editable('option', 'pk', itemId);
+
 			$('.editable-event').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
 			$('#allDay').editable('toggleDisabled');
@@ -690,6 +732,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
+			$('#tags').editable('toggleDisabled');
 
 			$("#btn-update-geopos").removeClass("hidden");
 		}
@@ -908,5 +951,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$("#activityContent").addClass("hide");
 		$("#contentGeneralInfos").show();
 		loadActivity=false;
+	}
+
+	function returnttag() {
+		var tag = <?php echo (isset($event["tags"])) ? json_encode(implode(",", $event["tags"])) : "''"; ?>;
+		console.log("tag", tag);
+		return tag ;
 	}
 </script>
