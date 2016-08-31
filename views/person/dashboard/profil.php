@@ -629,13 +629,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 				
 				<div class="col-xs-12 text-dark">
-			<div class="padding-20 col-sm-12 col-md-12 border-light" style="border-width: 1px">
-				<!-- Description -->
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
-					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
-				</a>
-			</div>
-		</div>
+					<div class="no-padding margin-top-10 col-sm-12 col-md-12 border-light" style="border-width: 1px">
+						<!-- Description -->
+						<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
+							<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
+						</a>
+					</div>
+				</div>
 			</div>
 		
 		
@@ -685,6 +685,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						}*/
 					}
 			</style>
+			<?php if(Yii::app()->session["userId"] && (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 			<div id="div-discover" class="center col-xs-12 col-md-4">
 				<div class="panel no-padding margin-top-15">
 		            
@@ -771,6 +772,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			        </div>
 			    </div>
 		    </div>
+		    <?php } ?>
 		</div>
 		
 		
@@ -1121,19 +1123,32 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
+			var country = notEmpty(response.user.address.addressCountry) ? response.user.address.addressCountry : null;
+			var depName = notEmpty(response.user.address.depName) ? response.user.address.depName : null;
+			var regionName = notEmpty(response.user.address.regionName) ? response.user.address.regionName : null;
+
 			currentScopeType = "cp";
 			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
 			currentScopeType = "city";
-			var unikey = newValue.country + "_" + newValue.insee; 
+			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee; 
 			addScopeToMultiscope(unikey, newValue.addressLocality);
-			//if(notEmpty(newValue.depName)) addScopeToMultiscope("dep",newValue.depName);
-			//if(notEmpty(newValue.depName)) addScopeToMultiscope("region",newValue.regionName);
+			currentScopeType = "dep";
+			if(notEmpty(depName)) addScopeToMultiscope(depName, depName);
+			currentScopeType = "region";
+			if(notEmpty(regionName)) addScopeToMultiscope(regionName, regionName);
 
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 			//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"' )");
-			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+"");
+			$("#btn-geoloc-auto-menu").off().attr("onclick", "javascript:'#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode + "')");
 			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
+			$("#btn-geoloc-auto-menu").attr("onclick", "javascript:loadByHash('#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode + "')");
+			$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode);
+			$("#btn-menuSmall-citizenCouncil").attr("href", "#room.index.type.cities."+unikey);
+			
+			$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + newValue.addressLocality);
+			$(".hide-communected").hide();
+			$(".visible-communected").show();
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',

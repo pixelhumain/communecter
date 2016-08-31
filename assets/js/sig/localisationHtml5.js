@@ -4,7 +4,7 @@ var currentRoleLoc = "";
 var locationHTML5Found = false;
 var positionFound = false;
 
-function initHTML5Localisation(role){
+function initHTML5Localisation(role){ return;
 
 	if(!locationHTML5Found)
 	$.blockUI({

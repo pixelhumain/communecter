@@ -581,16 +581,16 @@ function setScopeValue(btn){ console.log("setScopeValue");
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("data-original-title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu").off();//.click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
-		$("#btn-geoloc-auto-menu").attr("href", 'javascript:loadByHash("#city.detail.insee.' + inseeCommunexion+'.'+'postalCode.'+cpCommunexion + '")');
+		$("#btn-geoloc-auto-menu").attr("href", '#city.detail.insee.' + inseeCommunexion+'.'+'postalCode.'+cpCommunexion);
 		$("#btn-geoloc-auto-menu").data("hash", "#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion);
-		console.log("HASHHHHHHHHHHHHHHHHHHHH", $("#btn-geoloc-auto-menu").data("hash"));
-		$("#btn-menuSmall-mycity").attr("href", 'javascript:loadByHash("#city.detail.insee.' + inseeCommunexion+"."+"postalCode."+cpCommunexion + '")');
+		//console.log("HASHHHHHHHHHHHHHHHHHHHH", $("#btn-geoloc-auto-menu").data("hash"));
+		$("#btn-menuSmall-mycity").attr("href", '#city.detail.insee.' + inseeCommunexion+"."+"postalCode."+cpCommunexion);
 				
-		$("#btn-citizen-council-commun").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+		$("#btn-citizen-council-commun").attr("href", '#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion);
 
 		$("#btn-citizen-council-commun").data("hash", "#rooms.index.type.cities.id." + countryCommunexion+"_" + inseeCommunexion+"-"+cpCommunexion);
 				
-		$("#btn-menuSmall-citizenCouncil").attr("href", 'javascript:loadByHash("#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion+'")');
+		$("#btn-menuSmall-citizenCouncil").attr("href", '#rooms.index.type.cities.id.' + countryCommunexion+'_' + inseeCommunexion+'-'+cpCommunexion);
 				
 		
 		if(location.hash.indexOf("#default.twostepregister") == -1)
