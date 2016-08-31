@@ -13,6 +13,37 @@
 ----------------------------------------------------
 ----------------------------------------------------
 Version 0.15
+@Rapha : Séparer Mayotte et la Réunion au niveau de la régions
+
+db.cities.find({'region': '04'}).forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    if(doc.insee.indexOf("976")>=0 )
+        db.cities.update({"_id":doc._id},{'$set':{'region': '06'}});
+  }
+});
+
+@Rapha : Mettre les bon numéro de département 
+db.cities.find({'dep': '97'}).forEach(function(doc)
+{
+  if(typeof doc.insee != "undefined"){
+    if(doc.insee.indexOf("971")>=0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'971'}});
+    else if(doc.insee.indexOf("972")==0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'972'}});
+    else if(doc.insee.indexOf("973")==0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'973'}});
+    else if(doc.insee.indexOf("974")==0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'974'}});
+    else if(doc.insee.indexOf("975")==0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'975'}});
+    else if(doc.insee.indexOf("976")==0 )
+        db.cities.update({"_id":doc._id},{'$set':{'dep':'976'}});
+  }
+});
+
+
+
 @tib : Update sur element
 db.citoyens.find({}).forEach(function(doc){ 
     if(!doc.updated){
@@ -51,7 +82,7 @@ db.cities.find({dep:/987/}).forEach(function(doc)
 db.cities.find({dep:/986/}).forEach(function(doc)
 {
     print( '"'+doc.name+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
-   db.cities.update({"_id":doc._id},{'$set':{'region': '06','regionName':'POLYNESIE'} })
+   db.cities.update({"_id":doc._id},{'$set':{'region': '07','regionName':'POLYNESIE'} })
 });
 db.cities.find({dep:/988/}).forEach(function(doc)
 {
