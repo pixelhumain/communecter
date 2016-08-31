@@ -496,7 +496,7 @@ function showMap(show)
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").hide();
-		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
+		$("#btn-toogle-map").html("<i class='fa fa-th-large'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 		$("#btn-toogle-map").css("display","inline !important");
 		$("#btn-toogle-map").show();

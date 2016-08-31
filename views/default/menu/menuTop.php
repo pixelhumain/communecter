@@ -13,12 +13,26 @@
 
 #btn-menu-launch{
 	padding: 12px;
-	margin-right: 10px;
 	margin-left: 1px;
 	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+}
+#btn-toogle-map{
+	margin-right: 10px;
+	padding-top: 8px !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+}
+
+#btn-toogle-map:hover{
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
 }
 #main-btn-co{
 	margin-right:5px;
@@ -96,6 +110,12 @@
 		<i class="fa fa-bars fa-2x"></i>
 	</a>
 
+	<button class="btn-menu btn-menu-top bg-white text-azure tooltips pull-left" 
+			id="btn-toogle-map"
+			data-toggle="tooltip" data-placement="bottom" title="Carte" alt="Carte">
+			<i class="fa fa-map-marker"></i>
+	</button>
+
 	<a class="pull-left tooltips hidden-xs" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
 		data-toggle="tooltip" data-placement="bottom" 
 		title="Lire la documentation" 
@@ -108,10 +128,7 @@
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
 	</h1>
 	
-	<button class="btn-menu btn-menu-top bg-white text-azure tooltips pull-right" id="btn-toogle-map"
-			data-toggle="tooltip" data-placement="bottom" title="Carte" alt="Carte">
-			<i class="fa fa-map-marker"></i>
-	</button>
+
 
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" 

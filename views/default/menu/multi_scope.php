@@ -181,6 +181,8 @@
    				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
    			</blockquote>
    		</div>
+
+   		
    </ul>
 </div>
 <input id="searchLocalityCITYKEY" type="hidden" />

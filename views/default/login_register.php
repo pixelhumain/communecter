@@ -287,7 +287,7 @@ jQuery(document).ready(function() {
 
 
 	$('.form-register #username').keyup(function(e) {
-		validateUserName();
+		//validateUserName();
 	});
 
 	if(email != ''){
@@ -634,7 +634,7 @@ var Login = function() {
 					    $('#modalRegisterSuccess .btn-default').click(function() {
 					        console.log("hide modale and reload");
 					        $('modalRegisterSuccess').modal('hide');
-					    	window.location.href = baseUrl+'/#default.home';
+					    	window.location.href = baseUrl+'/#default.live';
 					    	window.location.reload();
 					    });
 		        		//loadByHash("#default.directory");
@@ -686,7 +686,7 @@ function validateUserName() {
   						"username": '<?php echo Yii::t("login","The user name is not unique : please change it.")?>'
 					});
 				}
-			}, 200);
+			}, 3000);
 	}
 }
 
