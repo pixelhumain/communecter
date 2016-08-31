@@ -42,7 +42,9 @@ db.cities.find({'dep': '97'}).forEach(function(doc)
   }
 });
 
-
+@Rapha
+Update Region 
+http://qa.communecter.org/communecter/datamigration/updateRegion
 
 @tib : Update sur element
 db.citoyens.find({}).forEach(function(doc){ 
@@ -146,14 +148,6 @@ db.cities.find().forEach(function(doc)
   }
 });
 
-db.cities.find({dep:/987/}).forEach(function(doc)
-{
-  
-    print( '"'+doc.regionName+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
-    db.cities.update({"_id":doc._id},{'$set':{'region': '07','regionName':'POLYNESIE'} })
-     
-  
-});
 ----------------------------------------------------
 Version 0.14
 
