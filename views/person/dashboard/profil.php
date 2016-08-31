@@ -1130,7 +1130,7 @@ function initXEditable() {
 			currentScopeType = "cp";
 			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
 			currentScopeType = "city";
-			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee; 
+			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee+ "-" + newValue.postalCode; 
 			addScopeToMultiscope(unikey, newValue.addressLocality);
 			currentScopeType = "dep";
 			if(notEmpty(depName)) addScopeToMultiscope(depName, depName);
@@ -1144,7 +1144,7 @@ function initXEditable() {
 			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
 			$("#btn-geoloc-auto-menu").attr("onclick", "javascript:loadByHash('#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode + "')");
 			$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode);
-			$("#btn-menuSmall-citizenCouncil").attr("href", "#room.index.type.cities."+unikey);
+			$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
 			
 			$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + newValue.addressLocality);
 			$(".hide-communected").hide();
