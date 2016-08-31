@@ -53,6 +53,8 @@
 [ ] ajouter une photo de votre ville 
     - baniere 
 [ ] profile de tags , ou categorisation de tags ajouter dans le tagger
+[ ] refactor péi_insee-cp en péi_insee_cp
+
 * ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
 * ************************************************************
@@ -119,7 +121,7 @@
         [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
-    [ ] onChange search criteria, empty list + reload button
+    [X] onChange search criteria, empty list + reload button
     [X] interface ND
         [X] menu
         [X] multi scope 
@@ -138,12 +140,13 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
+    [ ] cannot empty communected location
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
         [ ] bug : sur archiver , persiste dans les listes 
         [ ] bug : une décision terminé, on peut toujours voté dessus
-        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
         [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee

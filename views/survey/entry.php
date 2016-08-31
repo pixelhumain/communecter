@@ -96,8 +96,12 @@ if( !isset($hideTexts) )
 			$contentVote = '<a href="javascript:;" class="btn btn-success" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","LOGIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
 		}
 		else{
-			$ctrl = Element::getControlerByCollection($room["parentType"]);
-			$contentVote = '<a href="#'.$ctrl.'.detail.id.'.$room["parentId"].'" class="btn btn-success lbh"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
+			if( $room["parentType"] == City::COLLECTION  )
+				$contentVote = Yii::t('rooms', 'Participation open to city residents only', null, Yii::app()->controller->module->id);
+			else {
+				$ctrl = Element::getControlerByCollection($room["parentType"]);
+				$contentVote = '<a href="#'.$ctrl.'.detail.id.'.$room["parentId"].'" class="btn btn-success lbh"><i class="fa fa-sign-in"></i> '.Yii::t("rooms","JOIN TO VOTE",null,Yii::app()->controller->module->id).'</a>';
+			}
 		}
 		
 		echo "<div class='container-tool-vote text-dark'>";
@@ -105,8 +109,7 @@ if( !isset($hideTexts) )
 		if( !$voteLinksAndInfos["hasVoted"] ) 
 		echo 	"<h1 class='text-red homestead margin-bottom-10'><i class='fa fa-angle-down'></i> Voter</h1>";
 
-		echo	$contentVote.
-			 "</div>";
+		echo	$contentVote."</div>";
 			 
 		if( !$voteLinksAndInfos["hasVoted"] ) 
 		echo "<div class='space1 voteInfoBox text-white bg-dark'></div>";

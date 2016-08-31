@@ -1140,9 +1140,10 @@ function initXEditable() {
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 			//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"' )");
-			$("#btn-geoloc-auto-menu").off().attr("onclick", "javascript:'#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode + "')");
+
+			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode"+newValue.postalCode);
+
 			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
-			$("#btn-geoloc-auto-menu").attr("onclick", "javascript:loadByHash('#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode + "')");
 			$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode);
 			$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
 			
