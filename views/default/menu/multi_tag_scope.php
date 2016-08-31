@@ -180,14 +180,14 @@ $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 jQuery(document).ready(function() {
 	
 	showEmptyMsg();
-	/* permet de selectionner sa zone de communection
+	// permet de selectionner sa zone de communection
 	$(".item-scope-name").click(function() { 
 		$(".communectScope > span.item-scope-name ").html( $(".communectScope ").data("scope-value") );
 		$(".communectScope").removeClass("communectScope").removeClass("bg-azure").addClass("bg-red");
 
 		$(this).prepend('<i class="fa fa-home"></i> ').parent().removeClass("bg-red").addClass("bg-azure").addClass("communectScope");
 		toastr.info("Vous etes commuencter à "+$(this).html());
-	})*/
+	})
 
 });
 

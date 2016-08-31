@@ -1123,9 +1123,18 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
+			currentScopeType = "cp";
+			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
+			currentScopeType = "city";
+			addScopeToMultiscope(newValue.addressLocality,newValue.addressLocality);
+			//addScopeToMultiscope("dep",newValue.addressLocality);
+			//addScopeToMultiscope("region",newValue.addressLocality);
+
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
+			//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"' )");
+			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+"");
+			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',

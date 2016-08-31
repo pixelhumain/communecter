@@ -50,6 +50,9 @@
   [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
   [ ]  Dans le header : a la place du cp , proposer de ce communecter.
 [ ] synchroniser le scopper et la carto 
+[ ] ajouter une photo de votre ville 
+    - baniere 
+[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
 * ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
 * ************************************************************
@@ -132,6 +135,7 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
+    [ ] scoper dep et region : type number 
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA

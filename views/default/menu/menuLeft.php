@@ -133,11 +133,10 @@
 			$cityExists = (isset($myCity) && $myCity != "");
 			$title = $cityExists ? $cityNameCommunexion : "Communectez-moi";
 			$hash = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] : "";
-			$onclick = $cityExists ? "javascript:loadByHash('#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"]."')": "javascript:";
+			$onclick = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"]: "javascript:";
 		?>
 		<a href="<?php echo $onclick; ?>" 
-			class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
-			data-hash="<?php echo $hash; ?>"
+			class="lbh menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			id="btn-geoloc-auto-menu">
 			
 			<i class="fa fa-home tooltips"
