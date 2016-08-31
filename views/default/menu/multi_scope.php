@@ -301,7 +301,7 @@ function autocompleteMultiScope(){
     		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				val = value.insee; 
+    				val = value.country + '_' + value.insee; 
 		    		lbl = value.name ;
 		    		lblList = lbl + " (" +value.depName + ")";
 		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";

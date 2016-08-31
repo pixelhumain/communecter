@@ -69,13 +69,15 @@
           $(".newsTL").html("");
           $("#nowListevents,#nowListDDA,#nowListprojects,#nowListorga").html("");
         }
-        if($('*[data-searchPage]').length > 0 && searchPage ){
+        /*if($('*[data-searchPage]').length > 0 && searchPage ){
+          console.log("startSearch");
           $('#searchBarText').val( $('.input-global-search').val() );
           timeoutGS = setTimeout(function(){startSearch(false); }, 800);
         }
-        else {
+        else {*/
+          console.log("startGlobalSearch");
           timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
-        }
+        //}
     });
 
     /*$('.searchIcon').click(function(e){

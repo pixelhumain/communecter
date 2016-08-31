@@ -112,6 +112,12 @@
 							<div class="alert alert-danger no-display custom-msg">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
 							</div>
+							<div class="alert alert-danger no-display emailAndPassNotMatchResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Email or password does not match. Please try again !")?>
+							</div>
+							<div class="alert alert-danger no-display emailNotFoundResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Impossible to find an account for this username or password.")?>
+							</div>
 							
 							<br/>
 							<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button center-block">
@@ -172,7 +178,7 @@
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="text" class="form-control" id="name" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
+									<input type="text" class="form-control" id="registerName" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
 									<i class="fa fa-user"></i> </span>
 							</div>
 						</div>
@@ -317,7 +323,7 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('.form-register #name').val(name);
+		$('.form-register #registerName').val(name);
 		$('#email3').prop('disabled', true);
 		$('#inviteCodeLink').hide();
 	}
@@ -415,6 +421,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler.hide();
+				$(".alert").hide();
 				loginBtn.start();
 				var params = { 
 				   "email" : $("#email-login").val(), 
@@ -460,6 +467,10 @@ var Login = function() {
 							$('.notValidatedEmailResult').show();
 		    		  	} else if (data.msg == "betaTestNotOpen") {
 		    		  		$('.betaTestNotOpenResult').show();
+		    		  	} else if (data.msg == "emailNotFound") {
+		    		  		$('.emailNotFoundResult').show();
+		    		  	} else if (data.msg == "emailAndPassNotMatch") {
+		    		  		$('.emailAndPassNotMatchResult').show();
 		    		  	} else if (data.msg == "accountPending") {
 		    		  		pendingUserId = data.pendingUserId;
 		    		  		$(".errorHandler").hide();
@@ -597,7 +608,7 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $('.form-register #name').val(),
+				   "name" : $('.form-register #registerName').val(),
 				   "username" : $(".form-register #username").val(),
 				   "email" : $(".form-register #email3").val(),
                    "pwd" : $(".form-register #password3").val(),
@@ -768,7 +779,7 @@ function callbackFindByInseeError(){
 }
 
 function initRegister() {
-	$('.form-register #name').val("");
+	$('.form-register #registerName').val("");
 	$(".form-register #username").val("");
 	$(".form-register #email3").val("");
 	$(".form-register #password3").val("");

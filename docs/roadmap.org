@@ -49,6 +49,7 @@
 [ ] Utilisateur qui n'ont cp
   [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
   [ ]  Dans le header : a la place du cp , proposer de ce communecter.
+[ ] synchroniser le scopper et la carto 
 * ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
 * ************************************************************
@@ -141,8 +142,8 @@
         [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [ ] changer les lien des DDA sur les parent insee
         [ ] ajouter la proposition de signature du pacte de transition citoyenne 
-        [ ] généré les catégories principale
-           [ ] généré lors de la premiere visite du DDA espace collab
+        [X] généré les catégories principale
+           [X] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
     [X] live on city page
