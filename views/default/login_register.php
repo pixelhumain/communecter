@@ -172,7 +172,7 @@
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="text" class="form-control" id="name" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
+									<input type="text" class="form-control" id="registerName" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
 									<i class="fa fa-user"></i> </span>
 							</div>
 						</div>
@@ -317,7 +317,7 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('.form-register #name').val(name);
+		$('.form-register #registerName').val(name);
 		$('#email3').prop('disabled', true);
 		$('#inviteCodeLink').hide();
 	}
@@ -597,7 +597,7 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $('.form-register #name').val(),
+				   "name" : $('.form-register #registerName').val(),
 				   "username" : $(".form-register #username").val(),
 				   "email" : $(".form-register #email3").val(),
                    "pwd" : $(".form-register #password3").val(),
@@ -768,7 +768,7 @@ function callbackFindByInseeError(){
 }
 
 function initRegister() {
-	$('.form-register #name').val("");
+	$('.form-register #registerName').val("");
 	$(".form-register #username").val("");
 	$(".form-register #email3").val("");
 	$(".form-register #password3").val("");
