@@ -301,8 +301,6 @@ else if( @$type == Event::CONTROLLER && @$event ){
 	$contextData = $event;
 	$projects=array();
 	$events=array();
-
-
 }
 else if( @$type == Person::CONTROLLER && @$person ){
 	Menu::person( $person );
@@ -538,7 +536,7 @@ if (@$follows){
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, Person::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -546,7 +544,7 @@ if (@$follows){
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 
