@@ -135,8 +135,6 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [X] scoper dep et region : type number 
-    [ ] bug : globale vs page search 
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
@@ -151,6 +149,8 @@
            [X] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
         [X] ajouter un scope geo sur une proposition
+    [X] scoper dep et region : type number 
+    [X] moved search to opendata
     [X] live on city page
     [X] wisiwig sur les commentaires
     [X] dashboard
