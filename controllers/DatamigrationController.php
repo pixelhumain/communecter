@@ -651,11 +651,11 @@ class DatamigrationController extends CommunecterController {
 
 		$newsRegions = array(
 						//array("new_code","new_name","former_code","former_name"),
-						array("01","Guadeloupe","971","Guadeloupe"),
-						array("02","Martinique","972","Martinique"),
-						array("03","Guyane","973","Guyane"),
-						array("04","La Réunion","974","La Réunion"),
-						array("06","Mayotte","976","Mayotte"),
+						array("01","Guadeloupe","01","Guadeloupe"),
+						array("02","Martinique","02","Martinique"),
+						array("03","Guyane","03","Guyane"),
+						array("04","La Réunion","04","La Réunion"),
+						array("06","Mayotte","06","Mayotte"),
 						array("11","Île-de-France","11","Île-de-France"),
 						array("24","Centre-Val de Loire","24","Centre"),
 						array("27","Bourgogne-Franche-Comté","26","Bourgogne"),
