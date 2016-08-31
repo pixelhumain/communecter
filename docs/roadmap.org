@@ -135,7 +135,8 @@
     [ ] home page : switch to live ?
 
   ** @Tib 
-    [ ] scoper dep et region : type number 
+    [X] scoper dep et region : type number 
+    [ ] bug : globale vs page search 
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
     [ ] DDA
