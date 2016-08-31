@@ -112,6 +112,12 @@
 							<div class="alert alert-danger no-display custom-msg">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
 							</div>
+							<div class="alert alert-danger no-display emailAndPassNotMatchResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Email or password does not match. Please try again !")?>
+							</div>
+							<div class="alert alert-danger no-display emailNotFoundResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Impossible to find an account for this username or password.")?>
+							</div>
 							
 							<br/>
 							<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button center-block">
@@ -415,6 +421,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler.hide();
+				$(".alert").hide();
 				loginBtn.start();
 				var params = { 
 				   "email" : $("#email-login").val(), 
@@ -460,6 +467,10 @@ var Login = function() {
 							$('.notValidatedEmailResult').show();
 		    		  	} else if (data.msg == "betaTestNotOpen") {
 		    		  		$('.betaTestNotOpenResult').show();
+		    		  	} else if (data.msg == "emailNotFound") {
+		    		  		$('.emailNotFoundResult').show();
+		    		  	} else if (data.msg == "emailAndPassNotMatch") {
+		    		  		$('.emailAndPassNotMatchResult').show();
 		    		  	} else if (data.msg == "accountPending") {
 		    		  		pendingUserId = data.pendingUserId;
 		    		  		$(".errorHandler").hide();
