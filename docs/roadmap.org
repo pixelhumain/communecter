@@ -45,7 +45,10 @@
                 [ ] doodle : pour comparer facilement les dispo 
                 [ ] covoit : décrire les trajet pour les partagers
     [ ] Event intérrsant pour moi, moteur d'affinité
-    [ ] filtrer les event par type 
+    [ ] filtrer les event par type
+[ ] Utilisateur qui n'ont cp
+  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
+  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
 * ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
 * ************************************************************
