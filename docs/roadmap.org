@@ -94,6 +94,9 @@
         [ ] cronJob
     [X] Bug 
       [X] voteUp voteDown
+    [X] Event :
+      [X] Ajout de l'utilisation des tags pour les évenement
+      [X] Gestion des admins pour les events
     [ ] Refactor Element
       [X] Preferences avec open data / open edition / public-hide-private data
       [ ] Formulaire d'édition:
