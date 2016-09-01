@@ -116,7 +116,7 @@
 			<i class="fa fa-map-marker"></i>
 	</button>
 
-	<a class="pull-left tooltips hidden-xs" href="javascript:loadByHash('#default.view.page.index.dir.docs')"  id="main-btn-co"
+	<a class="pull-left tooltips hidden-xs lbh" href="#default.view.page.index.dir.docs"  id="main-btn-co"
 		data-toggle="tooltip" data-placement="bottom" 
 		title="Lire la documentation" 
 		alt="Lire la documentation">

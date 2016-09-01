@@ -388,7 +388,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
 					        console.log(data);           
-				        	toastr.success('Need added successfuly');
+				        	toastr.success('Le besoin a été ajouté');
 				        	loadByHash("#need.detail.id."+data.idNeed.$id);				        		
 				        } else {
 				           toastr.error('Something Went Wrong');

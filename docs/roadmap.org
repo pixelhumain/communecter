@@ -54,7 +54,9 @@
     - baniere 
 [ ] profile de tags , ou categorisation de tags ajouter dans le tagger
 [ ] refactor péi_insee-cp en péi_insee_cp
-
+[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
+[ ] préremplir la date d'une task d'un projet avec la date de fin du projet
+>>>>>>> up
 * ************************************************************    
 * Version 0.15 (31/08/2016) : En cours
 * ************************************************************
@@ -134,10 +136,10 @@
     [ ] REcherche par 100, 500, 1000, all
     [X] Bug Repair geoloc sur tous les element
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
-    [ ] two step refactor
+    [X] two step refactor
     [ ] multiscope on elements (project, event, orga)
     [ ] synchronize new item menu (on selected)
-    [ ] home page : switch to live ?
+    [X] home page : switch to live ?
 
   ** @Tib 
     [ ] cannot empty communected location

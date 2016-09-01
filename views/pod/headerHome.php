@@ -66,15 +66,15 @@
 		<i class="fa fa-angle-right"></i> En savoir plus
 	</a>
 	<a href="javascript:;" class="toggle-scope-dropdown btn btn-xs bg-red btn-co-xs homestead visible-xs btn-geoloc-auto tooltips"
-		data-toggle="tooltip" data-placement="right" title="Communectez-moi">
-		<i class="fa fa-crosshairs"></i>
+		data-toggle="tooltip" data-placement="right" title="Communectez-vous">
+		<i class="fa fa-home"></i>
 	</a>
 
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs">
 		<i class="fa fa-angle-right"></i> En savoir plus
 	</a>
 	<a href="javascript:;" class="toggle-scope-dropdown btn bg-red btn-co homestead btn-geoloc-auto hidden-sm hidden-xs">
-		<i class="fa fa-angle-right"></i> Communectez-vous <i class="fa fa-crosshairs"></i>
+		<i class="fa fa-angle-right"></i> Communectez-vous <i class="fa fa-home"></i>
 	</a>
 
 </div>

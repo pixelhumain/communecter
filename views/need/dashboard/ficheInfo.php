@@ -271,7 +271,7 @@ function initNeedXEditable() {
 			url: baseUrl+"/"+moduleId+"/need/updatefield", 
 			//mode: 'popup',
 			source:function() {
-				listType=["Materials","Competences","Services"];
+				listType=["Matériel","Competences","Services"];
 				return listType;
 			},
 			success : function(data) {
