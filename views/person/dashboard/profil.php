@@ -178,7 +178,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	.container-info-perso{
-		margin-top:70px;
+		/*margin-top:70px;*/
 	}
 
 	#fileuploadContainer, #profil_imgPreview{
@@ -410,11 +410,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="col-md-8 col-xs-12" >
-			<div class="col-sm-12 col-md-12 col-lg-5 padding-15">
-				<button class="btn btn-success" onclick="javascript:switchMode()" id="btn-validate-changes" style="display:none;">
+		<button class="btn btn-success" onclick="javascript:switchMode()" id="btn-validate-changes" style="display:none; margin-top:10px;">
 					<i class="fa fa-check"></i> Enregistrer les changements
 				</button>
-				<div class="padding-10">
+				
+			<div class="padding-10">
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
 						<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-person editable editable-click">
@@ -429,8 +429,25 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
 						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
+					<div class="form-group tag_group no-margin">
+						<label class="control-label  text-red">
+							<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+						</label>
+						
+						<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+							<?php if(isset($person["tags"])){
+								foreach ($person["tags"] as $tag) {
+									//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								}
+							}?>
+						</a>
+					</div>
 				</div>
 
+			<div class="col-sm-12 col-md-5 col-lg-5 no-padding">
+
+				
+				
 				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
@@ -491,7 +508,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 								>
 								<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
 							</a> 
-							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+							<a href="javascript:" onclick="" class="pull-right hidden badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
 							 		<i class="fa fa-question-circle text-dark" style="">
 							 		</i>
 							</a> 
@@ -500,9 +517,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
 						<?php } ?>
 					</div>
-
+					
 				</div>
-
+				<?php 
+						$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
+						if(Role::isSuperAdmin($roles)){
+							?>
+								<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin-top:10px;">
+									<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
+								</a>
+							<?php
+						}
+					?>
 			</div>
 			<div class="col-sm-6 col-md-7 container-info-perso">
 				<div class="entityDetails text-dark">
@@ -573,22 +599,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a>
 					<br/>
 					
-					
-				</div>
-					
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
-					<?php 
-							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-							if(Role::isSuperAdmin($roles)){
-								?>
-									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
-										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-									</a>
-								<?php
-							}
-						?>
+					
+				</div>
+					
+					
+					
 					<div class="hidden" id="entity-insee-value" 
 						 insee-val="<?php echo (isset( $person["address"]["codeInsee"])) ? $person["address"]["codeInsee"] : ""; ?>">
 					</div>
@@ -610,7 +628,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 
 				
-				
+				<div class="col-xs-12 text-dark">
+					<div class="no-padding margin-top-10 col-sm-12 col-md-12 border-light" style="border-width: 1px">
+						<!-- Description -->
+						<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
+							<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
+						</a>
+					</div>
+				</div>
 			</div>
 		
 		
@@ -660,6 +685,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						}*/
 					}
 			</style>
+			<?php if(Yii::app()->session["userId"] && (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
 			<div id="div-discover" class="center col-xs-12 col-md-4">
 				<div class="panel no-padding margin-top-15">
 		            
@@ -746,37 +772,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			        </div>
 			    </div>
 		    </div>
-		</div>
-		<div class="col-xs-12 text-dark">
-			<div class="padding-20 col-sm-12 col-md-12 border-light" style="border-width: 1px">
-				<!-- Description -->
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
-					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
-				</a>
-			</div>
+		    <?php } ?>
 		</div>
 		
-		<div class="padding-10 row text-dark">
-			<div class="pull-left col-sm-7 col-md-8 tag_group">
-				
-			</div>
-			
-			<div class="pull-right text-right col-sm-5 col-md-4">
-				<div class="form-group tag_group no-margin">
-					<label class="control-label  text-red">
-						<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
-					</label>
-					
-					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
-						<?php if(isset($person["tags"])){
-							foreach ($person["tags"] as $tag) {
-								//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
-							}
-						}?>
-					</a>
-				</div>	
-			</div>
-		</div>
+		
+		
 
 
 		<?php /* if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
@@ -1123,18 +1123,33 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
+			var country = notEmpty(response.user.address.addressCountry) ? response.user.address.addressCountry : null;
+			var depName = notEmpty(response.user.address.depName) ? response.user.address.depName : null;
+			var regionName = notEmpty(response.user.address.regionName) ? response.user.address.regionName : null;
+
 			currentScopeType = "cp";
 			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
 			currentScopeType = "city";
-			addScopeToMultiscope(newValue.addressLocality,newValue.addressLocality);
-			//addScopeToMultiscope("dep",newValue.addressLocality);
-			//addScopeToMultiscope("region",newValue.addressLocality);
+			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee; //+ "-" + newValue.postalCode; 
+			addScopeToMultiscope(unikey, newValue.addressLocality);
+			currentScopeType = "dep";
+			if(notEmpty(depName)) addScopeToMultiscope(depName, depName);
+			currentScopeType = "region";
+			if(notEmpty(regionName)) addScopeToMultiscope(regionName, regionName);
 
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 			//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"' )");
-			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+"");
+
+			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode"+newValue.postalCode);
+
 			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
+			$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode);
+			$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
+			
+			$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + newValue.addressLocality);
+			$(".hide-communected").hide();
+			$(".visible-communected").show();
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',

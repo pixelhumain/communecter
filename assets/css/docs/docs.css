@@ -91,3 +91,6 @@
 .panel-title.text-red:hover{
   color: #3C5665 !important;
 }
+.main-col-search{
+  overflow-x: hidden;
+}

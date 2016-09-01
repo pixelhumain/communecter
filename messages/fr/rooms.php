@@ -184,7 +184,8 @@ return array(
 
     "Edit this proposal" => "Editer cette proposition",
     "Move this proposal" => "Déplacer cette proposition dans un autre espace",
-    "Close this proposal" => "Supprimer cette proposition"
+    "Close this proposal" => "Supprimer cette proposition",
+    'Participation open to city residents only' => "Seuls les citoyens de cette ville peuvent participer"
 );
 
 

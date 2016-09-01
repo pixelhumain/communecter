@@ -1,7 +1,7 @@
 <?php 
 	$cs = Yii::app()->getClientScript();
 	$cssAnsScriptFilesModule = array(
-	  '/survey/js/highcharts.js',
+	  //'/survey/js/highcharts.js',
 	  '/js/dataHelpers.js',
 	  '/css/circle.css'
 	);

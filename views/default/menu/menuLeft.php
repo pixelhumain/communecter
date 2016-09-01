@@ -54,8 +54,8 @@
 		$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
 	}else{
 		//error_log("user connected without address : cookie [insee:". $inseeCommunexion ." cp:". $cpCommunexion. "]");
-		if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
-		$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
+		//if(isset($inseeCommunexion->value) && isset($cpCommunexion->value))
+		//$myCity = City::getCityByInseeCp($inseeCommunexion->value, $cpCommunexion->value);
 	}
 ?>
 
@@ -130,13 +130,16 @@
 		<?php } ?>
 
 		<?php 
-			$cityExists = (isset($myCity) && $myCity != "");
-			$title = $cityExists ? $cityNameCommunexion : "Communectez-moi";
-			$hash = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] : "";
-			$onclick = $cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"]: "javascript:";
+		//var_dump($myCity); exit;
+			$cityExists = (isset($myCity) && $myCity != "" && isset($myCity["cp"]) && isset($myCity["insee"]));
+			$title = $cityExists ? $cityNameCommunexion : "Communectez-vous";
+			$hash = "javascript:"; //$cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] : "";
+			$onclick = $cityExists ? "loadByHash('#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] + "')" 
+								   : "openDropdownMultiscope()";
 		?>
-		<a href="<?php echo $onclick; ?>" 
-			class="lbh menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
+		<?php //if($cityExists || isset(Yii::app()->session['userId'])) { ?>
+		<a href="<?php echo $hash; ?>" onclick="<?php echo $onclick; ?>"
+			class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
 			id="btn-geoloc-auto-menu">
 			
 			<i class="fa fa-home tooltips"
@@ -145,6 +148,7 @@
 				<?php echo $title; ?>
 			</span>
 		</a><hr>
+		<?php //} ?>
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		
@@ -253,15 +257,15 @@
 		</a>
 
 		<?php //if(!isset(Yii::app()->session['userId']) && false){ ?>
-		<a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
-			if(@$myCity) echo City::getUnikey($myCity); ?>')" 
+		<!-- <a href="javascript:loadByHash('#rooms.index.type.cities.id.<?php 
+			//if(@$myCity) echo City::getUnikey($myCity); ?>')" 
 			data-hash="#rooms.index.type.cities.id.<?php 
-			if(@$myCity) echo City::getUnikey($myCity); ?>"
+			//if(@$myCity) echo City::getUnikey($myCity); ?>"
 			class="hidden menu-button-left" 
 			id="btn-citizen-council-commun">
 				<i class="fa fa-connectdevelop tooltips"
 					data-toggle="tooltip" data-placement="right" title="Conseil citoyen"></i> <span class="lbl-btn-menu">Conseil citoyen</span>
-		</a><hr class="hidden ">
+		</a><hr class="hidden "> -->
 		<?php //} ?>
 
 	</div>
@@ -430,6 +434,7 @@ jQuery(document).ready(function() {
 
 	<?php if($inseeCommunexion == "" && $cpCommunexion == ""){ ?>
 		$(".visible-communected").hide(400);
+		$(".hide-communected").show(400);
 	<?php } ?>
 });
 </script>

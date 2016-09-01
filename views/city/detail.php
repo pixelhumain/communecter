@@ -93,7 +93,7 @@ $this->renderPartial('../default/panels/toolbar');
 <!-- start: PAGE CONTENT -->
 <div class="row padding-20" id="cityDetail">
 
-   <?php //if(!isset(Yii::app()->session["userId"]) ){ // ?>
+   <?php if(false){ //if(!isset(Yii::app()->session["userId"]) ){ // ?>
     <!-- <h1 class="homestead text-dark center you-live">Vous habitez ici ? <?php //echo $city["name"]; ?></h1> -->
     <a href="javascript:;" class="btn homestead text-red no-margin tooltips"
        ctry-com="<?php echo $city['country']; ?>" 
@@ -105,7 +105,7 @@ $this->renderPartial('../default/panels/toolbar');
        >
        <i class="fa fa-crosshairs"></i> COMMUNECTER
     </a>
-  <?php //} ?>
+  <?php } ?>
   <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
       <h1 class="homestead text-red cityName-header">
         <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 

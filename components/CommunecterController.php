@@ -447,7 +447,7 @@ class CommunecterController extends Controller
       $this->subTitle = (isset($page["subTitle"])) ? $page["subTitle"] : $this->subTitle;
       $this->pageTitle = (isset($page["pageTitle"])) ? $page["pageTitle"] : $this->pageTitle;
       $this->notifications = ActivityStream::getNotifications( array( "notify.id" => Yii::app()->session["userId"] ) );
-      CornerDev::addWorkLog("communecter","you@dev.com",Yii::app()->controller->id,Yii::app()->controller->action->id);
+      CornerDev::addWorkLog("communecter",Yii::app()->session["userId"],Yii::app()->controller->id,Yii::app()->controller->action->id);
     }
   }
   

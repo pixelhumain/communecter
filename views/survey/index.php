@@ -651,10 +651,14 @@
                   <blockquote> 
                     <span class=""><i class="fa fa-angle-right"></i> 
                     <?php 
-                      if(isset(Yii::app()->session["userId"]))
-                      echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                      if(isset(Yii::app()->session["userId"])){
+                        if( $where["survey"]["parentType"] == City::COLLECTION )
+                          echo Yii::t('rooms', 'Participation open to city residents only', null, Yii::app()->controller->module->id);
+                        else
+                          echo Yii::t('rooms', 'JOIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                      }
                       else
-                      echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
+                        echo Yii::t('rooms', 'LOGIN TO PARTICIPATE', null, Yii::app()->controller->module->id);
                     ?> 
                     </span>
                   </blockquote>
