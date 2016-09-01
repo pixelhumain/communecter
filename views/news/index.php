@@ -615,6 +615,7 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+		console.log(news, news);
 		buildTimeLine (news, 0, indexStep);
 		bindTags();
 		//console.log(news);

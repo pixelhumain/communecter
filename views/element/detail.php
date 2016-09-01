@@ -8,7 +8,7 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 </script>
 <?php 
 		if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-			$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, /*"admin" => $admin*/)); 
+			$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "admin" => $admin)); 
 		//End isset renderPartial
 ?>
 <div class="row">
@@ -30,7 +30,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 						"type" => @$type,
 						"organizer" =>@$organizer,
 	    				"contentKeyBase" => "profil",
-	    				"edit" => @$edit
+	    				"edit" => @$edit,
+	    				"isLinked" => @$isLinked
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>

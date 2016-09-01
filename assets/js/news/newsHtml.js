@@ -233,9 +233,8 @@ function buildLineHTML(newsObj,idSession,update)
 				contextScopesTags.tags.push(tag);*/
 
 			tags += "<span class='label tag_item_map_list tag' data-tag-value='"+tag+"'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				contextMap.tags.push(tag);
-
+			if( $.inArray(tag, newsObj.tags/*contextMap.tags*/)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+				/*contextMap.tags*/ newsObj.tags.push(tag);
 				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
 			}
 		} });

@@ -211,7 +211,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 																  "type" => $type,
 																  "contentId" => Document::IMG_PROFIL,
 																  "editMode" => false,
-																  "image" => $images)); 
+																  "image" => $images,
+																  /*"openEdition" => $openEdition*/)); 
 			
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>

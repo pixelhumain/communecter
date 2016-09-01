@@ -123,6 +123,8 @@ function buildTimeLine (news, indexMin, indexMax)
 			var d = new Date();
 			if(typeof(newsObj.target)!="undefined" && typeof(newsObj.target.type)!="undefined")
 				buildLineHTML(newsObj, idSession);
+			
+				
 		}
 	});
 	

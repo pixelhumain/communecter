@@ -157,9 +157,6 @@
 					</a>
 				</h2>
 			</div>
-			<?php 
-			$isLinked = Link::isLinked((string)$element["_id"],Person::COLLECTION, Yii::app()->session['userId']);
-			?>
 			<i class="fa fa-smile-o fa_name hidden"></i> 		
 			<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
 				<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
@@ -266,7 +263,8 @@
 			<div class="col-md-6 col-sm-6">	
 				<i class="fa fa-road fa_streetAddress hidden"></i> 
 				<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
-					<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
+					<?php //echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
+					<?php echo Element::showField("address.streetAddress",$element, $isLinked);?>
 				</a> 
 				<br>
 			
@@ -366,7 +364,8 @@
 				<?php if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
 				<i class="fa fa-envelope fa_email  hidden"></i> 
 				<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-					<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
+					<?php //echo (isset($element["email"])) ? $element["email"] : null; ?>
+					<?php echo Element::showField("email",$element, $isLinked);?>
 				</a>
 				<br>
 				<?php } ?>
@@ -483,7 +482,8 @@
 		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
-				<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
+				<?php  //echo (!empty($element["description"])) ? $element["description"] ; : ""; ?>
+				<?php echo Element::showField("description",$element, $isLinked) ; ?>
 			</a>	
 		</div>
 	</div>
@@ -508,6 +508,144 @@
 			</div>	
 		</div>
 	</div>
+
+	<?php if($type == Person::COLLECTION ){ ?>
+	<style type="text/css">
+				
+				  #div-discover .btn-discover{
+				    border-radius: 60px;
+					font-size: 27px;
+					font-weight: 200;
+					border: 1px solid transparent;
+					width: 60px;
+					height: 60px;
+					padding-top: 10px;
+				  }
+				  #div-discover .btn-discover.bg-red{
+				    /*font-size: 43px;
+				    padding-top: 12px;*/
+				  }
+				  #div-discover .btn-discover.bg-azure:hover{
+				    background-color: white !important;
+				    border-color: #2BB0C6 !important;
+				    color: #2BB0C6 !important;
+				  }
+				  #div-discover .btn-discover.bg-red:hover{
+				    background-color: white !important;
+				    border-color: #E33551 !important;
+				    color: #E33551 !important;
+				  }
+				  .btnSubTitle{
+					  margin-bottom:10px; 
+					  font-size:13px; 
+					  font-weight: 300; height: 95px;
+					}
+					@media screen and (max-width: 768px) {
+					    /*#div-discover .btn-discover.bg-red{
+						    font-size: 30px;
+						    padding-top: 3px;
+
+						}
+						#div-discover .btn-discover {
+						    height: 50px;
+						    width: 50px;
+						    font-size: 25px;
+						}
+						.btnSubTitle{
+						  font-size:14px; font-weight: 100;
+						}*/
+					}
+			</style>
+			<?php if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
+			<div id="div-discover" class="center col-xs-12 col-md-4">
+				<div class="panel no-padding margin-top-15">
+		            
+					<div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
+		            </div>
+			        <div class="panel panel-white padding-10 text-left">
+		               	<div class="panel-body no-padding ">
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6 center text-azure btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
+
+			                          <i class="fa fa-camera"></i>
+			                        </a><br>
+			                        <span class="text-azure discover-subtitle"> Image de profil</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-home"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Ma commune</span>
+			                    </div>
+
+			                   
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-bullseye"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
+			                    </div>
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+			                    </div>                    
+			                </div>
+		                </div>
+			        </div>
+		        </div>
+
+		        <div class="panel no-padding margin-top-15 ">
+			        <div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
+		            </div>
+			        <div class="panel panel-white padding-10">
+			            <div id="local-actors-popup-sig">
+			              
+			              <div class="panel-body no-padding ">
+
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6  center text-yellow btnSubTitle">
+			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
+
+			                          <i class="fa fa-user"></i>
+			                        </a><br/><span class="discover-subtitle">Une personne</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-green btnSubTitle">
+			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
+			                          <i class="fa fa-group"></i>
+			                        </a>
+			                        <br/><span class="discover-subtitle">Organisation</span>
+			                    </div>
+
+			                    <div class="col-xs-6  center text-purple btnSubTitle">
+			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
+			                          <i class="fa fa-calendar"></i>
+			                        </a><br/><span class="discover-subtitle">Évènement</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-orange btnSubTitle">
+			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
+			                          <i class="fa fa-lightbulb-o"></i>
+			                        </a><br/><span class="discover-subtitle">Projet</span>
+			                    </div>
+
+			                </div>
+
+			              </div>
+			            </div>
+			           
+			        </div>
+			    </div>
+		    </div>
+		    <?php } ?>
+		</div>
+		<?php } ?>
 </div>
 
 
@@ -577,6 +715,16 @@
 
 		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
+		});
+
+		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+			if(!$("#dropdown-content-multi-tag").hasClass('open'))
+			setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+			$("#dropdown-content-multi-tag").addClass('open');
+		});
+		$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+			if(!$("#dropdown-content-multi-scope").hasClass('open'))
+			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
 
 	});
@@ -651,6 +799,8 @@
 			$(this).addClass("active");
 		});
 		//if(<?php echo isset($element["birthDate"]) 					? "true" : "false"; ?>){ $(".fa_birthDate").removeClass("hidden"); }
+
+
 	}
 
 	function switchMode() {
