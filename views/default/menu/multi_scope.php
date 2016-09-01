@@ -325,7 +325,7 @@ function autocompleteMultiScope(){
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
     				val = value.country + '_' + value.insee; 
-		    		lbl = (typeof value.postalCodes[0]!= "undefined") ? value.postalCodes[0].name : value.name ;
+		    		lbl = (typeof value.name!= "undefined") ? value.name : ""; //value.name ;
 		    		lblList = lbl + " (" +value.depName + ")";
 		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
     				/*$.each(value.postalCodes, function(key, valueCP){
