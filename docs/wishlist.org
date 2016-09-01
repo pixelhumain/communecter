@@ -1,4 +1,4 @@
-* Version 0.16 (???) : Vision
+
 * Easy Feature 
 * Medium Feature
 [ ] internationalisation avec la Belgique 
@@ -56,9 +56,37 @@
 [ ] refactor péi_insee-cp en péi_insee_cp
 [ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
 [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
-
+[ ] DDA
+  [ ] bug : sur archiver , persiste dans les listes 
+  [ ] bug : une décision terminé, on peut toujours voté dessus
+  [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+  [ ] changer les lien des DDA sur les parent insee
+  [ ] ajouter la proposition de signature du pacte de transition citoyenne
 * optim
 [ ] remove betatester attr
 [ ] remove empty image attribs
 [ ] on person.detail add autocomplete on tags
-[ ] retirer 
+[ ] retirer les tags vide ou inutile 
+  [ ] betaTester
+  [ ] img
+
+** TODO
+    [ ] one input add
+    [ ] POI et Element de base (0.16??) : name,desc, url, location
+        periscope
+        youtube
+        twitter journal 
+    [ ] multi scope on element forms
+    
+    [ ] Best place calculator : utilisant la position des participants
+    [ ] Réunion privée pour avancement interne organisation
+    
+    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
+    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
+     
+    [ ] Finir Add member, contributeur et invitation
+    [ ] reactiver viewport filter sur la carte
+    [ ] refactor le design du notifier (0.16??)
+    [ ] lazy loading sur la carto
+    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
+    [ ] repairing localisation HTML5 
