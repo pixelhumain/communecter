@@ -14,7 +14,6 @@
 ----------------------------------------------------
 Version 0.15
 @Rapha : Séparer Mayotte et la Réunion au niveau de la régions
-
 db.cities.find({'region': '04'}).forEach(function(doc)
 {
   if(typeof doc.insee != "undefined"){
@@ -91,7 +90,6 @@ db.cities.find({dep:/988/}).forEach(function(doc)
     print( '"'+doc.name+'" => array("'+doc.regionName+'","'+doc.region+'"),' ); 
    db.cities.update({"_id":doc._id},{'$set':{'region': '08','regionName':'NOUVELLE-CALEDONIE'} })
 });
-
 
 @Sylvain/Thomas/Tib : Créer les index corrects sur cities
 db.cities.dropIndexes();
