@@ -451,7 +451,7 @@ function addScopeToMultiscope(scopeValue, scopeName){
 function deleteScopeInMultiscope(scopeValue){ //console.log("deleteScopeInMultiscope(scopeValue)", scopeValue);
 	if(scopeExists(scopeValue)){
 		delete myMultiScopes[scopeValue];
-		$("[data-scope-value="+scopeValue+"]").remove();
+		$("[data-scope-value='"+scopeValue+"']").remove();
 		saveMultiScope();
 	}
 	//console.dir(myMultiScopes);
@@ -465,13 +465,13 @@ function toogleScopeMultiscope(scopeValue, selected){ //console.log("toogleScope
 		else myMultiScopes[scopeValue].active = selected;
 		
 		if(myMultiScopes[scopeValue].active){
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-circle-o");
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").addClass("fa-check-circle");
-			$("[data-scope-value="+scopeValue+"].item-scope-input").removeClass("disabled");
+			$("[data-scope-value='"+scopeValue+"'] .item-scope-checker i.fa").removeClass("fa-circle-o");
+			$("[data-scope-value='"+scopeValue+"'] .item-scope-checker i.fa").addClass("fa-check-circle");
+			$("[data-scope-value='"+scopeValue+"'].item-scope-input").removeClass("disabled");
 		}else{
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").addClass("fa-circle-o");
-			$("[data-scope-value="+scopeValue+"] .item-scope-checker i.fa").removeClass("fa-check-circle");
-			$("[data-scope-value="+scopeValue+"].item-scope-input").addClass("disabled");
+			$("[data-scope-value='"+scopeValue+"'] .item-scope-checker i.fa").addClass("fa-circle-o");
+			$("[data-scope-value='"+scopeValue+"'] .item-scope-checker i.fa").removeClass("fa-check-circle");
+			$("[data-scope-value='"+scopeValue+"'].item-scope-input").addClass("disabled");
 		}
 		rebuildSearchScopeInput();
 	}else{
