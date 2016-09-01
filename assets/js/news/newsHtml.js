@@ -261,10 +261,13 @@ function buildLineHTML(newsObj,idSession,update)
 			var maxScope = 6;
 			if(typeof(newsObj.scope.cities) != "undefined")
 			$.each(newsObj.scope.cities, function(key, value){ countScope++;
-				var name = value.postalCode;
-				name += (value.addressLocality != "" && value.addressLocality != null) ? ", " + value.addressLocality : "";
+				var name = "";
+				if (typeof(value.postalCode) != "undefined") {
+					name += value.postalCode + ", " ;
+				}
+				name += (value.addressLocality != "" && value.addressLocality != null) ? value.addressLocality : "";
 				if(countScope<maxScope)
-				scopes += "<span class='label label-danger'>" + name + "</span> ";
+					scopes += "<span class='label label-danger'>" + name + "</span> ";
 			});
 			if(typeof(newsObj.scope.departements) != "undefined")
 			$.each(newsObj.scope.departements, function(key, value){ countScope++;

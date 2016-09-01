@@ -138,6 +138,9 @@
 	.visible-empty blockquote{
 		font-size:15px;
 	}
+	.msg-scope-co{
+		font-size:14px;
+	}
 	@media screen and (max-width: 767px) {
 		#dropdown-multi-tag .modal-dialog,
 		#dropdown-multi-scope .modal-dialog{
@@ -180,8 +183,8 @@ $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 jQuery(document).ready(function() {
 	
 	showEmptyMsg();
-	/* permet de selectionner sa zone de communection
-	$(".item-scope-name").click(function() { 
+	// permet de selectionner sa zone de communection
+	/*$(".item-scope-name").click(function() { 
 		$(".communectScope > span.item-scope-name ").html( $(".communectScope ").data("scope-value") );
 		$(".communectScope").removeClass("communectScope").removeClass("bg-azure").addClass("bg-red");
 
@@ -205,7 +208,9 @@ function showTagsScopesMin(htmlId){
 	var html =  "<button class='btn text-dark btn-sm' id='toogle-tags-selected' onclick='javascript:selectAllTags();'>"+
 				iconSelectTag + "</button> ";
 	
+	var numberOfTags = 0;
 	$.each(myMultiTags, function(key, value){
+		numberOfTags++;
 		var disabled = value.active == false ? "disabled" : "";
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-tag' "+
 					"class='text-red "+disabled+" item-tag-checker' data-tag-value='"+ key + "'>" + 
@@ -213,10 +218,14 @@ function showTagsScopesMin(htmlId){
 				"</span> ";
 	});
 
+	if (numberOfTags == 0) {
+		html += '<span id="helpMultiTags" class="toggle-tag-dropdown" style="padding-left:10px"><a href="javascript:"> Ajouter des filtres mot clés ?</a></span>';
+	}
 
 	/************** SCOPES **************/
 	var iconSelectScope = "<i class='fa fa-circle-o'></i>";
 	var scopeSelected = false;
+
 	$.each(myMultiScopes, function(key, value){
 		 if(value.active){
 		 	iconSelectScope = "<i class='fa fa-check-circle-o'></i>";
@@ -227,7 +236,9 @@ function showTagsScopesMin(htmlId){
 	html += 	"<hr style='margin-top:5px;margin-bottom:5px;'>";
 	html +=  	"<button class='btn text-dark btn-sm' id='toogle-scopes-selected' onclick='javascript:selectAllScopes();'>"+
 				iconSelectScope + "</button> ";
+	var numberOfScope = 0;
 	$.each(myMultiScopes, function(key, value){
+		numberOfScope++;
 		var disabled = value.active == false ? "disabled" : "";
 		if(typeof value.name == "undefined") value.name = key;
 		html += "<span data-toggle='dropdown' data-target='dropdown-multi-scope' "+
@@ -235,6 +246,9 @@ function showTagsScopesMin(htmlId){
 					"<i class='fa fa-bullseye'></i> " + value.name + 
 				"</span> ";
 	});
+	if (numberOfScope == 0) {
+		html += '<span id="helpMultiScope" class="toggle-scope-dropdown" style="padding-left:10px"><a href="javascript:"> Ajouter des filtres géographiques ?</a></span>';
+	}
 	html += "</div>";
 	$(htmlId).html(html);
 

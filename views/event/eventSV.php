@@ -12,7 +12,9 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	'/plugins/bootstrap-select/bootstrap-select.min.css',
-	'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/bootstrap-select/bootstrap-select.min.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
@@ -266,6 +268,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						?>
 					</select>
 				</div>
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?> </h3>
+				<div class="form-group">
+        		    <input id="tagsEvent" type="" data-type="select2" name="tagsEvent" value="" style="display: none;width:100%; height:auto;">		        		    
+				</div>
 
 				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Duration") ?> ?</h3>
                 <div class="form-group">
@@ -291,7 +297,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="text" class="event-end-date" name="eventEndDate"/>
 					</div>
 				</div>
-					
+				
 			</div>
 
 			<div class="col-md-6">
@@ -403,6 +409,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
  	});
 
 	jQuery(document).ready(function() {
+		$('#tagsEvent').select2({tags:<?php echo $tags ?>});
+		$('#tagsEvent').select2({tags:<?php echo $tags ?>});
 	 	bindEventSubViewEvents();
 	 	bindPostalCodeAction();
 	 	editEvent();
@@ -413,6 +421,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	 	$(".wysiwygInput").off().on("focus", function(){
 		 	activateSummernote('#eventDetail');
 		 });
+
+	 	
 	});
 
 	function runShowCity(searchValue) {
@@ -609,6 +619,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();		
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
+				newEvent.tags = $(".form-event #tagsEvent").val();
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
@@ -665,7 +676,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$('.form-event .all-day-range').hide();
 		$(".form-event .event-start-date").val(roundMoment());
 		$(".form-event .event-end-date").val(roundMoment().add('days', 1));
-
+		$(".form-event #tagsEvent").select2('val', "");
 		defaultHours = new Date(roundMoment()).getHours()+ ":" +new Date(roundMoment()).getMinutes();
 		
 		$('.form-event .no-all-day-range .event-range-date').val(roundMoment().format('DD/MM/YYYY HH:mm') + ' - ' + roundMoment().add('days', 1).format('DD/MM/YYYY HH:mm'))
@@ -734,7 +745,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	function initMyOrganization(){
 
 		//$("#eventCountry").select2('val', "");
-
 		if(organizerParentType.length > 0){
 			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";
 			if(organizerParentType=="event"){

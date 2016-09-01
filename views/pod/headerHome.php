@@ -12,10 +12,10 @@
 	    position: absolute;
 		bottom: 54%;
 		right: -36%;
-	    font-size: 23px;
+	    font-size: 20px;
 	}
 	.btn-go-home-sm {
-		font-size: 19px;
+		font-size: 15px;
 		font-weight: 100 !important;
 		position: absolute;
 		bottom: 23%;
@@ -33,10 +33,10 @@
 	    position: absolute;
 		bottom: 30%;
 		right: -36%;
-	    font-size: 23px;
+	    font-size: 20px;
 	}
 	.btn-co-sm {
-		font-size: 19px;
+		font-size: 15px;
 		font-weight: 100 !important;
 		position: absolute;
 		bottom: 45%;
@@ -66,15 +66,15 @@
 		<i class="fa fa-angle-right"></i> En savoir plus
 	</a>
 	<a href="javascript:;" class="toggle-scope-dropdown btn btn-xs bg-red btn-co-xs homestead visible-xs btn-geoloc-auto tooltips"
-		data-toggle="tooltip" data-placement="right" title="Communectez-moi">
-		<i class="fa fa-crosshairs"></i>
+		data-toggle="tooltip" data-placement="right" title="Communectez-vous">
+		<i class="fa fa-home"></i>
 	</a>
 
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs">
 		<i class="fa fa-angle-right"></i> En savoir plus
 	</a>
 	<a href="javascript:;" class="toggle-scope-dropdown btn bg-red btn-co homestead btn-geoloc-auto hidden-sm hidden-xs">
-		<i class="fa fa-angle-right"></i> Communectez-moi <i class="fa fa-crosshairs"></i>
+		<i class="fa fa-angle-right"></i> Communectez-vous <i class="fa fa-home"></i>
 	</a>
 
 </div>

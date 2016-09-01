@@ -181,6 +181,24 @@
    				 <strong>Exemple : </strong>Paris, Bordeaux, Toulouse, 17000, 97421, Charente-maritime, Auvergne, etc
    			</blockquote>
    		</div>
+   		<div class="panel-body padding-10 text-dark">
+   			<?php if(!empty($me) && (!isset($me["address"]["postalCode"]) || $me["address"]["postalCode"] == "" )) { ?>
+	   			<blockquote class="text-red msg-scope-co">
+   					<strong><i class='fa fa-home'></i> Vous n'êtes pas communecté : </strong>Pour obtenir un accès rapide à votre commune, apparaître dans les résultats de recherche par lieux, ainsi que sur la carte, merci de renseigner votre code postal dans l'addresse de votre profil.<br>
+	   				<a href="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>" class="lbh btn btn-sm btn-default margin-top-10"><i class="fa fa-cogs"></i> Paramétrer mon code postal</a>
+   				</blockquote>
+   			<?php }else if(isset($me["address"]["addressLocality"])){ ?>
+   				<blockquote class="text-red msg-scope-co">
+   					<a href="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>" 
+   					  class="lbh btn btn-sm btn-default"><i class="fa fa-cogs"></i></a> 
+   					 <span><i class='fa fa-home'></i> Vous êtes communecté à <?php echo $me["address"]["addressLocality"]; ?></span>
+   				</blockquote>
+   			<?php } ?>
+   			
+   		</div>
+   		
+
+   		
    </ul>
 </div>
 <input id="searchLocalityCITYKEY" type="hidden" />
@@ -242,6 +260,11 @@ jQuery(document).ready(function() {
 		if(currentScopeType == "region") $('#input-add-multi-scope').attr("placeholder", "Ajouter une région ...");
 	});
 
+	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-scope").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+	});
+
 	loadMultiScopes();
 	rebuildSearchScopeInput();
 });
@@ -301,8 +324,8 @@ function autocompleteMultiScope(){
     		var allCities = new Array();
     		$.each(data.cities, function(key, value){
     			if(currentScopeType == "city") { console.log("in scope city");
-    				val = value.insee; 
-		    		lbl = value.name ;
+    				val = value.country + '_' + value.insee; 
+		    		lbl = (typeof value.postalCodes[0]!= "undefined") ? value.postalCodes[0].name : value.name ;
 		    		lblList = lbl + " (" +value.depName + ")";
 		    		html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
     				/*$.each(value.postalCodes, function(key, valueCP){
@@ -547,4 +570,8 @@ function lockScopeOnCityKey(cityKey, cityName){ //console.log("lockScopeOnCityKe
 	$(".city-name-locked").html("<i class='fa fa-lock'></i> "+ cityName);
 }
 
+function openDropdownMultiscope(){
+	if(!$("#dropdown-content-multi-scope").hasClass('open'))
+	setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+}
 </script>

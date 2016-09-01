@@ -82,7 +82,7 @@ class Menu {
 		    $controller = Organization::CONTROLLER;
 		else
 	    	$controller = Project::CONTROLLER;
-	    self::entry("right", 'onclick',
+	    self::entry("left", 'onclick',
         			Yii::t("common", $controller." detail"),
         			Yii::t("common","Back to ".$controller),'home',
         			"loadByHash('#".$controller.".detail.id.".$parentId."')",$controller, "detail");

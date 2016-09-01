@@ -156,7 +156,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	color:white !important;
 }
 #modalHelpCP .modal-dialog{
-	width:90% !important;
+	width:65% !important;
+}
+
+
+@media screen and (max-width: 767px) {
+	#modalHelpCP .modal-dialog{
+		width:100% !important;
+	}
 }
 </style>
 
