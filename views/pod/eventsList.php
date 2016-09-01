@@ -48,7 +48,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php  
 								$url = '#event.detail.id.'.$e["_id"];
 
-								if(@$organiserImgs && @$e["links"]["organizer"]){
+								if(@$organiserImgs && @$e["links"]["organizer"] && isset($e["links"]["organizer"][$id]['type'])){
 
 									$id = array_keys($e["links"]["organizer"])[0];
 									$o = Element::getInfos( $e["links"]["organizer"][$id]['type'], $id);
