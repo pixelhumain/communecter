@@ -576,7 +576,7 @@
 			                    </div>
 			                    
 			                    <div class="col-xs-6 center text-red btnSubTitle">
-			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                        <a href="javascript:;" onclick="$('#editElementDetail').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
 			                          <i class="fa fa-home"></i>
 			                        </a><br>
 			                        <span class="text-red discover-subtitle"> Ma commune</span>
