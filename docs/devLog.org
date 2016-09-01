@@ -13,6 +13,7 @@
 ----------------------------------------------------
 ----------------------------------------------------
 * Version 0.15
+
 ** @Rapha : Séparer Mayotte et la Réunion au niveau de la régions
 db.cities.find({'region': '04'}).forEach(function(doc)
 {
@@ -49,28 +50,28 @@ http://qa.communecter.org/communecter/datamigration/updateRegion
 db.citoyens.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
-        db.citoyens.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        db.citoyens.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)-1814400} })
         //print(doc.email+" | "+d.getTime() )
      }
 })
 db.projects.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
-        db.projects.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        db.projects.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)-1814400} })
         //print(doc.email+" | "+d.getTime() )
      }
 })
 db.events.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
-        db.events.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        db.events.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)-1814400} })
         //print(doc.email+" | "+d.getTime() )
      }
 })
 db.organizations.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
-        db.organizations.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)} })
+        db.organizations.update({"_id":doc._id},{'$set':{'updated': Math.round(d.getTime()/1000)-1814400} })
         //print(doc.email+" | "+d.getTime() )
      }
 })

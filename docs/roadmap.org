@@ -1,27 +1,23 @@
-* ************************************************************    
-* Version 0.15 (31/08/2016) : En cours
-* ************************************************************
 
-** TODO
-    [ ] one input add
-    [ ] POI et Element de base (0.16??) : name,desc, url, location
-        periscope
-        youtube
-        twitter journal 
-    [ ] multi scope on element forms
-    
-    [ ] Best place calculator : utilisant la position des participants
-    [ ] Réunion privée pour avancement interne organisation
-    
-    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
-    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
-     
-    [ ] Finir Add member, contributeur et invitation
-    [ ] reactiver viewport filter sur la carte
-    [ ] refactor le design du notifier (0.16??)
-    [ ] lazy loading sur la carto
-    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
-    [ ] repairing localisation HTML5 
+* ************************************************************    
+* Version 0.16 (???) : Vision
+* ************************************************************    
+** @Tango 
+    [ ] REcherche par 100, 500, 1000, all
+** @Sylvain
+    [ ] cannot empty communected location
+    [ ] mailing
+        [ ] doc
+        [ ] faire un mail hebdomadaire
+        [ ] invitation event 
+        [ ] news privé
+** @Tib 
+    [ ] event modifier l'organisateur
+    [ ] finish fromNow method
+  ** @Rapha
+* ************************************************************    
+* Version 0.15 (31/08/2016) : Livré 01/09/2016
+* ************************************************************
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -74,7 +70,6 @@
     [X] Refactor agenda
     [X] REcherche connecté au multi scope
     [X] search by name on live page
-    [ ] REcherche par 100, 500, 1000, all
     [X] Bug Repair geoloc sur tous les element
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [X] two step refactor
@@ -83,17 +78,9 @@
     [X] home page : switch to live ?
 
   ** @Tib 
-    [ ] cannot empty communected location
-    [ ] event modifier l'organisateur
-    [ ] finish fromNow method
     [ ] DDA
-        [ ] bug : sur archiver , persiste dans les listes 
-        [ ] bug : une décision terminé, on peut toujours voté dessus
         [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
         [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [ ] changer les lien des DDA sur les parent insee
-        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
         [X] généré les catégories principale
            [X] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
@@ -147,15 +134,9 @@
     
     
   ** @Sylvain
-    [ ] ajouter updated on login
-    [ ] mailing
-        [ ] doc
-        [ ] faire un mail hebdomadaire
-        [ ] invitation event 
-        [ ] news privé
-    [???] all ImageUrl on elements why have them if empty
+    [X] ajouter updated on login
   ** @Thomas communEvent
-    [ ] mettre en PROD 
+    [X] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
@@ -179,7 +160,7 @@
             actions    
 
 * ************************************************************
-* Version 0.14 : Fermé 
+* Version 0.14 : Livré
 * ************************************************************
 
     ** @Tango
