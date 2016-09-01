@@ -12,8 +12,8 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
-Version 0.15
-@Rapha : Séparer Mayotte et la Réunion au niveau de la régions
+* Version 0.15
+** @Rapha : Séparer Mayotte et la Réunion au niveau de la régions
 db.cities.find({'region': '04'}).forEach(function(doc)
 {
   if(typeof doc.insee != "undefined"){
@@ -22,7 +22,7 @@ db.cities.find({'region': '04'}).forEach(function(doc)
   }
 });
 
-@Rapha : Mettre les bon numéro de département 
+** @Rapha : Mettre les bon numéro de département 
 db.cities.find({'dep': '97'}).forEach(function(doc)
 {
   if(typeof doc.insee != "undefined"){
@@ -41,11 +41,11 @@ db.cities.find({'dep': '97'}).forEach(function(doc)
   }
 });
 
-@Rapha
+** @Rapha
 Update Region 
 http://qa.communecter.org/communecter/datamigration/updateRegion
 
-@tib : Update sur element
+** @tib : Update sur element
 db.citoyens.find({}).forEach(function(doc){ 
     if(!doc.updated){
         var d = new Date();
@@ -91,7 +91,7 @@ db.cities.find({dep:/988/}).forEach(function(doc)
    db.cities.update({"_id":doc._id},{'$set':{'region': '08','regionName':'NOUVELLE-CALEDONIE'} })
 });
 
-@Sylvain/Thomas/Tib : Créer les index corrects sur cities
+** @Sylvain/Thomas/Tib : Créer les index corrects sur cities
 db.cities.dropIndexes();
 db.cities.createIndex({"geoPosition": "2dsphere"});
 db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});

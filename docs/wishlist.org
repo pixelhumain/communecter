@@ -1,0 +1,64 @@
+* Version 0.16 (???) : Vision
+* Easy Feature 
+* Medium Feature
+[ ] internationalisation avec la Belgique 
+[ ] Finance Transparente 
+[ ] comptabiliser le temps + type 
+  [ ] ecrire noir sur blanc les regles de remuneration de chaque 
+  [ ] ecrire la doc de fonctionnement 
+    [ ] a quoi ca peut servir 
+    [ ] .... autres question
+  [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+      [ ] avec analyse de consommation et prix adapté à la conso
+      [ ] vision disk dur : en fonction de la consommation de chacun 
+[ ] citoyen recoltant
+[ ] rapatrier les docs module
+[ ] push back vers Open Agenda
+[ ] declaration de pb contextualisé 
+  - bug idée ... sur chaque page , persistent et en mode votable
+[ ] Count requests DB per page
+[ ] QCM Propriété , common Chart 
+[ ] finir add member refactor
+[ ] Finir Besoin Ressource compétence
+[ ] Module FAQ : posez une questions a cette entité
+[ ] repair fluidlog
+[ ] refactor : chgt de carte avec bcp de data
+  [ ] repertoire
+[ ] checkout Mention
+[ ] globaliser le system de Tokens et utilisation API Communecte
+[ ] integrate France Connect
+[ ] donner le choix lorsqu'on est invité a une orga 
+    [ ] inviter les gens a suivre 
+[ ] filtrer par type d'event 
+[ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
+[ ] turn notification list into a header panel 
+[ ] ajouter la gestion des quartier Isis dans les scope
+[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[ ] passer configDB en externe configdb.example.php 
+[???] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone
+[ ] Event ideas (0.16??)
+    [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
+        [ ] affichage triable en mode mixitup
+            [ ] par salle , chrono, tag filter, all subevents
+            [ ] my events : events I participate in , calendrier perso 
+                [ ] doodle : pour comparer facilement les dispo 
+                [ ] covoit : décrire les trajet pour les partagers
+    [ ] Event intérrsant pour moi, moteur d'affinité
+    [ ] filtrer les event par type
+[ ] Utilisateur qui n'ont cp
+  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
+  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
+[ ] synchroniser le scopper et la carto 
+[ ] ajouter une photo de votre ville 
+    - baniere 
+[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
+[ ] refactor péi_insee-cp en péi_insee_cp
+[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
+[ ] préremplir la date d'une task d'un projet avec la date de fin du projet
+
+* optim
+[ ] remove betatester attr
+[ ] remove empty image attribs
+[ ] on person.detail add autocomplete on tags
+[ ] retirer 
