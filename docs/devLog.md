@@ -91,12 +91,7 @@ db.cities.find({dep:/988/}).forEach(function(doc)
    db.cities.update({"_id":doc._id},{'$set':{'region': '08','regionName':'NOUVELLE-CALEDONIE'} })
 });
 
-<<<<<<< HEAD
 @Sylvain/Thomas/Tib : Créer les index corrects sur cities
-=======
-
-@Sylvain/Thomas/Tib : Créer les index corrects sur cities 
->>>>>>> city name
 db.cities.dropIndexes();
 db.cities.createIndex({"geoPosition": "2dsphere"});
 db.cities.createIndex({"postalCodes.geoPosition": "2dsphere"});
