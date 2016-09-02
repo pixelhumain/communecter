@@ -184,7 +184,7 @@
    		<div class="panel-body padding-10 text-dark">
    			<?php if(!empty($me) && (!isset($me["address"]["postalCode"]) || $me["address"]["postalCode"] == "" )) { ?>
 	   			<blockquote class="text-red msg-scope-co">
-   					<strong><i class='fa fa-home'></i> Vous n'êtes pas communecté : </strong>Pour obtenir un accès rapide à votre commune, apparaître dans les résultats de recherche par lieux, ainsi que sur la carte, merci de renseigner votre code postal dans l'addresse de votre profil.<br>
+   					<strong><i class='fa fa-home'></i> <?php echo Yii::t("common","You are not connected to your city") ; ?> : </strong> <?php echo Yii::t("common","To get quick access to information in your city, to filter and map view local content, please fill your postal code on your profile page.") ; ?><br>
 	   				<a href="#person.detail.id.<?php echo Yii::app()->session['userId']; ?>" class="lbh btn btn-sm btn-default margin-top-10"><i class="fa fa-cogs"></i> Paramétrer mon code postal</a>
    				</blockquote>
    			<?php }else if(isset($me["address"]["addressLocality"])){ ?>
