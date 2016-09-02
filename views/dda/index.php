@@ -131,7 +131,7 @@ a h1.text-azure:hover{
 			        if(@$fromView == "entity.detail") $onclick = 'loadRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
 			        
 			        $updated = (@$value["updated"]) ? "<span class='text-extra-small'>(".DateHelper::fromNow($value["updated"]).")</span>" : "";
-			        $parentContext = ( $_GET['type'] == Person::COLLECTION && @$value["parentType"] && @$value["parentId"] ) ? "<div class='pr10 btn btn-default pull-right'>".Element::getLink( $value["parentType"], $value["parentId"])."</div>" : "";
+			        $parentContext = ( @$_GET['type'] == Person::COLLECTION && @$value["parentType"] && @$value["parentId"] ) ? "<div class='pr10 btn btn-default pull-right'>".Element::getLink( $value["parentType"], $value["parentId"])."</div>" : "";
 					echo '<div class="panel-body hide-on-reduce-menu">'.
 							'<a href="javascript:'.$onclick.'" class="text-dark">'.
 								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." ".$updated." <div class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</div> ".$parentContext.

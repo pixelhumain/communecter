@@ -1,86 +1,23 @@
-* Version 0.16 (???) : Vision
-* Easy Feature 
-* Medium Feature
-[ ] internationalisation avec la Belgique 
-[ ] Finance Transparente 
-[ ] comptabiliser le temps + type 
-  [ ] ecrire noir sur blanc les regles de remuneration de chaque 
-  [ ] ecrire la doc de fonctionnement 
-    [ ] a quoi ca peut servir 
-    [ ] .... autres question
-  [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
-      [ ] avec analyse de consommation et prix adapté à la conso
-      [ ] vision disk dur : en fonction de la consommation de chacun 
-[ ] citoyen recoltant
-[ ] rapatrier les docs module
-[ ] push back vers Open Agenda
-[ ] declaration de pb contextualisé 
-  - bug idée ... sur chaque page , persistent et en mode votable
-[ ] Count requests DB per page
-[ ] QCM Propriété , common Chart 
-[ ] finir add member refactor
-[ ] Finir Besoin Ressource compétence
-[ ] Module FAQ : posez une questions a cette entité
-[ ] repair fluidlog
-[ ] refactor : chgt de carte avec bcp de data
-  [ ] repertoire
-[ ] checkout Mention
-[ ] globaliser le system de Tokens et utilisation API Communecte
-[ ] integrate France Connect
-[ ] donner le choix lorsqu'on est invité a une orga 
-    [ ] inviter les gens a suivre 
-[ ] filtrer par type d'event 
-[ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
-[ ] turn notification list into a header panel 
-[ ] ajouter la gestion des quartier Isis dans les scope
-[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[ ] passer configDB en externe configdb.example.php 
-[???] representation du multi scoping sur la carte
-        - peut etre tracer les perimtres de chaque zone
-[ ] Event ideas (0.16??)
-    [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
-        [ ] affichage triable en mode mixitup
-            [ ] par salle , chrono, tag filter, all subevents
-            [ ] my events : events I participate in , calendrier perso 
-                [ ] doodle : pour comparer facilement les dispo 
-                [ ] covoit : décrire les trajet pour les partagers
-    [ ] Event intérrsant pour moi, moteur d'affinité
-    [ ] filtrer les event par type
-[ ] Utilisateur qui n'ont cp
-  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
-  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
-[ ] synchroniser le scopper et la carto 
-[ ] ajouter une photo de votre ville 
-    - baniere 
-[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
-[ ] refactor péi_insee-cp en péi_insee_cp
-[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
-[ ] préremplir la date d'une task d'un projet avec la date de fin du projet
->>>>>>> up
-* ************************************************************    
-* Version 0.15 (31/08/2016) : En cours
-* ************************************************************
 
-** TODO
-    [ ] one input add
-    [ ] POI et Element de base (0.16??) : name,desc, url, location
-        periscope
-        youtube
-        twitter journal 
-    [ ] multi scope on element forms
-    
-    [ ] Best place calculator : utilisant la position des participants
-    [ ] Réunion privée pour avancement interne organisation
-    
-    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
-    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
-     
-    [ ] Finir Add member, contributeur et invitation
-    [ ] reactiver viewport filter sur la carte
-    [ ] refactor le design du notifier (0.16??)
-    [ ] lazy loading sur la carto
-    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
-    [ ] repairing localisation HTML5 
+* ************************************************************    
+* Version 0.16 (???) : Vision
+* ************************************************************    
+** @Tango 
+    [ ] REcherche par 100, 500, 1000, all
+** @Sylvain
+    [ ] cannot empty communected location
+    [ ] mailing
+        [ ] doc
+        [ ] faire un mail hebdomadaire
+        [ ] invitation event 
+        [ ] news privé
+** @Tib 
+    [ ] event modifier l'organisateur
+    [ ] finish fromNow method
+  ** @Rapha
+* ************************************************************    
+* Version 0.15 (31/08/2016) : Livré 01/09/2016
+* ************************************************************
 
   ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -133,7 +70,6 @@
     [X] Refactor agenda
     [X] REcherche connecté au multi scope
     [X] search by name on live page
-    [ ] REcherche par 100, 500, 1000, all
     [X] Bug Repair geoloc sur tous les element
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [X] two step refactor
@@ -142,17 +78,9 @@
     [X] home page : switch to live ?
 
   ** @Tib 
-    [ ] cannot empty communected location
-    [ ] event modifier l'organisateur
-    [ ] finish fromNow method
     [ ] DDA
-        [ ] bug : sur archiver , persiste dans les listes 
-        [ ] bug : une décision terminé, on peut toujours voté dessus
         [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
-        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [ ] changer les lien des DDA sur les parent insee
-        [ ] ajouter la proposition de signature du pacte de transition citoyenne 
+        [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [X] généré les catégories principale
            [X] généré lors de la premiere visite du DDA espace collab
         [X] remettre le contexte sur la room dans mon DDA
@@ -206,15 +134,9 @@
     
     
   ** @Sylvain
-    [ ] ajouter updated on login
-    [ ] mailing
-        [ ] doc
-        [ ] faire un mail hebdomadaire
-        [ ] invitation event 
-        [ ] news privé
-    [???] all ImageUrl on elements why have them if empty
+    [X] ajouter updated on login
   ** @Thomas communEvent
-    [ ] mettre en PROD 
+    [X] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
@@ -238,7 +160,7 @@
             actions    
 
 * ************************************************************
-* Version 0.14 : Fermé 
+* Version 0.14 : Livré
 * ************************************************************
 
     ** @Tango

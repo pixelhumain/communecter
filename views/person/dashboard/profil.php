@@ -202,7 +202,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    display:none !important;
 	}
 
-
 </style>
 
 <div class="panel panel-white">
@@ -212,7 +211,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-tools">
  		<?php    
 				if ( $canEdit ) { ?>
-					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
+					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
 					<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>	
 
@@ -410,9 +409,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
   	<div class="panel-body" style="padding-top: 0px">
 		<div class="col-md-8 col-xs-12" >
-		<button class="btn btn-success" onclick="javascript:switchMode()" id="btn-validate-changes" style="display:none; margin-top:10px;">
-					<i class="fa fa-check"></i> Enregistrer les changements
-				</button>
+
 				
 			<div class="padding-10">
 					<h2 class="entityTitle">
@@ -553,8 +550,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 					<br/>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom">
-					</a>
+					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom"></a>
+					<a href="javascript:;" class="cobtn hidden btn bg-red">Communectez-moi</a> <a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
 					<br/>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					
@@ -856,14 +853,22 @@ jQuery(document).ready(function()
 		/*$(".badgePH").hover(function(){
 			$(".badgeText").html($(this).data('title'));
 		});*/
-		
-
+		if(personData.address.addressLocality == ""){
+			$(".cobtn,.whycobtn").removeClass("hidden");
+			$(".cobtn").click(function () { 
+				$(".cobtn,.whycobtn").hide();
+				$('#editProfil').trigger('click');
+				setTimeout( function () { 
+					$('#address').trigger('click'); 
+					}, 500);
+				return false;
+			});
+		}
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
-
 		});
 
 		Sig.currentPersonData = personData;
@@ -1201,11 +1206,19 @@ function switchMode() {
 		manageModeContext();
 		changeHiddenIcone() ;
 		$("#btn-validate-changes").show();
+		$(".editProfilLbl").html(" Enregistrer les changements");
+		$("#editProfil").addClass("btn-red");
+		$(".cobtn,.whycobtn").addClass("hidden");
 	} else {
 		mode ="view";
 		manageModeContext();
 		changeHiddenIcone() ;
 		$("#btn-validate-changes").hide();
+		$(".editProfilLbl").html(" Éditer");
+		$("#editProfil").removeClass("btn-red");
+		if(personData.address.addressLocality == "")
+			$(".cobtn,.whycobtn").removeClass("hidden");
+
 	}
 }
 

@@ -141,9 +141,6 @@ $this->renderPartial('../default/panels/toolbar');
                     <?php
                     $baseUrlPc = ($cityGlobal == false)?".postalCode.".$city["cp"]:"" ;
                     $baseUrlDirectory = "#city.directory.insee.".$city["insee"].$baseUrlPc.".tpl.directory2.type" ;
-                    
-                      
-
                     ?>
 
                     <a href="<?php echo $baseUrlDirectory; ?>.citoyens" 
@@ -226,7 +223,7 @@ $this->renderPartial('../default/panels/toolbar');
                           <i class="fa fa-group"></i>
                         </a>
                         <br/><span class='text-red'><strong>Conseil citoyen</strong>
-                        <br><?php echo $city["name"]." "; ?></span>
+                        <br><?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?></span>
                     </div>
                     <?php /*
                     <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
