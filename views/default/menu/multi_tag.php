@@ -73,7 +73,7 @@
 </div>
 
 <?php 
-	$multitags = empty($me) && isset( Yii::app()->request->cookies['multitags'] ) ? 
+	$multitags = ( empty($me) && isset( Yii::app()->request->cookies['multitags'] ) ) ? 
 		   			    	Yii::app()->request->cookies['multitags'] : "{}";	
 ?>
 <script type="text/javascript"> 
@@ -82,6 +82,8 @@ var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ?
 						json_encode($me["multitags"]) : 
 						$multitags; 
 				    ?>;
+
+if(myMultiTags.length == 0) myMultiTags = {};
 
 var searchTags = "";
 
@@ -99,16 +101,18 @@ jQuery(document).ready(function() {
 });
 
 
-function saveMultiTag(){ //console.log("saveMultiTag() try"); console.dir(myMultiTags);
+function saveMultiTag(){
+	console.log("saveMultiTag() try"); console.log(myMultiTags); 
 	hideSearchResults();
 	if(userId != null && userId != ""){
+		if(!notEmpty(myMultiTags)) myMultiTags = {};
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/updatemultitag",
 	        data: {multitags : myMultiTags},
 	       	dataType: "json",
 	    	success: function(data){
-	    		//console.log("saveMultiTag() success");
+	    		console.log("saveMultiTag() success");
 		    },
 			error: function(error){
 				console.log("Une erreur est survenue pendant l'enregistrement des tags");
@@ -128,7 +132,7 @@ function saveCookieMultitags(){ console.log("saveCookieMultitags", myMultiTags);
 }
 
 function loadMultiTags(){
-	$.each(myMultiTags, function(key, value){
+	$.each(myMultiTags, function(key, value){ console.log("each myMultiTags");
 		showTagInMultitag(key);
 	});
 	showCountTag();
@@ -137,7 +141,8 @@ function loadMultiTags(){
 
 function showCountTag(){
 	var count = 0;
-	$.each(myMultiTags, function(key, value){
+	console.log("myMultiTags"); console.log(myMultiTags);
+	$.each(myMultiTags, function(key, value){ console.log("each myMultiTags");
 		if(value.active==true) count++;
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
@@ -195,8 +200,9 @@ function addTagToMultitag(tagValue){
 	if(tagValue == "") return;
 	if(tagValue.indexOf("#") == 0) tagValue = tagValue.substr(1, tagValue.length);
 	if(!tagExists(tagValue)){
-		//console.log("adding", tagValue);
+		console.log("adding", tagValue);
 		myMultiTags[tagValue] = { active: true };
+		console.log("adding : myMultiTags :", myMultiTags);
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");
