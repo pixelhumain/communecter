@@ -84,7 +84,7 @@ a h1.text-azure:hover{
 			        }
 			        $elemObj = Element::getElementSpecsByType (@$value["type"]);
 
-			        $onclick = (@$elemObj["hash"]) ? 'loadByHash(\''.$elemObj["hash"].(string)$value["_id"].'\')' : "toastr.success('no hash available');";
+			        $onclick = (@$elemObj["hash"]) ? 'loadByHash(\'#'.$elemObj["hash"].(string)$value["_id"].'\')' : "toastr.success('no hash available');";
 			        $icon = (@$elemObj["icon"]) ? $elemObj["icon"] : "question-circle";
 			        $pod = ($count = PHDB::count($col,array($attr =>(string)$value["_id"]))) ? "<span class='badge badge-success pull-right'>".PHDB::count($col,array($attr =>(string)$value["_id"]))."</span>" : "";
 					echo '<div class="panel-body hide-on-reduce-menu">'.
