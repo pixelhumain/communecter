@@ -2,8 +2,17 @@
 * ************************************************************    
 * Version 0.16 (???) : Vision
 * ************************************************************    
+  [ ] Nouvelles Notifications :
+    [ ] Un subevent a été ajouté sur un event auquel je suis participant
+    [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
+  [ ] Améliorer l'affichage de commentaires dans les news
+  [ ] Améliorer la notification de report d'abus
+  [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
+  [ ] Créer des POI (geo + name) et pouvoir y ratacher des orga/projets/event
+
 ** @Tango 
     [ ] REcherche par 100, 500, 1000, all
+    [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
 ** @Sylvain
     [ ] cannot empty communected location
     [ ] mailing
@@ -11,10 +20,20 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+        [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+    [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
+    [ ] Stocker les images en S3 ?
 ** @Tib 
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
-  ** @Rapha
+** @Rapha
+    [ ] Finir le element refactor
+    [ ] Evénement : admin + open edition
+    [ ] Evénement : import/export open agenda
+** @Clement
+    [ ] Regroupement de notifications (plusieurs notifications avec la même source)
+    [ ] Regroupement de news de communevent (plusieurs photos sur le même event). En collab avec Thomas.
+
 * ************************************************************    
 * Version 0.15 (31/08/2016) : Livré 01/09/2016
 * ************************************************************
@@ -33,23 +52,23 @@
     [ ] finir openAgenda 
         [ ] evenement récurent
         [ ] cronJob
-    [X] Bug 
-      [X] voteUp voteDown
-    [X] Event :
-      [X] Ajout de l'utilisation des tags pour les évenement
-      [X] Gestion des admins pour les events
+    [ ] Bug 
+      [ ] voteUp voteDown
+    [ ] Event :
+      [ ] Ajout de l'utilisation des tags pour les évenement
+      [ ] Gestion des admins pour les events
     [ ] Refactor Element
-      [X] Preferences avec open data / open edition / public-hide-private data
+      [ ] Preferences avec open data / open edition / public-hide-private data
       [ ] Formulaire d'édition:
         [ ] Depuis orga
-          [X] Ajouter un evenement ou un projet d'un element à partir des pods
+          [ ] Ajouter un evenement ou un projet d'un element à partir des pods
           [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
           [ ] FAire appaitre sur l'event parent dans un sous événement
-        [X] AddContributors / AddMembers / AddAttendees
-        [X] AddTasksGantt / AddChartSV pour les projets
-      [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
-      [X] Ajout du dda pour project et orga
-      [X] Authorization (admin-membre-openedition) à rajouter coté ctk 
+        [ ] AddContributors / AddMembers / AddAttendees
+        [ ] AddTasksGantt / AddChartSV pour les projets
+      [ ] Pod need pour les projets et orga [asso et groupe] et AddNeed
+      [ ] Ajout du dda pour project et orga
+      [ ] Authorization (admin-membre-openedition) à rajouter coté ctk 
       [ ] le pod et le btn menu pour le calendrier des événements
       [ ] Réglage des btn follow et member [pour event surtout]
       [ ] TEST
@@ -60,89 +79,89 @@
         [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
-    [X] onChange search criteria, empty list + reload button
-    [X] interface ND
-        [X] menu
-        [X] multi scope 
-        [X] multi tags
-        [X] type sur les news (idea, question announce, information)
-    [X] Refactor design top bar 
-    [X] Refactor agenda
-    [X] REcherche connecté au multi scope
-    [X] search by name on live page
-    [X] Bug Repair geoloc sur tous les element
+    [ ] onChange search criteria, empty list + reload button
+    [ ] interface ND
+        [ ] menu
+        [ ] multi scope 
+        [ ] multi tags
+        [ ] type sur les news (idea, question announce, information)
+    [ ] Refactor design top bar 
+    [ ] Refactor agenda
+    [ ] REcherche connecté au multi scope
+    [ ] search by name on live page
+    [ ] Bug Repair geoloc sur tous les element
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
-    [X] two step refactor
+    [ ] two step refactor
     [ ] multiscope on elements (project, event, orga)
     [ ] synchronize new item menu (on selected)
-    [X] home page : switch to live ?
+    [ ] home page : switch to live ?
 
   ** @Tib 
     [ ] DDA
-        [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [X] généré les catégories principale
-           [X] généré lors de la premiere visite du DDA espace collab
-        [X] remettre le contexte sur la room dans mon DDA
-        [X] ajouter un scope geo sur une proposition
-    [X] scoper dep et region : type number 
-    [X] moved search to opendata
-    [X] live on city page
-    [X] wisiwig sur les commentaires
-    [X] dashboard
-        [X] live controller 
-            [X] not connected > shows live , public information 
-            [X] getActivity
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] généré les catégories principale
+           [ ] généré lors de la premiere visite du DDA espace collab
+        [ ] remettre le contexte sur la room dans mon DDA
+        [ ] ajouter un scope geo sur une proposition
+    [ ] scoper dep et region : type number 
+    [ ] moved search to opendata
+    [ ] live on city page
+    [ ] wisiwig sur les commentaires
+    [ ] dashboard
+        [ ] live controller 
+            [ ] not connected > shows live , public information 
+            [ ] getActivity
                 - global activity based on scope and tags search filters
                 - can be filtered by userId
-                [X] dda 
-                    [X] stream : shows recent sorted by "updated"
-                    [X] en ce moment : most active updated 
+                [ ] dda 
+                    [ ] stream : shows recent sorted by "updated"
+                    [ ] en ce moment : most active updated 
                         - how to define activity ? vote counts, comment counts
                             algorythm based on vote and comment dates 
-                [X] projects
-                [X] organisations
-                [X] events
-    [X] QR code  
-        [X] onclick : explain why QR Codes
+                [ ] projects
+                [ ] organisations
+                [ ] events
+    [ ] QR code  
+        [ ] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
-    [X] script devlog pour ajouter updated sur les anciennes data 
-    [X] reparer le click du milieu
+    [ ] script devlog pour ajouter updated sur les anciennes data 
+    [ ] reparer le click du milieu
         - en mettant simplement notre hash dans le href
-    [X] refactor links.loadByHash + chemin dans href
-    [X] search and filter tag engine
-    [X] wisiwig sur les desc de form create
-    [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
+    [ ] refactor links.loadByHash + chemin dans href
+    [ ] search and filter tag engine
+    [ ] wisiwig sur les desc de form create
+    [ ] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
         - not activated globaly because front end isn't ready
-    [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
-        [X] only when loggued
-    [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
-        [X] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
-            [X] survey/proposals : create , votes, edit
-            [X] actions : create, assign, edit
-            [X] discuss : create, new post
-            [X] archiving
-        [X] getRoomsListByActivity
-        [X] getRoomsActivity
-            [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
-    [X] switcher le titre navigateur
-        [X] replacing all $(".moduleLabel").html
-    [X] badge organisation "Communecteur" + documentation 
+    [ ] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
+        [ ] only when loggued
+    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+        [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
+            [ ] survey/proposals : create , votes, edit
+            [ ] actions : create, assign, edit
+            [ ] discuss : create, new post
+            [ ] archiving
+        [ ] getRoomsListByActivity
+        [ ] getRoomsActivity
+            [ ] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+    [ ] switcher le titre navigateur
+        [ ] replacing all $(".moduleLabel").html
+    [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
     
     
   ** @Sylvain
-    [X] ajouter updated on login
+    [ ] ajouter updated on login
   ** @Thomas communEvent
-    [X] mettre en PROD 
-    [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
+    [ ] mettre en PROD 
+    [ ] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [X] remplacer la map par une url parser dans les QR code
+    [ ] remplacer la map par une url parser dans les QR code
     [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
 
     * Appli CO
@@ -164,46 +183,46 @@
 * ************************************************************
 
     ** @Tango
-    [X] Refonte interface DDA
-    [X] Documentation
+    [ ] Refonte interface DDA
+    [ ] Documentation
     ** @Rapha
-    [X] Open Data préférence
-    [X] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
+    [ ] Open Data préférence
+    [ ] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
     ** @Clement
-    [X] Open Edition ubiquité en préférence
-    [X] Mentionner qlq'un dans une actu/News @someone
-    [X] DDA : pouvoir ajouter des images sur les propositions et les actions
+    [ ] Open Edition ubiquité en préférence
+    [ ] Mentionner qlq'un dans une actu/News @someone
+    [ ] DDA : pouvoir ajouter des images sur les propositions et les actions
     ** @Tib
-        [X] Ajouter un Framapad
-        [X] Archiving : discussion, decision et action rooms
-          [X] who can archive
-            [X] owner of the vote or the action
-          [X] archiver == passer le status à "archived"
-            [X] survey
-            [X] actions
-            [X] discussions
-          [X] decision & action room archived
-            [X] when archived remove features : 
-              [X] edit features 
-              [X] Add proposals
-              [X] desactivate votes 
-          [X] front ends  
-            [X] differntiate style when archived
-            [X] show index without archived rooms
-            [X] add btn, see archives
-            [X] show only  archived rooms
+        [ ] Ajouter un Framapad
+        [ ] Archiving : discussion, decision et action rooms
+          [ ] who can archive
+            [ ] owner of the vote or the action
+          [ ] archiver == passer le status à "archived"
+            [ ] survey
+            [ ] actions
+            [ ] discussions
+          [ ] decision & action room archived
+            [ ] when archived remove features : 
+              [ ] edit features 
+              [ ] Add proposals
+              [ ] desactivate votes 
+          [ ] front ends  
+            [ ] differntiate style when archived
+            [ ] show index without archived rooms
+            [ ] add btn, see archives
+            [ ] show only  archived rooms
         [ ] move Menu::Btn
-            [X] permission 
-                [X] only organizer on survey and actions
+            [ ] permission 
+                [ ] only organizer on survey and actions
             [ ] open Modal : 
-                [X] list all possible destinations
+                [ ] list all possible destinations
                 [ ] romve in list the current parent room
-            [X] convertir une proposition en action
-                [X] copy as action 
-                [X] action Room must exist already
-                [X] add moved attribute add room attr
-            [X] convertir une action en proposition
-            [X] deplacer vers une autre room  
-                [X] vote proposals : switch survey Id 
-                [X] actions : switch room Id
+            [ ] convertir une proposition en action
+                [ ] copy as action 
+                [ ] action Room must exist already
+                [ ] add moved attribute add room attr
+            [ ] convertir une action en proposition
+            [ ] deplacer vers une autre room  
+                [ ] vote proposals : switch survey Id 
+                [ ] actions : switch room Id
         
