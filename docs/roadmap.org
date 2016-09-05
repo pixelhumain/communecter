@@ -1,9 +1,47 @@
+* ************************************************************    
+* Bug et retoure  des rencontre alternative 
+* ************************************************************  
+[ ] Ajouter les numéros de tel dans le formulaire de création 
+[ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
+[ ] Bloqué l'acces a mon répertoire
+[ ] possibilité d'envoie un messsage entre conseil citoyen 
+
+[ ] faire des appels a projets  
+[ ] Btn suggest sur co
+‎   [ ]    Ajouter un participant type orga 
+[ ] Pano facon reparali 
+[ ] Invité par le phone
+[ ] partager le lien vers lappli dans l'email 
+[ ] fair un mail, special quand invité par l'invitation communEvent 
+    faisant reference à l'event , vous etiez ou serez à event xxx
+    communecter vous aide ....
+[ ] Photo taille originale? 
+[ ] Apres photo proposer un ajout element Autocomplete de gens existant
+    ou analyse du desc
+    [ ] insert from texte sample
+        with autocomplete inside smart texterea 
+        when an attribute is typed, possible content types can be proposed
+        @>Name > autocomplete cross Element acteurs orga, people
+        @type:organization 
+        @name:xxx
+        @email: 
+        @admin:A-M-?
+        @adr:
+        @cp:
+        @desc:
+        @latlon:get from GPS if available  
+            Enter > recognizes the @type > and imports    
+
 
 * ************************************************************    
 * Version 0.16 (???) : Vision
 * ************************************************************    
 ** @Tango 
     [ ] REcherche par 100, 500, 1000, all
+    [ ] Bouton Autour de moi : découvrir les gens pret de moi
+    [ ] multiscope on elements (project, event, orga)
+    [ ] synchronize new item menu (on selected)
+
 ** @Sylvain
     [ ] cannot empty communected location
     [ ] mailing
@@ -11,20 +49,31 @@
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+
 ** @Tib 
     [ ] event modifier l'organisateur
     [ ] finish fromNow method
-  ** @Rapha
-* ************************************************************    
-* Version 0.15 (31/08/2016) : Livré 01/09/2016
-* ************************************************************
 
-  ** @Clement
+** @Rapha
+
+ ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
     [ ] sur orga reparer afficher tous les membres
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
+
+  ** @Thomas communEvent
+    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
+    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
+    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
+    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
+    [ ] btn utiliser la position GPS 
+
+* ************************************************************    
+* Version 0.15 (31/08/2016) : Livré 01/09/2016
+* ************************************************************
 
   ** @Rapha
     [ ] form keep my position / my latest psitions
@@ -68,17 +117,14 @@
         [X] type sur les news (idea, question announce, information)
     [X] Refactor design top bar 
     [X] Refactor agenda
-    [X] REcherche connecté au multi scope
+    [X] Recherche connecté au multi scope
     [X] search by name on live page
     [X] Bug Repair geoloc sur tous les element
-    [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [X] two step refactor
-    [ ] multiscope on elements (project, event, orga)
-    [ ] synchronize new item menu (on selected)
     [X] home page : switch to live ?
 
   ** @Tib 
-    [ ] DDA
+    [X] DDA
         [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
         [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [X] généré les catégories principale
@@ -135,29 +181,14 @@
     
   ** @Sylvain
     [X] ajouter updated on login
+
   ** @Thomas communEvent
+    [X] remplacer la map par une url parser dans les QR code
     [X] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
-    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
-    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
-    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
-    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [X] remplacer la map par une url parser dans les QR code
-    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
+    
 
-    * Appli CO
-        [ ] login / create account
-        [ ] define scope
-        [ ] mon rep 
-        [ ] simple element reader
-        [ ] linqr
-        [ ] plus de data dans le texte qrcode 
-            add contact to my phone
-        [ ] notifier 
-        [ ] dda module
-            commenting
-            voting
-            actions    
+       
 
 * ************************************************************
 * Version 0.14 : Livré

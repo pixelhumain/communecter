@@ -46,6 +46,7 @@
                 [ ] covoit : décrire les trajet pour les partagers
     [ ] Event intérrsant pour moi, moteur d'affinité
     [ ] filtrer les event par type
+    [ ] connecter a des sources events externes
 [ ] Utilisateur qui n'ont cp
   [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
   [ ]  Dans le header : a la place du cp , proposer de ce communecter.
@@ -90,3 +91,17 @@
     [ ] lazy loading sur la carto
     [ ] agenda : les events prennent pas la durée sur plusieurs jours 
     [ ] repairing localisation HTML5 
+
+* Appli CO
+  [ ] login / create account
+  [ ] define scope
+  [ ] mon rep 
+  [ ] simple element reader
+  [ ] linqr
+  [ ] plus de data dans le texte qrcode 
+      add contact to my phone
+  [ ] notifier 
+  [ ] dda module
+      commenting
+      voting
+      actions 
