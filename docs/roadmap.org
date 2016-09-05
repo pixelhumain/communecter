@@ -1,12 +1,11 @@
 * ************************************************************    
 * Bug et retoure  des rencontre alternative 
-* ************************************************************  
-[ ] Ajouter les numéros de tel dans le formulaire de création 
+* ************************************************************   
 [ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
-[ ] Bloqué l'acces a mon répertoire
+
 [ ] possibilité d'envoie un messsage entre conseil citoyen 
 
-[ ] faire des appels a projets  
+ 
 [ ] Btn suggest sur co
 ‎   [ ]    Ajouter un participant type orga 
 [ ] Pano facon reparali 
@@ -22,6 +21,7 @@
         with autocomplete inside smart texterea 
         when an attribute is typed, possible content types can be proposed
         @>Name > autocomplete cross Element acteurs orga, people
+        @add > prompt le type > et genere les champs 
         @type:organization 
         @name:xxx
         @email: 
@@ -51,7 +51,6 @@
         [ ] news privé
 
 ** @Tib 
-    [ ] event modifier l'organisateur
     [ ] finish fromNow method
 
 ** @Rapha

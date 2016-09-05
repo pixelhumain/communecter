@@ -1,107 +1,120 @@
 
-* Easy Feature 
-* Medium Feature
-[ ] internationalisation avec la Belgique 
-[ ] Finance Transparente 
-[ ] comptabiliser le temps + type 
-  [ ] ecrire noir sur blanc les regles de remuneration de chaque 
-  [ ] ecrire la doc de fonctionnement 
-    [ ] a quoi ca peut servir 
-    [ ] .... autres question
-  [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
-      [ ] avec analyse de consommation et prix adapté à la conso
-      [ ] vision disk dur : en fonction de la consommation de chacun 
-[ ] citoyen recoltant
-[ ] rapatrier les docs module
-[ ] push back vers Open Agenda
-[ ] declaration de pb contextualisé 
-  - bug idée ... sur chaque page , persistent et en mode votable
-[ ] Count requests DB per page
-[ ] QCM Propriété , common Chart 
-[ ] finir add member refactor
-[ ] Finir Besoin Ressource compétence
-[ ] Module FAQ : posez une questions a cette entité
-[ ] repair fluidlog
-[ ] refactor : chgt de carte avec bcp de data
-  [ ] repertoire
-[ ] checkout Mention
-[ ] globaliser le system de Tokens et utilisation API Communecte
-[ ] integrate France Connect
-[ ] donner le choix lorsqu'on est invité a une orga 
-    [ ] inviter les gens a suivre 
-[ ] filtrer par type d'event 
-[ ] [[https://www.owasp.org/index.php/Content_Security_Policy]]
-[ ] turn notification list into a header panel 
-[ ] ajouter la gestion des quartier Isis dans les scope
-[ ] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[ ] passer configDB en externe configdb.example.php 
-[???] representation du multi scoping sur la carte
-        - peut etre tracer les perimtres de chaque zone
-[ ] Event ideas (0.16??)
-    [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
-        [ ] affichage triable en mode mixitup
-            [ ] par salle , chrono, tag filter, all subevents
-            [ ] my events : events I participate in , calendrier perso 
-                [ ] doodle : pour comparer facilement les dispo 
-                [ ] covoit : décrire les trajet pour les partagers
-    [ ] Event intérrsant pour moi, moteur d'affinité
-    [ ] filtrer les event par type
-    [ ] connecter a des sources events externes
-[ ] Utilisateur qui n'ont cp
-  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
-  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
-[ ] synchroniser le scopper et la carto 
-[ ] ajouter une photo de votre ville 
-    - baniere 
-[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
-[ ] refactor péi_insee-cp en péi_insee_cp
-[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
-[ ] préremplir la date d'une task d'un projet avec la date de fin du projet
-[ ] DDA
-  [ ] bug : sur archiver , persiste dans les listes 
-  [ ] bug : une décision terminé, on peut toujours voté dessus
-  [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
-  [ ] changer les lien des DDA sur les parent insee
-  [ ] ajouter la proposition de signature du pacte de transition citoyenne
+* BUGS
+[ ] repairing localisation HTML5
+[.16]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+
 * optim
+[ ] reactiver viewport filter sur la carte
+[ ] lazy loading sur la carto
+[ ] Count requests DB per page
 [ ] remove betatester attr
 [ ] remove empty image attribs
 [ ] on person.detail add autocomplete on tags
 [ ] retirer les tags vide ou inutile 
   [ ] betaTester
   [ ] img
+[ ] refactor : chgt de carte avec bcp de data
+  [ ] repertoire
+[ ] passer configDB en externe configdb.example.php
 
-** TODO
-    [ ] one input add
-    [ ] POI et Element de base (0.16??) : name,desc, url, location
-        periscope
-        youtube
-        twitter journal 
-    [ ] multi scope on element forms
-    
-    [ ] Best place calculator : utilisant la position des participants
-    [ ] Réunion privée pour avancement interne organisation
-    
-    [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter 
-    [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir 
-     
-    [ ] Finir Add member, contributeur et invitation
-    [ ] reactiver viewport filter sur la carte
-    [ ] refactor le design du notifier (0.16??)
-    [ ] lazy loading sur la carto
-    [ ] agenda : les events prennent pas la durée sur plusieurs jours 
-    [ ] repairing localisation HTML5 
+* Elements
+[.16] multi scope on element forms
+[ ] comptabiliser le temps + type 
+[ ] ecrire noir sur blanc les regles de remuneration de chaque 
+[ ] ecrire la doc de fonctionnement 
+  [ ] a quoi ca peut servir 
+  [ ] .... autres question
+[.16] Finir Add member, contributeur et invitation
+[.16] one input add
+[.16] POI et Element de base (0.16??) : name,desc, url, location
+    periscope
+    youtube
+    twitter journal  
+[ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
+  ** Person 
+  [ ] Bloqué l'acces a mon répertoire mode Privé
+  [ ] Ajouter les numéros de tel dans le formulaire de création
+  [ ] citoyen recoltant
+
+  ** Orga
+  [.16] finir add member refactor
+  [ ] donner le choix lorsqu'on est invité a une orga 
+      [ ] inviter les gens a suivre
+
+  ** Event ideas 
+  [.16] agenda : les events prennent pas la durée sur plusieurs jours
+  [.16] filtrer par type d'event
+  [.16] event modifier l'organisateur
+  [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
+      [ ] affichage triable en mode mixitup
+          [ ] par salle , chrono, tag filter, all subevents
+          [ ] my events : events I participate in , calendrier perso 
+              [ ] doodle : pour comparer facilement les dispo 
+              [ ] covoit : décrire les trajet pour les partagers
+  [ ] Event intérrsant pour moi, moteur d'affinité
+  [.16] connecter a des sources events externes
+  [ ] push back vers Open Agenda
+  [ ] Best place calculator : utilisant la position des participants
+
+  ** Project
+  [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
+  [ ] QCM Propriété , common Chart
+  [ ] Finir Besoin Ressource compétence
+
+* City 
+[.16] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[ ] ajouter une photo de votre ville 
+    - baniere 
+[.16] refactor péi_insee-cp en péi_insee_cp
+[ ] faire des appels a projets 
+[ ] ajouter la gestion des quartier Isis dans les scope
+
+* Global
+[ ] refactor le design du notifier 
+[ ] turn notification list into a header panel
+[ ] Utilisateur qui n'ont cp
+  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
+  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
+[ ] synchroniser le scopper et la carto 
+[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
+[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
+[.16] internationalisation avec la Belgique
+[ ] Finance Transparente
+[ ] Module FAQ : posez une questions a cette entité
+[ ] rapatrier les docs module
+[ ] repair fluidlog
+[ ] declaration de pb contextualisé 
+  - bug idée ... sur chaque page , persistent et en mode votable
+[ ] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone
+* API 
+[ ] globaliser le system de Tokens et utilisation API Communecte
+[ ] integrate France Connect
+
+* DDA
+[.16] bug : sur archiver , persiste dans les listes 
+[.16] bug : une décision terminé, on peut toujours voté dessus
+[.16] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[ ] changer les lien des DDA sur les parent insee
+[ ] ajouter la proposition de signature du pacte de transition citoyenne
+[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
+[ ] Réunion privée pour avancement interne organisation
+
+* Financement 
+[ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+    [ ] avec analyse de consommation et prix adapté à la conso
+    [ ] vision disk dur : en fonction de la consommation de chacun 
 
 * Appli CO
-  [ ] login / create account
-  [ ] define scope
-  [ ] mon rep 
-  [ ] simple element reader
-  [ ] linqr
-  [ ] plus de data dans le texte qrcode 
-      add contact to my phone
-  [ ] notifier 
-  [ ] dda module
-      commenting
-      voting
-      actions 
+[ ] login / create account
+[ ] define scope
+[ ] mon rep 
+[ ] simple element reader
+[ ] linqr
+[ ] plus de data dans le texte qrcode 
+    add contact to my phone
+[ ] notifier 
+[ ] dda module
+    commenting
+    voting
+    actions 
