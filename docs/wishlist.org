@@ -5,7 +5,7 @@
 
 * optim
 [ ] reactiver viewport filter sur la carte
-[ ] Count requests DB per page
+[.16] Count requests DB per page
 [ ] remove betatester attr
 [ ] remove empty image attribs
 [ ] on person.detail add autocomplete on tags
@@ -34,6 +34,8 @@
     youtube
     twitter journal  
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
+[ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
+
   ** Person 
   [ ] Bloqué l'acces a mon répertoire mode Privé
   [ ] Ajouter les numéros de tel dans le formulaire de création
@@ -121,4 +123,13 @@
 [ ] dda module
     commenting
     voting
-    actions 
+    actions
+
+* CommunEvent
+  [ ] myevent (vision trou de serrure, keywhole view) : ex : mon sakifo  
+    je vois la liste des sous events du sakifo
+    je choisit les sous event auquel je participe 
+    je vois ma liste personnalisé
+    je vois les pushs que pour ces sous events
+    je vois les particpants de mon reseau
+
