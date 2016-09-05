@@ -36,28 +36,44 @@
 * ************************************************************    
 * Version 0.16 (???) : Vision
 * ************************************************************    
+** Pas affecté
+  [ ] Nouvelles Notifications :
+    [ ] Un subevent a été ajouté sur un event auquel je suis participant
+    [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
+  [ ] Améliorer l'affichage de commentaires dans les news
+  [ ] Améliorer la notification de report d'abus
+  [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
+  [ ] Créer des POI (geo + name) et pouvoir y ratacher des orga/projets/event
 ** @Tango 
     [ ] REcherche par 100, 500, 1000, all
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [ ] multiscope on elements (project, event, orga)
     [ ] synchronize new item menu (on selected)
+    [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
 
 ** @Sylvain
     [ ] cannot empty communected location
-    [ ] mailing + paramters
+    [ ] mailing + parametre
         [ ] doc
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
-        [ ] news privé
+        [ ] news privée
         [ ] nouveau DDA
+        [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+    [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
+    [ ] Stocker les images en S3 ?
 
 ** @Tib 
     [ ] finish fromNow method
     [ ] switched QRcodes to full URLs, they can then be parsed
+    [ ] event modifier l'organisateur
 
 ** @Rapha
     [ ] remonté tes points de la 0.15
     [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
+    [ ] Finir le element refactor
+    [ ] Evénement : admin + open edition
+    [ ] Evénement : import/export open agenda
 
 ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -65,6 +81,8 @@
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
+    [ ] Regroupement de notifications (plusieurs notifications avec la même source)
+    [ ] Regroupement de news de communevent (plusieurs photos sur le même event). En collab avec Thomas.
 
 ** @Thomas communEvent
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
@@ -75,7 +93,7 @@
     [ ] btn utiliser la position GPS 
     [ ] simulation du village et du systeme QR code
     [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
-
+    
 * ************************************************************    
 * Version 0.15 (31/08/2016) : Livré 01/09/2016
 * ************************************************************
