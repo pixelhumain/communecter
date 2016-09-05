@@ -44,6 +44,7 @@
   [ ] Améliorer la notification de report d'abus
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
   [ ] Créer des POI (geo + name) et pouvoir y ratacher des orga/projets/event
+  [ ] Refaire fonctionner la geolocalisation
 ** @Tango 
     [ ] REcherche par 100, 500, 1000, all
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
@@ -67,6 +68,7 @@
     [ ] finish fromNow method
     [ ] switched QRcodes to full URLs, they can then be parsed
     [ ] event modifier l'organisateur
+    [ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
 
 ** @Rapha
     [ ] remonté tes points de la 0.15
