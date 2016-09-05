@@ -5,7 +5,6 @@
 
 * optim
 [ ] reactiver viewport filter sur la carte
-[ ] lazy loading sur la carto
 [ ] Count requests DB per page
 [ ] remove betatester attr
 [ ] remove empty image attribs
@@ -15,7 +14,10 @@
   [ ] img
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
+  [ ] lazy loading sur la carto
 [ ] passer configDB en externe configdb.example.php
+[ ] passing to Yii 2.0
+[ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
 
 * Elements
 [.16] multi scope on element forms
@@ -25,6 +27,7 @@
   [ ] a quoi ca peut servir 
   [ ] .... autres question
 [.16] Finir Add member, contributeur et invitation
+[.16] delete empty element
 [.16] one input add
 [.16] POI et Element de base (0.16??) : name,desc, url, location
     periscope
@@ -53,6 +56,7 @@
               [ ] covoit : décrire les trajet pour les partagers
   [ ] Event intérrsant pour moi, moteur d'affinité
   [.16] connecter a des sources events externes
+  [.16] delete empty event
   [ ] push back vers Open Agenda
   [ ] Best place calculator : utilisant la position des participants
 

@@ -21,7 +21,7 @@
         with autocomplete inside smart texterea 
         when an attribute is typed, possible content types can be proposed
         @>Name > autocomplete cross Element acteurs orga, people
-        @add > prompt le type > et genere les champs 
+        @add: > prompt le type > et genere les champs 
         @type:organization 
         @name:xxx
         @email: 
@@ -44,31 +44,37 @@
 
 ** @Sylvain
     [ ] cannot empty communected location
-    [ ] mailing
+    [ ] mailing + paramters
         [ ] doc
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
         [ ] news privé
+        [ ] nouveau DDA
 
 ** @Tib 
     [ ] finish fromNow method
+    [ ] switched QRcodes to full URLs, they can then be parsed
 
 ** @Rapha
+    [ ] remonté tes points de la 0.15
+    [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
 
- ** @Clement
+** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
     [ ] sur orga reparer afficher tous les membres
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
 
-  ** @Thomas communEvent
+** @Thomas communEvent
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
     [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
     [ ] btn utiliser la position GPS 
+    [ ] simulation du village et du systeme QR code
+    [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
 
 * ************************************************************    
 * Version 0.15 (31/08/2016) : Livré 01/09/2016
@@ -90,9 +96,9 @@
       [X] Preferences avec open data / open edition / public-hide-private data
       [ ] Formulaire d'édition:
         [ ] Depuis orga
-          [X] Ajouter un evenement ou un projet d'un element à partir des pods
-          [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
-          [ ] FAire appaitre sur l'event parent dans un sous événement
+            [X] Ajouter un evenement ou un projet d'un element à partir des pods
+            [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
+            [ ] FAire appaitre sur l'event parent dans un sous événement
         [X] AddContributors / AddMembers / AddAttendees
         [X] AddTasksGantt / AddChartSV pour les projets
       [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
