@@ -1,55 +1,36 @@
 
 * BUGS
 [ ] repairing localisation HTML5
-[.16]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
 
 * optim
 [ ] reactiver viewport filter sur la carte
-[.16] Count requests DB per page
-[ ] remove betatester attr
-[ ] remove empty image attribs
 [ ] on person.detail add autocomplete on tags
-[ ] retirer les tags vide ou inutile 
-  [ ] betaTester
-  [ ] img
 [ ] refactor : chgt de carte avec bcp de data
   [ ] repertoire
   [ ] lazy loading sur la carto
-[ ] passer configDB en externe configdb.example.php
 [ ] passing to Yii 2.0
 [ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
 
 * Elements
-[.16] multi scope on element forms
 [ ] comptabiliser le temps + type 
 [ ] ecrire noir sur blanc les regles de remuneration de chaque 
 [ ] ecrire la doc de fonctionnement 
   [ ] a quoi ca peut servir 
   [ ] .... autres question
-[.16] Finir Add member, contributeur et invitation
-[.16] delete empty element
-[.16] one input add
-[.16] POI et Element de base (0.16??) : name,desc, url, location
-    periscope
-    youtube
-    twitter journal  
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
 [ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
 
   ** Person 
-  [ ] Bloqué l'acces a mon répertoire mode Privé
-  [ ] Ajouter les numéros de tel dans le formulaire de création
   [ ] citoyen recoltant
 
   ** Orga
-  [.16] finir add member refactor
   [ ] donner le choix lorsqu'on est invité a une orga 
       [ ] inviter les gens a suivre
 
   ** Event ideas 
-  [.16] agenda : les events prennent pas la durée sur plusieurs jours
-  [.16] filtrer par type d'event
-  [.16] event modifier l'organisateur
+  [.17] agenda : les events prennent pas la durée sur plusieurs jours
+  [ ] affiché les event mois precedent et suivant
+  [ ] tester : calendrier full calendar sur agenda 
   [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
       [ ] affichage triable en mode mixitup
           [ ] par salle , chrono, tag filter, all subevents
@@ -57,8 +38,7 @@
               [ ] doodle : pour comparer facilement les dispo 
               [ ] covoit : décrire les trajet pour les partagers
   [ ] Event intérrsant pour moi, moteur d'affinité
-  [.16] connecter a des sources events externes
-  [.16] delete empty event
+  [.17] connecter a des sources events externes 
   [ ] push back vers Open Agenda
   [ ] Best place calculator : utilisant la position des participants
   [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
@@ -69,10 +49,10 @@
   [ ] Finir Besoin Ressource compétence
 
 * City 
-[.16] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
 [ ] ajouter une photo de votre ville 
     - baniere 
-[.16] refactor péi_insee-cp en péi_insee_cp
+[.17] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
 [ ] ajouter la gestion des quartier Isis dans les scope
 
@@ -94,9 +74,16 @@
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
+
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
+
+* News
+  [ ] Améliorer l'affichage de commentaires dans les news
+
+* admin 
+  [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
 
 * DDA
 [.16] bug : sur archiver , persiste dans les listes 
@@ -107,6 +94,13 @@
 [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
 [ ] Discussion externe : Roket Chat, Gitter or Slack with url 
 [ ] Réunion privée pour avancement interne organisation
+[ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
+
+* Notifications :
+    [ ] Un subevent a été ajouté sur un event auquel je suis participant
+    [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
+    [ ] ajouter des acceptation dans le notif, pour pas etre obligé d'aller sur le post
+    [ ] Améliorer la notification de report d'abus
 
 * Financement 
 [ ] jauge de tarification proportionnel et prix libre de contribution au commun 
@@ -134,4 +128,5 @@
     je vois ma liste personnalisé
     je vois les pushs que pour ces sous events
     je vois les particpants de mon reseau
+  
 
