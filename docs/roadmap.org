@@ -21,6 +21,7 @@
         [ ] invitation event 
         [ ] news privé
         [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+        [ ] création de projet et événement sur orga dont je suis membre ou/et que je follow
     [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
     [ ] Stocker les images en S3 ?
 ** @Tib 
