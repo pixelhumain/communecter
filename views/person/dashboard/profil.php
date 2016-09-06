@@ -431,7 +431,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 						</label>
 						
-						<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+						<a href="#" id="tags" data-type="select2" data-original-title="Mes tags perso (liste des mot-clés qui vous définissent) class="editable editable-click text-red">
 							<?php if(isset($person["tags"])){
 								foreach ($person["tags"] as $tag) {
 									//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
@@ -693,7 +693,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		               	<div class="panel-body no-padding ">
 			                <div class="col-md-12 no-padding" style="margin-top:20px">
 
-			                    <div class="col-xs-6 center text-azure btnSubTitle">
+			                    <div class="col-xs-6 center text-azure btnSubTitle hidden">
 			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
 
 			                          <i class="fa fa-camera"></i>
@@ -701,6 +701,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			                        <span class="text-azure discover-subtitle"> Image de profil</span>
 			                    </div>
 			                    
+			                    <div class="col-xs-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#tags').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Mes tags perso</span>
+			                    </div>
+
 			                    <div class="col-xs-6 center text-red btnSubTitle">
 			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
 			                          <i class="fa fa-home"></i>
@@ -710,15 +717,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			                   
 			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+			                    </div>    
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
 			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
 			                          <i class="fa fa-bullseye"></i>
 			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
 			                    </div>
-			                    <div class="col-xs-6 center text-dark btnSubTitle">
-			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
-			                          <i class="fa fa-tags"></i>
-			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
-			                    </div>                    
+			                                    
 			                </div>
 		                </div>
 			        </div>
