@@ -81,12 +81,51 @@
   
 
 ** @Rapha
-    [ ] remonté tes points de la 0.15
+  *** Priority 1
+
+    [X] remonté tes points de la 0.15
     [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
-    [ ] Evénement : admin + open edition
-    [ ] Evénement : import /export open agenda
+    [X] Evénement : admin + open edition
+    [ ] Refactor Element
+      [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
+      [ ] FAire appaitre sur l'event parent dans un sous événement
+      [ ] le pod et le btn menu pour le calendrier des événements
+      [ ] TEST Global
+        [ ] Test des updatefields
+          [ ] Person
+          [ ] Orga
+          [ ] Event
+          [ ] Project
+        [ ] Test Confidentialité
+    [0.17] Evénement : import /export open agenda
+      [ ] evenement récurent
+      [ ] cronJob 
+
+  *** Priority 2
+    [ ] form keep my position / my latest psitions
     [ ] Bloqué l'acces a mon répertoire mode Privé
     [ ] Ajouter les numéros de tel dans le formulaire de création
+    [ ] Sur une person, retirer superAdmin false, inutile ?
+    [ ] API
+      [ ] Vérifier que tout les retours URL soit conforme au format { result : true or false ,  msg : "" , data : ... }
+      [ ] Doc
+        [ ] Amélioration / Correction
+          [ ] Correction faute orthographe
+          [ ] UpdateField, pour nameField mettre un select avec tout les fields possible
+          [ ] Faire les types evenements
+          [ ] Faire les définitions 
+              [ ] Checker si link/connect permet de fairemettre en attente de validation ou si c'est follow pour les events
+          [ ] Mettre a jour DOC API : https://docs.google.com/document/d/1AyDWnipUeKR_r1kf5RcRMJn4xB7dxADSFNPmjvyzLs4/edit#heading=h.w75go4nanjvk
+      [ ] AJouter la partie recherche 
+      [ ] Faire la partie Authorisation/Token
+      [ ] Bugs
+        [ ] person/get/id : les préférences ne sont pas traité
+    [ ] RSS
+      [ ] News to RSS
+        [ ] Checker NewsTRanlate de Clem
+        [ ] Faire apparaitre les news via l'api
+        [ ] Faire la traduction en RSS
+      [ ] RSS to News
 
 ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
@@ -115,37 +154,25 @@
 * ************************************************************
 
   ** @Rapha
-    [ ] form keep my position / my latest psitions
-    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
-    [ ] sur une person, retirer superAdmin false, inutile ? 
-    [ ] finir openAgenda 
-        [ ] evenement récurent
-        [ ] cronJob
+    [X] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique        
     [X] Bug 
       [X] voteUp voteDown
     [X] Event :
       [X] Ajout de l'utilisation des tags pour les évenement
       [X] Gestion des admins pour les events
-    [ ] Refactor Element
+    [X] Refactor Element
       [X] Preferences avec open data / open edition / public-hide-private data
-      [ ] Formulaire d'édition:
-        [ ] Depuis orga
-            [X] Ajouter un evenement ou un projet d'un element à partir des pods
-            [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
-            [ ] FAire appaitre sur l'event parent dans un sous événement
+      [X] Formulaire d'édition:
+        [X] Depuis orga
+          [X] Ajouter un evenement ou un projet d'un element à partir des pods
         [X] AddContributors / AddMembers / AddAttendees
         [X] AddTasksGantt / AddChartSV pour les projets
       [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
       [X] Ajout du dda pour project et orga
       [X] Authorization (admin-membre-openedition) à rajouter coté ctk 
-      [ ] le pod et le btn menu pour le calendrier des événements
-      [ ] Réglage des btn follow et member [pour event surtout]
-      [ ] TEST
-        [ ] Test des updatefields
-        [ ] Test private/masque de tel, email , addresse,
-      [ ] Bugs
-        [ ] Btn Editer 
-        [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
+      [X] Bugs
+        [X] Btn Editer 
+        [X] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
     [X] onChange search criteria, empty list + reload button
