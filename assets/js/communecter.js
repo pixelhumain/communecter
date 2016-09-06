@@ -1071,7 +1071,7 @@ var typeObj = {
 function  buildQRCode(type,id) { 
 		
 	$(".qrCode").qrcode({
-	    text: '{type:"'+type+'",_id:"'+id+'"}',
+	    text: baseUrl+"/"+moduleId+"#"+type+".detail.id"+id,//'{type:"'+type+'",_id:"'+id+'"}',
 	    render: 'image',
 		minVersion: 8,
 	    maxVersion: 40,

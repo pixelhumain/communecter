@@ -16,48 +16,182 @@
     [ ] finish fromNow method
   ** @Rapha
 * ************************************************************    
-* Version 0.15 (31/08/2016) : Livré 01/09/2016
-* ************************************************************
+* Bug et retoure  des rencontre alternative 
+* ************************************************************   
+[ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
+[ ] possibilité d'envoie un messsage entre conseil citoyen 
+[ ] Btn suggest sur co
+‎   [ ]    Ajouter un participant type orga 
+[ ] Pano facon reparali 
+[ ] Invité par le phone
+[ ] partager le lien vers lappli dans l'email 
 
-  ** @Clement
+* ************************************************************    
+* Version 0.16 (???) : Vision
+* ************************************************************    
+
+** @Tango 
+    [ ] REcherche par 100, 500, 1000, all
+    [ ] synchronize new item menu (on selected)
+    [ ] Finir Orga:Add member
+      [??] Project:contributeur
+      [??] People:invitation
+      [??] Event:Participation
+
+** @Sylvain 
+    [ ] interface screen shot tutoriel 
+      [ ] test d'un guided tour simplifier
+    [ ] bug : gestion des comptes doublons depuis communEvent
+    [ ] cannot empty communected location
+    [ ] remove betatester attr
+    [ ] remove empty image attribs
+    [ ] mailing + notification + parametre
+      [ ] doc
+      [ ] faire un mail hebdomadaire
+      [ ] invitation event 
+      [ ] news privée
+      [ ] nouveau DDA
+      [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+      [ ] faire un mail, special quand invité par l'invitation communEvent 
+          faisant reference à l'event , vous etiez ou serez à event xxx
+          communecter vous aide ....
+    [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
+    [ ] Stocker les images en S3
+    [ ] passer configDB en externe configdb.example.php
+    [ ] mon calendar 
+    [ ] filtrer par type d'event
+    [ ] event modifier l'organisateur
+    [ ] améliorer la verification d'existence d'elements
+
+** @Tib 
+  [???] multi scope on element forms
+  [ ] Count requests DB per page
+  [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+  [ ] finish fromNow method
+  [ ] Apres photo proposer un ajout element Autocomplete de gens existant
+    ou analyse du desc
+    [X] connected to mention
+    [X] generate basic element code
+    [ ] on press send 
+      [ ] parse and build post 
+      [ ] post proper ajax
+    [ ] insert from texte sample
+        with autocomplete inside smart texterea 
+        when an attribute is typed, possible content types can be proposed
+        @>Name > autocomplete cross Element acteurs orga, people
+        @add: > prompt le type > et genere les champs 
+        >type:organization 
+        >name:xxx
+        >email: 
+        >admin:A-M-?
+        >adr:
+        >cp:
+        >desc:
+        >latlon:get from GPS if available  
+            Enter > recognizes the @type > and imports  
+  [X] added middle click to notifications
+  [X] switched QRcodes to full URLs, they can then be parsed
+  [ ] one input add
+  [ ] POI et Element de base (0.16??) : name,desc, url, location,photo
+    periscope,youtube,twitter journal
+  [ ] delete empty element
+  
+
+** @Rapha
+
+  *** Priority 1
+
+    [X] remonté tes points de la 0.15
+    [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
+    [X] Evénement : admin + open edition
+    [ ] Refactor Element
+      [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
+      [ ] FAire appaitre sur l'event parent dans un sous événement
+      [ ] le pod et le btn menu pour le calendrier des événements
+      [ ] TEST Global
+        [ ] Test des updatefields
+          [ ] Person
+          [ ] Orga
+          [ ] Event
+          [ ] Project
+        [ ] Test Confidentialité
+
+  *** Priority 2
+  
+    [ ] form keep my position / my latest psitions
+    [ ] Bloqué l'acces a mon répertoire mode Privé
+    [ ] Ajouter les numéros de tel dans le formulaire de création
+    [ ] Sur une person, retirer superAdmin false, inutile ?
+    [ ] API
+      [ ] Vérifier que tout les retours URL soit conforme au format { result : true or false ,  msg : "" , data : ... }
+      [ ] Doc
+        [ ] Amélioration / Correction
+          [ ] Correction faute orthographe
+          [ ] UpdateField, pour nameField mettre un select avec tout les fields possible
+          [ ] Faire les types evenements
+          [ ] Faire les définitions 
+              [ ] Checker si link/connect permet de fairemettre en attente de validation ou si c'est follow pour les events
+          [ ] Mettre a jour DOC API : https://docs.google.com/document/d/1AyDWnipUeKR_r1kf5RcRMJn4xB7dxADSFNPmjvyzLs4/edit#heading=h.w75go4nanjvk
+      [ ] AJouter la partie recherche 
+      [ ] Faire la partie Authorisation/Token
+      [ ] Bugs
+        [ ] person/get/id : les préférences ne sont pas traité
+    [ ] RSS
+      [ ] News to RSS
+        [ ] Checker NewsTRanlate de Clem
+        [ ] Faire apparaitre les news via l'api
+        [ ] Faire la traduction en RSS
+      [ ] RSS to News
+    [0.17] Evénement : import /export open agenda
+      [ ] evenement récurent
+      [ ] cronJob 
+
+** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
     [ ] sur orga reparer afficher tous les membres
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document
+    [ ] Regroupement de notifications (plusieurs notifications avec la même source)
+    [ ] Regroupement de news de communevent (plusieurs photos sur le même event). En collab avec Thomas.
+    [ ] bug : mention aprés avoir ajouter une fois , ca marche plus
+
+** @Thomas communEvent
+    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
+    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
+    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
+    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
+    [ ] btn utiliser la position GPS 
+    [ ] simulation du village et du systeme QR code
+    [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
+    [ ] Photo taille originale
+
+
+* ************************************************************    
+* Version 0.15 (31/08/2016) : Livré 01/09/2016
+* ************************************************************
 
   ** @Rapha
-    [ ] form keep my position / my latest psitions
-    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique
-    [ ] sur une person, retirer superAdmin false, inutile ? 
-    [ ] finir openAgenda 
-        [ ] evenement récurent
-        [ ] cronJob
+    [X] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique        
     [X] Bug 
       [X] voteUp voteDown
     [X] Event :
       [X] Ajout de l'utilisation des tags pour les évenement
       [X] Gestion des admins pour les events
-    [ ] Refactor Element
+    [X] Refactor Element
       [X] Preferences avec open data / open edition / public-hide-private data
-      [ ] Formulaire d'édition:
-        [ ] Depuis orga
+      [X] Formulaire d'édition:
+        [X] Depuis orga
           [X] Ajouter un evenement ou un projet d'un element à partir des pods
-          [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
-          [ ] FAire appaitre sur l'event parent dans un sous événement
         [X] AddContributors / AddMembers / AddAttendees
         [X] AddTasksGantt / AddChartSV pour les projets
       [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
       [X] Ajout du dda pour project et orga
       [X] Authorization (admin-membre-openedition) à rajouter coté ctk 
-      [ ] le pod et le btn menu pour le calendrier des événements
-      [ ] Réglage des btn follow et member [pour event surtout]
-      [ ] TEST
-        [ ] Test des updatefields
-        [ ] Test private/masque de tel, email , addresse,
-      [ ] Bugs
-        [ ] Btn Editer 
-        [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
+      [X] Bugs
+        [X] Btn Editer 
+        [X] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
     [X] onChange search criteria, empty list + reload button
@@ -68,17 +202,15 @@
         [X] type sur les news (idea, question announce, information)
     [X] Refactor design top bar 
     [X] Refactor agenda
-    [X] REcherche connecté au multi scope
+    [X] Recherche connecté au multi scope
     [X] search by name on live page
     [X] Bug Repair geoloc sur tous les element
-    [ ] Bouton Autour de moi : découvrir les gens pret de moi
     [X] two step refactor
-    [ ] multiscope on elements (project, event, orga)
-    [ ] synchronize new item menu (on selected)
     [X] home page : switch to live ?
 
   ** @Tib 
-    [ ] DDA
+
+    [X] DDA
         [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
         [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
         [X] généré les catégories principale
@@ -103,7 +235,7 @@
                 [X] projects
                 [X] organisations
                 [X] events
-    [X] QR code  
+    [X] QR code
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
     [X] script devlog pour ajouter updated sur les anciennes data 
@@ -135,29 +267,15 @@
     
   ** @Sylvain
     [X] ajouter updated on login
+
+
   ** @Thomas communEvent
+    [X] remplacer la map par une url parser dans les QR code
     [X] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
-    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
-    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
-    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
-    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [X] remplacer la map par une url parser dans les QR code
-    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
+    
 
-    * Appli CO
-        [ ] login / create account
-        [ ] define scope
-        [ ] mon rep 
-        [ ] simple element reader
-        [ ] linqr
-        [ ] plus de data dans le texte qrcode 
-            add contact to my phone
-        [ ] notifier 
-        [ ] dda module
-            commenting
-            voting
-            actions    
+       
 
 * ************************************************************
 * Version 0.14 : Livré
