@@ -81,6 +81,7 @@
   
 
 ** @Rapha
+
   *** Priority 1
 
     [X] remonté tes points de la 0.15
@@ -97,11 +98,9 @@
           [ ] Event
           [ ] Project
         [ ] Test Confidentialité
-    [0.17] Evénement : import /export open agenda
-      [ ] evenement récurent
-      [ ] cronJob 
 
   *** Priority 2
+  
     [ ] form keep my position / my latest psitions
     [ ] Bloqué l'acces a mon répertoire mode Privé
     [ ] Ajouter les numéros de tel dans le formulaire de création
@@ -126,6 +125,9 @@
         [ ] Faire apparaitre les news via l'api
         [ ] Faire la traduction en RSS
       [ ] RSS to News
+    [0.17] Evénement : import /export open agenda
+      [ ] evenement récurent
+      [ ] cronJob 
 
 ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
