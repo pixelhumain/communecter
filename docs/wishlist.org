@@ -61,6 +61,7 @@
   [.16] delete empty event
   [ ] push back vers Open Agenda
   [ ] Best place calculator : utilisant la position des participants
+  [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
 
   ** Project
   [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
