@@ -104,6 +104,7 @@
 [ ] changer les lien des DDA sur les parent insee
 [ ] ajouter la proposition de signature du pacte de transition citoyenne
 [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
+[ ] Discussion externe : Roket Chat, Gitter or Slack with url 
 [ ] Réunion privée pour avancement interne organisation
 
 * Financement 

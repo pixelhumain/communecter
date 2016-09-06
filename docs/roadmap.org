@@ -2,10 +2,7 @@
 * Bug et retoure  des rencontre alternative 
 * ************************************************************   
 [ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
-
 [ ] possibilité d'envoie un messsage entre conseil citoyen 
-
- 
 [ ] Btn suggest sur co
 ‎   [ ]    Ajouter un participant type orga 
 [ ] Pano facon reparali 
@@ -15,36 +12,22 @@
     faisant reference à l'event , vous etiez ou serez à event xxx
     communecter vous aide ....
 [ ] Photo taille originale? 
-[ ] Apres photo proposer un ajout element Autocomplete de gens existant
-    ou analyse du desc
-    [ ] insert from texte sample
-        with autocomplete inside smart texterea 
-        when an attribute is typed, possible content types can be proposed
-        @>Name > autocomplete cross Element acteurs orga, people
-        @add: > prompt le type > et genere les champs 
-        @type:organization 
-        @name:xxx
-        @email: 
-        @admin:A-M-?
-        @adr:
-        @cp:
-        @desc:
-        @latlon:get from GPS if available  
-            Enter > recognizes the @type > and imports    
-
-
-* ************************************************************    
-* Version 0.16 (???) : Vision
-* ************************************************************    
+    
 ** Pas affecté
   [ ] Nouvelles Notifications :
     [ ] Un subevent a été ajouté sur un event auquel je suis participant
     [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
+    [ ] ajouter des acceptation dans le notif, pour pas etre obligé d'aller sur le post
   [ ] Améliorer l'affichage de commentaires dans les news
   [ ] Améliorer la notification de report d'abus
-  [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
+  [???] Gérer la pagination de admin (essayer de faire un proto duplicable)
   [ ] Créer des POI (geo + name) et pouvoir y ratacher des orga/projets/event
   [ ] Refaire fonctionner la geolocalisation
+
+* ************************************************************    
+* Version 0.16 (???) : Vision
+* ************************************************************    
+
 ** @Tango 
     [ ] REcherche par 100, 500, 1000, all
     [ ] Bouton Autour de moi : découvrir les gens pret de moi
@@ -54,7 +37,7 @@
 
 ** @Sylvain
     [ ] cannot empty communected location
-    [ ] mailing + parametre
+    [ ] mailing + notification + parametre
         [ ] doc
         [ ] faire un mail hebdomadaire
         [ ] invitation event 
@@ -65,10 +48,33 @@
     [ ] Stocker les images en S3 ?
 
 ** @Tib 
+    [ ] added middle click to notifications
     [ ] finish fromNow method
     [ ] switched QRcodes to full URLs, they can then be parsed
     [ ] event modifier l'organisateur
     [ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
+    [X] switched QRcodes to full URLs, they can then be parsed
+    [ ] Apres photo proposer un ajout element Autocomplete de gens existant
+      ou analyse du desc
+      [X] connected to mention
+      [X] generate basic element code
+      [ ] on press send 
+        [ ] parse and build post 
+        [ ] post proper ajax
+      [ ] insert from texte sample
+          with autocomplete inside smart texterea 
+          when an attribute is typed, possible content types can be proposed
+          @>Name > autocomplete cross Element acteurs orga, people
+          @add: > prompt le type > et genere les champs 
+          >type:organization 
+          >name:xxx
+          >email: 
+          >admin:A-M-?
+          >adr:
+          >cp:
+          >desc:
+          >latlon:get from GPS if available  
+              Enter > recognizes the @type > and imports   
 
 ** @Rapha
     [ ] remonté tes points de la 0.15
@@ -85,6 +91,8 @@
         [ ] uplodaer de document
     [ ] Regroupement de notifications (plusieurs notifications avec la même source)
     [ ] Regroupement de news de communevent (plusieurs photos sur le même event). En collab avec Thomas.
+    [ ] bug : mention aprés avoir ajouter une fois , ca marche plus
+      [ ]  
 
 ** @Thomas communEvent
     [ ] mettre une etape de validation lors du connect, vous allez vous connecter à

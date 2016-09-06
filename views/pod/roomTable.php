@@ -38,7 +38,6 @@
 								<th class=""><i class="fa fa-link"></i> <?php echo Yii::t("rooms", "Element", null, $moduleId); ?></th>
 							<?php } ?>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
-							
 						</tr>
 					</thead>
 					<tbody class="directoryLines">
