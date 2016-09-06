@@ -10,7 +10,7 @@
 [ ] partager le lien vers lappli dans l'email 
 
 * ************************************************************    
-* Version 0.16 (???) : Vision
+* Version 0.16 (début oct) : en cours
 * ************************************************************    
 
 ** @Tango 
@@ -47,7 +47,12 @@
     [ ] améliorer la verification d'existence d'elements
 
 ** @Tib 
+  [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
   [???] multi scope on element forms
+  [ ] Element Refactor : one input add
+  [ ] delete empty element
+  [ ] POI et Element de base : name,desc, url, location,photo
+    periscope,youtube,twitter journal
   [ ] Count requests DB per page
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
   [ ] finish fromNow method
@@ -74,12 +79,7 @@
             Enter > recognizes the @type > and imports  
   [X] added middle click to notifications
   [X] switched QRcodes to full URLs, they can then be parsed
-  [ ] one input add
-  [ ] POI et Element de base (0.16??) : name,desc, url, location,photo
-    periscope,youtube,twitter journal
-  [ ] delete empty element
   
-
 ** @Rapha
 
   *** Priority 1
