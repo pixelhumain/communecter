@@ -1,3 +1,18 @@
+<?php 
+	
+/*$cssAnsScriptFilesModule = array(
+
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
+
+$cssAnsScriptFilesModule = array(
+	'/js/dataHelpers.js',
+	'/js/postalCode.js'
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+
+?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
 	.fileupload-new .thumbnail, 

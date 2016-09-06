@@ -30,6 +30,8 @@ $cssAnsScriptFilesModule = array(
 	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+
 $cssAnsScriptFilesModuleSS = array(
 	'/plugins/Chart.js/Chart.min.js',
 );
