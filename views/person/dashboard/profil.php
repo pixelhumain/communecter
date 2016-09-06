@@ -431,7 +431,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 						</label>
 						
-						<a href="#" id="tags" data-type="select2" data-original-title="Mes tags perso (liste des mot-clés qui vous définissent) class="editable editable-click text-red">
+						<a href="#" id="tags" data-type="select2" data-original-title="Mes tags perso (liste des mot-clés qui vous définissent)" class="editable editable-click text-red">
 							<?php if(isset($person["tags"])){
 								foreach ($person["tags"] as $tag) {
 									//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
