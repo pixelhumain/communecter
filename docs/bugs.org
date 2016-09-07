@@ -1,0 +1,10 @@
+* ************************************************************    
+* Correction de bugs
+* ************************************************************
+
+
+
+* ************************************************************    
+* Version 0.15.1 
+* ************************************************************
+[ ] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
