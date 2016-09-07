@@ -134,7 +134,7 @@ a h1.text-azure:hover{
 			        $parentContext = ( @$_GET['type'] == Person::COLLECTION && @$value["parentType"] && @$value["parentId"] ) ? "<div class='pr10 btn btn-default pull-right'>".Element::getLink( $value["parentType"], $value["parentId"])."</div>" : "";
 					echo '<div class="panel-body hide-on-reduce-menu">'.
 							'<a href="javascript:'.$onclick.'" class="text-dark">'.
-								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." ".$updated." <div class='badge badge-success pull-right'>".$value["commentCount"]/*PHDB::count($col,array($attr =>(string)$value["_id"]))*/."</div> ".$parentContext.
+								'<i class="fa fa-'.$icon.'"></i> '.$value["name"]." ".$updated." <div class='badge badge-success pull-right'>".(empty($value["commentCount"])?0:$value["commentCount"])/*PHDB::count($col,array($attr =>(string)$value["_id"]))*/."</div> ".$parentContext.
 							'</a>'.
 						 '</div>';
 		        } 

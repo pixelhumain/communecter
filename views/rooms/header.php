@@ -341,7 +341,7 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 							echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
 									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"].
 									" <span class='badge badge-success pull-right'>".
-										$value["commentCount"].
+										(empty($value["commentCount"])?0:$value["commentCount"]).
 										//PHDB::count($col,array($attr=>(string)$value["_id"])).
 									"</span>".
 									" <span class='pull-right img-room-modal'>".
