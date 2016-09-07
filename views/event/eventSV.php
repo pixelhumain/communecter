@@ -608,7 +608,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.type = $(".form-event .event-categories option:checked").val();
 				newEvent.startDate = startDateSubmit; 
 				newEvent.endDate = endDateSubmit;
-				newEvent.description = $(".form-event .eventDetail ").val();
+				//newEvent.description = $(".form-event .eventDetail ").val();
+				newEvent.description=$(".form-event .note-editable").text();
 				//newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.streetAddress = $(".form-event #fullStreet ").val();

@@ -33,7 +33,9 @@
   [X] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
   [X] https://www.communecter.org/#gallery.index.id.56ad340cdd04528b3dd37405.type.citoyens Erreur 404 sur la galerie d'image
   [X] Si on regarde le compteur dans "discussion" il ne fonctionne pas malgré 2 commentaires
-  [ ] Quand je crée un projet (et il me semble d'autres types de contenus), quand je renseigne la description, elle ne se retrouve pas dans le projet créé, il faut que je la renseigne à nouveau 
+  [X] Quand je crée un projet (et il me semble d'autres types de contenus), quand je renseigne la description, elle ne se retrouve pas dans le projet créé, il faut que je la renseigne à nouveau 
+    [X] Meme probleme dans orga 
+    [X] Meme probleme pour event
 
 * Sylvain
   [X] bug : gestion des comptes en doublon depuis communEvent (ex : 57cbce3a40bb4e0a0dfb8256 et 57be6caa40bb4eb84ef5aa49 en prod)
