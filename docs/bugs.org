@@ -7,4 +7,5 @@
 * ************************************************************    
 * Version 0.15.1 
 * ************************************************************
-[ ] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
+[X] En open edition, sur une Orga, on ne pouvez ajouter un évènement, un besoin ou un projet.
+[X] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
