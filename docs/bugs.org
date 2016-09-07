@@ -2,10 +2,41 @@
 * Correction de bugs
 * ************************************************************
 
+  [ ] Impossible d'ajouter une image sur un subevent en production (Sitti)
+  [ ] 404 lors de l'ajout d'un commentaire lors d'un vote : 2016/09/05 14:15:51 [error] [php] Undefined index: content (/home/ubuntu/communecter/modules/citizenToolKit/models/Comment.php:74)
+  [ ] Manque un '/' dans l'URL des images de "En ce moment". Ex Manapany Festival.
 
+** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
+  [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
+  [ ] https://www.communecter.org/#gallery.index.id.56ad340cdd04528b3dd37405.type.citoyens Erreur 404 sur la galerie d'image
+  [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
+  [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
+  [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
+  [ ] Lorsque l'on change de commune dans le profil utilisateur, Qu'ensuite on clique sur "Ma commune" on obtiens la page de la commune précédente. un CTRL F5 résout le probléme
+  [ ] En résolution 1920x1200, quand je clique sur la "Cloche de notification" dans le topmenu a droite ,  la boite de notification apparait décalée vers la gauche, et donc disparait avant que je puisse cliquer dessus. .main-top-menu button.btn-menu-notif
+  [ ] Le partage sur FB et twitter n'est pas optimal pour ramener le titre, l'image et la description du post - par exemple un post de projet
+  [ ] Si on regarde le compteur dans "discussion" il ne fonctionne pas malgré 2 commentaires
+  [ ] Quand je crée un projet, on me demande obligatoirement le code postal. On voit bien que dans le cas d'un projet numérique (tel que celui ci) cela n'a pas de sens... 
+  [ ] Quand je crée un projet (et il me semble d'autres types de contenus), quand je renseigne la description, elle ne se retrouve pas dans le projet créé, il faut que je la renseigne à nouveau 
+  [ ] 
+
+** Erreurs de logs en prods 
+  [ ] 2016/09/05 14:16:01 [error] [php] Undefined variable: type (/home/ubuntu/communecter/pixelhumain/ph/protected/views/emails/askToBecomeAdmin.php:29)
+  [ ] 2016/09/05 14:16:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/css/rooms/header.css".'
+  [ ] 2016/09/05 23:23:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/d8941b81/images/testamonials/guillaumeR.png".' in /home/ubuntu/communecter/pixelhumain/ph/vendor/yiisoft/yii/framework/web/CWebApplication.php:286
+  [ ] 2016/09/05 14:14:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/assets/plugins/jQuery/wysihtml5x-toolbar.min.map".
+  [ ] 2016/09/04 21:41:23 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/d8941b81/images/logoL.jpg".'
+  [ ] 2016/09/04 21:45:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "upload/communecter/events/57c8701c40bb4e021dfb8264fives.JPG".'
 
 * ************************************************************    
 * Version 0.15.1 
 * ************************************************************
-[X] En open edition, sur une Orga, on ne pouvez ajouter un évènement, un besoin ou un projet.
-[X] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
+
+
+* Rapha
+  
+  [X] En open edition, sur une Orga, on ne pouvez ajouter un évènement, un besoin ou un projet.
+  [X] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
+
+* Sylvain
+  [ ] 
