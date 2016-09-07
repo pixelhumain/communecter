@@ -1,33 +1,16 @@
-<?php 
-  $cssAnsScriptFilesModule = array(
-    '/css/default/short_info_profil.css',
-  );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>
+
+<?php HtmlHelper::registerCssAndScriptsFiles(array( '/css/menus/short_info_profil.css'), $this->module->assetsUrl); ?>
 
 <style type="text/css">
-  .searchIcon{
-    cursor: pointer;
-  }
-  #basic-addon1{
-    background-color: white !important;
-    border-radius: 4px 0 0 4px !important;
-    height: 36px;
-    border-color: #C8C8C8;
-  }
-  .group-globalsearch .input-group-addon {
-    width: 100%;
-  }
+ 
 </style>
 <div class="menu-info-profil <?php echo isset($type) ? $type : ''; ?> " 
      data-tpl="default.menu.short_info_profil">
     
-    <?php
-    //<div class="label label-inverse">new <span class="badge animated bounceIn bg-red">1</span></div>
+    <?php // MULTITAG / MULTISCOPE // ?>
+    <?php $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
-    //if(isset(Yii::app()->session['userId'])) 
-    $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
-    
+    <?php // INPUT TEXT GLOBAL SEARCH // ?>
     <div class="input-group group-globalsearch inline hidden-xs">
       <span class="input-group-addon" id="basic-addon1">
         <i class="fa fa-search text-dark searchIcon tooltips" 
@@ -38,13 +21,24 @@
     </div>
     <div class="dropdown-result-global-search"></div>
     
+    <?php // BTN PROFIL || BTN SUBSCRIBE-LOGIN // ?>
     <div class="topMenuButtons pull-right">
     <?php 
-    if( isset( Yii::app()->session['userId']) )
+    if( isset( Yii::app()->session['userId']) ){
       echo $this->renderPartial('./menu/menuProfil',array( "me"=> $me)); 
+    }
     else { ?>
-      <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span></button>
-      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button> 
+
+      <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');">
+        <i class="fa fa-plus-circle"></i> 
+        <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span>
+      </button>
+
+      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');">
+        <i class="fa fa-sign-in"></i> 
+        <span class="hidden-sm hidden-md hidden-xs">Se connecter</span>
+      </button> 
+
     <?php } ?>
     </div>
   </div>
@@ -128,9 +122,6 @@
 
     showDropDownGS(false);
   });
-
-
-
 
   </script>
 

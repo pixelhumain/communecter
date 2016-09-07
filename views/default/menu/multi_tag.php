@@ -1,16 +1,4 @@
 
-
-<style type="text/css">
-
-.tags-count{
-	right: 0px;
-    position: absolute;
-    top: -1px;
-}	
-
-</style>
-
-
 <div class="dropdown pull-left" id="dropdown-content-multi-tag">
 
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-tag"
