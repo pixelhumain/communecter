@@ -891,7 +891,6 @@ function cancelComment(commentId) {
 
 function validateComment(commentId, parentCommentId) {
 	content = $.trim($('#'+commentId+' .newComment').code());
-	console.log("validate comment depuis comment Pod : " + content);
 	if (content == "" || content == null) {
 		$('#'+commentId).remove();
 	} else {
