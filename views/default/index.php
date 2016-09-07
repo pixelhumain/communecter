@@ -50,29 +50,19 @@
 	//si l'utilisateur n'est pas connecté
  	if(!isset(Yii::app()->session['userId'])){
 		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['inseeCommunexion'] : "";
+		   			    			  Yii::app()->request->cookies['inseeCommunexion']->value : "";
 		
 		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cpCommunexion'] : "";
+		   			    			  Yii::app()->request->cookies['cpCommunexion']->value : "";
 		
 		$cityNameCommunexion = isset( Yii::app()->request->cookies['cityNameCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cityNameCommunexion'] : "";
+		   			    			  Yii::app()->request->cookies['cityNameCommunexion']->value : "";
 
 		$regionNameCommunexion = isset( Yii::app()->request->cookies['regionNameCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['regionNameCommunexion'] : "";
+		   			    			  Yii::app()->request->cookies['regionNameCommunexion']->value : "";
 
 		$countryCommunexion = isset( Yii::app()->request->cookies['countryCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['countryCommunexion'] : "";
-		/*if(@$inseeCommunexion && !empty($inseeCommunexion)){
-			$city=Sig::getCityByCodeInsee($inseeCommunexion);
-			$nbCpByInsee=count($city["postalCodes"]);
-			if($nbCpByInsee > 1){
-				$cityInsee=$city["name"];
-			}
-		}else{
-			$nbCpByInsee=0;
-		}*/
-
+		   			    			  Yii::app()->request->cookies['countryCommunexion']->value : "";
 	}
 	//si l'utilisateur est connecté
 	else{
@@ -86,37 +76,32 @@
 		$cityNameCommunexion = isset( $me['address']['addressLocality'] ) ? 
 		   			    			  $me['address']['addressLocality'] : "";
 		
-		if(isset($inseeCommunexion) && isset($cpCommunexion)){
-			$city=City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);	
-			$regionNameCommunexion = isset( $city['regionName'] ) ? 
-			   			    			    $city['regionName'] : "";
-		}
+		$regionNameCommunexion = ""; /*not important now => multilevel is dead*/
 
 		$countryCommunexion = isset( $me['address']['addressCountry'] ) ? 
-		   			    			  $me['address']['addressCountry'] : "";
-		
-		if (@$inseeCommunexion){
+		   			    			 $me['address']['addressCountry'] : "";	
+	}
+
+	if (@$inseeCommunexion){
+		if(@$cpCommunexion){
+			$city=City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);	
+		}else{
 			$city=SIG::getCityByCodeInsee($inseeCommunexion);
-			$nbCpByInsee=count($city["postalCodes"]);
-			if($nbCpByInsee > 1){
-				$cityInsee=$city["name"];
-			}
 		}
-		
+
+		if(@$me)
+		$regionNameCommunexion = @$city['regionName'] ? 
+			   			    	 $city['regionName'] : "";
+
+		$nbCpByInsee=count(@$city["postalCodes"]);
+		if($nbCpByInsee > 1){
+			$cityInsee=$city["name"];
+		}
+	}else{
+		$city = null;
 	}
 
 ?>
-<style>
-	.footer-menu-left{
-		/*background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");*/
-		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
-	}
-
-@media screen and (max-height: 580px) {
-	.footer-menu-left, .helloasso{
-		display:none;
-	}
-}
 
 
 </style>
@@ -147,8 +132,7 @@
 	  $this->renderPartial('./menu/menuTop', array("me" => $me)); ?>
 
 <?php $this->renderPartial('./menu/menuLeft', array("page" => "accueil", 
-												 "inseeCommunexion" => $inseeCommunexion, 
-												 "cityNameCommunexion" => $cityNameCommunexion)); ?>
+												    "myCity" => $city)); ?>
 
 
 <div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">

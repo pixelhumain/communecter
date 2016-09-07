@@ -243,7 +243,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                 $("#btnShowMoreResultGS").click(function(){
                   if(!loadingDataGS){
                     //startGlobalSearch(indexMin+indexStepGS, indexMax+indexStepGS);
-                    selectScopeLevelCommunexion(5);
+                    //selectScopeLevelCommunexion(5);
                     loadByHash("#default.directory");
                   }
                 });

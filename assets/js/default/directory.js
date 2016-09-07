@@ -18,7 +18,9 @@ function startSearch(indexMin, indexMax){
     indexStep = indexStepInit;
 
 	  var name = $('#searchBarText').val();
-      
+    
+    if(name == "" && searchType.indexOf("cities") > -1) return;  
+
     if(typeof indexMin == "undefined") indexMin = 0;
     if(typeof indexMax == "undefined") indexMax = indexStep;
 
@@ -63,7 +65,7 @@ function addSearchType(type){
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
-  if (index > -1) {
+  if (index > -1 && searchType.length > 1) {
     searchType.splice(index, 1);
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
@@ -175,6 +177,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   //type += "s";
                   var url = '#news.index.type.'+type+'.id.' + id;
                   if(type == "citoyens") url += '.viewer.' + userId;
+                  if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
 
                   //if(type=="citoyen") type = "person";
                  
@@ -225,10 +228,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         isFollowed=false;
                         str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="city" && id != userId && userId != null && userId != ""){
+                        if(type!="cities" && id != userId && userId != null && userId != ""){
                           tip = (type == "events") ? "Participer" : 'Suivre';
                           str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                                'data-toggle="tooltip" data-placement="right" data-original-title="'+tip+'"'+
+                                'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
                                 " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                                     "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                                   "</a>";
@@ -239,7 +242,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
   	                str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
 
-                    str += "<a href='"+url+"' onclick='"+onclick+"'>" + htmlIco + "</a>";
+                    str += "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
   	                str += "</div>";
   					         target = "";
 
@@ -248,10 +251,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       
   	                str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
   	                	
-                      str += "<a href='"+url+"' onclick='"+onclick+"'"+target+" class='entityName text-dark'>" + name + "</a>";
+                      str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
                       
                       if(fullLocality != "" && fullLocality != " ")
-  	                	str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+  	                	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
   	                	if(startDate != null)
   	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
   	                	if(endDate != null)
@@ -327,6 +330,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 }
                 //remet l'icon "loupe" du bouton search
                 $(".btn-start-search").html("<i class='fa fa-refresh'></i>");
+                //active les link lbh
+                bindLBHLinks();
+
                 $.unblockUI();
 				        showMap(false);
                 
