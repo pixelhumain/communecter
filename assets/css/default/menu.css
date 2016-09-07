@@ -214,12 +214,12 @@
 	}
 
 	#menu-bottom .input-global-search{
-	left: 40px;
+	left: 0px;
     height: 40px;
-    /* top: 75px; */
+    padding-left: 15px;
     bottom: 0px;
     position: absolute;
-    width: 80%;
+    width: 100%;
     z-index: 1;
     border: 0px;
 	}

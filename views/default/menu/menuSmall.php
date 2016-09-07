@@ -1,25 +1,3 @@
-<?php 
-
-	$inseeCommunexion = "";
-	$cpCommunexion = "";
-
-	if( isset( Yii::app()->session['userId']) && !empty($me) ){
-		$inseeCommunexion 	 = isset( $me['address']['codeInsee'] ) ? 
-		   			    			  $me['address']['codeInsee'] : "";
-
-		$cpCommunexion 		 = isset( $me['address']['postalCode'] ) ? 
-		   			    			  $me['address']['postalCode'] : "";
-	}else{
-		$inseeCommunexion 	 = isset( Yii::app()->request->cookies['inseeCommunexion'] ) ? 
-	   			    			  	  Yii::app()->request->cookies['inseeCommunexion']->value : "";
-	
-		$cpCommunexion 		 = isset( Yii::app()->request->cookies['cpCommunexion'] ) ? 
-		   			    			  Yii::app()->request->cookies['cpCommunexion']->value : "";
-	}
-
-	if($cpCommunexion != "" && $inseeCommunexion != "")
-	$myCity = City::getCityByInseeCp($inseeCommunexion, $cpCommunexion);
-?>
 
 
 <style type="text/css">

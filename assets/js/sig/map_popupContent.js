@@ -569,7 +569,7 @@
 									"<h4 class='panel-title text-red homestead'>"+
 										"<i class='fa fa-university'></i> "+cityName+
 									"</h4>" + 
-									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
+									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>";/* + 
 									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
 											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
 				if (typeof(nbCpByInsee) != "undefined"){
@@ -577,7 +577,7 @@
 				}						
 				popupContent += 			"onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
-									"</button>";
+									"</button>";*/
 
 			if(location.hash != "#default.twostepregister")
 			popupContent +=			"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+

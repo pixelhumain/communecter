@@ -63,54 +63,62 @@
 </style>
 
 <div class="col-md-12">
-  <div class="col-md-12 no-padding margin-top-15 ">
+  <div class="col-md-12 no-padding " style="margin-top:25px;">
 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
       <span class="input-group-btn">
             <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
-                    data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+                    data-toggle="tooltip" data-placement="top" title="Actualiser les résultats">
                     <i class="fa fa-refresh"></i>
             </button>
       </span>
     </div>
     <button class="btn btn-sm tooltips hidden-xs" id="btn-slidup-scopetags" 
             style="margin-left:15px;margin-top:5px;"
-            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
+            data-toggle="tooltip" data-placement="top" title="Afficher/Masquer les filtres">
             <i class="fa fa-minus"></i>
     </button>
     <button data-id="explainDirectory" class="explainLink btn btn-sm tooltips hidden-xs" 
             style="margin-left:7px;margin-top:5px;"
-            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
+            data-toggle="tooltip" data-placement="top" title="Comment ça marche ?">
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
     <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
-      <div class="btn-group inline-block" id="menu-directory-type">
+
+      <div class="btn-group inline-block" id="menu-directory-type" style="margin-bottom:5px;">
         <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
+                data-toggle="tooltip" data-placement="bottom" title="Citoyens" type="persons">
           <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i> 
           <span class="hidden-xs">Citoyens</span>
         </button>
         <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+                data-toggle="tooltip" data-placement="bottom" title="Organisations" type="organizations">
           <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> 
           <span class="hidden-xs">Organisations</span>
         </button>
         <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+                data-toggle="tooltip" data-placement="bottom" title="Projets" type="projects">
           <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> 
           <span class="hidden-xs">Projets</span>
         </button>
         <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+                data-toggle="tooltip" data-placement="bottom" title="Évènements" type="events">
           <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> 
           <span class="hidden-xs">Évènements</span>
         </button>
       </div>
-      
+
+      <div class="btn-group inline-block" id="menu-directory-type-city" style="margin-bottom:5px;">
+        <button class="btn btn-default btn-filter-type tooltips text-red" 
+                data-toggle="tooltip" data-placement="bottom" title="Je cherche une commune" type="cities">
+          <i class="fa fa-circle-o search_cities"></i> <i class="fa fa-university"></i> 
+          <span class="hidden-xs">Je cherche une commune</span>
+        </button>
+      </div>
     </div>
     <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     <div class='city-name-locked homestead text-red'></div>
@@ -131,7 +139,7 @@
 <script type="text/javascript">
 
 var searchType = [ "persons", "organizations", "projects", "events" ];
-var allSearchType = [ "persons", "organizations", "projects", "events" ];
+var allSearchType = [ "persons", "organizations", "projects", "events", "cities" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
 var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
@@ -145,8 +153,8 @@ jQuery(document).ready(function() {
     slidupScopetagsMin();
   });
 
-  searchType = [ "persons", "organizations", "projects", "events" ];
-  allSearchType = [ "persons", "organizations", "projects", "events" ];
+  // searchType = [ "persons", "organizations", "projects", "events" ];
+  // allSearchType = [ "persons", "organizations", "projects", "events" ];
 
 	topMenuActivated = true;
 	hideScrollTop = true; 
@@ -205,16 +213,27 @@ jQuery(document).ready(function() {
   $(".btn-filter-type").click(function(e){
     var type = $(this).attr("type");
     var index = searchType.indexOf(type);
-
-    if(type == "all" && searchType.length > 1){
-      $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
-    }
-    if(type == "all" && searchType.length == 1){
-      $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+    console.log("filterType "+type, searchType.length);
+    
+    if(type == "cities"){
+      if(index == -1){
+        addSearchType(type);
+        $.each(allSearchType, function(index, value){ removeSearchType(value); });
+        $("#scopeListContainer").hide();
+      }else{
+        $.each(allSearchType, function(index, value){ addSearchType(value); });
+        $("#scopeListContainer").show();
+      }  
     }
 
     if (index > -1) removeSearchType(type);
     else addSearchType(type);
+
+    if(type != "cities"){
+      $("#scopeListContainer").show();
+      removeSearchType("cities");
+    }
+
   });
   
 /*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
