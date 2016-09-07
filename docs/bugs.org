@@ -37,11 +37,11 @@
     [X] Meme probleme pour event
 
 * Sylvain
-  [X] bug : gestion des comptes en doublon depuis communEvent (ex : 57cbce3a40bb4e0a0dfb8256 et 57be6caa40bb4eb84ef5aa49 en prod)
+  [X] bug : gestion des comptes en doublon depuis communEvent ou invitation (ex : 57cbce3a40bb4e0a0dfb8256 et 57be6caa40bb4eb84ef5aa49 en prod)
     [X] gestion des comptes en doublons sur la prod : suppression et report
     [X] pb de case + trim sur l'email avec link.connect
     [X] pb de case + trim sur l'email au login
     [X] pb de case + trim sur l'email au register
   [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
   [X] 404 lors de l'ajout d'un commentaire lors d'un vote : 2016/09/05 14:15:51 [error] [php] Undefined index: content (/home/ubuntu/communecter/modules/citizenToolKit/models/Comment.php:74)
-  [ ] Manque un '/' dans l'URL des images de "En ce moment". Ex Manapany Festival.
+  [X] Manque un '/' dans l'URL des images de "En ce moment". Ex Manapany Festival. Arrive lorsque l'événement a des sous events ! Les URL des thumbs sont mal recalculées.
