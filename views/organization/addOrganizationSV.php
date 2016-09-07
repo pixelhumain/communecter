@@ -329,13 +329,15 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
+			var newOrganization = $("#organizationForm").serialize();
+			newOrganization.description=$("#organizationForm #description").code();
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 	        $.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
-		    	  data: $("#organizationForm").serialize(),
+		    	  data: newOrganization,
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
