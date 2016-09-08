@@ -2,6 +2,7 @@
 * Correction de bugs
 * ************************************************************
 
+  [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
   [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
   [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
@@ -25,7 +26,6 @@
 * Version 0.15.1 
 * ************************************************************
 
-
 * Rapha
   
   [X] En open edition, sur une Orga, on ne pouvez ajouter un évènement, un besoin ou un projet.
@@ -42,6 +42,5 @@
     [X] pb de case + trim sur l'email avec link.connect
     [X] pb de case + trim sur l'email au login
     [X] pb de case + trim sur l'email au register
-  [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
   [X] 404 lors de l'ajout d'un commentaire lors d'un vote : 2016/09/05 14:15:51 [error] [php] Undefined index: content (/home/ubuntu/communecter/modules/citizenToolKit/models/Comment.php:74)
   [X] Manque un '/' dans l'URL des images de "En ce moment". Ex Manapany Festival. Arrive lorsque l'événement a des sous events ! Les URL des thumbs sont mal recalculées.
