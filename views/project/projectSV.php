@@ -362,7 +362,8 @@ function runProjectFormValidation(el) {
 			newProject.cityName=$(".form-project #cityName").val(),
 			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
-			newProject.description=$(".form-project .project-description").val(),
+			//newProject.description=$(".form-project .note-editable").text(),
+			newProject.description=$(".form-project #description").code(),
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
 			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
 			newProject.tags = $(".form-project #tagsProject").val();

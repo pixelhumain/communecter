@@ -1,21 +1,5 @@
 
 * ************************************************************    
-* Version 0.16 (???) : Vision
-* ************************************************************    
-** @Tango 
-    [ ] REcherche par 100, 500, 1000, all
-** @Sylvain
-    [ ] cannot empty communected location
-    [ ] mailing
-        [ ] doc
-        [ ] faire un mail hebdomadaire
-        [ ] invitation event 
-        [ ] news privé
-** @Tib 
-    [ ] event modifier l'organisateur
-    [ ] finish fromNow method
-  ** @Rapha
-* ************************************************************    
 * Bug et retoure  des rencontre alternative 
 * ************************************************************   
 [ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
@@ -31,17 +15,17 @@
 * ************************************************************    
 
 ** @Tango 
-    [ ] REcherche par 100, 500, 1000, all
-    [ ] synchronize new item menu (on selected)
+    [ ] Recherche par 100, 500, 1000, all
+    [X] synchronize new item menu (on selected)
     [ ] Finir Orga:Add member
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
 
 ** @Sylvain 
+    [ ] pb d'images dans en ce moment (ex : Manapany)
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
-    [ ] bug : gestion des comptes doublons depuis communEvent
     [ ] cannot empty communected location
     [ ] remove betatester attr
     [ ] remove empty image attribs
@@ -209,7 +193,6 @@
     [X] home page : switch to live ?
 
   ** @Tib 
-
     [X] DDA
         [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
         [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
@@ -227,9 +210,9 @@
             [X] getActivity
                 - global activity based on scope and tags search filters
                 - can be filtered by userId
-                [X] dda 
-                    [X] stream : shows recent sorted by "updated"
-                    [X] en ce moment : most active updated 
+                [ ] dda 
+                    [ ] stream : shows recent sorted by "updated"
+                    [ ] en ce moment : most active updated 
                         - how to define activity ? vote counts, comment counts
                             algorythm based on vote and comment dates 
                 [X] projects
@@ -238,28 +221,28 @@
     [X] QR code
         [X] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
-    [X] script devlog pour ajouter updated sur les anciennes data 
-    [X] reparer le click du milieu
+    [ ] script devlog pour ajouter updated sur les anciennes data 
+    [ ] reparer le click du milieu
         - en mettant simplement notre hash dans le href
-    [X] refactor links.loadByHash + chemin dans href
-    [X] search and filter tag engine
-    [X] wisiwig sur les desc de form create
-    [X] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
+    [ ] refactor links.loadByHash + chemin dans href
+    [ ] search and filter tag engine
+    [ ] wisiwig sur les desc de form create
+    [ ] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
         - not activated globaly because front end isn't ready
-    [X] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
-        [X] only when loggued
-    [X] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
-        [X] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
-            [X] survey/proposals : create , votes, edit
-            [X] actions : create, assign, edit
-            [X] discuss : create, new post
-            [X] archiving
-        [X] getRoomsListByActivity
-        [X] getRoomsActivity
-            [X] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
-    [X] switcher le titre navigateur
-        [X] replacing all $(".moduleLabel").html
-    [X] badge organisation "Communecteur" + documentation 
+    [ ] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
+        [ ] only when loggued
+    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+        [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
+            [ ] survey/proposals : create , votes, edit
+            [ ] actions : create, assign, edit
+            [ ] discuss : create, new post
+            [ ] archiving
+        [ ] getRoomsListByActivity
+        [ ] getRoomsActivity
+            [ ] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+    [ ] switcher le titre navigateur
+        [ ] replacing all $(".moduleLabel").html
+    [ ] badge organisation "Communecteur" + documentation 
         - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
         - association référante de communecter
         - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
@@ -268,60 +251,57 @@
   ** @Sylvain
     [X] ajouter updated on login
 
-
   ** @Thomas communEvent
     [X] remplacer la map par une url parser dans les QR code
     [X] mettre en PROD 
     [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
-    
-
-       
+ 
 
 * ************************************************************
 * Version 0.14 : Livré
 * ************************************************************
 
     ** @Tango
-    [X] Refonte interface DDA
-    [X] Documentation
+    [ ] Refonte interface DDA
+    [ ] Documentation
     ** @Rapha
-    [X] Open Data préférence
-    [X] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
+    [ ] Open Data préférence
+    [ ] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
     ** @Clement
-    [X] Open Edition ubiquité en préférence
-    [X] Mentionner qlq'un dans une actu/News @someone
-    [X] DDA : pouvoir ajouter des images sur les propositions et les actions
+    [ ] Open Edition ubiquité en préférence
+    [ ] Mentionner qlq'un dans une actu/News @someone
+    [ ] DDA : pouvoir ajouter des images sur les propositions et les actions
     ** @Tib
-        [X] Ajouter un Framapad
-        [X] Archiving : discussion, decision et action rooms
-          [X] who can archive
-            [X] owner of the vote or the action
-          [X] archiver == passer le status à "archived"
-            [X] survey
-            [X] actions
-            [X] discussions
-          [X] decision & action room archived
-            [X] when archived remove features : 
-              [X] edit features 
-              [X] Add proposals
-              [X] desactivate votes 
-          [X] front ends  
-            [X] differntiate style when archived
-            [X] show index without archived rooms
-            [X] add btn, see archives
-            [X] show only  archived rooms
+        [ ] Ajouter un Framapad
+        [ ] Archiving : discussion, decision et action rooms
+          [ ] who can archive
+            [ ] owner of the vote or the action
+          [ ] archiver == passer le status à "archived"
+            [ ] survey
+            [ ] actions
+            [ ] discussions
+          [ ] decision & action room archived
+            [ ] when archived remove features : 
+              [ ] edit features 
+              [ ] Add proposals
+              [ ] desactivate votes 
+          [ ] front ends  
+            [ ] differntiate style when archived
+            [ ] show index without archived rooms
+            [ ] add btn, see archives
+            [ ] show only  archived rooms
         [ ] move Menu::Btn
-            [X] permission 
-                [X] only organizer on survey and actions
+            [ ] permission 
+                [ ] only organizer on survey and actions
             [ ] open Modal : 
-                [X] list all possible destinations
+                [ ] list all possible destinations
                 [ ] romve in list the current parent room
-            [X] convertir une proposition en action
-                [X] copy as action 
-                [X] action Room must exist already
-                [X] add moved attribute add room attr
-            [X] convertir une action en proposition
-            [X] deplacer vers une autre room  
-                [X] vote proposals : switch survey Id 
-                [X] actions : switch room Id
+            [ ] convertir une proposition en action
+                [ ] copy as action 
+                [ ] action Room must exist already
+                [ ] add moved attribute add room attr
+            [ ] convertir une action en proposition
+            [ ] deplacer vers une autre room  
+                [ ] vote proposals : switch survey Id 
+                [ ] actions : switch room Id
         

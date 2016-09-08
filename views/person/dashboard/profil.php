@@ -1142,7 +1142,7 @@ function initXEditable() {
 			currentScopeType = "cp";
 			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
 			currentScopeType = "city";
-			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee; //+ "-" + newValue.postalCode; 
+			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee + "-" + newValue.postalCode; 
 			addScopeToMultiscope(unikey, newValue.addressLocality);
 			currentScopeType = "dep";
 			if(notEmpty(depName)) addScopeToMultiscope(depName, depName);

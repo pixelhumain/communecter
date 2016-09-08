@@ -5,11 +5,15 @@
 ?>
 
 <div class="dropdown pull-right" data-tpl="default.menu.menuProfile">
+
+  <?php // IMAGE PROFIL // ?>
   <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown">
     <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
     <?php //echo $me["name"]; ?>
     <span class="caret"></span>
   </button>
+
+  <?php // DROPDOWN MENU PERSO // ?>
   <ul class="dropdown-menu dropdown-menu-right">
     <li>
       <a class="lbh" href="#element.detail.type.citoyens.id.<?php echo Yii::app()->session['userId']?>" id="btn-menu-dropdown-my-profil">

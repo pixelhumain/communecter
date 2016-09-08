@@ -9,6 +9,7 @@
   [ ] lazy loading sur la carto
 [ ] passing to Yii 2.0
 [ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
+[ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
 
 * Elements
 [ ] comptabiliser le temps + type 
@@ -127,6 +128,4 @@
     je vois ma liste personnalisé
     je vois les pushs que pour ces sous events
     je vois les particpants de mon reseau
-  
-
 

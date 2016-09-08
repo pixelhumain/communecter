@@ -314,7 +314,6 @@ function cancelComment(commentId) {
 }
 
 function validateComment(commentId, parentCommentId) {
-	
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/comment/save/",
 		data: {

@@ -1,0 +1,39 @@
+
+.btn-group-scope-type .btn-secondary{
+	font-size:12px;
+	/*border-right: 2px solid rgb(191, 191, 191);*/
+}
+.btn-group-scope-type .btn-group > .btn:last-child:not(:first-child), 
+.btn-group-scope-type .btn-group > .dropdown-toggle:not(:first-child){
+	border-right: 0px solid transparent !important;
+}
+.btn-group-scope-type .btn-secondary:focus{
+	background-color: #E33551;
+	color:white;
+}	
+.btn-group-scope-type .btn-secondary.active{
+	background-color: #E33551;
+	color:white;
+}
+.scope-count{
+	right: 8px;
+    position: absolute;
+    top: -1px;
+}	
+#dropdown-multi-scope-found {
+	display: block;
+	margin-top: 33px;
+	width: 100%;
+	border-radius: 0px;
+	padding: 3px;
+}
+#dropdown-multi-scope-found.dropdown-menu > li > a {
+	padding: 3px 5px;
+}
+#dropdown-multi-scope-found.dropdown-menu > li > a:hover {
+	background-color: #f2d2d2;
+}
+.city-name-locked{
+	font-size:19px;
+	margin-top:10px;
+}
