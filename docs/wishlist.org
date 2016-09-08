@@ -1,4 +1,3 @@
-
 * BUGS
 [ ] repairing localisation HTML5
 
@@ -129,5 +128,3 @@
     je vois ma liste personnalisé
     je vois les pushs que pour ces sous events
     je vois les particpants de mon reseau
-  
-

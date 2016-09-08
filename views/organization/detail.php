@@ -70,21 +70,24 @@
 															"contentType" => Organization::COLLECTION,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
-															"admin" => $admin	));
+															"admin" => $admin,
+															"openEdition" => $openEdition));
 					?>
 		    	</div>
-		    	<?php if (($admin == 1 || !empty($needs)) && ($organization["type"]=="NGO" || $organization["type"]=="Group")){ ?> 
+		    	<?php
+		    	if ( $admin == 1 || !empty($needs) || $openEdition == true ){ ?> 
 				<div class="col-md-12 col-xs-12 needsPod">	
 					<?php $this->renderPartial('../pod/needsList',array( 	"needs" => $needs, 
 																			"parentId" => (String) $organization["_id"],
 																			"parentType" => Organization::COLLECTION,
 																			"isAdmin" => $admin,
-																			"parentName" => $organization["name"]
+																			"parentName" => $organization["name"],
+																			"openEdition" => $openEdition
 																		  )); ?>
 
 				</div>
 				<?php } ?>
-				<?php if ($admin == 1 || !empty($events)){ ?>
+				<?php if ($admin == 1 || !empty($events) || $openEdition == true){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php 
 						if(!isset($eventTypes)) $eventTypes = array();
@@ -92,16 +95,18 @@
 																			"contextId" => (String) $organization["_id"],
 																			"contextType" => Organization::CONTROLLER,
 																			"list" => $eventTypes,
-																			"authorised" => $admin
+																			"authorised" => $admin,
+																			"openEdition" => $openEdition
 																		  )); ?>
 				</div>
 				<?php } ?>
-				<?php if ($admin == 1 || !empty($projects)){ ?>
+				<?php if ($admin == 1 || !empty($projects) || $openEdition == true){ ?>
 				<div class="col-md-12 col-xs-12">
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
 															"contextId" => (String) $organization["_id"],
 															"contextType" => Organization::COLLECTION,
-															"authorised" =>	$admin
+															"authorised" =>	$admin,
+															"openEdition" => $openEdition
 					)); ?>
 				</div>
 				<?php } ?>
