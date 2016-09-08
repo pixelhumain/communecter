@@ -329,8 +329,9 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
+			$("#description").val($("#description").code());
 			var newOrganization = $("#organizationForm").serialize();
-			newOrganization.description=$("#organizationForm #description").code();
+			console.log(newOrganization);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
@@ -356,7 +357,7 @@ var formValidator = function() {
 	       	return false; // required to block normal submit since you used ajax
 		},
 		invalidHandler : function(event, validator) {//display error alert on form submit
-			errorHandler.show();
+			//errorHandler.show();
 		}
 	});
 }
