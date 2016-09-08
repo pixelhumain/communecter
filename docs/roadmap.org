@@ -23,7 +23,9 @@
       [??] Event:Participation
 
 ** @Sylvain 
-    [ ] pb d'images dans en ce moment (ex : Manapany)
+    [X] pb d'images dans en ce moment (ex : Manapany)
+    [ ] delete person : 
+      [ ] on admin : delete simple person (links but no news/votes/comments)
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
@@ -46,6 +48,7 @@
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
+
 
 ** @Tib 
   [???] multi scope on element forms
