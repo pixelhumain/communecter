@@ -201,15 +201,21 @@ $this->renderPartial('../default/panels/toolbar');
 
                     <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#default.directory?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
-
                           <i class="fa fa-search"></i>
-                        </a><br/>Recherche<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
+                        </a>
+                        <br/>Rechercher à<br/>
+                        <span class="text-red discover-subtitle">
+                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
                     </div>
                     
                     <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#default.agenda?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-calendar"></i>
-                        </a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
+                        </a><br/>L'agenda de<br/>
+                        <span class="text-red discover-subtitle">
+                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
                     </div>
                     
                     <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
