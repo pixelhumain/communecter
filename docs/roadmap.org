@@ -60,8 +60,8 @@
     ou analyse du desc
     [X] connected to mention
     [X] generate basic element code
+    [ ] parse and build post genericaly jsonHelper.stringFormtoJson
     [ ] on press send 
-      [ ] parse and build post 
       [ ] post proper ajax
     [ ] insert from texte sample
         with autocomplete inside smart texterea 
@@ -76,14 +76,15 @@
         >cp:
         >desc:
         >latlon:get from GPS if available  
-            Enter > recognizes the @type > and imports  
+            Enter > recognizes the @type > and creates 
   [X] added middle click to notifications
   [X] switched QRcodes to full URLs, they can then be parsed
   
 ** @Rapha
 
   *** Priority 1
-
+    [ ] bug : open edition : on peut pas ajouter de sous event
+      - info : ca marche que pour les admins > devinir admin et ca marche
     [X] remonté tes points de la 0.15
     [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
     [X] Evénement : admin + open edition

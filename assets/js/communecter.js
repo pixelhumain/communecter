@@ -1028,25 +1028,8 @@ function reloadNewsSearch(){
 maybe movebale into Element.js
 ***************************************** */
 
-var typeObj = {
-	"person" : {col:"citoyens",ctrl:"person"},
-	"persons" : {col:"citoyens",ctrl:"person"},
-	"citoyen" : {col:"citoyens",ctrl:"person"},
-	"citoyens" : {col:"citoyens",ctrl:"person"},
-	"organization" : {col:"organizations",ctrl:"organization"},
-	"organizations" : {col:"organizations",ctrl:"organization"},
-	"event" : {col:"events",ctrl:"event"},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
-	"project" : {col:"projects",ctrl:"project"},
-	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city"},
-	"entry" : {col:"surveys",ctrl:"survey"},
-	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"action" : {col:"actions",ctrl:"room"},
-	"actions" : {col:"actions",ctrl:"room"},
-	"discuss" : {col:"actionRooms",ctrl:"room"},
-}
+
+
 
 function  buildQRCode(type,id) { 
 		
@@ -1106,15 +1089,89 @@ function activateSummernote(elem) {
 	}
 }
 
-function exists(val){
-	return typeof val != "undefined";
+
+/* *********************************
+			ORGANISATION
+********************************** */
+
+var orgaRules = {
+	organizationCountry : {
+		required : true
+	},
+	organizationName : {
+		required : true
+	},
+	type : {
+		required : true,
+		inArray: ["NGO","LocalBusiness","Group","GovernmentOrganization"]
+	},
+	admin : {
+		required : true,
+		inArray: ["admin","member","creator"]
+	},
+	postalCode : {
+		rangelength : [5, 5],
+		required : true,
+		validPostalCode : true
+	}
+};
+
+function elementValidation (formId, elemRules, callback) { 
+	$('#'+formId).validate({
+		rules : elemRules,
+		submitHandler : function(form) {
+			$.blockUI({
+				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
+			});
+	        if(typeof callback == "function")
+	        	callback();
+	       	return false; // required to block normal submit since you used ajax
+		},
+		invalidHandler : function(event, validator) {//display error alert on form submit
+			$('.errorHandler').show();
+		}
+	});
 }
-function notNull(val){
-	return typeof val != "undefined"
-			&& val != null;
+
+function saveOrga () { 
+	$.ajax({
+    	  type: "POST",
+    	  url: baseUrl+"/"+moduleId+"/organization/save",
+    	  data: $("#organizationForm").serialize(),
+    	  success: function(data){
+    			if(!data.result){
+                    toastr.error(data.msg);
+               		$.unblockUI();
+               	}
+                else { 
+                    toastr.success(data.msg);
+                	addFloopEntity(data.id, "organizations", data.newOrganization);
+					loadByHash('#organization.detail.id.'+data.id);
+					//$.hideSubview();
+					$.unblockUI();
+                }
+    	  },
+    	  dataType: "json"
+    });
 }
-function notEmpty(val){
-	return typeof val != "undefined"
-			&& val != null
-			&& val != "";
-}
+
+
+var typeObj = {
+	"person" : {col:"citoyens",ctrl:"person"},
+	"persons" : {col:"citoyens",ctrl:"person"},
+	"citoyen" : {col:"citoyens",ctrl:"person"},
+	"citoyens" : {col:"citoyens",ctrl:"person"},
+	"organization" : { col:"organizations", ctrl:"organization", rules:orgaRules, save:saveOrga},
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {col:"events",ctrl:"event"},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {col:"projects",ctrl:"project"},
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city"},
+	"entry" : {col:"surveys",ctrl:"survey"},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {col:"actions",ctrl:"room"},
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+};

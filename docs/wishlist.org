@@ -90,6 +90,7 @@
 [.16] bug : sur archiver , persiste dans les listes 
 [.16] bug : une décision terminé, on peut toujours voté dessus
 [.16] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[ ] btn archiver afficher si deconnecté
 [ ] changer les lien des DDA sur les parent insee
 [ ] ajouter la proposition de signature du pacte de transition citoyenne
 [ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
