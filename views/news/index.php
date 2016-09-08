@@ -31,7 +31,8 @@ $cssAnsScriptFilesModule = array(
 	'/css/news/index.css',	
 	'/js/news/index.js',
 	'/js/news/newsHtml.js',
-	'/css/news/newsSV.css'
+	'/css/news/newsSV.css',
+	'/js/dataHelpers.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
@@ -571,6 +572,10 @@ var searchBy = "<?php echo @$searchBy ?>";
 var tagSearch = "<?php //echo @$tagSearch ?>";
 var peopleReference=false;
 var mentionsContact = [];
+
+var stopMention = false;
+var element = null;
+
 jQuery(document).ready(function() 
 {
 //	console.log(dataNewsSearch);
@@ -678,8 +683,7 @@ jQuery(document).ready(function()
 			mentionsContact.push(object);
 	  	});
 	}
-	var stopMention = false;
-	var element = "";
+	
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
 		  	if(stopMention)
@@ -693,7 +697,7 @@ jQuery(document).ready(function()
 				if(query.indexOf("+o")==0){
 					element = "organization";
 					extraForm = "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
-					extraForm += "\n>admin:admin|member|unknown";
+					extraForm += "\n>role:admin|member|creator";
 		        }
 		        else if(query.indexOf("+e")==0){
 					element = "event";
@@ -714,13 +718,16 @@ jQuery(document).ready(function()
 		        }
 		        if( element ){
 		        	stopMention = true;
-			        form = "\n>element:"+element;
-					form += "\n>name:xxx";
-					form += "\n>desc:";
-			        form += "\n>email:";
-			        form += "\n>adr:";
-			        form += "\n>cp:";
-			        form += "\n>latlon:";
+			        form = "\n>organizationName:";//form = "\n>name:";
+					form += "\n>shortDescription:";
+					form += "\n>description:";
+			        form += "\n>organizationEmail:";//form += "\n>email:";
+			        form += "\n>streetAddress:";//address
+			        form += "\n>postalCode:97421";
+			        form += "\n>city:97414";
+			        form += "\n>cityName:ST LOUIS";
+			        form += "\n>organizationCountry:RE";
+			        //form += "\n>latlon:";geoPosLatitude geoPosLongitude
 			        form += extraForm;
 					$("#get_url").val( $("#get_url").val() + form);
 					return false;
