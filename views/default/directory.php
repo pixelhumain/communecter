@@ -62,10 +62,9 @@
 
 </style>
 
-<div class="col-md-12">
   <div class="col-md-12 no-padding " style="margin-top:25px;">
 
-    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
+    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
       <span class="input-group-btn">
             <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
@@ -74,6 +73,13 @@
             </button>
       </span>
     </div>
+    <select class="pull-left" id="stepSearch" style="margin: 2px 0px 5px 15px; padding: 6px;">
+      <option value="30">30</option>
+      <option value="100">100</option>
+      <option value="500">500</option>
+      <option value="1000">1000</option>
+      <option value="10000">Tout</option>
+    </select>
     <button class="btn btn-sm tooltips hidden-xs" id="btn-slidup-scopetags" 
             style="margin-left:15px;margin-top:5px;"
             data-toggle="tooltip" data-placement="top" title="Afficher/Masquer les filtres">
@@ -125,9 +131,9 @@
     
   </div>
   
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+  <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
 
-</div>
+
 
 <div style="" class="col-md-12 col-sm-12 col-xs-12 margin-top-15" id="dropdown_search"></div>
 
@@ -226,6 +232,7 @@ jQuery(document).ready(function() {
       }  
     }
 
+
     if (index > -1) removeSearchType(type);
     else addSearchType(type);
 
@@ -235,6 +242,11 @@ jQuery(document).ready(function() {
     }
 
   });
+
+  
+    $("#stepSearch").change(function(){ console.log("new stepSearch : " + $("#stepSearch").val());
+      indexStepInit = parseInt($("#stepSearch").val());
+    });
   
 /*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
   $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/

@@ -14,8 +14,8 @@
 * ************************************************************    
 
 ** @Tango 
-    [ ] REcherche par 100, 500, 1000, all
-    [ ] synchronize new item menu (on selected)
+    [ ] Recherche par 100, 500, 1000, all
+    [X] synchronize new item menu (on selected)
     [ ] Finir Orga:Add member
       [??] Project:contributeur
       [??] People:invitation

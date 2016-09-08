@@ -9,13 +9,14 @@ var totalData = 0;
 var timeout = null;
 
 function startSearch(indexMin, indexMax){
-    console.log("startSearch", indexMin, indexMax, indexStep);
-
+    
     if(loadingData) return;
     loadingData = true;
     
     //console.log("loadingData true");
     indexStep = indexStepInit;
+
+    console.log("startSearch", indexMin, indexMax, indexStep);
 
 	  var name = $('#searchBarText').val();
     

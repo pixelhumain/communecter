@@ -492,7 +492,7 @@ var loadableUrls = {
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
 
-    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat'},
+    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
