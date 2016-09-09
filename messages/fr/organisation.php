@@ -25,5 +25,18 @@ return array(
 	"Add a member to this organization" => "Ajouter un membre à cette organisation",
 	"An Organization can have People as members or Organizations" => "Les membres d'une organisation peuvent être des personnes ou des organisations.",
 	"Search by name, email" => "Rechercher par nom ou e-mail",
+
+	//TYPES
+	"NGO" => "Association",
+	"LocalBusiness" => "Entreprise",
+	"Local Business" => "Entreprise",
+	"Group" => "Groupe",
+	"Government Organization" => "Service Public",
+	"the NGO" => "l'association",
+	"the localBusiness" => "l'entreprise",
+	"Local Business" => "Entreprise",
+	"the group" => "le collectif",
+	"the Group" => "le groupe",
+	"the government organization" => "l'organisation gouvernementale",
 );
 ?>

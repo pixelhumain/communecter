@@ -744,7 +744,7 @@ function initXEditable() {
 				$('.progressStyle').val(val);
 			}
 			else 
-				return data.msg;
+				return /*data.msg*/ "erreur";
 	    }
 	});
 

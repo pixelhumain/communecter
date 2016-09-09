@@ -126,14 +126,15 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 				<div class="row padding-15">
 					<hr>
-					<a href='javascript:loadByHash("#rooms.index.type.projects.id.<?php echo (String) $element["_id"]; ?>")'>
+					<?php $urlCoop = "#rooms.index.type.".$type.".id.".(String) $element["_id"]; ?>
+					<a href='javascript:loadByHash("<?php echo $urlCoop; ?>")'>
 			        	<h1 class="text-azure text-left homestead no-margin">
 			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
 			        	</h1>
 			        </a>
 			    </div>
 				<?php 
-					$rooms = ActionRoom::getAllRoomsByTypeId($type, (String)$element["_id"]);	
+					/*$rooms = ActionRoom::getAllRoomsByTypeId($type, (String)$element["_id"]);	
 					$this->renderPartial('../dda/index',array(    
 	   					"parent" => $element, 
 	                    "parentId" => (String)$element["_id"], 
@@ -147,7 +148,18 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 	                    "actions" => @$rooms["actions"], 
 	                    "history" => @$rooms["history"], 
 	                    "renderPartial" => true
-	                    ));
+	                    ));*/
+
+					$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
+					$this->renderPartial('../pod/activityList2',array(    
+		   					"parent" => $element, 
+		                    "parentId" => (string)$element["_id"], 
+		                    "parentType" => $type, 
+		                    "title" => "Activité Coop",
+                        	"list" => @$rooms, 
+		                    "renderPartial" => true
+		                    ));
+					
 				}
 				?>
 				<?php if($type==Project::COLLECTION){ ?> 

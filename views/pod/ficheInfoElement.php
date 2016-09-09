@@ -150,32 +150,38 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php echo Yii::t("common","Change password") ?>
 			</span>
 		</a>
-		<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default  tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+		<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
 			<i class='fa fa-download'></i> 
 			<span class="hidden-sm hidden-xs">
 			<?php //echo Yii::t("common","Télécharger votre profile"); ?>
 			</span>
 		</a>
 		<?php } ?>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for this ".Element::getControlerByCollection($type)); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>
 	<div id="activityContent" class="panel-body no-padding hide">
 		<h2 class="homestead text-dark" style="padding:40px;">
 			<i class="fa fa-spin fa-refresh"></i> Chargement des activités ...
 		</h2>
 	</div>
-	<div class="col-sm-6 col-md-5 padding-15">
+	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
+		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
+			<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","Information") ?> ?
+		</div>
 		<div class="padding-10">
 			<div id="divName">
-				<h2 class="entityTitle">
-					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
-						<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
-					</a>
-				</h2>
+				<label class="" > <?php echo Yii::t("common", "Name"); ?> : </label>
+				<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
+					<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
+				</a>
 			</div>
-			<i class="fa fa-smile-o fa_name hidden"></i> 		
-			<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
-				<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
-			</a>
+			<?php if($type==Person::COLLECTION){ ?>
+				<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
+				<label class="" > <?php echo Yii::t("common", "Username"); ?> : </label>		
+				<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
+					<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
+				</a>
+			<?php } ?>
 		</div>
 
 		<?php if($type==Person::COLLECTION){ ?>
@@ -187,21 +193,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						</a>
 						<?php $facebook =  (!empty($element["socialNetwork"]["facebook"])? $element["socialNetwork"]["facebook"]:"#") ;?>
 						<a href="<?php echo $facebook ; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo $facebook ; ?>
+							<?php echo ($facebook=="#"?"":$facebook) ; ?>
 						</a>
 						<?php $twitter =  (!empty($element["socialNetwork"]["twitter"])? $element["socialNetwork"]["twitter"]:"#") ;?>
 						<a href="<?php echo $twitter ;?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo $twitter ;?>
+							<?php echo ($twitter=="#"?"":$twitter) ; ?>
 						</a>
 						<?php $googleplus =  (!empty($element["socialNetwork"]["googleplus"])? $element["socialNetwork"]["googleplus"]:"#") ;?>
 						<a href="<?php echo $googleplus ;?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo $googleplus ;?>
+							<?php echo ($googleplus=="#"?"":$googleplus) ; ?>
 						</a>
 						<?php $github =  (!empty($element["socialNetwork"]["github"])? $element["socialNetwork"]["github"]:"#") ;?>
 						<a href="<?php echo $github ;?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo $github ;?>
+							<?php echo ($github=="#"?"":$github) ; ?>
 						</a>
-
 					</div>
 
 					<div class="col-md-12 no-padding">
@@ -244,23 +249,51 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 				</div>
 			<?php } ?>
-		</div>		
+	</div>		
 	<?php 
 	//var_dump($admin);
 	//if(!empty($admin) && $admin == true){
 	//<!-- class=" col-lg-6 col-md-6 col-sm-6 col-xs-8"--> ?>
-	
-	<?php //} ?>
+
+	<?php if($type==Project::COLLECTION){ ?>
+	<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
+		<a  href="#" id="avancement" data-type="select" data-title="avancement" 
+			data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
+			class="entityDetails">
+			<?php if(isset($element["properties"]["avancement"])){ 
+				//idea => concept => Started => development => testing => mature
+				if($element["properties"]["avancement"]=="idea")
+					$val=5;
+				else if($element["properties"]["avancement"]=="concept")
+					$val=20;
+				else if ($element["properties"]["avancement"]== "started")
+					$val=40;
+				else if ($element["properties"]["avancement"] == "development")
+					$val=60;
+				else if ($element["properties"]["avancement"] == "testing")
+					$val=80;
+				else 
+					$val=100;
+				echo Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id);
+			} ?>
+		</a>
+	</div>
+	<?php } ?>
+
+
+
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
-		<?php if($type==Event::COLLECTION){ ?>
-			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding" style="padding-right:10px !important;">
+		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
+			<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding" style="padding-right:10px !important;">
 				<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
 				</div>
 				<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 entityDetails no-padding">
+					<?php if($type==Event::COLLECTION ) { ?>
 					<div class="col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
 					</div>
+					<?php } ?>
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","From") ?> </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
 					</div>
@@ -269,13 +302,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding">
 		<?php } ?>
+
 		<div class="text-dark lbl-info-details <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
 			<?php if($type==Event::COLLECTION){?>
-				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where") ?> ? 
+				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
 			<?php }else{ ?>
-				<i class="fa fa-angle-down"></i> Coordonnées
+				<i class="fa fa-angle-down"></i> <?php Yii::t("common","Contact information");?>
 			<?php } ?>
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
@@ -388,11 +421,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 				<br>
 				<?php } ?>
-				<?php if ($type==Project::COLLECTION){ ?>
-					<i class="fa fa-calendar"></i> 
-					<?php if(!empty($element["startDate"])) echo Yii::t("common","From") ; ?> <a href="#" id="startDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's start",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a> 
-					<label id="labelTo"><?php echo Yii::t("common","To"); ?></label><a href="#" id="endDate" data-type="date" data-original-title="<?php echo Yii::t("project","Enter the project's end",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a><br>
-				<?php } ?>
+
+
 				<?php //If there is no http:// in the url
 				$scheme = "";
 				if(isset($element["url"])){
@@ -452,9 +482,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>	
 			<?php } ?>		
 		</div>
-		<?php if($type==Event::COLLECTION){ ?>
-			</div>
-		<?php } ?>
+
 		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="col-sm-12 no-padding text-dark lbl-info-details">
@@ -506,12 +534,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</a>	
 		</div>
 	</div>
-	<div class="padding-10 row text-dark">
+	<div id="divTags" class="padding-10 row text-dark">
 		<div class="pull-left col-sm-7 col-md-8 tag_group">
 			
 		</div>
 		
-		<div class="pull-right text-right col-sm-5 col-md-4">
+		<div  class="pull-right text-right col-sm-5 col-md-4">
 			<div class="form-group tag_group no-margin">
 				<label class="control-label  text-red">
 					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
@@ -664,7 +692,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		    </div>
 		    <?php } ?>
 		</div>
-		<?php } ?>
+	<?php } ?>
 </div>
 
 
@@ -672,7 +700,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 <script type="text/javascript"> 
 
 	var contextData = <?php echo json_encode($element)?>;
-	//var contextType = <?php echo json_encode($type)?>;
+	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?>;
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
@@ -736,6 +764,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			findGeoPosByAddress();
 		});
 
+		//buildQRCode(contextControler,contextId);
+
 		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
@@ -745,6 +775,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			if(!$("#dropdown-content-multi-scope").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
+
+
 
 	});
 
@@ -836,8 +868,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	function manageModeContext() {
 		console.log("-----------------manageModeContext----------------------");
-		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
-							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
+		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
+							'#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', '#avancement'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
@@ -859,7 +892,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	function manageDivEdit() {
 		console.log("-----------------manageDivEdit----------------------");
-		listXeditables = [	'#divName', '#divShortDescription'];
+		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if (mode == "view") {
 			$.each(listXeditables, function(i,value) {
 				$(value).hide();
@@ -1009,6 +1042,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		 		width: 200
 		 	},
 		 	success : function(data) {
+		 		console.log("TAGS", data);
 				if(data.result) {
 					toastr.success(data.msg);
 					loadActivity=true;
@@ -1152,7 +1186,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						val=80;
 					else
 						val=100;
-					$('.progressStyle').val(val);
+					$('#progressStyle').val(val);
+					$('#labelProgressStyle').html(data.avancement);
 				}
 				else 
 					return data.msg;
@@ -1186,6 +1221,37 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				else 
 					return data.msg;
 			}
+		});
+
+
+		$('#avancement').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
+			source: function() {
+				//idea => concept => Started => development => testing => mature
+				avancement=["idea","concept","started","development","testing","mature"];
+				return avancement;
+			},
+			success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;	
+					if(data.avancement=="idea")
+						val=5;
+					else if(data.avancement=="concept")
+						val=20;
+					else if (data.avancement== "started")
+						val=40;
+					else if (data.avancement == "development")
+						val=60;
+					else if(data.avancement == "testing")
+						val=80;
+					else
+						val=100;
+					$('.progressStyle').val(val);
+				}
+				else 
+					return data.msg;
+		    }
 		});
 		
 

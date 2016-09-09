@@ -89,6 +89,9 @@
     [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
     [X] Evénement : admin + open edition
     [ ] Refactor Element
+      [X] Refactor sur Element::UpdateField()
+      [X] Rajout des badges
+      [ ] Vérifier que les badges s'ajouter a la création d'une entité
       [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
       [ ] FAire appaitre sur l'event parent dans un sous événement
       [ ] le pod et le btn menu pour le calendrier des événements

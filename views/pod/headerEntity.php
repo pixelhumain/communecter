@@ -209,7 +209,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					$images=array("profil"=> array($entity["profilMediumImageUrl"]));
 				else 
 					$images="";	
-				$this->renderPartial('../pod/fileupload', array("itemId" => $entity["_id"],
+				$this->renderPartial('../pod/fileupload', array(  "itemId" => $entity["_id"],
 																  "type" => $type,
 																  "contentId" => Document::IMG_PROFIL,
 																  "editMode" => false,
@@ -226,8 +226,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					<?php if($type == Organization::COLLECTION || $type == Event::COLLECTION){ ?>
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
-								<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="">
-								</a>
+								<label id="typeHeader" class="text-dark">
+									<?php echo Yii::t(Element::getCommonByCollection($type), $entity["type"], null, Yii::app()->controller->module->id); ?>
+								</label>
 						</h2>
 					<?php } ?>
 					<span class="lbl-entity-name">
@@ -253,35 +254,30 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				</div>
 			</div>
 			<?php if($type == Project::COLLECTION){ ?>
-			<div class="col-md-12 text-dark no-padding" style="margin-top:10px;">
-					<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-						data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
-						class="entityDetails">
-						<?php if(isset($entity["properties"]["avancement"])){ 
-							//idea => concept => Started => development => testing => mature
-							if($entity["properties"]["avancement"]=="idea")
-								$val=5;
-							else if($entity["properties"]["avancement"]=="concept")
-								$val=20;
-							else if ($entity["properties"]["avancement"]== "started")
-								$val=40;
-							else if ($entity["properties"]["avancement"] == "development")
-								$val=60;
-							else if ($entity["properties"]["avancement"] == "testing")
-								$val=80;
-							else 
-								$val=100;
-							echo Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id);
-						} ?>
-					</a>
-					<?php if(isset($entity["properties"]["avancement"])){ ?>
-					<progress max="100" value="<?php echo $val;?>" class="progressStyle">
+			<div class="col-md-12 text-dark no-padding" >
+				<?php if(isset($entity["properties"]["avancement"])){ 
+					//idea => concept => Started => development => testing => mature
+					if($entity["properties"]["avancement"]=="idea")
+						$val=5;
+					else if($entity["properties"]["avancement"]=="concept")
+						$val=20;
+					else if ($entity["properties"]["avancement"]== "started")
+						$val=40;
+					else if ($entity["properties"]["avancement"] == "development")
+						$val=60;
+					else if ($entity["properties"]["avancement"] == "testing")
+						$val=80;
+					else 
+						$val=100;
+					echo "<label id='labelProgressStyle'>".Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
+				}  
+				if(isset($entity["properties"]["avancement"])){ ?>
+					<progress id="progressStyle" max="100" value="<?php echo $val;?>" class="progressStyle">
 					</progress>
-					<?php } else { ?>
-					<progress max="100" value="0" class="progressStyle hide">
+				<?php } else { ?>
+					<progress id="progressStyle" max="100" value="0" class="progressStyle hide">
 					</progress>
-
-					<?php } ?>
+				<?php } ?>
 			</div>
 			<?php } ?>
 			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
@@ -310,16 +306,67 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				</span>
 				<?php } ?>
 				<div id="divTagsHeader">
-				<?php if(isset($entity["tags"])){ ?>
-					<?php $i=0; foreach($entity["tags"] as $tag){ if($i<6) { $i++;?>
-					<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
-						<i class="fa fa-tag"></i> <?php echo  $tag; ?>
-					</div>
-					<?php }} ?>
-				<?php } ?>
+					<?php if(isset($entity["tags"])){ ?>
+						<?php 
+							$i=0; 
+							foreach($entity["tags"] as $tag){ 
+								if($i<6) { 
+									$i++;?>
+									<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
+										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+									</div>
+					<?php 		}
+							} 
+					} ?>
 				</div>
 			</div>
 			<?php } ?>
+
+			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
+				<style type="text/css">
+					.badgePH{ 
+						cursor: pointer;
+						display: inline-block;
+						margin-top: 10px;
+						/*margin-bottom: 10px;*/
+					}
+					/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+					.badgePH .fa-stack .main { font-size:2.2em}
+					.badgePH .fa-stack .mainTop { 
+						/*margin-left:10px;*/
+						margin-top:-3px}
+					.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+					/* Tooltip container */
+					.opendata .mainTop{
+					    color: black;
+					    font-size: 1.3em;
+					    padding: 5px;
+					}
+					.opendata .main{
+					    color: #00cc00;
+					}
+				</style>
+				<?php if(!empty($entity["badges"])){?>
+					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
+						<div class="badgePH pull-right" data-title="OPENDATA">
+							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+								<i class="fa fa-database main fa-stack-1x text-orange"></i>
+								<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+							</span>
+						</div>
+				<?php } 
+				} ?>
+			</div>
+
+			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
+				<h4 class="panel-title text-dark"> 
+					<?php if ($openEdition==true) { ?>
+						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					<?php } ?>
+				</h4>
+			</div>
+
+			
 		</div>
 	<?php }else{ ?>
 		
@@ -361,7 +408,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 		        	</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
-		        	<i class="fa fa-message"></i> <strong>Ma localité :</strong>
+		        	<i class="fa fa-message"></i> <strong>Mon adresse :</strong>
 		        </div>
 		        <div class="col-sm-8 text-left padding-10">
 		        	<div class="btn-group btn-group-locality inline-block">
