@@ -28,7 +28,8 @@ $this->renderPartial('../default/panels/toolbar');
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
 															"contentType" => Project::COLLECTION,
-															"admin" => $admin	));
+															"admin" => $admin,
+															"openEdition"=> $openEdition));
 					?>
 					<?php 
 						if(!empty($properties) || $admin==true){
@@ -44,7 +45,8 @@ $this->renderPartial('../default/panels/toolbar');
 						"parentId" => (String) $project["_id"],
 						"parentType" => Project::COLLECTION,
 						"isAdmin" => $admin,
-						"parentName" => $project["name"]
+						"parentName" => $project["name"],
+						"openEdition" => $openEdition,
 					  )); ?>
 				</div>
 				<?php } 
@@ -56,7 +58,8 @@ $this->renderPartial('../default/panels/toolbar');
 																	"contextId" => (String) $project["_id"],
 																	"contextType" => Project::CONTROLLER,
 																	"list" => $eventTypes,
-																	"authorised" => $admin
+																	"authorised" => $admin,
+																	"openEdition"=> $openEdition
 																  )); ?>
 				</div>
 				<?php } ?>
