@@ -20,7 +20,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> "></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised || $openEdition ) { ?>
+		<?php if( @$authorised || $openEdition && isset(Yii::app()->session["userId"]) ) { ?>
 			<a href="#project.projectsv.id.<?php echo $contextId ?>.type.<?php echo $contextType ?>" class="lbh btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
 		<?php  } ?>
 			<a id="showHideOldProject" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("project","Display/Hide old projects",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldProject()">
