@@ -342,8 +342,8 @@ Menu::organization($organization);
 	<button class="btn btn-default pull-left margin-right-15" id="menuImportFile"
 		data-toggle="modal" data-target="#modal-scope">
 		<div id="titleImportFile" class='text-grey text-dark'>
-			<i class="fa fa-upload"></i> 
-			Inviter un contact
+			<i class="fa fa-users"></i> 
+			Ajouter un contact
 		</div>
 	</button>
 	<a href="javascript:;" onclick="fadeInView('divImportFile');" class="btn btn-default pull-left margin-right-15" id="menuImportFile">
