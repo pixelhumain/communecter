@@ -323,6 +323,7 @@ class CommunecterController extends Controller
       "removecontributor"   => array("href" => "/ph/communecter/link/removecontributor"),
       "disconnect"        => array("href" => "/ph/communecter/link/disconnect"),
       "connect"           => array("href" => "/ph/communecter/link/connect"),
+      "multiconnect"           => array("href" => "/ph/communecter/link/multiconnect"),
       "follow"           => array("href" => "/ph/communecter/link/follow"),
       "validate"          => array("href" => "/ph/communecter/link/validate"),
     ),

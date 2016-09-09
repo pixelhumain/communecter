@@ -25,7 +25,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.fileupload-new .thumbnail, 
 	.fileupload-new .thumbnail img, 
 	.fileupload-preview.thumbnail img {
-	    width: 100%;
+	    width: 100% !important;
 	}
 	.panelDetails .row{
 		margin:0px !important;
@@ -317,7 +317,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php 
 						$address = (@$organization["address"]["streetAddress"]) ? $organization["address"]["streetAddress"] : "";
 						$address2 = (@$organization["address"]["postalCode"]) ? $organization["address"]["postalCode"] : "";
-						$address2 .= (@$organization["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
+						if(isset(OpenData::$phCountries[ $organization["address"]["addressCountry"] ]))
+						$address2 .= (@$organization["address"]["addressCountry"] && @OpenData::$phCountries[ $organization["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
+						
 						$tel = "";
 						if( @$organization["telephone"]["fixe"]){
 							foreach ($organization["telephone"]["fixe"] as $key => $num) {

@@ -16,8 +16,13 @@
 
 ** @Tango 
     [ ] Recherche par 100, 500, 1000, all
+      [X] page recherche
+      [ ] page agenda
     [X] synchronize new item menu (on selected)
     [ ] Finir Orga:Add member
+      [X] refaire marcher la modal
+      [X] brancher le save de la modal sur un controller (link/multiConnectAction)
+      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
