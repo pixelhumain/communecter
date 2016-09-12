@@ -16,14 +16,21 @@
 
 ** @Tango 
     [ ] Recherche par 100, 500, 1000, all
+      [X] page recherche
+      [ ] page agenda
     [X] synchronize new item menu (on selected)
     [ ] Finir Orga:Add member
+      [X] refaire marcher la modal
+      [X] brancher le save de la modal sur un controller (link/multiConnectAction)
+      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
 
 ** @Sylvain 
-    [ ] pb d'images dans en ce moment (ex : Manapany)
+    [X] pb d'images dans en ce moment (ex : Manapany)
+    [ ] delete person : 
+      [ ] on admin : delete simple person (links but no news/votes/comments)
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
@@ -46,6 +53,7 @@
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
+
 
 ** @Tib 
   [???] multi scope on element forms
@@ -91,7 +99,7 @@
     [ ] Refactor Element
       [X] Refactor sur Element::UpdateField()
       [X] Rajout des badges
-      [ ] Vérifier que les badges s'ajouter a la création d'une entité
+      [X] Correction sur les url
       [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
       [ ] FAire appaitre sur l'event parent dans un sous événement
       [ ] le pod et le btn menu pour le calendrier des événements
@@ -102,6 +110,10 @@
           [ ] Event
           [ ] Project
         [ ] Test Confidentialité
+      [ ] Bug ajout d'une image de profil
+      [ ] Bug image QR Code
+      [ ] Active des btn menu 
+    [ ] Vérifier que les badges s'ajouter a la création d'une entité
 
   *** Priority 2
   

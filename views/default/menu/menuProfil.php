@@ -16,7 +16,7 @@
   <?php // DROPDOWN MENU PERSO // ?>
   <ul class="dropdown-menu dropdown-menu-right">
     <li>
-      <a class="lbh" href="#element.detail.type.citoyens.id.<?php echo Yii::app()->session['userId']?>" id="btn-menu-dropdown-my-profil">
+      <a class="lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" id="btn-menu-dropdown-my-profil">
         <i class="fa fa-user text-dark"></i><?php echo Yii::t("person","My space"); ?> 
         <span class="badge badge-warning"><i class="fa fa-bookmark"></i>
         <?php echo Gamification::badge( Yii::app()->session['userId'] ) ?> 

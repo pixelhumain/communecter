@@ -581,7 +581,7 @@ function loadByHash( hash , back ) {
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
-	//alert("loadByHash");
+	//alert("loadByHash"+hash);
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);

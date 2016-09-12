@@ -309,7 +309,7 @@ jQuery(document).ready(function() {
 	console.dir(userConnected);
 	//si l'utilisateur doit passer par le two_step_register
 
-	if(userConnected != null && typeof userConnected["two_steps_register"] != "undefined" && userConnected["two_steps_register"] == true){
+	if(userConnected != null && !location.hash){
 		loadByHash("#person.detail.id."+userId);
 		return;
 	} 

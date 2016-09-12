@@ -44,8 +44,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
     }
 
+    .titleField{
+    	font-weight: 400;
+    }
+
     .entityTitle{
-      background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
       margin-top: -10px;
@@ -59,12 +62,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       margin-top: -10px;
       font-weight: 200;
     }*/
-    .entityTitle h2{
+    /*.entityTitle h2{
     	font-size: 30px;
     	font-weight: 200;
       	margin:0px !important;
       	text-align: left;
-    }
+    }*/
     .entityDetails span{
       font-weight: 300;
       font-size:15px;
@@ -140,9 +143,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
 	</div>
-	<div id="divBtnDetail"  >
-		<a href="javascript:" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
-		<a href="javascript:" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+	<div id="divBtnDetail" class="panel-tools" >
+		<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit") ?> </span></a>
+		
+		<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
 		<?php if($type == Person::COLLECTION){ ?>
 		<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
 			<i class='fa fa-key'></i> 
@@ -166,28 +170,46 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
 		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
-			<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","Information") ?> ?
+			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
 		</div>
-		<div class="padding-10">
-			<div id="divName">
-				<label class="" > <?php echo Yii::t("common", "Name"); ?> : </label>
-				<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
-					<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
-				</a>
+		<div class="col-md-12">
+			<div class="no-padding col-md-12">
+				<div id="divName">
+					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
+					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
+						<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
+					</a>
+				</div>
+
+				<?php if($type==Person::COLLECTION){ ?>
+				<div id="divUserName">
+					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
+					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Username"); ?> :</span>
+							
+					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
+						<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
+					</a>
+				</div>
+				<?php } ?>
+
+				<?php if($type==Organization::COLLECTION || $type==Event::COLLECTION){ ?>
+				<div id="divType">
+					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
+					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
+					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
+						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo "";?>
+					</a>
+				</div>
+				<?php } ?>
+
+
 			</div>
-			<?php if($type==Person::COLLECTION){ ?>
-				<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
-				<label class="" > <?php echo Yii::t("common", "Username"); ?> : </label>		
-				<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
-					<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
-				</a>
-			<?php } ?>
 		</div>
 
 		<?php if($type==Person::COLLECTION){ ?>
 				<div class="socialNetwork col-md-12">
 					<div class="col-md-12 no-padding">
-						<span class=""><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
+						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
 						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
 							<?php if (isset($element["socialNetwork"]["skype"])) echo $element["socialNetwork"]["skype"]; else echo ""; ?>
 						</a>
@@ -210,7 +232,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</div>
 
 					<div class="col-md-12 no-padding">
-					
 						<?php if (  (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != "")
 								 || ((string)$element["_id"] == Yii::app()->session["userId"] ))
 								 { ?>
@@ -249,6 +270,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 				</div>
 			<?php } ?>
+			<!-- class="form-group tag_group no-margin"-->
+			<div id="divTags" class="col-md-12 no-padding" >
+				<label class="control-label  text-red">
+					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+				</label>
+				
+				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+					<?php if(isset($element["tags"])){
+						foreach ($element["tags"] as $tag) {
+							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+						}
+					}?>
+				</a>
+			</div>
 	</div>		
 	<?php 
 	//var_dump($admin);
@@ -308,7 +343,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php if($type==Event::COLLECTION){?>
 				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
 			<?php }else{ ?>
-				<i class="fa fa-angle-down"></i> <?php Yii::t("common","Contact information");?>
+				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
 			<?php } ?>
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
@@ -332,6 +367,44 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
 				</a> 
 				<br>
+
+				<?php 
+						$address = ( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"] : "";
+						$address2 = ( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "";
+						$address2 .= ( @$element["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
+						/*if(isset(OpenData::$phCountries[ $element["address"]["addressCountry"] ]))
+						$address2 .= (@$element["address"]["addressCountry"] && @OpenData::$phCountries[ $element["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
+						*/
+
+						$tel = "";
+						if( @$element["telephone"]["fixe"]){
+							foreach ($element["telephone"]["fixe"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+						if(isset($element["telephone"]["mobile"])){
+							foreach ($element["telephone"]["mobile"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+
+						/*$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
+																"name" => @$element['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$element['email'],
+																"img"=>@$element['profilThumbImageUrl']));*/
+
+						$this->renderPartial('../pod/qrcode',array(
+																"type" => @$element['type'],
+																"name" => @$element['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$element['email'],
+																"url" => @$element["url"],
+																"tel" => $tel,
+																"img"=>@$element['profilThumbImageUrl']));
+				?>
 
 				<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
@@ -534,165 +607,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</a>	
 		</div>
 	</div>
-	<div id="divTags" class="padding-10 row text-dark">
-		<div class="pull-left col-sm-7 col-md-8 tag_group">
-			
-		</div>
-		
-		<div  class="pull-right text-right col-sm-5 col-md-4">
-			<div class="form-group tag_group no-margin">
-				<label class="control-label  text-red">
-					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
-				</label>
-				
-				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
-					<?php if(isset($element["tags"])){
-						foreach ($element["tags"] as $tag) {
-							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
-						}
-					}?>
-				</a>
-			</div>	
-		</div>
-	</div>
-
-	<?php if($type == Person::COLLECTION ){ ?>
-	<style type="text/css">
-				
-				  #div-discover .btn-discover{
-				    border-radius: 60px;
-					font-size: 27px;
-					font-weight: 200;
-					border: 1px solid transparent;
-					width: 60px;
-					height: 60px;
-					padding-top: 10px;
-				  }
-				  #div-discover .btn-discover.bg-red{
-				    /*font-size: 43px;
-				    padding-top: 12px;*/
-				  }
-				  #div-discover .btn-discover.bg-azure:hover{
-				    background-color: white !important;
-				    border-color: #2BB0C6 !important;
-				    color: #2BB0C6 !important;
-				  }
-				  #div-discover .btn-discover.bg-red:hover{
-				    background-color: white !important;
-				    border-color: #E33551 !important;
-				    color: #E33551 !important;
-				  }
-				  .btnSubTitle{
-					  margin-bottom:10px; 
-					  font-size:13px; 
-					  font-weight: 300; height: 95px;
-					}
-					@media screen and (max-width: 768px) {
-					    /*#div-discover .btn-discover.bg-red{
-						    font-size: 30px;
-						    padding-top: 3px;
-
-						}
-						#div-discover .btn-discover {
-						    height: 50px;
-						    width: 50px;
-						    font-size: 25px;
-						}
-						.btnSubTitle{
-						  font-size:14px; font-weight: 100;
-						}*/
-					}
-			</style>
-			<?php if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
-			<div id="div-discover" class="center col-xs-12 col-md-4">
-				<div class="panel no-padding margin-top-15">
-		            
-					<div class="panel-heading text-center border-light">
-		                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
-		            </div>
-			        <div class="panel panel-white padding-10 text-left">
-		               	<div class="panel-body no-padding ">
-			                <div class="col-md-12 no-padding" style="margin-top:20px">
-
-			                    <div class="col-xs-6 center text-azure btnSubTitle">
-			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
-
-			                          <i class="fa fa-camera"></i>
-			                        </a><br>
-			                        <span class="text-azure discover-subtitle"> Image de profil</span>
-			                    </div>
-			                    
-			                    <div class="col-xs-6 center text-red btnSubTitle">
-			                        <a href="javascript:;" onclick="$('#editElementDetail').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
-			                          <i class="fa fa-home"></i>
-			                        </a><br>
-			                        <span class="text-red discover-subtitle"> Ma commune</span>
-			                    </div>
-
-			                   
-			                    <div class="col-xs-6 center text-dark btnSubTitle">
-			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
-			                          <i class="fa fa-bullseye"></i>
-			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
-			                    </div>
-			                    <div class="col-xs-6 center text-dark btnSubTitle">
-			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
-			                          <i class="fa fa-tags"></i>
-			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
-			                    </div>                    
-			                </div>
-		                </div>
-			        </div>
-		        </div>
-
-		        <div class="panel no-padding margin-top-15 ">
-			        <div class="panel-heading text-center border-light">
-		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
-		            </div>
-			        <div class="panel panel-white padding-10">
-			            <div id="local-actors-popup-sig">
-			              
-			              <div class="panel-body no-padding ">
-
-			                <div class="col-md-12 no-padding" style="margin-top:20px">
-
-			                    <div class="col-xs-6  center text-yellow btnSubTitle">
-			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
-
-			                          <i class="fa fa-user"></i>
-			                        </a><br/><span class="discover-subtitle">Une personne</span>
-			                    </div>
-			                    
-			                    <div class="col-xs-6  center text-green btnSubTitle">
-			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
-			                          <i class="fa fa-group"></i>
-			                        </a>
-			                        <br/><span class="discover-subtitle">Organisation</span>
-			                    </div>
-
-			                    <div class="col-xs-6  center text-purple btnSubTitle">
-			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
-			                          <i class="fa fa-calendar"></i>
-			                        </a><br/><span class="discover-subtitle">Évènement</span>
-			                    </div>
-			                    
-			                    <div class="col-xs-6  center text-orange btnSubTitle">
-			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
-			                          <i class="fa fa-lightbulb-o"></i>
-			                        </a><br/><span class="discover-subtitle">Projet</span>
-			                    </div>
-
-			                </div>
-
-			              </div>
-			            </div>
-			           
-			        </div>
-			    </div>
-		    </div>
-		    <?php } ?>
-		</div>
-	<?php } ?>
 </div>
 
 
@@ -737,7 +651,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$("#photoAddEdit").on('submit',(function(e) {
 			e.preventDefault();
 			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/organizations/id/"+contextId,
+				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+contextType+"/id/"+contextId,
 				type: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -858,8 +772,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		console.log("switchMode");
 		if(mode == "view"){
 			mode = "update";
+			$(".editProfilLbl").html(" Enregistrer les changements");
+			$("#editElementDetail").addClass("btn-red");
 		}else{
 			mode ="view";
+			$(".editProfilLbl").html(" Éditer");
+			$("#editElementDetail").removeClass("btn-red");
+
 		}
 		manageModeContext();
 		changeHiddenIcone(false);
@@ -870,7 +789,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		console.log("-----------------manageModeContext----------------------");
 		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
-							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', '#avancement'];
+							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
+							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
@@ -893,6 +813,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	function manageDivEdit() {
 		console.log("-----------------manageDivEdit----------------------");
 		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
+		console.log(contextType);
+		if(contextType != "citoyens")
+			listXeditables.push('#divInformation');
+		divInformation
 		if (mode == "view") {
 			$.each(listXeditables, function(i,value) {
 				$(value).hide();
@@ -1009,7 +933,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		 	success : function(data) {
 				if(data.result) {
 					toastr.success(data.msg);
-					loadActivity=true;	
+					loadActivity=true;
+					if(typeof data.type != "undefined" && $('#typeHeader').length ){
+						$('#typeHeader').html(data.type);
+					}
 				}
 				else 
 					return data.msg;

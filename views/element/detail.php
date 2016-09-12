@@ -7,6 +7,7 @@
 if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
 <?php 
+
 		if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 			$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "admin" => $admin)); 
 		//End isset renderPartial
@@ -36,6 +37,158 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
 	    	</div>
+
+	    	<?php if($type == Person::COLLECTION ){ ?>
+				<style type="text/css">
+							
+							  #div-discover .btn-discover{
+							    border-radius: 60px;
+								font-size: 27px;
+								font-weight: 200;
+								border: 1px solid transparent;
+								width: 60px;
+								height: 60px;
+								padding-top: 10px;
+							  }
+							  #div-discover .btn-discover.bg-red{
+							    /*font-size: 43px;
+							    padding-top: 12px;*/
+							  }
+							  #div-discover .btn-discover.bg-azure:hover{
+							    background-color: white !important;
+							    border-color: #2BB0C6 !important;
+							    color: #2BB0C6 !important;
+							  }
+							  #div-discover .btn-discover.bg-red:hover{
+							    background-color: white !important;
+							    border-color: #E33551 !important;
+							    color: #E33551 !important;
+							  }
+							  .btnSubTitle{
+								  margin-bottom:10px; 
+								  font-size:13px; 
+								  font-weight: 300; height: 95px;
+								}
+								@media screen and (max-width: 768px) {
+								    /*#div-discover .btn-discover.bg-red{
+									    font-size: 30px;
+									    padding-top: 3px;
+
+									}
+									#div-discover .btn-discover {
+									    height: 50px;
+									    width: 50px;
+									    font-size: 25px;
+									}
+									.btnSubTitle{
+									  font-size:14px; font-weight: 100;
+									}*/
+								}
+						</style>
+						<?php 
+						//center col-xs-12 col-md-4
+
+						if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
+						<div id="div-discover" class="col-md-4 pull-right">
+							<div class="panel no-padding">
+					            
+								<div class="panel-heading text-center border-light">
+					                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
+					            </div>
+						        <div class="panel panel-white padding-10 text-left">
+					               	<div class="panel-body no-padding ">
+						                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+						                    <div class="col-xs-6 center text-azure btnSubTitle">
+						                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
+
+						                          <i class="fa fa-camera"></i>
+						                        </a><br>
+						                        <span class="text-azure discover-subtitle"> Image de profil</span>
+						                    </div>
+						                    
+						                    <div class="col-xs-6 center text-red btnSubTitle">
+						                        <a href="javascript:;" onclick="$('#editElementDetail').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+						                          <i class="fa fa-home"></i>
+						                        </a><br>
+						                        <span class="text-red discover-subtitle"> Ma commune</span>
+						                    </div>
+
+						                   
+						                    <div class="col-xs-6 center text-dark btnSubTitle">
+						                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
+						                          <i class="fa fa-bullseye"></i>
+						                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
+						                    </div>
+						                    <div class="col-xs-6 center text-dark btnSubTitle">
+						                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+						                          <i class="fa fa-tags"></i>
+						                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+						                    </div>                    
+						                </div>
+					                </div>
+						        </div>
+					        </div>
+
+					        <div class="panel no-padding margin-top-15 ">
+						        <div class="panel-heading text-center border-light">
+					                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
+					            </div>
+						        <div class="panel panel-white padding-10">
+						            <div id="local-actors-popup-sig">
+						              
+						              <div class="panel-body no-padding ">
+
+						                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+						                    <div class="col-xs-6  center text-yellow btnSubTitle">
+						                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
+
+						                          <i class="fa fa-user"></i>
+						                        </a><br/><span class="discover-subtitle">Une personne</span>
+						                    </div>
+						                    
+						                    <div class="col-xs-6  center text-green btnSubTitle">
+						                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
+						                          <i class="fa fa-group"></i>
+						                        </a>
+						                        <br/><span class="discover-subtitle">Organisation</span>
+						                    </div>
+
+						                    <div class="col-xs-6  center text-purple btnSubTitle">
+						                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
+						                          <i class="fa fa-calendar"></i>
+						                        </a><br/><span class="discover-subtitle">Évènement</span>
+						                    </div>
+						                    
+						                    <div class="col-xs-6  center text-orange btnSubTitle">
+						                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
+						                          <i class="fa fa-lightbulb-o"></i>
+						                        </a><br/><span class="discover-subtitle">Projet</span>
+						                    </div>
+
+						                </div>
+
+						              </div>
+						            </div>
+						           
+						        </div>
+						    </div>
+					    </div>
+				<?php 	} 
+					} ?>
+
+
+
+
+
+
+
+
+
+
+
+
 			<div class="col-md-4 no-padding pull-right">
 				<?php if($type != Person::COLLECTION){ ?>
 				<div class="col-md-12 col-xs-12">
@@ -46,7 +199,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
 															"admin" => $admin, 
-															"invitedMe" => @$invitedMe));
+															"invitedMe" => @$invitedMe,
+															"openEdition" => $openEdition));
 
 					/*$this->renderPartial('../pod/usersList', array(  "event"=> $event,
 															"users" => $attending,
@@ -71,7 +225,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 																			"contextType" => $controller,
 																			"list" => $eventTypes,
 																			"authorised" => $admin,
-																			"organiserImgs"=> $organizerImg
+																			"organiserImgs"=> $organizerImg,
+																			"openEdition" => $openEdition
 																		  ));
 					?>						  
 				</div>
@@ -87,7 +242,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 												"itemName" => $element["name"], 
 												"properties" => $element["properties"]["chart"],
 												"admin" =>$admin,
-												"isDetailView" => 1));
+												"isDetailView" => 1,
+												"openEdition" => $openEdition));
 					?>						  
 				</div>
 				<?php } ?>
@@ -105,7 +261,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
 															"contextId" => (String) $element["_id"],
 															"contextType" => $type,
-															"authorised" =>	$admin
+															"authorised" =>	$admin,
+															"openEdition" => $openEdition
 					)); ?>
 				</div>
 				<?php } ?>
@@ -115,7 +272,8 @@ if($('#breadcum').length)$('#breadcum').html('<i class="fa fa-search fa-2x" styl
 																			"parentId" => (String) $element["_id"],
 																			"parentType" => $type,
 																			"isAdmin" => @$admin,
-																			"parentName" => $element["name"]
+																			"parentName" => $element["name"],
+																			"openEdition" => $openEdition
 																		  )); ?>
 
 				</div>

@@ -20,7 +20,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	
 	'/assets/plugins/moment/min/moment.min.js',
-	'/assets/plugins/Chart.js/Chart.min.js'
+	'/assets/plugins/Chart.js/Chart.min.js',
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -202,20 +203,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 </style>
 
 <div class="row headerEntity bg-light">
-	<?php if($type != "pixels" || !empty($viewer)){ ?>
+	<?php if($type != "pixels" || !empty($viewer)) { ?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 			<?php   
 				if(@$entity["profilMediumImageUrl"] && !empty($entity["profilMediumImageUrl"]))
 					$images=array("profil"=> array($entity["profilMediumImageUrl"]));
 				else 
 					$images="";	
-				$this->renderPartial('../pod/fileupload', array(  "itemId" => $entity["_id"],
+				$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $entity["_id"],
 																  "type" => $type,
+																  "resize" => false,
 																  "contentId" => Document::IMG_PROFIL,
-																  "editMode" => false,
+																  "show" => true,
+																  "editMode" => $admin,
 																  "image" => $images,
-																  /*"openEdition" => $openEdition*/)); 
-			
+																  "openEdition" => $openEdition)); 
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 		</div>
@@ -290,37 +292,35 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 
 		
-		<?php 
-			$colXS = "3";
-			if(!isset($entity["tags"]) && !isset($entity["gamification"])) $colXS = "3 hidden";
-		?>
-		<div class="col-lg-3 col-md-3 col-sm-<?php echo $colXS; ?> col-xs-12 pull-right padding-10">
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
 			<?php if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
-			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
-				<?php if ($type==Person::COLLECTION){ ?>
-				<span class="tag label label-warning pull-right">
-					<?php echo  @$entity["gamification"]['total'] ? 
-								@$entity["gamification"]['total'] :
-								"0"; 
-					?> pts
-				</span>
-				<?php } ?>
-				<div id="divTagsHeader">
-					<?php if(isset($entity["tags"])){ ?>
-						<?php 
-							$i=0; 
-							foreach($entity["tags"] as $tag){ 
-								if($i<6) { 
-									$i++;?>
-									<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
-										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
-									</div>
-					<?php 		}
-							} 
-					} ?>
+				<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
+					<?php if ($type==Person::COLLECTION){ ?>
+					<span class="tag label label-warning pull-right">
+						<?php echo  @$entity["gamification"]['total'] ? 
+									@$entity["gamification"]['total'] :
+									"0"; 
+						?> pts
+					</span>
+					<?php } ?>
+					<div id="divTagsHeader">
+						<?php if(isset($entity["tags"])){ ?>
+							<?php 
+								$i=0; 
+								foreach($entity["tags"] as $tag){ 
+									if($i<6) { 
+										$i++;?>
+										<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
+											<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+										</div>
+						<?php 		}
+								} 
+						} ?>
+					</div>
 				</div>
-			</div>
-			<?php } ?>
+			<?php } 
+
+			?>
 
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 				<style type="text/css">
@@ -346,7 +346,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					    color: #00cc00;
 					}
 				</style>
-				<?php if(!empty($entity["badges"])){?>
+				<?php 
+				if(!empty($entity["badges"])){?>
 					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
 						<div class="badgePH pull-right" data-title="OPENDATA">
 							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
@@ -360,7 +361,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 				<h4 class="panel-title text-dark"> 
-					<?php if ($openEdition==true) { ?>
+					<?php 
+					if ($openEdition==true) { ?>
 						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 					<?php } ?>
 				</h4>

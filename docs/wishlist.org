@@ -11,6 +11,7 @@
 [ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
 [ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
 
+
 * Elements
 [ ] comptabiliser le temps + type 
 [ ] ecrire noir sur blanc les regles de remuneration de chaque 
@@ -22,6 +23,7 @@
 
   ** Person 
   [ ] citoyen recoltant
+  [ ] pouvoir supprimer son compte
 
   ** Orga
   [ ] donner le choix lorsqu'on est invité a une orga 
@@ -128,4 +130,7 @@
     je vois ma liste personnalisé
     je vois les pushs que pour ces sous events
     je vois les particpants de mon reseau
+
+* Recherche 
+[ ] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc)
 

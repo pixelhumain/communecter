@@ -10,11 +10,13 @@ $this->renderPartial('../default/panels/toolbar');
 				$this->renderPartial('dashboard/ficheInfo', 
 							array( 	"need" => $need, 
 									"parent" => $parent,
-									"parentType" => $parentType,														"parentId" => $parentId,
+									"parentType" => $parentType,														
+									"parentId" => $parentId,
 									"helpers" => $helpers, 
 									"description" => $description,
 									"imagesD" => $images, 
-									"isAdmin"=> $isAdmin														));
+									"isAdmin"=> $isAdmin														
+									));
 				?>
 			</div>
 			

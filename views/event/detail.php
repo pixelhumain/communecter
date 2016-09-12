@@ -1,7 +1,7 @@
 <?php 
 		
 		//if(isset(Yii::app()->session["userId"]) && $openEdition==true)
-		if(@$event["links"]["attendees"][Yii::app()->session["userId"]]["isAdmin"]!=true){
+		if(@$event["links"]["attendees"][Yii::app()->session["userId"]]["isAdmin"]!=true && isset(Yii::app()->session["userId"]) ){
 			Menu::entry("right", 'onclick',
 	                            Yii::t( "common", "Become admin of this event"),
 	                            Yii::t( "common", "Become admin"), 
@@ -41,7 +41,8 @@
 															"admin" => $admin,
 															"countLowLinks" => $invitedNumber,
 															"countStrongLinks"=> $attendeeNumber,
-															"invitedMe" => @$invitedMe));
+															"invitedMe" => @$invitedMe,
+															"openEdition"=>$openEdition));
 		if (!empty($subEvents) || $admin==1 || $openEdition)
 		{ 
 				//ORGANISER LIST

@@ -202,7 +202,7 @@ progress[value]::-moz-progress-bar {
 		<!-- </div> -->
 	</div>
 	<div class="panel-tools">
-		<?php if ($isAdmin || $openEdition){ ?>
+		<?php if (($isAdmin || $openEdition) && isset(Yii::app()->session["userId"])) { ?>
 			<a href="javascript:" id="editProjectDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifiez la position géographique</span></a>-->
 			<?php }
@@ -215,7 +215,6 @@ progress[value]::-moz-progress-bar {
 				</span>
 			</a>
 		<?php }
-		
 			if ($openEdition) { ?>
 			<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo (string)$project["_id"] ?>','<?php echo Project::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
 		<?php } ?>
