@@ -83,6 +83,8 @@ var myMultiTags = <?php echo isset($me) && isset($me["multitags"]) ?
 						$multitags; 
 				    ?>;
 
+if(myMultiTags.length == 0) myMultiTags = {};
+
 var searchTags = "";
 
 jQuery(document).ready(function() {
