@@ -92,9 +92,11 @@
 		var image = <?php if(@$image) echo json_encode($image); else echo "''" ?>;
 
 		if("undefined" != typeof(contentKeyBase))
-			var contentKey = contentKeyBase+"."+contentIdtoSend;
+			var contentKey = contentKeyBase/*+"."+contentIdtoSend*/;
 		else
 			contentKey = contentIdtoSend;
+		
+
 		if("undefined" != typeof(image[contentId])){
 			initFileUpload();
 		}else{

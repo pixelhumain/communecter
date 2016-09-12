@@ -109,9 +109,13 @@
           [ ] Event
           [ ] Project
         [ ] Test Confidentialité
+      [X] Bug image QR Code
+      [X] User sans etre Communecter
       [ ] Bug ajout d'une image de profil
-      [ ] Bug image QR Code
       [ ] Active des btn menu 
+      [ ] Améliorer le btn "Communecter-moi", celui du HeaderElement
+      [ ] dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
+
     [ ] Vérifier que les badges s'ajouter a la création d'une entité
 
   *** Priority 2
@@ -121,6 +125,7 @@
     [ ] Ajouter les numéros de tel dans le formulaire de création
     [ ] Sur une person, retirer superAdmin false, inutile ?
     [ ] API
+      [ ] Regarder la doc de https://insomnia.rest/?utm_source=hackernewsletter&utm_medium=email&utm_term=show_hn
       [ ] Vérifier que tout les retours URL soit conforme au format { result : true or false ,  msg : "" , data : ... }
       [ ] Doc
         [ ] Amélioration / Correction

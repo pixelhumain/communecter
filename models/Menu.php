@@ -319,27 +319,29 @@ class Menu {
 
         $id = (string)$element["_id"];
 		if( isset($type) && $type == Organization::COLLECTION && isset($element) ){
-			$controller = Organization::CONTROLLER;
+			//$controller = Organization::CONTROLLER;
 			$strongLinks = "members";
 		}
 		else if( isset($type) && $type == Project::COLLECTION && isset($element) ){
-			$controller=Project::CONTROLLER;
+			//$controller=Project::CONTROLLER;
 			$strongLinks = "contributors";
 		}
 		else if( isset($type) && $type == Event::COLLECTION && isset($element) ){
-			$controller=Event::CONTROLLER;
+			//$controller=Event::CONTROLLER;
 			$strongLinks = "attendees";
 		}else if((isset($type) && $type == Person::COLLECTION) || (isset($element))){
-            $controller=Person::CONTROLLER;
+            //$controller=Person::CONTROLLER;
             $strongLinks = "members";
         }
+
+        $controller = "element";
 
         //HOME
         //-----------------------------
         self::entry("left", 'onclick',
         			Yii::t($controller,"Contact information"), 
         			Yii::t("common","Details"),'home',
-        			"showElementPad('detail')", $controller, "detail");
+        			"showElementPad('detail')", $controller, "detail", "btn-menu-element");
        
         //SEE TIMELINE
         //-----------------------------
@@ -347,7 +349,7 @@ class Menu {
                 Yii::t( "common", 'Read all news publicated by this '.$controller), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
-                "showElementPad('news')","news", "index");
+                "showElementPad('news')","news", "index", "btn-menu-element");
 
          
         
@@ -357,7 +359,7 @@ class Menu {
         			Yii::t("common",ucfirst($controller)." community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
-        			"showElementPad('directory')", $controller, "directory","communityBtn hide");
+        			"showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element");
        
        //ALBUM
         //-----------------------------
@@ -365,7 +367,7 @@ class Menu {
                     Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
-                    "showElementPad('gallery')","gallery", "index");
+                    "showElementPad('gallery')","gallery", "index", "btn-menu-element");
 
         //ACTION ROOMS
         //-----------------------------

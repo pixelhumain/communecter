@@ -316,6 +316,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<?php } ?>
 
 
+	<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
+	<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
+		<a href="javascript:;" class="cobtn hidden btn bg-red">Communectez-moi</a> 
+		<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+	</div>
+	<?php } ?>
+
+
 
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
 		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
@@ -419,12 +427,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php
 					}
 				?>
-
 				
 				
-
-
-				<br>
 				<!-- <hr style="margin:10px 0px;"> -->
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
@@ -639,7 +643,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		bindAboutPodElement();
 		activateEditableContext();
-		manageModeContext();
+		manageModeContextElement();
 		changeHiddenIcone(true);
 		manageDivEdit();
 
@@ -677,7 +681,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			findGeoPosByAddress();
 		});
 
-		//buildQRCode(contextControler,contextId);
+		buildQRCode(contextControler,contextId);
 
 		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
@@ -688,6 +692,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			if(!$("#dropdown-content-multi-scope").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
+
+		if(contextData.address.addressLocality == ""){
+			$(".cobtn,.whycobtn").removeClass("hidden");
+			$(".cobtn").click(function () { 
+				$(".cobtn,.whycobtn").hide();
+				$('#editElementDetail').trigger('click');
+				setTimeout( function () { 
+					$('#address').trigger('click'); 
+					}, 500);
+				return false;
+		});
+	}
 
 
 
@@ -773,19 +789,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			mode = "update";
 			$(".editProfilLbl").html(" Enregistrer les changements");
 			$("#editElementDetail").addClass("btn-red");
+			$(".cobtn,.whycobtn").addClass("hidden");
 		}else{
 			mode ="view";
 			$(".editProfilLbl").html(" Éditer");
 			$("#editElementDetail").removeClass("btn-red");
+			if(contextData.address.addressLocality == "")
+				$(".cobtn,.whycobtn").removeClass("hidden");
 
 		}
-		manageModeContext();
+		manageModeContextElement();
 		changeHiddenIcone(false);
 		manageDivEdit();
 	}
 
-	function manageModeContext() {
-		console.log("-----------------manageModeContext----------------------");
+	function manageModeContextElement() {
+		console.log("-----------------manageModeContextElement----------------------");
 		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 

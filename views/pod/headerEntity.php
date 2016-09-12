@@ -37,6 +37,8 @@ $cssAnsScriptFilesModuleSS = array(
 	'/plugins/Chart.js/Chart.min.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
+
+$controler = Element::getControlerByCollection($type);
 ?>
 
 <style>
@@ -245,15 +247,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					}
 					?>
 				</div>
-				<div class="col-md-12 no-padding no-padding margin-bottom-10">
+				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
 						<i class="fa fa-globe"></i>
 						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?>,</label>
 						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?>,</label> 
-						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
-						
+						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 	
 					</span>
 				</div>
+				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $entity["_id"]) { ?>
+					<div id="divCommunecterMoi" class="col-md-12 no-padding no-padding margin-bottom-10">
+						<a href="javascript:;" class="cobtnHeader hidden btn bg-red">Communectez-moi</a> 
+						<a href="javascript:;" class="whycobtnHeader hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+					</div>
+				<?php } ?>
 			</div>
 			<?php if($type == Project::COLLECTION){ ?>
 			<div class="col-md-12 text-dark no-padding" >
@@ -543,6 +550,32 @@ jQuery(document).ready(function() {
 	/*bindHeaderElement();
 	activateEditableContextHeader();
 	manageModeContextHeader();*/
+	$(".btn-menu-element").click(function(){
+		$(".btn-menu-element").removeClass("active");
+		$(this).addClass("active");
+	});
+
+
+	if(element.address.addressLocality == ""){
+		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
+		$("#addressHeader").addClass("hidden");
+		$(".cobtnHeader").click(function () { 
+				var url= document.URL;
+				//alert(url);
+
+				if(url.indexOf("#person.detail") != -1){
+					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
+					$('#editElementDetail').trigger('click');
+					setTimeout( function () { 
+						$('#address').trigger('click'); 
+						}, 500);
+					return false;
+				}
+				else
+					showElementPad("detail");
+		});
+	}
+
 	
 
 });
@@ -551,15 +584,17 @@ function showElementPad(type){
 	var mapUrl = { 	"detail": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							//"url"  : "<?php echo $controler ?>/detail/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
-					"detail.edit": 
+					/*"detail.edit": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : {"edit":true}
-						} ,
+						} ,*/
 					"news": 
 						{ 
 							"url"  : "news/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?isFirst=1&", 
@@ -567,9 +602,13 @@ function showElementPad(type){
 							"data" : null
 						} ,
 					"directory": 
-						{ "url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-						  "hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-						  "data" : {"links":contextMap, "element":element}
+						{ 
+							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
+						 	//"hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+
+						 	//"url"  : "<?php echo $controler ?>/directory/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
+						 	"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
+						  	"data" : {"links":contextMap, "element":element}
 						} ,
 					"gallery" :
 						{ 
@@ -591,6 +630,7 @@ function showElementPad(type){
 	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
 			data,
 			function(){ 
+				$(".btn-menu-element").removeClass("active");
 				history.pushState(null, "New Title", "#" + hash);
 				$("#pad-element-container").show(200);
 				bindLBHLinks();
