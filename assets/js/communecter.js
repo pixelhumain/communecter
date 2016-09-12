@@ -1155,13 +1155,126 @@ function saveOrga () {
     });
 }
 
+var poiRules = {
+	name : {
+		required : true
+	}
+};
+
+
+function savePoi () { 
+	$.ajax({
+    	  type: "POST",
+    	  url: baseUrl+"/"+moduleId+"/element/save",
+    	  data: $("#poiForm").serialize(),
+    	  success: function(data){
+    			if(!data.result){
+                    toastr.error(data.msg);
+               		$.unblockUI();
+               	}
+                else { 
+                    toastr.success(data.msg);
+					//$.hideSubview();
+					$.unblockUI();
+                }
+    	  },
+    	  dataType: "json"
+    });
+}
+
+elementJson = {
+    //reuired
+    "name" : "",
+    "email" : "",
+    "creator" :"" ,
+
+    "url":"",
+    "shortDescription" : "",	
+	"description" : "",
+
+	"address" : {
+        "@type" : "PostalAddress",
+        "codeInsee" : "",
+        "addressCountry" : "",
+        "postalCode" : "",
+        "addressLocality" : "",
+        "streetAddress" : ""
+    },
+    "geo" : {
+        "@type" : "GeoCoordinates",
+        "latitude" : "-21",
+        "longitude" : "55"
+    },
+    "geoPosition" : {
+        "type" : "Point",
+        "coordinates" : [ 55,  -21]
+    },
+
+    "tags" : [],
+    "scopes" : [],
+
+    "profilImageUrl" : "",
+    "profilThumbImageUrl" : "",
+    "profilMarkerImageUrl" : "",
+    "profilMediumImageUrl" : "",
+
+    "isOpenData":"",
+
+    //generated
+    "updated" :"" ,
+    "modified" :"" ,
+    "created" :"",
+    
+}
+
+organizationJson = {
+	"telephone":"",
+    "mobile":"",
+    "fixe":"",
+    "fax":"",
+    "type":"",
+}
+
+personJson = {
+    "username" : "",
+    "pwd" : "",
+    "lastLoginDate" : 1.47332e+09
+}
+
+eventJson = {
+    "type" : "",
+    "allDay" : true,
+    "public" : true,
+    "startDate" : "",
+    "endDate" : "",
+}
+
+var projectJson = {
+    "startDate" : "",
+    "endDate" :"" 
+}
+
 
 var typeObj = {
 	"person" : {col:"citoyens",ctrl:"person"},
 	"persons" : {col:"citoyens",ctrl:"person"},
 	"citoyen" : {col:"citoyens",ctrl:"person"},
 	"citoyens" : {col:"citoyens",ctrl:"person"},
-	"organization" : { col:"organizations", ctrl:"organization", rules:orgaRules, save:saveOrga},
+	"poi":{ col:"poi",ctrl:"poi",
+			rules:poiRules, 
+			save:savePoi},
+	"organization" : { col:"organizations", ctrl:"organization", 
+					   rules:orgaRules, save:saveOrga
+					   /*convert : {
+					   	name : "organizationName",
+						shortDescription : "shortDescription",	
+				        email : "organizationEmail",
+				        streetAddress : "streetAddress",
+				        codeInsee : "city",
+				        "cityName",
+				        "organizationCountry"
+					   }*/
+					},
 	"organizations" : {col:"organizations",ctrl:"organization"},
 	"event" : {col:"events",ctrl:"event"},
 	"events" : {col:"events",ctrl:"event"},

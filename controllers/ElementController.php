@@ -15,7 +15,8 @@ class ElementController extends CommunecterController {
   public function actions()
   {
       return array(
-          'updatefield' 				  => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'updatefield' => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'save'        => 'citizenToolKit.controllers.element.SaveAction'
       );
   }
 }

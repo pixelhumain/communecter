@@ -391,6 +391,7 @@ class CommunecterController extends Controller
     ),
     "element"=> array(
       "updatefield" => array("href" => "/ph/communecter/element/updatefield"),
+      "save" => array("href" => "/ph/communecter/element/save"),
     ),
   );
 

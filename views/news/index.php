@@ -696,10 +696,19 @@ jQuery(document).ready(function()
 				element = "";
 				if(query.indexOf("+o")==0){
 					element = "organization";
-					extraForm = "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
-					extraForm += "\n>role:admin|member|creator";
+					form = "\n>organizationName:";//form = "\n>name:";
+					form += "\n>shortDescription:";
+					form += "\n>description:";
+			        form += "\n>organizationEmail:";//form += "\n>email:";
+			        form += "\n>streetAddress:";//address
+			        form += "\n>postalCode:97421";
+			        form += "\n>city:97414";
+			        form += "\n>cityName:ST LOUIS";
+			        form += "\n>organizationCountry:RE";
+					form += "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
+					form += "\n>role:admin|member|creator";
 		        }
-		        else if(query.indexOf("+e")==0){
+		        /*else if(query.indexOf("+e")==0){
 					element = "event";
 					extraForm = "\n>type:concert|concours|exposition|festival|getTogether|market|meeting|competition|others|nacelle";
 					//connect organiser with mention 
@@ -715,20 +724,17 @@ jQuery(document).ready(function()
 		        }
 		        else if(query.indexOf("+c")==0){
 					element = "person";
+		        }*/
+		        else if(query.indexOf("+pt")==0){
+					element = "poi";
+					form = "\n>name:";
 		        }
 		        if( element ){
 		        	stopMention = true;
-			        form = "\n>organizationName:";//form = "\n>name:";
-					form += "\n>shortDescription:";
-					form += "\n>description:";
-			        form += "\n>organizationEmail:";//form += "\n>email:";
-			        form += "\n>streetAddress:";//address
-			        form += "\n>postalCode:97421";
-			        form += "\n>city:97414";
-			        form += "\n>cityName:ST LOUIS";
-			        form += "\n>organizationCountry:RE";
+			        //form = "\n>name:";
+					
 			        //form += "\n>latlon:";geoPosLatitude geoPosLongitude
-			        form += extraForm;
+			        //form += extraForm;
 					$("#get_url").val( $("#get_url").val() + form);
 					return false;
 				}
