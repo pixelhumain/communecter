@@ -33,7 +33,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					$nbOldEvents = 0;
 					if(isset($events) && count($events)>0 ) { 
 						foreach ($events as $e) {						
-							if (empty($e["endDate"]) || (!empty($e["endDate"]) && $e["endDate"]->sec > time())) {
+							if (empty($e["endDate"]) || (!empty($e["endDate"]) && isset($e["endDate"]->sec) && $e["endDate"]->sec > time())) {
 								$eventStyle = "";
 								$eventClass = "";
 							} else {
