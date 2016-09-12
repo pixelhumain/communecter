@@ -1147,7 +1147,6 @@ function saveOrga () {
                     toastr.success(data.msg);
                 	addFloopEntity(data.id, "organizations", data.newOrganization);
 					loadByHash('#organization.detail.id.'+data.id);
-					//$.hideSubview();
 					$.unblockUI();
                 }
     	  },
@@ -1155,34 +1154,105 @@ function saveOrga () {
     });
 }
 
-<<<<<<< HEAD
-var poiRules = {
-	name : {
-		required : true
-	}
-};
-
-
-function savePoi () { 
+function savePoi (formId) { 
+	console.warn("savePoi");
+	console.dir($(formId).serializeFormJSON());
+	console.log("type", typeof $(formId).serialize());
+	formData = $(formId).serializeFormJSON();
+	formData.collection = "poi";
+	formData.key = "poi";
 	$.ajax({
-    	  type: "POST",
-    	  url: baseUrl+"/"+moduleId+"/element/save",
-    	  data: $("#poiForm").serialize(),
-    	  success: function(data){
-    			if(!data.result){
-                    toastr.error(data.msg);
-               		$.unblockUI();
-               	}
-                else { 
-                    toastr.success(data.msg);
-					//$.hideSubview();
-					$.unblockUI();
-                }
-    	  },
-    	  dataType: "json"
+    	type: "POST",
+    	url: baseUrl+"/"+moduleId+"/element/save",
+    	data: formData,
+    	dataType: "json",
+    	success: function(data){
+			if(!data.result){
+                toastr.error(data.msg);
+           	}
+            else { 
+                toastr.success(data.msg);
+                $("#ajax-modal").modal("toogle");
+            }
+    	}
     });
 }
 
+function modalForm (specs, obj) { 
+    console.warn("--------------- Form ---------------------");
+	if( specs.dynForm )
+	{
+		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+	  	$("#ajax-modal-modal-body").html("<form id='ajaxForm'></form>"); 
+	  	$('#ajax-modal').modal("show");
+
+	    var form = $.dynForm({
+	      formId : "#ajax-modal-modal-body #ajaxForm",
+	      formObj : specs.dynForm,
+	      onLoad : function  () {
+	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+specs.dynForm.jsonSchema.icon+"'></i> "+specs.dynForm.jsonSchema.title);
+	      },
+	      onSave : function(){
+	        specs.save("#ajaxForm");
+	        return false;
+	      }
+	    });
+	    console.dir(form);
+	} else if( specs.url ) {
+		getModal({title:"Ajouter une Organisation"}, specs.url)
+	}else 
+		toastr.error("Ce formulaire n'est pas déclaré");
+}
+
+var typeObj = {
+	"person" : {col:"citoyens" , ctrl:"person"},
+	"persons" : {col:"citoyens" , ctrl:"person"},
+	"citoyen" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person"},
+	"poi":{ col:"poi",ctrl:"poi",
+			save:savePoi,
+			dynForm : {
+			    jsonSchema : {
+				    title : "Point of interest Form",
+				    icon : "map-marker",
+				    type : "object",
+				    properties : {
+				        name : {
+				        	placeholder : "Nom",
+				            "inputType" : "text",
+				            "rules" : {
+				                "required" : true
+				            }
+				        },
+				        properties : {
+			                inputType : "properties",
+			                placeholder : "Key",
+			                placeholder2 : "Value",
+			            },
+				    }
+				}
+			}
+		},
+	"organization" : { col:"organizations", ctrl:"organization", 
+						rules:orgaRules, save:saveOrga,
+						url:"/"+moduleId+"/organization/addorganizationform"},
+
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {col:"events",ctrl:"event",
+				url:"/"+moduleId+"/event/eventsv"},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {col:"projects",ctrl:"project",
+				url:"/"+moduleId+"/project/projectsv"},
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city"},
+	"entry" : {col:"surveys",ctrl:"survey"},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {col:"actions",ctrl:"room"},
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+};
+/*
 elementJson = {
     //reuired
     "name" : "",
@@ -1255,43 +1325,4 @@ var projectJson = {
     "endDate" :"" 
 }
 
-=======
->>>>>>> development
-
-var typeObj = {
-	"person" : {col:"citoyens",ctrl:"person"},
-	"persons" : {col:"citoyens",ctrl:"person"},
-	"citoyen" : {col:"citoyens",ctrl:"person"},
-	"citoyens" : {col:"citoyens",ctrl:"person"},
-<<<<<<< HEAD
-	"poi":{ col:"poi",ctrl:"poi",
-			rules:poiRules, 
-			save:savePoi},
-	"organization" : { col:"organizations", ctrl:"organization", 
-					   rules:orgaRules, save:saveOrga
-					   /*convert : {
-					   	name : "organizationName",
-						shortDescription : "shortDescription",	
-				        email : "organizationEmail",
-				        streetAddress : "streetAddress",
-				        codeInsee : "city",
-				        "cityName",
-				        "organizationCountry"
-					   }*/
-					},
-=======
-	"organization" : { col:"organizations", ctrl:"organization", rules:orgaRules, save:saveOrga},
->>>>>>> development
-	"organizations" : {col:"organizations",ctrl:"organization"},
-	"event" : {col:"events",ctrl:"event"},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
-	"project" : {col:"projects",ctrl:"project"},
-	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city"},
-	"entry" : {col:"surveys",ctrl:"survey"},
-	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"action" : {col:"actions",ctrl:"room"},
-	"actions" : {col:"actions",ctrl:"room"},
-	"discuss" : {col:"actionRooms",ctrl:"room"},
-};
+*/

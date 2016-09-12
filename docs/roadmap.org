@@ -76,19 +76,22 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] build as you complete the info
   [ ] POI et Element de base : name,desc, url, location,photo
     periscope,youtube,twitter journal
-      [ ] can have a parent, Type & Id
-      [ ] place avec geoloc 
-      [ ] Thing sans geoloc
-      [ ] faire un formulaire evolutif
+      
   [ ] Count requests DB per page 
   [ ] Element Refactor : one input add
   [ ] delete empty element
-  [ ] POI et Element de base : name,desc, url, location,photo
-    periscope,youtube,twitter journal
+  
   [ ] Count requests DB per page
 
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
   [ ] finish fromNow method
+  [ ] POI et Element de base : name,desc, url, location,photo
+    periscope,youtube,twitter journal
+    [ ] can have a parent, Type & Id
+    [ ] place avec geoloc 
+    [ ] Thing sans geoloc
+    [ ] faire un formulaire evolutif
+    [ ] stats localisé
   [ ] Apres photo proposer un ajout element Autocomplete de gens existant
     ou analyse du desc
     [X] connected to mention
@@ -97,6 +100,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] on press send 
       [X] post proper ajax
     [ ] build a dynform for a simplest element POI 
+      [ ] inside a modal
     [ ] convert existant elements to dynform 
       [ ] orga
       [ ] project
@@ -108,17 +112,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
             - { element: {}, orga:{} }
       [X] save common attributes elementJson
         [X] defining elemntJson
-      [X] save specific attributes : orgaJson 
-        [ ] simpleJson 
-          [ ] 
-        [X] orgaJson
-        [X] projectJson
-        [X] eventJson 
-        [X] personJson 
-    [ ] parse and build post genericaly jsonHelper.stringFormtoJson
-    [ ] on press send 
-      [ ] post proper ajax
-    [ ] insert from texte sample
+      [X] save specific attributes : orgaJson ,simpleJson ,rojectJson,eventJson ,personJson 
+    [X] parse and build post genericaly jsonHelper.stringFormtoJson
+    [X] on press send post proper ajax
+    [X] insert from texte sample
         with autocomplete inside smart texterea 
         when an attribute is typed, possible content types can be proposed
         @>Name > autocomplete cross Element acteurs orga, people

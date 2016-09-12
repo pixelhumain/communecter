@@ -129,7 +129,6 @@ function editRoomSV (roomObj) {
               dataType: "json"
             });
 
-
             return false;
           }
         });

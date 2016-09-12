@@ -76,6 +76,17 @@
 		<hr>
 		
 		<br>
+		<?php // TOP // ?>
+		<a href="#default.live" id="menu-btn-live"
+				data-hash="#default.live"
+				class="lbh menu-button-left
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-thumbs-up  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> 
+				<span class="lbl-btn-menu">TOP</span>
+		</a>
+		<hr>
+
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
 				data-hash="#default.live"
@@ -108,6 +119,53 @@
 				<span class="lbl-btn-menu">Agenda</span>
 		</a>
 		<hr>
+
+		<?php // Organisation // ?>
+		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
+				data-hash="#default.agenda"
+				class="menu-button-left 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+				<i class="fa fa-group tooltips"
+					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+				<span class="lbl-btn-menu">Organisations</span>
+		</a>
+		<hr>
+
+		<?php // Projet // ?>
+		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
+				data-hash="#default.agenda"
+				class="menu-button-left 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+				<i class="fa fa-lightbulb-o tooltips"
+					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+				<span class="lbl-btn-menu">Projets</span>
+		</a>
+		<hr>
+
+
+		<?php // Débat // ?>
+		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
+				data-hash="#default.agenda"
+				class="menu-button-left 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+				<i class="fa fa-gavel tooltips"
+					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+				<span class="lbl-btn-menu">Débats</span>
+		</a>
+		<hr>
+
+		<?php // Action // ?>
+		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
+				data-hash="#default.agenda"
+				class="menu-button-left 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+				<i class="fa fa-cogs tooltips"
+					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+				<span class="lbl-btn-menu">Actions</span>
+		</a>
+		<hr>
+
+		
 		
 		<br>
 

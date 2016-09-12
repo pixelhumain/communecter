@@ -73,11 +73,32 @@ input.form-control.input-search{
       <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Information</span>
     </button>
+
+    
    <!--  <button class="btn btn-success tooltips" id="btn-start-search"
               data-toggle="tooltip" data-placement="right" title="Actualiser les résultats">
               <i class="fa fa-refresh"></i>
     </button> -->
   </div>
+
+  <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="POI" onclick="modalForm ( typeObj['poi'] );" >
+      <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-map-marker"></i> 
+      <span class="hidden-xs hidden-sm hidden-md">POI</span>
+    </button>
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="POI" onclick="modalForm ( typeObj['organization'] );" >
+      <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-group"></i> 
+      <span class="hidden-xs hidden-sm hidden-md">Organisation</span>
+    </button>
+
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="POI" onclick="modalForm ( typeObj['event'] );" >
+      <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-calendar"></i> 
+      <span class="hidden-xs hidden-sm hidden-md">Evenement</span>
+    </button>
+
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="POI" onclick="modalForm ( typeObj['project'] );" >
+      <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-lightbulb-o"></i> 
+      <span class="hidden-xs hidden-sm hidden-md">Projet</span>
+    </button>
 
 
 

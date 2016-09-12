@@ -57,6 +57,8 @@
 [.17] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
 [ ] ajouter la gestion des quartier Isis dans les scope
+[ ] taper un nom de ville sur le scoper, avec le type region activé, si je tape Bordeau me ressort la REgion correspondante
+[ ] scoper adding a code postal > ajoute toute la chaine
 
 * Global
 [ ] refactor le design du notifier 
