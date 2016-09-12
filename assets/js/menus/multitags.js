@@ -25,13 +25,13 @@ function saveMultiTag(){
     saveCookieMultitags();
 }
 
-function saveCookieMultitags(){ console.log("saveCookieMultitags", myMultiTags);
+function saveCookieMultitags(){ //console.log("saveCookieMultitags", myMultiTags);
 	$.cookie('multitags',   	JSON.stringify(myMultiTags),  	{ expires: 365, path: "/" });
 
 }
 
 function loadMultiTags(){
-	$.each(myMultiTags, function(key, value){ console.log("each myMultiTags");
+	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
 		showTagInMultitag(key);
 	});
 	showCountTag();
@@ -41,7 +41,7 @@ function loadMultiTags(){
 function showCountTag(){
 	var count = 0;
 	console.log("myMultiTags"); console.log(myMultiTags);
-	$.each(myMultiTags, function(key, value){ console.log("each myMultiTags");
+	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
 		if(value.active==true) count++;
 	}); console.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
