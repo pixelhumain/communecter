@@ -39,7 +39,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					foreach ($projects as $e) {
 						if (!empty($e["endDate"])) {
 							$endDate = strtotime($e["endDate"]);
-							error_log("ENDDATE : ".$endDate."||".time()."||".$e["endDate"]);
 						}
 						
 						if (empty($e["endDate"]) || $endDate > time()) {
