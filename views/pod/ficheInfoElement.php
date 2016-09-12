@@ -557,7 +557,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</div>
 
 		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
-		<div class="col-md-12 col-sm-12 col-xs-12">
+		
 			<div class="col-sm-12 no-padding text-dark lbl-info-details">
 				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
 			</div>
@@ -590,7 +590,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
 				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 			</div>
-		</div>
 		<?php } ?>
 		<div id="divShortDescription" class="col-sm-12 col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Short Description</div>

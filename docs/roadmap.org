@@ -100,9 +100,8 @@
       [X] Refactor sur Element::UpdateField()
       [X] Rajout des badges
       [X] Correction sur les url
-      [ ] FAire appaitre sur le projet , le nom de l'orga qui la crée
-      [ ] FAire appaitre sur l'event parent dans un sous événement
-      [ ] le pod et le btn menu pour le calendrier des événements
+      [X] FAire appaitre sur l'event parent dans un sous événement
+      [X] le pod et le btn menu pour le calendrier des événements
       [ ] TEST Global
         [ ] Test des updatefields
           [ ] Person

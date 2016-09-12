@@ -239,9 +239,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 								<?php echo @$entity["name"]; ?>
 							</label>
 					</span>
-					<?php if($type==Event::COLLECTION && isset($element["parentId"])) {
-						$parentEvent = Event::getSimpleEventById($event["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#element.detail.type.'.Event::COLLECTION.'.id.'.$event["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
+					<?php if($type==Event::COLLECTION && !empty($entity["parentId"])) {
+						$parentEvent = Event::getSimpleEventById($entity["parentId"]);
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
 					}
 					?>
 				</div>
