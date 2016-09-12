@@ -707,6 +707,7 @@ jQuery(document).ready(function()
 			        form += "\n>organizationCountry:RE";
 					form += "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
 					form += "\n>role:admin|member|creator";
+
 		        }
 		        /*else if(query.indexOf("+e")==0){
 					element = "event";
@@ -731,10 +732,6 @@ jQuery(document).ready(function()
 		        }
 		        if( element ){
 		        	stopMention = true;
-			        //form = "\n>name:";
-					
-			        //form += "\n>latlon:";geoPosLatitude geoPosLongitude
-			        //form += extraForm;
 					$("#get_url").val( $("#get_url").val() + form);
 					return false;
 				}

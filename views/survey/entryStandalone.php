@@ -360,8 +360,12 @@ function addaction(id,action)
     	var message = "<span class='text-dark'>Vous avez choisi de voter <strong>" + trad[action] + "</strong></span><br>";
     	var input = "<span class='text-red'><i class='fa fa-warning'></i> Vous ne pourrez pas changer votre vote</span>"+
     				"<span id='modalComment'>"+
-    					"<textarea class='newComment form-control' placeholder='Laisser un commentaire... (optionnel)'/></textarea>"+
-    				"</span><br>";
+    					'<textarea class="newComment wysiwygInput" rows="2" style="width: 100%" placeholder="Laisser un commentaire... (optionnel)"></textarea>'+
+    				"</span><br>"+
+    				'<script>'+
+    				'$(".wysiwygInput").off().on("focus", function(){ activateSummernote(".newComment");})'+
+    				'<\/script>';
+
     	var boxNews = bootbox.dialog({
 			title: message,
 			message: input,
@@ -377,7 +381,7 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").val();
+						var voteComment = $("#modalComment .newComment").code();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
@@ -386,7 +390,7 @@ function addaction(id,action)
 				        };
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").val(params.comment);
+				        	$("#modalComment .newComment").code(params.comment);
 				        	validateComment("modalComment","");
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){

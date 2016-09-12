@@ -57,11 +57,11 @@
 	
 	<h3 class="text-red homestead titleNowEvents">
 		<div class="btn-group inline-block pull-right" id="menu-directory-type">
-			<a href="javascript:toggle('.el-nowList','.el-nowList')" 	class="btnhidden btn btn-sm btn-default">Tout</a>
-			<a href="javascript:toggle('.event,.events','.el-nowList',1)" class="eventBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-calendar "></i></a>
-			<a href="javascript:toggle('.entry,.action,.discuss','.el-nowList',1)" class="entryBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-archive "></i></a>
-			<a href="javascript:toggle('.project,.projects','.el-nowList',1)" 	class="projectBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-lightbulb-o "></i></a>
-			<a href="javascript:toggle('.organization,.organisations','.el-nowList',1)" class="organizationBtn el-nowListBtn btnhidden btn btn-sm btn-default"><i class="fa fa-users "></i></a>
+			<a href="javascript:toggle('.el-nowList','.el-nowList')" 	class="btnhidden btn btn-sm btn-default tooltips" data-toggle="tooltip" ><?php echo Yii::t("common","All") ; ?></a>
+			<a href="javascript:toggle('.event,.events','.el-nowList',1)" class="eventBtn el-nowListBtn btnhidden btn btn-sm btn-default tooltips" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Events") ; ?>"><i class="fa fa-calendar "></i></a>
+			<a href="javascript:toggle('.entry,.action,.discuss','.el-nowList',1)" class="entryBtn el-nowListBtn btnhidden btn btn-sm btn-default tooltips" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Cooperative space") ; ?>"><i class="fa fa-archive "></i></a>
+			<a href="javascript:toggle('.project,.projects','.el-nowList',1)" 	class="projectBtn el-nowListBtn btnhidden btn btn-sm btn-default tooltips" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Projects") ; ?>"><i class="fa fa-lightbulb-o "></i></a>
+			<a href="javascript:toggle('.organization,.organisations','.el-nowList',1)" class="organizationBtn el-nowListBtn btnhidden btn btn-sm btn-default tooltips" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Organisations") ; ?>"><i class="fa fa-users "></i></a>
 			<a href="javascript:enlargeNow();" class="btn btn-sm btn-default"><i class="fa fa-caret-left " id="enlargeNow"></i></a>
 			
 		</div>

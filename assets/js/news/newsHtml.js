@@ -257,7 +257,9 @@ function buildLineHTML(newsObj,idSession,update)
 			$.each(newsObj.scope.cities, function(key, value){ countScope++;
 				var name = "";
 				if (typeof(value.postalCode) != "undefined") {
-					name += value.postalCode + ", " ;
+					if(name != "")
+						name += + ", " ;
+					name += value.postalCode;
 				}
 				name += (value.addressLocality != "" && value.addressLocality != null) ? value.addressLocality : "";
 				if(countScope<maxScope)

@@ -893,41 +893,40 @@ function validateComment(commentId, parentCommentId) {
 	content = $.trim($('#'+commentId+' .newComment').code());
 	if (content == "" || content == null) {
 		$('#'+commentId).remove();
-	}
-
-	$.ajax({
-		url: baseUrl+'/'+moduleId+"/comment/save/",
-		data: {
-			parentCommentId: parentCommentId,
-			content : $('#'+commentId+' .newComment').code(),
-			contextId : context["_id"]["$id"],
-			contextType : contextType
-		},
-		type: 'post',
-		global: false,
-		dataType: 'json',
-		success: 
-			function(data) {
-				if(!data.result){
-					toastr.error(data.msg);
-				}
-				else { 
-					toastr.success(data.msg);
-					console.log(data);
-					$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
-					if (data.newComment.contextType=="news"){
-						$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
-					}
-					switchComment(commentId, data.newComment, parentCommentId);
-
-				}
+	} else {
+		$.ajax({
+			url: baseUrl+'/'+moduleId+"/comment/save/",
+			data: {
+				parentCommentId: parentCommentId,
+				content : content,
+				contextId : context["_id"]["$id"],
+				contextType : contextType
 			},
-		error: 
-			function(data) {
-				toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
-			}
-	});
+			type: 'post',
+			global: false,
+			dataType: 'json',
+			success: 
+				function(data) {
+					if(!data.result){
+						toastr.error(data.msg);
+					}
+					else { 
+						toastr.success(data.msg);
+						console.log(data);
+						$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
+						if (data.newComment.contextType=="news"){
+							$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
+						}
+						switchComment(commentId, data.newComment, parentCommentId);
 
+					}
+				},
+			error: 
+				function(data) {
+					toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
+				}
+		});
+	}
 	//return newCommentId;
 }
 

@@ -492,7 +492,7 @@ var loadableUrls = {
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
 
-    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat'},
+    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
@@ -1155,6 +1155,7 @@ function saveOrga () {
     });
 }
 
+<<<<<<< HEAD
 var poiRules = {
 	name : {
 		required : true
@@ -1254,12 +1255,15 @@ var projectJson = {
     "endDate" :"" 
 }
 
+=======
+>>>>>>> development
 
 var typeObj = {
 	"person" : {col:"citoyens",ctrl:"person"},
 	"persons" : {col:"citoyens",ctrl:"person"},
 	"citoyen" : {col:"citoyens",ctrl:"person"},
 	"citoyens" : {col:"citoyens",ctrl:"person"},
+<<<<<<< HEAD
 	"poi":{ col:"poi",ctrl:"poi",
 			rules:poiRules, 
 			save:savePoi},
@@ -1275,6 +1279,9 @@ var typeObj = {
 				        "organizationCountry"
 					   }*/
 					},
+=======
+	"organization" : { col:"organizations", ctrl:"organization", rules:orgaRules, save:saveOrga},
+>>>>>>> development
 	"organizations" : {col:"organizations",ctrl:"organization"},
 	"event" : {col:"events",ctrl:"event"},
 	"events" : {col:"events",ctrl:"event"},

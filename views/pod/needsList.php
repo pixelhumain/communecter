@@ -12,7 +12,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	<div class="panel-heading border-light bg-dark">
 		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
-	<?php if($isAdmin) { ?>
+	<?php if( ($isAdmin || $openEdition) && isset(Yii::app()->session["userId"]) ) { ?>
 		<div class="panel-tools">
     		<a class="tooltips btn btn-xs btn-light-blue lbh"  data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" href="#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>">
 	    		

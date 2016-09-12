@@ -98,11 +98,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	#fileuploadContainer{
 		margin:inherit !important;
 	}
+	#profil_imgPreview{
+      max-height:400px;
+      width:100%;
+      border-radius: 5px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
+      margin-bottom:0px;
+     
+
+    }
 </style>
 <div class="panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
-			<i class="fa fa-info-circle"></i> Infos générales		</h4>
+			<i class="fa fa-cubes"></i> Info besoin</h4>
 	</div>
 	<div class="panel-tools" style="">
 				<?php if ($isAdmin){ ?>
