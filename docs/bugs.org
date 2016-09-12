@@ -3,6 +3,10 @@
 * ************************************************************
 
   [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
+  [ ] Je me dis participant d'un evénénement => on me dit que j'été invité par moi même et on me demande de confirmer ma participation ????
+  [ ] Bras Panon => à san franciso ?
+  [ ] Erreur sur les projets de Fabienne
+
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
   [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
   [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
