@@ -202,6 +202,9 @@ $controler = Element::getControlerByCollection($type);
 	        rgba(0,0,0,.2)),
 	    -webkit-linear-gradient( left, #09c, #ff0);
 	}
+	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
+		border:inherit !important;
+	}
 </style>
 
 <div class="row headerEntity bg-light">

@@ -103,7 +103,7 @@ var itemType = "<?php echo $itemType; ?>";
 
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = <?php echo json_encode($images); ?>;
-var contextName = "<?php echo addslashes($contextName); ?>";	
+var contextName = "<?php echo addslashes(@$contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
 	setTitle("Galerie photos de " + contextName,contextIcon);

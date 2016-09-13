@@ -177,7 +177,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<div id="divName">
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
 					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
-						<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
+						<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
 					</a>
 				</div>
 
@@ -277,11 +277,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</label>
 				
 				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
-					<?php if(isset($element["tags"])){
-						foreach ($element["tags"] as $tag) {
+					<?php 
+						if(isset($element["tags"])){
+							foreach ($element["tags"] as $tag) {
 							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
-						}
-					}?>
+							}
+						} 
+					?>
 				</a>
 			</div>
 	</div>		
