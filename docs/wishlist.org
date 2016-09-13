@@ -118,8 +118,6 @@
 [ ] mon rep 
 [ ] simple element reader
 [ ] linqr
-[ ] plus de data dans le texte qrcode 
-    add contact to my phone
 [ ] notifier 
 [ ] dda module
     commenting

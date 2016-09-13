@@ -1153,26 +1153,37 @@ function saveOrga () {
     	  dataType: "json"
     });
 }
+function formatData(formData, collection,key) { 
+	
+	formData.collection = collection;
+	formData.key = key;
 
-function savePoi (formId) { 
+	if( formData.tags != "" )
+		formData.tags = formData.tags.split(",");
+	removeEmptyAttr(formData);
+
+	console.dir(formData);
+	return formData;
+}
+function savePoi (formId) 
+{ 
 	console.warn("savePoi");
-	console.dir($(formId).serializeFormJSON());
-	console.log("type", typeof $(formId).serialize());
 	formData = $(formId).serializeFormJSON();
-	formData.collection = "poi";
-	formData.key = "poi";
-	$.ajax({
+	formData = formatData(formData,"poi","poi");
+	
+	$.ajax( {
     	type: "POST",
     	url: baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
     	dataType: "json",
     	success: function(data){
-			if(!data.result){
+    		console.dir(data);
+			if(data.result == false){
                 toastr.error(data.msg);
            	}
             else { 
                 toastr.success(data.msg);
-                $("#ajax-modal").modal("toogle");
+                $('#ajax-modal').modal("hide");
             }
     	}
     });
@@ -1184,7 +1195,13 @@ function openForm (type, obj) {
 	if( specs.dynForm )
 	{
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-	  	$("#ajax-modal-modal-body").html("<form id='ajaxForm'></form>"); 
+	  	$("#ajax-modal-modal-body").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
+							              "<div class='space20'></div>"+
+							              //"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+							              "<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
+							              "<div class='space20'></div>"+
+							              "</div></div>");
+	  	$('.modal-footer').hide();
 	  	$('#ajax-modal').modal("show");
 	  	buidDynForm(specs);
 	} else if( specs.form.url ) {
@@ -1196,13 +1213,14 @@ function openForm (type, obj) {
 
 function buidDynForm(elementObj) { 
 	var form = $.dynForm({
-	      formId : "#ajax-modal-modal-body #ajaxForm",
+	      formId : "#ajax-modal-modal-body #ajaxFormModal",
 	      formObj : elementObj.dynForm,
 	      onLoad : function  () {
 	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 	      },
 	      onSave : function(){
-	        elementObj.save("#ajaxForm");
+	        elementObj.save("#ajaxFormModal");
 	        return false;
 	      }
 	});
@@ -1235,18 +1253,58 @@ var typeObj = {
 			        description : {
 		                "inputType" : "wysiwyg",
 	            		"placeholder" : "Décrire c'est partager"
-		                //lat:"",
-		                //lon:""
 		            },
 			        location : {
-		                inputType : "location",
-		                //lat:"",
-		                //lon:""
+		                inputType : "location"
 		            },
-		            /*urls : {
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags",
+		              "values" : tagsList
+		            },
+		            urls : {
 			        	placeholder : "url",
-			            "inputType" : "array"
-			        },*/
+			            "inputType" : "array",
+			            "value" : [],
+			        },
+			        select :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : {
+		            		"person":"Person",
+		            		"organization":"Organisation",
+	                    	"event":"Event",
+	                    	"project":"Project"
+		            	}
+		            },
+		            selectMultiple :{
+		            	"inputType" : "selectMultiple",
+		            	"placeholder" : "Thematique",
+		            	"options" : {
+		            		"sport":"Sport",
+	                    	"agriculture":"Agricutlture",
+	                    	"culture":"Culture",
+	                    	"urbanisme":"Urbanisme",
+		            	}
+		            },
+
+		            date : {
+		                "inputType" : "date",
+		                "icon" : "fa fa-calendar",
+		                "placeholder":"Input Type Date"
+		            },
+
+		            daterange : {
+		                "inputType" : "daterange",
+		                "icon" : "fa fa-clock-o",
+		                "placeholder":"Input Type daterange"
+		            },
+		            properties : {
+		                "inputType" : "properties",
+		                "placeholder" : "Key",
+		                "placeholder2" : "Value",
+		                "value":[]
+		            },
 			    }
 			}
 		}

@@ -221,6 +221,7 @@ var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 
+var tagsList = <?php echo json_encode(Tags::getActiveTags()) ?>;
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
 
