@@ -341,14 +341,15 @@ $controler = Element::getControlerByCollection($type);
 						/*margin-bottom: 10px;*/
 					}
 					/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
-					.badgePH .fa-stack .main { font-size:2.2em}
+					.badgePH .fa-stack .main { font-size:1.8em}
 					.badgePH .fa-stack .mainTop { 
 						/*margin-left:10px;*/
-						margin-top:-3px}
+						text-shadow: 0px -1px #656565;;
+						margin-top:-5px}
 					.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
 					/* Tooltip container */
 					.opendata .mainTop{
-					    color: black;
+					    color: white;
 					    font-size: 1.3em;
 					    padding: 5px;
 					}
@@ -361,8 +362,11 @@ $controler = Element::getControlerByCollection($type);
 					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
 						<div class="badgePH pull-right" data-title="OPENDATA">
 							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
-								<i class="fa fa-database main fa-stack-1x text-orange"></i>
-								<i class="fa fa-share-alt  mainTop fa-stack-1x text-black"></i>
+								<i class="fa fa-database main fa-stack-1x text-dark"></i>
+								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
+							</span>
+							<span class="text-dark inline" style="font-family:initial;font-size: 15px; line-height: 30px;"> 
+								<?php echo Yii::t("common","Open data") ?>						
 							</span>
 						</div>
 				<?php } 
@@ -372,7 +376,7 @@ $controler = Element::getControlerByCollection($type);
 			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 				<h4 class="panel-title text-dark"> 
 					<?php 
-					if ($openEdition==true) { ?>
+					if ($openEdition == true) { ?>
 						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 					<?php } ?>
 				</h4>

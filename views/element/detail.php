@@ -32,7 +32,8 @@ if($('#breadcum').length)
 						"organizer" =>@$organizer,
 	    				"contentKeyBase" => "profil",
 	    				"edit" => @$edit,
-	    				"isLinked" => @$isLinked
+	    				"isLinked" => @$isLinked,
+	    				"openEdition" => @$openEdition
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
