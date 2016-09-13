@@ -1219,6 +1219,7 @@ var typeObj = {
 		ctrl:"poi",
 		save:savePoi,
 		dynForm : {
+
 		    jsonSchema : {
 			    title : "Point of interest Form",
 			    icon : "map-marker",
@@ -1231,10 +1232,22 @@ var typeObj = {
 			                "required" : true
 			            }
 			        },
-			        properties : {
-		                inputType : "properties",
-		                placeholder : "Key",
-		                placeholder2 : "Value",
+			        toto : {
+			        	placeholder : "toto",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        "location" : {
+		                "inputType" : "custom",
+		                "html":"<a href='javascript:showMap(true)' class='addPoint btn btn-default text-red text-bold'>Set Location</span>",
+		                "init" : function(){
+		                	console.warn("init custom input");
+		                	$(".addPoint").click(function() { 
+		                		alert("addPoint");
+		                	});
+		                }
 		            },
 			    }
 			}
