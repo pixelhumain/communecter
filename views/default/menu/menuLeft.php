@@ -118,6 +118,9 @@
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Agenda</span>
 		</a>
+		<a href="javascript:openForm ( 'event' );" class="menu-button-left pull-right">
+			<i class="fa fa-plus tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter un évènement"></i> 
+		</a>
 		<hr>
 
 		<?php // Organisation // ?>
@@ -129,6 +132,9 @@
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Organisations</span>
 		</a>
+		<a href="javascript:openForm ( 'organization' );" class="menu-button-left pull-right">
+			<i class="fa fa-plus tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une organisation"></i> 
+		</a>
 		<hr>
 
 		<?php // Projet // ?>
@@ -139,6 +145,9 @@
 				<i class="fa fa-lightbulb-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Projets</span>
+		</a>
+		<a href="javascript:openForm ( 'project' );" class="menu-button-left pull-right">
+			<i class="fa fa-plus tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter un projet"></i> 
 		</a>
 		<hr>
 
@@ -152,6 +161,9 @@
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Débats</span>
 		</a>
+		<a href="javascript:openForm ( 'vote' );" class="menu-button-left pull-right">
+			<i class="fa fa-plus tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
+		</a>
 		<hr>
 
 		<?php // Action // ?>
@@ -162,6 +174,9 @@
 				<i class="fa fa-cogs tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Actions</span>
+		</a>
+		<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right">
+			<i class="fa fa-plus tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
 		</a>
 		<hr>
 

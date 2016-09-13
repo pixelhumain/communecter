@@ -1178,30 +1178,35 @@ function savePoi (formId) {
     });
 }
 
-function modalForm (specs, obj) { 
-    console.warn("--------------- Form ---------------------");
+function openForm (type, obj) { 
+    console.warn("---------------"+type+" Form ---------------------");
+    specs = typeObj[type];
 	if( specs.dynForm )
 	{
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
 	  	$("#ajax-modal-modal-body").html("<form id='ajaxForm'></form>"); 
 	  	$('#ajax-modal').modal("show");
+	  	buidDynForm(specs);
+	} else if( specs.form.url ) {
+		//charge le resultat d'une requete en Ajax
+		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
+	}else 
+		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
+}
 
-	    var form = $.dynForm({
+function buidDynForm(elementObj) { 
+	var form = $.dynForm({
 	      formId : "#ajax-modal-modal-body #ajaxForm",
-	      formObj : specs.dynForm,
+	      formObj : elementObj.dynForm,
 	      onLoad : function  () {
-	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+specs.dynForm.jsonSchema.icon+"'></i> "+specs.dynForm.jsonSchema.title);
+	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 	      },
 	      onSave : function(){
-	        specs.save("#ajaxForm");
+	        elementObj.save("#ajaxForm");
 	        return false;
 	      }
-	    });
-	    console.dir(form);
-	} else if( specs.url ) {
-		getModal({title:"Ajouter une Organisation"}, specs.url)
-	}else 
-		toastr.error("Ce formulaire n'est pas déclaré");
+	});
+	console.dir(form);
 }
 
 var typeObj = {
@@ -1209,41 +1214,64 @@ var typeObj = {
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person"},
-	"poi":{ col:"poi",ctrl:"poi",
-			save:savePoi,
-			dynForm : {
-			    jsonSchema : {
-				    title : "Point of interest Form",
-				    icon : "map-marker",
-				    type : "object",
-				    properties : {
-				        name : {
-				        	placeholder : "Nom",
-				            "inputType" : "text",
-				            "rules" : {
-				                "required" : true
-				            }
-				        },
-				        properties : {
-			                inputType : "properties",
-			                placeholder : "Key",
-			                placeholder2 : "Value",
-			            },
-				    }
-				}
+	"poi":{ 
+		col:"poi",
+		ctrl:"poi",
+		save:savePoi,
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    properties : {
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        properties : {
+		                inputType : "properties",
+		                placeholder : "Key",
+		                placeholder2 : "Value",
+		            },
+			    }
+			}
+		}
+	},
+	"organization" : 
+		{ col:"organizations", ctrl:"organization", 
+			rules:orgaRules, 
+			save:saveOrga,
+			icon : "group",
+			form : {
+				url : "/"+moduleId+"/organization/addorganizationform",
+				title : "Ajouter une Organisation"
 			}
 		},
-	"organization" : { col:"organizations", ctrl:"organization", 
-						rules:orgaRules, save:saveOrga,
-						url:"/"+moduleId+"/organization/addorganizationform"},
 
 	"organizations" : {col:"organizations",ctrl:"organization"},
-	"event" : {col:"events",ctrl:"event",
-				url:"/"+moduleId+"/event/eventsv"},
+	"event" : {
+		col:"events",
+		ctrl:"event",
+		icon : "calendar",
+		form : {
+			url:"/"+moduleId+"/event/eventsv",
+			title : "Ajouter un évènement"
+		}
+	},
 	"events" : {col:"events",ctrl:"event"},
 	"projects" : {col:"projects",ctrl:"project"},
-	"project" : {col:"projects",ctrl:"project",
-				url:"/"+moduleId+"/project/projectsv"},
+	"project" : {
+		col:"projects",
+		ctrl:"project",
+		icon : "lightbulb-o",
+		form : {
+			url:"/"+moduleId+"/project/projectsv",
+			title : "Ajouter un projet"
+		}
+	},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city"},
 	"entry" : {col:"surveys",ctrl:"survey"},

@@ -101,6 +101,9 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] post proper ajax
     [ ] build a dynform for a simplest element POI 
       [ ] inside a modal
+    [ ] url form in modal 
+      [ ] personnalisé 
+      [ ] le scroll marche pas
     [ ] convert existant elements to dynform 
       [ ] orga
       [ ] project
