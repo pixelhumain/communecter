@@ -26,6 +26,7 @@
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
+    [ ] autocomplete multitags
 
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)

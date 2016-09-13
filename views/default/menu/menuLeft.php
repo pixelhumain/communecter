@@ -78,7 +78,6 @@
 		<br>
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
-				data-hash="#default.live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-heartbeat  tooltips"
@@ -88,9 +87,8 @@
 		<hr>
 
 		<?php // RECHERCHER // ?>
-		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
-				data-hash="#default.directory"
-				class="menu-button-left  
+		<a href="#default.directory" id="menu-btn-directory"
+				class="menu-button-left lbh
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-search tooltips"
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
@@ -99,16 +97,15 @@
 		<hr>
 
 		<?php // AGENDA // ?>
-		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
-				data-hash="#default.agenda"
-				class="menu-button-left 
+		<a href="#default.agenda" id="menu-btn-agenda"
+				class="menu-button-left lbh
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Agenda</span>
 		</a>
 		<hr>
-		
+
 		<br>
 
 		<?php // FAIRE UN DON // ?>
