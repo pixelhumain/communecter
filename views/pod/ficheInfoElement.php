@@ -11,7 +11,16 @@ $cssAnsScriptFilesModule = array(
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
-
+if($type == Person::COLLECTION)
+	$contextIcon = "circle text-yellow";
+else if($type == Organization::COLLECTION)
+	$contextIcon = "circle text-green";
+else if($type == Event::COLLECTION)
+	$contextIcon = "circle text-orange";
+else if($type == Project::COLLECTION)
+	$contextIcon = "circle text-purple";
+else
+	$contextIcon = "circle";
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -634,12 +643,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
-	
+	var contextIcon = "<?php echo $contextIcon; ?>";
+
 	jQuery(document).ready(function() {
 		console.log("edit",edit);
 		if(edit == "true"){
 			switchMode();
 		}
+		console.log("------------------"+contextData.name);
+		setTitle(contextData.name,contextIcon);
+
 
 		bindAboutPodElement();
 		activateEditableContext();
@@ -998,6 +1011,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
 										'<i class="fa fa-tag"></i>'+tag+
 									'</div>';
+							addTagToMultitag(tag);
 						});
 						
 					}

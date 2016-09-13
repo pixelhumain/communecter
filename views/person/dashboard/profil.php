@@ -442,9 +442,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 
 			<div class="col-sm-12 col-md-5 col-lg-5 no-padding">
-
-				
-				
 				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
@@ -453,7 +450,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-
 				<div class="socialNetwork col-md-12">
 
 					<div class="col-md-12 no-padding">

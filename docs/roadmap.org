@@ -111,12 +111,14 @@
         [ ] Test Confidentialité
       [X] Bug image QR Code
       [X] User sans etre Communecter
+      [ ] Refactor DirectoryAction et directory2
+      [ ] Le Header est dans details et plus grand que dans fil d'actualité,  etc...
       [ ] Bug ajout d'une image de profil
       [ ] Active des btn menu 
       [ ] Améliorer le btn "Communecter-moi", celui du HeaderElement
-      [ ] dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
-
-    [ ] Vérifier que les badges s'ajouter a la création d'une entité
+      [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
+      [ ] Le Header est dans details et plus grand que dans fil d'actualité,  etc...
+    [X] Vérifier que les badges s'ajouter a la création d'une entité
 
   *** Priority 2
   
