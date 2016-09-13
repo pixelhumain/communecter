@@ -5,6 +5,7 @@ $cssAnsScriptFilesModule = array(
 );
 
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -259,37 +260,41 @@ $contextTitle = "";
 //$parentId="";
 //$parentType="";
 //$manage="";
-
-if( @$type == Organization::CONTROLLER){
+$contextIconTitle = "circle text-purple";
+if( @$type == Organization::COLLECTION){
 	$contextTitle = Yii::t("common","Community of organization");
 	$parentId=$parentId;
 	$parentType=Organization::COLLECTION;
 	$connectType="members";
+	$contextIconTitle = "group text-green";
 }
-else if( @$type == City::CONTROLLER && @$city ){
+else if( @$type == City::COLLECTION && @$city ){
 	Menu::city( $city );
 	$contextName = Yii::t("common","City")." : ".$city["name"];
 	$contextIcon = "university";
 	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
 }
-else if( @$type == Event::CONTROLLER && @$event ){
+else if( @$type == Event::COLLECTION /*&& @$event */){
 	$contextTitle = Yii::t("common", "Visualize Event Communauty");
-		$parentType=Event::COLLECTION;
+	$parentType=Event::COLLECTION;
+	$contextIconTitle = "circle text-orange";
 }
-else if( @$type == Person::CONTROLLER && @$person ){
-	$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$person["name"];
+else if( @$type == Person::COLLECTION /*&& @$person */){
+	$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$element["name"];
 	$connectType="network";
 	$parentType=Person::COLLECTION;
+	$contextIconTitle = "user text-yellow";
 }
-else if( @$type == PROJECT::CONTROLLER && @$project ){
+else if( @$type == PROJECT::COLLECTION /*&& @$project */){
 	$contextTitle = Yii::t("common", "Community of project");
 	$parentId=$parentId;
 	$parentType=Project::COLLECTION;
 	$connectType="contributors";
+	$contextIconTitle = "circle text-purple";
 }
 
-if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $parentType)); 
+if($parentType != City::CONTROLLER && !@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "admin" => $admin)); 
 
 //$this->renderPartial('../default/panels/toolbar'); 
 
@@ -437,7 +442,7 @@ if (@$follows){
 					<?php	if (@$manage){ ?> 
 						<input type="hidden" id="parentType" value="<?php echo $parentType ?>"/>
 						<input type="hidden" id="parentId" value="<?php echo $parentId ?>"/>
-						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
+						<input type="hidden" id="connectType" value="<?php echo "members"/*$connectType*/ ?>"/>
 					<?php } ?>
 					<?php 
 					$memberId = Yii::app()->session["userId"];
@@ -870,10 +875,13 @@ if (@$follows){
 ?>
 <script type="text/javascript">
 
+var contextData = <?php echo json_encode($element)?>;
+var contextIconTitle = "<?php echo $contextIconTitle; ?>";
 var tabButton = [];
 var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
 var itemId = "";
 var itemType = "";
+var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getControlerByCollection($type))));?>;
 var controllerId = ""
 
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
@@ -884,12 +892,14 @@ var actions = [];
 
 jQuery(document).ready(function() {
 	//$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
-
+	setTitle(nameType+" : "+contextData.name,contextIconTitle);
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
 	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','What are you looking for ?') ?></h4>" + tagFilters);
 	$("#scopeFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','Where are you looking ?') ?></h4>" + scopeFilters);
 	initGrid();
+
+	//setTitle("Répertoire de " + contextName,contextIcon);
 
 	if( activeType != ""){
 		 $('#item_panel_filter_'+activeType).trigger("click");

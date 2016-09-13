@@ -109,7 +109,7 @@ if(!isset($_GET["renderPartial"]) && !isset($renderPartial)){
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	setTitle("Espaces Coopératifs","connectdevelop");
+	//setTitle("Espaces Coopératifs","connectdevelop");
 	$(".main-col-search").addClass("assemblyHeadSection");
 	$(".explainLink").click(function() {
 		showDefinition( $(this).data("id") );
