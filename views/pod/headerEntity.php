@@ -341,7 +341,7 @@ $controler = Element::getControlerByCollection($type);
 						/*margin-bottom: 10px;*/
 					}
 					/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
-					.badgePH .fa-stack .main { font-size:1.8em}
+					.badgePH .fa-stack .main { font-size:1.5em}
 					.badgePH .fa-stack .mainTop { 
 						/*margin-left:10px;*/
 						text-shadow: 0px -1px #656565;;
@@ -350,7 +350,7 @@ $controler = Element::getControlerByCollection($type);
 					/* Tooltip container */
 					.opendata .mainTop{
 					    color: white;
-					    font-size: 1.3em;
+					    font-size: 1em;
 					    padding: 5px;
 					}
 					.opendata .main{
