@@ -1239,14 +1239,20 @@ var typeObj = {
 			                "required" : true
 			            }
 			        },
-			        "location" : {
-		                "inputType" : "custom",
-		                "html":"<a href='javascript:showMap(true)' class='addPoint btn btn-default text-red text-bold'>Set Location</span>",
-		                "init" : function(){
+			        location : {
+		                inputType : "location",
+		                //lat:"",
+		                //lon:"",
+		                init : function(){
 		                	console.warn("init custom input");
 		                	$(".addPoint").click(function() { 
+		                		$("#ajax-modal").modal("hide");
 		                		alert("addPoint");
 		                	});
+		                },
+		                validate : function(){
+		                	console.warn("init custom input");
+		                	alert("addPoint validated copy data to form");
 		                }
 		            },
 			    }
