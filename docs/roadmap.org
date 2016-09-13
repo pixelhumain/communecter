@@ -118,6 +118,7 @@
       [ ] Améliorer le btn "Communecter-moi", celui du HeaderElement
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
       [ ] Le Header est dans details et plus grand que dans fil d'actualité,  etc...
+      [ ] Error 404 , pendant la deconnexion
     [X] Vérifier que les badges s'ajouter a la création d'une entité
 
   *** Priority 2
