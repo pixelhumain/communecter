@@ -145,7 +145,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							/* **************************************
 							* TYPE + ICON
 							***************************************** */
-						$strHTML = '<tr id="'.$collection.(string)$id.'">'.
+						$strHTML = '<tr id="'.$type.(string)$id.'">'.
 							'<td class="'.$collection.'Line '.$classes.'">'.
 								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
 									if ($e && isset($e["imagePath"])){ 
@@ -480,6 +480,7 @@ function bindAdminBtnEvents(){
 				    .done(function (data) {
 				        if ( data && data.result ) {
 				        	toastr.info("User has been deleted");
+				        	$("#"+type+id).remove();
 				        	//window.location.href = "";
 				        } else {
 				           toastr.error("something went wrong!! please try again.");
