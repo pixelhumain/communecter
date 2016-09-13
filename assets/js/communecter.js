@@ -1232,29 +1232,21 @@ var typeObj = {
 			                "required" : true
 			            }
 			        },
-			        toto : {
-			        	placeholder : "toto",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            }
-			        },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		                //lat:"",
+		                //lon:""
+		            },
 			        location : {
 		                inputType : "location",
 		                //lat:"",
-		                //lon:"",
-		                init : function(){
-		                	console.warn("init custom input");
-		                	$(".addPoint").click(function() { 
-		                		$("#ajax-modal").modal("hide");
-		                		alert("addPoint");
-		                	});
-		                },
-		                validate : function(){
-		                	console.warn("init custom input");
-		                	alert("addPoint validated copy data to form");
-		                }
+		                //lon:""
 		            },
+		            /*urls : {
+			        	placeholder : "url",
+			            "inputType" : "array"
+			        },*/
 			    }
 			}
 		}
