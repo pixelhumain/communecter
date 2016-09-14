@@ -48,7 +48,11 @@
     <?php } ?>
     </div>
   </div>
-
+<style>
+ul.notifList {
+    max-height: unset !important;
+}
+</style>
 <script>
 
   /* global search code is in assets/js/default/globalsearch.js */
