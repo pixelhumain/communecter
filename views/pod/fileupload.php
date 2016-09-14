@@ -18,7 +18,7 @@
 		/*width: 100%;*/
 		min-height: 150px;
 		max-width: 100%;
-		max-height: 100%;
+		max-height: 200px;
 		padding : 0px;
 		margin:0px !important;
 	}
@@ -49,7 +49,6 @@
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgPreview">
 				</div>
-
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
 				<?php
 				if(isset($editMode) && $editMode || isset($openEdition) && $openEdition){ ?>
@@ -267,7 +266,7 @@
 			}).done( function(data){
 		        if(data.result){
 		        	imagesPath.push(baseUrl+path);
-					$(".fileupload-preview img").css("max-height", "100%");
+					$(".fileupload-preview img").css("max-height", "190px");
 					imageId = data.id["$id"];
 					setTimeout(function(){
 						$("#"+contentId+"_fileUpload").css("opacity", "1");

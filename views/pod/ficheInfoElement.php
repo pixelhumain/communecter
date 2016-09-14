@@ -27,7 +27,7 @@ else
 	.fileupload-new .thumbnail, 
 	.fileupload-new .thumbnail img, 
 	.fileupload-preview.thumbnail img {
-	    width: 100%;
+	    width: initial;
 	}
 	.panelDetails .row{
 		margin:0px !important;
@@ -153,22 +153,29 @@ else
 		</h4>
 	</div>
 	<div id="divBtnDetail" class="panel-tools" >
-		<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit") ?> </span></a>
-		
-		<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
-		<?php if($type == Person::COLLECTION){ ?>
-		<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
-			<i class='fa fa-key'></i> 
-			<span class="hidden-sm hidden-xs">
-			<?php echo Yii::t("common","Change password") ?>
-			</span>
-		</a>
-		<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
-			<i class='fa fa-download'></i> 
-			<span class="hidden-sm hidden-xs">
-			<?php //echo Yii::t("common","Télécharger votre profile"); ?>
-			</span>
-		</a>
+		<?php if(@Yii::app()->session["userId"]){ ?> 
+			<?php if ($edit==true || (@$openEdtion && $openEdtion == true )) { ?>
+				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit") ?> </span></a>
+			<?php } ?>
+			<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+			<?php if ($openEdition==true) { ?>
+				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $element["_id"] ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
+			<?php } ?>
+	
+			<?php if($type == Person::COLLECTION){ ?>
+			<a href='javascript:' id="changePasswordBtn" class='btn btn-sm btn-red tooltips' data-toggle="tooltip" data-placement="bottom" title="Changer votre mot de passe" alt="">
+				<i class='fa fa-key'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php echo Yii::t("common","Change password") ?>
+				</span>
+			</a>
+			<a href='javascript:' id="downloadProfil" class='btn btn-sm btn-default tooltips' data-toggle="tooltip" data-placement="bottom" title="Télécharger votre profil" alt="">
+				<i class='fa fa-download'></i> 
+				<span class="hidden-sm hidden-xs">
+				<?php //echo Yii::t("common","Télécharger votre profile"); ?>
+				</span>
+			</a>
+			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for this ".Element::getControlerByCollection($type)); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>
@@ -186,7 +193,7 @@ else
 				<div id="divName">
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
 					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
-						<?php if(isset($element["name"])) echo $element["name"]; else echo "";?>
+						<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
 					</a>
 				</div>
 
@@ -286,11 +293,13 @@ else
 				</label>
 				
 				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
-					<?php if(isset($element["tags"])){
-						foreach ($element["tags"] as $tag) {
+					<?php 
+						if(isset($element["tags"])){
+							foreach ($element["tags"] as $tag) {
 							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
-						}
-					}?>
+							}
+						} 
+					?>
 				</a>
 			</div>
 	</div>		
@@ -442,7 +451,7 @@ else
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
 			<div class="col-md-6 col-sm-6">
-				<?php if($type==Organization::COLLECTION){
+				<?php /*if($type==Organization::COLLECTION){
 						$nbFixe = 0 ;
 						$nbMobile = 0 ; 
 
@@ -489,7 +498,7 @@ else
 
 							
 						}
-					}
+					}*/
 				?>
 
 				<?php if($type==Person::COLLECTION){?>
@@ -664,7 +673,7 @@ else
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 
-		$('#avatar').change(function() {
+		/*$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
 		});
 
@@ -688,7 +697,7 @@ else
 					}
 			  },
 			});
-		}));
+		}));*/
 
 		$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();

@@ -1,6 +1,6 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
 <script type="text/javascript">
-    $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet" />');
+    $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>');
     $.fn.poshytip={defaults:null};
 </script>
 <script>
@@ -32,7 +32,8 @@ if($('#breadcum').length)
 						"organizer" =>@$organizer,
 	    				"contentKeyBase" => "profil",
 	    				"edit" => @$edit,
-	    				"isLinked" => @$isLinked
+	    				"isLinked" => @$isLinked,
+	    				"openEdition" => @$openEdition
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
@@ -350,12 +351,12 @@ jQuery(document).ready(function() {
 		if(empty($element["tasks"])) $element["tasks"] = array();
 		if($type == Project::COLLECTION) {//|| $admin==true){ ?>
 		getAjax(".timesheetphp",baseUrl+"/"+moduleId+"/gantt/index/type/<?php echo 
-			$type ?>/id/<?php echo $element["_id"]?>/isAdmin/false/isDetailView/1",null,"html");
+			$type ?>/id/<?php echo $element["_id"] ?>/isAdmin/false/isDetailView/1",null,"html");
 	<?php } ?>
 
 
 	<?php if($type == Event::COLLECTION){ ?>
-		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"]?>/pod/1?date=1",null,"html");
+		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"] ?>/pod/1?date=1",null,"html");
 	<?php } ?>
 });
 </script>

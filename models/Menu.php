@@ -457,7 +457,7 @@ class Menu {
             else if($type == Event::COLLECTION)
                 $connectAs="attendee";
            
-            if( @$connectAs && !@$element["links"][$connectAs."s"][Yii::app()->session["userId"]]){
+            if( @Yii::app()->session["userId"] && @$connectAs && !@$element["links"][$connectAs."s"][Yii::app()->session["userId"]]){
                 self::entry("right", 'onclick',
                                 Yii::t( "common", "Declare me as ".$connectAs." of this ".$controller),
                                 Yii::t( "common", "Become ".$connectAs),
