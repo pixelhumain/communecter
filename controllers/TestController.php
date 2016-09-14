@@ -1218,9 +1218,9 @@ La vie en santé;Santé;;
 
 
 	public function actionRecherche(){
-		$Citoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array(), 10, 0);
-		$allCitoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array(), 5, 0);
-		$allCitoyen2 = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array(), 5, 5);
+		$Citoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 10, 0);
+		$allCitoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(),array("name" => 1), 5, 0);
+		$allCitoyen2 = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 5, 5);
 
 
 		foreach ($Citoyen as $key => $value) {
