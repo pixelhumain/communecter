@@ -1237,12 +1237,15 @@ var typeObj = {
 		ctrl:"poi",
 		save:savePoi,
 		dynForm : {
-
 		    jsonSchema : {
 			    title : "Point of interest Form",
 			    icon : "map-marker",
 			    type : "object",
 			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class="fa fa-info-circle"></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
 			        name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
