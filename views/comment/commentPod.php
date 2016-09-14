@@ -211,7 +211,8 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 
 </div>
 <style type="text/css">
-
+	ul li.comment {border-left : 5px solid #ccc; margin-bottom: 5px} 
+	.commentContent-posted {margin-left:10px};
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
