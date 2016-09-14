@@ -6,8 +6,9 @@
   [ ] avec le wysiwyg sur les addsv qui s'active au clic c'est chiant, tu es obligé de cliquer deux fois dans la zone description
   [ ] Je me dis participant d'un evénénement => on me dit que j'été invité par moi même et on me demande de confirmer ma participation ????
   [ ] Erreur sur les projets de Fabienne
+  [ ] https://www.communecter.org/#event.calendarview.id.57d78dab40bb4efa33ec9f71 => Syntaxe error
+  [ ] Bouton communecter-moi qui apparait sur la page de profil d'un autre user [https://www.communecter.org/#person.detail.id.57c5965640bb4e4b36fb8257]
 
->>>>>>> origin/deleteperson
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
   [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
   [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
