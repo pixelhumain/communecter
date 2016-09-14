@@ -84,8 +84,7 @@ function checkCommentCount(){
         dataType: "json",
         success: function(data){
           if(data.count>0){
-          	console.log("you have new comments", data.count);
-          	
+          	//console.log("you have new comments", data.count);
           	$(".refreshComments").removeClass('hide')
           	$(".refreshComments").html("<i class='fa fa-refresh'></i> "+data.count+" <?php echo Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id)?> ");
           } else {
