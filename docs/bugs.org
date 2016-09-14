@@ -4,8 +4,13 @@
 
   [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
   [ ] avec le wysiwyg sur les addsv qui s'active au clic c'est chiant, tu es obligé de cliquer deux fois dans la zone description
-  [ ] Je me dis participant d'un evénénement => on me dit que j'été invité par moi même et on me demande de confirmer ma participation ????
   [ ] Erreur sur les projets de Fabienne
+
+
+** Bugs relevés sur le fil de Communecter "help and debug"
+
+  [ ] Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". A la base j'avais mis une date de fin qui avait été dépassée, j'ai modifié la date de fin, mais ce projet reste dans "ancien projet
+
 
 >>>>>>> origin/deleteperson
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
@@ -31,6 +36,9 @@
 * ************************************************************    
 * Version 0.15.2 
 * ************************************************************
+
+* Non reproduit
+  [ ] Je me dis participant d'un evénénement => on me dit que j'été invité par moi même et on me demande de confirmer ma participation ????
 
 * Sylvain
   [ ] Bras Panon => à san franciso ?
