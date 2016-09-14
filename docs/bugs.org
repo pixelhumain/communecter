@@ -8,16 +8,10 @@
   [ ] https://www.communecter.org/#event.calendarview.id.57d78dab40bb4efa33ec9f71 => Syntaxe error
   [ ] Bouton communecter-moi qui apparait sur la page de profil d'un autre user [https://www.communecter.org/#person.detail.id.57c5965640bb4e4b36fb8257]
 
-<<<<<<< HEAD
-
 ** Bugs relevés sur le fil de Communecter "help and debug"
 
   [ ] Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". A la base j'avais mis une date de fin qui avait été dépassée, j'ai modifié la date de fin, mais ce projet reste dans "ancien projet
 
-
->>>>>>> origin/deleteperson
-=======
->>>>>>> 975226a7cc025f838533f7a53639b0b8137623ab
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
   [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
   [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
