@@ -1224,17 +1224,17 @@ La vie en santé;Santé;;
 
 
 		foreach ($Citoyen as $key => $value) {
-			var_dump($value["name"]);
+			var_dump(@$value["name"]);
 			echo "<br/>";
 		}
 		echo "<br/><br/>-------------------------------<br/><br/>";
 		foreach ($allCitoyen as $key => $value) {
-			var_dump($value["name"]);
+			var_dump(@$value["name"]);
 			echo "<br/>";
 		}
 		echo "<br/><br/>-------------------------------<br/><br/>";
 		foreach ($allCitoyen2 as $key => $value) {
-			var_dump($value["name"]);
+			var_dump(@$value["name"]);
 			echo "<br/>";
 		}
 	}
