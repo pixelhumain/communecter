@@ -21,7 +21,6 @@
 
 
 ** Erreurs de logs en prods 
-  [ ] 2016/09/05 14:16:01 [error] [php] Undefined variable: type (/home/ubuntu/communecter/pixelhumain/ph/protected/views/emails/askToBecomeAdmin.php:29)
   [ ] 2016/09/05 14:16:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/css/rooms/header.css".'
   [ ] 2016/09/05 23:23:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/d8941b81/images/testamonials/guillaumeR.png".' in /home/ubuntu/communecter/pixelhumain/ph/vendor/yiisoft/yii/framework/web/CWebApplication.php:286
   [ ] 2016/09/05 14:14:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/assets/plugins/jQuery/wysihtml5x-toolbar.min.map".
@@ -34,7 +33,6 @@
 * ************************************************************
 
 * Sylvain
-  [ ] Bras Panon => à san franciso ?
 
 * Rapha
 
