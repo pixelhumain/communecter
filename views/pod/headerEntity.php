@@ -295,9 +295,6 @@ $controler = Element::getControlerByCollection($type);
 
 
 		</div>
-		  
-
-
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
 			<?php if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
@@ -555,14 +552,11 @@ jQuery(document).ready(function() {
 		$(this).addClass("active");
 	});
 
-
 	if(element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");
 		$(".cobtnHeader").click(function () { 
 				var url= document.URL;
-				//alert(url);
-
 				if(url.indexOf("#person.detail") != -1){
 					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 					$('#editElementDetail').trigger('click');
@@ -572,7 +566,8 @@ jQuery(document).ready(function() {
 					return false;
 				}
 				else
-					showElementPad("detail");
+					showElementPad("detail.edit");
+				
 		});
 	}
 
@@ -589,12 +584,13 @@ function showElementPad(type){
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
-					/*"detail.edit": 
+					"detail.edit": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : {"edit":true}
-						} ,*/
+						},
 					"news": 
 						{ 
 							"url"  : "news/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?isFirst=1&", 

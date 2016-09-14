@@ -626,13 +626,10 @@ else
 <script type="text/javascript"> 
 
 	var contextData = <?php echo json_encode($element)?>;
+	var contextIcon = "<?php echo $contextIcon; ?>";
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?>;
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
-	var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
-	//By default : view mode
 	var mode = "view";
-	var images = <?php echo json_encode($images) ?>;
-	var tags = <?php echo json_encode($tags)?>;
 	var types = <?php echo json_encode($elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
@@ -640,15 +637,22 @@ else
 	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>'
 	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>'
 	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
-	var publics = <?php echo json_encode($publics) ?>;
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
-	var contextIcon = "<?php echo $contextIcon; ?>";
+	
+
+	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
+	//By default : view mode
+	//var images = <?php echo json_encode($images) ?>;
+	//var tags = <?php echo json_encode($tags)?>;
+	//var publics = <?php echo json_encode($publics) ?>;
+
+	
 
 	jQuery(document).ready(function() {
 		console.log("edit",edit);
 		if(edit == "true"){
-			switchMode();
+			switchModeElement();
 		}
 		console.log("------------------"+contextData.name);
 		setTitle(contextData.name,contextIcon);
@@ -657,8 +661,8 @@ else
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContextElement();
-		changeHiddenIcone(true);
-		manageDivEdit();
+		changeHiddenIconeElement(true);
+		manageDivEditElement();
 
 		$('#avatar').change(function() {
 		  $('#photoAddEdit').submit();
@@ -729,7 +733,7 @@ else
 		});
 
 		$("#editElementDetail").on("click", function(){
-				switchMode();
+				switchModeElement();
 			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
 			//	getBackDetails(contextId,"<?php echo $type ?>");
 		});
@@ -796,24 +800,24 @@ else
 
 	}
 
-	function switchMode() {
-		console.log("switchMode");
+	function switchModeElement() {
+		console.log("---------"+mode);
 		if(mode == "view"){
 			mode = "update";
 			$(".editProfilLbl").html(" Enregistrer les changements");
 			$("#editElementDetail").addClass("btn-red");
-			$(".cobtn,.whycobtn").addClass("hidden");
+			$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").addClass("hidden");
 		}else{
 			mode ="view";
 			$(".editProfilLbl").html(" Éditer");
 			$("#editElementDetail").removeClass("btn-red");
 			if(contextData.address.addressLocality == "")
-				$(".cobtn,.whycobtn").removeClass("hidden");
+				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
 
 		}
 		manageModeContextElement();
-		changeHiddenIcone(false);
-		manageDivEdit();
+		changeHiddenIconeElement(false);
+		manageDivEditElement();
 	}
 
 	function manageModeContextElement() {
@@ -841,8 +845,8 @@ else
 		}
 	}
 
-	function manageDivEdit() {
-		console.log("-----------------manageDivEdit----------------------");
+	function manageDivEditElement() {
+		console.log("-----------------manageDivEditElement----------------------");
 		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		console.log(contextType);
 		if(contextType != "citoyens")
@@ -884,8 +888,8 @@ else
 		console.log(iconObject);
 	}
 
-	function changeHiddenIcone(init) { 
-		console.log("-----------------changeHiddenIcone----------------------");
+	function changeHiddenIconeElement(init) { 
+		console.log("-----------------changeHiddenIconeElement----------------------");
 		
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_streetAddress", ".fa_postalCode", 
 						".fa_addressCountry", ".fa_telephone_mobile",".fa_telephone",".fa_telephone_fax",

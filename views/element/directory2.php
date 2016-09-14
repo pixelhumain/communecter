@@ -252,72 +252,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <?php 
 
-/*
-$this->renderPartial('../default/panels/toolbar',array("toolbarStyle"=>"width:50px")); */
-$contextName = "";
-$contextIcon = "connectdevelop";
-$contextTitle = "";
-//$parentId="";
-//$parentType="";
-//$manage="";
-$contextIconTitle = "circle text-purple";
-if( @$type == Organization::COLLECTION){
-	$contextTitle = Yii::t("common","Community of organization");
-	$parentId=$parentId;
-	$parentType=Organization::COLLECTION;
-	$connectType="members";
-	$contextIconTitle = "group text-green";
-}
-else if( @$type == City::COLLECTION && @$city ){
-	Menu::city( $city );
-	$contextName = Yii::t("common","City")." : ".$city["name"];
-	$contextIcon = "university";
-	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
-}
-else if( @$type == Event::COLLECTION /*&& @$event */){
-	$contextTitle = Yii::t("common", "Visualize Event Communauty");
-	$parentType=Event::COLLECTION;
-	$contextIconTitle = "circle text-orange";
-}
-else if( @$type == Person::COLLECTION /*&& @$person */){
-	$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$element["name"];
-	$connectType="network";
-	$parentType=Person::COLLECTION;
-	$contextIconTitle = "user text-yellow";
-}
-else if( @$type == PROJECT::COLLECTION /*&& @$project */){
-	$contextTitle = Yii::t("common", "Community of project");
-	$parentId=$parentId;
-	$parentType=Project::COLLECTION;
-	$connectType="contributors";
-	$contextIconTitle = "circle text-purple";
-}
-
-if($parentType != City::CONTROLLER && !@$_GET["renderPartial"])
+if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "admin" => $admin)); 
 
 //$this->renderPartial('../default/panels/toolbar'); 
 
-$countPeople = 0; $countOrga = 0; $countProject = 0; $countEvent = 0; $countFollowers = 0; $followsProject = 0; $followsPeople = 0 ; $followsOrga = 0; $countAttendees = 0; $countGuests = 0;
-if (@$people)
-	foreach (@$people as $key => $onePeople) { if( @$onePeople["name"]) $countPeople++;}
-if (@$organizations)
-	foreach (@$organizations as $key => $orga) { if( @$orga["name"]) $countOrga++;	}
-if (@$projects)
-	foreach (@$projects as $key => $project) { if( @$project["name"]) $countProject++;	}
-if (@$events)
-	foreach (@$events as $key => $event) { if( @$event["name"]) $countEvent++;	}
-if (@$followers){
-	foreach ($followers as $key => $follower) { if( @$follower["name"]) $countFollowers++;}
-}
-if (@$attendees){
-	foreach ($attendees as $key => $attendee) { if( @$attendee["name"]) $countAttendees++;}
-}
-if (@$guests){
-	foreach ($guests as $key => $guest) { if( @$guest["name"]) $countGuests++;}
-}
 
-if (@$follows){
+
+/*if (@$follows){
 	if(@$follows[Person::COLLECTION]){ 
 		foreach ($follows[Person::COLLECTION] as $e) {
 			$followsPeople++;
@@ -336,8 +278,7 @@ if (@$follows){
 			$countProject++;
 		}
 	}
-
-}
+}*/
 ?>
 <div class="row pull-left">
 	<div class="col-md-12">
@@ -440,8 +381,8 @@ if (@$follows){
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
 					<?php	if (@$manage){ ?> 
-						<input type="hidden" id="parentType" value="<?php echo $parentType ?>"/>
-						<input type="hidden" id="parentId" value="<?php echo $parentId ?>"/>
+						<input type="hidden" id="parentType" value="<?php echo $type ?>"/>
+						<input type="hidden" id="parentId" value="<?php echo $elementId ?>"/>
 						<input type="hidden" id="connectType" value="<?php echo "members"/*$connectType*/ ?>"/>
 					<?php } ?>
 					<?php 
@@ -456,13 +397,7 @@ if (@$follows){
 						"addressLocality"=>array(),
 					);
 					$scopesHTMLFull = "";
-					/*if ($parentType==Person::COLLECTION){ 
-						<div class="col-md-12 col-sm-12 col-xs-12 row">
-							<span class="homestead panelLabel pull-left labelCommunity"> 
-							<?php echo ucfirst(Yii::t("common",$connectType)) 
-							</span>
-						</div> 
-					 */
+				
 					/* ************ ORGANIZATIONS ********************** */
 					if(@$organizations) 
 					{ 
@@ -477,7 +412,7 @@ if (@$follows){
 					{ 
 						foreach ($people as $e) 
 						{
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$type,$elementId);
 						}
 					}
 
@@ -534,7 +469,7 @@ if (@$follows){
 						{ 
 							foreach ($follows[Person::COLLECTION] as $e) 
 							{
-								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$type,$elementId);
 							}
 					}	
 					///// SHOW FOLLOWERS !!!!!
@@ -567,7 +502,7 @@ if (@$follows){
 						{ 
 							foreach ($follows[Person::COLLECTION] as $e) 
 							{
-								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$parentType,$parentId);
+								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$type,$elementId);
 							}
 						}	*/
 						if(@$follows[Project::COLLECTION]) 
@@ -580,7 +515,7 @@ if (@$follows){
 					} 
 					
 					
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$parentType=null,$parentId=null)
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$type=null,$elementId=null)
 					{
 						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
 							return;
@@ -808,7 +743,7 @@ if (@$follows){
 							} else {
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectTo(\''.$parentType.'\',\''.$parentId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
@@ -877,30 +812,18 @@ if (@$follows){
 
 var contextData = <?php echo json_encode($element)?>;
 var contextIconTitle = "<?php echo $contextIconTitle; ?>";
-var tabButton = [];
-var mapButton = {"media": "Media", "slider": "Slider", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
-var itemId = "";
-var itemType = "";
 var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getControlerByCollection($type))));?>;
-var controllerId = ""
-
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
-var images = [];
-var actions = [];
-//var mapData = <?php echo json_encode($contextMap) ?>;
 
 jQuery(document).ready(function() {
-	//$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+
 	setTitle(nameType+" : "+contextData.name,contextIconTitle);
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
 	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','What are you looking for ?') ?></h4>" + tagFilters);
 	$("#scopeFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','Where are you looking ?') ?></h4>" + scopeFilters);
 	initGrid();
-
-	//setTitle("Répertoire de " + contextName,contextIcon);
-
 	if( activeType != ""){
 		 $('#item_panel_filter_'+activeType).trigger("click");
 		 $('.filter'+activeType).trigger("click");
@@ -909,15 +832,7 @@ jQuery(document).ready(function() {
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
-	
-	
 	convertAllStartDateEvent();
-	//console.dir(mapData);
-	//Sig.restartMap();
-	//Sig.showMapElements(Sig.map, mapData);
-
-
-	
 });
 
  function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
@@ -964,7 +879,6 @@ function initGrid(){
 		bindBtnEvents();
 		///// MixItUp is a plugin from jQuery to customize element filtering and sortering
 		///// https://mixitup.kunkalabs.com
-		
 		$('#Grid').mixItUp({
 			callbacks: {
 				onMixEnd: function(state){
@@ -974,13 +888,6 @@ function initGrid(){
 				}	
 			}
 		});
-		/*$('.portfolio-item .chkbox').bind('click', function () {
-	        if ($(this).parent().hasClass('selected')) {
-	            $(this).parent().removeClass('selected').children('a').children('img').removeClass('selected');
-	        } else {
-	            $(this).parent().addClass('selected').children('a').children('img').addClass('selected');
-	        }
-	    });*/
 	}else{
 		var htmlDefault = "<div class='center'>"+
 							"<i class='fa fa-share-alt fa-5x text-blue'></i>"+

@@ -94,8 +94,9 @@
   *** Priority 1
 
     [X] remonté tes points de la 0.15
-    [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
+    [X] Vérifier que les badges s'ajouter a la création d'une entité
     [X] Evénement : admin + open edition
+    [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
     [ ] Refactor Element
       [X] Refactor sur Element::UpdateField()
       [X] Rajout des badges
@@ -111,18 +112,22 @@
         [ ] Test Confidentialité
       [X] Bug image QR Code
       [X] User sans etre Communecter
-      [ ] Refactor DirectoryAction et directory2
-      [ ] Le Header est dans details et plus grand que dans fil d'actualité,  etc...
+      [X] Refactor DirectoryAction et directory2
+      [ ] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
       [ ] Bug ajout d'une image de profil
       [ ] Active des btn menu 
       [ ] Améliorer le btn "Communecter-moi", celui du HeaderElement
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
       [ ] Le Header est dans details et plus grand que dans fil d'actualité,  etc...
       [ ] Error 404 , pendant la deconnexion
-    [X] Vérifier que les badges s'ajouter a la création d'une entité
+    
 
   *** Priority 2
-  
+    [ ] Admin
+      [ ] GEstion des utilisateurs en toBeActiveted and Pendig
+        [ ] Afficher la liste de ces utilisateurs
+        [ ] Batch qui envoie un mail pour signaler aux utilsateurs de valider leur compte
+        [ ] Ajouter un le nombre de fois on a envoyer le mail
     [ ] form keep my position / my latest psitions
     [ ] Bloqué l'acces a mon répertoire mode Privé
     [ ] Ajouter les numéros de tel dans le formulaire de création
