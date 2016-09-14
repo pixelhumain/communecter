@@ -88,7 +88,7 @@
 
 	<div id="list_filters">
 	  <!--  <div class="col-xs-12 margin-top-15 no-padding">
-	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
+	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div> test
 	  </div> -->
 	  
 	  <div class="btn-group inline-block hidden" id="menu-directory-type">
