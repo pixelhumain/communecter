@@ -833,6 +833,7 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 	convertAllStartDateEvent();
+ 	activeMenuElement("directory");
 });
 
  function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");

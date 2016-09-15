@@ -774,6 +774,8 @@ jQuery(document).ready(function()
  	
  	showTagsScopesMin(".list_tags_scopes");
  	showFormBlock(false);
+
+ 	activeMenuElement("news");
 });
 function isInArray(value, array) {
   return array.indexOf(value) > -1;

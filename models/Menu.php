@@ -341,7 +341,7 @@ class Menu {
         self::entry("left", 'onclick',
         			Yii::t($controller,"Contact information"), 
         			Yii::t("common","Details"),'home',
-        			"showElementPad('detail')", $controller, "detail", "btn-menu-element");
+        			"showElementPad('detail')", $controller, "detail", "btn-menu-element btn-menu-element-detail");
        
         //SEE TIMELINE
         //-----------------------------
@@ -349,7 +349,7 @@ class Menu {
                 Yii::t( "common", 'Read all news publicated by this '.$controller), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
-                "showElementPad('news')","news", "index", "btn-menu-element");
+                "showElementPad('news')","news", "index", "btn-menu-element btn-menu-element-news");
 
          
         
@@ -359,7 +359,7 @@ class Menu {
         			Yii::t("common",ucfirst($controller)." community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
-        			"showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element");
+        			"showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
        
        //ALBUM
         //-----------------------------
@@ -367,7 +367,7 @@ class Menu {
                     Yii::t("common", 'See the photo gallery'), 
                     Yii::t("common", 'Album'),
                     'photo',
-                    "showElementPad('gallery')","gallery", "index", "btn-menu-element");
+                    "showElementPad('gallery')","gallery", "index", "btn-menu-element btn-menu-element-gallery");
 
         //ACTION ROOMS
         //-----------------------------

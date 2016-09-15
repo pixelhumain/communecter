@@ -113,6 +113,7 @@ jQuery(document).ready(function() {
 	}).mouseleave(function(){
 		$(this).find(".tools.tools-bottom").hide();
 	});
+ 	activeMenuElement("gallery");
 });
 
 function initGrid(){

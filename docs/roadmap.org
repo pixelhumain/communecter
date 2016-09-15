@@ -115,13 +115,15 @@
       [X] Refactor DirectoryAction et directory2
       [X] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
       [X] Améliorer le btn "Communecter-moi", celui du HeaderElement
+      [X] Active des btn menu 
       [ ] Bug ajout d'une image de profil
-      [ ] Active des btn menu 
+      [ ] tooltip menu (detail, news etc ...) traduire ou améliorer
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
       [ ] Error 404 , pendant la deconnexion
     
 
   *** Priority 2
+    [ ] Récuperer activeMenuElement() dans communecter.js et l mettre dans element.js lorsque qu'il sera crée
     [ ] Admin
       [ ] GEstion des utilisateurs en toBeActiveted and Pendig
         [ ] Afficher la liste de ces utilisateurs

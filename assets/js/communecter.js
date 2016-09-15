@@ -1139,3 +1139,13 @@ function notEmpty(val){
 			&& val != null
 			&& val != "";
 }
+
+
+function activeMenuElement(page) {
+	console.log("-----------------activeMenuElement----------------------");
+	listBtnMenu = [	'detail', 'news', 'directory', 'gallery'];
+	$.each(listBtnMenu, function(i,value) {
+		$(".btn-menu-element-"+value).removeClass("active");
+	});
+	$(".btn-menu-element-"+page).addClass("active");
+}

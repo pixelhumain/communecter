@@ -360,5 +360,10 @@ jQuery(document).ready(function() {
 	<?php if($type == Event::COLLECTION){ ?>
 		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"] ?>/pod/1?date=1",null,"html");
 	<?php } ?>
+
+	activeMenuElement("detail");
 });
+
+
+
 </script>

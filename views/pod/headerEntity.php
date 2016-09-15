@@ -554,10 +554,10 @@ jQuery(document).ready(function() {
 	/*bindHeaderElement();
 	activateEditableContextHeader();
 	manageModeContextHeader();*/
-	$(".btn-menu-element").click(function(){
+	/*$(".btn-menu-element").click(function(){
 		$(".btn-menu-element").removeClass("active");
 		$(this).addClass("active");
-	});
+	});*/
 
 	if(element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
@@ -633,7 +633,7 @@ function showElementPad(type){
 	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
 			data,
 			function(){ 
-				$(".btn-menu-element").removeClass("active");
+				//$(".btn-menu-element").removeClass("active");
 				history.pushState(null, "New Title", "#" + hash);
 				$("#pad-element-container").show(200);
 				bindLBHLinks();
