@@ -367,7 +367,7 @@ function runProjectFormValidation(el) {
 			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
 			newProject.tags = $(".form-project #tagsProject").val();
 
-			if ($(".form-project #description").code())
+			if ($(".form-project .note-editor").length != 0)
 				newProject.description=$(".form-project #description").code();
 			else
 				newProject.description="";

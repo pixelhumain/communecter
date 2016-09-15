@@ -329,10 +329,10 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
+			//console.log(typeof($("#description").code()));
+			if($(".note-editor").length != 0)
+				$("#description").val($("#description").code());
 
-
-			if($("#description").code())
-				$("#description").val($("#description").code());			
 			var newOrganization = $("#organizationForm").serialize();
 			console.log(newOrganization);
 			$.blockUI({
@@ -350,7 +350,7 @@ var formValidator = function() {
 	                    else { 
 	                        toastr.success(data.msg);
                         	addFloopEntity(data.id, "organizations", data.newOrganization);
-							loadByHash('#organization.detail.id.'+data.id);
+							//loadByHash('#organization.detail.id.'+data.id);
 							//$.hideSubview();
 							$.unblockUI();
 	                    }

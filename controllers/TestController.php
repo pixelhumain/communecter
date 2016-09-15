@@ -1217,6 +1217,26 @@ La vie en santé;Santé;;
 
 
 
-	
+	public function actionRecherche(){
+		$Citoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 10, 0);
+		$allCitoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(),array("name" => 1), 5, 0);
+		$allCitoyen2 = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 5, 5);
+
+
+		foreach ($Citoyen as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+		echo "<br/><br/>-------------------------------<br/><br/>";
+		foreach ($allCitoyen as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+		echo "<br/><br/>-------------------------------<br/><br/>";
+		foreach ($allCitoyen2 as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+	}
 
 }

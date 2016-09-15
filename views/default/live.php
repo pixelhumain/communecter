@@ -17,10 +17,10 @@
 	  
 	<div class="col-xs-12 center ">
 			
-		<div id="list_filters">
-		  <!--  <div class="col-xs-12 margin-top-15 no-padding">
+		 <!-- <div id="list_filters">
+		  <div class="col-xs-12 margin-top-15 no-padding">
 		    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div>
-		  </div> -->
+		  </div> 
 		  
 		  <div class="btn-group inline-block hidden" id="menu-directory-type">
 		    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
@@ -40,7 +40,36 @@
 		    </button>
 		  </div>
 		  
-		  <div class="lbl-scope-list text-red hidden"></div>
+		  <div class="lbl-scope-list text-red hidden"></div>-->
+
+		
+	
+
+	<div id="list_filters">
+	  <!--  <div class="col-xs-12 margin-top-15 no-padding">
+	    <div id="list_tags_scopes" class="hidden-xs list_tags_scopes"></div> test test test
+	  </div> -->
+	  
+	  <div class="btn-group inline-block hidden" id="menu-directory-type">
+	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
+	      <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">Messages</span>
+	    </button>
+	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+	      <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
+	    </button>
+	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+	      <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs hidden-sm">Projets</span>
+	    </button>
+	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+	      <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
+	    </button>
+	    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Besoins" type="needs">
+	      <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Besoins</span>
+	    </button>
+	  </div>
+	  
+	  <div class="lbl-scope-list text-red hidden"></div>
+
 
 		</div>
 	</div>

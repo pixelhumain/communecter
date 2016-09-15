@@ -547,7 +547,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<br/>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
 					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom"></a>
+					<?php if (@Yii::app()->session["userId"] && Yii::app()->session["userId"]==(string)$person["_id"]){ ?>
 					<a href="javascript:;" class="cobtn hidden btn bg-red">Communectez-moi</a> <a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+					<?php } ?>
 					<br/>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					

@@ -30,7 +30,10 @@
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)
     [ ] delete person : 
-      [ ] on admin : delete simple person (links but no news/votes/comments)
+      [X] on admin : delete simple person (links but no news/votes/comments)
+      [ ] delete with anonymization
+      [ ] delete my accont
+    [ ] rsync on server for upload
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
@@ -53,6 +56,7 @@
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
+
 
 
 ** @Tib 
@@ -120,7 +124,6 @@
       [ ] tooltip menu (detail, news etc ...) traduire ou améliorer
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
       [ ] Error 404 , pendant la deconnexion
-    
 
   *** Priority 2
     [ ] Récuperer activeMenuElement() dans communecter.js et l mettre dans element.js lorsque qu'il sera crée
