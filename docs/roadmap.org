@@ -67,7 +67,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 
 ** @Tib 
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
-  [???] multi scope on element forms
+  [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+  
   [ ] projet de nuit debout 
       jardin vauban :  
   [ ] Element Refactor : one input add
@@ -82,8 +83,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] delete empty element
   
   [ ] Count requests DB per page
-
-  [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+  [ ] moving discussion polling to discussion page instead of communecter.js
+  
   [ ] finish fromNow method
   [ ] POI et Element de base : name,desc, url, location,photo
     periscope,youtube,twitter journal
@@ -99,39 +100,24 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] parse and build post genericaly jsonHelper.stringFormtoJson
     [X] on press send 
       [X] post proper ajax
-    [ ] build a dynform for a simplest element POI 
-      [ ] inside a modal
-    [ ] url form in modal 
-      [ ] personnalisé 
-      [ ] le scroll marche pas
-    [ ] convert existant elements to dynform 
-      [ ] orga
-      [ ] project
-      [ ] event
+    [X] build a dynform for a simplest element POI 
+      [X] inside a modal
+    [X] url form in modal 
+      [X] personnalisé 
+      [X] le scroll marche pas
+    [ ] elements to simple dynform 
+      [X] orga simplified to name, type, location btn
+      [X] project to name, location btn
+      [ ] event to organizer, name, type, allday, dates, location btn
     [ ] cut up saving into 2 phases 
       [ ] save process
         [ ] Element::save 
           [ ] params containing map using a json source base + specific attributes
             - { element: {}, orga:{} }
-      [X] save common attributes elementJson
-        [X] defining elemntJson
+        [ ] dataBinding validation process
       [X] save specific attributes : orgaJson ,simpleJson ,rojectJson,eventJson ,personJson 
     [X] parse and build post genericaly jsonHelper.stringFormtoJson
     [X] on press send post proper ajax
-    [X] insert from texte sample
-        with autocomplete inside smart texterea 
-        when an attribute is typed, possible content types can be proposed
-        @>Name > autocomplete cross Element acteurs orga, people
-        @add: > prompt le type > et genere les champs 
-        >type:organization 
-        >name:xxx
-        >email: 
-        >admin:A-M-?
-        >adr:
-        >cp:
-        >desc:
-        >latlon:get from GPS if available  
-            Enter > recognizes the @type > and creates 
   [X] added middle click to notifications
   [X] switched QRcodes to full URLs, they can then be parsed
   
@@ -200,8 +186,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
-    [ ] btn utiliser la position GPS 
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... ) [[https://github.com/pixelhumain/communEvent/issues/112]]
+    [ ] btn utiliser la position GPS [[https://github.com/pixelhumain/communEvent/issues/113]]
     [ ] simulation du village et du systeme QR code
     [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
     [ ] Photo taille originale

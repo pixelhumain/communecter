@@ -836,7 +836,7 @@ function saveNews(){
 				$("#btn-submit-form i").removeClass("fa-arrow-circle-right").addClass("fa-circle-o-notch fa-spin");
 				successHandler2.show();
 				errorHandler2.hide();
-				if(element){
+				/*if(element){
 					alert(element);
 					jsonHelper.stringFormtoJson( $("#form-news #get_url").val(), element+"Form" );
 				    console.warn("------------ form serialised as JSON ------------------");
@@ -844,7 +844,7 @@ function saveNews(){
 				    elementValidation (element+"Form", typeObj[element].rules, typeObj[element].save);
 					$("#"+element+"Form").submit();
 					return false;
-				}
+				}*/
 				newNews = new Object;
 				if($("#form-news #results").html() != ""){
 					newNews.media=new Object;	

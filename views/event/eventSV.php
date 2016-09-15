@@ -509,10 +509,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function bindEventSubViewEvents() {
 			
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.preventDefault();
-		});
 
 		$('#eventCountry').select2({
 			data : countries,

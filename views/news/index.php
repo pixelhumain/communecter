@@ -692,7 +692,7 @@ jQuery(document).ready(function()
 		  	data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 			callback.call(this, data);
 
-			if(query.indexOf("+")==0) {
+			/*if(query.indexOf("+")==0) {
 				element = "";
 				if(query.indexOf("+o")==0){
 					element = "organization";
@@ -709,23 +709,6 @@ jQuery(document).ready(function()
 					form += "\n>role:admin|member|creator";
 
 		        }
-		        /*else if(query.indexOf("+e")==0){
-					element = "event";
-					extraForm = "\n>type:concert|concours|exposition|festival|getTogether|market|meeting|competition|others|nacelle";
-					//connect organiser with mention 
-					var d = new Date();
-					extraForm += "\n>startDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-					extraForm += "\n>endDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-		        }
-		        else if(query.indexOf("+p")==0){
-					element = "project";
-					var d = new Date();
-					extraForm += "\n>startDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-					extraForm += "\n>endDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-		        }
-		        else if(query.indexOf("+c")==0){
-					element = "person";
-		        }*/
 		        else if(query.indexOf("+pt")==0){
 					element = "poi";
 					form = "\n>name:";
@@ -735,7 +718,7 @@ jQuery(document).ready(function()
 					$("#get_url").val( $("#get_url").val() + form);
 					return false;
 				}
-			}
+			}*/
 
 
 	   		var search = {"search" : query};

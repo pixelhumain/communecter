@@ -248,7 +248,6 @@ jQuery(document).ready(function() {
 	$('#tagsProject').select2({tags:<?php echo $tags ?>});
 	addCustomValidators();
 	initProjectForm();
-	bindProjectSubViewProjects();
  	bindPostalCodeAction();
  	runProjectFormValidation();
  	Sig.clearMap();
@@ -275,12 +274,6 @@ jQuery(document).ready(function() {
 	 });
 });
 
-function bindProjectSubViewProjects() {
-	$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prprojectDefault();
-	});
-};
 
 //var dateToShow, calendar;
 // creates an array of projects to display in the calendar

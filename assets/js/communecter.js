@@ -1153,24 +1153,24 @@ function saveOrga () {
     	  dataType: "json"
     });
 }
-function formatData(formData, collection,key) { 
+
+function formatData(formData, collection) { 
 	
 	formData.collection = collection;
-	formData.key = key;
+	formData.key = collection;
 
-	if( formData.tags != "" )
+	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
 
 	console.dir(formData);
 	return formData;
 }
-function savePoi (formId) 
+function saveElement ( formId,collection,ctrl ) 
 { 
-	console.warn("savePoi");
+	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
-	formData = formatData(formData,"poi","poi");
-	
+	formData = formatData(formData,collection);
 	$.ajax( {
     	type: "POST",
     	url: baseUrl+"/"+moduleId+"/element/save",
@@ -1184,6 +1184,7 @@ function savePoi (formId)
             else { 
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
+	        	loadByHash('#'+ctrl+'.detail.id.'+data.id)
             }
     	}
     });
@@ -1220,7 +1221,11 @@ function buidDynForm(elementObj) {
 	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 	      },
 	      onSave : function(){
-	        elementObj.save("#ajaxFormModal");
+	        if( elementObj.save )
+	        	elementObj.save("#ajaxFormModal");
+	        else
+	        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
+
 	        return false;
 	      }
 	});
@@ -1228,14 +1233,55 @@ function buidDynForm(elementObj) {
 }
 
 var typeObj = {
-	"person" : {col:"citoyens" , ctrl:"person"},
+	"person" : {
+		col : "citoyens" , 
+		ctrl : "person",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Inviter quelqu'un",
+			    icon : "user",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        email : {
+			        	placeholder : "Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : false
+		            },
+			    }
+			}
+		}
+	},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
-		save:savePoi,
 		dynForm : {
 		    jsonSchema : {
 			    title : "Point of interest Form",
@@ -1312,26 +1358,147 @@ var typeObj = {
 			}
 		}
 	},
-	"organization" : 
-		{ col:"organizations", ctrl:"organization", 
-			rules:orgaRules, 
-			save:saveOrga,
-			icon : "group",
-			form : {
-				url : "/"+moduleId+"/organization/addorganizationform",
-				title : "Ajouter une Organisation"
+	"organization" : { 
+		col:"organizations", 
+		ctrl:"organization", 
+		rules:orgaRules, 
+		icon : "group",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une Organisation",
+			    icon : "group",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : organizationTypes
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
 			}
-		},
+		}
+		/*form : {
+			url : "/"+moduleId+"/organization/addorganizationform",
+			title : "Ajouter une Organisation"
+		}*/
+	},
 
 	"organizations" : {col:"organizations",ctrl:"organization"},
 	"event" : {
 		col:"events",
 		ctrl:"event",
 		icon : "calendar",
-		form : {
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un évènement",
+			    icon : "calendar",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+		            name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        organizer :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Qui organise ?",
+		            	"options" : eventTypes
+		            },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type dévènnment",
+		            	"options" : eventTypes
+		            },
+
+		            allday : {
+		            	"inputType" : "checkbox",
+		            	"switch" : {
+		            		"onText" : "Oui",
+		            		"offText" : "Non",
+		            		"labelText":"Journée",
+		            		"onChange" : function(){
+		            			alert("change switch");
+		            		}
+		            	}
+		            },
+		            startDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de début"
+		            },
+		            endDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de fin"
+		            },
+		            public : {
+		            	"inputType" : "checkbox",
+		            	"switch" : {
+		            		"onText" : "Privé",
+		            		"offText" : "Public",
+		            		"labelText":"Type"
+		            	}
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
-		}
+		}*/
 	},
 	"events" : {col:"events",ctrl:"event"},
 	"projects" : {col:"projects",ctrl:"project"},
@@ -1339,10 +1506,49 @@ var typeObj = {
 		col:"projects",
 		ctrl:"project",
 		icon : "lightbulb-o",
-		form : {
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un Projet",
+			    icon : "lightbulb-o",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
 			url:"/"+moduleId+"/project/projectsv",
 			title : "Ajouter un projet"
-		}
+		}*/
 	},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city"},
@@ -1404,12 +1610,6 @@ organizationJson = {
     "fixe":"",
     "fax":"",
     "type":"",
-}
-
-personJson = {
-    "username" : "",
-    "pwd" : "",
-    "lastLoginDate" : 1.47332e+09
 }
 
 eventJson = {
