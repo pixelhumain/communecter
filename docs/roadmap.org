@@ -113,7 +113,7 @@
       [X] Bug image QR Code
       [X] User sans etre Communecter
       [X] Refactor DirectoryAction et directory2
-      [ ] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
+      [X] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
       [ ] Bug ajout d'une image de profil
       [ ] Active des btn menu 
       [ ] Améliorer le btn "Communecter-moi", celui du HeaderElement
