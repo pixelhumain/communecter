@@ -13,7 +13,6 @@
   [ ] Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". A la base j'avais mis une date de fin qui avait été dépassée, j'ai modifié la date de fin, mais ce projet reste dans "ancien projet
 
 ** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
-  [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
   [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
   [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
   [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
