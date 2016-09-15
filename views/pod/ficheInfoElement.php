@@ -409,7 +409,7 @@ else
 								$tel .= ($tel != "") ? ", ".$num : $num;
 							}
 						}
-						if(isset($element["telephone"]["mobile"])){
+						if( @$element["telephone"]["mobile"]){
 							foreach ($element["telephone"]["mobile"] as $key => $num) {
 								$tel .= ($tel != "") ? ", ".$num : $num;
 							}
@@ -537,7 +537,7 @@ else
 				<?php } ?>
 
 				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
-				<i class="fa fa-phone fa_telephone hidden"></i>
+					<i class="fa fa-phone fa_telephone hidden"></i>
 					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
 						<?php 
 							if(isset($element["telephone"]["fixe"])){
@@ -921,11 +921,12 @@ else
 		}
 		else if (mode == "view") {
 			$.each(listIcones, function(i,value) {
+				console.log(listXeditables[i], " : ", $(listXeditables[i]).text().length, " : ", value);
 				if($(listXeditables[i]).text().length == 0)
-					$(value).editable('toggleDisabled');
+					$(value).addClass("hidden");
 			});
 		} else if (mode == "update") {
-			$.each(listXeditables, function(i,value) {
+			$.each(listIcones, function(i,value) {
 				$(value).removeClass("hidden"); 
 			});
 		}
@@ -1039,7 +1040,7 @@ else
 		});
 
 
-		$('#telephone').editable({
+		/*$('#telephone').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 			mode: 'popup',
 			value: returntel(),
@@ -1055,6 +1056,42 @@ else
 				}
 				else 
 					return data.msg;
+			}
+		});*/
+
+		$('#mobile').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        mode : 'popup',
+	        value: <?php echo (isset($element["telephone"]["mobile"])) ? json_encode(implode(",", $element["telephone"]["mobile"])) : "''"; ?>,
+	    	success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
+			}
+	    });
+
+	    $('#fax').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        mode : 'popup',
+	        value: <?php echo (isset($element["telephone"]["fax"])) ? json_encode(implode(",", $element["telephone"]["fax"])) : "''"; ?>,
+	    	success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
+			}
+	    }); 
+
+		$('#fixe').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			mode: 'popup',
+			value: <?php echo (isset($element["telephone"]["fixe"])) ? json_encode(implode(",", $element["telephone"]["fixe"])) : "''"; ?>,
+			success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
 			}
 		});
 

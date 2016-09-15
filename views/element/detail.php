@@ -201,7 +201,7 @@ if($('#breadcum').length)
 															"contentType" => $type,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
-															"admin" => $admin, 
+															"admin" => $edit, 
 															"invitedMe" => @$invitedMe,
 															"openEdition" => $openEdition));
 
@@ -227,7 +227,7 @@ if($('#breadcum').length)
 																			"contextId" => (String) $element["_id"],
 																			"contextType" => $controller,
 																			"list" => $eventTypes,
-																			"authorised" => $admin,
+																			"authorised" => $edit,
 																			"organiserImgs"=> $organizerImg,
 																			"openEdition" => $openEdition
 																		  ));
@@ -244,7 +244,7 @@ if($('#breadcum').length)
 												"itemId" => (string)$element["_id"], 
 												"itemName" => $element["name"], 
 												"properties" => $element["properties"]["chart"],
-												"admin" =>$admin,
+												"admin" =>$edit,
 												"isDetailView" => 1,
 												"openEdition" => $openEdition));
 					?>						  
@@ -264,7 +264,7 @@ if($('#breadcum').length)
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
 															"contextId" => (String) $element["_id"],
 															"contextType" => $type,
-															"authorised" =>	$admin,
+															"authorised" =>	$edit,
 															"openEdition" => $openEdition
 					)); ?>
 				</div>
@@ -274,7 +274,7 @@ if($('#breadcum').length)
 					<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																			"parentId" => (String) $element["_id"],
 																			"parentType" => $type,
-																			"isAdmin" => @$admin,
+																			"isAdmin" => @$edit,
 																			"parentName" => $element["name"],
 																			"openEdition" => $openEdition
 																		  )); ?>
