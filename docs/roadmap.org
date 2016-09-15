@@ -116,7 +116,7 @@
       [X] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
       [X] Améliorer le btn "Communecter-moi", celui du HeaderElement
       [X] Active des btn menu 
-      [ ] Bug ajout d'une image de profil
+      [X] Bug ajout d'une image de profil
       [ ] tooltip menu (detail, news etc ...) traduire ou améliorer
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
       [ ] Error 404 , pendant la deconnexion
