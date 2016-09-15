@@ -16,8 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<a class="tooltips btn btn-xs btn-light-blue lbh" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>">
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
 	    	</a>
-	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()"">
-	    		
+	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()">
 	    		<i class="fa fa-history"></i> <?php echo Yii::t("event","Old events",null,Yii::app()->controller->module->id) ?>
 	    	</a>
 	    	

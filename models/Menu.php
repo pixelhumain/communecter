@@ -498,7 +498,7 @@ class Menu {
                     Yii::t( "rooms", 'Action Rooms', null, Yii::app()->controller->module->id), 'chevron-circle-left',
                     "loadByHash('".$roomLink."')",null,null);
         
-        if( @$context["email"] == Yii::app()->session['userEmail'] )
+        if( Yii::app()->session['userId'] && @$context["email"] == Yii::app()->session['userEmail'] )
             self::entry("right", 'onclick', 
                     Yii::t( "rooms", ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),
                     Yii::t( "rooms", ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive',null,Yii::app()->controller->module->id), 'archive text-red',
@@ -508,8 +508,8 @@ class Menu {
         //-----------------------------
         self::entry("right", 'onclick', 
                     Yii::t( "comment", 'Click and see the new comments', Yii::app()->controller->module->id),
-                    Yii::t( "comment", 'New Comments Click to Refresh', Yii::app()->controller->module->id), 'refresh',
-                    "loadByHash(location.hash);",null,null,"refreshComments hide text-red",null);
+                    Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id), 'refresh',
+                    "loadByHash(location.hash);",null,null,"refreshComments hidden text-red",null);
     }
 
     public static function rooms($id,$type)

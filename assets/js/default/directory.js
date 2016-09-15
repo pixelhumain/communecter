@@ -57,19 +57,28 @@ function startSearch(indexMin, indexMax){
 
 
 function addSearchType(type){
+  $.each(allSearchType, function(key, val){
+    removeSearchType(val);
+  });
+
   var index = searchType.indexOf(type);
   if (index == -1) {
     searchType.push(type);
-    $(".search_"+type).removeClass("fa-circle-o");
-    $(".search_"+type).addClass("fa-check-circle-o");
+    //$(".search_"+type).removeClass("active"); //fa-circle-o");
+    $(".search_"+type).addClass("active"); //fa-check-circle-o");
   }
+
+  if(type == "persons") { $(".subtitle-search").html('<span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>') }
+  if(type == "organizations") { $(".subtitle-search").html('<span class="text-green homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-group"></i> Liste des organisations</span>') }
+  if(type == "events") { $(".subtitle-search").html('<span class="text-orange homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-calendar"></i> Liste des événements</span>') }
+  if(type == "projects") { $(".subtitle-search").html('<span class="text-purple homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-lightbulb-o"></i> Liste des projets</span>') }
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
   if (index > -1 && searchType.length > 1) {
     searchType.splice(index, 1);
-    $(".search_"+type).removeClass("fa-check-circle-o");
-    $(".search_"+type).addClass("fa-circle-o");
+    $(".search_"+type).removeClass("active"); //fa-check-circle-o");
+    //$(".search_"+type).addClass("fa-circle-o");
   }
 }
 
@@ -360,7 +369,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
             //console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
-            if(indexMax - countData > indexMin){
+            //console.log("SHOW MORE ?", indexMax, indexMin, indexMax - indexMin, countData);
+            console.log("SHOW MORE ?", countData, indexStep);
+            //if(indexMax - countData > indexMin){ 
+            if(countData < indexStep){
               $("#btnShowMoreResult").remove(); 
               scrollEnd = true;
             }else{
