@@ -596,7 +596,7 @@ function showElementPad(type){
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
 							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : {"edit":true}
+							"data" : {"modeEdit":true}
 						},
 					"news": 
 						{ 

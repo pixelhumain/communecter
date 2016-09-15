@@ -253,7 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <?php 
 
 if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "admin" => $admin)); 
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit)); 
 
 //$this->renderPartial('../default/panels/toolbar'); 
 

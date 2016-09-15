@@ -644,8 +644,9 @@ else
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
-	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>'
-	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>'
+	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
+	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>';
+	var modeEdit = '<?php echo (@$modeEdit == true) ? "true" : "false"; ?>';
 	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
@@ -660,14 +661,8 @@ else
 	
 
 	jQuery(document).ready(function() {
-		console.log("edit",edit);
-		if(edit == "true"){
-			switchModeElement();
-		}
 		console.log("------------------"+contextData.name);
 		setTitle(contextData.name,contextIcon);
-
-
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContextElement();
@@ -730,6 +725,13 @@ else
 					}, 500);
 				return false;
 		});
+
+		console.log("modeEdit",modeEdit);
+		if(modeEdit == "true"){
+			switchModeElement();
+		}
+
+
 	}
 
 
@@ -811,7 +813,7 @@ else
 	}
 
 	function switchModeElement() {
-		console.log("---------"+mode);
+		console.log("-------------"+mode);
 		if(mode == "view"){
 			mode = "update";
 			$(".editProfilLbl").html(" Enregistrer les changements");
@@ -1007,7 +1009,7 @@ else
 		$('#tags').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 		 	mode: 'popup',
-		 	value: returnttag(),
+		 	value: returnttags(),
 		 	select2: {
 		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 		 		tokenSeparators: [","],
@@ -1399,14 +1401,9 @@ else
 		$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 	}
 
-
-
-	function returnttag() {
-		var tel = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
-		
-
-	    console.log("trefreevfre", tel);
-		return tel ;
+	function returnttags() {
+		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
+		return tags ;
 	}
 
 	function returntel() {

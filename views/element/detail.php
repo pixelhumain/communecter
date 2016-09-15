@@ -17,6 +17,7 @@ if($('#breadcum').length)
 		<div class="col-md-12">
 			<div class="panel panel-white col-md-8 no-padding">
 	    		<?php 
+	    			//var_dump(@$modeEdit);
 	    			$params = array(
 	    				"element" => $element,
 						"tags" => $tags, 
@@ -33,7 +34,8 @@ if($('#breadcum').length)
 	    				"contentKeyBase" => "profil",
 	    				"edit" => @$edit,
 	    				"isLinked" => @$isLinked,
-	    				"openEdition" => $openEdition
+	    				"openEdition" => $openEdition,
+	    				"modeEdit" => @$modeEdit
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>

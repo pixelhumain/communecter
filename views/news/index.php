@@ -38,12 +38,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<!-- start: PAGE CONTENT -->
 
 <?php
-
-	$admin = Authorisation::canEditItem(Yii::app()->session["userId"], $contextParentType, $contextParentId);
-    $openEdition = Authorisation::isOpenEdition($contextParentId, $contextParentType);
-    //var_dump($openEdition);
 	if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, "openEdition" => @$openEdition, "admin" => $admin)); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, "openEdition" => @$openEdition, "edit" => $edit)); 
 ?>
 
 <?php 
