@@ -36,11 +36,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
   border-radius: 25px;
 }
 </style>
-<?php
-
-	if(@$project)
-		Menu::project($project);
-	$this->renderPartial('../default/panels/toolbar'); 
+<?php 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true));  
 ?>
 <div id="editProjectChart">
 	<div class="noteWrap panel-white col-md-12">
@@ -142,7 +140,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		</form>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
 var projectId = $(".form-chart .projectId").val();
@@ -249,7 +249,7 @@ function runChartFormValidation() {
 			   if (data.result==true) {   
 		        	toastr.success("<?php echo Yii::t("common",'Properties updated successfully') ?>");
 		        	$.unblockUI();
-		        	loadByHash("#project.detail.id."+projectId);
+		        	showElementPad("detail");
 		        } else {
 		           toastr.error('<?php echo Yii::t("common","Something Went Wrong")?>');
 		        }

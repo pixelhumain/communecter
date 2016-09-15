@@ -385,21 +385,21 @@ class Menu {
                 self::entry("right", 'onclick',
                             Yii::t('common','Add a member to this organization'), 
                             Yii::t("common",'Add member'),'fa fa-user-plus',
-                            "loadByHash('#organization.addmember.id.".$id."')",null,null);
+                            "showElementPad('addmember')",null,null);
             }
 
             if($type == Project::COLLECTION){
                 self::entry("right", 'onclick',
                             Yii::t('common','Add a contributor to this organization'), 
                             Yii::t("common",'Add contributor'),'fa fa-user-plus',
-                            "loadByHash('#project.addcontributorsv.projectId.".$id."')",null,null);
+                            "showElementPad('addcontributor')",null,null);
             }
 
             if($type == Event::COLLECTION){
                 self::entry("right", 'onclick',
                             Yii::t('common','Add a attendee to this organization'), 
                             Yii::t("common",'Add attendee'),'fa fa-user-plus',
-                            "loadByHash('#event.addattendeesv.eventId.".$id."')",null,null);
+                            "showElementPad('addattendee')",null,null);
             }
         }
         

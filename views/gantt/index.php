@@ -26,7 +26,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 			$tasksSerialize = str_replace('"','/"',$tasksSerialize);
 			$urlArray = '&tasks={'.$tasksSerialize.'}';
 		?> 
-		<a class="lbh edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" href="#gantt.addtimesheetsv.id.<?php echo $_GET["id"] ?>.type.<?php echo $_GET["type"] ?>">
+		<a class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" onclick="showElementPad('addtimesheet')">
 			<i class="fa fa-pencil"></i> Ajouter / modifier des tâches
 		</a>
 		<?php } ?>

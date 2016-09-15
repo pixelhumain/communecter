@@ -33,9 +33,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 }
 </style>
 <?php 
-Menu::project($project);
-$this->renderPartial('../default/panels/toolbar'); 
- ?>
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true));  
+?>
 <div id="newContributors">
 	<?php   
   		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
@@ -160,7 +160,9 @@ $this->renderPartial('../default/panels/toolbar');
 		</form>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
 	jQuery(document).ready(function() {

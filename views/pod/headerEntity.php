@@ -618,8 +618,40 @@ function showElementPad(type){
 							"url"  : "gallery/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "gallery.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
+						} ,
+					"addcontributor" :
+						{ 
+							"url"  : "project/addcontributorsv/projectId/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "project.addcontributorsv.projectId.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						} ,
+					"addattendee" :
+						{ 
+							"url"  : "event/addattendeesv/eventId/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "#event.addattendeesv.eventId.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						} ,
+					"addmember" :
+						{ 
+							"url"  : "organization/addmember/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "#organization.addmember.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						},
+					"addtimesheet":
+						{
+							"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
+							"hash" : "#gantt.addtimesheetsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+							"data" : null
+						},
+					"addchart":
+						{
+							"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "#project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+
 						}
-					}
+					};
+					
 
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];

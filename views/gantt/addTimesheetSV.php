@@ -31,12 +31,10 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
-<?php
-
-	if(@$project)
-		Menu::project($project);
-	$this->renderPartial('../default/panels/toolbar'); 
-
+<?php 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true)); 
+ 
 ?>
 <div id="editTimesheet" class="col-md-12 col-xs-12">
 
@@ -119,6 +117,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	    </div>
 	</div>
 </div>
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 
 <script type="text/javascript">
 var parentId = $('.parentId').val();

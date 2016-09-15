@@ -19,15 +19,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	<div class="panel-heading border-light bg-dark">
 		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>	
 	</div>
-	<div class="panel-tools">
-			
-				<?php if ($admin){	?>
-				<a href="#project.addchartsv.id.<?php echo $itemId ?>" id="" class="lbh edit-chart btn btn-xs btn-light-blue tooltips" 
-					data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>">
-					<i class="fa fa-pencil"></i> Editer la charte 
-				</a>
-				<?php } ?>
-		</div>
+	<div class="panel-tools">			
+		<?php if ($admin || $openEdition){	?>
+		<a id="" class="edit-chart btn btn-xs btn-light-blue tooltips" 
+			data-toggle="tooltip" data-placement="top" title="" alt="" data-original-title="<?php echo Yii::t("project","Edit properties",null,Yii::app()->controller->module->id) ?>" onclick="showElementPad('addchart')">
+			<i class="fa fa-pencil"></i> Editer la charte 
+		</a>
+		<?php } ?>
+	</div>
 	<?php if(isset($properties) && !empty($properties)){ ?>
 		<div id="infoPodChart" class="padding-10 hide">
 			<blockquote> 
