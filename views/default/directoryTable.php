@@ -133,20 +133,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 
 									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
 
+									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i>Delete</a> </li>';
 									//TODO
 									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i> TODO : Delete</a> </li>';
-								} else if( $type == Organization::CONTROLLER )
-								{
+									
+								} else if( $type == Organization::CONTROLLER ) {
 								
 								}
-								$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i>Delete</a> </li>';
 							}
 
 							/* **************************************
 							* TYPE + ICON
 							***************************************** */
-						$strHTML = '<tr id="'.$collection.(string)$id.'">'.
+						$strHTML = '<tr id="'.$type.(string)$id.'">'.
 							'<td class="'.$collection.'Line '.$classes.'">'.
 								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
 									if ($e && isset($e["imagePath"])){ 
@@ -447,7 +446,7 @@ function bindAdminBtnEvents(){
 				    {
 				        if ( data && data.result ) {
 				        	toastr.info("Switched user!!");
-				        	window.location.href = baseUrl+"/"+moduleId;
+				        	//window.location.href = baseUrl+"/"+moduleId;
 				        } else {
 				           toastr.error("something went wrong!! please try again.");
 				        }
@@ -478,11 +477,11 @@ function bindAdminBtnEvents(){
 				        url: urlToSend,
 				        dataType : "json"
 				    })
-				    .done(function (data)
-				    {
+				    .done(function (data) {
 				        if ( data && data.result ) {
-				        	toastr.info("Switched user!!");
-				        	window.location.href = baseUrl+"/"+moduleId+"/person/dashboard";
+				        	toastr.info("User has been deleted");
+				        	$("#"+type+id).remove();
+				        	//window.location.href = "";
 				        } else {
 				           toastr.error("something went wrong!! please try again.");
 				        }
