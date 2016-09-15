@@ -97,7 +97,7 @@ $this->renderPartial('../default/panels/toolbar');
 				<div class="row padding-15">
 					<hr>
 					<h1 class="text-azure pull-left homestead no-margin">
-		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
+		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des taches
 		        	</h1>        
 			    </div>
 			    <div class="timesheetphp">

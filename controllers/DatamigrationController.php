@@ -715,10 +715,21 @@ class DatamigrationController extends CommunecterController {
 
 	}
 
+	public function actionUpdateUserName() {
+		//add a suffle username for pending users event if they got one
+		$pendingUsers = PHDB::find(Person::COLLECTION, array("pending" => true));
+		$nbPendingUser = 0;
+		foreach ($pendingUsers as $key => $person) {
+			$res = PHDB::update( Person::COLLECTION, 
+									  	array("_id"=>new MongoId($key)),
+				                        array('$set' => array(	
+				                        	"username" => substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, 32)), '$addToSet' => array("modifiedByBatch" => array("updateUserName" => new MongoDate(time()))))
 
-
-
-
+				                    );
+			$nbPendingUser++;
+		}
+		echo "Number of pending user with username modified : ".$nbPendingUser;
+	}
 
 }
 

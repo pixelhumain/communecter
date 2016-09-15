@@ -211,7 +211,8 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 
 </div>
 <style type="text/css">
-
+	ul li.comment {border-left : 5px solid #ccc; margin-bottom: 5px;padding-left: 5px;} 
+	.commentContent-posted {margin-left:10px};
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
@@ -918,7 +919,7 @@ function validateComment(commentId, parentCommentId) {
 							$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
 						}
 						switchComment(commentId, data.newComment, parentCommentId);
-
+						latestComments = data.time;
 					}
 				},
 			error: 
