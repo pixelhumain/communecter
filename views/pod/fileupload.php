@@ -44,7 +44,6 @@
 </style>
 	<div class="center" id="fileuploadContainer">
 		<form  method="post" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAdd" enctype="multipart/form-data">
-		
 		<div class="fileupload fileupload-new" data-provides="fileupload" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_fileUpload">
 			<div class="user-image">
 				<div class="fileupload-new thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgPreview">
@@ -257,7 +256,7 @@
 			}
 		}
 		function saveImage(doc, path){
-
+			console.log("----------------saveImage------------------");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",
@@ -272,12 +271,12 @@
 						$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
 						$(".btn").removeClass("disabled");
+						console.log(typeof(updateSlider));
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 							updateSlider(path, data.id["$id"]);
 				  		}
 				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
 				  			updateSliderImage(id, path);
-
 				  		}
 					}, 2000) 
 				    toastr.success(data.msg);
@@ -292,7 +291,8 @@
 			});
 		}
 		//met à jour l'image de profil dans le menu principal
-		function updateMenuThumbProfil(){ console.log("loading new profil");
+		function updateMenuThumbProfil(){ 
+			console.log("loading new profil");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",

@@ -57,6 +57,7 @@
 [.17] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
 [ ] ajouter la gestion des quartier Isis dans les scope
+[ ] Valoriser les communes qui ont signées
 
 * Global
 [ ] refactor le design du notifier 

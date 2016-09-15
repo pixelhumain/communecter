@@ -14,7 +14,7 @@ if($('#breadcum').length)
 ?>
 <div class="row">
 	<div class=" col-md-12 col-sm-12 col-xs-12">
-		<div class="col-md-12">
+		<div class="col-md-12 hidden">
 			<div class="panel panel-white col-md-8 no-padding">
 	    		<?php 
 	    			//var_dump(@$modeEdit);
