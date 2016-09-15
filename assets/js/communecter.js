@@ -2,7 +2,7 @@ var debug = true;
 var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
-	setTimeout( function () { checkPoll() }, 5000);
+	setTimeout( function () { checkPoll() }, 10000);
 
 });
 
@@ -22,7 +22,7 @@ function checkPoll(){
 		checkCommentCount();
 
 	if(countPoll < 100){
-		setTimeout( function () { checkPoll() }, 5000); //every5min
+		setTimeout( function () { checkPoll() }, 300000); //every5min
 		countPoll++;
 	}
 }
