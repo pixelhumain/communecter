@@ -13,7 +13,14 @@
 		<!-- <center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/shattered.png"></center> -->
     </div>
 
-	<div id="form-in-map"></div>
+	<div id="form-in-map">
+		<div id="form-in-map-title">
+		
+		</div>
+		<div id="form-in-map-content">
+		
+		</div>
+	</div>	
 	
 	<div class="bg-main-menu bgpixeltree_sig"></div>
 
@@ -55,15 +62,12 @@
 			
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
-
 				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="filtrer par nom ...">
-				
 			</div>
 			<!-- 	PSEUDO SEARCH -->
 
 			<!-- 	LIST ELEMENT -->
-			<div id="liste_map_element">
-			</div>
+			<div id="liste_map_element"></div>
 
 			<label id="lbl-chk-scope">
 				<nav>

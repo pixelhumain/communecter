@@ -185,7 +185,8 @@ function showMap(show)
 }
 
 function showFormInMap(){
-	$("#form-in-map").html($("#ajaxFormModal").html());
+	$("#form-in-map #form-in-map-content").html($("#ajaxFormModal").html());
+	
 	$("#form-in-map").show(200);
 	$("#right_tool_map").hide();
 	Sig.showMyPosition();

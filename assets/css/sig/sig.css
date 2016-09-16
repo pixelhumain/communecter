@@ -913,6 +913,13 @@ creer des conflits : regle pas assez specfique
 	#form-in-map #ajax-modal-modal-body{
 		padding:0px;
 	}
+	#form-in-map #form-in-map-title {
+	    padding: 15px;
+	    font-size: 16px;
+	    margin: -30px;
+	    margin-bottom: 15px;
+	}
+
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
