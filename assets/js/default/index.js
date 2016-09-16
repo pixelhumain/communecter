@@ -168,6 +168,8 @@ function showMap(show)
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
+		hideFormInMap();
+
 		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.closePopup();
@@ -182,6 +184,16 @@ function showMap(show)
 		
 }
 
+function showFormInMap(){
+	$("#form-in-map").html($("#ajaxFormModal").html());
+	$("#form-in-map").show(200);
+	$("#right_tool_map").hide();
+	Sig.showMyPosition();
+}
+function hideFormInMap(){
+	$("#form-in-map").hide(200);
+	$("#ajax-modal-modal-body").append($("#ajaxFormModal"));
+}
 
 function setScopeValue(btn){ console.log("setScopeValue");
 	if( typeof btn === "object" ){

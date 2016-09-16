@@ -894,6 +894,25 @@ creer des conflits : regle pas assez specfique
 	#panel_map{
 		right:-49px !important;
 	}
+
+	#form-in-map{
+		position: fixed;
+		top: 50px;
+		left: 47px;
+		bottom: 0px;
+		width: 40%;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding:30px;
+		background-color:white;
+		moz-box-shadow: 0px 2px 4px 3px #656565;
+		-webkit-box-shadow: 0px 2px 4px 3px #656565;
+		-o-box-shadow: 0px 2px 4px 3px #656565;
+		box-shadow: 0px 2px 4px 3px #656565;
+	}
+	#form-in-map #ajax-modal-modal-body{
+		padding:0px;
+	}
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
