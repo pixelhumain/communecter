@@ -114,26 +114,6 @@
     [ ] avec analyse de consommation et prix adapté à la conso
     [ ] vision disk dur : en fonction de la consommation de chacun 
 
-* Appli CO
-[ ] login / create account
-[ ] define scope
-[ ] mon rep 
-[ ] simple element reader
-[ ] linqr
-[ ] notifier 
-[ ] dda module
-    commenting
-    voting
-    actions
 
-* CommunEvent
-  [ ] myevent (vision trou de serrure, keywhole view) : ex : mon sakifo  
-    je vois la liste des sous events du sakifo
-    je choisit les sous event auquel je participe 
-    je vois ma liste personnalisé
-    je vois les pushs que pour ces sous events
-    je vois les particpants de mon reseau
-
-  
 * Recherche 
 [ ] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc)

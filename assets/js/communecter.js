@@ -1154,10 +1154,10 @@ function saveOrga () {
     });
 }
 
-function formatData(formData, collection) { 
+function formatData(formData, collection,ctrl) { 
 	
 	formData.collection = collection;
-	formData.key = collection;
+	formData.key = ctrl;
 
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
@@ -1170,7 +1170,7 @@ function saveElement ( formId,collection,ctrl )
 { 
 	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
-	formData = formatData(formData,collection);
+	formData = formatData(formData,collection,ctrl);
 	$.ajax( {
     	type: "POST",
     	url: baseUrl+"/"+moduleId+"/element/save",

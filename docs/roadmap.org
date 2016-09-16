@@ -107,15 +107,17 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] le scroll marche pas
     [ ] elements to simple dynform 
       [X] orga simplified to name, type, location btn
+        [ ] validate exist
       [X] project to name, location btn
       [ ] event to organizer, name, type, allday, dates, location btn
-    [ ] cut up saving into 2 phases 
-      [ ] save process
-        [ ] Element::save 
-          [ ] params containing map using a json source base + specific attributes
-            - { element: {}, orga:{} }
-        [ ] dataBinding validation process
-      [X] save specific attributes : orgaJson ,simpleJson ,rojectJson,eventJson ,personJson 
+        [ ] organizer select & parent Id : load param ajax
+        [ ] parent Event : load param ajax
+    
+    [X] save process
+      [X] Element::save 
+        [X] params containing map using a json source base + specific attributes
+          - { element: {}, orga:{} }
+      [X] dataBinding validation process
     [X] parse and build post genericaly jsonHelper.stringFormtoJson
     [X] on press send post proper ajax
   [X] added middle click to notifications
