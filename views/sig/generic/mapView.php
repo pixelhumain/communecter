@@ -144,7 +144,7 @@
 				<div class="btn-group btn-group-lg">		
 					<button type="button" class="btn btn-map tooltips" id="btn-zoom-out" data-toggle="tooltip" data-placement="bottom" title="Zoom -">
 					<i class="fa fa-search-minus"></i></button>
-					<button type="button" class="btn btn-map tooltips" id="btn-zoom-in" data-toggle="tooltip" data-placement="bottom" title="Zoom -">
+					<button type="button" class="btn btn-map tooltips" id="btn-zoom-in" data-toggle="tooltip" data-placement="bottom" title="Zoom +">
 					<i class="fa fa-search-plus"></i></button>
 				</div>
 			<?php } ?>
