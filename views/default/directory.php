@@ -224,7 +224,6 @@ jQuery(document).ready(function() {
   $(".btn-filter-type").click(function(e){
     var type = $(this).attr("type");
     var index = searchType.indexOf(type);
-
     // if(type == "all" && searchType.length > 1){
     //   $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
     // }
@@ -235,6 +234,9 @@ jQuery(document).ready(function() {
     // if (index > -1) removeSearchType(type);
     // else addSearchType(type);
     addSearchType(type);
+    loadingData = false;
+	startSearch(0, indexStepInit);
+
   });
   
 /*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
