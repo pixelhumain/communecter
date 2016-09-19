@@ -121,9 +121,10 @@
       [X] Améliorer le btn "Communecter-moi", celui du HeaderElement
       [X] Active des btn menu 
       [X] Bug ajout d'une image de profil
-      [ ] tooltip menu (detail, news etc ...) traduire ou améliorer
+      [X] Error 404 , pendant la deconnexion
+      [X] tooltip menu (detail, news etc ...) traduire ou améliorer
       [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
-      [ ] Error 404 , pendant la deconnexion
+      
 
   *** Priority 2
     [ ] Récuperer activeMenuElement() dans communecter.js et l mettre dans element.js lorsque qu'il sera crée

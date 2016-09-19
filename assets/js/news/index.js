@@ -98,6 +98,7 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 function buildTimeLine (news, indexMin, indexMax)
 {
+	console.log("-----------------buildTimeLine----------------------");
 	if (dateLimit==0){
 		//$(".newsTL").html('<div class="spine"></div>');
 		$(".newsFeedNews, #backToTop, #footerDropdown").remove();

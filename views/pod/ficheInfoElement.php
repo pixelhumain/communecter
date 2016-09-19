@@ -155,7 +155,7 @@ else
 	<div id="divBtnDetail" class="panel-tools" >
 		<?php if(@Yii::app()->session["userId"]){ ?> 
 			<?php if ($edit==true || ($openEdition == true )) { ?>
-				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit") ?> </span></a>
+				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t(Element::getControlerByCollection($type), 'Edit your informations'); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit"); ?> </span></a>
 			<?php } ?>
 
 			<?php if($edit==true) { ?>
