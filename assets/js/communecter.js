@@ -962,7 +962,7 @@ function  bindExplainLinks() {
 }
 
 function  bindLBHLinks() { 
-	$("a.lbh").off().on("click",function() {  
+	$(".lbh").off().on("click",function() {  
 		console.warn("***************************************");
 		console.warn("bindLBHLinks",$(this).attr("href"));
 		console.warn("***************************************");
