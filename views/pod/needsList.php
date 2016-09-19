@@ -14,7 +14,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<?php if( ($isAdmin || $openEdition) && isset(Yii::app()->session["userId"]) ) { ?>
 		<div class="panel-tools">
-    		<a class="tooltips btn btn-xs btn-light-blue lbh"  data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" href="#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>">
+    		<a class="tooltips btn btn-xs btn-light-blue lbh"  data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" onclick="showElementPad('addneed')">
 	    		
 	    		<i class="fa fa-plus"></i> Ajouter un besoin
 	    	</a>

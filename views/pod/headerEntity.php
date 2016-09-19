@@ -526,15 +526,17 @@ var contextMap = [];
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
 
 jQuery(document).ready(function() {
-	setTimeout(function () {
+	//setTimeout(function () {
 		// Cette fonction s'exécutera dans 5 seconde (1000 millisecondes)
+		$.ajaxSetup({ cache: true});
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
 			type: 'POST',
 			data:{ "links" : elementLinks },
-			async:false,
+			//async:false,
+			cache: true,
 			dataType: "json",
-			complete: function () {},
+			//complete: function () {},
 			success: function (obj){
 				console.log("conntext/////");
 				console.log(obj);
@@ -549,7 +551,7 @@ jQuery(document).ready(function() {
 				$("#iconeChargement").hide();	
 			}
 		});	
-	}, 1000);
+	//}, 1000);
 
 	/*bindHeaderElement();
 	activateEditableContextHeader();
@@ -582,7 +584,7 @@ jQuery(document).ready(function() {
 
 });
 
-function showElementPad(type){
+function showElementPad(type, id){
 	var mapUrl = { 	"detail": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
@@ -649,7 +651,21 @@ function showElementPad(type){
 							"hash" : "#project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 
+						},
+					"addneed":
+						{
+							"url"  : "need/addneedsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
+							"hash" : "#need.addneedsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+							"data" : null
+
+						},
+					"need":
+						{
+							"url"  : "need/detail/id/"+id+"?", 
+							"hash" : "#need.detail.id."+id,
+							"data" : null
 						}
+
 					};
 					
 

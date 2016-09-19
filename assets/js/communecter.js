@@ -462,6 +462,7 @@ var loadableUrls = {
     "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
     "#organization.detail" : {aliasParam: "#element.detail.type.organizations.id.$id", params: ["id"], title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
+    "#need.addneedsv" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
     "#news" : {title:'NEWS ', icon : 'rss'},
@@ -610,14 +611,14 @@ function loadByHash( hash , back ) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
-	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	/*else if( hash.indexOf("#need.addneedsv") >= 0 ){
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
 	} 
 	else if( hash.indexOf("#need.addneedsv") >= 0 ){
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
-	} 
+	} */
 
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );

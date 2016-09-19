@@ -72,12 +72,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 </style>
 <?php 
-	if(@$project)
-		Menu::project($project);
-	else 
-		Menu::organization($organization);
-	$this->renderPartial('../default/panels/toolbar'); 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => true, "edit" => true));  
 ?>
+
 <div id="newNeed">
 		<h2 class='radius-10 padding-10 text-azure text-bold'><i class="fa fa-plus"></i> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>
 	<div class="col-md-8 col-md-offset-2">
@@ -191,7 +189,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		</div>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	var parentId = $(".form-need #parentId").val();
 	var parentType = $(".form-need #parentType").val();
