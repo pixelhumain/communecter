@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 									</td>
 									<td class="text-left">
 										<span class="text-large"><?php echo $data["name"]; ?></span>
-										<a href="#need.detail.id.<?php echo $data['_id']; ?>" class="lbh btn"><i class="fa fa-chevron-circle-right"></i></a>
+										<a href="#" class="btn" onclick="showElementPad('need', '<?php echo $data['_id'] ?>')"><i class="fa fa-chevron-circle-right"></i></a>
 									</td>
 								</tr>
 				<?php 		} 

@@ -7,7 +7,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/select2/select2.css',
 	'/assets/plugins/select2/select2.min.js',
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
+	//'/assets/plugins/autosize/jquery.autosize.min.js',
 
 	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
 	//'/assets/js/ui-sliders.js',
@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true));  
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
 <div id="editProjectChart">
 	<div class="noteWrap panel-white col-md-12">

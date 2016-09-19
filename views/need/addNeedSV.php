@@ -8,15 +8,15 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 
-	$cssAnsScriptFilesModule = array(
-		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-		'/plugins/moment/min/moment.min.js' , 
-		'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
-		'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	/*$cssAnsScriptFilesModule = array(
+		//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+		//'/plugins/moment/min/moment.min.js' , 
+		//'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+		//'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 		'/plugins/autosize/jquery.autosize.min.js'
 	);
-	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 ?>
 <style>
 
@@ -73,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 </style>
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => true, "edit" => true));  
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
 
 <div id="newNeed">
