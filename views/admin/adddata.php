@@ -68,9 +68,6 @@ $userId = Yii::app()->session["userId"] ;
 					<input id="checkboxAdmin" name="checkboxAdmin" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
-<<<<<<< HEAD
-				
-=======
 				<div id="divSendMail">
 					<label>
 						Envoyer les mails d'invitation : <input class="hide" id="isSendMail" name="isSendMail"></input>
@@ -85,7 +82,6 @@ $userId = Yii::app()->session["userId"] ;
 					<input id="checkboxKissKiss" name="checkboxKissKiss" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 					</label>
 				</div>
->>>>>>> master
 			</div>
 			<div class="col-sm-12 col-xs-12">
 					<label>
@@ -193,6 +189,8 @@ function bind()
 				reader.onload = function(e) {
 
 					file = e.target.result;
+					console.log(typeof file);
+					console.log(jQuery.parseJSON(file));
 					
 				};
 				reader.readAsText(e.target.files.item(0));
@@ -256,33 +254,44 @@ function bind()
 	        	console.log("data",data);
 	        	var chaine = "";
 	        	var csv = '"name";"url";"info";définir si c\'est un nouvelle organization ou si c\'est bien la bonne(New ou Yes)";' ;
-	        	$.each(data.allbranch, function(key, value){
-	        		csv += '"'+value+'";'
-	        	});
-	        	csv += "\n";
-	        	$.each(data.resData, function(key, value){
-	  				$.each(value, function(key2, value2){
-		        		chaine += "<tr>" +
-		        					"<td>"+value2.name+"</td>"+
-		        					"<td>"+value2.info+"</td>"+
-		        				"</tr>";
-		        		if(key == "update"){
-		        			csv += '"'+value2.name+'";"'+value2.url+'";"'+value2.info+'";;' ;
-		        		}
-		        		if(key == "error"){
-		        			csv += '"'+value2.name+'";;"'+value2.info+'";;' ;
-		        		}
-		        		if(typeof value2.valueSource != "undefined"){
-		        			$.each(data.allbranch, function(keyBranch, valueBranch){
-		        				if(typeof value2.valueSource[valueBranch] != "undefined")
-				        			csv += '"'+value2.valueSource[valueBranch]+'";' ;
-				        		else
-				        			csv += ';';
-				        	});
-		        		}
-		        		csv += "\n";
+	        	if(typeof data.allbranch != "undefined"){
+	        		$.each(data.allbranch, function(key, value){
+		        		csv += '"'+value+'";'
+		        	});
+	        	}
+	        	if(typeof data.resData != "undefined"){
+		        	csv += "\n";
+		        	$.each(data.resData, function(key, value2){
+		        		//console.log("value",value);
+		  				//$.each(value, function(key2, value2){
+		  					//console.log("value2",value2, value2.name, value2.info);
+			        		chaine += "<tr>" +
+			        					"<td>"+value2.name+"</td>"+
+			        					"<td>"+value2.info+"</td>"+
+			        				"</tr>";
+			        		/*if(key == "update"){
+			        			csv += '"'+value2.name+'";"'+value2.url+'";"'+value2.info+'";;' ;
+			        		}
+			        		if(key == "error"){*/
+			        			csv += '"'+value2.name+'";;"'+value2.info+'";;' ;
+			        		//}
+			        		//console.log("csv",csv);
+			        		/*if(typeof value2.valueSource != "undefined"){
+			        			$.each(data.allbranch, function(keyBranch, valueBranch){
+			        				if(typeof value2.valueSource[valueBranch] != "undefined")
+					        			csv += '"'+value2.valueSource[valueBranch]+'";' ;
+					        		else
+					        			csv += ';';
+					        	});
+			        		}*/
+			        		csv += "\n";
+
+			        		
+		  					//console.log("chaine",chaine);
+			  			//});
 		  			});
-	  			});
+		  		}
+
 	        	$("<a />", {
 				    "download": "Data_a_verifier.csv",
 				    "href" : "data:application/csv," + encodeURIComponent(csv)
