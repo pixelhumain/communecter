@@ -319,18 +319,18 @@ class Menu {
 
         $id = (string)$element["_id"];
 		if( isset($type) && $type == Organization::COLLECTION && isset($element) ){
-			//$controller = Organization::CONTROLLER;
+			$controllerType = Organization::CONTROLLER;
 			$strongLinks = "members";
 		}
 		else if( isset($type) && $type == Project::COLLECTION && isset($element) ){
-			//$controller=Project::CONTROLLER;
+			$controllerType=Project::CONTROLLER;
 			$strongLinks = "contributors";
 		}
 		else if( isset($type) && $type == Event::COLLECTION && isset($element) ){
-			//$controller=Event::CONTROLLER;
+			$controllerType=Event::CONTROLLER;
 			$strongLinks = "attendees";
 		}else if((isset($type) && $type == Person::COLLECTION) || (isset($element))){
-            //$controller=Person::CONTROLLER;
+            $controllerType=Person::CONTROLLER;
             $strongLinks = "members";
         }
 
@@ -339,14 +339,14 @@ class Menu {
         //HOME
         //-----------------------------
         self::entry("left", 'onclick',
-        			Yii::t($controller,"Contact information"), 
+        			Yii::t($controllerType,"Contact information"), 
         			Yii::t("common","Details"),'home',
         			"showElementPad('detail')", $controller, "detail", "btn-menu-element btn-menu-element-detail");
        
         //SEE TIMELINE
         //-----------------------------
         self::entry("left", 'onclick', 
-                Yii::t( "common", 'Read all news publicated by this '.$controller), 
+                Yii::t( "common", 'Read all news publicated by this '.$controllerType), 
                 Yii::t( "common", 'News Stream'), 
                 'rss',
                 "showElementPad('news')","news", "index", "btn-menu-element btn-menu-element-news");
@@ -356,7 +356,8 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         self::entry("left", 'onclick',
-        			Yii::t("common",ucfirst($controller)." community"),
+                    Yii::t("common","Community of ".$controllerType),
+        			//Yii::t("common",ucfirst($controller)." community"),
         			Yii::t("common","Community") ,
         			'connectdevelop',
         			"showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
@@ -397,7 +398,7 @@ class Menu {
 
             if($type == Event::COLLECTION){
                 self::entry("right", 'onclick',
-                            Yii::t('common','Add a attendee to this organization'), 
+                            Yii::t('common','Add a attendee to this event'), 
                             Yii::t("common",'Add attendee'),'fa fa-user-plus',
                             "showElementPad('addattendee')",null,null);
             }
@@ -426,14 +427,14 @@ class Menu {
                 Link::isLinked((string)$element["_id"], $type, Yii::app()->session["userId"])){
 	            
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Leave this ".$controller),
+                        Yii::t( "common", "Leave this ".$controllerType),
                         Yii::t( "common", "Leave"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$strongLinks."')",null,null,"text-red"); 
             } else if (isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($element["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
-                        Yii::t( "common", "Unfollow this ".$controller),
+                        Yii::t( "common", "Unfollow this ".$controllerType),
                         Yii::t( "common", "Unfollow"),
                         'fa fa-unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
@@ -443,7 +444,7 @@ class Menu {
                         && $type != Event::COLLECTION 
                         && @$element["_id"] != @Yii::app()->session["userId"]){
 	                self::entry("right", 'onclick',
-	                        Yii::t( "common", "Follow this ".$controller),
+	                        Yii::t( "common", "Follow this ".$controllerType),
 	                        Yii::t( "common", "Follow"),
 	                        'fa fa-link followBtn',
 	                        "follow('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
@@ -459,7 +460,7 @@ class Menu {
            
             if( @Yii::app()->session["userId"] && @$connectAs && !@$element["links"][$connectAs."s"][Yii::app()->session["userId"]]){
                 self::entry("right", 'onclick',
-                                Yii::t( "common", "Declare me as ".$connectAs." of this ".$controller),
+                                Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
                                 'fa fa-user-plus becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."', '".$connectAs."','".addslashes($element["name"])."')",null,null);
@@ -472,7 +473,7 @@ class Menu {
                     //Test if user has already asked to become an admin
                     if(!in_array(Yii::app()->session["userId"], Authorisation::listAdmins($id, $type,true))){
                         self::entry("right", 'onclick',
-                                Yii::t( "common", "Declare me as ".$connectAs." of this ".$controller),
+                                Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
                                 'fa fa-user-plus becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($element["name"])."')",null,null);
