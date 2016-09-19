@@ -904,6 +904,7 @@ function openMenuSmall () {
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	bindLBHLinks();
 }
 
 var selection;
