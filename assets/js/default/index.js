@@ -168,7 +168,7 @@ function showMap(show)
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
-		hideFormInMap();
+		//hideFormInMap();
 
 		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
@@ -183,7 +183,7 @@ function showMap(show)
 	}
 		
 }
-
+/*
 function showFormInMap(){
 	$("#form-in-map #form-in-map-content").html($("#ajaxFormModal").html());
 	$("#form-in-map").show(200);
@@ -193,6 +193,29 @@ function showFormInMap(){
 function hideFormInMap(){
 	$("#form-in-map").hide(200);
 	$("#ajax-modal-modal-body").append($("#ajaxFormModal"));
+}
+*/
+function showMarkerNewElement(){ console.log("showMarkerNewElement");
+
+	Sig.clearMap();
+	if(typeof Sig.myMarker != "undefined") 
+		Sig.map.removeLayer(Sig.myMarker);
+
+	var options = {  id : 0,
+					 icon : Sig.getIcoMarkerMap({'type' : 'project'}),
+					 content : Sig.getPopupConfigAddress()
+				  };
+	console.log(options);
+
+	var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
+	console.log("coordinates", coordinates);
+	
+	//efface le marker s'il existe
+	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
+	Sig.markerFindPlace = Sig.getMarkerSingle(Sig.map, options, coordinates);
+	Sig.markerFindPlace.openPopup(); 
+	Sig.markerFindPlace.dragging.enable();
+	Sig.centerSimple(coordinates, 12);
 }
 
 function setScopeValue(btn){ console.log("setScopeValue");

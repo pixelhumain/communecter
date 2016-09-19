@@ -317,7 +317,7 @@ SigLoader.getSigFindPlace = function (Sig){
 
 		var coordinates = new Array(this.currentResultResearch[id].lat, this.currentResultResearch[id].lon);
 		
-		//efface le polygone s'il existe
+		//efface le marker s'il existe
 		if(this.markerFindPlace != null) this.map.removeLayer(this.markerFindPlace);
 
 		this.markerFindPlace = this.getMarkerSingle(this.map, options, coordinates);
