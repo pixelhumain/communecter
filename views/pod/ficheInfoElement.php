@@ -6,11 +6,11 @@
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-$cssAnsScriptFilesModule = array(
-	'/js/dataHelpers.js',
+/*$cssAnsScriptFilesModule = array(
+	//'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);*/
 if($type == Person::COLLECTION)
 	$contextIcon = "circle text-yellow";
 else if($type == Organization::COLLECTION)
@@ -1236,7 +1236,7 @@ else
 		});
 
 
-		$('#avancement').editable({
+		/*$('#avancement').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			source: function() {
 				//idea => concept => Started => development => testing => mature
@@ -1264,7 +1264,7 @@ else
 				else 
 					return data.msg;
 		    }
-		});
+		});*/
 		
 
 		$('#description').editable({

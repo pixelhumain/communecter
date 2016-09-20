@@ -21,7 +21,15 @@ $cssAnsScriptFilesTheme = array(
 	
 	'/assets/plugins/moment/min/moment.min.js',
 	'/assets/plugins/Chart.js/Chart.min.js',
-	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
+
+	'/plugins/autosize/jquery.autosize.min.js',
+	
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	
+	//'/plugins/mixitup/src/jquery.mixitup.js',
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -599,15 +607,12 @@ function showElementPad(type, id){
 	var mapUrl = { 	"detail": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							//"url"  : "<?php echo $controler ?>/detail/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
 					"detail.edit": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : {"modeEdit":true}
 						},
@@ -620,9 +625,6 @@ function showElementPad(type, id){
 					"directory": 
 						{ 
 							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-						 	//"hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-
-						 	//"url"  : "<?php echo $controler ?>/directory/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
 						 	"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
 						  	"data" : {"links":contextMap, "element":element}
 						} ,
@@ -683,7 +685,6 @@ function showElementPad(type, id){
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];
 	var data = mapUrl[type]["data"];
-
 	$("#pad-element-container").hide(200);
 	$.blockUI({
 		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"

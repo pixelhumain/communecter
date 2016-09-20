@@ -1,21 +1,21 @@
 <?php 
 
-	$cssAnsScriptFilesModule = array(
+	/*$cssAnsScriptFilesModule = array(
 		//Data helper
 		'/js/dataHelpers.js'
 		);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-	$cssAnsScriptFilesModule = array(
-	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
-	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
-	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);*/
+/*	$cssAnsScriptFilesModule = array(
+	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	//'/plugins/moment/min/moment.min.js' , 
+	//'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	//'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
 	'/plugins/autosize/jquery.autosize.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
 ?>
 <style>
@@ -34,7 +34,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true));  
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
 <div id="newContributors">
 	<?php   

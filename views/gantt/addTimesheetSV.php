@@ -10,7 +10,7 @@ $cssAnsScriptFilesTheme = array(
 		//'/assets/js/ui-sliders.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+/*HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 		$cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
@@ -22,18 +22,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
 	'/plugins/autosize/jquery.autosize.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-$cssAnsScriptFilesModule = array(
+/*$cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);*/
 ?>
 
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => true, "edit" => true)); 
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit)); 
  
 ?>
 <div id="editTimesheet" class="col-md-12 col-xs-12">

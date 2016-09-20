@@ -1,7 +1,8 @@
 <?php 
-Menu::need($need,$parentType,$parentId);
-$this->renderPartial('../default/panels/toolbar'); 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
+
 <div class="row">
 	<div class=" col-md-12">
 		<div class="col-md-12">
@@ -37,7 +38,9 @@ $this->renderPartial('../default/panels/toolbar');
 	<div class="col-md-12" id="commentNeed">
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		setTitle("<?php echo $need["name"] ?>","cubes");

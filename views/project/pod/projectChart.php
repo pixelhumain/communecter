@@ -1,10 +1,8 @@
 <?php 
-
 $cssAnsScriptFilesModule = array(
 	'/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-
 ?>
 
 <style>
@@ -49,10 +47,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
+console.log(properties);
 var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	if (countProperties > 0){
-			setTimeout(function(){ chartInit(properties)}, 0);
+		setTimeout(function(){ chartInit(properties)}, 0);
 	}
 });
 
@@ -71,7 +70,6 @@ function updateChart(data, nbProperties){
 			myNewChart.removeData();
 		}
 		if(nbProperties==0){
-			alert();
 			$("#infoPodChart").removeClass("hide");
 			$(".contentChart").addClass("hide");
 			$("#myChart").attr("width","0");
