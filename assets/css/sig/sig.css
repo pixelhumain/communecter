@@ -919,6 +919,11 @@ creer des conflits : regle pas assez specfique
 	    margin: -30px;
 	    margin-bottom: 15px;
 	}
+	.leaflet-popup-content hr{
+	 	margin:10px 0px!important;
+	 	padding: 0px;
+	 }
+	
 
 /* style tooltip des chartsMarkers */
 
@@ -936,7 +941,21 @@ creer des conflits : regle pas assez specfique
 	 .btn-group-map .btn-group {
 	    margin-right: 10px;
 	}
-
-
+	.btn-map{
+		padding:5px 10px !important;
+	}
+	.leaflet-popup-content{
+		min-width:250px !important;
+		width:250px !important;
+	}
+	.item_map_list .right-col {
+	    width: 160px !important;
+	}
+	.leaflet-popup-content .form-group {
+		margin-bottom: 5px;
+	}
+	 .leaflet-popup-content hr{
+	 	margin:5px 0px!important;
+	 }
 
 }

@@ -216,6 +216,8 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
+	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
+	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément que vous êtes en train de créer ...");
 }
 
 function setScopeValue(btn){ console.log("setScopeValue");

@@ -297,16 +297,17 @@
 				
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
-
+				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
 				$(this.cssModuleName + " .tools-btn").css( 
-					{"left":$("#mapCanvas" + this.sigKey).width() - 
-					$("#right_tool_map").width() - 
-					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+					{"right"://$("#mapCanvas" + this.sigKey).width() - 
+					RTM_width
+					//$(this.cssModuleName + " .tools-btn").width() - 20
+					});// - $(this.cssModuleName + " #right_tool_map").width()});
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
-				var left = $(this.cssModuleName + " .tools-btn").position().left;
-				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
+				//var left = $(this.cssModuleName + " .tools-btn").position().left;
+				//var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
 	
 			};
 

@@ -135,34 +135,39 @@
 		
 			
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
-				<div class="btn-group btn-group-lg">
-					<button type="button" class="btn btn-map tooltips" id="btn-satellite" data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
+				<div class="btn-group btn-group-lg hidden-xs tooltips"
+					 data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
+					<button type="button" class="btn btn-map " id="btn-satellite" >
 						<i class="fa fa-magic"></i></button>
 				</div>
 			<?php } ?>	
 			<?php if($sigParams['useZoomButton']){ ?>
 				<div class="btn-group btn-group-lg">		
-					<button type="button" class="btn btn-map tooltips" id="btn-zoom-out" data-toggle="tooltip" data-placement="bottom" title="Zoom -">
+					<button type="button" class="btn btn-map tooltips" id="btn-zoom-out" 
+							data-toggle="tooltip" data-placement="bottom" title="Zoom -">
 					<i class="fa fa-search-minus"></i></button>
-					<button type="button" class="btn btn-map tooltips" id="btn-zoom-in" data-toggle="tooltip" data-placement="bottom" title="Zoom +">
+					<button type="button" class="btn btn-map tooltips" id="btn-zoom-in" 
+							data-toggle="tooltip" data-placement="bottom" title="Zoom +">
 					<i class="fa fa-search-plus"></i></button>
 				</div>
 			<?php } ?>
 			<?php if($sigParams['useHomeButton']){ ?>
-				<div class="btn-group btn-group-lg">
-					<button type="button" class="btn btn-map tooltips" id="btn-home" data-toggle="tooltip" data-placement="bottom" title="Autour de moi">
+				<div class="btn-group btn-group-lg tooltips" 
+							data-toggle="tooltip" data-placement="bottom" title="Autour de moi">
+					<button type="button" class="btn btn-map " id="btn-home">
 					<i class="fa fa-bullseye"></i></button>
 				</div>
 			<?php } ?>	
-			<div class="btn-group btn-group-lg">
-				<button type="button" class="btn btn-map tooltips" id="btn-back" data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
+			<div class="btn-group btn-group-lg tooltips"
+				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
+				<button type="button" class="btn btn-map " id="btn-back" >
 				<i class="fa fa-times"></i></button>
 			</div>
 			
 			
 		</div>
 
-		<div id="mapLegende" class="text-azure">Legende</div>
+		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>
 
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">

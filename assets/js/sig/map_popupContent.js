@@ -678,24 +678,25 @@
 
 		Sig.getPopupConfigAddress = function(){
 			
-			var popupContent = 	"<style>.leaflet-popup-content{width:400px!important;}</style>"+
+			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +
+								"</style>"+
 								"<div class='form-group inline-block padding-15'>"+
 									"<h3 class='margin-top-5'><i class='fa fa-angle-down'></i> <i class='fa fa-home'></i> Adresse</h3>"+
-									"<div class='text-dark margin-top-5'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
-									"<div class='text-dark margin-top-5'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
-									"<hr style='margin: 10px 0px;padding: 0px;' class='col-md-12'>"+
-									"<select class='form-group col-md-12' name='newElement_country'>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
+									"<hr class='col-md-12'>"+
+									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
 										"<option value='France'>France</option>" +
 										"<option value='Autres'>Autres</option>" +
 									"</select>"+
-									"<input class='form-group col-md-12' type='text' name='newElement_cityName' placeholder='Ville, village, commune'>"+
-									"<input class='form-group col-md-12' type='text' name='newElement_postalCode' placeholder='Code postal'>"+
-									"<input class='form-group col-md-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
-									"<button class='col-md-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+
-									"<hr style='margin: 10px 0px;padding: 0px;' class='col-md-12'>"+
+									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_cityName' placeholder='Ville, village, commune'>"+
+									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_postalCode' placeholder='Code postal'>"+
+									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
+									"<button class='col-md-12 col-xs-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+
+									"<hr class='col-md-12 col-xs-12'>"+
 									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
-									"<button class='col-md-3 btn btn-danger' type='text' name='newElement_btnCancelAddress'><i class='fa fa-times'></i> Annuler</button>"+
-									"<button class='col-md-8 btn btn-success pull-right' type='text' name='newElement_btnValidateAddress'><i class='fa fa-check'></i> Valider l'adresse et la position</button>"+
+									"<button class='col-md-8 btn btn-success pull-right' type='text' name='newElement_btnValidateAddress'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
+									"<button class='col-md-3 btn btn-danger pull-right' type='text' name='newElement_btnCancelAddress' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
 									
 								"</div>";
 
