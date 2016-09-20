@@ -702,7 +702,6 @@ function _checkLoggued() {
 Generic non-ajax panel loading process 
 **************/
 function showPanel(box,callback){ 
-
 	$(".my-main-container").scrollTop(0);
 
   	$(".box").hide(200);
@@ -962,7 +961,9 @@ function  bindExplainLinks() {
 }
 
 function  bindLBHLinks() { 
-	$(".lbh").off().on("click",function() {  
+	$(".lbh").off().on("click",function(e) {  
+		
+		e.preventDefault();
 		console.warn("***************************************");
 		console.warn("bindLBHLinks",$(this).attr("href"));
 		console.warn("***************************************");
