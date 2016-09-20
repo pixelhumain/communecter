@@ -567,7 +567,7 @@ function loadByHash( hash , back ) {
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
-	alert("loadByHash");
+	//alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
@@ -1101,6 +1101,12 @@ function formatData(formData, collection,ctrl) {
 	formData.collection = collection;
 	formData.key = ctrl;
 
+	if(location){
+		//formData.multiscopes = location;
+		formData.address = location.address;
+		formData.geo = location.geo;
+	}
+
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
@@ -1134,6 +1140,7 @@ function saveElement ( formId,collection,ctrl )
 
 function openForm (type, afterLoad ) { 
     console.warn("---------------"+type+" Form ---------------------");
+    location = null;
     specs = typeObj[type];
 	if( specs.dynForm )
 	{
@@ -1728,6 +1735,31 @@ function globalSearch(searchValue,types){
  	});
 
 	
+}
+var location = null;
+function copyMapForm2Dynform() { 
+	//if(!location)
+	//	location = [];
+	location = {
+		address : {
+			"@type" : "PostalAddress",
+			addressCountry : $("[name='newElement_country']").val(),
+			streetAddress : $("[name='newElement_streetAddress']").val(),
+			addressLocality : $("[name='newElement_city']").val(),
+			postalCode : $("[name='newElement_cp']").val(),
+			codeInsee : $("[name='newElement_insee']").val()
+		},
+		geo : {
+			"@type" : "GeoCoordinates",
+			latitude : $("[name='newElement_lat']").val(),
+			longitude : $("[name='newElement_lng']").val()
+		},
+		geoPosition : {
+			"@type" : "Point",
+			"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
+		}
+	};
+	//location.push(positionObj);
 }
 
 /*
