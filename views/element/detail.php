@@ -12,7 +12,7 @@ if($('#breadcum').length)
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit)); 
 		//End isset renderPartial
 ?>
-<div class="row" id="detail">
+<div class="row" id="detailPad">
 	<div class=" col-md-12 col-sm-12 col-xs-12">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="col-md-8 no-padding">

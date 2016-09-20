@@ -280,7 +280,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 	}
 }*/
 ?>
-<div class="row pull-left">
+<div class="row pull-left" id="directoryPad">
 	<div class="col-md-12">
 		<div class="panel panel-transparent">
 			<div class="panel-body">

@@ -51,7 +51,7 @@ console.log(properties);
 var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	if (countProperties > 0){
-		setTimeout(function(){ chartInit(properties)}, 0);
+		setTimeout(function(){alert(); chartInit(properties)}, 0);
 	}
 });
 
@@ -70,6 +70,7 @@ function updateChart(data, nbProperties){
 			myNewChart.removeData();
 		}
 		if(nbProperties==0){
+			alert("00");
 			$("#infoPodChart").removeClass("hide");
 			$(".contentChart").addClass("hide");
 			$("#myChart").attr("width","0");

@@ -38,7 +38,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	<!-- start: PAGE CONTENT -->
 
 <?php
-	if($type != City::CONTROLLER && !@$_GET["renderPartial"])
+	if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, "openEdition" => @$openEdition, "edit" => $edit)); 
 ?>
 
@@ -454,7 +454,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
   <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button>  -->
 </div>
 <?php } ?>
-
+<div id="newsPad">
 <div id="newsHistory" class="padding-10">
 	<!--<div class="margin-top-10">
 		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
@@ -483,6 +483,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 		<!-- end: TIMELINE PANEL -->
 	</div>
+</div>
 </div>
 <?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$viewer && $viewer != null))))){ 
 	// End div .pad-element-container if newspaper of orga, project, event and person 
