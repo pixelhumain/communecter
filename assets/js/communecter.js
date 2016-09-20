@@ -1385,8 +1385,17 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : {
 			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["organizations"]);
+			            	});
 			            }
 			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
 			        type :{
 		            	"inputType" : "select",
 		            	"placeholder" : "type select",
@@ -1410,8 +1419,7 @@ var typeObj = {
 		            "preferences[isOpenEdition]" : {
 		                inputType : "hidden",
 		                value : true
-		            },
-			        
+		            }
 			    }
 			}
 		}
@@ -1436,19 +1444,39 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe ou les membres de l'organisation , planifier des évènements, des projets, partager vos actions...</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
 			            "rules" : {
 			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["events"]);
+			            	});
 			            }
 			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
 			        organizer :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
-		            	"options" : eventTypes
+		            	"options" : firstOptions(),
+		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
+			            init : function(){
+			            	$("#ajaxFormModal #organizer ").off().on("change",function(){
+			            		var label2type = {
+			            			"Organisations":"organization",
+			            			"Projets":"project",
+			            			"Personnes":"person",
+			            		}
+			            		alert( $(this).val()+" "+label2type[ $('#organizer option:selected').parent().attr('label')] );
+			            	});
+			            }
 		            },
 			        type :{
 		            	"inputType" : "select",
@@ -1533,8 +1561,17 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : {
 			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["projects"]);
+			            	});
 			            }
 			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
 		            location : {
 		                inputType : "location"
 		            },
@@ -1570,6 +1607,125 @@ var typeObj = {
 	"actions" : {col:"actions",ctrl:"room"},
 	"discuss" : {col:"actionRooms",ctrl:"room"},
 };
+/*{
+"organization" : {
+	"label" : "Organisations",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+},
+"project" : {
+	"label" : "Projets",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+}, 
+"person" : {
+	"label" : "Personnes",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+}*/
+function  firstOptions() { 
+	var res = {
+		"dontknow":"Je ne sais pas",
+	};
+	res[userId] = "Moi";
+	return res;
+ }
+
+function myAdminList (ctypes) { 
+	var myList = {};
+	if(userId){
+		//types in MyContacts
+		var connectionTypes = {
+			organizations : "members",
+			projects : "contributors"
+		};
+		$.each( ctypes, function(i,ctype) {
+			var connectionType = connectionTypes[ctype];
+			myList[ ctype ] = {};
+			$.each( myContacts[ ctype ],function(id,elemObj){
+				//console.log(ctype+"-"+id+"-"+elemObj.name);
+				if( notNull(elemObj.links) && notNull(elemObj.links[connectionType]) && notNull(elemObj.links[connectionType][userId]) && notNull(elemObj.links[connectionType][userId].isAdmin) ){
+					//console.warn(ctype+"-"+id+"-"+elemObj.name);
+					myList[ ctype ][ elemObj["_id"]["$id"] ] = elemObj.name;
+				}
+			});
+		});
+		console.dir(myList);
+	}
+	return myList;
+}
+
+function globalSearch(searchValue,types){
+	
+	searchType = (types) ? types : ["organizations", "projects", "events", "needs"];
+
+	var data = { 	 
+		"name" : searchValue,
+		// "locality" : "", a otpimiser en utilisant la localité 
+		"searchType" : searchType,
+		"indexMin" : 0,
+		"indexMax" : 50
+	};
+	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
+	$("#similarLink").show();
+	$.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             console.log("error"); console.dir(data);
+          },
+          success: function(data){
+            var str = "";
+ 			var compt = 0;
+
+ 			$.each(data, function(id, elem) {
+  				console.log(elem);
+  				city = "";
+				postalCode = "";
+				var htmlIco ="<i class='fa fa-users fa-2x'></i>";
+				if(elem.type){
+					typeIco = elem.type;
+					htmlIco ="<i class='fa "+mapIconTop[elem.type] +" fa-2x'></i>";
+					}
+					if (elem.address != null) {
+						city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
+						postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+					}
+					if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
+						var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
+					}
+					str += 	"<div class='padding-5 col-sm-6 col-xs-12 light-border'>"+
+								"<a href='#' data-id='"+ elem.id +"' data-type='"+ typeIco +"'>"+
+								"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+								"</a></div>";
+					compt++;
+  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
+  			});
+			
+			if (compt > 0) {
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+			} else {
+				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
+			}
+
+			
+          }
+ 	});
+
+	
+}
+
 /*
 elementJson = {
     //reuired

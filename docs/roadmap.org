@@ -86,33 +86,36 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] moving discussion polling to discussion page instead of communecter.js
   
   [ ] finish fromNow method
-  [ ] POI et Element de base : name,desc, url, location,photo
-    periscope,youtube,twitter journal
-    [ ] can have a parent, Type & Id
-    [ ] place avec geoloc 
-    [ ] Thing sans geoloc
-    [ ] faire un formulaire evolutif
-    [ ] stats localisé
-  [ ] Apres photo proposer un ajout element Autocomplete de gens existant
-    ou analyse du desc
-    [X] connected to mention
-    [X] generate basic element code
-    [X] parse and build post genericaly jsonHelper.stringFormtoJson
-    [X] on press send 
-      [X] post proper ajax
-    [X] build a dynform for a simplest element POI 
-      [X] inside a modal
-    [X] url form in modal 
-      [X] personnalisé 
-      [X] le scroll marche pas
-    [ ] elements to simple dynform 
-      [X] orga simplified to name, type, location btn
-        [ ] validate exist
-      [X] project to name, location btn
-      [ ] event to organizer, name, type, allday, dates, location btn
-        [ ] organizer select & parent Id : load param ajax
-        [ ] parent Event : load param ajax
-    
+  
+  [X] connected to mention
+  [X] generate basic element code
+  [X] parse and build post genericaly jsonHelper.stringFormtoJson
+  [X] on press send 
+    [X] post proper ajax
+  [X] build a dynform for a simplest element POI 
+    [X] inside a modal
+  [X] url form in modal 
+    [X] personnalisé 
+    [X] le scroll marche pas
+  [ ] elements to simple dynform 
+    [X] orga simplified to name, type, location btn
+      [X] validate exist using globalSearch works on any element
+    [X] project to name, location btn
+    [ ] finish POI
+      [ ] photo
+      [ ] link to parent
+    [ ] event to organizer, name, type, allday, dates, location btn
+      [ ] organizer select & parent Id : load param ajax
+      [ ] parent Event : load param ajax
+      [ ] simplify add for sub events
+    [ ] POI et Element de base : name,desc, url, location,photo
+      periscope,youtube,twitter journal
+      [ ] can have a parent, Type & Id
+      [ ] place avec geoloc 
+      [ ] Thing sans geoloc
+      [ ] faire un formulaire evolutif
+      [ ] stats localisé
+      [ ] add photo  
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes
