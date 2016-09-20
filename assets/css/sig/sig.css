@@ -925,6 +925,11 @@ creer des conflits : regle pas assez specfique
 	 }
 	
 
+	#dropdown-newElement_city-found, #dropdown-newElement_cp-found{
+		margin-top: -13px;
+		max-height: 215px;
+	}
+
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {

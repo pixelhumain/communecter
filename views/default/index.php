@@ -25,6 +25,7 @@
 
 	$cssAnsScriptFilesModule = array(
 		'/js/default/index.js',
+		'/js/default/form.js',
 		'/js/default/globalsearch.js',
 		'/js/jquery.filter_input.js',
 		'/css/search.css',

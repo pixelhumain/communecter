@@ -553,7 +553,7 @@
 
 		Sig.getPopupSimpleCity = function(data){
 			console.log(data);
-			var cityName = data["name"].replace("'", "\'");;
+			var city = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
 			var reg = data["regionName"];
@@ -567,11 +567,11 @@
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'.postalCode.'+cp+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
-										"<i class='fa fa-university'></i> "+cityName+
+										"<i class='fa fa-university'></i> "+city+
 									"</h4>" + 
 									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>";/* + 
 									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
-											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
+											 "name-com='" + city + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
 				if (typeof(nbCpByInsee) != "undefined"){
 				popupContent += " nbCpByInsee-com='" + nbCpByInsee + "'" + "cityInsee-com='" + cityInsee + "'";
 				}						
@@ -590,7 +590,7 @@
 
 		Sig.getPopupAddress = function(data, label){
 			console.log(data);
-			var cityName = data["name"].replace("'", "\'");;
+			var city = data["name"].replace("'", "\'");;
 			var cp = data["postalCode"];
 			if(typeof(data["countCpByInsee"]) != "undefined"){
 				var nbCpByInsee = data["countCpByInsee"];
@@ -598,7 +598,7 @@
 			}
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<div class='panel-title text-dark center'>"+
-										"<i class='fa fa-map-marker'></i> "+cityName+
+										"<i class='fa fa-map-marker'></i> "+city+
 									"</div>" + 
 									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' cp-com='" + cp + "'";					
 				popupContent += 		">"+
@@ -689,8 +689,14 @@
 										"<option value='France'>France</option>" +
 										"<option value='Autres'>Autres</option>" +
 									"</select>"+
-									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_cityName' placeholder='Ville, village, commune'>"+
-									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_postalCode' placeholder='Code postal'>"+
+									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'  data-toggle='dropdown'>"+
+										"<ul class='dropdown-menu' id='dropdown-newElement_city-found'></ul>"+
+							  		"</div>" +
+									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_cp' placeholder='Code postal'>"+
+										"<ul class='dropdown-menu' id='dropdown-newElement_cp-found'></ul>"+
+							  		"</div>" +
 									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
 									"<button class='col-md-12 col-xs-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+
 									"<hr class='col-md-12 col-xs-12'>"+

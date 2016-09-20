@@ -195,31 +195,6 @@ function hideFormInMap(){
 	$("#ajax-modal-modal-body").append($("#ajaxFormModal"));
 }
 */
-function showMarkerNewElement(){ console.log("showMarkerNewElement");
-
-	Sig.clearMap();
-	if(typeof Sig.myMarker != "undefined") 
-		Sig.map.removeLayer(Sig.myMarker);
-
-	var options = {  id : 0,
-					 icon : Sig.getIcoMarkerMap({'type' : 'project'}),
-					 content : Sig.getPopupConfigAddress()
-				  };
-	console.log(options);
-
-	var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
-	console.log("coordinates", coordinates);
-	
-	//efface le marker s'il existe
-	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
-	Sig.markerFindPlace = Sig.getMarkerSingle(Sig.map, options, coordinates);
-	Sig.markerFindPlace.openPopup(); 
-	Sig.markerFindPlace.dragging.enable();
-	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
-	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément que vous êtes en train de créer ...");
-}
-
 function setScopeValue(btn){ console.log("setScopeValue");
 	if( typeof btn === "object" ){
 		//récupère les valeurs
