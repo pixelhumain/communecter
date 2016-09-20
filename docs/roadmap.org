@@ -69,17 +69,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
   
-  [ ] projet de nuit debout 
-      jardin vauban :  
-  [ ] Element Refactor : one input add
-  [ ] dynform evolutif par type 
-    [ ] start by name
-    [ ] build as you complete the info
-  [ ] POI et Element de base : name,desc, url, location,photo
-    periscope,youtube,twitter journal
-      
-  [ ] Count requests DB per page 
-  [ ] Element Refactor : one input add
   [ ] delete empty element
   
   [ ] Count requests DB per page
@@ -101,15 +90,15 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
     [X] project to name, location btn
-    [ ] finish POI
-      [ ] photo
-      [ ] link to parent
     [ ] event to organizer, name, type, allday, dates, location btn
-      [ ] organizer select & parent Id : load param ajax
-      [ ] parent Event : load param ajax
+      [X] organizer select & parent Id based on myContacts var from index.php
+      [X] parent Event : load param ajax
       [ ] simplify add for sub events
+      [ ] connecté l'ajout new subEvent aux neaux formulaires
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
+      [ ] link to parent
+      [ ] add a btn on any parent add POI
       [ ] can have a parent, Type & Id
       [ ] place avec geoloc 
       [ ] Thing sans geoloc

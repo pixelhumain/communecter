@@ -1091,68 +1091,9 @@ function activateSummernote(elem) {
 
 
 /* *********************************
-			ORGANISATION
+			ELEMENTS
 ********************************** */
 
-var orgaRules = {
-	organizationCountry : {
-		required : true
-	},
-	organizationName : {
-		required : true
-	},
-	type : {
-		required : true,
-		inArray: ["NGO","LocalBusiness","Group","GovernmentOrganization"]
-	},
-	admin : {
-		required : true,
-		inArray: ["admin","member","creator"]
-	},
-	postalCode : {
-		rangelength : [5, 5],
-		required : true,
-		validPostalCode : true
-	}
-};
-
-function elementValidation (formId, elemRules, callback) { 
-	$('#'+formId).validate({
-		rules : elemRules,
-		submitHandler : function(form) {
-			$.blockUI({
-				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
-			});
-	        if(typeof callback == "function")
-	        	callback();
-	       	return false; // required to block normal submit since you used ajax
-		},
-		invalidHandler : function(event, validator) {//display error alert on form submit
-			$('.errorHandler').show();
-		}
-	});
-}
-
-function saveOrga () { 
-	$.ajax({
-    	  type: "POST",
-    	  url: baseUrl+"/"+moduleId+"/organization/save",
-    	  data: $("#organizationForm").serialize(),
-    	  success: function(data){
-    			if(!data.result){
-                    toastr.error(data.msg);
-               		$.unblockUI();
-               	}
-                else { 
-                    toastr.success(data.msg);
-                	addFloopEntity(data.id, "organizations", data.newOrganization);
-					loadByHash('#organization.detail.id.'+data.id);
-					$.unblockUI();
-                }
-    	  },
-    	  dataType: "json"
-    });
-}
 
 function formatData(formData, collection,ctrl) { 
 	
@@ -1190,7 +1131,7 @@ function saveElement ( formId,collection,ctrl )
     });
 }
 
-function openForm (type, obj) { 
+function openForm (type, afterLoad ) { 
     console.warn("---------------"+type+" Form ---------------------");
     specs = typeObj[type];
 	if( specs.dynForm )
@@ -1207,7 +1148,8 @@ function openForm (type, obj) {
 							              "</div>");
 	  	$('.modal-footer').hide();
 	  	$('#ajax-modal').modal("show");
-	  	buidDynForm(specs);
+	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
+	  	buidDynForm(specs, afterLoad);
 	} else if( specs.form.url ) {
 		//charge le resultat d'une requete en Ajax
 		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
@@ -1215,15 +1157,24 @@ function openForm (type, obj) {
 		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
 }
 
-function buidDynForm(elementObj) { 
+function buidDynForm(elementObj, afterLoad) { 
 	var form = $.dynForm({
 	      formId : "#ajax-modal-modal-body #ajaxFormModal",
 	      formObj : elementObj.dynForm,
 	      onLoad : function  () {
 	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
+	        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
+	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+	        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
 	      },
 	      onSave : function(){
+
+	      	if( elementObj.beforeSave && typeof elementObj.beforeSave == "function")
+	        	elementObj.beforeSave();
+
 	        if( elementObj.save )
 	        	elementObj.save("#ajaxFormModal");
 	        else
@@ -1441,6 +1392,20 @@ var typeObj = {
 			    title : "Ajouter un évènement",
 			    icon : "calendar",
 			    type : "object",
+			    onLoads : {
+			    	"subEvent" : function(data){
+			    		$("#ajaxFormModal #parentId").removeClass('hidden');
+			    		alert(location.hash)
+			    		if(location.hash){
+			    			params = location.hash.split(".");
+			    			if(params[2] == "contextId")
+			    				contextId = params[2];
+			    			if(params[4] == "contextType")
+			    				contextType = params[5];
+			    			$("#ajaxFormModal #parentId").val(contextId);
+			    		}
+			    	}
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1462,21 +1427,38 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
-			        organizer :{
+			        organizerId :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
 			            	$("#ajaxFormModal #organizer ").off().on("change",function(){
-			            		var label2type = {
-			            			"Organisations":"organization",
-			            			"Projets":"project",
-			            			"Personnes":"person",
-			            		}
-			            		alert( $(this).val()+" "+label2type[ $('#organizer option:selected').parent().attr('label')] );
+			            		
+			            		organizerId = $(this).val();
+			            		if(organizerId == "dontKnow" )
+			            			organizerType = "dontKnow";
+			            		else if( $('#organizer').find(':selected').data('type') && typeObj[$('#organizer').find(':selected').data('type')] )
+			            			organizerType = typeObj[$('#organizer').find(':selected').data('type')].ctrl;
+			            		else
+			            			organizerType = "person";
+
+			            		console.warn( organizerId+" | "+organizerType );
+			            		$("#ajaxFormModal #organizerType ").val(organizerType);
 			            	});
 			            }
+		            },
+			        organizerType : {
+			            "inputType" : "hidden"
+			        },
+			        parentId :{
+		            	"inputType" : "select",
+		            	"class" : "hidden",
+		            	"placeholder" : "Fait parti d'un évènement ?",
+		            	"options" : {
+		            		"":"Pas de Parent"
+		            	},
+		            	"groupOptions" : myAdminList( ["events"] )
 		            },
 			        type :{
 		            	"inputType" : "select",
@@ -1484,24 +1466,24 @@ var typeObj = {
 		            	"options" : eventTypes
 		            },
 
-		            allday : {
+		            /*allday : {
 		            	"inputType" : "checkbox",
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
 		            		"labelText":"Journée",
-		            		"onChange" : function(){
-		            			alert("change switch");
-		            		}
+		            		//"onChange" : function(){}
 		            	}
-		            },
+		            },*/
 		            startDate : {
 		                "inputType" : "datetime",
-		                "placeholder":"Date de début"
+		                "placeholder":"Date de début",
+			            "rules" : { "required" : true }
 		            },
 		            endDate : {
 		                "inputType" : "datetime",
-		                "placeholder":"Date de fin"
+		                "placeholder":"Date de fin",
+			            "rules" : { "required" : true }
 		            },
 		            public : {
 		            	"inputType" : "checkbox",
@@ -1634,7 +1616,7 @@ var typeObj = {
 }*/
 function  firstOptions() { 
 	var res = {
-		"dontknow":"Je ne sais pas",
+		"dontKnow":"Je ne sais pas",
 	};
 	res[userId] = "Moi";
 	return res;
@@ -1646,16 +1628,17 @@ function myAdminList (ctypes) {
 		//types in MyContacts
 		var connectionTypes = {
 			organizations : "members",
-			projects : "contributors"
+			projects : "contributors",
+			events : "attendees"
 		};
 		$.each( ctypes, function(i,ctype) {
 			var connectionType = connectionTypes[ctype];
-			myList[ ctype ] = {};
+			myList[ ctype ] = { label: ctype, options:{} };
 			$.each( myContacts[ ctype ],function(id,elemObj){
 				//console.log(ctype+"-"+id+"-"+elemObj.name);
 				if( notNull(elemObj.links) && notNull(elemObj.links[connectionType]) && notNull(elemObj.links[connectionType][userId]) && notNull(elemObj.links[connectionType][userId].isAdmin) ){
 					//console.warn(ctype+"-"+id+"-"+elemObj.name);
-					myList[ ctype ][ elemObj["_id"]["$id"] ] = elemObj.name;
+					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
 				}
 			});
 		});

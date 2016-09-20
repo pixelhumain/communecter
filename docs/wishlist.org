@@ -22,7 +22,9 @@
   [ ] .... autres question
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
 [ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
-
+[ ] dynform evolutif par type 
+    [ ] start by name
+    [ ] build as you complete the info
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
