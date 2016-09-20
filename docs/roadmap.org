@@ -92,6 +92,12 @@
     periscope,youtube,twitter journal
   [ ] delete empty element
   
+** @Rapha et Clement
+
+  [ ] Préférences :
+    [ ] Bloqué l'acces a mon répertoire mode Privé
+    [ ] Mieux gére les addresses
+
 
 ** @Rapha
 
@@ -100,7 +106,7 @@
     [X] remonté tes points de la 0.15
     [X] Vérifier que les badges s'ajouter a la création d'une entité
     [X] Evénement : admin + open edition
-    [ ] bug, ajout event sur projet , s'affiche pas dans la liste 
+    [X] bug, ajout event sur projet , s'affiche pas dans la liste 
     [ ] Refactor Element
       [X] Refactor sur Element::UpdateField()
       [X] Rajout des badges
@@ -134,7 +140,6 @@
         [ ] Batch qui envoie un mail pour signaler aux utilsateurs de valider leur compte
         [ ] Ajouter un le nombre de fois on a envoyer le mail
     [ ] form keep my position / my latest psitions
-    [ ] Bloqué l'acces a mon répertoire mode Privé
     [ ] Ajouter les numéros de tel dans le formulaire de création
     [ ] Sur une person, retirer superAdmin false, inutile ?
     [ ] API
@@ -189,57 +194,57 @@
 * ************************************************************
 
   ** @Rapha
-    [X] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique        
-    [X] Bug 
-      [X] voteUp voteDown
-    [X] Event :
-      [X] Ajout de l'utilisation des tags pour les évenement
-      [X] Gestion des admins pour les events
-    [X] Refactor Element
-      [X] Preferences avec open data / open edition / public-hide-private data
-      [X] Formulaire d'édition:
-        [X] Depuis orga
-          [X] Ajouter un evenement ou un projet d'un element à partir des pods
-        [X] AddContributors / AddMembers / AddAttendees
-        [X] AddTasksGantt / AddChartSV pour les projets
-      [X] Pod need pour les projets et orga [asso et groupe] et AddNeed
-      [X] Ajout du dda pour project et orga
-      [X] Authorization (admin-membre-openedition) à rajouter coté ctk 
-      [X] Bugs
-        [X] Btn Editer 
-        [X] Unknown type: postalCode Detail -> Fil d'actue -> détail
+    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique        
+    [ ] Bug 
+      [ ] voteUp voteDown
+    [ ] Event :
+      [ ] Ajout de l'utilisation des tags pour les évenement
+      [ ] Gestion des admins pour les events
+    [ ] Refactor Element
+      [ ] Preferences avec open data / open edition / public-hide-private data
+      [ ] Formulaire d'édition:
+        [ ] Depuis orga
+          [ ] Ajouter un evenement ou un projet d'un element à partir des pods
+        [ ] AddContributors / AddMembers / AddAttendees
+        [ ] AddTasksGantt / AddChartSV pour les projets
+      [ ] Pod need pour les projets et orga [asso et groupe] et AddNeed
+      [ ] Ajout du dda pour project et orga
+      [ ] Authorization (admin-membre-openedition) à rajouter coté ctk 
+      [ ] Bugs
+        [ ] Btn Editer 
+        [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
   
   ** @Tango 
-    [X] onChange search criteria, empty list + reload button
-    [X] interface ND
-        [X] menu
-        [X] multi scope 
-        [X] multi tags
-        [X] type sur les news (idea, question announce, information)
-    [X] Refactor design top bar 
-    [X] Refactor agenda
-    [X] Recherche connecté au multi scope
-    [X] search by name on live page
-    [X] Bug Repair geoloc sur tous les element
-    [X] two step refactor
-    [X] home page : switch to live ?
+    [ ] onChange search criteria, empty list + reload button
+    [ ] interface ND
+        [ ] menu
+        [ ] multi scope 
+        [ ] multi tags
+        [ ] type sur les news (idea, question announce, information)
+    [ ] Refactor design top bar 
+    [ ] Refactor agenda
+    [ ] Recherche connecté au multi scope
+    [ ] search by name on live page
+    [ ] Bug Repair geoloc sur tous les element
+    [ ] two step refactor
+    [ ] home page : switch to live ?
 
   ** @Tib 
-    [X] DDA
-        [X] bug : Pas de possibilité d'éditer la photo d'une proposition  
-        [X] Decision : restreindre les votes citoyens city, aux communecter de la commune
-        [X] généré les catégories principale
-           [X] généré lors de la premiere visite du DDA espace collab
-        [X] remettre le contexte sur la room dans mon DDA
-        [X] ajouter un scope geo sur une proposition
-    [X] scoper dep et region : type number 
-    [X] moved search to opendata
-    [X] live on city page
-    [X] wisiwig sur les commentaires
-    [X] dashboard
-        [X] live controller 
-            [X] not connected > shows live , public information 
-            [X] getActivity
+    [ ] DDA
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] généré les catégories principale
+           [ ] généré lors de la premiere visite du DDA espace collab
+        [ ] remettre le contexte sur la room dans mon DDA
+        [ ] ajouter un scope geo sur une proposition
+    [ ] scoper dep et region : type number 
+    [ ] moved search to opendata
+    [ ] live on city page
+    [ ] wisiwig sur les commentaires
+    [ ] dashboard
+        [ ] live controller 
+            [ ] not connected > shows live , public information 
+            [ ] getActivity
                 - global activity based on scope and tags search filters
                 - can be filtered by userId
                 [ ] dda 
@@ -247,11 +252,11 @@
                     [ ] en ce moment : most active updated 
                         - how to define activity ? vote counts, comment counts
                             algorythm based on vote and comment dates 
-                [X] projects
-                [X] organisations
-                [X] events
-    [X] QR code
-        [X] onclick : explain why QR Codes
+                [ ] projects
+                [ ] organisations
+                [ ] events
+    [ ] QR code
+        [ ] onclick : explain why QR Codes
         [???] add QR code to invite mail / and create mail
     [ ] script devlog pour ajouter updated sur les anciennes data 
     [ ] reparer le click du milieu
@@ -281,12 +286,12 @@
     
     
   ** @Sylvain
-    [X] ajouter updated on login
+    [ ] ajouter updated on login
 
   ** @Thomas communEvent
-    [X] remplacer la map par une url parser dans les QR code
-    [X] mettre en PROD 
-    [X] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
+    [ ] remplacer la map par une url parser dans les QR code
+    [ ] mettre en PROD 
+    [ ] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
  
 
 * ************************************************************

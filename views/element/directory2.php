@@ -814,7 +814,8 @@ var contextData = <?php echo json_encode($element)?>;
 var contextIconTitle = "<?php echo $contextIconTitle; ?>";
 var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getControlerByCollection($type))));?>;
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
-var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
+var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>;
+var show = <?php echo (isset($show) && $show) ? 'true': 'false'; ?>; 
 
 jQuery(document).ready(function() {
 
@@ -890,10 +891,19 @@ function initGrid(){
 			}
 		});
 	}else{
-		var htmlDefault = "<div class='center'>"+
-							"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
-							"<br>No Connections yet"+
-						"</div>";
+		var htmlDefault = "";
+		if(show == true){
+			htmlDefault = "<div class='center'>"+
+								"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
+								"<br>No Connections yet"+
+							"</div>";
+		}else{
+			htmlDefault = "<div class='center text-red'>"+
+								"<i class='fa fa-share-alt fa-5x text-red'></i>"+
+								"<br>Vous n'avez pas accès au répertoire de cet utilisateur."+
+							"</div>";
+		}
+		
 		$('#Grid').append(htmlDefault);
 		$(".labelCommunity").hide();
 	}

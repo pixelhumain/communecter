@@ -355,13 +355,15 @@ class Menu {
         
         //DIRECTORY
         //-----------------------------
-        self::entry("left", 'onclick',
+        
+        if(Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) {
+            self::entry("left", 'onclick',
                     Yii::t("common","Community of ".$controllerType),
-        			//Yii::t("common",ucfirst($controller)." community"),
-        			Yii::t("common","Community") ,
-        			'connectdevelop',
-        			"showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
-       
+                    Yii::t("common","Community") ,
+                    'connectdevelop',
+                    "showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
+        }
+        
        //ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 
