@@ -562,11 +562,12 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 	currentUrl = hash;
 	allReadyLoad = true;
+	contextData = null;
 	$(".my-main-container").off(); 
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
-	//alert("loadByHash");
+	alert("loadByHash");
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
@@ -1181,11 +1182,12 @@ function buidDynForm(elementObj, afterLoad) {
 	        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
 
 	        return false;
-	      }
+	    }
 	});
 	console.dir(form);
 }
 
+var contextData = null;
 var typeObj = {
 	"person" : {
 		col : "citoyens" , 
@@ -1317,7 +1319,6 @@ var typeObj = {
 	"organization" : { 
 		col:"organizations", 
 		ctrl:"organization", 
-		rules:orgaRules, 
 		icon : "group",
 		titleClass : "bg-green",
 		bgClass : "bgOrga",
@@ -1393,16 +1394,33 @@ var typeObj = {
 			    icon : "calendar",
 			    type : "object",
 			    onLoads : {
-			    	"subEvent" : function(data){
-			    		$("#ajaxFormModal #parentId").removeClass('hidden');
-			    		alert(location.hash)
-			    		if(location.hash){
-			    			params = location.hash.split(".");
-			    			if(params[2] == "contextId")
-			    				contextId = params[2];
-			    			if(params[4] == "contextType")
-			    				contextType = params[5];
-			    			$("#ajaxFormModal #parentId").val(contextId);
+			    	//pour creer un subevnt depuis un event existant
+			    	"subEvent" : function(){
+			    			    		
+			    		if(contextData.type == "event"){
+			    			$("#ajaxFormModal #parentId").removeClass('hidden');
+			    		
+		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
+			    			else if ( contextData && contextData.id ){
+				    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    			}
+			    			
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+
+
+			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
+			    		}
+			    		else {
+
+				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+contextData.type+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
+			    			else if( contextData && contextData.id )
+				    			$("#ajaxFormModal #organizerId").val( contextData.id );
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #organizerType").val( contextData.type );
+			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
 			    		}
 			    	}
 			    },
@@ -1460,6 +1478,9 @@ var typeObj = {
 		            	},
 		            	"groupOptions" : myAdminList( ["events"] )
 		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
 			        type :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Type d\'évènnment",

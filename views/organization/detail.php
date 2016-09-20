@@ -122,7 +122,11 @@
 
 
 	jQuery(document).ready(function() {
-
+		contextData = {
+			name : "<?php echo $organization["name"] ?>",
+			id : "<?php echo (string)$organization["_id"] ?>",
+			type : "<?php echo Organization::CONTROLLER ?>"
+		};
 		setTitle("<?php echo addslashes($organization["name"]) ?>","<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>");
    		bindFicheInfoBtn();
 

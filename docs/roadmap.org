@@ -93,8 +93,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
       [X] parent Event : load param ajax
+        [ ] show only ongoing or event to come 
       [ ] simplify add for sub events
       [ ] connecté l'ajout new subEvent aux neaux formulaires
+    [ ] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
       [ ] link to parent

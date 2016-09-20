@@ -75,6 +75,11 @@
 	var thisEvent = <?php echo json_encode($event)?>;
 	
 	jQuery(document).ready(function() {
+		contextData = {
+			name : "<?php echo $event["name"] ?>",
+			id : "<?php echo (string)$event["_id"] ?>",
+			type : "<?php echo Event::CONTROLLER ?>"
+		};
 		setTitle("<?php echo addslashes($event["name"]) ?>","<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i>");
 		console.dir(contextMap);
 		

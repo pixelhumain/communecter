@@ -118,6 +118,11 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
+	contextData = {
+		name : "<?php echo $project["name"] ?>",
+		id : "<?php echo (string)$project["_id"] ?>",
+		type : "<?php echo Project::CONTROLLER ?>"
+	};
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>");
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	
