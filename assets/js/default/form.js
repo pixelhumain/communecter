@@ -38,11 +38,28 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
 		}
 	});
+
+	$('[name="newElement_cp"]').focusout(function(){
+		if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
+		timeoutAddCity = setTimeout(function(){ $("#dropdown-newElement_cp-found").hide(); }, 200);
+	});
+	$('[name="newElement_city"]').focusout(function(){
+		if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
+		timeoutAddCity = setTimeout(function(){ $("#dropdown-newElement_city-found").hide(); }, 200);
+	});
+
+	$('[name="newElement_cp"]').focus(function(){
+		$("#dropdown-newElement_cp-found").show();
+	});
+	$('[name="newElement_city"]').focus(function(){
+		$("#dropdown-newElement_city-found").show();
+	});
 }
 
 function autocompleteFormAddress(currentScopeType, scopeValue){
 	//var scopeValue = $('[name="newElement_city"]').val();
-	$("#dropdown-newElement_"+currentScopeType+"-found").html("<li><i class='fa fa-refresh fa-spin'></i></li>");
+	$("#dropdown-newElement_"+currentScopeType+"-found").html("<li><i class='fa fa-refresh fa-spin padding-10'></i></li>");
+	$("#dropdown-newElement_"+currentScopeType+"-found").show();
 	$.ajax({
         type: "POST",
         url: baseUrl+"/"+moduleId+"/city/autocompletemultiscope",

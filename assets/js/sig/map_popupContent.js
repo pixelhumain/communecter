@@ -690,12 +690,16 @@
 										"<option value='Autres'>Autres</option>" +
 									"</select>"+
 									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
-								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'  data-toggle='dropdown'>"+
-										"<ul class='dropdown-menu' id='dropdown-newElement_city-found'></ul>"+
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+
+										"<ul class='dropdown-menu' id='dropdown-newElement_city-found'>"+
+											"<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>"+
+										"</ul>"+
 							  		"</div>" +
 									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
 								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_cp' placeholder='Code postal'>"+
-										"<ul class='dropdown-menu' id='dropdown-newElement_cp-found'></ul>"+
+										"<ul class='dropdown-menu' id='dropdown-newElement_cp-found'>"+
+											"<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>"+
+										"</ul>"+
 							  		"</div>" +
 									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
 									"<button class='col-md-12 col-xs-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+

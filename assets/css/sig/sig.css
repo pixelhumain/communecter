@@ -928,6 +928,9 @@ creer des conflits : regle pas assez specfique
 	#dropdown-newElement_city-found, #dropdown-newElement_cp-found{
 		margin-top: -13px;
 		max-height: 215px;
+		overflow-y: auto;
+		max-width: 100%;
+		overflow-x: hidden;
 	}
 
 /* style tooltip des chartsMarkers */
