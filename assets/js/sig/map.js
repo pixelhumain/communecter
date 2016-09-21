@@ -61,7 +61,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
-				console.warn("--------------- getMarkerSingle ---------------------");
+				//console.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "";
@@ -70,7 +70,7 @@
 				if(typeof options.zIndexOffset != "undefined") 
 					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
-				console.log("POPUP CONTENT : " + contentString);
+				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
@@ -93,8 +93,7 @@
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;	
 					}						
-				});console.log("MARKER OK");
-				
+				});
 				return marker;
 			};
 

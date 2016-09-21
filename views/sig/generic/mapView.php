@@ -13,14 +13,14 @@
 		<!-- <center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/shattered.png"></center> -->
     </div>
 
-	<!-- <div id="form-in-map">
+	<div id="form-in-map">
 		<div id="form-in-map-title">
 		
 		</div>
 		<div id="form-in-map-content">
 		
 		</div>
-	</div>	 -->
+	</div>	
 	
 	<div class="bg-main-menu bgpixeltree_sig"></div>
 
