@@ -1101,10 +1101,10 @@ function formatData(formData, collection,ctrl) {
 	formData.collection = collection;
 	formData.key = ctrl;
 
-	if(location){
-		//formData.multiscopes = location;
-		formData.address = location.address;
-		formData.geo = location.geo;
+	if(elementLocation){
+		//formData.multiscopes = elementLocation;
+		formData.address = elementLocation.address;
+		formData.geo = elementLocation.geo;
 	}
 
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
@@ -1140,7 +1140,7 @@ function saveElement ( formId,collection,ctrl )
 
 function openForm (type, afterLoad ) { 
     console.warn("---------------"+type+" Form ---------------------");
-    location = null;
+    elementLocation = null;
     specs = typeObj[type];
 	if( specs.dynForm )
 	{
@@ -1736,11 +1736,11 @@ function globalSearch(searchValue,types){
 
 	
 }
-var location = null;
+var elementLocation = null;
 function copyMapForm2Dynform() { 
-	//if(!location)
-	//	location = [];
-	location = {
+	//if(!elementLocation)
+	//	elementLocation = [];
+	elementLocation = {
 		address : {
 			"@type" : "PostalAddress",
 			addressCountry : $("[name='newElement_country']").val(),
@@ -1759,7 +1759,7 @@ function copyMapForm2Dynform() {
 			"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
 		}
 	};
-	//location.push(positionObj);
+	//elementLocation.push(positionObj);
 }
 
 /*
