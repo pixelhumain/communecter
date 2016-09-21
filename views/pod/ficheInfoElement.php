@@ -159,7 +159,8 @@ else
 			<?php } ?>
 
 			<?php if($edit==true) { ?>
-				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+			
+				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
 			<?php } ?>
 			
 			<?php if ($openEdition==true) { ?>
@@ -337,8 +338,8 @@ else
 
 	<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
 	<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
-		<a href="javascript:;" class="cobtn hidden btn bg-red">Communectez-moi</a> 
-		<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+		<a href="javascript:;" class="cobtn hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
+		<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
 	</div>
 	<?php } ?>
 
@@ -374,19 +375,20 @@ else
 			<?php } ?>
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
-			<div class="col-md-6 col-sm-6">	
-				<i class="fa fa-road fa_streetAddress hidden"></i> 
-				<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
-					<?php //echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
-					<?php echo Element::showField("address.streetAddress",$element, $isLinked);?>
-				</a> 
-				<br>
-			
+			<div class="col-md-6 col-sm-6">
+				<?php if(Preference::showPreference($element, $type, "streetAddress", Yii::app()->session["userId"])){ ?>
+					<i class="fa fa-road fa_streetAddress hidden"></i> 
+					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
+						<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
+						<?php //echo Element::showField("address.streetAddress",$element, $isLinked);?>
+					</a> 
+					<br>
+				<?php } ?>
+
 				<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
 				 <a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
 					data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
 				</a> 
-				<?php //echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>
 				<br>
 				
 				<i class="fa fa-globe fa_addressCountry  hidden"></i> 
@@ -446,78 +448,29 @@ else
 						<?php
 					}
 				?>
-				
-				
-				<!-- <hr style="margin:10px 0px;"> -->
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
 			<div class="col-md-6 col-sm-6">
-				<?php /*if($type==Organization::COLLECTION){
-						$nbFixe = 0 ;
-						$nbMobile = 0 ; 
-
-						if(isset($element["telephone"]))
-						{
-							$telephone = "" ;
-
-							if(is_array($element["telephone"]))
-							{
-
-								if(@$element["telephone"]["fixe"])
-								{
-									//.fixe.'.$nbFixe.'
-									foreach ($element["telephone"]["fixe"] as $key => $value) {
-										if(!empty($telephone))
-											$telephone .= ", ";
-										$telephone .= $value ;
-									}
-								}
-
-								if(@$element["telephone"]["mobile"])
-								{
-									//telephone.mobile.'.$nbMobile.'
-									foreach ($element["telephone"]["mobile"] as $key => $value) {
-										if(!empty($telephone))
-											$telephone .= ", ";
-										$telephone .= $value ;
-									}
-								}
-							}
-							else
-							{
-								if(@$element["telephone"])
-								{
-									if(!empty($telephone))
-											$telephone .= ", ";
-										$telephone .= $element["telephone"] ;
-								}
-							}
-							
-							echo '<i class="fa fa-phone fa_telephone  hidden"></i>
-						 							<a href="#" id="telephone" data-type="select2" data-type="text" data-title="'. Yii::t("common","Phone number").'" 
-						 data-emptytext="'. Yii::t("common","Phone number") .'" class="tel editable editable-click">'.$telephone . "</a><br>" ;
-
-							
-						}
-					}*/
-				?>
-
-				<?php if($type==Person::COLLECTION){?>
-					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="">
-						<?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?>
-					</a>
-					<br>	
-				<?php } ?>
-				<?php if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
-				<i class="fa fa-envelope fa_email  hidden"></i> 
-				<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-					<?php //echo (isset($element["email"])) ? $element["email"] : null; ?>
-					<?php echo Element::showField("email",$element, $isLinked);?>
-				</a>
-				<br>
-				<?php } ?>
-
+				<?php if($type==Person::COLLECTION){
+					if(Preference::showPreference($element, $type, "birthDate", Yii::app()->session["userId"])){ ?>
+						<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
+						<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="">
+							<?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?>
+						</a>
+						<br>
+					<?php } 
+				} ?>
+				<?php 
+					if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
+						if(Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])){ ?>
+							<i class="fa fa-envelope fa_email  hidden"></i> 
+							<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
+								<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
+								<?php //echo Element::showField("email",$element, $isLinked);?>
+							</a>
+							<br>
+				<?php 	} 
+					} ?>
 
 				<?php //If there is no http:// in the url
 				$scheme = "";
@@ -621,12 +574,13 @@ else
 			</a>	
 			
 		</div>
+
 		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
-			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
-				<?php  //echo (!empty($element["description"])) ? $element["description"] ; : ""; ?>
-				<?php echo Element::showField("description",$element, $isLinked) ; ?>
-			</a>	
+				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
+					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
+					<?php //echo Element::showField("description",$element, $isLinked) ; ?>
+				</a>	
 		</div>
 	</div>
 </div>
@@ -650,6 +604,7 @@ else
 	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
+	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
 	
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
@@ -797,8 +752,28 @@ else
 		});
 
 		$("#editConfidentialityBtn").on("click", function(){
-	    	console.log("confidentiality");
+	    	console.log("confidentiality", seePreferences);
 	    	$("#modal-confidentiality").modal("show");
+	    	if(seePreferences=="true"){
+	    		param = new Object;
+		    	param.name = "seePreferences";
+		    	param.value = false;
+		    	param.pk = contextId;
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			        data: param,
+			       	dataType: "json",
+			    	success: function(data){
+				    	//toastr.success(data.msg);
+				    	if(data.result){
+							$("#divSeePreferencesHeader").addClass("hidden");
+							$('#editConfidentialityBtn').removeClass("btn-red");
+				    	}
+				    }
+				});
+	    	}
+	    	
 	    });
 
 		$(".panel-btn-confidentiality .btn").click(function(){

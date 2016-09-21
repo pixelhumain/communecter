@@ -731,5 +731,30 @@ class DatamigrationController extends CommunecterController {
 		echo "Number of pending user with username modified : ".$nbPendingUser;
 	}
 
+
+	public function actionUpdatePreferences() {
+		$nbUser = 0;
+		$preferencesUsers = array(
+							"publicFields" => array(),
+							"privateFields" => array("email", "streetAddress", "phone", "directory", "birthDate"),
+							"isOpenData" => false );
+		$users = PHDB::find(Person::COLLECTION, array());
+		foreach ($users as $key => $person) {
+			$res = PHDB::update(Person::COLLECTION, 
+										  	array("_id"=>new MongoId($key)),
+					                        array('$set' => array(	"seePreferences" => true,
+					                        						"preferences" => $preferencesUsers))
+					                    );
+
+			if($res["ok"] == 1){
+				$nbUser++;
+			}else{
+				echo "<br/> Error with user id : ".$key;
+			}
+		}
+
+		echo "Number of user with preferences modified : ".$nbUser;
+	}
+
 }
 

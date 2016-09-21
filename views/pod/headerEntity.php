@@ -21,15 +21,7 @@ $cssAnsScriptFilesTheme = array(
 	
 	'/assets/plugins/moment/min/moment.min.js',
 	'/assets/plugins/Chart.js/Chart.min.js',
-	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
-
-	'/plugins/autosize/jquery.autosize.min.js',
-	
-	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	
-	//'/plugins/mixitup/src/jquery.mixitup.js',
-
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -268,10 +260,15 @@ $controler = Element::getControlerByCollection($type);
 				</div>
 				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $entity["_id"]) { ?>
 					<div id="divCommunecterMoi" class="col-md-12 no-padding no-padding margin-bottom-10">
-						<a href="javascript:;" class="cobtnHeader hidden btn bg-red">Communectez-moi</a> 
-						<a href="javascript:;" class="whycobtnHeader hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+						<a href="javascript:;" class="cobtnHeader hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
+						<a href="javascript:;" class="whycobtnHeader hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
 					</div>
-				<?php } ?>
+					<?php if(@$entity["seePreferences"] && $entity["seePreferences"]==true){ ?>
+						<div id="divSeePreferencesHeader" class="col-md-12 text-dark no-padding">
+							<a href="javascript:;" id="confidentialityBtn" class="btn bg-red">Vérifier si les paramètres vous convient</a> 
+						</div>
+					<?php }
+				} ?>
 			</div>
 			<?php if($type == Project::COLLECTION){ ?>
 			<div class="col-md-12 text-dark no-padding" >
@@ -405,59 +402,70 @@ $controler = Element::getControlerByCollection($type);
 	        <div class="row">
 	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
 	        		<?php if ($type==Person::COLLECTION){ ?>
-	        		<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Public"); ?></strong> : <?php echo Yii::t("common","Visible for everyone."); ?><br/>
-	        		<strong><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></strong> : <?php echo Yii::t("common","Visible for my contacts."); ?><br/>
-	        		<strong><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></strong> : <?php echo Yii::t("common","Not visible."); ?><br/>
+		        		<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Public"); ?></strong> : <?php echo Yii::t("common","Visible for everyone."); ?><br/>
+		        		<strong><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></strong> : <?php echo Yii::t("common","Visible for my contacts."); ?><br/>
+		        		<strong><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></strong> : <?php echo Yii::t("common","Not visible."); ?><br/>
 	        		<?php } ?>
-
-	        		<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Open Data"); ?></strong> : <?php echo Yii::t("common","You propose your data in free access, to contribut for commons."); ?><br/>
+	        			<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Open Data"); ?></strong> : <?php echo Yii::t("common","You propose your data in free access, to contribut for commons."); ?><br/>
 	        		<?php if ($type!=Person::COLLECTION){ ?>
-	        		<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Open Edition") ;?></strong> : <?php echo Yii::t("common","All users can participed / modified the informations."); ?><br/>
+	        			<strong><i class="fa fa-group"></i> <?php echo Yii::t("common","Open Edition") ;?></strong> : <?php echo Yii::t("common","All users can participed / modified the informations."); ?><br/>
 	        		<?php } ?>
 	        	</div>
 		    </div>
 		    <div class="row text-dark panel-btn-confidentiality">
 		    	<?php if ($type==Person::COLLECTION){ ?>
-	            <div class="col-sm-4 text-right padding-10 margin-top-10">
-		        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My mail"); ?> :</strong>
-		        </div>
-		        <div class="col-sm-8 text-left padding-10">
-		        	<div class="btn-group btn-group-email inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="email" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public"); ?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="email" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="email" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
-		        	</div>
-		        </div>
-		        <div class="col-sm-4 text-right padding-10 margin-top-10">
-		        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My street address") ;?> :</strong>
-		        </div>
-		        <div class="col-sm-8 text-left padding-10">
-		        	<div class="btn-group btn-group-locality inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
-		        	</div>
-		        </div>
-		        <div class="col-sm-4 text-right padding-10 margin-top-10">
-		        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My phone"); ?>  :</strong>
-		        </div>
-		        <div class="col-sm-8 text-left padding-10">
-		        	<div class="btn-group btn-group-phone inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="phone" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="phone" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private") ;?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
-		        	</div>
-		        </div>
-		        <div class="col-sm-4 text-right padding-10 margin-top-10">
-		        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My directory") ;?> :</strong>
-		        </div>
-		        <div class="col-sm-8 text-left padding-10">
-		        	<div class="btn-group btn-group-directory inline-block">
-		        		<button class="btn btn-default confidentialitySettings" type="directory" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="directory" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
-		        		<button class="btn btn-default confidentialitySettings" type="directory" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
-		        	</div>
-		        </div>
+		    		<div class="col-sm-4 text-right padding-10 margin-top-10">
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("person","Birth date"); ?> :</strong>
+			        </div>
+			        <div class="col-sm-8 text-left padding-10">
+			        	<div class="btn-group btn-group-birthDate inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="birthDate" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="birthDate" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="birthDate" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	</div>
+			        </div>
+		            <div class="col-sm-4 text-right padding-10 margin-top-10">
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My mail"); ?> :</strong>
+			        </div>
+			        <div class="col-sm-8 text-left padding-10">
+			        	<div class="btn-group btn-group-email inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="email" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="email" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="email" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	</div>
+			        </div>
+			        <div class="col-sm-4 text-right padding-10 margin-top-10">
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My street address") ;?> :</strong>
+			        </div>
+			        <div class="col-sm-8 text-left padding-10">
+			        	<div class="btn-group btn-group-streetAddress inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	</div>
+			        </div>
+			        <div class="col-sm-4 text-right padding-10 margin-top-10">
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My phone"); ?>  :</strong>
+			        </div>
+			        <div class="col-sm-8 text-left padding-10">
+			        	<div class="btn-group btn-group-phone inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="phone" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="phone" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="phone" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	</div>
+			        </div>
+			        <div class="col-sm-4 text-right padding-10 margin-top-10">
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My directory"); ?>  :</strong>
+			        </div>
+			        <div class="col-sm-8 text-left padding-10">
+			        	<div class="btn-group btn-group-directory inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="directory" value="public"><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="directory" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="directory" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	</div>
+			        </div>
+			        
+
 		        <?php } ?>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
 		        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","Open Data") ;?> :</strong>
@@ -497,10 +505,10 @@ $controler = Element::getControlerByCollection($type);
 			<?php
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
-				$fieldPreferences["email"] = true;
-				$fieldPreferences["locality"] = true;
-				$fieldPreferences["phone"] = true;
-				$fieldPreferences["directory"] = true;
+				$nameFields = array("email", "streetAddress", "phone", "directory", "birthDate");
+				foreach ($nameFields as $key => $value) {
+					$fieldPreferences[$value] = true;
+				}
 				$typePreferencesBool = array("isOpenData", "isOpenEdition");
 
 				//To checked private or public
@@ -599,6 +607,29 @@ jQuery(document).ready(function() {
 		});
 	}
 
+	$("#confidentialityBtn").on("click", function(){
+    	$("#modal-confidentiality").modal("show");
+    	param = new Object;
+    	param.name = "seePreferences";
+    	param.value = false;
+    	param.pk = "<?php echo (string)$entity["_id"] ?>";
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	//toastr.success(data.msg);
+		    	if(data.result){
+					$("#divSeePreferencesHeader").addClass("hidden");
+					if($('#editConfidentialityBtn').length ){
+						$('#editConfidentialityBtn').removeClass("btn-red");
+					}
+		    	}
+		    }
+		});
+    });
+
 	
 
 });
@@ -607,12 +638,15 @@ function showElementPad(type, id){
 	var mapUrl = { 	"detail": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							//"url"  : "<?php echo $controler ?>/detail/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
 					"detail.edit": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : {"modeEdit":true}
 						},
@@ -625,6 +659,9 @@ function showElementPad(type, id){
 					"directory": 
 						{ 
 							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
+						 	//"hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+
+						 	//"url"  : "<?php echo $controler ?>/directory/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
 						 	"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
 						  	"data" : {"links":contextMap, "element":element}
 						} ,
@@ -685,6 +722,7 @@ function showElementPad(type, id){
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];
 	var data = mapUrl[type]["data"];
+
 	$("#pad-element-container").hide(200);
 	$.blockUI({
 		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"

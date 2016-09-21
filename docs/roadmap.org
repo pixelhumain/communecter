@@ -95,8 +95,15 @@
 ** @Rapha et Clement
 
   [ ] Préférences :
-    [ ] Bloqué l'acces a mon répertoire mode Privé
+    [X] Bloqué l'acces a mon répertoire mode Privé
     [ ] Mieux gére les addresses
+      [X] renomer locality en streetAddress
+    [ ] Checker au moins une ces préférences
+      [X] Ajouter un btn comme pour le "Communecter-moi" pour que l'utilisateur check au moins un fois le les preferences
+      [X] Ajouter "seePreferences" à la création d'un user
+      [ ] Batch pour ajouter "seePreferences" au user.
+    [ ] Batch qui remet tout les Preférence au niveau de base
+    [ ] Vérifier qu'au niveau de l'api c'est géré
 
 
 ** @Rapha
