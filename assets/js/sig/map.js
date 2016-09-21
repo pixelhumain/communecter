@@ -77,14 +77,14 @@
 
 				this.markerSingleList.push(marker);
 
-				marker.on('click', function(e) {
+				marker.on('click', function(e) { console.log("click on marker");
 						marker.openPopup();
 						//Sig.markerToBounce = marker;
 						//Sig.bounceMarker(0);
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;							
 				});
-				marker.on('mouseover', function(e) {
+				marker.on('mouseover', function(e) { console.log("over on marker");
 					if(thisSig.map.getZoom() != thisSig.map.getMaxZoom()){
 						marker.openPopup();
 
@@ -554,8 +554,8 @@
 								//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 								//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 								if($.inArray(type, this.notClusteredTag) > -1)
-								$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-								{	thisMap.panTo(coordinates, {"animate" : true });
+								$(this.cssModuleName + " .item_map_list_" + objectId).click(function() {	
+									thisMap.panTo(coordinates, {"animate" : true });
 									thisSig.checkListElementMap(thisMap);
 									marker.openPopup();
 								});

@@ -1,5 +1,11 @@
 
 var timeoutAddCity;
+var NE_insee = "";
+var NE_lat = "";
+var NE_lng = "";
+var NE_city = "";
+var NE_cp = "";
+
 function showMarkerNewElement(){ console.log("showMarkerNewElement");
 
 	Sig.clearMap();
@@ -24,9 +30,25 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément que vous êtes en train de créer ...");
 
+	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
+	Sig.markerFindPlace.on("popupopen", function(){ console.log("popupopen");
+		$('[name="newElement_insee"]').val(NE_insee);
+		$('[name="newElement_lat"]').val(NE_lat);
+		$('[name="newElement_lng"]').val(NE_lng);
+		$('[name="newElement_city"]').val(NE_city);
+		$('[name="newElement_cp"]').val(NE_cp);
+	});
+
+	Sig.markerFindPlace.on('dragend', function(){
+		$('[name="newElement_lat"]').val(Sig.markerFindPlace.getLatLng().lat);
+		$('[name="newElement_lng"]').val(Sig.markerFindPlace.getLatLng().lng);
+		Sig.markerFindPlace.openPopup();
+	});
+
 	$('[name="newElement_city"]').keyup(function(){ 
 		$("#dropdown-city-found").show();
 		if($('[name="newElement_city"]').val()!=""){
+			NE_city = $('[name="newElement_city"]').val();
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("city", $('[name="newElement_city"]').val()); }, 500);
 		}
@@ -34,6 +56,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	$('[name="newElement_cp"]').keyup(function(){ 
 		$("#dropdown-cp-found").show();
 		if($('[name="newElement_cp"]').val()!=""){
+			NE_cp = $('[name="newElement_cp"]').val();
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
 		}
@@ -54,6 +77,11 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	$('[name="newElement_city"]').focus(function(){
 		$("#dropdown-newElement_city-found").show();
 	});
+
+	$("#newElement_btnSearchAddress").click(function(){
+		searchAdressNewElement();
+	});
+
 }
 
 function autocompleteFormAddress(currentScopeType, scopeValue){
@@ -82,31 +110,59 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    		// var cp = (typeof value.postalCode!= "undefined") ? value.postalCode : ""; //value.name ;
 		    		// lblList = lbl + " (" +value.depName + ")";
 		    		// html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\", \""+val+"\",\""+cp+"\" )'>"+lblList+"</a></li>";
-    				$.each(value.postalCodes, function(key, valueCP){
+    				var insee = value.insee;
+		    		$.each(value.postalCodes, function(key, valueCP){
     					if($.inArray(valueCP.postalCode, allCP)<0){ 
 	    					allCP.push(valueCP.postalCode);
-		    				val = valueCP.name; 
-		    				lbl = valueCP.postalCode ;
-		    				lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
-		    				html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\",\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+		    				var val = valueCP.name; 
+		    				var lbl = valueCP.postalCode ;
+		    				var lat = valueCP.geo.latitude;
+		    				var lng = valueCP.geo.longitude;
+		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
 	    			}
 	    			});
     			}; 
     			if(currentScopeType == "cp") { 
-    				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
-		    			if($.inArray(valueCP.name, allCities)<0){ 
+    				var insee = value.insee;
+		    		$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
+    					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
-		    				val = valueCP.postalCode; 
-		    				lbl = valueCP.name ;
-		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
-		    				html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\",\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
+		    				var val = valueCP.postalCode; 
+		    				var lbl = valueCP.name ;
+		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;
+		    				var lat = valueCP.geo.latitude;
+		    				var lng = valueCP.geo.longitude;
+		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-city='"+lbl+"' data-cp='"+val+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-cp-found'>"+lblList+"</a></li>";
     				}});
-    			}; 
-    		
+    			};
     		});
+
     		if(html != "")
     		$("#dropdown-newElement_"+currentScopeType+"-found").html(html);
     		$("#dropdown-newElement_"+currentScopeType+"-found").show();
+
+    		$(".item-city-found, .item-cp-found").click(function(){
+
+    			$('[name="newElement_insee"]').val($(this).data("insee"));
+				$('[name="newElement_lat"]').val($(this).data("lat"));
+				$('[name="newElement_lng"]').val($(this).data("lng"));
+				$('[name="newElement_city"]').val($(this).data("city"));
+				$('[name="newElement_cp"]').val($(this).data("cp"));
+
+				NE_insee = $(this).data("insee");
+				NE_lat = $(this).data("lat");
+				NE_lng = $(this).data("lng");
+				NE_city = $(this).data("city");
+				NE_cp = $(this).data("cp");
+				
+				Sig.map.setZoom(10);
+				Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
+				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
+				
+				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found").hide();
+    		});
+    		
     		
 	    },
 		error: function(error){
@@ -116,15 +172,40 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 	});
 }
 
-function selectThisAdressElement(currentScopeType, val, lbl){
-	$('[name="newElement_'+currentScopeType+'"]').val(val);
 
-	if(currentScopeType == "cp"){
-		$('[name="newElement_'+"city"+'"]').val(lbl);
+function searchAdressNewElement(){
+	var providerName = "";
+	var requestPart = "";
+
+
+	var street 	= ($("#newElement_streetAddress").val()  != "") ? $("#newElement_streetAddress").html() : "";
+	var city 	= ($("#newElement_city").val() 	   	  	 != "") ? $("#newElement_city").html() : "";
+	var cp 		= ($("#newElement_cp").val() 			 != "") ? $("#newElement_cp").html() : "";
+	var countryCode = ($("#newElement_country").val() 	 != "") ? $("#newElement_country").html() : "";
+	
+	
+
+	if($("#newElement_streetAddress").val() != ""){
+		providerName = "nominatim";
+		//construction de la requete
+		request = addToRequest(request, street);
+		request = addToRequest(request, city);
+		request = addToRequest(request, cp);
+	}else{
+		providerName = "communecter"
+		//construction de la requete
+		if(cp != ""){
+			request = addToRequest(request, cp);
+		}
 	}
 
-	if(currentScopeType == "city"){
-		$('[name="newElement_'+"cp"+'"]').val(lbl);
-	}
-	$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found").hide();
+	var countryCode = $("#newElement_country").val();
+	callGeoWebService(providerName, requestPart, countryCode, 
+		function(){
+			//success
+		}, 
+		function(){
+			//error
+		}
+	);
 }

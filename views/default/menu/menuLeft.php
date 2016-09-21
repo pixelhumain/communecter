@@ -78,8 +78,7 @@
 		<br>
 		<?php // TOP // ?>
 		<a href="#default.live" id="menu-btn-live"
-				data-hash="#default.live"
-				class="lbh menu-button-left
+				class="lbh menu-button-left lbh
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 			<i class="fa fa-thumbs-up  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
@@ -89,8 +88,7 @@
 
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
-				data-hash="#default.live"
-				class="lbh menu-button-left
+				class="lbh menu-button-left lbh
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 			<i class="fa fa-heartbeat  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
@@ -100,8 +98,7 @@
 
 		<?php // RECHERCHER // ?>
 		<a href="#default.directory" id="menu-btn-directory"
-				data-hash="#default.directory"
-				class="menu-button-left  
+				class="menu-button-left lbh
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 			<i class="fa fa-search tooltips"
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
@@ -111,7 +108,6 @@
 
 		<?php // AGENDA // ?>
 		<a href="#default.agenda" id="menu-btn-agenda"
-				data-hash="#default.directory"
 				class="menu-button-left lbh 
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 			<i class="fa fa-calendar tooltips"
@@ -127,7 +123,6 @@
 
 		<?php // Organisation // ?>
 		<a href="#default.directory?type=organization" id="menu-btn-organization"
-				data-hash="#default.directory"
 				class="menu-button-left lbh 
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 			<i class="fa fa-group tooltips"
@@ -143,7 +138,6 @@
 
 		<?php // Projet // ?>
 		<a href="#default.directory?type=project" id="menu-btn-project"
-				data-hash="#default.directory"
 				class="menu-button-left  lbh
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 			<i class="fa fa-lightbulb-o tooltips"
@@ -159,7 +153,6 @@
 
 		<?php // People // ?>
 		<a href="#default.directory?type=person"  id="menu-btn-people"
-				data-hash="#default.directory"
 				class="menu-button-left  lbh
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 			<i class="fa fa-user tooltips"
@@ -176,7 +169,6 @@
 
 		<?php // Débat // ?>
 		<a href="#default.directory?type=vote" id="menu-btn-vote"
-				data-hash="#default.directory"
 				class="menu-button-left  lbh
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
 			<i class="fa fa-gavel tooltips"

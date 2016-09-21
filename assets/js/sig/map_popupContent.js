@@ -686,8 +686,8 @@
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
 									"<hr class='col-md-12'>"+
 									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
-										"<option value='France'>France</option>" +
-										"<option value='Autres'>Autres</option>" +
+										"<option value='FR'>France</option>" +
+										"<option value='RE'>Réunion</option>" +
 									"</select>"+
 									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
 								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+
@@ -702,6 +702,9 @@
 										"</ul>"+
 							  		"</div>" +
 									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
+									"<input type='text' name='newElement_insee'>"+
+									"<input type='text' name='newElement_lat'>"+
+									"<input type='text' name='newElement_lng'>"+
 									"<button class='col-md-12 col-xs-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+
 									"<hr class='col-md-12 col-xs-12'>"+
 									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
