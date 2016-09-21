@@ -168,7 +168,7 @@ function showMap(show)
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
-		hideFormInMap();
+		//hideFormInMap();
 
 		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
@@ -183,7 +183,7 @@ function showMap(show)
 	}
 		
 }
-
+/*
 function showFormInMap(){
 	$("#form-in-map #form-in-map-content").html($("#ajaxFormModal").html());
 	$("#form-in-map").show(200);
@@ -194,7 +194,7 @@ function hideFormInMap(){
 	$("#form-in-map").hide(200);
 	$("#ajax-modal-modal-body").append($("#ajaxFormModal"));
 }
-
+*/
 function setScopeValue(btn){ console.log("setScopeValue");
 	if( typeof btn === "object" ){
 		//récupère les valeurs

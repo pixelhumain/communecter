@@ -1146,7 +1146,7 @@ function openForm (type, afterLoad ) {
 	{
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-		$(".modal-header, #form-in-map-title").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
 	  	$("#ajax-modal-modal-body").html("<div class='row bg-white'>"+
 	  										"<div class='col-sm-10 col-sm-offset-1'>"+
 							              	"<div class='space20'></div>"+
@@ -1170,7 +1170,7 @@ function buidDynForm(elementObj, afterLoad) {
 	      formId : "#ajax-modal-modal-body #ajaxFormModal",
 	      formObj : elementObj.dynForm,
 	      onLoad : function  () {
-	        $("#ajax-modal-modal-title, #form-in-map-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 	        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
 	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
