@@ -10,17 +10,22 @@
 	}
 }
 
-#btn-menu-launch{
-	padding: 12px;
-	margin-left: 1px;
-	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+/* Toogle map button */
+button#btn-toogle-map{
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
 }
+
 #btn-toogle-map{
 	margin-right: 10px;
-	padding-top: 8px !important;
+	padding-top: 5px !important;
 	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
@@ -33,8 +38,37 @@
 	-o-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
 	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
 }
+
+/* Documentation button */
+button#btn-documentation{
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
+}
+
+#btn-documentation{
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+}
+
+#btn-documentation:hover{
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+}
+
+
 #main-btn-co{
-	margin-right:5px;
+	margin-left: 5px;
 	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
 	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
@@ -58,15 +92,6 @@
 	background-color: rgb(255, 255, 255);
 	display: inline;
 	margin-right: 10px;
-}
-#logo-main-menu{
-
-}
-#btn-menu-launch:hover{
-	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
-	-webkit-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
-	-o-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
-	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
 }
 
 .mainLabel {
