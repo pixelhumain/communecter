@@ -925,7 +925,7 @@ creer des conflits : regle pas assez specfique
 	 }
 	
 
-	#dropdown-newElement_city-found, #dropdown-newElement_cp-found{
+	#dropdown-newElement_city-found, #dropdown-newElement_cp-found, #dropdown-newElement_streetAddress-found{
 		margin-top: -13px;
 		max-height: 215px;
 		overflow-y: auto;

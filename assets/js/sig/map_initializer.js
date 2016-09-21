@@ -396,6 +396,14 @@
 			this.map.invalidateSize(false);
 		};
 
+		Sig.showRightToolMap = function(bool){
+			if(bool){
+				$("#right_tool_map").show();
+			}else{
+				$("#right_tool_map").hide();
+			}
+		};
+
 		//***chargement
 		//afficher / masquer l'icone de 
 		Sig.showIcoLoading = function (loading){
