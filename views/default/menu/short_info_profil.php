@@ -23,18 +23,28 @@
     
     <?php // BTN PROFIL || BTN SUBSCRIBE-LOGIN // ?>
     <div class="topMenuButtons pull-right">
+    
     <?php 
     if( isset( Yii::app()->session['userId']) ){
-      echo $this->renderPartial('./menu/menuProfil',array( "me"=> $me)); 
-    }
+      //echo $this->renderPartial('./menu/menuProfil',array( "me"=> $me)); 
+     // IMAGE PROFIL // 
+      $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+    ?> 
+          <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown" onclick="javascript:openMenuSmall();">
+            <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
+          </button>
+    <?php }
     else { ?>
-
-      <button class="btn-top btn btn-success  hidden-xs" onclick="showPanel('box-register');">
+      <?php // BTN MENU LAUNCH // ?>
+      <a class="pull-right text-dark" href="javascript:openMenuSmall();"  id="btn-menu-launch">
+        <i class="fa fa-bars fa-2x"></i>
+      </a>
+      <button class="btn-top btn btn-default hidden-xs" onclick="showPanel('box-register');">
         <i class="fa fa-plus-circle"></i> 
         <span class="hidden-sm hidden-md hidden-xs">S'inscrire</span>
       </button>
 
-      <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');">
+      <button class="btn-top btn btn-success hidden-xs" style="margin-right:10px;" onclick="showPanel('box-login');">
         <i class="fa fa-sign-in"></i> 
         <span class="hidden-sm hidden-md hidden-xs">Se connecter</span>
       </button> 
@@ -50,11 +60,14 @@ ul.notifList {
 <script>
 
   /* global search code is in assets/js/default/globalsearch.js */
-
   var timeoutGS = setTimeout(function(){ }, 100);
   var timeoutDropdownGS = setTimeout(function(){ }, 100);
   var searchPage = false;
   jQuery(document).ready(function() {
+    //hide burger menu if loggued user
+    if (typeof userId != undefined && userId != "") {
+      $("#btn-menu-launch").hide();
+    }
 
     $('.dropdown-toggle').dropdown();
     $(".menu-name-profil").click(function(){
