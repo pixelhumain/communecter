@@ -11,6 +11,12 @@
 	}
 }
 
+.shadow {
+    -webkit-box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 5px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 5px 5px rgba(50, 50, 50, 0.75);
+}
+
 #btn-menu-launch{
 	padding: 12px;
 	margin-left: 1px;

@@ -4,6 +4,12 @@ $(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 
+  	$(".my-main-container").scroll(function (event) {
+	    var y = $(this).scrollTop(); 
+	    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+	    else { $('.main-top-menu').removeClass('shadow'); }
+	});
+
 });
 
 function checkPoll(){
