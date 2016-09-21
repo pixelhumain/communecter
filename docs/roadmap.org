@@ -95,7 +95,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] parent Event : load param ajax
         [ ] show only ongoing or event to come 
       [ ] simplify add for sub events
-      [ ] connecté l'ajout new subEvent aux neaux formulaires
+        [ ] préremplir les dates , lieu
+      [X] connecté l'ajout new subEvent aux neaux formulaires
     [ ] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
