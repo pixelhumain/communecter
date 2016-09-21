@@ -933,6 +933,11 @@ creer des conflits : regle pas assez specfique
 		overflow-x: hidden;
 	}
 
+	.item-streetAddress-found{
+		padding: 5px;
+		overflow: hidden;
+	}
+
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {
