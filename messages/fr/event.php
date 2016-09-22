@@ -73,6 +73,7 @@ return array(
 	"No Parent Event" => "Pas de parent",
 	"Display/Hide old events" => "Afficher/Cacher les événements passés",
 	"Old events" => "Evénements passés",
+	"Create your next events <br>To show your next meet-up<br>And where people can go" => "Référencer vos prochains événements<br>Pour montrer les prochains rendez-vous<br>Et où les gens peuvent sortir"
 
 );
 ?>

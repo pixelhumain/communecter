@@ -89,6 +89,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</blockquote>
 			</div>
 		<?php } ?>
+		<?php if(isset($projects) && count($projects) > 0 && count($projects)==$nbOldProjects ) {?>
+			<div id="infoLastButNotNew" class="padding-10">
+				<blockquote>
+					<?php echo Yii::t("project","Create new projects <br>To show your current activity<br>And what's happened around people",null,Yii::app()->controller->module->id) ?>
+				</blockquote>
+			</div>
+		<?php } ?>
 		</div>
 	</div>
 </div>
@@ -139,5 +146,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 	function toogleOldProject() {
 		$(".oldProject").toggle("slow");
+		$("#infoLastButNotNew").toggle("slow");
 	}
 </script>

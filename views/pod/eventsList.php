@@ -130,6 +130,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</blockquote>
 			</div>
 		<?php } ?>
+		<?php if(isset($events) && count($events) > 0 && count($events)==$nbOldEvents ) {?>
+			<div id="infoLastButNotNew" class="padding-10">
+				<blockquote>
+					<?php echo Yii::t("event","Create your next events <br>To show your next meet-up<br>And where people can go",null,Yii::app()->controller->module->id) ?>
+				</blockquote>
+			</div>
+		<?php } ?>
+
 		</div>
 	</div>
 </div>
@@ -162,6 +170,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 	function toogleOldEvent() {
 		$(".oldEvent").toggle("slow");
+		$("#infoLastButNotNew").toggle("slow");
 	}
 
 </script>

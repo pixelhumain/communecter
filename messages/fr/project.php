@@ -49,6 +49,7 @@ return array(
 	"Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects" => "Créer ou Contribuer<br>Construire<br>Trouver de l'Aide<br>Organiser des Projets<br>Localement ou à distance",
 	"Old projects" => "Anciens projects",
 	"Display/Hide old projects" => "Afficher/Cacher les anciens projets",
+	"Create new projects <br>To show your current activity<br>And what's happened around people" => "Référencer vos nouveaux projets<br>Pour montrer votre activité<br>Et ce qu'il se passe autour de nous"
 
 	//Erreur
 );
