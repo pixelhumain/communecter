@@ -726,6 +726,9 @@ creer des conflits : regle pas assez specfique
 	max-width:60%;
   }
 
+  #mapLegende a:hover{
+  	color:rgb(43, 176, 198) !important;
+  }
 
 /* style tooltip des chartsMarkers */
 	div.leaflet-div-icon {

@@ -201,6 +201,7 @@ function getCommonGeoObject(objs, providerName){
 			
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "county");
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "city");
+			commonObj = addAttObjNominatim(commonObj, address, "cityName", "village");
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "town");
 			commonObj = addAttObjNominatim(commonObj, address, "country", "country");
 			commonObj = addAttObjNominatim(commonObj, address, "countryCode", "country_code");
@@ -239,6 +240,7 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, obj, "countryCode", "country");
 			commonObj = addAttObjNominatim(commonObj, obj, "postalCode", "cp");
 			commonObj = addAttObjNominatim(commonObj, obj, "insee", "insee");
+			commonObj = addAttObjNominatim(commonObj, obj, "geoShape", "geoShape");
 			commonObj["placeId"] = obj["country"]+"_"+obj["insee"]+"-" + obj["cp"];
 		
 		}
@@ -380,7 +382,7 @@ function getFullAddress(obj){
 	var strResult = "";
 	if(typeof obj.street != "undefined") strResult += obj.street;
 	if(typeof obj.cityName != "undefined") strResult += (strResult != "") ? ", " + obj.cityName : obj.cityName;
-	if(typeof obj.village != "undefined") strResult += (strResult != "") ? ", " + obj.village : obj.village;
+	//if(typeof obj.village != "undefined") strResult += (strResult != "") ? ", " + obj.village : obj.village;
 	if(typeof obj.postalCode != "undefined") strResult += (strResult != "") ? ", " + obj.postalCode : obj.postalCode;
 	if(typeof obj.country != "undefined") strResult += (strResult != "") ? ", " + obj.country : obj.country;
 	return strResult;

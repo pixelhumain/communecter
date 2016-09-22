@@ -686,12 +686,10 @@
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
 									"<hr class='col-md-12'>"+
 									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
-										"<option value='FR'>France</option>" +
-										"<option value='RE'>Réunion</option>" +
 									"</select>"+
 									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
 								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+
-										"<ul class='dropdown-menu' id='dropdown-newElement_city-found'>"+
+										"<ul class='dropdown-menu col-md-12 col-xs-12' id='dropdown-newElement_city-found'>"+
 											"<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>"+
 										"</ul>"+
 							  		"</div>" +
@@ -701,15 +699,19 @@
 											"<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>"+
 										"</ul>"+
 							  		"</div>" +
-									"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
-									"<input type='text' name='newElement_insee'>"+
-									"<input type='text' name='newElement_lat'>"+
-									"<input type='text' name='newElement_lng'>"+
-									"<button class='col-md-12 col-xs-12 btn btn-default' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i> Rechercher</button>"+
+									"<input class='form-group col-md-9 col-xs-9' type='text' style='margin-right:-3px;' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
+									"<button class='col-md-3 col-xs-3 btn btn-default' style='padding:3px;border-radius:0 4px 4px 0;' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i></button>"+
+									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<ul class='dropdown-menu' id='dropdown-newElement_streetAddress-found'></ul>"+
+									"</div>" +
+									"<div id='info_insee_latlng' class='text-dark col-md-12 no-padding'></div>"+
+									"<input type='hidden' name='newElement_insee'>"+
+									"<input type='hidden' name='newElement_lat'>"+
+									"<input type='hidden' name='newElement_lng'>"+
 									"<hr class='col-md-12 col-xs-12'>"+
 									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
-									"<button class='col-md-8 btn btn-success pull-right' type='text' name='newElement_btnValidateAddress'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
-									"<button class='col-md-3 btn btn-danger pull-right' type='text' name='newElement_btnCancelAddress' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
+									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newElement_btnValidateAddress'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
+									"<button class='col-md-3 btn btn-danger pull-right' type='text' id='newElement_btnCancelAddress' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
 									
 								"</div>";
 
