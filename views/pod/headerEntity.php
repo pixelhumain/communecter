@@ -759,7 +759,7 @@ function showElementPad(type, id){
 							"hash" : "project.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
-					"addcontributor" :
+					/* "addcontributor" :
 						{ 
 							"url"  : "project/addcontributorsv/projectId/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "project.addcontributorsv.projectId.<?php echo (string)$entity["_id"] ?>",
@@ -776,7 +776,7 @@ function showElementPad(type, id){
 							"url"  : "organization/addmember/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "#organization.addmember.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
-						},
+						}, */
 					"addtimesheet":
 						{
 							"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 

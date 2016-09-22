@@ -383,27 +383,11 @@ class Menu {
         // ADD MEMBER
         //-----------------------------
 
-        if(Authorisation::canEditItem(Yii::app()->session['userId'], $type, $id)){
-            if($type == Organization::COLLECTION){
-                self::entry("right", 'onclick',
-                            Yii::t('common','Add a member to this organization'), 
-                            Yii::t("common",'Add member'),'fa fa-user-plus',
-                            "showElementPad('addmember')",null,null);
-            }
-
-            if($type == Project::COLLECTION){
-                self::entry("right", 'onclick',
-                            Yii::t('common','Add a contributor to this organization'), 
-                            Yii::t("common",'Add contributor'),'fa fa-user-plus',
-                            "showElementPad('addcontributor')",null,null);
-            }
-
-            if($type == Event::COLLECTION){
-                self::entry("right", 'onclick',
-                            Yii::t('common','Add a attendee to this event'), 
-                            Yii::t("common",'Add attendee'),'fa fa-user-plus',
-                            "showElementPad('addattendee')",null,null);
-            }
+        if($type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, $id)){
+	        self::entry("right", 'onclick',
+                Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
+                Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
+                "showElementPad('addmembers')",null,null);
         }
         
 
