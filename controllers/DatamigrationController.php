@@ -723,7 +723,8 @@ class DatamigrationController extends CommunecterController {
 			$res = PHDB::update( Person::COLLECTION, 
 									  	array("_id"=>new MongoId($key)),
 				                        array('$set' => array(	
-				                        	"username" => substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, 32)), '$addToSet' => array("modifiedByBatch" => array("updateUserName" => new MongoDate(time()))))
+				                        			"username" => substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, 32)), 
+				                        			'$addToSet' => array("modifiedByBatch" => array("updateUserName" => new MongoDate(time()))))
 
 				                    );
 			$nbPendingUser++;
@@ -740,10 +741,13 @@ class DatamigrationController extends CommunecterController {
 							"isOpenData" => false );
 		$users = PHDB::find(Person::COLLECTION, array());
 		foreach ($users as $key => $person) {
+			$person["modifiedByBatch"][] = array("updatePreferences" => new MongoDate(time()));
 			$res = PHDB::update(Person::COLLECTION, 
 										  	array("_id"=>new MongoId($key)),
 					                        array('$set' => array(	"seePreferences" => true,
-					                        						"preferences" => $preferencesUsers))
+					                        						"preferences" => $preferencesUsers,
+					                        						"modifiedByBatch" => $person["modifiedByBatch"])
+					                        					)
 					                    );
 
 			if($res["ok"] == 1){
