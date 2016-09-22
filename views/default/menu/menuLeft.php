@@ -173,9 +173,14 @@
 		<hr class="hidden">
 		<?php } ?>
 		<br>
-
-		<a href="#default.live" id="menu-btn-live"
+<!--<a href="javascript:loadByHash('#default.live')" id="menu-btn-live"
 				data-hash="#default.live"
+				class="menu-button-left  
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-heartbeat  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
+		</a><hr class="">-->
+		<a href="#default.live" id="menu-btn-live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 				<i class="fa fa-heartbeat  tooltips"
@@ -216,15 +221,20 @@
 		<!-- <br> -->
 		
 		
-		
+		<a href="#default.directory" id="menu-btn-directory"
+				class="lbh menu-button-left
+				<?php echo ($page == 'directory') ? 'selected':'';?>">
+				<i class="fa fa-search tooltips"
+					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
+		</a><hr class="">
 
-		<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
+		<!--<a href="javascript:loadByHash('#default.directory')" id="menu-btn-directory"
 				data-hash="#default.directory"
 				class="menu-button-left  
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
 				<i class="fa fa-search tooltips"
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
-		</a><hr class="">
+		</a><hr class="">-->
 
 		<a href="javascript:loadByHash('#default.agenda')" id="menu-btn-agenda"
 				data-hash="#default.agenda"

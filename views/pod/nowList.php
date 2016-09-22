@@ -112,24 +112,5 @@ function enlargeNow() {
         $(".el-nowList").removeClass('col-xs-3').addClass("col-xs-12");
     }
 }
-function buildHotStuffList(list) { 
-    $.each(list,function(i,v) { 
-        
-    html = '<div class="border-dark margin-bottom-30 col-xs-12 col-md-12 no-padding">'+
-        '<div class=" "><img src="http://placehold.it/250x100" class="img-responsive"></div>'+
-        '<div class="padding-5 ">'+
-            '<br/>'+
-            '<div class="text-right">'+
-                '<i class="fa fa-<?php echo Element::getFaIcon(@$v["type"])?>"></i> <?php echo Element::getLink(@$v["type"],(string)@$v["_id"])?>'+
-            '</div>'+
-        '</div>'+
-    '</div>';
-    $('#nowList').html(html);
-    });
-}
-
-function dateWithCurrentTimeZone() {
-
-}
 
 </script>
