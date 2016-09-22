@@ -5,6 +5,7 @@ var NE_lat = "";
 var NE_lng = "";
 var NE_city = "";
 var NE_cp = "";
+var NE_street = "";
 
 var typeSearchInternational = "";
 var formType = "";
@@ -31,8 +32,10 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
-	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément que vous êtes en train de créer ...<br>"+
-								  "<a href='javascript:backToForm()' class='btn'><i class='fa fa-arrow-circle-left'></i> retour au formulaire</a>");
+	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément que vous êtes en train de créer<br>"+
+								  "<a href='javascript:backToForm()' class='btn no-padding margin-top-10'>"+
+								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
+								  "</a>");
 
 	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
 	Sig.markerFindPlace.on("popupopen", function(){ console.log("popupopen");
@@ -41,7 +44,8 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_lng"]').val(NE_lng);
 		$('[name="newElement_city"]').val(NE_city);
 		$('[name="newElement_cp"]').val(NE_cp);
-		
+		$('[name="newElement_streetAddress"]').val(NE_street);
+
 		bindEventFormSig();
 	});
 
@@ -71,6 +75,10 @@ function bindEventFormSig(){
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
 		}
+	});
+	$('[name="newElement_streetAddress"]').keyup(function(){ 
+		$("#dropdown-cp-found").show();
+		NE_street = $('[name="newElement_streetAddress"]').val();
 	});
 
 	$('[name="newElement_cp"]').focusout(function(){
@@ -195,7 +203,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				$('[name="newElement_lng"]').val($(this).data("lng"));
 				$('[name="newElement_city"]').val($(this).data("city"));
 				$('[name="newElement_cp"]').val($(this).data("cp"));
-
+				
 				NE_insee = $(this).data("insee");
 				NE_lat = $(this).data("lat");
 				NE_lng = $(this).data("lng");
