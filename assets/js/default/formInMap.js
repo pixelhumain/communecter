@@ -1,4 +1,5 @@
 
+/* NE = New Element */
 var timeoutAddCity;
 var NE_insee = "";
 var NE_lat = "";
@@ -133,6 +134,11 @@ function bindEventFormSig(){
 		NE_insee = ""; NE_lat =  ""; NE_lng =""; NE_city = ""; NE_cp = "";
 		backToForm();
 	});
+
+	/* TODO TIB */
+	$("#newElement_btnValidateAddress").click(function(){
+		backToForm();
+	});
 }
 
 function autocompleteFormAddress(currentScopeType, scopeValue){
@@ -166,6 +172,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    		$.each(value.postalCodes, function(key, valueCP){
     					if($.inArray(valueCP.postalCode, allCP)<0){ 
 	    					allCP.push(valueCP.postalCode);
+	    					if(notEmpty(value.geoShape))
 		    				inseeGeoSHapes[value.insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.name; 
 		    				var lbl = valueCP.postalCode ;
@@ -181,6 +188,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    		$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
+		    				if(notEmpty(value.geoShape))
 		    				inseeGeoSHapes[value.insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
@@ -280,7 +288,7 @@ function searchAdressNewElement(){
 			var html = "";
 			$.each(res, function(key, value){ //console.log(allCities);
     			if(notEmpty(value.countryCode)){
-    				if(value.countryCode == countryCode){ 
+    				if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
     					html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'>"+value.name+"</a></li>";
     				}
     			}
