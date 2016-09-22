@@ -199,8 +199,10 @@ function sendInvitation(){
 
 	
 	//console.log(params);
-	
 	console.log("send ajax invite");
+	$.blockUI({
+		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Processing<br><blockquote><p>la Liberté est la reconnaissance de la nécessité.</p><cite title='Hegel'>Hegel</cite></blockquote></h4>"
+	});
 	$.ajax({
         type: "POST",
         url: baseUrl+"/communecter/link/multiconnect",
@@ -209,12 +211,23 @@ function sendInvitation(){
         success: function(data){
         	if(!data.result){
         		toastr.error(data.msg);
+        		$.unblockUI();
         		//checkIsLoggued();
         	}
         	else
         	{
         		toastr.success(data.msg);
         		console.log(data);
+        		$.each(data.newMembers, function(k, newMember){
+	        		console.log("neewsMens >>>>");
+	        		console.log(newMember);
+	        		setValidationTable(newMember,newMember.childType, true);
+			        mapType = newMember.childType;
+			        if(newMember.childType=="<?php echo Person::COLLECTION ?>")
+			            mapType="people";
+			        contextMap[mapType].push(newMember);
+				});
+				$.unblockUI();
         	/*	if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
         			updateOrganisation( data.member,  $("#addMembers #memberType").val());
                	setValidationTable();*/
@@ -240,6 +253,7 @@ function sendInvitation(){
         },
         error:function (xhr, ajaxOptions, thrownError){
           toastr.error( thrownError );
+          $.unblockUI();
         } 
 	});
 }

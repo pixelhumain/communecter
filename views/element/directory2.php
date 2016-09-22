@@ -253,32 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <?php 
 
 if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit)); 
-
-//$this->renderPartial('../default/panels/toolbar'); 
-
-
-
-/*if (@$follows){
-	if(@$follows[Person::COLLECTION]){ 
-		foreach ($follows[Person::COLLECTION] as $e) {
-			$followsPeople++;
-			$countPeople++;
-		}
-	}
-	if(@$follows[Organization::COLLECTION]){ 
-		foreach ($follows[Organization::COLLECTION] as $e) {
-			$followsOrga++;
-			$countOrga++;
-		}
-	}
-	if(@$follows[Project::COLLECTION]){ 
-		foreach ($follows[Project::COLLECTION] as $e) {
-			$followsProject++;
-			$countProject++;
-		}
-	}
-}*/
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "links" => $links)); 
 ?>
 <div class="row pull-left" id="directoryPad">
 	<div class="col-md-12">
@@ -520,10 +495,10 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
 							return;
 						$actions = "";
-						//if(@$e['_id'])
-						//	$id = (string)$e["_id"];
-						//else
+						if(@$e['id'])
 							$id = $e["id"];
+						else
+							$id = (string)$e["_id"];
 
 						/* **************************************
 						* TYPE + ICON
@@ -825,10 +800,10 @@ jQuery(document).ready(function() {
 	$("#tagFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','What are you looking for ?') ?></h4>" + tagFilters);
 	$("#scopeFilters").html("<h4 class='text-dark '><i class='fa fa-angle-down'></i> <?php echo Yii::t('common','Where are you looking ?') ?></h4>" + scopeFilters);
 	initGrid();
-	if( activeType != ""){
+	/*if( activeType != ""){
 		 $('#item_panel_filter_'+activeType).trigger("click");
 		 $('.filter'+activeType).trigger("click");
-	}
+	}*/
 
 	$('.btn-close-panell').click(function(){
 		showMap(true);

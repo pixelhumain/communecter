@@ -551,36 +551,47 @@ if(!@$_GET["renderPartial"]){
 <div class="col-md-12 padding-15" id="pad-element-container">
 
 <script type="text/javascript">
+var contextMap = [];
+// If come from directoryAction => contextMap is already load
+<?php if(@$links){ ?>
+	var loadAllLinks=false;
+<?php } else { ?>
+	var loadAllLinks=true;
+<?php } ?>
 var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextType = <?php echo json_encode($type)?>;
-var contextMap = [];
+
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
-
 jQuery(document).ready(function() {
-	$.ajaxSetup({ cache: true});
-	$.ajax({
-		url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
-		type: 'POST',
-		data:{ "links" : elementLinks },
-		//async:false,
-		cache: true,
-		dataType: "json",
-		//complete: function () {},
-		success: function (obj){
-			console.log("conntext/////");
-			console.log(obj);
-			Sig.restartMap();
-			Sig.showMapElements(Sig.map, obj);	
-			contextMap = obj;	
-			$(".communityBtn").removeClass("hide");
-		},
-		error: function (error) {
-			console.log("error findGeoposByInsee");
-			callbackFindByInseeError(error);	
-			$("#iconeChargement").hide();	
-		}
-	});	
-
+	if(loadAllLinks){
+		alert();
+		$.ajaxSetup({ cache: true});
+		$.ajax({
+			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
+			type: 'POST',
+			data:{ "links" : elementLinks },
+			cache: true,
+			dataType: "json",
+			success: function (obj){
+				console.log("conntext/////");
+				console.log(obj);
+				Sig.restartMap();
+				Sig.showMapElements(Sig.map, obj);	
+				contextMap = obj;	
+				$(".communityBtn").removeClass("hide");
+			},
+			error: function (error) {
+				console.log("error findGeoposByInsee");
+				callbackFindByInseeError(error);	
+				$("#iconeChargement").hide();	
+			}
+		});	
+	} else {
+		contextMap=<?php echo json_encode($links)?>;
+		Sig.restartMap();
+		Sig.showMapElements(Sig.map, contextMap);	
+		$(".communityBtn").removeClass("hide");
+	}
 	// Init Chart
 	if(contextType == "<?php echo Project::COLLECTION ?>"){
 		Chart.defaults.global = {
@@ -741,11 +752,8 @@ function showElementPad(type, id){
 					"directory": 
 						{ 
 							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-						 	//"hash" : "element.directory.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-
-						 	//"url"  : "<?php echo $controler ?>/directory/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-						 	"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
-						  	"data" : {"links":contextMap, "element":element}
+							"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : {"links":contextMap, "element":element}
 						} ,
 					"gallery" :
 						{ 
@@ -756,27 +764,9 @@ function showElementPad(type, id){
 					"addmembers" :
 						{ 
 							"url"  : "element/addmembers/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "project.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"hash" : "element.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
-					/* "addcontributor" :
-						{ 
-							"url"  : "project/addcontributorsv/projectId/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "project.addcontributorsv.projectId.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"addattendee" :
-						{ 
-							"url"  : "event/addattendeesv/eventId/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "#event.addattendeesv.eventId.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"addmember" :
-						{ 
-							"url"  : "organization/addmember/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "#organization.addmember.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						}, */
 					"addtimesheet":
 						{
 							"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 

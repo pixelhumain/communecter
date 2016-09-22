@@ -387,7 +387,7 @@ class Menu {
 	        self::entry("right", 'onclick',
                 Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
                 Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
-                "showElementPad('addmembers')",null,null);
+                "showElementPad('addmembers')",null,null,"btn-menu-element btn-menu-element-addmembers");
         }
         
 

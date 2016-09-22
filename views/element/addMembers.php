@@ -413,7 +413,7 @@ if(!@$_GET["renderPartial"])
 		    		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$element["_id"]; ?>"/>
 		    	    <input type="hidden" id="memberId" name="memberId" value=""/>
 		            <div class="form-group" id="addMemberSection">
-		            	<div class='row'>
+		            	<div class='row center'>
 		            		<h4>Est-ce un citoyen ou une association ?</h4>
 		            		<input type="hidden" id="memberType"/>
 		            		<div class="btn-group ">
@@ -425,7 +425,7 @@ if(!@$_GET["renderPartial"])
 								</a>
 							</div>
 			            </div><br>
-			            <div id="formNewMember">
+			            <div id="formNewMember" class="center">
 			    	        <div class="row">
 			    	        	<div class="col-md-1" id="iconUser">	
 					           		
@@ -468,7 +468,7 @@ if(!@$_GET["renderPartial"])
 							</div>
 			               	<div class ="row">
 				               	<div class="col-md-10  col-md-offset-1 padding-10">	
-									<button class="btn btn-primary pull-right" style="margin-left:10px;">Enregistrer</button>
+									<button class="btn btn-primary pull-right saveBtn" style="margin-left:10px;"><?php echo Yii::t("common","Save") ?></button>
 									<a href="javascript:showSearch()" class="btn btn-default pull-right" style="margin-left:10px;"><i class="fa fa-search"></i> <?php echo Yii::t("common","Search") ?></a>
 								</div>
 							</div>
@@ -554,9 +554,10 @@ if(!@$_GET["renderPartial"])
 	var timeout;
 	var listMails = [];
 	var totalMails = 0;
-	var element = <?php echo json_encode($element) ?>;
+	//var element = <?php echo json_encode($element) ?>;
 	
 	jQuery(document).ready(function() {
+		activeMenuElement("addmembers");
 		setTitle("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($element["name"]) ?>",""," ORGANISATION : <?php echo addslashes($element["name"]) ?>");
 		initFormAddMember();
 		
@@ -742,7 +743,7 @@ if(!@$_GET["renderPartial"])
 		}); 
 		$("#addMemberForm").off().on("submit",function(event){
 	    	event.preventDefault();
-	    	
+	    	$(".saveBtn").html('<i class="fa fa-spinner fa-spin pull-left" style="font-size:19px;"></i>');
 	    	var connectType = "member";
 	    	if ($("#addMembers #memberIsAdmin").val() == true) connectType = "admin";
 	    	var params = {
@@ -765,15 +766,20 @@ if(!@$_GET["renderPartial"])
 	            success: function(data){
 	            	if(!data.result){
 	            		toastr.error(data.msg);
+	            		$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
 	            		//checkIsLoggued();
 	            	}
 	            	else
 	            	{
 	            		toastr.success(data.msg);
 	            		console.log(data);
-	            		if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
-		        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
-		               	setValidationTable();
+	            		//if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
+		        		//	updateOrganisation( data.member,  $("#addMembers #memberType").val());
+		               	setValidationTable(data.newElement,data.newElementType, false);
+		               	mapType = data.newElementType;
+		               	if(data.newElementType=="<?php echo Person::COLLECTION ?>")
+		               		mapType="people";
+		               	contextMap[mapType].push(data.newElement);
 		               	//Minus 1 on number of invit
 		               	if ($("#addMembers #memberId").val().length==0){
 			               	var count = parseInt($("#numberOfInvit").data("count")) - 1;
@@ -789,13 +795,14 @@ if(!@$_GET["renderPartial"])
 						$("#addMembers #memberIsAdmin").val("false");
 						$('#addMembers #memberEmail').parents().eq(1).show();
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
-						
+						$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
 						showSearch();
 	            	}
 	            	console.log(data.result);   
 	            },
 	            error:function (xhr, ajaxOptions, thrownError){
 	              toastr.error( thrownError );
+	              $(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
 	            } 
 	    	});
 	    });
@@ -941,6 +948,7 @@ if(!@$_GET["renderPartial"])
 		$("#addMembers #btnOrganization").removeClass("disabled btn-dark-green").addClass("btn-green");
 		$("#addMembers #formNewMember").css("display", "none");
 		$("#addMembers #addMemberSection").css("display", "none");
+		$('#addMembers #memberEmail').parents().eq(1).show();
 		$("#searchMemberSection").css("display", "block");
 		$("#addMembers #divAdmin").css("display", "none");
 		$("#iconeChargement").css("visibility", "hidden")
@@ -1049,22 +1057,22 @@ function checkedDiv(id, mail) {
 
 
 
-function setValidationTable(){
+function setValidationTable(newMember, newMemberType, multi){
 	var admin= "";
 	var type="";
-	if($("#addMembers #memberType").val()=="citoyens"){
+	if(newMemberType=="<?php echo Person::COLLECTION ?>"){
 		type = "Personne";
 	}else{
 		type = "Organisation"
 	}
-	if($("#addMembers #memberIsAdmin").val()=="1"){
+	if(multi==false && $("#addMembers #memberIsAdmin").val()=="1"){
 		admin="Oui";
 	}else{
 		admin = "Non";
 	}
 	strHTML = "<tr><td>"+type+"</td><td>"
-   						+$("#addMembers #memberName").val()+"</td><td>"
-   						+$("#addMembers #memberEmail").val()+"</td><td>"
+   						+newMember.name+"</td><td>"
+   						+newMember.email+"</td><td>"
    						+admin+"</td><td>"+
    						"<span class='label label-info'>added</span></td> <tr>";
     $(".newMembersAdded").append(strHTML);
@@ -1108,37 +1116,6 @@ function getIdByMail(mail) {
 
     return res ;
 }
-
-/*function checkedMail(id, mail) {
-	var newArray = [] ;
-
-	var find = false ;
-	$.each(listMails, function(key, val) {
-		if(mail == val){
-			find = true ;
-		}else{
-			newArray.push(val);
-		}
-	});
-
-	listMails = newArray ;
-	if(find == true){
-		$( "#"+id ).removeClass("item_map_list_blue");
-		$( "#"+id ).addClass("item_map_list");
-		
-	}else{
-		$( "#"+id ).removeClass("item_map_list");
-		$( "#"+id ).addClass("item_map_list_blue");
-		listMails.push(mail);
-	}
-	console.log("listMails", listMails);
-	//setNbContact()
-	//bindInviteSubViewInvites();
-};*/
-
-
-
-
 
 function inviteImportFile(){
 		if(listMails.length == 0)
