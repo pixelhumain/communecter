@@ -399,6 +399,7 @@ class CommunecterController extends Controller
       "simply"              => array("href" => "/ph/communecter/element/simply", "public" => true),
       "directory"           => array("href" => "/ph/communecter/element/directory", "public" => true),
       "directory2"          => array("href" => "/ph/communecter/element/directory2", "public" => true),
+      "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
     ),
   );
 

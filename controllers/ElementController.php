@@ -20,7 +20,8 @@ class ElementController extends CommunecterController {
           'updatesettings'        => 'citizenToolKit.controllers.element.UpdateSettingsAction',
           'detail'                => 'citizenToolKit.controllers.element.DetailAction',
           'getalllinks'           => 'citizenToolKit.controllers.element.GetAllLinksAction',
-          'directory'             => 'citizenToolKit.controllers.element.DirectoryAction'
+          'directory'             => 'citizenToolKit.controllers.element.DirectoryAction',
+          'addmembers'             => 'citizenToolKit.controllers.element.AddMembersAction'
       );
   }
 }

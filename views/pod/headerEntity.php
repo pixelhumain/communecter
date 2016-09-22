@@ -21,7 +21,11 @@ $cssAnsScriptFilesTheme = array(
 	
 	'/assets/plugins/moment/min/moment.min.js',
 	'/assets/plugins/Chart.js/Chart.min.js',
-	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
+	
+	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
@@ -747,6 +751,12 @@ function showElementPad(type, id){
 						{ 
 							"url"  : "gallery/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "gallery.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null
+						} ,
+					"addmembers" :
+						{ 
+							"url"  : "element/addmembers/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "project.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
 					"addcontributor" :
