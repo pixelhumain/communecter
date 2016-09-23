@@ -582,7 +582,8 @@ jQuery(document).ready(function()
 		$(".list_tags_scopes").addClass("tagOnly");
 	}
 	//canManageNews="";
-	$(".my-main-container").off(); 
+	//Modif SBAR
+	//$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
@@ -627,7 +628,7 @@ jQuery(document).ready(function()
 		else
 			dateLimit=initLimitDate.created;
 		
-		$(".my-main-container").scroll(function(){ //console.log(loadingData, scrollEnd);
+		$(".my-main-container").bind("scroll",function(){ //console.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
 		          if(isLiveGlobal()){

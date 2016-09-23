@@ -3,13 +3,6 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
-
-  	$(".my-main-container").scroll(function (event) {
-	    var y = $(this).scrollTop(); 
-	    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
-	    else { $('.main-top-menu').removeClass('shadow'); }
-	});
-
 });
 
 function checkPoll(){
@@ -568,7 +561,11 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 	currentUrl = hash;
 	allReadyLoad = true;
+	//Modif SBAR
 	$(".my-main-container").off(); 
+	console.log("LBH scroll shadows!");
+	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
+
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
@@ -1134,4 +1131,10 @@ function notEmpty(val){
 	return typeof val != "undefined"
 			&& val != null
 			&& val != "";
+}
+
+function shadowOnHeader() {
+	var y = $(".my-main-container").scrollTop(); 
+    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+    else { $('.main-top-menu').removeClass('shadow'); }
 }
