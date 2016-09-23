@@ -558,7 +558,7 @@ var contextMap = [];
 <?php } else { ?>
 	var loadAllLinks=true;
 <?php } ?>
-//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextType = <?php echo json_encode($type)?>;
 
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
@@ -570,7 +570,7 @@ jQuery(document).ready(function() {
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
 			type: 'POST',
-			data:{ "links" : element.links },
+			data:{ "links" : elementLinks },
 			cache: true,
 			dataType: "json",
 			success: function (obj){
