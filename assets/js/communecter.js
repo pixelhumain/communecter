@@ -3,8 +3,35 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
-
 });
+
+var prevStep = 0;
+var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
+var slides = {
+	explain1 : function() { showDefinition("explainCommunectMe")},
+	live : function() { loadByHash("#default.live")},
+	explain2 : function() { showDefinition("explainCartographiedeReseau")},
+	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	explain3 : function() { showDefinition("explainDemoPart")},
+	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
+	explain4 : function() { showDefinition("explainCommunecter")},
+	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
+	explain5 : function() { showDefinition("explainProxicity")},
+	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
+};
+function runslide(cmd)
+{
+	if(cmd == "kill")
+		prevStep = null;
+
+	if( prevStep != null ){
+		slides[ steps[prevStep] ]();
+		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
+		setTimeout( function () { 
+			runslide();
+		 }, 8000);
+	}
+}
 
 function checkPoll(){
 	countPoll++;

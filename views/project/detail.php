@@ -118,12 +118,16 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
+
 	contextData = {
 		name : "<?php echo $project["name"] ?>",
 		id : "<?php echo (string)$project["_id"] ?>",
-		type : "<?php echo Project::CONTROLLER ?>"
-	};
-	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>");
+		type : "<?php echo Project::CONTROLLER ?>",
+		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
+		odesc : "Projet : <?php echo addslashes(strip_tags(@$project["shortDescription"])) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"
+	}; 
+	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
+
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>

@@ -75,12 +75,17 @@
 	var thisEvent = <?php echo json_encode($event)?>;
 	
 	jQuery(document).ready(function() {
+
 		contextData = {
 			name : "<?php echo $event["name"] ?>",
 			id : "<?php echo (string)$event["_id"] ?>",
-			type : "<?php echo Event::CONTROLLER ?>"
+			type : "<?php echo Event::CONTROLLER ?>",
+			otags : "évènement,communecter,<?php echo $event["type"].",".addslashes($event["name"]).",".@implode(",", $event["tags"]) ?>",
+			odesc : "évènement : <?php echo @$event["startDate"] ?> <?php echo @$event["endDate"] ?> <?php echo @$event["address"]["streetAddress"] ?> <?php echo @$event["address"]["postalCode"] ?> <?php echo @$event["address"]["addressLocality"] ?> <?php echo @$event["address"]["addressCountry"] ?> <?php echo addslashes(strip_tags(@$event["shortDescription"])) ?>";
 		};
-		setTitle("<?php echo addslashes($event["name"]) ?>","<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i>");
+		
+		setTitle("<?php echo addslashes($event["name"]) ?>","<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i>",null,contextData.otags, contextData.odesc);
+
 		console.dir(contextMap);
 		
 		Sig.restartMap();
