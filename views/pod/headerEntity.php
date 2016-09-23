@@ -588,7 +588,9 @@ jQuery(document).ready(function() {
 			}
 		});	
 	} else {
-		contextMap= element.links ;
+		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+
+		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);	
 		$(".communityBtn").removeClass("hide");
