@@ -21,8 +21,10 @@ var slides = {
 };
 function runslide(cmd)
 {
-	if(cmd == "kill")
+	if(cmd == 0){
 		prevStep = null;
+		loadByHash("#default.live");
+	}
 
 	if( prevStep != null ){
 		slides[ steps[prevStep] ]();
