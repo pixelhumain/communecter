@@ -5,9 +5,15 @@
 	}
 
 }
-@media screen and (min-width: 920px) and (max-width: 1130px) {
+@media screen and (min-width: 920px) and (max-width: 1200px) {
 	.main-top-menu .moduleLabel {
     	max-width: 32% !important;
+	}
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1350px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 25% !important;
 	}
 }
 
