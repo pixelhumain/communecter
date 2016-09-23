@@ -1767,6 +1767,9 @@ function globalSearch(searchValue,types){
 	
 }
 var elementLocation = null;
+var centerLocation = null;
+var elementLocations = [];
+var countLocation = 0;
 function copyMapForm2Dynform() { 
 	//if(!elementLocation)
 	//	elementLocation = [];
@@ -1789,7 +1792,54 @@ function copyMapForm2Dynform() {
 			"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
 		}
 	};
+	elementLocations.push(elementLocation);
+	if(!centerLocation){
+		centerLocation = elementLocation;
+		elementLocation.center = true;
+	}
+	console.dir(elementLocations);
 	//elementLocation.push(positionObj);
+}
+
+function addLocatinoToForm()
+{
+	
+	console.dir(elementLocation);
+	var strHTML = "";
+	if(elementLocation.address.addressCountry)
+		strHTML += elementLocation.address.addressCountry;
+	if(elementLocation.address.postalCode)
+		strHTML += " ,"+elementLocation.address.postalCode;
+	if(elementLocation.address.addressLocality)
+		strHTML += " ,"+elementLocation.address.addressLocality;
+	if(elementLocation.streetAddress)
+		strHTML += " ,"+elementLocation.address.streetAddress;
+	btnSuccess = (countLocation == 0) ? "btn-success" : "";
+	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
+			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
+			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i></a> <br/>";
+	$(".locationlocation").prepend(strHTML);
+	countLocation++;
+}
+
+function removeLocation(ix){
+	elementLocation = null;
+	elementLocations.splice(ix,1);
+	//TODO check if this center then apply on first
+	$(".locationEl"+countLocation).remove();
+}
+
+function setAsCenter(ix){
+
+	$(".centers").removeClass('btn-success');
+	$.each(elementLocations,function(i, v) { 
+		if(v.center)
+			delete v.center;
+	})
+	$(".centers").removeClass('btn-success');
+	$(".center"+ix).addClass('btn-success');
+	centerLocation = elementLocations[ix];
+	elementLocations[ix].center = true;
 }
 
 /*

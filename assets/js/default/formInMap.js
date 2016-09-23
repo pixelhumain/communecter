@@ -311,6 +311,9 @@ function searchAdressNewElement(){
 }
 
 function backToForm(){
+	copyMapForm2Dynform();
+	addLocatinoToForm();
 	showMap(false);
 	$('#ajax-modal').modal("show");
+
 }
