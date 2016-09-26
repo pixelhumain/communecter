@@ -11,8 +11,8 @@ class CommunecterController extends Controller
   public $subTitle = "se connecter à sa commune";
   public $pageTitle = "Communecter, se connecter à sa commune";
   public static $moduleKey = "communecter";
-  public $keywords = "connecter, réseau, sociétal, citoyen, société, regrouper, commune, communecter, social";
-  public $description = "Communecter : Connecter à sa commune, réseau sociétal, le citoyen au centre de la société.";
+  public $keywords = "communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre,tiers lieux, ";
+  public $description = "Communecter : Connecter à sa commune, inter connecter les communs, un réseau sociétal pour un citoyen connecté et acteur au centre de sa société.";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";
@@ -115,13 +115,14 @@ class CommunecterController extends Controller
       "dir"                  => array("href" => "/ph/communecter/default/dir", "public" => true),
       "twostepregister"      => array("href" => "/ph/communecter/default/twostepregister"),
       "switch"               => array("href" => "/ph/communecter/default/switch"),
-      "live"                   => array("href" => "/ph/communecter/default/live"),
+      "live"                 => array("href" => "/ph/communecter/default/live"),
     ),
     "city"=> array(
       "index"               => array("href" => "/ph/communecter/city/index", "public" => true),
       "detail"              => array("href" => "/ph/communecter/city/detail", "public" => true),
       "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true), 
-      "directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
+      "directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, 
+                                     "title"=>"City Directory", "subTitle"=>"Find Local Actors and Actions : People, Organizations, Events"),
       'statisticpopulation' => array("href" => "/ph/communecter/city/statisticpopulation", "public" => true),
       'getcitydata'         => array("href" => "/ph/communecter/city/getcitydata", "public" => true),
       'getcityjsondata'     => array("href" => "/ph/communecter/city/getcityjsondata", "public" => true),
@@ -361,10 +362,10 @@ class CommunecterController extends Controller
       "index"        => array( "href" => "/ph/communecter/comment/index", "public" => true),
       "save"         => array( "href" => "/ph/communecter/comment/save"),
       'abuseprocess' => array( "href" => "/ph/communecter/comment/abuseprocess"),
-      "testpod"      => array("href" => "/ph/communecter/comment/testpod"),
-      "moderate" => array( "href" => "/ph/communecter/comment/moderate"),
-      "delete" => array( "href" => "/ph/communecter/comment/delete"),
-      "updatefield" => array( "href" => "/ph/communecter/comment/updatefield"),
+      "testpod"      => array("href"  => "/ph/communecter/comment/testpod"),
+      "moderate"     => array( "href" => "/ph/communecter/comment/moderate"),
+      "delete"       => array( "href" => "/ph/communecter/comment/delete"),
+      "updatefield"  => array( "href" => "/ph/communecter/comment/updatefield"),
       "countcommentsfrom" => array( "href" => "/ph/communecter/comment/countcommentsfrom"),
     ),
     "action"=> array(
@@ -400,6 +401,7 @@ class CommunecterController extends Controller
       "directory"           => array("href" => "/ph/communecter/element/directory", "public" => true),
       "directory2"          => array("href" => "/ph/communecter/element/directory2", "public" => true),
       "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
+      "aroundme"    => array("href" => "/ph/communecter/element/aroundme"),
     ),
   );
 

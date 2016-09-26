@@ -242,8 +242,8 @@ jQuery(document).ready(function() {
     $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
     $("#mapCanvasBg").show();
-    
-    $(".my-main-container").scroll(function(){
+
+    $(".my-main-container").bind("scroll", function(){
     	//console.log("scrolling my-container");
     	checkScroll();
     });

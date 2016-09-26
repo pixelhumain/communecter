@@ -260,7 +260,8 @@ var idSession = "<?php echo Yii::app()->session["userId"] ?>";
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 jQuery(document).ready(function() 
 {
-	$(".my-main-container").off(); 
+	//Modif SBAR
+	//$(".my-main-container").off(); 
 	setTitle("L'actualité","rss");
 	newsTLLine=buildLineHTML(news,idSession);
 	$(".newsList").append(newsTLLine);

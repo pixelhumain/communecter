@@ -129,10 +129,10 @@ var liveScopeType = "global";
 jQuery(document).ready(function() {
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
-		 liveType = liveTypeName[liveType];
-	else liveType = "Toute l'actu";
+		 liveType = " > "+liveTypeName[liveType];
+	else liveType = ", la boite à outil citoyenne connecté";
 
-	setTitle("Live'n'Direct > " + liveType, "<i class='fa fa-heartbeat '></i>");
+	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
 	//showTagsScopesMin("#list_tags_scopes");
 	<?php if(@$lockCityKey){ ?>

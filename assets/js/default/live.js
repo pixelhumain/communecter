@@ -1,7 +1,7 @@
 
 var timeout;
 function startSearch(isFirst){
-	$(".my-main-container").off();
+	//$(".my-main-container").off();
 	if(liveScopeType == "global"){
 		showNewsStream(isFirst);
 	}else{
@@ -145,7 +145,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").scroll(function(){ console.log("in linve", loadingData, scrollEnd);
+					$(".my-main-container").bind("scroll", function(){ console.log("in linve", loadingData, scrollEnd);
 					    if(!loadingData && !scrollEnd){
 					          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
 					          var heightWindow = $(window).height();
