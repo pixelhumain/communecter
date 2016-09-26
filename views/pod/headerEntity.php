@@ -589,7 +589,6 @@ jQuery(document).ready(function() {
 		});	
 	} else {
 		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
-
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);	
@@ -734,8 +733,6 @@ function showElementPad(type, id){
 	var mapUrl = { 	"detail": 
 						{ 
 							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							//"url"  : "<?php echo $controler ?>/detail/id/<?php echo (string)$entity["_id"] ?>?", 
 							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
 							"data" : null
 						} ,
@@ -756,7 +753,7 @@ function showElementPad(type, id){
 						{ 
 							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
 							"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : {"links":contextMap, "element":element}
+							"data" : {"links":contextMap}
 						} ,
 					"gallery" :
 						{ 

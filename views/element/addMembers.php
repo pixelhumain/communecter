@@ -663,29 +663,24 @@ if(!@$_GET["renderPartial"])
 		          			$("#listEmailGrid").append(text2);	
 							$("#"+idMail+"organizationType").hide();
 							console.log(valueContacts[0], valueContacts[1], valueContacts[2], valueContacts[3]);
-							if(typeof valueContacts[2] != "undefined"){
-								if(valueContacts[2].trim() == "citoyens")
-									switchTypeImport('citoyens', idMail, valueContacts[0].trim());
-								else if(valueContacts[2].trim() == "organizations"){
-									switchTypeImport('organizations', idMail, valueContacts[0].trim());
-
-									if(valueContacts[3].trim() == "NGO"){
-										$('#'+idMail+'organizationType').val("NGO");
-									}else if(valueContacts[3].trim() == "LocalBusiness"){
-										$('#'+idMail+'organizationType').val("LocalBusiness");
-									}else if(valueContacts[3].trim() == "Group"){
-										$('#'+idMail+'organizationType').val("Group");
-									}else if(valueContacts[3].trim() == "GovernmentOrganization"){
-										$('#'+idMail+'organizationType').val("GovernmentOrganization");
-									}else{
-										$('#'+idMail+'organizationType').val("NGO");
-									}
+							//if(typeof valueContacts[2] != "undefined"){
+							if(typeof valueContacts[2] == "undefined" || valueContacts[2].trim() != "organizations")
+								switchTypeImport('citoyens', idMail, valueContacts[0].trim());
+							else if(valueContacts[2].trim() == "organizations"){
+								switchTypeImport('organizations', idMail, valueContacts[0].trim());
+								if(valueContacts[3].trim() == "NGO"){
+									$('#'+idMail+'organizationType').val("NGO");
+								}else if(valueContacts[3].trim() == "LocalBusiness"){
+									$('#'+idMail+'organizationType').val("LocalBusiness");
+								}else if(valueContacts[3].trim() == "Group"){
+									$('#'+idMail+'organizationType').val("Group");
+								}else if(valueContacts[3].trim() == "GovernmentOrganization"){
+									$('#'+idMail+'organizationType').val("GovernmentOrganization");
+								}else{
+									$('#'+idMail+'organizationType').val("NGO");
 								}
 							}
-
-
-
-
+							//}
 						}
 					});
 					//$("#totalContact").html(nbContact);
@@ -1127,6 +1122,11 @@ function inviteImportFile(){
 		if(listMails.length == 0)
     		toastr.error("Veuillez sélectionner une adresse mail.");
     	else{
+    		rand = Math.floor((Math.random() * 8) + 1);
+	  		$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
+				+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
+				+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
+			});
     		var name = "";
     		var connectType = "member";
     		console.log("listMails", listMails);
@@ -1172,11 +1172,15 @@ function inviteImportFile(){
 								var count = parseInt($("#numberOfInvit").data("count")) - 1;
 								$("#numberOfInvit").html(count + ' invitation(s)');
 								$("#numberOfInvit").data("count", count);
+								setValidationTable(data.newElement,data.newElementType, false);
 			            	}
-			            	console.log(data.result);   
+			            	console.log(data.result);
+			            	$.unblockUI();   
 			            },
 			            error:function (xhr, ajaxOptions, thrownError){
-			              toastr.error( thrownError );
+			            	$.unblockUI();
+			              	toastr.error( thrownError );
+
 			            } 
 			    	});
 				}

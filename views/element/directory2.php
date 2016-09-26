@@ -867,6 +867,7 @@ function initGrid(){
 		});
 	}else{
 		var htmlDefault = "";
+		console.log("----------show----------", show);
 		if(show == true){
 			htmlDefault = "<div class='center'>"+
 								"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
