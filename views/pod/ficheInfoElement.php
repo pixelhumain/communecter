@@ -1171,6 +1171,7 @@ else
 				image: false,
 				table : false
 			},
+			container: 'body',
 			validate: function(value) {
 			    console.log(value);
 			    if($.trim(value).length > 140) {
@@ -1231,6 +1232,7 @@ else
 				html: true,
 				video: false
 			},
+			container: 'body',
 			success : function(data) {
 				if(data.result) {
 					toastr.success(data.msg);

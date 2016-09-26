@@ -80,7 +80,7 @@ $controler = Element::getControlerByCollection($type);
 		border-radius: 0px;
 		margin-top:-10px;
 		margin-bottom:10px;
-		padding-bottom: 60px
+		padding-bottom: 60px;
 	}
 
 	.headerEntity .thumbnail{
@@ -238,7 +238,7 @@ $controler = Element::getControlerByCollection($type);
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
 								<label id="typeHeader" class="text-dark">
-									<?php echo Yii::t(Element::getCommonByCollection($type), $entity["type"], null, Yii::app()->controller->module->id); ?>
+									<?php echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); ?>
 								</label>
 						</h2>
 					<?php } ?>
@@ -301,7 +301,7 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
+			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs" style="z-index:300000;">
 				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
 			</div>
 
