@@ -6,7 +6,7 @@
  * Date: 15/08/13
  */
 class ElementController extends CommunecterController {
-    const moduleTitle = "Évènement";
+    const moduleTitle = "Element";
     
   protected function beforeAction($action) {
     parent::initPage();
@@ -14,8 +14,9 @@ class ElementController extends CommunecterController {
   }
   public function actions()
   {
-      return array(
-          'updatefield' 				  => 'citizenToolKit.controllers.element.UpdateFieldAction',
+     return array(
+          'updatefield'           => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'aroundme'              => 'citizenToolKit.controllers.element.AroundMeAction',
       );
   }
 }

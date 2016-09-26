@@ -502,6 +502,7 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
+	"#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 

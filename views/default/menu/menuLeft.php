@@ -52,7 +52,17 @@
 				<span class="lbl-btn-menu"><?php echo $me["name"]; ?></span>
 		</a>
 		<hr>
+		<?php // AROUND ME // ?>
+		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-around-me"
+				class="lbh menu-button-left
+				<?php echo ($page == 'aroundMe') ? 'selected':'';?>">
+				<i class="fa fa-crosshairs tooltips"
+					data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
+				<span class="lbl-btn-menu">Autour de moi</span>
+		</a>
+		<hr>
 		<?php } ?>
+
 
 		<?php // MA COMMUNE / COMMUNECTEZ VOUS
 		
