@@ -81,7 +81,7 @@
 		    
 		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
 			    <a class="btn bg-red lbh padding-5" 
-			    	onclick="window.location.href='<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>'">
+			    	href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>">
 			        <i class="fa fa-sign-out"></i>
 			        <br><?php echo Yii::t("person","Sign out"); ?>
 			    </a>
