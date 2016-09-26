@@ -1311,6 +1311,10 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : { "required" : true }
 			        },
+			        /*xxx : {
+			        	placeholder : "XXX",
+			            "inputType" : "text"
+			        },*/
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
