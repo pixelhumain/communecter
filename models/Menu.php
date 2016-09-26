@@ -356,14 +356,30 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         
-        if($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"]) ) {
+        if(($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) && $type != Event::COLLECTION ) {
             self::entry("left", 'onclick',
                     Yii::t("common","Community of ".$controllerType),
                     Yii::t("common","Community") ,
                     'connectdevelop',
                     "showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
         }
-        
+        if( $type == Event::COLLECTION && @$element["links"] && @$element["links"]["subEvents"])
+        {
+            //DIRECTORY
+            //-----------------------------
+          /* self::entry("left", 'onclick', 
+                        Yii::t("event", 'View this event as a directory', null, Yii::app()->controller->module->id), 
+                        Yii::t("event", 'Visualise', null, Yii::app()->controller->module->id),
+                        'connectdevelop',
+                        "loadByHash('#event.directory.id.".$id."?tpl=directory2')","event", "directory");*/
+
+            self::entry("left", 'onclick', 
+                        Yii::t("event", 'View this event calendar', null, Yii::app()->controller->module->id), 
+                        Yii::t("event", 'Calendar', null, Yii::app()->controller->module->id),
+                        'calendar',
+                        "showElementPad('calendarview')","event", "calendar");
+        }
+
        //ALBUM
         //-----------------------------
         self::entry("left", 'onclick', 

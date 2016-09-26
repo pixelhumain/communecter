@@ -349,7 +349,7 @@ if(!@$_GET["renderPartial"])
 		</div>
 	</a>
 
-	<?php $this->renderPartial('../organization/addMembersFromMyContacts',array()); ?>
+	<?php $this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type)); ?>
 
 	<div class="col-md-12 margin-top-15">  
 
@@ -554,6 +554,7 @@ if(!@$_GET["renderPartial"])
 	var timeout;
 	var listMails = [];
 	var totalMails = 0;
+	var elementType= "<?php echo $type ?>";
 	//var element = <?php echo json_encode($element) ?>;
 	
 	jQuery(document).ready(function() {
@@ -851,7 +852,10 @@ if(!@$_GET["renderPartial"])
 			$('#addMembers #organizationType').attr("disabled", 'disabled');
 		}
 		$("#addMembers #dropdown_search").css({"display" : "none" });
-		$("#addMembers #addMemberSection").css("display", "block");
+		if(elementType == "<?php echo Event::COLLECTION ?>")
+			$("#addMembers #formNewMember").css("display", "block");
+		else
+			$("#addMembers #addMemberSection").css("display", "block");
 		$("#searchMemberSection").css("display", "none");
 
 	}
@@ -859,6 +863,8 @@ if(!@$_GET["renderPartial"])
 	function autoCompleteEmailAddMember(searchValue){
 		console.log("autoCompleteEmailAddMember");
 		var data = {"search" : searchValue};
+		if (elementType == "<?php echo Event::COLLECTION ?>")
+			data.searchMode = "personOnly";
 		$.ajax({
 			type: "POST",
 	        url: baseUrl+"/communecter/search/searchmemberautocomplete",
