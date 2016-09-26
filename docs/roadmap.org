@@ -176,7 +176,7 @@
 
 ** @Clement
     [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
-    [ ] sur orga reparer afficher tous les membres
+    [X] sur orga reparer afficher tous les membres
     [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
         [ ] visionneur spécialisé par type (image, video, simple lien)
         [ ] uplodaer de document

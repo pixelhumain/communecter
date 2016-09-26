@@ -2,7 +2,7 @@
 
 $cssAnsScriptFilesModule = array(
   //Full calendar
-  //'/assets/plugins/moment/min/moment.min.js',
+  '/assets/plugins/moment/min/moment.min.js',
   '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
   '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
   '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
@@ -135,7 +135,7 @@ if(!@$_GET["renderPartial"])
       setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>","calendar");
       showCalendar();
       initLastsEvents();
-
+	  activeMenuElement("calendar");
       $(window).on('resize', function(){
   			$('#calendar').fullCalendar('destroy');
   			showCalendar();

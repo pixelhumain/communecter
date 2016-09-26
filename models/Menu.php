@@ -377,7 +377,7 @@ class Menu {
                         Yii::t("event", 'View this event calendar', null, Yii::app()->controller->module->id), 
                         Yii::t("event", 'Calendar', null, Yii::app()->controller->module->id),
                         'calendar',
-                        "showElementPad('calendarview')","event", "calendar");
+                        "showElementPad('calendarview')","event", "calendar","btn-menu-element btn-menu-element-calendar");
         }
 
        //ALBUM

@@ -1142,7 +1142,7 @@ function notEmpty(val){
 }
 function activeMenuElement(page) {
 	console.log("-----------------activeMenuElement----------------------");
-	listBtnMenu = [	'detail', 'news', 'directory', 'gallery', 'addmembers'];
+	listBtnMenu = [	'detail', 'news', 'directory', 'gallery', 'addmembers', 'calendar'];
 	$.each(listBtnMenu, function(i,value) {
 		$(".btn-menu-element-"+value).removeClass("active");
 	});

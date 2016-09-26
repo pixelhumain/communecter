@@ -1,4 +1,26 @@
-<?php
+<?php 
+$cssAnsScriptFilesTheme = array(
+	//X-editable
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	//DatePicker
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	
+	//DateTime Picker
+	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	
+	'/assets/plugins/moment/min/moment.min.js',
+
+	
+	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
