@@ -1803,7 +1803,6 @@ function copyMapForm2Dynform() {
 
 function addLocatinoToForm()
 {
-	
 	console.dir(elementLocation);
 	var strHTML = "";
 	if(elementLocation.address.addressCountry)
