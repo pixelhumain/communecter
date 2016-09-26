@@ -87,6 +87,13 @@
 		
 		<br>
 		<?php // LIVE // ?>
+<!--<a href="javascript:loadByHash('#default.live')" id="menu-btn-live"
+				data-hash="#default.live"
+				class="menu-button-left  
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-heartbeat  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
+		</a><hr class="">-->
 		<a href="#default.live" id="menu-btn-live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
@@ -104,7 +111,40 @@
 					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
 				<span class="lbl-btn-menu">Rechercher</span>
 		</a>
-		<hr>
+		</a><hr class="">
+
+		<a href="#default.live.type.idea" id="menu-btn-live-idea"
+				data-hash="#default.live.type.idea"
+				class="lbh menu-button-left visible-communected hidden
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-info-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Idées"></i> <span class="lbl-btn-menu">Idées</span>
+		</a><hr class="visible-communected hidden">
+		
+		<a href="#default.live.type.question" id="menu-btn-live-question"
+				data-hash="#default.live.type.question"
+				class="lbh menu-button-left visible-communected hidden
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-question-circle  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Questions"></i> <span class="lbl-btn-menu">Questions</span>
+		</a><hr class="visible-communected hidden">
+		
+		<a href="#default.live.type.announce" id="menu-btn-live-announce"
+				data-hash="#default.live.type.announce"
+				class="lbh menu-button-left visible-communected hidden
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-ticket  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Annonces"></i> <span class="lbl-btn-menu">Annonces</span>
+		</a><hr class="visible-communected hidden">
+		
+		<a href="#default.live.type.information" id="menu-btn-live-information"
+				data-hash="#default.live.type.information"
+				class="lbh menu-button-left visible-communected hidden
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-newspaper-o  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
+		</a><hr class="visible-communected hidden">
+		<!-- <br> -->
 
 		<?php // AGENDA // ?>
 		<a href="#default.agenda" id="menu-btn-agenda"

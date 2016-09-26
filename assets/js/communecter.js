@@ -3,7 +3,6 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
-
 });
 
 function checkPoll(){
@@ -563,7 +562,11 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 	currentUrl = hash;
 	allReadyLoad = true;
+	//Modif SBAR
 	$(".my-main-container").off(); 
+	console.log("LBH scroll shadows!");
+	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
+
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
@@ -610,13 +613,22 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
-function setTitle(str, icon, topTitle) { 
+function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
 	$(".moduleLabel").html( icon +" "+ str);
 	if(topTitle)
 		str = topTitle;
 	$(document).prop('title', ( str != "" ) ? str : "Communecter, se connecter à sa commune" );
+	if(notNull(keywords))
+		$('meta[name="keywords"]').attr("content",keywords);
+	else
+		$('meta[name="keywords"]').attr("content","communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre");
+	
+	if(notNull(shortDesc))
+		$('meta[name="description"]').attr("content",shortDesc);
+	else
+		$('meta[name="description"]').attr("content","Communecter : Connecter à sa commune, inter connecter les communs, un réseau sociétal pour un citoyen connecté et acteur au centre de sa société.");
 }
 
 //ex : #search:bretagneTelecom:all
@@ -703,7 +715,6 @@ function _checkLoggued() {
 Generic non-ajax panel loading process 
 **************/
 function showPanel(box,callback){ 
-
 	$(".my-main-container").scrollTop(0);
 
   	$(".box").hide(200);
@@ -963,7 +974,8 @@ function  bindExplainLinks() {
 }
 
 function  bindLBHLinks() { 
-	$("a.lbh").off().click(function() {  
+	$(".lbh").off().on("click",function(e) {  		
+		e.preventDefault();
 		console.warn("***************************************");
 		console.warn("bindLBHLinks",$(this).attr("href"));
 		console.warn("***************************************");
@@ -1119,4 +1131,10 @@ function notEmpty(val){
 	return typeof val != "undefined"
 			&& val != null
 			&& val != "";
+}
+
+function shadowOnHeader() {
+	var y = $(".my-main-container").scrollTop(); 
+    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+    else { $('.main-top-menu').removeClass('shadow'); }
 }

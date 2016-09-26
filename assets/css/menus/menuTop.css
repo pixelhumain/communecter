@@ -1,13 +1,19 @@
-@media screen and (min-width: 767px) and (max-width: 920px){
-	.main-top-menu .moduleLabel {
-    	max-width: 19% !important;
-	}
-
-}
-@media screen and (min-width: 920px) and (max-width: 1130px) {
+@media screen and (min-width: 920px) and (max-width: 1200px) {
 	.main-top-menu .moduleLabel {
     	max-width: 32% !important;
 	}
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1350px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 25% !important;
+	}
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 5px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 5px 5px rgba(50, 50, 50, 0.75);
 }
 
 /* Toogle map button */

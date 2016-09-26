@@ -87,7 +87,7 @@
 
 				</div>
 				<?php } ?>
-				<?php if ($admin == 1 || !empty($events) || $openEdition == true){ ?>
+				<?php if ($admin == 1 || !empty($organizations) || $openEdition == true){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php 
 						if(!isset($eventTypes)) $eventTypes = array();
@@ -122,8 +122,9 @@
 
 
 	jQuery(document).ready(function() {
-
-		setTitle("<?php echo addslashes($organization["name"]) ?>","<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>");
+		var otags = "<?php echo addslashes($organization["name"]).",organisation,communecter,".$organization["type"].",".@implode(",", $organization["tags"]) ?>";
+		var odesc = "<?php echo addslashes( strip_tags(@$organization["shortDescription"])).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"; 
+		setTitle( "<?php echo addslashes($organization["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,otags, odesc);
    		bindFicheInfoBtn();
 
 	});
