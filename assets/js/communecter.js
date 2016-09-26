@@ -1292,6 +1292,15 @@ var typeObj = {
 			    title : "Point of interest Form",
 			    icon : "map-marker",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"subPoi" : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}			    		
+			    	}
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1302,10 +1311,6 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : { "required" : true }
 			        },
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
-		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
@@ -1318,7 +1323,17 @@ var typeObj = {
 		            },
 		            location : {
 		                inputType : "location"
-		            }
+		            },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
 			    }
 			}
 		}
@@ -1334,6 +1349,7 @@ var typeObj = {
 			    title : "Ajouter une Organisation",
 			    icon : "group",
 			    type : "object",
+			    
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
