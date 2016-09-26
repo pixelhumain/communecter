@@ -2,7 +2,7 @@
 
 $cssAnsScriptFilesModule = array(
   //Full calendar
-  '/assets/plugins/moment/min/moment.min.js',
+  //'/assets/plugins/moment/min/moment.min.js',
   '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
   '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
   '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
@@ -10,9 +10,8 @@ $cssAnsScriptFilesModule = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
-if(@$event)
-  Menu::event($event,true);
-$this->renderPartial('../default/panels/toolbar');
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit)); 
 ?>
 
 <style>
@@ -116,8 +115,10 @@ $this->renderPartial('../default/panels/toolbar');
         	</div>
         </div>
       </div>	
-  </div>
-      
+  </div>    
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 
 
 <script type="text/javascript">

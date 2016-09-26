@@ -795,7 +795,13 @@ function showElementPad(type, id){
 							"url"  : "need/detail/id/"+id+"?", 
 							"hash" : "#need.detail.id."+id,
 							"data" : null
-						}
+						},
+					"calendarview":
+						{
+							"url"  : "event/calendarview/id/<?php echo (string)$entity["_id"] ?>?", 
+							"hash" : "#event.calendarview.id.<?php echo (string)$entity["_id"] ?>",
+							"data" : null							
+						},
 
 					};
 					
