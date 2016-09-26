@@ -402,6 +402,7 @@ class CommunecterController extends Controller
       "directory2"          => array("href" => "/ph/communecter/element/directory2", "public" => true),
       "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
       "aroundme"    => array("href" => "/ph/communecter/element/aroundme"),
+      "save" => array("href" => "/ph/communecter/element/save"),
     ),
   );
 

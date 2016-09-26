@@ -69,7 +69,9 @@
 				this.initHomeBtn();
 			}
 
-
+			$("#btn-back").click(function(){
+				showMap(false);
+			})
 			//if(params.useFullScreen){
 				//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
 				$( window ).resize(function() {
@@ -392,6 +394,14 @@
 			//alert("yo");
 			//this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
+		};
+
+		Sig.showRightToolMap = function(bool){
+			if(bool){
+				$("#right_tool_map").show();
+			}else{
+				$("#right_tool_map").hide();
+			}
 		};
 
 		//***chargement

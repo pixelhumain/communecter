@@ -61,7 +61,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
-				//console.warn("--------------- getMarkerSingle ---------------------");
+				console.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "";
@@ -70,7 +70,7 @@
 				if(typeof options.zIndexOffset != "undefined") 
 					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
-				//console.log("POPUP CONTENT : " + contentString);
+				console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
@@ -93,7 +93,8 @@
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;	
 					}						
-				});
+				});console.log("MARKER OK");
+				
 				return marker;
 			};
 
@@ -296,16 +297,17 @@
 				
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
-
+				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
 				$(this.cssModuleName + " .tools-btn").css( 
-					{"left":$("#mapCanvas" + this.sigKey).width() - 
-					$("#right_tool_map").width() - 
-					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+					{"right"://$("#mapCanvas" + this.sigKey).width() - 
+					RTM_width
+					//$(this.cssModuleName + " .tools-btn").width() - 20
+					});// - $(this.cssModuleName + " #right_tool_map").width()});
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
-				var left = $(this.cssModuleName + " .tools-btn").position().left;
-				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
+				//var left = $(this.cssModuleName + " .tools-btn").position().left;
+				//var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
 	
 			};
 

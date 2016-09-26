@@ -86,6 +86,17 @@
 		<hr>
 		
 		<br>
+		<?php // TOP // ?>
+		<a href="#default.live" id="menu-btn-live"
+				data-hash="#default.live"
+				class="lbh menu-button-left
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+			<i class="fa fa-thumbs-up  tooltips"
+				data-toggle="tooltip" data-placement="right" title="Live"></i> 
+			<span class="lbl-btn-menu">TOP</span>
+		</a>
+		<hr>
+
 		<?php // LIVE // ?>
 <!--<a href="javascript:loadByHash('#default.live')" id="menu-btn-live"
 				data-hash="#default.live"
@@ -97,19 +108,20 @@
 		<a href="#default.live" id="menu-btn-live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-heartbeat  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Live"></i> 
-				<span class="lbl-btn-menu">Live</span>
+			<i class="fa fa-heartbeat  tooltips"
+				data-toggle="tooltip" data-placement="right" title="Live"></i> 
+			<span class="lbl-btn-menu">Live</span>
 		</a>
 		<hr>
 
 		<?php // RECHERCHER // ?>
 		<a href="#default.directory" id="menu-btn-directory"
-				class="menu-button-left lbh
+				data-hash="#default.directory"
+				class="menu-button-left  
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-				<i class="fa fa-search tooltips"
-					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
-				<span class="lbl-btn-menu">Rechercher</span>
+			<i class="fa fa-search tooltips"
+				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
+			<span class="lbl-btn-menu">Rechercher</span>
 		</a>
 		</a><hr class="">
 
@@ -148,12 +160,98 @@
 
 		<?php // AGENDA // ?>
 		<a href="#default.agenda" id="menu-btn-agenda"
+				data-hash="#default.directory"
+				class="menu-button-left lbh 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-calendar tooltips"
+				data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+			<span class="lbl-btn-menu">Agenda</span>
+		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'event' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter un évènement"></i> 
+		</a>
+		<?php } ?>
+		<hr>
+
+		<?php // Organisation // ?>
+		<a href="#default.directory?type=organization" id="menu-btn-organization"
+				data-hash="#default.directory"
+				class="menu-button-left lbh 
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-group tooltips"
+				data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
+			<span class="lbl-btn-menu">Organisations</span>
+		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'organization' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une organisation"></i> 
+		</a>
+		<?php } ?>
+		<hr>
+
+		<?php // Projet // ?>
+		<a href="#default.directory?type=project" id="menu-btn-project"
+				data-hash="#default.directory"
+				class="menu-button-left  lbh
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-lightbulb-o tooltips"
+				data-toggle="tooltip" data-placement="right" title="Projets"></i> 
+			<span class="lbl-btn-menu">Projets</span>
+		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'project' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter un projet"></i> 
+		</a>
+		<?php } ?>
+		<hr>
+
+		<?php // People // ?>
+		<a href="#default.directory?type=person"  id="menu-btn-people"
+				data-hash="#default.directory"
+				class="menu-button-left  lbh
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-user tooltips"
+				data-toggle="tooltip" data-placement="right" title="Personnes"></i> 
+			<span class="lbl-btn-menu">Personnes</span>
+		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'person' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Inviter quelqu'un"></i> 
+		</a>
+		<?php } ?>
+		<hr>
+
+		<?php // Débat // ?>
+		<a href="#default.directory?type=vote" id="menu-btn-vote"
+				data-hash="#default.directory"
+				class="menu-button-left  lbh
+				<?php echo ($page == 'agenda') ? 'selected':'';?>">
+			<i class="fa fa-gavel tooltips"
+				data-toggle="tooltip" data-placement="right" title="Débats"></i> 
+			<span class="lbl-btn-menu">Débats</span>
+		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'vote' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
+		</a>
+		<?php } ?>
+		<hr>
+
+		<?php // Action // ?>
+		<a href="#default.directory?type=action" id="menu-btn-action"
+				data-hash="#default.directory"
 				class="menu-button-left lbh
 				<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-calendar tooltips"
-					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
-				<span class="lbl-btn-menu">Agenda</span>
+			<i class="fa fa-cogs tooltips"
+				data-toggle="tooltip" data-placement="right" title="Actions"></i> 
+			<span class="lbl-btn-menu">Actions</span>
 		</a>
+		<?php if(isset(Yii::app()->session['userId'])){ ?>
+		<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right lbl-btn-menu">
+			<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
+		</a>
+		<?php } ?>
 		<hr>
 
 		<br>

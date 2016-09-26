@@ -17,6 +17,12 @@
   [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
   [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
   [ ] Lorsque l'on change de commune dans le profil utilisateur, Qu'ensuite on clique sur "Ma commune" on obtiens la page de la commune précédente. un CTRL F5 résout le probléme
+  [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
+  [@clement] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
+  [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
+  [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
+  [ ] Lorsque l'on change de commune dans le profil utilisateur, Qu'ensuite on clique sur "Ma commune" on obtiens la page de la commune précédente. un CTRL F5 résout le probléme
+  [X] En résolution 1920x1200, quand je clique sur la "Cloche de notification" dans le topmenu a droite ,  la boite de notification apparait décalée vers la gauche, et donc disparait avant que je puisse cliquer dessus. .main-top-menu button.btn-menu-notif
   [ ] Le partage sur FB et twitter n'est pas optimal pour ramener le titre, l'image et la description du post - par exemple un post de projet
   [ ] Filtre ne marche plus sur un event (participants / invités). Ex : [https://www.communecter.org/#event.directory.id.57d1b4c040bb4e706caa4157?tpl=directory2]
 

@@ -223,10 +223,7 @@ if(!@$_GET["renderPartial"])
 				}
 			});
 		});
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
+		
 	};
 
 	var subViewElement, subViewContent, subViewIndex;

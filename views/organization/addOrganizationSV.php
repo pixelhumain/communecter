@@ -478,7 +478,7 @@ jQuery(document).ready(function() {
 					$("#similarOrganizationLink").hide();
 				}
 
-				$("#addOrganization #listOrgaSameName").html(str);
+				$("#listOrgaSameName").html(str);
 			}	
 		})
 	}

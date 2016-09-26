@@ -25,7 +25,9 @@
 
 	$cssAnsScriptFilesModule = array(
 		'/js/default/index.js',
+		'/js/default/formInMap.js',
 		'/js/default/globalsearch.js',
+		'/js/sig/findAddressGeoPos.js',
 		'/js/jquery.filter_input.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
@@ -220,6 +222,10 @@ var proverbs = <?php echo json_encode(random_pic()) ?>;
 var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
+
+var tagsList = <?php echo json_encode(Tags::getActiveTags()) ?>;
+var eventTypes = <?php echo json_encode( Event::$types ) ?>;
+var organizationTypes = <?php echo json_encode( Organization::$types ) ?>;
 
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
