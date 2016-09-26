@@ -1132,8 +1132,14 @@ function formatData(formData, collection,ctrl) {
 
 	if(elementLocation){
 		//formData.multiscopes = elementLocation;
-		formData.address = elementLocation.address;
-		formData.geo = elementLocation.geo;
+		formData.address = centerLocation.address;
+		formData.geo = centerLocation.geo;
+		if( elementLocations.length ){
+			formData.addresses = elementLocations;
+			$.each( formData.addresses,function (i,v) { 
+				delete v.geoPosition;
+			});
+		}
 	}
 
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
@@ -1143,6 +1149,7 @@ function formatData(formData, collection,ctrl) {
 	console.dir(formData);
 	return formData;
 }
+
 function saveElement ( formId,collection,ctrl ) 
 { 
 	console.warn("saveElement",formId,collection);
@@ -1161,7 +1168,10 @@ function saveElement ( formId,collection,ctrl )
             else { 
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
-	        	loadByHash('#'+ctrl+'.detail.id.'+data.id)
+                if(data.url)
+                	loadByHash(data.url);
+                else
+	        		loadByHash('#'+ctrl+'.detail.id.'+data.id)
             }
     	}
     });
@@ -1285,70 +1295,30 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            }
+			            "rules" : { "required" : true }
 			        },
 			        description : {
 		                "inputType" : "wysiwyg",
 	            		"placeholder" : "Décrire c'est partager"
-		            },
-			        location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags",
-		              "values" : tagsList
 		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
 			        },
-			        select :{
-		            	"inputType" : "select",
-		            	"placeholder" : "type select",
-		            	"options" : {
-		            		"person":"Person",
-		            		"organization":"Organisation",
-	                    	"event":"Event",
-	                    	"project":"Project"
-		            	}
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de point d'interet",
+		              "values" : tagsList
 		            },
-		            selectMultiple :{
-		            	"inputType" : "selectMultiple",
-		            	"placeholder" : "Thematique",
-		            	"options" : {
-		            		"sport":"Sport",
-	                    	"agriculture":"Agricutlture",
-	                    	"culture":"Culture",
-	                    	"urbanisme":"Urbanisme",
-		            	}
-		            },
-
-		            date : {
-		                "inputType" : "date",
-		                "icon" : "fa fa-calendar",
-		                "placeholder":"Input Type Date"
-		            },
-
-		            daterange : {
-		                "inputType" : "daterange",
-		                "icon" : "fa fa-clock-o",
-		                "placeholder":"Input Type daterange"
-		            },
-		            properties : {
-		                "inputType" : "properties",
-		                "placeholder" : "Key",
-		                "placeholder2" : "Value",
-		                "value":[]
-		            },
+		            location : {
+		                inputType : "location"
+		            }
 			    }
 			}
 		}
@@ -1610,7 +1580,7 @@ var typeObj = {
 			        },
 			        similarLink : {
 		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
 		            },
 		            location : {
 		                inputType : "location"
@@ -1646,6 +1616,85 @@ var typeObj = {
 	"action" : {col:"actions",ctrl:"room"},
 	"actions" : {col:"actions",ctrl:"room"},
 	"discuss" : {col:"actionRooms",ctrl:"room"},
+	"all":{ 
+		//col:"poi",
+		//ctrl:"poi",
+		dynForm : {
+		    jsonSchema : {
+			    title : "All possible inputs",
+			    icon : "map-marker",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+			        location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags",
+		              "values" : tagsList
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			        },
+			        select :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : {
+		            		"person":"Person",
+		            		"organization":"Organisation",
+	                    	"event":"Event",
+	                    	"project":"Project"
+		            	}
+		            },
+		            selectMultiple :{
+		            	"inputType" : "selectMultiple",
+		            	"placeholder" : "Thematique",
+		            	"options" : {
+		            		"sport":"Sport",
+	                    	"agriculture":"Agricutlture",
+	                    	"culture":"Culture",
+	                    	"urbanisme":"Urbanisme",
+		            	}
+		            },
+
+		            date : {
+		                "inputType" : "date",
+		                "icon" : "fa fa-calendar",
+		                "placeholder":"Input Type Date"
+		            },
+
+		            daterange : {
+		                "inputType" : "daterange",
+		                "icon" : "fa fa-clock-o",
+		                "placeholder":"Input Type daterange"
+		            },
+		            properties : {
+		                "inputType" : "properties",
+		                "placeholder" : "Key",
+		                "placeholder2" : "Value",
+		                "value":[]
+		            },
+			    }
+			}
+		}
+	},
 };
 /*{
 "organization" : {
@@ -1801,22 +1850,28 @@ function copyMapForm2Dynform() {
 	//elementLocation.push(positionObj);
 }
 
-function addLocatinoToForm()
+function addLocationToForm()
 {
 	console.dir(elementLocation);
 	var strHTML = "";
-	if(elementLocation.address.addressCountry)
+	if( elementLocation.address.addressCountry)
 		strHTML += elementLocation.address.addressCountry;
-	if(elementLocation.address.postalCode)
+	if( elementLocation.address.postalCode)
 		strHTML += " ,"+elementLocation.address.postalCode;
-	if(elementLocation.address.addressLocality)
+	if( elementLocation.address.addressLocality)
 		strHTML += " ,"+elementLocation.address.addressLocality;
-	if(elementLocation.streetAddress)
+	if( elementLocation.streetAddress)
 		strHTML += " ,"+elementLocation.address.streetAddress;
-	btnSuccess = (countLocation == 0) ? "btn-success" : "";
+	var btnSuccess = "";
+	var locCenter = "";
+	if( countLocation == 0){
+		btnSuccess = "btn-success";
+		locCenter = "<span class='lblcentre'>(localité centrale)</span>";
+	}
+	
 	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
 			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
-			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i></a> <br/>";
+			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
 }
@@ -1831,12 +1886,13 @@ function removeLocation(ix){
 function setAsCenter(ix){
 
 	$(".centers").removeClass('btn-success');
+	$(".lblcentre").remove();
 	$.each(elementLocations,function(i, v) { 
-		if(v.center)
+		if( v.center)
 			delete v.center;
 	})
 	$(".centers").removeClass('btn-success');
-	$(".center"+ix).addClass('btn-success');
+	$(".center"+ix).addClass('btn-success').append(" <span class='lblcentre'>(localité centrale)</span>");
 	centerLocation = elementLocations[ix];
 	elementLocations[ix].center = true;
 }
