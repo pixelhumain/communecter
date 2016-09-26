@@ -16,8 +16,8 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <div class="panel panel-white">
-	<div class="panel-heading border-light bg-purple">
-		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> "></i> <?php echo Yii::t("project","PROJECTS",null,Yii::app()->controller->module->id) ?></h4>
+	<div class="panel-heading border-ligh bg-purple">
+		<h4 class="panel-title"><i class="fa <?php echo Project::ICON ?> "></i> <?php echo Yii::t("project","Projects",null,Yii::app()->controller->module->id) ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised || $openEdition && isset(Yii::app()->session["userId"]) ) { ?>

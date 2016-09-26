@@ -11,6 +11,7 @@ return array(
 	"UPCOMING EVENTS"=>"PROCHAINS EVENEMENTS",
 	"ALL EVENTS"=>"TOUS LES EVENEMENTS",
 	"EVENT" => "ÉVÈNEMENT",
+	"Events" => "Événements",
 	"MY EVENTS" => "MES ÉVÈNEMENTS",
 	"EVENTS" => "ÉVÈNEMENTS",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 

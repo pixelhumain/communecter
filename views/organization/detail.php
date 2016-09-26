@@ -66,12 +66,16 @@
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
-															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"userCategory" => Yii::t("common","Community"), 
 															"contentType" => Organization::COLLECTION,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
 															"admin" => $admin,
 															"openEdition" => $openEdition));
+					?>
+		    	</div>
+		    	<div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( ));
 					?>
 		    	</div>
 		    	<?php

@@ -10,7 +10,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-dark">
-		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","Needs",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<?php if( ($isAdmin || $openEdition) && isset(Yii::app()->session["userId"]) ) { ?>
 		<div class="panel-tools">
