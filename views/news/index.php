@@ -31,7 +31,8 @@ $cssAnsScriptFilesModule = array(
 	'/css/news/index.css',	
 	'/js/news/index.js',
 	'/js/news/newsHtml.js',
-	'/css/news/newsSV.css'
+	'/css/news/newsSV.css',
+	'/js/dataHelpers.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	
@@ -568,6 +569,10 @@ var searchBy = "<?php echo @$searchBy ?>";
 var tagSearch = "<?php //echo @$tagSearch ?>";
 var peopleReference=false;
 var mentionsContact = [];
+
+var stopMention = false;
+var element = null;
+
 jQuery(document).ready(function() 
 {
 //	console.log(dataNewsSearch);
@@ -579,7 +584,8 @@ jQuery(document).ready(function()
 		$(".list_tags_scopes").addClass("tagOnly");
 	}
 	//canManageNews="";
-	$(".my-main-container").off(); 
+	//Modif SBAR
+	//$(".my-main-container").off(); 
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
@@ -625,7 +631,7 @@ jQuery(document).ready(function()
 		else
 			dateLimit=initLimitDate.created;
 		
-		$(".my-main-container").scroll(function(){ //console.log(loadingData, scrollEnd);
+		$(".my-main-container").bind("scroll",function(){ //console.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
 		          if(isLiveGlobal()){
@@ -675,8 +681,7 @@ jQuery(document).ready(function()
 			mentionsContact.push(object);
 	  	});
 	}
-	var stopMention = false;
-	var element = "";
+	
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
 		  	if(stopMention)
@@ -685,44 +690,33 @@ jQuery(document).ready(function()
 		  	data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 			callback.call(this, data);
 
-			if(query.indexOf("+")==0) {
+			/*if(query.indexOf("+")==0) {
 				element = "";
 				if(query.indexOf("+o")==0){
 					element = "organization";
-					extraForm = "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
-					extraForm += "\n>admin:admin|member|unknown";
+					form = "\n>organizationName:";//form = "\n>name:";
+					form += "\n>shortDescription:";
+					form += "\n>description:";
+			        form += "\n>organizationEmail:";//form += "\n>email:";
+			        form += "\n>streetAddress:";//address
+			        form += "\n>postalCode:97421";
+			        form += "\n>city:97414";
+			        form += "\n>cityName:ST LOUIS";
+			        form += "\n>organizationCountry:RE";
+					form += "\n>type:NGO|LocalBusiness|Group|GovernmentOrganization";
+					form += "\n>role:admin|member|creator";
+
 		        }
-		        else if(query.indexOf("+e")==0){
-					element = "event";
-					extraForm = "\n>type:concert|concours|exposition|festival|getTogether|market|meeting|competition|others|nacelle";
-					//connect organiser with mention 
-					var d = new Date();
-					extraForm += "\n>startDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-					extraForm += "\n>endDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-		        }
-		        else if(query.indexOf("+p")==0){
-					element = "project";
-					var d = new Date();
-					extraForm += "\n>startDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-					extraForm += "\n>endDate:"+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getYear();
-		        }
-		        else if(query.indexOf("+c")==0){
-					element = "person";
+		        else if(query.indexOf("+pt")==0){
+					element = "poi";
+					form = "\n>name:";
 		        }
 		        if( element ){
 		        	stopMention = true;
-			        form = "\n>element:"+element;
-					form += "\n>name:xxx";
-					form += "\n>desc:";
-			        form += "\n>email:";
-			        form += "\n>adr:";
-			        form += "\n>cp:";
-			        form += "\n>latlon:";
-			        form += extraForm;
 					$("#get_url").val( $("#get_url").val() + form);
 					return false;
 				}
-			}
+			}*/
 
 
 	   		var search = {"search" : query};

@@ -316,7 +316,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<?php 
 						$address = (@$organization["address"]["streetAddress"]) ? $organization["address"]["streetAddress"] : "";
 						$address2 = (@$organization["address"]["postalCode"]) ? $organization["address"]["postalCode"] : "";
-						if(isset(OpenData::$phCountries[ $organization["address"]["addressCountry"] ]))
+						if(isset(OpenData::$phCountries[ @$organization["address"]["addressCountry"] ]))
 						$address2 .= (@$organization["address"]["addressCountry"] && @OpenData::$phCountries[ $organization["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
 						
 						$tel = "";

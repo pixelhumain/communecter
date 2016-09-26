@@ -158,28 +158,6 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 		}); 
 	});
 
-	function bindeventSubViewattendees() {	
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prattendeesDefault();
-		});
-
-
-		/*$(".connectAttendeesBtn").off().on("click", function(){
-			var idToconnect= $(this).data("id");
-			var eventId = $(".form-attendees .attendees-id").val();
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+'/event/saveAttendees',
-				data: data,
-				dataType: "json",
-	       		success: function(data){
-	       		}
-			})
-		});*/
-
-	};
-
 	var subViewElement, subViewContent, subViewIndex;
 	var timeout;
 

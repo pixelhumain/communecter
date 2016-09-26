@@ -7,7 +7,7 @@
 		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
 		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      	: 0;
 
-		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#2A3945';
+		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#384C5D';
 		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#fff';
 		$mapBtnBgColor_hover = ( isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
 
@@ -138,8 +138,8 @@
 		display: none;
 		position: fixed;
 		top: 70px;
-		left: 19%;
-		width: 30%;
+		left: 70px;
+		width: 22%;
 		min-width: 200px;
 		max-height: 100px;
 		background-color: rgba(26, 33, 38, 0.93);

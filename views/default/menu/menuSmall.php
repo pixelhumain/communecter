@@ -3,7 +3,7 @@
 <?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/menuSmall.css'), $this->module->assetsUrl); ?>
 
 <?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-          $profilThumbImageUrl = Element::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);
+          $profilMediumImageUrl = Element::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);
       }
 ?>
 
@@ -13,26 +13,29 @@
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
 		<div class="col-md-3 col-sm-3 col-xs-12 center no-padding margin-bottom-15">
 			<div class="col-md-12 col-sm-12 col-xs-6">
-				<a class="btn bg-red" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();">
+				<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();">
 					<i class="fa fa-sign-in"></i>
 					</br>Se Connecter
 				</a>
 			</div> 
 			<div class="col-md-12 col-sm-12 col-xs-6">
-				<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();">
+				<a class="btn bg-grey" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();">
 					<i class="fa fa-plus-circle"></i>
 					</br>S'inscrire
 				</a>
 			</div> 
 		</div> 
 		<?php }  else { ?>
-		<div class="col-md-3 col-sm-3 col-xs-12 center margin-top-15">
-			<div class="col-md-12 col-sm-12 no-padding">
-				<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
-					<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
-						src="<?php echo $profilThumbImageUrl; ?>" alt="image"> <br>
-					<span class="text-white label text-bold" style="font-size:18px;"><?php echo $me["name"]; ?></span>
-				</a>
+		<div class="col-md-3 col-sm-3 col-xs-12 center margin-top-15 margin-bottom-5">
+			<div class="col-md-12 col-sm-12 no-padding" id="menu-my-profil">
+				<span class="text-white label text-bold" style="font-size:16px !important;"><?php echo $me["name"]; ?></span>
+				<div id="img-my-profil">
+					<a class="no-border lbh" href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" >
+						<img class="img-responsive thumbnail" id="menu-small-thumb-profil" 
+						src="<?php echo $profilMediumImageUrl; ?>" alt="image">
+						<span id="menu-my-profil-text">Mon profil</span>
+					</a>
+				</div>
 			</div>
 
 
@@ -73,6 +76,14 @@
 			        <i class="fa fa-gavel" style="font-size: 1em!important;"></i> 
 			        <i class="fa fa-cogs" style="font-size: 1em!important;"></i> 
 			        <br>Coopération
+			    </a>
+		    </div>
+		    
+		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			    <a class="btn bg-red lbh padding-5" 
+			    	href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>">
+			        <i class="fa fa-sign-out"></i>
+			        <br><?php echo Yii::t("person","Sign out"); ?>
 			    </a>
 		    </div>
 			   

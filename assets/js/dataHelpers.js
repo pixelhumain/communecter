@@ -127,6 +127,15 @@ function addCustomValidators() {
 	    //Check unique username
 	   	return isUniqueUsername(value);
 	}, "A user with the same username already exists. Please choose an other one.");
+
+	jQuery.validator.addMethod("inArray", function(value, element) {
+	    //Check authorized caracters
+		test = $.inArray( element, value );
+    	if (test >= 0) 
+    		return true;
+    	else
+    		return false;
+    }, "Invalid : please stick to given values.");
 }
 
 

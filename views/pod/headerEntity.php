@@ -309,7 +309,7 @@ $controler = Element::getControlerByCollection($type);
 		</div>
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
-			<?php if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
+			<?php //if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
 				<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
 					<?php if ($type==Person::COLLECTION){ ?>
 					<span class="tag label label-warning pull-right">
@@ -334,7 +334,7 @@ $controler = Element::getControlerByCollection($type);
 						} ?>
 					</div>
 				</div>
-			<?php } 
+			<?php //} 
 
 			?>
 

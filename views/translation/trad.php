@@ -42,6 +42,9 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"voteAbstain": "<?php echo Yii::t("common","voteAbstain")?>",
 		"voteUnclear": "<?php echo Yii::t("common","voteUnclear")?>",
 		"voteMoreInfo": "<?php echo Yii::t("common","voteMoreInfo")?>",
-		"voteDown": "<?php echo Yii::t("common","voteDown")?>"
+		"voteDown": "<?php echo Yii::t("common","voteDown")?>",
+		"postalCode" : "<?php echo Yii::t("common","Postal Code"); ?>",
+		"unknownPostalCode" : "<?php echo Yii::t("common","Unknown Postal Code"); ?>",
+		"city" : "<?php echo Yii::t("common","City"); ?>"
 };
 

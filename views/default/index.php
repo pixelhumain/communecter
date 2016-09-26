@@ -25,7 +25,9 @@
 
 	$cssAnsScriptFilesModule = array(
 		'/js/default/index.js',
+		'/js/default/formInMap.js',
 		'/js/default/globalsearch.js',
+		'/js/sig/findAddressGeoPos.js',
 		'/js/jquery.filter_input.js',
 		'/css/search.css',
 		'/css/floopDrawerRight.css',
@@ -221,6 +223,10 @@ var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 
+var tagsList = <?php echo json_encode(Tags::getActiveTags()) ?>;
+var eventTypes = <?php echo json_encode( Event::$types ) ?>;
+var organizationTypes = <?php echo json_encode( Organization::$types ) ?>;
+
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
 
@@ -242,8 +248,8 @@ jQuery(document).ready(function() {
     $('.main-btn-toogle-map').click(function(e){ showMap(); });
 
     $("#mapCanvasBg").show();
-    
-    $(".my-main-container").scroll(function(){
+
+    $(".my-main-container").bind("scroll", function(){
     	//console.log("scrolling my-container");
     	checkScroll();
     });

@@ -174,7 +174,8 @@ jQuery(document).ready(function() {
 
 var timeout;
 function startSearch(){
-	$(".my-main-container").off();
+	//Modif SBAR
+  //$(".my-main-container").off();
 	var name = $('#searchBarText').val();
 	if(inseeCommunexion != ""){
 		if(name.length>=3 || name.length == 0){

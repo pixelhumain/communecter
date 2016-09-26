@@ -2,9 +2,38 @@ var debug = true;
 var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
-	setTimeout( function () { checkPoll() }, 5000);
-
+	setTimeout( function () { checkPoll() }, 10000);
 });
+
+var prevStep = 0;
+var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
+var slides = {
+	explain1 : function() { showDefinition("explainCommunectMe")},
+	live : function() { loadByHash("#default.live")},
+	explain2 : function() { showDefinition("explainCartographiedeReseau")},
+	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	explain3 : function() { showDefinition("explainDemoPart")},
+	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
+	explain4 : function() { showDefinition("explainCommunecter")},
+	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
+	explain5 : function() { showDefinition("explainProxicity")},
+	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
+};
+function runslide(cmd)
+{
+	if(cmd == 0){
+		prevStep = null;
+		loadByHash("#default.live");
+	}
+
+	if( prevStep != null ){
+		slides[ steps[prevStep] ]();
+		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
+		setTimeout( function () { 
+			runslide();
+		 }, 8000);
+	}
+}
 
 function checkPoll(){
 	countPoll++;
@@ -22,7 +51,7 @@ function checkPoll(){
 		checkCommentCount();
 
 	if(countPoll < 100){
-		setTimeout( function () { checkPoll() }, 5000); //every5min
+		setTimeout( function () { checkPoll() }, 300000); //every5min
 		countPoll++;
 	}
 }
@@ -505,6 +534,7 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
+	"#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
@@ -579,7 +609,11 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 	currentUrl = hash;
 	allReadyLoad = true;
+	contextData = null;
 	$(".my-main-container").off(); 
+	console.log("LBH scroll shadows!");
+	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
+
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
@@ -631,13 +665,22 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
-function setTitle(str, icon, topTitle) { 
+function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
 	$(".moduleLabel").html( icon +" "+ str);
 	if(topTitle)
 		str = topTitle;
 	$(document).prop('title', ( str != "" ) ? str : "Communecter, se connecter à sa commune" );
+	if(notNull(keywords))
+		$('meta[name="keywords"]').attr("content",keywords);
+	else
+		$('meta[name="keywords"]').attr("content","communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre");
+	
+	if(notNull(shortDesc))
+		$('meta[name="description"]').attr("content",shortDesc);
+	else
+		$('meta[name="description"]').attr("content","Communecter : Connecter à sa commune, inter connecter les communs, un réseau sociétal pour un citoyen connecté et acteur au centre de sa société.");
 }
 
 //ex : #search:bretagneTelecom:all
@@ -724,7 +767,6 @@ function _checkLoggued() {
 Generic non-ajax panel loading process 
 **************/
 function showPanel(box,callback){ 
-
 	$(".my-main-container").scrollTop(0);
 
   	$(".box").hide(200);
@@ -926,6 +968,7 @@ function openMenuSmall () {
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	bindLBHLinks();
 }
 
 var selection;
@@ -983,7 +1026,8 @@ function  bindExplainLinks() {
 }
 
 function  bindLBHLinks() { 
-	$("a.lbh").off().click(function() {  
+	$(".lbh").off().on("click",function(e) {  		
+		e.preventDefault();
 		console.warn("***************************************");
 		console.warn("bindLBHLinks",$(this).attr("href"));
 		console.warn("***************************************");
@@ -1050,25 +1094,8 @@ function reloadNewsSearch(){
 maybe movebale into Element.js
 ***************************************** */
 
-var typeObj = {
-	"person" : {col:"citoyens",ctrl:"person"},
-	"persons" : {col:"citoyens",ctrl:"person"},
-	"citoyen" : {col:"citoyens",ctrl:"person"},
-	"citoyens" : {col:"citoyens",ctrl:"person"},
-	"organization" : {col:"organizations",ctrl:"organization"},
-	"organizations" : {col:"organizations",ctrl:"organization"},
-	"event" : {col:"events",ctrl:"event"},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
-	"project" : {col:"projects",ctrl:"project"},
-	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city"},
-	"entry" : {col:"surveys",ctrl:"survey"},
-	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"action" : {col:"actions",ctrl:"room"},
-	"actions" : {col:"actions",ctrl:"room"},
-	"discuss" : {col:"actionRooms",ctrl:"room"},
-}
+
+
 
 function  buildQRCode(type,id) { 
 		
@@ -1128,18 +1155,734 @@ function activateSummernote(elem) {
 	}
 }
 
-function exists(val){
-	return typeof val != "undefined";
+
+/* *********************************
+			ELEMENTS
+********************************** */
+
+
+function formatData(formData, collection,ctrl) { 
+	
+	formData.collection = collection;
+	formData.key = ctrl;
+
+	if(elementLocation){
+		//formData.multiscopes = elementLocation;
+		formData.address = elementLocation.address;
+		formData.geo = elementLocation.geo;
+	}
+
+	if( typeof formData.tags != "undefined" && formData.tags != "" )
+		formData.tags = formData.tags.split(",");
+	removeEmptyAttr(formData);
+
+	console.dir(formData);
+	return formData;
 }
-function notNull(val){
-	return typeof val != "undefined"
-			&& val != null;
+function saveElement ( formId,collection,ctrl ) 
+{ 
+	console.warn("saveElement",formId,collection);
+	formData = $(formId).serializeFormJSON();
+	formData = formatData(formData,collection,ctrl);
+	$.ajax( {
+    	type: "POST",
+    	url: baseUrl+"/"+moduleId+"/element/save",
+    	data: formData,
+    	dataType: "json",
+    	success: function(data){
+    		console.dir(data);
+			if(data.result == false){
+                toastr.error(data.msg);
+           	}
+            else { 
+                toastr.success(data.msg);
+                $('#ajax-modal').modal("hide");
+	        	loadByHash('#'+ctrl+'.detail.id.'+data.id)
+            }
+    	}
+    });
 }
+
+function openForm (type, afterLoad ) { 
+    console.warn("---------------"+type+" Form ---------------------");
+    elementLocation = null;
+    formType = type;
+    specs = typeObj[type];
+	if( specs.dynForm )
+	{
+		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
+		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
+	  	$("#ajax-modal-modal-body").html("<div class='row bg-white'>"+
+	  										"<div class='col-sm-10 col-sm-offset-1'>"+
+							              	"<div class='space20'></div>"+
+							              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+							              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
+							              	"</div>"+
+							              "</div>");
+	  	$('.modal-footer').hide();
+	  	$('#ajax-modal').modal("show");
+	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
+	  	buidDynForm(specs, afterLoad);
+	} else if( specs.form.url ) {
+		//charge le resultat d'une requete en Ajax
+		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
+	}else 
+		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
+}
+
+function buidDynForm(elementObj, afterLoad) { 
+	var form = $.dynForm({
+	      formId : "#ajax-modal-modal-body #ajaxFormModal",
+	      formObj : elementObj.dynForm,
+	      onLoad : function  () {
+	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
+	        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
+	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+	        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
+	      },
+	      onSave : function(){
+
+	      	if( elementObj.beforeSave && typeof elementObj.beforeSave == "function")
+	        	elementObj.beforeSave();
+
+	        if( elementObj.save )
+	        	elementObj.save("#ajaxFormModal");
+	        else
+	        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
+
+	        return false;
+	    }
+	});
+	console.dir(form);
+}
+
+var contextData = null;
+var typeObj = {
+	"person" : {
+		col : "citoyens" , 
+		ctrl : "person",
+		titleClass : "bg-yellow",
+		bgClass : "bgPerson",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Inviter quelqu'un",
+			    icon : "user",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        email : {
+			        	placeholder : "Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : false
+		            },
+			    }
+			}
+		}
+	},
+	"persons" : {col:"citoyens" , ctrl:"person"},
+	"citoyen" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person"},
+	"poi":{ 
+		col:"poi",
+		ctrl:"poi",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+			        location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags",
+		              "values" : tagsList
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			        },
+			        select :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : {
+		            		"person":"Person",
+		            		"organization":"Organisation",
+	                    	"event":"Event",
+	                    	"project":"Project"
+		            	}
+		            },
+		            selectMultiple :{
+		            	"inputType" : "selectMultiple",
+		            	"placeholder" : "Thematique",
+		            	"options" : {
+		            		"sport":"Sport",
+	                    	"agriculture":"Agricutlture",
+	                    	"culture":"Culture",
+	                    	"urbanisme":"Urbanisme",
+		            	}
+		            },
+
+		            date : {
+		                "inputType" : "date",
+		                "icon" : "fa fa-calendar",
+		                "placeholder":"Input Type Date"
+		            },
+
+		            daterange : {
+		                "inputType" : "daterange",
+		                "icon" : "fa fa-clock-o",
+		                "placeholder":"Input Type daterange"
+		            },
+		            properties : {
+		                "inputType" : "properties",
+		                "placeholder" : "Key",
+		                "placeholder2" : "Value",
+		                "value":[]
+		            },
+			    }
+			}
+		}
+	},
+	"organization" : { 
+		col:"organizations", 
+		ctrl:"organization", 
+		icon : "group",
+		titleClass : "bg-green",
+		bgClass : "bgOrga",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une Organisation",
+			    icon : "group",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["organizations"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : organizationTypes
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url : "/"+moduleId+"/organization/addorganizationform",
+			title : "Ajouter une Organisation"
+		}*/
+	},
+
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {
+		col:"events",
+		ctrl:"event",
+		icon : "calendar",
+		titleClass : "bg-orange",
+		bgClass : "bgEvent",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un évènement",
+			    icon : "calendar",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"subEvent" : function(){
+			    			    		
+			    		if(contextData.type == "event"){
+			    			$("#ajaxFormModal #parentId").removeClass('hidden');
+			    		
+		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
+			    			else if ( contextData && contextData.id ){
+				    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    			}
+			    			
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+
+
+			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
+			    		}
+			    		else {
+
+				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+contextData.type+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
+			    			else if( contextData && contextData.id )
+				    			$("#ajaxFormModal #organizerId").val( contextData.id );
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #organizerType").val( contextData.type );
+			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
+			    		}
+			    	}
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe ou les membres de l'organisation , planifier des évènements, des projets, partager vos actions...</p>",
+		            },
+		            name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["events"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        organizerId :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Qui organise ?",
+		            	"options" : firstOptions(),
+		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
+			            init : function(){
+			            	$("#ajaxFormModal #organizer ").off().on("change",function(){
+			            		
+			            		organizerId = $(this).val();
+			            		if(organizerId == "dontKnow" )
+			            			organizerType = "dontKnow";
+			            		else if( $('#organizer').find(':selected').data('type') && typeObj[$('#organizer').find(':selected').data('type')] )
+			            			organizerType = typeObj[$('#organizer').find(':selected').data('type')].ctrl;
+			            		else
+			            			organizerType = "person";
+
+			            		console.warn( organizerId+" | "+organizerType );
+			            		$("#ajaxFormModal #organizerType ").val(organizerType);
+			            	});
+			            }
+		            },
+			        organizerType : {
+			            "inputType" : "hidden"
+			        },
+			        parentId :{
+		            	"inputType" : "select",
+		            	"class" : "hidden",
+		            	"placeholder" : "Fait parti d'un évènement ?",
+		            	"options" : {
+		            		"":"Pas de Parent"
+		            	},
+		            	"groupOptions" : myAdminList( ["events"] )
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d\'évènnment",
+		            	"options" : eventTypes
+		            },
+
+		            /*allday : {
+		            	"inputType" : "checkbox",
+		            	"switch" : {
+		            		"onText" : "Oui",
+		            		"offText" : "Non",
+		            		"labelText":"Journée",
+		            		//"onChange" : function(){}
+		            	}
+		            },*/
+		            startDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de début",
+			            "rules" : { "required" : true }
+		            },
+		            endDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de fin",
+			            "rules" : { "required" : true }
+		            },
+		            public : {
+		            	"inputType" : "checkbox",
+		            	"switch" : {
+		            		"onText" : "Privé",
+		            		"offText" : "Public",
+		            		"labelText":"Type"
+		            	}
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url:"/"+moduleId+"/event/eventsv",
+			title : "Ajouter un évènement"
+		}*/
+	},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {
+		col:"projects",
+		ctrl:"project",
+		icon : "lightbulb-o",
+		titleClass : "bg-purple",
+		bgClass : "bgProject",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un Projet",
+			    icon : "lightbulb-o",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		globalSearch($(this).val(),["projects"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url:"/"+moduleId+"/project/projectsv",
+			title : "Ajouter un projet"
+		}*/
+	},
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city"},
+	"entry" : {col:"surveys",ctrl:"survey"},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {col:"actions",ctrl:"room"},
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+};
+/*{
+"organization" : {
+	"label" : "Organisations",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+},
+"project" : {
+	"label" : "Projets",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+}, 
+"person" : {
+	"label" : "Personnes",
+	"options" : {
+		xxxxx : "Cococ",
+		yyy : "Kiki",
+		tttt : "Xxoxoxoxo"
+	}
+}*/
+function  firstOptions() { 
+	var res = {
+		"dontKnow":"Je ne sais pas",
+	};
+	res[userId] = "Moi";
+	return res;
+ }
+
+function myAdminList (ctypes) { 
+	var myList = {};
+	if(userId){
+		//types in MyContacts
+		var connectionTypes = {
+			organizations : "members",
+			projects : "contributors",
+			events : "attendees"
+		};
+		$.each( ctypes, function(i,ctype) {
+			var connectionType = connectionTypes[ctype];
+			myList[ ctype ] = { label: ctype, options:{} };
+			$.each( myContacts[ ctype ],function(id,elemObj){
+				//console.log(ctype+"-"+id+"-"+elemObj.name);
+				if( notNull(elemObj.links) && notNull(elemObj.links[connectionType]) && notNull(elemObj.links[connectionType][userId]) && notNull(elemObj.links[connectionType][userId].isAdmin) ){
+					//console.warn(ctype+"-"+id+"-"+elemObj.name);
+					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
+				}
+			});
+		});
+		console.dir(myList);
+	}
+	return myList;
+}
+
+function globalSearch(searchValue,types){
+	
+	searchType = (types) ? types : ["organizations", "projects", "events", "needs"];
+
+	var data = { 	 
+		"name" : searchValue,
+		// "locality" : "", a otpimiser en utilisant la localité 
+		"searchType" : searchType,
+		"indexMin" : 0,
+		"indexMax" : 50
+	};
+	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
+	$("#similarLink").show();
+	$.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             console.log("error"); console.dir(data);
+          },
+          success: function(data){
+            var str = "";
+ 			var compt = 0;
+
+ 			$.each(data, function(id, elem) {
+  				console.log(elem);
+  				city = "";
+				postalCode = "";
+				var htmlIco ="<i class='fa fa-users fa-2x'></i>";
+				if(elem.type){
+					typeIco = elem.type;
+					htmlIco ="<i class='fa "+mapIconTop[elem.type] +" fa-2x'></i>";
+					}
+					if (elem.address != null) {
+						city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
+						postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+					}
+					if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
+						var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
+					}
+					str += 	"<div class='padding-5 col-sm-6 col-xs-12 light-border'>"+
+								"<a href='#' data-id='"+ elem.id +"' data-type='"+ typeIco +"'>"+
+								"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+								"</a></div>";
+					compt++;
+  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
+  			});
+			
+			if (compt > 0) {
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+			} else {
+				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
+			}
+
+			
+          }
+ 	});
+
+	
+}
+var elementLocation = null;
+var centerLocation = null;
+var elementLocations = [];
+var countLocation = 0;
+function copyMapForm2Dynform() { 
+	//if(!elementLocation)
+	//	elementLocation = [];
+	elementLocation = {
+		address : {
+			"@type" : "PostalAddress",
+			addressCountry : $("[name='newElement_country']").val(),
+			streetAddress : $("[name='newElement_streetAddress']").val(),
+			addressLocality : $("[name='newElement_city']").val(),
+			postalCode : $("[name='newElement_cp']").val(),
+			codeInsee : $("[name='newElement_insee']").val()
+		},
+		geo : {
+			"@type" : "GeoCoordinates",
+			latitude : $("[name='newElement_lat']").val(),
+			longitude : $("[name='newElement_lng']").val()
+		},
+		geoPosition : {
+			"@type" : "Point",
+			"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
+		}
+	};
+	elementLocations.push(elementLocation);
+	if(!centerLocation){
+		centerLocation = elementLocation;
+		elementLocation.center = true;
+	}
+	console.dir(elementLocations);
+	//elementLocation.push(positionObj);
+}
+
+function addLocatinoToForm()
+{
+	console.dir(elementLocation);
+	var strHTML = "";
+	if(elementLocation.address.addressCountry)
+		strHTML += elementLocation.address.addressCountry;
+	if(elementLocation.address.postalCode)
+		strHTML += " ,"+elementLocation.address.postalCode;
+	if(elementLocation.address.addressLocality)
+		strHTML += " ,"+elementLocation.address.addressLocality;
+	if(elementLocation.streetAddress)
+		strHTML += " ,"+elementLocation.address.streetAddress;
+	btnSuccess = (countLocation == 0) ? "btn-success" : "";
+	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
+			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
+			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i></a> <br/>";
+	$(".locationlocation").prepend(strHTML);
+	countLocation++;
+}
+
+function removeLocation(ix){
+	elementLocation = null;
+	elementLocations.splice(ix,1);
+	//TODO check if this center then apply on first
+	$(".locationEl"+countLocation).remove();
+}
+
+function setAsCenter(ix){
+
+	$(".centers").removeClass('btn-success');
+	$.each(elementLocations,function(i, v) { 
+		if(v.center)
+			delete v.center;
+	})
+	$(".centers").removeClass('btn-success');
+	$(".center"+ix).addClass('btn-success');
+	centerLocation = elementLocations[ix];
+	elementLocations[ix].center = true;
+}
+
 function notEmpty(val){
 	return typeof val != "undefined"
 			&& val != null
 			&& val != "";
 }
+
 function activeMenuElement(page) {
 	console.log("-----------------activeMenuElement----------------------");
 	listBtnMenu = [	'detail', 'news', 'directory', 'gallery', 'addmembers', 'calendar'];
@@ -1148,3 +1891,78 @@ function activeMenuElement(page) {
 	});
 	$(".btn-menu-element-"+page).addClass("active");
 }
+
+function shadowOnHeader() {
+	var y = $(".my-main-container").scrollTop(); 
+    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+    else { $('.main-top-menu').removeClass('shadow'); }
+}
+
+/*
+elementJson = {
+    //reuired
+    "name" : "",
+    "email" : "",
+    "creator" :"" ,
+
+    "url":"",
+    "shortDescription" : "",	
+	"description" : "",
+
+	"address" : {
+        "@type" : "PostalAddress",
+        "codeInsee" : "",
+        "addressCountry" : "",
+        "postalCode" : "",
+        "addressLocality" : "",
+        "streetAddress" : ""
+    },
+    "geo" : {
+        "@type" : "GeoCoordinates",
+        "latitude" : "-21",
+        "longitude" : "55"
+    },
+    "geoPosition" : {
+        "type" : "Point",
+        "coordinates" : [ 55,  -21]
+    },
+
+    "tags" : [],
+    "scopes" : [],
+
+    "profilImageUrl" : "",
+    "profilThumbImageUrl" : "",
+    "profilMarkerImageUrl" : "",
+    "profilMediumImageUrl" : "",
+
+    "isOpenData":"",
+
+    //generated
+    "updated" :"" ,
+    "modified" :"" ,
+    "created" :"",
+    
+}
+
+organizationJson = {
+	"telephone":"",
+    "mobile":"",
+    "fixe":"",
+    "fax":"",
+    "type":"",
+}
+
+eventJson = {
+    "type" : "",
+    "allDay" : true,
+    "public" : true,
+    "startDate" : "",
+    "endDate" : "",
+}
+
+var projectJson = {
+    "startDate" : "",
+    "endDate" :"" 
+}
+
+*/

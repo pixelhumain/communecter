@@ -201,10 +201,6 @@ if(!@$_GET["renderPartial"])
 			});
 		});
 
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
 		$('#newContributors #contributorSearch').keyup(function(e){
 		    var searchValue = $('#newContributors #contributorSearch').val();
 		    if(searchValue.length>2){

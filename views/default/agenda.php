@@ -198,7 +198,7 @@ jQuery(document).ready(function() {
   //     startSearch(0, indexStepInit);
   // });
 
-  $(".my-main-container").scroll(function(){
+  $(".my-main-container").bind('scroll', function(){
     if(!loadingData && !scrollEnd){
         var heightContainer = $(".my-main-container")[0].scrollHeight;
         var heightWindow = $(window).height();

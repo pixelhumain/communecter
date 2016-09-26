@@ -10,8 +10,18 @@
 [ ] Invité par le phone
 [ ] partager le lien vers lappli dans l'email 
 
+
+[ ] ajouter un event a une orga 
+
 * ************************************************************    
-* Version 0.16 (???) : Vision
+
+Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action 
+De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". 
+A la base j'avais mis une date de fin qui avait été dépassée, 
+j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
+
+* ************************************************************    
+* Version 0.16 (début oct) : en cours
 * ************************************************************    
 
 ** @Tango 
@@ -60,37 +70,57 @@
 
 
 ** @Tib 
-  [???] multi scope on element forms
-  [ ] Count requests DB per page
+  [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+  
+  [ ] delete empty element
+  
+  [ ] Count requests DB per page
+  [ ] moving discussion polling to discussion page instead of communecter.js
+  
   [ ] finish fromNow method
-  [ ] Apres photo proposer un ajout element Autocomplete de gens existant
-    ou analyse du desc
-    [X] connected to mention
-    [X] generate basic element code
-    [ ] on press send 
-      [ ] parse and build post 
-      [ ] post proper ajax
-    [ ] insert from texte sample
-        with autocomplete inside smart texterea 
-        when an attribute is typed, possible content types can be proposed
-        @>Name > autocomplete cross Element acteurs orga, people
-        @add: > prompt le type > et genere les champs 
-        >type:organization 
-        >name:xxx
-        >email: 
-        >admin:A-M-?
-        >adr:
-        >cp:
-        >desc:
-        >latlon:get from GPS if available  
-            Enter > recognizes the @type > and imports  
+  
+  [X] connected to mention
+  [X] generate basic element code
+  [X] parse and build post genericaly jsonHelper.stringFormtoJson
+  [X] on press send 
+    [X] post proper ajax
+  [X] build a dynform for a simplest element POI 
+    [X] inside a modal
+  [X] url form in modal 
+    [X] personnalisé 
+    [X] le scroll marche pas
+  [ ] elements to simple dynform 
+    [X] orga simplified to name, type, location btn
+      [X] validate exist using globalSearch works on any element
+    [X] project to name, location btn
+    [ ] event to organizer, name, type, allday, dates, location btn
+      [X] organizer select & parent Id based on myContacts var from index.php
+      [X] parent Event : load param ajax
+        [ ] show only ongoing or event to come 
+      [ ] simplify add for sub events
+        [ ] préremplir les dates , lieu
+      [X] connecté l'ajout new subEvent aux neaux formulaires
+    [ ] connect locality data from copyMapForm2Dynform()
+    [ ] POI et Element de base : name,desc, url, location,photo
+      periscope,youtube,twitter journal
+      [ ] link to parent
+      [ ] add a btn on any parent add POI
+      [ ] can have a parent, Type & Id
+      [ ] place avec geoloc 
+      [ ] Thing sans geoloc
+      [ ] faire un formulaire evolutif
+      [ ] stats localisé
+      [ ] add photo  
+    [X] save process
+      [X] Element::save 
+        [X] params containing map using a json source base + specific attributes
+          - { element: {}, orga:{} }
+      [X] dataBinding validation process
+    [X] parse and build post genericaly jsonHelper.stringFormtoJson
+    [X] on press send post proper ajax
   [X] added middle click to notifications
   [X] switched QRcodes to full URLs, they can then be parsed
-  [ ] one input add
-  [ ] POI et Element de base (0.16??) : name,desc, url, location,photo
-    periscope,youtube,twitter journal
-  [ ] delete empty element
   
 ** @Rapha et Clement
 
@@ -104,12 +134,24 @@
       [X] Batch pour ajouter "seePreferences" au user.
     [X] Batch qui remet tout les Preférence au niveau de base
     [ ] Vérifier qu'au niveau de l'api c'est géré
+  [ ] Traduction
+    [ ] Add members et tooltip
+  [ ] Bugs 
+    [ ] SI on change la ville du user, et qu'on clique sur repositionner alors il y une erreur
+    [ ] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
+    [ ] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
+    [ ] Impossible de mettre les tags a vide
 
+  [ ] Caché les consoles.log
+    [ ] news : lorsqu'on ecrit sur le message 
+        hidden slidupScopetagsMin false
+        slidupScopetagsMin false
 
 ** @Rapha
 
   *** Priority 1
-
+    [ ] bug : open edition : on peut pas ajouter de sous event
+      - info : ca marche que pour les admins > devinir admin et ca marche
     [X] remonté tes points de la 0.15
     [X] Vérifier que les badges s'ajouter a la création d'une entité
     [X] Evénement : admin + open edition
@@ -189,11 +231,12 @@
     [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
     [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
     [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
-    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... )
-    [ ] btn utiliser la position GPS 
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... ) [[https://github.com/pixelhumain/communEvent/issues/112]]
+    [ ] btn utiliser la position GPS [[https://github.com/pixelhumain/communEvent/issues/113]]
     [ ] simulation du village et du systeme QR code
     [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
     [ ] Photo taille originale
+    [ ] utilisé ma position > fait un reverse geocodage pour trouver l'adresse
 
 
 * ************************************************************    

@@ -350,7 +350,7 @@ var formValidator = function() {
 	                    else { 
 	                        toastr.success(data.msg);
                         	addFloopEntity(data.id, "organizations", data.newOrganization);
-							//loadByHash('#organization.detail.id.'+data.id);
+							loadByHash('#organization.detail.id.'+data.id);
 							//$.hideSubview();
 							$.unblockUI();
 	                    }
@@ -478,7 +478,7 @@ jQuery(document).ready(function() {
 					$("#similarOrganizationLink").hide();
 				}
 
-				$("#addOrganization #listOrgaSameName").html(str);
+				$("#listOrgaSameName").html(str);
 			}	
 		})
 	}

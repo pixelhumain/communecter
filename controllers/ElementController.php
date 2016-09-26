@@ -6,7 +6,7 @@
  * Date: 15/08/13
  */
 class ElementController extends CommunecterController {
-    const moduleTitle = "Évènement";
+    const moduleTitle = "Element";
     
   protected function beforeAction($action) {
     parent::initPage();
@@ -21,7 +21,10 @@ class ElementController extends CommunecterController {
           'detail'                => 'citizenToolKit.controllers.element.DetailAction',
           'getalllinks'           => 'citizenToolKit.controllers.element.GetAllLinksAction',
           'directory'             => 'citizenToolKit.controllers.element.DirectoryAction',
-          'addmembers'             => 'citizenToolKit.controllers.element.AddMembersAction'
+          'addmembers'             => 'citizenToolKit.controllers.element.AddMembersAction',
+          'aroundme'              => 'citizenToolKit.controllers.element.AroundMeAction',
+          'updatefield' => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'save'        => 'citizenToolKit.controllers.element.SaveAction'
       );
   }
 }

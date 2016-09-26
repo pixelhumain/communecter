@@ -1015,25 +1015,6 @@ else
 		});
 
 
-		/*$('#telephone').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			mode: 'popup',
-			value: returntel(),
-			select2: {
-				tags:  <?php if(isset($telephone)) echo json_encode($telephone); else echo json_encode(array())?>,
-				tokenSeparators: [",", "/", " "],
-				width: 200,
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-		});*/
-
 		$('#mobile').editable({
 	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 	        mode : 'popup',

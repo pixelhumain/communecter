@@ -222,9 +222,9 @@ $(function(){
     });
 
     PostalCode.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
-        tpl: '<div class="editable-address"><label><span>PostalCode : </span><input type="text" name="postalCode" class="input-small" id="postalCode"></label></div>'+
-              '<div id="postalCodeError" style="display: none;"><span class="error">Unknown Postal Code</span></div>'+
-             '<div class="editable-address" id="cityDiv" style="display: none"><label><span>City : </span><select name="city" class="input-small" id="city"><option></option></label></div>',
+        tpl: '<div class="editable-address"><label><span>'+trad.postalCode+' : </span><input type="text" name="postalCode" class="input-small" id="postalCode"></label></div>'+
+              '<div id="postalCodeError" style="display: none;"><span class="error">'+trad.unknownPostalCode+'</span></div>'+
+             '<div class="editable-address" id="cityDiv" style="display: none"><label><span>'+trad.city+' : </span><select name="city" class="input-small" id="city"><option></option></label></div>',
         inputclass: ''
     });
 

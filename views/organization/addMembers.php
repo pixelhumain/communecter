@@ -722,10 +722,6 @@ Menu::organization($organization);
 			});
 		});
 
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
 	};
 	function initFormAddMember(){ //checkMail
 		$("#divImportFile").hide();
