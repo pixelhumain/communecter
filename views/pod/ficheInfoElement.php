@@ -124,11 +124,11 @@ else
 	    float:left;
 	}
 
-    .panel-title{
+    /*.panel-title{
     	font-weight: 200;
     	font-size: 21px;
     	font-family: "homestead";
-    }
+    }*/
 
     #telegramAccount {
 	    float: left;
