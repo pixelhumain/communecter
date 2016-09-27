@@ -153,6 +153,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	    min-height:25px;
 	}
 
+/*
+@media screen and (max-width: 767px) {
+	.wysihtml5-toolbar{
+		display: none;
+	}
+}*/
 
 </style>
 
@@ -320,42 +326,44 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	//if(!empty($admin) && $admin == true){
 	//<!-- class=" col-lg-6 col-md-6 col-sm-6 col-xs-8"--> ?>
 
-	<?php if($type==Project::COLLECTION){ ?>
-	<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
-		<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-			data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project maturity") ?>"
-			class="entityDetails">
-			<?php if(isset($element["properties"]["avancement"])){ 
-				//idea => concept => Started => development => testing => mature
-				if($element["properties"]["avancement"]=="idea")
-					$val=5;
-				else if($element["properties"]["avancement"]=="concept")
-					$val=20;
-				else if ($element["properties"]["avancement"]== "started")
-					$val=40;
-				else if ($element["properties"]["avancement"] == "development")
-					$val=60;
-				else if ($element["properties"]["avancement"] == "testing")
-					$val=80;
-				else 
-					$val=100;
-				echo Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id);
-			} ?>
-		</a>
-	</div>
-	<?php } ?>
-
-
-	<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
-	<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
-		<a href="javascript:;" class="cobtn hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
-		<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
-	</div>
-	<?php } ?>
+	
 
 
 
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
+		<?php if($type==Project::COLLECTION){ ?>
+			<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
+				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
+					data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project maturity",null,Yii::app()->controller->module->id) ?>"
+					class="entityDetails pull-left">
+					<?php if(isset($element["properties"]["avancement"])){ 
+						//idea => concept => Started => development => testing => mature
+						if($element["properties"]["avancement"]=="idea")
+							$val=5;
+						else if($element["properties"]["avancement"]=="concept")
+							$val=20;
+						else if ($element["properties"]["avancement"]== "started")
+							$val=40;
+						else if ($element["properties"]["avancement"] == "development")
+							$val=60;
+						else if ($element["properties"]["avancement"] == "testing")
+							$val=80;
+						else 
+							$val=100;
+						echo Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id);
+					} ?>
+				</a>
+			</div>
+			<?php } ?>
+
+
+			<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
+			<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
+				<a href="javascript:;" class="cobtn hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
+				<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
+			</div>
+		<?php } ?>
+
 		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
 			<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding" style="padding-right:10px !important;">
 				<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
@@ -377,7 +385,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>
 		<?php } ?>
 
-		<div class="text-dark lbl-info-details <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
+		<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
 			<?php if($type==Event::COLLECTION){?>
 				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
 			<?php }else{ ?>
@@ -385,7 +393,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php } ?>
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
-			<div class="col-md-6 col-sm-6">
+			<div class="col-md-6 col-sm-6  no-padding">
 				<?php if(Preference::showPreference($element, $type, "streetAddress", Yii::app()->session["userId"])){ ?>
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
@@ -394,17 +402,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a> 
 					<br>
 				<?php } ?>
-
-				<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
-				 <a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
-					data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
-				</a> 
-				<br>
-				
-				<i class="fa fa-globe fa_addressCountry  hidden"></i> 
-				<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
-					data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
-				</a> 
+				<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
+					<a href="#" id="address" 
+					   data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
+					</a> 
+					<br>
+					
+					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
+					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
+						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
+					</a> 
+				</div>
 				<br>
 
 				<?php 
@@ -578,14 +588,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			</div>
 		<?php } ?>
 		<div id="divShortDescription" class="col-sm-12 col-xs-12 col-md-12 no-padding">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Short Description</div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","shortDescription") ?>" class="editable editable-click">
+			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
+			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Write the project's short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
 				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
 			</a>	
 			
 		</div>
 
-		<div class="col-sm-12 col-xs-12 col-md-12 no-padding">
+		<div class="col-sm-12 col-xs-12 col-md-12 no-padding margin-top-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>

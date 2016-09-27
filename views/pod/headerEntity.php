@@ -69,7 +69,7 @@ $controler = Element::getControlerByCollection($type);
 		<?php }else { ?>
 			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
 			background-repeat: repeat;
-			background-size: 100%;
+			background-size: 200%;
 		<?php } ?>
 		/*background-position: left bottom -40px;*/
 		moz-box-shadow: 0px 2px 4px -1px #656565;
@@ -125,6 +125,11 @@ $controler = Element::getControlerByCollection($type);
 	}
 
 
+	@media screen and (max-width: 767px) {
+		.headerEntity{
+			background-size: 360%;
+		}
+	}
 	@media screen and (max-width: 1024px) {
 		.headerEntity .lbl-entity-name{
 			font-size:20px;
@@ -301,7 +306,7 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs" style="z-index:300000;">
+			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
 				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
 			</div>
 
