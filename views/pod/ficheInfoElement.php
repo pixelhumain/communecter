@@ -144,6 +144,26 @@ else
 		cursor: pointer;
 	}
 
+	 blockquote {
+	    margin: 0 0 10px;
+	    font-size: 15px;
+	    line-height: 1.2;
+	}
+    .panel-heading{
+    	padding: 7px 10px 5px 10px;
+		min-height: 25px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 15px;
+    	/*font-family: "homestead";*/
+    }
+    .panel-scroll {
+	    height: unset !important;
+	    min-height:25px;
+	}
+
+
 </style>
 
 <div class="panel panel-white">
