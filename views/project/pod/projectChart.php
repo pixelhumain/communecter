@@ -17,7 +17,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 <div class="panel panel-white">
 
 	<div class="panel-heading border-light bg-dark">
-		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece"></i> <?php echo Yii::t("project","CHART",null,Yii::app()->controller->module->id) ?></span></h4>	
+		<h4 class="panel-title"><span><i class="fa fa-puzzle-piece"></i> <?php echo Yii::t("project","Chart",null,Yii::app()->controller->module->id) ?></span></h4>	
 	</div>
 	<div class="panel-tools">
 			

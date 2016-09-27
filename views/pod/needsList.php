@@ -52,7 +52,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<?php if (empty($needs)){ ?>
 				<div id="infoPodOrga" class="padding-10 info-no-need">
 					<blockquote> 
-						<?php echo Yii::t("need","Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need",null,Yii::app()->controller->module->id); ?>
+						Faites connaître vos besoins pour développer votre activité : matériels, savoirs, compétences...
+						<?php //echo Yii::t("need","Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need",null,Yii::app()->controller->module->id); ?>
 					</blockquote>
 				</div>
 			<?php } ?>

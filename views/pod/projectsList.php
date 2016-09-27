@@ -81,7 +81,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<?php if(isset($projects) && count($projects) == 0) {?>
 			<div id="info" class="padding-10">
 				<blockquote>
-					<?php echo Yii::t("project","Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects",null,Yii::app()->controller->module->id) ?>
+					Créez des projets ...
+					<?php //echo Yii::t("project","Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects",null,Yii::app()->controller->module->id) ?>
 				</blockquote>
 			</div>
 		<?php } ?>

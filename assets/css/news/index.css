@@ -29,12 +29,16 @@
 .date_separator span{
 	font-family: "homestead";
 	font-size: 21px;
-	background-color: white !important;
+	background-color: #fff !important;
 	color: #315C6E !important;
 	border: none !important;
-	border-radius: 0px !important;
-	border-bottom: 1px dashed #315C6E !important;
+	border-radius: 10px !important;
 
+	-moz-box-shadow: 0px 0px 7px -2px #656565;
+	-webkit-box-shadow: 0px 0px 7px -2px #656565;
+	-o-box-shadow: 0px 0px 7px -2px #656565;
+	box-shadow: 0px 0px 7px -2px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=224, Strength=3);
 }
 
 #newsHistory{
@@ -358,4 +362,8 @@ div.timeline .newsTL > .newsFeed:nth-child(2n+1) .timeline_element:before {
 }
 .tools_bar{
 	border-bottom: 1px solid lightgrey;
+}
+
+#newsHistory .panel, #newsHistory .panel-body{
+	background-color: transparent !important;
 }

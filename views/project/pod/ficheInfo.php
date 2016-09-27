@@ -112,11 +112,11 @@ progress[value]::-moz-progress-bar {
     -webkit-linear-gradient( left, #09c, #ff0);
 }
 
-	.panel-title{
+	/*.panel-title{
 		font-weight: 200;
 		font-size: 21px;
 		font-family: "homestead";
-	}
+	}*/
 
 	.entityTitle{
       background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
@@ -156,11 +156,11 @@ progress[value]::-moz-progress-bar {
       font-size: 17px;
 	  margin-top: 5px;
     }
-    .panel-title{
+    /*.panel-title{
     	font-weight: 200;
     	font-size: 21px;
     	font-family: "homestead";
-    }
+    }*/
     #fileuploadContainer{
     	z-index:0 !important;
     }
@@ -186,14 +186,33 @@ progress[value]::-moz-progress-bar {
     	text-decoration: none !important;
     }
 
+    blockquote {
+	    margin: 0 0 10px;
+	    font-size: 15px;
+	    line-height: 1.2;
+	}
+    .panel-heading{
+    	padding: 7px 10px 5px 10px;
+		min-height: 25px;
+    }
+    .panel-title{
+    	font-weight: 200;
+    	font-size: 15px;
+    	/*font-family: "homestead";*/
+    }
+    .panel-scroll {
+	    height: unset !important;
+	    min-height:25px;
+	}
+
 </style>
 
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark">
 				<i class="fa fa-info-circle"></i> 
-				<?php echo Yii::t("project","PROJECT DESCRIPTION",null,Yii::app()->controller->module->id) ?>
+				<?php echo Yii::t("project","Project description",null,Yii::app()->controller->module->id) ?>
 				<?php if ($openEdition==true) { ?>
-					<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					<span class="pull-right tooltips text-green" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style=""><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 					
 				<?php } ?>
 		</h4>

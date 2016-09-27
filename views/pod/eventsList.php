@@ -13,8 +13,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	</div>
 	<div class="panel-tools">
 		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>
-			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'event','subEvent' )">
-	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
+			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'event','subEvent' )">
+	    		<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>
 	    	</a>
 	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()"">
 	    		
@@ -31,11 +31,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<tbody>
 					<?php
 					$nbOldEvents = 0;
+					$nbEventVisible = 0;
 					if(isset($events) && count($events)>0 ) { 
 						foreach ($events as $e) {
 							if (@$e["endDate"] && @$e["endDate"]->sec > time()) {
 								$eventStyle = "";
 								$eventClass = "";
+								$nbEventVisible++;
 							} else {
 								$eventStyle = "display:none;";
 								$eventClass = "oldEvent";
@@ -115,16 +117,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				</tbody>
 			</table>
 			
-		<?php if(isset($events) && count($events) == 0 ) { ?>
+		<?php if( $nbEventVisible == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
 					<?php 
 						if($contextType==Event::CONTROLLER)
 							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
 						else
-							$explain="Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
-						echo Yii::t("event",$explain); 
+							$explain="Publiez les événements que vous organisez";
+						//"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
+						//echo Yii::t("event",$explain); 
 					?>
+					Publiez les événements que vous organisez en relation avec votre activité
 				</blockquote>
 			</div>
 		<?php } ?>

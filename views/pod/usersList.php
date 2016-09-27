@@ -62,7 +62,7 @@
 	}
 ?>
 	<div class="panel panel-white user-list">
-		<div class="panel-heading border-light bg-dark">
+		<div class="panel-heading border-light bg-orange">
 			<h4 class="panel-title"><i class="fa fa-connectdevelop"></i> <?php echo $userCategory ?></h4>
 			
 		</div> 

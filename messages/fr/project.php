@@ -15,7 +15,9 @@ return array(
 	"PROJECT TIMELINE" => "VIE DU PROJET",
 	"PROJECT INFORMATIONS" => "INFORMATIONS DU PROJET",
 	"PROJECT DESCRIPTION" => "DESCRIPTION DU PROJET",
+	"Project description" => "Description du projet",
 	"CHART" => "CHARTE",
+	"Chart" => "Charte",
 	//Informations 
 	"Maturity" => "Maturité",
 	"idea" => "Idée",
