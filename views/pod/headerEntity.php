@@ -572,7 +572,76 @@ else if(contextType == "<?php echo Project::COLLECTION ?>")
 	contextIcon = "circle text-purple";
 else
 	contextIcon = "circle";
-
+var mapUrl = { 	
+	"detail": 
+		{ 
+			"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
+		} ,
+	"detail.edit": 
+		{ 
+			"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+			"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : {"modeEdit":true}
+		},
+	"news": 
+		{ 
+			"url"  : "news/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?isFirst=1&", 
+			"hash" : "news.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
+		} ,
+	"directory": 
+		{ 
+			"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
+			"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>"
+		} ,
+	"gallery" :
+		{ 
+			"url"  : "gallery/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "gallery.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
+		} ,
+	"addmembers" :
+		{ 
+			"url"  : "element/addmembers/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "element.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
+		} ,
+	"addtimesheet":
+		{
+			"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
+			"hash" : "#gantt.addtimesheetsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+			"data" : null
+		},
+	"addchart":
+		{
+			"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "#project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
+	
+		},
+	"addneed":
+		{
+			"url"  : "need/addneedsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
+			"hash" : "#need.addneedsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+			"data" : null
+	
+		},
+	/* "need":
+		{
+			"url"  : "need/detail/id/"+id+"?", 
+			"hash" : "#need.detail.id."+id,
+			"data" : null
+		}, */
+	"calendarview":
+		{
+			"url"  : "event/calendarview/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "#event.calendarview.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null							
+		},
+};
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
 	if(loadAllLinks){
@@ -589,7 +658,8 @@ jQuery(document).ready(function() {
 				console.log(obj);
 				Sig.restartMap();
 				Sig.showMapElements(Sig.map, obj);	
-				contextMap = obj;	
+				contextMap = obj;
+				mapUrl["directory"]["data"] = {"links" : contextMap};
 				$(".communityBtn").removeClass("hide");
 			},
 			error: function (error) {
@@ -601,6 +671,7 @@ jQuery(document).ready(function() {
 	} else {
 		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
+		mapUrl["directory"]["data"] = {"links" : contextMap};
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);	
 		$(".communityBtn").removeClass("hide");
@@ -741,96 +812,40 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	var mapUrl = { 	"detail": 
-						{ 
-							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"detail.edit": 
-						{ 
-							"url"  : "element/detail/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							//"hash" : "element.detail.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							"hash" : "<?php echo $controler ?>.detail.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : {"modeEdit":true}
-						},
-					"news": 
-						{ 
-							"url"  : "news/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?isFirst=1&", 
-							"hash" : "news.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"directory": 
-						{ 
-							"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-							"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : {"links":contextMap}
-						} ,
-					"gallery" :
-						{ 
-							"url"  : "gallery/index/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "gallery.index.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"addmembers" :
-						{ 
-							"url"  : "element/addmembers/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "element.addmembers.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-						} ,
-					"addtimesheet":
-						{
-							"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
-							"hash" : "#gantt.addtimesheetsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
-							"data" : null
-						},
-					"addchart":
-						{
-							"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "#project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null
-
-						},
-					"addneed":
-						{
-							"url"  : "need/addneedsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
-							"hash" : "#need.addneedsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
-							"data" : null
-
-						},
-					"need":
-						{
-							"url"  : "need/detail/id/"+id+"?", 
-							"hash" : "#need.detail.id."+id,
-							"data" : null
-						},
-					"calendarview":
-						{
-							"url"  : "event/calendarview/id/<?php echo (string)$entity["_id"] ?>?", 
-							"hash" : "#event.calendarview.id.<?php echo (string)$entity["_id"] ?>",
-							"data" : null							
-						},
-
-					};
-					
+	listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed','need', 'calendarview'];
 
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];
 	var data = mapUrl[type]["data"];
-
-	$("#pad-element-container").hide(200);
+	var type = type;
 	$.blockUI({
 		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
 	});
 
-	ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
+	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
+		console.log("no ajax load")
+		$.each(listElementView, function(i,value) {
+			$("#"+value+"Pad").hide();
+		});
+		history.pushState(null, "New Title", "#" + hash);	
+		$("#"+type+"Pad").show();
+		$("#pad-element-container").empty().html(mapUrl[type]["html"]);
+		bindLBHLinks();
+		$.unblockUI();
+	}
+	else{
+		$("#pad-element-container").hide(200);
+		ajaxPost('#pad-element-container',baseUrl+'/'+moduleId+'/'+url+"renderPartial=true", 
 			data,
 			function(){ 
 				history.pushState(null, "New Title", "#" + hash);
 				$("#pad-element-container").show(200);
+				mapUrl[type]["load"] = true;
+				mapUrl[type]["html"] = $("#pad-element-container").html();
 				bindLBHLinks();
 				$.unblockUI();
-			},"html");
+		},"html");
+	}
 }
 
 </script>

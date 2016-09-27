@@ -456,35 +456,35 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 </div>
 <?php } ?>
 <div id="newsPad">
-<div id="newsHistory" class="padding-10">
-	<!--<div class="margin-top-10">
-		<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
-		<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
-		<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
-	</div>-->
-	<div class="col-md-11 no-padding">
-		<!-- start: TIMELINE PANEL -->
-		<div class="no-padding panel" style="padding-top:10px;box-shadow:inherit;">
-			<div id="top" class="no-padding panel-body">
-				<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
-				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
-	
-				<div id="timeline" class="col-md-12">
-					<div class="timeline">
-						<div class="newsTL">
-							<div class="spine"></div>
+	<div id="newsHistory" class="padding-10">
+		<!--<div class="margin-top-10">
+			<button class="btn text-red btn-default" id="btn-filter-tag-news" onclick="toggleFilters('#tagFilters');"># Rechercher par tag</button>
+			<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
+			<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
+		</div>-->
+		<div class="col-md-11 no-padding">
+			<!-- start: TIMELINE PANEL -->
+			<div class="no-padding panel" style="padding-top:10px;box-shadow:inherit;">
+				<div id="top" class="no-padding panel-body">
+					<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
+					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
+		
+					<div id="timeline" class="col-md-12">
+						<div class="timeline">
+							<div class="newsTL">
+								<div class="spine"></div>
+							</div>
 						</div>
 					</div>
+					<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
 				</div>
-				<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
+				<div class="stream-processing center">
+					<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+				</div>
 			</div>
-			<div class="stream-processing center">
-				<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
-			</div>
+			<!-- end: TIMELINE PANEL -->
 		</div>
-		<!-- end: TIMELINE PANEL -->
 	</div>
-</div>
 </div>
 <?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$viewer && $viewer != null))))){ 
 	// End div .pad-element-container if newspaper of orga, project, event and person 

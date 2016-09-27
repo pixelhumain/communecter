@@ -324,7 +324,8 @@ if($type == Organization::COLLECTION){
 if(!@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
-<div id="addMembers">
+<div id="addmembersPad">
+	<div id="addMembers">
 	<?php   
   		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
   			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;
@@ -557,6 +558,7 @@ if(!@$_GET["renderPartial"])
 	        </table>
 	    </div>
 	</div>
+</div>
 </div>
 <?php if(!isset($_GET["renderPartial"])){ ?>
 </div>

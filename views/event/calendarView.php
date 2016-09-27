@@ -93,7 +93,7 @@ if(!@$_GET["renderPartial"])
 
 <!-- *** SHOW CALENDAR *** -->
 
-
+<div id="calendarviewPad">
   <div id="showCalendar" class="col-md-12 ">
       
       <div class="row ">
@@ -115,7 +115,8 @@ if(!@$_GET["renderPartial"])
         	</div>
         </div>
       </div>	
-  </div>    
+  </div>   
+</div> 
 <?php if(!isset($_GET["renderPartial"])){ ?>
 </div>
 <?php } ?>

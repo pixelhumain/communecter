@@ -192,13 +192,13 @@ if($('#breadcum').length)
 						                        <br/><span class="discover-subtitle">Organisation</span>
 						                    </div>
 
-						                    <div class="col-xs-6  center text-purple btnSubTitle">
+						                    <div class="col-xs-6  center text-orange btnSubTitle">
 						                        <a href="#event.eventsv" class="lbh btn btn-discover bg-orange">
 						                          <i class="fa fa-calendar"></i>
 						                        </a><br/><span class="discover-subtitle">Évènement</span>
 						                    </div>
 						                    
-						                    <div class="col-xs-6  center text-orange btnSubTitle">
+						                    <div class="col-xs-6  center text-purple btnSubTitle">
 						                        <a href="#project.projectsv" class="lbh btn btn-discover bg-purple">
 						                          <i class="fa fa-lightbulb-o"></i>
 						                        </a><br/><span class="discover-subtitle">Projet</span>
