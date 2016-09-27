@@ -1,4 +1,4 @@
-<div class="space20"></div>
+<!-- <div class="space20"></div> -->
 
 <div class="<?php echo (@$class) ? $class : 'row' ?> hidden margin-5 qrCodeContainerCl center" id="qrCodeContainer"> 
 	<h1 class="homestead text-red">Cartes de visites connectée</h1>

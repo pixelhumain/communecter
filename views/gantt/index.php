@@ -17,7 +17,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 </style>
 <div class="parentTimeline">
 <div class="panel panel-white">
-	<div class="panel-heading border-light bg-dark">
+	<div class="panel-heading border-light bg-azure">
 		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo $podtitle ?></span></h4>
 	</div>
 	<div class="panel-tools">

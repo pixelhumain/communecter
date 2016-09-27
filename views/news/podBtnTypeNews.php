@@ -81,6 +81,7 @@ input.form-control.input-search{
     </button> -->
   </div>
 
+<div class="hidden">
   <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Point d'interet" data-type="poi" onclick="openForm ( 'poi' );" >
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-map-marker"></i> 
       <span class="hidden-xs hidden-sm hidden-md">POI</span>
@@ -99,7 +100,7 @@ input.form-control.input-search{
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-lightbulb-o"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Projet</span>
     </button>
-
+</div>
 
 
   <?php if(@$type=="city" && @Yii::app()->session["userId"]){ ?>

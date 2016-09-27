@@ -54,7 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
-      margin-top: -10px;
+      margin-top: 0px;
       font-weight: 200;
     }
     .entityTitle h2{
@@ -88,13 +88,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     .entityDetails i.fa{
       margin-right:7px;
       font-size: 17px;
-		margin-top: 5px;
+	  margin-top: 5px;
+    }
+
+
+    blockquote {
+	    margin: 0 0 10px;
+	    font-size: 15px;
+	    line-height: 1.2;
+	}
+    .panel-heading{
+    	padding: 7px 10px 5px 10px;
+		min-height: 25px;
     }
     .panel-title{
     	font-weight: 200;
-    	font-size: 21px;
-    	font-family: "homestead";
+    	font-size: 15px;
+    	/*font-family: "homestead";*/
     }
+    .panel-scroll {
+	    height: unset !important;
+	    min-height:25px;
+	}
+
+
     #fileuploadContainer{
     	z-index:0 !important;
     }
@@ -121,7 +138,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 			<?php if ($openEdition==true) { ?>
-				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+				<span class="pull-right tooltips text-green" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style=""><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 			<?php } ?>
 		</h4>
 	</div>
@@ -282,7 +299,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">
 		<div class="row">
 
-			<div class="col-sm-6 col-md-6">
+			<div class="col-sm-6 col-md-6 margin-bottom-10">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $organization["_id"],
 																	  "type" => Organization::COLLECTION,
@@ -292,7 +309,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "image" => $images)); 
 				?>
 			</div>
-			<div class="col-sm-6 col-md-6 pull-right margin-bottom-15">
+			<div class="col-xs-12 col-sm-6 col-md-6 pull-right margin-bottom-15">
 				<div class="row text-dark" style="margin-top:10px !important;">
 					<div class="entityTitle">
 						<h2  style="font-weight:100; font-size:19px;">

@@ -39,26 +39,28 @@
 	    		?>
 
     			<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
-				<div class="row padding-15">
-					<hr>
-					<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
-			        	<h1 class="text-azure text-left homestead no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> <span class="text-small helvetica">(activité récente)</span>
-			        	</h1>
-			        </a>
-			    </div>
-				<?php 
+					<!-- 
+					<div class="row padding-15">
+						<hr>
+						<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
+				        	<h1 class="text-azure text-left homestead no-margin">
+				        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> <span class="text-small helvetica">(activité récente)</span>
+				        	</h1>
+				        </a>
+				    </div> 
+				    -->
+					<?php 
 						$list = ActionRoom::getAllRoomsActivityByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
 						$this->renderPartial('../pod/activityList2',array(    
 		   					"parent" => $organization, 
 		                    "parentId" => (string)$organization["_id"], 
 		                    "parentType" => Organization::COLLECTION, 
-		                    "title" => "Activité Coop",
+		                    "title" => "Espace coopératif",
                         	"list" => @$list, 
 		                    "renderPartial" => true
 		                    ));
 					?>	
-			</div>
+				</div>
 	    	</div>
 
 	    	
@@ -66,12 +68,17 @@
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
-															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"userCategory" => Yii::t("common","Community"), 
 															"contentType" => Organization::COLLECTION,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
 															"admin" => $admin,
 															"openEdition" => $openEdition));
+					?>
+		    	</div>
+		    	<div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $organization["_id"],
+																		"parentType" => Organization::CONTROLLER));
 					?>
 		    	</div>
 		    	<?php

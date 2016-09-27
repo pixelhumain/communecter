@@ -11,10 +11,13 @@ return array(
 	"test" => "TEST FR",
 	"MY PROJECTS" => "MES PROJETS",
 	"PROJECTS" => "PROJETS",
+	"Projects" => "Projets",
 	"PROJECT TIMELINE" => "VIE DU PROJET",
 	"PROJECT INFORMATIONS" => "INFORMATIONS DU PROJET",
 	"PROJECT DESCRIPTION" => "DESCRIPTION DU PROJET",
+	"Project description" => "Description du projet",
 	"CHART" => "CHARTE",
+	"Chart" => "Charte",
 	//Informations 
 	"Maturity" => "Maturité",
 	"idea" => "Idée",

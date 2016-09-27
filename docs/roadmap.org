@@ -104,14 +104,15 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
-      [ ] link to parent
+      [ ] link to parent : can have a parent, Type & Id
       [ ] add a btn on any parent add POI
-      [ ] can have a parent, Type & Id
       [ ] place avec geoloc 
       [ ] Thing sans geoloc
-      [ ] faire un formulaire evolutif
-      [ ] stats localisé
+      [ ] formulaire evolutif
       [ ] add photo  
+      [ ] add to news
+      [ ] switch on map , show / hide POI, point of parent
+      [ ] unknown attribute passes the the save 
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes

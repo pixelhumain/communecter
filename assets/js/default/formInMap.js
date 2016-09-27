@@ -312,7 +312,7 @@ function searchAdressNewElement(){
 
 function backToForm(){
 	copyMapForm2Dynform();
-	addLocatinoToForm();
+	addLocationToForm();
 	showMap(false);
 	$('#ajax-modal').modal("show");
 

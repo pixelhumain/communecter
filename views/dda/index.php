@@ -21,11 +21,11 @@
 	}
 	
 
-	#accordion .panel-title a{
+	/*#accordion .panel-title a{
 		font-weight:200;
 		color:white;
 		font-size:18px;
-	}
+	}*/
 
 	#accordion .panel-title a:hover{
 		font-weight:400;
@@ -98,7 +98,11 @@ a h1.text-azure:hover{
 	?>
 </div>
 
-<div id="endOfRoom"></div>
+<div id="endOfRoom">
+	<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $parentId; ?>")'>
+		<i class='fa fa-sign-in'></i> Entrer dans l'espace coopératif 
+	</a>
+</div>
 <?php 
 	function createAccordionMenu($elements, $index, $title, $icon, $typeNew, $emptyMsg, $auth, $fromView){
 	
@@ -107,12 +111,13 @@ a h1.text-azure:hover{
 	echo '<div class="panel panel-default">';
 
 	echo    '<div class="panel-heading bg-dark">
-		      <h4 class="panel-title pull-left">
+		      <div class="panel-title">
 		        <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$index.'" class="show-menu-co">
 		        	<i class="fa fa-angle-down hide-on-reduce-menu"></i> <i class="fa fa-'.$icon.'"></i> <span class="hide-on-reduce-menu">'.$title.'</span>
+		        	<span class="badge pull-right hide-on-reduce-menu">'.count($elements).'</span>
 		        </a>
-		      </h4>
-		      <span class="badge pull-right hide-on-reduce-menu">'.count($elements).'</span>
+		      </div>
+		      
 		    </div>';
 
 	echo 	'<div id="collapse'.$index.'" class="panel-collapse collapse '.$in.'">';

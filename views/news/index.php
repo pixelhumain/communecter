@@ -464,8 +464,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	</div>-->
 	<div class="col-md-11 no-padding">
 		<!-- start: TIMELINE PANEL -->
-		<div class="no-padding panel panel-white" style="padding-top:10px;box-shadow:inherit;">
-			<div id="top" class="no-padding panel-body panel-white">
+		<div class="no-padding panel" style="padding-top:10px;box-shadow:inherit;">
+			<div id="top" class="no-padding panel-body">
 				<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 				<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 	
