@@ -306,6 +306,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 #btn-submit-form{
 	display: none;
 }
+<?php 
+if($type == Organization::COLLECTION){
+	$formTitle = Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id);
+	$formDescription = Yii::t("organisation","An Organization can have People as members or Organizations",null,Yii::app()->controller->module->id);
+} else if($type == Project::COLLECTION){
+	$formTitle = Yii::t("project","Add a contributor to this project",null,Yii::app()->controller->module->id);
+	$formDescription = Yii::t("project","A project can have People as contributors or Organizations",null,Yii::app()->controller->module->id);
+} else if($type == Event::COLLECTION){
+	$formTitle = Yii::t("event","Invite people to this event",null,Yii::app()->controller->module->id);
+	$formDescription = Yii::t("event","Invite people to your event and manage its administration",null,Yii::app()->controller->module->id);
+}
+?>
 /* MODAL */
 </style>
 <?php 
@@ -325,7 +337,7 @@ if(!@$_GET["renderPartial"])
     <!-- start: PAGE CONTENT -->
     <h2 class='radius-10 padding-10 text-bold text-dark text-left'> 
 		<i class="fa fa-plus"></i> <i class="fa fa-2x fa-user"></i> 
-		<?php echo Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id) ?>
+		<?php echo $formTitle ?>
 	</h2>
 
 	<a href="javascript:;" onclick="fadeInView('divSearch');" class="btn btn-default pull-left margin-right-15" id="menuInviteSomeone">
@@ -388,7 +400,7 @@ if(!@$_GET["renderPartial"])
         	<div class="panel-heading border-light">
         	
         		<blockquote>
-        			<?php echo Yii::t("organisation","An Organization can have People as members or Organizations",null,Yii::app()->controller->module->id) ?>
+        			<?php echo $formDescription ?>
         		</blockquote>
         	</div>
         	<div class="panel-body">
@@ -559,7 +571,6 @@ if(!@$_GET["renderPartial"])
 	
 	jQuery(document).ready(function() {
 		activeMenuElement("addmembers");
-		setTitle("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($element["name"]) ?>",""," ORGANISATION : <?php echo addslashes($element["name"]) ?>");
 		initFormAddMember();
 		
 		bindTEST();

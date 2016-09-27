@@ -562,8 +562,19 @@ var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["lin
 var contextType = <?php echo json_encode($type)?>;
 
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
+if(contextType == "<?php echo Person::COLLECTION ?>")
+	contextIcon = "circle text-yellow";
+else if(contextType == "<?php echo Organization::COLLECTION ?>")
+	contextIcon = "circle text-green";
+else if(contextType == "<?php echo Event::COLLECTION ?>")
+	contextIcon = "circle text-orange";
+else if(contextType == "<?php echo Project::COLLECTION ?>")
+	contextIcon = "circle text-purple";
+else
+	contextIcon = "circle";
 
 jQuery(document).ready(function() {
+	setTitle(element.name,contextIcon);
 	if(loadAllLinks){
 		//alert();
 		$.ajaxSetup({ cache: true});

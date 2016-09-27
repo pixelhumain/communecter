@@ -75,7 +75,9 @@ return array(
 	"Display/Hide old events" => "Afficher/Cacher les événements passés",
 	"Old events" => "Evénements passés",
 	"Create your next events <br>To show your next meet-up<br>And where people can go" => "Référencer vos prochains événements<br>Pour montrer les prochains rendez-vous<br>Et où les gens peuvent sortir",
-	"View this event calendar" => "Voir la programmation de l&#146;événement"
+	"View this event calendar" => "Voir la programmation de l&#146;événement",
+	"Invite people to this event" => "Inviter des personnes à cet événement",
+	"Invite people to your event and manage its administration" => "Inviter des personnes à participer et gérer l'administration de l'événement",
 
 );
 ?>

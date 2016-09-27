@@ -11,16 +11,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);*/
-if($type == Person::COLLECTION)
-	$contextIcon = "circle text-yellow";
-else if($type == Organization::COLLECTION)
-	$contextIcon = "circle text-green";
-else if($type == Event::COLLECTION)
-	$contextIcon = "circle text-orange";
-else if($type == Project::COLLECTION)
-	$contextIcon = "circle text-purple";
-else
-	$contextIcon = "circle";
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -610,7 +600,6 @@ else
 <script type="text/javascript"> 
 
 	var contextData = <?php echo json_encode($element)?>;
-	var contextIcon = "<?php echo $contextIcon; ?>";
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?>;
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
@@ -637,7 +626,7 @@ else
 
 	jQuery(document).ready(function() {
 		console.log("------------------"+contextData.name);
-		setTitle(contextData.name,contextIcon);
+		//setTitle(contextData.name,contextIcon);
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContextElement();
