@@ -231,7 +231,7 @@ if($('#breadcum').length)
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<?php $this->renderPartial('../pod/usersList', array(  $controller => $element,
 															"users" => $members,
-															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"userCategory" => Yii::t("common","Community"), 
 															"contentType" => $type,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
@@ -319,15 +319,15 @@ if($('#breadcum').length)
 
 			<div class="col-md-8 col-sm-12 col-xs-12 no-padding pull-left">
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
-				<div class="row padding-15">
+				<!-- <div class="row padding-15">
 					<hr>
 					<?php $urlCoop = "#rooms.index.type.".$type.".id.".(String) $element["_id"]; ?>
 					<a href='javascript:loadByHash("<?php echo $urlCoop; ?>")'>
-			        	<h1 class="text-azure text-left homestead no-margin">
+			        	<h1 class="text-azure text-left no-margin">
 			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
 			        	</h1>
 			        </a>
-			    </div>
+			    </div> -->
 				<?php 
 					/*$rooms = ActionRoom::getAllRoomsByTypeId($type, (String)$element["_id"]);	
 					$this->renderPartial('../dda/index',array(    
@@ -358,14 +358,14 @@ if($('#breadcum').length)
 				}
 				?>
 				<?php if($type==Project::COLLECTION){ ?> 
-					<div class="row padding-15">
+					<!-- <div class="row padding-15">
 						<hr>
 						<h1 class="text-azure pull-left homestead no-margin">
 			        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
 			        	</h1>        
-				    	</div>
-				    	<div class="timesheetphp">
-					</div>
+				    </div> -->
+				    <hr>
+				    <div class="timesheetphp"></div>
 				<?php } ?>
 				<?php if($type==Event::COLLECTION){ ?> 
 				<div class="col-xs-12 no-padding calendar pull-left"></div>
