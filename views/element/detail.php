@@ -350,7 +350,7 @@ if($('#breadcum').length)
 		   					"parent" => $element, 
 		                    "parentId" => (string)$element["_id"], 
 		                    "parentType" => $type, 
-		                    "title" => "Activité Coop",
+		                    "title" => "Espace coopératif (activité récente)",
                         	"list" => @$rooms, 
 		                    "renderPartial" => true
 		                    ));
