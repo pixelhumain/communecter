@@ -28,6 +28,7 @@
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
+  [ ] Indicateur du nb de nouveauté depuis dernier login
 
   ** Orga
   [ ] donner le choix lorsqu'on est invité a une orga 

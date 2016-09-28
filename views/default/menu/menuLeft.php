@@ -79,14 +79,6 @@
 
 		<?php // TOP // ?>
 		<a href="#default.live" id="menu-btn-live"
-
-				data-hash="#default.live"
-				class="menu-button-left  
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-heartbeat  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
-		</a><hr class="">-->
-		<a href="#default.live" id="menu-btn-live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 			<i class="fa fa-thumbs-up  tooltips"
@@ -104,7 +96,7 @@
 				<i class="fa fa-newspaper-o  tooltips"
 					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
 		</a><hr class="visible-communected hidden">
-		<!-- <br> -->
+		<hr>
 		
 		
 		<a href="#default.directory" id="menu-btn-directory"

@@ -144,9 +144,7 @@ jQuery(document).ready(function() {
 	$(".titleNowEvents .btnhidden").hide();
 });
 
-<<<<<<< HEAD
-/* SEE MORE IN js/default/live.js */
-=======
+
 var timeout;
 function startSearch(isFirst){
 	//Modif SBAR
@@ -339,6 +337,5 @@ function hideNewLiveFeedForm(){
 	//$("#newLiveFeedForm").hide(200);
 	showFormBlock(false);
 }
->>>>>>> master
 
 </script>

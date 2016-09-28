@@ -6,8 +6,8 @@
 		<div class="panel-tools">
 			<a  href="javascript:;" onclick="openForm('poi','subPoi')" 
 				class="btn btn-xs btn-default tooltips" data-placement="bottom" 
-				data-original-title="<?php echo Yii::t("common","Create") ?>" >
-					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Create") ?>
+				data-original-title="<?php echo Yii::t("common","Add") ?>" >
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>
 			</a>
 		</div>
 		<div class="panel-scroll height-230 ps-container">
@@ -23,18 +23,41 @@
 				</div>
 			<?php }
 			else{
-				
 				foreach ($pois as $p) { 
-					?>
+				?>
 					<div style="border-bottom:1px solid #ccc">
 						<?php 
-						echo $p["name"];
-						if(@$p["geo"]){
-						?>
+						
+						echo '<a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a>';
+						
+						if(@$p["geo"]){?>
 						<a href="javascript:showMap(true);"><i class="fa fa-map-marker"></i></a>
 						<?php }?>
+						
+						<div class="padding-10 poiPanel poi<?php echo InflectorHelper::slugify($p["name"])?> hide">
+
+							<?php 
+							if(@$p["description"]){ ?>
+							<div class=""><?php echo $p["description"] ?></div>
+							<?php  }?>
+
+							<?php 
+							if(@$p["urls"]){
+							foreach ($p["urls"] as $u) { ?>
+							<div class=""><i class="fa fa-caret-down"></i> <?php echo $u ?></div>
+							<?php } }?>
+
+							<?php 
+							if(@$p["urls"])
+								echo "<br/>";
+							if(@$p["tags"]){
+							foreach ($p["tags"] as $t) {  ?>
+								<a href="<?php echo $t?>" class="label label-inverse"><?php echo $t?></a> 
+							<?php } } ?>
+						</div>
+
 					</div>
-					<?php
+			<?php
 				}
 			}?>
 			</div>

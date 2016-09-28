@@ -1233,6 +1233,10 @@ function buidDynForm(elementObj, afterLoad) {
 	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
 	        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
+	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+	        	elementObj.dynForm.jsonSchema.onLoads.onload();
 	      },
 	      onSave : function(){
 
@@ -1310,11 +1314,15 @@ var typeObj = {
 			    type : "object",
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
-			    	"subPoi" : function(){
+			    	subPoi : function(){
 			    		if(contextData.type && contextData.id ){
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}			    		
+			    		}
+			    		
+			    	},
+			    	onload:function(){
+			    		$(".urlsarray").addClass("hidden");	    		
 			    	}
 			    },
 			    properties : {
@@ -1327,14 +1335,14 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : { "required" : true }
 			        },
-			        /*xxx : {
-			        	placeholder : "XXX",
-			            "inputType" : "text"
-			        },*/
+			        formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
-			            "value" : [],
+			            "value" : []
 			        },
 		            tags :{
 		              "inputType" : "tags",
@@ -1390,6 +1398,10 @@ var typeObj = {
 			        similarLink : {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
 		            },
 			        type :{
 		            	"inputType" : "select",
@@ -1487,6 +1499,10 @@ var typeObj = {
 			        similarLink : {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
 		            },
 			        organizerId :{
 		            	"inputType" : "select",
@@ -1617,6 +1633,10 @@ var typeObj = {
 			        similarLink : {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
+		            },
+			        formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
 		            },
 		            location : {
 		                inputType : "location"
