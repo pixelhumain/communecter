@@ -812,8 +812,17 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed','need', 'calendarview'];
-
+	listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed', 'calendarview'];
+	if(type=="need"){
+		type=type+id;
+		if(typeof(mapUrl[type]) == "undefined"){
+			mapUrl[type] = new Object;
+			mapUrl[type]["url"] = "need/detail/id/"+id+"?"; 
+			mapUrl[type]["hash"] = "#need.detail.id."+id;
+			mapUrl[type]["data"] = null;
+			listElementView.push("need"+id);
+		}
+	} 
 	var url  = mapUrl[type]["url"];
 	var hash = mapUrl[type]["hash"];
 	var data = mapUrl[type]["data"];

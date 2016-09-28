@@ -3,7 +3,7 @@ if(!@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit));  
 ?>
 
-<div class="row">
+<div class="row" id="need<?php echo (string)$need["_id"] ?>">
 	<div class=" col-md-12">
 		<div class="col-md-12">
 			<div class="panel no-padding col-md-8">
@@ -35,7 +35,7 @@ if(!@$_GET["renderPartial"])
 			 ?>
 		</div>
 	</div>
-	<div class="col-md-12" id="commentNeed">
+	<div class="col-md-12" id="commentNeed<?php echo (string)$need["_id"] ?>">
 	</div>
 </div>
 <?php if(!isset($_GET["renderPartial"])){ ?>
@@ -44,7 +44,7 @@ if(!@$_GET["renderPartial"])
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		setTitle("<?php echo $need["name"] ?>","cubes");
-		getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo Need::COLLECTION ?>/id/<?php echo (string)$need["_id"];?>",null,"html");
+		getAjax("#commentNeed<?php echo (string)$need["_id"] ?>",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo Need::COLLECTION ?>/id/<?php echo (string)$need["_id"];?>",null,"html");
 		$(".fa-comments").removeClass("fa-2x");
 	});
 </script>
