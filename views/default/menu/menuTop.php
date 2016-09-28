@@ -1,5 +1,119 @@
 
+<<<<<<< HEAD
 <?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/menuTop.css'), $this->module->assetsUrl); ?>
+=======
+}
+@media screen and (min-width: 920px) and (max-width: 1200px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 32% !important;
+	}
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1350px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 25% !important;
+	}
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 5px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 5px 5px rgba(50, 50, 50, 0.75);
+}
+
+#btn-menu-launch{
+	padding: 12px;
+	margin-left: 1px;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+}
+#btn-toogle-map{
+	margin-right: 10px;
+	padding-top: 8px !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+}
+
+#btn-toogle-map:hover{
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+}
+#main-btn-co{
+	margin-right:5px;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+}
+#main-btn-co:hover{
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+}
+
+#logo-main-menu{
+	float:left;
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	z-index: 15;
+	background-color: rgb(255, 255, 255);
+	display: inline;
+	margin-right: 10px;
+}
+#logo-main-menu{
+
+}
+#btn-menu-launch:hover{
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+}
+
+.mainLabel {
+    font-size: 21px;
+	margin-bottom: 0px;
+	margin-left: -17px;
+	margin-top: 16px;
+	display: inline-block;
+}
+#main-title {
+    margin-top: 16px !important;
+}
+
+
+@media screen and (max-width: 767px){
+	#notificationPanelSearch{
+		position: fixed;
+		top: 51px;
+		right: 50px;
+		width: 300px;
+		/*max-height: 80%;
+		overflow-y: auto;
+		background-color: white;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-radius: 0px 0px 10px 10px;*/
+	}
+	#main-btn-co{
+		margin-right:0px;
+	}
+	button.btn-menu-notif{
+		margin-right: -10px;
+	}
+}
+</style>
+>>>>>>> master
 
 <div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
 	
@@ -33,11 +147,16 @@
 	<?php if(isset(Yii::app()->session['userId'])){ ?>
 	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-right" id="btn-show-floopdrawer" 
 			onclick="showFloopDrawer(true)"
-			data-toggle="tooltip" data-placement="bottom" title="Communautés" alt="Afficher mes contacts">
+			data-toggle="tooltip" data-placement="bottom" title="Communautés" alt="Afficher mon réseau">
 			<i class="fa fa-group"></i>
 	</button>
 	<?php } ?>
 
 	<?php $this->renderPartial("./menu/short_info_profil", array("me"=>$me)); ?> 
 
+<<<<<<< HEAD
 </div>
+=======
+	
+</div>
+>>>>>>> master

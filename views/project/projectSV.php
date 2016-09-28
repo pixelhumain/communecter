@@ -346,7 +346,7 @@ function runProjectFormValidation(el) {
 			endDateSubmitProj = moment($(".form-project .project-end-date").val()).format('YYYY/MM/DD HH:mm');
 			
 			newProject = new Object;
-			newProject.name = $(".form-project .project-name ").val(), 
+			newProject.name = $(".form-project .project-name ").val(),
 			newProject.parentType=parentType,
 			newProject.parentId=parentId
 			newProject.startDate=startDateSubmitProj,
@@ -356,10 +356,15 @@ function runProjectFormValidation(el) {
 			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
 			//newProject.description=$(".form-project .note-editable").text(),
-			newProject.description=$(".form-project #description").code(),
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
 			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
 			newProject.tags = $(".form-project #tagsProject").val();
+
+			if ($(".form-project .note-editor").length != 0)
+				newProject.description=$(".form-project #description").code();
+			else
+				newProject.description="";
+
 			console.log(newProject);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'

@@ -76,9 +76,17 @@
 		<hr>
 		
 		<br>
+
 		<?php // TOP // ?>
 		<a href="#default.live" id="menu-btn-live"
+
 				data-hash="#default.live"
+				class="menu-button-left  
+				<?php echo ($page == 'live') ? 'selected':'';?>">
+				<i class="fa fa-heartbeat  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
+		</a><hr class="">-->
+		<a href="#default.live" id="menu-btn-live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
 			<i class="fa fa-thumbs-up  tooltips"
@@ -92,22 +100,20 @@
 				data-hash="#default.live"
 				class="lbh menu-button-left
 				<?php echo ($page == 'live') ? 'selected':'';?>">
-			<i class="fa fa-heartbeat  tooltips"
-				data-toggle="tooltip" data-placement="right" title="Live"></i> 
-			<span class="lbl-btn-menu">Live</span>
-		</a>
-		<hr>
 
-		<?php // RECHERCHER // ?>
+				<i class="fa fa-newspaper-o  tooltips"
+					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
+		</a><hr class="visible-communected hidden">
+		<!-- <br> -->
+		
+		
 		<a href="#default.directory" id="menu-btn-directory"
-				data-hash="#default.directory"
-				class="menu-button-left  
+				class="lbh menu-button-left
 				<?php echo ($page == 'directory') ? 'selected':'';?>">
-			<i class="fa fa-search tooltips"
-				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
-			<span class="lbl-btn-menu">Rechercher</span>
-		</a>
-		<hr>
+				<i class="fa fa-search tooltips"
+					data-toggle="tooltip" data-placement="right" title="Rechercher"></i> <span class="lbl-btn-menu">Rechercher</span>
+		</a><hr class="">
+
 
 		<?php // AGENDA // ?>
 		<a href="#default.agenda" id="menu-btn-agenda"

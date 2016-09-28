@@ -24,6 +24,15 @@
   }
   .btn-filter-type{
     height:35px;
+    border-bottom: 3px solid transparent;
+  }
+  .btn-filter-type.active{
+    height:35px;
+    border-bottom: 3px solid #383f4e;
+  }
+  .btn-filter-type:hover{
+    height:35px;
+    border-bottom: 3px solid #383f4e;
   }
   .btn-scope{
     display: inline;
@@ -95,25 +104,30 @@
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
     <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
 
-      <div class="btn-group inline-block" id="menu-directory-type" style="margin-bottom:5px;">
-        <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="bottom" title="Citoyens" type="persons">
-          <i class="fa fa-check-circle-o search_persons"></i> <i class="fa fa-user"></i> 
+      <div class="btn-group inline-block" id="menu-directory-type">
+        <button class="btn btn-default btn-filter-type tooltips bg-yellow text-dark search_persons active" 
+                data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
+          <!-- <i class="fa fa-check-circle-o search_persons"></i>  -->
+          <i class="fa fa-user"></i> 
           <span class="hidden-xs">Citoyens</span>
         </button>
-        <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="bottom" title="Organisations" type="organizations">
-          <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> 
+        <button class="btn btn-default btn-filter-type tooltips bg-green text-dark search_organizations" 
+                data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+          <!-- <i class="fa fa-check-circle-o search_organizations"></i>  -->
+          <i class="fa fa-group"></i> 
           <span class="hidden-xs">Organisations</span>
         </button>
-        <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="bottom" title="Projets" type="projects">
-          <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> 
+        <button class="btn btn-default btn-filter-type tooltips bg-purple text-dark search_projects" 
+                data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+          <!-- <i class="fa fa-check-circle-o search_projects"></i>  -->
+          <i class="fa fa-lightbulb-o"></i> 
           <span class="hidden-xs">Projets</span>
         </button>
-        <button class="btn btn-default btn-filter-type tooltips text-dark" 
-                data-toggle="tooltip" data-placement="bottom" title="Évènements" type="events">
-          <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> 
+        <button class="btn btn-default btn-filter-type tooltips bg-orange text-dark search_events" 
+                data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
+          <i class="fa fa-calendar"></i> 
+
           <span class="hidden-xs">Évènements</span>
         </button>
       </div>
@@ -126,14 +140,20 @@
         </button>
       </div>
     </div>
+
+    
+
     <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     <div class='city-name-locked homestead text-red'></div>
     
   </div>
   
-  <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
-
-
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+    <h2 class="subtitle-search text-left">
+      <span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>
+    </h2>
+    <!-- <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div> -->
+</div>
 
 <div style="" class="col-md-12 col-sm-12 col-xs-12 margin-top-15" id="dropdown_search"></div>
 
@@ -144,8 +164,9 @@
 
 <script type="text/javascript">
 
-var searchType = [ "persons", "organizations", "projects", "events" ];
-var allSearchType = [ "persons", "organizations", "projects", "events", "cities" ];
+var searchType = [ "persons" ];
+var allSearchType = [ "persons", "organizations", "projects", "events" ];
+
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
 var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
@@ -159,8 +180,9 @@ jQuery(document).ready(function() {
     slidupScopetagsMin();
   });
 
-  // searchType = [ "persons", "organizations", "projects", "events" ];
-  // allSearchType = [ "persons", "organizations", "projects", "events" ];
+  searchType = [ "persons" ];
+  allSearchType = [ "persons", "organizations", "projects", "events" ];
+
 
 	topMenuActivated = true;
 	hideScrollTop = true; 
@@ -200,7 +222,7 @@ jQuery(document).ready(function() {
   });
 
 
-  $(".my-main-container").scroll(function(){
+  $(".my-main-container").bind('scroll', function(){
     if(!loadingData && !scrollEnd){
         var heightContainer = $(".my-main-container")[0].scrollHeight;
         var heightWindow = $(window).height();
@@ -219,27 +241,19 @@ jQuery(document).ready(function() {
   $(".btn-filter-type").click(function(e){
     var type = $(this).attr("type");
     var index = searchType.indexOf(type);
-    console.log("filterType "+type, searchType.length);
-    
-    if(type == "cities"){
-      if(index == -1){
-        addSearchType(type);
-        $.each(allSearchType, function(index, value){ removeSearchType(value); });
-        $("#scopeListContainer").hide();
-      }else{
-        $.each(allSearchType, function(index, value){ addSearchType(value); });
-        $("#scopeListContainer").show();
-      }  
-    }
 
+    // if(type == "all" && searchType.length > 1){
+    //   $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+    // }
+    // if(type == "all" && searchType.length == 1){
+    //   $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+    // }
 
-    if (index > -1) removeSearchType(type);
-    else addSearchType(type);
-
-    if(type != "cities"){
-      $("#scopeListContainer").show();
-      removeSearchType("cities");
-    }
+    // if (index > -1) removeSearchType(type);
+    // else addSearchType(type);
+    addSearchType(type);
+    loadingData = false;
+	startSearch(0, indexStepInit);
 
   });
 

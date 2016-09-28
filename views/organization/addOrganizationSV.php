@@ -329,7 +329,10 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
-			$("#description").val($("#description").code());
+			//console.log(typeof($("#description").code()));
+			if($(".note-editor").length != 0)
+				$("#description").val($("#description").code());
+
 			var newOrganization = $("#organizationForm").serialize();
 			console.log(newOrganization);
 			$.blockUI({

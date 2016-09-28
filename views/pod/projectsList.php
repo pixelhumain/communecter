@@ -37,7 +37,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 					$nbOldProjects = 0;
 					if(isset($projects) && count($projects)>0){
 					foreach ($projects as $e) {
-						if (!@$e["endDate"] || (!@$e["endDate"] && @$e["endDate"]->sec > time())) {
+						if (!empty($e["endDate"])) {
+							$endDate = strtotime($e["endDate"]);
+						}
+						
+						if (empty($e["endDate"]) || $endDate > time()) {
 							$projectStyle = "";
 							$projectClass = "";
 						} else {
