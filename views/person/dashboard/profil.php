@@ -778,6 +778,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			           
 			        </div>
 			    </div>
+
+			    <div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $person["_id"],
+																			"parentType" => Person::CONTROLLER));
+					?>
+		    	</div>
 		    </div>
 		    <?php } ?>
 		</div>

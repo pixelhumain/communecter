@@ -65,6 +65,10 @@
 																  )); 
 
 		} ?>
+		
+		<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $event["_id"],
+															"parentType" => Event::CONTROLLER));
+		?>
 	</div>
 </div>
 <script type="text/javascript">
