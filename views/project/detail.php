@@ -127,7 +127,7 @@ jQuery(document).ready(function() {
 		id : "<?php echo (string)$project["_id"] ?>",
 		type : "<?php echo Project::CONTROLLER ?>",
 		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
-		odesc : "Projet : <?php echo addslashes(strip_tags(json_encode(@$project["shortDescription"]))) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"
+		odesc : "Projet : "
 	}; 
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
 
