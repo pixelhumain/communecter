@@ -64,7 +64,7 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 				<?php } ?>
 
-				
+			
 		    	
 			</div>
 			
@@ -123,7 +123,7 @@ jQuery(document).ready(function() {
 		id : "<?php echo (string)$project["_id"] ?>",
 		type : "<?php echo Project::CONTROLLER ?>",
 		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
-		odesc : "Projet : "
+		odesc : "Projet : <?php echo (@$project["shortDescription"]) ? addslashes(strip_tags(json_encode(@$project["shortDescription"]))) : "" ?> <?php echo (@$project["address"]["streetAddress"]) ? @$project["address"]["streetAddress"] : "" ?> <?php echo (@$project["address"]["postalCode"]) ? @$project["address"]["postalCode"] : "" ?> <?php echo (@$project["address"]["addressLocality"]) ? @$project["address"]["addressLocality"] : "" ?> <?php echo (@$project["address"]["addressCountry"]) ? @$project["address"]["addressCountry"] : "" ?>"
 	}; 
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
 
