@@ -123,7 +123,7 @@ jQuery(document).ready(function() {
 		id : "<?php echo (string)$project["_id"] ?>",
 		type : "<?php echo Project::CONTROLLER ?>",
 		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
-		odesc : "Projet : "
+		odesc : "Projet : <?php echo (@$project["shortDescription"]) ? addslashes(strip_tags(json_encode(@$project["shortDescription"]))) : '' ?> "
 	}; 
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
 
