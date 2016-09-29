@@ -24,7 +24,7 @@ $this->renderPartial('../default/panels/toolbar');
 				<div class="col-md-12 col-xs-12">
 					<?php  	$this->renderPartial('../pod/usersList', array(  "project"=> $project,
 															"users" => $contributors,
-															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"userCategory" => Yii::t("common","Community"), 
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
 															"contentType" => Project::COLLECTION,
@@ -63,17 +63,24 @@ $this->renderPartial('../default/panels/toolbar');
 																  )); ?>
 				</div>
 				<?php } ?>
+
+				<div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $project["_id"],
+																		"parentType" => Project::CONTROLLER));
+					?>
+		    	</div>
+		    	
 			</div>
 			
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
-				<div class="row padding-15">
+				<!-- <div class="row padding-15">
 					<hr>
 					<a href='javascript:loadByHash("#rooms.index.type.projects.id.<?php echo (String) $project["_id"]; ?>")'>
-			        	<h1 class="text-azure text-left homestead no-margin">
+			        	<h1 class="text-azure text-left no-margin">
 			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
 			        	</h1>
 			        </a>
-			    </div>
+			    </div> -->
 				<?php 
 						$rooms = ActionRoom::getAllRoomsByTypeId(Project::COLLECTION, (string)$project["_id"]);	
 						$this->renderPartial('../dda/index',array(    
@@ -94,16 +101,13 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
-				<div class="row padding-15">
+				<!-- <div class="row padding-15">
 					<hr>
-					<h1 class="text-azure pull-left homestead no-margin">
-		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des taches
-		        	</h1>        
-			    </div>
-			    <div class="timesheetphp">
-			</div>
-
-		</div>	
+	</h1>        
+			    </div> -->
+			    <hr>
+			    <div class="timesheetphp"></div>
+			</div>	
 	</div>
 </div>
 <?php 
@@ -118,9 +122,16 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
-	var otags = "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>";
-	var odesc = "<?php echo @$project["shortDescription"]) ? addslashes(strip_tags(json_encode(( @$project["shortDescription"] ))) : "" ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"; 
-	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,otags, odesc);
+	contextData = {
+		name : "<?php echo $project["name"] ?>",
+		id : "<?php echo (string)$project["_id"] ?>",
+		type : "<?php echo Project::CONTROLLER ?>",
+		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
+		odesc : "Projet : <?php echo addslashes(strip_tags(json_encode(@$project["shortDescription"]))) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"
+	}; 
+	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
+
+
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	
 	<?php if((@$project["tasks"] && !empty($project["tasks"])) || $admin==true){ ?>
