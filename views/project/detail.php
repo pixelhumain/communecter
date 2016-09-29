@@ -64,11 +64,7 @@ $this->renderPartial('../default/panels/toolbar');
 				</div>
 				<?php } ?>
 
-				<div class="col-md-12 col-xs-12">
-					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $project["_id"],
-																		"parentType" => Project::CONTROLLER));
-					?>
-		    	</div>
+				
 		    	
 			</div>
 			
