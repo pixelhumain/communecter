@@ -322,7 +322,7 @@ if($type == Organization::COLLECTION){
 </style>
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit));  
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "addmembers"));  
 ?>
 <div id="addmembersPad">
 	<div id="addMembers">

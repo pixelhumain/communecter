@@ -565,7 +565,6 @@ var contextMap = [];
 <?php } ?>
 var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextType = <?php echo json_encode($type)?>;
-
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
 if(contextType == "<?php echo Person::COLLECTION ?>")
 	contextIcon = "circle text-yellow";
@@ -577,6 +576,8 @@ else if(contextType == "<?php echo Project::COLLECTION ?>")
 	contextIcon = "circle text-purple";
 else
 	contextIcon = "circle";
+var firstView = "<?php echo $firstView ?>";
+// Views' array of element
 var mapUrl = { 	
 	"detail": 
 		{ 
@@ -617,40 +618,46 @@ var mapUrl = {
 	"addtimesheet":
 		{
 			"url"  : "gantt/addtimesheetsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
-			"hash" : "#gantt.addtimesheetsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+			"hash" : "gantt.addtimesheetsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
 			"data" : null
 		},
 	"addchart":
 		{
 			"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
-			"hash" : "#project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+			"hash" : "project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
 			"data" : null
 	
 		},
 	"addneed":
 		{
 			"url"  : "need/addneedsv/id/<?php echo (string)$entity["_id"] ?>/type/<?php echo $type ?>?", 
-			"hash" : "#need.addneedsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
+			"hash" : "need.addneedsv.id.<?php echo (string)$entity["_id"] ?>.type.<?php echo $type ?>",
 			"data" : null
 	
 		},
-	/* "need":
-		{
-			"url"  : "need/detail/id/"+id+"?", 
-			"hash" : "#need.detail.id."+id,
-			"data" : null
-		}, */
 	"calendarview":
 		{
 			"url"  : "event/calendarview/id/<?php echo (string)$entity["_id"] ?>?", 
-			"hash" : "#event.calendarview.id.<?php echo (string)$entity["_id"] ?>",
+			"hash" : "event.calendarview.id.<?php echo (string)$entity["_id"] ?>",
 			"data" : null							
 		},
 };
+var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed', 'calendarview'];
+
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
+	// Add already load for the first view
+	if(firstView.substr(0,3) == "need"){
+		mapUrl[firstView] = new Object;
+		mapUrl[firstView]["url"] = "need/detail/id/"+id+"?"; 
+		mapUrl[firstView]["hash"] = "need.detail.id."+id;
+		mapUrl[firstView]["data"] = null;
+		listElementView.push("need"+id);
+	}
+	mapUrl[firstView]["load"] = true;
+	mapUrl[firstView]["html"] = $("#pad-element-container").html();
+	
 	if(loadAllLinks){
-		//alert();
 		$.ajaxSetup({ cache: true});
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
@@ -683,91 +690,7 @@ jQuery(document).ready(function() {
 	}
 	// Init Chart
 	if(contextType == "<?php echo Project::COLLECTION ?>"){
-		Chart.defaults.global = {
-			// Boolean - Whether to animate the chart
-			animation: true,
-		    // Number - Number of animation steps
-		    animationSteps: 60,
-		    // String - Animation easing effect
-		    animationEasing: "easeOutQuart",
-		    // Boolean - If we should show the scale at all
-		    showScale: true,
-		    // Boolean - If we want to override with a hard coded scale
-		    scaleOverride: false,
-		    // ** Required if scaleOverride is true **
-		    // Number - The number of steps in a hard coded scale
-		    scaleSteps: null,
-		    // Number - The value jump in the hard coded scale
-		    scaleStepWidth: null,
-		    // Number - The scale starting value
-		    scaleStartValue: null,
-		    // String - Colour of the scale line
-		    scaleLineColor: "rgba(0,0,0,.1)",
-		    // Number - Pixel width of the scale line
-		    scaleLineWidth: 1,
-		    // Boolean - Whether to show labels on the scale
-		    scaleShowLabels: true,
-		    // Interpolated JS string - can access value
-		    scaleLabel: "<%=value%>",
-		    // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
-		    scaleIntegersOnly: true,
-		    // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-		    scaleBeginAtZero: false,
-		    // String - Scale label font declaration for the scale label
-		    scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-		    // Number - Scale label font size in pixels
-		    scaleFontSize: 18,
-		    // String - Scale label font weight style
-		    scaleFontStyle: "normal",
-		    // String - Scale label font colour
-		    scaleFontColor: "#666",
-		    // Boolean - whether or not the chart should be responsive and resize when the browser does.
-		    responsive: true,
-		    // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-		    maintainAspectRatio: true,
-		    // Boolean - Determines whether to draw tooltips on the canvas or not
-		    showTooltips: true,
-		    // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
-		    customTooltips: false,
-		    // Array - Array of string names to attach tooltip events
-		    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
-		    // String - Tooltip background colour
-		    tooltipFillColor: "rgba(0,0,0,0.8)",
-		    // String - Tooltip label font declaration for the scale label
-		    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-		    // Number - Tooltip label font size in pixels
-		    tooltipFontSize: 14,
-		    // String - Tooltip font weight style
-		    tooltipFontStyle: "normal",
-		    // String - Tooltip label font colour
-		    tooltipFontColor: "#fff",
-		    // String - Tooltip title font declaration for the scale label
-		    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-		    // Number - Tooltip title font size in pixels
-		    tooltipTitleFontSize: 14,
-		    // String - Tooltip title font weight style
-		    tooltipTitleFontStyle: "bold",
-		    // String - Tooltip title font colour
-		    tooltipTitleFontColor: "#fff",
-		    // Number - pixel width of padding around tooltip text
-		    tooltipYPadding: 6,
-		    // Number - pixel width of padding around tooltip text
-		    tooltipXPadding: 6,
-		    // Number - Size of the caret on the tooltip
-		    tooltipCaretSize: 8,
-		    // Number - Pixel radius of the tooltip border
-		    tooltipCornerRadius: 6,
-		    // Number - Pixel offset from point x to tooltip edge
-		    tooltipXOffset: 10,
-		    // String - Template string for single tooltips
-		    tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-		    // String - Template string for multiple tooltips
-		    multiTooltipTemplate: "<%= value %>",
-		    // Function - Will fire on animation progression.
-		    onAnimationProgress: function(){},
-		    // Function - Will fire on animation completion.
-		    onAnimationComplete: function(){}
-		}
+		
 	}
 	
 	if(element.address.addressLocality == ""){
@@ -817,7 +740,7 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed', 'calendarview'];
+	// If type is need, add "need+id" object view in mapUrl
 	if(type=="need"){
 		type=type+id;
 		if(typeof(mapUrl[type]) == "undefined"){
@@ -835,7 +758,7 @@ function showElementPad(type, id){
 	$.blockUI({
 		message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
 	});
-
+	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
 		console.log("no ajax load")
 		$.each(listElementView, function(i,value) {

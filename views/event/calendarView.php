@@ -11,7 +11,7 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit)); 
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
 ?>
 
 <style>
