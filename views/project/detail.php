@@ -119,7 +119,8 @@ $this->renderPartial('../default/panels/toolbar');
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
 	var otags = "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>";
-	var odesc = "<?php echo addslashes(strip_tags(json_encode((@$project["shortDescription"]) ? @$project["shortDescription"] : ""))) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"; 
+	var odesc = "<?php echo @$project["shortDescription"]) ? addslashes(strip_tags(json_encode(( @$project["shortDescription"] ))) : "" ?> <?php echo (@$project["address"]["streetAddress"])?@$project["address"]["streetAddress"]:"" ?> <?php echo (@$project["address"]["postalCode"]) ? @$project["address"]["postalCode"] : "" ?> <?php echo (@$project["address"]["addressLocality"]) ? @$project["address"]["addressLocality"] : "" ?> <?php echo (@$project["address"]["addressCountry"]) ? @$project["address"]["addressCountry"] : "" ?>"; 
+
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,otags, odesc);
 	//getAjax(".needsPod",baseUrl+"/"+moduleId+"/needs/index/type/<?php echo Project::COLLECTION ?>/id/<?php echo $project["_id"]?>/isAdmin/<?php echo $admin?>",null,"html");
 	
