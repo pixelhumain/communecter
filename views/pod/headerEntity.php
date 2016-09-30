@@ -61,16 +61,11 @@ $controler = Element::getControlerByCollection($type);
 
 	.headerEntity{
 		/*margin: 0px;*/
-		<?php if(!empty($viewer)){ ?>
-			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
-			min-height:70px;
-			background-position: center bottom 0px;
-			
-		<?php }else { ?>
-			background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
-			background-repeat: repeat;
-			background-size: 200%;
-		<?php } ?>
+		
+		background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/dda-connexion-lines.jpg");
+		background-repeat: repeat;
+		background-size: 200%;
+		
 		/*background-position: left bottom -40px;*/
 		moz-box-shadow: 0px 2px 4px -1px #656565;
 		-webkit-box-shadow: 0px 2px 4px -1px #656565;
@@ -119,10 +114,12 @@ $controler = Element::getControlerByCollection($type);
 	}
 
 
-	.short-desc-header{
+	#shortDescriptionHeader{
 		max-height: 75px;
 		overflow: hidden;
 	}
+
+
 
 
 	@media screen and (max-width: 767px) {

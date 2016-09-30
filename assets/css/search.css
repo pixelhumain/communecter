@@ -663,6 +663,10 @@ button.btn-infos{
 	width: 314px;
 }
 
+.text-black{
+	color:black !important;
+}
+
 @media screen and (max-width: 1024px) {
 	.img-logo{
 		width: 400px;

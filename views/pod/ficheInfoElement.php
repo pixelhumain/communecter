@@ -163,7 +163,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 </style>
 
 <div class="panel panel-white">
-	<div class="panel-heading border-light">
+	<div class="panel-heading border-light padding-15">
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
@@ -712,6 +712,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	});
+
+	
 
 	function bindAboutPodElement() {
 		$("#editGeoPosition").click(function(){

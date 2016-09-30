@@ -150,7 +150,7 @@ function buildLineHTML(newsObj,idSession,update)
 				actionTitle = "";//getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
-			textHtml='<span class="timeline_text no-padding text-dark" >'+textNews+'</span>';
+			textHtml='<span class="timeline_text no-padding text-black" >'+textNews+'</span>';
 		}
 		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
 		if("undefined" != typeof newsObj.media){
@@ -262,10 +262,11 @@ function buildLineHTML(newsObj,idSession,update)
 			$.each(newsObj.scope.cities, function(key, value){ countScope++;
 				var name = "";
 				if (typeof(value.postalCode) != "undefined") {
-					if(name != "")
-						name += + ", " ;
 					name += value.postalCode;
 				}
+
+				if(name != "") name += ", " ;
+					
 				name += (value.addressLocality != "" && value.addressLocality != null) ? value.addressLocality : "";
 				if(countScope<maxScope)
 					scopes += "<span class='label label-danger'>" + name + "</span> ";
@@ -352,6 +353,12 @@ function buildLineHTML(newsObj,idSession,update)
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
 
+	var lblCommentCount = '';
+	if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
+	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaire";
+	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaires";
+	if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
+	
 	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
@@ -372,13 +379,20 @@ function buildLineHTML(newsObj,idSession,update)
 							'<div>'+title + text + "</div>"+media +
 						//'</a>'+
 						'<div class="space5"></div>';
-						 if(idSession){ 
+						
 	newsTLLine +=		'<hr>'+
-						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'><span class='nbNewsComment'>"+commentCount+"</span> <i class='fa fa-comment'></i></span></a> "+
+						"<div class='bar_tools_post margin-bottom-10'>"+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' "+
+								"data-id='"+idVote+"' data-type='"+newsObj.target.type+"'>"+
+								"<span class='label text-dark'><span class='nbNewsComment'></span> " + lblCommentCount + "</span>"+
+							"</a> "+
 							vote+
 						"</div>";
-						}
+	newsTLLine +=		//'<hr>'+
+						"<div id='commentContent"+idVote+"' class='commentContent'>"+
+						
+						"</div>";
+						//}
 	newsTLLine +=	'</div>'+
 				'</div>';
 	if(update==true)
@@ -715,12 +729,15 @@ function checkAndCutLongString(text,limitLength,idNews){
 	return text;
 }
 function showComments(id){
-	$.blockUI({
-			message : '<div class="commentContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
-			onOverlayClick: $.unblockUI,
-			css: {"text-align": "left", "cursor":"default"}
-		});
-		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
+		// $.blockUI({
+		// 	message : '<div class=""><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
+		// 	onOverlayClick: $.unblockUI,
+		// 	css: {"text-align": "left", "cursor":"default"}
+		// });
+		$(".commentContent").html("");
+		
+		$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
+		getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
 		},"html");
 }
 function newsVoteUp($this, id){
