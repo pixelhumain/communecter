@@ -231,6 +231,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .timeline_element .img-responsive{
 	max-height:300px !important;
 }
+
 #form-news{
 	display: inline-block;
     width: 100%;
@@ -268,6 +269,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 .tag.bold{
 	font-weight:600 !important;
+}
+.timeline_element{
+	padding-bottom: 0px;
+}
+.bar_tools_post {
+    font-size: 15px;
 }
 </style>
 <!--<textarea class="mention"></textarea>-->

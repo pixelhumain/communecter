@@ -42,13 +42,13 @@ $cssAnsScriptFilesModule = array(
 
 <!-- start: PAGE CONTENT -->
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 no-padding">
 		<!-- start: TIMELINE PANEL -->
-		<div id="newsHistory" class="padding-10">
+		<div id="newsHistory" class="no-padding">
 		<!-- start: TIMELINE PANEL -->
-			<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
-				<div id="top" class="panel-body panel-white">
-					<div id="timeline" class="col-md-12">
+			<div class="panel panel-white" style="box-shadow:inherit;">
+				<div id="top" class="panel-body panel-white no-padding">
+					<div id="timeline" class="col-md-12 no-padding">
 						<div class="timeline">
 							<div class="newsList newsTL">
 							</div>
@@ -78,7 +78,7 @@ $cssAnsScriptFilesModule = array(
 }
 
 #newsHistory{
-	overflow: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 
 	/*padding-top:100px !important;*/
@@ -229,11 +229,18 @@ div.timeline .newsTL > .newsFeed {
 }
 
 div.timeline .newsTL > .newsFeed .timeline_element {
-    /*float: right;*/
-    left: 10%;
-    margin-right: 30px;
-    left: 0;
-    opacity: 1;
+	left: 5% !important;
+	margin-right: 30px;
+	margin-top: 20px;
+	/*left: 0;*/
+	opacity: 1;
+	right: 10%;
+	width: 90% !important;
+	min-width: 90% !important;
+	max-width: 90% !important;
+	padding: 10px;
+    max-width: unset !important;
+    float:left!important;
 }
 div.timeline .newsTL > .newsFeed .timeline_element:after {
 	display:none;
@@ -241,11 +248,14 @@ div.timeline .newsTL > .newsFeed .timeline_element:after {
 div.timeline .newsTL > .newsFeed .timeline_element:before {
 	display:none;
 }
-.timeline_element {padding: 10px;}
+.timeline_element {}
 
-.timeline_element {
-	    max-width: unset !important;
+
+@media screen and (max-width: 1024px) {
+	.timeline_element {
+		left: 0% !important;
 	}
+}
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">

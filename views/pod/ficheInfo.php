@@ -748,31 +748,31 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	function changeHiddenIcone() 
-{ 
-	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
-	console.log("------------", mode);
-	if(mode == "view"){
-		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
-		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
-		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
-		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
-		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
-		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
-		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
-		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
-		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
-	} else {
-		$(".fa_name").removeClass("hidden"); 
-		$(".fa_birthDate").removeClass("hidden"); 
-		$(".fa_email").removeClass("hidden"); 
-		$(".fa_streetAddress").removeClass("hidden"); 
-		$(".fa_postalCode").removeClass("hidden"); 
-		$(".fa_addressCountry").removeClass("hidden"); 
-		$(".fa_telephone_mobile").removeClass("hidden"); 
-		$(".fa_telephone").removeClass("hidden"); 
-		$(".fa_telephone_fax").removeClass("hidden"); 
+	{ 
+		/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+		console.log("------------", mode);
+		if(mode == "view"){
+			if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+			if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+			if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+			if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+			if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+			if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+			if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+			if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+			if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+		} else {
+			$(".fa_name").removeClass("hidden"); 
+			$(".fa_birthDate").removeClass("hidden"); 
+			$(".fa_email").removeClass("hidden"); 
+			$(".fa_streetAddress").removeClass("hidden"); 
+			$(".fa_postalCode").removeClass("hidden"); 
+			$(".fa_addressCountry").removeClass("hidden"); 
+			$(".fa_telephone_mobile").removeClass("hidden"); 
+			$(".fa_telephone").removeClass("hidden"); 
+			$(".fa_telephone_fax").removeClass("hidden"); 
+		}
 	}
-}
 
 	function activateEditableContext() {
 
