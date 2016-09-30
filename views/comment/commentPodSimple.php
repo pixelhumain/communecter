@@ -50,7 +50,12 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 		left:40px;
 	}
 
-
+	.content-comment .tool-action-comment{
+		display: none;
+	}
+	.content-comment:hover .tool-action-comment{
+		display: inline;
+	}
 </style>
 
 <div class="footer-comments row">
@@ -106,18 +111,35 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 							</span><br>
 							<span>
 							<?php if(isset(Yii::app()->session["userId"])){ ?>
-								<a class="" href="javascript:likeComment('<?php  echo $comment["_id"]; ?>')">J'aime</a> 
+								 
 								<?php if(@$canComment){ ?>
 									<a class="" href="javascript:answerComment('<?php echo $idComment; ?>', '<?php echo $comment["_id"]; ?>')">Répondre</a> 
 								<?php } ?>
-								<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"]){ ?>
-									<a class="" href="javascript:deleteComment('<?php echo $comment["_id"]; ?>')">Supprimer</a> 
-									<a class="" href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')">Modifier</a>
-								<?php } ?>
+									<a style="margin-left:5px;margin-right:5px; font-size:11px;" class="tooltips"
+										data-toggle="tooltip" data-placement="top" title="J'aime"
+										href="javascript:likeComment('<?php  echo $comment["_id"]; ?>')">0 <i class='fa fa-thumbs-up'></i></a> 
+									<a style=" font-size:11px;"  class="tooltips"
+										href="javascript:likeComment('<?php  echo $comment["_id"]; ?>')"
+										data-toggle="tooltip" data-placement="top" title="Je n'aime pas">0 <i class='fa fa-thumbs-down'></i></a>
+								<div class="tool-action-comment">
+									<a style="margin-left:5px; margin-right:5px; font-size:11px;"  class="tooltips"
+										   data-toggle="tooltip" data-placement="top" title="Signaler un abus"
+										   href="javascript:reportAbuseComment('<?php echo $comment["_id"]; ?>')">0 <i class='fa fa-flag'></i></a>
+										
+									<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"] && false){ ?>
+										<a style="margin-left:5px; margin-right:5px; font-size:11px;"  class="tooltips"
+										   data-toggle="tooltip" data-placement="top" title="Modifier"
+										   href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i></a>
+										<a style="font-size:11px" class="tooltips"
+										   data-toggle="tooltip" data-placement="top" title="Supprimer"
+										   href="javascript:deleteComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-times'></i></a> 
+										
+									<?php } ?>
+								</div>
 							<?php } ?>
 							</span>
 						</span>
-						<div id="comments-list-<?php echo $comment["_id"]; ?>" class="pull-left col-md-<?php echo 11-$level; ?> no-padding answerCommentContainer">
+						<div id="comments-list-<?php echo $comment["_id"]; ?>" class="pull-left col-md-10 no-padding answerCommentContainer">
 							<?php if(sizeOf($comment["replies"]) > 0) //recursive for answer (replies)
 									showCommentTree($comment["replies"], $assetsUrl, $comment["_id"], $canComment, $level++);  ?>
 						</div>
@@ -174,6 +196,8 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 			linked = linkify($(this).html());
 			$(this).html(linked);
 		});
+
+		$(".tooltips").tooltip();
 	});
 
 	function bindEventTextArea(idTextArea, idComment, isAnswer, parentCommentId){
@@ -219,8 +243,15 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 									<?php if(@$canComment){ ?>
 							'			<a class="" href=\'javascript:answerComment(\"<?php echo $idComment; ?>\", \"'+idNewComment+'\")\'>Répondre</a> '+
 									<?php } ?>
-							'			<a class="" href=\'javascript:deleteComment(\"'+idNewComment+'\")\'>Supprimer</a> '+
-							'			<a class="" href=\'javascript:modifyComment(\"'+idNewComment+'\")\'>Modifier</a>'+
+							'			<a style="margin-left:15px; margin-right:5px; font-size:11px;"  class="tooltips"'+
+							'			   data-toggle="tooltip" data-placement="top" title="Modifier"'+
+							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
+							'			<a style="font-size:11px" class="tooltips"'+
+							'			   data-toggle="tooltip" data-placement="top" title="Supprimer"'+
+							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-times"></i></a>'+
+
+							//'			<a class="" href=\'javascript:deleteComment(\"'+idNewComment+'\")\'>Supprimer</a> '+
+							//'			<a class="" href=\'javascript:modifyComment(\"'+idNewComment+'\")\'>Modifier</a>'+
 								<?php } ?>
 							'</span>'+
 						'</span>'+	
