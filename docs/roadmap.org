@@ -90,6 +90,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] bug : location > tape CP > validate , ca passe 
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
+      [ ] ajouter les autres champs en cacher
+        [ ] 
     [X] project to name, location btn
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
