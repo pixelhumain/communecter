@@ -75,7 +75,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] moving discussion polling to discussion page instead of communecter.js
   
   [ ] finish fromNow method
-  
+  [ ] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
   [X] connected to mention
   [X] generate basic element code
   [X] parse and build post genericaly jsonHelper.stringFormtoJson
@@ -88,10 +91,12 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] le scroll marche pas
   [ ] elements to simple dynform 
     [ ] bug : location > tape CP > validate , ca passe 
+    [ ] switch on map , show / hide POI, point of parent
+    [ ] check bad sub attributes : address.cococo
+    [ ] refactor : move from ACtion to model Element
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
-      [ ] ajouter les autres champs en cacher
-        [ ] 
+      [X] ajouter les autres champs en activable
     [X] project to name, location btn
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
@@ -109,7 +114,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] formulaire evolutif
       [ ] add photo  
       [ ] add to news
-      [ ] switch on map , show / hide POI, point of parent
+      [ ] add text : getUrl
       [X] unknown attribute passes the the save 
     [ ] debat 
     [ ] action

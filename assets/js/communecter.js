@@ -1334,7 +1334,7 @@ var typeObj = {
 			        },
 			        formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(\".urlsarray\").slideToggle()'>+urls</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
@@ -1403,19 +1403,52 @@ var typeObj = {
 		            	"rules" : { "required" : true },
 		            	"options" : organizationTypes
 		            },
+		            typeOrg :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
+		            	value : "admin",
+		            	"options" : {
+		            		admin : "Administrateur",
+							member : "Member",
+							creator : "Just a citizen wanting to give visibility to it :)"
+		            	}
+		            },
 		            location : {
 		                inputType : "location"
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		                "html":
+						"<a class='btn btn-xs btn-azure text-dark w100p' href='javascript:$(\".emailtext,.tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+		            },
+		            email : {
+			        	placeholder : "Email du responsable",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".emailtext").css("display","none");
+			            }
+			        },
+			        tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList,
+		              init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
 		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").addClass("hidden");	 
+			            	$(".urlsarray").css("display","none");	 
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1581,14 +1614,29 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+		            },
+			        tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList,
+		              init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
 		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
-			            init : function(){
-			            	$(".urlsarray").addClass("hidden");	 
+			            init:function(){
+			            	$(".urlsarray").css("display","none");	 
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1654,14 +1702,29 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+		            },
+			        tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList,
+		              init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
 		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").addClass("hidden");	 
+			            	$(".urlsarray").css("display","none");	 
 			            }
 			        },
 		            "preferences[publicFields]" : {
