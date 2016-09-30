@@ -1320,9 +1320,6 @@ var typeObj = {
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
 			    		
-			    	},
-			    	onload:function(){
-			    		$(".urlsarray").addClass("hidden");	    		
 			    	}
 			    },
 			    properties : {
@@ -1342,7 +1339,10 @@ var typeObj = {
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
-			            "value" : []
+			            "value" : [],
+			            init:function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
 			        },
 		            tags :{
 		              "inputType" : "tags",
@@ -1386,9 +1386,7 @@ var typeObj = {
 			        name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
+			            "rules" : { "required" : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		globalSearch($(this).val(),["organizations"]);
@@ -1399,18 +1397,27 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
-			        formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
-		            },
 			        type :{
 		            	"inputType" : "select",
 		            	"placeholder" : "type select",
+		            	"rules" : { "required" : true },
 		            	"options" : organizationTypes
 		            },
 		            location : {
 		                inputType : "location"
 		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
+			        },
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -1500,10 +1507,6 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
-			        formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
-		            },
 			        organizerId :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
@@ -1576,6 +1579,18 @@ var typeObj = {
 		            location : {
 		                inputType : "location"
 		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init : function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
+			        },
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -1634,13 +1649,21 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
 		            },
-			        formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
-		            },
 		            location : {
 		                inputType : "location"
 		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(this).hide();$(\".urlsarray\").removeClass(\"hidden\")'>+urls</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
+			        },
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -1708,6 +1731,9 @@ var typeObj = {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
+			            init:function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
 			        },
 			        select :{
 		            	"inputType" : "select",

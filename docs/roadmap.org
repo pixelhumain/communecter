@@ -87,6 +87,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform 
+    [ ] bug : location > tape CP > validate , ca passe 
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
     [X] project to name, location btn
@@ -108,6 +109,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] add to news
       [ ] switch on map , show / hide POI, point of parent
       [X] unknown attribute passes the the save 
+    [ ] debat 
+    [ ] action
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes
