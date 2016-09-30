@@ -378,7 +378,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($organizations as $e) 
 						{ 	
-							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"memberOf", $type, $elementId);
 						};
 					}
 
@@ -387,7 +387,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($people as $e) 
 						{
-							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$type,$elementId);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage, "members", $type, $elementId);
 						}
 					}
 
@@ -396,7 +396,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($events as $e) 
 						{ 
-							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 	
@@ -405,7 +405,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($projects as $e) 
 						{ 
-							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage, "contributors", $type, $elementId);
 						}
 					}
 					/* ************ ATTENDEES OF AN EVENT ************************ */
@@ -413,7 +413,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -421,7 +421,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
 						}
 					}
 
@@ -444,7 +444,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						{ 
 							foreach ($follows[Person::COLLECTION] as $e) 
 							{
-								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,$type,$elementId);
+								buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"followers", $type, $elementId);
 							}
 					}	
 					///// SHOW FOLLOWERS !!!!!
@@ -467,7 +467,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						{ 
 							foreach ($follows[Organization::COLLECTION] as $e) 
 							{ 	
-								buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+								buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage, "followers", $type, $elementId);
 							};
 						}
 	
@@ -484,13 +484,13 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						{ 
 							foreach ($follows[Project::COLLECTION] as $e) 
 							{ 
-								buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+								buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage, "followers", $type,$elementId);
 							}
 						}
 					} 
 					
 					
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage,$type=null,$elementId=null)
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage, $connectType=null, $elementType=null,$elementId=null)
 					{
 						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
 							return;
@@ -715,7 +715,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 														Yii::t("common","Accept as admin").
 													'</a>'.
 												'</li>';
-							} else {
+							} else if($elementType!=Person::COLLECTION){
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
 													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
@@ -726,7 +726,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 								}
 							}
 							$strHTML .=			'<li>'.
-													'<a href="javascript:;" class="disconnectBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
+													'<a href="javascript:;" class="disconnectBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
 														'<i class="disconnectBtnIcon fa fa-unlink"></i>'.
 														Yii::t("common","Unlink").
 													'</a>'.
@@ -791,7 +791,7 @@ var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getContro
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>;
 var show = <?php echo (isset($show) && $show) ? 'true': 'false'; ?>; 
-
+var elementId = "<?php echo @$elementId ?>";
 jQuery(document).ready(function() {
 
 	setTitle(nameType+" : "+contextData.name,contextIconTitle);
@@ -888,13 +888,25 @@ function initGrid(){
 function bindBtnEvents(){
 	$(".disconnectBtn").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
-	        var userId = $(this).data("id");
+	        params =new Object;
+	        if($("#parentType").val() == "citoyens" && elementId==$("#parentId").val()){
+		        params.childId = $("#parentId").val();
+		        params.childType =$("#parentType").val() ;
+		        params.parentType = $(this).data("type") ;
+		        params.parentId = $(this).data("id");
+			    params.connectType = $(this).data("connecttype");
+			    params.fromMyDirectory = true;
+	        }else{
+		        params.childId = $(this).data("id");
+		        params.childType = $(this).data("type");
+		        params.parentType = $("#parentType").val();
+		        params.parentId = $("#parentId").val();
+		        params.connectType = $("#connectType").val();
+	        }
 	        var userType = $(this).data("type");
-	        var parentType = $("#parentType").val();
-	        var parentId = $("#parentId").val();
-	        var connectType = $("#connectType").val();
-
-	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	        var userId = $(this).data("id");
+	        $(this).parents().eq(2).find(".dropdown-toggle").html('<i class="fa fa-spinner fa-spin text-white"></i>');
+	        //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {
@@ -902,11 +914,12 @@ function bindBtnEvents(){
 					        type: "POST",
 					        url: baseUrl+"/"+moduleId+"/link/disconnect",
 					       	dataType: "json",
-					       	data: {"parentType": parentType, "parentId": parentId, "childId":userId, "childType": userType,"connectType":connectType},
+					       	data: params,
 				        	success: function(data){
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");
-						        	$("#"+data.collection+userId).remove();
+						       	 	$("#"+data.collection+userId).css("background-color","#5f8295 !important").fadeOut(600);
+						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
 						        	badgeAll=$(".menu_directory li[data-filter='all']").find(".badge");
