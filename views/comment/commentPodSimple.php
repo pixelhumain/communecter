@@ -121,21 +121,23 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 									<a style=" font-size:11px;"  class="tooltips"
 										href="javascript:likeComment('<?php  echo $comment["_id"]; ?>')"
 										data-toggle="tooltip" data-placement="top" title="Je n'aime pas">0 <i class='fa fa-thumbs-down'></i></a>
-								<div class="tool-action-comment">
-									<a style="margin-left:5px; margin-right:5px; font-size:11px;"  class="tooltips"
-										   data-toggle="tooltip" data-placement="top" title="Signaler un abus"
-										   href="javascript:reportAbuseComment('<?php echo $comment["_id"]; ?>')">0 <i class='fa fa-flag'></i></a>
-										
-									<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"] && false){ ?>
+									
+									<div class="tool-action-comment">
 										<a style="margin-left:5px; margin-right:5px; font-size:11px;"  class="tooltips"
-										   data-toggle="tooltip" data-placement="top" title="Modifier"
-										   href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i></a>
-										<a style="font-size:11px" class="tooltips"
-										   data-toggle="tooltip" data-placement="top" title="Supprimer"
-										   href="javascript:deleteComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-times'></i></a> 
-										
-									<?php } ?>
-								</div>
+											   data-toggle="tooltip" data-placement="top" title="Signaler un abus"
+											   href="javascript:reportAbuseComment('<?php echo $comment["_id"]; ?>')">0 <i class='fa fa-flag'></i></a>
+											
+										<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"]){ ?>
+											<a style="margin-left:5px; margin-right:5px; font-size:11px;"  class="tooltips"
+											   data-toggle="tooltip" data-placement="top" title="Modifier"
+											   href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i></a>
+											<a style="font-size:11px" class="tooltips"
+											   data-toggle="tooltip" data-placement="top" title="Supprimer"
+											   href="javascript:deleteComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-times'></i></a> 
+											
+										<?php } ?>
+									</div>
+
 							<?php } ?>
 							</span>
 						</span>
@@ -225,6 +227,7 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 		});
 	}
 
+
 	function showOneComment(textComment, idComment, isAnswer, idNewComment){
 		textComment = linkify(textComment);
 		var html = '<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment">'+
@@ -237,19 +240,31 @@ function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$t
 						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span> '+
 						'		<span class="text-comment">'	+ textComment + "</span>" +
 						'	</span><br>'+
-							'<span class="">' + 
+							'<span class="">' +
+								<?php if(@$canComment){ ?>
+							'		<a class="" href=\'javascript:answerComment(\"<?php echo $idComment; ?>\", \"'+idNewComment+'\")\'>Répondre</a> '+
+								<?php } ?> 
 								<?php if(isset(Yii::app()->session["userId"])){ ?>
-							'		<a class="" href=\'javascript:likeComment(\"'+idNewComment+'\")\'>J\'aime</a> '+
-									<?php if(@$canComment){ ?>
-							'			<a class="" href=\'javascript:answerComment(\"<?php echo $idComment; ?>\", \"'+idNewComment+'\")\'>Répondre</a> '+
-									<?php } ?>
-							'			<a style="margin-left:15px; margin-right:5px; font-size:11px;"  class="tooltips"'+
+
+							'		<a class="" class="tooltips"'+
+							'			    data-toggle="tooltip" data-placement="top" title="J\'aime"'+
+							'				href=\'javascript:likeComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-thumbs-up"></i></a> '+
+							'		<a class=""  class="tooltips"'+
+							'			   	data-toggle="tooltip" data-placement="top" title="Je n\'aime pas"'+
+							'			  	href=\'javascript:dislikeComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-thumbs-down"></i></a> '+
+							
+							'<div class="tool-action-comment">' +
+							'		<a class=""  class="tooltips"'+
+							'			   	data-toggle="tooltip" data-placement="top" title="Signaler un abus"'+
+							'			  	href=\'javascript:reportAbuseComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-flag"></i></a> '+
+									
+							'		<a style="margin-left:15px; margin-right:5px; font-size:11px;"  class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Modifier"'+
 							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
-							'			<a style="font-size:11px" class="tooltips"'+
+							'		<a style="font-size:11px" class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Supprimer"'+
 							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-times"></i></a>'+
-
+							'</div>' +
 							//'			<a class="" href=\'javascript:deleteComment(\"'+idNewComment+'\")\'>Supprimer</a> '+
 							//'			<a class="" href=\'javascript:modifyComment(\"'+idNewComment+'\")\'>Modifier</a>'+
 								<?php } ?>
