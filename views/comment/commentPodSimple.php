@@ -352,16 +352,16 @@
 								<?php } ?> 
 								<?php if(isset(Yii::app()->session["userId"])){ ?>
 
-							'		<a class="tooltips" style="margin-left:5px;margin-right:5px;"'+
+							'		<a class="tooltips commentVoteUp" style="margin-left:5px;margin-right:5px;"'+
 							'			    class="tooltips commentVoteUp"'+
 							'				data-voted="false"'+
-							'				data-id="'+idNewComment+' data-countcomment="0"	' +
+							'				data-id="'+idNewComment+'" data-countcomment="0"	' +
 							'				data-toggle="tooltip" data-placement="top" title="J\'aime"'+
 							'				href="javascript:">0 <i class="fa fa-thumbs-up"></i></a> ' +
 
 							'		<a class="tooltips commentVoteDown"'+
 							'			   	data-voted="false"'+
-							'				data-id="'+idNewComment+' data-countcomment="0"	' +
+							'				data-id="'+idNewComment+'" data-countcomment="0"	' +
 							'				data-toggle="tooltip" data-placement="top" title="Je n\'aime pas"'+
 							'			  	href="javascript:">0 <i class="fa fa-thumbs-down"></i></a> ' +
 							
