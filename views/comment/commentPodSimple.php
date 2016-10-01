@@ -105,7 +105,7 @@
 					$profilThumbImageUrl = Element::getImgProfil($comment["author"], "profilThumbImageUrl", $assetsUrl); 
 					if($hidden > 0) $hiddenClass = "hidden hidden-".$hidden;
 		?>
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>">
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
 
 						<img src="<?php echo $profilThumbImageUrl; ?>" class="img-responsive pull-left" 
 							 style="margin-right:10px;height:32px; border-radius:3px;">
@@ -135,7 +135,7 @@
 									if(@$comment['voteDown']) foreach (@$comment['voteDown'] as $key => $value) { if($key == $myId) $iVoted = "down"; }
 									if(@$comment['reportAbuse']) foreach (@$comment['reportAbuse'] as $key => $value) { if($key == $myId) $iVoted = "abuse"; }
 								?>
-									<a style="margin-left:5px;margin-right:5px; font-size:11px;" href="javascript:"
+									<a style="margin-left:5px;margin-right:5px;" href="javascript:"
 										class="tooltips commentVoteUp <?php echo $iVoted=='up' ? 'text-green' : ''; ?>"
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo $voteUpCount; ?>"
@@ -143,7 +143,7 @@
 										<span class="count"><?php echo @$voteUpCount; ?></span> 
 										<i class='fa fa-thumbs-up'></i>
 									</a> 
-									<a style=" font-size:11px;" href="javascript:"
+									<a  href="javascript:"
 										class="tooltips commentVoteDown <?php echo $iVoted=='down' ? 'text-orange' : ''; ?>"
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$voteDownCount; ?>"
@@ -152,9 +152,9 @@
 										<i class='fa fa-thumbs-down'></i>
 									</a>
 									
-									<?php if($iVoted=='abuse' && $reportAbuseCount > 1){ ?>
-									<a style="margin-left:5px; margin-right:5px; font-size:12px;" href="javascript:"
-										class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : ''; ?>"
+									<?php if($reportAbuseCount > 1){ ?>
+									<a style="margin-left:5px; margin-right:5px;" href="javascript:"
+										class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : 'text-red-light'; ?>"
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAbuseCount; ?>"
 										data-toggle="tooltip" data-placement="top" title="Signaler un abus">
@@ -164,9 +164,9 @@
 									<?php } ?>
 									<div class="tool-action-comment">
 
-										<?php if($iVoted!='abuse' || $reportAbuseCount == 1){ ?>
-										<a style="margin-left:5px; margin-right:5px; font-size:12px;" href="javascript:"
-											class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : ''; ?>"
+										<?php if($reportAbuseCount <= 1){ ?>
+										<a style="margin-left:5px; margin-right:5px;" href="javascript:"
+											class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : $reportAbuseCount >= 1 ? 'text-red-light' : ''; ?>"
 											data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 											data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAbuseCount; ?>"
 											data-toggle="tooltip" data-placement="top" title="Signaler un abus">
@@ -176,13 +176,13 @@
 										<?php } ?>
 										
 										<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"]){ ?>
-											<a style="margin-left:5px; margin-right:5px; font-size:12px;"  class="tooltips"
+											<a style="margin-left:5px; margin-right:5px;"  class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Modifier"
 											   href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i>
 											</a>
-											<a style="font-size:11px" class="tooltips"
+											<a class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Supprimer"
-											   href="javascript:deleteComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-times'></i>
+											   href="javascript:confirmDeleteComment('<?php echo $comment["_id"]; ?>',$(this))"><i class='fa fa-times'></i>
 											</a>				
 										<?php } ?>
 
@@ -317,23 +317,26 @@
 		//Abuse process
 		$('.commentReportAbuse').off().on("click",function(){
 			id=$(this).data("id");
-			if(!$(this).hasClass("text-red") && $(this).data("voted")=="true")
+			if($(this).data("voted")=="true")
 				toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
 			else{	
-				if($(".commentVoteUp[data-id='"+id+"']").hasClass("text-green") || $(".commentVoteDown[data-id='"+id+"']").hasClass("text-orange"))
+				if($(".commentVoteUp[data-id='"+id+"']").hasClass("text-green") || $(".commentVoteDown[data-id='"+id+"']").hasClass("text-orange")){
 					toastr.info("<?php echo Yii::t("common", "You can't make any actions on this comment after reporting abuse !") ?>");
-				else
+				}
+				else{
 					reportAbuse($(this), $(this).data("contextid"));
+				}
 			}
 		});
 		$('.deleteComment').off().on("click",function(){
 			actionAbuseComment($(this), "<?php echo Comment::STATUS_DELETED ?>", "");
 		});
 	}
+	
 
 	function showOneComment(textComment, idComment, isAnswer, idNewComment){
 		textComment = linkify(textComment);
-		var html = '<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment">'+
+		var html = '<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment" id="item-comment-'+idNewComment+'">'+
 
 						'<img src="<?php echo @$profilThumbImageUrlUser; ?>" class="img-responsive pull-left" '+
 						'	 style="margin-right:10px;height:32px; border-radius:3px;">'+
@@ -349,24 +352,33 @@
 								<?php } ?> 
 								<?php if(isset(Yii::app()->session["userId"])){ ?>
 
-							'		<a class="" class="tooltips"'+
-							'			    data-toggle="tooltip" data-placement="top" title="J\'aime"'+
-							'				href=\'javascript:likeComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-thumbs-up"></i></a> '+
-							'		<a class=""  class="tooltips"'+
-							'			   	data-toggle="tooltip" data-placement="top" title="Je n\'aime pas"'+
-							'			  	href=\'javascript:dislikeComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-thumbs-down"></i></a> '+
+							'		<a class="tooltips" style="margin-left:5px;margin-right:5px;"'+
+							'			    class="tooltips commentVoteUp"'+
+							'				data-voted="false"'+
+							'				data-id="'+idNewComment+' data-countcomment="0"	' +
+							'				data-toggle="tooltip" data-placement="top" title="J\'aime"'+
+							'				href="javascript:">0 <i class="fa fa-thumbs-up"></i></a> ' +
+
+							'		<a class="tooltips commentVoteDown"'+
+							'			   	data-voted="false"'+
+							'				data-id="'+idNewComment+' data-countcomment="0"	' +
+							'				data-toggle="tooltip" data-placement="top" title="Je n\'aime pas"'+
+							'			  	href="javascript:">0 <i class="fa fa-thumbs-down"></i></a> ' +
 							
 							'<div class="tool-action-comment">' +
-							'		<a class=""  class="tooltips"'+
-							'			   	data-toggle="tooltip" data-placement="top" title="Signaler un abus"'+
-							'			  	href=\'javascript:reportAbuseComment(\"'+idNewComment+'\")\'>0 <i class="fa fa-flag"></i></a> '+
+							'		<a class="tooltips commentReportAbuse" style="margin-left:5px;margin-right:5px;"'+
+							'			   	data-voted="false"'+
+							'				data-id="'+idNewComment+'" data-countcomment="0"	' +
+							'				data-toggle="tooltip" data-placement="top" title="Signaler un abus"'+
+							'			  	href="javascript:">0 <i class="fa fa-flag"></i></a> '+
 									
-							'		<a style="margin-left:15px; margin-right:5px; font-size:11px;"  class="tooltips"'+
+							'		<a style="margin-left:5px; margin-right:5px;"  class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Modifier"'+
 							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
-							'		<a style="font-size:11px" class="tooltips"'+
+
+							'		<a class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Supprimer"'+
-							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-times"></i></a>'+
+							'			   href=\'javascript:confirmDeleteComment(\"'+idNewComment+'\", $(this))\'><i class="fa fa-times"></i></a>'+
 							'</div>' +
 							//'			<a class="" href=\'javascript:deleteComment(\"'+idNewComment+'\")\'>Supprimer</a> '+
 							//'			<a class="" href=\'javascript:modifyComment(\"'+idNewComment+'\")\'>Modifier</a>'+
@@ -428,7 +440,8 @@
 						latestComments = data.time;
 
 						var isAnswer = parentCommentId!="";
-						showOneComment(textComment, parentCommentId, isAnswer, data.id.$id);       
+						showOneComment(textComment, parentCommentId, isAnswer, data.id.$id);   
+						bindEventActions();    
 					}
 				},
 			error: 
@@ -470,18 +483,27 @@
 	function reportAbuse(comment, contextId) {
 		// console.log(contextId);
 		var message = "<div id='reason' class='radio'>"+
+			"<h3 class='margin-top-10'>Pour quelle raison signalez-vous ce contenu ?</h3>" +
+			"<hr>" +
 			"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
 			"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
 			"<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
 			"<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
 		  	"<label><input type='radio' name='reason' value='Liens fallacieux ou frauduleux'>Liens fallacieux ou frauduleux</label><br>"+
 		  	"<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
-		  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br>"+
-		  	"<input type='text' class='form-control' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
+		  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br><br>"+
+		  	"<input type='text' class='form-control' style='text-align:left;' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
+		  	"Votre signalement sera envoyé aux administrateurs du réseau,<br> qui le traiteront conformément aux <a href='javascript:'>conditions d'utilisations</a><br>" + 
+			"<span class='text-red'><i class='fa fa-info-circle'></i> Tout signalement est définitif, vous ne pourrez pas l'annuler</span><br>" +
+			"<hr>" +
+			"<span class=''><i class='fa fa-arrow-right'></i> Le contenu sera signalé par un <i class='fa fa-flag text-red'></i> s'il fait l'objet d'au moins 2 signalements</span><br>" +
+			"<span class='text-red-light'><i class='fa fa-arrow-right'></i> Le contenu sera masqué s'il fait l'objet d'au moins 5 signalements</span><br>" +
+			"<span class=''><i class='fa fa-arrow-right'></i> Le contenu sera supprimé par les administrateurs s'il enfreint les conditions d'utilisations</span>" +
 			"</div>";
 		var boxComment = bootbox.dialog({
 		  message: message,
-		  title: '<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>',
+		  //title: '<?php echo Yii::t("comment","You are going to declare this comment as abuse : please fill the reason ?") ?>',
+		  title: '<span class="text-red"><i class="fa fa-flag"></i> <?php echo Yii::t("comment","Signaler un abus") ?>',
 		  buttons: {
 		  	annuler: {
 		      label: "Annuler",
@@ -491,8 +513,8 @@
 		      }
 		    },
 		    danger: {
-		      label: "Déclarer cet abus",
-		      className: "btn-primary",
+		      label: "Envoyer le signalement",
+		      className: "btn-danger",
 		      callback: function() {
 		      	// var reason = $('#reason').val();
 		      	var reason = $("#reason input[type='radio']:checked").val();
@@ -591,8 +613,8 @@
 								//to hide menu
 								$(".newsReport[data-id="+params.id+"]").hide();
 							}
-							else{
-			                    if(count < count+data.inc)
+							else{ console.log("dataINC:", data);
+			                    if(data.inc>=1)
 			                    	toastr.success("<?php echo Yii::t("common", "Your vote has been successfully added") ?>");
 			                    else
 									toastr.success("<?php echo Yii::t("common","Your vote has been successfully removed") ?>");	 
@@ -621,7 +643,7 @@
 			console.log("disableOtherAction 1", action);
 			$(".commentVoteUp[data-id='"+commentId+"']").removeClass("text-green").data("voted", false);
 			$(".commentVoteDown[data-id='"+commentId+"']").removeClass("text-orange").data("voted", false);
-			$(".commentReportAbuse[data-id='"+commentId+"']").removeClass("text-red").data("voted", false);
+			$(".commentReportAbuse[data-id='"+commentId+"']").data("voted", false);
 
 			var count = $(action+"[data-id='"+commentId+"']").data("countcomment");
 			console.log("count 1", count);
@@ -632,7 +654,7 @@
 			console.log("disableOtherAction 2", method);
 			$(".commentVoteUp[data-id='"+commentId+"']").removeClass("text-green").data("voted",true);
 			$(".commentVoteDown[data-id='"+commentId+"']").removeClass("text-orange").data("voted",true);
-			$(".commentReportAbuse[data-id='"+commentId+"']").removeClass("text-red").data("voted",true);
+			$(".commentReportAbuse[data-id='"+commentId+"']").data("voted",true);
 
 			if (action == ".commentVoteUp") $(".commentVoteUp[data-id='"+commentId+"']").addClass("text-green");
 			if (action == ".commentVoteDown") $(".commentVoteDown[data-id='"+commentId+"']").addClass("text-orange");
@@ -644,7 +666,63 @@
 		}
 	}
 
+	function confirmDeleteComment(id, $this){
+		// console.log(contextId);
+		var message = "Souhaitez-vous vraiment supprimer ce commentaire ?";
+		var boxComment = bootbox.dialog({
+		  message: message,
+		  title: '<?php echo Yii::t("comment","You are going to delete this comment : are your sure ?") ?>', //Souhaitez-vous vraiment supprimer ce commentaire ?
+		  buttons: {
+		  	annuler: {
+		      label: "Annuler",
+		      className: "btn-default",
+		      callback: function() {
+		        console.log("Annuler");
+		      }
+		    },
+		    danger: {
+		      label: "Supprimer",
+		      className: "btn-primary",
+		      callback: function() {
+		      	deleteComment(id,$this);
+				return true;
+		      }
+		    },
+		  }
+		});
 
+		boxComment.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		});
+
+		boxComment.on("hide.bs.modal", function() {
+		  $.unblockUI();
+		});
+	}
+
+	function deleteComment(id,$this){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/comment/delete/id/"+id,
+			dataType: "json",
+			//data: {"newsId": idNews},
+	    	success: function(data){
+	        	if (data.result) {    
+		        	console.log(data);           
+					toastr.success("<?php echo Yii::t("common","Comment successfully deleted")?>");
+					//liParent=$this.parents().eq(2);
+		        	//liParent.fadeOut();
+		        	$("#item-comment-"+id).html("");
+		        	$('.nbComments').html((parseInt($('.nbComments').html()) || 0) - 1);
+		        	if (data.comment.contextType=="news"){
+							$(".newsAddComment[data-id='"+data.comment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0 );
+						}
+				} else {
+		            toastr.error("Quelque chose a buggé"); //j'adore cette alert ;) !
+		        }
+		    }
+		});
+	}
 
 	function linkify(inputText) {
 	    var replacedText, replacePattern1, replacePattern2, replacePattern3;
@@ -663,6 +741,7 @@
 
 	    return replacedText;
 	}
+
 
 
 </script>
