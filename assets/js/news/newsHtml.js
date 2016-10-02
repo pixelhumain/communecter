@@ -359,7 +359,7 @@ function buildLineHTML(newsObj,idSession,update)
 	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaires";
 	if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
 	
-	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' " id="newsFeed'+newsObj._id.$id+'">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
 						tags+
@@ -734,11 +734,19 @@ function showComments(id){
 		// 	onOverlayClick: $.unblockUI,
 		// 	css: {"text-align": "left", "cursor":"default"}
 		// });
-		$(".commentContent").html("");
 		
-		$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
-		getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
-		},"html");
+		
+		if(!$("#commentContent"+id).hasClass("hidden")){
+			$(".commentContent").html("");
+			$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
+			getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
+				
+			},"html");
+		}else{
+			$("#commentContent"+id).removeClass("hidden");		
+			console.log("scroll TO : ", $('#newsFeed'+id).position().top);
+			
+		}
 }
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))

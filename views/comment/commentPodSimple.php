@@ -403,8 +403,13 @@
 
 	function hideComments(id, level){ console.log("#comments-list-"+id + " .item-comment", level);
 		//$("#comments-list-"+id + " .item-comment").addClass("hidden");
-		if(level<=1)
+		if(level<=1){
 			$("#commentContent"+id).addClass("hidden");
+			//console.log("scroll TO : ", $('#newsFeed'+id).position().top, $('#newsHistory').position().top);
+			$('.my-main-container').animate({
+		        scrollTop: $('#newsFeed'+id).position().top + $('#newsHistory').position().top
+		    }, 400);
+		}
 		else
 			$("#comments-list-"+id).addClass("hidden");
 	}
