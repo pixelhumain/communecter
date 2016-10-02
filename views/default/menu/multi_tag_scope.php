@@ -6,6 +6,11 @@
 $this->renderPartial('../default/menu/multi_tag', array("me"=>$me)); 
 $this->renderPartial('../default/menu/multi_scope', array("me"=>$me));
 ?>
+<button class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+      data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
+  <i class="fa fa-bell hidden-xs"></i>
+  <span class="notifications-count topbar-badge badge badge-success animated bounceIn"><?php count($this->notifications); ?></span>
+</button>
 
 </span>
 

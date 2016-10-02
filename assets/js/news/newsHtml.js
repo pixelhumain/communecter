@@ -152,7 +152,7 @@ function buildLineHTML(newsObj,idSession,update)
 			}
 			textHtml='<span class="timeline_text no-padding text-black" >'+textNews+'</span>';
 		}
-		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
+		text='<div id="newsContent'+newsObj._id.$id+'" data-pk="'+newsObj._id.$id+'" class="newsContent" >'+textHtml+'</div>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
@@ -659,7 +659,7 @@ function voteCheckAction(idVote, newsObj) {
 }
 
 function manageModeContext(id) {
-	listXeditables = ['#newsContent'+id, '#newsTitle'+id];
+	listXeditables = [/*'#newsContent'+id,*/ '#newsTitle'+id];
 	if (mode == "view") {
 		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -701,21 +701,21 @@ function initXEditable() {
     	if(!v) return 'Required field!';
 	});
 
-	$('.newsContent').editable({
-		url: baseUrl+"/"+moduleId+"/news/updatefield", 
-		showbuttons: 'bottom',
-		wysihtml5: {
-			html: true,
-			video: true,
-			image: true
-		},
-		success : function(data) {
-	        if(data.result) 
-	        	toastr.success(data.msg);
-	        else
-	        	toastr.error(data.msg);  
-	    },
-	});
+	// $('.newsContent').editable({
+	// 	url: baseUrl+"/"+moduleId+"/news/updatefield", 
+	// 	showbuttons: 'bottom',
+	// 	wysihtml5: {
+	// 		html: true,
+	// 		video: true,
+	// 		image: true
+	// 	},
+	// 	success : function(data) {
+	//         if(data.result) 
+	//         	toastr.success(data.msg);
+	//         else
+	//         	toastr.error(data.msg);  
+	//     },
+	// });
 }
 function checkAndCutLongString(text,limitLength,idNews){
 	if(text.length > limitLength){
