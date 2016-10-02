@@ -355,8 +355,8 @@ function buildLineHTML(newsObj,idSession,update)
 
 	var lblCommentCount = '';
 	if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
-	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaire";
-	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaires";
+	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
+	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
 	if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
 	
 	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' " id="newsFeed'+newsObj._id.$id+'">'+
@@ -384,7 +384,7 @@ function buildLineHTML(newsObj,idSession,update)
 						"<div class='bar_tools_post margin-bottom-10'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' "+
 								"data-id='"+idVote+"' data-type='"+newsObj.target.type+"'>"+
-								"<span class='label text-dark'><span class='nbNewsComment'></span> " + lblCommentCount + "</span>"+
+								"<span class='label text-dark'> " + lblCommentCount + "</span>"+
 							"</a> "+
 							vote+
 						"</div>";
@@ -738,6 +738,8 @@ function showComments(id){
 		
 		if(!$("#commentContent"+id).hasClass("hidden")){
 			$(".commentContent").html("");
+			$(".commentContent").removeClass("hidden");		
+			
 			$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
 			getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
 				

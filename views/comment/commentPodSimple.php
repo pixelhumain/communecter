@@ -436,11 +436,17 @@
 					}
 					else { 
 						toastr.success(data.msg);
-						console.log(data);
-						$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
-						if (data.newComment.contextType=="news"){
-							$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
+						var count = $("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html();
+						//console.log(count, context["_id"]["$id"]);
+						if(notEmpty(count) && data.newComment.contextType=="news"){
+							count = parseInt(count);
+							$("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html(count+1);
 						}
+						
+						// $('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
+						// if (data.newComment.contextType=="news"){
+						// 	$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
+						// }
 						//switchComment(commentId, data.newComment, parentCommentId);
 						latestComments = data.time;
 
