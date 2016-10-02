@@ -113,7 +113,9 @@
 						<span class="pull-left content-comment">						
 							<span class="text-black">
 								<span class="text-dark"><strong><?php echo $comment["author"]["name"]; ?></strong></span> 
-								<span class="text-comment"><?php echo $comment["text"]; ?></span>
+								<span class="text-comment <?php echo (@$comment['reportAbuseCount']&&$comment['reportAbuseCount']>=5)?'text-red-light':'' ?>">
+									<?php echo $comment["text"]; ?>
+								</span>
 							</span><br>
 							<span>
 							<?php if(isset(Yii::app()->session["userId"])){ ?>
@@ -168,7 +170,7 @@
 										<a style="margin-left:5px; margin-right:5px;" href="javascript:"
 											class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : $reportAbuseCount >= 1 ? 'text-red-light' : ''; ?>"
 											data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
-											data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAbuseCount; ?>"
+											data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAcommentbuseCount; ?>"
 											data-toggle="tooltip" data-placement="top" title="Signaler un abus">
 											<span class="count"><?php echo $reportAbuseCount; ?></span> 
 											<i class='fa fa-flag'></i>
