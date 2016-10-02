@@ -178,7 +178,7 @@
 										<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"]){ ?>
 											<a style="margin-left:5px; margin-right:5px;"  class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Modifier"
-											   href="javascript:modifyComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i>
+											   href="javascript:editComment('<?php echo $comment["_id"]; ?>')"><i class='fa fa-pencil'></i>
 											</a>
 											<a class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Supprimer"
@@ -374,7 +374,7 @@
 									
 							'		<a style="margin-left:5px; margin-right:5px;"  class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Modifier"'+
-							'			   href=\'javascript:deleteComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
+							'			   href=\'javascript:editComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
 
 							'		<a class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Supprimer"'+
@@ -722,6 +722,50 @@
 		        }
 		    }
 		});
+	}
+
+	function editComment(idComment){
+		// console.log(contextId);
+		var commentContent = $('#item-comment-'+idComment+' .text-comment').html();
+		var message = "<div id='container-txtarea-"+idComment+"'>"+
+						"<textarea id='textarea-new-comment"+idComment+"' class='form-control' placeholder='modifier votre commentaire'>"+commentContent+"</textarea>"+
+					  "</div>";
+		var boxComment = bootbox.dialog({
+		  message: message,
+		  title: '<?php echo Yii::t("comment","Modifier votre commentaire"); ?>', //Souhaitez-vous vraiment supprimer ce commentaire ?
+		  buttons: {
+		  	annuler: {
+		      label: "Annuler",
+		      className: "btn-default",
+		      callback: function() {
+		        console.log("Annuler");
+		      }
+		    },
+		    enregistrer: {
+		      label: "Enregistrer",
+		      className: "btn-success",
+		      callback: function() {
+		      	updateComment(idComment,$("#textarea-new-comment"+idComment).val());
+				return true;
+		      }
+		    },
+		  }
+		});
+
+		boxComment.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		  bindEventTextArea('#textarea-new-comment'+idComment, idComment, false);
+		});
+
+		boxComment.on("hide.bs.modal", function() {
+		  $.unblockUI();
+		});
+	}
+
+	function updateComment(id, newText){
+		updateField("Comment",id,"text",newText,false);
+		$('#item-comment-'+id+' .text-comment').html(newText);
+		toastr.success("Votre commentaire a bien été modifié");
 	}
 
 	function linkify(inputText) {
