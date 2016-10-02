@@ -437,10 +437,17 @@
 					else { 
 						toastr.success(data.msg);
 						var count = $("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html();
+						if(!notEmpty(count)) count = 0;
 						//console.log(count, context["_id"]["$id"]);
-						if(notEmpty(count) && data.newComment.contextType=="news"){
+						if(data.newComment.contextType=="news"){
 							count = parseInt(count);
-							$("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html(count+1);
+							var newCount = count +1;
+							var labelCom = (newCount>1) ? "commentaires" : "commentaire";
+							$("#newsFeed"+context["_id"]["$id"]+" .lblComment").html("<i class='fa fa-comment'></i> <span class='nbNewsComment'>"+newCount+"</span> "+labelCom);
+							$("#newsFeed"+context["_id"]["$id"]+" .newsAddComment").data('count', newCount);
+						// }else{
+						// 	$("#newsFeed"+context["_id"]["$id"]+" .lblComment").html("<i class='fa fa-comment'></i> <span class='nbNewsComment'>1</span> commentaire");
+						// 	$("#newsFeed"+context["_id"]["$id"]+" .newsAddComment").data('count', 1);
 						}
 						
 						// $('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);

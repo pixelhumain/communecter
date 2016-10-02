@@ -384,7 +384,7 @@ function buildLineHTML(newsObj,idSession,update)
 						"<div class='bar_tools_post margin-bottom-10'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' "+
 								"data-id='"+idVote+"' data-type='"+newsObj.target.type+"'>"+
-								"<span class='label text-dark'> " + lblCommentCount + "</span>"+
+								"<span class='label text-dark lblComment'> " + lblCommentCount + "</span>"+
 							"</a> "+
 							vote+
 						"</div>";
