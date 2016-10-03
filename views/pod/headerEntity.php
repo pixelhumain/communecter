@@ -573,7 +573,7 @@ else if(contextType == "<?php echo Project::COLLECTION ?>")
 	contextIcon = "circle text-purple";
 else
 	contextIcon = "circle";
-var firstView = "<?php echo $firstView ?>";
+var firstView = "<?php echo @$firstView ?>";
 // Views' array of element
 var mapUrl = { 	
 	"detail": 

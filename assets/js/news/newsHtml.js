@@ -92,7 +92,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Add date separator by month YY
 		$(".newsTLmonthsList").append(linkHTML);
 		newsTLLine += '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'<br><i class="fa fa-angle-down fa-2x"></i></span>'+
 					'</div>'+form;
 		
 		$(".spine").css("bottom","0px");
@@ -152,7 +152,7 @@ function buildLineHTML(newsObj,idSession,update)
 			}
 			textHtml='<span class="timeline_text no-padding text-black" >'+textNews+'</span>';
 		}
-		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
+		text='<div id="newsContent'+newsObj._id.$id+'" data-pk="'+newsObj._id.$id+'" class="newsContent" >'+textHtml+'</div>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
@@ -355,11 +355,11 @@ function buildLineHTML(newsObj,idSession,update)
 
 	var lblCommentCount = '';
 	if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
-	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaire";
-	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> " + commentCount + " commentaires";
+	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
+	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
 	if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
 	
-	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' " id="newsFeed'+newsObj._id.$id+'">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
 						tags+
@@ -384,7 +384,7 @@ function buildLineHTML(newsObj,idSession,update)
 						"<div class='bar_tools_post margin-bottom-10'>"+
 							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' "+
 								"data-id='"+idVote+"' data-type='"+newsObj.target.type+"'>"+
-								"<span class='label text-dark'><span class='nbNewsComment'></span> " + lblCommentCount + "</span>"+
+								"<span class='label text-dark lblComment'> " + lblCommentCount + "</span>"+
 							"</a> "+
 							vote+
 						"</div>";
@@ -659,7 +659,7 @@ function voteCheckAction(idVote, newsObj) {
 }
 
 function manageModeContext(id) {
-	listXeditables = ['#newsContent'+id, '#newsTitle'+id];
+	listXeditables = [/*'#newsContent'+id,*/ '#newsTitle'+id];
 	if (mode == "view") {
 		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -701,21 +701,21 @@ function initXEditable() {
     	if(!v) return 'Required field!';
 	});
 
-	$('.newsContent').editable({
-		url: baseUrl+"/"+moduleId+"/news/updatefield", 
-		showbuttons: 'bottom',
-		wysihtml5: {
-			html: true,
-			video: true,
-			image: true
-		},
-		success : function(data) {
-	        if(data.result) 
-	        	toastr.success(data.msg);
-	        else
-	        	toastr.error(data.msg);  
-	    },
-	});
+	// $('.newsContent').editable({
+	// 	url: baseUrl+"/"+moduleId+"/news/updatefield", 
+	// 	showbuttons: 'bottom',
+	// 	wysihtml5: {
+	// 		html: true,
+	// 		video: true,
+	// 		image: true
+	// 	},
+	// 	success : function(data) {
+	//         if(data.result) 
+	//         	toastr.success(data.msg);
+	//         else
+	//         	toastr.error(data.msg);  
+	//     },
+	// });
 }
 function checkAndCutLongString(text,limitLength,idNews){
 	if(text.length > limitLength){
@@ -734,11 +734,21 @@ function showComments(id){
 		// 	onOverlayClick: $.unblockUI,
 		// 	css: {"text-align": "left", "cursor":"default"}
 		// });
-		$(".commentContent").html("");
 		
-		$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
-		getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
-		},"html");
+		
+		if(!$("#commentContent"+id).hasClass("hidden")){
+			$(".commentContent").html("");
+			$(".commentContent").removeClass("hidden");		
+			
+			$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
+			getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
+				
+			},"html");
+		}else{
+			$("#commentContent"+id).removeClass("hidden");		
+			console.log("scroll TO : ", $('#newsFeed'+id).position().top);
+			
+		}
 }
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))

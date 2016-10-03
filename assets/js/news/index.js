@@ -188,9 +188,9 @@ function buildTimeLine (news, indexMin, indexMax)
 
 			titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
-							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+							'<span style="height:inherit;" class="homestead bg-"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
-					'</div>';
+					'</div>';//
 			$(".newsTL").append(titleHTML);
 
 			if(canPostNews==true){ //alert(isLiveGlobal());
@@ -313,9 +313,77 @@ function smoothScroll(scroolTo){
 	$(".my-main-container").scrollTo(scroolTo,500,{over:-0.6});
 }
 
-function modifyNews(id){
-	switchModeEdit(id);
+function modifyNews(idNews){
+	//switchModeEdit(id);
+	var commentContent = $('.newsContent[data-pk="'+idNews+'"] .timeline_text').html();
+	var commentTitle = $('.newsTitle[data-pk="'+idNews+'"] .timeline_title').html();
+	console.log("commentTitle", commentTitle);
+	var message = "";
+	if(notEmpty(commentTitle))
+		message += "<input type='text' id='textarea-edit-title"+idNews+"' class='form-control margin-bottom-5' style='text-align:left;' placeholder='Titre du message' value='"+commentTitle+"'>";
+	 	
+	 	message += "<div id='container-txtarea-news-"+idNews+"'>";
+		message += 	"<textarea id='textarea-edit-news"+idNews+"' class='form-control' placeholder='modifier votre message'>"+commentContent+"</textarea>"+
+				   "</div>";
+	var boxComment = bootbox.dialog({
+	  message: message,
+	  title: 'Modifier votre publication',
+	  buttons: {
+	  	annuler: {
+	      label: "Annuler",
+	      className: "btn-default",
+	      callback: function() {
+	        console.log("Annuler");
+	      }
+	    },
+	    enregistrer: {
+	      label: "Enregistrer",
+	      className: "btn-success",
+	      callback: function() {
+	      	updateNews(idNews,$("#textarea-edit-news"+idNews).val(), "newsContent");
+	      	if(notEmpty($("#textarea-edit-title"+idNews).val()))
+	      		updateNews(idNews,$("#textarea-edit-title"+idNews).val(), "name");
+
+	      	toastr.success("Votre message a bien été modifié");
+			return true;
+	      }
+	    },
+	  }
+	});
+
+	boxComment.on("shown.bs.modal", function() {
+	  $.unblockUI();
+	  bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews);
+	});
+
+	boxComment.on("hide.bs.modal", function() {
+	  $.unblockUI();
+	});
 }
+function updateNews(idNews, newText, type){
+	var classe1=""; var classe2="";
+	if(type == "newsContent") { classe1="text"; classe2=".newsContent"; }else{ classe1="title";classe2=".newsTitle"; }
+	updateField("News",idNews,type,newText,false);
+	$(classe2+'[data-pk="'+idNews+'"] .timeline_'+classe1).html(newText);
+}
+
+function bindEventTextAreaNews(idTextArea, idNews/*, isAnswer, parentCommentId*/){
+
+	//$(idTextArea).css('height', "34px");
+	//$("#container-txtarea-news-"+idNews).css('height', "34px");
+	autosize($(idTextArea));
+
+	$(idTextArea).on('keyup ', function(e){
+		var heightTxtArea = $(idTextArea).css("height");
+    	$("#container-txtarea-news-"+idNews).css('height', heightTxtArea);
+	});
+
+	$(idTextArea).bind ("input propertychange", function(e){
+		var heightTxtArea = $(idTextArea).css("height");
+    	$("#container-txtarea-news-"+idNews).css('height', heightTxtArea);
+	});
+}
+
 function deleteNews(id, $this){
 	//var $this=$(this);
 	bootbox.confirm(trad["suretodeletenews"], 
@@ -368,7 +436,7 @@ function switchModeEdit(idNews){
 }
 
 function manageModeContext(id) {
-	listXeditables = ['#newsContent'+id, '#newsTitle'+id];
+	listXeditables = [/*'#newsContent'+id,*/ '#newsTitle'+id];
 	if (mode == "view") {
 		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -410,7 +478,7 @@ function initXEditable() {
 	        }
 	    }
 	});
-   
+  /* 
 	$('.newsContent').editable({
 		url: baseUrl+"/"+moduleId+"/news/updatefield", 
 		emptytext: 'Vide',
@@ -433,29 +501,29 @@ function initXEditable() {
 	        	toastr.error(data.msg);  
 	    },
 	});
-
+*/
 
 }
 
-function updateNews(newsObj)
-{
-	var date = new Date( parseInt(newsObj.created.sec)*1000 );
-	if(newsObj.date.sec && newsObj.date.sec != newsObj.created.sec) {
-		date = new Date( parseInt(newsObj.date.sec)*1000 );
-	}
-	var newsTLLine = buildLineHTML(newsObj,idSession,true);
-	$(".emptyNews").remove();
-	$("#newFeedForm").parent().after(newsTLLine).fadeIn();
-	$("#newFeedForm").parent().next().css("margin-top","20px");
-	manageModeContext(newsObj._id.$id);
-	$("#form-news #get_url").val("");
-	$('textarea.mention').mentionsInput('reset');
-	$("#form-news #results").html("").hide();
-	$("#form-news #tags").select2('val', "");
-	showFormBlock(false);
-	$('.tooltips').tooltip();
-	bindEvent();
-}
+// function updateNews(newsObj)
+// {
+// 	var date = new Date( parseInt(newsObj.created.sec)*1000 );
+// 	if(newsObj.date.sec && newsObj.date.sec != newsObj.created.sec) {
+// 		date = new Date( parseInt(newsObj.date.sec)*1000 );
+// 	}
+// 	var newsTLLine = buildLineHTML(newsObj,idSession,true);
+// 	$(".emptyNews").remove();
+// 	$("#newFeedForm").parent().after(newsTLLine).fadeIn();
+// 	$("#newFeedForm").parent().next().css("margin-top","20px");
+// 	manageModeContext(newsObj._id.$id);
+// 	$("#form-news #get_url").val("");
+// 	$('textarea.mention').mentionsInput('reset');
+// 	$("#form-news #results").html("").hide();
+// 	$("#form-news #tags").select2('val', "");
+// 	showFormBlock(false);
+// 	$('.tooltips').tooltip();
+// 	bindEvent();
+// }
 
 
 function applyTagFilter(str)
@@ -930,7 +998,7 @@ function saveNews(){
 						}
 						
 						if( 'undefined' != typeof updateNews && typeof updateNews == "function" ){
-							updateNews(data.object);
+							//updateNews(data.object);
 						}
 						$("#get_url").height(50);
 						$.unblockUI();

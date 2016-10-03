@@ -1,4 +1,5 @@
 <?php 
+
 $this->renderPartial('newsSV');
 
 $cssAnsScriptFilesModule = array(
@@ -24,6 +25,13 @@ $cssAnsScriptFilesModule = array(
 
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+
+
+	$cssAnsScriptFilesModule = array(
+		'/js/news/autosize.js',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	
 ?>	
 <?php 
 
@@ -250,6 +258,9 @@ div.timeline .newsTL > .newsFeed .timeline_element:before {
 }
 .timeline_element {}
 
+.timeline_element .timeline_text {
+    font-size: 14px !important;
+}
 
 @media screen and (max-width: 1024px) {
 	.timeline_element {

@@ -10,6 +10,8 @@
     <?php // MULTITAG / MULTISCOPE // ?>
     <?php $this->renderPartial('../default/menu/multi_tag_scope', array("me"=>$me)); ?>
     
+    
+
     <?php // INPUT TEXT GLOBAL SEARCH // ?>
     <div class="input-group group-globalsearch inline hidden-xs">
       <span class="input-group-addon" id="basic-addon1">
@@ -24,6 +26,8 @@
     <?php // BTN PROFIL || BTN SUBSCRIBE-LOGIN // ?>
     <div class="topMenuButtons pull-right">
     
+    
+    
     <?php 
     if( isset( Yii::app()->session['userId']) ){
       //echo $this->renderPartial('./menu/menuProfil',array( "me"=> $me)); 
@@ -33,6 +37,7 @@
           <button class="dropdown-toggle menu-name-profil text-dark" data-toggle="dropdown" onclick="javascript:openMenuSmall();">
             <img class="img-circle" id="menu-thumb-profil" width="34" height="34" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
           </button>
+
     <?php }
     else { ?>
       <?php // BTN MENU LAUNCH // ?>

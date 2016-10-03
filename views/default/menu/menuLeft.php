@@ -16,7 +16,7 @@
 <style>
 .footer-menu-left{
 	/*background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/footer_menu_left.png");*/
-	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");
+	/*background-image: url("<?php echo $this->module->assetsUrl; ?>/images/people.jpg");*/
 }
 </style>
 

@@ -4,6 +4,11 @@
       }
 ?>
 
+<button class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
+      data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
+  <i class="fa fa-bell hidden-xs"></i>
+  <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?></span>
+</button>
 <div class="dropdown pull-right" data-tpl="default.menu.menuProfile">
 
   <?php // IMAGE PROFIL // ?>
@@ -12,6 +17,7 @@
     <?php //echo $me["name"]; ?>
     <span class="caret"></span>
   </button>
+  
 
   <?php // DROPDOWN MENU PERSO // ?>
   <ul class="dropdown-menu dropdown-menu-right">
@@ -92,9 +98,3 @@
     </li>  
   </ul>
 </div>
-
-<button class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
-      data-toggle="tooltip" data-placement="left" title="Notifications" alt="Notifications">
-  <i class="fa fa-bell hidden-xs"></i>
-  <span class="notifications-count topbar-badge badge badge-danger animated bounceIn"><?php count($this->notifications); ?></span>
-</button>

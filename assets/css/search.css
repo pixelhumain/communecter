@@ -383,10 +383,11 @@ button.btn-menu-notif{
 	font-size: 20px;
 	border: 0px solid #d13434;
 	box-shadow: 0px 0px !important;
-	float: right;
+	/*float: right;*/
 	position: relative;
 	border-radius: 0px;
 	margin-right: 6px;
+	margin-top: -3px;
 }
 .main-top-menu  button.btn-menu-notif{
 	z-index: 20;
@@ -665,6 +666,9 @@ button.btn-infos{
 
 .text-black{
 	color:black !important;
+}
+.text-red-light{
+	color:#E3BEC4 !important;
 }
 
 @media screen and (max-width: 1024px) {
