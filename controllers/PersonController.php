@@ -56,6 +56,7 @@ class PersonController extends CommunecterController {
           "telegram"           => 'citizenToolKit.controllers.person.TelegramAction',
           "updatemultitag"      => 'citizenToolKit.controllers.person.UpdateMultiTagAction',
           "updatemultiscope"      => 'citizenToolKit.controllers.person.UpdateMultiScopeAction',
+          "sendinvitationagain"      => 'citizenToolKit.controllers.person.SendInvitationAgainAction',
           'get'              => 'citizenToolKit.controllers.person.GetAction',
 
 	    );

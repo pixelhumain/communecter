@@ -91,7 +91,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		margin-bottom: -1px !important;
 	}
 	#Grid .item_map_list{
-		padding:10px 10px 10px 0px !important; 
+		padding:10px 10px 10px 0px; 
 		margin-top:0px;
 		text-decoration:none;
 		background-color:white;
@@ -233,7 +233,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		line-height: 17px;
 	}
 	
+	.tools.tools-bottom {
+	    background-color: rgba(18, 18, 18, 0.88) !important;
+		bottom: 0px;
+		line-height: 40px;
+		left: 0;
+		right: 0;
+		top: 0px;
+		width: auto;
+		display: none;
+		position: absolute;
+	}
+	.tools.tools-bottom .listDiv{
+		border-bottom: 1px solid white !important;
+	}
+	.tools.tools-bottom .listDiv a{
+		color: white !important;
+	}
+	.tools.tools-bottom .listDiv a:hover{
+		color:black !important;
+	}
+	.tools.tools-bottom .listDiv:hover{
+		background-color: white;
+		border-bottom: 1px solid gray !important;
+		box-shadow: inset 1px 1px 2px gray;
+	}
 
+	
 	.container_menu_directory .bg-red, 
 	.container_menu_directory .bg-dark, 
 	.container_menu_directory .bg-yellow, 
@@ -694,44 +720,60 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
 							//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
 						}
+						$strBtnHTML="";
 						if($manage==1){
-							$strHTML .= '<div class="dropdown" style="position:absolute;right: 0px;top: 0px;">'.
-											'<a href="javascript:;" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm" style="padding:0px;">'.
-												'<i class="fa fa-cog text-white"></i> <span class="caret" style="margin-right:4px;"></span>'.
-											'</a>'.
-											'<ul class="dropdown-menu pull-right dropdown-white" role="menu">';
+							$strBtnHTML .= '<span style="position:absolute;right: 0px;bottom: 5px;">'.
+												'<i class="fa fa-cog text-dark"></i>'.
+											'</span>'.
+											'<div class="tools tools-bottom" >'.
+												'<span style="position:absolute;right: 0px;bottom: 5px;">'.
+													'<i class="fa fa-cog text-white"></i>'.
+												'</span>';
+							$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+												'<a href="#element.detail.type.'.$type.'s.id.'.$id.'" class="btn lbh padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left" data-placement="top">'.
+													'<i class="fa fa-x fa-eye"></i>'.
+														Yii::t("common","Visualize").
+													'</a>'.
+												'</div>';
 							if(@$e["toBeValidated"]){
-								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="acceptAsMemberBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
+								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="acceptAsMemberBtn btn col-md-12 col-sm-12 col-xs-12 center no-padding padding-5 text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-link"></i>'.
 														Yii::t("common","Accept this ".$type."").
 													'</a>'.
-												'</li>';
+												'</div>';
 							}
 							if(@$e["isAdminPending"]){
-								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Accept as admin").
 													'</a>'.
-												'</li>';
+												'</div>';
 							} else if($elementType!=Person::COLLECTION){
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
-								$strHTML .= 	'<li>'.
-													'<a href="javascript:;" class="btn btn-xs text-left" style="padding-right:35px;" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
-												'</li>';
+												'</div>';
 								}
 							}
-							$strHTML .=			'<li>'.
-													'<a href="javascript:;" class="disconnectBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
+							if($collection==Person::COLLECTION && @$e["pending"]){
+								$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+												'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\')" data-placement="top">'.
+														'<i class="fa fa-envelope-o"></i>'.
+														Yii::t("common","Sent invitation again").
+													'</a>'.
+												'</div>';
+							}
+							$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
+												'<a href="javascript:;" class="disconnectBtn btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
 														'<i class="disconnectBtnIcon fa fa-unlink"></i>'.
 														Yii::t("common","Unlink").
 													'</a>'.
-												'</li>';
-							$strHTML .= 	'</ul>'.
+												'</div>'.
 							'			</div>';
 						}
 						$color = "";
@@ -745,7 +787,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						$flag.="</div>";
 						echo $panelHTML.
 							'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
-							'<div class="detailDiv">'.$strHTML.'</div></div></div></li>';
+							'<div class="detailDiv">'.$strHTML.'</div></div></div>'.$strBtnHTML.'</li>';
 					}
 					?>
 				</ul>
@@ -805,6 +847,11 @@ jQuery(document).ready(function() {
 		 $('.filter'+activeType).trigger("click");
 	}*/
 
+	$(".item_map_list").mouseenter(function(){
+		$(this).find(".tools.tools-bottom").show();
+	}).mouseleave(function(){
+		$(this).find(".tools.tools-bottom").hide();
+	});
 	$('.btn-close-panell').click(function(){
 		showMap(true);
 	});
@@ -987,6 +1034,48 @@ function bindBtnEvents(){
 			}
 		)
 	});
+}
+function sendInvitationAgain(id, name){
+        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+        var userId = id;
+        bootbox.prompt({
+	        title: "Renvoyer une invitation à "+name,
+	        inputType: 'textarea',
+	        inputOptions : {
+		        text:"gdhgfdzaygdfyuezgduzahui dhuhzduzahjdz zgdyzahdjzagdahjzdgjhaz",
+		        value:"gdhgfdzaygdfyuezgduzahui dhuhzduzahjdz zgdyzahdjzagdahjzdgjhaz"
+	        },
+		    value:"Bonjour, Je te relance pour valider l'inscription au réseau sociétal citoyen appelé Communecter - être connecter à sa commune. Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.",
+	        callback: function (result) {
+		        params = new Object;
+		        params.id = id;
+		        params.text = result;
+		        console.log(params);
+				$.ajax({
+					        type: "POST",
+					        url: baseUrl+"/"+moduleId+"/person/sendinvitationagain",
+					       	dataType: "json",
+					       	data: params,
+				        	success: function(data){
+					        	toastr.succes("<?php echo Yii::t("common", "Invitation sent again with success") ?>?>")
+				       		}
+				});
+	        }
+    });
+       /* bootbox.prompt("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as member") ?> ?", 
+			function(result) {
+				if (result) {
+					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
+						function() {
+							toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
+							loadByHash(location.hash);
+						}
+					);
+				}
+			}
+		)
+	});*/
+
 }
 
 </script>
