@@ -41,7 +41,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php
 	if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, "openEdition" => @$openEdition, "edit" => $edit)); 
+		$this->renderPartial('../pod/headerEntity', 
+			array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
+				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
 ?>
 
 <?php 
@@ -283,7 +285,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <?php 
 	//if($type != City::CONTROLLER)
-	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type)); 
+	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
 ?>
 
 <!-- <div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div> -->
@@ -457,7 +459,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php if( !isset( Yii::app()->session['userId'] ) ) { ?>
-<div class="alert col-md-11 col-xs-12 center" style="margin-bottom: 0px; margin-top: 0px; ">
+<div class="alert col-md-12 col-xs-12 center" style="margin-bottom: 0px; margin-top: 0px; ">
   <div class="col-md-12 margin-bottom-10"><i class="fa fa-info-circle"></i> Vous devez être connecté pour publier du contenu.</div>
   <!-- <button class="btn-top btn btn-success" onclick="showPanel('box-register');"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">S'inscrire</span></button>
   <button class="btn-top btn bg-red" style="margin-right:10px;" onclick="showPanel('box-login');"><i class="fa fa-sign-in"></i> <span class="hidden-xs">Se connecter</span></button>  -->

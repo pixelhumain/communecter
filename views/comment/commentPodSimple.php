@@ -55,7 +55,7 @@
 		display: none;
 	}
 	.content-comment:hover .tool-action-comment{
-		display: inline;
+		display: inherit;
 	}
 	.content-comment .fa-reply{
 		font-size:14px;

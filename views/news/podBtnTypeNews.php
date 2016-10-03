@@ -2,7 +2,7 @@
 .btn-type-news, .btn-scope-type{
 	background-color: rgb(255, 255, 255);
 	border-color: #C9C9C9;
-	padding: 10px !important;
+	padding: 5px 10px !important;
 	font-size: 15px !important;
 }
 .btn-type-news.active{
@@ -25,6 +25,14 @@
 	padding: 10px !important;
 	font-size: 15px !important;
 }
+
+/*div.timeline .date_separator{
+	display: none;
+}
+div.timeline #backToTop.date_separator{
+	display: inline;
+}
+*/
 input.form-control.input-search{
 	border-radius:4px 0 0 4px !important;
 }
@@ -33,11 +41,11 @@ input.form-control.input-search{
 <!-- <span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
 <hr style='margin-top:0px;margin-bottom:0px;border:0!important;'> -->
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding" 
-	 style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding " 
+	 style="margin-top: 0px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
 	 id="list_type_news">
 			  
-  <div class="btn-group btn-group-sm inline-block margin-top-10" id="menu-type-news">
+  <div class="btn-group btn-group-sm inline-block margin-top-10 hidden" id="menu-type-news">
     <button class="btn btn-default btn-type-news tooltips text-dark active" 
     		data-toggle="tooltip" data-placement="top" title="Toute l'actu" data-type="all">
       <i class="fa fa-heartbeat"></i> 
@@ -104,17 +112,24 @@ input.form-control.input-search{
 
 
   <?php if(@$type=="city" && @Yii::app()->session["userId"]){ ?>
-  	<div class="pull-right margin-top-10">
-  		<i class="fa fa-eye text-dark hidden" style="margin-right:5px;"></i> 
+  	<div class="pull-left margin-top-10">
+  		
   		<div class="btn-group btn-group-sm inline-block scope-global-community">
 		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
-	  		data-toggle="tooltip" data-placement="bottom" title="Tout le réseau">
-		  	<i class="fa fa-globe"></i>
+		    data-msg-info="Live public : retrouvez tous les messages publics selon vos lieux favoris"
+	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages publics">
+		  	<i class="fa fa-globe"></i> Public
 		  </button>
-		  <button class="btn btn-sm btn-default btn-scope-type tooltips text-dark" data-scope-type="community"
-	  		data-toggle="tooltip" data-placement="bottom" title="Seulement ma communauté">
-		  	<i class="fa fa-users"></i>
+		  <button style="margin-right:10px;" 
+		  	class="btn btn-sm btn-default btn-scope-type tooltips text-dark" data-scope-type="community"
+		    data-msg-info="Live communauté : retrouvez tous les messages de vos contacts"
+	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages de ma communauté">
+		  	<i class="fa fa-users"></i> Ma communauté
 		  </button>
+		  <span class="inline-block text-dark" style="padding:10px 0px;">
+		  	<i class="fa fa-angle-down" style="margin-left:5px;"></i> <i class="fa fa-info-circle"></i> 
+		  	<span id='msg_live_type'>Live public : retrouvez tous les messages publics selon vos lieux favoris</span>
+		  </span>
 		</div>
   	<!--
 	  <a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default tooltips"  style="margin-left:5px;"
@@ -153,15 +168,20 @@ input.form-control.input-search{
 
 	<div id="scopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
 
-	<div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
+	<!-- <div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
 		<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
-	</div>
+		<h3 class="text-purple homestead text-center">
+			<i class="fa fa-angle-down"></i><br>Actus <?php //echo Yii::t("common",$filterTypeNews); ?>
+		</h3>
+	</div> -->
 
-	<div class="col-sm-12 col-md-8 col-lg-5 no-padding margin-bottom-15">
+
+
+	<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4">
 	  	<div class="input-group col-xs-12 pull-left">	        
 	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
-	              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+	              <button class="btn bg-azure btn-start-search tooltips" id="btn-start-search"
 	                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
 	                      <i class="fa fa-refresh"></i>
 	              </button>
@@ -293,6 +313,10 @@ function initSelectTypeNews(){
 		}
 	    
 	    //showFormBlock(true);
+  	});
+
+  	$(".btn-scope-type").click(function(){
+  		$("#msg_live_type").html($(this).data("msg-info"));
   	});
 }
 

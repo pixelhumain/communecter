@@ -130,7 +130,7 @@ jQuery(document).ready(function() {
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];
-	else liveType = ", la boite à outil citoyenne connecté";
+	else liveType = ", la boite à outil citoyenne connecté " + liveType;
 
 	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
@@ -143,7 +143,7 @@ jQuery(document).ready(function() {
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
-	$('#btn-start-search').click(function(e){ console.log("alo");
+	$('#btn-start-search').click(function(e){ //console.log("alo");
 		startSearch(false);
     });
 	$(".btn-filter-type").click(function(e){

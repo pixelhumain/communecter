@@ -18,8 +18,8 @@ function loadLiveNow () {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
       "latest" : true,
-      "searchType" : [typeObj["event"]["col"],typeObj["project"]["col"],
-      				  typeObj["organization"]["col"],typeObj["action"]["col"]], 
+      "searchType" : searchType,// [typeObj["event"]["col"],typeObj["project"]["col"],
+      				 // typeObj["organization"]["col"],typeObj["action"]["col"]], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
       "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 

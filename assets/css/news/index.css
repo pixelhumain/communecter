@@ -26,19 +26,25 @@
 	float: left;
 	min-width: 100%;
 }
+.date_separator{
+	height: 30px;
+	
+}
 .date_separator span{
-	font-family: "homestead";
-	font-size: 21px;
+	/*font-family: "homestead";*/
+	font-size: 13px;
 	background-color: #fff !important;
 	color: #315C6E !important;
 	border: none !important;
 	border-radius: 10px !important;
-
-	-moz-box-shadow: 0px 0px 7px -2px #656565;
+	background-color: #f8f8f8 !important;
+	text-transform: capitalize;
+	height:unset !important;
+	/*-moz-box-shadow: 0px 0px 7px -2px #656565;
 	-webkit-box-shadow: 0px 0px 7px -2px #656565;
 	-o-box-shadow: 0px 0px 7px -2px #656565;
 	box-shadow: 0px 0px 7px -2px #656565;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=224, Strength=3);
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=224, Strength=3);*/
 }
 
 #newsHistory{

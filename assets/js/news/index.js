@@ -188,9 +188,9 @@ function buildTimeLine (news, indexMin, indexMax)
 
 			titleHTML = '<div class="date_separator" id="backToTop" data-appear-top-offset="-400" style="height:150px;">'+
 						'<a href="javascript:;" onclick="smoothScroll(\'0px\');" title="retour en haut de page">'+
-							'<span style="height:inherit;" class="homestead"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
+							'<span style="height:inherit;" class="homestead bg-"><i class="fa fa-ban"></i> ' + trad["nomorenews"] + '<br/><i class="fa fa-arrow-circle-o-up fa-2x"></i> </span>'+
 						'</a>'+
-					'</div>';
+					'</div>';//
 			$(".newsTL").append(titleHTML);
 
 			if(canPostNews==true){ //alert(isLiveGlobal());

@@ -92,7 +92,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Add date separator by month YY
 		$(".newsTLmonthsList").append(linkHTML);
 		newsTLLine += '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'<br><i class="fa fa-angle-down fa-2x"></i></span>'+
 					'</div>'+form;
 		
 		$(".spine").css("bottom","0px");
