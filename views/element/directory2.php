@@ -233,7 +233,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		line-height: 17px;
 	}
 	
-	.tools.tools-bottom {
+	.tools.tools-bottom, .toolsLoader {
 	    background-color: rgba(18, 18, 18, 0.88) !important;
 		bottom: 0px;
 		line-height: 40px;
@@ -241,9 +241,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		right: 0;
 		top: 0px;
 		width: auto;
-		display: none;
+		
 		position: absolute;
 	}
+	.toolsLoader i{
+		float:inherit;
+		font-size:4em;
+		}
+	.tools.tools-bottom{
+		display: none;
+	}
+
 	.tools.tools-bottom .listDiv{
 		border-bottom: 1px solid white !important;
 	}
@@ -762,9 +770,9 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							}
 							if($collection==Person::COLLECTION && @$e["pending"]){
 								$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-												'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\')" data-placement="top">'.
+												'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\',this)" data-placement="top">'.
 														'<i class="fa fa-envelope-o"></i>'.
-														Yii::t("common","Sent invitation again").
+														Yii::t("common","Send invitation again").
 													'</a>'.
 												'</div>';
 							}
@@ -952,19 +960,21 @@ function bindBtnEvents(){
 	        }
 	        var userType = $(this).data("type");
 	        var userId = $(this).data("id");
-	        $(this).parents().eq(2).find(".dropdown-toggle").html('<i class="fa fa-spinner fa-spin text-white"></i>');
-	        //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	        var thisParent = $(this).parents().eq(2);
+	 	    //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {
+						thisParent.append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 						$.ajax({
 					        type: "POST",
 					        url: baseUrl+"/"+moduleId+"/link/disconnect",
 					       	dataType: "json",
 					       	data: params,
 				        	success: function(data){
+					        	thisParent.find(".toolsLoader").remove();
 					        	if ( data && data.result ) {               
-						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");
+						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");	
 						       	 	$("#"+data.collection+userId).css("background-color","#5f8295 !important").fadeOut(600);
 						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
@@ -1035,18 +1045,16 @@ function bindBtnEvents(){
 		)
 	});
 }
-function sendInvitationAgain(id, name){
-        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+function sendInvitationAgain(id, name, $this){
+        ///$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
         var userId = id;
+        var $thisParent = $($this).parents().eq(2);
         bootbox.prompt({
 	        title: "Renvoyer une invitation à "+name,
 	        inputType: 'textarea',
-	        inputOptions : {
-		        text:"gdhgfdzaygdfyuezgduzahui dhuhzduzahjdz zgdyzahdjzagdahjzdgjhaz",
-		        value:"gdhgfdzaygdfyuezgduzahui dhuhzduzahjdz zgdyzahdjzagdahjzdgjhaz"
-	        },
 		    value:"Bonjour, Je te relance pour valider l'inscription au réseau sociétal citoyen appelé Communecter - être connecter à sa commune. Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.",
 	        callback: function (result) {
+		        $thisParent.append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 		        params = new Object;
 		        params.id = id;
 		        params.text = result;
@@ -1057,24 +1065,25 @@ function sendInvitationAgain(id, name){
 					       	dataType: "json",
 					       	data: params,
 				        	success: function(data){
-					        	toastr.succes("<?php echo Yii::t("common", "Invitation sent again with success") ?>?>")
-				       		}
+					        	console.log(data);
+					        	$thisParent.find(".toolsLoader").remove();
+					        	if(data && data.result){
+					        	toastr.success("<?php echo Yii::t("common", "Invitation sent again with success") ?>");
+					        	} else{
+						        	toastr.error(data.msg);
+
+					        	}
+				       		},
+				       		error: function (xhr, ajaxOptions, thrownError) {
+						      //  alert(xhr.status);
+						        //alert(thrownError);
+						        console.log(xhr);
+						        toastr.error(xhr.responseText);
+						    }
 				});
 	        }
     });
-       /* bootbox.prompt("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as member") ?> ?", 
-			function(result) {
-				if (result) {
-					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
-						function() {
-							toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
-							loadByHash(location.hash);
-						}
-					);
-				}
-			}
-		)
-	});*/
+     
 
 }
 
