@@ -1166,14 +1166,14 @@ function formatData(formData, collection,ctrl) {
 	return formData;
 }
 
-function saveElement ( formId,collection,ctrl ) 
+function saveElement ( formId,collection,ctrl,saveUrl ) 
 { 
 	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
 	formData = formatData(formData,collection,ctrl);
 	$.ajax( {
     	type: "POST",
-    	url: baseUrl+"/"+moduleId+"/element/save",
+    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
     	dataType: "json",
     	success: function(data){
@@ -1185,9 +1185,9 @@ function saveElement ( formId,collection,ctrl )
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
                 if(data.url)
-                	loadByHash(data.url);
+                	loadByHash( data.url );
                 else
-	        		loadByHash('#'+ctrl+'.detail.id.'+data.id)
+	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
             }
     	}
     });
@@ -1222,36 +1222,43 @@ function openForm (type, afterLoad ) {
 }
 
 function buidDynForm(elementObj, afterLoad) { 
-	var form = $.dynForm({
-	      formId : "#ajax-modal-modal-body #ajaxFormModal",
-	      formObj : elementObj.dynForm,
-	      onLoad : function  () {
-	        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
-	        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
-	        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-	        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
-	        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-	        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-	        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-	        	elementObj.dynForm.jsonSchema.onLoads.onload();
-	      },
-	      onSave : function(){
+	if(userId)
+	{
+		var form = $.dynForm({
+		      formId : "#ajax-modal-modal-body #ajaxFormModal",
+		      formObj : elementObj.dynForm,
+		      onLoad : function  () {
+		        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+		        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
+		        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+		        	elementObj.dynForm.jsonSchema.onLoads.onload();
+		        bindLBHLinks();
+		      },
+		      onSave : function(){
 
-	      	if( elementObj.beforeSave && typeof elementObj.beforeSave == "function")
-	        	elementObj.beforeSave();
+		      	if( elementObj.beforeSave && typeof elementObj.beforeSave == "function")
+		        	elementObj.beforeSave();
 
-	        if( elementObj.save )
-	        	elementObj.save("#ajaxFormModal");
-	        else
-	        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
+		        if( elementObj.save )
+		        	elementObj.save("#ajaxFormModal");
+		        else if(elementObj.saveUrl)
+		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
+		        else
+		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
 
-	        return false;
-	    }
-	});
-	console.dir(form);
+		        return false;
+		    }
+		});
+		console.dir(form);
+	} else 
+		toastr.error('Vous devez etre loggué');
 }
 
 var contextData = null;
@@ -1746,16 +1753,249 @@ var typeObj = {
 			    }
 			}
 		}
-		/*form : {
-			url:"/"+moduleId+"/project/projectsv",
-			title : "Ajouter un projet"
-		}*/
 	},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city"},
-	"entry" : {col:"surveys",ctrl:"survey"},
+	"entry" : {
+		col:"surveys",
+		ctrl:"survey",
+		titleClass : "bg-lightblue",
+		bgClass : "bgDDA",
+		icon : "gavel",
+		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un débat",
+			    icon : "gavel",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un débat sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            type :{
+		              "inputType" : "hidden",
+		              "value" : "<?php echo Survey::TYPE_ENTRY?>"
+		            },
+		            survey :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myVotesList)){
+			            			html = buildSelectGroupOptions( window.myVotesList);
+			            			$("#survey").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
+			            			    window.myVotesList = {};
+			            			    $.each( data.votes , function( k,v ) 
+			            			    { 
+				            			    if(!window.myVotesList[ v.parentType]){
+				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+				            			    	window.myVotesList[ v.parentType] = {"label":label};
+				            			    	window.myVotesList[ v.parentType].options = {}
+				            			    }
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+			            			    }); 
+			            			    console.dir(window.myVotesList);
+			            			    html = buildSelectGroupOptions(window.myVotesList);
+										$("#survey").append(html);
+								    } );
+			            		}
+			            		/*$("#survey").change(function() { 
+			            			console.dir( $(this).val().split("_"));
+			            		});*/
+
+		            		}
+		            	},
+		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la proposition",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Texte de la proposition",
+		              "rules" : { "required" : true }
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Fin de la période de vote",
+		              "rules" : { "required" : true }
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'>+ options</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "value" : [],
+		                init:function(){
+			            	$(".urlsarray").css("display","none");	 
+			            }
+		            },
+		            /*"image" : {
+		                  "inputType" : "image",
+		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
+		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
+		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
+		            },*/
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList,
+		                init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            "type" : {
+		            	inputType : "hidden",
+		            	value : "entry"
+		            },
+			    }
+			}
+		}
+	},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"action" : {col:"actions",ctrl:"room"},
+	"action" : {
+		col:"actions",
+		ctrl:"room",
+		titleClass : "bg-lightblue2",
+		bgClass : "bgDDA",
+		icon : "cogs",
+		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une action",
+			    icon : "gavel",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            type :{
+		              "inputType" : "hidden",
+		              "value" : "<?php echo Survey::TYPE_ENTRY?>"
+		            },
+		            room :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myActionsList)){
+			            			html = buildSelectGroupOptions( window.myActionsList);
+			            			$("#room").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
+			            			    window.myActionsList = {};
+			            			    $.each( data.actions , function( k,v ) 
+			            			    { console.log(v.parentType,v.parentId);
+			            			    	if(v.parentType){
+					            			    if( !window.myActionsList[ v.parentType] ){
+					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+					            			    	window.myActionsList[ v.parentType] = {"label":label};
+					            			    	window.myActionsList[ v.parentType].options = {};
+					            			    }
+				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    }
+			            			    }); 
+			            			    console.dir(window.myActionsList);
+			            			    html = buildSelectGroupOptions(window.myActionsList);
+										$("#room").append(html);
+								    } );
+			            		}
+
+		            		}
+		            	},
+
+		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la l'action",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Description de l'action'",
+		              "rules" : { "required" : true }
+		            },
+		            startDate :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de début"
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de fin"
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'>+ options</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "value" : [],
+		                init:function(){
+			            	$(".urlsarray").css("display","none");	 
+			            }
+		            },
+		            /*"image" : {
+		                  "inputType" : "image",
+		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
+		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
+		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
+		            },*/
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList,
+		                init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            "type" : {
+		            	inputType : "hidden",
+		            	value : "action"
+		            },
+			    }
+			}
+		}
+	},
 	"actions" : {col:"actions",ctrl:"room"},
 	"discuss" : {col:"actionRooms",ctrl:"room"},
 	"all":{ 
@@ -2041,7 +2281,16 @@ function setAsCenter(ix){
 	centerLocation = elementLocations[ix];
 	elementLocations[ix].center = true;
 }
-
+function myContactLabel (type,id) { 
+	if(myContacts && myContacts[type]){
+		$.each( myContacts[type], function( key,val ){
+			if( id == val["_id"]["$id"] ){
+				return val;
+			}
+		});
+	}
+	return null;
+}
 /*
 elementJson = {
     //reuired

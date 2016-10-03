@@ -89,7 +89,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [X] url form in modal 
     [X] personnalisé 
     [X] le scroll marche pas
-  [ ] elements to simple dynform 
+  [ ] elements to simple dynform
+    [ ] desactivate dynForm if not Logged
     [ ] bug : location > tape CP > validate , ca passe 
     [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
@@ -117,6 +118,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] add text : getUrl
       [X] unknown attribute passes the the save 
     [ ] debat 
+      [ ] ouvrir une proposition sur un element orga ou projet
+      [ ] ouvrir une proposition une geo scope cp, insee..
+      [ ] ouvrir une proposition sans parent room
+      [ ] localiser une propistion 
     [ ] action
     [X] save process
       [X] Element::save 
