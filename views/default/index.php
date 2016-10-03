@@ -223,13 +223,23 @@ var hideScrollTop = true;
 var lastUrl = null;
 var isMapEnd = <?php echo (isset( $_GET["map"])) ? "true" : "false" ?>;
 
+//used in communecter.js dynforms
 var tagsList = <?php echo json_encode(Tags::getActiveTags()) ?>;
 var eventTypes = <?php echo json_encode( Event::$types ) ?>;
 var organizationTypes = <?php echo json_encode( Organization::$types ) ?>;
+var currentUser = <?php echo isset($me) ? json_encode(Yii::app()->session["user"]) : null?>;
+var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
+var organizerList = {};
 
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {
 
+	if(currentUser)
+		organizerList["currentUser"] = currentUser.name + " (You)";
+
+	$.each(rawOrganizerList, function(optKey, optVal) {
+		organizerList[optKey] = optVal.name;
+	});
 	
 	<?php if(isset(Yii::app()->session['userId']) && //et que le two_step est terminé
 			(!isset($me["two_steps_register"]) || $me["two_steps_register"] != true)){ ?>
