@@ -63,6 +63,13 @@ $this->renderPartial('../default/panels/toolbar');
 																  )); ?>
 				</div>
 				<?php } ?>
+
+				<div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $project["_id"],
+																		"parentType" => Project::CONTROLLER));
+					?>
+		    	</div>
+		    	
 			</div>
 			
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
@@ -96,9 +103,7 @@ $this->renderPartial('../default/panels/toolbar');
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
 				<!-- <div class="row padding-15">
 					<hr>
-					<h1 class="text-azure pull-left no-margin">
-		        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
-		        	</h1>        
+
 			    </div> -->
 			    <hr>
 			    <div class="timesheetphp"></div>
@@ -117,13 +122,12 @@ $this->renderPartial('../default/panels/toolbar');
 <script type="text/javascript">
 var contextMap = <?php echo json_encode($contextMap)?>;
 jQuery(document).ready(function() {
-
 	contextData = {
 		name : "<?php echo $project["name"] ?>",
 		id : "<?php echo (string)$project["_id"] ?>",
 		type : "<?php echo Project::CONTROLLER ?>",
 		otags : "<?php echo addslashes($project["name"]).","."projet,communecter,".@implode(",", $project["tags"]) ?>",
-		odesc : "Projet : <?php echo addslashes(strip_tags(@$project["shortDescription"])) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"
+		odesc : "Projet : <?php echo addslashes(strip_tags(json_encode(@$project["shortDescription"]))) ?> <?php echo @$project["address"]["streetAddress"] ?> <?php echo @$project["address"]["postalCode"] ?> <?php echo @$project["address"]["addressLocality"] ?> <?php echo @$project["address"]["addressCountry"] ?>"
 	}; 
 	setTitle("<?php echo addslashes($project["name"]) ?> ","<i class='fa fa-circle text-purple'></i> <i class='fa fa-lightbulb-o'></i>",null,contextData.otags, contextData.odesc);
 

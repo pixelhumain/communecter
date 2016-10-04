@@ -129,23 +129,15 @@
 
 
 	jQuery(document).ready(function() {
-<<<<<<< HEAD
-		var otags = "<?php echo addslashes($organization["name"]).",organisation,communecter,".$organization["type"].",".@implode(",", $organization["tags"]) ?>";
-		var odesc = "<?php echo addslashes( strip_tags(@$organization["shortDescription"])).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"; 
-		setTitle( "<?php echo addslashes($organization["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,otags, odesc);
-=======
 
 		contextData = {
 			name : "<?php echo $organization["name"] ?>",
 			id : "<?php echo (string)$organization["_id"] ?>",
 			type : "<?php echo Organization::CONTROLLER ?>",
 			otags : "<?php echo addslashes($organization["name"]).",organisation,communecter,".$organization["type"].",".@implode(",", $organization["tags"]) ?>",
-			odesc : "Organisation :  <?php echo $organization["type"].", ".addslashes( strip_tags(@$organization["shortDescription"])).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"
+			odesc : "Organisation :  <?php echo $organization["type"].", ".addslashes( strip_tags(json_encode(@$organization["shortDescription"]))).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"
 		}; 
 		setTitle( "<?php echo addslashes($organization["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
-
->>>>>>> dynformElement
-   		bindFicheInfoBtn();
 
 	});
 	

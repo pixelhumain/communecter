@@ -22,7 +22,20 @@
 		padding-top: 15px;
 		margin-top: 0px;
 	}
-.datepicker{z-index:12000 !important;}</style>	
+	.datepicker{z-index:12000 !important;}
+
+		
+	.footer-comments{
+	  margin-top: 15px !important;
+	  /*float:left;*/
+	  padding: 30px;
+	}
+	.ctnr-txtarea {
+	    position: absolute;
+	    right: 30px!important;
+	    left: 70px!important;
+	}
+</style>	
 <?php 
 	//ca sert a quoi ce doublon ?
 	$parentType = $room["parentType"];

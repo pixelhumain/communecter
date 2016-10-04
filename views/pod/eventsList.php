@@ -19,19 +19,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()">
 	    		<i class="fa fa-history"></i> <?php echo Yii::t("event","Old events",null,Yii::app()->controller->module->id) ?>
 	    	</a>
-	    	
-		
 		<?php } ?>
 	</div>
 	
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">
-			<table class="table table-striped table-hover" id="events">
-				<tbody>
-					<?php
+				<?php
+						
 					$nbOldEvents = 0;
 					$nbEventVisible = 0;
-					if(isset($events) && count($events)>0 ) { 
+					if(isset($events) && count($events)>0 ) { ?>
+					<table class="table table-striped table-hover" id="events">
+						<tbody>
+					<?php	
 						foreach ($events as $e) {						
 							if (empty($e["endDate"]) || (!empty($e["endDate"]) && isset($e["endDate"]->sec) && $e["endDate"]->sec > time())) {
 								$eventStyle = "";
@@ -115,10 +115,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						<?php
 						}
 					}
-					?>
-				</tbody>
-			</table>
-			
+					if(isset($events) && count($events)>0 ) { ?>
+						</tbody>
+					</table>
+					<?php } ?>
 		<?php if( $nbEventVisible == 0 ) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 

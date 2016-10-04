@@ -28,6 +28,7 @@
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
+  [ ] Indicateur du nb de nouveauté depuis dernier login
 
   ** Orga
   [ ] donner le choix lorsqu'on est invité a une orga 
@@ -106,6 +107,7 @@
 [ ] Discussion externe : Roket Chat, Gitter or Slack with url 
 [ ] Réunion privée pour avancement interne organisation
 [ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
+[ ] optim : pour eviter les count propositions, dans les boucles ajouter le propalCount on the actionRoom
 
 * Notifications :
     [ ] Un subevent a été ajouté sur un event auquel je suis participant

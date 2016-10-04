@@ -37,4 +37,5 @@
 	<?php } ?>
 
 	<?php $this->renderPartial("./menu/short_info_profil", array("me"=>$me)); ?> 
+
 </div>
