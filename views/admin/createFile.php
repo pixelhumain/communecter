@@ -9,6 +9,7 @@ $cssAnsScriptFilesModule = array(
 		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'*/
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
 $userId = Yii::app()->session["userId"] ;
 ?>
 

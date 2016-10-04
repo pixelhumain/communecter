@@ -5,96 +5,149 @@ $cssAnsScriptFilesModule = array(
 		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+$cssAnsScriptFilesModule = array(
+	'/js/default/directory.js',
+);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 $userId = Yii::app()->session["userId"] ;
 ?>
-<div class="panel panel-white">
-	<div id="config">
-		<div class="panel-heading border-light">
-			<h4 class="panel-title">Import Data</h4>
-		</div>
-		<!-- <div class="panel-body" >
-			<div id="authorize-div" style="">
-				<span>Authorize access to Drive API</span>
-				
-				<button id="authorize-button" onclick="handleAuthClick(event)">
-					Authorize
-				</button>
-		    </div>
-		    <pre id="output"></pre>
+<style>
+	.dropdown-menu{
+		width: 100%;
+	}
+	.btn-add-to-directory{
+		font-size: 14px;
+		margin-right: 0px;
+		border-radius: 6px;
+		color: #666;
+		border: 1px solid rgba(188, 185, 185, 0.69);
+		margin-left: 3px;
+		float: left;
+		padding: 1px;
+		width: 24px;
+		margin-top: 15px;
+	}
+  .img-logo {
+    height: 290px;
+  }
+  .btn-filter-type{
+    height:35px;
+    border-bottom: 3px solid transparent;
+  }
+  .btn-filter-type.active{
+    height:35px;
+    border-bottom: 3px solid #383f4e;
+  }
+  .btn-filter-type:hover{
+    height:35px;
+    border-bottom: 3px solid #383f4e;
+  }
+  .btn-scope{
+    display: inline;
+  }
+  .lbl-scope-list {
+    top: 255px;
+  }
+  .btn-tag{
+    font-weight:300;
+    padding-left: 0px;
+  }
+  .btn-tag.bold{
+    font-weight:600;
+  }
+  	.searchEntity{
+	    padding: 10px;
+	}
+  	.searchEntity:hover{
+	    background-color: #d9d9d9;
+	}
+  
+  @media screen and (max-width: 1024px) {
+    #menu-directory-type .hidden-sm{
+     display:none;
+    }
+  }
 
-		</div> -->
-		<div class="panel-body">
-			<?php //var_dump($city); ?>
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-4 col-xs-12">
-						<label for="chooseEntity">Collection : </label>
-						<select id="chooseEntity" name="chooseEntity">
-							<option value="-1">Choisir</option>
-							<option value="invite">Invite</option>
-							<option value="event">Event</option>
-							<option value="organization">Organization</option>
-							<option value="person">Person</option>
-							<option value="project">Project</option>
-						</select>
-				</div>
-				<div class="col-sm-4 col-xs-12">
-						<label for="fileImport">Fichier JSON :</label>
-						<input type="file" id="fileImport" name="fileImport" accept=".json,.js">
-				</div>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-12 col-xs-12">
-					<label for="pathFolderImage">Path dossier image :</label>
-					<input type="text" id="pathFolderImage" name="pathFolderImage" value="">
-				</div>	
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<!--<div class="col-sm-3 col-xs-12">-->
-					<label>
-						Lier les entités : <input class="hide" id="isLink" name="isLink"></input>
-						<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
-					</label>
-				<!-- </div>-->
-				<div id="divLink">
-					<select id="chooseTypeLink" name="chooseTypeLink"> 
-						<option value="Person">Person</option>
-						<option value="Organization">Organisation</option>
-						<option value="Event">Event</option>
-					</select>
-					<label for="inputIdLink">Id de l'entité : </label>
-					<input class="" placeholder="" id="inputIdLink" name="inputIdLink" value="">
-					<label>
-						Admin : <input class="hide" id="isAdmin" name="isAdmin"></input>
-					<input id="checkboxAdmin" name="checkboxAdmin" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
-					</label>
-				</div>
-				<div id="divSendMail">
-					<label>
-						Envoyer les mails d'invitation : <input class="hide" id="isSendMail" name="isSendMail"></input>
-					<input id="checkboxSendMail" name="checkboxSendMail" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
-					</label>
-					<label for="inputIdLink">invitor URL : </label>
-					<input class="" placeholder="" id="inputInvitorUrl" name="inputInvitorUrl" value="">
-				</div>
-				<div id="divKissKiss">
-					<label>
-						Kiss Kiss Bang Bang : <input class="hide" id="isKissKiss" name="isKissKiss"></input>
-					<input id="checkboxKissKiss" name="checkboxKissKiss" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
-					</label>
-				</div>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-					<label>
-						Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
-					</label>
-				</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-5 col-xs-12">
-					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
-				</div>
-			</div>
+@media screen and (max-width: 767px) {
+  .searchEntity{
+        /*margin-left: 25px !important;*/
+  }
+  	
+	  #searchBarText{
+    font-size:13px !important;
+    margin-right:-30px;
+  }
+  /*.btn-add-to-directory {
+      position: absolute;
+      right: 0px;
+      z-index:9px !important;
+  }*/
+}
+
+</style>
+
+<div class="col-md-12 no-padding " style="margin-top:25px;">
+	<div class="col-sm-4 col-xs-12">
+		<label for="chooseElement"><?php echo Yii::t("common", "Element"); ?> : </label>
+		<select id="chooseElement" name="chooseElement" class="">
+			<option value="-1"><?php echo Yii::t("common", "Choose"); ?></option>
+			<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>
+			<option value="<?php echo Project::COLLECTION; ?>"><?php echo Yii::t("common", "Project"); ?></option>
+			<option value="<?php echo Event::COLLECTION; ?>"><?php echo Yii::t("common", "Event"); ?></option>
+			<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>
+		</select>
+	</div>
+	<div class="col-sm-4 col-xs-12">
+		<label for="fileImport">Fichier JSON :</label>
+		<input type="file" id="fileImport" name="fileImport" accept=".json,.js">
+	</div>
+	<div class="col-xs-12">
+		<div class="col-sm-12 col-xs-12">
+			<label for="pathFolderImage">Path dossier image :</label>
+			<input type="text" id="pathFolderImage" name="pathFolderImage" value="">
+		</div>	
+	</div>
+	<div class="col-xs-12">
+		<label for="checkboxLink">Lier les entités : <input class="hide" id="isLink" name="isLink"></input></label>
+		<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
+		<br/>
+		<select id="chooseElementLink" name="chooseElementLink" class="">
+			<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>
+			<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>
+		</select>
+		<br/>
+		<div id="searchLink" class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
+			<input id="searchBarText" data-searchPage="true" type="text" placeholder="Chercher le citoyen ou l'organisation pour lier les données importer" class="input-search form-control">
+			<span class="input-group-btn">
+	            <!--<button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+	                    data-toggle="tooltip" data-placement="top" title="Actualiser les résultats">
+	                    <i class="fa fa-refresh"></i>
+	            </button>-->
+	            <a href="javascript:;" class="btn btn-success btn-start-search tooltips" id="btn-start-search">
+	            	<i class="fa fa-refresh"></i>
+	           	</a>
+	      	</span>
+	      	<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
+				<li class="li-dropdown-scope">-</li>
+			</ul>
+		</div>
+		<div id="resultSearchEntity" class='col-md-12 no-padding hidden' onclick='addElementLink("name","name")'>
+			<div id="imgSearchEntity" class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'></div>
+			<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>
+				<span id="nameSearchEntity" class='entityName text-dark'></span>
+				<input type="hidden" id="idSearchEntity" value=""/>
+	        </div>
+		</div>
+
+	</div>
+	<div style="" class="col-xs-12 margin-top-15" id="dropdown_search"></div>
+
+	<div class="col-xs-12">
+		<div class="col-sm-5 col-xs-12">
+			<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 		</div>
 	</div>
+
 	<div id="createLink">
 		<div class="panel-heading border-light">
 			<h4 class="panel-title">Résultat</h4>
@@ -118,60 +171,149 @@ $userId = Yii::app()->session["userId"] ;
 	
 </div>
 
+		
+	
+	
+
+
 <script type="text/javascript">
 var file = "";
-//var CLIENT_ID = "<?php echo Yii::app()->params['google']['client_id']; ?>"; 
-//var SCOPES = ['https://www.googleapis.com/auth/drive'];
-//var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
-
-
+var searchType = [ "persons" ];
 jQuery(document).ready(function() 
 {
 	$("#divLink").hide();
-	bind();
+	loadingData = false;
+	$("#dropdown_searchInvite").css({"display" : "none" });
+	bindAddData();
 
 });
 
+function callBackSearch(data){
+	console.log("callBackSearch", data);
+	
+	str = "";
+    var city, postalCode = "";
+	$.each(data, function(key, element) {
 
+		var typeIco = key;
+		var ico = mapIconTop["default"];
+		var color = mapColorIconTop["default"];
 
+		mapElements.push(element);
+		typeIco = element.type;
+		ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+		color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+		htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
 
+		if("undefined" != typeof element.profilThumbImageUrl && element.profilThumbImageUrl != ""){
+			var htmlIco= "<img width='80' height='80' class='img-circle bg-"+color+"' src='"+baseUrl+element.profilThumbImageUrl+"'/>";
+		}
+		city="";
+		var postalCode = element.cp
 
+		if (element.address != null) {
+			city = element.address.addressLocality;
+			postalCode = element.cp ? element.cp : element.address.postalCode ? element.address.postalCode : "";
+		}
 
+		//var id = getObjectId(element);
+		var id = element.id ;
+		var insee = element.insee ? element.insee : "";
+		type = element.type;
+		if(type=="citoyen") 
+			type = "person";
+		var url = "javascript:";
+		var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
+		var onclickCp = "";
+		var target = " target='_blank'";
+		var dataId = "";
+		if(type == "city"){
+			url = "javascript:";
+			onclick = 'setScopeValue($(this))';
+			onclickCp = 'setScopeValue($(this));';
+			target = "";dataId = element.name;
+		}
+		var tags = "";
+		if(typeof element.tags != "undefined" && element.tags != null){
+			$.each(element.tags, function(key, value){
+				if(value != "")
+					tags +=   "<span class='badge bg-red btn-tag'>#" + value + "</span>";
+			});
+		}
+		var name = typeof element.name != "undefined" ? element.name : "";
+		var postalCode = (	typeof element.address != "undefined" &&
+                  			typeof element.address.postalCode != "undefined") ? element.address.postalCode : "";
+                  
+		if(postalCode == "")
+			postalCode = typeof element.cp != "undefined" ? element.cp : "";
+        var cityName = (typeof element.address != "undefined" &&
+                  		typeof element.address.addressLocality != "undefined") ? element.address.addressLocality : "";
+        var fullLocality = postalCode + " " + cityName;
+        var description = (typeof element.shortDescription != "undefined" &&
+                  			element.shortDescription != null) ? element.shortDescription : "";
 
+		console.log("id", id, typeof id) ;
+		//onclick='addElementLink("+ name + "," + name + ");'
+		str = "";
+		str += "<li class='li-dropdown-scope'>";
+			str += "<div class='col-md-12 searchEntity' id='elementSearch"+id+"' >";
+				str += "<div id='elementImgSearch"+id+"' class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>"+ htmlIco + "</div>";
+				target = "";
+				str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+					str += "<span id='elementNameSearch"+id+"' class='entityName text-dark'>" + name + "</span>";
+		      	if(fullLocality != "" && fullLocality != " ")
+		        	str += "<span class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</span>";
+		        if(description != "")
+		        	str += "<div class='entityDescription'>" + description + "</div>";
+		    	str += tags;
+			str += "</div>";
+	    str += "</li>";
 
+	    $("#dropdown_searchInvite").append(str);
+	    $('#elementSearch'+id).off().on('click', function(e){
+			$("#resultSearchEntity").removeClass("hidden");
+			$("#nameSearchEntity").html(name);
+			$("#idSearchEntity").html(key);
+			$("#imgSearchEntity").html(htmlIco);
+			$("#dropdown_searchInvite").css({"display" : "none" });
+			$("#dropdown_search").html("");
+	  	});
 
-function bind()
-{
-	$("#checkboxAdmin").bootstrapSwitch();
-	$("#checkboxAdmin").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
-		$("#isAdmin").val(state);
-		
 	});
+	//$("#dropdown_searchInvite").html(str);
+	$("#dropdown_searchInvite").css({"display" : "inline" });
 
+
+	
+}
+
+function bindAddData(){
+	console.log("bindAddData");
+	$("#chooseElementLink").change(function(){ 
+		console.log("chooseElementLink : " + $("#chooseElementLink").val());
+		if($("#chooseElementLink").val() == "<?php echo Person::COLLECTION; ?>")
+			searchType = [ "persons" ];
+		else if($("#chooseElementLink").val() == "<?php echo Organization::COLLECTION; ?>")
+			searchType = [ "organizations" ];
+    });
 
 	$("#checkboxLink").bootstrapSwitch();
 	$("#checkboxLink").on("switchChange.bootstrapSwitch", function (event, state) {
 		console.log("state = "+state );
 		$("#isLink").val(state);
 		if(state == true){
-			$("#divLink").show();
+			$("#searchLink").show();
 		}else{
-			$("#divLink").hide();
+			$("#searchLink").hide();
 		}
 	});
 
-	$("#checkboxSendMail").bootstrapSwitch();
-	$("#checkboxSendMail").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
-		$("#isSendMail").val(state);
-	});
-
-	$("#checkboxKissKiss").bootstrapSwitch();
-	$("#checkboxKissKiss").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
-		$("#isKissKiss").val(state);
-	});
+	$('#btn-start-search').off().on('click', function(e){
+		loadingData = false;
+		console.log("btn-start-search", typeof callBackSearch(loadingData));
+      	//signal que le chargement est terminé
+      	startSearch(0, 15, callBackSearch);
+  	});
 
 
 	$("#fileImport").change(function(e) {
@@ -317,149 +459,4 @@ function bind()
   		
   	});
 }
-
-
-/**
-* Check if current user has authorized this application.
-*/
-/*function checkAuth() {
-	console.log("checkAuth");
-	gapi.auth.authorize({
-		'client_id': CLIENT_ID,
-		'scope': SCOPES.join(' '),
-		'immediate': true
-	}, handleAuthResult);
-}
-
-/**
-* Handle response from authorization server.
-*
-* @param {Object} authResult Authorization result.
-*/
-/*function handleAuthResult(authResult) {
-	console.log("handleAuthResult", authResult);
-	var authorizeDiv = document.getElementById('authorize-div');
-	if (authResult && !authResult.error) {
-		// Hide auth UI, then load client library.
-		authorizeDiv.style.display = 'none';
-		loadDriveApi();
-	} else {
-		// Show auth UI, allowing the user to initiate authorization by
-		// clicking authorize button.
-		authorizeDiv.style.display = 'inline';
-	}
-}
-
-
- /**
-* Initiate auth flow in response to user clicking authorize button.
-*
-* @param {Event} event Button click event.
-*/
-/*function handleAuthClick(event) {
-	console.log("handleAuthClick", event);
-	gapi.auth.authorize({
-		client_id: CLIENT_ID, 
-		scope: SCOPES, 
-		immediate: false}, handleAuthResult);
-	return false;
-}
-
-/**
-* Load Drive API client library.
-*/
-/*function loadDriveApi() {
-	console.log("loadDriveApi");
-	gapi.client.load('drive', 'v3', listFiles);
-}
-
-/**
-* Print files.
-*/
-/*function listFiles() {
-	console.log("listFiles");
-	var request = gapi.client.drive.files.list({
-    	'pageSize': 10,
-    	'fields': "nextPageToken, files(id, name)"
-  	});
-
-  	request.execute(function(resp) {
-    	appendPre('Files:');
-    	console.log(resp);
-    	var files = resp.files;
-    	if (files && files.length > 0) {
-      		for (var i = 0; i < files.length; i++) {
-        		var file = files[i];
-        		appendPre(file.name + ' (' + file.id + ')');
-        		//auth();
-        		
-      		}
-    	} else {
-      		appendPre('No files found.');
-    	}
-  	});
-}
-
-/**
-* Append a pre element to the body containing the given message
-* as its text node.
-*
-* @param {string} message Text to be placed in pre element.
-*/
-/*function appendPre(message) {
-	console.log("appendPre", message);
-	var pre = document.getElementById('output');
-	var textContent = document.createTextNode(message + '\n');
-	pre.appendChild(textContent);
-
-	
-}
-
-
-
-
-
-function auth() {
-	var config = {
-		'client_id': CLIENT_ID,
-		'scope': SCOPES
-	};
-	gapi.auth.authorize(config, function() {
-		getToken();
-
-		//fetch(gapi.auth.getToken());
-	});
-}
-
-function getToken(stop) {
-	console.log("getToken", token);
-	var token = gapi.auth.getToken();
-	if(typeof token != "undefined"){
-		fetch2(token);
-	}
-	else {
-		if(stop == false)
-			getToken(true) ;
-		else
-			toastr.error("Veuillez réessayer plus taSrd.");
-	}
-}
-
-function fetch2(token){
-	console.log("fetch", token);
-	var urlGmail = "https://www.googleapis.com/drive/v3/files/0B9tVDVlaccMsU3lqbXJiQkh6aVU?alt=media&access_token=" + token.access_token ;
-	$.ajax({
-  		url: urlGmail,
-  		dataType: "html",
-  		success:function(data){
-    		console.log("dataFetch", data);
-    		
-  		},
-  		error:function(data){
-  			console.log("error",data)
-  		}
-	});
-
-	bindInviteSubViewInvites();
-}*/
 </script>

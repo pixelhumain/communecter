@@ -8,8 +8,8 @@ var totalData = 0;
 
 var timeout = null;
 
-function startSearch(indexMin, indexMax){
-    
+function startSearch(indexMin, indexMax, callBack){
+    console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;
     loadingData = true;
     
@@ -49,7 +49,7 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
     }else{
       
     }   
@@ -86,7 +86,8 @@ var loadingData = false;
 var mapElements = new Array(); 
 
 
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
+  console.log("autoCompleteSearch", typeof callBack, callBack);
 	if(typeof(cityInseeCommunexion) != "undefined"){
 	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
 	                             2 : "INSEE",
@@ -142,7 +143,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             loadingData = false;     
           },
           success: function(data){ console.log("success autocomplete search"); //console.dir(data);
-            if(!data){ toastr.error(data.content); }
+            if(!data){ 
+              toastr.error(data.content); 
+            }
+            else if(typeof callBack == "function"){ 
+              callBack(data);
+            }
             else
             {
               var countData = 0;
