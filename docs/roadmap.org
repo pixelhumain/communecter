@@ -95,7 +95,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] le scroll marche pas
   [ ] elements to simple dynform
     [ ] desactivate dynForm if not Logged
-    [ ] bug : location > tape CP > validate , ca passe 
+    [ ] bugs
+      [ ] location > tape CP > validate , ca passe 
+      [ ] creating a poi
+      [ ] no message on debat
     [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
     [ ] refactor : move from ACtion to model Element

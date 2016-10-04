@@ -84,7 +84,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<hr>
 			<div class="row">
 				<div class="center">
-					<div class="col-sm-12 col-xs-12 padding-20" style="min-height: 250px">
+					<div class="col-xs-12 padding-20" style="min-height: 250px">
 						<a href="#" id="video" data-title="video" data-type="wysihtml5" data-emptytext="Video" class="editable editable-click">
 						</a>
 					</div>

@@ -138,7 +138,7 @@
 												    "myCity" => $city)); ?>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding no-margin my-main-container">
+<div class="col-xs-12 no-padding no-margin my-main-container">
 
 	<div class="footer-menu-left"></div>
 

@@ -25,14 +25,28 @@
 	padding: 10px !important;
 	font-size: 15px !important;
 }
+button.btn-start-search{
+	font-size:13px!important;
+	height:30px!important;
+	width:40px!important;
+}
+button.btn-start-search:hover{
+	border-radius:0 4px 4px 0!important;
+}
+#searchBarText{
+	font-size:14px!important;
+	height:30px!important;
+	padding: 0px 10px !important;
+}
 
-/*div.timeline .date_separator{
+
+div.timeline .date_separator{
 	display: none;
 }
 div.timeline #backToTop.date_separator{
-	display: inline;
+	display: inherit;
 }
-*/
+
 input.form-control.input-search{
 	border-radius:4px 0 0 4px !important;
 }
@@ -41,7 +55,7 @@ input.form-control.input-search{
 <!-- <span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
 <hr style='margin-top:0px;margin-bottom:0px;border:0!important;'> -->
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding " 
+<div class="col-xs-12 no-padding " 
 	 style="margin-top: 0px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
 	 id="list_type_news">
 			  
@@ -157,7 +171,7 @@ input.form-control.input-search{
 
 </div>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>
@@ -166,18 +180,21 @@ input.form-control.input-search{
 		<hr style='margin-top:5px;margin-bottom:5px; width:100%;'>
 	</div>
 
-	<div id="scopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
+	<div id="scopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 
-	<!-- <div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
-		<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
-		<h3 class="text-purple homestead text-center">
-			<i class="fa fa-angle-down"></i><br>Actus <?php //echo Yii::t("common",$filterTypeNews); ?>
-		</h3>
-	</div> -->
+	<?php if(@$filterTypeNews!="") { ?>
+		<?php $spec = Element::getElementSpecsByType($filterTypeNews); ?>
+		<div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
+			<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
+			<h3 class="text-<?php echo $spec["text-color"]; ?> homestead text-center">
+				<i class="fa fa-angle-down"></i> <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Actus <?php echo Yii::t("common",$filterTypeNews)."s"; ?>
+			</h3>
+		</div>
+	<?php } ?>
 
 
 
-	<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4">
+	<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4" style="margin-top:15px!important;">
 	  	<div class="input-group col-xs-12 pull-left">	        
 	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">

@@ -471,7 +471,7 @@ progress[value]::-moz-progress-bar {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"></a>	
 			</div>

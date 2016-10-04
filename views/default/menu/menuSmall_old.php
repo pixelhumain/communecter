@@ -94,13 +94,13 @@ width: 100%;
 
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
 		<div class="col-md-3 col-sm-3 col-xs-3 center no-padding">
-			<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a class="btn bg-red" href="javascript:;" onclick="showPanel('box-login');$.unblockUI();">
 					<i class="fa fa-sign-in"></i>
 					</br>Se Connecter
 				</a>
 			</div> 
-			<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a class="btn bg-green" href="javascript:;" onclick="showPanel('box-register');$.unblockUI();">
 					<i class="fa fa-plus-circle"></i>
 					</br>S'inscrire
@@ -167,7 +167,7 @@ width: 100%;
 
 			
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+		<div class="col-xs-12 no-padding">
 			
 			<?php if(isset($myCity)){?>
 		    <div class="col-md-12 col-sm-12 padding-15 visible-xs">
@@ -186,7 +186,7 @@ width: 100%;
 			</div>
 			<?php } ?>
 			<div class="col-md-12 col-sm-12 padding-10">
-				<div class="col-md-12 col-sm-12 col-xs-12 center padding-5">
+				<div class="col-xs-12 center padding-5">
 					<a class="btn bg-dark visible-xs" href="javascript:" class="menu-button btn-menu btn-menu-notif tooltips text-dark" 
 			            data-toggle="tooltip" data-placement="left" title="Notifications">
 				        <i class="fa fa-bell"></i> 

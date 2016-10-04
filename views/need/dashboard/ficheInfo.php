@@ -193,7 +193,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
+		<div class="col-xs-12 padding-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("need","Enter the need's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
 		</div>

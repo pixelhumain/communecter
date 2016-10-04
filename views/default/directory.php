@@ -101,7 +101,7 @@
     </button>
   </div>
 
-  <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
+  <div class="col-xs-12 no-padding " id="list_filters">
     <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
 
       <div class="btn-group inline-block" id="menu-directory-type">
@@ -148,14 +148,14 @@
     
   </div>
   
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+<div class="col-xs-12 no-padding"><hr></div>
     <h2 class="subtitle-search text-left">
       <span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>
     </h2>
-    <!-- <div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div> -->
+    <!-- <div class="col-xs-12 no-padding"><hr></div> -->
 </div>
 
-<div style="" class="col-md-12 col-sm-12 col-xs-12 margin-top-15" id="dropdown_search"></div>
+<div style="" class="col-xs-12 margin-top-15" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 <?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 

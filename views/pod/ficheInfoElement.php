@@ -203,7 +203,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</h2>
 	</div>
 	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
-		<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
+		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
 		</div>
 		<div class="col-md-12">
@@ -365,11 +365,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<?php } ?>
 
 		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
-			<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding" style="padding-right:10px !important;">
-				<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-dark lbl-info-details">
+			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
+				<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
 				</div>
-				<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 entityDetails no-padding">
+				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
 					<?php if($type==Event::COLLECTION ) { ?>
 					<div class="col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
@@ -402,7 +402,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					</a> 
 					<br>
 				<?php } ?>
-				<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+				<div class="col-xs-12 no-padding">
 					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
 					<a href="#" id="address" 
 					   data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
@@ -587,7 +587,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 			</div>
 		<?php } ?>
-		<div id="divShortDescription" class="col-sm-12 col-xs-12 col-md-12 no-padding">
+		<div id="divShortDescription" class="col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
 			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
 			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Write the project's short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
@@ -596,7 +596,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			
 		</div>
 
-		<div class="col-sm-12 col-xs-12 col-md-12 no-padding margin-top-10">
+		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>

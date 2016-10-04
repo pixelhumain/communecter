@@ -40,14 +40,14 @@
 
 
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
-			<div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			<div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark-red lbh" href="#admin.index">
 			        <i class="fa fa-user-secret" style="font-size: 1em!important;"></i> 
 			        Admin
 			    </a>
 		    </div>
 			<?php } ?>	
-			<div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+			<div class="col-xs-12 center no-padding">
 				<a class="btn bg-dark visible-xs padding-5" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
 			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
 			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
@@ -57,19 +57,19 @@
 			        Notifications
 			    </a>
 			</div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
-		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" 
 			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>">
 			        <i class="fa fa-comments" style="font-size: 1em!important;"></i> 
@@ -79,7 +79,7 @@
 			    </a>
 		    </div>
 		    
-		    <div class="col-md-12 col-sm-12 col-xs-12 center no-padding">
+		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-red padding-5" 
 			    	href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>">
 			        <i class="fa fa-sign-out"></i>
@@ -185,7 +185,7 @@
 					</div>
 				<?php } ?>
 
-				<div class="col-md-12 col-sm-12 col-xs-12  no-padding">
+				<div class="col-xs-12  no-padding">
 					<hr style="border-top: 1px solid transparent; margin:7px;">
 					<h2 class="homestead text-white">
 						Comprendre<?php if(isset(Yii::app()->session['userId'])) echo " et aider"; ?>

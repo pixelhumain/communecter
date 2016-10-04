@@ -3,7 +3,7 @@ $cs = Yii::app()->getClientScript();
 
 ?>
 <!-- start: PAGE CONTENT -->
-<div class="col-sm-12 col-xs-12" id="">
+<div class="col-xs-12" id="">
   <div class="panel panel-white">
       <div class="panel-heading text-center border-light">
         <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> Admin </h3>

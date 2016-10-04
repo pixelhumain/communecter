@@ -14,7 +14,6 @@
 	}
 
 ?>	
-
 <style>
 	.textarea-new-comment{
 		max-width: 100%;
@@ -28,10 +27,12 @@
 		outline-color: grey;
 	}
 	.footer-comments{
+		<?php if($contextType != "actionRooms" && $contextType != "surveys" && $contextType != "actions"){ ?>
 		margin-right: -10px;
 		margin-left: -10px;
 		margin-top: -5px;
 		padding: 10px;
+		<?php } ?> 
 		background-color: rgba(231, 231, 231, 0.62);
 	}
 	.content-comment{
@@ -64,6 +65,35 @@
 
 	}
 </style>
+<?php if($contextType == "actionRooms"){ ?>
+<div class='row'>
+	<?php
+		if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
+			echo "<div class='col-md-4'>";
+			$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+				  "type" => ActionRoom::COLLECTION,
+				  "resize" => false,
+				  "contentId" => Document::IMG_PROFIL,
+				  "editMode" => $canComment,
+				  "image" => $images,
+				   "parentType" => $parentType,
+				   "parentId" => $parentId, 
+			)); 
+		}
+		echo "</div>";
+	
+	  	$icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
+      	$archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
+      	$color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";
+    ?>
+    <div class='col-md-8'>
+		<h1 class=" <?php echo $color;?>" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+	      <i class="fa fa-<?php echo $icon;?>"></i> "<?php echo $context["name"].$archived; ?>"
+	  	</h1>
+	</div>
+</div>
+<?php } ?>
+
 
 <div class="footer-comments row">
 
@@ -105,7 +135,7 @@
 					$profilThumbImageUrl = Element::getImgProfil($comment["author"], "profilThumbImageUrl", $assetsUrl); 
 					if($hidden > 0) $hiddenClass = "hidden hidden-".$hidden;
 		?>
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
+					<div class="col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
 
 						<img src="<?php echo $profilThumbImageUrl; ?>" class="img-responsive pull-left" 
 							 style="margin-right:10px;height:32px; border-radius:3px;">
@@ -338,7 +368,7 @@
 
 	function showOneComment(textComment, idComment, isAnswer, idNewComment){
 		textComment = linkify(textComment);
-		var html = '<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment" id="item-comment-'+idNewComment+'">'+
+		var html = '<div class="col-xs-12 no-padding margin-top-5 item-comment" id="item-comment-'+idNewComment+'">'+
 
 						'<img src="<?php echo @$profilThumbImageUrlUser; ?>" class="img-responsive pull-left" '+
 						'	 style="margin-right:10px;height:32px; border-radius:3px;">'+

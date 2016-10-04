@@ -469,7 +469,7 @@
         }
 
         if( !$surveyIsClosed && !$surveyHasVoted && !$isArchived )        
-        $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-md-12 col-sm-12 col-xs-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
+        $leftLinks = "<button onclick=".'"loadByHash(\''.$btnUrl.'\')"'." class='col-xs-12 btn btn-default homestead text-red pull-left' style='font-size:20px;'> ".$btnLbl."</button>";
         else{
           $btnRead = '<button onclick="showRoom(\'entry\', \''.(string)$entry["_id"].'\')"'." class='btn btn-lg btn-default homestead pull-right text-bold tooltips' ".
                   ' data-toggle="tooltip" data-placement="left" title="Afficher les détails"'.

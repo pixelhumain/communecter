@@ -303,7 +303,7 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
+			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs">
 				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
 			</div>
 

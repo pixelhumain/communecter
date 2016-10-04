@@ -1328,8 +1328,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}
-	},
+		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person"},
@@ -1393,8 +1392,7 @@ var typeObj = {
 			        },
 			    }
 			}
-		}
-	},
+		}},
 	"organization" : { 
 		col:"organizations", 
 		ctrl:"organization", 
@@ -1502,9 +1500,7 @@ var typeObj = {
 		/*form : {
 			url : "/"+moduleId+"/organization/addorganizationform",
 			title : "Ajouter une Organisation"
-		}*/
-	},
-
+		}*/	},
 	"organizations" : {col:"organizations",ctrl:"organization"},
 	"event" : {
 		col:"events",
@@ -1690,8 +1686,7 @@ var typeObj = {
 		/*form : {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
-		}*/
-	},
+		}*/	},
 	"events" : {col:"events",ctrl:"event"},
 	"projects" : {col:"projects",ctrl:"project"},
 	"project" : {
@@ -1774,8 +1769,7 @@ var typeObj = {
 		            }
 			    }
 			}
-		}
-	},
+		} },
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city"},
 	"entry" : {
@@ -1894,8 +1888,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}
-	},
+		}	},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
 	"action" : {
 		col:"actions",
@@ -2016,8 +2009,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}
-	},
+		} },
 	"actions" : {col:"actions",ctrl:"room"},
 	"discuss" : {col:"actionRooms",ctrl:"room"},
 	"samples":{ 
@@ -2100,8 +2092,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}
-	},
+		} },
 };
 
 function  firstOptions() { 

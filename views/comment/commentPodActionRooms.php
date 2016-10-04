@@ -5,6 +5,16 @@
 #commentHistory .panel-heading{
 	min-height:185px !important;
 }
+.footer-comments{
+  margin-top: 15px !important;
+  /*float:left;*/
+  padding: 30px;
+}
+.ctnr-txtarea {
+    position: absolute;
+    right: 30px!important;
+    left: 70px!important;
+}
 </style>
 <?php } ?>
 
@@ -39,12 +49,13 @@
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
 	//		&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
-	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
+	$this->renderPartial("../comment/commentPodSimple", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
 											 "canComment"=>$canComment,
-											 "parentType"=>$parentType,
+                       "idComment"=>$idComment,
+                       "parentType"=>$parentType,
 											 "parentId" => $parentId, 
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,

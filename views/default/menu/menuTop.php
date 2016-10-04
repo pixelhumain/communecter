@@ -1,5 +1,5 @@
 <?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/menuTop.css'), $this->module->assetsUrl); ?>
-<div class="col-md-12 col-sm-12 col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
+<div class="col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
 	
 	<?php // BTN CO = Live // ?>
 	<a class="pull-left tooltips hidden-xs lbh" href="#default.live"  id="main-btn-co"
