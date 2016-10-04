@@ -156,11 +156,11 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] Batch qui remet tout les Preférence au niveau de base
     [ ] Vérifier qu'au niveau de l'api c'est géré
   [ ] Traduction
-    [ ] Add members et tooltip
+    [X] Add members et tooltip
   [ ] Bugs 
     [ ] SI on change la ville du user, et qu'on clique sur repositionner alors il y une erreur
-    [ ] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
-    [ ] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
+    [X] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
+    [X] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
     [ ] Impossible de mettre les tags a vide
 
   [ ] Caché les consoles.log
