@@ -108,6 +108,7 @@ var formValidator = function() {
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
+	                        $.unblockUI();
 	                   	}
 	                    else { 
 	                        toastr.success(data.msg);

@@ -135,7 +135,7 @@
 					$profilThumbImageUrl = Element::getImgProfil($comment["author"], "profilThumbImageUrl", $assetsUrl); 
 					if($hidden > 0) $hiddenClass = "hidden hidden-".$hidden;
 		?>
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
+					<div class="col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
 
 						<img src="<?php echo $profilThumbImageUrl; ?>" class="img-responsive pull-left" 
 							 style="margin-right:10px;height:32px; border-radius:3px;">
@@ -368,7 +368,7 @@
 
 	function showOneComment(textComment, idComment, isAnswer, idNewComment){
 		textComment = linkify(textComment);
-		var html = '<div class="col-md-12 col-sm-12 col-xs-12 no-padding margin-top-5 item-comment" id="item-comment-'+idNewComment+'">'+
+		var html = '<div class="col-xs-12 no-padding margin-top-5 item-comment" id="item-comment-'+idNewComment+'">'+
 
 						'<img src="<?php echo @$profilThumbImageUrlUser; ?>" class="img-responsive pull-left" '+
 						'	 style="margin-right:10px;height:32px; border-radius:3px;">'+

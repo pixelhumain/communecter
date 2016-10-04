@@ -39,7 +39,7 @@ else
 	$contextTypeLabel=Yii::t("common","of the project");
 $countries= OpenData::getCountriesList();
 ?>
-<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-xs-12">
 	<?php 
 		if(count($activities)==0){ ?>
 			<div id="infoPodOrga" class="padding-10 info-no-need">
@@ -56,7 +56,7 @@ $countries= OpenData::getCountriesList();
 				else if($value["verb"]==ActStr::VERB_CREATE)
 					$action = Yii::t("common", "has created");
 			?>
-				<div class='col-md-12 col-sm-12 col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">
+				<div class='col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">
 					<?php echo "<i class='fa fa-clock-o'></i> ".date("d/m/y H:i",$value["date"]->sec)."<br/>".
 						"<a href='javascript:;' onclick='loadByHash(\'#person.detail.id.".$value["author"]["id"]."\')>".
 							$value["author"]["name"].

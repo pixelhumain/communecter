@@ -84,6 +84,7 @@ $userId = Yii::app()->session["userId"] ;
   }*/
 }
 
+
 </style>
 
 <div class="col-md-12 no-padding ">
@@ -96,6 +97,7 @@ $userId = Yii::app()->session["userId"] ;
 			<option value="<?php echo Event::COLLECTION; ?>"><?php echo Yii::t("common", "Event"); ?></option>
 			<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>
 		</select>
+
 	</div>
 	<div class="col-sm-4 col-xs-12">
 		<label for="fileImport">Fichier JSON :</label>

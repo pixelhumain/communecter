@@ -17,7 +17,7 @@
 
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
-			<div class="col-sm-12 col-xs-12 col-md-8">
+			<div class="col-xs-12 col-md-8">
 	    		<?php 
 	    			$params = array(
 	    				"organization" => $organization,
@@ -38,7 +38,7 @@
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 
-    			<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
+    			<div class="col-xs-12 no-padding pull-left">
 					<!-- 
 					<div class="row padding-15">
 						<hr>
@@ -129,7 +129,6 @@
 
 
 	jQuery(document).ready(function() {
-
 		contextData = {
 			name : "<?php echo $organization["name"] ?>",
 			id : "<?php echo (string)$organization["_id"] ?>",
@@ -138,7 +137,6 @@
 			odesc : "Organisation :  <?php echo $organization["type"].", ".addslashes( strip_tags(json_encode(@$organization["shortDescription"]))).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"
 		}; 
 		setTitle( "<?php echo addslashes($organization["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
-
 	});
 	
 	function bindFicheInfoBtn(){

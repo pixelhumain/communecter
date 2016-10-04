@@ -122,16 +122,16 @@
     </button>
   </div>
   <div class="space20"></div>
-  <div class="col-md-12 col-sm-12 col-xs-12 no-padding " id="list_filters">
+  <div class="col-xs-12 no-padding " id="list_filters">
     <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     <div class='city-name-locked homestead text-red'></div>
   </div>
   
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+<div class="col-xs-12 no-padding"><hr></div>
 
 </div>
 
-<div style="" class="col-sm-12 col-xs-12 no-padding no-margin" id="dropdown_search"></div>
+<div style="" class="col-xs-12 no-padding no-margin" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 <?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 

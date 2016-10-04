@@ -6,7 +6,7 @@
 		<h4 class="panel-title">Entité mal </h4>
 		<br/>
 		<div><span id="nbWarnings"></span></div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12">
+		<table id="tableEntity" class="col-xs-12">
 			<tr>
 				<th>Type</th>
 				<th>Name</th>

@@ -303,7 +303,7 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding hidden-xs">
+			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs">
 				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
 			</div>
 
@@ -689,8 +689,8 @@ jQuery(document).ready(function() {
 	if(contextType == "<?php echo Project::COLLECTION ?>"){
 		
 	}
-	
-	if(element.address.addressLocality == ""){
+	console.log(element);
+	if(typeof(element.address) != "undefined" && element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");
 		$(".cobtnHeader").click(function () { 

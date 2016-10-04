@@ -355,7 +355,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					pour valoriser le territoire et le <span class="text-red">bien commun</span>.
 			</div>
 
-			<div class="col-md-8 col-sm-12 col-xs-12 pull-right">
+			<div class="col-md-8 col-xs-12 pull-right">
 				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
 			</div>
 

@@ -25,6 +25,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 * ************************************************************    
 
 ** @Tango 
+    [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
     [ ] Recherche par 100, 500, 1000, all
       [X] page recherche
       [ ] page agenda
@@ -42,7 +43,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] delete person : 
       [X] on admin : delete simple person (links but no news/votes/comments)
       [ ] delete with anonymization
-      [ ] delete my accont
+      [ ] delete my account
     [ ] rsync on server for upload
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
@@ -66,7 +67,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
-
 
 
 ** @Tib 
@@ -94,8 +94,19 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
+    [ ] connect specific post process for each elem
+      [ ] organization
+      [ ] 
     [ ] desactivate dynForm if not Logged
-    [ ] bug : location > tape CP > validate , ca passe 
+    [ ] bugs
+      [ ] add to floopdrawer after save
+      [ ] location > tape CP > validate , ca passe 
+      [ ] no message on debat
+      [ ] check existance click and unfocus
+      [ ] create orga 
+      [ ] texte/description d'une décision n'est pas mis à jour 
+      [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
     [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
     [ ] refactor : move from ACtion to model Element
@@ -150,11 +161,11 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] Batch qui remet tout les Preférence au niveau de base
     [ ] Vérifier qu'au niveau de l'api c'est géré
   [ ] Traduction
-    [ ] Add members et tooltip
+    [X] Add members et tooltip
   [ ] Bugs 
     [ ] SI on change la ville du user, et qu'on clique sur repositionner alors il y une erreur
-    [ ] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
-    [ ] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
+    [X] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
+    [X] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
     [ ] Impossible de mettre les tags a vide
 
   [ ] Caché les consoles.log

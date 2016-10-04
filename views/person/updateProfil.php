@@ -11,7 +11,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		<div class="panel-body">
 			<input type="file" id="fileImport" name="fileImport" accept=".json,.js,.geojson">
 		</div>
-		<div class="col-sm-12 col-xs-12">
+		<div class="col-xs-12">
 			<a href="#" id="btnUpdate" class="btn btn-success margin-top-15">Mettre à jour votre profil</a>
 		</div>
 		<div id="divtab" class="table-responsive">

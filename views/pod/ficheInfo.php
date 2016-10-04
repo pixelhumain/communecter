@@ -577,7 +577,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			
 		</div>
 		<div class="row">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 				</a>
@@ -778,6 +778,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		
 		$.fn.editable.defaults.mode = 'popup';
+		$.fn.editable.defaults.container='body';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),

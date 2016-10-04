@@ -513,7 +513,7 @@ if(!@$_GET["renderPartial"])
 			</div>
 			<div class="panel-body">
 				<form class="form-importFile" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
 					</div>
 				</form>
@@ -535,7 +535,7 @@ if(!@$_GET["renderPartial"])
 						</ul>
 					</div>
 					<br/>
-					<div class="col-sm-12 col-xs-12 pull-center">
+					<div class="col-xs-12 pull-center">
 		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter" onclick="inviteImportFile();">Inviter</a>
 					</div>
 				</div>

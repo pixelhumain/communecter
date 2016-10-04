@@ -310,7 +310,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-googlePlus" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<!-- Placez cette balise où vous souhaitez faire apparaître le gadget bouton "Partager". -->
 						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
 						<!--<a  href="#" 
@@ -334,7 +334,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-importFile" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
 					</div>
 				</form>
@@ -346,7 +346,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-writeMails" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<div class="col-sm-5 col-xs-12">
 							<textarea id="textareaMails" class="form-control col-sm-5" rows="5"></textarea>
 						</div>
@@ -357,12 +357,12 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>
 		<div class="panel panel-white" id="divCheckMail">
         	<div class="panel-body">
-        		<div id="checkMail" class="col-sm-12 col-xs-12">
+        		<div id="checkMail" class="col-xs-12">
         			<div class="homestead panelLabel pull-left">
 							<i class="fa fa-edit"></i>
 							<label for="textmail" class="control-label">Message</label>
 					</div>
-        			<div id="Messages" class="col-sm-12 col-xs-12">
+        			<div id="Messages" class="col-xs-12">
 		        		<textarea id="textmail" class="form-control" rows="3">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
 Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
@@ -373,7 +373,7 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
 							Liste des contacts 		
 						</div>
 				
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<div  id="nbContact" class="homestead pull-left">
 						</div>
 						<select id="selectContact" class="col-sm-offset-2">
@@ -402,7 +402,7 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
 						</ul>
 					</div>
 					<br/>
-					<div class="col-sm-12 col-xs-12 pull-center">
+					<div class="col-xs-12 pull-center">
 		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter">Inviter</a>
 					</div>
 				</div>
