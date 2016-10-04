@@ -690,7 +690,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
 
-		if(contextData.address.addressLocality == ""){
+		if(typeof(contextData.address) != "undefined" && contextData.address.addressLocality == ""){
 			$(".cobtn,.whycobtn").removeClass("hidden");
 			$(".cobtn").click(function () { 
 				$(".cobtn,.whycobtn").hide();

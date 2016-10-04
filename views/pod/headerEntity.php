@@ -689,8 +689,8 @@ jQuery(document).ready(function() {
 	if(contextType == "<?php echo Project::COLLECTION ?>"){
 		
 	}
-	
-	if(element.address.addressLocality == ""){
+	console.log(element);
+	if(typeof(element.address) != "undefined" && element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");
 		$(".cobtnHeader").click(function () { 
