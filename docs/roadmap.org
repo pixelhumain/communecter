@@ -69,7 +69,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] améliorer la verification d'existence d'elements
 
 
-
 ** @Tib 
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
