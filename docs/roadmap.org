@@ -11,9 +11,28 @@
   [ ] Créer des POI (geo + name) et pouvoir y ratacher des orga/projets/event
 
 ** @Tango 
-    [ ] REcherche par 100, 500, 1000, all
     [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
-** @Sylvain
+    [ ] Recherche par 100, 500, 1000, all
+      [X] page recherche
+      [ ] page agenda
+    [X] synchronize new item menu (on selected)
+    [ ] Finir Orga:Add member
+      [X] refaire marcher la modal
+      [X] brancher le save de la modal sur un controller (link/multiConnectAction)
+      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
+      [??] Project:contributeur
+      [??] People:invitation
+      [??] Event:Participation
+
+** @Sylvain 
+    [X] pb d'images dans en ce moment (ex : Manapany)
+    [ ] delete person : 
+      [X] on admin : delete simple person (links but no news/votes/comments)
+      [ ] delete with anonymization
+      [ ] delete my account
+    [ ] rsync on server for upload
+    [ ] interface screen shot tutoriel 
+      [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
     [ ] mailing
         [ ] doc
