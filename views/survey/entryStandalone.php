@@ -27,7 +27,19 @@
 	#profil_fileUpload{
 		min-height: 180px;
 	}
-.datepicker{z-index:12000 !important;}
+	.datepicker{z-index:12000 !important;}
+
+	
+.footer-comments{
+  /*margin-top: 15px !important;*/
+  /*float:left;*/
+  padding: 30px;
+}
+.ctnr-txtarea {
+    position: absolute;
+    right: 30px!important;
+    left: 70px!important;
+}
 </style>
 
 <?php 
@@ -337,6 +349,7 @@ jQuery(document).ready(function() {
 	
   	$('#form-edit-entry #btn-submit-form').addClass("hidden");
 
+  	$(".commentPod").html("<i class='fa fa-spin fa-refresh'></i> Chargement des commentaires");
 	getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/surveys/id/<?php echo $survey['_id'] ?>",
 		function(){  $(".commentCount").html( $(".nbComments").html() ); 
 	},"html");
