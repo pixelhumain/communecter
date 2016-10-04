@@ -1259,7 +1259,7 @@ function buildDynForm(elementObj, afterLoad) {
 		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+		        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
 		        	elementObj.dynForm.jsonSchema.onLoads.onload();
 		        bindLBHLinks();
 		      },
@@ -1360,29 +1360,32 @@ var typeObj = {
 			            "inputType" : "text",
 			            "rules" : { "required" : true }
 			        },
-			        formshowers : {
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-default' href='javascript:$(\".urlsarray\").slideToggle()'>+urls</a>",
+		                "html": "<a class='btn btn-xs btn-azure text-dark w100p' href='javascript:$(\".urlsarray,.tagstags\").slideToggle()'>+ options</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").addClass("hidden");	 
+			            	$(".urlsarray").css("display","none");	 
 			            }
 			        },
 		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de point d'interet",
-		              "values" : tagsList
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList,
+		                init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
 		            },
 		            parentId :{
 		            	"inputType" : "hidden"

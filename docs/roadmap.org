@@ -99,6 +99,9 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] location > tape CP > validate , ca passe 
       [ ] creating a poi
       [ ] no message on debat
+      [ ] check existance click and unfocus
+      [ ] create orga 
+      [ ] texte/description d'une décision n'est pas mis à jour 
     [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
     [ ] refactor : move from ACtion to model Element
