@@ -25,6 +25,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 * ************************************************************    
 
 ** @Tango 
+    [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
     [ ] Recherche par 100, 500, 1000, all
       [X] page recherche
       [ ] page agenda
@@ -42,7 +43,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] delete person : 
       [X] on admin : delete simple person (links but no news/votes/comments)
       [ ] delete with anonymization
-      [ ] delete my accont
+      [ ] delete my account
     [ ] rsync on server for upload
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
