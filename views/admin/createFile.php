@@ -432,10 +432,10 @@ function bindCreateFile(){
   	});
 
   	$("#btnNextStep2").off().on('click', function(){
-  		alert("yo");
+  		/*alert("yo");
   		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Processing ...</h1>"
-		});
+		});*/
 
 
   		cleanVisualisation();
