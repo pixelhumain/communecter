@@ -778,6 +778,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 		
 		$.fn.editable.defaults.mode = 'popup';
+		$.fn.editable.defaults.container='body';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),

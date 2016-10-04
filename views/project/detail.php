@@ -63,13 +63,11 @@ $this->renderPartial('../default/panels/toolbar');
 																  )); ?>
 				</div>
 				<?php } ?>
-
 				<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $project["_id"],
 																		"parentType" => Project::CONTROLLER));
 					?>
-		    	</div>
-		    	
+		    	</div>	    	
 			</div>
 			
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
@@ -103,7 +101,6 @@ $this->renderPartial('../default/panels/toolbar');
 			<div class="col-md-8 col-sm-12 no-padding pull-left">
 				<!-- <div class="row padding-15">
 					<hr>
-
 			    </div> -->
 			    <hr>
 			    <div class="timesheetphp"></div>
