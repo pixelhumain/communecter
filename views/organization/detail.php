@@ -17,7 +17,7 @@
 
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
-			<div class="col-sm-12 col-xs-12 col-md-8">
+			<div class="col-xs-12 col-md-8">
 	    		<?php 
 	    			$params = array(
 	    				"organization" => $organization,
@@ -38,7 +38,7 @@
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 
-    			<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
+    			<div class="col-xs-12 no-padding pull-left">
 					<!-- 
 					<div class="row padding-15">
 						<hr>

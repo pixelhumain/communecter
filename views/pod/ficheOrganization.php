@@ -12,7 +12,7 @@
 			</div>
 			<div class="colFiche col-sm-4 col-xs-4">
 				<div class="row">
-					<div class="colFiche col-sm-12 col-xs-12">
+					<div class="colFiche col-xs-12">
 							<span><?php echo (isset( $context["address"]["streetAddress"])) ? $context["address"]["streetAddress"] : null; ?></span>
 							<br>
 							<span><?php echo (isset( $context["address"]["postalCode"])) ? $context["address"]["postalCode"] : null; ?>  <?php echo (isset( $context["address"]["addressLocality"])) ? $context["address"]["addressLocality"] : null; ?> <?php echo (isset( $context["address"]["addressCountry"])) ? $context["address"]["addressCountry"] : null; ?></span>
@@ -24,12 +24,12 @@
 							<br>
 							<span> <?php echo (isset($context["url"])) ? $context["url"] : null; ?></span>
 					</div>
-					<div class="colFiche col-sm-12 col-xs-12 pull-bottom">
+					<div class="colFiche col-xs-12 pull-bottom">
 						<div>
 							<h1><i class="fa fa-envelope"></i> CONTACTEZ-NOUS </h1>
 						</div>
 					</div>
-					<div class="colFiche col-sm-12 col-xs-12 pull-bottom">
+					<div class="colFiche col-xs-12 pull-bottom">
 						<strong><?php echo (isset($context["description"])) ? $context["description"] : null; ?></strong>
 					</div>
 					
@@ -39,18 +39,18 @@
 		<div class="row">
 			<div class="colFiche col-sm-8 col-xs-8">
 				<div class="row">
-					<div class="colFiche col-sm-12 col-xs-12" style="background-color:#E6E6E6">
+					<div class="colFiche col-xs-12" style="background-color:#E6E6E6">
 						<h1>TITRE</h1>
 					</div>
-					<div class="colFiche col-sm-12 col-xs-12">
+					<div class="colFiche col-xs-12">
 						<div class="center">
 							<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </span>
 						</div>
 					</div>
-					<div class="colFiche col-sm-12 col-xs-12" style="background-color:#E6E6E6">
+					<div class="colFiche col-xs-12" style="background-color:#E6E6E6">
 						<h1>TITRE</h1>
 					</div>
-					<div class="colFiche col-sm-12 col-xs-12">
+					<div class="colFiche col-xs-12">
 						<div class="center">
 							<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </span>
 						</div>
@@ -59,7 +59,7 @@
 			</div>
 			<div class="colFiche col-sm-4 col-xs-4">
 				<div class="row">
-					<div class="colFiche col-sm-12 col-xs-12">
+					<div class="colFiche col-xs-12">
 						<div id="accordion" class="panel-group accordion">
 							<div class="panel panel-white">
 								<div class="panel-heading">
@@ -162,7 +162,7 @@
 							</div>
 						</div>
 					</div>
-						<div class="colFiche col-sm-12 col-xs-12">
+						<div class="colFiche col-xs-12">
 						<h1><i class="fa fa-check"></i> ADHERER</h1>
 					</div>
 				</div>

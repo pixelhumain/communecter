@@ -65,7 +65,7 @@ if(!@$_GET["renderPartial"])
 	}
 </style>
 <div class="row" id="galleryPad">
-	<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="col-xs-12">
 		<div class="panel panel-white">
 			<div class="panel-body">
 				<div class="controls">

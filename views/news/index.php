@@ -288,12 +288,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
 ?>
 
-<!-- <div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div> -->
+<!-- <div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div> -->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container'>
 
 	<?php if(false) { ?>
-		<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
+		<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
 		  
 		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
 		    <button class="btn btn-default btn-type-news tooltips text-dark active" 
@@ -351,7 +351,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
 			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
-					class="col-sm-12 col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
+					class="col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
@@ -375,7 +375,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							&& $contextParentType==Person::COLLECTION 
 							&& Yii::app()->session["userId"]==$contextParentId)){ ?>
 				
-				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
+				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
 				
 				<div class="dropdown col-md-9">

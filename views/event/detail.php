@@ -11,7 +11,7 @@
 		$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <div class="row">
-	<div class="col-md-8 col-sm-12 col-xs-12">
+	<div class="col-md-8 col-xs-12">
 		<?php $this->renderPartial('dashboard/description',array(
 									"event" => $event,
 									"tags" => $tags,
@@ -32,7 +32,7 @@
 		<div class="col-xs-12 no-padding calendar pull-left"></div>
 		<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
 	</div>
-	<div class="col-md-4 col-sm-12 col-xs-12">
+	<div class="col-md-4 col-xs-12">
 		<?php  //print_r($attending); 
 			$this->renderPartial('../pod/usersList', array(  "event"=> $event,
 															"users" => $attending,

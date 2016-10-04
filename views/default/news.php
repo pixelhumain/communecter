@@ -80,7 +80,7 @@ display: inline;
   </div>
 </div>
 
-<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
+<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
   <div class="btn-group inline-block" id="menu-directory-type">
     <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
       <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">Messages</span>
@@ -98,19 +98,19 @@ display: inline;
       <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Besoins</span>
     </button>
   </div>
-  <div class="col-md-12 col-sm-12 col-xs-12 margin-top-15 no-padding">
+  <div class="col-xs-12 margin-top-15 no-padding">
     <div id="list_tags_scopes" class="hidden-xs"></div>
   </div>
 </div>
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><hr></div>
+<div class="col-xs-12 no-padding"><hr></div>
 
 <?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
 
 
 <div class="" id="dropdown_search"></div>
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="newsstream"></div>
+<div class="col-xs-12 no-padding" id="newsstream"></div>
 
 
 <script type="text/javascript">

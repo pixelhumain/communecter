@@ -55,7 +55,7 @@ input.form-control.input-search{
 <!-- <span class='text-dark'><i class='fa fa-angle-down'></i> Filtrer par type</span>
 <hr style='margin-top:0px;margin-bottom:0px;border:0!important;'> -->
 
-<div class="col-md-12 col-sm-12 col-xs-12 no-padding " 
+<div class="col-xs-12 no-padding " 
 	 style="margin-top: 0px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  
 	 id="list_type_news">
 			  
@@ -171,7 +171,7 @@ input.form-control.input-search{
 
 </div>
 
-<div id="newLiveFeedForm" class="col-md-12 col-sm-12 col-xs-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>
@@ -180,7 +180,7 @@ input.form-control.input-search{
 		<hr style='margin-top:5px;margin-bottom:5px; width:100%;'>
 	</div>
 
-	<div id="scopeListContainer" class="list_tags_scopes col-md-12 col-sm-12 col-xs-12 no-padding"></div>
+	<div id="scopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 
 	<?php if(@$filterTypeNews!="") { ?>
 		<?php $spec = Element::getElementSpecsByType($filterTypeNews); ?>

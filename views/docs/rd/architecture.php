@@ -13,10 +13,10 @@
         <div class="panel-body">
            <div class="col-xs-12">
 	        	<a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/MVC.png" data-title="Architecture Globale et repositories"  data-lightbox="all">
-					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/MVC.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/MVC.png" class="col-md-6 col-xs-12 img-responsive ">
 		        </a>
 		        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/archi.png" data-title="Structure des pages Communecter"  data-lightbox="all">
-					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/archi.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/archi.png" class="col-md-6 col-xs-12 img-responsive ">
 		        </a>
 	        </div>
 			<div class="col-sm-12" style="margin-top: 20px">	

@@ -47,8 +47,8 @@ if($('#breadcum').length)
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
-	<div class=" col-md-12 col-sm-12 col-xs-12">
-		<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class=" col-xs-12">
+		<div class="col-xs-12">
 			<div class="col-md-8 no-padding">
 	    		<?php 
 	    			//var_dump(@$modeEdit);
@@ -216,19 +216,9 @@ if($('#breadcum').length)
 					} ?>
 
 
-
-
-
-
-
-
-
-
-
-
-			<div class="col-md-4 col-sm-12 col-xs-12 no-padding pull-right">
+			<div class="col-md-4 col-xs-12 no-padding pull-right">
 				<?php if($type != Person::COLLECTION){ ?>
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-xs-12">
 					<?php $this->renderPartial('../pod/usersList', array(  $controller => $element,
 															"users" => $members,
 															"userCategory" => Yii::t("common","Community"), 
@@ -251,7 +241,7 @@ if($('#breadcum').length)
 				</div>
 				<?php } ?>
 		    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-xs-12">
 					<?php 
 						$organizerImg=false;
 						if($type==Event::COLLECTION) $organizerImg=true;
@@ -271,7 +261,7 @@ if($('#breadcum').length)
 
 
 				<?php if (($type==Project::COLLECTION)){ ?>
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-xs-12">
 					<?php
 						if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
 						$this->renderPartial('../project/pod/projectChart',array(
@@ -287,14 +277,8 @@ if($('#breadcum').length)
 
 	
 
-
-
-
-
-
-
 				<?php if ($type==Organization::COLLECTION){ ?>
-				<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-xs-12">
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
 															"contextId" => (String) $element["_id"],
 															"contextType" => $type,
@@ -304,7 +288,12 @@ if($('#breadcum').length)
 				</div>
 				<?php } ?>
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
-		    	<div class="col-md-12 col-sm-12 col-xs-12 needsPod">	
+				<div class="col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $element["_id"],
+																		"parentType" => $type));
+					?>
+		    	</div>	
+		    	<div class="col-xs-12 needsPod">	
 					<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																			"parentId" => (String) $element["_id"],
 																			"parentType" => $type,
@@ -317,7 +306,7 @@ if($('#breadcum').length)
 			<?php } ?>
 			</div>
 
-			<div class="col-md-8 col-sm-12 col-xs-12 no-padding pull-left">
+			<div class="col-md-8 col-xs-12 no-padding pull-left">
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 				<!-- <div class="row padding-15">
 					<hr>

@@ -6,7 +6,7 @@
 		<h4 class="panel-title"><span id="nbWarnings"></span> Eléments </h4>
 		<br/>
 		<div></div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12 table table-striped">
+		<table id="tableEntity" class="col-xs-12 table table-striped">
 			<tr>
 				<th>Name</th>
 				<th>Warnings</th>

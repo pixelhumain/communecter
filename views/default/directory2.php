@@ -385,7 +385,7 @@ if (@$follows){
 					<?php echo $contextTitle; ?>
 				</span>
 				
-				<div class="col-md-12 col-sm-12 col-xs-12 row">
+				<div class="col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
@@ -490,7 +490,7 @@ if (@$follows){
 					);
 					$scopesHTMLFull = "";
 					/*if ($parentType==Person::COLLECTION){ 
-						<div class="col-md-12 col-sm-12 col-xs-12 row">
+						<div class="col-xs-12 row">
 							<span class="homestead panelLabel pull-left labelCommunity"> 
 							<?php echo ucfirst(Yii::t("common",$connectType)) 
 							</span>
@@ -579,7 +579,7 @@ if (@$follows){
 						}
 					///// SHOW FOLLOWS
 					if (@$follows && ($followsProject+$followsOrga) > 0){ ?>
-						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
+						<div class="col-xs-12 row" style="margin-top:20px;">
 							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
 							<?php echo ucfirst(Yii::t("common","follows")) ?>
 							</span>

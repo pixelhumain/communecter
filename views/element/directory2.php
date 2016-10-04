@@ -302,7 +302,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					<?php echo $contextTitle; ?>
 				</span>
 				
-				<div class="col-md-12 col-sm-12 col-xs-12 row">
+				<div class="col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
@@ -490,7 +490,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						}
 					///// SHOW FOLLOWS
 					if (@$follows && ($followsProject+$followsOrga) > 0){ ?>
-						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
+						<div class="col-xs-12 row" style="margin-top:20px;">
 							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
 							<?php echo ucfirst(Yii::t("common","follows")) ?>
 							</span>
@@ -737,31 +737,31 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 												'<span style="position:absolute;right: 0px;bottom: 5px;">'.
 													'<i class="fa fa-cog text-white"></i>'.
 												'</span>';
-							$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-												'<a href="#element.detail.type.'.$type.'s.id.'.$id.'" class="btn lbh padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left" data-placement="top">'.
+							$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
+												'<a href="#element.detail.type.'.$type.'s.id.'.$id.'" class="btn lbh padding-5 col-xs-12 center no-padding text-left" data-placement="left" data-placement="top">'.
 													'<i class="fa fa-x fa-eye"></i>'.
 														Yii::t("common","Visualize").
 													'</a>'.
 												'</div>';
 							if(@$e["toBeValidated"]){
-								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="acceptAsMemberBtn btn col-md-12 col-sm-12 col-xs-12 center no-padding padding-5 text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
+								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="acceptAsMemberBtn btn col-xs-12 center no-padding padding-5 text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-link"></i>'.
 														Yii::t("common","Accept this ".$type."").
 													'</a>'.
 												'</div>';
 							}
 							if(@$e["isAdminPending"]){
-								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="acceptAsAdminBtn btn col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Accept as admin").
 													'</a>'.
 												'</div>';
 							} else if($elementType!=Person::COLLECTION){
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
-								$strBtnHTML .= 	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
+													'<a href="javascript:;" class="btn padding-5 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
@@ -769,15 +769,15 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 								}
 							}
 							if($collection==Person::COLLECTION && @$e["pending"]){
-								$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-												'<a href="javascript:;" class="btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\',this)" data-placement="top">'.
+								$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
+												'<a href="javascript:;" class="btn padding-5 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\',this)" data-placement="top">'.
 														'<i class="fa fa-envelope-o"></i>'.
 														Yii::t("common","Send invitation again").
 													'</a>'.
 												'</div>';
 							}
-							$strBtnHTML .=	'<div class="listDiv col-md-12 col-sm-12 col-xs-12 center no-padding">'.
-												'<a href="javascript:;" class="disconnectBtn btn padding-5 col-md-12 col-sm-12 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
+							$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
+												'<a href="javascript:;" class="disconnectBtn btn padding-5 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
 														'<i class="disconnectBtnIcon fa fa-unlink"></i>'.
 														Yii::t("common","Unlink").
 													'</a>'.

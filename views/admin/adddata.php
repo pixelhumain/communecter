@@ -25,7 +25,7 @@ $userId = Yii::app()->session["userId"] ;
 		</div> -->
 		<div class="panel-body">
 			<?php //var_dump($city); ?>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-4 col-xs-12">
 						<label for="chooseEntity">Collection : </label>
 						<select id="chooseEntity" name="chooseEntity">
@@ -42,13 +42,13 @@ $userId = Yii::app()->session["userId"] ;
 						<input type="file" id="fileImport" name="fileImport" accept=".json,.js">
 				</div>
 			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
+				<div class="col-xs-12">
 					<label for="pathFolderImage">Path dossier image :</label>
 					<input type="text" id="pathFolderImage" name="pathFolderImage" value="">
 				</div>	
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<!--<div class="col-sm-3 col-xs-12">-->
 					<label>
 						Lier les entités : <input class="hide" id="isLink" name="isLink"></input>
@@ -83,12 +83,12 @@ $userId = Yii::app()->session["userId"] ;
 					</label>
 				</div>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 					<label>
 						Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
 					</label>
 				</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-5 col-xs-12">
 					<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 				</div>

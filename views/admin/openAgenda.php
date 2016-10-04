@@ -4,7 +4,7 @@
 			<h3 class="panel-title text-red"><i class="fa fa-calendar"></i> OpenAgenda</h3>
 		</div>
 		<div class="panel-body">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a href="#" class="btn btn-primary" id="collectOpenAgenda"> Récupérer les évenements de OpenAgenda </a>
 			</div>
 		</div>
