@@ -610,7 +610,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 <script type="text/javascript"> 
 
-	var contextData = <?php echo json_encode($element)?>;
+	var contextData = {
+			name : "<?php echo $element["name"] ?>",
+			id : "<?php echo (string)$element["_id"] ?>",
+			type : "<?php echo $type ?>",
+			geo : <?php echo json_encode(@$element["geo"]) ?>,
+			geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
+			address : <?php echo json_encode(@$element["address"]) ?>,
+			otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
+			odesc : contextControler+" :  <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(@$element["address"]["streetAddress"]).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>"
+		}; 
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?>;
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
@@ -636,8 +645,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	
 
 	jQuery(document).ready(function() {
-		console.log("------------------"+contextData.name);
-		//setTitle(contextData.name,contextIcon);
+		
+		
+		setTitle( "<?php echo addslashes($element["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
+
 		bindAboutPodElement();
 		activateEditableContext();
 		manageModeContextElement();
