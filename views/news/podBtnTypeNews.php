@@ -182,7 +182,7 @@ input.form-control.input-search{
 
 	<div id="scopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 
-	<?php if(@$filterTypeNews!="") { ?>
+	<?php if(@$filterTypeNews!="") && false { ?>
 		<?php $spec = Element::getElementSpecsByType($filterTypeNews); ?>
 		<div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
 			<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>

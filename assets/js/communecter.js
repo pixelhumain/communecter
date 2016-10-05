@@ -1166,7 +1166,7 @@ function formatData(formData, collection,ctrl) {
 	
 	formData.collection = collection;
 	formData.key = ctrl;
-
+	
 	if(elementLocation){
 		//formData.multiscopes = elementLocation;
 		formData.address = centerLocation.address;
@@ -1178,7 +1178,37 @@ function formatData(formData, collection,ctrl) {
 			});
 		}
 	}
-
+	formData.media = [];
+	$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($("#form-news #results .video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.media.push(mediaObject);
+		}
+	});
+	
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
@@ -1191,7 +1221,9 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 { 
 	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
+	console.log(formData);
 	formData = formatData(formData,collection,ctrl);
+	
 	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
@@ -1357,6 +1389,11 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : eventTypes
+		            },
 			        name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
@@ -1378,7 +1415,8 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").css("display","none");	 
+				            getMediaFromUrlContent(".addmultifield", ".resultGetUrl");
+			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            tags :{
@@ -1934,10 +1972,6 @@ var typeObj = {
 		              "inputType" : "hidden",
 		              "value" : ""
 		            },
-		            type :{
-		              "inputType" : "hidden",
-		              "value" : "<?php echo Survey::TYPE_ENTRY?>"
-		            },
 		            room :{
 		            	inputType : "select",
 		            	placeholder : "Choisir une thématique ?",
@@ -2314,7 +2348,7 @@ function shadowOnHeader() {
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
 }
-function getMediaFromUrlContent(className){
+function getMediaFromUrlContent(className, appendClassName){
     //user clicks previous thumbail
     lastUrl = "";
     $("body").on("click","#thumb_prev", function(e){        
@@ -2344,15 +2378,17 @@ function getMediaFromUrlContent(className){
         }
     });
     var getUrl  = $(className); //url to extract from text field
+    var appendClassName = appendClassName;
     getUrl.keyup(function() { //user types url in text field        
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
+        var $this = $(this);
         //continue if matched url is found in text field
 //        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href"))
         if (match_url.test(getUrl.val())) {
 	        if(lastUrl != getUrl.val().match(match_url)[0]){
 	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-                $("#results").hide();
+                $this.parent().find(appendClassName).hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
@@ -2367,8 +2403,11 @@ function getMediaFromUrlContent(className){
 		                console.log(data); 
 	                    content = getMediaCommonHtml(data,"save");
 	                    //load results in the element
-	                    return content;
-	                   // $("#results").html(content); //append received data into the element
+	                    //return content;
+	                   //$("#results").html(content); 
+	                    $this.parent().find(appendClassName).html(content);
+	                    $this.parent().find(appendClassName).slideDown();
+//append received data into the element
 	                    //$("#results").slideDown(); //show results with slide down effect
 	                    //$("#loading_indicator").hide(); //hide loading indicator image
                 	},
@@ -2378,8 +2417,10 @@ function getMediaFromUrlContent(className){
 						//content to be loaded in #results element
 						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
 	                    //load results in the element
-	                    $("#results").html(content); //append received data into the element
-	                    $("#results").slideDown(); //show results with slide down effect
+	                    $this.parent().find(appendClassName).html(content);
+	                    $this.parent().find(appendClassName).slideDown();
+	                    //$("#results").html(content); //append received data into the element
+	                    //$("#results").slideDown(); //show results with slide down effect
 	                    $("#loading_indicator").hide(); //hide loading indicator image
 						$("#loading_indicator").hide();
 					}	

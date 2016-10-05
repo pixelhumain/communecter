@@ -3,14 +3,15 @@ function scopeExists(scopeValue){
 	return typeof myMultiScopes[scopeValue] != "undefined";
 }
 
-function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); //console.dir(myMultiScopes);
+function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",userId); console.dir(myMultiScopes);
 	
 	hideSearchResults();
 	if(userId != null && userId != ""){
+		if(!notEmpty(myMultiScopes)) myMultiScopes = {};
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/person/updatemultiscope",
-	        data: {multiscopes : myMultiScopes},
+	        data: {"multiscopes" : myMultiScopes},
 	       	dataType: "json",
 	    	success: function(data){
 	    		//console.log("saveMultiScope() success");
@@ -27,7 +28,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	rebuildSearchScopeInput();
 	saveCookieMultiscope();
 }
-function saveCookieMultiscope(){  console.log("saveCookieMultiscope", myMultiScopes);
+function saveCookieMultiscope(){  console.log("saveCookieMultiscope", typeof myMultiScopes);
 	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes), { expires: 365, path: "/" });
 	if(location.hash.indexOf("#city.detail")==0)
 		loadByHash("#default.live");
@@ -104,6 +105,8 @@ function loadMultiScopes(){
 function showCountScope(){
 	var count = 0; 
 	var types = new Array("city", "cp", "dep", "region");
+	console.log("showCountScope");
+	console.dir(myMultiScopes);
 	$.each(myMultiScopes, function(key, value){
 		if(value.active==true) count++;
 		console.log(types.indexOf(value.type), value.type);
