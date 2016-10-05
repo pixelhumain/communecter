@@ -69,7 +69,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] améliorer la verification d'existence d'elements
 
 
-
 ** @Tib 
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
   [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
@@ -95,14 +94,23 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
+    [ ] $type::afterSave : connect specific post process for each elem
+      [ ] organization
+      [ ] project
+      [ ] event
+    [X] dynForm on create project of orga  
+      [X] add parentId and TYpe on project.orga
+      [ ] 
     [ ] desactivate dynForm if not Logged
     [ ] bugs
+      [ ] add to floopdrawer after save
       [ ] location > tape CP > validate , ca passe 
-      [ ] creating a poi
       [ ] no message on debat
       [ ] check existance click and unfocus
       [ ] create orga 
       [ ] texte/description d'une décision n'est pas mis à jour 
+      [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
     [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
     [ ] refactor : move from ACtion to model Element

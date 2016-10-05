@@ -1239,8 +1239,10 @@ function saveElement ( formId,collection,ctrl,saveUrl )
                 $('#ajax-modal').modal("hide");
                 if(data.url)
                 	loadByHash( data.url );
-                else
+                else 
 	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+	        		addFloopEntity(data.id, collection, data.map);
             }
     	}
     });
@@ -1256,7 +1258,7 @@ function openForm (type, afterLoad ) {
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
 		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
-	  	$("#ajax-modal-modal-body").html("<div class='row bg-white'>"+
+	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
 	  										"<div class='col-sm-10 col-sm-offset-1'>"+
 							              	"<div class='space20'></div>"+
 							              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
@@ -1457,7 +1459,8 @@ var typeObj = {
 			            "rules" : { "required" : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		globalSearch($(this).val(),["organizations"]);
+			            		if($("#ajaxFormModal #name ").length > 3 )
+				            		globalSearch($(this).val(),["organizations"]);
 			            	});
 			            }
 			        },
@@ -1471,7 +1474,7 @@ var typeObj = {
 		            	"rules" : { "required" : true },
 		            	"options" : organizationTypes
 		            },
-		            typeOrg :{
+		            role :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
 		            	value : "admin",
@@ -1598,7 +1601,8 @@ var typeObj = {
 			            },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		globalSearch($(this).val(),["events"]);
+			            		if($("#ajaxFormModal #name ").length > 3 )
+			            			globalSearch($(this).val(),["events"]);
 			            	});
 			            }
 			        },
@@ -1741,6 +1745,13 @@ var typeObj = {
 			    title : "Ajouter un Projet",
 			    icon : "lightbulb-o",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    	}
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1754,7 +1765,8 @@ var typeObj = {
 			            },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		globalSearch($(this).val(),["projects"]);
+			            		if($("#ajaxFormModal #name ").length > 3 )
+			            			globalSearch($(this).val(),["projects"]);
 			            	});
 			            }
 			        },
@@ -1807,7 +1819,15 @@ var typeObj = {
 		            "preferences[isOpenEdition]" : {
 		                inputType : "hidden",
 		                value : true
-		            }
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
 			    }
 			}
 		} },
