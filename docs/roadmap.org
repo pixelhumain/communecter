@@ -40,10 +40,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)
-    [ ] delete person : 
+    [X] delete person : 
       [X] on admin : delete simple person (links but no news/votes/comments)
-      [ ] delete with anonymization
-      [ ] delete my account
+      [X] delete with anonymization
+      [X] delete my account
     [ ] rsync on server for upload
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
@@ -61,7 +61,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
           faisant reference à l'event , vous etiez ou serez à event xxx
           communecter vous aide ....
     [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
-    [ ] Stocker les images en S3
+    [X] Stocker les images en S3
     [ ] passer configDB en externe configdb.example.php
     [ ] mon calendar 
     [ ] filtrer par type d'event

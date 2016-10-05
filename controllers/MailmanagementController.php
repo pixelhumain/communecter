@@ -17,7 +17,7 @@ class MailmanagementController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'droppedmailaction'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction'
+	        'droppedmail'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction'
 	    );
 	}
 }
