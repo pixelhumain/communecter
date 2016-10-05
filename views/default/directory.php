@@ -47,7 +47,24 @@
   .btn-tag.bold{
     font-weight:600;
   }
-  
+  .container-result-search{
+    moz-box-shadow: 0px 2px 4px -3px #656565;
+    -webkit-box-shadow: 0px 2px 4px -3px #656565;
+    -o-box-shadow: 0px 2px 4px -3px #656565;
+    box-shadow: 0px -1px 4px -3px rgb(101, 101, 101);
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+    margin-top: 10px;
+    right:0px;
+    left:0px;
+
+  }
+  #dropdown_search{
+    margin-left:-15px !important;
+  }
+  .search-loader{
+    padding:20px !important;
+  }
+
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
@@ -70,8 +87,58 @@
 }
 
 </style>
+  
+  <div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="list_filters">
 
-  <div class="col-md-12 no-padding " style="margin-top:25px;">
+    <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
+
+      <div class="btn-group inline-block" id="menu-directory-type">
+        <button class="btn btn-default btn-filter-type tooltips bg-green search_organizations" 
+                data-toggle="tooltip" data-placement="bottom" title="Organisations" type="organizations">
+          <!-- <i class="fa fa-check-circle-o search_organizations"></i>  -->
+          <i class="fa fa-group"></i> 
+          <span class=" hidden-xs">Organisations</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-purple search_projects" 
+                data-toggle="tooltip" data-placement="bottom" title="Projets" type="projects">
+          <!-- <i class="fa fa-check-circle-o search_projects"></i>  -->
+          <i class="fa fa-lightbulb-o"></i> 
+          <span class=" hidden-xs">Projets</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-yellow search_persons active" 
+                data-toggle="tooltip" data-placement="bottom" title="Citoyens" type="persons">
+          <!-- <i class="fa fa-check-circle-o search_persons"></i>  -->
+          <i class="fa fa-user"></i> 
+          <span class=" hidden-xs">Citoyens</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-azure search_proposals" 
+                data-toggle="tooltip" data-placement="bottom" title="Débat" type="proposals">
+          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
+          <i class="fa fa-gavel"></i> 
+
+          <span class=" hidden-xs">Débats</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-lightblue2 search_actions" 
+                data-toggle="tooltip" data-placement="bottom" title="Actions" type="actions">
+          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
+          <i class="fa fa-cogs"></i> 
+
+          <span class=" hidden-xs">Actions</span>
+        </button>
+      </div>
+
+      <div class="btn-group inline-block hidden" id="menu-directory-type-city" style="margin-bottom:5px;">
+        <button class="btn btn-default btn-filter-type tooltips text-red" 
+                data-toggle="tooltip" data-placement="bottom" title="Je cherche une commune" type="cities">
+          <i class="fa fa-circle-o search_cities"></i> <i class="fa fa-university"></i> 
+          <span class="hidden-xs">Je cherche une commune</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-12 no-padding pull-left" style="margin-top:0px; width:100%;">
 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
@@ -101,69 +168,33 @@
     </button>
   </div>
 
-  <div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="list_filters">
-  
-    <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
-
-      <div class="btn-group inline-block" id="menu-directory-type">
-        <button class="btn btn-default btn-filter-type tooltips bg-green search_organizations" 
-                data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
-          <!-- <i class="fa fa-check-circle-o search_organizations"></i>  -->
-          <i class="fa fa-group"></i> 
-          <span class=" hidden-xs">Organisations</span>
-        </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-purple search_projects" 
-                data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
-          <!-- <i class="fa fa-check-circle-o search_projects"></i>  -->
-          <i class="fa fa-lightbulb-o"></i> 
-          <span class=" hidden-xs">Projets</span>
-        </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-yellow search_persons active" 
-                data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
-          <!-- <i class="fa fa-check-circle-o search_persons"></i>  -->
-          <i class="fa fa-user"></i> 
-          <span class=" hidden-xs">Citoyens</span>
-        </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-azure search_proposals" 
-                data-toggle="tooltip" data-placement="top" title="Débat" type="proposals">
-          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
-          <i class="fa fa-gavel"></i> 
-
-          <span class=" hidden-xs">Débats</span>
-        </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-lightblue2 search_actions" 
-                data-toggle="tooltip" data-placement="top" title="Actions" type="actions">
-          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
-          <i class="fa fa-cogs"></i> 
-
-          <span class=" hidden-xs">Actions</span>
-        </button>
-      </div>
-
-      <div class="btn-group inline-block hidden" id="menu-directory-type-city" style="margin-bottom:5px;">
-        <button class="btn btn-default btn-filter-type tooltips text-red" 
-                data-toggle="tooltip" data-placement="bottom" title="Je cherche une commune" type="cities">
-          <i class="fa fa-circle-o search_cities"></i> <i class="fa fa-university"></i> 
-          <span class="hidden-xs">Je cherche une commune</span>
-        </button>
-      </div>
-    </div>
+ 
 
     
+  <div class="col-md-12 col-sm-12 col-xs-12 no-padding">
 
     <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     <div class='city-name-locked homestead text-red'></div>
     
   </div>
   
-<div class="col-xs-12 no-padding"><hr></div>
-    <h2 class="subtitle-search text-left">
-      <span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>
-    </h2>
-    <!-- <div class="col-xs-12 no-padding"><hr></div> -->
+ 
+  <div class="container-result-search">
+    <?php if(@$_GET['type']!="") { ?>
+      <?php $typeSelected = $_GET['type']; ?>
+      <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
+      <?php $spec = Element::getElementSpecsByType($typeSelected); ?>
+      <h2 class="text-left pull-left" style="margin-left:10px; margin-top:0px; width:90%;">
+      <hr>
+        <span class="subtitle-search text-<?php echo $spec["text-color"]; ?> homestead">
+          <i class="fa fa-angle-down"></i> 
+          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo Yii::t("common",$_GET['type']); ?>
+        </span>
+      </h2>
+     <?php } ?>
+    
+    <div style="" class="col-md-12 margin-top-15 no-padding" id="dropdown_search"></div>
 </div>
-
-<div style="" class="col-xs-12 margin-top-15" id="dropdown_search"></div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 <?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
@@ -179,6 +210,7 @@ var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
 var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
 var cityNameLocked = "<?php echo $cityName; ?>";
+var typeSelected = <?php echo (@$_GET['type']) ? "'".$_GET['type']."'" : "null" ?>;
 
 jQuery(document).ready(function() {
 
@@ -189,7 +221,7 @@ jQuery(document).ready(function() {
   });
 
 
-  searchType = [ "persons" ];
+  searchType = (typeSelected == null) ? [ "persons" ] : [ typeSelected ];
   allSearchType = [ "persons", "organizations", "projects", "events" ];
 	topMenuActivated = true;
 	hideScrollTop = true; 
@@ -247,13 +279,13 @@ jQuery(document).ready(function() {
 
   $(".btn-filter-type").click(function(e){
     var type = $(this).attr("type");
-    var index = searchType.indexOf(type);
-
+    //var index = searchType.indexOf(type);
+    searchType [ type ];
     // if (index > -1) removeSearchType(type);
     // else addSearchType(type);
-    addSearchType(type);
+    //addSearchType(type);
     loadingData = false;
-	startSearch(0, indexStepInit);
+	  startSearch(0, indexStepInit);
 
 
   });
