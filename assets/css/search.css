@@ -670,6 +670,9 @@ button.btn-infos{
 .text-red-light{
 	color:#E3BEC4 !important;
 }
+.bg-blue{
+	background-color:#E3BEC4 !important;
+}
 
 @media screen and (max-width: 1024px) {
 	.img-logo{

@@ -101,38 +101,46 @@
     </button>
   </div>
 
-  <div class="col-xs-12 no-padding " id="list_filters">
+  <div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="list_filters">
+  
     <div class="col-md-12 no-padding margin-bottom-15 " style="margin-top: 6px; margin-bottom: 0px; margin-left: 0px;">
 
       <div class="btn-group inline-block" id="menu-directory-type">
-        <button class="btn btn-default btn-filter-type tooltips bg-yellow text-dark search_persons active" 
-                data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
-          <!-- <i class="fa fa-check-circle-o search_persons"></i>  -->
-          <i class="fa fa-user"></i> 
-          <span class="hidden-xs">Citoyens</span>
-        </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-green text-dark search_organizations" 
+        <button class="btn btn-default btn-filter-type tooltips bg-green search_organizations" 
                 data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
           <!-- <i class="fa fa-check-circle-o search_organizations"></i>  -->
           <i class="fa fa-group"></i> 
-          <span class="hidden-xs">Organisations</span>
+          <span class=" hidden-xs">Organisations</span>
         </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-purple text-dark search_projects" 
+        <button class="btn btn-default btn-filter-type tooltips bg-purple search_projects" 
                 data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
           <!-- <i class="fa fa-check-circle-o search_projects"></i>  -->
           <i class="fa fa-lightbulb-o"></i> 
-          <span class="hidden-xs">Projets</span>
+          <span class=" hidden-xs">Projets</span>
         </button>
-        <button class="btn btn-default btn-filter-type tooltips bg-orange text-dark search_events" 
-                data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+        <button class="btn btn-default btn-filter-type tooltips bg-yellow search_persons active" 
+                data-toggle="tooltip" data-placement="top" title="Citoyens" type="persons">
+          <!-- <i class="fa fa-check-circle-o search_persons"></i>  -->
+          <i class="fa fa-user"></i> 
+          <span class=" hidden-xs">Citoyens</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-azure search_proposals" 
+                data-toggle="tooltip" data-placement="top" title="Débat" type="proposals">
           <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
-          <i class="fa fa-calendar"></i> 
+          <i class="fa fa-gavel"></i> 
 
-          <span class="hidden-xs">Évènements</span>
+          <span class=" hidden-xs">Débats</span>
+        </button>
+        <button class="btn btn-default btn-filter-type tooltips bg-lightblue2 search_actions" 
+                data-toggle="tooltip" data-placement="top" title="Actions" type="actions">
+          <!-- <i class="fa fa-check-circle-o search_events"></i>  -->
+          <i class="fa fa-cogs"></i> 
+
+          <span class=" hidden-xs">Actions</span>
         </button>
       </div>
 
-      <div class="btn-group inline-block" id="menu-directory-type-city" style="margin-bottom:5px;">
+      <div class="btn-group inline-block hidden" id="menu-directory-type-city" style="margin-bottom:5px;">
         <button class="btn btn-default btn-filter-type tooltips text-red" 
                 data-toggle="tooltip" data-placement="bottom" title="Je cherche une commune" type="cities">
           <i class="fa fa-circle-o search_cities"></i> <i class="fa fa-university"></i> 
@@ -163,9 +171,6 @@
 ?>
 
 <script type="text/javascript">
-
-var searchType = [ "persons" ];
-var allSearchType = [ "persons", "organizations", "projects", "events" ];
 
 var searchType = [ "persons" ];
 var allSearchType = [ "persons", "organizations", "projects", "events" ];
