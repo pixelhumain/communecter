@@ -94,16 +94,17 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
+    [X] onclick add spinner on save btn +disable
     [ ] $type::afterSave : connect specific post process for each elem
-      [ ] organization
-      [ ] project
+      [X] organization
+      [X] project
       [ ] event
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
-      [ ] 
     [ ] desactivate dynForm if not Logged
+    [ ] multiple medias , $.each
     [ ] bugs
-      [ ] add to floopdrawer after save
+      [X] add to floopdrawer after save
       [ ] location > tape CP > validate , ca passe 
       [ ] no message on debat
       [ ] check existance click and unfocus

@@ -1299,8 +1299,8 @@ function buildDynForm(elementObj, afterLoad) {
 		      },
 		      onSave : function(){
 
-		      	if( elementObj.beforeSave && typeof elementObj.beforeSave == "function")
-		        	elementObj.beforeSave();
+		      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
+		        	elementObj.dynForm.jsonSchema.beforeSave();
 
 		        if( elementObj.save )
 		        	elementObj.save("#ajaxFormModal");
@@ -1588,6 +1588,13 @@ var typeObj = {
 			    		}
 			    	}
 			    },
+			    beforeSave : function(){
+			    	//alert("onBeforeSave");
+			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
+					console.log($("#ajaxFormModal #startDate").val());
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1750,6 +1757,7 @@ var typeObj = {
 			    	"sub" : function(){
 			    			$("#ajaxFormModal #parentId").val( contextData.id );
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
 			    },
 			    properties : {
