@@ -608,19 +608,20 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 
+	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
 	var contextData = {
-			name : "<?php echo $element["name"] ?>",
-			id : "<?php echo (string)$element["_id"] ?>",
-			type : "<?php echo $type ?>",
-			geo : <?php echo json_encode(@$element["geo"]) ?>,
-			geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
-			address : <?php echo json_encode(@$element["address"]) ?>,
-			otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
-			odesc : contextControler+" :  <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(@$element["address"]["streetAddress"]).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>"
-		}; 
-	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?>;
+		name : "<?php echo $element["name"] ?>",
+		id : "<?php echo (string)$element["_id"] ?>",
+		type : "<?php echo $type ?>",
+		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
+		odesc : contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>",
+		geo : <?php echo json_encode(@$element["geo"]) ?>,
+		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
+		address : <?php echo json_encode(@$element["address"]) ?>
+	};
+
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
 	var types = <?php echo json_encode($elementTypes) ?>;
@@ -645,41 +646,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	
 
 	jQuery(document).ready(function() {
-		
-		
+		console.log("here");
+		manageModeContextElement();
+		changeHiddenIconeElement(true);
+		manageDivEditElement();
 		setTitle( "<?php echo addslashes($element["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
 
 		bindAboutPodElement();
 		activateEditableContext();
-		manageModeContextElement();
-		changeHiddenIconeElement(true);
-		manageDivEditElement();
-
-		/*$('#avatar').change(function() {
-		  $('#photoAddEdit').submit();
-		});
-
-		$("#photoAddEdit").on('submit',(function(e) {
-			e.preventDefault();
-			$.ajax({
-				url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+contextType+"/id/"+contextId,
-				type: "POST",
-				data: new FormData(this),
-				contentType: false,
-				cache: false, 
-				processData: false,
-				success: function(data){
-					if(data.result){
-						toastr.success(data.msg);
-						if('undefined' != typeof data.imagePath){
-							$("#imgView").attr("src", data.imagePath);
-						}
-					}else{
-						toastr.error(data.msg);
-					}
-			  },
-			});
-		}));*/
+		
 
 		$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
@@ -710,15 +685,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					$('#address').trigger('click'); 
 					}, 500);
 				return false;
-		});
-
-		console.log("modeEdit",modeEdit);
-		if(modeEdit == "true"){
-			switchModeElement();
+			});
+			console.log("modeEdit",modeEdit);
+			if(modeEdit == "true"){
+				switchModeElement();
+			}
 		}
-
-
-	}
 
 
 
@@ -831,8 +803,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			mode ="view";
 			$(".editProfilLbl").html(" Éditer");
 			$("#editElementDetail").removeClass("btn-red");
-			if(contextData.address.addressLocality == "")
-				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
+			//if(jQuery.isEmptyObject(contextData.address) == true)
+			//	$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
 
 		}
 		manageModeContextElement();
@@ -841,7 +813,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	function manageModeContextElement() {
-		console.log("-----------------manageModeContextElement----------------------");
+		console.log("-----------------manageModeContextElement----------------------", mode);
 		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
@@ -866,7 +838,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	function manageDivEditElement() {
-		console.log("-----------------manageDivEditElement----------------------");
+		console.log("-----------------manageDivEditElement----------------------", mode);
 		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		console.log(contextType);
 		if(contextType != "citoyens")
@@ -909,7 +881,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	function changeHiddenIconeElement(init) { 
-		console.log("-----------------changeHiddenIconeElement----------------------");
+		console.log("-----------------changeHiddenIconeElement----------------------", mode);
 		
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_streetAddress", ".fa_postalCode", 
 						".fa_addressCountry", ".fa_telephone_mobile",".fa_telephone",".fa_telephone_fax",
@@ -919,7 +891,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						"#addressCountry", "#mobile", "#fixe", "#fax","#url"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
-				console.log("here");
 				if($(listXeditables[i]).text().length != 0){
 					console.log(listXeditables[i], " : ", value);
 					$(value).removeClass("hidden");	
