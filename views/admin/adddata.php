@@ -286,45 +286,20 @@ function bindAddData(){
 	        success: function(data){
 	        	console.log("data",data);
 	        	var chaine = "";
-	        	var csv = '"name";"url";"info";définir si c\'est un nouvelle organization ou si c\'est bien la bonne(New ou Yes)";' ;
-	        	if(typeof data.allbranch != "undefined"){
-	        		$.each(data.allbranch, function(key, value){
-		        		csv += '"'+value+'";'
-		        	});
-	        	}
+	        	var csv = '"name";"info";"url"' ;
 	        	if(typeof data.resData != "undefined"){
-		        	csv += "\n";
 		        	$.each(data.resData, function(key, value2){
-		        		//console.log("value",value);
-		  				//$.each(value, function(key2, value2){
-		  					//console.log("value2",value2, value2.name, value2.info);
-			        		chaine += "<tr>" +
-			        					"<td>"+value2.name+"</td>"+
-			        					"<td>"+value2.info+"</td>"+
-			        				"</tr>";
-			        		/*if(key == "update"){
-			        			csv += '"'+value2.name+'";"'+value2.url+'";"'+value2.info+'";;' ;
-			        		}
-			        		if(key == "error"){*/
-			        			csv += '"'+value2.name+'";;"'+value2.info+'";;' ;
-			        		//}
-			        		//console.log("csv",csv);
-			        		/*if(typeof value2.valueSource != "undefined"){
-			        			$.each(data.allbranch, function(keyBranch, valueBranch){
-			        				if(typeof value2.valueSource[valueBranch] != "undefined")
-					        			csv += '"'+value2.valueSource[valueBranch]+'";' ;
-					        		else
-					        			csv += ';';
-					        	});
-			        		}*/
-			        		csv += "\n";
-
-			        		
-		  					//console.log("chaine",chaine);
-			  			//});
-		  			});
+		        		chaine += "<tr>" +
+		        					"<td>"+value2.name+"</td>"+
+		        					"<td>"+value2.info+"</td>"+
+		        					"<td>"+baseUrl+value2.url+"</td>"+
+		        				"</tr>";
+		        		csv += "\n";
+		        		csv += '"'+value2.name+'";"'+value2.info+'";"'+baseUrl+value2.url+'";' ;
+		        		
+					});
 		  		}
-
+		  		
 	        	$("<a />", {
 				    "download": "Data_a_verifier.csv",
 				    "href" : "data:application/csv," + encodeURIComponent(csv)
