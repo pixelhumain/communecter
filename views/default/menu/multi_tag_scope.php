@@ -57,7 +57,7 @@ function showTagsScopesMin(htmlId){
 	});
 
 	if (numberOfTags == 0) {
-		html += '<span id="helpMultiTags" class="toggle-tag-dropdown" style="padding-left:10px"><a href="javascript:"> Ajouter des filtres mot clés ?</a></span>';
+		html += '<span id="helpMultiTags" class="toggle-tag-dropdown" style="padding-left:0px"><a href="javascript:"> Ajouter des filtres mot clés ?</a></span>';
 	}
 
 	/************** SCOPES **************/
@@ -85,7 +85,7 @@ function showTagsScopesMin(htmlId){
 				"</span> ";
 	});
 	if (numberOfScope == 0) {
-		html += '<span id="helpMultiScope" class="toggle-scope-dropdown" style="padding-left:10px"><a href="javascript:"> Ajouter des filtres géographiques ?</a></span>';
+		html += '<span id="helpMultiScope" class="toggle-scope-dropdown" style="padding-left:0px"><a href="javascript:"> Ajouter des filtres géographiques ?</a></span>';
 	}
 	html += "</div>";
 	$(htmlId).html(html);

@@ -1708,6 +1708,13 @@ var typeObj = {
 			    title : "Ajouter un Projet",
 			    icon : "lightbulb-o",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    	}
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1775,7 +1782,15 @@ var typeObj = {
 		            "preferences[isOpenEdition]" : {
 		                inputType : "hidden",
 		                value : true
-		            }
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
 			    }
 			}
 		} },

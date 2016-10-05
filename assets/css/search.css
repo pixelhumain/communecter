@@ -670,6 +670,15 @@ button.btn-infos{
 .text-red-light{
 	color:#E3BEC4 !important;
 }
+.text-lightblue2{
+	color:#2973C0 !important;
+}
+.bg-lightblue2{
+	background-color:#2973C0 !important;
+}
+.bg-transparent{
+	background-color: transparent !important;
+}
 
 @media screen and (max-width: 1024px) {
 	.img-logo{

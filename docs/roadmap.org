@@ -94,8 +94,12 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
-    [ ] connect specific post process for each elem
+    [ ] $type::afterSave : connect specific post process for each elem
       [ ] organization
+      [ ] project
+      [ ] event
+    [X] dynForm on create project of orga  
+      [X] add parentId and TYpe on project.orga
       [ ] 
     [ ] desactivate dynForm if not Logged
     [ ] bugs
