@@ -63,7 +63,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] Gérer le retour de mail en erreur 
       [X] créer un hook + erreur dans mailerror
       [ ] creation de notif pour super admin
-      [ ] page admin avec les erreurs de mails
+      [X] page admin avec les erreurs de mails
     [ ] Stocker les images en S3
     [X] passer configDB en externe configdb.example.php
     [ ] mon calendar 
