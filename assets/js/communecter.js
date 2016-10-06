@@ -1251,7 +1251,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 }
 
 function openForm (type, afterLoad ) { 
-    console.warn("---------------"+type+" Form ---------------------");
+    console.warn("--------------- Open Form "+type+" ---------------------");
     elementLocation = null;
     formType = type;
     specs = typeObj[type];
@@ -2561,7 +2561,8 @@ var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18
 "comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
 
 var keyMap = {
-	"112" : function(){ $(".menu-name-profil").trigger('click') } //f1
+	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+	"115" : function(){ console.clear();loadByHash(location.hash) },//f4
 };
 var keyMapCombo = {
 	"69" : function(){openForm('event')}, //e
