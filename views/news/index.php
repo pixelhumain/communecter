@@ -33,7 +33,7 @@ $cssAnsScriptFilesModule = array(
 	'/js/news/newsHtml.js',
 	'/css/news/newsSV.css',
 	'/js/dataHelpers.js',
-	'/js/news/autosize.js',
+	//'/js/news/autosize.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>	

@@ -28,7 +28,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 
 	$cssAnsScriptFilesModule = array(
-		'/js/news/autosize.js',
+		//'/js/news/autosize.js',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 	

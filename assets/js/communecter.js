@@ -1634,8 +1634,8 @@ var typeObj = {
 			            		else
 			            			organizerType = "person";
 
-			            		console.warn( organizerId+" | "+organizerType );
-			            		$("#ajaxFormModal #organizerType ").val(organizerType);
+			            		console.warn( "organizer",organizerId,organizerType,typeObj[organizerType].col );
+			            		$("#ajaxFormModal #organizerType ").val( typeObj[organizerType].col );
 			            	});
 			            }
 		            },
