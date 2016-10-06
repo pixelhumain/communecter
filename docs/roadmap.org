@@ -106,7 +106,11 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] elements to simple dynform
     [ ] connect btns 
       [ ] dashboard
-      [ ] profile page
+      [X] profile page
+    [ ] bugs
+      [X] add to floopdrawer after save
+      [ ] location > tape CP > validate , ca passe 
+      [ ] Translation : You have some form errors. Please check below.
     [X] onclick add spinner on save btn +disable
     [X] type::afterSave : connect specific post process for each elem
       [X] organization
@@ -115,9 +119,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
     [ ] multiple medias , $.each
-    [ ] bugs
-      [X] add to floopdrawer after save
-      [ ] location > tape CP > validate , ca passe 
     [X] refactor : move from ACtion to model Element
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element

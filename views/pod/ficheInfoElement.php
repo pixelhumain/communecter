@@ -386,29 +386,38 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
 			<div class="col-md-6 col-sm-6  no-padding">
-				<?php if(Preference::showPreference($element, $type, "streetAddress", Yii::app()->session["userId"])){ ?>
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
+				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) || true) { ?>
+					<i class="fa fa-road fa_streetAddress"></i> 
+					<!--<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
+						 -->
+					<span id="detailStreetAddress">
 						<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
 						<?php //echo Element::showField("address.streetAddress",$element, $isLinked);?>
-					</a> 
+					</span>
+					<!--</a>  -->
 					<br>
-				<?php } ?>
+				
 				<div class="col-xs-12 no-padding">
-					<i class="fa fa-bullseye fa_postalCode  hidden"></i> 
-					<a href="#" id="address" 
+					<i class="fa fa-bullseye fa_postalCode"></i> 
+					<!--<a href="#" id="address" 
 					   data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
+						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	-->
+					<span id="detailCity">	
 						<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null; ?>,
 						<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>
-					</a> 
+					</span>
+					<!--</a> -->
 					<br>
-					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
-					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
+					<i class="fa fa-globe fa_addressCountry"></i> 
+					<!--<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
+						-->
+					<span id="detailCountry">
 						<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?>
-					</a> 
+					</span>
+					<!--</a> -->
 				</div>
+				<?php } ?>
 				<br>
 
 				<?php 
@@ -450,10 +459,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				?>
 
 				<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
-				</a>
-				<a href="javascript:" id="btn-update-locality" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> Modifier votre addresse
+					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
 				</a>
 				<?php 
 					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
@@ -661,13 +667,19 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 		activateEditableContext();
 		
 
-		$("#btn-update-geopos").click(function(){
+		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
 		});
 
 		$("#btn-update-locality").click(function(){
 			Sig.showMapElements(Sig.map, mapData);
+		});*/
 
+		$("#btn-update-geopos").off().on( "click", function(){
+			console.log("btn-update-geopos");
+			$("#ajax-modal").modal("hide");
+			showMap(true);
+			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }
 		});
 
 		$("#btn-update-geopos-admin").click(function(){
@@ -825,13 +837,12 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	function manageModeContextElement() {
 		console.log("-----------------manageModeContextElement----------------------", mode);
 		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
-							'#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+							'#tags', /*'#address', '#addressCountry'*/, '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
-				console.log(value);
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
@@ -841,7 +852,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
 				//add primary key to the x-editable field
-				console.log(value);
 				$(value).editable('option', 'pk', contextId);
 				$(value).editable('toggleDisabled');
 			})
@@ -852,7 +862,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	function manageDivEditElement() {
 		console.log("-----------------manageDivEditElement----------------------", mode);
 		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
-		console.log(contextType);
 		if(contextType != "citoyens")
 			listXeditables.push('#divInformation');
 		divInformation
@@ -874,7 +883,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				"skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
 		var fa = tabId2Icon[iconObject.attr("id")];
-		console.log(value);
 		iconObject.empty();
 		if (value != "") {
 			
@@ -896,12 +904,12 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	function changeHiddenIconeElement(init) { 
 		console.log("-----------------changeHiddenIconeElement----------------------", mode);
 		
-		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_streetAddress", ".fa_postalCode", 
-						".fa_addressCountry", ".fa_telephone_mobile",".fa_telephone",".fa_telephone_fax",
+		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", /*".fa_streetAddress", ".fa_postalCode", 
+						".fa_addressCountry",*/ ".fa_telephone_mobile",".fa_telephone",".fa_telephone_fax",
 						".fa_url"];
 
-		listXeditables = [	'#username','#birthDate',"#email", "#streetAddress", "#address",
-						"#addressCountry", "#mobile", "#fixe", "#fax","#url"];
+		listXeditables = [	'#username','#birthDate',"#email", /*"#streetAddress", "#address",
+						"#addressCountry"*/, "#mobile", "#fixe", "#fax","#url"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
 				if($(listXeditables[i]).text().length != 0){
@@ -1098,7 +1106,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 			}
 		});
 
-		$('#addressCountry').editable({
+		/*$('#addressCountry').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			value: '<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>',
 			source: function() {
@@ -1129,7 +1137,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
 			},*/
-			value : {
+			/*value : {
 	        	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
@@ -1145,7 +1153,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				else 
 					return data.msg;
 			}
-		});
+		});*/
 
 
 		$('#avancement').editable({
