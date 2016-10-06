@@ -7,7 +7,7 @@
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
 $cssAnsScriptFilesModule = array(
-	//'/js/dataHelpers.js',
+	'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
@@ -1098,56 +1098,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 					return data.msg;
 			}
 		});
-
-		/*$('#addressCountry').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			value: '<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>',
-			source: function() {
-				return countries;
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-
-		});
-
-		$('#address').editable({
-			validate: function(value) {
-	            value.streetAddress=$("#streetAddress").text();
-	            console.log(value);
-	        },
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			mode: 'popup',
-			/*success: function(response, newValue) {
-				console.log("success update postal Code : ");
-				console.dir(newValue);
-				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
-				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-				$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
-			},*/
-			/*value : {
-	        	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
-            	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
-            	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
-	    	},
-            success : function(data) {
-            	console.log("data", data);
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-					$('#localityHeader').html(data.address.addressLocality);
-					$('#pcHeader').html(data.address.postalCode);	
-				}
-				else 
-					return data.msg;
-			}
-		});*/
-
 
 		$('#avancement').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  

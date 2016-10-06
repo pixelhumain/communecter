@@ -14,6 +14,11 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	
 	'/assets/plugins/moment/min/moment.min.js',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 
 	
 	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
@@ -244,10 +249,14 @@ if($('#breadcum').length)
 				<div class="col-xs-12">
 					<?php 
 						$organizerImg=false;
-						if($type==Event::COLLECTION) $organizerImg=true;
+						if($type==Event::COLLECTION){ 
+							$organizerImg=true;
+							if(empty($subEvents)) $subEvents = array();
+							$events=$subEvents;
+						}
 						if(!isset($eventTypes)) $eventTypes = array();
 						if(empty($subEvents)) $subEvents = array();
-						$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $element["_id"],
 																			"contextType" => $controller,
 																			"list" => $eventTypes,
