@@ -511,6 +511,7 @@ var loadableUrls = {
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.mailerrordashboard" : {title:'MAIL ERROR ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
