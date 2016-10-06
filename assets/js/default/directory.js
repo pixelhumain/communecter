@@ -163,6 +163,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   mapElements.push(o);
 
   				        typeIco = o.type;
+                  
                   ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
                   color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
                   
@@ -188,6 +189,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var url = '#news.index.type.'+type+'.id.' + id;
                   if(type == "citoyens") url += '.viewer.' + userId;
                   if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
+                  if(type == "surveys") url = "#survey.entry.id."+id;
+                  if(type == "actions") url = "#rooms.action.id."+id;
 
                   //if(type=="citoyen") type = "person";
                  
@@ -212,33 +215,48 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   		              });
                   }
 
-                  var name = typeof o.name != "undefined" ? o.name : "";
-                  var postalCode = (typeof o.address != "undefined" &&
-                  				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+                  var name = notEmpty(o.name) ? o.name : "";
+
+                  var address = notEmpty(o.address) ? o.address : "";
+
+                  var postalCode = notEmpty(address) && notEmpty(address.postalCode) ? address.postalCode : "";
+                  if(postalCode == "") postalCode = notEmpty(o.cp) ? o.cp : "";
                   
-                  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                  var cityName = (typeof o.address != "undefined" &&
-                  				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                  
+                  var cityName = notEmpty(address) && notEmpty(address.addressLocality) ? address.addressLocality : "";
+
+
                   var fullLocality = postalCode + " " + cityName;
 
-                  var description = (typeof o.shortDescription != "undefined" &&
-                  					o.shortDescription != null) ? o.shortDescription : "";
-                  if(description == "") description = (typeof o.description != "undefined" &&
-                  									 o.description != null) ? o.description : "";
+                  var description = notEmpty(o.shortDescription) ? o.shortDescription : "";
+                  if(description == "") description = (notEmpty(o.description)) ? o.description : "";
+                  if(description == "") description = (notEmpty(o.message)) ? o.message : "";
            
-                  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+                  //console.dir(o);
+                  //console.log(typeof o.startDate);
+
+                  var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
+                  var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
+                  if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
+                  
+                  if(type!="surveys" && type!="actions"){
+                    startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+                    endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
+                  }
+                  else{                   
+                    startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+                    endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
+                  }
+
 
                   //template principal
-                  str += "<div class='col-md-12 searchEntity no-padding'>";
+                  str += "<div class='col-md-12 searchEntity'>";
 
                     
                     if(userId != null){
                         isFollowed=false;
                         str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
                         if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="cities" && id != userId && userId != null && userId != ""){
+                        if(type!="cities" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
                           tip = (type == "events") ? "Participer" : 'Suivre';
                           str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
                                 'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
@@ -263,13 +281,47 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                	
                       str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
                       
+                      //var thisLocality = "";
                       if(fullLocality != "" && fullLocality != " ")
-  	                	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-  	                	if(startDate != null)
+                           thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+                      else thisLocality = "<br>";
+                      
+                      //debat / actions
+                      if(notEmpty(o.parentRoom)){
+                        str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
+                        if(notEmpty(o.parentRoom.parentObj)){
+                          var typeIcoParent = o.parentRoom.parentObj.typeSig;
+                          console.log("typeIcoParent", typeIcoParent);
+                          var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
+                          var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
+                          
+
+                          var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
+                                        notEmpty(o.parentRoom.parentObj.address) ? 
+                                        o.parentRoom.parentObj.address : null;
+
+                          var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
+                          var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
+
+                          thisLocality = postalCode + " " + cityName;
+                          if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
+                          else thisLocality = "";
+
+                          var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
+                          str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
+                        }
+                      }else{
+                        str += thisLocality;
+                      }
+
+
+
+
+                      if(startDate != null)
   	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
   	                	if(endDate != null)
   	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-  	                	if(description != "")
+  	                	//if(description != "")
   	                	str += "<div class='entityDescription'>" + description + "</div>";
   	                //str += "</div>";
 
@@ -292,7 +344,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     //ajout du footer   
                     var msg = "Aucun résultat";    
                     if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
-                    str += '<div class="center" id="footerDropdown">';
+                    str += '<div class="pull-left text-center col-md-12" id="footerDropdown" style="width:100%;">';
                     str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
                     str += "</div>";
                     $("#dropdown_search").html(str);
@@ -303,7 +355,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               else
               {       
                 //ajout du footer      	
-                str += '<div class="center" id="footerDropdown">';
+                str += '<div class="pull-left text-center col-md-12" id="footerDropdown" style="width:100%;">';
                 str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
@@ -396,6 +448,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	$.each($(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
+      console.log("error type :", type);
    		if(type == "person") type = "people";
    		else type = typeObj[type].col;
       //console.log("#floopItem-"+type+"-"+id);
