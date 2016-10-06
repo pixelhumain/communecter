@@ -3,7 +3,7 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
-	document.onkeydown = checkKeycode;
+	document.onkeyup = checkKeycode;
 });
 
 var prevStep = 0;
@@ -2560,38 +2560,32 @@ var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18
 "f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
 "comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
 
-function keyMap(str){
-   var ValidChars = "0123456789";
-   var IsNumber=true;
-   for (i = 0; i < str.length && IsNumber == true; i++) { 
-      if (ValidChars.indexOf(str.charAt(i)) == -1) {
-         IsNumber = false;}
-   }
-   
-   if(!IsNumber){str = keycodeObj[str];} 
-  	
-	switch(str){
-		case keycodeObj["e"] : openForm('event'); break;
-		case keycodeObj["o"] : openForm('organization'); break;
-		case keycodeObj["p"] : openForm('project'); break;
-		case keycodeObj["i"] : openForm('person'); break;
-		case keycodeObj["a"] : openForm('action'); break;
-		case keycodeObj["v"] : openForm('entry'); break;
-	}
-}
+var keyMap = {
+	"112" : function(){ $(".menu-name-profil").trigger('click') } //f1
+};
+var keyMapCombo = {
+	"69" : function(){openForm('event')}, //e
+	"79" : function(){openForm('organization')},//o
+	"80" : function(){openForm('project')},//p
+	"73" : function(){openForm('person')},//i
+	"65" : function(){openForm('action')},//a
+	"86" : function(){openForm('entry')}//v
+};
 
 function checkKeycode(e) {
+	e.preventDefault();
 	var keycode;
 	if (window.event) {keycode = window.event.keyCode;e=event;}
 	else if (e){ keycode = e.which;}
-	//alert("keycode: " + keycode);
-	if(e.ctrlKey && $.inArray(keycode, [keycodeObj["e"] ,keycodeObj["o"] ,keycodeObj["p"] ,keycodeObj["i"] ,keycodeObj["a"] ,keycodeObj["v"] ] ) ){
-		alert("combination");//shiftKey ctrlKey altKey
-		keyMap(keycode);
+	console.log("keycode: ",keycode);
+	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
+		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+		keyMapCombo[keycode]();
 	}
-	/*else{
-		keyMap(keycode);
-	}*/
+	else if( keyMap[keycode] ){
+		console.warn("keyMap",keycode);
+		keyMap[keycode]();
+	}
 }
 
 /*
