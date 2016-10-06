@@ -1106,7 +1106,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 			}
 		});
 
-		$('#addressCountry').editable({
+		/*$('#addressCountry').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			value: '<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>',
 			source: function() {
@@ -1137,7 +1137,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
 			},*/
-			value : {
+			/*value : {
 	        	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
             	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
             	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
@@ -1153,7 +1153,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				else 
 					return data.msg;
 			}
-		});
+		});*/
 
 
 		$('#avancement').editable({

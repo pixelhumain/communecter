@@ -407,7 +407,7 @@ function updateLocalityElement(){
     		console.log("data", data);
 	    	//toastr.success(data.msg);
 	    	if(data.result){
-	    		
+
 				contextData.address.codeInsee = locality.address.codeInsee ;
 				contextData.address.addressLocality = locality.address.addressLocality ;
 				contextData.address.postalCode = locality.address.postalCode ;
@@ -421,8 +421,10 @@ function updateLocalityElement(){
 				$("#detailStreetAddress").html(contextData.address.streetAddress);
 				$("#detailCity").html(contextData.address.addressLocality+", "+contextData.address.postalCode);
 				$("#detailCountry").html(contextData.address.addressCountry);
-
-
+				$('#localityHeader').html(contextData.address.addressLocality);
+				$('#pcHeader').html(contextData.address.postalCode);
+				$('#countryHeader').html(contextData.address.addressCountry);
+				//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+contextData.address.codeInsee+"', 'MA COMMUNE','university' )");
 	    	}
 	    }
 	});
