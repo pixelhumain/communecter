@@ -1630,12 +1630,12 @@ var typeObj = {
 			            		if(organizerId == "dontKnow" )
 			            			organizerType = "dontKnow";
 			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
-			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].ctrl;
+			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
 			            		else
-			            			organizerType = "person";
+			            			organizerType = typeObj["person"].col;
 
-			            		console.warn( "organizer",organizerId,organizerType,typeObj[organizerType].col );
-			            		$("#ajaxFormModal #organizerType ").val( typeObj[organizerType].col );
+			            		console.warn( "organizer",organizerId,organizerType );
+			            		$("#ajaxFormModal #organizerType ").val( organizerType );
 			            	});
 			            }
 		            },
