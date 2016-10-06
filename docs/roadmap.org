@@ -81,6 +81,9 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] Count requests DB per page
   [ ] moving discussion polling to discussion page instead of communecter.js
   
+  ** PROD
+    [ ] no message on debat
+
   [ ] finish fromNow method
   [ ] SEO finir 
     http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
@@ -97,26 +100,24 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
+    [X] onclick add spinner on save btn +disable
     [ ] $type::afterSave : connect specific post process for each elem
-      [ ] organization
-      [ ] project
+      [X] organization
+      [X] project
       [ ] event
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
-      [ ] 
     [ ] desactivate dynForm if not Logged
+    [ ] multiple medias , $.each
     [ ] bugs
-      [ ] add to floopdrawer after save
+      [X] add to floopdrawer after save
       [ ] location > tape CP > validate , ca passe 
-      [ ] no message on debat
-      [ ] check existance click and unfocus
       [ ] create orga 
       [ ] texte/description d'une décision n'est pas mis à jour 
       [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
         [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
-    [ ] switch on map , show / hide POI, point of parent
     [ ] check bad sub attributes : address.cococo
-    [ ] refactor : move from ACtion to model Element
+    [X] refactor : move from ACtion to model Element
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
       [X] ajouter les autres champs en activable
@@ -130,6 +131,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
+      [ ] switch on map , show / hide POI, point of parent
       [X] link to parent : can have a parent, Type & Id
       [X] add a btn on any parent add POI
       [X] place avec geoloc 
