@@ -210,9 +210,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     </div>
 	<div class="panel-tools">
  		<?php    
-				if ( $canEdit ) { ?>
-					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
-					<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+			if ( $canEdit ) { ?>
+				<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
+				<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>	
 
 		<?php

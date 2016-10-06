@@ -175,7 +175,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<?php } ?>
 
 			<?php if($edit==true) { ?>
-			
 				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
 			<?php } ?>
 			
@@ -325,11 +324,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	//var_dump($admin);
 	//if(!empty($admin) && $admin == true){
 	//<!-- class=" col-lg-6 col-md-6 col-sm-6 col-xs-8"--> ?>
-
-	
-
-
-
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
 		<?php if($type==Project::COLLECTION){ ?>
 			<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
@@ -355,8 +349,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</a>
 			</div>
 			<?php } ?>
-
-
 			<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
 			<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
 				<a href="javascript:;" class="cobtn hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
@@ -407,12 +399,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="address" 
 					   data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	
+						<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null; ?>,
+						<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>
 					</a> 
 					<br>
-					
 					<i class="fa fa-globe fa_addressCountry  hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
 						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
+						<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?>
 					</a> 
 				</div>
 				<br>
@@ -457,6 +451,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 				<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
+				</a>
+				<a href="javascript:" id="btn-update-locality" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
+					<i class="fa fa-map-marker" style="margin:0px !important;"></i> Modifier votre addresse
 				</a>
 				<?php 
 					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
@@ -606,7 +603,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	</div>
 </div>
 
-
+<?php
+$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "streetAddress"))?true:false);
+?>
 
 <script type="text/javascript">
 
@@ -616,12 +615,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		id : "<?php echo (string)$element["_id"] ?>",
 		type : "<?php echo $type ?>",
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
-		odesc : contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>",
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>
 	};
 
+	var showOdesc = "<?php echo $showOdesc ?>";
+
+	if(showOdesc == "true")
+		contextData.odesc = contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
+
+	var emptyAddress = $.isEmptyObject(contextData.address);
+	console.log("emptyAddress", emptyAddress);
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
 	var types = <?php echo json_encode($elementTypes) ?>;
@@ -660,6 +665,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			findGeoPosByAddress();
 		});
 
+		$("#btn-update-locality").click(function(){
+			Sig.showMapElements(Sig.map, mapData);
+
+		});
+
 		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
@@ -676,7 +686,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
 
-		if(typeof(contextData.address) != "undefined" && contextData.address.addressLocality == ""){
+		if(emptyAddress){
 			$(".cobtn,.whycobtn").removeClass("hidden");
 			$(".cobtn").click(function () { 
 				$(".cobtn,.whycobtn").hide();
@@ -803,8 +813,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			mode ="view";
 			$(".editProfilLbl").html(" Éditer");
 			$("#editElementDetail").removeClass("btn-red");
-			//if(jQuery.isEmptyObject(contextData.address) == true)
-			//	$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
+			if(emptyAddress)
+				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
 
 		}
 		manageModeContextElement();
@@ -821,6 +831,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
+				console.log(value);
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
@@ -830,6 +841,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditables, function(i,value) {
 				//add primary key to the x-editable field
+				console.log(value);
 				$(value).editable('option', 'pk', contextId);
 				$(value).editable('toggleDisabled');
 			})
@@ -858,7 +870,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	function manageSocialNetwork(iconObject, value) {
 		//console.log("-----------------manageSocialNetwork----------------------");
 		tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
-				"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
+				"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", 
+				"skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
 		var fa = tabId2Icon[iconObject.attr("id")];
 		console.log(value);
@@ -1197,37 +1210,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});
 
 
-		/*$('#avancement').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			source: function() {
-				//idea => concept => Started => development => testing => mature
-				avancement=["idea","concept","started","development","testing","mature"];
-				return avancement;
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-					if(data.avancement=="idea")
-						val=5;
-					else if(data.avancement=="concept")
-						val=20;
-					else if (data.avancement== "started")
-						val=40;
-					else if (data.avancement == "development")
-						val=60;
-					else if(data.avancement == "testing")
-						val=80;
-					else
-						val=100;
-					$('.progressStyle').val(val);
-				}
-				else 
-					return data.msg;
-		    }
-		});*/
-		
-
 		$('#description').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			value: <?php echo (isset($element["description"])) ? json_encode($element["description"]) : "''"; ?>,
@@ -1246,24 +1228,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					return data.msg;
 			}
 		});
-		/*$('#startDate').editable({
-			url: baseUrl+"/"+moduleId+"/project/updatefield", 
-			type: "date",
-			mode: "popup",
-			placement: "bottom",
-			format: 'yyyy-mm-dd',
-			viewformat: 'dd/mm/yyyy',
-			datepicker: {
-				weekStart: 1,
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}else 
-					return data.msg;
-		    }
-		});*/
+		
 		$('#allDay').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 			mode: "popup",
@@ -1371,7 +1336,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			    }
 			});
 
-		$('#endDate').editable({
+			$('#endDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 				pk: contextId,
 				mode: "popup",
