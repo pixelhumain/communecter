@@ -101,7 +101,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] le scroll marche pas
   [ ] elements to simple dynform
     [X] onclick add spinner on save btn +disable
-    [ ] $type::afterSave : connect specific post process for each elem
+    [ ] type::afterSave : connect specific post process for each elem
       [X] organization
       [X] project
       [ ] event

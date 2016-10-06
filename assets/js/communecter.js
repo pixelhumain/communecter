@@ -1163,7 +1163,7 @@ function activateSummernote(elem) {
 
 
 function formatData(formData, collection,ctrl) { 
-	
+	console.warn("formatData");
 	formData.collection = collection;
 	formData.key = ctrl;
 	
@@ -1221,7 +1221,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 { 
 	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
-	console.log(formData);
+	console.dir(formData);
 	formData = formatData(formData,collection,ctrl);
 	
 	$.ajax( {
@@ -1230,6 +1230,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     	data: formData,
     	dataType: "json",
     	success: function(data){
+    		console.warn("ajax result");
     		console.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
@@ -1459,7 +1460,7 @@ var typeObj = {
 			            "rules" : { "required" : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").length > 3 )
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
 				            		globalSearch($(this).val(),["organizations"]);
 			            	});
 			            }
@@ -1603,12 +1604,10 @@ var typeObj = {
 		            name : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
+			            "rules" : { "required" : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").length > 3 )
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
 			            			globalSearch($(this).val(),["events"]);
 			            	});
 			            }
@@ -1623,13 +1622,13 @@ var typeObj = {
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
-			            	$("#ajaxFormModal #organizer ").off().on("change",function(){
+			            	$("#ajaxFormModal #organizerId ").off().on("change",function(){
 			            		
 			            		organizerId = $(this).val();
 			            		if(organizerId == "dontKnow" )
 			            			organizerType = "dontKnow";
-			            		else if( $('#organizer').find(':selected').data('type') && typeObj[$('#organizer').find(':selected').data('type')] )
-			            			organizerType = typeObj[$('#organizer').find(':selected').data('type')].ctrl;
+			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
+			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].ctrl;
 			            		else
 			            			organizerType = "person";
 
@@ -1656,7 +1655,8 @@ var typeObj = {
 			        type :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Type d\'évènnment",
-		            	"options" : eventTypes
+		            	"options" : eventTypes,
+		            	"rules" : { "required" : true },
 		            },
 
 		            /*allday : {
@@ -1773,7 +1773,7 @@ var typeObj = {
 			            },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").length > 3 )
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
 			            			globalSearch($(this).val(),["projects"]);
 			            	});
 			            }

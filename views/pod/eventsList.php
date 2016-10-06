@@ -56,7 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 									$id = array_keys($e["links"]["organizer"])[0];
 									$o = Element::getInfos( @$e["links"]["organizer"][$id]['type'], $id);
-									if ($o["type"]==Person::COLLECTION){
+									if ( $o["type"]==Person::COLLECTION ){
 										$icon='<img height="35" width="35" class="tooltips" data-placement="right" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
 										$refIcon="fa-user";
 										$redirect="person";
