@@ -743,7 +743,7 @@ function showElementPad(type, id){
 		if(typeof(mapUrl[type]) == "undefined"){
 			mapUrl[type] = new Object;
 			mapUrl[type]["url"] = "need/detail/id/"+id+"?"; 
-			mapUrl[type]["hash"] = "#need.detail.id."+id;
+			mapUrl[type]["hash"] = "need.detail.id."+id;
 			mapUrl[type]["data"] = null;
 			listElementView.push("need"+id);
 		}
@@ -757,7 +757,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load")
+		console.log("no ajax load");
+		console.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});
