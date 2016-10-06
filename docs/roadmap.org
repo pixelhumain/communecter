@@ -49,7 +49,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
     [ ] remove betatester attr
-    [ ] remove empty image attribs
+    [X] remove empty image attribs
     [ ] mailing + notification + parametre
       [ ] doc
       [ ] faire un mail hebdomadaire
