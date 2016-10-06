@@ -585,7 +585,7 @@ var element = null;
 
 jQuery(document).ready(function() 
 {
-//	console.log(dataNewsSearch);
+ 	activeMenuElement("news");
 	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
 		//$("#cityInsee").val(inseeCommunexion);
 		//$("#cityPostalCode").val(cpCommunexion);
@@ -779,8 +779,6 @@ jQuery(document).ready(function()
  	
  	showTagsScopesMin(".list_tags_scopes");
  	showFormBlock(false);
-
- 	activeMenuElement("news");
 });
 function isInArray(value, array) {
   return array.indexOf(value) > -1;

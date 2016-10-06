@@ -843,7 +843,7 @@ var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'fa
 var show = <?php echo (isset($show) && $show) ? 'true': 'false'; ?>; 
 var elementId = "<?php echo @$elementId ?>";
 jQuery(document).ready(function() {
-
+	activeMenuElement("directory");
 	setTitle(nameType+" : "+contextData.name,contextIconTitle);
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
@@ -864,7 +864,6 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 	convertAllStartDateEvent();
- 	activeMenuElement("directory");
 });
 
  function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");

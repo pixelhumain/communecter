@@ -541,7 +541,7 @@ $controler = Element::getControlerByCollection($type);
 			?> 
 	     </script>
 	      <div class="modal-footer">
-	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#person.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -550,9 +550,7 @@ $controler = Element::getControlerByCollection($type);
 <?php 
 Menu::element($entity,$type);
 $this->renderPartial('../default/panels/toolbar');
-if(!@$_GET["renderPartial"]){ 
 ?>
-<div class="col-md-12 padding-15" id="pad-element-container">
 
 <script type="text/javascript">
 var contextMap = [];
@@ -653,9 +651,10 @@ jQuery(document).ready(function() {
 		mapUrl[firstView]["data"] = null;
 		listElementView.push("need"+id);
 	}
-	mapUrl[firstView]["load"] = true;
-	mapUrl[firstView]["html"] = $("#pad-element-container").html();
-	
+	//setTimeout(function(){
+	//mapUrl[firstView]["load"] = true;
+	//mapUrl[firstView]["html"] = $("#pad-element-container").html();
+	//}, 500);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -745,7 +744,7 @@ function showElementPad(type, id){
 		if(typeof(mapUrl[type]) == "undefined"){
 			mapUrl[type] = new Object;
 			mapUrl[type]["url"] = "need/detail/id/"+id+"?"; 
-			mapUrl[type]["hash"] = "#need.detail.id."+id;
+			mapUrl[type]["hash"] = "need.detail.id."+id;
 			mapUrl[type]["data"] = null;
 			listElementView.push("need"+id);
 		}
@@ -759,7 +758,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load")
+		console.log("no ajax load");
+		console.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});
@@ -785,4 +785,8 @@ function showElementPad(type, id){
 }
 
 </script>
+<?php
+if(!@$_GET["renderPartial"]){ 
+?>
+<div class="col-md-12 padding-15" id="pad-element-container">
 <?php } ?>

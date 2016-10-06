@@ -372,6 +372,7 @@ if($('#breadcum').length)
 <?php } ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	activeMenuElement("detail");
 	<?php 
 		if(empty($element["tasks"])) $element["tasks"] = array();
 		if($type == Project::COLLECTION) {//|| $admin==true){ ?>
@@ -384,7 +385,7 @@ jQuery(document).ready(function() {
 		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"] ?>/pod/1?date=1",null,"html");
 	<?php } ?>
 
-	activeMenuElement("detail");
+
 });
 
 

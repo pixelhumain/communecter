@@ -6,11 +6,11 @@
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-/*$cssAnsScriptFilesModule = array(
+$cssAnsScriptFilesModule = array(
 	//'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);*/
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -726,8 +726,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 
 		$("#editElementDetail").on("click", function(){
 				switchModeElement();
-			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-			//	getBackDetails(contextId,"<?php echo $type ?>");
 		});
 
 		$("#changePasswordBtn").click(function () {
