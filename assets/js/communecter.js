@@ -3,6 +3,7 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
+	document.onkeyup = checkKeycode;
 });
 
 var prevStep = 0;
@@ -510,6 +511,7 @@ var loadableUrls = {
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.mailerrordashboard" : {title:'MAIL ERROR ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
@@ -1250,7 +1252,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 }
 
 function openForm (type, afterLoad ) { 
-    console.warn("---------------"+type+" Form ---------------------");
+    console.warn("--------------- Open Form "+type+" ---------------------");
     elementLocation = null;
     formType = type;
     specs = typeObj[type];
@@ -2546,6 +2548,46 @@ function shadowOnHeader() {
 	var y = $(".my-main-container").scrollTop(); 
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
+}
+
+/* ************************************
+Keyboard Shortcuts
+*************************************** */
+var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
+"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
+"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
+"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
+"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
+"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
+"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
+
+var keyMap = {
+	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+	"115" : function(){ console.clear();loadByHash(location.hash) },//f4
+};
+var keyMapCombo = {
+	"69" : function(){openForm('event')}, //e
+	"79" : function(){openForm('organization')},//o
+	"80" : function(){openForm('project')},//p
+	"73" : function(){openForm('person')},//i
+	"65" : function(){openForm('action')},//a
+	"86" : function(){openForm('entry')}//v
+};
+
+function checkKeycode(e) {
+	e.preventDefault();
+	var keycode;
+	if (window.event) {keycode = window.event.keyCode;e=event;}
+	else if (e){ keycode = e.which;}
+	console.log("keycode: ",keycode);
+	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
+		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+		keyMapCombo[keycode]();
+	}
+	else if( keyMap[keycode] ){
+		console.warn("keyMap",keycode);
+		keyMap[keycode]();
+	}
 }
 
 /*

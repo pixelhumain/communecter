@@ -259,9 +259,11 @@ $controler = Element::getControlerByCollection($type);
 				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
 						<i class="fa fa-globe"></i>
-						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?>,</label>
-						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?>,</label> 
-						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 	
+						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || true) { ?>
+						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?></label>, 
+						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?></label>, 
+						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
+						<?php } ?>	
 					</span>
 				</div>
 				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $entity["_id"]) { ?>
@@ -441,13 +443,13 @@ $controler = Element::getControlerByCollection($type);
 			        	</div>
 			        </div>
 			        <div class="col-sm-4 text-right padding-10 margin-top-10">
-			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My street address") ;?> :</strong>
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","Locality") ;?> :</strong>
 			        </div>
 			        <div class="col-sm-8 text-left padding-10">
-			        	<div class="btn-group btn-group-streetAddress inline-block">
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	<div class="btn-group btn-group-locality inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
 			        	</div>
 			        </div>
 			        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -511,7 +513,7 @@ $controler = Element::getControlerByCollection($type);
 			<?php
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
-				$nameFields = array("email", "streetAddress", "phone", "directory", "birthDate");
+				$nameFields = array("email", "locality", "phone", "directory", "birthDate");
 				foreach ($nameFields as $key => $value) {
 					$fieldPreferences[$value] = true;
 				}

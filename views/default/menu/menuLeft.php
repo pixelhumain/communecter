@@ -234,7 +234,7 @@
 			<hr>
 
 			<?php // Débat // ?>
-			<a href="#default.directory?type=votes" id="menu-btn-vote"
+			<a href="#default.directory?type=vote" id="menu-btn-vote"
 					class="menu-button-left  lbh
 					<?php echo ($page == 'agenda') ? 'selected':'';?>">
 				<i class="fa fa-gavel tooltips"

@@ -677,7 +677,12 @@
 		};
 
 		Sig.getPopupConfigAddress = function(){
-			
+			var allCountries = getCountries("select2");
+			countries ="";
+			$.each(allCountries, function(key, country){
+				console.log(country.id, country.text);
+			 	countries += "<option value='"+country.id+"'>"+country.text+"</option>";
+			});
 			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +
 								"</style>"+
 								"<div class='form-group inline-block padding-15'>"+
@@ -685,7 +690,7 @@
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
 									"<hr class='col-md-12'>"+
-									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
+									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+countries+
 									"</select>"+
 									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
 								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+
@@ -708,6 +713,9 @@
 									"<input type='hidden' name='newElement_insee'>"+
 									"<input type='hidden' name='newElement_lat'>"+
 									"<input type='hidden' name='newElement_lng'>"+
+									"<input type='hidden' name='newElement_dep'>"+
+									"<input type='hidden' name='newElement_region'>"+
+									"<input type='hidden' name='update' value='false'>"+
 									"<hr class='col-md-12 col-xs-12'>"+
 									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
 									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newElement_btnValidateAddress'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+

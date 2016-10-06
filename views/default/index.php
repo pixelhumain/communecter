@@ -172,10 +172,15 @@
 	    "group" : "<?php echo Organization::ICON ?>",
 	    "association" : "<?php echo Organization::ICON ?>",
 	    "organization" : "<?php echo Organization::ICON ?>",
+	    "organizations" : "<?php echo Organization::ICON ?>",
 	    "GovernmentOrganization" : "<?php echo Organization::ICON_GOV ?>",
 	    "event":"<?php echo Event::ICON ?>",
 	    "project":"<?php echo Project::ICON ?>",
-	    "city": "<?php echo City::ICON ?>"
+	    "projects":"<?php echo Project::ICON ?>",
+	    "city": "<?php echo City::ICON ?>",
+	    "entry": "fa-gavel",
+	    "action": "fa-cogs",
+	    "actions": "fa-cogs"
 	  };
 	var mapColorIconTop = {
 	    "default" : "dark",
@@ -186,10 +191,15 @@
 	    "group" : "green",
 	    "association" : "green",
 	    "organization" : "green",
+	    "organizations" : "green",
 	    "GovernmentOrganization" : "green",
 	    "event":"orange",
 	    "project":"purple",
-	    "city": "red"
+	    "projects":"purple",
+	    "city": "red",
+	    "entry": "azure",
+	    "action": "lightblue2",
+	    "actions": "lightblue2"
 	  };
 
 

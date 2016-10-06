@@ -285,6 +285,7 @@
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
+		<h2 class='text-dark homestead' style="margin: -20px 0px 15px;"><i class="fa fa-angle-down"></i><br>Discussion</h2>
 		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
@@ -394,7 +395,7 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").code();
+						var voteComment = $("#modalComment .newComment").val();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
@@ -403,7 +404,7 @@ function addaction(id,action)
 				        };
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").code(params.comment);
+				        	$("#modalComment .newComment").val(params.comment);
 				        	validateComment("modalComment","");
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
