@@ -60,9 +60,12 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] faire un mail, special quand invité par l'invitation communEvent 
           faisant reference à l'event , vous etiez ou serez à event xxx
           communecter vous aide ....
-    [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
-    [X] Stocker les images en S3
-    [ ] passer configDB en externe configdb.example.php
+    [ ] Gérer le retour de mail en erreur 
+      [X] créer un hook + erreur dans mailerror
+      [ ] creation de notif pour super admin
+      [ ] page admin avec les erreurs de mails
+    [ ] Stocker les images en S3
+    [X] passer configDB en externe configdb.example.php
     [ ] mon calendar 
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
@@ -98,7 +101,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] le scroll marche pas
   [ ] elements to simple dynform
     [X] onclick add spinner on save btn +disable
-    [ ] $type::afterSave : connect specific post process for each elem
+    [ ] type::afterSave : connect specific post process for each elem
       [X] organization
       [X] project
       [ ] event
