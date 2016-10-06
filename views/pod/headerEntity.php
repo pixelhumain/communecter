@@ -539,7 +539,7 @@ $controler = Element::getControlerByCollection($type);
 			?> 
 	     </script>
 	      <div class="modal-footer">
-	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
