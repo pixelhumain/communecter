@@ -441,13 +441,13 @@ $controler = Element::getControlerByCollection($type);
 			        	</div>
 			        </div>
 			        <div class="col-sm-4 text-right padding-10 margin-top-10">
-			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","My street address") ;?> :</strong>
+			        	<i class="fa fa-message"></i> <strong><?php echo Yii::t("common","Locality") ;?> :</strong>
 			        </div>
 			        <div class="col-sm-8 text-left padding-10">
-			        	<div class="btn-group btn-group-streetAddress inline-block">
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
-			        		<button class="btn btn-default confidentialitySettings" type="streetAddress" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
+			        	<div class="btn-group btn-group-locality inline-block">
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="public" selected><i class="fa fa-group"></i> <?php echo Yii::t("common","Public") ;?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="private"><i class="fa fa-user-secret"></i> <?php echo Yii::t("common","Private"); ?></button>
+			        		<button class="btn btn-default confidentialitySettings" type="locality" value="hide"><i class="fa fa-ban"></i> <?php echo Yii::t("common","Mask"); ?></button>
 			        	</div>
 			        </div>
 			        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -511,7 +511,7 @@ $controler = Element::getControlerByCollection($type);
 			<?php
 				//Params Checked
 				$typePreferences = array("privateFields", "publicFields");
-				$nameFields = array("email", "streetAddress", "phone", "directory", "birthDate");
+				$nameFields = array("email", "locality", "phone", "directory", "birthDate");
 				foreach ($nameFields as $key => $value) {
 					$fieldPreferences[$value] = true;
 				}
@@ -539,7 +539,7 @@ $controler = Element::getControlerByCollection($type);
 			?> 
 	     </script>
 	      <div class="modal-footer">
-	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#person.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

@@ -8,10 +8,15 @@ var NE_city = "";
 var NE_cp = "";
 var NE_street = "";
 
+var NE_country = "";
+var NE_dep = "";
+var NE_region = "";
+
 var typeSearchInternational = "";
 var formType = "";
 
-function showMarkerNewElement(){ console.log("showMarkerNewElement");
+
+function showMarkerNewElement(update){ console.log("showMarkerNewElement");
 
 	Sig.clearMap();
 	if(typeof Sig.myMarker != "undefined") 
@@ -38,15 +43,32 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
 								  "</a>");
 
-	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
-	Sig.markerFindPlace.on("popupopen", function(){ console.log("popupopen");
+
+	if(typeof update !="undefined" && update){
 		$('[name="newElement_insee"]').val(NE_insee);
 		$('[name="newElement_lat"]').val(NE_lat);
 		$('[name="newElement_lng"]').val(NE_lng);
 		$('[name="newElement_city"]').val(NE_city);
 		$('[name="newElement_cp"]').val(NE_cp);
 		$('[name="newElement_streetAddress"]').val(NE_street);
+		$('[name="newElement_dep"]').val(NE_dep);
+		$('[name="newElement_region"]').val(NE_region);
+		$('[name="newElement_country"]').val(NE_country);
+		$('[name="update"]').val("true");
+	}
 
+	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
+	Sig.markerFindPlace.on("popupopen", function(){ console.log("popupopen");
+		console.log("NE_city", NE_city);
+		$('[name="newElement_insee"]').val(NE_insee);
+		$('[name="newElement_lat"]').val(NE_lat);
+		$('[name="newElement_lng"]').val(NE_lng);
+		$('[name="newElement_city"]').val(NE_city);
+		$('[name="newElement_cp"]').val(NE_cp);
+		$('[name="newElement_streetAddress"]').val(NE_street);
+		$('[name="newElement_dep"]').val(NE_dep);
+		$('[name="newElement_region"]').val(NE_region);
+		$('[name="newElement_country"]').val(NE_country);
 		bindEventFormSig();
 	});
 
@@ -114,10 +136,15 @@ function bindEventFormSig(){
 		$(".dropdown-menu").hide();
 		searchAdressNewElement();
 	});
-
-	var allCountries = getCountries("select2");
+	
+	/*var allCountries = getCountries("select2");
 	$.each(allCountries, function(key, country){
+		console.log(country.id, country.text);
 	 	$('[name="newElement_country"]').append("<option value='"+country.id+"'>"+country.text+"</option>");
+	});*/
+
+	$("#newElement_country").change(function(){
+		NE_country = $('[name="newElement_cp"]').val() ;
 	});
 
 	$("#info_insee_latlng").html(
@@ -131,13 +158,16 @@ function bindEventFormSig(){
 		$('[name="newElement_lng"]').val("");
 		$('[name="newElement_city"]').val("");
 		$('[name="newElement_cp"]').val("");
+		$('[name="newElement_dep"]').val("");
+		$('[name="newElement_region"]').val("");
+		$('[name="update"]').val("false");
 		NE_insee = ""; NE_lat =  ""; NE_lng =""; NE_city = ""; NE_cp = "";
 		backToForm();
 	});
 
 	/* TODO TIB */
 	$("#newElement_btnValidateAddress").click(function(){
-		backToForm();
+		backToForm($('[name="update"]').val());
 	});
 }
 
@@ -151,7 +181,8 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
         data: {
         		type: currentScopeType, 
         		scopeValue: scopeValue,
-        		geoShape: true
+        		geoShape: true,
+        		countryCode : $('[name="newElement_country"]').val()
         },
        	dataType: "json",
     	success: function(data){
@@ -162,40 +193,44 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     		var allCities = new Array();
     		var inseeGeoSHapes = new Array();
     		$.each(data.cities, function(key, value){
+    			var insee = value.insee;
+    			var country = value.country;
+    			var dep = value.depName;
+    			var region = value.regionName;
     			if(currentScopeType == "city") { console.log("in scope city"); console.dir(value);
     				// val = value.country + '_' + value.insee; 
 		    		// lbl = (typeof value.name!= "undefined") ? value.name : ""; //value.name ;
 		    		// var cp = (typeof value.postalCode!= "undefined") ? value.postalCode : ""; //value.name ;
 		    		// lblList = lbl + " (" +value.depName + ")";
 		    		// html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\", \""+val+"\",\""+cp+"\" )'>"+lblList+"</a></li>";
-    				var insee = value.insee;
+    				
 		    		$.each(value.postalCodes, function(key, valueCP){
     					if($.inArray(valueCP.postalCode, allCP)<0){ 
 	    					allCP.push(valueCP.postalCode);
 	    					if(notEmpty(value.geoShape))
-		    				inseeGeoSHapes[value.insee] = value.geoShape.coordinates[0];
+		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.name; 
 		    				var lbl = valueCP.postalCode ;
 		    				var lat = valueCP.geo.latitude;
 		    				var lng = valueCP.geo.longitude;
 		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
-		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
+		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
 	    			}
 	    			});
     			}; 
     			if(currentScopeType == "cp") { 
-    				var insee = value.insee;
-		    		$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
+    				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
 		    				if(notEmpty(value.geoShape))
-		    				inseeGeoSHapes[value.insee] = value.geoShape.coordinates[0];
+		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
 		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;
 		    				var lat = valueCP.geo.latitude;
 		    				var lng = valueCP.geo.longitude;
-		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-city='"+lbl+"' data-cp='"+val+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-cp-found'>"+lblList+"</a></li>";
+		    				//console.log("valueCPvalueCPvalueCPvalueCP", valueCP);
+		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+lbl+"' data-cp='"+val+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-cp-found'>"+lblList+"</a></li>";
     				}});
     			};
     		});
@@ -211,17 +246,20 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				$('[name="newElement_lng"]').val($(this).data("lng"));
 				$('[name="newElement_city"]').val($(this).data("city"));
 				$('[name="newElement_cp"]').val($(this).data("cp"));
+				$('[name="newElement_dep"]').val($(this).data("dep"));
+				$('[name="newElement_region"]').val($(this).data("region"));
 				
 				NE_insee = $(this).data("insee");
 				NE_lat = $(this).data("lat");
 				NE_lng = $(this).data("lng");
 				NE_city = $(this).data("city");
 				NE_cp = $(this).data("cp");
+				NE_country = $(this).data("country");
+				NE_dep = $(this).data("dep");
+				NE_region = $(this).data("region");
 				
 				Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
 				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
-				
-				
 				
 				if(notEmpty(inseeGeoSHapes[NE_insee])){
 					var shape = inseeGeoSHapes[NE_insee];
@@ -257,7 +295,7 @@ function searchAdressNewElement(){
 	var city 	= ($('[name="newElement_city"]').val() 	   	  	 != "") ? $('[name="newElement_city"]').val() : "";
 	var cp 		= ($('[name="newElement_cp"]').val() 			 != "") ? $('[name="newElement_cp"]').val() : "";
 	var countryCode = ($('[name="newElement_country"]').val() 	 != "") ? $('[name="newElement_country"]').val() : "";
-
+	countryCode = changeCountryForNominatim(countryCode);
 	if($('[name="newElement_streetAddress"]').val() != ""){
 		providerName = "nominatim";
 		typeSearchInternational = "address";
@@ -310,10 +348,95 @@ function searchAdressNewElement(){
 	);
 }
 
-function backToForm(){
-	copyMapForm2Dynform();
-	addLocationToForm();
-	showMap(false);
-	$('#ajax-modal').modal("show");
+function backToForm(update){
+	console.log("backToForm", typeof update, update);
+	if(typeof update == "undefined" || update == "false"){
+		copyMapForm2Dynform();
+		addLocationToForm();
+		showMap(false);
+		$('#ajax-modal').modal("show");
+	}else{
+		updateLocalityElement();
+		showMap(false);
+	}
+	
 
+}
+
+function updateLocality(address, geo){
+	console.log("updateLocality", address, geo);
+	NE_insee = address.codeInsee;
+	NE_lat = geo.latitude;
+	NE_lng = geo.longitude;
+	NE_city = address.addressLocality;
+	NE_cp = address.postalCode;
+	NE_street = address.streetAddress;
+	NE_country = address.addressCountry;
+	NE_dep = address.depName;
+	NE_region = address.regionName;
+	showMarkerNewElement(true);
+}
+
+function updateLocalityElement(){
+	console.log("updateLocalityElement");
+	var locality = {
+		address : {
+			codeInsee : NE_insee,
+			streetAddress : NE_street,
+			postalCode : NE_cp,
+			addressLocality : NE_city,
+			depName : NE_dep,
+			regionName : NE_region,
+			addressCountry : NE_country
+		},
+		geo : {
+			latitude : NE_lat,
+			longitude : NE_lng
+		}
+	}
+	params = new Object;
+	params.name = "locality";
+	params.value = locality;
+	params.pk = contextData.id;
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextData.type,
+        data: params,
+       	dataType: "json",
+    	success: function(data){
+    		console.log("data", data);
+	    	//toastr.success(data.msg);
+	    	if(data.result){
+	    		
+				contextData.address.codeInsee = locality.address.codeInsee ;
+				contextData.address.addressLocality = locality.address.addressLocality ;
+				contextData.address.postalCode = locality.address.postalCode ;
+				contextData.address.streetAddress = locality.address.streetAddress ;
+				contextData.address.addressCountry = locality.address.addressCountry ;
+				contextData.address.depName = locality.address.depName ;
+				contextData.address.regionName = locality.address.regionName ;
+				contextData.geo.latitude = locality.geo.latitude ;
+				contextData.geo.longitude = locality.geo.longitude;
+
+				$("#detailStreetAddress").html(contextData.address.streetAddress);
+				$("#detailCity").html(contextData.address.addressLocality+", "+contextData.address.postalCode);
+				$("#detailCountry").html(contextData.address.addressCountry);
+
+
+	    	}
+	    }
+	});
+}
+
+// Pour effectuer une recherche a la Réunion avec Nominatim, il faut choisir le code de la France, pas celui de la Réunion
+function changeCountryForNominatim(country){
+	codeCountry = {
+		"FR" : ["RE"]
+	}
+	$.each(codeCountry, function(key, countries){
+		if(countries.indexOf(country) != -1)
+	 		country = key;
+	});
+	return country ;
+	
 }
