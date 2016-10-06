@@ -550,9 +550,7 @@ $controler = Element::getControlerByCollection($type);
 <?php 
 Menu::element($entity,$type);
 $this->renderPartial('../default/panels/toolbar');
-if(!@$_GET["renderPartial"]){ 
 ?>
-<div class="col-md-12 padding-15" id="pad-element-container">
 
 <script type="text/javascript">
 var contextMap = [];
@@ -653,9 +651,10 @@ jQuery(document).ready(function() {
 		mapUrl[firstView]["data"] = null;
 		listElementView.push("need"+id);
 	}
-	mapUrl[firstView]["load"] = true;
-	mapUrl[firstView]["html"] = $("#pad-element-container").html();
-	
+	//setTimeout(function(){
+	//mapUrl[firstView]["load"] = true;
+	//mapUrl[firstView]["html"] = $("#pad-element-container").html();
+	//}, 500);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -786,4 +785,8 @@ function showElementPad(type, id){
 }
 
 </script>
+<?php
+if(!@$_GET["renderPartial"]){ 
+?>
+<div class="col-md-12 padding-15" id="pad-element-container">
 <?php } ?>
