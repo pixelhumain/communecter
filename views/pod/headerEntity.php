@@ -259,7 +259,7 @@ $controler = Element::getControlerByCollection($type);
 				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
 						<i class="fa fa-globe"></i>
-						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || true) { ?>
+						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || $type!=Person::COLLECTION) { ?>
 						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?></label>, 
 						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?></label>, 
 						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
