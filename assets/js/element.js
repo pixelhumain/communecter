@@ -45,10 +45,10 @@ function runEventFormValidation(el) {
 			}
 		},
 		messages : {
-			eventName : "* <?php echo Yii::t("event","Please specify the name of the event",null,Yii::app()->controller->module->id) ?>",
-			postalCode : "* <?php echo Yii::t("event","Please specify the postal code",null,Yii::app()->controller->module->id) ?>",
-			eventCountry : "* <?php echo Yii::t("event","Please specify the country",null,Yii::app()->controller->module->id) ?>",
-			city : "* <?php echo Yii::t("event","Please specify the city",null,Yii::app()->controller->module->id) ?>",
+			eventName : "* Please specify the name of the event",
+			postalCode : "* Please specify the postal code",
+			eventCountry : "* Please specify the country",
+			city : "* Please specify the city",
 		},
 		invalidHandler : function(event, validator) {//display error alert on form submit
 			successHandler2.hide();
@@ -101,7 +101,7 @@ function runEventFormValidation(el) {
 			
 			console.log("newEvent");
 			console.dir(newEvent);
-			$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>' });
+			$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Save Processing ...</span>' });
 			
 			$.ajax(
 			{
@@ -115,7 +115,7 @@ function runEventFormValidation(el) {
 		    {
 		    	$.unblockUI();
 		        if (data &&  data.result) {
-		        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
+		        	toastr.success("Event Created success");
 		        	$("#newEventId").val(data.id["$id"]);
 		        	console.log(data);
 	        		addFloopEntity(data.id["$id"], "events", data.event);
@@ -171,7 +171,7 @@ function runProjectFormValidation(el) {
 			}
 		},
 		messages : {
-			projectName : "* <?php echo Yii::t("common","Please specify the name") ?>"
+			projectName : "Please specify the name"
 
 		},
 		invalidHandler : function(project, validator) {//display error alert on form submit
@@ -227,7 +227,7 @@ function runProjectFormValidation(el) {
 		    })
 		    .done(function (data) {
 		        if (data &&  data.result) {               
-		        	toastr.success("<?php echo Yii::t("common",'Project created successfully') ?>");
+		        	toastr.success("Project created successfully");
 		        	$.unblockUI();
 		        	//console.dir(data);
 	        		addFloopEntity(data.id.$id, "projects", newProject);

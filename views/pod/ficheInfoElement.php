@@ -1,16 +1,43 @@
 <?php 
-	
+/*$cssAnsScriptFilesTheme = array(
+//X-editable...
+'/assets/plugins/x-editable/css/bootstrap-editable.css',
+'/assets/plugins/x-editable/js/bootstrap-editable.js',
+
+//DatePicker
+'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+
+//DateTime Picker
+'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+
+//Wysihtml5
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/assets/plugins/wysihtml5/wysihtml5.js',
+
+'/assets/plugins/moment/min/moment.min.js' , 
+'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);*/
+
 /*$cssAnsScriptFilesModule = array(
 
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-/*$cssAnsScriptFilesModule = array(
-	//'/js/dataHelpers.js',
+$cssAnsScriptFilesModule = array(
+	'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);*/
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -230,7 +257,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
 					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo "";?>
+						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?>
 					</a>
 				</div>
 				<?php } ?>
@@ -424,9 +451,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						$address = ( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"] : "";
 						$address2 = ( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "";
 						$address2 .= ( @$element["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
-						/*if(isset(OpenData::$phCountries[ $element["address"]["addressCountry"] ]))
-						$address2 .= (@$element["address"]["addressCountry"] && @OpenData::$phCountries[ $element["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
-						*/
+						
 
 						$tel = "";
 						if( @$element["telephone"]["fixe"]){
@@ -440,12 +465,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}
 
-						/*$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
-																"name" => @$element['name'],
-																"address" => $address,
-																"address2" => $address2,
-																"email" => @$element['email'],
-																"img"=>@$element['profilThumbImageUrl']));*/
 
 						$this->renderPartial('../pod/qrcode',array(
 																"type" => @$element['type'],
@@ -534,7 +553,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									echo ", ";
 								echo $tel;
 							}
-						}?>
+						} ?>
 					</a>
 					<br>
 
@@ -546,7 +565,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									echo ", ";
 								echo $tel;
 							}
-						}?>
+						} ?>
 					</a>
 					<br>
 				<?php } ?>	
@@ -645,12 +664,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
 	
-
-	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
-	//By default : view mode
-	//var images = <?php echo json_encode($images) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
-	//var publics = <?php echo json_encode($publics) ?>;
+console.log(types);
 
 	
 
@@ -726,8 +740,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 
 		$("#editElementDetail").on("click", function(){
 				switchModeElement();
-			//if($("#getHistoryOfActivities").find("i").hasClass("fa-arrow-left"))
-			//	getBackDetails(contextId,"<?php echo $type ?>");
 		});
 
 		$("#changePasswordBtn").click(function () {
@@ -745,7 +757,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 				complete: function () {},
 				success: function (obj){
 					console.log("obj", obj);
-					$("<a />", {
+					$("<a/>", {
 					    "download": "profil.json",
 					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
 					  }).appendTo("body")
@@ -807,7 +819,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
-		//if(<?php echo isset($element["birthDate"]) 					? "true" : "false"; ?>){ $(".fa_birthDate").removeClass("hidden"); }
 
 
 	}
@@ -1100,56 +1111,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 					return data.msg;
 			}
 		});
-
-		/*$('#addressCountry').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			value: '<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : ""; ?>',
-			source: function() {
-				return countries;
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-
-		});
-
-		$('#address').editable({
-			validate: function(value) {
-	            value.streetAddress=$("#streetAddress").text();
-	            console.log(value);
-	        },
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			mode: 'popup',
-			/*success: function(response, newValue) {
-				console.log("success update postal Code : ");
-				console.dir(newValue);
-				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
-				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-				$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
-			},*/
-			/*value : {
-	        	postalCode: '<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>',
-            	codeInsee: '<?php echo (isset( $element["address"]["codeInsee"])) ? $element["address"]["codeInsee"] : ""; ?>',
-            	addressLocality : '<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : ""; ?>'
-	    	},
-            success : function(data) {
-            	console.log("data", data);
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-					$('#localityHeader').html(data.address.addressLocality);
-					$('#pcHeader').html(data.address.postalCode);	
-				}
-				else 
-					return data.msg;
-			}
-		});*/
-
 
 		$('#avancement').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  

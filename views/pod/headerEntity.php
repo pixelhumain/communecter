@@ -1,25 +1,9 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
-	//X-editable
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	//DatePicker
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+
 	
-	//DateTime Picker
-	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	//Wysihtml5
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js',
-	
-	'/assets/plugins/moment/min/moment.min.js',
+		
+
 	'/assets/plugins/Chart.js/Chart.min.js',
 	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	
@@ -259,7 +243,7 @@ $controler = Element::getControlerByCollection($type);
 				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
 						<i class="fa fa-globe"></i>
-						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || true) { ?>
+						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || $type!=Person::COLLECTION) { ?>
 						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?></label>, 
 						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?></label>, 
 						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
@@ -541,7 +525,7 @@ $controler = Element::getControlerByCollection($type);
 			?> 
 	     </script>
 	      <div class="modal-footer">
-	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#person.detail.id.<?php echo $entity['_id'] ;?>">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -550,9 +534,7 @@ $controler = Element::getControlerByCollection($type);
 <?php 
 Menu::element($entity,$type);
 $this->renderPartial('../default/panels/toolbar');
-if(!@$_GET["renderPartial"]){ 
 ?>
-<div class="col-md-12 padding-15" id="pad-element-container">
 
 <script type="text/javascript">
 var contextMap = [];
@@ -653,9 +635,10 @@ jQuery(document).ready(function() {
 		mapUrl[firstView]["data"] = null;
 		listElementView.push("need"+id);
 	}
-	mapUrl[firstView]["load"] = true;
-	mapUrl[firstView]["html"] = $("#pad-element-container").html();
-	
+	//setTimeout(function(){
+	//mapUrl[firstView]["load"] = true;
+	//mapUrl[firstView]["html"] = $("#pad-element-container").html();
+	//}, 500);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -745,7 +728,7 @@ function showElementPad(type, id){
 		if(typeof(mapUrl[type]) == "undefined"){
 			mapUrl[type] = new Object;
 			mapUrl[type]["url"] = "need/detail/id/"+id+"?"; 
-			mapUrl[type]["hash"] = "#need.detail.id."+id;
+			mapUrl[type]["hash"] = "need.detail.id."+id;
 			mapUrl[type]["data"] = null;
 			listElementView.push("need"+id);
 		}
@@ -759,7 +742,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load")
+		console.log("no ajax load");
+		console.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});
@@ -785,4 +769,8 @@ function showElementPad(type, id){
 }
 
 </script>
+<?php
+if(!@$_GET["renderPartial"]){ 
+?>
+<div class="col-md-12 padding-15" id="pad-element-container">
 <?php } ?>

@@ -4,6 +4,15 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
 	//DatePicker
+	//'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	//'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	//'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	
+	//DateTime Picker
+	//'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	//'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	//'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	//DatePicker
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
 	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
 	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
@@ -12,12 +21,21 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
 	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
 	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	
+	//Wysihtml5
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-
-	
-	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	//'/assets/plugins/moment/min/moment.min.js',
+	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	//'/plugins/wysihtml5/wysihtml5.js',
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
+	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -34,7 +52,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
 <script type="text/javascript">
-    $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet"/>');
+    $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet" />');
     $.fn.poshytip={defaults:null};
 </script>
 <script>
@@ -244,10 +262,14 @@ if($('#breadcum').length)
 				<div class="col-xs-12">
 					<?php 
 						$organizerImg=false;
-						if($type==Event::COLLECTION) $organizerImg=true;
+						if($type==Event::COLLECTION){ 
+							$organizerImg=true;
+							if(empty($subEvents)) $subEvents = array();
+							$events=$subEvents;
+						}
 						if(!isset($eventTypes)) $eventTypes = array();
 						if(empty($subEvents)) $subEvents = array();
-						$this->renderPartial('../pod/eventsList',array( 	"events" => $subEvents, 
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
 																			"contextId" => (String) $element["_id"],
 																			"contextType" => $controller,
 																			"list" => $eventTypes,
@@ -308,31 +330,8 @@ if($('#breadcum').length)
 
 			<div class="col-md-8 col-xs-12 no-padding pull-left">
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
-				<!-- <div class="row padding-15">
-					<hr>
-					<?php $urlCoop = "#rooms.index.type.".$type.".id.".(String) $element["_id"]; ?>
-					<a href='javascript:loadByHash("<?php echo $urlCoop; ?>")'>
-			        	<h1 class="text-azure text-left no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
-			        	</h1>
-			        </a>
-			    </div> -->
+				
 				<?php 
-					/*$rooms = ActionRoom::getAllRoomsByTypeId($type, (String)$element["_id"]);	
-					$this->renderPartial('../dda/index',array(    
-	   					"parent" => $element, 
-	                    "parentId" => (String)$element["_id"], 
-	                    "parentType" => $type, 
-	                    "faTitle" => "connectdevelop",
-	                    "colorTitle" => "azure",
-	                    "textTitle" => "",
-	                    "fromView" => "entity.detail",
-                    	"discussions" => @$rooms["discussions"], 
-	                    "votes" => @$rooms["votes"], 
-	                    "actions" => @$rooms["actions"], 
-	                    "history" => @$rooms["history"], 
-	                    "renderPartial" => true
-	                    ));*/
 
 					$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 					$this->renderPartial('../pod/activityList2',array(    
@@ -347,12 +346,6 @@ if($('#breadcum').length)
 				}
 				?>
 				<?php if($type==Project::COLLECTION){ ?> 
-					<!-- <div class="row padding-15">
-						<hr>
-						<h1 class="text-azure pull-left homestead no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
-			        	</h1>        
-				    </div> -->
 				    <hr>
 				    <div class="timesheetphp"></div>
 				<?php } ?>
@@ -372,6 +365,8 @@ if($('#breadcum').length)
 <?php } ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	console.log("baaaaaaaaaaah voila");
+	activeMenuElement("detail");
 	<?php 
 		if(empty($element["tasks"])) $element["tasks"] = array();
 		if($type == Project::COLLECTION) {//|| $admin==true){ ?>
@@ -384,7 +379,7 @@ jQuery(document).ready(function() {
 		getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/<?php echo $element["_id"] ?>/pod/1?date=1",null,"html");
 	<?php } ?>
 
-	activeMenuElement("detail");
+
 });
 
 

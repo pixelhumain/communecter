@@ -1254,6 +1254,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 function openForm (type, afterLoad ) { 
     console.warn("--------------- Open Form "+type+" ---------------------");
     elementLocation = null;
+    elementLocations = [];
+    centerLocation = null;
     formType = type;
     specs = typeObj[type];
 	if( specs.dynForm )
@@ -1630,12 +1632,12 @@ var typeObj = {
 			            		if(organizerId == "dontKnow" )
 			            			organizerType = "dontKnow";
 			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
-			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].ctrl;
+			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
 			            		else
-			            			organizerType = "person";
+			            			organizerType = typeObj["person"].col;
 
-			            		console.warn( organizerId+" | "+organizerType );
-			            		$("#ajaxFormModal #organizerType ").val(organizerType);
+			            		console.warn( "organizer",organizerId,organizerType );
+			            		$("#ajaxFormModal #organizerType ").val( organizerType );
 			            	});
 			            }
 		            },
@@ -1864,10 +1866,6 @@ var typeObj = {
 		              "inputType" : "hidden",
 		              "value" : ""
 		            },
-		            type :{
-		              "inputType" : "hidden",
-		              "value" : "<?php echo Survey::TYPE_ENTRY?>"
-		            },
 		            survey :{
 		            	inputType : "select",
 		            	placeholder : "Choisir une thématique ?",
@@ -1930,14 +1928,7 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	 
 			            }
 		            },
-		            /*"image" : {
-		                  "inputType" : "image",
-		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
-		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
-		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
-		            },*/
-		            tags :{
+					tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
 		                "values" : tagsList,
@@ -1953,7 +1944,7 @@ var typeObj = {
 		            	inputType : "hidden",
 		            	value : "currentUser"
 		            },
-		            "type" : {
+		            type : {
 		            	inputType : "hidden",
 		            	value : "entry"
 		            },
@@ -2047,14 +2038,7 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	 
 			            }
 		            },
-		            /*"image" : {
-		                  "inputType" : "image",
-		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
-		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
-		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
-		            },*/
-		            tags :{
+		         	tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
 		                "values" : tagsList,
@@ -2270,7 +2254,9 @@ function copyMapForm2Dynform() {
 			streetAddress : $("[name='newElement_streetAddress']").val(),
 			addressLocality : $("[name='newElement_city']").val(),
 			postalCode : $("[name='newElement_cp']").val(),
-			codeInsee : $("[name='newElement_insee']").val()
+			codeInsee : $("[name='newElement_insee']").val(),
+			depName : $("[name='newElement_dep']").val(),
+			regionName : $("[name='newElement_region']").val()
 		},
 		geo : {
 			"@type" : "GeoCoordinates",
@@ -2579,7 +2565,7 @@ function checkKeycode(e) {
 	var keycode;
 	if (window.event) {keycode = window.event.keyCode;e=event;}
 	else if (e){ keycode = e.which;}
-	console.log("keycode: ",keycode);
+	//console.log("keycode: ",keycode);
 	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
 		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
 		keyMapCombo[keycode]();

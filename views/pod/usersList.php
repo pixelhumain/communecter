@@ -167,9 +167,9 @@
 							$redirect="organization";
 							$refIcon="fa-group";
 						}
-						
+						$anId = isset($e["id"]) ? $e["id"] : ""; 
 					?>
-					<a href="#element.detail.type.<?php echo $e["type"] ?>.id.<?php echo $e["id"] ?>" title="<?php echo $name ?>" class=" lbh btn no-padding contentImg <?php echo $grayscale ?>">
+					<a href="#element.detail.type.<?php echo $e["type"] ?>.id.<?php echo $anId; ?>" title="<?php echo $name ?>" class=" lbh btn no-padding contentImg <?php echo $grayscale ?>">
 	
 						<?php if($e && !empty($e["profilThumbImageUrl"])) {
 							// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)

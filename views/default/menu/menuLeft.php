@@ -80,7 +80,7 @@
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		
 		<?php // AROUND ME // ?>
-		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-around-me"
+		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
 				class="lbh menu-button-left
 				<?php echo ($page == 'aroundMe') ? 'selected':'';?>">
 				<i class="fa fa-crosshairs tooltips"
@@ -163,7 +163,7 @@
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
 			<span class="lbl-btn-menu">Rechercher</span>
 		</a>
-		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu">
+		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu lbl-btn-menu">
 			<i class="fa text-red fa-angle-down tooltips" data-toggle="tooltip" data-placement="right" title="Plus de live"></i> 
 		</a>
 		
@@ -197,7 +197,7 @@
 				<span class="lbl-btn-menu">Organisations</span>
 			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
-			<a href="javascript:openForm ( 'organization' );" class="menu-button-left pull-right lbl-plus-menu">
+			<a href="javascript:openForm ( 'organization' );" class="menu-button-left pull-right lbl-btn-menu">
 				<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une organisation"></i> 
 			</a>
 			<?php } ?>
@@ -234,7 +234,7 @@
 			<hr>
 
 			<?php // Débat // ?>
-			<a href="#default.directory?type=votes" id="menu-btn-vote"
+			<a href="#default.directory?type=vote" id="menu-btn-vote"
 					class="menu-button-left  lbh
 					<?php echo ($page == 'agenda') ? 'selected':'';?>">
 				<i class="fa fa-gavel tooltips"
