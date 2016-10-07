@@ -170,9 +170,14 @@ function showGridResult(data){
       if(description == "") description = (typeof o.description != "undefined" &&
       									 o.description != null) ? o.description : "";
 
-      var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+      /*var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
       var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
+      */
+      var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
+      var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
+      if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
+      
+      
       //template principal
       str += "<div class='col-md-12 searchEntity no-padding'>";
 

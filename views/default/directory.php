@@ -67,7 +67,11 @@
       <h2 class="text-left pull-left" style="margin-left:10px; margin-top:15px; width:90%;">
         <span class="subtitle-search text-<?php echo $spec["text-color"]; ?> homestead">
           <i class="fa fa-angle-down"></i> 
-          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo Yii::t("common",$_GET['type']); ?>
+          <?php 
+            $typeName = Yii::t("common",$_GET['type']); 
+            if($_GET['type'] == "vote") $typeName = "débats";
+          ?>
+          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
         </span>
       </h2>
      <?php } ?>
@@ -102,8 +106,6 @@
     </button>
   </div>
 
- 
-
     
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
 
@@ -114,6 +116,13 @@
   
  
   <div class="container-result-search">
+    <?php  if($_GET['type'] == "vote" || $_GET['type'] == "actions"){ ?>
+      <div class="col-md-12 padding-10">
+        <i class="fa fa-info-circle"></i> 
+        <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
+        (issus de vos organisations, vos projets ou votre conseil citoyen)
+      </div>
+    <?php } ?>
     <div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
