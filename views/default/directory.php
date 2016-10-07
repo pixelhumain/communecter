@@ -116,7 +116,7 @@
   
  
   <div class="container-result-search">
-    <?php  if($_GET['type'] == "vote" || $_GET['type'] == "actions"){ ?>
+    <?php  if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
       <div class="col-md-12 padding-10">
         <i class="fa fa-info-circle"></i> 
         <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
