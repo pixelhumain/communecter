@@ -164,7 +164,7 @@ function bindEventFormSig(){
 		$('[name="newElement_dep"]').val("");
 		$('[name="newElement_region"]').val("");
 		NE_insee = ""; NE_lat =  ""; NE_lng =""; NE_city = ""; NE_cp = "";
-		backToForm($('[name="update"]').val());
+		backToForm($('[name="update"]').val(), true);
 	});
 
 	/* TODO TIB */
@@ -351,7 +351,7 @@ function searchAdressNewElement(){
 	);
 }
 
-function backToForm(update){
+function backToForm(update, cancel){
 	console.log("backToForm", typeof update, update);
 	if(typeof update == "undefined" || update == "false"){
 		copyMapForm2Dynform();
@@ -359,7 +359,8 @@ function backToForm(update){
 		showMap(false);
 		$('#ajax-modal').modal("show");
 	}else{
-		updateLocalityElement();
+		if(typeof cancel == "undefined" || cancel == false)
+			updateLocalityElement();
 		showMap(false);
 	}
 	
