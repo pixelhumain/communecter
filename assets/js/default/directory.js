@@ -72,6 +72,7 @@ function addSearchType(type){
   if(type == "organizations") { $(".subtitle-search").html('<span class="text-green homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-group"></i> Liste des organisations</span>') }
   if(type == "events") { $(".subtitle-search").html('<span class="text-orange homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-calendar"></i> Liste des événements</span>') }
   if(type == "projects") { $(".subtitle-search").html('<span class="text-purple homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-lightbulb-o"></i> Liste des projets</span>') }
+  if(type == "cities") { $(".subtitle-search").html('<span class="text-red homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-university"></i> Liste des communes</span>') }
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
