@@ -33,11 +33,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);*/
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-$cssAnsScriptFilesModule = array(
-	'/js/dataHelpers.js',
-	'/js/postalCode.js'
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+//$cssAnsScriptFilesModule = array(
+//	'/js/dataHelpers.js',
+//	'/js/postalCode.js'
+//);
+//HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -652,7 +652,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	console.log("emptyAddress", emptyAddress);
 	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
-	var types = <?php echo json_encode($elementTypes) ?>;
+	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
@@ -669,16 +669,15 @@ console.log(types);
 	
 
 	jQuery(document).ready(function() {
-		console.log("here");
+		activateEditableContext();
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		setTitle( "<?php echo addslashes($element["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
 
 		bindAboutPodElement();
-		activateEditableContext();
-		manageAllDayElement(allDay);
 
+		manageAllDayElement(allDay);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
 		});
@@ -845,13 +844,13 @@ console.log(types);
 
 	function manageModeContextElement() {
 		console.log("-----------------manageModeContextElement----------------------", mode);
-		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
+		listXeditablesContext = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
@@ -859,7 +858,7 @@ console.log(types);
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextId);
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesContext, function(i,value) {
 				//add primary key to the x-editable field
 				$(value).editable('option', 'pk', contextId);
 				$(value).editable('toggleDisabled');
@@ -870,16 +869,16 @@ console.log(types);
 
 	function manageDivEditElement() {
 		console.log("-----------------manageDivEditElement----------------------", mode);
-		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
+		listXeditablesDiv = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
-			listXeditables.push('#divInformation');
+			listXeditablesDiv.push('#divInformation');
 		divInformation
 		if (mode == "view") {
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesDiv, function(i,value) {
 				$(value).hide();
 			});
 		} else if (mode == "update") {
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesDiv, function(i,value) {
 				$(value).show();
 			})
 		}
@@ -916,10 +915,10 @@ console.log(types);
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o"];
 
-		listXeditables = [	'#username','#birthDate',"#email", "#mobile", "#fixe", "#fax","#url"];
+		listXeditablesId = [	'#username','#birthDate',"#email", "#mobile", "#fixe", "#fax","#url"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
-				if($(listXeditables[i]).text().length != 0){
+				if($(listXeditablesId[i]).text().length != 0){
 					//console.log(listXeditables[i], " : ", value);
 					$(value).removeClass("hidden");	
 				}
@@ -928,7 +927,7 @@ console.log(types);
 		}
 		else if (mode == "view") {
 			$.each(listIcones, function(i,value) {
-				if($(listXeditables[i]).text().length == 0)
+				if($(listXeditablesId[i]).text().length == 0)
 					$(value).addClass("hidden");
 			});
 		} else if (mode == "update") {
@@ -939,18 +938,16 @@ console.log(types);
 	}
 
 	function activateEditableContext() {
-
-		
 		$.fn.editable.defaults.mode = 'popup';
 
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
 			onblur: 'submit',
-			success: function(response, newValue) {
+			/*success: function(response, newValue) {
 				console.log(response, newValue);
 				if(! response.result) return response.msg; //msg will be shown in editable form
-    		},
+    		},*/
     		success : function(data) {
     			console.log(data);
 				if(data.result) {
@@ -1008,7 +1005,6 @@ console.log(types);
 	        },
 	        showbuttons: true
 		});
-		//$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
 
 		
 
@@ -1331,7 +1327,7 @@ console.log(types);
 	}
 
 	function returnttags() {
-		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
+		var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
 		return tags ;
 	}
 

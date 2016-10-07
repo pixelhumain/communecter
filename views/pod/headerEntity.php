@@ -554,7 +554,8 @@ else if(contextType == "<?php echo Project::COLLECTION ?>")
 	contextIcon = "circle text-purple";
 else
 	contextIcon = "circle";
-var firstView = "<?php echo @$firstView ?>";
+var firstViewTitle = "<?php echo @$firstView ?>";
+var firstView = true;
 // Views' array of element
 var mapUrl = { 	
 	"detail": 
@@ -624,18 +625,6 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
-	// Add already load for the first view
-	if(firstView.substr(0,3) == "need"){
-		mapUrl[firstView] = new Object;
-		mapUrl[firstView]["url"] = "need/detail/id/"+id+"?"; 
-		mapUrl[firstView]["hash"] = "need.detail.id."+id;
-		mapUrl[firstView]["data"] = null;
-		listElementView.push("need"+id);
-	}
-	//setTimeout(function(){
-	//mapUrl[firstView]["load"] = true;
-	//mapUrl[firstView]["html"] = $("#pad-element-container").html();
-	//}, 500);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -719,6 +708,18 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
+	if(firstView){
+		if(firstViewTitle.substr(0,3) == "need"){
+			mapUrl[firstViewTitle] = new Object;
+			mapUrl[firstViewTitle]["url"] = "need/detail/id/"+firstViewTitle.substr(4,firstViewTitle.length)+"?"; 
+			mapUrl[firstViewTitle]["hash"] = "need.detail.id."+firstViewTitle.substr(4,firstViewTitle.length);
+			mapUrl[firstViewTitle]["data"] = null;
+			listElementView.push(firstViewTitle);
+		}
+		mapUrl[firstViewTitle]["load"] = true;
+		mapUrl[firstViewTitle]["html"] = $("#pad-element-container").html();
+		firstView=false;
+	}
 	// If type is need, add "need+id" object view in mapUrl
 	if(type=="need"){
 		type=type+id;

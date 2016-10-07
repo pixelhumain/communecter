@@ -3,15 +3,7 @@ $cssAnsScriptFilesTheme = array(
 	//X-editable
 	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	//DatePicker
-	//'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	//'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	//'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-	
-	//DateTime Picker
-	//'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	//'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	//'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+
 	//DatePicker
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
 	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
@@ -362,7 +354,6 @@ if($('#breadcum').length)
 <?php } ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	console.log("baaaaaaaaaaah voila");
 	activeMenuElement("detail");
 	<?php 
 		if(empty($element["tasks"])) $element["tasks"] = array();
