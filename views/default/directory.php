@@ -135,7 +135,7 @@
 <script type="text/javascript">
 
 var searchType = [ "persons" ];
-var allSearchType = [ "persons", "organizations", "projects", "events", "vote" ];
+var allSearchType = [ "persons", "organizations", "projects", "events", "vote", "cities" ];
 
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
@@ -153,7 +153,7 @@ jQuery(document).ready(function() {
 
 
   searchType = (typeSelected == null) ? [ "persons" ] : [ typeSelected ];
-  allSearchType = [ "persons", "organizations", "projects", "events" ];
+  allSearchType = [ "persons", "organizations", "projects", "events", "events", "vote", "cities" ];
 	topMenuActivated = true;
 	hideScrollTop = true; 
   loadingData = false;
