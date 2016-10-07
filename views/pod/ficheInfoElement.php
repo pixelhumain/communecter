@@ -1,5 +1,5 @@
 <?php 
-$cssAnsScriptFilesTheme = array(
+/*$cssAnsScriptFilesTheme = array(
 //X-editable...
 '/assets/plugins/x-editable/css/bootstrap-editable.css',
 '/assets/plugins/x-editable/js/bootstrap-editable.js',
@@ -25,7 +25,7 @@ $cssAnsScriptFilesTheme = array(
 '/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);*/
 
 /*$cssAnsScriptFilesModule = array(
 
@@ -257,7 +257,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
 					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo "";?>
+						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?>
 					</a>
 				</div>
 				<?php } ?>
@@ -553,7 +553,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									echo ", ";
 								echo $tel;
 							}
-						}?>
+						} ?>
 					</a>
 					<br>
 
@@ -565,7 +565,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 									echo ", ";
 								echo $tel;
 							}
-						}?>
+						} ?>
 					</a>
 					<br>
 				<?php } ?>	
@@ -665,11 +665,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
 	
 console.log(types);
-	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
-	//By default : view mode
-	//var images = <?php echo json_encode($images) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
-	//var publics = <?php echo json_encode($publics) ?>;
 
 	
 
@@ -762,7 +757,7 @@ console.log(types);
 				complete: function () {},
 				success: function (obj){
 					console.log("obj", obj);
-					$("<a />", {
+					$("<a/>", {
 					    "download": "profil.json",
 					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
 					  }).appendTo("body")

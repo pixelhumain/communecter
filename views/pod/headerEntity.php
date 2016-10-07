@@ -1,25 +1,9 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
-	//X-editable
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	//DatePicker
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+
 	
-	//DateTime Picker
-	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	//Wysihtml5
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js',
-	
-	'/assets/plugins/moment/min/moment.min.js',
+		
+
 	'/assets/plugins/Chart.js/Chart.min.js',
 	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	
