@@ -2272,7 +2272,9 @@ function copyMapForm2Dynform() {
 			streetAddress : $("[name='newElement_streetAddress']").val(),
 			addressLocality : $("[name='newElement_city']").val(),
 			postalCode : $("[name='newElement_cp']").val(),
-			codeInsee : $("[name='newElement_insee']").val()
+			codeInsee : $("[name='newElement_insee']").val(),
+			depName : $("[name='newElement_dep']").val(),
+			regionName : $("[name='newElement_region']").val()
 		},
 		geo : {
 			"@type" : "GeoCoordinates",
