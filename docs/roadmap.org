@@ -104,13 +104,12 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
-    [ ] connect btns 
-      [ ] dashboard
+    [X] connect btns 
+      [X] dashboard
       [X] profile page
     [ ] bugs
       [X] add to floopdrawer after save
       [ ] location > tape CP > validate , ca passe 
-      [ ] Translation : You have some form errors. Please check below.
     [X] onclick add spinner on save btn +disable
     [X] type::afterSave : connect specific post process for each elem
       [X] organization

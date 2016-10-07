@@ -147,7 +147,7 @@
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="#person.invite" class="lbh btn bg-yellow">
+						<a href="javascript:openForm('person')" class="btn bg-yellow">
 
 							<i class="fa fa-user"></i><br>
 							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
@@ -155,7 +155,7 @@
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="#organization.addorganizationform" class="lbh btn bg-green">
+						<a href="javascript:openForm('organization')" class="btn bg-green">
 
 							<i class="fa fa-group"></i><br>
 							<span class="lbl-btn-menu-name-add">
@@ -165,7 +165,7 @@
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="#project.projectsv" class="lbh btn bg-purple">
+						<a href="javascript:openForm('project')" class="btn bg-purple">
 
 							<i class="fa fa-lightbulb-o"></i><br>
 							<span class="lbl-btn-menu-name-add">
@@ -175,7 +175,7 @@
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="#event.eventsv" class="lbh btn bg-orange">
+						<a href="javascript:openForm('event')" class="btn bg-orange">
 
 							<i class="fa fa-calendar"></i><br>
 							<span class="lbl-btn-menu-name-add">
