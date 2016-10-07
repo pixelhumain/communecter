@@ -4,6 +4,15 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
 	//DatePicker
+	//'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	//'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	//'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	
+	//DateTime Picker
+	//'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	//'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	//'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	//DatePicker
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
 	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
 	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
@@ -12,17 +21,21 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
 	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
 	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	
+	//Wysihtml5
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/plugins/wysihtml5/wysihtml5.js',
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
-
-	
-	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	//'/assets/plugins/moment/min/moment.min.js',
+	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	//'/plugins/wysihtml5/wysihtml5.js',
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
+	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -317,31 +330,8 @@ if($('#breadcum').length)
 
 			<div class="col-md-8 col-xs-12 no-padding pull-left">
 				<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
-				<!-- <div class="row padding-15">
-					<hr>
-					<?php $urlCoop = "#rooms.index.type.".$type.".id.".(String) $element["_id"]; ?>
-					<a href='javascript:loadByHash("<?php echo $urlCoop; ?>")'>
-			        	<h1 class="text-azure text-left no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> 
-			        	</h1>
-			        </a>
-			    </div> -->
+				
 				<?php 
-					/*$rooms = ActionRoom::getAllRoomsByTypeId($type, (String)$element["_id"]);	
-					$this->renderPartial('../dda/index',array(    
-	   					"parent" => $element, 
-	                    "parentId" => (String)$element["_id"], 
-	                    "parentType" => $type, 
-	                    "faTitle" => "connectdevelop",
-	                    "colorTitle" => "azure",
-	                    "textTitle" => "",
-	                    "fromView" => "entity.detail",
-                    	"discussions" => @$rooms["discussions"], 
-	                    "votes" => @$rooms["votes"], 
-	                    "actions" => @$rooms["actions"], 
-	                    "history" => @$rooms["history"], 
-	                    "renderPartial" => true
-	                    ));*/
 
 					$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 					$this->renderPartial('../pod/activityList2',array(    
@@ -356,12 +346,6 @@ if($('#breadcum').length)
 				}
 				?>
 				<?php if($type==Project::COLLECTION){ ?> 
-					<!-- <div class="row padding-15">
-						<hr>
-						<h1 class="text-azure pull-left homestead no-margin">
-			        		<i class='fa fa-angle-down'></i> <i class='fa fa-thumb-tack'></i> Gestion des tâches
-			        	</h1>        
-				    </div> -->
 				    <hr>
 				    <div class="timesheetphp"></div>
 				<?php } ?>
@@ -381,6 +365,7 @@ if($('#breadcum').length)
 <?php } ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	console.log("baaaaaaaaaaah voila");
 	activeMenuElement("detail");
 	<?php 
 		if(empty($element["tasks"])) $element["tasks"] = array();

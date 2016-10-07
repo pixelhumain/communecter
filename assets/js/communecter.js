@@ -1928,14 +1928,7 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	 
 			            }
 		            },
-		            /*"image" : {
-		                  "inputType" : "image",
-		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
-		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
-		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
-		            },*/
-		            tags :{
+					tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
 		                "values" : tagsList,
@@ -2045,14 +2038,7 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	 
 			            }
 		            },
-		            /*"image" : {
-		                  "inputType" : "image",
-		                  "contextType": "<?php echo (isset($parentType)) ? $parentType : '' ?>",
-		                  "contextId": "<?php echo (isset($parentId)) ? $parentId : '' ?>",
-		                  //"placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                  "value" : <?php echo (isset($survey) && isset($survey['pathImage'])) ? json_encode($survey['pathImage']) : '""' ?>
-		            },*/
-		            tags :{
+		         	tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
 		                "values" : tagsList,
