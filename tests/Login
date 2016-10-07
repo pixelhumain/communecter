@@ -38,6 +38,11 @@
 </tr>
 <tr>
 	<td>runScript</td>
+	<td>console.clean()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
 	<td>console.warn('TEST userId : ',userId)</td>
 	<td></td>
 </tr>

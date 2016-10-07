@@ -1866,10 +1866,6 @@ var typeObj = {
 		              "inputType" : "hidden",
 		              "value" : ""
 		            },
-		            type :{
-		              "inputType" : "hidden",
-		              "value" : "<?php echo Survey::TYPE_ENTRY?>"
-		            },
 		            survey :{
 		            	inputType : "select",
 		            	placeholder : "Choisir une thématique ?",
@@ -1955,7 +1951,7 @@ var typeObj = {
 		            	inputType : "hidden",
 		            	value : "currentUser"
 		            },
-		            "type" : {
+		            type : {
 		            	inputType : "hidden",
 		            	value : "entry"
 		            },
@@ -2583,7 +2579,7 @@ function checkKeycode(e) {
 	var keycode;
 	if (window.event) {keycode = window.event.keyCode;e=event;}
 	else if (e){ keycode = e.which;}
-	console.log("keycode: ",keycode);
+	//console.log("keycode: ",keycode);
 	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
 		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
 		keyMapCombo[keycode]();
