@@ -19,6 +19,7 @@ var formType = "";
 function showMarkerNewElement(update){ console.log("showMarkerNewElement");
 
 	Sig.clearMap();
+	//$("#newElement_btnValidateAddress").prop('disabled', true);
 	if(typeof Sig.myMarker != "undefined") 
 		Sig.map.removeLayer(Sig.myMarker);
 
@@ -54,6 +55,7 @@ function showMarkerNewElement(update){ console.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
+		$("#newElement_btnValidateAddress").prop('disabled', false);
 		$('[name="update"]').val("true");
 	}
 
@@ -95,6 +97,7 @@ function bindEventFormSig(){
 		$("#dropdown-cp-found").show();
 		if($('[name="newElement_cp"]').val()!=""){
 			NE_cp = $('[name="newElement_cp"]').val();
+			changeSelectCountrytim();
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
 		}
@@ -160,9 +163,8 @@ function bindEventFormSig(){
 		$('[name="newElement_cp"]').val("");
 		$('[name="newElement_dep"]').val("");
 		$('[name="newElement_region"]').val("");
-		$('[name="update"]').val("false");
 		NE_insee = ""; NE_lat =  ""; NE_lng =""; NE_city = ""; NE_cp = "";
-		backToForm();
+		backToForm($('[name="update"]').val());
 	});
 
 	/* TODO TIB */
@@ -275,6 +277,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 						"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
 						"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
 						);
+				$("#newElement_btnValidateAddress").prop('disabled', false);
     		});
     		
     		
@@ -442,3 +445,29 @@ function changeCountryForNominatim(country){
 	return country ;
 	
 }
+
+function changeSelectCountrytim(){
+	console.log("NE_cp.substring(0, 3)",NE_cp.substring(0, 3));
+	countryFR = ["FR","GP","MQ","GF","RE","PM","YT"];
+
+	if(countryFR.indexOf($('[name="newElement_country"]').val()) != -1){
+		if(NE_cp.substring(0, 3) == "971")
+			$('[name="newElement_country"]').val("GP");
+		else if(NE_cp.substring(0, 3) == "972")
+			$('[name="newElement_country"]').val("MQ");
+		else if(NE_cp.substring(0, 3) == "973")
+			$('[name="newElement_country"]').val("GF");
+		else if(NE_cp.substring(0, 3) == "974")
+			$('[name="newElement_country"]').val("RE");
+		else if(NE_cp.substring(0, 3) == "975")
+			$('[name="newElement_country"]').val("PM");
+		else if(NE_cp.substring(0, 3) == "976")
+			$('[name="newElement_country"]').val("YT");
+		else
+			$('[name="newElement_country"]').val("FR");
+	}
+	
+}
+
+
+

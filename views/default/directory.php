@@ -1,109 +1,14 @@
 <?php 
   $cssAnsScriptFilesModule = array(
-    //'/css/default/directory.css',
+    '/css/default/directory.css',
     '/js/default/directory.js',
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
-<style>
-	.btn-add-to-directory{
-		font-size: 14px;
-		margin-right: 0px;
-		border-radius: 6px;
-		color: #666;
-		border: 1px solid rgba(188, 185, 185, 0.69);
-		margin-left: 3px;
-		float: left;
-		padding: 1px;
-		width: 24px;
-		margin-top: 15px;
-	}
-  .img-logo {
-    height: 290px;
-  }
-  .btn-filter-type{
-    height:35px;
-    border-bottom: 3px solid transparent;
-  }
-  .btn-filter-type.active{
-    height:35px;
-    border-bottom: 3px solid #383f4e;
-  }
-  .btn-filter-type:hover{
-    height:35px;
-    border-bottom: 3px solid #383f4e;
-  }
-  .btn-scope{
-    display: inline;
-  }
-  .lbl-scope-list {
-    top: 255px;
-  }
-  .btn-tag{
-    font-weight:300;
-    padding-left: 0px;
-  }
-  .btn-tag.bold{
-    font-weight:600;
-  }
-  .container-result-search{
-   /* moz-box-shadow: 0px 2px 4px -3px #656565;
-    -webkit-box-shadow: 0px 2px 4px -3px #656565;
-    -o-box-shadow: 0px 2px 4px -3px #656565;
-    box-shadow: 0px -1px 4px -3px rgb(101, 101, 101);
-    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);*/
-    margin-top: 10px;
-    right:0px;
-    left:0px;
-
-  }
-  .search-loader{
-    padding:20px !important;
-    margin-left:0px;
-    float:left;
-  }
-
-  #dropdown_search{
-    /*margin-left:-15px !important;*/
-   /* margin-left: -2% !important;
-    width: 103%;*/
-  }
-
-  
-  .searchEntity{
-    padding: 10px 0 10px 0 !important;
-    margin: 0px !important;
-    border-top: solid rgba(128, 128, 128, 0.2) 1px;
-    margin-left: 0% !important;
-    width: 100%;
-  }
-  .searchEntity:hover{
-    background-color: rgba(211, 211, 211, 0.2);
-  }
-
-  @media screen and (max-width: 1024px) {
-    #menu-directory-type .hidden-sm{
-     display:none;
-    }
-  }
-
-@media screen and (max-width: 767px) {
-  .searchEntity{
-        /*margin-left: 25px !important;*/
-  }
-  #searchBarText{
-    font-size:13px !important;
-    margin-right:-30px;
-  }
-  /*.btn-add-to-directory {
-      position: absolute;
-      right: 0px;
-      z-index:9px !important;
-  }*/
-}
-
-</style>
+  <style>
+  	
+  </style>
   
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding hidden" id="list_filters">
 
@@ -162,7 +67,11 @@
       <h2 class="text-left pull-left" style="margin-left:10px; margin-top:15px; width:90%;">
         <span class="subtitle-search text-<?php echo $spec["text-color"]; ?> homestead">
           <i class="fa fa-angle-down"></i> 
-          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo Yii::t("common",$_GET['type']); ?>
+          <?php 
+            $typeName = Yii::t("common",$_GET['type']); 
+            if($_GET['type'] == "vote") $typeName = "débats";
+          ?>
+          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
         </span>
       </h2>
      <?php } ?>
@@ -197,8 +106,6 @@
     </button>
   </div>
 
- 
-
     
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
 
@@ -209,6 +116,14 @@
   
  
   <div class="container-result-search">
+    <?php  if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
+      <div class="col-md-12 padding-10">
+        <i class="fa fa-info-circle"></i> 
+        <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
+        (issus de vos <span class="text-green"><b>organisations</b></span>, 
+        vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
+      </div>
+    <?php } ?>
     <div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
