@@ -1,9 +1,6 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
-
-	
 		
-
 	'/assets/plugins/Chart.js/Chart.min.js',
 	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	

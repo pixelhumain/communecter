@@ -28,10 +28,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-	//'/assets/plugins/moment/min/moment.min.js',
-	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	//'/plugins/wysihtml5/wysihtml5.js',
+	//SELECT2
 	'/assets/plugins/select2/select2.css',
 	'/assets/plugins/select2/select2.min.js',
 	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
