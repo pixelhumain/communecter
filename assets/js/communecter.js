@@ -1242,7 +1242,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
                 $('#ajax-modal').modal("hide");
                 if(data.url)
                 	loadByHash( data.url );
-                else 
+                else if(data.id)
 	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
 	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
 	        		addFloopEntity(data.id, collection, data.map);
@@ -1258,7 +1258,13 @@ function openForm (type, afterLoad ) {
     centerLocation = null;
     formType = type;
     specs = typeObj[type];
-	if( specs.dynForm )
+    if(specs.lbh){
+    	loadByHash(specs.lbh);
+    }
+	else if( specs.form && specs.form.url ) {
+		//charge le resultat d'une requete en Ajax
+		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
+	} else if( specs.dynForm )
 	{
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
@@ -1274,10 +1280,7 @@ function openForm (type, afterLoad ) {
 	  	$('#ajax-modal').modal("show");
 	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
 	  	buildDynForm(specs, afterLoad);
-	} else if( specs.form.url ) {
-		//charge le resultat d'une requete en Ajax
-		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
-	}else 
+	} else 
 		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
 }
 
@@ -1329,6 +1332,7 @@ var typeObj = {
 		ctrl : "person",
 		titleClass : "bg-yellow",
 		bgClass : "bgPerson",
+		lbh : "#person.invite",
 		dynForm : {
 		    jsonSchema : {
 			    title : "Inviter quelqu'un",
@@ -1339,18 +1343,42 @@ var typeObj = {
 		                "inputType" : "custom",
 		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
-			        name : {
+		            inviteSearch : {
+		            	placeholder : " Nom ou Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
+						    var search = $('#inviteSearch').val();
+						    if(search.length>2){
+						    	clearTimeout(timeout);
+								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+							 }else{
+							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
+							 }	
+						});
+			            }
+		            },
+			        invitedUserName : {
 			        	placeholder : "Nom",
 			            "inputType" : "text",
 			            "rules" : {
 			                "required" : true
+			            },
+			            init : function(){
+			            	$(".invitedUserNametext").css("display","none");	
 			            }
 			        },
-			        email : {
+			        invitedUserEmail : {
 			        	placeholder : "Email",
 			            "inputType" : "text",
 			            "rules" : {
 			                "required" : true
+			            },
+			            init:function(){
+			            	$(".invitedUserEmailtext").css("display","none");	 
 			            }
 			        },
 			        "preferences[publicFields]" : {
@@ -1367,7 +1395,8 @@ var typeObj = {
 		            },
 			    }
 			}
-		}},
+		}
+	},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person"},
@@ -1413,7 +1442,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html": "<a class='btn btn-xs btn-azure text-dark w100p' href='javascript:$(\".urlsarray,.tagstags\").slideToggle()'>+ options</a>",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray,.tagstags\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
@@ -1495,7 +1524,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-xs btn-azure text-dark w100p' href='javascript:$(\".emailtext,.tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1695,7 +1724,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 			        tags :{
 		              "inputType" : "tags",
@@ -1791,7 +1820,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'>+ options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 			        tags :{
 		              "inputType" : "tags",
@@ -1918,7 +1947,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'>+ options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2028,7 +2057,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-xs btn-azure  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'>+ options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2576,6 +2605,52 @@ function checkKeycode(e) {
 	}
 }
 
+function autoCompleteInviteSearch(search){
+	if (search.length < 3) { return }
+	tabObject = [];
+
+	var data = { 
+		"search" : search,
+		"searchMode" : "personOnly"
+	};
+	
+	
+	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
+		function (data){
+			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
+			var compt = 0;
+			var city, postalCode = "";
+			$.each(data["citoyens"], function(k, v) { 
+				city = "";
+				console.log(v);
+				postalCode = "";
+				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
+				if(v.id != userId) {
+					tabObject.push(v);
+	 				if(v.profilImageUrl != ""){
+	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
+	 				}
+	 				if (v.address != null) {
+	 					city = v.address.addressLocality;
+	 					postalCode = v.address.postalCode;
+	 				}
+	  				str += 	"<li class='li-dropdown-scope'>" +
+	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+
+	  				if(typeof postalCode != "undefined")
+	  					str += "<br/>"+postalCode+" "+city;
+	  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+	  				str += "</a></li>";
+
+	  				compt++;
+  				}
+			});
+			
+			$("#newInvite #dropdown_searchInvite").html(str);
+			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
+		}
+	);	
+}
 /*
 elementJson = {
     //reuired

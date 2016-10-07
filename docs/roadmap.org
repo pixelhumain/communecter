@@ -89,6 +89,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] no message on debat
 
   [ ] finish fromNow method
+  [ ] HTML5 notifications
   [ ] SEO finir 
     http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
     http://phantomjs.org/
@@ -117,7 +118,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] event
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
-    [ ] multiple medias , $.each
+    
     [X] refactor : move from ACtion to model Element
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
@@ -141,6 +142,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] add photo  
       [ ] add to news
       [ ] add text : getUrl
+        [ ] multiple medias , $.each
       [X] unknown attribute passes the the save 
     [ ] debat 
       [ ] ouvrir une proposition sur un element orga ou projet
