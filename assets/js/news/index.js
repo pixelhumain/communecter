@@ -1029,6 +1029,10 @@ function showAllNews(){
 function initFormImages(){
 	$("#photoAddNews").on('submit',(function(e) {
 		e.preventDefault();
+		if(contextParentType=="city"){
+			contextParentType = "citoyens";
+			contextParentId = idSession;
+		}
 		$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextParentType+"/ownerId/"+contextParentId+"/input/newsImage",
 			type: "POST",
