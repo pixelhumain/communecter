@@ -21,8 +21,8 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/select2/select2.min.js',
 
 	
-	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);

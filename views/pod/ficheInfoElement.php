@@ -1,5 +1,32 @@
 <?php 
-	
+$cssAnsScriptFilesTheme = array(
+//X-editable...
+'/assets/plugins/x-editable/css/bootstrap-editable.css',
+'/assets/plugins/x-editable/js/bootstrap-editable.js',
+
+//DatePicker
+'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+
+//DateTime Picker
+'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+
+//Wysihtml5
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/assets/plugins/wysihtml5/wysihtml5.js',
+
+'/assets/plugins/moment/min/moment.min.js' , 
+'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
 /*$cssAnsScriptFilesModule = array(
 
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
@@ -424,9 +451,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						$address = ( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"] : "";
 						$address2 = ( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "";
 						$address2 .= ( @$element["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
-						/*if(isset(OpenData::$phCountries[ $element["address"]["addressCountry"] ]))
-						$address2 .= (@$element["address"]["addressCountry"] && @OpenData::$phCountries[ $element["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
-						*/
+						
 
 						$tel = "";
 						if( @$element["telephone"]["fixe"]){
@@ -440,12 +465,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}
 
-						/*$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
-																"name" => @$element['name'],
-																"address" => $address,
-																"address2" => $address2,
-																"email" => @$element['email'],
-																"img"=>@$element['profilThumbImageUrl']));*/
 
 						$this->renderPartial('../pod/qrcode',array(
 																"type" => @$element['type'],
@@ -645,7 +664,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
 	
-
+console.log(types);
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php echo json_encode($images) ?>;
@@ -805,7 +824,6 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
-		//if(<?php echo isset($element["birthDate"]) 					? "true" : "false"; ?>){ $(".fa_birthDate").removeClass("hidden"); }
 
 
 	}
