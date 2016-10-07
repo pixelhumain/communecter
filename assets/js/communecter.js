@@ -1254,6 +1254,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 function openForm (type, afterLoad ) { 
     console.warn("--------------- Open Form "+type+" ---------------------");
     elementLocation = null;
+    elementLocations = [];
+    centerLocation = null;
     formType = type;
     specs = typeObj[type];
 	if( specs.dynForm )
