@@ -120,7 +120,8 @@
       <div class="col-md-12 padding-10">
         <i class="fa fa-info-circle"></i> 
         <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
-        (issus de vos organisations, vos projets ou votre conseil citoyen)
+        (issus de vos <span class="text-green"><b>organisations</b></span>, 
+        vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
       </div>
     <?php } ?>
     <div style="" class="row no-padding" id="dropdown_search"></div>
