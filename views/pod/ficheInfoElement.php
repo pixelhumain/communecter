@@ -312,9 +312,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
 					<?php 
 						if(isset($element["tags"])){
+							$stringTags = "" ;
 							foreach ($element["tags"] as $tag) {
-							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								if($stringTags != "")
+									$stringTags .= ", ";
+								$stringTags .= $tag ;
 							}
+							echo $stringTags;
 						} 
 					?>
 				</a>
@@ -644,12 +648,12 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
-	
+	var tags = <?php echo json_encode($tags)?>;
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php echo json_encode($images) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
+	
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	
@@ -997,7 +1001,17 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 		});
 		//$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
 
-		
+		/*$('#tags').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
+	        select2: {
+	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+	            tokenSeparators: [","],
+	            width: 200,
+	            dropdownCssClass: 'select2-hidden'
+	        }
+	    });*/
 
 		//Select2 tags
 		$('#tags').editable({
@@ -1007,7 +1021,8 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 		 	select2: {
 		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 		 		tokenSeparators: [","],
-		 		width: 200
+		 		width: 200,
+		 		dropdownCssClass: 'select2-hidden'
 		 	},
 		 	success : function(data) {
 		 		console.log("TAGS", data);
@@ -1318,6 +1333,7 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	}
 
 	function returnttags() {
+		console.log("------------- returnttags -------------------");
 		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
 		return tags ;
 	}
