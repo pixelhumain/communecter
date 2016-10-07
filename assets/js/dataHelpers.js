@@ -67,7 +67,7 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 		global: false,
 		async: false,
 		dataType: 'json',
-		success: function(data) { console.dir(data);
+		success: function(data) { //console.dir(data);
 			result.push(data);
 		}
 	});
@@ -172,7 +172,7 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		date = new Date(date);
 		date = dateSecToString(date);
 	}*/
-	console.log(date);
+	//console.log(date);
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
 		//console.log("convert format date", date);

@@ -309,24 +309,27 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
                           var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
                           str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
+                        
+
                         }
                       }else{
                         str += thisLocality;
                       }
 
 
-
-
                       if(startDate != null)
   	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
   	                	if(endDate != null)
   	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-  	                	//if(description != "")
-  	                	str += "<div class='entityDescription'>" + description + "</div>";
-  	                //str += "</div>";
+  	                	
+                      if(notEmpty(o.parentRoom)){
+                        str += "<div class='col-md-12'>";
+                          if(notEmpty(o.voteUpCount)) str += "<i class='fa fa-thumbs-up'></i>" + o.voteUpCount;
+                        str += "</div>";
+                      }
 
-                    //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
-                      
+                      str += "<div class='entityDescription'>" + description + "</div>";
+  	               
                       str += tags;
               
                     str += "</div>";
@@ -441,7 +444,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
   }
 
-  
+
   function initBtnLink(){
     $('.tooltips').tooltip();
   	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
