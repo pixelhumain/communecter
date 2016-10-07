@@ -1180,7 +1180,11 @@ function formatData(formData, collection,ctrl) {
 			});
 		}
 	}
-	formData.media = [];
+	formData.urls = [];
+	$(".addmultifield").each(function(i,v){
+		formData.urls.push($(v).val());	
+	});
+	formData.medias = [];
 	$(".resultGetUrl").each(function(){
 		if($(this).html() != ""){
 			mediaObject=new Object;	
@@ -1207,7 +1211,7 @@ function formatData(formData, collection,ctrl) {
 					mediaObject.images.push($(this).val());	
 				});
 			}
-			formData.media.push(mediaObject);
+			formData.medias.push(mediaObject);
 		}
 	});
 	
@@ -1440,19 +1444,6 @@ var typeObj = {
 		            location : {
 		                inputType : "location"
 		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray,.tagstags\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
-		            },
-		            urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield", ".resultGetUrl");
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },
 		            tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags ou Types de point d'interet",
@@ -1461,6 +1452,20 @@ var typeObj = {
 			            	$(".tagstags").css("display","none");	 
 			            }
 		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            
 		            parentId :{
 		            	"inputType" : "hidden"
 		            },
@@ -1521,10 +1526,18 @@ var typeObj = {
 		            location : {
 		                inputType : "location"
 		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList,
+		              init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1533,14 +1546,7 @@ var typeObj = {
 			            	$(".emailtext").css("display","none");
 			            }
 			        },
-			        tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList,
-		              init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
-		            },
+			        
 			        description : {
 		                "inputType" : "wysiwyg",
 	            		"placeholder" : "Décrire c'est partager",
@@ -1722,11 +1728,7 @@ var typeObj = {
 		            location : {
 		                inputType : "location"
 		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
-		            },
-			        tags :{
+		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
 		              "values" : tagsList,
@@ -1734,6 +1736,11 @@ var typeObj = {
 			            	$(".tagstags").css("display","none");	 
 			            }
 		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		            },
+			        
 			        description : {
 		                "inputType" : "wysiwyg",
 	            		"placeholder" : "Décrire c'est partager",
@@ -1818,17 +1825,17 @@ var typeObj = {
 		            location : {
 		                inputType : "location"
 		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
-		            },
-			        tags :{
+		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
 		              "values" : tagsList,
 		              init:function(){
 			            	$(".tagstags").css("display","none");	 
 			            }
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -1945,9 +1952,17 @@ var typeObj = {
 		              "placeholder" : "Fin de la période de vote",
 		              "rules" : { "required" : true }
 		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList,
+		                init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -1955,14 +1970,6 @@ var typeObj = {
 		                "value" : [],
 		                init:function(){
 			            	$(".urlsarray").css("display","none");	 
-			            }
-		            },
-					tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList,
-		                init:function(){
-			            	$(".tagstags").css("display","none");	 
 			            }
 		            },
 		            email:{
@@ -2055,9 +2062,18 @@ var typeObj = {
 		              "inputType" : "date",
 		              "placeholder" : "Date de fin"
 		            },
+
+		         	tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList,
+		                init:function(){
+			            	$(".tagstags").css("display","none");	 
+			            }
+		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".tagstags,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2065,14 +2081,6 @@ var typeObj = {
 		                "value" : [],
 		                init:function(){
 			            	$(".urlsarray").css("display","none");	 
-			            }
-		            },
-		         	tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList,
-		                init:function(){
-			            	$(".tagstags").css("display","none");	 
 			            }
 		            },
 		            email:{
@@ -2418,6 +2426,7 @@ function getMediaFromUrlContent(className, appendClassName){
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
                 lastUrl=extracted_url;
+                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
                 $.ajax({
 					url: baseUrl+'/'+moduleId+"/news/extractprocess",
 					data: {
@@ -2489,7 +2498,7 @@ function getMediaCommonHtml(data,action,id){
 		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
-        inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo;
+        inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo;
         if(data.content.type=="img_link"){
 	        if(typeof(data.content.imageId) != "undefined"){
 		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+id+"' value='"+data.content.imageId+"'/>";
@@ -2515,7 +2524,7 @@ function getMediaCommonHtml(data,action,id){
                 selectThumb="";
                 countThumbail="";
             }
-            inc_image = '<div class="'+extractClass+'" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+            inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
       		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";      
         }else{
             inc_image ='';
@@ -2533,7 +2542,7 @@ function getMediaCommonHtml(data,action,id){
 	else
 		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content col-xs-8 padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
@@ -2543,7 +2552,7 @@ function getMediaCommonHtml(data,action,id){
 	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
 	    
-    content = '<div class="extracted_url">'+ inc_image +contentMedia+'</div>'+inputToSave;
+    content = '<div class="extracted_url padding-10">'+ inc_image +contentMedia+'</div>'+inputToSave;
     return content;
 }
 
