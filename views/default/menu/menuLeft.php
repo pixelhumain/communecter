@@ -80,7 +80,7 @@
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		
 		<?php // AROUND ME // ?>
-		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-around-me"
+		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
 				class="lbh menu-button-left
 				<?php echo ($page == 'aroundMe') ? 'selected':'';?>">
 				<i class="fa fa-crosshairs tooltips"

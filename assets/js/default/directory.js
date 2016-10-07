@@ -441,7 +441,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     
   }
 
-
+  
   function initBtnLink(){
     $('.tooltips').tooltip();
   	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire

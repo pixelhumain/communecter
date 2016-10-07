@@ -189,7 +189,7 @@
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
-				showMe = false;
+				//showMe = false;
 				if(showMe)
 				this.showMyPosition();
 
