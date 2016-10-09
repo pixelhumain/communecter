@@ -25,7 +25,7 @@
 			else{
 				foreach ($pois as $p) { 
 				?>
-					<div style="border-bottom:1px solid #ccc">
+					<div style="border-bottom:1px solid #ccc" id="<?php echo "poi".(string)$p["_id"] ?>">
 						<?php 
 						
 						echo '<a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a>';
@@ -64,7 +64,12 @@
 							foreach ($p["tags"] as $t) {  ?>
 								<a href="<?php echo $t?>" class="label label-inverse"><?php echo $t?></a> 
 							<?php } } ?>
-							<div class="space1"></div>
+							<div class="space5"></div>
+							<?php if(@$p["creator"] == Yii::app()->session["userId"] ){?>
+								<a href="javascript:;" class="text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-trash"></i></a> 
+								<a href="javascript:;" class="editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-pencil-square-o"></i></a>
+								<div class="space1"></div>
+							<?php }?>
 						</div>
 
 					</div>
@@ -74,3 +79,41 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+		
+		$(".deleteThisBtn").off().on("click",function () 
+		{
+			console.log("deleteThisBtn click");
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var type = $(this).data("type");
+	        var urlToSend = baseUrl+"/"+moduleId+"/element/delete/type/"+type+"/id/"+id;
+	        
+	        bootbox.confirm("confirm please !!",
+        	function(result) 
+        	{
+				if (!result) {
+					btnClick.empty().html('<i class="fa fa-trash"></i>');
+					return;
+				} else {
+					$.ajax({
+				        type: "POST",
+				        url: urlToSend,
+				        dataType : "json"
+				    })
+				    .done(function (data) {
+				        if ( data && data.result ) {
+				        	toastr.info("lément effacé");
+				        	$("#"+type+id).remove();
+				        	//window.location.href = "";
+				        } else {
+				           toastr.error("something went wrong!! please try again.");
+				        }
+				    });
+				}
+			});
+
+		});
+	</script>

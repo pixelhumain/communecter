@@ -1462,7 +1462,9 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
-		            
+		            _id :{
+		            	"inputType" : "hidden"
+		            },
 		            parentId :{
 		            	"inputType" : "hidden"
 		            },
@@ -2574,6 +2576,8 @@ var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18
 
 var keyMap = {
 	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId) else alert("login first") },//f2
+	"114" : function(){ alert("load ma commune") },//f3
 	"115" : function(){ console.clear();loadByHash(location.hash) },//f4
 };
 var keyMapCombo = {
