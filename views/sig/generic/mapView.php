@@ -136,7 +136,7 @@
 			<div class="btn-group btn-group-lg tooltips"
 				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
 				<button type="button" class="btn btn-map " id="btn-back" >
-				<i class="fa fa-times"></i></button>
+				<i class="fa fa-chevron-up"></i></button>
 			</div>
 
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
@@ -172,6 +172,8 @@
 		  <button class="btn btn-map" data-km="10000">10 km</button>
 		  <button class="btn btn-map" data-km="25000">25 km</button>
 		  <button class="btn btn-map" data-km="50000">50 km</button>
+		  <button class="btn btn-map" id="loader-aroundme"></button>
+
 		</div> 
 
 		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>

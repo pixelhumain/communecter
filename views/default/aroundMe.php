@@ -27,6 +27,10 @@
     margin:0 -15px 0 -15px;
   }
 
+  .btn-groupe-around-me-km {
+    display: block;
+  }
+
 </style>
 
 
@@ -57,9 +61,7 @@
     <h3 class="text-dark">
       <b>
         <i class="fa fa-angle-down"></i> 
-        <span id="nbResAroundMe">
-        
-        </span>
+        <span id="nbResAroundMe"></span>
       </b>
     </h3>
   </div>
@@ -87,8 +89,8 @@ jQuery(document).ready(function() {
 			 "Autour de moi");
 
 	//showMap(true);
-	if(notEmpty(elementsMap)) showGridResult(elementsMap);
-  initBtnLink();
+	if(notEmpty(elementsMap)) 
+      showGridResult(elementsMap);
 
   $("#stepSearch").change(function(){
     radiusElement = $(this).val();
@@ -101,6 +103,7 @@ jQuery(document).ready(function() {
 
   $(".btn-groupe-around-me-km .btn-map").off().click(function(){
     var km = $(this).data("km");
+    if(km>0)
     refreshAroundMe(km);
   });
 	//console.dir(elementsMap);
@@ -243,25 +246,24 @@ function showGridResult(data){
       str += "</div>";
   }); //end each
 
+  initBtnLink();
   $("#grid_around").html(str);
   refreshUIAroundMe(data, nbRes);	
 }
 
 
 function refreshUIAroundMe(elementsMap, nbRes){
-  //Sig.showMyPosition();
+  
   var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
   
   Sig.showMapElements(Sig.map, elementsMap);
 
   setTimeout(function(){
     Sig.showCircle(myLatlng, radiusElement);
-    console.log("bounds circle", Sig.circleAroundMe.getBounds());
     Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
-    Sig.map.panBy([100, 0]);
+    setTimeout(function(){ Sig.map.panBy([100, 0]); }, 500);
   }, 500);
  
-
   if(nbRes==0){
     $(".info-results").addClass("hidden");
     $(".info-no-result").removeClass("hidden");
@@ -278,6 +280,15 @@ function refreshUIAroundMe(elementsMap, nbRes){
 
 function refreshAroundMe(radius){
   $("#grid_around").html("<h4><i class='fa fa-refresh fa-spin' style='margin-left:15px;'></i> Nouvelle recherche en cours</h4>");
+  $("#loader-aroundme").html("<i class='fa fa-refresh fa-spin'></i>");
+  
+  $(".btn-groupe-around-me-km .btn-map").removeClass("active");
+  $(".btn-groupe-around-me-km .btn-map[data-km='"+radius+"']").addClass("active");
+
+  showMapLegende("refresh fa-spin", 
+                 "Chargement en cours ...<br><small>Le chargement peut prendre plusieurs secondes<br>merci de patienter...</small>");
+  Sig.clearMap();
+
   var url = "/element/aroundme/type/"+typeElement+"/id/"+idElement+"/radius/"+radius+"/manual/true/json/true";
   $.ajax({
     type: "POST",
@@ -285,8 +296,12 @@ function refreshAroundMe(radius){
     dataType: "json",
     success: function(data) {
       if (data.result) {
-        showGridResult(data.all);
         radiusElement = data.radius;
+        //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        showGridResult(data.all);
+        $("#loader-aroundme").html("");
+        showMapLegende("", "");
+        hideMapLegende();
       } else {
         toastr.error(data.msg);
       }
