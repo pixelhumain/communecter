@@ -167,11 +167,11 @@
 		</div>
 
 		<div class="btn-group-vertical btn-groupe-around-me-km" role="group" aria-label="...">
-		  <button class="btn btn-map">2 km</button>
-		  <button class="btn btn-map">5 km</button>
-		  <button class="btn btn-map">10 km</button>
-		  <button class="btn btn-map">25 km</button>
-		  <button class="btn btn-map">50 km</button>
+		  <button class="btn btn-map" data-km="2000">2 km</button>
+		  <button class="btn btn-map" data-km="5000">5 km</button>
+		  <button class="btn btn-map" data-km="10000">10 km</button>
+		  <button class="btn btn-map" data-km="25000">25 km</button>
+		  <button class="btn btn-map" data-km="50000">50 km</button>
 		</div> 
 
 		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>

@@ -43,6 +43,8 @@
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
 
+			this.Sig.circleAroundMe = null;
+
 			//##
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
@@ -386,6 +388,21 @@
 										smoothFactor:0.5}).addTo(this.map);
 
 				this.polygonsCollection.push(poly);
+			};
+
+			this.Sig.showCircle = function(center, radius, options)
+			{
+				console.log("showCircle", notEmpty(this.circleAroundMe), radius);
+				if(notEmpty(this.circleAroundMe)) this.map.removeLayer(this.circleAroundMe);
+				this.circleAroundMe = L.circle(center, radius, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.3,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+
+				
 			};
 
 			this.Sig.clearPolygon = function()
@@ -754,7 +771,8 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds() &&
+					if( notEmpty(noFitBoundAroundMe) == false &&
+					   "undefined" != typeof this.markersLayer.getBounds() &&
 					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 						thisMap.zoomOut();

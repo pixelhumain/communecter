@@ -44,20 +44,26 @@
   </button>
 </h3>
 
-<?php if(sizeOf($all)==0){ ?>
-  <h3 class="text-red">
-    <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
-    <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
-  </h3>
-  <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
-<?php }else{ ?>
-  <h3 class="text-dark">
-    <b>
-      <i class="fa fa-angle-down"></i> 
-      <?php echo sizeOf($all); ?> élément<?php echo sizeOf($all)>1?"s":""; ?> trouvé<?php echo sizeOf($all)>1?"s":""; ?>
-    </b>
-  </h3>
-<?php } ?>
+  
+  <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+    <h3 class="text-red">
+      <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
+      <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+    </h3>
+    <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+  </div>
+  
+  <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
+    <h3 class="text-dark">
+      <b>
+        <i class="fa fa-angle-down"></i> 
+        <span id="nbResAroundMe">
+        
+        </span>
+      </b>
+    </h3>
+  </div>
+</div>
 
 <div id="grid_around"></div>
 
@@ -68,9 +74,11 @@ var mapElements = new Array();
 var elementsMap = <?php echo json_encode($all) ?>;
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 
-var radius = "<?php echo $radius; ?>";
+var radiusElement = "<?php echo $radius; ?>";
 var idElement = "<?php echo $id ?>";
 var typeElement = "<?php echo $type ?>";
+
+var noFitBoundAroundMe = true;
 
 jQuery(document).ready(function() {
 	
@@ -79,18 +87,21 @@ jQuery(document).ready(function() {
 			 "Autour de moi");
 
 	//showMap(true);
-	Sig.showMyPosition();
-	Sig.showMapElements(Sig.map, elementsMap);
-  if(notEmpty(elementsMap)) showGridResult(elementsMap);
+	if(notEmpty(elementsMap)) showGridResult(elementsMap);
   initBtnLink();
 
   $("#stepSearch").change(function(){
-    radius = $(this).val();
-    loadByHash("#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radius+".manual.true");
+    radiusElement = $(this).val();
+    refreshAroundMe(radiusElement);
   });
   $("#reloadAuto").click(function(){
-    radius = $("#stepSearch").val();
-    loadByHash("#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radius);
+    radiusElement = $("#stepSearch").val();
+    refreshAroundMe(radiusElement);
+  });
+
+  $(".btn-groupe-around-me-km .btn-map").off().click(function(){
+    var km = $(this).data("km");
+    refreshAroundMe(km);
   });
 	//console.dir(elementsMap);
 });
@@ -98,7 +109,9 @@ jQuery(document).ready(function() {
 
 function showGridResult(data){
   var str = "";
+  var nbRes = 0;
 	$.each(data, function(i, o) {
+      nbRes++;
       var typeIco = i;
       var ico = mapIconTop["default"];
       var color = mapColorIconTop["default"];
@@ -226,16 +239,60 @@ function showGridResult(data){
           str += tags;
   
         str += "</div>";
-
-        
-        					
+   					
       str += "</div>";
   }); //end each
 
-	$("#grid_around").html(str);
+  $("#grid_around").html(str);
+  refreshUIAroundMe(data, nbRes);	
 }
 
 
+function refreshUIAroundMe(elementsMap, nbRes){
+  //Sig.showMyPosition();
+  var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
+  
+  Sig.showMapElements(Sig.map, elementsMap);
+
+  setTimeout(function(){
+    Sig.showCircle(myLatlng, radiusElement);
+    console.log("bounds circle", Sig.circleAroundMe.getBounds());
+    Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
+    Sig.map.panBy([100, 0]);
+  }, 500);
+ 
+
+  if(nbRes==0){
+    $(".info-results").addClass("hidden");
+    $(".info-no-result").removeClass("hidden");
+  }else{
+    $(".info-results").removeClass("hidden");
+    $(".info-no-result").addClass("hidden");
+
+    var s =  nbRes>1?"s":"";
+    nbRes = nbRes + " élément" + s + " trouvé" + s;
+    $("#nbResAroundMe").html(nbRes);
+  }
+
+}
+
+function refreshAroundMe(radius){
+  $("#grid_around").html("<h4><i class='fa fa-refresh fa-spin' style='margin-left:15px;'></i> Nouvelle recherche en cours</h4>");
+  var url = "/element/aroundme/type/"+typeElement+"/id/"+idElement+"/radius/"+radius+"/manual/true/json/true";
+  $.ajax({
+    type: "POST",
+    url: baseUrl+"/"+moduleId+url,
+    dataType: "json",
+    success: function(data) {
+      if (data.result) {
+        showGridResult(data.all);
+        radiusElement = data.radius;
+      } else {
+        toastr.error(data.msg);
+      }
+    },
+  });  
+}
 
 function initBtnLink(){
   $('.tooltips').tooltip();
