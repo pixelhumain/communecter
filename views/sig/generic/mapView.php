@@ -133,7 +133,12 @@
 
 		<div class="btn-group-map tools-btn">
 		
-			
+			<div class="btn-group btn-group-lg tooltips"
+				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
+				<button type="button" class="btn btn-map " id="btn-back" >
+				<i class="fa fa-times"></i></button>
+			</div>
+
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
 				<div class="btn-group btn-group-lg hidden-xs tooltips"
 					 data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
@@ -157,15 +162,17 @@
 					<button type="button" class="btn btn-map " id="btn-home">
 					<i class="fa fa-bullseye"></i></button>
 				</div>
-			<?php } ?>	
-			<div class="btn-group btn-group-lg tooltips"
-				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
-				<button type="button" class="btn btn-map " id="btn-back" >
-				<i class="fa fa-times"></i></button>
-			</div>
-			
+			<?php } ?>			
 			
 		</div>
+
+		<div class="btn-group-vertical btn-groupe-around-me-km" role="group" aria-label="...">
+		  <button class="btn btn-map">2 km</button>
+		  <button class="btn btn-map">5 km</button>
+		  <button class="btn btn-map">10 km</button>
+		  <button class="btn btn-map">25 km</button>
+		  <button class="btn btn-map">50 km</button>
+		</div> 
 
 		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>
 

@@ -289,7 +289,7 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 140;
+				var rightPanelHeight = mapHeight - 160;
 
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
@@ -298,11 +298,9 @@
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
 				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
-				$(this.cssModuleName + " .tools-btn").css( 
-					{"right"://$("#mapCanvas" + this.sigKey).width() - 
-					RTM_width
-					//$(this.cssModuleName + " .tools-btn").width() - 20
-					});// - $(this.cssModuleName + " #right_tool_map").width()});
+				var GAM_width =  ($("#right_tool_map").css('display') != 'none') ? RTM_width+30 : RTM_width+30;
+				$(this.cssModuleName + " .tools-btn").css({"right": RTM_width });
+				$(this.cssModuleName + " .btn-groupe-around-me-km").css({"right": GAM_width });
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
