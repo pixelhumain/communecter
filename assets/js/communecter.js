@@ -1873,7 +1873,7 @@ var typeObj = {
 			}
 		} },
 	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",

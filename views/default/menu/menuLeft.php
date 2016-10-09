@@ -118,7 +118,7 @@
 				class="menu-button-left">
 			<i class="fa fa-search tooltips"
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
-			<span class="lbl-btn-menu"><b>Rechercher</b></span>
+			<span class="lbl-btn-menu"><b>Recherche</b></span>
 		</a>
 		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu lbl-btn-menu">
 			<i class="fa text-red fa-angle-down tooltips" data-toggle="tooltip" data-placement="right" title="Plus de live"></i> 

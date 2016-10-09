@@ -37,6 +37,15 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
+    [ ] Around me
+      [X] Liste HTML
+      [X] result on map
+      [X] change radius on map
+      [ ] around all element
+    [X] modification du menu principal (recherche)
+    [X] modifications page directory
+      [X] ajout Debat & Action dans le globalSearch
+      [ ] création de la page recherche commune
 
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)

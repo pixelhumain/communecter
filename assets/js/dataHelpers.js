@@ -168,10 +168,10 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		date = new Date(date.sec);
 		date = dateSecToString(date);
 	}
-	/*else if(typeof date == "number"){
+	else if(typeof date == "number"){
 		date = new Date(date);
 		date = dateSecToString(date);
-	}*/
+	}
 	//console.log(date);
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 

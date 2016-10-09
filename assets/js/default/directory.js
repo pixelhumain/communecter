@@ -248,6 +248,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
                   }
 
+                  var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
+
 
                   //template principal
                   str += "<div class='col-md-12 searchEntity'>";
@@ -318,9 +320,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       }
 
 
+                      if(updated != null)
+                      str += "<div class='entityDate bg-dark badge'><i class='fa fa-caret-right'></i> " + updated + "</div>";
                       if(startDate != null)
-  	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-  	                	if(endDate != null)
+                      str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
+                      if(endDate != null)
   	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	
                       if(notEmpty(o.parentRoom)){

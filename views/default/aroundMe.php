@@ -108,6 +108,9 @@ jQuery(document).ready(function() {
     if(km>0)
     refreshAroundMe(km);
   });
+
+  $(".btn-groupe-around-me-km .btn-map").removeClass("active");
+  $(".btn-groupe-around-me-km .btn-map[data-km='"+radiusElement+"']").addClass("active");
 	//console.dir(elementsMap);
 });
 
@@ -191,10 +194,23 @@ function showGridResult(data){
       /*var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
       var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
       */
+
+      console.log("DATE",o.startDate, o.endDate, o.updated );
       var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
       var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
       if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
       
+      if(type!="surveys" && type!="actions"){
+        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+        endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
+      }
+      else{                   
+        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+        endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
+      }
+      
+      var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; // dateToStr(o.updatedLbl, "fr", true, true)   : null;
+     
       
       //template principal
       str += "<div class='col-md-12 searchEntity no-padding'>";
@@ -225,18 +241,22 @@ function showGridResult(data){
          
 
           
-        str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+        str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
         	
           str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-          
+          if(updated != null)
+          str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+
           if(fullLocality != "" && fullLocality != " ")
         	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
         	if(startDate != null)
-        	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-        	if(endDate != null)
-        	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-        	if(description != "")
+          str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
+          if(endDate != null)
+        	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
+        	
+          if(description != "")
         	str += "<div class='entityDescription'>" + description + "</div>";
+
         //str += "</div>";
 
         //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
@@ -287,7 +307,7 @@ function refreshAroundMe(radius){
   
   $(".btn-groupe-around-me-km .btn-map").removeClass("active");
   $(".btn-groupe-around-me-km .btn-map[data-km='"+radius+"']").addClass("active");
-
+  
   showMapLegende("refresh fa-spin", 
                  "Chargement en cours ...<br><small>Le chargement peut prendre plusieurs secondes<br>merci de patienter...</small>");
   Sig.clearMap();
