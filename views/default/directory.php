@@ -21,7 +21,7 @@
           <?php 
             $typeName = Yii::t("common",$_GET['type']); 
             if($_GET['type'] == "vote") $typeName = "débats";
-            if($_GET['type'] == "cities") $typeName = "commune";
+            if($_GET['type'] == "cities") $typeName = "communes";
           ?>
           <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
         </span>
