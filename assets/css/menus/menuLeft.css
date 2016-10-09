@@ -38,6 +38,12 @@
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
+#menu-extend{
+	margin-left:10px;
+}
+.inSig #menu-extend{
+	margin-left:0px;
+}
 
 @media screen and (max-height: 580px) {
 .footer-menu-left, .helloasso{

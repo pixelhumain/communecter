@@ -28,7 +28,7 @@
   }
 
   .btn-groupe-around-me-km {
-    display: block;
+    display: inline-block!important;
   }
 
 </style>
@@ -74,6 +74,8 @@
 
 var mapElements = new Array();
 var elementsMap = <?php echo json_encode($all) ?>;
+var elementPosition = [<?php echo @$lat ?>, <?php echo @$lng ?>];
+
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 
 var radiusElement = "<?php echo $radius; ?>";
@@ -205,7 +207,7 @@ function showGridResult(data){
             if(type!="cities" && id != userId && userId != null && userId != ""){
               tip = (type == "events") ? "Participer" : 'Suivre';
               str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                    'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
+                    'data-toggle="tooltip" data-placement="right" data-original-title="'+tip+'"'+
                     " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                         "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                       "</a>";
@@ -246,20 +248,21 @@ function showGridResult(data){
       str += "</div>";
   }); //end each
 
-  initBtnLink();
   $("#grid_around").html(str);
+  initBtnLink();
   refreshUIAroundMe(data, nbRes);	
 }
 
 
 function refreshUIAroundMe(elementsMap, nbRes){
   
-  var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
+  //if(notEmpty(Sig.myPosition))
+  //var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
   
   Sig.showMapElements(Sig.map, elementsMap);
 
   setTimeout(function(){
-    Sig.showCircle(myLatlng, radiusElement);
+    Sig.showCircle(elementPosition, radiusElement);
     Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
     setTimeout(function(){ Sig.map.panBy([100, 0]); }, 500);
   }, 500);
@@ -300,8 +303,7 @@ function refreshAroundMe(radius){
         //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
         showGridResult(data.all);
         $("#loader-aroundme").html("");
-        showMapLegende("", "");
-        hideMapLegende();
+        setTimeout(function(){ hideMapLegende(); }, 300);
       } else {
         toastr.error(data.msg);
       }

@@ -948,7 +948,7 @@ creer des conflits : regle pas assez specfique
 	}
 
 	.btn-groupe-around-me-km {
-		display: none;
+		display: none!important;
 	    position: absolute !important;
 	    right: 350px;
 	    top: 135px;

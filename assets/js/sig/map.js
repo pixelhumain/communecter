@@ -771,7 +771,7 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if( notEmpty(noFitBoundAroundMe) == false &&
+					if( typeof noFitBoundAroundMe != "undefined" && notEmpty(noFitBoundAroundMe) == false &&
 					   "undefined" != typeof this.markersLayer.getBounds() &&
 					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
