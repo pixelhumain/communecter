@@ -249,8 +249,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   }
 
                   var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
-
-
+                  
                   //template principal
                   str += "<div class='col-md-12 searchEntity'>";
 
@@ -280,10 +279,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                      
 
                       
-  	                str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+  	                str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
   	                	
                       str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
                       
+                      if(updated != null)
+                      str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+                      
+
                       //var thisLocality = "";
                       if(fullLocality != "" && fullLocality != " ")
                            thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
@@ -320,12 +323,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       }
 
 
-                      if(updated != null)
-                      str += "<div class='entityDate bg-dark badge'><i class='fa fa-caret-right'></i> " + updated + "</div>";
                       if(startDate != null)
-                      str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
+                      str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
                       if(endDate != null)
-  	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
+  	                	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	
                       if(notEmpty(o.parentRoom)){
                         str += "<div class='col-md-12'>";

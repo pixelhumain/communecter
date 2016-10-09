@@ -74,7 +74,7 @@
         </div>
         <div class="elemt_date pull-left no-margin text-red">
             <i class="fa fa-clock-o"></i>
-            <span class="dateTZ" data-time="<?php echo @$v["updated"];?>"> </span>            
+            <span class="dateTZ"><?php echo @$v["updatedLbl"];?> </span>            
             <?php //DDA : if( @$v["organizerType"] && @$v["organizerId"] ) echo "-".Element::getLink( @$v["organizerType"],@$v["organizerId"] )?>
             <?php //DDA : if( @$v["parentType"] && @$v["parentId"] ) echo ">".Element::getLink( @$v["parentType"],@$v["parentId"] )?>
 
@@ -87,11 +87,11 @@
 <script>
 
 jQuery(document).ready(function() {
-    $(".elemt_date").each(function() {
-        var elementTime = $(this).children(".dateTZ").attr("data-time");
-        var elementDate = new Date(elementTime * 1000);
-        $(this).children(".dateTZ").text(elementDate.toLocaleDateString() + " " + elementDate.toLocaleTimeString());
-    });
+    // $(".elemt_date").each(function() {
+    //     var elementTime = $(this).children(".dateTZ").attr("data-time");
+    //     var elementDate = new Date(elementTime * 1000);
+    //     $(this).children(".dateTZ").text(elementDate.toLocaleDateString() + " " + elementDate.toLocaleTimeString());
+    // });
 });
 
 function enlargeNow() { 
