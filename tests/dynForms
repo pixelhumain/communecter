@@ -93,7 +93,7 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>name=type</td>
+	<td>id=type</td>
 	<td>label=Concert</td>
 </tr>
 <tr>
@@ -253,7 +253,7 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>name=type</td>
+	<td>id=type</td>
 	<td>label=Association</td>
 </tr>
 <tr>
@@ -486,7 +486,6 @@
 	<td></td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

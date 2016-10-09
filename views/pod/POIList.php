@@ -42,18 +42,29 @@
 							<?php  }?>
 
 							<?php 
-							if(@$p["urls"]){
-							foreach ($p["urls"] as $u) { ?>
-							<div class=""><i class="fa fa-caret-down"></i> <?php echo $u ?></div>
+							if(@$p["medias"]){
+								echo '<div class="space10"></div>';
+							foreach ($p["medias"] as $m) { ?>
+								<div class="col-xs-12">
+									<div class="col-xs-4">
+										<?php if(@$m["content"]["image"]){?>
+											<img src="<?php echo @$m["content"]["image"] ?>" class="img-responsive">
+										<?php } ?>
+									</div>
+									<div class="col-xs-8">
+										<a class="text-bold" href="<?php echo @$m["content"]["url"] ?>" target="_blank"><?php echo @$m["name"] ?></a><br/>
+										<?php echo @$m["description"] ?>
+									</div>
+								</div>
 							<?php } }?>
 
 							<?php 
-							if(@$p["urls"])
-								echo "<br/>";
 							if(@$p["tags"]){
+								echo '<div class="space10"></div>';
 							foreach ($p["tags"] as $t) {  ?>
 								<a href="<?php echo $t?>" class="label label-inverse"><?php echo $t?></a> 
 							<?php } } ?>
+							<div class="space1"></div>
 						</div>
 
 					</div>

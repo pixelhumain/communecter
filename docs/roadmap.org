@@ -119,7 +119,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] profile page
     [ ] bugs
       [X] add to floopdrawer after save
-      [ ] location > tape CP > validate , ca passe 
+      [ ] [[@Rapha :: location > tape CP > validate , ca passe]] 
     [X] onclick add spinner on save btn +disable
     [X] type::afterSave : connect specific post process for each elem
       [X] organization
@@ -136,29 +136,28 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
       [X] parent Event : load param ajax
-        [ ] show only ongoing or event to come 
-      [ ] simplify add for sub events: préremplir les dates, lieu
+        [ ] [[ show only ongoing or event to come ]]
+      [ ] simplify add for sub events: [[préremplir les dates, lieu]]
       [X] connecté l'ajout new subEvent aux neaux formulaires
     [X] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
-      [ ] switch on map , show / hide POI, point of parent
+      [ ] [[ @Tango :: switch on map , show / hide POI, point of parent]]
       [X] link to parent : can have a parent, Type & Id
       [X] add a btn on any parent add POI
       [X] place avec geoloc 
       [X] Thing sans geoloc
       [X] formulaire evolutif
-      [ ] add photo  
-      [ ] add to news
-      [ ] add text : getUrl
-        [ ] multiple medias , $.each
+      [ ] [[ add photo ]]
+      [ ] [[ @Clem :: add POI to news]]
+      [X] add text : getUrl, multiple medias , $.each
       [X] unknown attribute passes the the save 
     [ ] debat 
-      [ ] ouvrir une proposition sur un element orga ou projet
+      [X] ouvrir une proposition sur un element orga ou projet
       [ ] ouvrir une proposition une geo scope cp, insee..
       [ ] ouvrir une proposition sans parent room
-      [ ] localiser une propistion 
-    [ ] action
+      [X] localiser une propistion 
+    [X] action
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes

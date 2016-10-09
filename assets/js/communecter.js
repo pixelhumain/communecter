@@ -1447,10 +1447,7 @@ var typeObj = {
 		            tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags ou Types de point d'interet",
-		                "values" : tagsList,
-		                init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		                "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -1529,10 +1526,7 @@ var typeObj = {
 		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList,
-		              init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		              "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -1559,7 +1553,8 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").css("display","none");	 
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1731,10 +1726,7 @@ var typeObj = {
 		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList,
-		              init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		              "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -1753,7 +1745,8 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").css("display","none");	 
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1828,10 +1821,7 @@ var typeObj = {
 		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList,
-		              init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		              "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -1849,7 +1839,8 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-			            	$(".urlsarray").css("display","none");	 
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1955,10 +1946,7 @@ var typeObj = {
 		            tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
-		                "values" : tagsList,
-		                init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		                "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -1968,8 +1956,9 @@ var typeObj = {
 		                "inputType" : "array",
 		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
 		                "value" : [],
-		                init:function(){
-			            	$(".urlsarray").css("display","none");	 
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
 			            }
 		            },
 		            email:{
@@ -2066,10 +2055,7 @@ var typeObj = {
 		         	tags :{
 		                "inputType" : "tags",
 		                "placeholder" : "Tags",
-		                "values" : tagsList,
-		                init:function(){
-			            	$(".tagstags").css("display","none");	 
-			            }
+		                "values" : tagsList
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -2079,8 +2065,9 @@ var typeObj = {
 		                "inputType" : "array",
 		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
 		                "value" : [],
-		                init:function(){
-			            	$(".urlsarray").css("display","none");	 
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
 			            }
 		            },
 		            email:{
