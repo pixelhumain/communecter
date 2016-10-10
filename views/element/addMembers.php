@@ -806,6 +806,12 @@ if(!@$_GET["renderPartial"])
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 						$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
 						showSearch();
+						if(typeof(mapUrl) != "undefined"){
+							if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+								mapUrl.detail.load = false;
+							if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+								mapUrl.directory.load = false;
+						}
 	            	}
 	            	console.log(data.result);   
 	            },
