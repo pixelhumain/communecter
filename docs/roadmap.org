@@ -153,6 +153,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] add text : getUrl, multiple medias , $.each
       [X] unknown attribute passes the the save 
       [X] delete POI
+      [ ] [[edit POI]]
     [ ] debat 
       [X] ouvrir une proposition sur un element orga ou projet
       [ ] ouvrir une proposition une geo scope cp, insee..
