@@ -709,7 +709,7 @@ jQuery(document).ready(function() {
 
 function showElementPad(type, id){
 	if(firstView){
-		if(firstViewTitle.substr(0,3) == "need"){
+		if(firstViewTitle.substr(0,4) == "need"){
 			mapUrl[firstViewTitle] = new Object;
 			mapUrl[firstViewTitle]["url"] = "need/detail/id/"+firstViewTitle.substr(4,firstViewTitle.length)+"?"; 
 			mapUrl[firstViewTitle]["hash"] = "need.detail.id."+firstViewTitle.substr(4,firstViewTitle.length);

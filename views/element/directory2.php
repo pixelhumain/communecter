@@ -758,10 +758,10 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 														Yii::t("common","Accept as admin").
 													'</a>'.
 												'</div>';
-							} else if($elementType!=Person::COLLECTION){
+							} else if($elementType != Person::COLLECTION && $collection == Person::COLLECTION){
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="btn padding-5 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+													'<a href="javascript:;" class="btn padding-5 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$elementType.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
@@ -1012,6 +1012,7 @@ function bindBtnEvents(){
 		actionAdmin = $(this).data("admin");
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
+				$(this).parents().eq(2).append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 				if (result) {
 					linkOption = "<?php echo Link::IS_ADMIN_PENDING; ?>";
 					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
@@ -1032,6 +1033,7 @@ function bindBtnEvents(){
         var linkOption = "<?php echo Link::TO_BE_VALIDATED; ?>";
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as member") ?> ?", 
 			function(result) {
+				$(this).parents().eq(2).append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 				if (result) {
 					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
 						function() {
