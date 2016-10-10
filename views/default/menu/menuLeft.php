@@ -185,34 +185,36 @@
 			<?php } ?>
 			<hr>
 
-			<?php // Débat // ?>
-			<a href="#default.directory?type=vote" id="menu-btn-vote"
-					class="menu-button-left  lbh">
-				<i class="fa fa-gavel tooltips"
-					data-toggle="tooltip" data-placement="right" title="Débats"></i> 
-				<span class="lbl-btn-menu">Débats</span>
-			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
-			<a href="javascript:openForm ( 'entry' );" class="menu-button-left pull-right lbl-btn-menu">
-				<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
-			</a>
-			<?php } ?>
-			<hr>
+				<?php // Débat // ?>
+				<a href="#default.directory?type=vote" id="menu-btn-vote"
+						class="menu-button-left  lbh">
+					<i class="fa fa-gavel tooltips"
+						data-toggle="tooltip" data-placement="right" title="Débats"></i> 
+					<span class="lbl-btn-menu">Débats</span>
+				</a>
+				<?php if(isset(Yii::app()->session['userId'])){ ?>
+				<a href="javascript:openForm ( 'entry' );" class="menu-button-left pull-right lbl-btn-menu">
+					<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
+				</a>
+				<?php } ?>
+				<hr>
 
-			<?php // Action // ?>
-			<a href="#default.directory?type=actions" id="menu-btn-action"
-					class="menu-button-left lbh">
-				<i class="fa fa-cogs tooltips"
-					data-toggle="tooltip" data-placement="right" title="Actions"></i> 
-				<span class="lbl-btn-menu">Actions</span>
-			</a>
-			<?php if(isset(Yii::app()->session['userId'])){ ?>
-			<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right lbl-btn-menu">
-				<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
-			</a>
+				<?php // Action // ?>
+				<a href="#default.directory?type=actions" id="menu-btn-action"
+						class="menu-button-left lbh">
+					<i class="fa fa-cogs tooltips"
+						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
+					<span class="lbl-btn-menu">Actions</span>
+				</a>
+				<?php if(isset(Yii::app()->session['userId'])){ ?>
+				<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right lbl-btn-menu">
+					<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
+				</a>
+				<?php } ?>
+				<hr>
 			<?php } ?>
-			<hr>
-
+			
 			<?php // Commune // ?>
 			<a href="#default.directory?type=cities" id="menu-btn-action"
 					class="menu-button-left lbh">

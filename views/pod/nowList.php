@@ -13,6 +13,7 @@
     }
     .elemt_date {
         font-weight: 200;
+        padding-top: 2px;
     }
     .elemt_name a{
         color:#3C5665;
@@ -20,6 +21,9 @@
     }
     .elemt_name a:hover{
        text-decoration: underline !important;
+    }
+    .elemt_name i.fa{
+        font-size: 19px;
     }
     .col-updated .border-dark {
         border: 0;
@@ -33,8 +37,13 @@
         text-align:center;
         float:left;
         background: #cfcfcf;
+
     }
-    .img-responsive{
+    .elemt_img img{
+        min-height: 150px;
+    }
+
+    .elemt_img .img-responsive{
         display:inline-block;
     }
 </style>
