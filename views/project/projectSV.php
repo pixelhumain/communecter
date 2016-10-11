@@ -317,7 +317,7 @@ function runProjectFormValidation(el) {
 				date : true
 			},
 			postalCode : {
-				rangelength : [5, 5],
+				rangelength : [4, 5],
 				required : true,
 				validPostalCode : true
 			}
