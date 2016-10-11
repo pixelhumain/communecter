@@ -1182,6 +1182,7 @@ function formatData(formData, collection,ctrl) {
 	}
 	formData.urls = [];
 	$(".addmultifield").each(function(i,v){
+		console.warn("formatData > addmultifield",$(v).val());
 		formData.urls.push($(v).val());	
 	});
 	formData.medias = [];
@@ -1265,11 +1266,12 @@ function editElement(type,id){
     })
     .done(function (data) {
         if ( data && data.result ) {
-        	toastr.info(type+" found");
+        	//toastr.info(type+" found");
         	
 			//onLoad fill inputs
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
+			//console.dir(data);
 			openForm(type,null, data.map);
         } else {
            toastr.error("something went wrong!! please try again.");
@@ -1278,7 +1280,7 @@ function editElement(type,id){
 }
 
 function openForm (type, afterLoad,data) { 
-    console.clear();
+    //console.clear();
     console.warn("--------------- Open Form "+type+" ---------------------");
     console.dir(data);
     elementLocation = null;
@@ -1498,9 +1500,6 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
-		            id :{
-		            	"inputType" : "hidden"
-		            },
 		            parentId :{
 		            	"inputType" : "hidden"
 		            },
@@ -2306,32 +2305,12 @@ var elementLocation = null;
 var centerLocation = null;
 var elementLocations = [];
 var countLocation = 0;
-function copyMapForm2Dynform() { 
+function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
-	elementLocation = {
-		address : {
-			"@type" : "PostalAddress",
-			addressCountry : $("[name='newElement_country']").val(),
-			streetAddress : $("[name='newElement_streetAddress']").val(),
-			addressLocality : $("[name='newElement_city']").val(),
-			postalCode : $("[name='newElement_cp']").val(),
-			codeInsee : $("[name='newElement_insee']").val(),
-			depName : $("[name='newElement_dep']").val(),
-			regionName : $("[name='newElement_region']").val()
-		},
-		geo : {
-			"@type" : "GeoCoordinates",
-			latitude : $("[name='newElement_lat']").val(),
-			longitude : $("[name='newElement_lng']").val()
-		},
-		geoPosition : {
-			"@type" : "Point",
-			"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
-		}
-	};
+	elementLocation = locationObj;
 	elementLocations.push(elementLocation);
-	if(!centerLocation){
+	if(!centerLocation || locationObj.center == true){
 		centerLocation = elementLocation;
 		elementLocation.center = true;
 	}
@@ -2339,18 +2318,19 @@ function copyMapForm2Dynform() {
 	//elementLocation.push(positionObj);
 }
 
-function addLocationToForm()
+function addLocationToForm(locationObj)
 {
-	console.dir(elementLocation);
+	console.warn("---------------addLocationToForm----------------");
+	console.dir(locationObj);
 	var strHTML = "";
-	if( elementLocation.address.addressCountry)
-		strHTML += elementLocation.address.addressCountry;
-	if( elementLocation.address.postalCode)
-		strHTML += " ,"+elementLocation.address.postalCode;
-	if( elementLocation.address.addressLocality)
-		strHTML += " ,"+elementLocation.address.addressLocality;
-	if( elementLocation.streetAddress)
-		strHTML += " ,"+elementLocation.address.streetAddress;
+	if( locationObj.address.addressCountry)
+		strHTML += locationObj.address.addressCountry;
+	if( locationObj.address.postalCode)
+		strHTML += " ,"+locationObj.address.postalCode;
+	if( locationObj.address.addressLocality)
+		strHTML += " ,"+locationObj.address.addressLocality;
+	if( locationObj.streetAddress)
+		strHTML += " ,"+locationObj.address.streetAddress;
 	var btnSuccess = "";
 	var locCenter = "";
 	if( countLocation == 0){
@@ -2364,6 +2344,7 @@ function addLocationToForm()
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
 }
+
 
 function removeLocation(ix){
 	elementLocation = null;
