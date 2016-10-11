@@ -752,14 +752,17 @@ class DatamigrationController extends CommunecterController {
 			$elts = PHDB::find($type, array("address.addressCountry" => "BEL"));
 
 			foreach ($elts as $key => $elt) {
-				$newAddress = $elt["address"];
-				$newAddress["addressCountry"] = "BE";
-				$newAddress["codeInsee"] = substr($newAddress["codeInsee"], 0, 5)."*BE";
+				if(!empty($elt["address"]["codeInsee"])){
+					$newAddress = $elt["address"];
+					$newAddress["addressCountry"] = "BE";
+					$newAddress["codeInsee"] = substr($newAddress["codeInsee"], 0, 5)."*BE";
 
-				$res = PHDB::update($type, 
-					  	array("_id"=>new MongoId($key)),
-                        array('$set' => array(	"address" => $newAddress ))
-                    );
+					$res = PHDB::update($type, 
+						  	array("_id"=>new MongoId($key)),
+	                        array('$set' => array(	"address" => $newAddress ))
+	                    );
+				}
+				
 			}
 		}
 		echo "good" ;

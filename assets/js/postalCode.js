@@ -28,7 +28,7 @@ $(function(){
       console.log("search City");
       var timeout;
       searchValue = $('.editableform #postalCode').val();
-      if(searchValue.length == 5 || searchValue.length == 4) {
+      if(searchValue.length <= 5) {
         if (! $("#cityDiv").is(":visible")) {
           $("#city").empty();
           runShowCity();
