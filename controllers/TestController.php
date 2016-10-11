@@ -1239,4 +1239,45 @@ La vie en santé;Santé;;
 		}
 	}
 
+
+	public function actionCheckGeoShape(){
+		Import::checkGeoShape();
+	}
+
+	public function actionCheckGeo(){
+		Import::checkGeo();
+	}
+
+	public function actionCheckGeoPostalCodes(){
+		Import::checkGeoPostalCode();
+	}
+
+	public function actionDepRegion(){
+		$where = array("country" => "BEL");
+        $cities = PHDB::find(City::COLLECTION, $where);
+
+        $dep = array() ;
+        $region = array() ;
+
+        $depS = "" ;
+        $regionS = "" ;
+
+        foreach ($cities as $key => $value) {
+        	if(!in_array($value["region"], $region)){
+        		$region[] = $value["region"];
+        		$regionS .= '"'.$value["regionName"].'" => array("'.$value["regionName"].'","'.$value["region"].'"), <br/>';
+        	}
+
+        	if(!in_array($value["dep"], $dep)){
+        		$dep[] = $value["dep"];
+        		$depS .= '"'.$value["depName"].'" => array("'.$value["depName"].'","'.$value["dep"].'"), <br/>';
+        	}
+        }
+
+        echo $depS ;
+        echo "<br><br>";
+        echo $regionS;
+	}
+
+
 }
