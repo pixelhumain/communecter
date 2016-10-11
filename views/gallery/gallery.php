@@ -106,6 +106,7 @@ var images = <?php echo json_encode($images); ?>;
 var contextName = "<?php echo addslashes(@$contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
+ 	activeMenuElement("gallery");
 	setTitle("Galerie photos de " + contextName,contextIcon);
 	initGrid();
 	$(".portfolio-item").mouseenter(function(){
@@ -113,7 +114,7 @@ jQuery(document).ready(function() {
 	}).mouseleave(function(){
 		$(this).find(".tools.tools-bottom").hide();
 	});
- 	activeMenuElement("gallery");
+
 });
 
 function initGrid(){

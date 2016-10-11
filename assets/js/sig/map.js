@@ -43,6 +43,8 @@
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
 
+			this.Sig.circleAroundMe = null;
+
 			//##
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
@@ -289,7 +291,7 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 140;
+				var rightPanelHeight = mapHeight - 160;
 
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
@@ -298,11 +300,9 @@
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
 				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
-				$(this.cssModuleName + " .tools-btn").css( 
-					{"right"://$("#mapCanvas" + this.sigKey).width() - 
-					RTM_width
-					//$(this.cssModuleName + " .tools-btn").width() - 20
-					});// - $(this.cssModuleName + " #right_tool_map").width()});
+				var GAM_width =  ($("#right_tool_map").css('display') != 'none') ? RTM_width+30 : RTM_width+30;
+				$(this.cssModuleName + " .tools-btn").css({"right": RTM_width });
+				$(this.cssModuleName + " .btn-groupe-around-me-km").css({"right": GAM_width });
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
@@ -388,6 +388,21 @@
 										smoothFactor:0.5}).addTo(this.map);
 
 				this.polygonsCollection.push(poly);
+			};
+
+			this.Sig.showCircle = function(center, radius, options)
+			{
+				console.log("showCircle", notEmpty(this.circleAroundMe), radius);
+				if(notEmpty(this.circleAroundMe)) this.map.removeLayer(this.circleAroundMe);
+				this.circleAroundMe = L.circle(center, radius, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.3,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+
+				
 			};
 
 			this.Sig.clearPolygon = function()
@@ -756,7 +771,8 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds() &&
+					if( typeof noFitBoundAroundMe != "undefined" && notEmpty(noFitBoundAroundMe) == false &&
+					   "undefined" != typeof this.markersLayer.getBounds() &&
 					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 						thisMap.zoomOut();

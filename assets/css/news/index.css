@@ -52,7 +52,10 @@
 	bottom:0px;
 	right:0px;
 	left:70px;
-	min-height:600px;
+	min-height:100px;
+}
+div.timeline{
+	min-height: 50px !important;
 }
 .fixedTop{
 	position:fixed;

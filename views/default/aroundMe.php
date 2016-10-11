@@ -27,6 +27,10 @@
     margin:0 -15px 0 -15px;
   }
 
+  .btn-groupe-around-me-km {
+    display: inline-block!important;
+  }
+
 </style>
 
 
@@ -44,20 +48,24 @@
   </button>
 </h3>
 
-<?php if(sizeOf($all)==0){ ?>
-  <h3 class="text-red">
-    <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
-    <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
-  </h3>
-  <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
-<?php }else{ ?>
-  <h3 class="text-dark">
-    <b>
-      <i class="fa fa-angle-down"></i> 
-      <?php echo sizeOf($all); ?> élément<?php echo sizeOf($all)>1?"s":""; ?> trouvé<?php echo sizeOf($all)>1?"s":""; ?>
-    </b>
-  </h3>
-<?php } ?>
+  
+  <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+    <h3 class="text-red">
+      <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
+      <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+    </h3>
+    <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+  </div>
+  
+  <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
+    <h3 class="text-dark">
+      <b>
+        <i class="fa fa-angle-down"></i> 
+        <span id="nbResAroundMe"></span>
+      </b>
+    </h3>
+  </div>
+</div>
 
 <div id="grid_around"></div>
 
@@ -66,11 +74,15 @@
 
 var mapElements = new Array();
 var elementsMap = <?php echo json_encode($all) ?>;
+var elementPosition = [<?php echo @$lat ?>, <?php echo @$lng ?>];
+
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 
-var radius = "<?php echo $radius; ?>";
+var radiusElement = "<?php echo $radius; ?>";
 var idElement = "<?php echo $id ?>";
 var typeElement = "<?php echo $type ?>";
+
+var noFitBoundAroundMe = true;
 
 jQuery(document).ready(function() {
 	
@@ -79,26 +91,35 @@ jQuery(document).ready(function() {
 			 "Autour de moi");
 
 	//showMap(true);
-	Sig.showMyPosition();
-	Sig.showMapElements(Sig.map, elementsMap);
-  if(notEmpty(elementsMap)) showGridResult(elementsMap);
-  initBtnLink();
+	if(notEmpty(elementsMap)) 
+      showGridResult(elementsMap);
 
   $("#stepSearch").change(function(){
-    radius = $(this).val();
-    loadByHash("#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radius+".manual.true");
+    radiusElement = $(this).val();
+    refreshAroundMe(radiusElement);
   });
   $("#reloadAuto").click(function(){
-    radius = $("#stepSearch").val();
-    loadByHash("#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radius);
+    radiusElement = $("#stepSearch").val();
+    refreshAroundMe(radiusElement);
   });
+
+  $(".btn-groupe-around-me-km .btn-map").off().click(function(){
+    var km = $(this).data("km");
+    if(km>0)
+    refreshAroundMe(km);
+  });
+
+  $(".btn-groupe-around-me-km .btn-map").removeClass("active");
+  $(".btn-groupe-around-me-km .btn-map[data-km='"+radiusElement+"']").addClass("active");
 	//console.dir(elementsMap);
 });
 
 
 function showGridResult(data){
   var str = "";
+  var nbRes = 0;
 	$.each(data, function(i, o) {
+      nbRes++;
       var typeIco = i;
       var ico = mapIconTop["default"];
       var color = mapColorIconTop["default"];
@@ -173,10 +194,23 @@ function showGridResult(data){
       /*var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
       var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
       */
+
+      console.log("DATE",o.startDate, o.endDate, o.updated );
       var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
       var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
       if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
       
+      if(type!="surveys" && type!="actions"){
+        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+        endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
+      }
+      else{                   
+        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+        endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
+      }
+      
+      var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; // dateToStr(o.updatedLbl, "fr", true, true)   : null;
+     
       
       //template principal
       str += "<div class='col-md-12 searchEntity no-padding'>";
@@ -189,7 +223,7 @@ function showGridResult(data){
             if(type!="cities" && id != userId && userId != null && userId != ""){
               tip = (type == "events") ? "Participer" : 'Suivre';
               str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                    'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
+                    'data-toggle="tooltip" data-placement="right" data-original-title="'+tip+'"'+
                     " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                         "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                       "</a>";
@@ -207,18 +241,22 @@ function showGridResult(data){
          
 
           
-        str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+        str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
         	
           str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-          
+          if(updated != null)
+          str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+
           if(fullLocality != "" && fullLocality != " ")
         	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
         	if(startDate != null)
-        	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-        	if(endDate != null)
-        	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-        	if(description != "")
+          str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
+          if(endDate != null)
+        	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
+        	
+          if(description != "")
         	str += "<div class='entityDescription'>" + description + "</div>";
+
         //str += "</div>";
 
         //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
@@ -226,16 +264,72 @@ function showGridResult(data){
           str += tags;
   
         str += "</div>";
-
-        
-        					
+   					
       str += "</div>";
   }); //end each
 
-	$("#grid_around").html(str);
+  $("#grid_around").html(str);
+  initBtnLink();
+  refreshUIAroundMe(data, nbRes);	
 }
 
 
+function refreshUIAroundMe(elementsMap, nbRes){
+  
+  //if(notEmpty(Sig.myPosition))
+  //var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
+  
+  Sig.showMapElements(Sig.map, elementsMap);
+
+  setTimeout(function(){
+    Sig.showCircle(elementPosition, radiusElement);
+    Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
+    setTimeout(function(){ Sig.map.panBy([100, 0]); }, 500);
+  }, 500);
+ 
+  if(nbRes==0){
+    $(".info-results").addClass("hidden");
+    $(".info-no-result").removeClass("hidden");
+  }else{
+    $(".info-results").removeClass("hidden");
+    $(".info-no-result").addClass("hidden");
+
+    var s =  nbRes>1?"s":"";
+    nbRes = nbRes + " élément" + s + " trouvé" + s;
+    $("#nbResAroundMe").html(nbRes);
+  }
+
+}
+
+function refreshAroundMe(radius){
+  $("#grid_around").html("<h4><i class='fa fa-refresh fa-spin' style='margin-left:15px;'></i> Nouvelle recherche en cours</h4>");
+  $("#loader-aroundme").html("<i class='fa fa-refresh fa-spin'></i>");
+  
+  $(".btn-groupe-around-me-km .btn-map").removeClass("active");
+  $(".btn-groupe-around-me-km .btn-map[data-km='"+radius+"']").addClass("active");
+  
+  showMapLegende("refresh fa-spin", 
+                 "Chargement en cours ...<br><small>Le chargement peut prendre plusieurs secondes<br>merci de patienter...</small>");
+  Sig.clearMap();
+
+  var url = "/element/aroundme/type/"+typeElement+"/id/"+idElement+"/radius/"+radius+"/manual/true/json/true";
+  $.ajax({
+    type: "POST",
+    url: baseUrl+"/"+moduleId+url,
+    dataType: "json",
+    success: function(data) {
+      if (data.result) {
+        radiusElement = data.radius;
+        //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        showGridResult(data.all);
+        $("#loader-aroundme").html("");
+        setTimeout(function(){ hideMapLegende(); }, 300);
+      } else {
+        toastr.error(data.msg);
+      }
+    },
+  });  
+}
 
 function initBtnLink(){
   $('.tooltips').tooltip();

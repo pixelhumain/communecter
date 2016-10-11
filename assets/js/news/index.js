@@ -582,6 +582,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").show("fast");
 		$(".form-create-news-container .tools_bar").show("fast");
 		$(".form-create-news-container .scopescope").show("fast");	
+		multiTagScopeLbl("send");
 		$('.extract_url').show();
 		$(".form-create-news-container #falseInput").hide();
 		$('#get_url').focus();
@@ -599,6 +600,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 		$(".form-create-news-container .tools_bar").hide();
 		$(".form-create-news-container .scopescope").hide();
+		multiTagScopeLbl("search");
 		$('.extract_url').hide();
 		$(".form-create-news-container #falseInput").show();
 		
@@ -1029,6 +1031,10 @@ function showAllNews(){
 function initFormImages(){
 	$("#photoAddNews").on('submit',(function(e) {
 		e.preventDefault();
+		if(contextParentType=="city"){
+			contextParentType = "citoyens";
+			contextParentId = idSession;
+		}
 		$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextParentType+"/ownerId/"+contextParentId+"/input/newsImage",
 			type: "POST",

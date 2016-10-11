@@ -323,7 +323,7 @@ function buildLineHTML(newsObj,idSession,update)
 		else
 			nameAuthor = newsObj.target.name;
 		urlTarget = 'href="#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'" ';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
+		var personName = "<a "+urlTarget+" class='lbh' style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")

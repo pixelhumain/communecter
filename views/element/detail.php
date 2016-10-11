@@ -3,15 +3,7 @@ $cssAnsScriptFilesTheme = array(
 	//X-editable
 	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	//DatePicker
-	//'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	//'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	//'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-	
-	//DateTime Picker
-	//'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	//'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	//'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+
 	//DatePicker
 	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
 	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
@@ -28,10 +20,7 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/assets/plugins/wysihtml5/wysihtml5.js',
 	'/assets/plugins/moment/min/moment.min.js',
-	//'/assets/plugins/moment/min/moment.min.js',
-	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	//'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	//'/plugins/wysihtml5/wysihtml5.js',
+	//SELECT2
 	'/assets/plugins/select2/select2.css',
 	'/assets/plugins/select2/select2.min.js',
 	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
@@ -365,7 +354,6 @@ if($('#breadcum').length)
 <?php } ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	console.log("baaaaaaaaaaah voila");
 	activeMenuElement("detail");
 	<?php 
 		if(empty($element["tasks"])) $element["tasks"] = array();

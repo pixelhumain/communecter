@@ -37,6 +37,15 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [??] Project:contributeur
       [??] People:invitation
       [??] Event:Participation
+    [ ] Around me
+      [X] Liste HTML
+      [X] result on map
+      [X] change radius on map
+      [ ] around all element
+    [X] modification du menu principal (recherche)
+    [X] modifications page directory
+      [X] ajout Debat & Action dans le globalSearch
+      [ ] création de la page recherche commune
 
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)
@@ -89,6 +98,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] no message on debat
 
   [ ] finish fromNow method
+  [ ] HTML5 notifications
   [ ] SEO finir 
     http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
     http://phantomjs.org/
@@ -109,7 +119,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] profile page
     [ ] bugs
       [X] add to floopdrawer after save
-      [ ] location > tape CP > validate , ca passe 
+      [ ] [[@Rapha :: location > tape CP > validate , ca passe]] 
     [X] onclick add spinner on save btn +disable
     [X] type::afterSave : connect specific post process for each elem
       [X] organization
@@ -117,7 +127,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] event
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
-    [ ] multiple medias , $.each
+    
     [X] refactor : move from ACtion to model Element
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
@@ -126,28 +136,30 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
       [X] parent Event : load param ajax
-        [ ] show only ongoing or event to come 
-      [ ] simplify add for sub events: préremplir les dates, lieu
+        [ ] [[ show only ongoing or event to come ]]
+      [ ] simplify add for sub events: [[préremplir les dates, lieu]]
       [X] connecté l'ajout new subEvent aux neaux formulaires
     [X] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
-      [ ] switch on map , show / hide POI, point of parent
+      [ ] [[ @Tango :: switch on map , show / hide POI, point of parent]]
       [X] link to parent : can have a parent, Type & Id
       [X] add a btn on any parent add POI
       [X] place avec geoloc 
       [X] Thing sans geoloc
       [X] formulaire evolutif
-      [ ] add photo  
-      [ ] add to news
-      [ ] add text : getUrl
+      [ ] [[ add photo ]]
+      [ ] [[ @Clem :: add POI to news]]
+      [X] add text : getUrl, multiple medias , $.each
       [X] unknown attribute passes the the save 
+      [X] delete POI
+      [ ] [[edit POI]]
     [ ] debat 
-      [ ] ouvrir une proposition sur un element orga ou projet
+      [X] ouvrir une proposition sur un element orga ou projet
       [ ] ouvrir une proposition une geo scope cp, insee..
       [ ] ouvrir une proposition sans parent room
-      [ ] localiser une propistion 
-    [ ] action
+      [X] localiser une propistion 
+    [X] action
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes

@@ -405,6 +405,8 @@ class CommunecterController extends Controller
       "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
       "aroundme"    => array("href" => "/ph/communecter/element/aroundme"),
       "save" => array("href" => "/ph/communecter/element/save"),
+      "get" => array("href" => "/ph/communecter/element/get"),
+      "delete" => array("href" => "/ph/communecter/element/delete"),
     ),
   );
 

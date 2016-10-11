@@ -33,11 +33,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);*/
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
 
-$cssAnsScriptFilesModule = array(
-	'/js/dataHelpers.js',
-	'/js/postalCode.js'
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
+//$cssAnsScriptFilesModule = array(
+//	'/js/dataHelpers.js',
+//	'/js/postalCode.js'
+//);
+//HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
@@ -658,7 +658,7 @@ if(Person::COLLECTION == $type)
 		
 	var emptyAddress = $.isEmptyObject(contextData.address);
 	var mode = "view";
-	var types = <?php echo json_encode($elementTypes) ?>;
+	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
@@ -682,15 +682,23 @@ if(Person::COLLECTION == $type)
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
-
+		activateEditableContext();
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		setTitle( "<?php echo addslashes($element["name"]) ?>" , "<i class='fa fa-circle text-"+color+"'></i> <i class='fa fa-"+icon+"'></i>" ,null,contextData.otags, contextData.odesc);
 
 		bindAboutPodElement();
-		activateEditableContext();
+
+
 		manageAllDayElement(allDay);
+		/*$("#btn-update-geopos").click(function(){
+			findGeoPosByAddress();
+		});
+
+		$("#btn-update-locality").click(function(){
+			Sig.showMapElements(Sig.map, mapData);
+		});*/
 
 		$("#btn-update-geopos").off().on( "click", function(){
 			console.log("btn-update-geopos");
@@ -849,13 +857,13 @@ if(Person::COLLECTION == $type)
 
 	function manageModeContextElement() {
 		console.log("-----------------manageModeContextElement----------------------", mode);
-		listXeditables = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
+		listXeditablesContext = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
@@ -864,7 +872,7 @@ if(Person::COLLECTION == $type)
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextData.id);
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesContext, function(i,value) {
 				//add primary key to the x-editable field
 				$(value).editable('option', 'pk', contextData.id);
 				$(value).editable('toggleDisabled');
@@ -876,16 +884,16 @@ if(Person::COLLECTION == $type)
 
 	function manageDivEditElement() {
 		console.log("-----------------manageDivEditElement----------------------", mode);
-		listXeditables = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
+		listXeditablesDiv = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
-			listXeditables.push('#divInformation');
+			listXeditablesDiv.push('#divInformation');
 		divInformation
 		if (mode == "view") {
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesDiv, function(i,value) {
 				$(value).hide();
 			});
 		} else if (mode == "update") {
-			$.each(listXeditables, function(i,value) {
+			$.each(listXeditablesDiv, function(i,value) {
 				$(value).show();
 			})
 		}
@@ -922,10 +930,10 @@ if(Person::COLLECTION == $type)
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o"];
 
-		listXeditables = [	'#username','#birthDate',"#email", "#mobile", "#fixe", "#fax","#url"];
+		listXeditablesId = [	'#username','#birthDate',"#email", "#mobile", "#fixe", "#fax","#url"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
-				if($(listXeditables[i]).text().length != 0){
+				if($(listXeditablesId[i]).text().length != 0){
 					//console.log(listXeditables[i], " : ", value);
 					$(value).removeClass("hidden");	
 				}
@@ -934,7 +942,7 @@ if(Person::COLLECTION == $type)
 		}
 		else if (mode == "view") {
 			$.each(listIcones, function(i,value) {
-				if($(listXeditables[i]).text().length == 0)
+				if($(listXeditablesId[i]).text().length == 0)
 					$(value).addClass("hidden");
 			});
 		} else if (mode == "update") {
@@ -945,18 +953,16 @@ if(Person::COLLECTION == $type)
 	}
 
 	function activateEditableContext() {
-
-		
 		$.fn.editable.defaults.mode = 'popup';
 
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
 			onblur: 'submit',
-			success: function(response, newValue) {
+			/*success: function(response, newValue) {
 				console.log(response, newValue);
 				if(! response.result) return response.msg; //msg will be shown in editable form
-    		},
+    		},*/
     		success : function(data) {
     			console.log(data);
 				if(data.result) {
@@ -1014,7 +1020,6 @@ if(Person::COLLECTION == $type)
 	        },
 	        showbuttons: true
 		});
-		//$('#birthDate').editable('setValue', moment(birthDate, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD"), true);
 
 		/*$('#tags').editable({
 	        url: baseUrl+"/"+moduleId+"/element/updatefield", //this url will not be used for creating new user, it is only for update
@@ -1350,6 +1355,8 @@ if(Person::COLLECTION == $type)
 	function returnttags() {
 		console.log("------------- returnttags -------------------");
 		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
+		//var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
+
 		return tags ;
 	}
 

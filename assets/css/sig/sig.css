@@ -451,6 +451,12 @@ creer des conflits : regle pas assez specfique
 .btn-map:hover{
 	background-color:#5896AB !important;
 }
+.btn-map#btn-back {
+    background-color: rgb(117, 45, 45) !important;
+}
+.btn-map#btn-back:hover {
+    background-color: rgb(149, 88, 88) !important;
+}
 .btn-full-screen{
 	margin-right:150px;
 }
@@ -941,6 +947,20 @@ creer des conflits : regle pas assez specfique
 		overflow: hidden;
 	}
 
+	.btn-groupe-around-me-km {
+		display: none!important;
+	    position: absolute !important;
+	    right: 350px;
+	    top: 135px;
+	}
+	.btn-groupe-around-me-km .btn{
+		font-size: 12px !important;
+		padding: 7px !important;
+		border-bottom: solid 2px #637b90 !important;
+	}
+	.btn-groupe-around-me-km .btn.active{
+		background-color:rgb(56, 189, 90) !important;;
+	}
 /* style tooltip des chartsMarkers */
 
 @media screen and (max-width: 768px) {

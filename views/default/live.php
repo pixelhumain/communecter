@@ -171,7 +171,7 @@ function loadLiveNow () {
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
-      "indexMax" : 40 
+      "indexMax" : 10 
     };
 
     

@@ -227,6 +227,12 @@ function sendInvitation(){
 			            mapType="people";
 			        contextMap[mapType].push(newMember);
 				});
+				if(typeof(mapUrl) != "undefined"){
+					if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+						mapUrl.detail.load = false;
+					if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+						mapUrl.directory.load = false;
+				}
 				$.unblockUI();
         	/*	if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
         			updateOrganisation( data.member,  $("#addMembers #memberType").val());
