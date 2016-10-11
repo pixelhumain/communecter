@@ -733,7 +733,7 @@ class DatamigrationController extends CommunecterController {
 
 
 	public function actionUpdateCitiesBelgique() {
-		$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
+		/*$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
 
 		foreach ($cities as $key => $city) {
 			$res = PHDB::update( City::COLLECTION, 
@@ -744,7 +744,7 @@ class DatamigrationController extends CommunecterController {
 												"region" => substr($city["region"], 0, 2)."*BE"))
 
                     );
-		}
+		}*/
 
 		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
 
@@ -762,6 +762,7 @@ class DatamigrationController extends CommunecterController {
                     );
 			}
 		}
+		echo "good" ;
 		
 	}
 
