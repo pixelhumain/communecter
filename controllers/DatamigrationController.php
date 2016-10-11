@@ -731,5 +731,39 @@ class DatamigrationController extends CommunecterController {
 		echo "Number of pending user with username modified : ".$nbPendingUser;
 	}
 
+
+	public function actionUpdateCitiesBelgique() {
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
+
+		foreach ($cities as $key => $city) {
+			$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"country" => "BE",
+												"insee" => substr($city["insee"], 0, 5)."*BE",
+												"dep" => substr($city["dep"], 0, 2)."*BE",
+												"region" => substr($city["region"], 0, 2)."*BE"))
+
+                    );
+		}
+
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+
+		foreach ($types as $keyType => $type) {
+			$elts = PHDB::find($type, array("address.addressCountry" => "BEL"));
+
+			foreach ($elts as $key => $elt) {
+				$newAddress = $elt["address"];
+				$newAddress["addressCountry"] = "BE";
+				$newAddress["codeInsee"] = substr($newAddress["codeInsee"], 0, 5)."*BE";
+
+				$res = PHDB::update($type, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"address" => $newAddress ))
+                    );
+			}
+		}
+		
+	}
+
 }
 
