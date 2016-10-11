@@ -569,6 +569,8 @@ if(!@$_GET["renderPartial"])
 	var listMails = [];
 	var totalMails = 0;
 	var elementType= "<?php echo $type ?>";
+	var elementId= "<?php echo (string)$element["_id"] ?>";
+	var links= <?php echo json_encode($element["links"]) ;?>;
 	//var element = <?php echo json_encode($element) ?>;
 	
 	jQuery(document).ready(function() {
@@ -576,7 +578,7 @@ if(!@$_GET["renderPartial"])
 		initFormAddMember();
 		
 		bindTEST();
-
+		removeMembersInMyContact();
 		//buildDynForm();
 	});
 
@@ -881,7 +883,10 @@ if(!@$_GET["renderPartial"])
 
 	function autoCompleteEmailAddMember(searchValue){
 		console.log("autoCompleteEmailAddMember");
-		var data = {"search" : searchValue};
+		var data = {
+			"search" : searchValue,
+			"elementId" : elementId
+		};
 		if (elementType == "<?php echo Event::COLLECTION ?>")
 			data.searchMode = "personOnly";
 		$.ajax({
@@ -1254,6 +1259,14 @@ function allchecked(bool) {
 		listMails = [];
 
 	setNbContact()	
+}
+
+function removeMembersInMyContact(){
+
+  $("input[value='"+elementId+"']").parent().parent().parent().remove();
+  $.each(links.members, function(key, value){
+    $("input[value='"+key+"']").parent().parent().parent().remove();
+  });
 }
 </script>
 	

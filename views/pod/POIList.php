@@ -66,8 +66,8 @@
 							<?php } } ?>
 							<div class="space5"></div>
 							<?php if(@$p["creator"] == Yii::app()->session["userId"] ){?>
-								<a href="javascript:;" class="text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-trash"></i></a> 
-								<a href="javascript:;" class="editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-pencil-square-o"></i></a>
+								<a href="javascript:;" class="btn btn-xs btn-default text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-trash"></i></a> 
+								<a href="javascript:;" class="btn btn-xs btn-default text-green editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-pencil-square-o"></i></a>
 								<div class="space1"></div>
 							<?php }?>
 						</div>
@@ -105,7 +105,7 @@
 				    })
 				    .done(function (data) {
 				        if ( data && data.result ) {
-				        	toastr.info("lément effacé");
+				        	toastr.info("élément effacé");
 				        	$("#"+type+id).remove();
 				        	//window.location.href = "";
 				        } else {
@@ -115,5 +115,13 @@
 				}
 			});
 
+		});
+		$(".editThisBtn").off().on("click",function () 
+		{
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var type = $(this).data("type");
+	        editElement(type,id);
 		});
 	</script>

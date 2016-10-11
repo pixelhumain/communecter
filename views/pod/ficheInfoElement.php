@@ -339,9 +339,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
 					<?php 
 						if(isset($element["tags"])){
+							$stringTags = "" ;
 							foreach ($element["tags"] as $tag) {
-							//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								if($stringTags != "")
+									$stringTags .= ", ";
+								$stringTags .= $tag ;
 							}
+							echo $stringTags;
 						} 
 					?>
 				</a>
@@ -414,39 +418,32 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
 			<div class="col-md-6 col-sm-6  no-padding">
 				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) ||  $type!=Person::COLLECTION) { ?>
+				
+				
+				<div class="col-xs-12 no-padding">
 					<i class="fa fa-road fa_streetAddress"></i> 
-					<!--<a href="#" id="streetAddress" data-type="text" data-title="<?php echo Yii::t("common","Street Address") ?>" data-emptytext="<?php echo Yii::t("common","Street Address") ?>" class="editable-context editable editable-click">
-						 -->
 					<span id="detailStreetAddress">
 						<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
 						<?php //echo Element::showField("address.streetAddress",$element, $isLinked);?>
 					</span>
-					<!--</a>  -->
-					<br>
-				
-				<div class="col-xs-12 no-padding">
+					<br/>
 					<i class="fa fa-bullseye fa_postalCode"></i> 
-					<!--<a href="#" id="address" 
-					   data-type="postalCode" data-title="<?php echo Yii::t("common","Postal code") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Postal code") ?>" class="editable editable-click" data-placement="bottom">	-->
 					<span id="detailCity">	
 						<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null; ?>,
 						<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>
 					</span>
-					<!--</a> -->
-					<br>
+					<br/>
 					<i class="fa fa-globe fa_addressCountry"></i> 
-					<!--<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("common","Country") ?>" 
-						data-emptytext="<?php echo Yii::t("common","Country") ?>" data-original-title="" class="editable editable-click">
-						-->
 					<span id="detailCountry">
 						<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?>
+
 					</span>
-					<!--</a> -->
+				</div>
+				<div class="col-xs-12 no-padding">
+					
 				</div>
 				<?php } ?>
 				<br>
-
 				<?php 
 						$address = ( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"] : "";
 						$address2 = ( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "";
@@ -476,8 +473,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 																"tel" => $tel,
 																"img"=>@$element['profilThumbImageUrl']));
 				?>
-
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden" style="margin: 10px 0px;">
+				<a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6" style="margin: 10px 0px;">
+					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
+				</a>
+				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
 				</a>
 				<?php 
@@ -627,7 +626,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </div>
 
 <?php
-$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "streetAddress"))?true:false);
+$showOdesc = true ;
+if(Person::COLLECTION == $type)
+	$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "streetAddress"))?true:false);
 ?>
 
 <script type="text/javascript">
@@ -641,16 +642,21 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>
-	};
+	};	
 
 	var showOdesc = "<?php echo $showOdesc ?>";
-
-	if(showOdesc == "true")
-		contextData.odesc = contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
-
+	if(showOdesc == "true"){
+		if(contextData.type == "<?php echo Person::COLLECTION; ?>")
+			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
+		else if(contextData.type == "<?php echo Organization::COLLECTION; ?>")
+			contextData.odesc = contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
+		else if(contextData.type == "<?php echo Event::COLLECTION; ?>")
+			contextData.odesc = contextControler+ ": <?php echo @$element["startDate"] ?> <?php echo @$element["endDate"].",".@$element["address"]["streetAddress"] ?> <?php echo @$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"]))) ?>";
+		else if(contextData.type == "<?php echo Project::COLLECTION; ?>")
+			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
+	}
+		
 	var emptyAddress = $.isEmptyObject(contextData.address);
-	console.log("emptyAddress", emptyAddress);
-	var contextId = "<?php echo isset($element["_id"]) ? $element["_id"] : ""; ?>";
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
@@ -663,18 +669,25 @@ $showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::is
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
-	
-console.log(types);
 
+
+	var color = '<?php echo Element::getColorIcon($type); ?>';
+	var icon = '<?php echo Element::getFaIcon($type); ?>';
+	//var tags = <?php echo json_encode($tags)?>;
+
+	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
+	//By default : view mode
+	//var images = <?php echo json_encode($images) ?>;
 	
+	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
 		activateEditableContext();
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
-
 		bindAboutPodElement();
+
 
 		manageAllDayElement(allDay);
 		/*$("#btn-update-geopos").click(function(){
@@ -696,7 +709,11 @@ console.log(types);
 			findGeoPosByAddress();
 		});
 
-		buildQRCode(contextControler,contextId);
+		$("#btn-view-map").click(function(){
+			showMap(true);
+		});
+
+		buildQRCode(contextControler,contextData.id);
 
 		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
@@ -723,16 +740,11 @@ console.log(types);
 				switchModeElement();
 			}
 		}
-
-
-
 	});
-
-	
 
 	function bindAboutPodElement() {
 		$("#editGeoPosition").click(function(){
-			Sig.startModifyGeoposition(contextId, "<?php echo $type ?>", contextData);
+			Sig.startModifyGeoposition(contextData.id, "<?php echo $type ?>", contextData);
 			showMap(true);
 		});
 
@@ -747,7 +759,7 @@ console.log(types);
 
 		$("#downloadProfil").click(function () {
 			$.ajax({
-				url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextId ,
+				url: baseUrl + "/communecter/data/get/type/citoyens/id/"+contextData.id ,
 				type: 'POST',
 				dataType: 'json',
 				async:false,
@@ -774,7 +786,7 @@ console.log(types);
 	    	param.type = $(this).attr("type");
 	    	param.value = $(this).attr("value");
 	    	param.typeEntity = "<?php echo $type; ?>";
-	    	param.idEntity = contextId;
+	    	param.idEntity = contextData.id;
 			$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+"/element/updatesettings",
@@ -793,7 +805,7 @@ console.log(types);
 	    		param = new Object;
 		    	param.name = "seePreferences";
 		    	param.value = false;
-		    	param.pk = contextId;
+		    	param.pk = contextData.id;
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
@@ -853,16 +865,18 @@ console.log(types);
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
+			$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
-			$('.editable-context').editable('option', 'pk', contextId);
+			$('.editable-context').editable('option', 'pk', contextData.id);
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditablesContext, function(i,value) {
 				//add primary key to the x-editable field
-				$(value).editable('option', 'pk', contextId);
+				$(value).editable('option', 'pk', contextData.id);
 				$(value).editable('toggleDisabled');
 			})
 			$("#btn-update-geopos").removeClass("hidden");
+			$("#btn-view-map").addClass("hidden");
 		}
 	}
 
@@ -1005,7 +1019,17 @@ console.log(types);
 	        showbuttons: true
 		});
 
-		
+		/*$('#tags').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
+	        select2: {
+	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+	            tokenSeparators: [","],
+	            width: 200,
+	            dropdownCssClass: 'select2-hidden'
+	        }
+	    });*/
 
 		//Select2 tags
 		$('#tags').editable({
@@ -1015,7 +1039,8 @@ console.log(types);
 		 	select2: {
 		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
 		 		tokenSeparators: [","],
-		 		width: 200
+		 		width: 200,
+		 		dropdownCssClass: 'select2-hidden'
 		 	},
 		 	success : function(data) {
 		 		console.log("TAGS", data);
@@ -1233,7 +1258,7 @@ console.log(types);
 		if (isAllDay == '') {
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-				pk: contextId,
+				pk: contextData.id,
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
@@ -1253,7 +1278,7 @@ console.log(types);
 
 			$('#endDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-				pk: contextId,
+				pk: contextData.id,
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
@@ -1275,7 +1300,7 @@ console.log(types);
 		} else {
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-				pk: contextId,
+				pk: contextData.id,
 				type: "datetime",
 				mode: "popup",
 				placement: "bottom",
@@ -1297,7 +1322,7 @@ console.log(types);
 
 			$('#endDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-				pk: contextId,
+				pk: contextData.id,
 				mode: "popup",
 				type: "datetime",
 				placement: "bottom",
@@ -1326,7 +1351,10 @@ console.log(types);
 	}
 
 	function returnttags() {
-		var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
+		console.log("------------- returnttags -------------------");
+		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
+		//var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
+
 		return tags ;
 	}
 
@@ -1395,7 +1423,7 @@ console.log(types);
 			//if(typeof contextData["geo"] == "undefined")
 			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
-			showGeoposFound(coords, contextId, "organizations", contextData);
+			showGeoposFound(coords, contextData.id, "organizations", contextData);
 		}
 		//si nominatim n'a pas trouvé de résultat
 		else {
@@ -1419,7 +1447,7 @@ console.log(types);
 			
 			contextData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
-			showGeoposFound(coords, contextId, "organizations", contextData);
+			showGeoposFound(coords, contextData.id, "organizations", contextData);
 		}
 		else {
 			console.log("Erreur getlatlngbyinsee vide");

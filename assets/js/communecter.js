@@ -1255,8 +1255,32 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     });
 }
 
-function openForm (type, afterLoad ) { 
+function editElement(type,id){
+	console.warn("--------------- editElement "+type+" ---------------------",id);
+	//get ajax of the elemetn content
+	$.ajax({
+        type: "GET",
+        url: baseUrl+"/"+moduleId+"/element/get/type/"+type+"/id/"+id,
+        dataType : "json"
+    })
+    .done(function (data) {
+        if ( data && data.result ) {
+        	toastr.info(type+" found");
+        	
+			//onLoad fill inputs
+			data.map.id = data.map["_id"]["$id"];
+			delete data.map["_id"];
+			openForm(type,null, data.map);
+        } else {
+           toastr.error("something went wrong!! please try again.");
+        }
+    });
+}
+
+function openForm (type, afterLoad,data) { 
+    console.clear();
     console.warn("--------------- Open Form "+type+" ---------------------");
+    console.dir(data);
     elementLocation = null;
     elementLocations = [];
     centerLocation = null;
@@ -1283,18 +1307,20 @@ function openForm (type, afterLoad ) {
 	  	$('.modal-footer').hide();
 	  	$('#ajax-modal').modal("show");
 	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-	  	buildDynForm(specs, afterLoad);
+	  	data = ( notNull(data) ) ? data : {};
+	  	buildDynForm(specs, afterLoad, data);
 	} else 
 		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
 }
 
-function buildDynForm(elementObj, afterLoad) { 
-
+function buildDynForm(elementObj, afterLoad,data) { 
+	console.warn("--------------- buildDynForm", afterLoad,data);
 	if(userId)
 	{
 		var form = $.dynForm({
 		      formId : "#ajax-modal-modal-body #ajaxFormModal",
 		      formObj : elementObj.dynForm,
+		      formValues : data,
 		      onLoad : function  () {
 		        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 		        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
@@ -1302,7 +1328,8 @@ function buildDynForm(elementObj, afterLoad) {
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad]();
+		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad](data);
+		        //incase we need a second global post process
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
@@ -1412,6 +1439,7 @@ var typeObj = {
 			    title : "Point of interest Form",
 			    icon : "map-marker",
 			    type : "object",
+			    
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
@@ -1420,7 +1448,15 @@ var typeObj = {
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
 			    		
-			    	}
+			    	}/*,
+			    	loadData : function(data){
+
+				    	console.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
 			    },
 			    properties : {
 			    	info : {
@@ -1462,7 +1498,7 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
-		            _id :{
+		            id :{
 		            	"inputType" : "hidden"
 		            },
 		            parentId :{
