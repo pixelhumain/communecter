@@ -27,7 +27,7 @@ return array(
 	"testing" => "En test",
 	"Enter the project's name" => "Entrer le nom du projet",
 	"Write the project's description" => "Rédigez la description du projet",
-	"Write the project's short description" => "Décrivez ce projet en quelques mots (moins de 140 caractères)",
+	"Write the project's short description" => "Décrivez ce projet en quelques mots (moins de 141 caractères)",
 	"Enter the project's maturity" => "Entrer l'avancement du projet",
 	"Enter the project's start" => "Entrer le début du projet",
 	"Enter the project's end" => "Entrer la fin du projet",

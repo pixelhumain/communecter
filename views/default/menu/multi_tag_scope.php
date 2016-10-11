@@ -71,7 +71,9 @@ function showTagsScopesMin(htmlId){
 	});
 	html += "<div class='list-select-scopes'>";
 	html += 	"<hr style='margin-top:15px;margin-bottom:5px;'>";
-	html += 	"<span class='padding-10' id='lbl-my-scopes'></span><br>";
+	html += 	"<span class='padding-10' id='lbl-my-scopes'>"+
+					"<b><i class='fa fa-angle-down'></i> <i class='fa fa-tag'></i> Rechercher par lieux</b>"+
+				"</span></span><br>";
 	html +=  	"<button class='btn text-dark btn-sm' id='toogle-scopes-selected' onclick='javascript:selectAllScopes();'>"+
 					iconSelectScope + 
 				"</button> ";

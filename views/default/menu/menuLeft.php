@@ -35,7 +35,7 @@
 		<?php // MON PROFIL // ?>
 		
 		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+		        $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
 		} ?>
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>

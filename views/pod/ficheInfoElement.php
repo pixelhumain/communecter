@@ -202,7 +202,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<?php } ?>
 
 			<?php if($edit==true) { ?>
-				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="Compléter ou corriger les informations de ce projet" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common", "Complete or correct the informations of")." ".Yii::t("common","this ".$controller) ?>" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
 			<?php } ?>
 			
 			<?php if ($openEdition==true) { ?>
@@ -221,7 +221,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				</a>
 			<?php } ?>
 		<?php } ?>
-		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for this ".Element::getControlerByCollection($type)); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>
 	<div id="activityContent" class="panel-body no-padding hide">
 		<h2 class="homestead text-dark" style="padding:40px;">
@@ -527,7 +527,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				<br>
 				<?php if($type==Project::COLLECTION){ ?>
 				<i class="fa fa-file-text-o"></i>
-				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Project licence") ?>" class="editable-context editable editable-click"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
+				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project licence") ?>" class="editable-context editable editable-click"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
 				<?php } ?>
 
 				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
@@ -611,7 +611,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		<div id="divShortDescription" class="col-xs-12 col-md-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
 			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Write the project's short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
 				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
 			</a>	
 			
@@ -619,7 +619,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
-				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("project","Enter the project's description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
+				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Enter the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
 				</a>	
 		</div>
@@ -673,7 +673,6 @@ console.log(types);
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
-		setTitle( "<?php echo addslashes($element["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
 
 		bindAboutPodElement();
 

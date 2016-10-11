@@ -119,7 +119,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</tbody>
 					</table>
 					<?php } ?>
-		<?php if( $nbEventVisible == 0 ) { ?>
+		<?php if( $nbEventVisible == 0 && $nbOldEvents== 0) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
 					<?php 
