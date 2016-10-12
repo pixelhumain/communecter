@@ -1452,7 +1452,6 @@ var typeObj = {
 			    		
 			    	}/*,
 			    	loadData : function(data){
-
 				    	console.warn("--------------- loadData ---------------------",data);
 				    	$('#ajaxFormModal #name').val(data.name);
 				    	$('#ajaxFormModal #type').val(data.type);
