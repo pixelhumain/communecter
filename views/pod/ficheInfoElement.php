@@ -483,9 +483,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
 					if(@$roles["superAdmin"] == true){
 						?>
-							<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
+							<!--<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
 								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-							</a>
+							</a>-->
 						<?php
 					}
 				?>
@@ -629,6 +629,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 $showOdesc = true ;
 if(Person::COLLECTION == $type)
 	$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "streetAddress"))?true:false);
+$odesc = "" ;
+if($showOdesc == true){
+	$controller = Element::getControlerByCollection($type) ;
+	if($type == Person::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ;
+	else if($type == Organization::COLLECTION)
+		$odesc = $controller." : ".@$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
+	else if($type == Event::COLLECTION)
+		$odesc = $controller." : ".@$element["startDate"].",".@$element["endDate"].",".@$element["address"]["streetAddress"].",".@$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"])));
+	else if($type == Project::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
+}
+	
+
+
 ?>
 
 <script type="text/javascript">
@@ -641,20 +656,23 @@ if(Person::COLLECTION == $type)
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
-		address : <?php echo json_encode(@$element["address"]) ?>
+		address : <?php echo json_encode(@$element["address"]) ?>,
+		odesc : <?php echo json_encode($odesc) ?>
 	};	
 
-	var showOdesc = "<?php echo $showOdesc ?>";
+	/*var showOdesc = "<?php echo $showOdesc ?>";
+	console.log(contextData.type, "contextControler", typeof contextControler);
+	
 	if(showOdesc == "true"){
-		if(contextData.type == "<?php echo Person::COLLECTION; ?>")
-			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
+		if(contextData.type == "<?php echo json_encode(Person::COLLECTION); ?>")
+			contextData.odesc = contextControler ;
 		else if(contextData.type == "<?php echo Organization::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
 		else if(contextData.type == "<?php echo Event::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo @$element["startDate"] ?> <?php echo @$element["endDate"].",".addslashes(json_encode(@$element["address"]["streetAddress"])) ?> <?php echo @$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"]))) ?>";
 		else if(contextData.type == "<?php echo Project::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
-	}
+	}*/
 		
 	var emptyAddress = $.isEmptyObject(contextData.address);
 	var mode = "view";
@@ -669,8 +687,6 @@ if(Person::COLLECTION == $type)
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
 	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
-
-
 	var color = '<?php echo Element::getColorIcon($type); ?>';
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	//var tags = <?php echo json_encode($tags)?>;
@@ -687,8 +703,6 @@ if(Person::COLLECTION == $type)
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		bindAboutPodElement();
-
-
 		manageAllDayElement(allDay);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();

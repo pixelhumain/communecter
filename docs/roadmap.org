@@ -57,7 +57,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
-    [ ] remove betatester attr
+    [X] remove betatester attr
     [X] remove empty image attribs
     [ ] mailing + notification + parametre
       [ ] doc
