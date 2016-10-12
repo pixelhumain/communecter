@@ -1180,11 +1180,7 @@ function formatData(formData, collection,ctrl) {
 			});
 		}
 	}
-	formData.urls = [];
-	$(".addmultifield").each(function(i,v){
-		console.warn("formatData > addmultifield",$(v).val());
-		formData.urls.push($(v).val());	
-	});
+	
 	formData.medias = [];
 	$(".resultGetUrl").each(function(){
 		if($(this).html() != ""){
@@ -1228,16 +1224,15 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 { 
 	console.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
-	console.dir(formData);
+	console.log("before",formData);
 	formData = formatData(formData,collection,ctrl);
-	
 	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
     	dataType: "json",
     	success: function(data){
-    		console.warn("ajax result");
+    		console.warn("saveElement ajax result");
     		console.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
@@ -1269,6 +1264,7 @@ function editElement(type,id){
         	//toastr.info(type+" found");
         	
 			//onLoad fill inputs
+			//will be sued in the dynform  as update 
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
 			//console.dir(data);
@@ -1281,7 +1277,7 @@ function editElement(type,id){
 
 function openForm (type, afterLoad,data) { 
     //console.clear();
-    console.warn("--------------- Open Form "+type+" ---------------------");
+    console.warn("--------------- Open Form "+type+" ---------------------",data);
     console.dir(data);
     elementLocation = null;
     elementLocations = [];
@@ -1467,7 +1463,7 @@ var typeObj = {
 		            type :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Type du point d'intérêt",
-		            	"options" : eventTypes
+		            	"options" : poiTypes
 		            },
 			        name : {
 			        	placeholder : "Nom",
@@ -1488,7 +1484,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
@@ -1567,7 +1563,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1591,6 +1587,13 @@ var typeObj = {
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
 			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+			        telephone : {
+			        	placeholder : "Téléphne",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".telephonetext").css("display","none");
 			            }
 			        },
 		            "preferences[publicFields]" : {
@@ -1766,7 +1769,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
@@ -1861,7 +1864,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -1986,7 +1989,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2095,7 +2098,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2426,7 +2429,7 @@ function getMediaFromUrlContent(className, appendClassName){
         if (match_url.test(getUrl.val())) {
 	        if(lastUrl != getUrl.val().match(match_url)[0]){
 	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-                $this.parent().find(appendClassName).hide();
+                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>").css("height","20px");//hide();
                 $("#loading_indicator").show(); //show loading indicator image
                 //ajax request to be sent to extract-process.php
                 //alert(extracted_url);
@@ -2456,6 +2459,7 @@ function getMediaFromUrlContent(className, appendClassName){
 						//content to be loaded in #results element
 						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
 	                    //load results in the element
+	                    $this.parent().find(appendClassName).hide();
 	                    $this.parent().find(appendClassName).html(content);
 	                    $this.parent().find(appendClassName).slideDown();
 	                    //$("#results").html(content); //append received data into the element
@@ -2547,7 +2551,7 @@ function getMediaCommonHtml(data,action,id){
 	else
 		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
-		contentMedia='<div class="extracted_content col-xs-8 padding-5"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		contentMedia='<div class="extracted_content col-xs-8 padding-20"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
 		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}

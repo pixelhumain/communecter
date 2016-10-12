@@ -353,7 +353,7 @@ function searchAdressNewElement(){
 
 function backToForm(update, cancel){
 	console.log("backToForm", typeof update, update);
-	if(typeof update == "undefined" || update == "false"){
+	if( notEmpty($("[name='newElement_lat']").val()) && (typeof update == "undefined" || update == "false") ){
 		locationObj = {
 			address : {
 				"@type" : "PostalAddress",

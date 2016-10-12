@@ -120,6 +120,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] bugs
       [X] add to floopdrawer after save
       [ ] [[@Rapha :: location > tape CP > validate , ca passe]] 
+      [ ] cancel location is not empty
+      [ ] delete from location liste after having added
     [X] onclick add spinner on save btn +disable
     [X] type::afterSave : connect specific post process for each elem
       [X] organization
