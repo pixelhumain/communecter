@@ -449,6 +449,8 @@ function updateLocalityElement(){
 				$('#localityHeader').html(contextData.address.addressLocality);
 				$('#pcHeader').html(contextData.address.postalCode);
 				$('#countryHeader').html(contextData.address.addressCountry);
+				
+				Sig.showMapElements(Sig.map, contextMap);
 				//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+contextData.address.codeInsee+"', 'MA COMMUNE','university' )");
 	    	}
 	    }
