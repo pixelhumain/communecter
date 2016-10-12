@@ -422,7 +422,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<?php if(@$parent["profilThumbImageUrl"]){ ?>
 						<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
 					<?php } else{ ?>
-						<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa fa-users' style='font-size:50px;'></i></div>
+						<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>	
 					<?php } ?>
 						<i class="fa fa-caret-down" style="font-size:inherit;"></i>
 					</a>
@@ -433,12 +433,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<?php if(@$parent["profilThumbImageUrl"]){ ?>
 									<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
 								<?php } else { ?>
-									<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'>
-										<i class='fa fa-users' style='font-size:20px;'></i>
-									</div>
+									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>	
 								<?php } ?>
 								<?php echo $contextName ?></h4>
-								<p class="list-group-item-text small">Afficher l'element comme auteur</p>
+								<p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
 							</a>
 						</li>
 						<li>
@@ -446,9 +444,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
 								<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
 								<?php } else {  ?>
-								<div class="thumbnail-profil">
-									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default.png' ?>'>	
-								</div>
+									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>	
 								<?php } ?>
 								<?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
 								<p class="list-group-item-text small"><?php echo "I write in element journal" ?></p>

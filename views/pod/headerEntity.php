@@ -11,9 +11,9 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
-	'/js/dataHelpers.js',
-	'/js/postalCode.js',
-	'/js/activityHistory.js'
+	//'/js/dataHelpers.js',
+	//'/js/postalCode.js',
+	//'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 

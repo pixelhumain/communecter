@@ -255,7 +255,7 @@ function bindEvent(){
 	$(".targetIsAuthor").click(function() {
 		console.log(this);
 		srcImg=$(this).find("img").attr("src");
-		$("#btn-toogle-dropdown-targetIsAuthor").html('<img height=20 width=20 src='+srcImg+'/> <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
+		$("#btn-toogle-dropdown-targetIsAuthor").html('<img height=20 width=20 src="'+srcImg+'"/> <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
 		authorTargetChange=$(this).data("value");
 		$("#authorIsTarget").val(authorTargetChange);
 		/*if(scopeChange == "public"){
