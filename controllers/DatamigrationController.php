@@ -769,5 +769,43 @@ class DatamigrationController extends CommunecterController {
 		
 	}
 
+
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) == 1){
+				
+
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					if(trim($cp["name"]) != trim($name)){
+						$find =true;
+						$cp["name"] = $name ;
+						$postalCodes[$keyCP] =  $cp ;
+					}
+
+
+				}
+
+				if($find == true){
+					$nbcities ++ ;
+					$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"postalCodes" => $postalCodes ))
+
+                    );
+				}
+			}
+
+			
+			
+
+			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+	}
+
 }
 
