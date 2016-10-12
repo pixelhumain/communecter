@@ -299,13 +299,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	margin: 0;
 	margin-bottom: 10px;
 }
-.tools_bar{
-	border-bottom: 1px solid lightgrey;
-}
 
 #btn-submit-form{
 	display: none;
 }
+
+.tools_bar{
+	border-bottom: 1px solid lightgrey;
+}
+
 <?php 
 if($type == Organization::COLLECTION){
 	$formTitle = Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id);

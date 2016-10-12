@@ -190,7 +190,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 </style>
 
 <div class="panel panel-white">
-	<div class="panel-heading border-light padding-15">
+	<div class="panel-heading border-light padding-15" style="background-color: #dee2e680;">
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 		</h4>
