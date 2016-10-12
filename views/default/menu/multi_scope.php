@@ -219,6 +219,8 @@ var myMultiScopes = <?php echo isset($me) && isset($me["multiscopes"]) ?
 								$multiscopes; 
 					?>;
 
+if(myMultiScopes.length == 0) myMultiScopes = {};
+
 var currentScopeType = "city";
 var timeoutAddScope;
 
