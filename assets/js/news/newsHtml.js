@@ -323,7 +323,7 @@ function buildLineHTML(newsObj,idSession,update)
 		else
 			nameAuthor = newsObj.target.name;
 		urlTarget = 'href="#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'" ';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
+		var personName = "<a "+urlTarget+" class='lbh' style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")
@@ -335,7 +335,10 @@ function buildLineHTML(newsObj,idSession,update)
 			nameAuthor = newsObj.author.name.substr(0,25)+"...";
 		else
 			nameAuthor = newsObj.author.name;
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
+		if(typeof newsObj.targetIsAuthor != "undefined")
+			var personName = urlAction.titleAction;
+		else
+			var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
@@ -450,7 +453,7 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 		else
 			titleAction="";
-		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
+		if((((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id) || typeof obj.targetIsAuthor != "undefined") && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
 			}else if (obj.target.type == "projects"){
@@ -471,7 +474,9 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction += ' <i class="fa fa-caret-right"></i> <a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" class="lbh"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			if(typeof obj.targetIsAuthor == "undefined")
+				titleAction += ' <i class="fa fa-caret-right"></i> ';
+			titleAction += '<a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" class="lbh"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction += "a partagé un lien";
@@ -558,8 +563,12 @@ function builHtmlAuthorImageObject(obj){ //console.log("[[[[[[[[[[[[[[[[[[[[[[[[
 				}
 			}
 			else{	
-				if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
-					imgProfilPath = baseUrl + obj.author.profilThumbImageUrl;
+				if(typeof obj.targetIsAuthor != "undefined"){
+					imgProfilPath = baseUrl + obj.target.profilThumbImageUrl;
+				}else{
+					if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
+						imgProfilPath = baseUrl + obj.author.profilThumbImageUrl;
+					}
 				}
 				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ imgProfilPath + "'></div>" + flag ;	 
 			}

@@ -63,6 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the members"); 
 		$titlePrivate = "Privé";
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
+		$public = true;
 		$iconBegin= "lock";
 		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
@@ -106,6 +107,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$private = Yii::t("common","Visible only to the project's contributors"); 
 		$scopeBegin= ucfirst(Yii::t("common", "private"));	
 		$iconBegin= "lock";
+		$public = true;
 		$headerName= "Journal du projet";//.$contextName;
 		$topTitle = "Journal du projet";//.$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
@@ -368,8 +370,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
 				
-				<div class="list_tags_scopes col-md-9 no-padding margin-bottom-10"></div>
-
+				<div id="scopeListContainer" class="list_tags_scopes col-md-9 no-padding margin-bottom-10"></div>
 				<?php if((@$canManageNews && $canManageNews==true) 
 							|| (@Yii::app()->session["userId"] 
 							&& $contextParentType==Person::COLLECTION 
@@ -378,7 +379,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
 				
-				<div class="dropdown col-md-9">
+				<div class="dropdown col-md-6">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<?php if (@$private && ($contextParentType==Project::COLLECTION || $contextParentType==Organization::COLLECTION)){ ?>
@@ -395,11 +396,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(false){ ?>
+						<?php if(@$public){ ?>
 						<li>
 							<a href="javascript:;" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
 								<!--<div class="small" style="padding-left:12px;">-->
-							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on the city's wall")?></p>
+							<p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on cities' live")?></p>
 							</a>
 						</li>
 						<?php } ?>
@@ -414,7 +415,47 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
 					</ul>
-				</div>		
+				</div>	
+				<?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
+				<div class="dropdown col-md-4 no-padding">
+					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
+					<?php if(@$parent["profilThumbImageUrl"]){ ?>
+						<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
+					<?php } else{ ?>
+						<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa fa-users' style='font-size:50px;'></i></div>
+					<?php } ?>
+						<i class="fa fa-caret-down" style="font-size:inherit;"></i>
+					</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li>
+							<a href="javascript:;" class="targetIsAuthor" data-value="1">
+								<h4 class="list-group-item-heading">
+								<?php if(@$parent["profilThumbImageUrl"]){ ?>
+									<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
+								<?php } else { ?>
+									<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'>
+										<i class='fa fa-users' style='font-size:20px;'></i>
+									</div>
+								<?php } ?>
+								<?php echo $contextName ?></h4>
+								<p class="list-group-item-text small">Afficher l'element comme auteur</p>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:;" class="targetIsAuthor" data-value="0"><h4 class="list-group-item-heading">
+								<?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
+								<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
+								<?php } else {  ?>
+									<img height=20 width=20 src='<?php echo $assetUrl.'/images/thumbnail-default.jpg' ?>'>	
+								<?php } ?>
+								<?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
+								<p class="list-group-item-text small"><?php echo "I write in element journal" ?></p>
+							</a>
+						</li>
+					</ul>
+					<input type="hidden" id="authorIsTarget" value="1"/>
+				</div>	
+					<?php } ?>		
 				<?php } ?>
 
 				<?php if($type=="city"){ ?>
@@ -586,6 +627,7 @@ var element = null;
 jQuery(document).ready(function() 
 {
  	activeMenuElement("news");
+
 	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
 		//$("#cityInsee").val(inseeCommunexion);
 		//$("#cityPostalCode").val(cpCommunexion);
@@ -776,8 +818,8 @@ jQuery(document).ready(function()
 
 
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
- 	
- 	showTagsScopesMin(".list_tags_scopes");
+ 	if(isLiveGlobal())
+ 		showTagsScopesMin(".list_tags_scopes");
  	showFormBlock(false);
 });
 function isInArray(value, array) {

@@ -354,8 +354,29 @@ function searchAdressNewElement(){
 function backToForm(update, cancel){
 	console.log("backToForm", typeof update, update);
 	if(typeof update == "undefined" || update == "false"){
-		copyMapForm2Dynform();
-		addLocationToForm();
+		locationObj = {
+			address : {
+				"@type" : "PostalAddress",
+				addressCountry : $("[name='newElement_country']").val(),
+				streetAddress : $("[name='newElement_streetAddress']").val(),
+				addressLocality : $("[name='newElement_city']").val(),
+				postalCode : $("[name='newElement_cp']").val(),
+				codeInsee : $("[name='newElement_insee']").val(),
+				depName : $("[name='newElement_dep']").val(),
+				regionName : $("[name='newElement_region']").val()
+			},
+			geo : {
+				"@type" : "GeoCoordinates",
+				latitude : $("[name='newElement_lat']").val(),
+				longitude : $("[name='newElement_lng']").val()
+			},
+			geoPosition : {
+				"@type" : "Point",
+				"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
+			}
+		};
+		copyMapForm2Dynform(locationObj);
+		addLocationToForm(locationObj);
 		showMap(false);
 		$('#ajax-modal').modal("show");
 	}else{
@@ -428,6 +449,8 @@ function updateLocalityElement(){
 				$('#localityHeader').html(contextData.address.addressLocality);
 				$('#pcHeader').html(contextData.address.postalCode);
 				$('#countryHeader').html(contextData.address.addressCountry);
+				
+				Sig.showMapElements(Sig.map, contextMap);
 				//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+contextData.address.codeInsee+"', 'MA COMMUNE','university' )");
 	    	}
 	    }

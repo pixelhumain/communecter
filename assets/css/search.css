@@ -989,8 +989,8 @@ button.btn-infos{
 	overflow: hidden;
 	text-align: left;
 	padding: 2px 9px;
-	background-color: rgb(190, 223, 228) !important;
-	color: rgb(45, 99, 125) !important;
+	/*background-color: rgb(190, 223, 228) !important;
+	color: rgb(45, 99, 125) !important;*/
 	font-weight: 500;
 }
 

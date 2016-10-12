@@ -150,6 +150,7 @@
 			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
 			$(".btn").addClass("disabled");
+			$("#"+contentId+"_imgPreview").addClass("hidden");
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
 				url : baseUrl+"/"+moduleId+"/document/<?php echo Yii::app()->params['uploadUrl'] ?>dir/"+moduleId+"/folder/"+type+"/ownerId/"+id+"/input/avatar",
@@ -264,7 +265,6 @@
 		      	dataType: "json"
 			}).done( function(data){
 		        if(data.result){
-		        	$("#"+contentId+"_imgPreview").addClass("hidden");
 		        	imagesPath.push(baseUrl+path);
 					$(".fileupload-preview img").css("max-height", "190px");
 					imageId = data.id["$id"];

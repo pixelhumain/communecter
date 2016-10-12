@@ -35,7 +35,7 @@
 		<?php // MON PROFIL // ?>
 		
 		<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
-		          $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
+		        $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
 		} ?>
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -94,8 +94,7 @@
 
 		<?php // TOP // ?>
 		<a href="#default.live" id="menu-btn-live"
-				class="lbh menu-button-left hidden
-				<?php echo ($page == 'live') ? 'selected':'';?>">
+				class="lbh menu-button-left hidden">
 			<i class="fa fa-thumbs-up  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
 			<span class="lbl-btn-menu">TOP</span>
@@ -103,65 +102,23 @@
 		<!-- <hr> -->
 
 		<?php // LIVE // ?>
-		<!--<a href="javascript:loadByHash('#default.live')" id="menu-btn-live"
-				data-hash="#default.live"
-				class="menu-button-left  
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-heartbeat  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Live"></i> <span class="lbl-btn-menu">Live</span>
-		</a><hr class="">-->
 		<a href="#default.live" id="menu-btn-live"
-				class="lbh menu-button-left
-				<?php echo ($page == 'live') ? 'selected':'';?>">
+				class="lbh menu-button-left">
 			<i class="fa fa-heartbeat  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
 			<span class="lbl-btn-menu">Live</span>
 		</a>
 		<hr>
 
-		
-
-		<!-- <a href="#default.live.type.idea" id="menu-btn-live-idea"
-				data-hash="#default.live.type.idea"
-				class="lbh menu-button-left visible-communected hidden
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-info-circle  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Idées"></i> <span class="lbl-btn-menu">Idées</span>
-		</a><hr class="visible-communected hidden">
-		
-		<a href="#default.live.type.question" id="menu-btn-live-question"
-				data-hash="#default.live.type.question"
-				class="lbh menu-button-left visible-communected hidden
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-question-circle  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Questions"></i> <span class="lbl-btn-menu">Questions</span>
-		</a><hr class="visible-communected hidden">
-		
-		<a href="#default.live.type.announce" id="menu-btn-live-announce"
-				data-hash="#default.live.type.announce"
-				class="lbh menu-button-left visible-communected hidden
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-ticket  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Annonces"></i> <span class="lbl-btn-menu">Annonces</span>
-		</a><hr class="visible-communected hidden">
-		
-		<a href="#default.live.type.information" id="menu-btn-live-information"
-				data-hash="#default.live.type.information"
-				class="lbh menu-button-left visible-communected hidden
-				<?php echo ($page == 'live') ? 'selected':'';?>">
-				<i class="fa fa-newspaper-o  tooltips"
-					data-toggle="tooltip" data-placement="right" title="Informations"></i> <span class="lbl-btn-menu">Informations</span>
-		</a><hr class="visible-communected hidden"> -->
-		<!-- <br> -->
+		<br>
 
 		<?php // RECHERCHER // ?>
 		<!-- <br> -->
-		<a href="#default.directory" id="menu-btn-directory"
-				class="menu-button-left lbh
-				<?php echo ($page == 'directory') ? 'selected':'';?>">
+		<a href="javascript:extendMenu();" id="menu-btn-directory"
+				class="menu-button-left">
 			<i class="fa fa-search tooltips"
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
-			<span class="lbl-btn-menu">Rechercher</span>
+			<span class="lbl-btn-menu"><b>Recherche</b></span>
 		</a>
 		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu lbl-btn-menu">
 			<i class="fa text-red fa-angle-down tooltips" data-toggle="tooltip" data-placement="right" title="Plus de live"></i> 
@@ -169,14 +126,12 @@
 		
 		<hr class="">
 		
-		
-
 		<div id="menu-extend">
-			<?php // AGENDA // ?>
+
+			<?php // Agenda // ?>
 			<a href="#default.agenda" id="menu-btn-agenda"
 					data-hash="#default.agenda"
-					class="menu-button-left lbh 
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
+					class="menu-button-left lbh">
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Agenda</span>
@@ -190,8 +145,7 @@
 
 			<?php // Organisation // ?>
 			<a href="#default.directory?type=organizations" id="menu-btn-organization"
-					class="menu-button-left lbh 
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
+					class="menu-button-left lbh">
 				<i class="fa fa-group tooltips"
 					data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
 				<span class="lbl-btn-menu">Organisations</span>
@@ -205,8 +159,7 @@
 
 			<?php // Projet // ?>
 			<a href="#default.directory?type=projects" id="menu-btn-project"
-					class="menu-button-left  lbh
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
+					class="menu-button-left  lbh">
 				<i class="fa fa-lightbulb-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Projets"></i> 
 				<span class="lbl-btn-menu">Projets</span>
@@ -220,8 +173,7 @@
 
 			<?php // People // ?>
 			<a href="#default.directory?type=persons"  id="menu-btn-people"
-					class="menu-button-left  lbh
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
+					class="menu-button-left  lbh">
 				<i class="fa fa-user tooltips"
 					data-toggle="tooltip" data-placement="right" title="Citoyens"></i> 
 				<span class="lbl-btn-menu">Citoyens</span>
@@ -233,34 +185,43 @@
 			<?php } ?>
 			<hr>
 
-			<?php // Débat // ?>
-			<a href="#default.directory?type=vote" id="menu-btn-vote"
-					class="menu-button-left  lbh
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-gavel tooltips"
-					data-toggle="tooltip" data-placement="right" title="Débats"></i> 
-				<span class="lbl-btn-menu">Débats</span>
-			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
-			<a href="javascript:openForm ( 'entry' );" class="menu-button-left pull-right lbl-btn-menu">
-				<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
-			</a>
-			<?php } ?>
-			<hr>
+				<?php // Débat // ?>
+				<a href="#default.directory?type=vote" id="menu-btn-vote"
+						class="menu-button-left  lbh">
+					<i class="fa fa-gavel tooltips"
+						data-toggle="tooltip" data-placement="right" title="Débats"></i> 
+					<span class="lbl-btn-menu">Débats</span>
+				</a>
+				<?php if(isset(Yii::app()->session['userId'])){ ?>
+				<a href="javascript:openForm ( 'entry' );" class="menu-button-left pull-right lbl-btn-menu">
+					<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une proposition"></i> 
+				</a>
+				<?php } ?>
+				<hr>
 
-			<?php // Action // ?>
-			<a href="#default.directory?type=actions" id="menu-btn-action"
-					class="menu-button-left lbh
-					<?php echo ($page == 'agenda') ? 'selected':'';?>">
-				<i class="fa fa-cogs tooltips"
-					data-toggle="tooltip" data-placement="right" title="Actions"></i> 
-				<span class="lbl-btn-menu">Actions</span>
-			</a>
-			<?php if(isset(Yii::app()->session['userId'])){ ?>
-			<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right lbl-btn-menu">
-				<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
-			</a>
+				<?php // Action // ?>
+				<a href="#default.directory?type=actions" id="menu-btn-action"
+						class="menu-button-left lbh">
+					<i class="fa fa-cogs tooltips"
+						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
+					<span class="lbl-btn-menu">Actions</span>
+				</a>
+				<?php if(isset(Yii::app()->session['userId'])){ ?>
+				<a href="javascript:openForm ( 'action' );" class="menu-button-left pull-right lbl-btn-menu">
+					<i class="fa text-red fa-plus-circle tooltips" data-toggle="tooltip" data-placement="right" title="Ajouter une actions"></i> 
+				</a>
+				<?php } ?>
+				<hr>
 			<?php } ?>
+			
+			<?php // Commune // ?>
+			<a href="#default.directory?type=cities" id="menu-btn-action"
+					class="menu-button-left lbh">
+				<i class="fa fa-university tooltips"
+					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
+				<span class="lbl-btn-menu">Communes</span>
+			</a>
 			<hr>
 
 		</div>
