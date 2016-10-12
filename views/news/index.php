@@ -446,7 +446,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
 								<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
 								<?php } else {  ?>
-									<img height=20 width=20 src='<?php echo $assetUrl.'/images/thumbnail-default.jpg' ?>'>	
+								<div class="thumbnail-profil">
+									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default.png' ?>'>	
+								</div>
 								<?php } ?>
 								<?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
 								<p class="list-group-item-text small"><?php echo "I write in element journal" ?></p>
