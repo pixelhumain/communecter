@@ -1,46 +1,219 @@
-<div id="modalDirectoryForm" class="pull-left margin-15"></div>
+<style>
+	
+	/* MODAL */
 
+	@media screen and (min-width: 768px) {
+		#modalDirectoryForm #modal-scope .modal-dialog{
+			width:760px
+		}
+	}
+	#modalDirectoryForm  .modal-header, 
+	#modalDirectoryForm  .modal-footer{
+		background-color: #EAEAEA;
+		color: #2D6569;
+	}
+
+	#modalDirectoryForm  .modal-header button.close{
+		color: 2D6569 !important;
+		opacity: 0.6 !important;
+	}
+	#modalDirectoryForm  #list-scroll-type{
+		max-height:400px;
+		overflow-y:auto; 
+		overflow-x:hidden; 
+		padding-top:15px;
+		border-left: 1px solid rgba(128, 128, 128, 0.26);
+	}
+	#modalDirectoryForm  #list-scroll-type .panel-default,
+	#modalDirectoryForm  #list-scroll-type .panel-heading,
+	#modalDirectoryForm  #list-scroll-type .panel-body{
+		margin-bottom: 0px;
+	}
+	#modalDirectoryForm .modal .panel-heading{
+		padding: 0px;
+		min-height: auto;
+		background-color: transparent;
+		border: none;
+	}
+
+	#modalDirectoryForm .form-control{
+		width:unset;
+	}
+	#modalDirectoryForm .modal input#search-contact{
+		width: 66.66666667%;
+		margin-top: -8px;
+		margin-right: 0px;
+		padding-left: 10px;
+		padding-right: 10px;
+		height: 52px;
+		border-radius: 0px;
+		text-align:left;
+		background-color: rgba(255, 255, 255, 0.54);
+	}
+
+	#modalDirectoryForm .modal .panel-heading h4{
+		margin:0px;
+		font-size: 18px !important;
+		background-color: rgba(114, 114, 114, 0.1);
+		padding: 10px;
+		border-radius: 0px;
+	}
+	#modalDirectoryForm .modal-body{
+		padding: 0px 15px;
+	}
+
+	#modalDirectoryForm .panel-body{
+		background-color: transparent !important;
+	}
+	#modalDirectoryForm .modal .panel{
+		padding: 0px;
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+	}
+	#modalDirectoryForm .modal ul{
+		list-style: none !important;
+		padding-left: 0px;
+		margin-bottom:20px;
+	}
+
+	#modalDirectoryForm .modal .list-group{
+		margin-bottom:0px !important;
+	}
+	#modalDirectoryForm .modal #list-scroll-type ul{
+		margin-bottom:0px !important;
+	}
+	#modalDirectoryForm .modal #menu-type ul li{
+		font-size:16px;
+	}
+	#modalDirectoryForm .modal #menu-type ul li i{
+		width:20px;
+		text-align: center;
+	}
+	#modalDirectoryForm .modal #menu-type ul li a:hover{
+		color:inherit !important;	
+		text-decoration: underline;
+	}
+	#modalDirectoryForm .modal .btn-scroll-type{
+		border:none!important;
+	    padding: 3px;
+	    text-align: left;
+	    width: 100%;
+	}
+	#modalDirectoryForm .modal .btn-select-contact{
+		min-width:70% !important;
+	}
+
+	#modalDirectoryForm .modal #menu-type .btn-scroll-type{
+		border:none!important;
+	    padding: 2px;
+		text-align: left;
+		width: 92%;
+		margin-left: 4%;
+		padding: 6px 4px 4px 8px;
+		margin-bottom: 3px;
+		background:transparent !important;
+	}
+	#modalDirectoryForm .modal #menu-type .btn-scroll-type:hover{
+		background-color:rgba(0, 0, 0, 0.04) !important;
+	}
+	#modalDirectoryForm .modal #scope-postal-code{
+		width: 99%;
+		display: none;
+		margin-left: -1% !important;
+	}
+	#modalDirectoryForm .modal .info-contact{
+		display: inline-block !important;
+		vertical-align: middle;
+	}
+	#modalDirectoryForm .modal .scope-city-contact{
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		max-width: 160px;
+		display: inline-block;
+		height: 15px;
+	 } 
+	#modalDirectoryForm .modal .scope-name-contact{
+		display: inline-block;
+	    vertical-align: middle;
+	    text-align: left;
+	    max-width: 200px;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    font-size: 12px;
+	}
+	#modalDirectoryForm .modal .thumb-send-to {
+	    width: 35px;
+	    height: 35px;
+	    background-color: #DADADA;
+	    border-radius: 4px;
+	    margin:5px;
+	}
+	#modalDirectoryForm .modal .text-light{
+		font-weight:500;
+		color:#8C8C8C !important;
+	}
+	#modalDirectoryForm .modal #menu-type h4 {
+	    background-color: rgba(35, 83, 96, 0.15);
+		color: #2D6569;
+		width: 100%;
+		float: left;
+		padding: 10px 10px 10px 20px;
+		margin: 0;
+		margin-bottom: 10px;
+	}
+
+	#btn-submit-form{
+		display: none;
+	}
+
+</style>
+
+<div id="modalDirectoryForm" class="pull-left margin-15"></div>
+<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
+		    	    
 <script type="text/javascript">
-elementType = "<?php echo $type ?>";
+var elementType = "<?php echo $type ?>";
 var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 
 
-var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Mes contacts" }
+var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Citoyens" }
 						//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
 						//{ name : "events", 			color: "orange"	, icon:"calendar"		}
 						];
-if(elementType != "<?php echo Event::COLLECTION ?>")
-	contactTypes.push({ name : "organizations", 	color: "green" 	, icon:"group", label:"Mes organisations" });
-var importMembreDynForm = {
-	    "jsonSchema" : {
-	        "title" : "News Form",
-	        "type" : "object",
-	        "properties" : {
-	        	"scope" : {
-	          		"inputType" : "scope",
-	          		"title1" : "Ajouter des membres ...",
-	          		"title2" : "Sélectionner des contacts",
-	          		"btnCancelTitle" : "Annuler",
-	          		"btnSaveTitle" : "Ajouter ces contacts",
-	          		"btnResetTitle" : "Annuler tout",
 
-		            "values" : myContacts,
-		            "mainTitle" : "Inviter vos contacts",
-		            "labelBtnOpenModal" : "<span class='text-dark'><i class='fa fa-group'></i> Sélectionner parmis mes contacts</span>",
-		            "contactTypes" : contactTypes
-		        }
-	        }
-	    }
-	};
+if(elementType != "<?php echo Event::COLLECTION ?>")
+	contactTypes.push({ name : "organizations", 	color: "green" 	, icon:"group", label:"Organisations" });
+
+var addLinkDynForm = {
+		"inputType" : "scope",
+  		"title1" : "Ajouter des membres ...",
+  		"title2" : "Parmis mes contacts ...",
+  		"title3" : "Autres ...",
+  		"btnCancelTitle" : "Annuler",
+  		"btnSaveTitle" : "Ajouter ces contacts",
+  		"btnResetTitle" : "Annuler tout",
+
+        "values" : myContacts,
+        "mainTitle" : "Inviter vos contacts",
+        "labelBtnOpenModal" : "<span class='text-dark'><i class='fa fa-group'></i> Sélectionner parmis mes contacts</span>",
+        "contactTypes" : contactTypes
+};
 
 jQuery(document).ready(function() {
 	console.log("MES CONTACTS");
-console.dir(myContacts);
-	buildDynForm();
+	console.dir(myContacts);
+	//buildDynForm(addLinkDynForm);
+	buildModal(addLinkDynForm, "#modalDirectoryForm");
+	bindEventScopeModal();
 });
 
-function buildDynForm(){ 
-	var form = $.dynForm({
+function buildDynForm(fieldObj){ 
+	buildModal(fieldObj, "#modalDirectoryForm");
+	bindEventScopeModal();
+	/*var form = $.dynForm({
 		formId : "#modalDirectoryForm",
 		formObj : importMembreDynForm,
 		onLoad : function  () {
@@ -51,7 +224,7 @@ function buildDynForm(){
 			
 			return false;
 		}
-	});
+	});*/
 }
 	
 function bindEventScopeModal(){
@@ -95,46 +268,109 @@ function bindEventScopeModal(){
 		$("#scope-postal-code").val("");
 	});
 
-/*
-	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	// $("#btn-scroll-type-my-city").click(function(){
-	// 	$("#chk-my-city").prop("checked", !$("#chk-my-city").prop('checked'));
-	// });
-	
-	// //initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	// $("#btn-show-other-cities").mouseover(function(){
-	// 	$("#scope-postal-code").show();
-	// });
-	// //initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	// $("#btn-show-other-cities").click(function(){
-	// 	$("#scope-postal-code").show();
-	// 	$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
-	// });
-	// //initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	// $("#btn-show-other-cities").mouseout(function(){
-	// 	$("#scope-postal-code").hide();
-	// });
+}
 
-	// //initialise la selection de la checkbox "other cities"
-	// $("#btn-scroll-type-cities").click(function(){
-	// 	$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
-	// });
-	// //initialise la selection de la checkbox "other cities" quand le champs text "other cities" n'est pas vide 
-	// $("#scope-postal-code").keyup(function(){
-	// 	$("#chk-cities").prop("checked", ($("#scope-postal-code").val() != ""));
-	// });
-	// //par defaut, marsque le champ txt "other cities"
-	// $("#scope-postal-code").hide();
+function buildModal(fieldObj, idUi){
+	//var fieldClass = " select2TagsInput select2ScopeInput";
+    var fieldHTML = "";    		
+	fieldHTML += '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+				  '<div class="modal-dialog">'+
+				    '<div class="modal-content">'+
+				      '<div class="modal-header">'+
+				        //'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+				        '<input type="text" id="search-contact" class="form-control pull-right" placeholder="rechercher ...">' +
+						'<h4 class="modal-title" id="myModalLabel"><i class="fa fa-search"></i> '+fieldObj.title1+'</h4>'+
+				      '</div>'+
+				      '<div class="modal-body">'+
+					      '<div class="row no-padding bg-light">'+
+					      	'<div class="col-md-4 col-sm-4 no-padding">'+
+						        '<div class="panel panel-default">  '+	
+									'<div class="panel-body no-padding">'+
+										'<div class="list-group" id="menu-type">'+
+											'<ul class="col-xs-12 col-sm-12 col-md-12 no-padding">';
+	fieldHTML += 							'<h4 class="text-dark"> '+
+												'<input type="radio" name="select-type-search" id="select-type-search-contacts" value="contacts" checked> '+
+												'<a href="javascript:" class="text-dark">'+fieldObj.title2+'</a>'+
+											'</h4>';
+											$.each(fieldObj.contactTypes, function(key, type){
+	fieldHTML += 								'<li>'+
+													'<div id="btn-scroll-type-'+type.name+'" class="btn btn-default btn-scroll-type text-'+type.color+'">' +
+														//'<input type="checkbox" name="chk-all-type'+type.name+'" id="chk-all-type'+type.name+'" value="'+type.name+'"> '+
+														'<span style="font-size:16px;"><i class="fa fa-'+type.icon+'"></i> ' + type.label + "</span>" +
+													'</div>'+
+												'</li>';
+											});									
+	fieldHTML += 							'</ul>';
+	fieldHTML += 							'<ul class="col-xs-6 col-sm-12 col-md-12 no-margin no-padding select-population">' + 
+												'<h4 class="text-dark"> '+	
+													'<input type="radio" name="select-type-search" id="select-type-search-contacts" value="contacts"> '+
+													'<a href="javascript:" class="text-dark">'+fieldObj.title3+'</a>'+
+												'</h4>';
+												$.each(fieldObj.contactTypes, function(key, type){
+	fieldHTML += 								'<li>'+
+													'<div id="btn-scroll-type-'+type.name+'" class="btn btn-default btn-scroll-type text-'+type.color+'">' +
+														'<input type="checkbox" name="chk-all-type'+type.name+'" id="chk-all-type'+type.name+'" value="'+type.name+'"> '+
+														'<span style="font-size:16px;"><i class="fa fa-'+type.icon+'"></i> ' + type.label + "</span>" +
+													'</div>'+
+												'</li>';
+											});	
+	fieldHTML +=							'</ul>' +
+										'</div>'+
+									'</div>'+
+								'</div>' +
+					      	'</div>'+
+					      	'<div class="no-padding pull-right col-md-8 col-sm-8 col-xs-12 bg-white" id="list-scroll-type">';
+							$.each(fieldObj.contactTypes, function(key, type){
+	fieldHTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
+								'<div class="panel-heading">'+
+									'<h4 class="text-'+type.color+'"><i class="fa fa-'+type.icon+'"></i> '+type.label+'</h4>'+			
+								'</div>'+
+								'<div class="panel-body no-padding">'+
+									'<div class="list-group padding-5">'+
+										'<ul>';
+										$.each(fieldObj.values[type.name], function(key2, value){ 
+											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
+											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
+											var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/news/profile_default_l.png";
+											var name =  typeof value.name != "undefined" ? value.name : 
+														typeof value.username != "undefined" ? value.username : "";
+											//console.log("data contact +++++++++++ "); console.dir(value);
+											var thisKey = key+''+key2;
+											var thisValue = notEmpty(value["_id"]['$id']) ? value["_id"]['$id'] : "";
+											if(name != "")
+	fieldHTML += 							'<li>' +
+												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
+													'<div class="col-md-1 no-padding"><input type="checkbox" name="scope-'+type.name+'" class="chk-scope-'+type.name+'" id="chk-scope-'+thisKey+'" value="'+thisValue+'" data-type="'+type.name+'"></div> '+
+													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'">' +
+														'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to" height="35" width="35">'+
+														'<span class="info-contact">' +
+															'<span class="scope-name-contact text-dark text-bold" idcontact="'+thisKey+'">' + value.name + '</span>'+
+															'<br/>'+
+															'<span class="scope-cp-contact text-light" idcontact="'+thisKey+'">' + cp + ' </span>'+
+															'<span class="scope-city-contact text-light" idcontact="'+thisKey+'">' + city + '</span>'+
+														'</span>' +
+													'</div>' +
+												'</div>' +
+											'</li>';
+										});									
+	fieldHTML += 						'</ul>' +	
+									'</div>'+
+								'</div>'+
+							'</div>';
+							});									
+	fieldHTML += 			'</div>' +
+						'</div>'+
+					  '</div>'+
+				      '<div class="modal-footer">'+
+				      	'<button id="btn-reset-scope" type="button" class="btn btn-default btn-sm pull-left"><i class="fa fa-repeat"></i> '+fieldObj.btnResetTitle+'</button>'+
+				      	'<button id="btn-cancel" type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> '+fieldObj.btnCancelTitle+'</button>'+
+				      	'<button id="btn-save" type="button" class="btn btn-success btn-sm" data-dismiss="modal"><i class="fa fa-check"></i> '+fieldObj.btnSaveTitle+'</button>'+
+				      '</div>'+
+				    '</div><!-- /.modal-content -->'+
+				  '</div><!-- /.modal-dialog -->'+
+				'</div><!-- /.modal -->';
 
-	
-	// $("#scope-my-wall").click(function(){
-	// 	//showStateScope("cancel");
-	// });
-	// $("#scope-select").click(function(){
-	// 	//showStateScope("save");
-	// });
-*/
-
+	$(idUi).html(fieldHTML);
 }
 
 function filterContact(searchVal){
