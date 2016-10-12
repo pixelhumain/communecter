@@ -669,7 +669,7 @@ if($showOdesc == true){
 		else if(contextData.type == "<?php echo Organization::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo @$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
 		else if(contextData.type == "<?php echo Event::COLLECTION; ?>")
-			contextData.odesc = contextControler+ ": <?php echo @$element["startDate"] ?> <?php echo @$element["endDate"].",".@$element["address"]["streetAddress"] ?> <?php echo @$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"]))) ?>";
+			contextData.odesc = contextControler+" : <?php echo @$element["startDate"] ?> <?php echo @$element["endDate"].",".addslashes(json_encode(@$element["address"]["streetAddress"])) ?> <?php echo @$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"]))) ?>";
 		else if(contextData.type == "<?php echo Project::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
 	}*/

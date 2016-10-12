@@ -453,7 +453,7 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 		else
 			titleAction="";
-		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
+		if((((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id) || typeof obj.targetIsAuthor != "undefined") && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
 			}else if (obj.target.type == "projects"){
