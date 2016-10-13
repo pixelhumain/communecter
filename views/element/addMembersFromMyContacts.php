@@ -205,27 +205,11 @@ var addLinkDynForm = {
 jQuery(document).ready(function() {
 	console.log("MES CONTACTS");
 	console.dir(myContacts);
-	//buildDynForm(addLinkDynForm);
+
 	buildModal(addLinkDynForm, "#modalDirectoryForm");
 	bindEventScopeModal();
 });
 
-function buildDynForm(fieldObj){ 
-	buildModal(fieldObj, "#modalDirectoryForm");
-	bindEventScopeModal();
-	/*var form = $.dynForm({
-		formId : "#modalDirectoryForm",
-		formObj : importMembreDynForm,
-		onLoad : function  () {
-			bindEventScopeModal();
-		},
-		onSave : function(){
-			console.log("onSave import contact !!");
-			
-			return false;
-		}
-	});*/
-}
 	
 function bindEventScopeModal(){
 	/* initialisation des fonctionnalités de la modale SCOPE */
@@ -328,6 +312,7 @@ function buildModal(fieldObj, idUi){
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group padding-5">'+
 										'<ul>';
+										if(typeof fieldObj.values[type.name] != "undefined")
 										$.each(fieldObj.values[type.name], function(key2, value){ 
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
