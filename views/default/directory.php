@@ -28,6 +28,7 @@
       </h2>
      <?php } ?>
 
+<div class="row headerDirectory bg-white padding-15">
   <div class="col-md-12 no-padding pull-left" style="margin-top:0px; width:100%;">
   <?php $placeholder = ($typeSelected != "cities") ? "rechercher par #tag ou mots clés..." : "rechercher une ville, un code postal..."; ?> 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
@@ -66,10 +67,11 @@
       <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
     <?php } ?>
   </div>
-   
+
+</div>
  
   <div class="container-result-search">
-      <div class="col-md-12 padding-10">
+      <div class="col-md-12 padding-10 margin-bottom-5">
         <?php  if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
           <i class="fa fa-chevron-down"></i> 
           <i class="fa fa-info-circle"></i> 

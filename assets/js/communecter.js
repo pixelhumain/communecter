@@ -616,6 +616,7 @@ function loadByHash( hash , back ) {
 	$(".my-main-container").off(); 
 	console.log("LBH scroll shadows!");
 	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
+	$(".my-main-container").scrollTop(0);
 
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
