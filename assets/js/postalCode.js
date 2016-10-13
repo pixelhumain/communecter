@@ -28,11 +28,11 @@ $(function(){
       console.log("search City");
       var timeout;
       searchValue = $('.editableform #postalCode').val();
-      if(searchValue.length == 5) {
-        if (! $("#cityDiv").is(":visible")) {
+      if(searchValue.length == 5 || searchValue.length == 4) {
+        //if (! $("#cityDiv").is(":visible")) {
           $("#city").empty();
           runShowCity();
-        }
+        //}
       } else {
         $("#cityDiv").slideUp("medium");
         $("#city").empty();
@@ -43,6 +43,7 @@ $(function(){
       var citiesByPostalCode = getCitiesByPostalCode(searchValue);
       
       if (citiesByPostalCode.length == 0 ){
+        $("#cityDiv").hide();
         $("#postalCodeError").show();
         return;
       } else {

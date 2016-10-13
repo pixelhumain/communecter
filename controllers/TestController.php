@@ -1280,4 +1280,32 @@ La vie en santé;Santé;;
 	}
 
 
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		$str = "" ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) > 1){
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					//echo  $cp["name"]." : " .$name."<br>" ;
+					if(trim($cp["name"]) == trim($name)){
+						$find =true;
+					}
+				}
+
+				if($find == false){
+					$nbcities++;
+					$str .=  $key." : ".$name."<br>" ;
+				}
+			}
+			
+
+			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+		echo $str;
+	}
+
 }
