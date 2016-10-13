@@ -27,6 +27,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
+//if ($type == Project::COLLECTION)
+//	array_push($cssAnsScriptFilesTheme, "/assets/plugins/Chart.js/Chart.min.js");
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper

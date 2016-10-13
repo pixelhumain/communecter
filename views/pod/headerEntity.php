@@ -19,7 +19,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 $cssAnsScriptFilesModuleSS = array(
-	'/plugins/Chart.js/Chart.min.js',
+	//'/plugins/Chart.js/Chart.min.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
 
@@ -708,7 +708,7 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	if(firstView){
+	/*if(firstView){
 		if(firstViewTitle.substr(0,4) == "need"){
 			mapUrl[firstViewTitle] = new Object;
 			mapUrl[firstViewTitle]["url"] = "need/detail/id/"+firstViewTitle.substr(4,firstViewTitle.length)+"?"; 
@@ -719,7 +719,7 @@ function showElementPad(type, id){
 		mapUrl[firstViewTitle]["load"] = true;
 		mapUrl[firstViewTitle]["html"] = $("#pad-element-container").html();
 		firstView=false;
-	}
+	}*/
 	// If type is need, add "need+id" object view in mapUrl
 	if(type=="need"){
 		type=type+id;
