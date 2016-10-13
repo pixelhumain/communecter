@@ -636,7 +636,7 @@ jQuery(document).ready(function() {
 			success: function (obj){
 				console.log("conntext/////");
 				console.log(obj);
-				Sig.restartMap();
+				//Sig.restartMap();
 				Sig.showMapElements(Sig.map, obj);	
 				contextMap = obj;
 				mapUrl["directory"]["data"] = {"links" : contextMap};

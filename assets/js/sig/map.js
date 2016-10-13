@@ -72,7 +72,7 @@
 				if(typeof options.zIndexOffset != "undefined") 
 					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
-				console.log("POPUP CONTENT : " + contentString);
+				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
