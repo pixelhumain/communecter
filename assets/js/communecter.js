@@ -1513,7 +1513,7 @@ var typeObj = {
 		bgClass : "bgOrga",
 		dynForm : {
 		    jsonSchema : {
-			    title : "Ajouter une Organisation",
+			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
 			    
@@ -1629,7 +1629,7 @@ var typeObj = {
 		bgClass : "bgEvent",
 		dynForm : {
 		    jsonSchema : {
-			    title : "Ajouter un évènement",
+			    title : trad.addEvent,
 			    icon : "calendar",
 			    type : "object",
 			    onLoads : {
@@ -1822,7 +1822,7 @@ var typeObj = {
 		bgClass : "bgProject",
 		dynForm : {
 		    jsonSchema : {
-			    title : "Ajouter un Projet",
+			    title : trad.addProject,
 			    icon : "lightbulb-o",
 			    type : "object",
 			    onLoads : {
