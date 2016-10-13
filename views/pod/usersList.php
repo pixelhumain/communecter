@@ -45,7 +45,10 @@
 	-webkit-filter:grayscale(100%);
 }
 </style>
-<?php if ($contentType == Project::COLLECTION){ 
+
+<?php 
+	$parentId="";
+	if ($contentType == Project::COLLECTION){ 
 		$parentRedirect = "project";
 		$parentId = (string)$project["_id"];
 		$tooltips = "La communauté du projet";
