@@ -9,8 +9,9 @@
 	}
 	#modalDirectoryForm  .modal-header, 
 	#modalDirectoryForm  .modal-footer{
-		background-color: #EAEAEA;
-		color: #2D6569;
+		background-color: #EAEAEA !important;
+		color: #2D6569 !important;
+		display: block !important;
 	}
 
 	#modalDirectoryForm  .modal-header button.close{
