@@ -14,7 +14,7 @@
 			<div class="padding-10">
 			
 				<?php 
-				$pois = PHDB::find(Poi::COLLECTION,array("parentId"=>$parentId,"parentType"=>$parentType));
+				
 				if(empty($pois)){ ?>
 				<div class="padding-10">
 					<blockquote class="no-margin">

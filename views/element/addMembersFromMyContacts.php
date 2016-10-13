@@ -9,8 +9,9 @@
 	}
 	#modalDirectoryForm  .modal-header, 
 	#modalDirectoryForm  .modal-footer{
-		background-color: #EAEAEA;
-		color: #2D6569;
+		background-color: #EAEAEA !important;
+		color: #2D6569 !important;
+		display: block !important;
 	}
 
 	#modalDirectoryForm  .modal-header button.close{
@@ -165,10 +166,6 @@
 		margin-bottom: 10px;
 	}
 
-	#btn-submit-form{
-		display: none;
-	}
-
 </style>
 
 <div id="modalDirectoryForm" class="pull-left margin-15"></div>
@@ -205,27 +202,11 @@ var addLinkDynForm = {
 jQuery(document).ready(function() {
 	console.log("MES CONTACTS");
 	console.dir(myContacts);
-	//buildDynForm(addLinkDynForm);
-	buildModal(addLinkDynForm, "#modalDirectoryForm");
+
+	buildModal(addLinkDynForm, "modalDirectoryForm");
 	bindEventScopeModal();
 });
 
-function buildDynForm(fieldObj){ 
-	buildModal(fieldObj, "#modalDirectoryForm");
-	bindEventScopeModal();
-	/*var form = $.dynForm({
-		formId : "#modalDirectoryForm",
-		formObj : importMembreDynForm,
-		onLoad : function  () {
-			bindEventScopeModal();
-		},
-		onSave : function(){
-			console.log("onSave import contact !!");
-			
-			return false;
-		}
-	});*/
-}
 	
 function bindEventScopeModal(){
 	/* initialisation des fonctionnalités de la modale SCOPE */
@@ -273,7 +254,8 @@ function bindEventScopeModal(){
 function buildModal(fieldObj, idUi){
 	//var fieldClass = " select2TagsInput select2ScopeInput";
     var fieldHTML = "";    		
-	fieldHTML += '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+	fieldHTML += '<div id="'+idUi+'">'+
+				 '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 				  '<div class="modal-dialog">'+
 				    '<div class="modal-content">'+
 				      '<div class="modal-header">'+
@@ -328,6 +310,7 @@ function buildModal(fieldObj, idUi){
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group padding-5">'+
 										'<ul>';
+										if(typeof fieldObj.values[type.name] != "undefined")
 										$.each(fieldObj.values[type.name], function(key2, value){ 
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
@@ -368,9 +351,10 @@ function buildModal(fieldObj, idUi){
 				      '</div>'+
 				    '</div><!-- /.modal-content -->'+
 				  '</div><!-- /.modal-dialog -->'+
-				'</div><!-- /.modal -->';
+				'</div><!-- /.modal -->'+
+				'</div><!-- /# var idUi -->';
 
-	$(idUi).html(fieldHTML);
+	$('body').prepend(fieldHTML);
 }
 
 function filterContact(searchVal){

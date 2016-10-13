@@ -11,9 +11,9 @@ $cssAnsScriptFilesTheme = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
-	'/js/dataHelpers.js',
-	'/js/postalCode.js',
-	'/js/activityHistory.js'
+	//'/js/dataHelpers.js',
+	//'/js/postalCode.js',
+	//'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
@@ -636,7 +636,7 @@ jQuery(document).ready(function() {
 			success: function (obj){
 				console.log("conntext/////");
 				console.log(obj);
-				Sig.restartMap();
+				//Sig.restartMap();
 				Sig.showMapElements(Sig.map, obj);	
 				contextMap = obj;
 				mapUrl["directory"]["data"] = {"links" : contextMap};

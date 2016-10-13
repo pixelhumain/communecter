@@ -526,17 +526,13 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage, $connectType=null, $elementType=null,$elementId=null)
 					{
-						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
+						if((!@$e['_id']  && !@$e["id"] ) || !@$e['id'] || !@$e["name"] || $e["name"] == "" )
 							return;
 						$actions = "";
 						if(@$e['id'])
 							$id = $e["id"];
-						else{
-							$id = "356546454544";
-							//$id = (String)$e['_id'];
-							var_dump((String)$e['_id']);
-						}
-
+						//else
+						//	$id = $e["_id"]["$id"];
 
 						/* **************************************
 						* TYPE + ICON

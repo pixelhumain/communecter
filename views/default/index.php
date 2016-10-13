@@ -240,6 +240,7 @@ var organizationTypes = <?php echo json_encode( Organization::$types ) ?>;
 var currentUser = <?php echo isset($me) ? json_encode(Yii::app()->session["user"]) : null?>;
 var rawOrganizerList = <?php echo json_encode(Authorisation::listUserOrganizationAdmin(Yii::app() ->session["userId"])) ?>;
 var organizerList = {};
+var poiTypes = <?php echo json_encode( Poi::$types ) ?>;
 
 //console.warn("isMapEnd 1",isMapEnd);
 jQuery(document).ready(function() {

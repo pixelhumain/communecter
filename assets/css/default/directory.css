@@ -73,6 +73,15 @@
     background-color: rgba(211, 211, 211, 0.2);
   }
 
+  .row.headerDirectory{
+    margin-top: -10px;
+    moz-box-shadow: 0px 2px 4px -3px #656565;
+    -webkit-box-shadow: 0px 2px 4px -3px #656565;
+    -o-box-shadow: 0px 2px 4px -3px #656565;
+    box-shadow: 0px 2px 4px -3px #656565;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
+  }
+
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;
