@@ -1548,9 +1548,9 @@ var typeObj = {
 		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
 		            	value : "admin",
 		            	"options" : {
-		            		admin : "Administrateur",
-							member : "Member",
-							creator : "Just a citizen wanting to give visibility to it :)"
+		            		admin : trad.administrator,
+							member : trad.member,
+							creator : trad.justCitizen
 		            	}
 		            },
 		            location : {
