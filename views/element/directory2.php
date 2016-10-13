@@ -531,8 +531,12 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						$actions = "";
 						if(@$e['id'])
 							$id = $e["id"];
-						else
-							$id = $e["_id"]["$id"];
+						else{
+							$id = "356546454544";
+							//$id = (String)$e['_id'];
+							var_dump((String)$e['_id']);
+						}
+
 
 						/* **************************************
 						* TYPE + ICON

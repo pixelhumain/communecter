@@ -744,7 +744,7 @@
 											thisMap.setZoom(15, {"animate" : false });
 											thisMap.panTo(coordinates, {"animate" : false });
 											thisSig.currentParentToOpen = null;
-								
+
 										}
 									}
 								}
@@ -860,6 +860,36 @@
 				$("#modalItemNotLocated").modal('hide');
 			});
 		}
+
+		//##	addContextMap	##
+		//Ajouter un élément au contextMap
+	 	this.Sig.addContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------");
+			var elementMap = {
+				name : element.name ,
+				username : element.username ,
+				address : element.address ,
+				geo : element.geo ,
+				email : element.email ,
+				id : element.id ,
+				pending : element.pending ,
+				profilImageUrl : element.profilImageUrl ,
+				profilMarkerImageUrl : element.profilMarkerImageUrl ,
+				profilMediumImageUrl : element.profilMediumImageUrl ,
+				profilThumbImageUrl : element.profilThumbImageUrl ,
+				tags : element.tags ,
+				tobeactivated : element.tobeactivated ,
+				type : element.type ,
+			}
+
+			contextMap[type].push(elementMap);
+			
+			return contextMap;
+		};
+
+		
 
 		this.Sig = this.getSigInitializer(this.Sig);
 

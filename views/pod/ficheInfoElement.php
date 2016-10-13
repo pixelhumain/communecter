@@ -713,7 +713,7 @@ if($showOdesc == true){
 		});*/
 
 		$("#btn-update-geopos").off().on( "click", function(){
-			console.log("btn-update-geopos");
+			console.log("btn-update-geopos", typeof updateLocality);
 			$("#ajax-modal").modal("hide");
 			showMap(true);
 			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }
