@@ -9,8 +9,9 @@
 	}
 	#modalDirectoryForm  .modal-header, 
 	#modalDirectoryForm  .modal-footer{
-		background-color: #EAEAEA;
-		color: #2D6569;
+		background-color: #EAEAEA !important;
+		color: #2D6569 !important;
+		display: block !important;
 	}
 
 	#modalDirectoryForm  .modal-header button.close{
@@ -98,7 +99,7 @@
 		border:none!important;
 	    padding: 3px;
 	    text-align: left;
-	    width: 100%;
+	    /*width: 100%;*/
 	}
 	#modalDirectoryForm .modal .btn-select-contact{
 		min-width:70% !important;
@@ -164,24 +165,34 @@
 		margin: 0;
 		margin-bottom: 10px;
 	}
-
-	#btn-submit-form{
-		display: none;
+	.btn-is-admin{
+		text-decoration: line-through;
+		display:none;
 	}
-
+	.btn-is-admin.selected{
+		display:inline;
+	}
+	.btn-is-admin.selected.isAdmin {
+		text-decoration: none;
+	}
+	.btn-is-admin.selected.isAdmin a{
+		color:#5cb85c!important;
+	}
 </style>
 
-<div id="modalDirectoryForm" class="pull-left margin-15"></div>
-<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
-		    	    
-<script type="text/javascript">
-var elementType = "<?php echo $type ?>";
-var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
+<div id="addMembers">
+	<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
+</div>
 
+<script type="text/javascript">
+var elementType = "<?php echo $type; ?>";
+var elementId = "<?php echo $parentId; ?>"
+var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
+var listContact = new Array();
 
 var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Citoyens" }
 						//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
-						//{ name : "events", 			color: "orange"	, icon:"calendar"		}
+						//{ name : "events", 		color: "orange"	, icon:"calendar"		}
 						];
 
 if(elementType != "<?php echo Event::COLLECTION ?>")
@@ -202,30 +213,24 @@ var addLinkDynForm = {
         "contactTypes" : contactTypes
 };
 
+var addLinkSearchMode = "contacts";
 jQuery(document).ready(function() {
 	console.log("MES CONTACTS");
 	console.dir(myContacts);
-	//buildDynForm(addLinkDynForm);
-	buildModal(addLinkDynForm, "#modalDirectoryForm");
-	bindEventScopeModal();
+
+	buildModal(addLinkDynForm, "modalDirectoryForm");
+
+	$("#select-type-search-contacts").click(function(){
+		showMyContactInModalAddMembers(addLinkDynForm, "#list-scroll-type");
+		addLinkSearchMode = "contacts";
+	});
+
+	$("#select-type-search-all").click(function(){
+		$("#list-scroll-type").html("");
+		addLinkSearchMode = "all";
+	});
 });
 
-function buildDynForm(fieldObj){ 
-	buildModal(fieldObj, "#modalDirectoryForm");
-	bindEventScopeModal();
-	/*var form = $.dynForm({
-		formId : "#modalDirectoryForm",
-		formObj : importMembreDynForm,
-		onLoad : function  () {
-			bindEventScopeModal();
-		},
-		onSave : function(){
-			console.log("onSave import contact !!");
-			
-			return false;
-		}
-	});*/
-}
 	
 function bindEventScopeModal(){
 	/* initialisation des fonctionnalités de la modale SCOPE */
@@ -243,14 +248,7 @@ function bindEventScopeModal(){
 			$(".chk-scope-"+type.name).prop("checked", $(this).prop('checked'));
 		});
 	});
-	//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
-	$(".btn-chk-contact").click(function(){ console.log(".btn-chk-contact click", id);
-		var id = $(this).attr("idcontact"); 
-		console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
-		$("#chk-scope-"+id).prop("checked", !$("#chk-scope-"+id).prop('checked'));
-		console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
-	});
-
+	
 	$("#search-contact").keyup(function(){
 		filterContact($(this).val());
 	});
@@ -268,6 +266,32 @@ function bindEventScopeModal(){
 		$("#scope-postal-code").val("");
 	});
 
+	bindEventScopeContactsModal();
+}
+
+
+function bindEventScopeContactsModal(){
+	//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
+	$(".btn-chk-contact").click(function(){ console.log(".btn-chk-contact click", id);
+		var id = $(this).attr("idcontact"); 
+		//console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
+		var check = !$("#chk-scope-"+id).prop('checked');
+		console.log(check);
+		$("#chk-scope-"+id).prop("checked", check);
+		//console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
+
+		if(check)
+		$("[data-id='"+id+"'].btn-is-admin").addClass("selected");
+		else
+		$("[data-id='"+id+"'].btn-is-admin").removeClass("selected");
+	});
+
+	$(".btn-is-admin").click(function(){
+		if($(this).hasClass("isAdmin"))
+			$(this).removeClass("isAdmin");
+		else
+			$(this).addClass("isAdmin");
+	});
 }
 
 function buildModal(fieldObj, idUi){
@@ -303,24 +327,46 @@ function buildModal(fieldObj, idUi){
 	fieldHTML += 							'</ul>';
 	fieldHTML += 							'<ul class="col-xs-6 col-sm-12 col-md-12 no-margin no-padding select-population">' + 
 												'<h4 class="text-dark"> '+	
-													'<input type="radio" name="select-type-search" id="select-type-search-contacts" value="contacts"> '+
+													'<input type="radio" name="select-type-search" id="select-type-search-all" value="contacts"> '+
 													'<a href="javascript:" class="text-dark">'+fieldObj.title3+'</a>'+
 												'</h4>';
-												$.each(fieldObj.contactTypes, function(key, type){
+	/*											$.each(fieldObj.contactTypes, function(key, type){
 	fieldHTML += 								'<li>'+
 													'<div id="btn-scroll-type-'+type.name+'" class="btn btn-default btn-scroll-type text-'+type.color+'">' +
 														'<input type="checkbox" name="chk-all-type'+type.name+'" id="chk-all-type'+type.name+'" value="'+type.name+'"> '+
 														'<span style="font-size:16px;"><i class="fa fa-'+type.icon+'"></i> ' + type.label + "</span>" +
 													'</div>'+
 												'</li>';
-											});	
+											});	*/
 	fieldHTML +=							'</ul>' +
 										'</div>'+
 									'</div>'+
 								'</div>' +
 					      	'</div>'+
 					      	'<div class="no-padding pull-right col-md-8 col-sm-8 col-xs-12 bg-white" id="list-scroll-type">';
-							$.each(fieldObj.contactTypes, function(key, type){
+	fieldHTML += 			'</div>' +
+						'</div>'+
+					  '</div>'+
+				      '<div class="modal-footer">'+
+				      	'<button id="btn-reset-scope" type="button" class="btn btn-default btn-sm pull-left"><i class="fa fa-repeat"></i> '+fieldObj.btnResetTitle+'</button>'+
+				      	'<button id="btn-cancel" type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> '+fieldObj.btnCancelTitle+'</button>'+
+				      	'<button id="btn-save" type="button" class="btn btn-success btn-sm" data-dismiss="modal"><i class="fa fa-check"></i> '+fieldObj.btnSaveTitle+'</button>'+
+				      '</div>'+
+				    '</div><!-- /.modal-content -->'+
+				  '</div><!-- /.modal-dialog -->';
+
+	if($("body #"+idUi).length > 0) $("body #"+idUi).html(fieldHTML);
+	else $('body').prepend("<div id='"+idUi+"'>"+fieldHTML+"</div>");
+
+	showMyContactInModalAddMembers(fieldObj, "#list-scroll-type");
+	bindEventScopeModal();
+}
+
+function showMyContactInModalAddMembers(fieldObj, jqElement){
+	console.log("showMyContactInModalAddMembers", fieldObj);
+    
+    var fieldHTML = "";
+	$.each(fieldObj.contactTypes, function(key, type){
 	fieldHTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
 								'<div class="panel-heading">'+
 									'<h4 class="text-'+type.color+'"><i class="fa fa-'+type.icon+'"></i> '+type.label+'</h4>'+			
@@ -328,6 +374,7 @@ function buildModal(fieldObj, idUi){
 								'<div class="panel-body no-padding">'+
 									'<div class="list-group padding-5">'+
 										'<ul>';
+										if(typeof fieldObj.values[type.name] != "undefined")
 										$.each(fieldObj.values[type.name], function(key2, value){ 
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
@@ -336,9 +383,13 @@ function buildModal(fieldObj, idUi){
 														typeof value.username != "undefined" ? value.username : "";
 											//console.log("data contact +++++++++++ "); console.dir(value);
 											var thisKey = key+''+key2;
-											var thisValue = notEmpty(value["_id"]['$id']) ? value["_id"]['$id'] : "";
+											//var thisValue = notEmpty(value["_id"]['$id']) ? value["_id"]['$id'] : "";
+											var thisValue = getObjectId(value);
 											if(name != "")
 	fieldHTML += 							'<li>' +
+												'<small class="btn-is-admin pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
+													'<a href="javascript:">admin <i class="fa fa-user-secret"></i></a>'+
+												'</small>'+
 												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
 													'<div class="col-md-1 no-padding"><input type="checkbox" name="scope-'+type.name+'" class="chk-scope-'+type.name+'" id="chk-scope-'+thisKey+'" value="'+thisValue+'" data-type="'+type.name+'"></div> '+
 													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'">' +
@@ -357,30 +408,112 @@ function buildModal(fieldObj, idUi){
 									'</div>'+
 								'</div>'+
 							'</div>';
-							});									
-	fieldHTML += 			'</div>' +
-						'</div>'+
-					  '</div>'+
-				      '<div class="modal-footer">'+
-				      	'<button id="btn-reset-scope" type="button" class="btn btn-default btn-sm pull-left"><i class="fa fa-repeat"></i> '+fieldObj.btnResetTitle+'</button>'+
-				      	'<button id="btn-cancel" type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> '+fieldObj.btnCancelTitle+'</button>'+
-				      	'<button id="btn-save" type="button" class="btn btn-success btn-sm" data-dismiss="modal"><i class="fa fa-check"></i> '+fieldObj.btnSaveTitle+'</button>'+
-				      '</div>'+
-				    '</div><!-- /.modal-content -->'+
-				  '</div><!-- /.modal-dialog -->'+
-				'</div><!-- /.modal -->';
-
-	$(idUi).html(fieldHTML);
+	});	
+	$(jqElement).html(fieldHTML);
+	bindEventScopeContactsModal();
 }
 
 function filterContact(searchVal){
-	//masque/affiche tous les contacts présents dans la liste
-	if(searchVal != "")	$(".btn-select-contact").hide();
-	else				$(".btn-select-contact").show();
-	//recherche la valeur recherché dans les 3 champs "name", "cp", et "city"
-	$.each($(".scope-name-contact"), function() { checkSearch($(this), searchVal); });
-	$.each($(".scope-cp-contact"), 	 function()	{ checkSearch($(this), searchVal); });
-	$.each($(".scope-city-contact"), function() { checkSearch($(this), searchVal); });
+	if(addLinkSearchMode == "contacts"){
+		//masque/affiche tous les contacts présents dans la liste
+		if(searchVal != "")	$(".btn-select-contact").hide();
+		else				$(".btn-select-contact").show();
+		//recherche la valeur recherché dans les 3 champs "name", "cp", et "city"
+		$.each($(".scope-name-contact"), function() { checkSearch($(this), searchVal); });
+		$.each($(".scope-cp-contact"), 	 function()	{ checkSearch($(this), searchVal); });
+		$.each($(".scope-city-contact"), function() { checkSearch($(this), searchVal); });
+	}else if(addLinkSearchMode == "all"){
+		if(searchVal.length>2){
+	    	clearTimeout(timeout);
+		    timeout = setTimeout(function(){
+		    	$("#iconeChargement").css("visibility", "visible");
+		    	autoCompleteEmailAddMember(searchVal);
+		    }, 500);
+
+	    }else{
+	    	//$("#addMembers #dropdown_search").css({"display" : "none" });
+	    	//$("#iconeChargement").css("visibility", "hidden")
+	    }
+	}
+}
+
+function autoCompleteEmailAddMember(searchValue){
+	console.log("autoCompleteEmailAddMember");
+	var data = {
+		"search" : searchValue,
+		"elementId" : elementId
+	};
+	if (elementType == "<?php echo Event::COLLECTION ?>")
+		data.searchMode = "personOnly";
+
+	$.ajax({
+		type: "POST",
+        url: baseUrl+"/communecter/search/searchmemberautocomplete",
+        data: data,
+        dataType: "json",
+        success: function(data){
+        	if(!data){
+        		toastr.error(data.content);
+        	}else{
+
+        		listContact = {"people" : data.citoyens, "organizations" : data.organizations};
+        		var addLinkDynForm = {
+					"values" : listContact,
+			        "contactTypes" : contactTypes
+				};
+        		showMyContactInModalAddMembers(addLinkDynForm, "#list-scroll-type");
+        		/*
+	        		var icon = "fa-question-circle";
+					str = "<li class='li-dropdown-add-members'><a href='javascript:openNewMemberForm()'><i class='fa fa-2x fa-plus'></i> <span class='member-name'>Non trouvé ? Envoyer une invitation.</span></a></li>";
+		 			$.each(data, function(key, value) {
+		 			
+		 				$.each(value, function(i, v){
+		 					if (v.address != null) {
+	        			      city = v.address.addressLocality;
+	            			}
+	            
+	            			if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl != ""){
+	              				var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilThumbImageUrl+"'/>"
+	            			}
+
+							if (key == "citoyens") {
+		 						icon = mapIcon[key];
+		 					} else if (key == "organizations") {
+		 						icon = mapIcon[v.type];
+		 					}
+
+	            			var insee = v.insee ? v.insee : "";
+	            			var postalCode = v.cp ? v.cp : v.address.postalCode ? v.address.postalCode : "";
+	            			str +=  //"<div class='searchList li-dropdown-scope' >"+
+	                      		"<a href='javascript:;' data-id='"+ v.id +"' data-key='"+key+"' data-type='"+v.type+"' data-name='"+ v.name +"' data-email='"+v.email+"' data-icon='"+ icon +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope selectAddMember'>"+
+	                      		"<ol>";
+	                      	
+	                      	if ("undefined" != typeof htmlIco) {
+	                      		str += "<span>"+ htmlIco +"</span>  <span class='member-name'>" + v.name + '</span>';
+	                      	} else {
+								str += '<span><i class="fa '+icon +' fa-2x"></i><span class="member-name">' + v.name + '</span></span>';
+	                      	}
+
+	                      	str +=  "</ol></a>";
+
+		  					//str += '<li class="li-dropdown-scope"><a href="javascript:;"  ><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
+		  				});
+		  			}); 
+
+		  			$("#addMembers #list-scroll-type").html(str);
+		  			$(".selectAddMember").off().on('click',function() { 
+		  				var id = $(this).data('id');
+		  				var name = $(this).data('name');
+		  				var email = $(this).data('email');
+		  				var key = $(this).data('key');
+		  				var type = $(this).data('type');
+		  				setMemberInputAddMember(id,name,email,key,type);
+		  			});
+		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
+	  			*/
+  			}
+		}	
+	})
 }
 
 //si l'élément contient la searchVal, on l'affiche
@@ -409,12 +542,19 @@ function sendInvitation(){
 			var id = $(this).val();
 			var type = $(this).data("type");// == "people" ? "citoyens" : $(this).data("type"); 
 			var name = "";
-			$.each(myContacts[type], function(k, contact){
-				if(contact['_id']['$id'] == id){
+			var contactPublicFound = new Array();
+
+			if(addLinkSearchMode == "all"){ contactPublicFound = listContact;
+			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContacts; }
+
+			$.each(contactPublicFound[type], function(k, contact){ 
+				var idObj = getObjectId(contact);console.log("azioueaoziueiazue : ", idObj, id);
+				if(idObj == id){console.log("azioueaoziueiazue XXX : ", idObj);
 					name = notEmpty(contact['name']) ? contact['name'] : "";
 					email = notEmpty(contact['email']) ? contact['email'] : "";
 				}
 			});
+		
 			console.log("add this element ?", email, type, id, name);
 			if(type != "" && id != "" && name != "")
 			params["childs"].push({
@@ -457,7 +597,7 @@ function sendInvitation(){
         		$.each(data.newMembers, function(k, newMember){
 	        		console.log("neewsMens >>>>");
 	        		console.log(newMember);
-	        		setValidationTable(newMember,newMember.childType, true);
+	        		//setValidationTable(newMember,newMember.childType, true);
 			        mapType = newMember.childType;
 			        if(newMember.childType=="<?php echo Person::COLLECTION ?>")
 			            mapType="people";

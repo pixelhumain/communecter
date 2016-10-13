@@ -493,7 +493,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		});
 			
 		var searchValue = $('.form-event #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length <= 5 ) {
 			$("#city").empty();
 			setTimeout(function(){
 				$("#iconeChargement").css("display", "inline-block");
@@ -551,7 +551,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					required : true
 				},
 				postalCode : {
-					rangelength : [5, 5],
+					rangelength : [4, 5],
 					required : true
 				},
 				city : {

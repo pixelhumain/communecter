@@ -281,6 +281,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 .bar_tools_post {
     font-size: 15px;
 }
+
+#form-news hr , .list-select-scopes hr{
+    border-top: 1px solid #d8d8d8;
+}
+#form-news hr.submit {
+    margin: 0 0 10px 0 !important;
+}
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -328,7 +335,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	<?php } ?>
 
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <?php echo "Rédiger un message"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?> 
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <span id="info-write-msg"><?php echo "Rédiger un message public en sélectionnant des lieux"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?></span>
 		<a class="btn btn-xs pull-right" style="margin-top: -4px;" onclick="javasctipt:showFormBlock(false);">
 			<i class="fa fa-times"></i>
 		</a>
@@ -370,7 +377,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
 				
-				<div id="scopeListContainer" class="list_tags_scopes col-md-9 no-padding margin-bottom-10"></div>
+				<div id="scopeListContainer" class="list_tags_scopes col-md-12 no-padding margin-bottom-10"></div>
 				<?php if((@$canManageNews && $canManageNews==true) 
 							|| (@Yii::app()->session["userId"] 
 							&& $contextParentType==Person::COLLECTION 
@@ -488,7 +495,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input type="hidden" name="scope" value="private"/>
 
 				<?php } } ?>
-				<div class="row col-md-3 pull-right">
+				<div class="col-md-12 no-padding">
+					<hr class="submit">
 					<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 				</div>
 			</div>

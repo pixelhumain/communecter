@@ -733,6 +733,7 @@ class DatamigrationController extends CommunecterController {
 	}
 
 
+
 	public function actionUpdatePreferences() {
 		$nbUser = 0;
 		$preferencesUsers = array(
@@ -758,6 +759,81 @@ class DatamigrationController extends CommunecterController {
 		}
 
 		echo "Number of user with preferences modified : ".$nbUser;
+
+	public function actionUpdateCitiesBelgique() {
+		/*$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
+
+		foreach ($cities as $key => $city) {
+			$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"country" => "BE",
+												"insee" => substr($city["insee"], 0, 5)."*BE",
+												"dep" => substr($city["dep"], 0, 2)."*BE",
+												"region" => substr($city["region"], 0, 2)."*BE"))
+
+                    );
+		}*/
+
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+
+		foreach ($types as $keyType => $type) {
+			$elts = PHDB::find($type, array("address.addressCountry" => "BEL"));
+
+			foreach ($elts as $key => $elt) {
+				if(!empty($elt["address"]["codeInsee"])){
+					$newAddress = $elt["address"];
+					$newAddress["addressCountry"] = "BE";
+					$newAddress["codeInsee"] = substr($newAddress["codeInsee"], 0, 5)."*BE";
+
+					$res = PHDB::update($type, 
+						  	array("_id"=>new MongoId($key)),
+	                        array('$set' => array(	"address" => $newAddress ))
+	                    );
+				}
+				
+			}
+		}
+		echo "good" ;
+		
+	}
+
+
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) == 1){
+				
+
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					if(trim($cp["name"]) != trim($name)){
+						$find =true;
+						$cp["name"] = $name ;
+						$postalCodes[$keyCP] =  $cp ;
+					}
+
+
+				}
+
+				if($find == true){
+					$nbcities ++ ;
+					$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"postalCodes" => $postalCodes ))
+
+                    );
+				}
+			}
+
+			
+			
+
+			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+
 	}
 
 }

@@ -113,18 +113,27 @@
 		font-weight: 600 !important;
 	}
 
+	
+
 	.list_tags_scopes span.text-red.disabled,
 	#list_tags_scopes span.text-red.disabled,
 	#scopeListContainer span.text-red.disabled{
 	    color:#DBBCC1 !important;
 	    font-weight:300 !important;
 	}
+	.list_tags_scopes span.text-red.disabled:hover,
+	#list_tags_scopes span.text-red.disabled:hover,
+	#scopeListContainer span.text-red.disabled:hover{
+		color:#E33551 !important;
+	}
 
 	#dropdown-multi-scope-found{
 		max-height:250px;
 		overflow: auto;
 	}
-
+	#toogle-tags-selected, #toogle-scopes-selected {
+	    background-color: #dadada !important;
+	}
 	.tagOnly .list-select-scopes{
 		display: none;
 	}

@@ -364,7 +364,7 @@ if(!@$_GET["renderPartial"])
 		</div>
 	</a>
 
-	<?php $this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type)); ?>
+	<?php //$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type)); ?>
 
 	<div class="col-md-12 margin-top-15">  
 
@@ -419,7 +419,6 @@ if(!@$_GET["renderPartial"])
 					        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:265px;overflow:scroll;">
 										<li class="li-dropdown-scope">-</li>
 									</ul>
-								</input>
 							</span>
 						</div>
 					</div>
@@ -476,8 +475,8 @@ if(!@$_GET["renderPartial"])
 						    	    	<label class="control-label">
 											Administrateur :
 										</label><br>
-										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin">
+										<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox">
 									</div>
 								</div>
 							</div>
@@ -498,6 +497,7 @@ if(!@$_GET["renderPartial"])
 		        </form>
 	        </div>
         </div>
+
         <div class="panel panel-white" id="divImportFile">
         	<div class="panel-heading border-light text-dark">
         		<blockquote>
@@ -580,7 +580,7 @@ if(!@$_GET["renderPartial"])
 		initFormAddMember();
 		
 		bindTEST();
-		removeMembersInMyContact();
+		//removeMembersInMyContact();
 		//buildDynForm();
 	});
 
@@ -1108,7 +1108,7 @@ function setValidationTable(newMember, newMemberType, multi){
 }
 
 function fadeInView(inView){
-
+	console.log("fadeInView", inView);
 	if(inView == "divSearch")
 	{
 		$("#divSearch").fadeIn("slow", function() {});
