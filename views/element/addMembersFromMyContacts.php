@@ -165,10 +165,6 @@
 		margin-bottom: 10px;
 	}
 
-	#btn-submit-form{
-		display: none;
-	}
-
 </style>
 
 <div id="modalDirectoryForm" class="pull-left margin-15"></div>
@@ -206,7 +202,7 @@ jQuery(document).ready(function() {
 	console.log("MES CONTACTS");
 	console.dir(myContacts);
 
-	buildModal(addLinkDynForm, "#modalDirectoryForm");
+	buildModal(addLinkDynForm, "modalDirectoryForm");
 	bindEventScopeModal();
 });
 
@@ -257,7 +253,8 @@ function bindEventScopeModal(){
 function buildModal(fieldObj, idUi){
 	//var fieldClass = " select2TagsInput select2ScopeInput";
     var fieldHTML = "";    		
-	fieldHTML += '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+	fieldHTML += '<div id="'+idUi+'">'+
+				 '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 				  '<div class="modal-dialog">'+
 				    '<div class="modal-content">'+
 				      '<div class="modal-header">'+
@@ -353,9 +350,10 @@ function buildModal(fieldObj, idUi){
 				      '</div>'+
 				    '</div><!-- /.modal-content -->'+
 				  '</div><!-- /.modal-dialog -->'+
-				'</div><!-- /.modal -->';
+				'</div><!-- /.modal -->'+
+				'</div><!-- /# var idUi -->';
 
-	$(idUi).html(fieldHTML);
+	$('body').prepend(fieldHTML);
 }
 
 function filterContact(searchVal){
