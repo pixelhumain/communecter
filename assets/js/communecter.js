@@ -1362,7 +1362,6 @@ var typeObj = {
 		ctrl : "person",
 		titleClass : "bg-yellow",
 		bgClass : "bgPerson",
-		lbh : "#person.invite",
 		dynForm : {
 		    jsonSchema : {
 			    title : "Inviter quelqu'un",
@@ -1385,9 +1384,9 @@ var typeObj = {
 						    if(search.length>2){
 						    	clearTimeout(timeout);
 								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
-							 }else{
+							}else{
 							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-							 }	
+							}	
 						});
 			            }
 		            },
@@ -2636,36 +2635,39 @@ function autoCompleteInviteSearch(search){
 	};
 	
 	
-	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
+	ajaxPost("", moduleId+'/search/searchmemberautocomplete', data,
 		function (data){
+			console.log(data);
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
 			var compt = 0;
 			var city, postalCode = "";
-			$.each(data["citoyens"], function(k, v) { 
-				city = "";
-				console.log(v);
-				postalCode = "";
-				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
-				if(v.id != userId) {
-					tabObject.push(v);
-	 				if(v.profilImageUrl != ""){
-	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
-	 				}
-	 				if (v.address != null) {
-	 					city = v.address.addressLocality;
-	 					postalCode = v.address.postalCode;
-	 				}
-	  				str += 	"<li class='li-dropdown-scope'>" +
-	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
-
-	  				if(typeof postalCode != "undefined")
-	  					str += "<br/>"+postalCode+" "+city;
-	  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
-	  				str += "</a></li>";
-
-	  				compt++;
-  				}
-			});
+			if(data["citoyens"].length > 0){
+				$.each(data["citoyens"], function(k, v) { 
+					city = "";
+					console.log(v);
+					postalCode = "";
+					var htmlIco ="<i class='fa fa-user fa-2x'></i>"
+					if(v.id != userId) {
+						tabObject.push(v);
+		 				if(v.profilImageUrl != ""){
+		 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
+		 				}
+		 				if (v.address != null) {
+		 					city = v.address.addressLocality;
+		 					postalCode = v.address.postalCode;
+		 				}
+		  				str += 	"<li class='li-dropdown-scope'>" +
+		  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+	
+		  				if(typeof postalCode != "undefined")
+		  					str += "<br/>"+postalCode+" "+city;
+		  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+		  				str += "</a></li>";
+	
+		  				compt++;
+	  				}
+				});
+			}
 			
 			$("#newInvite #dropdown_searchInvite").html(str);
 			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
