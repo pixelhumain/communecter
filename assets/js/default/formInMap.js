@@ -394,7 +394,7 @@ function backToForm(update, cancel){
 
 function updateLocality(address, geo){
 	console.log("updateLocality", typeof address, geo);
-	if(address != null){
+	if(address != null && geo != null ){
 		NE_insee = address.codeInsee;
 		NE_lat = geo.latitude;
 		NE_lng = geo.longitude;

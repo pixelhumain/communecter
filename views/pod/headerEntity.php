@@ -19,7 +19,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 $cssAnsScriptFilesModuleSS = array(
-	//'/plugins/Chart.js/Chart.min.js',
+	'/plugins/Chart.js/Chart.min.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
 
@@ -231,10 +231,11 @@ $controler = Element::getControlerByCollection($type);
 								<?php echo @$entity["name"]; ?>
 							</label>
 					</span>
-					<?php if($type==Event::COLLECTION && !empty($entity["parentId"])) {
-						$parentEvent = Event::getSimpleEventById($entity["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
-					}
+					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
+							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
+							echo Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
+							//echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";	
+						}
 					?>
 				</div>
 				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
@@ -625,6 +626,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
+	console.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -708,7 +710,7 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	/*if(firstView){
+	if(firstView){
 		if(firstViewTitle.substr(0,4) == "need"){
 			mapUrl[firstViewTitle] = new Object;
 			mapUrl[firstViewTitle]["url"] = "need/detail/id/"+firstViewTitle.substr(4,firstViewTitle.length)+"?"; 
@@ -719,7 +721,7 @@ function showElementPad(type, id){
 		mapUrl[firstViewTitle]["load"] = true;
 		mapUrl[firstViewTitle]["html"] = $("#pad-element-container").html();
 		firstView=false;
-	}*/
+	}
 	// If type is need, add "need+id" object view in mapUrl
 	if(type=="need"){
 		type=type+id;
