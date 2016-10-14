@@ -60,7 +60,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] remove betatester attr
     [X] remove empty image attribs
     [ ] mailing + notification + parametre
-      [ ] doc
+      [X] doc
       [ ] faire un mail hebdomadaire
       [ ] invitation event 
       [ ] news privée
@@ -69,9 +69,9 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] faire un mail, special quand invité par l'invitation communEvent 
           faisant reference à l'event , vous etiez ou serez à event xxx
           communecter vous aide ....
-    [ ] Gérer le retour de mail en erreur 
+    [X] Gérer le retour de mail en erreur 
       [X] créer un hook + erreur dans mailerror
-      [ ] creation de notif pour super admin
+      [X] creation de notif pour super admin
       [X] page admin avec les erreurs de mails
     [ ] Stocker les images en S3
     [X] passer configDB en externe configdb.example.php
