@@ -225,12 +225,14 @@
 		      <input class="member-email form-control text-left" placeholder="Son address@email.xxx" 
 		      		 autocomplete="off" id="memberEmail" name="memberEmail" value=""/>
 		    </div>
-		    <div class="col-md-12 no-padding" style="margin-bottom:30px;">
+		    <div class="col-md-12 no-padding">
 		    	<input type="checkbox" id="memberIsAdmin" value="true"> <i class="fa fa-user-secret"></i> Ajouter en tant qu'admin
 		    	<button class="btn btn-primary pull-right" onclick="sendInvitationMailAddMember()">
 		    		<i class="fa fa-send"></i> Envoyer l'invitation
 		    	</button>
         	</div>
+        	<div class="col-md-12 padding-15 text-right" id="loader-send-mail-invite" style="margin-bottom:10px;">
+		    </div>
 		</div>
     </div>       		
 </div>
@@ -676,7 +678,7 @@ function sendInvitation(){
 }
 
 function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember");
-	//$(".btnSendInviteMail").html('<i class="fa fa-spinner fa-spin pull-left" style="font-size:19px;"></i>');
+	$("#loader-send-mail-invite").html('<i class="fa fa-spinner fa-spin fa-refresh"></i> Envoi en cours...');
 	var connectType = "member";
 	if ($("#addMembers #memberIsAdmin").is(':checked')) connectType = "admin";
 	var params = {
@@ -691,8 +693,8 @@ function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember
 	};
 
 	//console.log(params);
-	if($("#addMembers #memberName").val() == "")return;
-	if($("#addMembers #memberEmail").val() == "")return;
+	if($("#addMembers #memberName").val() == "") { $("#loader-send-mail-invite").html('Merci d\'indiquer une nom'); return; }
+	if($("#addMembers #memberEmail").val() == "") { $("#loader-send-mail-invite").html('Merci d\'indiquer une addresse e-mail'); return; }
 
 	$.ajax({
         type: "POST",
@@ -702,7 +704,7 @@ function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember
         success: function(data){
         	if(!data.result){
         		toastr.error(data.msg);
-        		//$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
+        		$("#loader-send-mail-invite").html('');
         		//checkIsLoggued();
         	}
         	else
@@ -731,7 +733,7 @@ function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember
 				$("#addMembers #memberIsAdmin").val("false");
 				$('#addMembers #memberEmail').parents().eq(1).show();
 				$("[name='my-checkbox']").bootstrapSwitch('state', false);
-				//$(".btnSendInviteMail").html('Envoyer');
+				$("#loader-send-mail-invite").html('');
 				//showSearch();
 				if(typeof(mapUrl) != "undefined"){
 					if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
@@ -744,7 +746,7 @@ function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember
         },
         error:function (xhr, ajaxOptions, thrownError){
           toastr.error( thrownError );
-          //$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
+          $("#loader-send-mail-invite").html('');
         } 
 	});
 }
