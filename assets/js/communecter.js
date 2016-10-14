@@ -1485,7 +1485,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
@@ -1564,7 +1564,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1770,7 +1770,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
@@ -1865,7 +1865,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -1990,7 +1990,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",
@@ -2099,7 +2099,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
 		                "inputType" : "array",

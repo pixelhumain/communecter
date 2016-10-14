@@ -20,6 +20,7 @@
 	}
 	#modalDirectoryForm  #list-scroll-type{
 		max-height:400px;
+		min-height:250px;
 		overflow-y:auto; 
 		overflow-x:hidden; 
 		padding-top:15px;
@@ -30,6 +31,15 @@
 	#modalDirectoryForm  #list-scroll-type .panel-body{
 		margin-bottom: 0px;
 	}
+
+	#modalDirectoryForm  #list-scroll-type .input-group{
+		margin-bottom:10px;
+	}
+	#modalDirectoryForm  #list-scroll-type input.form-control{
+		border-radius: 0px 4px 4px 0px !important;
+		text-align: left!important;
+	}
+
 	#modalDirectoryForm .modal .panel-heading{
 		padding: 0px;
 		min-height: auto;
@@ -38,7 +48,8 @@
 	}
 
 	#modalDirectoryForm .form-control{
-		width:unset;
+		/*width:unset;*/
+		padding: 0px 5px;
 	}
 	#modalDirectoryForm .modal input#search-contact{
 		width: 66.66666667%;
@@ -181,8 +192,51 @@
 </style>
 
 <div id="addMembers">
+	<?php if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit; ?>
+  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
+  	<?php } ?>
 	<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
 </div>
+
+<div id="formSendMailInvite" class="hidden">
+	<div class="text-red"><i class="fa fa-ban"></i> Aucun résultat ne correspond à votre recherche</div>
+	<hr>
+	<h3 class='text-dark'><i class="fa fa-angle-down"></i> Inviter par mail</h3>
+	<div id="addMembers" style="line-height:40px; padding:0px;" autocomplete="off" submit='false'>
+		<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo (string)$parentId; ?>"/>
+	    <input type="hidden" id="memberId" name="memberId" value=""/>
+        <div class="form-group" id="addMemberSection">
+
+        	<input type="radio" value="citoyens" name="memberType" data-fa="user" checked> <i class="fa fa-user"></i> un citoyen
+        	<?php if($type != "events"){ ?>
+        		<input type="radio" value="organizations" name="memberType" data-fa="group" style="margin-left:25px;"> <i class="fa fa-group"></i> une organisation
+        	<?php } ?>
+			<div class="input-group">
+		      <span class="input-group-addon" id="basic-addon1">
+		        <i class="fa fa-user text-dark searchIcon tooltips" id="fa-type-contact-mail"></i>
+		      </span>
+		      <input class="form-control" placeholder="Son nom" id="memberName" name="memberName" value=""/>
+		    </div>
+		    <div class="input-group">
+		      <span class="input-group-addon" id="basic-addon1">
+		        <i class="fa fa-envelope-o text-dark searchIcon tooltips"></i>
+		      </span>
+		      <input class="member-email form-control text-left" placeholder="Son address@email.xxx" 
+		      		 autocomplete="off" id="memberEmail" name="memberEmail" value=""/>
+		    </div>
+		    <div class="col-md-12 no-padding">
+		    	<input type="checkbox" id="memberIsAdmin" value="true"> <i class="fa fa-user-secret"></i> Ajouter en tant qu'admin
+		    	<button class="btn btn-primary pull-right" onclick="sendInvitationMailAddMember()">
+		    		<i class="fa fa-send"></i> Envoyer l'invitation
+		    	</button>
+        	</div>
+        	<div class="col-md-12 padding-15 text-right" id="loader-send-mail-invite" style="margin-bottom:10px;">
+		    </div>
+		</div>
+    </div>       		
+</div>
+
 
 <script type="text/javascript">
 var elementType = "<?php echo $type; ?>";
@@ -190,13 +244,10 @@ var elementId = "<?php echo $parentId; ?>"
 var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 var listContact = new Array();
 
-var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Citoyens" }
-						//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
-						//{ name : "events", 		color: "orange"	, icon:"calendar"		}
-						];
+var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
 
 if(elementType != "<?php echo Event::COLLECTION ?>")
-	contactTypes.push({ name : "organizations", 	color: "green" 	, icon:"group", label:"Organisations" });
+	contactTypes.push({ name : "organizations", color: "green", icon:"group", label:"Organisations" });
 
 var addLinkDynForm = {
 		"inputType" : "scope",
@@ -220,14 +271,22 @@ jQuery(document).ready(function() {
 
 	buildModal(addLinkDynForm, "modalDirectoryForm");
 
-	$("#select-type-search-contacts").click(function(){
+	$("#select-type-search-contacts, #a-select-type-search-contacts").click(function(){
+		$("#select-type-search-contacts").prop("checked", true);
+		$("#btn-save").removeClass("hidden");
+		$("#search-contact").attr("placeholder", "Recherchez parmis vos contacts...");
 		showMyContactInModalAddMembers(addLinkDynForm, "#list-scroll-type");
 		addLinkSearchMode = "contacts";
+		filterContact($("#search-contact").val());
 	});
 
-	$("#select-type-search-all").click(function(){
-		$("#list-scroll-type").html("");
+	$("#select-type-search-all, #a-select-type-search-all").click(function(){
+		$("#select-type-search-all").prop("checked", true);
+		$("#btn-save").removeClass("hidden");
+		$("#list-scroll-type").html('<i class="fa fa-search fa-4x padding-15 center-block text-grey"></i>');
+		$("#search-contact").attr("placeholder", "Recherchez un nom ou une addresse e-mail...");
 		addLinkSearchMode = "all";
+		filterContact($("#search-contact").val());
 	});
 });
 
@@ -266,6 +325,14 @@ function bindEventScopeModal(){
 		$("#scope-postal-code").val("");
 	});
 
+	// $("#a-select-type-search-contacts").click(function(){
+	// 	$("#select-type-search-contacts").prop("checked", true);
+	// });
+
+	// $("#a-select-type-search-all").click(function(){
+	// 	$("#select-type-search-all").prop("checked", true);
+	// });
+
 	bindEventScopeContactsModal();
 }
 
@@ -274,12 +341,10 @@ function bindEventScopeContactsModal(){
 	//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
 	$(".btn-chk-contact").click(function(){ console.log(".btn-chk-contact click", id);
 		var id = $(this).attr("idcontact"); 
-		//console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
+		
 		var check = !$("#chk-scope-"+id).prop('checked');
-		console.log(check);
 		$("#chk-scope-"+id).prop("checked", check);
-		//console.log(".btn-chk-contact click", $("#chk-scope-"+id).prop('checked'));
-
+		
 		if(check)
 		$("[data-id='"+id+"'].btn-is-admin").addClass("selected");
 		else
@@ -302,7 +367,7 @@ function buildModal(fieldObj, idUi){
 				    '<div class="modal-content">'+
 				      '<div class="modal-header">'+
 				        //'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-				        '<input type="text" id="search-contact" class="form-control pull-right" placeholder="rechercher ...">' +
+				        '<input type="text" id="search-contact" class="form-control pull-right" placeholder="Recherchez parmis vos contacts...">' +
 						'<h4 class="modal-title" id="myModalLabel"><i class="fa fa-search"></i> '+fieldObj.title1+'</h4>'+
 				      '</div>'+
 				      '<div class="modal-body">'+
@@ -314,7 +379,7 @@ function buildModal(fieldObj, idUi){
 											'<ul class="col-xs-12 col-sm-12 col-md-12 no-padding">';
 	fieldHTML += 							'<h4 class="text-dark"> '+
 												'<input type="radio" name="select-type-search" id="select-type-search-contacts" value="contacts" checked> '+
-												'<a href="javascript:" class="text-dark">'+fieldObj.title2+'</a>'+
+												'<a href="javascript:" id="a-select-type-search-contacts" class="text-dark">'+fieldObj.title2+'</a>'+
 											'</h4>';
 											$.each(fieldObj.contactTypes, function(key, type){
 	fieldHTML += 								'<li>'+
@@ -328,7 +393,7 @@ function buildModal(fieldObj, idUi){
 	fieldHTML += 							'<ul class="col-xs-6 col-sm-12 col-md-12 no-margin no-padding select-population">' + 
 												'<h4 class="text-dark"> '+	
 													'<input type="radio" name="select-type-search" id="select-type-search-all" value="contacts"> '+
-													'<a href="javascript:" class="text-dark">'+fieldObj.title3+'</a>'+
+													'<a href="javascript:" id="a-select-type-search-all" class="text-dark">'+fieldObj.title3+'</a>'+
 												'</h4>';
 	/*											$.each(fieldObj.contactTypes, function(key, type){
 	fieldHTML += 								'<li>'+
@@ -413,8 +478,14 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 	bindEventScopeContactsModal();
 }
 
+//var searchValLast = "";
 function filterContact(searchVal){
+	//console.log(searchVal, "==", searchValLast);
+	//if(searchVal == searchValLast) return;
+	//searchValLast = searchVal;
+
 	if(addLinkSearchMode == "contacts"){
+		$("#btn-save").removeClass("hidden");
 		//masque/affiche tous les contacts présents dans la liste
 		if(searchVal != "")	$(".btn-select-contact").hide();
 		else				$(".btn-select-contact").show();
@@ -439,6 +510,7 @@ function filterContact(searchVal){
 
 function autoCompleteEmailAddMember(searchValue){
 	console.log("autoCompleteEmailAddMember");
+	$("#btn-save").removeClass("hidden");
 	var data = {
 		"search" : searchValue,
 		"elementId" : elementId
@@ -446,6 +518,7 @@ function autoCompleteEmailAddMember(searchValue){
 	if (elementType == "<?php echo Event::COLLECTION ?>")
 		data.searchMode = "personOnly";
 
+	$("#list-scroll-type").html("<div class='padding-10'><i class='fa fa-spin fa-refresh'></i> Recherche en cours</div>");
 	$.ajax({
 		type: "POST",
         url: baseUrl+"/communecter/search/searchmemberautocomplete",
@@ -455,62 +528,26 @@ function autoCompleteEmailAddMember(searchValue){
         	if(!data){
         		toastr.error(data.content);
         	}else{
-
-        		listContact = {"people" : data.citoyens, "organizations" : data.organizations};
-        		var addLinkDynForm = {
-					"values" : listContact,
-			        "contactTypes" : contactTypes
-				};
-        		showMyContactInModalAddMembers(addLinkDynForm, "#list-scroll-type");
-        		/*
-	        		var icon = "fa-question-circle";
-					str = "<li class='li-dropdown-add-members'><a href='javascript:openNewMemberForm()'><i class='fa fa-2x fa-plus'></i> <span class='member-name'>Non trouvé ? Envoyer une invitation.</span></a></li>";
-		 			$.each(data, function(key, value) {
-		 			
-		 				$.each(value, function(i, v){
-		 					if (v.address != null) {
-	        			      city = v.address.addressLocality;
-	            			}
-	            
-	            			if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl != ""){
-	              				var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilThumbImageUrl+"'/>"
-	            			}
-
-							if (key == "citoyens") {
-		 						icon = mapIcon[key];
-		 					} else if (key == "organizations") {
-		 						icon = mapIcon[v.type];
-		 					}
-
-	            			var insee = v.insee ? v.insee : "";
-	            			var postalCode = v.cp ? v.cp : v.address.postalCode ? v.address.postalCode : "";
-	            			str +=  //"<div class='searchList li-dropdown-scope' >"+
-	                      		"<a href='javascript:;' data-id='"+ v.id +"' data-key='"+key+"' data-type='"+v.type+"' data-name='"+ v.name +"' data-email='"+v.email+"' data-icon='"+ icon +"' data-insee='"+ insee +"' class='searchEntry searchList li-dropdown-scope selectAddMember'>"+
-	                      		"<ol>";
-	                      	
-	                      	if ("undefined" != typeof htmlIco) {
-	                      		str += "<span>"+ htmlIco +"</span>  <span class='member-name'>" + v.name + '</span>';
-	                      	} else {
-								str += '<span><i class="fa '+icon +' fa-2x"></i><span class="member-name">' + v.name + '</span></span>';
-	                      	}
-
-	                      	str +=  "</ol></a>";
-
-		  					//str += '<li class="li-dropdown-scope"><a href="javascript:;"  ><i class="fa '+icon+'"></i> '+v.name +'</a></li>';
-		  				});
-		  			}); 
-
-		  			$("#addMembers #list-scroll-type").html(str);
-		  			$(".selectAddMember").off().on('click',function() { 
-		  				var id = $(this).data('id');
-		  				var name = $(this).data('name');
-		  				var email = $(this).data('email');
-		  				var key = $(this).data('key');
-		  				var type = $(this).data('type');
-		  				setMemberInputAddMember(id,name,email,key,type);
-		  			});
-		  			$("#addMembers #dropdown_search").css({"display" : "inline" });
-	  			*/
+        		if(!notEmpty(data.citoyens) && !notEmpty(data.organizations)){
+        			$("#list-scroll-type").html("");
+        			var formInvite = $("#formSendMailInvite").html();
+        			formInvite = "<div class='padding-10'>"+formInvite+"</div>";
+        			$("#list-scroll-type").html(formInvite);
+        			$("#memberName").val($("#search-contact").val());
+        			$("#btn-save").addClass("hidden");
+        			$("input[name='memberType']").click(function(){
+        				$("#fa-type-contact-mail").removeClass("fa-user").removeClass("fa-group").addClass("fa-"+$(this).data("fa"));
+        			});
+        			//$("#formSendMailInvite").removeClass("hidden");
+        			
+        		}else{
+	        		listContact = {"people" : data.citoyens, "organizations" : data.organizations};
+	        		var addLinkDynForm = {
+						"values" : listContact,
+				        "contactTypes" : contactTypes
+					};
+	        		showMyContactInModalAddMembers(addLinkDynForm, "#list-scroll-type");
+        		}
   			}
 		}	
 	})
@@ -636,6 +673,80 @@ function sendInvitation(){
         error:function (xhr, ajaxOptions, thrownError){
           toastr.error( thrownError );
           $.unblockUI();
+        } 
+	});
+}
+
+function sendInvitationMailAddMember(){ console.log("sendInvitationMailAddMember");
+	$("#loader-send-mail-invite").html('<i class="fa fa-spinner fa-spin fa-refresh"></i> Envoi en cours...');
+	var connectType = "member";
+	if ($("#addMembers #memberIsAdmin").is(':checked')) connectType = "admin";
+	var params = {
+		"childId" : $("#addMembers #memberId").val(),
+		"childName" : $("#addMembers #memberName").val(),
+		"childEmail" : $("#addMembers #memberEmail").val(),
+		"childType" : $("#addMembers [name='memberType']").val(), 
+		"organizationType" : $("#addMembers #organizationType").val(),
+		"parentType" : "<?php echo $type;?>",
+		"parentId" : $("#addMembers #parentOrganisation").val(),
+		"connectType" : connectType
+	};
+
+	//console.log(params);
+	if($("#addMembers #memberName").val() == "") { $("#loader-send-mail-invite").html('Merci d\'indiquer une nom'); return; }
+	if($("#addMembers #memberEmail").val() == "") { $("#loader-send-mail-invite").html('Merci d\'indiquer une addresse e-mail'); return; }
+
+	$.ajax({
+        type: "POST",
+        url: baseUrl+"/communecter/link/connect",
+        data: params,
+        dataType: "json",
+        success: function(data){
+        	if(!data.result){
+        		toastr.error(data.msg);
+        		$("#loader-send-mail-invite").html('');
+        		//checkIsLoggued();
+        	}
+        	else
+        	{
+        		toastr.success(data.msg);
+        		console.log(data);
+        		//if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
+        		//	updateOrganisation( data.member,  $("#addMembers #memberType").val());
+               	//setValidationTable(data.newElement,data.newElementType, false);
+               	mapType = data.newElementType;
+               	if(data.newElementType=="<?php echo Person::COLLECTION ?>")
+               		mapType="people";
+               	contextMap[mapType].push(data.newElement);
+               	//Minus 1 on number of invit
+               	if ($("#addMembers #memberId").val().length==0){
+	               	var count = parseInt($("#numberOfInvit").data("count")) - 1;
+					$("#numberOfInvit").html(count + ' invitation(s)');
+					$("#numberOfInvit").data("count", count);
+				}
+				$("#addMembers #memberId").val("");
+                $("#addMembers #memberType").val("");
+                $("#addMembers #memberName").val("");
+                $("#addMembers #memberEmail").val("");
+                $("#addMembers #memberIsAdmin").val("");
+                $('#addMembers #organizationType').val("");
+				$("#addMembers #memberIsAdmin").val("false");
+				$('#addMembers #memberEmail').parents().eq(1).show();
+				$("[name='my-checkbox']").bootstrapSwitch('state', false);
+				$("#loader-send-mail-invite").html('');
+				//showSearch();
+				if(typeof(mapUrl) != "undefined"){
+					if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+						mapUrl.detail.load = false;
+					if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+						mapUrl.directory.load = false;
+				}
+        	}
+        	console.log(data.result);   
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+          toastr.error( thrownError );
+          $("#loader-send-mail-invite").html('');
         } 
 	});
 }

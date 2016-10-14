@@ -233,6 +233,261 @@
 </tr>
 <tr>
 	<td>echo</td>
+	<td>*************** TEST sub Project Form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>loadByHash('#organization.detail.id.57f533a6f6ca47db6a8b456e')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.clear()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>openForm('project','sub')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=div.form-group.nametext &gt; #name</td>
+	<td>javascript{&quot;test project on orga &quot;+Math.floor(Math.random()*111)}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.form-actions &gt; #btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>*************** TEST sub POI Form non localisé</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>loadByHash('#organization.detail.id.57f533a6f6ca47db6a8b456e')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.clear()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>openForm('poi','subPoi')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=div.form-group.nametext &gt; #name</td>
+	<td>javascript{&quot;test poi sur orga&nbsp;&nbsp;&quot;+Math.floor(Math.random()*111)}</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=type</td>
+	<td>label=histoire</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.form-actions &gt; #btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>*************** TEST sub POI Form localisé</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>loadByHash('#organization.detail.id.57f533a6f6ca47db6a8b456e')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.clear()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>openForm('poi','subPoi')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=div.form-group.nametext &gt; #name</td>
+	<td>javascript{&quot;test poi sur orga&nbsp;&nbsp;&quot;+Math.floor(Math.random()*111)}</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=type</td>
+	<td>label=poubelle</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Localiser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=newElement_cp</td>
+	<td>19120</td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.form-actions &gt; #btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>*************** TEST sub POI Form avec url</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>loadByHash('#organization.detail.id.57f533a6f6ca47db6a8b456e')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.clear()</td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>openForm('poi','subPoi')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=div.form-group.nametext &gt; #name</td>
+	<td>javascript{&quot;test poi sur orga&nbsp;&nbsp;&quot;+Math.floor(Math.random()*111)}</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=type</td>
+	<td>label=histoire</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=options (urls)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=urls[]</td>
+	<td>https://www.youtube.com/watch?v=Y7QQS5V3cnI</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=urls[]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//form[@id='ajaxFormModal']/div[9]/span/div/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@name='urls[]'])[2]</td>
+	<td>url without a link </td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Annuler</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.form-actions &gt; #btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
 	<td>*************** TEST Orga Form</td>
 	<td></td>
 </tr>

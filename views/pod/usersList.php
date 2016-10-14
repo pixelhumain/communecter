@@ -84,7 +84,7 @@
 
 			<?php } 
 			if ($contentType == Event::COLLECTION && $addLink == true){ ?>
-				<a href="javascript:" class=" btn btn-xs btn-default tooltips lbh" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" 
+				<a href="javascript:" class=" btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" 
 				 data-toggle="modal" data-target="#modal-scope">
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ; ?>
 				</a>			
@@ -98,7 +98,7 @@
 			<?php }
 
 			if ($contentType == Project::COLLECTION && $addLink == true){ ?>
-				<a href="#project.addcontributorsv.projectId.<?php echo (string)$project["_id"];?>" class="lbh btn btn-xs btn-default tooltips lbh" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a contributor to this project'); ?>" 				 data-toggle="modal" data-target="#modal-scope">
+				<a href="javascript:" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a contributor to this project'); ?>" 				 data-toggle="modal" data-target="#modal-scope">
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add contributor') ; ?>
 				</a>			
 			<?php } ?>
