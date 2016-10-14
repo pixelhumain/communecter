@@ -27,6 +27,8 @@ $cssAnsScriptFilesTheme = array(
 	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
+//if ($type == Project::COLLECTION)
+//	array_push($cssAnsScriptFilesTheme, "/assets/plugins/Chart.js/Chart.min.js");
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
@@ -301,8 +303,8 @@ if($('#breadcum').length)
 			<?php } ?>
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 			<div class="col-xs-12">
-				<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $element["_id"],
-																	"parentType" => $type));
+				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
+						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
 				?>
 	    	</div>	
 	    	<div class="col-xs-12 needsPod">	

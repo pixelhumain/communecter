@@ -45,6 +45,14 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"voteDown": "<?php echo Yii::t("common","voteDown")?>",
 		"postalCode" : "<?php echo Yii::t("common","Postal Code"); ?>",
 		"unknownPostalCode" : "<?php echo Yii::t("common","Unknown Postal Code"); ?>",
-		"city" : "<?php echo Yii::t("common","City"); ?>"
+		"city" : "<?php echo Yii::t("common","City"); ?>",
+
+		"administrator" : "<?php echo Yii::t("common","Administrator") ?>",
+		"member" : "<?php echo Yii::t("common","Member") ?>",
+		"justCitizen" : "<?php echo Yii::t("common","Just a citizen wanting to give visibility to it :)") ?>",
+
+		"addProject" : "<?php echo Yii::t("common","Add a Project") ?>",
+		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
+		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
 };
 

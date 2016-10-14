@@ -65,8 +65,19 @@ $countries= OpenData::getCountriesList();
 						if ($value["verb"]!=ActStr::VERB_CREATE)
 							echo $contextTypeLabel;
 						echo ": <span style='color: #21b384;'>";
-						if($value["object"]["displayName"]=="address")
-							echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
+						if($value["object"]["displayName"]=="address"){
+							$address = $value["object"]["displayValue"]["address"];
+							$geo = $value["object"]["displayValue"]["geo"];
+							if(!empty($address["streetAddress"]))
+								echo $address["streetAddress"].", " ;
+							if(!empty($address["postalCode"]))
+								echo $address["postalCode"].", " ;
+							echo $address["addressLocality"] ;
+							echo ", ".OpenData::$phCountries[$address["addressCountry"]] ;
+							echo " <i class='fa fa-globe fa_addressCountry'></i> ( ".$geo["latitude"]."/".$geo["longitude"].") ";
+						}
+							//echo $value["object"]["displayValue"];
+							//echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
 						else if($value["object"]["displayName"]=="address.addressCountry"){
 							foreach($countries as $country){
 								if($country["value"]==$value["object"]["displayValue"])

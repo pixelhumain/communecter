@@ -245,6 +245,8 @@
 
 											"markerPlace" 		: "map-marker",
 
+											"POI" 				: "NEWS_A",
+
 									  };
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
@@ -277,6 +279,8 @@
 
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
+
+											"POI" 				: { ico : "map-marker", color : "dark" 	},
 
 									  };
 

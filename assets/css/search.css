@@ -673,6 +673,12 @@ button.btn-infos{
 .text-lightblue2{
 	color:#2973C0 !important;
 }
+.text-grey{
+	color: #a4a4a4 !important;
+}
+.text-success{
+	color: #5cb85c !important;
+}
 .bg-lightblue2{
 	background-color:#2973C0 !important;
 }

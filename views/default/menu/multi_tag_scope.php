@@ -37,11 +37,11 @@ function showTagsScopesMin(htmlId){
 		 	tagSelected = true;
 		}
 	});
-	var html =  "<span class='padding-10' id='lbl-my-tags'>"+
-					"<b><i class='fa fa-angle-down'></i> <i class='fa fa-tag'></i> Rechercher par tags</b>"+
-				"</span><br>"+
-				"<button class='btn text-dark btn-sm' id='toogle-tags-selected' onclick='javascript:selectAllTags();'>"+
-				iconSelectTag + "</button> ";
+	var html =  "<button class='btn text-dark btn-sm' id='toogle-tags-selected' onclick='javascript:selectAllTags();'>"+
+				iconSelectTag + "</button> "+
+				"<span class='padding-10' id='lbl-my-tags'>"+
+					"<b><i class='fa fa-tag'></i> Rechercher par tags <i class='fa fa-angle-right'></i> </b>"+
+				"</span>";
 	
 	var numberOfTags = 0;
 	$.each(myMultiTags, function(key, value){
@@ -70,13 +70,14 @@ function showTagsScopesMin(htmlId){
 		 }
 	});
 	html += "<div class='list-select-scopes'>";
-	html += 	"<hr style='margin-top:15px;margin-bottom:5px;'>";
-	html += 	"<span class='padding-10' id='lbl-my-scopes'>"+
-					"<b><i class='fa fa-angle-down'></i> <i class='fa fa-tag'></i> Rechercher par lieux</b>"+
-				"</span></span><br>";
+	html += 	"<hr style='margin-top:10px;margin-bottom:10px;'>";
 	html +=  	"<button class='btn text-dark btn-sm' id='toogle-scopes-selected' onclick='javascript:selectAllScopes();'>"+
 					iconSelectScope + 
 				"</button> ";
+	html += 	"<span class='padding-10' id='lbl-my-scopes'>"+
+					"<b><i class='fa fa-tag'></i> Rechercher par lieux <i class='fa fa-angle-right'></i> </b>"+
+				"</span>";
+	
 	var numberOfScope = 0;
 	$.each(myMultiScopes, function(key, value){
 		numberOfScope++;
@@ -124,11 +125,11 @@ var currentTypeSearchSend = "search";
 function multiTagScopeLbl(type){
 	if(!notEmpty(type)) type = currentTypeSearchSend;
 	if(type=="search"){
-		$("#lbl-my-scopes").html("<i class='fa fa-angle-down'></i> <i class='fa fa-bullseye'></i> Rechercher par lieux");
-		$("#lbl-my-tags").html("<i class='fa fa-angle-down'></i> <i class='fa fa-tag'></i> Rechercher par tags");
+		$("#lbl-my-scopes").html("Rechercher par lieux <i class='fa fa-angle-right'></i> ");
+		$("#lbl-my-tags").html("Rechercher par tags <i class='fa fa-angle-right'></i> ");
 	}else if(type=="send"){
-		$("#lbl-my-scopes").html("<i class='fa fa-angle-down'></i> <i class='fa fa-bullseye'></i> Sélectionnez les lieux de destination de votre message");
-		$("#lbl-my-tags").html("<i class='fa fa-angle-down'></i> <i class='fa fa-tag'></i> Sélectionner des tags pour définir le contenu de votre message");
+		$("#lbl-my-scopes").html("<i class='fa fa-angle-down'></i> Sélectionnez les lieux de destination<br>");
+		$("#lbl-my-tags").html("<i class='fa fa-angle-down'></i> Sélectionner des tags<span class='hidden-xs'> pour définir le contenu de votre message</span><br>");
 	}
 	currentTypeSearchSend = type;
 }
