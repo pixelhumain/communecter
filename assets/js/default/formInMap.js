@@ -353,30 +353,32 @@ function searchAdressNewElement(){
 
 function backToForm(update, cancel){
 	console.log("backToForm", typeof update, update);
-	if( notEmpty($("[name='newElement_lat']").val()) && (typeof update == "undefined" || update == "false") ){
-		locationObj = {
-			address : {
-				"@type" : "PostalAddress",
-				addressCountry : $("[name='newElement_country']").val(),
-				streetAddress : $("[name='newElement_streetAddress']").val(),
-				addressLocality : $("[name='newElement_city']").val(),
-				postalCode : $("[name='newElement_cp']").val(),
-				codeInsee : $("[name='newElement_insee']").val(),
-				depName : $("[name='newElement_dep']").val(),
-				regionName : $("[name='newElement_region']").val()
-			},
-			geo : {
-				"@type" : "GeoCoordinates",
-				latitude : $("[name='newElement_lat']").val(),
-				longitude : $("[name='newElement_lng']").val()
-			},
-			geoPosition : {
-				"@type" : "Point",
-				"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
-			}
-		};
-		copyMapForm2Dynform(locationObj);
-		addLocationToForm(locationObj);
+	if( typeof update == "undefined" || update == "false" ){
+		if(notEmpty($("[name='newElement_lat']").val())){
+			locationObj = {
+				address : {
+					"@type" : "PostalAddress",
+					addressCountry : $("[name='newElement_country']").val(),
+					streetAddress : $("[name='newElement_streetAddress']").val(),
+					addressLocality : $("[name='newElement_city']").val(),
+					postalCode : $("[name='newElement_cp']").val(),
+					codeInsee : $("[name='newElement_insee']").val(),
+					depName : $("[name='newElement_dep']").val(),
+					regionName : $("[name='newElement_region']").val()
+				},
+				geo : {
+					"@type" : "GeoCoordinates",
+					latitude : $("[name='newElement_lat']").val(),
+					longitude : $("[name='newElement_lng']").val()
+				},
+				geoPosition : {
+					"@type" : "Point",
+					"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
+				}
+			};
+			copyMapForm2Dynform(locationObj);
+			addLocationToForm(locationObj);
+		}
 		showMap(false);
 		$('#ajax-modal').modal("show");
 	}else{

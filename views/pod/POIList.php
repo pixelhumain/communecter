@@ -46,12 +46,12 @@
 								echo '<div class="space10"></div>';
 							foreach ($p["medias"] as $m) { ?>
 								<div class="col-xs-12">
-									<div class="col-xs-4">
+									<div class="col-xs-4 col-md-12">
 										<?php if(@$m["content"]["image"]){?>
 											<img src="<?php echo @$m["content"]["image"] ?>" class="img-responsive">
 										<?php } ?>
 									</div>
-									<div class="col-xs-8">
+									<div class="col-xs-8  col-md-12">
 										<a class="text-bold" href="<?php echo @$m["content"]["url"] ?>" target="_blank"><?php echo @$m["name"] ?></a><br/>
 										<?php echo @$m["description"] ?>
 									</div>
