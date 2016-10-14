@@ -192,15 +192,10 @@
 </style>
 
 <div id="addMembers">
-	<?php   
-  		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
-  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit;
-  			?>
-
+	<?php if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
+  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit; ?>
   			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
-  	<?php
-		}
-	?>
+  	<?php } ?>
 	<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
 </div>
 
@@ -214,8 +209,9 @@
         <div class="form-group" id="addMemberSection">
 
         	<input type="radio" value="citoyens" name="memberType" data-fa="user" checked> <i class="fa fa-user"></i> un citoyen
-        	<input type="radio" value="organizations" name="memberType" data-fa="group" style="margin-left:25px;"> <i class="fa fa-group"></i> une organisation
-
+        	<?php if($type != "events"){ ?>
+        		<input type="radio" value="organizations" name="memberType" data-fa="group" style="margin-left:25px;"> <i class="fa fa-group"></i> une organisation
+        	<?php } ?>
 			<div class="input-group">
 		      <span class="input-group-addon" id="basic-addon1">
 		        <i class="fa fa-user text-dark searchIcon tooltips" id="fa-type-contact-mail"></i>
@@ -246,13 +242,10 @@ var elementId = "<?php echo $parentId; ?>"
 var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 var listContact = new Array();
 
-var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Citoyens" }
-						//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
-						//{ name : "events", 		color: "orange"	, icon:"calendar"		}
-						];
+var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
 
 if(elementType != "<?php echo Event::COLLECTION ?>")
-	contactTypes.push({ name : "organizations", 	color: "green" 	, icon:"group", label:"Organisations" });
+	contactTypes.push({ name : "organizations", color: "green", icon:"group", label:"Organisations" });
 
 var addLinkDynForm = {
 		"inputType" : "scope",
