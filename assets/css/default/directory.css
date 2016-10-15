@@ -82,6 +82,11 @@
     filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=4);
   }
 
+  .lbl-res-vote{
+    border-radius:15px;
+    padding: 3px 8px;
+  }
+
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
      display:none;

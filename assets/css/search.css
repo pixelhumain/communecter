@@ -685,6 +685,10 @@ button.btn-infos{
 .bg-transparent{
 	background-color: transparent !important;
 }
+.bg-blue{
+	background-color: #5f8295!important;
+	color:white !important;
+}
 
 @media screen and (max-width: 1024px) {
 	.img-logo{

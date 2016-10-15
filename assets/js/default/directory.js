@@ -325,8 +325,17 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	                	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	
                       if(notEmpty(o.parentRoom)){
-                        str += "<div class='col-md-12'>";
-                          if(notEmpty(o.voteUpCount)) str += "<i class='fa fa-thumbs-up'></i>" + o.voteUpCount;
+                        var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
+                        var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
+                        var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
+                        var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
+                        var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
+                        str += "<div class='pull-right margin-bottom-10 no-padding'>";
+                          str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
+                          str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
+                          str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
+                          str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
+                          str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
                         str += "</div>";
                       }
 
