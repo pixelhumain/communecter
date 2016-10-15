@@ -136,6 +136,9 @@ function setHeaderDirectory(type){
     $("#scopeListContainer, #btn-slidup-scopetags").show(200);
   }
 
+  $(".menu-left-container #menu-extend .menu-button-left").removeClass("selected");
+  $(".menu-left-container #menu-extend #menu-btn-"+type).addClass("selected");
+
   $(".my-main-container").scrollTop(0);
 
 }
@@ -173,10 +176,7 @@ jQuery(document).ready(function() {
 	
   $('.tooltips').tooltip();
 
-  setHeaderDirectory(typeSelected);
-
-  $(".menu-left-container #menu-btn-"+typeSelected).addClass("selected");
-  
+  setHeaderDirectory(typeSelected);  
 
   showTagsScopesMin("#scopeListContainer");
 

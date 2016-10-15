@@ -498,8 +498,9 @@ var loadableUrls = {
     "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms.index.type.cities" : {title:'ACTION ROOMS ', icon : 'cubes', menuId:"btn-citizen-council-commun"},
-    "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
+	"#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
     "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
@@ -536,7 +537,6 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
-	"#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
@@ -747,7 +747,7 @@ function checkMenu(urlObj, hash){
 	console.dir(urlObj);
 	$(".menu-button-left").removeClass("selected");
 	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
-		if($("#"+urlObj.menuId).data("hash") == hash)
+		if($("#"+urlObj.menuId).attr("href") == hash)
 			$("#"+urlObj.menuId).addClass("selected");
 	}
 }

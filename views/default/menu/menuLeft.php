@@ -39,9 +39,8 @@
 		} ?>
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu lbh
-				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
+		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-my-profil"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
 					 title="Mon profil : <?php echo $me["name"]; ?>"
@@ -81,8 +80,7 @@
 		
 		<?php // AROUND ME // ?>
 		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
-				class="lbh menu-button-left
-				<?php echo ($page == 'aroundMe') ? 'selected':'';?>">
+				class="lbh menu-button-left">
 				<i class="fa fa-crosshairs tooltips"
 					data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
 				<span class="lbl-btn-menu">Autour de moi</span>
@@ -103,7 +101,7 @@
 
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
-				class="lbh menu-button-left">
+		   class="lbh menu-button-left">
 			<i class="fa fa-heartbeat  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
 			<span class="lbl-btn-menu">Live</span>
