@@ -270,7 +270,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 #footerDropdown{
 	position:relative;
-	/*background-color: white;*/
+	background-color: transparent !important;
 }
 .tag.bold{
 	font-weight:600 !important;

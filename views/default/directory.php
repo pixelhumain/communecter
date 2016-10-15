@@ -60,33 +60,40 @@
   </div>
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
-    <?php  if(@$_GET['type'] != "cities"){ ?>  
+    <?php  //if(@$_GET['type'] != "cities"){ ?>  
       <div class='city-name-locked homestead text-red'></div>
       <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
-    <?php }else{ ?>
-      <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
-    <?php } ?>
+    <?php //}else{ ?>
+      <!-- <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche -->
+    <?php //} ?>
   </div>
 
 </div>
  
   <div class="container-result-search">
-      <div class="col-md-12 padding-10 margin-bottom-5">
-        <?php  if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
+      <div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
+        <?php  //if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
+        <div class="lbl-info lbl-info-vote lbl-info-actions hidden">
           <i class="fa fa-chevron-down"></i> 
           <i class="fa fa-info-circle"></i> 
           <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
           (issus de vos <span class="text-green"><b>organisations</b></span>, 
           vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
-        <?php }else if(@$_GET['type'] != "cities"){ ?>
+        </div>
+        <?php //}else if(@$_GET['type'] != "cities"){ ?>
+        <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons hidden">
           <i class="fa fa-chevron-down"></i> 
           <i class="fa fa-info-circle"></i> 
           <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
-        <?php }else{ ?>
-        <?php } ?>
+        </div>
+        <?php //}else if(@$_GET['type'] == "cities"){ ?>
+        <div class="lbl-info lbl-info-cities hidden">
+          <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
+        </div>
+        <?php//} ?>
       </div>
     
-    <div style="" class="row no-padding" id="dropdown_search"></div>
+      <div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
@@ -95,6 +102,43 @@
 ?>
 
 <script type="text/javascript">
+
+var headerParams = {
+  "persons"       : { color: "yellow",  icon: "user",         name: "citoyens" },
+  "organizations" : { color: "green",   icon: "group",        name: "organisations" },
+  "projects"      : { color: "purple",  icon: "lightbulb-o",  name: "projets" },
+  "events"        : { color: "orange",  icon: "calendar",     name: "événements" },
+  "vote"          : { color: "azure",   icon: "gavel",        name: "débats" },
+  "actions"       : { color: "lightblue2",    icon: "cogs",         name: "actions" },
+  "cities"        : { color: "red",     icon: "university",   name: "communes" },
+
+}
+function setHeaderDirectory(type){
+ 
+  var params = new Array();
+  if(typeof headerParams[type] == "undefined") return;
+  params = headerParams[type];
+  $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
+                                '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
+                                'Liste des '+params.name+
+                              '</span>');
+
+  $(".lbl-info-search .lbl-info").addClass("hidden");
+  $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
+
+  $("#dropdown_search").html("");
+
+  if(type == "cities") { 
+    $("#searchBarText").attr("placeholder", "rechercher une ville, un code postal..."); 
+    $("#scopeListContainer, #btn-slidup-scopetags").hide(200);
+  }else{ 
+    $("#searchBarText").attr("placeholder", "rechercher par #tag ou mots clés..."); 
+    $("#scopeListContainer, #btn-slidup-scopetags").show(200);
+  }
+
+  $(".my-main-container").scrollTop(0);
+
+}
 
 var searchType = [ "persons" ];
 var allSearchType = [ "persons", "organizations", "projects", "events", "vote", "cities" ];
@@ -129,16 +173,10 @@ jQuery(document).ready(function() {
 	
   $('.tooltips').tooltip();
 
-  // $("#btn-slidup-scopetags").click(function(){
-  //   if($("#list_filters").hasClass("hidden")){
-  //     $("#list_filters").removeClass("hidden");
-  //     $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
-  //   }
-  //   else{
-  //     $("#list_filters").addClass("hidden");
-  //     $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
-  //   }
-  // });
+  setHeaderDirectory(typeSelected);
+
+  $(".menu-left-container #menu-btn-"+typeSelected).addClass("selected");
+  
 
   showTagsScopesMin("#scopeListContainer");
 

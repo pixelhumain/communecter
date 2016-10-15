@@ -142,21 +142,21 @@ function showEmptyMsg(){
 
 
 function slidupScopetagsMin(show){ //console.log("slidupScopetagsMin", show);
-	if($("#list_filters").hasClass("hidden")){
-	    $("#list_filters").removeClass("hidden");
+	if($("#scopeListContainer").hasClass("hidden")){
+	    $("#scopeListContainer").removeClass("hidden");
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
 	}
 	else{
-	    $("#list_filters").addClass("hidden"); //console.log("hidden slidupScopetagsMin", show);
+	    $("#scopeListContainer").addClass("hidden"); //console.log("hidden slidupScopetagsMin", show);
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
 	}
 
 	if(show==true){
-	    $("#list_filters").removeClass("hidden"); //console.log("removeClass hidden slidupScopetagsMin", show);
+	    $("#scopeListContainer").removeClass("hidden"); //console.log("removeClass hidden slidupScopetagsMin", show);
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
 	}
 	else if(show==false){
-	    $("#list_filters").addClass("hidden");
+	    $("#scopeListContainer").addClass("hidden");
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
 	}
 }

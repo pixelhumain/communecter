@@ -26,7 +26,7 @@
 	font-size: 15px !important;
 }
 button.btn-start-search{
-	font-size:13px!important;
+	font-size:12px!important;
 	height:30px!important;
 	width:40px!important;
 }

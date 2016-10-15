@@ -606,11 +606,32 @@ function jsController(hash){
 	return res;
 }
 
+ var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+
+	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
+	console.log("IS DIRECTORY ? ", 
+				hash.indexOf("#default.directory"), 
+				location.hash.indexOf("#default.directory"), CoAllReadyLoad);
+
+	if( hash.indexOf("#default.directory") >= 0 &&
+		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
+		var n = hash.indexOf("type=")+5;
+		var type = hash.substr(n);
+		console.log("CHANGE directory", type);
+		searchType = [type];
+		setHeaderDirectory(type);
+		loadingData = false;
+		startSearch(0, indexStepInit);
+		location.hash = hash;
+		return;
+	}
+
 	currentUrl = hash;
 	allReadyLoad = true;
+	CoAllReadyLoad = true;
 	contextData = null;
 
 	$(".my-main-container").off(); 
@@ -621,6 +642,7 @@ function loadByHash( hash , back ) {
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
+
 	//alert("loadByHash"+hash);
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
@@ -1051,10 +1073,7 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 		}
 	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
 	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
-	          str = '<div class="center" id="footerDropdown">';
-	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
-	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
-	          str += "</div>";
+	          var str = getFooterScopeChanged(method);
 	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
 		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
 		          $(searchFeed).append( str );
@@ -1073,10 +1092,7 @@ function hideSearchResults(){
 			method = "reloadNewsSearch();"
 		}
       //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
-      str = '<div class="center" id="footerDropdown">';
-      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
-      str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
-      str += "</div>";
+      str = getFooterScopeChanged(method);
       if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
           $(".newsFeedNews, #backToTop, #footerDropdown").remove();
           $(searchFeed).append( str );
@@ -1086,6 +1102,15 @@ function hideSearchResults(){
       $(".search-loader").html("<i class='fa fa-ban'></i>");
 	    
 }
+function getFooterScopeChanged(method){
+	var str = 	'<div class="padding-15" id="footerDropdown">';
+	    str += 		"<hr style='float:left; width:100%;'/>"
+	    str += 		'<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la recherche</button>'+
+	    	   		"<span style='' class='text-dark padding-10'><i class='fa fa-angle-right'></i> Les critères ont changés</span><br/>";
+	    str +=  "</div>";
+	return str;  
+}
+
 function reloadNewsSearch(){
 	if(location.hash.indexOf("#default.live")==0)
     	startSearch(false);

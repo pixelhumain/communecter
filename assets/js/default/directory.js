@@ -67,13 +67,9 @@ function addSearchType(type){
     //$(".search_"+type).removeClass("active"); //fa-circle-o");
     $(".search_"+type).addClass("active"); //fa-check-circle-o");
   }
-
-  if(type == "persons") { $(".subtitle-search").html('<span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>') }
-  if(type == "organizations") { $(".subtitle-search").html('<span class="text-green homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-group"></i> Liste des organisations</span>') }
-  if(type == "events") { $(".subtitle-search").html('<span class="text-orange homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-calendar"></i> Liste des événements</span>') }
-  if(type == "projects") { $(".subtitle-search").html('<span class="text-purple homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-lightbulb-o"></i> Liste des projets</span>') }
-  if(type == "cities") { $(".subtitle-search").html('<span class="text-red homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-university"></i> Liste des communes</span>') }
 }
+
+
 function removeSearchType(type){
   var index = searchType.indexOf(type);
   if (index > -1 && searchType.length > 1) {
@@ -351,10 +347,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   $(".btn-start-search").html("<i class='fa fa-refresh'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer   
-                    var msg = "Aucun résultat";    
+                    var msg = "<i class='fa fa-ban'></i> Aucun résultat";    
                     if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
-                    str += '<div class="pull-left text-center col-md-12" id="footerDropdown" style="width:100%;">';
-                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
+                    str += '<div class="pull-left col-md-12 text-left" id="footerDropdown" style="width:100%;">';
+                    str += "<hr style='float:left; width:100%;'/><h3 style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</h3><br/>";
                     str += "</div>";
                     $("#dropdown_search").html(str);
                     $("#searchBarText").focus();
@@ -364,8 +360,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               else
               {       
                 //ajout du footer      	
-                str += '<div class="pull-left text-center col-md-12" id="footerDropdown" style="width:100%;">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
+                str += '<div class="pull-left col-md-12 text-center" id="footerDropdown" style="width:100%;">';
+                str += "<hr style='float:left; width:100%;'/><h3 style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</h3><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
 

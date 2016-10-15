@@ -93,7 +93,7 @@
 		<br>
 
 		<?php // TOP // ?>
-		<a href="#default.live" id="menu-btn-live"
+		<a href="#default.live" id="menu-btn-top"
 				class="lbh menu-button-left hidden">
 			<i class="fa fa-thumbs-up  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
@@ -114,7 +114,7 @@
 
 		<?php // RECHERCHER // ?>
 		<!-- <br> -->
-		<a href="javascript:extendMenu();" id="menu-btn-directory"
+		<a href="javascript:extendMenu();" id=""
 				class="menu-button-left">
 			<i class="fa fa-search tooltips"
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
@@ -144,7 +144,7 @@
 			<hr>
 
 			<?php // Organisation // ?>
-			<a href="#default.directory?type=organizations" id="menu-btn-organization"
+			<a href="#default.directory?type=organizations" id="menu-btn-organizations"
 					class="menu-button-left lbh">
 				<i class="fa fa-group tooltips"
 					data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
@@ -158,7 +158,7 @@
 			<hr>
 
 			<?php // Projet // ?>
-			<a href="#default.directory?type=projects" id="menu-btn-project"
+			<a href="#default.directory?type=projects" id="menu-btn-projects"
 					class="menu-button-left  lbh">
 				<i class="fa fa-lightbulb-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Projets"></i> 
@@ -172,7 +172,7 @@
 			<hr>
 
 			<?php // People // ?>
-			<a href="#default.directory?type=persons"  id="menu-btn-people"
+			<a href="#default.directory?type=persons"  id="menu-btn-persons"
 					class="menu-button-left  lbh">
 				<i class="fa fa-user tooltips"
 					data-toggle="tooltip" data-placement="right" title="Citoyens"></i> 
@@ -201,7 +201,7 @@
 				<hr>
 
 				<?php // Action // ?>
-				<a href="#default.directory?type=actions" id="menu-btn-action"
+				<a href="#default.directory?type=actions" id="menu-btn-actions"
 						class="menu-button-left lbh">
 					<i class="fa fa-cogs tooltips"
 						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
@@ -216,7 +216,7 @@
 			<?php } ?>
 			
 			<?php // Commune // ?>
-			<a href="#default.directory?type=cities" id="menu-btn-action"
+			<a href="#default.directory?type=cities" id="menu-btn-cities"
 					class="menu-button-left lbh">
 				<i class="fa fa-university tooltips"
 					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
