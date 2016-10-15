@@ -194,7 +194,7 @@ jQuery(document).ready(function() {
 	// });
 
 
-	$('#dropdown-multi-scope').click(function(){ console.log("$('#dropdown-multi-scope').click");
+	$('#dropdown-multi-scope').click(function(){ //console.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});
 	$('#input-add-multi-scope').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_] 
@@ -205,7 +205,7 @@ jQuery(document).ready(function() {
 			timeoutAddScope = setTimeout(function(){ autocompleteMultiScope(); }, 500);
 		}
 	});
-	$('#input-add-multi-scope').click(function(){ console.log("$('#input-add-multi-scope').click");
+	$('#input-add-multi-scope').click(function(){ //console.log("$('#input-add-multi-scope').click");
 		if($('#input-add-multi-scope').val()!="")
 			setTimeout(function(){$("#dropdown-multi-scope-found").show();}, 500);
 	});
@@ -221,7 +221,7 @@ jQuery(document).ready(function() {
 		if(currentScopeType == "region") $('#input-add-multi-scope').attr("placeholder", "Ajouter une région ...");
 	});
 
-	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-scope-dropdown").click(function(){ //console.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});

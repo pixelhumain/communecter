@@ -100,12 +100,12 @@ function showTagsScopesMin(htmlId){
 	$(".item-scope-checker").off().click(function(){ toogleScopeMultiscope( $(this).data("scope-value")) });
 	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 	
-	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-tag-dropdown").click(function(){ //console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
 	});
-	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-scope-dropdown").click(function(){ //console.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
@@ -116,9 +116,6 @@ function showTagsScopesMin(htmlId){
 	if(tagSelected)  { $(".btnShowAllTag").hide(); $(".btnHideAllTag").show(); } 
 	else 			 { $(".btnShowAllTag").show(); $(".btnHideAllTag").hide(); }
 
-	//bindRefreshBtns();
-	
-	//$(".list_tags_scopes").removeClass("tagOnly");
 }
 
 var currentTypeSearchSend = "search";
@@ -144,18 +141,18 @@ function showEmptyMsg(){
 }
 
 
-function slidupScopetagsMin(show){ console.log("slidupScopetagsMin", show);
+function slidupScopetagsMin(show){ //console.log("slidupScopetagsMin", show);
 	if($("#list_filters").hasClass("hidden")){
 	    $("#list_filters").removeClass("hidden");
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
 	}
 	else{
-	    $("#list_filters").addClass("hidden"); console.log("hidden slidupScopetagsMin", show);
+	    $("#list_filters").addClass("hidden"); //console.log("hidden slidupScopetagsMin", show);
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
 	}
 
 	if(show==true){
-	    $("#list_filters").removeClass("hidden"); console.log("removeClass hidden slidupScopetagsMin", show);
+	    $("#list_filters").removeClass("hidden"); //console.log("removeClass hidden slidupScopetagsMin", show);
 	    $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
 	}
 	else if(show==false){
@@ -165,34 +162,4 @@ function slidupScopetagsMin(show){ console.log("slidupScopetagsMin", show);
 }
 
 
-/*function openCommonModal(hash){ console.log("search for modal key :", hash);
-	var urls = {
-		"organization.addorganizationform": { 
-			what: { 
-				title: 	"Créer une organisation",
-				icon: 	"users",
-				desc: 	""
-			},
-			//url:"organization/addorganizationform",
-			id: ""
-		},
-		"project.projectsv": { 
-			what: { 
-				title: 	"Créer un projet",
-				icon: 	"lightbulb-o",
-				desc: 	""
-			},
-			//url:"project/projectsv",
-			id: ""
-		},
-	};
-
-	if(typeof urls[hash] != "undefined"){ console.log("modal key found");
-		var slashHash = hash.replace( /\./g,"/" );
-		var url = "/" + moduleId + "/" + slashHash; //urls[hash]["url"];
-		getModal(urls[hash]["what"], url); //, urls[hash]["id"])
-	}else{
-		console.log("modal key not found");
-	}
-}*/
 </script>

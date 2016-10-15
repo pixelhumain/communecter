@@ -1,7 +1,7 @@
 
 
 function saveMultiTag(){
-	console.log("saveMultiTag() try"); console.log(myMultiTags); 
+	//console.log("saveMultiTag() try"); console.log(myMultiTags); 
 	hideSearchResults();
 	if(userId != null && userId != ""){
 		if(!notEmpty(myMultiTags)) myMultiTags = {};
@@ -40,10 +40,10 @@ function loadMultiTags(){
 
 function showCountTag(){
 	var count = 0;
-	console.log("myMultiTags"); console.log(myMultiTags);
+	//console.log("myMultiTags"); console.log(myMultiTags);
 	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
 		if(value.active==true) count++;
-	}); console.log("TAG COUNT : ", count);
+	}); //onsole.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
 	showTagsScopesMin(".list_tags_scopes");
 	showEmptyMsg();
@@ -99,9 +99,9 @@ function addTagToMultitag(tagValue){
 	if(tagValue == "") return;
 	if(tagValue.indexOf("#") == 0) tagValue = tagValue.substr(1, tagValue.length);
 	if(!tagExists(tagValue)){
-		console.log("adding", tagValue);
+		//console.log("adding", tagValue);
 		myMultiTags[tagValue] = { active: true };
-		console.log("adding : myMultiTags :", myMultiTags);
+		//console.log("adding : myMultiTags :", myMultiTags);
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");
@@ -176,7 +176,7 @@ function rebuildSearchTagInput()
 		if(value.active)
 			searchTags += (searchTags == "") ? key :   ","+key;
 	});
-	console.log("searchTags",searchTags);
+	//console.log("searchTags",searchTags);
 	if( $("#searchTags") )
 		$("#searchTags").val(searchTags);
 
@@ -203,7 +203,7 @@ function showTagsMin(htmlId){
 
 	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 	
-	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-tag-dropdown").click(function(){ //console.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
