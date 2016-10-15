@@ -324,7 +324,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       if(endDate != null)
   	                	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
   	                	
-                      if(notEmpty(o.parentRoom)){
+                      if(o.type == "entry"){
                         var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
                         var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
                         var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";

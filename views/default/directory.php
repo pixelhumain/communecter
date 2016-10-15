@@ -120,7 +120,7 @@ function setHeaderDirectory(type){
   params = headerParams[type];
   $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
                                 '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
-                                'Liste des '+params.name+
+                                params.name+
                               '</span>');
 
   $(".lbl-info-search .lbl-info").addClass("hidden");
