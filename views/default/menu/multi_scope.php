@@ -156,8 +156,6 @@
    			
    		</div>
    		
-
-   		
    </ul>
 </div>
 <input id="searchLocalityCITYKEY" type="hidden" />
