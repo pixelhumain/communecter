@@ -23,7 +23,8 @@
 	</button>
 
 	<?php // MAIN TITLE // ?>
-	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs" id="main-title"
+	<h1 class="homestead text-dark no-padding moduleLabel hidden-xs	
+			    <?php if(!isset(Yii::app()->session['userId'])) echo 'offline'; ?>" id="main-title"
 		style="font-size:18px;margin-bottom: 0px; display: inline-block;">
 	</h1>
 	
