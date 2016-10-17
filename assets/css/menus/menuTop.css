@@ -2,11 +2,16 @@
 	.main-top-menu .moduleLabel {
     	max-width: 32% !important;
 	}
+
+
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1350px) {
 	.main-top-menu .moduleLabel {
     	/*max-width: 25% !important;*/
+	}
+	.moduleLabel.offline{
+		max-width: 32% !important;
 	}
 }
 
@@ -110,7 +115,6 @@ button#btn-documentation{
 #main-title {
     margin-top: 16px !important;
 }
-
 
 @media screen and (max-width: 767px){
 	#notificationPanelSearch{

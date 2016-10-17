@@ -39,9 +39,8 @@
 		} ?>
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>"
-				class="menu-button menu-button-left menu-button-title btn-menu lbh
-				<?php echo ($page == 'myProfil') ? 'selected':'';?>">
+		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-my-profil"
+				class="menu-button menu-button-left menu-button-title btn-menu lbh">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
 					 title="Mon profil : <?php echo $me["name"]; ?>"
@@ -81,8 +80,7 @@
 		
 		<?php // AROUND ME // ?>
 		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
-				class="lbh menu-button-left
-				<?php echo ($page == 'aroundMe') ? 'selected':'';?>">
+				class="lbh menu-button-left">
 				<i class="fa fa-crosshairs tooltips"
 					data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
 				<span class="lbl-btn-menu">Autour de moi</span>
@@ -93,7 +91,7 @@
 		<br>
 
 		<?php // TOP // ?>
-		<a href="#default.live" id="menu-btn-live"
+		<a href="#default.live" id="menu-btn-top"
 				class="lbh menu-button-left hidden">
 			<i class="fa fa-thumbs-up  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
@@ -103,7 +101,7 @@
 
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
-				class="lbh menu-button-left">
+		   class="lbh menu-button-left">
 			<i class="fa fa-heartbeat  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
 			<span class="lbl-btn-menu">Live</span>
@@ -114,7 +112,7 @@
 
 		<?php // RECHERCHER // ?>
 		<!-- <br> -->
-		<a href="javascript:extendMenu();" id="menu-btn-directory"
+		<a href="javascript:extendMenu();" id=""
 				class="menu-button-left">
 			<i class="fa fa-search tooltips"
 				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
@@ -144,7 +142,7 @@
 			<hr>
 
 			<?php // Organisation // ?>
-			<a href="#default.directory?type=organizations" id="menu-btn-organization"
+			<a href="#default.directory?type=organizations" id="menu-btn-organizations"
 					class="menu-button-left lbh">
 				<i class="fa fa-group tooltips"
 					data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
@@ -158,7 +156,7 @@
 			<hr>
 
 			<?php // Projet // ?>
-			<a href="#default.directory?type=projects" id="menu-btn-project"
+			<a href="#default.directory?type=projects" id="menu-btn-projects"
 					class="menu-button-left  lbh">
 				<i class="fa fa-lightbulb-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Projets"></i> 
@@ -172,7 +170,7 @@
 			<hr>
 
 			<?php // People // ?>
-			<a href="#default.directory?type=persons"  id="menu-btn-people"
+			<a href="#default.directory?type=persons"  id="menu-btn-persons"
 					class="menu-button-left  lbh">
 				<i class="fa fa-user tooltips"
 					data-toggle="tooltip" data-placement="right" title="Citoyens"></i> 
@@ -201,7 +199,7 @@
 				<hr>
 
 				<?php // Action // ?>
-				<a href="#default.directory?type=actions" id="menu-btn-action"
+				<a href="#default.directory?type=actions" id="menu-btn-actions"
 						class="menu-button-left lbh">
 					<i class="fa fa-cogs tooltips"
 						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
@@ -216,7 +214,7 @@
 			<?php } ?>
 			
 			<?php // Commune // ?>
-			<a href="#default.directory?type=cities" id="menu-btn-action"
+			<a href="#default.directory?type=cities" id="menu-btn-cities"
 					class="menu-button-left lbh">
 				<i class="fa fa-university tooltips"
 					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
