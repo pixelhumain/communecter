@@ -101,18 +101,8 @@ var liveScopeType = "global";
 
 var loadContent = '<?php echo @$_GET["content"]; ?>';
 jQuery(document).ready(function() {
-	$("#falseInput").on('load',function(){
-		alert("");
-		/*if(loadContent != ''){
-			if(userId){
-				$("#falseInput").trigger("click");
-				$("#get_url").val(loadContent);
-			}
-			else {
-				toastr.error('you must be loggued to post on communecter!');
-			}
-		}*/
-	});
+	//$("#falseInput").on('load',function(){
+			//});
 	
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
@@ -279,7 +269,20 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
 			showTagsScopesMin(".list_tags_scopes");
-			showFormBlock(false);
+			if(loadContent != ''){
+				if(userId){
+					showFormBlock(true);
+					if(loadContent.indexOf("%hash%"))
+						loadContent = loadContent.replace("%hash%", "#");
+					$("#get_url").val(loadContent);
+					$("#get_url").trigger("input");
+				}
+				else {
+					toastr.error('you must be loggued to post on communecter!');
+				}
+			}
+			else
+				showFormBlock(false);
 			bindTags();
 			//$("#newLiveFeedForm").hide();
 	 	},"html");

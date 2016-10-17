@@ -587,6 +587,15 @@ function jsController(hash){
 					//hash can be iliased
 					if (endPoint.hash) 
 						hash = endPoint.hash;
+					if(hash.indexOf("?")){
+						hashT=hash.split("?");
+						console.log(hashT);
+						hash=hashT[0];
+						extraParams = "?"+hashT[1];
+					}
+					if(extraParams.indexOf("#")){
+						extraParams=extraParams.replace( "#","%hash%" );
+					}
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
 					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon, res );
 					

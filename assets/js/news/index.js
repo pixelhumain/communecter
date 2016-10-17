@@ -668,7 +668,7 @@ function getUrlContent(){
         }
     });
     var getUrl  = $('#get_url'); //url to extract from text field
-    getUrl.keyup(function() { //user types url in text field        
+    getUrl.bind("input keyup", function() { //user types url in text field        
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         //continue if matched url is found in text field
