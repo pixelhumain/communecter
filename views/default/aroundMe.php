@@ -1,3 +1,11 @@
+<?php 
+  $cssAnsScriptFilesModule = array(
+    '/css/default/directory.css',
+    '/js/default/directory.js',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+
 <style>
   
   .btn-add-to-directory{
@@ -33,41 +41,41 @@
 
 </style>
 
+<div class="row headerDirectory bg-white padding-15">
+  <h3 class="text-dark text-left">
+    <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs autour de vous</b>, dans un rayon de 
+    <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
+      <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
+      <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
+      <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
+      <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
+      <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
+    </select> km
+    <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
+      <i class="fa fa-map-marker"></i> Afficher sur la carte
+    </button>
+  </h3>
 
-<h3 class="text-dark text-left">
-  <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs autour de vous</b>, dans un rayon de 
-  <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
-    <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
-    <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
-    <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
-    <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
-    <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
-  </select> km
-  <button class="btn btn-success" style="margin-left:20px;" onclick="javascript:showMap(true)">
-    <i class="fa fa-map-marker"></i> Afficher sur la carte
-  </button>
-</h3>
-
-  
-  <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
-    <h3 class="text-red">
-      <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
-      <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
-    </h3>
-    <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+    
+    <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+      <h3 class="text-red">
+        <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
+        <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+      </h3>
+      <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+    </div>
+    
+    <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
+      <h3 class="text-dark">
+        <b>
+          <i class="fa fa-angle-down"></i> 
+          <span id="nbResAroundMe"></span>
+        </b>
+      </h3>
+    </div>
   </div>
-  
-  <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
-    <h3 class="text-dark">
-      <b>
-        <i class="fa fa-angle-down"></i> 
-        <span id="nbResAroundMe"></span>
-      </b>
-    </h3>
-  </div>
-</div>
 
-<div id="grid_around"></div>
+  <div id="grid_around"></div>
 
 
 <script>
@@ -90,9 +98,15 @@ jQuery(document).ready(function() {
 			 "<i class='fa fa-crosshairs'></i>", 
 			 "Autour de moi");
 
-	//showMap(true);
-	if(notEmpty(elementsMap)) 
-      showGridResult(elementsMap);
+  console.log(elementsMap);
+
+  //showMap(true);
+	if(notEmpty(elementsMap)){ 
+      var str = showResultsDirectoryHtml(elementsMap);
+      $("#grid_around").html(str);
+      initBtnLink();
+      refreshUIAroundMe(elementsMap); 
+  }
 
   $("#stepSearch").change(function(){
     radiusElement = $(this).val();
@@ -115,170 +129,12 @@ jQuery(document).ready(function() {
 });
 
 
-function showGridResult(data){
-  var str = "";
-  var nbRes = 0;
-	$.each(data, function(i, o) {
-      nbRes++;
-      var typeIco = i;
-      var ico = mapIconTop["default"];
-      var color = mapColorIconTop["default"];
 
-      mapElements.push(o);
-
-		  typeIco = typeof o.typeSig != "undefined" ? o.typeSig : null;
-      ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-      color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-      
-      var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-     	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-        htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-      }
-
-      city="";
-
-      var postalCode = o.cp
-      if (o.address != null) {
-        city = o.address.addressLocality;
-        postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-      }
-      
-      //console.dir(o);
-      var id = getObjectId(o);
-      var insee = o.insee ? o.insee : ""; console.log(typeIco);
-      type = typeObj[typeIco].col;
-      // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-      //type += "s";
-      var url = '#news.index.type.'+type+'.id.' + id;
-      if(type == "citoyens") url += '.viewer.' + userId;
-      if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
-
-      //if(type=="citoyen") type = "person";
-     
-      var onclick = 'loadByHash("' + url + '");';
-
-      var onclickCp = "";
-      var target = " target='_blank'";
-      var dataId = "";
-      if(type == "city"){
-      	url = "javascript:"; //#main-col-search";
-      	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-      	onclickCp = 'setScopeValue($(this));';
-      	target = "";
-        dataId = o.name; //.replace("'", "\'");
-      }
-
-      var tags = "";
-      if(typeof o.tags != "undefined" && o.tags != null){
-				$.each(o.tags, function(key, value){
-					if(value != "")
-          tags +=   "<a href='javascript:' class='badge bg-white text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
-        });
-      }
-
-      var name = typeof o.name != "undefined" ? o.name : "";
-      var postalCode = (typeof o.address != "undefined" &&
-      				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-      
-      if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-      var cityName = (typeof o.address != "undefined" &&
-      				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-      
-      var fullLocality = postalCode + " " + cityName;
-
-      var description = (typeof o.shortDescription != "undefined" &&
-      					o.shortDescription != null) ? o.shortDescription : "";
-      if(description == "") description = (typeof o.description != "undefined" &&
-      									 o.description != null) ? o.description : "";
-
-      /*var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-      var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-      */
-
-      console.log("DATE",o.startDate, o.endDate, o.updated );
-      var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
-      var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
-      if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
-      
-      if(type!="surveys" && type!="actions"){
-        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
-        endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
-      }
-      else{                   
-        startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
-        endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
-      }
-      
-      var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; // dateToStr(o.updatedLbl, "fr", true, true)   : null;
-     
-      
-      //template principal
-      str += "<div class='col-md-12 searchEntity no-padding'>";
-
-        
-        if(userId != null){
-            isFollowed=false;
-            str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
-            if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-            if(type!="cities" && id != userId && userId != null && userId != ""){
-              tip = (type == "events") ? "Participer" : 'Suivre';
-              str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                    'data-toggle="tooltip" data-placement="right" data-original-title="'+tip+'"'+
-                    " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                        "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                      "</a>";
-            }
-            str += '</div>';
-          }
-
-        
-        str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
-
-        str += "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
-        str += "</div>";
-         target = "";
-
-         
-
-          
-        str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
-        	
-          str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-          if(updated != null)
-          str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
-
-          if(fullLocality != "" && fullLocality != " ")
-        	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-        	if(startDate != null)
-          str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-          if(endDate != null)
-        	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-        	
-          if(description != "")
-        	str += "<div class='entityDescription'>" + description + "</div>";
-
-        //str += "</div>";
-
-        //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
-          
-          str += tags;
-  
-        str += "</div>";
-   					
-      str += "</div>";
-  }); //end each
-
-  $("#grid_around").html(str);
-  initBtnLink();
-  refreshUIAroundMe(data, nbRes);	
-}
-
-
-function refreshUIAroundMe(elementsMap, nbRes){
+function refreshUIAroundMe(elementsMap){
   
   //if(notEmpty(Sig.myPosition))
   //var myLatlng = [Sig.myPosition.position.latitude, Sig.myPosition.position.longitude];
-  
+  var nbRes = elementsMap.length;
   Sig.showMapElements(Sig.map, elementsMap);
 
   setTimeout(function(){
@@ -298,6 +154,8 @@ function refreshUIAroundMe(elementsMap, nbRes){
     nbRes = nbRes + " élément" + s + " trouvé" + s;
     $("#nbResAroundMe").html(nbRes);
   }
+
+  $("#stepSearch").val(radiusElement);
 
 }
 
@@ -321,7 +179,10 @@ function refreshAroundMe(radius){
       if (data.result) {
         radiusElement = data.radius;
         //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
-        showGridResult(data.all);
+        var str = showResultsDirectoryHtml(data.all);
+         $("#grid_around").html(str);
+        initBtnLink();
+        refreshUIAroundMe(data.all); 
         $("#loader-aroundme").html("");
         setTimeout(function(){ hideMapLegende(); }, 300);
       } else {
