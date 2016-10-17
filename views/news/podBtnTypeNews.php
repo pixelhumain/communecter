@@ -173,7 +173,7 @@ input.form-control.input-search{
 
 </div>
 
-<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-15"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>

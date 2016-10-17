@@ -227,6 +227,11 @@ if($('#breadcum').length)
 
 
 		<div class="col-md-4 col-xs-12 no-padding pull-right">
+			<div class="col-xs-12 margin-bottom-10">
+				<button class="col-xs-12 center btn btn-default text-azure" onclick="showMap(true)">
+					<i class="fa fa-map-marker"></i> Afficher sur la carte
+				</button>
+			</div>
 			<?php if($type != Person::COLLECTION){ ?>
 			<div class="col-xs-12">
 				<?php $this->renderPartial('../pod/usersList', array(  $controller => $element,

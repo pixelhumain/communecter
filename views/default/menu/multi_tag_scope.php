@@ -53,13 +53,15 @@ function showTagsScopesMin(htmlId){
 						"#" + key + 
 					"</span> ";
 	});
-	html += 	"</span>";
-
+	
 	if (numberOfTags == 0) {
 		html += '<span id="helpMultiTags" class="toggle-tag-dropdown" style="padding-left:0px">'+
 					'<a href="javascript:"> Ajouter des filtres mot clés ?</a>'+
 				'</span>';
 	}
+
+	html += 	"</span>";
+
 
 	/************** SCOPES **************/
 	var iconSelectScope = "<i class='fa fa-circle-o'></i>";

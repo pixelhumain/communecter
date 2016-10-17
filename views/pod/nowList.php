@@ -14,6 +14,7 @@
     .elemt_date {
         font-weight: 200;
         padding-top: 2px;
+        font-size: 11px;
     }
     .elemt_name a{
         color:#3C5665;
@@ -81,8 +82,8 @@
                 $id = $v["id"];
             echo ($type) ? Element::getLink(@$type."s",$id) : "no type"; //echo @$type;?>
         </div>
-        <div class="elemt_date pull-left no-margin text-red">
-            <i class="fa fa-clock-o"></i>
+        <div class="elemt_date pull-left margin-top-5 text-left">
+            <i class="fa fa-flash"></i> actif 
             <span class="dateTZ"><?php echo @$v["updatedLbl"];?> </span>            
             <?php //DDA : if( @$v["organizerType"] && @$v["organizerId"] ) echo "-".Element::getLink( @$v["organizerType"],@$v["organizerId"] )?>
             <?php //DDA : if( @$v["parentType"] && @$v["parentId"] ) echo ">".Element::getLink( @$v["parentType"],@$v["parentId"] )?>

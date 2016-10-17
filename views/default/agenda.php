@@ -255,7 +255,9 @@ function showResultInCalendar(mapElements){
     var startDate = exists(thisEvent["startDate"]) ? thisEvent["startDate"].substr(0, 10) : "";
     var endDate = exists(thisEvent["endDate"]) ? thisEvent["endDate"].substr(0, 10) : "";
 
-    var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
+    var cp = exists(thisEvent["address"]["postalCode"]) ? thisEvent["address"]["postalCode"] : "" ;
+    var loc = exists(thisEvent["address"]["addressLocality"]) ? thisEvent["address"]["addressLocality"] : "";
+    var position = cp + " " + loc;
 
     var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
     var thumb_url = notEmpty(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";

@@ -72,27 +72,26 @@
  
   <div class="container-result-search">
       <div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
-        <?php  //if(@$_GET['type'] == "vote" || @$_GET['type'] == "actions"){ ?>
-        <div class="lbl-info lbl-info-vote lbl-info-actions hidden">
+        <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 margin-bottom-10">
           <i class="fa fa-chevron-down"></i> 
           <i class="fa fa-info-circle"></i> 
-          <b>Seuls les résultats auxquels vous avez accès sont affichés</b> 
+          <b>Seuls les résultats auxquels vous avez accès sont affichés</b> <br>
           (issus de vos <span class="text-green"><b>organisations</b></span>, 
           vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
         </div>
-        <?php //}else if(@$_GET['type'] != "cities"){ ?>
-        <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons hidden">
+        <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons pull-left hidden col-xs-9 margin-bottom-10">
           <i class="fa fa-chevron-down"></i> 
           <i class="fa fa-info-circle"></i> 
           <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
         </div>
-        <?php //}else if(@$_GET['type'] == "cities"){ ?>
-        <div class="lbl-info lbl-info-cities hidden">
+        <div class="lbl-info lbl-info-cities pull-left hidden col-xs-9 margin-bottom-10">
           <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
-        </div>
-        <?php//} ?>
+        </div> 
+         <button class="btn btn-default pull-right text-azure" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
+          <i class="fa fa-map-marker"></i>
+          <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
+        </button>
       </div>
-    
       <div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
@@ -140,6 +139,8 @@ function setHeaderDirectory(type){
   $(".menu-left-container #menu-extend #menu-btn-"+type).addClass("selected");
 
   $(".my-main-container").scrollTop(0);
+
+  Sig.clearMap();
 
 }
 

@@ -275,7 +275,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                      
 
                       
-  	                str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
+  	                str += "<div class='col-lg-10 col-md-9 col-sm-9 col-xs-8 entityRight no-padding'>";
   	                	
                       str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
                       
@@ -339,7 +339,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         str += "</div>";
                       }
 
-                      str += "<div class='entityDescription'>" + description + "</div>";
+                      str += "<div class='entityDescription hidden-xs'>" + description + "</div>";
   	               
                       str += tags;
               
