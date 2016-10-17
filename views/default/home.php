@@ -11,6 +11,7 @@
 
 .main-col-search{
 	padding:0px !important;
+	background-color: white !important;
 }
 .home_page h3.subtitle{
 	font-weight: 300;

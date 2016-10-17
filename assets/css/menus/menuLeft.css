@@ -38,6 +38,10 @@
 	filter: progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
 }
 
+#menu-left-thumb-profil{
+	margin-top: -4px;
+}
+
 #menu-extend{
 	margin-left:10px;
 }
@@ -45,6 +49,24 @@
 	margin-left:0px;
 }
 
+
+.menu-button-left.glass-hover:hover, .menu-button-left.glass-hover.selected{
+	/*color:#2BB0C6;*/
+	padding: 8px 10px 5px 3px;
+	background-color: rgba(255, 255, 255, 0.6);
+	border-radius: 51px;
+	margin-left: -3px;
+    -webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.42);
+    -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0.42);
+    box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.42);
+}
+
+.inSig .menu-button-left.glass-hover:hover{
+	padding: 0px;
+	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0);
+    -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0);
+    box-shadow:         0px 0px 5px rgba(50, 50, 50, 0);
+}
 @media screen and (max-height: 580px) {
 .footer-menu-left, .helloasso{
 	display:none;

@@ -13,6 +13,7 @@
 	/*color:#2BB0C6;*/
 }
 
+
 .menu-button-left.selected{
 	/*color:#2BB0C6;*/
 	font-weight: 600;
@@ -20,7 +21,7 @@
 .main-menu-left hr{
 	margin-top:5px;
 	margin-bottom:5px;
-	border-top: 1px solid rgba(72, 72, 72, 0.1) !important;
+	border-top: 1px solid transparent !important; /*rgba(72, 72, 72, 0.1) !important;*/
 }
 
 .moduleLabel{

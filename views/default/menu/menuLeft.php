@@ -40,7 +40,7 @@
 		
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
 		<a href="#person.detail.id.<?php echo Yii::app()->session['userId'] ?>" id="menu-btn-my-profil"
-				class="menu-button menu-button-left menu-button-title btn-menu lbh">
+				class="menu-button menu-button-left menu-button-title btn-menu lbh glass-hover">
 				<img class="img-circle tooltips" id="menu-left-thumb-profil" width="24" height="24"
 					 data-toggle="tooltip" data-placement="right" 
 					 title="Mon profil : <?php echo $me["name"]; ?>"
@@ -66,7 +66,7 @@
 		?>
 		
 		<a href="<?php echo $hash; ?>" onclick="<?php echo $onclick; ?>"
-			class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto" 
+			class="menu-button-left lbl-btn-menu-name-city menu-button-title btn-menu text-red btn-geoloc-auto glass-hover" 
 			id="btn-geoloc-auto-menu">
 			
 			<i class="fa fa-home tooltips"
@@ -80,7 +80,7 @@
 		
 		<?php // AROUND ME // ?>
 		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
-				class="lbh menu-button-left">
+				class="lbh menu-button-left glass-hover">
 				<i class="fa fa-crosshairs tooltips"
 					data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
 				<span class="lbl-btn-menu">Autour de moi</span>
@@ -101,7 +101,7 @@
 
 		<?php // LIVE // ?>
 		<a href="#default.live" id="menu-btn-live"
-		   class="lbh menu-button-left">
+		   class="lbh menu-button-left glass-hover">
 			<i class="fa fa-heartbeat  tooltips"
 				data-toggle="tooltip" data-placement="right" title="Live"></i> 
 			<span class="lbl-btn-menu">Live</span>
@@ -119,7 +119,7 @@
 			<span class="lbl-btn-menu"><b>Recherche</b></span>
 		</a>
 		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu lbl-btn-menu">
-			<i class="fa text-red fa-angle-down tooltips" data-toggle="tooltip" data-placement="right" title="Plus de live"></i> 
+			<i class="fa text-red fa-angle-down tooltips" data-toggle="tooltip" data-placement="top" title="Recherche avancée"></i> 
 		</a>
 		
 		<hr class="">
@@ -129,7 +129,7 @@
 			<?php // Agenda // ?>
 			<a href="#default.agenda" id="menu-btn-agenda"
 					data-hash="#default.agenda"
-					class="menu-button-left lbh">
+					class="menu-button-left glass-hover lbh">
 				<i class="fa fa-calendar tooltips"
 					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
 				<span class="lbl-btn-menu">Agenda</span>
@@ -143,7 +143,7 @@
 
 			<?php // Organisation // ?>
 			<a href="#default.directory?type=organizations" id="menu-btn-organizations"
-					class="menu-button-left lbh">
+					class="menu-button-left glass-hover lbh">
 				<i class="fa fa-group tooltips"
 					data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
 				<span class="lbl-btn-menu">Organisations</span>
@@ -157,7 +157,7 @@
 
 			<?php // Projet // ?>
 			<a href="#default.directory?type=projects" id="menu-btn-projects"
-					class="menu-button-left  lbh">
+					class="menu-button-left glass-hover  lbh">
 				<i class="fa fa-lightbulb-o tooltips"
 					data-toggle="tooltip" data-placement="right" title="Projets"></i> 
 				<span class="lbl-btn-menu">Projets</span>
@@ -171,7 +171,7 @@
 
 			<?php // People // ?>
 			<a href="#default.directory?type=persons"  id="menu-btn-persons"
-					class="menu-button-left  lbh">
+					class="menu-button-left glass-hover  lbh">
 				<i class="fa fa-user tooltips"
 					data-toggle="tooltip" data-placement="right" title="Citoyens"></i> 
 				<span class="lbl-btn-menu">Citoyens</span>
@@ -186,7 +186,7 @@
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
 				<?php // Débat // ?>
 				<a href="#default.directory?type=vote" id="menu-btn-vote"
-						class="menu-button-left  lbh">
+						class="menu-button-left glass-hover  lbh">
 					<i class="fa fa-gavel tooltips"
 						data-toggle="tooltip" data-placement="right" title="Débats"></i> 
 					<span class="lbl-btn-menu">Débats</span>
@@ -200,7 +200,7 @@
 
 				<?php // Action // ?>
 				<a href="#default.directory?type=actions" id="menu-btn-actions"
-						class="menu-button-left lbh">
+						class="menu-button-left glass-hover lbh">
 					<i class="fa fa-cogs tooltips"
 						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
 					<span class="lbl-btn-menu">Actions</span>
@@ -215,7 +215,7 @@
 			
 			<?php // Commune // ?>
 			<a href="#default.directory?type=cities" id="menu-btn-cities"
-					class="menu-button-left lbh">
+					class="menu-button-left glass-hover lbh">
 				<i class="fa fa-university tooltips"
 					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
 				<span class="lbl-btn-menu">Communes</span>

@@ -152,203 +152,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
               //parcours la liste des résultats de la recherche
               console.dir(data);
-              $.each(data, function(i, o) {
-                  var typeIco = i;
-                  var ico = mapIconTop["default"];
-                  var color = mapColorIconTop["default"];
-
-                  mapElements.push(o);
-
-  				        typeIco = o.type;
-                  
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                  
-                  var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-                 	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                  }
-
-                  city="";
-
-                  var postalCode = o.cp
-                  if (o.address != null) {
-                    city = o.address.addressLocality;
-                    postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                  }
-                  
-                  //console.dir(o);
-                  var id = getObjectId(o);
-                  var insee = o.insee ? o.insee : "";
-                  type = typeObj[o.type].col;
-                  // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  //type += "s";
-                  var url = '#news.index.type.'+type+'.id.' + id;
-                  if(type == "citoyens") url += '.viewer.' + userId;
-                  if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
-                  if(type == "surveys") url = "#survey.entry.id."+id;
-                  if(type == "actions") url = "#rooms.action.id."+id;
-
-                  //if(type=="citoyen") type = "person";
-                 
-                  var onclick = 'loadByHash("' + url + '");';
-
-                  var onclickCp = "";
-                  var target = " target='_blank'";
-                  var dataId = "";
-                  if(type == "city"){
-                  	url = "javascript:"; //#main-col-search";
-                  	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                  	onclickCp = 'setScopeValue($(this));';
-                  	target = "";
-                    dataId = o.name; //.replace("'", "\'");
-                  }
-
-                  var tags = "";
-                  if(typeof o.tags != "undefined" && o.tags != null){
-          					$.each(o.tags, function(key, value){
-          						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
-  		              });
-                  }
-
-                  var name = notEmpty(o.name) ? o.name : "";
-
-                  var address = notEmpty(o.address) ? o.address : "";
-
-                  var postalCode = notEmpty(address) && notEmpty(address.postalCode) ? address.postalCode : "";
-                  if(postalCode == "") postalCode = notEmpty(o.cp) ? o.cp : "";
-                  
-                  var cityName = notEmpty(address) && notEmpty(address.addressLocality) ? address.addressLocality : "";
-
-
-                  var fullLocality = postalCode + " " + cityName;
-
-                  var description = notEmpty(o.shortDescription) ? o.shortDescription : "";
-                  if(description == "") description = (notEmpty(o.description)) ? o.description : "";
-                  if(description == "") description = (notEmpty(o.message)) ? o.message : "";
-           
-                  //console.dir(o);
-                  //console.log(typeof o.startDate);
-
-                  var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
-                  var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
-                  if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
-                  
-                  if(type!="surveys" && type!="actions"){
-                    startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
-                    endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
-                  }
-                  else{                   
-                    startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
-                    endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
-                  }
-
-                  var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
-                  
-                  //template principal
-                  str += "<div class='col-md-12 searchEntity'>";
-
-                    
-                    if(userId != null){
-                        isFollowed=false;
-                        str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
-                        if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="cities" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
-                          tip = (type == "events") ? "Participer" : 'Suivre';
-                          str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                                'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
-                                " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                                    "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                                  "</a>";
-                        }
-                        str += '</div>';
-                      }
-
-                    
-  	                str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
-
-                    str += "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
-  	                str += "</div>";
-  					         target = "";
-
-                     
-
-                      
-  	                str += "<div class='col-md-10 col-sm-9 col-xs-8 entityRight no-padding'>";
-  	                	
-                      str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-                      
-                      if(updated != null)
-                      str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
-                      
-
-                      //var thisLocality = "";
-                      if(fullLocality != "" && fullLocality != " ")
-                           thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-                      else thisLocality = "<br>";
-                      
-                      //debat / actions
-                      if(notEmpty(o.parentRoom)){
-                        str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
-                        if(notEmpty(o.parentRoom.parentObj)){
-                          var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                          console.log("typeIcoParent", typeIcoParent);
-                          var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
-                          var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
-                          
-
-                          var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
-                                        notEmpty(o.parentRoom.parentObj.address) ? 
-                                        o.parentRoom.parentObj.address : null;
-
-                          var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
-                          var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
-
-                          thisLocality = postalCode + " " + cityName;
-                          if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
-                          else thisLocality = "";
-
-                          var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
-                          str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
-                        
-
-                        }
-                      }else{
-                        str += thisLocality;
-                      }
-
-
-                      if(startDate != null)
-                      str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-                      if(endDate != null)
-  	                	str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-  	                	
-                      if(o.type == "entry"){
-                        var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
-                        var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
-                        var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
-                        var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
-                        var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
-                        str += "<div class='pull-right margin-bottom-10 no-padding'>";
-                          str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
-                          str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
-                          str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
-                          str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
-                          str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
-                        str += "</div>";
-                      }
-
-                      str += "<div class='entityDescription'>" + description + "</div>";
-  	               
-                      str += tags;
-              
-                    str += "</div>";
-
-                    
-  	                					
-  				        str += "</div>";
-              }); //end each
+              str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
 	              $.unblockUI();
@@ -565,6 +369,208 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   function setSearchValue(value){
     $("#searchBarText").val(value);
     startSearch(0, indexStepInit);
+  }
+
+  function showResultsDirectoryHtml(data){
+    var str = "";
+    $.each(data, function(i, o) {
+        var typeIco = i;
+        var ico = mapIconTop["default"];
+        var color = mapColorIconTop["default"];
+
+        mapElements.push(o);
+
+        typeIco = o.type;
+        
+        ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+        color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+        
+        var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+        if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+          htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
+        }
+
+        city="";
+
+        var postalCode = o.cp
+        if (o.address != null) {
+          city = o.address.addressLocality;
+          postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+        }
+        
+        console.dir(o);
+        var id = getObjectId(o);
+        var insee = o.insee ? o.insee : "";
+        type = typeObj[o.type].col;
+        // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
+        //type += "s";
+        var url = '#news.index.type.'+type+'.id.' + id;
+        if(type == "citoyens") url += '.viewer.' + userId;
+        if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
+        if(type == "surveys") url = "#survey.entry.id."+id;
+        if(type == "actions") url = "#rooms.action.id."+id;
+
+        //if(type=="citoyen") type = "person";
+       
+        var onclick = 'loadByHash("' + url + '");';
+
+        var onclickCp = "";
+        var target = " target='_blank'";
+        var dataId = "";
+        if(type == "city"){
+          url = "javascript:"; //#main-col-search";
+          onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+          onclickCp = 'setScopeValue($(this));';
+          target = "";
+          dataId = o.name; //.replace("'", "\'");
+        }
+
+        var tags = "";
+        if(typeof o.tags != "undefined" && o.tags != null){
+          $.each(o.tags, function(key, value){
+            if(value != "")
+            tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+          });
+        }
+
+        var name = notEmpty(o.name) ? o.name : "";
+
+        var address = notEmpty(o.address) ? o.address : "";
+
+        var postalCode = notEmpty(address) && notEmpty(address.postalCode) ? address.postalCode : "";
+        if(postalCode == "") postalCode = notEmpty(o.cp) ? o.cp : "";
+        
+        var cityName = notEmpty(address) && notEmpty(address.addressLocality) ? address.addressLocality : "";
+
+
+        var fullLocality = postalCode + " " + cityName;
+
+        var description = notEmpty(o.shortDescription) ? o.shortDescription : "";
+        if(description == "") description = (notEmpty(o.description)) ? o.description : "";
+        if(description == "") description = (notEmpty(o.message)) ? o.message : "";
+ 
+        //console.dir(o);
+        //console.log(typeof o.startDate);
+
+        var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
+        var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
+        if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
+        
+        if(type!="surveys" && type!="actions"){
+          startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+          endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
+        }
+        else{                   
+          startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+          endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
+        }
+
+        var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
+        
+        //template principal
+        str += "<div class='col-md-12 searchEntity'>";
+
+          
+          if(userId != null){
+              isFollowed=false;
+              str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
+              if(typeof o.isFollowed != "undefined" ) isFollowed=true;
+              if(type!="cities" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
+                tip = (type == "events") ? "Participer" : 'Suivre';
+                str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                      'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
+                      " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                          "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                        "</a>";
+              }
+              str += '</div>';
+            }
+
+          
+          str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
+
+          str += "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
+          str += "</div>";
+           target = "";
+
+           
+
+            
+          str += "<div class='col-lg-10 col-md-9 col-sm-9 col-xs-8 entityRight no-padding'>";
+            
+            str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
+            
+            if(updated != null)
+            str += "<div class='pull-right'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+            
+
+            //var thisLocality = "";
+            if(fullLocality != "" && fullLocality != " ")
+                 thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+            else thisLocality = "<br>";
+            
+            //debat / actions
+            if(notEmpty(o.parentRoom)){
+              str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
+              if(notEmpty(o.parentRoom.parentObj)){
+                var typeIcoParent = o.parentRoom.parentObj.typeSig;
+                console.log("typeIcoParent", typeIcoParent);
+                var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
+                var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
+                
+
+                var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
+                              notEmpty(o.parentRoom.parentObj.address) ? 
+                              o.parentRoom.parentObj.address : null;
+
+                var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
+                var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
+
+                thisLocality = postalCode + " " + cityName;
+                if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
+                else thisLocality = "";
+
+                var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
+                str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
+              
+
+              }
+            }else{
+              str += thisLocality;
+            }
+
+
+            if(startDate != null)
+            str += "<div class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
+            if(endDate != null)
+            str += "<div  class='entityDate bg-"+color+" badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
+            
+            if(o.type == "entry"){
+              var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
+              var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
+              var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
+              var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
+              var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
+              str += "<div class='pull-right margin-bottom-10 no-padding'>";
+                str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
+                str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
+                str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
+                str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
+                str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
+              str += "</div>";
+            }
+
+            str += "<div class='entityDescription hidden-xs'>" + description + "</div>";
+         
+            str += tags;
+    
+          str += "</div>";
+
+          
+                    
+        str += "</div>";
+    }); //end each
+    return str;
   }
 
   

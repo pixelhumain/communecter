@@ -177,6 +177,9 @@
 				if(this.markerModifyPosition != null) 
 					this.map.removeLayer(this.markerModifyPosition);
 
+				if(notEmpty(this.circleAroundMe)) 
+						this.map.removeLayer(this.circleAroundMe);
+
 				var thisSig = this;
 				if(this.markerSingleList != null)
 				$.each(this.markerSingleList, function(){
