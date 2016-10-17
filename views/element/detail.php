@@ -153,9 +153,9 @@ if($('#breadcum').length)
 				                        </a><br>
 				                        <span class="text-azure discover-subtitle"> Image de profil</span>
 				                    </div>
-				                    
+
 				                    <div class="col-xs-6 center text-red btnSubTitle">
-				                        <a href="javascript:;" onclick="$('#editElementDetail').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+				                        <a href="#city.detail.insee.<?php echo $element['address']['codeInsee']; ?>.postalCode.<?php echo $element['address']['postalCode']; ?>" class="lbh btn btn-discover bg-red">
 				                          <i class="fa fa-home"></i>
 				                        </a><br>
 				                        <span class="text-red discover-subtitle"> Ma commune</span>
