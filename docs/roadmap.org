@@ -116,6 +116,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] connect btns 
       [X] dashboard
       [X] profile page
+
     [ ] bugs
       [X] add to floopdrawer after save
       [X] [[@Rapha :: location > tape CP > validate , ca passe]] 
@@ -130,6 +131,9 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] add parentId and TYpe on project.orga
     
     [X] refactor : move from ACtion to model Element
+    [ ] [[affichage des addresses]]
+      [ ] bloquer a une seule addresses
+    [ ] [[wisiwig on desc]]
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
       [X] ajouter les autres champs en activable
@@ -139,7 +143,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] organizer select & parent Id based on myContacts var from index.php
       [X] parent Event : load param ajax
         [ ] [[ show only ongoing or event to come ]]
-      [ ] simplify add for sub events: [[préremplir les dates, lieu]]
+      [ ] simplify add for sub events: [[pré remplir les dates, lieu]]
       [X] connecté l'ajout new subEvent aux neaux formulaires
     [X] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
@@ -155,7 +159,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] add text : getUrl, multiple medias , $.each
       [X] unknown attribute passes the the save 
       [X] delete POI
-      [ ] [[edit POI]]
+      [X] edit POI
+      [ ] [[view POI in modal], pour @Hord Cadre]
+        [ ] on pourrait alors creer un poi d'abord et ensuite créer dessus des orga , event ,projet ... 
+      [ ] add to favorite
     [ ] debat 
       [X] ouvrir une proposition sur un element orga ou projet
       [ ] ouvrir une proposition une geo scope cp, insee..

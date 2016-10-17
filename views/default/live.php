@@ -99,7 +99,21 @@ var liveScopeType = "global";
 	searchType = $.merge(allNewsType, searchType);
 <?php } ?>
 
+var loadContent = '<?php echo @$_GET["content"]; ?>';
 jQuery(document).ready(function() {
+	$("#falseInput").on('load',function(){
+		alert("");
+		/*if(loadContent != ''){
+			if(userId){
+				$("#falseInput").trigger("click");
+				$("#get_url").val(loadContent);
+			}
+			else {
+				toastr.error('you must be loggued to post on communecter!');
+			}
+		}*/
+	});
+	
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];

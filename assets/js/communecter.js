@@ -1199,6 +1199,7 @@ function formatData(formData, collection,ctrl) {
 		//formData.multiscopes = elementLocation;
 		formData.address = centerLocation.address;
 		formData.geo = centerLocation.geo;
+		formData.geoPosition = centerLocation.geoPosition;
 		if( elementLocations.length ){
 			formData.addresses = elementLocations;
 			$.each( formData.addresses,function (i,v) { 
@@ -1777,14 +1778,14 @@ var typeObj = {
 		                "placeholder":"Date de fin",
 			            "rules" : { "required" : true }
 		            },
-		            public : {
-		            	"inputType" : "checkbox",
+		            /*public : {
+		            	"inputType" : "hidden",
 		            	"switch" : {
 		            		"onText" : "Privé",
 		            		"offText" : "Public",
 		            		"labelText":"Type"
 		            	}
-		            },
+		            },*/
 		            location : {
 		                inputType : "location"
 		            },
@@ -2623,8 +2624,9 @@ var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18
 var keyMap = {
 	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
 	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
-	"114" : function(){ alert("load ma commune") },//f3
-	"115" : function(){ console.clear();loadByHash(location.hash) },//f4
+	"114" : function(){ showMap(true); },//f3
+	"115" : function(){ alert("dashboard my society") },//f4
+	"119" : function(){ console.clear();loadByHash(location.hash) },//f8
 };
 var keyMapCombo = {
 	"69" : function(){openForm('event')}, //e

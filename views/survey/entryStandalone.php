@@ -234,7 +234,9 @@
 						if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
 							echo $voteLinksAndInfos["links"]; 
 						else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
-							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
+							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté'.$parentType;
+						else if( !$canParticipate && isset(Yii::app()->session['userId']) && $parentType == "cities")
+							echo '<i class="fa fa-angle-right"></i> Vous devez habiter cette commune pour voter ici';
 						else if( !$canParticipate && isset(Yii::app()->session['userId']) )
 							echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
 						else if( !$canParticipate && !isset(Yii::app()->session['userId']) )
