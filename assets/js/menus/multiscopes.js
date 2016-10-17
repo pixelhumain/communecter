@@ -28,7 +28,7 @@ function saveMultiScope(){ //console.log("saveMultiScope() try - userId = ",user
 	rebuildSearchScopeInput();
 	saveCookieMultiscope();
 }
-function saveCookieMultiscope(){  console.log("saveCookieMultiscope", typeof myMultiScopes);
+function saveCookieMultiscope(){  //console.log("saveCookieMultiscope", typeof myMultiScopes);
 	$.cookie('multiscopes',   	JSON.stringify(myMultiScopes), { expires: 365, path: "/" });
 	if(location.hash.indexOf("#city.detail")==0)
 		loadByHash("#default.live");
@@ -53,7 +53,7 @@ function autocompleteMultiScope(){
     		var allCP = new Array();
     		var allCities = new Array();
     		$.each(data.cities, function(key, value){
-    			if(currentScopeType == "city") { console.log("in scope city");
+    			if(currentScopeType == "city") { //console.log("in scope city");
     				val = value.country + '_' + value.insee; 
 		    		lbl = (typeof value.name!= "undefined") ? value.name : ""; //value.name ;
 		    		lblList = lbl + " (" +value.depName + ")";
@@ -69,7 +69,7 @@ function autocompleteMultiScope(){
 	    			});*/
     			}; 
     			if(currentScopeType == "cp") { 
-    				$.each(value.postalCodes, function(key, valueCP){ console.log(allCities);
+    				$.each(value.postalCodes, function(key, valueCP){ //console.log(allCities);
 		    			if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
 		    				val = valueCP.postalCode; 
@@ -105,11 +105,11 @@ function loadMultiScopes(){
 function showCountScope(){
 	var count = 0; 
 	var types = new Array("city", "cp", "dep", "region");
-	console.log("showCountScope");
-	console.dir(myMultiScopes);
+	//console.log("showCountScope");
+	//console.dir(myMultiScopes);
 	$.each(myMultiScopes, function(key, value){
 		if(value.active==true) count++;
-		console.log(types.indexOf(value.type), value.type);
+		//console.log(types.indexOf(value.type), value.type);
 		if(types.indexOf(value.type)>-1)
 			types.splice(types.indexOf(value.type), 1);
 	});
@@ -131,7 +131,7 @@ function selectAllScopes(select){
 	});
 	saveMultiScope();
 }
-function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()", scopeValue);
+function showScopeInMultiscope(scopeValue){ //console.log("showScopeInMultiscope()", scopeValue);
 	var html = "";
 	if(scopeExists(scopeValue)){
 		var scope = myMultiScopes[scopeValue];
@@ -169,7 +169,7 @@ function showScopeInMultiscope(scopeValue){ console.log("showScopeInMultiscope()
 //scopeName est la valeur affichée
 function addScopeToMultiscope(scopeValue, scopeName){  
 	if(scopeValue == "") return;
-	if(!scopeExists(scopeValue)){ console.log("adding", scopeValue);
+	if(!scopeExists(scopeValue)){ //console.log("adding", scopeValue);
 		myMultiScopes[scopeValue] = { name: scopeName, active: true, type: currentScopeType };
 		showScopeInMultiscope(scopeValue);
 		$("#input-add-multi-scope").val("");

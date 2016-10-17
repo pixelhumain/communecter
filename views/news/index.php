@@ -270,7 +270,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 #footerDropdown{
 	position:relative;
-	/*background-color: white;*/
+	background-color: transparent !important;
 }
 .tag.bold{
 	font-weight:600 !important;
@@ -287,6 +287,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 #form-news hr.submit {
     margin: 0 0 10px 0 !important;
+    display: block;
 }
 </style>
 <!--<textarea class="mention"></textarea>-->

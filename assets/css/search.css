@@ -685,6 +685,10 @@ button.btn-infos{
 .bg-transparent{
 	background-color: transparent !important;
 }
+.bg-blue{
+	background-color: #5f8295!important;
+	color:white !important;
+}
 
 @media screen and (max-width: 1024px) {
 	.img-logo{
@@ -981,7 +985,7 @@ button.btn-infos{
 	width: 100%;
 	display: block;
 	font-weight: 300;
-	max-height: 205px;
+	max-height: 140px;
 	overflow: hidden;
 	margin-bottom:5px;
 }

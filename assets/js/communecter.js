@@ -498,8 +498,9 @@ var loadableUrls = {
     "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
     "#rooms.index.type.cities" : {title:'ACTION ROOMS ', icon : 'cubes', menuId:"btn-citizen-council-commun"},
-    "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
+	"#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
     "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
@@ -536,7 +537,6 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
-	"#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
 	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
@@ -606,11 +606,32 @@ function jsController(hash){
 	return res;
 }
 
+ var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+
+	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
+	console.log("IS DIRECTORY ? ", 
+				hash.indexOf("#default.directory"), 
+				location.hash.indexOf("#default.directory"), CoAllReadyLoad);
+
+	if( hash.indexOf("#default.directory") >= 0 &&
+		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
+		var n = hash.indexOf("type=")+5;
+		var type = hash.substr(n);
+		console.log("CHANGE directory", type);
+		searchType = [type];
+		setHeaderDirectory(type);
+		loadingData = false;
+		startSearch(0, indexStepInit);
+		location.hash = hash;
+		return;
+	}
+
 	currentUrl = hash;
 	allReadyLoad = true;
+	CoAllReadyLoad = true;
 	contextData = null;
 
 	$(".my-main-container").off(); 
@@ -621,6 +642,7 @@ function loadByHash( hash , back ) {
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
 	
+
 	//alert("loadByHash"+hash);
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
@@ -725,7 +747,7 @@ function checkMenu(urlObj, hash){
 	console.dir(urlObj);
 	$(".menu-button-left").removeClass("selected");
 	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
-		if($("#"+urlObj.menuId).data("hash") == hash)
+		if($("#"+urlObj.menuId).attr("href") == hash)
 			$("#"+urlObj.menuId).addClass("selected");
 	}
 }
@@ -1051,10 +1073,7 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 		}
 	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
 	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
-	          str = '<div class="center" id="footerDropdown">';
-	          str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
-	          str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
-	          str += "</div>";
+	          var str = getFooterScopeChanged(method);
 	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
 		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
 		          $(searchFeed).append( str );
@@ -1073,10 +1092,7 @@ function hideSearchResults(){
 			method = "reloadNewsSearch();"
 		}
       //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
-      str = '<div class="center" id="footerDropdown">';
-      str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>Relancer la Recherche, les critères ont changés</label><br/>";
-      str += '<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la Recherche</div></center>';
-      str += "</div>";
+      str = getFooterScopeChanged(method);
       if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
           $(".newsFeedNews, #backToTop, #footerDropdown").remove();
           $(searchFeed).append( str );
@@ -1086,6 +1102,15 @@ function hideSearchResults(){
       $(".search-loader").html("<i class='fa fa-ban'></i>");
 	    
 }
+function getFooterScopeChanged(method){
+	var str = 	'<div class="padding-15" id="footerDropdown">';
+	    str += 		"<hr style='float:left; width:100%;'/>"
+	    str += 		'<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la recherche</button>'+
+	    	   		"<span style='' class='text-dark padding-10'><i class='fa fa-angle-right'></i> Les critères ont changés</span><br/>";
+	    str +=  "</div>";
+	return str;  
+}
+
 function reloadNewsSearch(){
 	if(location.hash.indexOf("#default.live")==0)
     	startSearch(false);
@@ -1362,7 +1387,6 @@ var typeObj = {
 		ctrl : "person",
 		titleClass : "bg-yellow",
 		bgClass : "bgPerson",
-		lbh : "#person.invite",
 		dynForm : {
 		    jsonSchema : {
 			    title : "Inviter quelqu'un",
@@ -1385,9 +1409,9 @@ var typeObj = {
 						    if(search.length>2){
 						    	clearTimeout(timeout);
 								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
-							 }else{
+							}else{
 							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-							 }	
+							}	
 						});
 			            }
 		            },
@@ -2636,36 +2660,39 @@ function autoCompleteInviteSearch(search){
 	};
 	
 	
-	ajaxPost("", '<?php echo Yii::app()->getRequest()->getBaseUrl(true).'/'.$this->module->id?>/search/searchmemberautocomplete', data,
+	ajaxPost("", moduleId+'/search/searchmemberautocomplete', data,
 		function (data){
+			console.log(data);
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
 			var compt = 0;
 			var city, postalCode = "";
-			$.each(data["citoyens"], function(k, v) { 
-				city = "";
-				console.log(v);
-				postalCode = "";
-				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
-				if(v.id != userId) {
-					tabObject.push(v);
-	 				if(v.profilImageUrl != ""){
-	 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
-	 				}
-	 				if (v.address != null) {
-	 					city = v.address.addressLocality;
-	 					postalCode = v.address.postalCode;
-	 				}
-	  				str += 	"<li class='li-dropdown-scope'>" +
-	  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
-
-	  				if(typeof postalCode != "undefined")
-	  					str += "<br/>"+postalCode+" "+city;
-	  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
-	  				str += "</a></li>";
-
-	  				compt++;
-  				}
-			});
+			if(data["citoyens"].length > 0){
+				$.each(data["citoyens"], function(k, v) { 
+					city = "";
+					console.log(v);
+					postalCode = "";
+					var htmlIco ="<i class='fa fa-user fa-2x'></i>"
+					if(v.id != userId) {
+						tabObject.push(v);
+		 				if(v.profilImageUrl != ""){
+		 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
+		 				}
+		 				if (v.address != null) {
+		 					city = v.address.addressLocality;
+		 					postalCode = v.address.postalCode;
+		 				}
+		  				str += 	"<li class='li-dropdown-scope'>" +
+		  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+	
+		  				if(typeof postalCode != "undefined")
+		  					str += "<br/>"+postalCode+" "+city;
+		  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+		  				str += "</a></li>";
+	
+		  				compt++;
+	  				}
+				});
+			}
 			
 			$("#newInvite #dropdown_searchInvite").html(str);
 			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });

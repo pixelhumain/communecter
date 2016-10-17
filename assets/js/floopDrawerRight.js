@@ -57,7 +57,7 @@ function buildListContactHtml(contacts, myId){
 							//if(n > 0){
 							var urlBtnAdd = "";
 							if(type.name == "people") 		 urlBtnAdd = "openForm( 'person')";
-							if(type.name == "organizations") urlBtnAdd = "openForm( 'organization.')";
+							if(type.name == "organizations") urlBtnAdd = "openForm( 'organization')";
 							if(type.name == "events") 		 urlBtnAdd = "openForm( 'event')";
 							if(type.name == "projects") 	 urlBtnAdd = "openForm( 'project')";
 
