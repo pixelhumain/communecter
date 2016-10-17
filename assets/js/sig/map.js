@@ -816,11 +816,14 @@
 
 				//initialisation des variables de départ de la carte
 				if(canvasId != "")
-				var map = L.map(canvasId, { "zoomControl" : false,
+				L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
+				var map =  L.mapbox.map(canvasId, 'mapbox.streets')
+    						.setView([40, -74.50], 9);
+				/*var map = L.map(canvasId, { "zoomControl" : false,
 											"scrollWheelZoom":true,
 											"center" : [51.505, -0.09],
 											"zoom" : 4,
-											"worldCopyJump" : false });
+											"worldCopyJump" : false });*/
 			}else{
 				var map = this.map;
 			}
@@ -831,16 +834,16 @@
 			Sig.map.minZoom = 3;
 			Sig.map.maxZoom = 17;
 
-			Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+			/*Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
 				//subdomains: 'abc',
 				zIndex:1,
 				minZoom: 3,
 				maxZoom: 17
-			});
+			});*/
 
-			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			//Sig.tileLayer.addTo(map);//.setOpacity(initParams.mapOpacity);
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
