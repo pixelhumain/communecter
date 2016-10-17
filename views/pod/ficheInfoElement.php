@@ -380,12 +380,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				</a>
 			</div>
 			<?php } ?>
-			<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
-			<div id="divCommunecterMoi" class="col-md-12 text-dark no-padding" style="margin-left:30px;">
-				<a href="javascript:;" class="cobtn hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
-				<a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
-			</div>
-		<?php } ?>
+			
 
 		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
@@ -417,37 +412,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
 			<div class="col-md-6 col-sm-6  no-padding">
-				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) ||  $type!=Person::COLLECTION) { ?>
-				
-				
-				<div class="col-xs-12 no-padding">
-					<i class="fa fa-road fa_streetAddress"></i> 
-					<span id="detailStreetAddress">
-						<?php echo (isset( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?>
-						<?php //echo Element::showField("address.streetAddress",$element, $isLinked);?>
-					</span>
-					<br/>
-					<i class="fa fa-bullseye fa_postalCode"></i> 
-					<span id="detailCity">	
-						<?php echo (isset( $element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null; ?>,
-						<?php echo (isset( $element["address"]["postalCode"])) ? $element["address"]["postalCode"] : null; ?>
-					</span>
-					<br/>
-					<i class="fa fa-globe fa_addressCountry"></i> 
-					<span id="detailCountry">
-						<?php echo (isset( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?>
 
-					</span>
-				</div>
-				
-				<a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6" style="margin: 10px 0px;">
+				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
+				<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
+				<a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
+				<?php } ?>
+				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) ||  $type!=Person::COLLECTION) { ?>
+				<a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a>
 				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
 				</a>
 				<div class="col-xs-12 no-padding">
-					
+					<i class="fa fa-road fa_streetAddress hidden"></i> 
+					<span id="detailStreetAddress"><?php echo (!empty( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?></span>
+					<br/>
+					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
+					<span id="detailCity"><?php echo (!empty($element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null;?><?php echo (!empty( $element["address"]["postalCode"])) ? ", ".$element["address"]["postalCode"] : null;?></span>
+					<br/>
+					<i class="fa fa-globe fa_addressCountry hidden"></i> 
+					<span id="detailCountry"><?php echo (!empty( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?></span>
 				</div>
 				<?php } ?>
 				<br>
@@ -479,17 +464,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 																"url" => @$element["url"],
 																"tel" => $tel,
 																"img"=>@$element['profilThumbImageUrl']));
-				?>
-				
-				<?php 
-					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-					if(@$roles["superAdmin"] == true){
-						?>
-							<!--<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
-								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-							</a>-->
-						<?php
-					}
 				?>
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
@@ -676,7 +650,7 @@ if($showOdesc == true){
 			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
 	}*/
 		
-	var emptyAddress = $.isEmptyObject(contextData.address);
+	var emptyAddress = ((contextData.address.codeInsee == "")?true:false);
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
@@ -714,11 +688,15 @@ if($showOdesc == true){
 			Sig.showMapElements(Sig.map, mapData);
 		});*/
 
+		if(!emptyAddress)
+			$("#btn-view-map").removeClass('hidden');
+
 		$("#btn-update-geopos").off().on( "click", function(){
 			console.log("btn-update-geopos", typeof updateLocality);
-			$("#ajax-modal").modal("hide");
+			updateLocalityElement();
+			/*$("#ajax-modal").modal("hide");
 			showMap(true);
-			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }
+			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }*/
 		});
 
 		$("#btn-update-geopos-admin").click(function(){
@@ -744,12 +722,13 @@ if($showOdesc == true){
 		if(emptyAddress){
 			$(".cobtn,.whycobtn").removeClass("hidden");
 			$(".cobtn").click(function () { 
-				$(".cobtn,.whycobtn").hide();
+				/*$(".cobtn,.whycobtn").hide();
 				$('#editElementDetail').trigger('click');
 				setTimeout( function () { 
 					$('#address').trigger('click'); 
 					}, 500);
-				return false;
+				return false;*/
+				updateLocalityElement();
 			});
 			console.log("modeEdit",modeEdit);
 			if(modeEdit == "true"){
@@ -881,7 +860,8 @@ if($showOdesc == true){
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
-			$("#btn-view-map").removeClass("hidden");
+			if(!emptyAddress)
+				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextData.id);
@@ -898,7 +878,7 @@ if($showOdesc == true){
 
 	function manageDivEditElement() {
 		console.log("-----------------manageDivEditElement----------------------", mode);
-		listXeditablesDiv = [	'#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
+		listXeditablesDiv = [ '#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
 			listXeditablesDiv.push('#divInformation');
 		divInformation
@@ -940,13 +920,17 @@ if($showOdesc == true){
 
 	function changeHiddenIconeElement(init) { 
 		console.log("-----------------changeHiddenIconeElement----------------------", mode);
-		//".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry"
+		//
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
-						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o"];
+						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
+						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry"];
 
-		listXeditablesId = [	'#username','#birthDate',"#email", "#mobile", "#fixe", "#fax","#url"];
+		listXeditablesId = ['#username','#birthDate',"#email", "#mobile", 
+							"#fixe", "#fax","#url", "#licence",
+							"#detailStreetAddress" , "#detailCity" , "#detailCountry"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
+				console.log(listXeditablesId[i], $(listXeditablesId[i]).text().length, $(listXeditablesId[i]).text()) ;
 				if($(listXeditablesId[i]).text().length != 0){
 					//console.log(listXeditables[i], " : ", value);
 					$(value).removeClass("hidden");	
@@ -956,6 +940,7 @@ if($showOdesc == true){
 		}
 		else if (mode == "view") {
 			$.each(listIcones, function(i,value) {
+
 				if($(listXeditablesId[i]).text().length == 0)
 					$(value).addClass("hidden");
 			});
@@ -1480,6 +1465,9 @@ if($showOdesc == true){
 	function callbackFindByInseeError(){
 		console.log("erreur getlatlngbyinsee", error);
 	}
+
+
+	
 	
 
 </script>

@@ -669,12 +669,13 @@ jQuery(document).ready(function() {
 		$(".cobtnHeader").click(function () { 
 				var url= document.URL;
 				if(url.indexOf("#person.detail") != -1){
-					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
+					/*$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 					$('#editElementDetail').trigger('click');
 					setTimeout( function () { 
 						$('#address').trigger('click'); 
 						}, 500);
-					return false;
+					return false;*/
+					updateLocalityElement();
 				}
 				else
 					showElementPad("detail.edit");
@@ -765,6 +766,14 @@ function showElementPad(type, id){
 				bindLBHLinks();
 				$.unblockUI();
 		},"html");
+	}
+}
+
+function updateLocalityElement(){
+	$("#ajax-modal").modal("hide");
+	showMap(true);
+	if(typeof updateLocality != "undefined"){ 
+		updateLocality(contextData.address, contextData.geo); 
 	}
 }
 
