@@ -587,13 +587,13 @@ function jsController(hash){
 					//hash can be iliased
 					if (endPoint.hash) 
 						hash = endPoint.hash;
-					if(hash.indexOf("?")){
+					if(hash.indexOf("?") >= 0){
 						hashT=hash.split("?");
 						console.log(hashT);
 						hash=hashT[0];
 						extraParams = "?"+hashT[1];
 					}
-					if(extraParams.indexOf("#")){
+					if(extraParams.indexOf("#") >= 0){
 						extraParams=extraParams.replace( "#","%hash%" );
 					}
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
