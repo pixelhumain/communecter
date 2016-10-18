@@ -61,11 +61,12 @@
     box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.42);
 }
 
-.inSig .menu-button-left.glass-hover:hover{
-	padding: 0px;
-	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0);
-    -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0);
-    box-shadow:         0px 0px 5px rgba(50, 50, 50, 0);
+.inSig .menu-button-left.glass-hover:hover, .inSig .menu-button-left.glass-hover.selected{
+	padding: 0px!important;
+	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0)!important;
+    -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0)!important;
+    box-shadow:         0px 0px 5px rgba(50, 50, 50, 0)!important;
+    background-color: transparent !important;
 }
 @media screen and (max-height: 580px) {
 .footer-menu-left, .helloasso{

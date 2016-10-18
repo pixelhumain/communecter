@@ -166,7 +166,7 @@
 						thisSig.tileMode = "satellite";
 						
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
-						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
+						thisSig.tileLayer = L.tileLayer('https://api.mapbox.com/v3/mapbox.dark.json', //http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 														{maxZoom:17,
 														 minZoom:3}).addTo(Sig.map);
 						
