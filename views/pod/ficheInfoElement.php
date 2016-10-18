@@ -336,7 +336,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 				</label>
 				
-				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+				<a href="#" id="tags" data-type="select2" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
 					<?php 
 						if(isset($element["tags"])){
 							$stringTags = "" ;
