@@ -91,7 +91,10 @@ a h1.text-azure:hover{
  ?>
 <div class="panel-group" id="accordion">
 	<?php 
-		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) && (@$fromView != "entity.detail");
+		$auth = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) ;
+		var_dump($fromView);
+		$auth = ((Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId) && (@$fromView != "entity.detail"))?true:false);
+		var_dump($auth);
 		createAccordionMenu($discussions, 1, "Discussions", "comments", "discuss", "Aucun espace de discussion", $auth, @$fromView);
 		createAccordionMenu($votes, 2, "Décisions", "archive", "vote", "Aucun espace de décision", $auth, @$fromView);
 		createAccordionMenu($actions, 3, "Actions", "cogs", "actions", "Aucun espace d'action", $auth, @$fromView);

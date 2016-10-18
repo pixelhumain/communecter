@@ -6,23 +6,23 @@
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
-if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
-	Menu::organization( $organization );
-	$contextName = $organization["name"];
-	$parentName=$organization["name"];
+
+if( isset($itemType) && $itemType == Organization::COLLECTION && isset($parent) ){
+	Menu::organization( $parent );
+	$contextName = $parent["name"];
 }
-else if( isset($itemType) && $itemType == Person::COLLECTION && isset($person) ){
-	Menu::person( $person );
-	$contextName = $person["name"];
+else if( isset($itemType) && $itemType == Person::COLLECTION && isset($parent) ){
+	Menu::person( $parent );
+	$contextName = $parent["name"];
 
 }
-else if( isset($itemType) && $itemType == Project::COLLECTION && isset($project) ){
-	Menu::project( $project );
-	$contextName = $project["name"];
+else if( isset($itemType) && $itemType == Project::COLLECTION && isset($parent) ){
+	Menu::project( $parent );
+	$contextName = $parent["name"];
 }
-else if( isset($itemType) && $itemType == Event::COLLECTION && isset($event) ){
-	Menu::event( $event );
-	$contextName = $event["name"];
+else if( isset($itemType) && $itemType == Event::COLLECTION && isset($parent) ){
+	Menu::event( $parent );
+	$contextName = $parent["name"];
 
 }
 $this->renderPartial('../default/panels/toolbar'); 
