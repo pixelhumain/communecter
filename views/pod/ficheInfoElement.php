@@ -332,7 +332,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 				</label>
 				
-				<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
+				<a href="#" id="tags" data-type="select2" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
 					<?php 
 						if(isset($element["tags"])){
 							$stringTags = "" ;
@@ -662,8 +662,8 @@ if($showOdesc == true){
 		else if(contextData.type == "<?php echo Project::COLLECTION; ?>")
 			contextData.odesc = contextControler+" : <?php echo addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ?>";
 	}*/
-		
-	var emptyAddress = ((contextData.address.codeInsee == "")?true:false);
+	console.log(contextData);
+	var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
