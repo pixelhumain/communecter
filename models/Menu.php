@@ -361,7 +361,7 @@ class Menu {
                     Yii::t("common","Community of ".$controllerType),
                     Yii::t("common","Community") ,
                     'connectdevelop',
-                    "showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
+                    "showElementPad('directory')", $controller, "directory","communityBtn btn-menu-element btn-menu-element-directory");
         }
         if( $type == Event::COLLECTION && @$element["links"] && @$element["links"]["subEvents"])
         {

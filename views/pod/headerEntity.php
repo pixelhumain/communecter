@@ -584,7 +584,8 @@ var mapUrl = {
 	"directory": 
 		{ 
 			"url"  : "element/directory/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?tpl=directory2&", 
-			"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>"
+			"hash" : "<?php echo $controler ?>.directory.id.<?php echo (string)$entity["_id"] ?>",
+			"data" : null
 		} ,
 	"gallery" :
 		{ 
@@ -643,8 +644,8 @@ jQuery(document).ready(function() {
 				console.log(obj);
 				//Sig.restartMap();
 				contextMap = obj;
-				mapUrl["directory"]["data"] = {"links" : contextMap};
-				$(".communityBtn").removeClass("hide");
+				//mapUrl["directory"]["data"] = {"links" : contextMap};
+				//$(".communityBtn").removeClass("hide");
 				Sig.showMapElements(Sig.map, obj);	
 
 				
@@ -659,10 +660,10 @@ jQuery(document).ready(function() {
 	} else {
 		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
-		mapUrl["directory"]["data"] = {"links" : contextMap};
+		//mapUrl["directory"]["data"] = {"links" : contextMap};
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);	
-		$(".communityBtn").removeClass("hide");
+		//$(".communityBtn").removeClass("hide");
 	}
 	// Init Chart
 	if(contextType == "<?php echo Project::COLLECTION ?>"){
@@ -717,7 +718,7 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
-	if(firstView){
+	/*if(firstView){
 		if(firstViewTitle.substr(0,4) == "need"){
 			mapUrl[firstViewTitle] = new Object;
 			mapUrl[firstViewTitle]["url"] = "need/detail/id/"+firstViewTitle.substr(4,firstViewTitle.length)+"?"; 
@@ -728,7 +729,7 @@ function showElementPad(type, id){
 		mapUrl[firstViewTitle]["load"] = true;
 		mapUrl[firstViewTitle]["html"] = $("#pad-element-container").html();
 		firstView=false;
-	}
+	}*/
 	// If type is need, add "need+id" object view in mapUrl
 	if(type=="need"){
 		type=type+id;
