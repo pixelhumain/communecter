@@ -292,36 +292,32 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 
 					<div class="col-md-12 no-padding">
-						<?php if (  (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != "")
-								 || ((string)$element["_id"] == Yii::app()->session["userId"] ))
-								 { ?>
-							<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
-							<a 	href="<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != "") echo $element["socialNetwork"]["telegram"]; else echo ""; ?>" 
-								id="telegramAccount" data-emptytext='<i class="fa fa-send"></i> Telegram' 
-								data-type="text" 
-
-								<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != ""){ ?> 
-									<?php if ((string)$element["_id"] == Yii::app()->session["userId"]){ ?> 
-										data-original-title="aller sur Telegram" 
-									<?php }else{ ?>
-										data-original-title="contacter via Telegram" 
-									<?php } ?>
-								<?php }else{ ?>
-										data-original-title="votre pseudo sur Telegram ?" 
-									<?php } ?>
-								
-								data-emptytext='<i class="fa fa-send"></i> Telegram'
-								class="editable editable-click socialIcon" 
-								<?php if (isset($element["socialNetwork"]["telegram"]) && $element["socialNetwork"]["telegram"] != ""){ ?> 
-									target="_blank" 
-								<?php } ?>
-								>
-								<?php if (isset($element["socialNetwork"]["telegram"])) echo $element["socialNetwork"]["telegram"]; else echo ""; ?>
-							</a> 
-							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
-							 		<i class="fa fa-question-circle text-dark" style="">
-							 		</i>
-							</a> 
+						<?php if (  !empty($element["socialNetwork"]["telegram"]) || 
+									((string)$element["_id"] == Yii::app()->session["userId"] )){ ?>
+									
+									<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+									<a 	href='<?php echo ((@$element["socialNetwork"]["telegram"])?"https://web.telegram.org/#/im?p=@".$element["socialNetwork"]["telegram"]:"https://telegram.org/"); ?>'
+										$pseudo;
+										id="telegramAccount"
+										data-type="text"
+										data-emptytext='<i class="fa fa-send"></i> Telegram' 
+										<?php if (!empty($element["socialNetwork"]["telegram"])){ ?> 
+											<?php if ((string)$element["_id"] == Yii::app()->session["userId"]){ ?> 
+												data-original-title="Aller sur Telegram" 
+											<?php }else{ ?>
+												data-original-title="Contacter via Telegram" 
+											<?php } ?>
+										<?php }else{ ?>
+												data-original-title="Votre pseudo sur Telegram ?" 
+										<?php } ?>
+										class="editable editable-click socialIcon" 
+										target="_blank"
+									>
+										<?php echo ((@$element["socialNetwork"]["telegram"])?$element["socialNetwork"]["telegram"]:""); ?>
+									</a> 
+									<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+									 		<i class="fa fa-question-circle text-dark" style=""></i>
+									</a> 
 
 						<?php }else{ ?>
 							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
@@ -682,6 +678,7 @@ if($showOdesc == true){
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
 	var color = '<?php echo Element::getColorIcon($type); ?>';
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
+	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	//var tags = <?php echo json_encode($tags)?>;
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
@@ -923,13 +920,21 @@ if($showOdesc == true){
 			//else{
 			if(iconObject.attr("id") != "telegramAccount"){
 				iconObject.tooltip({title: value, placement: "bottom"});
-				iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
+				iconObject.html('<i class="fa '+fa+' fa-blue"></i> Telegram');
 			}
 		} 
 
 		if(iconObject.attr("id") == "telegramAccount"){
 			iconObject.tooltip({title: value, placement: "left"});
-			iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+			/*var chaineTelegram = "";
+			if(speudoTelegram.length > 0)
+				chaineTelegram = " : "+speudoTelegram;*/
+			if(speudoTelegram != "")
+				iconObject.html('<i class="fa '+fa+' text-white"></i> '+speudoTelegram);
+			else
+				iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
+
+
 		}
 
 		console.log(iconObject);
@@ -980,7 +985,7 @@ if($showOdesc == true){
 				if(! response.result) return response.msg; //msg will be shown in editable form
     		},*/
     		success : function(data) {
-    			console.log(data);
+    			console.log("hello", data);
 				if(data.result) {
 					toastr.success(data.msg);
 					loadActivity=true;
@@ -1000,7 +1005,17 @@ if($showOdesc == true){
 				manageSocialNetwork($(this), value);
 			},
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			mode: 'popup'
+			mode: 'popup',
+			success : function(data) {
+				console.log("herehehre", data);
+				console.log(data.telegramAccount, typeof data.telegramAccount);
+				if(typeof data.telegramAccount != "undefined" && data.telegramAccount.length > 0){
+					speudoTelegram = data.telegramAccount.trim();
+					$('#telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
+					$('#telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
+					
+				}
+			}
 		}); 
 
 
