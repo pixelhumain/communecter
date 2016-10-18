@@ -254,9 +254,12 @@ function showResultInCalendar(mapElements){
     
     var startDate = exists(thisEvent["startDate"]) ? thisEvent["startDate"].substr(0, 10) : "";
     var endDate = exists(thisEvent["endDate"]) ? thisEvent["endDate"].substr(0, 10) : "";
-
-    var cp = exists(thisEvent["address"]["postalCode"]) ? thisEvent["address"]["postalCode"] : "" ;
-    var loc = exists(thisEvent["address"]["addressLocality"]) ? thisEvent["address"]["addressLocality"] : "";
+    var cp = "";
+    var loc = "";
+	if(thisEvent["address"] != null){
+    	var cp = exists(thisEvent["address"]["postalCode"]) ? thisEvent["address"]["postalCode"] : "" ;
+		var loc = exists(thisEvent["address"]["addressLocality"]) ? thisEvent["address"]["addressLocality"] : "";
+	}
     var position = cp + " " + loc;
 
     var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
