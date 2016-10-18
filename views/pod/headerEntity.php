@@ -642,10 +642,13 @@ jQuery(document).ready(function() {
 				console.log("conntext/////");
 				console.log(obj);
 				//Sig.restartMap();
-				Sig.showMapElements(Sig.map, obj);	
 				contextMap = obj;
 				mapUrl["directory"]["data"] = {"links" : contextMap};
 				$(".communityBtn").removeClass("hide");
+				Sig.showMapElements(Sig.map, obj);	
+
+				
+				
 			},
 			error: function (error) {
 				console.log("error findGeoposByInsee");
