@@ -137,12 +137,11 @@
 				if(typeof thisData.author != "undefined") thisData = thisData.author;
 
 				this.allowMouseoverMaker = true;
-
 				var markerName = this.getIcoNameByType(thisData);
-				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
-				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
+				var iconUrl = assetPath+'/images/sig/markers/icons_carto/'+markerName+'.png';
+				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != ""){ 
 					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
-
+				}
 				return L.icon({
 				    iconUrl: iconUrl,
 				    iconSize: [53, 60], //38, 95],

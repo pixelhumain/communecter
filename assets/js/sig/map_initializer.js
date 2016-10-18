@@ -218,9 +218,9 @@
 
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			this.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
+			this.icoMarkersMap = { 		"default" 			: "",
 
-										  	"city" 				: "COLLECTIVITE_A",
+										  	"city" 				: "city-marker-empty",
 											
 											"news" 				: "NEWS_A",
 											"idea" 				: "NEWS_A",
@@ -228,20 +228,20 @@
 											"announce" 			: "NEWS_A",
 											"information" 		: "NEWS_A",
 
-											"citoyen" 			: "CITOYEN_A",
-											"citoyens" 			: "CITOYEN_A",
-											"people" 			: "CITOYEN_A",
+											"citoyen" 			: "citizen-marker-empty",
+											"citoyens" 			: "citizen-marker-empty",
+											"people" 			: "citizen-marker-empty",
 
-											"NGO" 				: "ASSO_A",
-											"organizations" 	: "ASSO_A",
-											"organization" 		: "ASSO_A",
+											"NGO" 				: "ngo-marker-empty",
+											"organizations" 	: "ngo-marker-empty",
+											"organization" 		: "ngo-marker-empty",
 
-											"event" 			: "EVENEMENTS_A",
-											"events" 			: "EVENEMENTS_A",
-											"meeting" 			: "EVENEMENTS_A",
+											"event" 			: "event-marker-empty",
+											"events" 			: "event-marker-empty",
+											"meeting" 			: "event-marker-empty",
 
-											"project" 			: "PROJET_A",
-											"projects" 			: "PROJET_A",
+											"project" 			: "project-marker-empty",
+											"projects" 			: "project-marker-empty",
 
 											"markerPlace" 		: "map-marker",
 
