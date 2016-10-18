@@ -920,7 +920,7 @@ if($showOdesc == true){
 			//else{
 			if(iconObject.attr("id") != "telegramAccount"){
 				iconObject.tooltip({title: value, placement: "bottom"});
-				iconObject.html('<i class="fa '+fa+' fa-blue"></i> Telegram');
+				iconObject.html('<i class="fa '+fa+' fa-blue"></i>');
 			}
 		} 
 
