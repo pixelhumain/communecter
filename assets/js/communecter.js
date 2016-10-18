@@ -1313,6 +1313,7 @@ function editElement(type,id){
 
 function openForm (type, afterLoad,data) { 
     //console.clear();
+    $.unblockUI();
     console.warn("--------------- Open Form "+type+" ---------------------",data);
     console.dir(data);
     elementLocation = null;
@@ -2307,28 +2308,28 @@ function globalSearch(searchValue,types){
   				console.log(elem);
   				city = "";
 				postalCode = "";
-				var htmlIco ="<i class='fa fa-users fa-2x'></i>";
+				var htmlIco ="<i class='fa fa-users'></i>";
 				if(elem.type){
-					typeIco = elem.type;
-					htmlIco ="<i class='fa "+mapIconTop[elem.type] +" fa-2x'></i>";
-					}
-					if (elem.address != null) {
-						city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
-						postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
-					}
-					if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
-						var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
-					}
-					str += 	"<div class='padding-5 col-sm-6 col-xs-12 light-border'>"+
-								"<a href='#' data-id='"+ elem.id +"' data-type='"+ typeIco +"'>"+
-								"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
-								"</a></div>";
-					compt++;
+				typeIco = elem.type;
+				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
+				}
+				if (elem.address != null) {
+					city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
+					postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+				}
+				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
+					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
+				}
+				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+							"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+						"</a>";
+				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
 			
 			if (compt > 0) {
 				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
 			}
