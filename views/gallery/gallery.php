@@ -6,12 +6,14 @@
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
+
 if( isset($parent) ){
 	$contextName = $parent["name"];
 	$parentName=$parent["name"];
 }
 if(!@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery")); 
+
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">

@@ -16,6 +16,28 @@ $this->renderPartial('../default/panels/toolbar');
 																	//"events" => $events
 																	));
 				?>
+
+				<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
+					<div class="row padding-15">
+						<hr>
+						<a href='javascript:loadByHash("#rooms.index.type.projects.id.<?php echo (String) $project["_id"]; ?>")'>
+				        	<h1 class="text-azure text-left homestead no-margin">
+				        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> <span class="text-small helvetica">(activité récente)</span>
+				        	</h1>
+				        </a>
+				    </div>
+					<?php 
+							$list = ActionRoom::getAllRoomsActivityByTypeId(Project::COLLECTION, (string)$project["_id"]);	
+							$this->renderPartial('../pod/activityList2',array(    
+			   					"parent" => $project, 
+			                    "parentId" => (string)$project["_id"], 
+			                    "parentType" => Project::COLLECTION, 
+			                    "title" => "Activité Coop",
+	                        	"list" => @$list, 
+			                    "renderPartial" => true
+			                    ));
+						?>	
+				</div>
 				
 			</div>
 
@@ -80,7 +102,7 @@ $this->renderPartial('../default/panels/toolbar');
 			        </a>
 			    </div> -->
 				<?php 
-						$rooms = ActionRoom::getAllRoomsByTypeId(Project::COLLECTION, (string)$project["_id"]);	
+						/*$rooms = ActionRoom::getAllRoomsByTypeId(Project::COLLECTION, (string)$project["_id"]);	
 						$this->renderPartial('../dda/index',array(    
 		   					"parent" => $project, 
 		                    "parentId" => (string)$project["_id"], 
@@ -94,7 +116,7 @@ $this->renderPartial('../default/panels/toolbar');
 		                    "actions" => @$rooms["actions"], 
 		                    "history" => @$rooms["history"], 
 		                    "renderPartial" => true
-		                    ));
+		                    ));*/
 					?>	
 			</div>
 
