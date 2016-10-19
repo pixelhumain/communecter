@@ -1329,7 +1329,8 @@ function openForm (type, afterLoad,data) {
 		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
 	} else if( specs.dynForm )
 	{
-		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
+		console.dir(specs);
+		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
 		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
 	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
@@ -2635,7 +2636,7 @@ var keyMap = {
 	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
 	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
 	"114" : function(){ showMap(true); },//f3
-	"115" : function(){ alert("dashboard my society") },//f4
+	"115" : function(){ console.clear();console.warn("repair society") },//f4
 	"119" : function(){ console.clear();loadByHash(location.hash) },//f8
 };
 var keyMapCombo = {
