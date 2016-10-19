@@ -155,10 +155,14 @@ if($('#breadcum').length)
 				                    </div>
 
 				                    <div class="col-xs-6 center text-red btnSubTitle">
+					                    <?php if(@$element["address"]["codeInsee"] && !empty($element["address"]["codeInsee"])){ ?>
 				                        <a href="#city.detail.insee.<?php echo $element['address']['codeInsee']; ?>.postalCode.<?php echo $element['address']['postalCode']; ?>" class="lbh btn btn-discover bg-red">
+					                      <?php } else { ?>
+					                       <a href="javascript:;" class=" cobtnHeader btn btn-discover bg-red">
+					                      <?php } ?>
 				                          <i class="fa fa-home"></i>
 				                        </a><br>
-				                        <span class="text-red discover-subtitle"> Ma commune</span>
+				                        <span class="text-red discover-subtitle"> <?php if(@$element["address"]["codeInsee"] && !empty($element["address"]["codeInsee"])){ echo Yii::t("common","My city"); }  else echo Yii::t("common","Communected me"); ?></span>
 				                    </div>
 
 				                   
