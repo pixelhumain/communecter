@@ -400,10 +400,15 @@ class Menu {
         //-----------------------------
 
         if($type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, $id)){
-	        self::entry("right", 'onclick',
+	        /*self::entry("right", 'onclick',
                 Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
                 Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
-                "showElementPad('addmembers')",null,null,"btn-menu-element btn-menu-element-addmembers");
+                "showElementPad('addmembers')",null,null,"btn-menu-element btn-menu-element-addmembers","data-toggle='modal' data-target='#modal-scope'");*/
+
+				self::entry("right", 'href',
+                Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
+                Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
+                "javascript:;",null,null,"btn-menu-element btn-menu-element-addmembers","","data-toggle='modal' data-target='#modal-scope'");
         }
         
 
@@ -983,7 +988,7 @@ class Menu {
                     "window.history.back();","backBtn",null);
     }
 
-    public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
+    public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null,$moreAttributes=null)
     {
         if( $type == 'showAjaxPanel')
         {
@@ -1025,7 +1030,7 @@ class Menu {
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"".$moreAttributes);
                         
 
         }

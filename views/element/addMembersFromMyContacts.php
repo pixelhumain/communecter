@@ -646,6 +646,9 @@ function sendInvitation(){
 					if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
 						mapUrl.directory.load = false;
 				}
+				if(currentView=="detail" || currentView=="directory"){
+					loadByHash(location.hash);
+				}
 				$.unblockUI();
         	/*	if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
         			updateOrganisation( data.member,  $("#addMembers #memberType").val());
