@@ -759,6 +759,7 @@ class DatamigrationController extends CommunecterController {
 		}
 
 		echo "Number of user with preferences modified : ".$nbUser;
+	}
 
 	public function actionUpdateCitiesBelgique() {
 		/*$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
@@ -825,14 +826,42 @@ class DatamigrationController extends CommunecterController {
 
                     );
 				}
-			}
-
-			
-			
-
-			
+			}			
 		}
 		echo  "NB Cities : " .$nbcities."<br>" ;
+
+	}
+
+
+	public function actionAddGeoPosition(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+
+			$elements = PHDB::find($type, array("geoPosition" => array('$exists' => 0), "geo" => array('$exists' => 1)));
+			foreach ($elements as $key => $elt) {
+				if(!empty($elt["geo"])){
+					if(!empty($elt["geo"]["longitude"]) && !empty($elt["geo"]["latitude"])){
+						$geoPosition = array("type"=>"Point", 
+										"coordinates" => array(floatval($elt["geo"]["longitude"]), floatval($elt["geo"]["latitude"])));
+						$elt["modifiedByBatch"][] = array("addGeoPosition" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($key)),
+	                        array('$set' => array(	"geoPosition" => $geoPosition,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])), 
+	                        array('upsert' => true ));
+	                    $nbelement ++ ;
+					}else{
+						echo  $type." id : " .$key." : pas de longitude ou de latitude<br>" ;
+					}	
+				}else{
+					echo  $type." id : " .$key." : pas de geo <br>" ;
+				}
+
+			}
+
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 
 	}
 
