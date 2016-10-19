@@ -1332,7 +1332,7 @@ function openForm (type, afterLoad,data) {
 		console.dir(specs);
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
 	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
 	  										"<div class='col-sm-10 col-sm-offset-1'>"+
 							              	"<div class='space20'></div>"+
@@ -2057,7 +2057,7 @@ var typeObj = {
 	"action" : {
 		col:"actions",
 		ctrl:"room",
-		titleClass : "bg-lightblue2",
+		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "cogs",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
