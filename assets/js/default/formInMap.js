@@ -22,15 +22,15 @@ function showMarkerNewElement(update){ console.log("showMarkerNewElement");
 	//$("#newElement_btnValidateAddress").prop('disabled', true);
 	if(typeof Sig.myMarker != "undefined") 
 		Sig.map.removeLayer(Sig.myMarker);
-
+	console.log("formType", formType);
 	var options = {  id : 0,
 					 icon : Sig.getIcoMarkerMap({'type' : formType}),
 					 content : Sig.getPopupConfigAddress()
 				  };
 	console.log(options);
-
-	var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
-	console.log("coordinates", coordinates);
+	var coordinates = new Array(47.46852700, 1.05949400);
+	if(typeof Sig.myPosition != "undefined")
+		var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
 	//efface le marker s'il existe
 	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
@@ -392,7 +392,7 @@ function backToForm(update, cancel){
 
 }
 
-function updateLocality(address, geo){
+function updateLocality(address, geo, type){
 	console.log("updateLocality", typeof address, geo);
 	if(address != null && geo != null ){
 		NE_insee = address.codeInsee;
@@ -405,7 +405,7 @@ function updateLocality(address, geo){
 		NE_dep = address.depName;
 		NE_region = address.regionName;
 	}
-	
+	formType = type ;
 	showMarkerNewElement(true);
 }
 
@@ -440,35 +440,38 @@ function updateLocalityElement(){
 	    	//toastr.success(data.msg);
 	    	if(data.result){
 	    		var inMap = true ;
-				if(contextData.address != null){
-	    			contextData.address.codeInsee = locality.address.codeInsee ;
-					contextData.address.addressLocality = locality.address.addressLocality ;
-					contextData.address.postalCode = locality.address.postalCode ;
-					contextData.address.streetAddress = locality.address.streetAddress ;
-					contextData.address.addressCountry = locality.address.addressCountry ;
-					contextData.address.depName = locality.address.depName ;
-					contextData.address.regionName = locality.address.regionName ;
-	    		}else{
-	    			contextData.address = {
-	    				codeInsee : locality.address.codeInsee ,
-						addressLocality : locality.address.addressLocality ,
-						postalCode : locality.address.postalCode ,
-						streetAddress : locality.address.streetAddress ,
-						addressCountry : locality.address.addressCountry ,
-						depName : locality.address.depName ,
-						regionName : locality.address.regionName
-					}
-					inMap =false ;
+	    		if(contextData != null){
+	    			if(contextData.address != null){
+		    			contextData.address.codeInsee = locality.address.codeInsee ;
+						contextData.address.addressLocality = locality.address.addressLocality ;
+						contextData.address.postalCode = locality.address.postalCode ;
+						contextData.address.streetAddress = locality.address.streetAddress ;
+						contextData.address.addressCountry = locality.address.addressCountry ;
+						contextData.address.depName = locality.address.depName ;
+						contextData.address.regionName = locality.address.regionName ;
+		    		}else{
+		    			contextData.address = {
+		    				codeInsee : locality.address.codeInsee ,
+							addressLocality : locality.address.addressLocality ,
+							postalCode : locality.address.postalCode ,
+							streetAddress : locality.address.streetAddress ,
+							addressCountry : locality.address.addressCountry ,
+							depName : locality.address.depName ,
+							regionName : locality.address.regionName
+						}
+						inMap =false ;
+		    		}
+					if(contextData.geo != null){
+		    			contextData.geo.latitude = locality.geo.latitude ;
+						contextData.geo.longitude = locality.geo.longitude;
+		    		}else{
+		    			contextData.geo = {
+		    				latitude : locality.geo.latitude ,
+							longitude : locality.geo.longitude
+						}
+		    		}
 	    		}
-				if(contextData.geo != null){
-	    			contextData.geo.latitude = locality.geo.latitude ;
-					contextData.geo.longitude = locality.geo.longitude;
-	    		}else{
-	    			contextData.geo = {
-	    				latitude : locality.geo.latitude ,
-						longitude : locality.geo.longitude
-					}
-	    		}
+				
 
 				$("#detailStreetAddress").html(contextData.address.streetAddress);
 				$("#detailCity").html(contextData.address.addressLocality+", "+contextData.address.postalCode);

@@ -682,7 +682,7 @@ jQuery(document).ready(function() {
 						$('#address').trigger('click'); 
 						}, 500);
 					return false;*/
-					updateLocalityElement();
+					updateLocalityEntities();
 				}
 				else
 					showElementPad("detail.edit");
@@ -776,11 +776,11 @@ function showElementPad(type, id){
 	}
 }
 
-function updateLocalityElement(){
+function updateLocalityEntities(){
 	$("#ajax-modal").modal("hide");
 	showMap(true);
 	if(typeof updateLocality != "undefined"){ 
-		updateLocality(contextData.address, contextData.geo); 
+		updateLocality(contextData.address, contextData.geo, contextType); 
 	}
 }
 

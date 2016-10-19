@@ -707,7 +707,7 @@ if($showOdesc == true){
 
 		$("#btn-update-geopos").off().on( "click", function(){
 			console.log("btn-update-geopos", typeof updateLocality);
-			updateLocalityElement();
+			updateLocalityEntities();
 			/*$("#ajax-modal").modal("hide");
 			showMap(true);
 			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }*/
@@ -742,7 +742,7 @@ if($showOdesc == true){
 					$('#address').trigger('click'); 
 					}, 500);
 				return false;*/
-				updateLocalityElement();
+				updateLocalityEntities();
 			});
 			console.log("modeEdit",modeEdit);
 			if(modeEdit == "true"){
