@@ -70,13 +70,14 @@ function autocompleteMultiScope(){
     			}; 
     			if(currentScopeType == "cp") { 
     				$.each(value.postalCodes, function(key, valueCP){ //console.log(allCities);
-		    			if($.inArray(valueCP.name, allCities)<0){ 
-	    					allCities.push(valueCP.name);
+		    			//if($.inArray(valueCP.name, allCities)<0){ 
+	    					//allCities.push(valueCP.name);
 		    				val = valueCP.postalCode; 
 		    				lbl = valueCP.postalCode ;
 		    				lblList = valueCP.name + ", " +valueCP.postalCode ;
 		    				html += "<li><a href='javascript:' onclick='addScopeToMultiscope(\""+val+"\",\""+lbl+"\" )'>"+lblList+"</a></li>";
-    				}});
+    					//}
+    				});
     			}; 
     			
     			if(currentScopeType == "dep" || currentScopeType == "region"){
