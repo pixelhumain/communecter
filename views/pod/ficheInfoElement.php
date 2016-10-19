@@ -202,7 +202,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			<?php } ?>
 
 			<?php if($edit==true) { ?>
-				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common", "Complete or correct the informations of")." ".Yii::t("common","this ".$controller) ?>" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
+				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php if ($type==Person::COLLECTION){ echo Yii::t("common", "Manage my parameters"); } else { echo Yii::t("common", "Manage the parameters of")." ".Yii::t("common","this ".$controller); } ?>" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
 			<?php } ?>
 			
 			<?php if ($openEdition==true) { ?>
@@ -315,9 +315,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 									>
 										<?php echo ((@$element["socialNetwork"]["telegram"])?$element["socialNetwork"]["telegram"]:""); ?>
 									</a> 
-									<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+									<!--<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
 									 		<i class="fa fa-question-circle text-dark" style=""></i>
-									</a> 
+									</a>--> 
 
 						<?php }else{ ?>
 							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
@@ -332,7 +332,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
 				</label>
 				
-				<a href="#" id="tags" data-type="select2" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
+				<a href="#" id="tags" data-type="select2" data-emptytext="<?php echo Yii::t("common","empty")?>" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
 					<?php 
 						if(isset($element["tags"])){
 							$stringTags = "" ;
@@ -1008,13 +1008,34 @@ if($showOdesc == true){
 			mode: 'popup',
 			success : function(data) {
 				console.log("herehehre", data);
-				console.log(data.telegramAccount, typeof data.telegramAccount);
+				//console.log(data.telegramAccount, typeof data.telegramAccount);
 				if(typeof data.telegramAccount != "undefined" && data.telegramAccount.length > 0){
 					speudoTelegram = data.telegramAccount.trim();
 					$('#telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
 					$('#telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
 					
 				}
+				if(typeof data.facebookAccount != "undefined" && data.facebookAccount.length > 0){
+					pseudoFacebook = data.facebookAccount.trim();
+					$('#facebookAccount').attr('href', pseudoFacebook);
+				}
+				if(typeof data.twitterAccount != "undefined" && data.twitterAccount.length > 0){
+					pseudoTwitter = data.TwitterAccount.trim();
+					$('#twitterAccount').attr('href', pseudoTwitter);
+				}
+				if(typeof data.gitHubAccount != "undefined" && data.gitHubAccount.length > 0){
+					pseudoGithub = data.gitHubAccount.trim();
+					$('#gitHubAccount').attr('href', pseudoGithub);
+				}
+				if(typeof data.skypeAccount != "undefined" && data.skypeAccount.length > 0){
+					pseudoSkype = data.skypeAccount.trim();
+					$('#skypeAccount').attr('href', pseudoSkype);
+				}
+				if(typeof data.gpplusAccount != "undefined" && data.gpplusAccount.length > 0){
+					pseudoGpplus = data.gpplusAccount.trim();
+					$('#gpplusAccount').attr('href', pseudoGpplus);
+				}
+
 			}
 		}); 
 
