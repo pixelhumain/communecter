@@ -99,7 +99,7 @@
 					<i class="fa fa-heartbeat"></i> <br class="hidden-xs">Live</a>
 				</div>
 				<div class="col-md-4 col-sm-4 center">
-			    	<a class="btn bg-azure lbh" href="#default.directory"" >
+			    	<a class="btn bg-azure lbh" href="#default.directory" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Recherche</a>
 			    </div>
 				<div class="col-md-4 col-sm-4 center">

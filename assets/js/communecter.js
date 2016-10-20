@@ -2711,6 +2711,14 @@ function autoCompleteInviteSearch(search){
 		}
 	);	
 }
+
+function communecterUser(){
+	$("#ajax-modal").modal("hide");
+	showMap(true);
+	if(typeof updateLocality != "undefined"){ 
+		updateLocality(null, null, "citoyens"); 
+	}
+}
 /*
 elementJson = {
     //reuired

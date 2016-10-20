@@ -559,6 +559,7 @@ else if(contextType == "<?php echo Project::COLLECTION ?>")
 else
 	contextIcon = "circle";
 var firstViewTitle = "<?php echo @$firstView ?>";
+var currentView = "<?php echo @$firstView ?>";
 var firstView = true;
 // Views' array of element
 var mapUrl = { 	
@@ -718,6 +719,7 @@ jQuery(document).ready(function() {
 });
 
 function showElementPad(type, id){
+	currentView=type;
 	/*if(firstView){
 		if(firstViewTitle.substr(0,4) == "need"){
 			mapUrl[firstViewTitle] = new Object;

@@ -62,7 +62,7 @@
 			$title = $cityExists ? $myCity["name"] : "Communectez-vous";
 			$hash = "javascript:"; //$cityExists ? "#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] : "";
 			$onclick = $cityExists ? "loadByHash('#city.detail.insee.".$myCity["insee"].".postalCode.".$myCity["cp"] + "')" 
-								   : "openDropdownMultiscope()";
+								   : "communecterUser()";
 		?>
 		
 		<a href="<?php echo $hash; ?>" onclick="<?php echo $onclick; ?>"

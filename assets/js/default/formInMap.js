@@ -28,7 +28,7 @@ function showMarkerNewElement(update){ console.log("showMarkerNewElement");
 					 content : Sig.getPopupConfigAddress()
 				  };
 	console.log(options);
-	var coordinates = new Array(47.46852700, 1.05949400);
+	var coordinates = new Array(0, 0);
 	if(typeof Sig.myPosition != "undefined")
 		var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
@@ -385,8 +385,8 @@ function backToForm(update, cancel){
 		if(typeof cancel == "undefined" || cancel == false)
 			updateLocalityElement();
 		showMap(false);
-		console.log("contextMap Update",contextMap)
-		Sig.showMapElements(Sig.map, contextMap);
+		if(typeof contextMap != "undefined")
+			Sig.showMapElements(Sig.map, contextMap);
 	}
 	
 
@@ -406,6 +406,8 @@ function updateLocality(address, geo, type){
 		NE_region = address.regionName;
 	}
 	formType = type ;
+	if(typeof contextMap == "undefined")
+		contextMap = [];
 	showMarkerNewElement(true);
 }
 
@@ -429,10 +431,19 @@ function updateLocalityElement(){
 	params = new Object;
 	params.name = "locality";
 	params.value = locality;
-	params.pk = contextData.id;
+	console.log("contextData", contextData, typeof contextData);
+	if(typeof contextData != "undefined" && contextData != null){
+		params.pk = contextData.id;
+		params.type = contextData.type;
+	}
+	else{
+		params.pk = userId;
+		params.type = "citoyens";
+	}
+		
 	$.ajax({
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextData.type,
+        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+params.type,
         data: params,
        	dataType: "json",
     	success: function(data){
@@ -471,16 +482,25 @@ function updateLocalityElement(){
 						}
 		    		}
 	    		}
+				var unikey = locality.address.addressCountry + "_" + locality.address.codeInsee + "-" + locality.address.postalCode; 
+				addScopeToMultiscope(unikey, locality.address.addressLocality);
+				$("#detailStreetAddress").html(locality.address.streetAddress);
+				$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
+				$("#detailCountry").html(locality.address.addressCountry);
+				$('#localityHeader').html(locality.address.addressLocality);
+				$('#pcHeader').html(locality.address.postalCode);
+				$('#countryHeader').html(locality.address.addressCountry);
+				$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
+				$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
+				$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 				
+				$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
+				$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + locality.address.addressLocality);
+				$(".hide-communected").hide();
+				$(".visible-communected").show();
 
-				$("#detailStreetAddress").html(contextData.address.streetAddress);
-				$("#detailCity").html(contextData.address.addressLocality+", "+contextData.address.postalCode);
-				$("#detailCountry").html(contextData.address.addressCountry);
-				$('#localityHeader').html(contextData.address.addressLocality);
-				$('#pcHeader').html(contextData.address.postalCode);
-				$('#countryHeader').html(contextData.address.addressCountry);
-				var typeMap = contextData.type ;
-				if(contextData.type == "citoyens")
+				var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
+				if(typeMap == "citoyens")
 					typeMap = "people";
 
 				if(inMap == false)
