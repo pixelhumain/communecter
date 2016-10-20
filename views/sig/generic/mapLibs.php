@@ -8,7 +8,7 @@
 			'/css/sig/leaflet/leaflet.awesome-markers.css',
 			'/css/sig/sig.css',
 
-			/*'/js/sig/leaflet/leaflet.js',*/
+			//'/js/sig/leaflet/leaflet.js',
 			'/js/sig/leaflet/leaflet.draw-src.js',
 			'/js/sig/leaflet/leaflet.draw.js',
 			'/js/sig/leaflet/leaflet.markercluster-src.js',
@@ -47,3 +47,4 @@
 
 		HtmlHelper::registerCssAndScriptsFiles($cssAndScriptFiles, $this->module->assetsUrl);
 ?>
+
