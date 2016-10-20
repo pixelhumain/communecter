@@ -871,7 +871,7 @@
 	 	this.Sig.addContextMap = function(contextMap, element, type)
 	 	{
 	 		
-			console.warn("--------------- addContextMap ---------------------");
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
 			var elementMap = {
 				name : element.name ,
 				username : element.username ,
@@ -889,6 +889,9 @@
 				type : element.type ,
 			}
 
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+			
 			contextMap[type].push(elementMap);
 			
 			return contextMap;

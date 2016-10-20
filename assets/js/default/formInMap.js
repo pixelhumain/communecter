@@ -392,8 +392,8 @@ function backToForm(update, cancel){
 
 }
 
-function updateLocality(address, geo, type){
-	console.log("updateLocality", typeof address, geo);
+function initUpdateLocality(address, geo, type){
+	console.log("initUpdateLocality", typeof address, geo);
 	if(address != null && geo != null ){
 		NE_insee = address.codeInsee;
 		NE_lat = geo.latitude;
@@ -431,16 +431,9 @@ function updateLocalityElement(){
 	params = new Object;
 	params.name = "locality";
 	params.value = locality;
-	console.log("contextData", contextData, typeof contextData);
-	if(typeof contextData != "undefined" && contextData != null){
-		params.pk = contextData.id;
-		params.type = contextData.type;
-	}
-	else{
-		params.pk = userId;
-		params.type = "citoyens";
-	}
-		
+	params.pk = contextData.id;
+	params.type = contextData.type;
+
 	$.ajax({
         type: "POST",
         url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+params.type,
@@ -484,29 +477,47 @@ function updateLocalityElement(){
 	    		}
 				var unikey = locality.address.addressCountry + "_" + locality.address.codeInsee + "-" + locality.address.postalCode; 
 				addScopeToMultiscope(unikey, locality.address.addressLocality);
-				$("#detailStreetAddress").html(locality.address.streetAddress);
-				$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
-				$("#detailCountry").html(locality.address.addressCountry);
-				$('#localityHeader').html(locality.address.addressLocality);
-				$('#pcHeader').html(locality.address.postalCode);
-				$('#countryHeader').html(locality.address.addressCountry);
+				
 				$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
 				$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
-				$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
-				
-				$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
-				$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + locality.address.addressLocality);
-				$(".hide-communected").hide();
-				$(".visible-communected").show();
+				$("#btn-geoloc-auto-menu").attr("onclick", "");
+				$("#btn-geoloc-auto-menu").addClass("lbh");
+				if(contextData.id != userId){
+					$("#detailStreetAddress").html(locality.address.streetAddress);
+					$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
+					$("#detailCountry").html(locality.address.addressCountry);
+					$('#localityHeader').html(locality.address.addressLocality);
+					$('#pcHeader').html(locality.address.postalCode);
+					$('#countryHeader').html(locality.address.addressCountry);
 
-				var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
-				if(typeMap == "citoyens")
-					typeMap = "people";
+					$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
+					$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
+					
+					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
+					$(".detailMyCity").attr("onclick", "");
+					$(".detailMyCity").removeClass("detailMyCity");
+					$(".detailMyCity").addClass("lbh");
 
-				if(inMap == false)
-					contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
-				
-				Sig.showMapElements(Sig.map, contextMap);
+					$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + locality.address.addressLocality);
+					$(".hide-communected").hide();
+					$(".visible-communected").show();
+					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
+
+					var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
+					if(typeMap == "citoyens")
+						typeMap = "people";
+					if(inMap == false)
+						contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
+					Sig.restartMap();
+					Sig.showMapElements(Sig.map, contextMap);
+				}else{
+					Sig.myPosition.position.latitude = locality.geo.latitude;
+					Sig.myPosition.position.longitude = locality.geo.longitude;
+					var url = window.location.href ;
+					if(url.indexOf("#person.detail.id."+userId) == -1) {
+						loadByHash("#person.detail.id."+userId);
+					}
+				}
 				//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+contextData.address.codeInsee+"', 'MA COMMUNE','university' )");
 	    	}
 	    }

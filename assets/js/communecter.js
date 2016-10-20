@@ -2715,10 +2715,21 @@ function autoCompleteInviteSearch(search){
 }
 
 function communecterUser(){
+	if(typeof contextData == "undefined" || contextData == null || contextData.id != userId){
+		contextData = {
+			id : userId,
+			type : "citoyens"
+		};
+	}
+	$.unblockUI();
+	updateLocalityEntities();
+}
+
+function updateLocalityEntities(){
 	$("#ajax-modal").modal("hide");
 	showMap(true);
-	if(typeof updateLocality != "undefined"){ 
-		updateLocality(null, null, "citoyens"); 
+	if(typeof initUpdateLocality != "undefined"){ 
+		initUpdateLocality(contextData.address, contextData.geo, contextData.type); 
 	}
 }
 /*

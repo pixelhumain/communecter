@@ -674,20 +674,8 @@ jQuery(document).ready(function() {
 	if(typeof(element.address) != "undefined" && element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");
-		$(".cobtnHeader").click(function () { 
-				var url= document.URL;
-				if(url.indexOf("#person.detail") != -1){
-					/*$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
-					$('#editElementDetail').trigger('click');
-					setTimeout( function () { 
-						$('#address').trigger('click'); 
-						}, 500);
-					return false;*/
-					updateLocalityEntities();
-				}
-				else
-					showElementPad("detail.edit");
-				
+		$(".cobtnHeader").click(function () {
+			updateLocalityEntities();				
 		});
 	}
 
@@ -775,14 +763,6 @@ function showElementPad(type, id){
 				bindLBHLinks();
 				$.unblockUI();
 		},"html");
-	}
-}
-
-function updateLocalityEntities(){
-	$("#ajax-modal").modal("hide");
-	showMap(true);
-	if(typeof updateLocality != "undefined"){ 
-		updateLocality(contextData.address, contextData.geo, contextType); 
 	}
 }
 

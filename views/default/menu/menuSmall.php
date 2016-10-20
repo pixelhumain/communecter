@@ -113,7 +113,7 @@
 			    
 				<?php if(!isset($myCity)){?>
 					<div class="col-md-12 center hide-communected">
-						<a class="btn bg-red" href="javascript:$('.btn-geoloc-auto').trigger('click');$.unblockUI();">
+						<a class="btn bg-red" href="javascript:;" onclick="communecterUser()">
 							<i class="fa fa-university"></i>
 							</br>Communectez-moi
 						</a>
