@@ -223,7 +223,13 @@
 			<hr>
 
 		</div>
-
+		<br>
+			<a href="" id="menu-btn-cities"
+					class="menu-button-left glass-hover lbh">
+				<i class="fa fa-university tooltips"
+					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
+				<span class="lbl-btn-menu">Communes</span>
+			</a>
 		<br>
 
 		<?php // FAIRE UN DON // ?>

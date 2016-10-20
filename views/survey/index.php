@@ -300,7 +300,7 @@
     ***************************************** */
     function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate, $isArchived){
         $logguedAndValid = Person::logguedAndValid();
-        $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
+        $tagBlock = "";
         $cpBlock = "";
         $name = $entry["name"];
         $message = substr($entry["message"],0,280);

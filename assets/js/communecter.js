@@ -1313,6 +1313,7 @@ function editElement(type,id){
 
 function openForm (type, afterLoad,data) { 
     //console.clear();
+    $.unblockUI();
     console.warn("--------------- Open Form "+type+" ---------------------",data);
     console.dir(data);
     elementLocation = null;
@@ -1328,9 +1329,10 @@ function openForm (type, afterLoad,data) {
 		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
 	} else if( specs.dynForm )
 	{
-		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson").addClass(specs.bgClass);
+		console.dir(specs);
+		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow").addClass(specs.titleClass);
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
 	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
 	  										"<div class='col-sm-10 col-sm-offset-1'>"+
 							              	"<div class='space20'></div>"+
@@ -1599,7 +1601,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1708,7 +1710,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe ou les membres de l'organisation , planifier des évènements, des projets, partager vos actions...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
@@ -1805,7 +1807,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
@@ -1900,7 +1902,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -2055,7 +2057,7 @@ var typeObj = {
 	"action" : {
 		col:"actions",
 		ctrl:"room",
-		titleClass : "bg-lightblue2",
+		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "cogs",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
@@ -2307,28 +2309,28 @@ function globalSearch(searchValue,types){
   				console.log(elem);
   				city = "";
 				postalCode = "";
-				var htmlIco ="<i class='fa fa-users fa-2x'></i>";
+				var htmlIco ="<i class='fa fa-users'></i>";
 				if(elem.type){
-					typeIco = elem.type;
-					htmlIco ="<i class='fa "+mapIconTop[elem.type] +" fa-2x'></i>";
-					}
-					if (elem.address != null) {
-						city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
-						postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
-					}
-					if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
-						var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
-					}
-					str += 	"<div class='padding-5 col-sm-6 col-xs-12 light-border'>"+
-								"<a href='#' data-id='"+ elem.id +"' data-type='"+ typeIco +"'>"+
-								"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
-								"</a></div>";
-					compt++;
+				typeIco = elem.type;
+				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
+				}
+				if (elem.address != null) {
+					city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
+					postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+				}
+				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
+					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
+				}
+				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+							"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+						"</a>";
+				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
 			
 			if (compt > 0) {
 				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
 			}
@@ -2634,7 +2636,7 @@ var keyMap = {
 	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
 	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
 	"114" : function(){ showMap(true); },//f3
-	"115" : function(){ alert("dashboard my society") },//f4
+	"115" : function(){ console.clear();console.warn("repair society") },//f4
 	"119" : function(){ console.clear();loadByHash(location.hash) },//f8
 };
 var keyMapCombo = {

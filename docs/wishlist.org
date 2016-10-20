@@ -56,6 +56,7 @@
   [ ] QCM Propriété , common Chart
   [ ] Finir Besoin Ressource compétence
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
+    [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
 
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
@@ -67,7 +68,9 @@
 [ ] Valoriser les communes qui ont signées
 [ ] taper un nom de ville sur le scoper, avec le type region activé, si je tape Bordeau me ressort la REgion correspondante
 [ ] scoper adding a code postal > ajoute toute la chaine
-
+[ ] add a calendar on city page ???
+[ ] localiser libre : avec le nouvel input 
+  - si la city n'existe pas , panel de creation et on enchaine
 
 * Global
 [ ] shortcuts : navigate with 4 btns 
@@ -94,7 +97,14 @@
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
 [.17] bouton share non intrusif 
-
+[ ] interoperability
+[ ] system de synchronisation between instances : download + upload 
+  - download from OCDB
+  - connect to one or many servers, info new differences
+  - upload from instance
+    - select types for what to upload 
+    - see diffs
+  - id unique : id_sourkeyInstance
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
