@@ -76,16 +76,15 @@
 			</span>
 		</a>
 		<hr>
-		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		
-		<?php // AROUND ME // ?>
-		<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
-				class="lbh menu-button-left glass-hover">
-				<i class="fa fa-crosshairs tooltips"
-					data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
-				<span class="lbl-btn-menu">Autour de moi</span>
-		</a>
-		<hr>
+		<?php if(isset(Yii::app()->session['userId']) && isset($me["geo"])){ ?>
+			<?php // AROUND ME // ?>
+			<a href="#element.aroundme.type.person.id.<?php echo Yii::app()->session['userId'] ?>.radius.5000" id="menu-btn-around-me"
+					class="lbh menu-button-left glass-hover">
+					<i class="fa fa-crosshairs tooltips"
+						data-toggle="tooltip" data-placement="right" title="Autour de moi"></i> 
+					<span class="lbl-btn-menu">Autour de moi</span>
+			</a>
+			<hr>
 		<?php } ?>
 		
 		<br>
@@ -223,13 +222,7 @@
 			<hr>
 
 		</div>
-		<br>
-			<a href="" id="menu-btn-cities"
-					class="menu-button-left glass-hover lbh">
-				<i class="fa fa-university tooltips"
-					data-toggle="tooltip" data-placement="right" title="Communes"></i> 
-				<span class="lbl-btn-menu">Communes</span>
-			</a>
+		
 		<br>
 
 		<?php // FAIRE UN DON // ?>

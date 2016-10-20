@@ -4,7 +4,7 @@
 		position: relative;
 		width: 100%;
 		z-index: 8;
-		background-color: #F2F2F2;
+		background-color: #CBCBCB;
 		margin: 3%;
 		border: #E0E0E0 solid 1px;
 		margin: 0px 10px 10px 10px;
