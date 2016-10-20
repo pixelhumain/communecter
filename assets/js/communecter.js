@@ -1583,7 +1583,7 @@ var typeObj = {
 		            role :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
-		            	value : "admin",
+		            	//value : "admin",
 		            	"options" : {
 		            		admin : trad.administrator,
 							member : trad.member,
@@ -1619,7 +1619,7 @@ var typeObj = {
 			            }
 		            },
 		            urls : {
-			        	placeholder : "url",
+			        	placeholder : "URL du site web",
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
