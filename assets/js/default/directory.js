@@ -161,7 +161,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   if(indexMin == 0){
                     //ajout du footer   
                     var msg = "<i class='fa fa-ban'></i> Aucun résultat";    
-                    if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
+                    if(name == "" && locality == "") msg = "<h3 class='text-dark padding-20'><i class='fa fa-keyboard-o'></i> Préciser votre recherche pour plus de résultats ...</h3>"; 
                     str += '<div class="pull-left col-md-12 text-left" id="footerDropdown" style="width:100%;">';
                     str += "<hr style='float:left; width:100%;'/><h3 style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</h3><br/>";
                     str += "</div>";
