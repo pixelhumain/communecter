@@ -1,6 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$this->renderPartial("../docs/assets");
 ?>
 
 <div class="panel-heading border-light center text-dark partition-white radius-10">

@@ -1731,6 +1731,7 @@ var typeObj = {
 			        organizerId :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
+		            	"rules" : { "required" : true },
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){

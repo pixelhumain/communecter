@@ -1,5 +1,6 @@
 
-<?php HtmlHelper::registerCssAndScriptsFiles(array( '/css/menus/short_info_profil.css'), $this->module->assetsUrl); ?>
+<?php 
+HtmlHelper::registerCssAndScriptsFiles(array( '/assets/css/menus/short_info_profil.css') ); ?>
 
 <style type="text/css">
  

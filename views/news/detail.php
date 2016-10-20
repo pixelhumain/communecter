@@ -22,28 +22,14 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.elastic/elastic.js',
 	'/plugins/select2/select2.css',
 	'/plugins/select2/select2.min.js',
+	'/css/news/index.css',
 
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
-
-	$cssAnsScriptFilesModule = array(
-		//'/js/news/autosize.js',
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-	
-?>	
-<?php 
-
-	$cs = Yii::app()->getClientScript();
-
-		//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
-		$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
 $cssAnsScriptFilesModule = array(
 		'/js/news/newsHtml.js',
-		'/js/news/index.js',
-		'/css/news/index.css',
-	
+		'/js/news/index.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>

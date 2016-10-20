@@ -2,9 +2,9 @@
 $cs = Yii::app()->getClientScript();
 
 $cssAnsScriptFilesModule = array(
-  '/css/rooms/header.css'
+  '/assets/css/rooms/header.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl); ?>
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule); ?>
  <style>
 
 .assemblyHeadSection {  
