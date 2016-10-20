@@ -1059,7 +1059,7 @@ function showAllNews(){
 function initFormImages(){
 	$("#photoAddNews").on('submit',(function(e) {
 		e.preventDefault();
-		if(contextParentType=="city"){
+		if(contextParentType=="city" || contextParentType=="pixels"){
 			contextParentType = "citoyens";
 			contextParentId = idSession;
 		}
