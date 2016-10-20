@@ -1557,7 +1557,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
@@ -1576,7 +1576,7 @@ var typeObj = {
 		            },
 			        type :{
 		            	"inputType" : "select",
-		            	"placeholder" : "type select",
+		            	"placeholder" : "Type d'organisation",
 		            	"rules" : { "required" : true },
 		            	"options" : organizationTypes
 		            },
