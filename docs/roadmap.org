@@ -133,7 +133,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] refactor : move from ACtion to model Element
     [ ] [[affichage des addresses]]
       [ ] bloquer a une seule addresses
-    [ ] [[wisiwig on desc]]
+    [X] wisiwig on desc
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
       [X] ajouter les autres champs en activable
