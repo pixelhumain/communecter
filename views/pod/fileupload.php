@@ -52,7 +52,7 @@
 				<?php
 				if(isset($editMode) && $editMode || isset($openEdition) && $openEdition){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> Photo</span>
+					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> <span class="hidden-xs">Photo</span></span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
 						<input class="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_isSubmit hidden" value="true"/>
 					</span>

@@ -486,7 +486,7 @@ function updateLocalityElement(){
 				$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
 				$("#btn-geoloc-auto-menu").attr("onclick", "");
 				$("#btn-geoloc-auto-menu").addClass("lbh");
-				
+
 				if(contextData.id != userId){
 					$("#detailStreetAddress").html(locality.address.streetAddress);
 					$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
@@ -494,6 +494,7 @@ function updateLocalityElement(){
 					$('#localityHeader').html(locality.address.addressLocality);
 					$('#pcHeader').html(locality.address.postalCode);
 					$('#countryHeader').html(locality.address.addressCountry);
+					$('#iconLocalityyHeader').removeClass("hidden");
 
 					$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 					$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
