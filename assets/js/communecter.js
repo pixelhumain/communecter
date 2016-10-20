@@ -2293,6 +2293,7 @@ function globalSearch(searchValue,types){
 	};
 	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
 	$("#similarLink").show();
+	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin fa-"></i>').prop("disabled",true);
 	$.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
@@ -2300,11 +2301,12 @@ function globalSearch(searchValue,types){
           dataType: "json",
           error: function (data){
              console.log("error"); console.dir(data);
+             $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
           },
           success: function(data){
             var str = "";
  			var compt = 0;
-
+ 			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
  			$.each(data, function(id, elem) {
   				console.log(elem);
   				city = "";
@@ -2637,7 +2639,7 @@ var keyMap = {
 	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
 	"114" : function(){ showMap(true); },//f3
 	"115" : function(){ console.clear();console.warn("repair society") },//f4
-	"119" : function(){ console.clear();loadByHash(location.hash) },//f8
+	"117" : function(){ console.clear();loadByHash(location.hash) },//f6
 };
 var keyMapCombo = {
 	"69" : function(){openForm('event')}, //e

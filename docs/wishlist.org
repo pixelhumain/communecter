@@ -72,6 +72,11 @@
 [ ] localiser libre : avec le nouvel input 
   - si la city n'existe pas , panel de creation et on enchaine
 
+* Ergo 
+[ ] utiliser ce design du dashboard pour afficher notif et mon rep
+  - ca pourrait ouvrir des porte pour trier les section des notifs
+  - moins clostro que les bar vertical actuelle
+
 * Global
 [ ] shortcuts : navigate with 4 btns 
   [ ] F1 : dashboard
