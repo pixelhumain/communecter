@@ -788,15 +788,15 @@ button.btn-infos{
 	}
 	.main-top-menu .moduleLabel{
 	    text-overflow: ellipsis;
-	    white-space: nowrap;
-	    overflow: hidden;
-	    max-width: 26%;
-	    max-height: 36px;
-	    font-size: 18px !important;
-	    height: 36px;
-	    padding-top: 5px;
-	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-	    font-weight: 200;
+		white-space: nowrap;
+		overflow: hidden;
+		max-width: 20%;
+		max-height: 36px;
+		font-size: 15px !important;
+		height: 36px;
+		padding-top: 5px;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+		font-weight: 200;
 	  }
 	  #dropdown_search{
 	  	margin-top:20px;
