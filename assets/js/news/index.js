@@ -163,14 +163,14 @@ function buildTimeLine (news, indexMin, indexMax)
 			form ="";
 
 			if(canPostNews==true){ //alert($("#month"+date.getMonth()+date.getFullYear()).length );
-				// if(!isLiveGlobal() && $("#month"+date.getMonth()+date.getFullYear()).length < 1){
-				// 	form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-				//  			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-				//  		 '</div>'+
-				//  		 "<div class='newsFeed'>"+
-				// 			"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
-				// 		"</div>";
-				// }
+				if(!isLiveGlobal() && $("#month"+date.getMonth()+date.getFullYear()).length < 1){
+					form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+				 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+				 		 '</div>'+
+				 		 "<div class='newsFeed'>"+
+							"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
+						"</div>";
+				}
 				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
