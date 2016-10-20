@@ -24,8 +24,7 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    $this->layout = "//layouts/mainSearch";
-    //$this->render("index");
+    $this->render("index");
   }
 
   public function actionTwoStepRegister() 

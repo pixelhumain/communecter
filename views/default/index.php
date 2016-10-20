@@ -122,12 +122,12 @@
    // error_log("load IndexDefault");
 ?>
 
-<?php $this->renderPartial('./menu/menuCommunexion'); ?>
+<?php $this->renderPartial($layoutPath.'.menu.menuCommunexion'); ?>
 
 <?php if(!isset($me)) $me=""; 
-	  $this->renderPartial('./menu/menuTop', array("me" => $me)); ?>
+	  $this->renderPartial($layoutPath.'.menu.menuTop', array("me" => $me)); ?>
 
-<?php $this->renderPartial('./menu/menuLeft', array("page" => "accueil", 
+<?php $this->renderPartial($layoutPath.'.menu.menuLeft', array("page" => "accueil", 
 												    "myCity" => $city)); ?>
 
 
@@ -140,7 +140,7 @@
 
 	<div id="floopDrawerDirectory" class="floopDrawer"></div>
 
-	<?php $this->renderPartial("login_register"); ?>
+	<?php $this->renderPartial($layoutPath."login_register"); ?>
 
 </div>
 
