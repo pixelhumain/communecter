@@ -2715,6 +2715,7 @@ function autoCompleteInviteSearch(search){
 }
 
 function communecterUser(){
+	console.warn("communecterUser");
 	if(typeof contextData == "undefined" || contextData == null || contextData.id != userId){
 		contextData = {
 			id : userId,
@@ -2726,6 +2727,7 @@ function communecterUser(){
 }
 
 function updateLocalityEntities(){
+	console.warn("updateLocalityEntities");
 	$("#ajax-modal").modal("hide");
 	showMap(true);
 	if(typeof initUpdateLocality != "undefined"){ 
