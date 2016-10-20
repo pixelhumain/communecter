@@ -51,17 +51,18 @@ if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
 <?php 
-	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
+	//if($type != City::CONTROLLER && !@$_GET["renderPartial"])
+		//$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
 		//End isset renderPartial
 ?>
+
 <div class="row" id="detailPad">
 	<div class=" col-xs-12">
 		<div class="col-xs-12">
 			<?php if ($type == "poi"){ ?>
 				<div class="col-xs-12">
 					<div class="embed-responsive embed-responsive-16by9">
-						<iframe class="embed-responsive-item" src="https://player.vimeo.com/video/180005071?color=94b447"></iframe>
+						<iframe class="embed-responsive-item" src="https://vimeo.com/album/4108606/video/180005071"></iframe>
 					</div>
 				</div>
 				<div class="col-md-8 no-padding">
@@ -384,7 +385,9 @@ if($('#breadcum').length)
 			<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
 			<?php } ?>
 		</div>
-		<?php } ?>
+    	<div class="col-md-8 col-sm-12 no-padding pull-left">
+	    	
+    	</div>
     	
 	</div>
 </div>
