@@ -5,7 +5,7 @@
     '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
     '/assets/plugins/summernote/dist/summernote.css',
     '/assets/plugins/summernote/dist/summernote.min.js',
-    '/css/rooms/header.css'
+    '/assets/css/rooms/header.css'
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 

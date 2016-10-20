@@ -1,7 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$this->renderPartial("../docs/assets");
 
   $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>

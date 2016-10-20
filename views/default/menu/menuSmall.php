@@ -1,8 +1,9 @@
 
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/menuSmall.css'), $this->module->assetsUrl); ?>
+<?php  
+HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuSmall.css')); 
 
-<?php if (isset(Yii::app()->session['userId']) && !empty($me)) {
+if (isset(Yii::app()->session['userId']) && !empty($me)) {
           $profilMediumImageUrl = Element::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);
       }
 ?>

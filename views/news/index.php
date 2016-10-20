@@ -22,16 +22,16 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/underscore-master/underscore.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
-	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js'
+	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
+	'/css/news/index.css',	
+	'/css/news/newsSV.css',
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 $cs = Yii::app()->getClientScript();
 
 $cssAnsScriptFilesModule = array(
-	'/css/news/index.css',	
 	'/js/news/index.js',
 	'/js/news/newsHtml.js',
-	'/css/news/newsSV.css',
 	'/js/dataHelpers.js',
 	//'/js/news/autosize.js',
 );

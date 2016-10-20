@@ -3,13 +3,9 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/DataTables/media/css/DT_bootstrap.css',
 	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
 	'/plugins/DataTables/media/js/DT_bootstrap.js',
+	'/css/rooms/header.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
-
-$cssAnsScriptFilesModule = array(
-  '/css/rooms/header.css'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 
 Menu::rooms($_GET["id"],$_GET["type"]);
