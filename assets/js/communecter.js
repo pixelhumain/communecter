@@ -1263,6 +1263,36 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	formData = $(formId).serializeFormJSON();
 	console.log("before",formData);
 	formData = formatData(formData,collection,ctrl);
+	formData.media = [];
+	/*$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($(this).find(".video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.media.push(mediaObject);
+		}
+	});*/
 	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",

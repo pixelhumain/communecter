@@ -188,341 +188,45 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 }*/
 
 </style>
-
 <div class="panel panel-white">
 	<div class="panel-heading">
-		<h1 class=""> 
+		<h1 class="center"> 
 			<?php echo $element['name']; ?>
 		</h1>
 	</div>
 	<div id="divBtnDetail" class="panel-tools" >
 		<?php if(@Yii::app()->session["userId"]){ ?> 
 			<?php if ($edit==true || ($openEdition == true )) { ?>
-				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t(Element::getControlerByCollection($type), 'Edit your informations'); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit"); ?> </span></a>
+				<a href="javascript:;" class="btn btn-xs btn-default text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a> 
+				<a href="javascript:;" class="btn btn-xs btn-default text-green editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>
+				<div class="space1"></div>
 			<?php } ?>
 		<?php } ?>
 	</div>
-	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
-		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
-			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
-		</div>
-		<div class="col-md-12">
-			<div class="no-padding col-md-12">
-				<div id="divName">
-					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
-					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
-						<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
-					</a>
-				</div>
-
-				<?php if($type==Person::COLLECTION){ ?>
-				<div id="divUserName">
-					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
-					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Username"); ?> :</span>
-							
-					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
-						<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
-					</a>
-				</div>
-				<?php } ?>
-
-				<?php if($type==Organization::COLLECTION || $type==Event::COLLECTION){ ?>
-				<div id="divType">
-					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
-					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
-					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?>
-					</a>
-				</div>
-				<?php } ?>
-
-
-			</div>
-		</div>
-		<!-- class="form-group tag_group no-margin"-->
-		<div id="divTags" class="col-md-12 no-padding" >
-			<label class="control-label  text-red">
-				<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
-			</label>
-			
-			<a href="#" id="tags" data-type="select2" data-emptytext="<?php echo Yii::t("common","empty")?>" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
-				<?php 
-					if(isset($element["tags"])){
-						$stringTags = "" ;
-						foreach ($element["tags"] as $tag) {
-							if($stringTags != "")
-								$stringTags .= ", ";
-							$stringTags .= $tag ;
-						}
-						echo $stringTags;
-					} 
-				?>
-			</a>
-		</div>
-	</div>		
-	<?php 
-	//var_dump($admin);
-	//if(!empty($admin) && $admin == true){
-	//<!-- class=" col-lg-6 col-md-6 col-sm-6 col-xs-8"--> ?>
-	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
-		<?php if($type==Project::COLLECTION){ ?>
-			<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
-				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-					data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project maturity",null,Yii::app()->controller->module->id) ?>"
-					class="entityDetails pull-left">
-					<?php if(isset($element["properties"]["avancement"])){ 
-						//idea => concept => Started => development => testing => mature
-						if($element["properties"]["avancement"]=="idea")
-							$val=5;
-						else if($element["properties"]["avancement"]=="concept")
-							$val=20;
-						else if ($element["properties"]["avancement"]== "started")
-							$val=40;
-						else if ($element["properties"]["avancement"] == "development")
-							$val=60;
-						else if ($element["properties"]["avancement"] == "testing")
-							$val=80;
-						else 
-							$val=100;
-						echo Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id);
-					} ?>
-				</a>
-			</div>
-			<?php } ?>
-			
-
-		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
-			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
-				<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
-					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
-				</div>
-				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
-					<?php if($type==Event::COLLECTION ) { ?>
-					<div class="col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
-					</div>
-					<?php } ?>
-					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","From") ?> </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
-					</div>
-					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
-					</div>
-				</div>
-			</div>
-		<?php } ?>
-
-		<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
-			<?php if($type==Event::COLLECTION){?>
-				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
-			<?php }else{ ?>
-				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-			<?php } ?>
-		</div>
-		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
-			<div class="col-md-6 col-sm-6  no-padding">
-
-				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
-				<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
-				<a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
-				<?php } ?>
-				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) ||  $type!=Person::COLLECTION) { ?>
-				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
-				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
-				</a>
-				<div class="col-xs-12 no-padding">
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<span id="detailStreetAddress"><?php echo (!empty( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?></span>
-					<br/>
-					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<span id="detailCity"><?php echo (!empty($element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null;?><?php echo (!empty( $element["address"]["postalCode"])) ? ", ".$element["address"]["postalCode"] : null;?></span>
-					<br/>
-					<i class="fa fa-globe fa_addressCountry hidden"></i> 
-					<span id="detailCountry"><?php echo (!empty( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?></span>
-				</div>
-				<?php } ?>
-				<br>
-				<?php 
-						$address = ( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"] : "";
-						$address2 = ( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "";
-						$address2 .= ( @$element["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "";
-						
-
-						$tel = "";
-						if( @$element["telephone"]["fixe"]){
-							foreach ($element["telephone"]["fixe"] as $key => $num) {
-								$tel .= ($tel != "") ? ", ".$num : $num;
-							}
-						}
-						if( @$element["telephone"]["mobile"]){
-							foreach ($element["telephone"]["mobile"] as $key => $num) {
-								$tel .= ($tel != "") ? ", ".$num : $num;
-							}
-						}
-
-
-						$this->renderPartial('../pod/qrcode',array(
-																"type" => @$element['type'],
-																"name" => @$element['name'],
-																"address" => $address,
-																"address2" => $address2,
-																"email" => @$element['email'],
-																"url" => @$element["url"],
-																"tel" => $tel,
-																"img"=>@$element['profilThumbImageUrl']));
-				?>
-
-				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-default text-azure btn-sm col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
-				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
-				</a>
-				<?php 
-					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-					if(@$roles["superAdmin"] == true){
-						?>
-							<!--<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
-								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-							</a>-->
-						<?php
-					}
-				?>
-			</div>
-			<?php if($type != Event::COLLECTION){ ?>
-			<div class="col-md-6 col-sm-6">
-				<?php if($type==Person::COLLECTION){
-					if(Preference::showPreference($element, $type, "birthDate", Yii::app()->session["userId"])){ ?>
-						<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-						<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="">
-							<?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?>
-						</a>
-						<br>
-					<?php } 
-				} ?>
-				<?php 
-					//if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
-						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || $type!=Person::COLLECTION){ ?>
-							<i class="fa fa-envelope fa_email  hidden"></i> 
-							<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-								<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
-							</a>
-							<br>
-				<?php 	} 
-					//} ?>
-
-				<?php //If there is no http:// in the url
-				$scheme = "";
-				if(isset($element["url"])){
-					if (!preg_match("~^(?:f|ht)tps?://~i", $element["url"])) $scheme = 'http://';
-				}?>
-				
-				<i class="fa fa-desktop fa_url hidden"></i> 
-				<a href="<?php echo (isset($element["url"])) ? $scheme.$element['url'] : '#'; ?>" target="_blank" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
-					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;" class="editable-context editable editable-click">
-					<?php echo (isset($element["url"])) ? $element["url"] : null; ?>
-				</a> 
-				<br>
-				<?php if($type==Project::COLLECTION){ ?>
-				<i class="fa fa-file-text-o"></i>
-				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project licence") ?>" class="editable-context editable editable-click"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
-				<?php } ?>
-
-				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
-					<i class="fa fa-phone fa_telephone hidden"></i>
-					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
-						<?php 
-							if(isset($element["telephone"]["fixe"])){
-								foreach ($element["telephone"]["fixe"] as $key => $tel) {
-									if($key > 0)
-										echo ", ";
-									echo $tel;
-								}
-							}
-						?>
-					</a>
-					<br>
-
-					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
-					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
-						<?php if(isset($element["telephone"]["mobile"])){
-							foreach ($element["telephone"]["mobile"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
-							}
-						} ?>
-					</a>
-					<br>
-
-					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
-						<?php if(isset($element["telephone"]["fax"])){
-							foreach ($element["telephone"]["fax"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
-							}
-						} ?>
-					</a>
-					<br>
-				<?php } ?>	
-			</div>	
-			<?php } ?>		
-		</div>
-
-		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
-		
-			<div class="col-sm-12 no-padding text-dark lbl-info-details">
-				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
-			</div>
-			<div class="col-sm-12 entityDetails item_map_list">
-				<?php
-				if(@$organizer["type"]=="project"){ 
-					 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
-					 $icon="fa-lightbulb-o";
-				} else if(@$organizer["type"]=="organization"){
-					 	$icon="fa-users";
-				} else {
-					 	$icon="fa-user";
-				}
-
-				$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-				if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
-					$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
-				}else{
-					if(!empty($organizer["profilImageUrl"]))
-						$img = '<img class="thumbnail-profil" width="75" height="75" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$organizer['profilImageUrl']).'">';
-					else
-						$img = "<div class='thumbnail-profil'></div>";
-				}
-				$color = "";
-				if($icon == "fa-users") $color = "green";
-				if($icon == "fa-user") $color = "yellow";
-				if($icon == "fa-lightbulb-o") $color = "purple";
-				$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
-					echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-				 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
-				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
-			</div>
-		<?php } ?>
-		<div id="divShortDescription" class="col-xs-12 col-md-12 no-padding">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
-			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description"); ?>" class="editable editable-click">
-				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
-			</a>	
-			
-		</div>
-
+	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">				
 		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Enter the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
 				</a>	
+		</div>
+		<div id="divTags" class="col-md-12 no-padding" >
+			<?php if(isset($element["tags"])){ ?>
+				<?php 
+					$i=0; 
+					foreach($element["tags"] as $tag){ 
+						if($i<6) { 
+							$i++;?>
+							<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
+								<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+							</div>
+			<?php 		}
+					} 
+			} ?>		
+		</div>
+	</div>
+	<div class="col-md-12 panel-heading" style="background-color: rgba(231, 231, 231, 0.62) !important;">
+		<h2>Commentaires</h2>
+		<div id="commentContent">
 		</div>
 	</div>
 </div>
@@ -547,7 +251,51 @@ if($showOdesc == true){
 
 
 ?>
+<script type="text/javascript">
+		
+		$(".deleteThisBtn").off().on("click",function () 
+		{
+			console.log("deleteThisBtn click");
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var type = $(this).data("type");
+	        var urlToSend = baseUrl+"/"+moduleId+"/element/delete/type/"+type+"/id/"+id;
+	        
+	        bootbox.confirm("confirm please !!",
+        	function(result) 
+        	{
+				if (!result) {
+					btnClick.empty().html('<i class="fa fa-trash"></i>');
+					return;
+				} else {
+					$.ajax({
+				        type: "POST",
+				        url: urlToSend,
+				        dataType : "json"
+				    })
+				    .done(function (data) {
+				        if ( data && data.result ) {
+				        	toastr.info("élément effacé");
+				        	$("#"+type+id).remove();
+				        	//window.location.href = "";
+				        } else {
+				           toastr.error("something went wrong!! please try again.");
+				        }
+				    });
+				}
+			});
 
+		});
+		$(".editThisBtn").off().on("click",function () 
+		{
+	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        var btnClick = $(this);
+	        var id = $(this).data("id");
+	        var type = $(this).data("type");
+	        editElement(type,id);
+		});
+	</script>
 <script type="text/javascript">
 	
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
@@ -602,6 +350,9 @@ if($showOdesc == true){
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
+		getAjax('#commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextData.id,function(){ 
+				
+			},"html");
 		activateEditableContext();
 		manageAllDayElement(allDay);
 		manageModeContextElement();
@@ -805,17 +556,7 @@ if($showOdesc == true){
 		listXeditablesDiv = [ '#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
 			listXeditablesDiv.push('#divInformation');
-		divInformation
-		if (mode == "view") {
-			$.each(listXeditablesDiv, function(i,value) {
-				$(value).hide();
-			});
-		} else if (mode == "update") {
-			$.each(listXeditablesDiv, function(i,value) {
-				$(value).show();
-			})
 		}
-	}
 
 	function manageSocialNetwork(iconObject, value) {
 		//console.log("-----------------manageSocialNetwork----------------------");

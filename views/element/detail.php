@@ -59,12 +59,16 @@ if($('#breadcum').length)
 	<div class=" col-xs-12">
 		<div class="col-xs-12">
 			<?php if ($type == "poi"){ ?>
+			<?php if($element["type"]=="video"){ 
+				$vieoLink=str_replace ( "&autoplay=1" , "&autoplay=0" , $element["medias"][0]["content"]["videoLink"]  );
+			?>
 				<div class="col-xs-12">
 					<div class="embed-responsive embed-responsive-16by9">
-						<iframe class="embed-responsive-item" src="https://player.vimeo.com/video/180005071?color=94b447"></iframe>
+						<iframe class="embed-responsive-item" src="<?php echo $vieoLink ?>"></iframe>
 					</div>
 				</div>
-				<div class="col-md-8 no-padding">
+				<?php } ?>
+				<div class="col-md-12">
 	    		<?php 
 	    			//var_dump(@$modeEdit);
 	    			$params = array(
