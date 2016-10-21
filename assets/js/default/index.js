@@ -152,11 +152,14 @@ function showMap(show)
 		isMapEnd =false;
 		hideMapLegende();
 
+		var iconMap = "map-marker";
+		if(typeof ICON_MAP_MENU_TOP != "undefined") iconMap = ICON_MAP_MENU_TOP;
+		console.log(ICON_MAP_MENU_TOP);
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
 		$(".panel_map").hide(1);
-		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
+		$("#btn-toogle-map").html("<i class='fa fa-"+iconMap+"'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
 		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 		//$(".lbl-btn-menu").show(400);
