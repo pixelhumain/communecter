@@ -715,7 +715,6 @@
 									"<input type='hidden' name='newElement_lng'>"+
 									"<input type='hidden' name='newElement_dep'>"+
 									"<input type='hidden' name='newElement_region'>"+
-									"<input type='hidden' name='update' value='false'>"+
 									"<hr class='col-md-12 col-xs-12'>"+
 									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
 									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newElement_btnValidateAddress' disabled='disabled'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
