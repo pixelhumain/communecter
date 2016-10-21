@@ -58,6 +58,9 @@
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
 
+  ** POI
+  [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
+
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
 [ ] ajouter une photo de votre ville 

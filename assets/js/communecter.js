@@ -1272,6 +1272,10 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     		console.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
+                //reset save btn 
+                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
+					$( settings.formId ).submit();	        	
+		        });
            	}
             else { 
                 toastr.success(data.msg);
