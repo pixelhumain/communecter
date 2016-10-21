@@ -1,6 +1,8 @@
+//Launch the js script with your command line
+//Exemple : mongo lamppost.17.mongolayer.com:10019/dbname --username XXX --password XXXX updateGeoPosElements.org > result.txt
 
 /* UPDATE INDEX GEOPOS ORGAS */
-
+print("**************************** UPDATING ORGA *****************************");
 db.organizations.find().forEach(function(doc){ 
 if(typeof doc.geo != "undefined") { 
 var lat = doc.geo.latitude; var lng = doc.geo.longitude;
@@ -21,8 +23,7 @@ db.organizations.createIndex({"geoPosition": "2dsphere"});
 
 
 /* UPDATE INDEX GEOPOS PROJECTS */
-
-
+print("**************************** UPDATING PROJECT *****************************");
 db.projects.find().forEach(function(doc){ 
 if(typeof doc.geo != "undefined") { 
 var lat = doc.geo.latitude; var lng = doc.geo.longitude;
@@ -41,11 +42,8 @@ db.projects.update({"_id":doc._id},{
 
 db.projects.createIndex({"geoPosition": "2dsphere"});
 
-
-
 /* UPDATE INDEX GEOPOS EVENTS */
-
-
+print("**************************** UPDATING EVENT *****************************");
 db.events.find().forEach(function(doc){ 
 if(typeof doc.geo != "undefined") { 
 var lat = doc.geo.latitude; var lng = doc.geo.longitude;
@@ -64,11 +62,8 @@ db.events.update({"_id":doc._id},{
 
 db.events.createIndex({"geoPosition": "2dsphere"});
 
-
-
 /* UPDATE INDEX GEOPOS PERSONS */
-
-
+print("**************************** UPDATING CITOYENS *****************************");
 db.citoyens.find().forEach(function(doc){ 
 if(typeof doc.geo != "undefined") { 
 var lat = doc.geo.latitude; var lng = doc.geo.longitude;
