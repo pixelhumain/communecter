@@ -64,12 +64,14 @@ function resizeInterface()
   $("#ajaxSV").css({"minHeight" : height});
   //$("#menu-container").css({"minHeight" : height});
   var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 60 /* top */ + 0 /* bottom */;
+  var menuTopHeight = $(".main-top-menu").height();// - $(".toolbar").height();
+  
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
-  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-50);
-  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-50);
-  $(".my-main-container").css("height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".my-main-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -139,7 +141,7 @@ function showMap(show)
 		$("body").addClass("inSig");
 
 		$(".my-main-container").animate({
-     							top: -1000,
+     							//top: -1000,
      							opacity:0,
 						      }, 'slow' );
 
@@ -163,7 +165,7 @@ function showMap(show)
 		$(".main-menu-left").removeClass("inSig");
 		$("body").removeClass("inSig");
 		$(".my-main-container").animate({
-     							top: 50,
+     							//top: 50,
      							opacity:1
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
