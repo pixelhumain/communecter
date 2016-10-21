@@ -37,8 +37,6 @@
 					</a>
 				</div>
 			</div>
-
-
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
 			<div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark-red lbh" href="#admin.index">
@@ -47,16 +45,6 @@
 			    </a>
 		    </div>
 			<?php } ?>	
-			<div class="col-xs-12 center no-padding">
-				<a class="btn bg-dark visible-xs padding-5" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
-			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
-			        <span class="notifications-count topbar-badge badge badge-danger animated bounceIn" 
-		        		  style="position:relative; top:-2px; left:unset;">
-		        		<?php count($this->notifications); ?>
-			        </span>
-			        Notifications
-			    </a>
-			</div>
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
