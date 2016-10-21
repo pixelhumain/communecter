@@ -67,7 +67,7 @@ db.events.createIndex({"geoPosition": "2dsphere"});
 
 db.citoyens.find().forEach(function(doc){ 
 if(typeof doc.geo != "undefined") { 
-var lat = doc.geo.latitude; var lng = doc.geo.longitude;
+var lat = parseFloat(doc.geo.latitude); var lng = parseFloat(doc.geo.longitude);
 if(lat > 90 || lat < -90){
 var tempLat = lat;
 lat = lng; lng = tempLat;
