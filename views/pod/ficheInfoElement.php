@@ -636,7 +636,7 @@ if($showOdesc == true){
 ?>
 
 <script type="text/javascript">
-
+	
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
 	var contextData = {
 		name : "<?php echo $element["name"] ?>",
@@ -707,11 +707,7 @@ if($showOdesc == true){
 			$("#btn-view-map").removeClass('hidden');
 
 		$("#btn-update-geopos").off().on( "click", function(){
-			console.log("btn-update-geopos", typeof updateLocality);
-			updateLocalityElement();
-			/*$("#ajax-modal").modal("hide");
-			showMap(true);
-			if(typeof updateLocality != "undefined"){ updateLocality(contextData.address, contextData.geo); }*/
+			updateLocalityEntities();
 		});
 
 		$("#btn-update-geopos-admin").click(function(){
@@ -743,7 +739,7 @@ if($showOdesc == true){
 					$('#address').trigger('click'); 
 					}, 500);
 				return false;*/
-				updateLocalityElement();
+				updateLocalityEntities();
 			});
 			console.log("modeEdit",modeEdit);
 			if(modeEdit == "true"){

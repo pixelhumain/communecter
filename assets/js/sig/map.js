@@ -814,8 +814,8 @@
 				$("#"+canvasId).css({"background-color": this.mapColor});
 
 				//initialisation des variables de départ de la carte
-				if(canvasId != "")
 				L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
+				if(canvasId != "")
 				var map =  L.mapbox.map(canvasId, 'mapbox.streets')
     						.setView([40, -74.50], 9);
 				/*var map = L.map(canvasId, { "zoomControl" : false,
@@ -871,7 +871,7 @@
 	 	this.Sig.addContextMap = function(contextMap, element, type)
 	 	{
 	 		
-			console.warn("--------------- addContextMap ---------------------");
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
 			var elementMap = {
 				name : element.name ,
 				username : element.username ,
@@ -889,6 +889,9 @@
 				type : element.type ,
 			}
 
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+			
 			contextMap[type].push(elementMap);
 			
 			return contextMap;

@@ -20,6 +20,11 @@ svg{
  	background-color:#FFF;
  }
 
+ .leaflet-popup-tip-container {
+    width: 30px!important;
+    height: 30px!important;
+    margin-top: -10px!important;
+}
  .leaflet-popup-content{
  	margin:5px 0px 0px -1px !important;
  	min-width:280px;
