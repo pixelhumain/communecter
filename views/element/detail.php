@@ -59,12 +59,12 @@ if($('#breadcum').length)
 	<div class=" col-xs-12">
 		<div class="col-xs-12">
 			<?php if ($type == "poi"){ ?>
-			<?php if($element["type"]=="video"){ 
-				$vieoLink=str_replace ( "&autoplay=1" , "&autoplay=0" , $element["medias"][0]["content"]["videoLink"]  );
+			<?php if($element["type"]=="video" && @$element["medias"]){ 
+				$vieoLink=str_replace ( "&autoplay=1" , "&autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
 					<div class="embed-responsive embed-responsive-16by9">
-						<iframe class="embed-responsive-item" src="<?php echo $vieoLink ?>"></iframe>
+						<iframe class="embed-responsive-item" src="<?php echo @$vieoLink ?>"></iframe>
 					</div>
 				</div>
 				<?php } ?>
@@ -73,6 +73,7 @@ if($('#breadcum').length)
 	    			//var_dump(@$modeEdit);
 	    			$params = array(
 	    				"element" => $element,
+						"parent" => $parent,
 						"tags" => $tags, 
 						"images" => array("profil"=>array($element["profilImageUrl"])),
 						"elementTypes" => @$listTypes,

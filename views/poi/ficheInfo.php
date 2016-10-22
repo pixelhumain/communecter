@@ -309,7 +309,7 @@ if($showOdesc == true){
 		address : <?php echo json_encode(@$element["address"]) ?>,
 		odesc : <?php echo json_encode($odesc) ?>
 	};	
-
+	
 	/*var showOdesc = "<?php echo $showOdesc ?>";
 	console.log(contextData.type, "contextControler", typeof contextControler);
 	
@@ -341,6 +341,8 @@ if($showOdesc == true){
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var contextType = "poi";
+	var parent = <?php echo json_encode(@$parent) ?>;
+	var poi = <?php echo json_encode(@$element) ?>;
 	//var tags = <?php echo json_encode($tags)?>;
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
@@ -350,6 +352,7 @@ if($showOdesc == true){
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
+		addParentInLeftMenu(parent,poi);
 		getAjax('#commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextData.id,function(){ 
 				
 			},"html");
@@ -411,7 +414,16 @@ if($showOdesc == true){
 			}
 		}
 	});
-
+	function addParentInLeftMenu(parent, poi){
+		str="";
+		if(typeof parent.profilMediumImageUrl != "undefined" && parent.profilMediumImageUrl != "")
+			src = baseUrl+parent.profilMediumImageUrl;
+		else
+			src = "<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg";
+		str += 	"<hr/><img src='"+src+"' class='img-responsive'>"+
+				"<span> Réalisé par <a href='#element.detail.type."+poi.parentType+".id."+poi.parentId+"' class='lbh'>"+parent.name+"</a></span>";
+		$("#poiParent").html(str);
+	}
 	function bindAboutPodElement() {
 		$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(contextData.id, "<?php echo $type ?>", contextData);

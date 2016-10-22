@@ -70,6 +70,7 @@ if($('#breadcum').length)
 	    			//var_dump(@$modeEdit);
 	    			$params = array(
 	    				"element" => $element,
+	    				"element" => $parent,
 						"tags" => $tags, 
 						"images" => array("profil"=>array($element["profilImageUrl"])),
 						"elementTypes" => @$listTypes,
