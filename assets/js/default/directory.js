@@ -404,8 +404,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         type = typeObj[o.type].col;
         // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
         //type += "s";
-        var url = '#news.index.type.'+type+'.id.' + id;
+
+		var url = '#news.index.type.'+type+'.id.' + id;
         if(type == "citoyens") url += '.viewer.' + userId;
+        if(type == "poi") 	 url = '#element.detail.type.poi.id.' + id;
         if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
         if(type == "surveys") url = "#survey.entry.id."+id;
         if(type == "actions") url = "#rooms.action.id."+id;
