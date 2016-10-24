@@ -866,26 +866,32 @@ class DatamigrationController extends CommunecterController {
 	}
 
 
-	public function actionDeleteDoublonLinks(){
+	public function actionDeleteLinksHimSelf(){
 		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
 			foreach ($elements as $keyElt => $elt) {
 				if(!empty($elt["links"])){
-					foreach (@$elt["links"] as $typeLinks => $links) {
+					$find = false;
+					$newLinks = array();
+					foreach(@$elt["links"] as $typeLinks => $links){
 						if(array_key_exists ($keyElt , $links)){
-							echo  $type." Elts: ".$typeLinks." " .$keyElt."<br>" ;
-							$res = PHDB::update( $type, 
-							  	array("_id"=>new MongoId($key)),
-		                        array('$set' => array(	"geoPosition" => $geoPosition,
-		                        						"modifiedByBatch" => $elt["modifiedByBatch"])), 
-		                        array('upsert' => true ));
-		                    $nbelement ++ ;
+							$find = true;
+		                    unset($links[$keyElt]);
 						}
+						$newLinks[$typeLinks] = $links;
+					}
+
+					if($find == true){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("deleteLinksHimSelf" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($keyElt)),
+	                        array('$set' => array(	"links" => $newLinks,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
 					}
 				}
-				
 			}
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
