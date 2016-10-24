@@ -643,7 +643,13 @@ if($showOdesc == true){
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>,
-		odesc : <?php echo json_encode($odesc) ?>
+		odesc : <?php echo json_encode($odesc) ?>,
+		<?php 
+		if( @$element["startDate"] )
+			echo "'startDate':'".$element["startDate"]."',";
+		if( @$element["endDate"] )
+			echo "'endDate':'".$element["endDate"]."'"; ?>
+
 	};	
 
 	/*var showOdesc = "<?php echo $showOdesc ?>";

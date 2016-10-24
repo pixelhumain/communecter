@@ -136,6 +136,20 @@ function addCustomValidators() {
     	else
     		return false;
     }, "Invalid : please stick to given values.");
+
+    jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
+	    if (!/Invalid|NaN/.test(new Date(value))) {
+	        return new Date(value) > new Date($(params[0]).val());
+	    }    
+	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+	},'Doit ètre aprés {1}.');
+
+	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
+		if( $(params[0]).val() && $(params[1]).val() ){
+	    return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
+		} 
+		return true;
+	},"Cette date exterieur à l'évènement parent.");
 }
 
 

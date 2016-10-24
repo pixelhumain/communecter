@@ -1272,6 +1272,10 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     		console.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
+                //reset save btn 
+                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
+					$( settings.formId ).submit();	        	
+		        });
            	}
             else { 
                 toastr.success(data.msg);
@@ -1672,8 +1676,8 @@ var typeObj = {
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	"subEvent" : function(){
-			    			    		
-			    		if(contextData.type == "event"){
+			    		//alert(contextData.type);
+			    		if(contextData.type == "events"){
 			    			$("#ajaxFormModal #parentId").removeClass('hidden');
 			    		
 		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
@@ -1683,19 +1687,23 @@ var typeObj = {
 			    			}
 			    			
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    				$("#ajaxFormModal #parentType").val( typeObj[contextData.type].ctrl ); 
 
-
+			    			if(contextData.startDate && contextData.endDate ){
+			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
+			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
+			    				$("#ajaxFormModal #startDate").after("<span><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    			}
 			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
 			    		}
 			    		else {
-
 				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
-			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+contextData.type+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
+			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+typeObj[contextData.type].ctrl+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
 			    			else if( contextData && contextData.id )
 				    			$("#ajaxFormModal #organizerId").val( contextData.id );
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( contextData.type );
+			    				$("#ajaxFormModal #organizerType").val( typeObj[contextData.type].ctrl );
 			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
 			    		}
 			    	}
@@ -1728,6 +1736,7 @@ var typeObj = {
 		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
 			        organizerId :{
+			        	"rules" : { "required" : true },
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
 		            	"options" : firstOptions(),
@@ -1782,12 +1791,19 @@ var typeObj = {
 		            startDate : {
 		                "inputType" : "datetime",
 		                "placeholder":"Date de début",
-			            "rules" : { "required" : true }
+			            "rules" : { 
+			            	required : true,
+			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
+			        	}
 		            },
 		            endDate : {
 		                "inputType" : "datetime",
 		                "placeholder":"Date de fin",
-			            "rules" : { "required" : true }
+			            "rules" : { 
+			            	required : true,
+			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
+			            	duringDates: ["#startDateParent","#endDateParent","la date de fin"]
+					    }
 		            },
 		            /*public : {
 		            	"inputType" : "hidden",
