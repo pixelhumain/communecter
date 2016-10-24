@@ -57,6 +57,12 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
 		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		if(NE_insee != ""){
+			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
+		
 		//$('[name="update"]').val("true");
 	}
 
@@ -424,9 +430,6 @@ function initUpdateLocality(address, geo, type){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
-		$("#divStreetAddress").removeClass("hidden");
-		$("#divPostalCode").removeClass("hidden");
-		$("#divCity").removeClass("hidden");
 		initDropdown();
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
