@@ -62,8 +62,6 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
 		}
-		
-		//$('[name="update"]').val("true");
 	}
 
 	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
@@ -528,6 +526,7 @@ function updateLocalityElement(){
 					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 
 					toastr.success(data.msg);
+					initData();
 					if(contextData.id != userId){
 						var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
 						if(typeMap == "citoyens")
@@ -547,6 +546,7 @@ function updateLocalityElement(){
 							loadByHash("#person.detail.id."+userId);
 						}
 					}
+
 					
 		    	}
 		    }
@@ -558,6 +558,7 @@ function updateLocalityElement(){
 		cpCommunexion = locality.address.postalCode ;
 		countryCommunexion = locality.address.addressCountry ;
 		setCookies("/");
+		initData();
 	}
 	
 }
@@ -617,6 +618,27 @@ function changeMenuCommunextion(locality){
 function initDropdown(){
 	$("#dropdown-newElement_cp-found").html("<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>");
 	$("#dropdown-newElement_city-found").html("<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>");
+}
+
+function initData(){
+	console.log("initData");
+	timeoutAddCity;
+	NE_insee = "";
+	NE_lat = "";
+	NE_lng = "";
+	NE_city = "";
+	NE_cp = "";
+	NE_street = "";
+	NE_country = "";
+	NE_dep = "";
+	NE_region = "";
+	typeSearchInternational = "";
+	formType = "";
+	updateLocality = false;
+	initDropdown();
+	$("#divStreetAddress").addClass("hidden");
+	$("#divPostalCode").addClass("hidden");
+	$("#divCity").addClass("hidden");
 }
 
 

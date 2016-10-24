@@ -865,5 +865,20 @@ class DatamigrationController extends CommunecterController {
 
 	}
 
+
+	public function actionDeleteDoublonLinks(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("links" => array('$exists' => 0)));
+			foreach ($elements as $key => $elt) {
+				foreach ($elt["links"] as $keyLinks => $links) {
+				
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 
