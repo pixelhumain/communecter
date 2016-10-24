@@ -30,8 +30,10 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 				  };
 	console.log(options);
 	var coordinates = new Array(0, 0);
-	if(typeof Sig.myPosition != "undefined")
-		var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
+	//if(typeof Sig.myPosition != "undefined")
+	if(typeof contextData.geo != "undefined" || contextData.geo == null || updateLocality == true)
+		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
+		//var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
 	//efface le marker s'il existe
 	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
