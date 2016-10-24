@@ -41,7 +41,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.centerSimple(coordinates, 12);
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
-								  "<a href='javascript:backToForm()' class='btn no-padding margin-top-10'>"+
+								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
 								  "</a>");
 
@@ -56,7 +56,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		$("#newElement_btnValidateAddress").prop('disabled', false);
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
 		//$('[name="update"]').val("true");
 	}
 
@@ -72,8 +72,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		if(updateLocality == true)
-			$("#newElement_btnValidateAddress").prop('disabled', false);
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
 		bindEventFormSig();
 	});
 
@@ -151,13 +150,8 @@ function bindEventFormSig(){
 
 	$('[name="newElement_country"]').change(function(){
 		console.log("change country");
-		NE_country = $('[name="newElement_cp"]').val() ;
-		NE_insee = "";
-		NE_lat = "";
-		NE_lng = "";
-		NE_city = "";
-		NE_cp = "";
-		NE_street = "";
+		NE_country = $('[name="newElement_country"]').val() ;
+		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";NE_cp = "";NE_street = "";
 		$('[name="newElement_insee"]').val(NE_insee);
 		$('[name="newElement_city"]').val(NE_city);
 		$('[name="newElement_cp"]').val(NE_cp);
@@ -165,6 +159,13 @@ function bindEventFormSig(){
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$("#newElement_btnValidateAddress").prop('disabled', true);
+		$("#divStreetAddress").addClass("hidden");
+		initDropdown();
+		if(NE_country != ""){
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
+			
 	});
 
 	$("#info_insee_latlng").html(
@@ -295,6 +296,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 						"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
 						);
 				$("#newElement_btnValidateAddress").prop('disabled', false);
+				$("#divStreetAddress").removeClass("hidden");
     		});
     		
     		
@@ -346,6 +348,7 @@ function searchAdressNewElement(){
 			var html = "";
 			$.each(res, function(key, value){ //console.log(allCities);
     			if(notEmpty(value.countryCode)){
+    				console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
     				if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
     					html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'>"+value.name+"</a></li>";
     				}
@@ -421,16 +424,13 @@ function initUpdateLocality(address, geo, type){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
+		$("#divStreetAddress").removeClass("hidden");
+		$("#divPostalCode").removeClass("hidden");
+		$("#divCity").removeClass("hidden");
+		initDropdown();
 	}else{
-		NE_insee = "";
-		NE_lat = "";
-		NE_lng = "";
-		NE_city = "";
-		NE_cp = "";
-		NE_street = "";
-		NE_country = "";
-		NE_dep = "";
-		NE_region = "";
+		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
+		NE_cp = "";NE_street = "";NE_country = "";NE_dep = "";NE_region = "";
 	}
 	formType = type ;
 	updateLocality = true;
@@ -611,5 +611,9 @@ function changeMenuCommunextion(locality){
 	$(".visible-communected").show();
 }
 
+function initDropdown(){
+	$("#dropdown-newElement_cp-found").html("<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>");
+	$("#dropdown-newElement_city-found").html("<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>");
+}
 
 
