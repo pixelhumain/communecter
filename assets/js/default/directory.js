@@ -385,8 +385,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
         color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
         
-        var urlImg = "/upload/communecter/color.jpg";
-        o.profilImageUrl = urlImg;
+       // var urlImg = "/upload/communecter/color.jpg";
+       // o.profilImageUrl = urlImg;
 
         var imgProfil ="<i class='fa fa-image fa-2x'></i>";
         if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
