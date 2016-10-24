@@ -1692,8 +1692,8 @@ var typeObj = {
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
 			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
 			    			}
 			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
 			    		}
@@ -1767,7 +1767,23 @@ var typeObj = {
 		            	"options" : {
 		            		"":"Pas de Parent"
 		            	},
-		            	"groupOptions" : myAdminList( ["events"] )
+		            	"groupOptions" : myAdminList( ["events"] ),
+		            	init : function(){
+			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
+			            		
+			            		parentId = $(this).val();
+			            		if( parentId != "" ){
+			            			$.each(myContacts.events,function (i,evObj) { 
+			            				//console.log("event : ",evObj["_id"]["$id"]);
+			            				if( evObj["_id"]["$id"] == parentId){
+			            					console.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
+				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
+				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
+				    					}
+			            			});
+			            		}
+			            	});
+			            }
 		            },
 		            parentType : {
 			            "inputType" : "hidden"
