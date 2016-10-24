@@ -77,6 +77,11 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
 		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		if(NE_insee != ""){
+			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
 		bindEventFormSig();
 	});
 
