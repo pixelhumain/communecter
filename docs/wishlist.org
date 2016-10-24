@@ -60,6 +60,10 @@
 
   ** POI
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
+  [ ] use Poi as social bookmarking
+    [ ] import from diigo, bookmarks or delicious
+    [ ] btn add to my favorites 
+    [ ] bookmarklet like diigo 
 
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
@@ -113,6 +117,8 @@
     - select types for what to upload 
     - see diffs
   - id unique : id_sourkeyInstance
+[.17] point d'entrée thématique sur la page d'acceuil 
+  - pour voir combien d'acteur oeuvre dans une thematique
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
