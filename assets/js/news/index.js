@@ -1084,7 +1084,8 @@ function initFormImages(){
 						"date" : new Date() , 
 						"size" : data.size ,
 						"doctype" : docType,
-						"contentKey" : contentKey
+						"contentKey" : contentKey,
+						"formOrigin" : "news"
 					};
 					console.log(doc);
 					path = "/"+data.dir+data.name;
