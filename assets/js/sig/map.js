@@ -813,16 +813,37 @@
 				$("#"+canvasId).html("");
 				$("#"+canvasId).css({"background-color": this.mapColor});
 
+				console.log("initParams", initParams);
 				//initialisation des variables de départ de la carte
+				//TODO not show accessToken here => use conf file or db
 				L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
-				if(canvasId != "")
-				var map =  L.mapbox.map(canvasId, 'mapbox.streets')
-    						.setView([40, -74.50], 9);
-				/*var map = L.map(canvasId, { "zoomControl" : false,
-											"scrollWheelZoom":true,
-											"center" : [51.505, -0.09],
-											"zoom" : 4,
-											"worldCopyJump" : false });*/
+				if(canvasId != ""){
+
+					var options = { "zoomControl" : false,
+									"scrollWheelZoom":true,
+									"center" : [51.505, -0.09],
+									"zoom" : 4,
+									"maxZoom" : 17,
+									"minZoom" : 3,
+									"worldCopyJump" : false };
+
+					if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "mapbox"){
+						var map =  L.mapbox.map(canvasId, 'mapbox.streets', options);
+		    						//.setView([51.505, -0.09], 9);
+	    			}else if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "OSM"){
+						var map = L.map(canvasId, options);
+						Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+							//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+							attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+							//subdomains: 'abc',
+							zIndex:1,
+							minZoom: 3,
+							maxZoom: 17
+						});
+
+						Sig.tileLayer.addTo(map).setOpacity(initParams.mapOpacity);
+					}
+				}
 			}else{
 				var map = this.map;
 			}
@@ -833,16 +854,7 @@
 			Sig.map.minZoom = 3;
 			Sig.map.maxZoom = 17;
 
-			/*Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-				//subdomains: 'abc',
-				zIndex:1,
-				minZoom: 3,
-				maxZoom: 17
-			});*/
-
-			//Sig.tileLayer.addTo(map);//.setOpacity(initParams.mapOpacity);
+			
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
