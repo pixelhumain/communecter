@@ -139,7 +139,7 @@
 				<i class="fa fa-chevron-up"></i></button>
 			</div>
 
-			<?php if(@$sigParams['useSatelliteTiles'] && false){ ?>
+			<?php if(@$sigParams['useSatelliteTiles']){ ?>
 				<div class="btn-group btn-group-lg hidden-xs tooltips"
 					 data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
 					<button type="button" class="btn btn-map " id="btn-satellite" >

@@ -50,6 +50,17 @@
 		height:<?php echo (int)$mapHeight - 60; ?>px;
 		top:<?php echo (int)$mapTop + 30; ?>px;
 	}
+	.<?php echo $moduleName; ?> .right_tool_map_header,
+	.<?php echo $moduleName; ?> .panel_map,
+	.<?php echo $moduleName; ?> .btn-panel{
+		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+	}
+
+	.<?php echo $moduleName; ?> 
+	#pagination > li.active a{
+		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+		border-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+	}
 
 	.<?php echo $moduleName; ?>
 	#lbl-chk-scope{
@@ -70,7 +81,7 @@
 		position:absolute !important;
 		/*right:<?php echo $right; ?>;*/
 		left:20px;
-		top:<?php echo $mapTop+30; ?>px;
+		top:<?php echo (int)$mapTop+30; ?>px;
 	}
 	
 	.<?php echo $moduleName; ?>
