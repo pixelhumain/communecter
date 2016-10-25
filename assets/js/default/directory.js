@@ -392,7 +392,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
           imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
         }
-
+        if(typeObj[o.type].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+			imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>"
         var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
         // if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
         //   htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilImageUrl+"'/>"
