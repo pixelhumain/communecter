@@ -890,6 +890,7 @@ class DatamigrationController extends CommunecterController {
 						  	array("_id"=>new MongoId($keyElt)),
 	                        array('$set' => array(	"links" => $newLinks,
 	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						echo "Suppression du link pour le type : ".$type." et l'id ".$keyElt;
 					}
 				}
 			}

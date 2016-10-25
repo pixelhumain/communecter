@@ -13,6 +13,9 @@
 ----------------------------------------------------
 ----------------------------------------------------
 * Version 0.16
+** @Rapha : Suppression des links en doublons sur les orgas
+/communecter/datamigration/DeleteLinksHimSelf
+
 
 ----------------------------------------------------
 * Version 0.15
