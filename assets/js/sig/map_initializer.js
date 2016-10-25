@@ -166,10 +166,16 @@
 						thisSig.tileMode = "satellite";
 						
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
-						thisSig.tileLayer = L.tileLayer('https://api.mapbox.com/v3/mapbox.dark.json', //http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
-														{maxZoom:17,
-														 minZoom:3}).addTo(Sig.map);
-						
+
+						/* chargement fond de carte SATELLITE */
+						if(params.mapProvider == "OSM"){
+							thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', //http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
+															{maxZoom:17, minZoom:3}).addTo(Sig.map);
+						}else if(params.mapProvider == "mapbox"){
+							thisSig.tileLayer = L.mapbox.tileLayer('mapbox.satellite',{maxZoom:17, minZoom:3}).addTo(thisSig.map);
+						}	
+
+						/* chargement des routes */
 						thisSig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
 							ext: 'png',
 							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -181,6 +187,7 @@
 						});
 						thisSig.roadTileLayer.addTo(thisSig.map);
 						
+						/* chargement des noms */
 						thisSig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
 												attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 												subdomains: 'abcd',
@@ -192,26 +199,35 @@
 											});
 						thisSig.StamenTonerLabels.addTo(thisSig.map);
 
+
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
 
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
 
-						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
-												{maxZoom:17,
-												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(thisSig.map);
-						
+						/* chargement fond de carte TERRAIN */
+						if(params.mapProvider == "OSM"){
+							thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
+													{maxZoom:17,
+													 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(thisSig.map);
+						}else if(params.mapProvider == "mapbox"){
+							/* mapBox fourni le fond de carte, les rues et les noms en même temps */
+							thisSig.tileLayer = L.mapbox.tileLayer('mapbox.streets',{maxZoom:17, minZoom:3}).addTo(thisSig.map);
+						}
+
+						/* efface les routes */
 						if(thisSig.roadTileLayer != null) {
 							if(thisSig.roadTileLayer != null) thisSig.map.removeLayer(thisSig.roadTileLayer);
 						}
 
+						/* efface les noms */
 						if(thisSig.StamenTonerLabels != null) {
 							if(thisSig.StamenTonerLabels != null) thisSig.map.removeLayer(thisSig.StamenTonerLabels);
 						}
-						
 					}
-					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
-						thisSig.map.setZoom(thisSig.map.getMaxZoom());
+					console.log("maxZoom", thisSig.map.getZoom(), 17);
+					if(thisSig.map.getZoom() > thisSig.map.maxZoom )
+						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
 			}
 		};

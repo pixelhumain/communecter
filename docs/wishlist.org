@@ -101,7 +101,7 @@
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
-[.17] bouton share non intrusif 
+[.17] bouton share (Social) non intrusif 
 [ ] interoperability
 [ ] system de synchronisation between instances : download + upload 
   - download from OCDB
@@ -110,6 +110,8 @@
     - select types for what to upload 
     - see diffs
   - id unique : id_sourkeyInstance
+[ ] Post outside : ne pas juste utiliser les mails 
+  - user pourront demander des push sur differentes destination FB, twitter, 
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
