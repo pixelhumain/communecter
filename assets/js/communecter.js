@@ -1263,8 +1263,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	formData = $(formId).serializeFormJSON();
 	console.log("before",formData);
 	formData = formatData(formData,collection,ctrl);
-	formData.media = [];
-	/*$(".resultGetUrl").each(function(){
+	formData.medias = [];
+	$(".resultGetUrl").each(function(){
 		if($(this).html() != ""){
 			mediaObject=new Object;	
 			if($(this).find(".type").val()=="url_content"){
@@ -1290,9 +1290,9 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 					mediaObject.images.push($(this).val());	
 				});
 			}
-			formData.media.push(mediaObject);
+			formData.medias.push(mediaObject);
 		}
-	});*/
+	});
 	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
