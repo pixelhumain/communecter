@@ -400,7 +400,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
         city="";
 
-        var postalCode = o.cp
+        var postalCode = "";
         if (o.address != null) {
           city = o.address.addressLocality;
           postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
@@ -479,7 +479,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         
         //template principal
         str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer'>";
-          str += "<div class='searchEntity'>";
+        str +=    "<div class='searchEntity'>";
 
           if(userId != null){
                   isFollowed=false;
@@ -497,7 +497,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           if(updated != null)
               str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
               
-            str += "<div class='container-img-profil'>" + imgProfil + "</div>";
+            str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
             str += "<div class='padding-10'>";
 
@@ -520,9 +520,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
                 
                 
-                //var thisLocality = "";
+                var thisLocality = "";
                 if(fullLocality != "" && fullLocality != " ")
-                     thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
+                     thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'>"+
+                                      "<i class='fa fa-home'></i> " + fullLocality + 
+                                    "</a>";
                 else thisLocality = "<br>";
                 
                 //debat / actions
