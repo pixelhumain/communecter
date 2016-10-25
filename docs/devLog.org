@@ -16,6 +16,10 @@
 ** @Rapha : Suppression des links en doublons sur les orgas
 /communecter/datamigration/DeleteLinksHimSelf
 
+** @tango : Batch de reprise des geo.Point sur les elements
+exécuter updateGeoPosElement.org sur la base
+Exemple : 
+mongo localhost:10019/bdname --username user --password pass updateGeoPosElements.org > result.txt
 
 ----------------------------------------------------
 * Version 0.15
