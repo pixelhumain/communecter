@@ -1802,7 +1802,28 @@ var typeObj = {
 		            		"labelText":"Journée",
 		            		"onChange" : function(){
 		            			//TODO SBAR : change date time to date picker
-
+		            			var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			if (allDay) {
+		            				console.log("init dateInput");
+		            				$(".dateTimeInput").addClass("dateInput");
+		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$(".dateInput").datetimepicker({ 
+								        autoclose: true,
+								        lang: "fr",
+								        format: "d/m/Y",
+								        timepicker:false
+								    });
+		            			} else {
+		            				console.log("init dateTimeInput");
+		            				$(".dateInput").addClass("dateTimeInput");
+		            				$(".dateInput").removeClass("dateInput");
+		            				$(".dateTimeInput").datetimepicker({ 
+					       				weekStart: 1,
+										step: 15,
+										lang: 'fr',
+										format: 'Y/m/d H:i'
+								    });
+		            			}
 		            		}
 		            	}
 		            },
@@ -1820,7 +1841,7 @@ var typeObj = {
 			            "rules" : { 
 			            	required : true,
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
-			            	duringDates: ["#startDateParent","#endDateParent","la date de fin"]
+			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
 					    }
 		            },
 		            /*public : {
