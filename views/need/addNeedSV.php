@@ -1,11 +1,11 @@
 <?php
 $cssAnsScriptFilesTheme = array(
-	'/assets/plugins/ion.rangeSlider/js/ion.rangeSlider.min.js',
-	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.css',
-	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
-	'/assets/plugins/ion.rangeSlider/css/normalize.min.css',
+	'/plugins/ion.rangeSlider/js/ion.rangeSlider.min.js',
+	'/plugins/ion.rangeSlider/css/ion.rangeSlider.css',
+	'/plugins/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
+	'/plugins/ion.rangeSlider/css/normalize.min.css',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 
 	/*$cssAnsScriptFilesModule = array(
@@ -16,7 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		//'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 		'/plugins/autosize/jquery.autosize.min.js'
 	);
-	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");*/
+	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."");*/
 ?>
 <style>
 

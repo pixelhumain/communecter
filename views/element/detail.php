@@ -1,35 +1,32 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//X-editable
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/x-editable/js/bootstrap-editable.js' , 
 
 	//DatePicker
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	'/plugins/bootstrap-datepicker/css/datepicker.css',
 	
 	//DateTime Picker
-	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	//Wysihtml5
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js',
-	'/assets/plugins/moment/min/moment.min.js',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/wysihtml5.js',
 	//SELECT2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
 //if ($type == Project::COLLECTION)
 //	array_push($cssAnsScriptFilesTheme, "/assets/plugins/Chart.js/Chart.min.js");
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',

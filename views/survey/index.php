@@ -9,10 +9,10 @@
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
   $cssAnsScriptFilesModule = array(
-    //'/assets/plugins/share-button/ShareButton.min.js' , 
-    '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+    //'/plugins/share-button/ShareButton.min.js' , 
+    '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
   $commentActive = true;
 ?>

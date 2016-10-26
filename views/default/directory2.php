@@ -4,7 +4,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js' 
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
