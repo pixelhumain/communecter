@@ -243,13 +243,13 @@ if($('#breadcum').length)
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
-
+									<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
 				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
 				                        </a><br/><span class="discover-subtitle">Évènement</span>
 				                    </div>
-				                    
+				                    <?php } ?>
 				                    <div class="col-xs-6  center text-purple btnSubTitle">
 				                        <a href="javascript:openForm('project')" class="btn btn-discover bg-purple">
 				                          <i class="fa fa-lightbulb-o"></i>
@@ -294,26 +294,28 @@ if($('#breadcum').length)
 			</div>
 			<?php } ?>
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
-			<div class="col-xs-12">
-				<?php 
-					$organizerImg=false;
-					if($type==Event::COLLECTION){ 
-						$organizerImg=true;
+	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
+				<div class="col-xs-12">
+					<?php 
+						$organizerImg=false;
+						if($type==Event::COLLECTION){ 
+							$organizerImg=true;
+							if(empty($subEvents)) $subEvents = array();
+							$events=$subEvents;
+						}
+						if(!isset($eventTypes)) $eventTypes = array();
 						if(empty($subEvents)) $subEvents = array();
-						$events=$subEvents;
-					}
-					if(!isset($eventTypes)) $eventTypes = array();
-					if(empty($subEvents)) $subEvents = array();
-					$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
-																		"contextId" => (String) $element["_id"],
-																		"contextType" => $controller,
-																		"list" => $eventTypes,
-																		"authorised" => $edit,
-																		"organiserImgs"=> $organizerImg,
-																		"openEdition" => $openEdition
-																	  ));
-				?>						  
-			</div>
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+																			"contextId" => (String) $element["_id"],
+																			"contextType" => $controller,
+																			"list" => $eventTypes,
+																			"authorised" => $edit,
+																			"organiserImgs"=> $organizerImg,
+																			"openEdition" => $openEdition
+																		  ));
+					?>						  
+				</div>
+				<?php } ?>
 			<?php } ?>
 
 
@@ -350,6 +352,7 @@ if($('#breadcum').length)
 						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
 				?>
 	    	</div>	
+	    	<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"])){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],
@@ -360,6 +363,7 @@ if($('#breadcum').length)
 																	  )); ?>
 
 			</div>
+			<?php } ?>
 		<?php } ?>
 		</div>
 
@@ -367,7 +371,7 @@ if($('#breadcum').length)
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 			
 			<?php 
-
+				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"])){ 
 				$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 				$this->renderPartial('../pod/activityList2',array(    
 	   					"parent" => $element, 
@@ -377,7 +381,7 @@ if($('#breadcum').length)
                     	"list" => @$rooms, 
 	                    "renderPartial" => true
 	                    ));
-				
+				}
 			}
 			?>
 			<?php if($type==Project::COLLECTION){ ?> 
