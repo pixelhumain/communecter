@@ -108,13 +108,16 @@ function bindEventFormSig(){
 	});
 	$('[name="newElement_cp"]').keyup(function(){ 
 		$("#dropdown-cp-found").show();
-		if($('[name="newElement_cp"]').val()!=""){
+		console.log("newElement_cp",$('[name="newElement_cp"]').val().length);
+		if($('[name="newElement_cp"]').val().length > 0){
+			console.log("newElement_cp",$('[name="newElement_cp"]').val().length);
 			NE_cp = $('[name="newElement_cp"]').val();
 			changeSelectCountrytim();
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
 		}
 	});
+
 	$('[name="newElement_streetAddress"]').keyup(function(){ 
 		$("#dropdown-cp-found").show();
 		NE_street = $('[name="newElement_streetAddress"]').val();
@@ -132,7 +135,7 @@ function bindEventFormSig(){
 	$('[name="newElement_cp"]').focus(function(){
 		$(".dropdown-menu").hide();
 		$("#dropdown-newElement_cp-found").show();
-		if($('[name="newElement_cp"]').val() != ""){
+		if($('[name="newElement_cp"]').val().length > 0){
 			autocompleteFormAddress("cp", $('[name="newElement_cp"]').val());
 		}
 	});
@@ -309,8 +312,6 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				$("#newElement_btnValidateAddress").prop('disabled', false);
 				$("#divStreetAddress").removeClass("hidden");
     		});
-    		
-    		
 	    },
 		error: function(error){
     		$("#dropdown-newElement_"+currentScopeType+"-found").html("error");
