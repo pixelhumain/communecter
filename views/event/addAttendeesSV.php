@@ -4,10 +4,10 @@ if(@$event) {
 	$this->renderPartial('../default/panels/toolbar'); 
 }
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
 $admin = false;
 if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){

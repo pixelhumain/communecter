@@ -1160,14 +1160,14 @@ function  buildQRCode(type,id) {
 
 function activateSummernote(elem) { 
 		
-	if( !$('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+	if( !$('script[src="'+baseUrl+'/plugins/summernote/dist/summernote.min.js"]').length )
 	{
 		$("<link/>", {
 		   rel: "stylesheet",
 		   type: "text/css",
-		   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+		   href: baseUrl+"/plugins/summernote/dist/summernote.css"
 		}).appendTo("head");
-		$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+		$.getScript( baseUrl+"/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
 		  //console.log( data ); // Data returned
 		  //console.log( textStatus ); // Success
 		  //console.log( jqxhr.status ); // 200
@@ -2301,7 +2301,7 @@ function myAdminList (ctypes) {
 			myList[ ctype ] = { label: ctype, options:{} };
 			$.each( myContacts[ ctype ],function(id,elemObj){
 				//console.log(ctype+"-"+id+"-"+elemObj.name);
-				if( notNull(elemObj.links) && notNull(elemObj.links[connectionType]) && notNull(elemObj.links[connectionType][userId]) && notNull(elemObj.links[connectionType][userId].isAdmin) ){
+				if( elemObj.links && elemObj.links[connectionType] && elemObj.links[connectionType][userId] && elemObj.links[connectionType][userId].isAdmin) {
 					//console.warn(ctype+"-"+id+"-"+elemObj.name);
 					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
 				}
@@ -2325,7 +2325,7 @@ function globalSearch(searchValue,types){
 	};
 	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
 	$("#similarLink").show();
-	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin fa-"></i>').prop("disabled",true);
+	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin"></i>').prop("disabled",true);
 	$.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",

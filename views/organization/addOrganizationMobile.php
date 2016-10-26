@@ -1,9 +1,9 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 
-$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags-Input/jquery.tagsinput.css');
+$cs->registerCssFile(Yii::app()->request->baseUrl. '/plugins/jQuery-Tags-Input/jquery.tagsinput.css');
 //$cs->registerScriptFile(Yii::app()->request->baseUrl. '/js/bootstrap/bootstrap-typeahead.js' , CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jQuery-Tags-Input/jquery.tagsinput.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/jQuery-Tags-Input/jquery.tagsinput.js' , CClientScript::POS_END);
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="noteWrap col-md-8 col-md-offset-2">

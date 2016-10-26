@@ -1,10 +1,10 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 
 <div id="changePassword" >

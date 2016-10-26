@@ -1,6 +1,6 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
 ?>
 <style>
 body.login .main-login {
