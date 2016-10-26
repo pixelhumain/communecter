@@ -10,7 +10,6 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 
 <div class="hide menuSmall">
 	<div class="menuSmallMenu">
-
 		<?php if(!isset(Yii::app()->session['userId'])){ ?>
 		<div class="col-md-3 col-sm-3 col-xs-12 center no-padding margin-bottom-15">
 			<div class="col-md-12 col-sm-12 col-xs-6">
@@ -58,18 +57,21 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 			        Notifications
 			    </a>
 			</div>
+			<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["live"])){ ?>
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 
 			        Mon journal
 			    </a>
 		    </div>
+		    <?php } ?>
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#person.directory.id.<?php echo Yii::app()->session['userId'] ?>?tpl=directory2">
 			        <i class="fa fa-group" style="font-size: 1em!important;"></i> 
 			        Mon répertoire
 			    </a>
 		    </div>
+			<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"])){ ?>
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" 
 			    	href="#rooms.index.type.citoyens.id.<?php echo Yii::app()->session['userId']?>">
@@ -79,7 +81,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 			        <br>Coopération
 			    </a>
 		    </div>
-		    
+		    <?php } ?>
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-red padding-5" 
 			    	href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/person/logout'); ?>">
@@ -95,23 +97,29 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 	  	<div class="col-md-9 col-sm-9 col-xs-12 no-padding">
 
 	  		<div class="col-md-12 col-sm-12 margin-15">
+	  		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["live"])){ ?>
 				<div class="col-md-4 col-sm-4 center">
 					<a class="btn bg-azure lbh" href="#default.live"  >
 					<i class="fa fa-heartbeat"></i> <br class="hidden-xs">Live</a>
 				</div>
+				<?php } ?>
+				<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["recherche"])){ ?>
 				<div class="col-md-4 col-sm-4 center">
 			    	<a class="btn bg-azure lbh" href="#default.directory" >
 			    	<i class="fa fa-search"></i> <br class="hidden-xs">Recherche</a>
 			    </div>
+			    <?php } ?>
+			    <?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
 				<div class="col-md-4 col-sm-4 center">
 					<a class="btn bg-azure lbh" href="#default.agenda"  >
 					<i class="fa fa-calendar"></i> <br class="hidden-xs">Agenda</a>
 				</div>
+				<?php } ?>
 			</div>
 			
 
 			<div class="col-md-12 col-sm-12 padding-15">
-			    
+			    <?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"])){ ?>
 				<?php if(!isset($myCity)){?>
 					<div class="col-md-12 center hide-communected">
 						<a class="btn bg-red" href="javascript:;" onclick="communecterUser()">
@@ -137,7 +145,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 						<span class="hidden-xs">Mon c</span><span class="hidden-sm hidden-md hidden-lg">C</span>onseil citoyen
 					</a>
 				</div>
-				
+				<?php } ?>
 				<?php if(isset(Yii::app()->session['userId'])){ ?>
 					<div class="col-md-12 col-sm-12  col-xs-12 no-padding">
 						<hr style="border-top: 1px solid transparent; margin:7px;">
@@ -146,6 +154,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 							<i class="fa fa-angle-down"></i> 
 						</h2>
 					</div>
+					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["person"]==true)){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
 						<a href="javascript:openForm('person')" class="btn bg-yellow">
@@ -154,6 +163,8 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
 						</a>
 					</div>
+					<?php } ?>
+					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["organization"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
 						<a href="javascript:openForm('organization')" class="btn bg-green">
@@ -164,6 +175,8 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 							</span>
 						</a>
 					</div>
+					<?php } ?>
+					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["project"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
 						<a href="javascript:openForm('project')" class="btn bg-purple">
@@ -174,6 +187,8 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 							</span>
 						</a>
 					</div>
+					<?php } ?>
+					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
 						<a href="javascript:openForm('event')" class="btn bg-orange">
@@ -184,6 +199,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 							</span>
 						</a>
 					</div>
+					<?php } ?>
 				<?php } ?>
 
 				<div class="col-xs-12  no-padding">

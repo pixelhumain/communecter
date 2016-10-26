@@ -58,6 +58,12 @@
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
 
+  ** Needs
+  [.17] visualisation de la banque des besoins 
+    - section besoin
+    - filtre par type de besoin
+    - par type d'acteur 
+
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
 [ ] ajouter une photo de votre ville 
