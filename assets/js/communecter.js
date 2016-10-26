@@ -1802,7 +1802,7 @@ var typeObj = {
 		            		"labelText":"Journée",
 		            		"onChange" : function(){
 		            			//TODO SBAR : change date time to date picker
-		            			
+
 		            		}
 		            	}
 		            },
