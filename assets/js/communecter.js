@@ -1790,20 +1790,22 @@ var typeObj = {
 			        },
 			        type :{
 		            	"inputType" : "select",
-		            	"placeholder" : "Type d\'évènnment",
+		            	"placeholder" : "Type d\'évènement",
 		            	"options" : eventTypes,
 		            	"rules" : { "required" : true },
 		            },
-
-		            /*allday : {
+		            allday : {
 		            	"inputType" : "checkbox",
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
 		            		"labelText":"Journée",
-		            		//"onChange" : function(){}
+		            		"onChange" : function(){
+		            			//TODO SBAR : change date time to date picker
+		            			
+		            		}
 		            	}
-		            },*/
+		            },
 		            startDate : {
 		                "inputType" : "datetime",
 		                "placeholder":"Date de début",
@@ -1834,7 +1836,7 @@ var typeObj = {
 		            },
 		            tags :{
 		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
+		              "placeholder" : "Tags de l\'événement",
 		              "values" : tagsList
 		            },
 		            formshowers : {
