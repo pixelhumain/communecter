@@ -1,15 +1,15 @@
 .btn-add-to-directory{
-		font-size: 14px;
-		margin-right: 0px;
-		border-radius: 6px;
-		color: #666;
-		border: 1px solid rgba(188, 185, 185, 0.69);
-		margin-left: 3px;
-		float: left;
-		padding: 1px;
-		width: 24px;
-		margin-top: 15px;
-	}
+    font-size: 14px;
+    border-radius: 50%;
+    color: #666;
+    border: 1px solid rgba(188, 185, 185, 0.69);
+    margin-right: 6px;
+    padding: 4px 2px;
+    width: 30px;
+    position: absolute;
+    top: -11px;
+    left: 3px;
+  }
   .img-logo {
     height: 290px;
   }
@@ -61,16 +61,187 @@
     width: 103%;*/
   }
 
-  
+  .dateUpdated {
+    position: absolute;
+    right: 15px;
+    top: 0px;
+    background: #2a2a2ab3;
+    padding: 2px 8px;
+    border-radius: 0px 0px 0px 7px;
+    font-size: 12px;
+    color: #E9E9E9;
+    font-weight: 600;
+  }
+
+
+.searchEntity{
+  margin-bottom:15px;
+  margin-left:0px;
+  min-height: 60px !important;
+  float: left;
+  width: 100%;
+}
+.searchEntity .entityLeft{
+  text-align: right;
+  padding-top: 20px;
+  margin-right: 0%;
+  padding-right: 0px;
+}
+.searchEntity .entityLeft .badge{
+  margin:2px;
+  margin-top:8px;
+}
+.searchEntity .entityCenter{
+  text-align: center;
+  max-width: 115px;
+  float:right;
+  margin-top:-40px;
+}
+.searchEntity .entityCenter i.fa, 
+.searchEntity .entityCenter img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 33px;
+  padding: 19px 21px;
+}
+.searchEntity .entityCenter img{
+  padding: 3px;
+  /*background-color: #CADDE9 !important;*/
+}
+.searchEntity .entityCenter i.fa.fa-calendar{
+  font-size: 19px;
+  padding: 12px;
+}
+.searchEntity .entityCenter i.fa.fa-user{
+  font-size: 21px;
+  padding: 12px;
+}
+.searchEntity .entityCenter i.fa.fa-users{
+  font-size: 17px;
+  padding: 14px 13px;
+}
+.searchEntity .entityCenter i.fa.fa-university{
+  font-size: 16px;
+  padding: 14px 14px;
+}
+.searchEntity .entityCenter i.fa.fa-lightbulb-o{
+  font-size: 21px;
+  padding: 13px 16px;
+}
+.searchEntity .entityCenter i.fa.fa-gavel{
+  font-size: 19px;
+  padding: 13px 13px;
+}
+.searchEntity .entityCenter i.fa.fa-cogs{
+  font-size: 18px;
+  padding: 14px 12px;
+}
+.searchEntity .entityCenter i.fa.fa-info-circle{
+  font-size: 18px;
+  padding: 14px 12px;
+}
+.searchEntity .entityRight{
+  text-align: left;
+  padding-top: 0px !important;
+  margin-left: -1%;
+}
+
+.searchEntity .entityRight .entityName{
+  font-size:13px;
+  line-height: 15px;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.searchEntity .entityRight .entityName:hover{
+  text-decoration: underline!important;
+}
+.searchEntity .entityRight .entityLocality{
+  font-size: 10px;
+  line-height: 17px;
+  font-weight: 600;
+  width:100%;
+  display: block;
+  margin-bottom: 2px;
+}
+.searchEntity .entityRight .entityDescription{
+  font-size: 11px;
+  line-height: 17px;
+  width: 100%;
+  display: block;
+  font-weight: 300;
+  max-height: 48px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.searchEntity .entityRight .entityDate{
+  font-size: 12px;
+  line-height: 17px;
+  margin-right:4px;
+  display: inline-block;
+  max-height: 205px;
+  overflow: hidden;
+  text-align: left;
+  padding: 2px 9px;
+  /*background-color: rgb(190, 223, 228) !important;
+  color: rgb(45, 99, 125) !important;*/
+  font-weight: 500;
+}
+
+
+  .searchEntityContainer{
+    min-height: 270px !important;
+    max-height: 270px !important;
+    margin-bottom: 25px !important;
+  }
   .searchEntity{
-    padding: 10px 0 10px 0 !important;
+    padding: 0px !important;
     margin: 0px !important;
-    border-top: solid rgba(128, 128, 128, 0.2) 1px;
+    /*border-top: solid rgba(128, 128, 128, 0.2) 1px;*/
     margin-left: 0% !important;
     width: 100%;
+    box-shadow: 0px 0px 5px -1px #808080b3;
   }
   .searchEntity:hover{
     background-color: rgba(211, 211, 211, 0.2);
+  }
+
+  .searchEntity .tagsContainer{
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .searchEntity .entityDate{
+    float: left;
+    margin-left: -10px;
+    border-radius: 0px 5px 0px 0px;
+    padding: 4px 10px;
+  }
+  .searchEntity .entityDate.dateFrom{
+    margin-top: -50px;
+  }
+  .searchEntity .entityDate.dateTo{
+    margin-top: -30px;
+    border-radius: 0px;
+  }
+ 
+  .bg-orange.transparent{
+    background-color: #FFA200B3 !important;
+  }
+  .bg-purple.transparent{
+    background-color: #8C5AA1B3 !important;
+  }
+  .bg-azure.transparent{
+    background-color: #2BB0C6B3 !important;
+  }
+  .bg-blue.transparent{
+    /*background-color: #C5AA1B3,*/
   }
 
   .row.headerDirectory{
@@ -87,6 +258,27 @@
     padding: 3px 8px;
   }
 
+  .container-img-profil{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-height:150px;
+    max-height: 150px;
+    overflow: hidden;
+    background-color: #d3d3d366;
+    text-align: center;
+  }
+
+  .container-img-profil i.fa {
+      margin-top: 45px;
+      font-size: 50px;
+      color:rgba(255, 255,255, 0.8);
+  }
+
+  .container-img-profil img.img-responsive{
+    float: left;
+    border-radius: 3px 3px 0px 0px;
+  }
 
   @media screen and (max-width: 1024px) {
     #menu-directory-type .hidden-sm{
@@ -101,6 +293,11 @@
   #searchBarText{
     font-size:13px !important;
     margin-right:-30px;
+  }
+  .searchEntityContainer{
+    max-height: 270px !important;
+    min-height: 100px !important;
+    margin-bottom: 25px !important;
   }
   /*.btn-add-to-directory {
       position: absolute;
