@@ -1,10 +1,10 @@
 <?php
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 $userId = Yii::app()->session["userId"] ;
 ?>
 <div class="panel panel-white">

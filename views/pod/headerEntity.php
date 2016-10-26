@@ -1,14 +1,14 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 		
-	'/plugins/Chart.js/Chart.min.js',
-	'/plugins/jquery.qrcode/jquery-qrcode.min.js',
-	'/plugins/Chart.js/Chart.min.js',
+	'/assets/plugins/Chart.js/Chart.min.js',
+	'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js',
+	
 	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	//'/js/dataHelpers.js',
@@ -16,6 +16,12 @@ $cssAnsScriptFilesModule = array(
 	//'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
+
+$cssAnsScriptFilesModuleSS = array(
+	'/plugins/Chart.js/Chart.min.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
 
 $controler = Element::getControlerByCollection($type);
 ?>

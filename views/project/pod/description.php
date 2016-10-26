@@ -1,17 +1,18 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	'/assets/plugins/x-editable/css/bootstrap-editable.css',
 	//X-editable...
-	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/plugins/x-editable/js/bootstrap-editable.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/plugins/wysihtml5/wysihtml5.js',
+	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js',
+	'/assets/plugins/moment/min/moment.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',

@@ -1,12 +1,9 @@
 <?php
 	$cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js',
-	);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
-	$cssAnsScriptFilesModule = array(
 	'/js/pages-gallery.js',
 	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
 

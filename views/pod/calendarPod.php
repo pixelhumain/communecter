@@ -3,12 +3,13 @@
   $cssAnsScriptFilesModule = array(
 	
     //Full calendar
-    '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
-    '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/plugins/fullcalendar/fullcalendar/lang/fr.js'
+    '/assets/plugins/moment/min/moment.min.js',
+    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+    '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
     );
 
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
 ?>
 

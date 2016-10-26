@@ -1,8 +1,8 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
-$cs->registerCssFile(Yii::app()->request->baseUrl. '/plugins/datepicker/css/datepicker.css');
-$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-validation/dist/jquery.validate.min.js' , CClientScript::POS_END);
+$cs->registerCssFile(Yii::app()->theme->baseUrl. '/assets/plugins/datepicker/css/datepicker.css');
+$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' , CClientScript::POS_END);
 
 //Data helper
 $cs->registerScriptFile($this->module->assetsUrl. '/js/dataHelpers.js' , CClientScript::POS_END);

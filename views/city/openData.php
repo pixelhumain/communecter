@@ -2,10 +2,10 @@
 
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-	'/plugins/nvd3/lib/d3.v3.js',
-	'/plugins/nvd3/nv.d3.js',
+	'/assets/plugins/nvd3/lib/d3.v3.js',
+	'/assets/plugins/nvd3/nv.d3.js',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar');

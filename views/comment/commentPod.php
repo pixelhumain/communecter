@@ -1,20 +1,21 @@
 <?php
 
 $cssAnsScriptFiles = array(
-	"/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
-	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-	'/plugins/jquery-shorten/jquery.shorten.1.0.js',
-	'/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
-	'/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
-	'/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
-	'/plugins/x-editable/js/bootstrap-editable.js' , 
-	/*'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/plugins/wysihtml5/wysihtml5.js'*/
-	'/plugins/x-editable/js/bootstrap-editable.js' , 
+	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js',
+	'/assets/plugins/moment/min/moment.min.js',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
+	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
+	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	/*'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/assets/plugins/wysihtml5/wysihtml5.js'*/
+	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
 
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 ?>	
 
 <style>

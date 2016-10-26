@@ -2,13 +2,13 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//Select2
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
 	//autosize
-	'/plugins/autosize/jquery.autosize.min.js',
+	'/assets/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'

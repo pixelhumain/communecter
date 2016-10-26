@@ -1,18 +1,20 @@
 <?php
 
+$themeAssetsUrl = Yii::app()->theme->baseUrl.'../../ph-dori';
+
 $cssAnsScriptFilesTheme = array(
-  '/plugins/fluidlog/js/d3.v3.min.js',
-  '/plugins/fluidlog/js/mygraph.js',
-  '/plugins/fluidlog/js/mynodes.js',
-  '/plugins/fluidlog/js/mylinks.js',
-  '/plugins/fluidlog/js/mybackground.js',
-  '/plugins/fluidlog/js/extensionCommunecter.js',
-  '/plugins/fluidlog/js/semantic2.1.2.js',
-  '/plugins/fluidlog/css/loglink4.6.css',
-  '/plugins/fluidlog/css/semantic2.1.2.css',
+  '/assets/plugins/fluidlog/js/d3.v3.min.js',
+  '/assets/plugins/fluidlog/js/mygraph.js',
+  '/assets/plugins/fluidlog/js/mynodes.js',
+  '/assets/plugins/fluidlog/js/mylinks.js',
+  '/assets/plugins/fluidlog/js/mybackground.js',
+  '/assets/plugins/fluidlog/js/extensionCommunecter.js',
+  '/assets/plugins/fluidlog/js/semantic2.1.2.js',
+  '/assets/plugins/fluidlog/css/loglink4.6.css',
+  '/assets/plugins/fluidlog/css/semantic2.1.2.css',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, $themeAssetsUrl);
 
 ?>
 

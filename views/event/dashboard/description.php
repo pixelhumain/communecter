@@ -2,30 +2,31 @@
 
 $cssAnsScriptFilesTheme = array(
 //X-editable...
-'/plugins/x-editable/css/bootstrap-editable.css',
-'/plugins/x-editable/js/bootstrap-editable.js',
+'/assets/plugins/x-editable/css/bootstrap-editable.css',
+'/assets/plugins/x-editable/js/bootstrap-editable.js',
 
 //DatePicker
-'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-'/plugins/bootstrap-datepicker/css/datepicker.css',
+'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
 
 //DateTime Picker
-'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 
 //Wysihtml5
-'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-'/plugins/wysihtml5/wysihtml5.js',
- 
-'/plugins/jquery.qrcode/jquery-qrcode.min.js'
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/assets/plugins/wysihtml5/wysihtml5.js',
+
+'/assets/plugins/moment/min/moment.min.js' , 
+'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 $cssAnsScriptFilesModule = array(
 	//Data helper

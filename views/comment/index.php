@@ -1,10 +1,10 @@
 <?php
 
 $cssAnsScriptFiles = array(
-	"/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
-	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
+	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
 ?>	
 	<!-- start: PAGE CONTENT -->

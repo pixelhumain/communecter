@@ -10,11 +10,11 @@
 	// if(!Yii::app()->request->isAjaxRequest)
 	// {
 	  	$cssAnsScriptFilesModule = array(
-	  		'/plugins/d3/d3.v3.min.js',
-        '/plugins/d3/c3.min.js',
-        '/plugins/d3/c3.min.css',
+	  		'/assets/plugins/d3/d3.v3.min.js',
+        '/assets/plugins/d3/c3.min.js',
+        '/assets/plugins/d3/c3.min.css',
 	  	);
-	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
+	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
   	// }
 
 ?>

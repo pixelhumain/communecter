@@ -1,14 +1,14 @@
 <?php
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-		'/plugins/jsonview/jquery.jsonview.js',
-		'/plugins/jsonview/jquery.jsonview.css',
-		'/js/sig/geoloc.js',
-		'/js/dataHelpers.js',
-		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+		'/assets/plugins/jsonview/jquery.jsonview.js',
+		'/assets/plugins/jsonview/jquery.jsonview.css',
+		'/assets/js/sig/geoloc.js',
+		'/assets/js/dataHelpers.js',
+		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 $userId = Yii::app()->session["userId"] ;
 ?>
 <style>

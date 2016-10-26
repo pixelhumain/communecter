@@ -614,14 +614,14 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   public function actionHelper() {
   	$cssAnsScriptFiles = array(
 		//dropzone
-		'/plugins/dropzone/downloads/css/ph.css',
-		'/plugins/dropzone/downloads/dropzone.min.js',
+		'/assets/plugins/dropzone/downloads/css/ph.css',
+		'/assets/plugins/dropzone/downloads/dropzone.min.js',
 		//lightbox
-		'/plugins/lightbox2/css/lightbox.css',
-		'/plugins/lightbox2/js/lightbox.min.js'
+		'/assets/plugins/lightbox2/css/lightbox.css',
+		'/assets/plugins/lightbox2/js/lightbox.min.js'
 	);
 
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
   }  
 
   public function actionAverageComment() {

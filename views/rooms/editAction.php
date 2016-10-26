@@ -2,15 +2,15 @@
 
 
 $cssAnsScriptFiles = array(
-  '/plugins/bootstrap-datepicker/css/datepicker.css',
-  '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-  '/plugins/summernote/dist/summernote.css',
-  '/plugins/summernote/dist/summernote.min.js'
+  '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+  '/assets/plugins/summernote/dist/summernote.css',
+  '/assets/plugins/summernote/dist/summernote.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
 //$cssAnsScriptFilesTheme = array('js/form-elements.js');
-//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
+//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
 
 // if(isset($action))
 //   Menu::action( $action );

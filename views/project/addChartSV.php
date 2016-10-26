@@ -4,16 +4,16 @@ $cssAnsScriptFilesTheme = array(
 
 	//autosize
 	//Select2
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
+	'/assets/plugins/select2/select2.css',
+	'/assets/plugins/select2/select2.min.js',
 	//autosize
-	//'/plugins/autosize/jquery.autosize.min.js',
+	//'/assets/plugins/autosize/jquery.autosize.min.js',
 
-	'/plugins/jQuery-Knob/js/jquery.knob.js',
+	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
 	//'/assets/js/ui-sliders.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 <style>
 

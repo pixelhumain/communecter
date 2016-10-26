@@ -2,10 +2,10 @@
 
 $cssAnsScriptFilesTheme = array(
 
-'/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 ?>
 
 <div class="panel panel-white">
