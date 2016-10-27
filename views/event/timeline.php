@@ -1,6 +1,6 @@
 <?php 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/ScrollToFixed/jquery-scrolltofixed-min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-timeline.js' , CClientScript::POS_END);
 ?>
 

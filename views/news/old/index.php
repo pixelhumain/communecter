@@ -7,7 +7,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.appear/jquery.appear.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 

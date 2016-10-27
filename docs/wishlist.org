@@ -58,6 +58,12 @@
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
 
+  ** Needs
+  [.17] visualisation de la banque des besoins 
+    - section besoin
+    - filtre par type de besoin
+    - par type d'acteur 
+
   ** POI
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
   [ ] use Poi as social bookmarking
@@ -108,7 +114,7 @@
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
-[.17] bouton share non intrusif 
+[.17] bouton share (Social) non intrusif 
 [ ] interoperability
 [ ] system de synchronisation between instances : download + upload 
   - download from OCDB
@@ -117,12 +123,20 @@
     - select types for what to upload 
     - see diffs
   - id unique : id_sourkeyInstance
+[ ] Post outside : ne pas juste utiliser les mails 
+  - user pourront demander des push sur differentes destination FB, twitter, 
 [.17] point d'entrée thématique sur la page d'acceuil 
   - pour voir combien d'acteur oeuvre dans une thematique
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
+
+* Interop 
+  [ ] possibility de soumettre une url pour connecter un profile externe
+  [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
+  [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
+  [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
 
 * News
   [ ] Améliorer l'affichage de commentaires dans les news

@@ -1,7 +1,12 @@
 <?php 
   $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',
-    '/css/default/responsive-calendar.css',
+    '/assets/css/default/responsive-calendar.css'
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+  $cssAnsScriptFilesModule = array(
+    //'/css/default/directory.css',
     '/js/default/responsive-calendar.js',
     '/js/default/agenda.js',
   );

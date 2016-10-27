@@ -102,6 +102,11 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
     http://phantomjs.org/
     https://prerender.io/documentation
+  [X] new theme architecture 
+    [X] moving plugins into the ph base
+    [X] front end configuration by configparams
+    [X] activating forms 
+    [X] movins communecter's css into the theme for specific tweaking 
   [X] connected to mention
   [X] generate basic element code
   [X] parse and build post genericaly jsonHelper.stringFormtoJson

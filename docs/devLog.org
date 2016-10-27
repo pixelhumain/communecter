@@ -12,6 +12,11 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Notragora
+add params in protected/config/
+-- paramsconfig.php => redirect/filter/logoUrl in $mailConfig 
+                    => front in $params
+----------------------------------------------------
 * Version 0.16
 ** @Rapha : Suppression des links en doublons sur les orgas
 /communecter/datamigration/DeleteLinksHimSelf

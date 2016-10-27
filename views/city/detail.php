@@ -5,9 +5,9 @@ Menu::city($city, $cityGlobal);
 $this->renderPartial('../default/panels/toolbar'); 
 
  $cssAnsScriptFilesModule = array(
-    '/css/city/detail.css',
+    '/assets/css/city/detail.css',
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 ?>
 
 

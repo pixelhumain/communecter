@@ -8,7 +8,6 @@
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopup = function(data){
-			//console.log("typeSIG POPUP" + data["typeSig"]);
 			if(typeof(data.typeSig) != "undefined" && data.typeSig == "news"){
 				return this.getPopupSimpleNews(data);
 			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
@@ -16,7 +15,6 @@
 			}else{
 				return this.getPopupSimple(data);
 			}
-
 			/*	if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
 					return this.getPopupEvent(data);
 				}
@@ -138,13 +136,13 @@
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 			//console.log("type de donnée sig : ",type);
 			
-			var typeElement = "";
+			var typeElement = type;
 			if(type == "people") 		typeElement = "person";
 			if(type == "citoyens") 		typeElement = "person";
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			//console.log("type", type);
+			console.log("type", type);
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -152,9 +150,12 @@
 			var url = '#'+typeElement+'.detail.id.'+id;
 			onclick = 'loadByHash("'+url+'");';
 			
-
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='"+onclick+"'>";
-										
+			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){
+				url = "https://www.communecter.org/"+url;
+				popupContent += "<a href='"+url+"' target='_blank' class='item_map_list popup-marker' id='popup"+id+"'>";
+			}else{							
+				popupContent += "<a href='"+url+"' class='item_map_list popup-marker lbh' id='popup"+id+"'>";
+			}
 			popupContent += 
 						  "<div class='left-col'>"
 	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
@@ -283,7 +284,7 @@
 					// }
 				}
 				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
-				popupContent += '</button>';
+				popupContent += '</a>';
 
 
 

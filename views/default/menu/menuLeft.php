@@ -6,8 +6,12 @@
     $newsToModerate = count(News::getNewsToModerate());
 
     $cssAnsScriptFilesModule = array(
-		'/css/default/menu.css',
-		'/css/menus/menuLeft.css',
+		'/assets/css/default/menu.css',
+		'/assets/css/menus/menuLeft.css'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+
+    $cssAnsScriptFilesModule = array(
 		'/js/default/menu.js',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -252,7 +256,8 @@
 
 <?php 
 	if(!isset($me)) $me = "";
- 	$this->renderPartial("./menu/menuSmall", 
+	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.'; 
+ 	$this->renderPartial($layoutPath.".menu.menuSmall", 
  					array(  "me"=>$me,
  			 				"myCity" => $myCity)); 
 ?> 

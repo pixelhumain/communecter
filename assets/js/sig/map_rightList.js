@@ -62,8 +62,8 @@
 								if(this.name != null && $(thisSig.cssModuleName + ' #input_name_filter').val() != "") {
 									//on affiche l'élément seulement s'il correspond à la recherche
 										
-										console.log("SEARCH IN RIGHT LIST", nbVisible, nbElement);
-										console.dir(this);
+										//console.log("SEARCH IN RIGHT LIST", nbVisible, nbElement);
+										//console.dir(this);
 
 										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
 											showThis = true;
@@ -84,7 +84,7 @@
 											});
 										}
 
-										console.log("showThis", showThis);
+										//console.log("showThis", showThis);
 
 										if(showThis == true){
 											if(thisSig.inPagination(nbElement)){
