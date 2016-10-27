@@ -300,7 +300,7 @@ if($showOdesc == true){
 	
 	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
 	var contextData = {
-		name : "<?php echo $element["name"] ?>",
+		name : "<?php echo addslashes($element["name"]) ?>",
 		id : "<?php echo (string)$element["_id"] ?>",
 		type : "<?php echo $type ?>",
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".@implode(",", $element["tags"]) ?>",
