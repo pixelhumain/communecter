@@ -670,7 +670,7 @@ function bindInviteSubViewInvites() {
     	else{
     		var nameUtil = "" ;
     		console.log("listMails", listMails);
-    		$.ajax({
+    		/*$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/person/follows',
 		        dataType : "json",
@@ -699,8 +699,8 @@ function bindInviteSubViewInvites() {
 		        	$.unblockUI();
 					toastr.error(data.msg);
 		        }
-		    });
-    		/*$.each(listMails, function(key, value) {
+		    });*/
+    		$.each(listMails, function(key, value) {
     			console.log("value", value)
     			if(value.mail != ""){
     				if(typeof value.name != "undefined" && value.name != "")
@@ -741,7 +741,7 @@ function bindInviteSubViewInvites() {
 				        }
 				    });
 				}
-    		});*/
+    		});
     	}
   	});
 };

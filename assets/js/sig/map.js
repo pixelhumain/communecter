@@ -909,6 +909,23 @@
 			return contextMap;
 		};
 
+		this.Sig.modifLocalityContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+
+			$.each(contextMap[type], function(key, elt){
+				if(elt.id == contextData.id){
+					contextMap[type][key]["address"] = element.address;
+					contextMap[type][key]["geo"] = element.geo;
+				}	
+			});
+			return contextMap;
+		};
+
 		
 
 		this.Sig = this.getSigInitializer(this.Sig);

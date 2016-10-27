@@ -31,7 +31,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	console.log(options);
 	var coordinates = new Array(0, 0);
 	//if(typeof Sig.myPosition != "undefined")
-	if(typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
+	if(typeof contextData != "undefined" && contextData != null && typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
 		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
 		//var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
@@ -64,6 +64,8 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
 		}
+	}else{
+		$("#newElement_country").append("<option value=''>Country</option>");
 	}
 
 	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
@@ -404,7 +406,7 @@ function backToForm(cancel){
 					longitude : $("[name='newElement_lng']").val()
 				},
 				geoPosition : {
-					"@type" : "Point",
+					"type" : "Point",
 					"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
 				}
 			};
@@ -541,6 +543,9 @@ function updateLocalityElement(){
 							typeMap = "people";
 						if(inMap == false)
 							contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
+						else{
+							contextMap = Sig.modifLocalityContextMap(contextMap, contextData, typeMap);
+						}
 						Sig.restartMap();
 						Sig.showMapElements(Sig.map, contextMap);
 					}else{
