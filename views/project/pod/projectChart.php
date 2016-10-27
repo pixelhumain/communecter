@@ -2,7 +2,7 @@
 $cssAnsScriptFilesModule = array(
 	//'/plugins/Chart.js/Chart.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 
 <style>

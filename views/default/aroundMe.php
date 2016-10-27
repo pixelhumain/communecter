@@ -86,6 +86,7 @@ var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var radiusElement = "<?php echo $radius; ?>";
 var idElement = "<?php echo $id ?>";
 var typeElement = "<?php echo $type ?>";
+var parentName = "<?php echo @$parentName ?>";
 
 var noFitBoundAroundMe = true;
 
@@ -95,7 +96,7 @@ jQuery(document).ready(function() {
 			 "<i class='fa fa-crosshairs'></i>", 
 			 "Autour de moi");
 
-  console.log(elementsMap);
+  //console.log(elementsMap);
 
   //showMap(true);
 	if(notEmpty(elementsMap)){ 
@@ -122,7 +123,13 @@ jQuery(document).ready(function() {
 
   $(".btn-groupe-around-me-km .btn-map").removeClass("active");
   $(".btn-groupe-around-me-km .btn-map[data-km='"+radiusElement+"']").addClass("active");
-	//console.dir(elementsMap);
+
+  <?php if(isset($_GET["tpl"]) && @$_GET["tpl"]=="iframesig"){ ?>
+    //iframesig TPL
+    var lblParentName = "<span class='text-'>"+parentName+"</span>";
+    $(".main-top-menu #menuParentName").html(parentName);
+  <?php } ?>
+
 });
 
 
@@ -137,7 +144,11 @@ function refreshUIAroundMe(elementsMap){
   setTimeout(function(){
     Sig.showCircle(elementPosition, radiusElement);
     Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
+
+    <?php if(!isset($_GET["tpl"])||@$_GET["tpl"]!="iframesig"){ ?>
     setTimeout(function(){ Sig.map.panBy([100, 0]); }, 500);
+    <?php } ?>
+
   }, 500);
  
   if(nbRes==0){
@@ -195,7 +206,7 @@ function initBtnLink(){
   $.each($(".followBtn"), function(index, value){
     var id = $(value).attr("data-id");
     var type = $(value).attr("data-type");
-    console.log("error type :", type);
+    //console.log("error type :", type);
     if(type == "person") type = "people";
     else type = typeObj[type].col;
     //console.log("#floopItem-"+type+"-"+id);

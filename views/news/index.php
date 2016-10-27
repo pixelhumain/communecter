@@ -11,23 +11,24 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/plugins/wysihtml5/wysihtml5.js',
-	'/plugins/moment/min/moment.min.js',
 	'/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
 	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
 	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
 	'/plugins/jquery.appear/jquery.appear.js',
 	'/plugins/jquery.elastic/elastic.js',
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
 	'/plugins/underscore-master/underscore.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
 	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
+	
+);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
+
+$cssAnsScriptFilesModule = array(
 	'/css/news/index.css',	
 	'/css/news/newsSV.css',
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-$cs = Yii::app()->getClientScript();
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
 
 $cssAnsScriptFilesModule = array(
 	'/js/news/index.js',

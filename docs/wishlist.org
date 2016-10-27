@@ -123,6 +123,12 @@
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
 
+* Interop 
+  [ ] possibility de soumettre une url pour connecter un profile externe
+  [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
+  [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
+  [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
+
 * News
   [ ] Améliorer l'affichage de commentaires dans les news
 

@@ -3,14 +3,13 @@
 $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	'/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css',
 	'/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js',
 	'/plugins/autosize/jquery.autosize.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 
 <?php 

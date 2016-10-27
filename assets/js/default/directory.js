@@ -375,15 +375,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     var str = "";
     $.each(data, function(i, o) {
         var typeIco = i;
-        var ico = mapIconTop["default"];
-        var color = mapColorIconTop["default"];
-
+        
         mapElements.push(o);
 
         typeIco = o.type;
         
-        ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-        color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+        var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+        var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+        
+        var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
+        var parentColor = ("undefined" != typeof mapColorIconTop[o.parentType]) ? mapColorIconTop[o.parentType] : mapColorIconTop["default"];
         
        // var urlImg = "/upload/communecter/color.jpg";
        // o.profilImageUrl = urlImg;
@@ -393,7 +394,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
         }
         if(typeObj[o.type].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
-			imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>"
+
+			 imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>"
+
         var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
         // if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
         //   htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilImageUrl+"'/>"
@@ -414,9 +417,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
         //type += "s";
 
-		var url = '#news.index.type.'+type+'.id.' + id;
+		    var urlParent = (notEmpty(o.parentType) && notEmpty(o.parentId)) ? 
+                        '#news.index.type.'+o.parentType+'.id.' + o.parentId : "";
+
+        var url = '#news.index.type.'+type+'.id.' + id;
+
         if(type == "citoyens") url += '.viewer.' + userId;
-        if(type == "poi") 	 url = '#element.detail.type.poi.id.' + id;
+        if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
         if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
         if(type == "surveys") url = "#survey.entry.id."+id;
         if(type == "actions") url = "#rooms.action.id."+id;
@@ -495,9 +502,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   }
                 }
 
-          if(updated != null)
+            if(updated != null)
               str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
-              
+            
+            if(o.type!="city")  
             str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
             str += "<div class='padding-10'>";
@@ -511,77 +519,82 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               str += "<div class='entityCenter no-padding'>";
               str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
               str += "</div>";
-              target = "";
-
+              
                 
               str += "<div class='entityRight no-padding'>";
+                               
                 
-                
+              if(notEmpty(o.parent) && notEmpty(o.parent.name))
+                str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh text-light-weight margin-bottom-5'>" +
+                          "<i class='fa "+parentIcon+"'></i> "
+                          + o.parent.name + 
+                        "</a>";
 
-                str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-                
-                
-                var thisLocality = "";
-                if(fullLocality != "" && fullLocality != " ")
-                     thisLocality = "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'>"+
-                                      "<i class='fa fa-home'></i> " + fullLocality + 
-                                    "</a>";
-                else thisLocality = "<br>";
-                
-                //debat / actions
-                if(notEmpty(o.parentRoom)){
-                  str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
-                  if(notEmpty(o.parentRoom.parentObj)){
-                    var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                    console.log("typeIcoParent", typeIcoParent);
-                    var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
-                    var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
-                    
-
-                    var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
-                                  notEmpty(o.parentRoom.parentObj.address) ? 
-                                  o.parentRoom.parentObj.address : null;
-
-                    var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
-                    var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
-
-                    thisLocality = postalCode + " " + cityName;
-                    if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
-                    else thisLocality = "";
-
-                    var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
-                    str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
+              str += "<a href='"+url+"' class='entityName text-dark lbh'>"+
+                        "<i class='fa fa-reply fa-rotate-180'></i> " + name + 
+                     "</a>";
+              
+              var thisLocality = "";
+              if(fullLocality != "" && fullLocality != " ")
+                   thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh'>"+
+                                    "<i class='fa fa-home'></i> " + fullLocality + 
+                                  "</a>";
+              else thisLocality = "<br>";
+              
+              //debat / actions
+              if(notEmpty(o.parentRoom)){
+                str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
+                if(notEmpty(o.parentRoom.parentObj)){
+                  var typeIcoParent = o.parentRoom.parentObj.typeSig;
+                  console.log("typeIcoParent", typeIcoParent);
+                  var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
+                  var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
                   
 
-                  }
-                }else{
-                  str += thisLocality;
-                }
+                  var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
+                                notEmpty(o.parentRoom.parentObj.address) ? 
+                                o.parentRoom.parentObj.address : null;
 
+                  var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
+                  var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
 
+                  thisLocality = postalCode + " " + cityName;
+                  if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
+                  else thisLocality = "";
+
+                  var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
+                  str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
                 
-                if(o.type == "entry"){
-                  var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
-                  var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
-                  var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
-                  var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
-                  var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
-                  str += "<div class='pull-left margin-bottom-10 no-padding'>";
-                    str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
-                    str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
-                    str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
-                    str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
-                    str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
-                  str += "</div>";
-                }
 
-                str += "<div class='entityDescription'>" + description + "</div>";
-             
-                str += "<div class='tagsContainer text-red'>"+tags+"</div>";
-        
-              str += "</div>";
+                }
+              }else{
+                str += thisLocality;
+              }
+
+
+              
+              if(o.type == "entry"){
+                var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
+                var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
+                var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
+                var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
+                var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
+                str += "<div class='pull-left margin-bottom-10 no-padding'>";
+                  str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
+                  str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
+                  str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
+                  str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
+                  str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
+                str += "</div>";
+              }
+
+              str += "<div class='entityDescription'>" + description + "</div>";
+           
+              str += "<div class='tagsContainer text-red'>"+tags+"</div>";
+      
             str += "</div>";
           str += "</div>";
+        str += "</div>";
 
           
                     

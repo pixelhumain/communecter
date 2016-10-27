@@ -76,6 +76,7 @@
 	<?php   $right = "0px";
 			if($sigParams['useRightList']) $right = "30%";
 	?>
+
 	.<?php echo $moduleName; ?>
 	.btn-group-map{
 		position:absolute !important;
@@ -84,6 +85,7 @@
 		top:<?php echo (int)$mapTop+30; ?>px;
 	}
 	
+
 	.<?php echo $moduleName; ?>
 	.btn-map{
 		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
@@ -171,11 +173,12 @@
 			width:100%;
 		}
 
+		<?php if(!isset($sigParams['centerBtnTools']) || @$sigParams['centerBtnTools'] != true){ ?>
 		.<?php echo $moduleName; ?>
 		.btn-group-map{
 			right:0% !important;
 			left:unset!important;
-		}
+		}<?php } ?>
 	}
 
 </style>
