@@ -356,7 +356,8 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         
-        if(($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) && $type != Event::COLLECTION ) {
+        if(($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) //&& $type != Event::COLLECTION 
+            ) {
             self::entry("left", 'onclick',
                     Yii::t("common","Community of ".$controllerType),
                     Yii::t("common","Community") ,

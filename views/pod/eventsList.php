@@ -124,13 +124,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<blockquote> 
 					<?php 
 						if($contextType==Event::CONTROLLER)
-							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
+							$explain="Create sub-events to show the event's program.<br/>And Organize the event's sequence";
 						else
 							$explain="Publiez les événements que vous organisez";
-						//"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
-						//echo Yii::t("event",$explain); 
+						echo Yii::t("event",$explain); 
 					?>
-					Publiez les événements que vous organisez en relation avec votre activité
 				</blockquote>
 			</div>
 		<?php } ?>

@@ -79,5 +79,8 @@ return array(
 	"Invite people to this event" => "Inviter des personnes à cet événement",
 	"Invite people to your event and manage its administration" => "Inviter des personnes à participer et gérer l'administration de l'événement",
 
+	"Write the event's short description" => "Ecrire la description courte de l'événement",
+	"Write the event's description" => "Ecrire la description de l'événement"
+
 );
 ?>

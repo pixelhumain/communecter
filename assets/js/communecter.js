@@ -1790,20 +1790,43 @@ var typeObj = {
 			        },
 			        type :{
 		            	"inputType" : "select",
-		            	"placeholder" : "Type d\'évènnment",
+		            	"placeholder" : "Type d\'évènement",
 		            	"options" : eventTypes,
 		            	"rules" : { "required" : true },
 		            },
-
-		            /*allday : {
+		            allday : {
 		            	"inputType" : "checkbox",
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
 		            		"labelText":"Journée",
-		            		//"onChange" : function(){}
+		            		"onChange" : function(){
+		            			//TODO SBAR : change date time to date picker
+		            			var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			if (allDay) {
+		            				console.log("init dateInput");
+		            				$(".dateTimeInput").addClass("dateInput");
+		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$(".dateInput").datetimepicker({ 
+								        autoclose: true,
+								        lang: "fr",
+								        format: "d/m/Y",
+								        timepicker:false
+								    });
+		            			} else {
+		            				console.log("init dateTimeInput");
+		            				$(".dateInput").addClass("dateTimeInput");
+		            				$(".dateInput").removeClass("dateInput");
+		            				$(".dateTimeInput").datetimepicker({ 
+					       				weekStart: 1,
+										step: 15,
+										lang: 'fr',
+										format: 'Y/m/d H:i'
+								    });
+		            			}
+		            		}
 		            	}
-		            },*/
+		            },
 		            startDate : {
 		                "inputType" : "datetime",
 		                "placeholder":"Date de début",
@@ -1818,7 +1841,7 @@ var typeObj = {
 			            "rules" : { 
 			            	required : true,
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
-			            	duringDates: ["#startDateParent","#endDateParent","la date de fin"]
+			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
 					    }
 		            },
 		            /*public : {
@@ -1834,7 +1857,7 @@ var typeObj = {
 		            },
 		            tags :{
 		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
+		              "placeholder" : "Tags de l\'événement",
 		              "values" : tagsList
 		            },
 		            formshowers : {
