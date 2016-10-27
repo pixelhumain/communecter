@@ -31,7 +31,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	console.log(options);
 	var coordinates = new Array(0, 0);
 	//if(typeof Sig.myPosition != "undefined")
-	if(typeof contextData.geo != "undefined" && updateLocality == true)
+	if(typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
 		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
 		//var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
@@ -100,7 +100,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 function bindEventFormSig(){
 	$('[name="newElement_city"]').keyup(function(){ 
 		$("#dropdown-city-found").show();
-		if($('[name="newElement_city"]').val()!=""){
+		if($('[name="newElement_city"]').val().length > 0){
 			NE_city = $('[name="newElement_city"]').val();
 			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("city", $('[name="newElement_city"]').val()); }, 500);
@@ -142,7 +142,7 @@ function bindEventFormSig(){
 	$('[name="newElement_city"]').focus(function(){
 		$(".dropdown-menu").hide();
 		$("#dropdown-newElement_city-found").show();
-		if($('[name="newElement_city"]').val() != ""){
+		if($('[name="newElement_city"]').val().length > 0){
 			autocompleteFormAddress("city", $('[name="newElement_city"]').val());
 		}
 	});
@@ -518,7 +518,7 @@ function updateLocalityElement(){
 		    		}
 					
 					
-					//ficheInfoElement
+					//Header && ficheInfoElement
 					$("#detailStreetAddress").html(locality.address.streetAddress);
 					$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
 					$("#detailCountry").html(locality.address.addressCountry);
@@ -526,11 +526,11 @@ function updateLocalityElement(){
 					$('#pcHeader').html(locality.address.postalCode);
 					$('#countryHeader').html(locality.address.addressCountry);
 					$('#iconLocalityyHeader').removeClass("hidden");
+					$('#addressHeader').removeClass("hidden");
 					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
 					$(".detailMyCity").attr("onclick", "");
 					$(".detailMyCity").removeClass("detailMyCity");
 					$(".detailMyCity").addClass("lbh");
-					//Header && ficheInfoElement
 					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 
 					toastr.success(data.msg);
@@ -552,10 +552,13 @@ function updateLocalityElement(){
 						var url = window.location.href ;
 						if(url.indexOf("#person.detail.id."+userId) == -1) {
 							loadByHash("#person.detail.id."+userId);
+						}else{
+							Sig.restartMap();
+							Sig.showMapElements(Sig.map, contextMap);
 						}
 					}
-
-					
+		    	}else{
+		    		toastr.error(data.msg);
 		    	}
 		    }
 		});
