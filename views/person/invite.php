@@ -424,7 +424,6 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 </script> -->
-
 <script src="https://apis.google.com/js/client.js"></script>
 <script type="text/javascript">
 
@@ -671,7 +670,37 @@ function bindInviteSubViewInvites() {
     	else{
     		var nameUtil = "" ;
     		console.log("listMails", listMails);
-    		$.each(listMails, function(key, value) {
+    		$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+'/person/follows',
+		        dataType : "json",
+		        data: {
+		        	parentId : $("#parentId").val(),
+		        	invitedUserName : nameUtil,
+		        	invitedUserEmail : value.mail,
+		        	listMails : listMails,
+		        	msgEmail : $("#textmail").val()
+		        },
+				type:"POST",
+		    })
+		    .done(function (data){
+		    	$.unblockUI();
+		        if (data &&  data.result) {               
+		        	toastr.success('L\'invitation a été envoyée avec succès!');
+		        	console.log(data);
+		        	addFloopEntity(formData.invitedUser._id.$id, <?php echo Person::COLLECTION ?>, data.invitedUser);
+		        	$('#inviteSearch').val("");
+					//Minus 1 on number of invit
+					var count = parseInt($("#numberOfInvit").data("count")) - 1;
+					$("#numberOfInvit").html(count + ' invitation(s)');
+					$("#numberOfInvit").data("count", count);
+					backToSearch();
+		        } else {
+		        	$.unblockUI();
+					toastr.error(data.msg);
+		        }
+		    });
+    		/*$.each(listMails, function(key, value) {
     			console.log("value", value)
     			if(value.mail != ""){
     				if(typeof value.name != "undefined" && value.name != "")
@@ -712,7 +741,7 @@ function bindInviteSubViewInvites() {
 				        }
 				    });
 				}
-    		});
+    		});*/
     	}
   	});
 };
@@ -1034,16 +1063,13 @@ function fadeInView(inView){
 	
 }*/
 
-
 function auth() {
 	var config = {
-		'client_id': googleID,
-		'scope': 'https://www.google.com/m8/feeds'
+	  'client_id': googleID,
+	  'scope': 'https://www.google.com/m8/feeds'
 	};
 	gapi.auth.authorize(config, function() {
 		getToken();
-
-		//fetch(gapi.auth.getToken());
 	});
 }
 
@@ -1069,8 +1095,6 @@ function fetch(token){
 			});
 	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/thin?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false";
 	
-
-
 	if($("#selectContact").val() != "all")
 		urlGmail += "&updated-min="+$("#selectContact").val();
 
@@ -1080,16 +1104,12 @@ function fetch(token){
   		success:function(data){
     		console.log("dataFetch", data);
     		$("#list-contact").html("");
-    		
     		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
     			var text = "";
       			var text2 = "";
       			if(value.gd$email){
-
       				$.each(value.gd$email, function( keyMails, valueMails ){
-        				console.log("valueMails.address", valueMails.address);
-        				console.log("valueMails.address", valueMails.address);
         				if(jQuery.inArray(valueMails.address, listFollows) == -1 ){
 	        				nbContact++;
 	          				idMail = "contact"+nbContact ;
@@ -1118,7 +1138,6 @@ function fetch(token){
   			console.log("error",data)
   		}
 	});
-
 	bindInviteSubViewInvites();
 }
 
