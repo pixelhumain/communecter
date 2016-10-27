@@ -1,4 +1,4 @@
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/menuTop.css'), $this->module->assetsUrl); ?>
+<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuTop.css')); ?>
 <div class="col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
 	
 	<?php // BTN CO = Live // ?>

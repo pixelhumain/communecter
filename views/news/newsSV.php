@@ -1,9 +1,9 @@
 
 <?php
 $cssAnsScriptFilesModule = array(
-	'/css/news/newsSV.css'	
+	'/assets/css/news/newsSV.css'	
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 ?>	
 
 <?php

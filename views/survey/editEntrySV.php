@@ -1,16 +1,20 @@
 <?php  
 
   $cssAnsScriptFiles = array(
-    '/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-    '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-    '/assets/plugins/summernote/dist/summernote.css',
-    '/assets/plugins/summernote/dist/summernote.min.js',
-    '/css/rooms/header.css'
+    '/plugins/bootstrap-datepicker/css/datepicker.css',
+    '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+    '/plugins/summernote/dist/summernote.css',
+    '/plugins/summernote/dist/summernote.min.js'
+    );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles,Yii::app()->request->baseUrl);
+  
+  $cssAnsScriptFiles = array(
+    '/assets/css/rooms/header.css'
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 
   //$cssAnsScriptFilesTheme = array('js/form-elements.js');
-  //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->theme->baseUrl."/assets");
+  //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 
   $parent = ActionRoom::getById($roomId);
   $nameList = (strlen($parent["name"])>20) ? substr($parent["name"],0,20)."..." : $parent["name"];

@@ -1,5 +1,5 @@
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/multi_tags_scopes.css'), $this->module->assetsUrl); ?>
+<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multi_tags_scopes.css')); ?>
 
 <span data-tpl="default.menu.multi_tag_scope">
 <?php 

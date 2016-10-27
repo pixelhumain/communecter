@@ -293,8 +293,9 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 160;
-
+				var menuTopHeight = $(".main-top-menu").height();// - $(".toolbar").height();
+				var rightPanelHeight = mapHeight - menuTopHeight - 110;
+				
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
 				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});

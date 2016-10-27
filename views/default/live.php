@@ -1,5 +1,7 @@
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/default/live.css','/js/default/live.js'), $this->module->assetsUrl); ?>
+<?php  
+  	HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/live.css'));
+	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/live.js'), $this->module->assetsUrl); ?>
 
 <div class="row headerHome">
 <?php 

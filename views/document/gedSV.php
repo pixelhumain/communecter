@@ -8,7 +8,7 @@ $cssAndScriptFiles = array(
 	'/plugins/lightbox2/js/lightbox.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAndScriptFiles ,Yii::app()->request->baseUrl);
 ?>
 <div style="display:none" id="genericGED">
 

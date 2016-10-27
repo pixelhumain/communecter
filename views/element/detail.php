@@ -1,35 +1,32 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//X-editable
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/x-editable/js/bootstrap-editable.js' , 
 
 	//DatePicker
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-	'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+	'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+	'/plugins/bootstrap-datepicker/css/datepicker.css',
 	
 	//DateTime Picker
-	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	//Wysihtml5
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js',
-	'/assets/plugins/moment/min/moment.min.js',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/wysihtml5.js',
 	//SELECT2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
 );
 //if ($type == Project::COLLECTION)
 //	array_push($cssAnsScriptFilesTheme, "/assets/plugins/Chart.js/Chart.min.js");
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
@@ -50,14 +47,68 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
+<style>
+	.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+	</style>
 <?php 
-	if($type != City::CONTROLLER && !@$_GET["renderPartial"])
+	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
 	<div class=" col-xs-12">
-		<div class="col-xs-12">
+		<div class="col-xs-12 col-md-12">
+			<?php if ($type == "poi"){ ?>
+			<?php if($element["type"]=="video" && @$element["medias"]){ 
+				
+				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
+			?>
+				<div class="col-xs-12">
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item" src="<?php echo @$videoLink ?>"></iframe>
+					</div>
+				</div>
+				<?php } ?>
+				<div class="col-md-12">
+	    		<?php 
+	    			//var_dump(@$modeEdit);
+	    			$params = array(
+	    				"element" => $element,
+						"parent" => $parent,
+						"tags" => $tags, 
+						"images" => array("profil"=>array($element["profilImageUrl"])),
+						"elementTypes" => @$listTypes,
+						"countries" => $countries,
+						"typeIntervention" => @$typeIntervention,
+						"NGOCategories" => @$NGOCategories,
+						"localBusinessCategories" => @$localBusinessCategories,
+	    				"contextMap" => @$contextMap,
+	    				"publics" => @$public,
+						"type" => @$type,
+						"organizer" =>@$organizer,
+	    				"contentKeyBase" => "profil",
+	    				"edit" => @$edit,
+	    				"isLinked" => @$isLinked,
+	    				"openEdition" => $openEdition,
+	    				"modeEdit" => @$modeEdit,
+	    				"controller" => $controller
+	    			);
+	    			$this->renderPartial('../poi/ficheInfo',$params); 
+	    		?>
+	    		</div>
+			<?php } else { ?>
 			<div class="col-md-8 no-padding">
 	    		<?php 
 	    			//var_dump(@$modeEdit);
@@ -205,13 +256,13 @@ if($('#breadcum').length)
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
-
+									<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
 				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
 				                        </a><br/><span class="discover-subtitle">Évènement</span>
 				                    </div>
-				                    
+				                    <?php } ?>
 				                    <div class="col-xs-6  center text-purple btnSubTitle">
 				                        <a href="javascript:openForm('project')" class="btn btn-discover bg-purple">
 				                          <i class="fa fa-lightbulb-o"></i>
@@ -256,26 +307,28 @@ if($('#breadcum').length)
 			</div>
 			<?php } ?>
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
-			<div class="col-xs-12">
-				<?php 
-					$organizerImg=false;
-					if($type==Event::COLLECTION){ 
-						$organizerImg=true;
+	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
+				<div class="col-xs-12">
+					<?php 
+						$organizerImg=false;
+						if($type==Event::COLLECTION){ 
+							$organizerImg=true;
+							if(empty($subEvents)) $subEvents = array();
+							$events=$subEvents;
+						}
+						if(!isset($eventTypes)) $eventTypes = array();
 						if(empty($subEvents)) $subEvents = array();
-						$events=$subEvents;
-					}
-					if(!isset($eventTypes)) $eventTypes = array();
-					if(empty($subEvents)) $subEvents = array();
-					$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
-																		"contextId" => (String) $element["_id"],
-																		"contextType" => $controller,
-																		"list" => $eventTypes,
-																		"authorised" => $edit,
-																		"organiserImgs"=> $organizerImg,
-																		"openEdition" => $openEdition
-																	  ));
-				?>						  
-			</div>
+						$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+																			"contextId" => (String) $element["_id"],
+																			"contextType" => $controller,
+																			"list" => $eventTypes,
+																			"authorised" => $edit,
+																			"organiserImgs"=> $organizerImg,
+																			"openEdition" => $openEdition
+																		  ));
+					?>						  
+				</div>
+				<?php } ?>
 			<?php } ?>
 
 
@@ -312,6 +365,7 @@ if($('#breadcum').length)
 						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
 				?>
 	    	</div>	
+	    	<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"])){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],
@@ -322,6 +376,7 @@ if($('#breadcum').length)
 																	  )); ?>
 
 			</div>
+			<?php } ?>
 		<?php } ?>
 		</div>
 
@@ -329,7 +384,7 @@ if($('#breadcum').length)
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 			
 			<?php 
-
+				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"])){ 
 				$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 				$this->renderPartial('../pod/activityList2',array(    
 	   					"parent" => $element, 
@@ -339,7 +394,7 @@ if($('#breadcum').length)
                     	"list" => @$rooms, 
 	                    "renderPartial" => true
 	                    ));
-				
+				}
 			}
 			?>
 			<?php if($type==Project::COLLECTION){ ?> 
@@ -351,9 +406,7 @@ if($('#breadcum').length)
 			<div class="col-xs-12 no-padding timesheetphp pull-left"></div>
 			<?php } ?>
 		</div>
-    	<div class="col-md-8 col-sm-12 no-padding pull-left">
-	    	
-    	</div>
+		<?php } ?>
     	
 	</div>
 </div>

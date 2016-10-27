@@ -485,6 +485,7 @@ var loadableUrls = {
     "#person.updateprofil" : {title:'Update profil', icon : 'fa-lock' },
     "#person.telegram" : {title:'CONTACT PERSON VIA TELEGRAM ', icon : 'send' },
     "#event.detail" : {aliasParam: "#element.detail.type.events.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
+    "#poi.detail" : {aliasParam: "#element.detail.type.poi.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {aliasParam: "#element.detail.type.projects.id.$id", params: ["id"], title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
@@ -1159,14 +1160,14 @@ function  buildQRCode(type,id) {
 
 function activateSummernote(elem) { 
 		
-	if( !$('script[src="'+baseUrl+'/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js"]').length )
+	if( !$('script[src="'+baseUrl+'/plugins/summernote/dist/summernote.min.js"]').length )
 	{
 		$("<link/>", {
 		   rel: "stylesheet",
 		   type: "text/css",
-		   href: baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.css"
+		   href: baseUrl+"/plugins/summernote/dist/summernote.css"
 		}).appendTo("head");
-		$.getScript( baseUrl+"/themes/ph-dori/assets/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+		$.getScript( baseUrl+"/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
 		  //console.log( data ); // Data returned
 		  //console.log( textStatus ); // Success
 		  //console.log( jqxhr.status ); // 200
@@ -1262,6 +1263,36 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	formData = $(formId).serializeFormJSON();
 	console.log("before",formData);
 	formData = formatData(formData,collection,ctrl);
+	formData.medias = [];
+	$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($(this).find(".video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.medias.push(mediaObject);
+		}
+	});
 	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
@@ -1739,6 +1770,7 @@ var typeObj = {
 			        	"rules" : { "required" : true },
 		            	"inputType" : "select",
 		            	"placeholder" : "Qui organise ?",
+		            	"rules" : { "required" : true },
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
@@ -2324,7 +2356,7 @@ function myAdminList (ctypes) {
 			myList[ ctype ] = { label: ctype, options:{} };
 			$.each( myContacts[ ctype ],function(id,elemObj){
 				//console.log(ctype+"-"+id+"-"+elemObj.name);
-				if( notNull(elemObj.links) && notNull(elemObj.links[connectionType]) && notNull(elemObj.links[connectionType][userId]) && notNull(elemObj.links[connectionType][userId].isAdmin) ){
+				if( elemObj.links && elemObj.links[connectionType] && elemObj.links[connectionType][userId] && elemObj.links[connectionType][userId].isAdmin) {
 					//console.warn(ctype+"-"+id+"-"+elemObj.name);
 					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
 				}
@@ -2348,7 +2380,7 @@ function globalSearch(searchValue,types){
 	};
 	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
 	$("#similarLink").show();
-	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin fa-"></i>').prop("disabled",true);
+	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin"></i>').prop("disabled",true);
 	$.ajax({
       type: "POST",
           url: baseUrl+"/" + moduleId + "/search/globalautocomplete",

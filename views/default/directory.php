@@ -1,9 +1,6 @@
 <?php 
-  $cssAnsScriptFilesModule = array(
-    '/css/default/directory.css',
-    '/js/default/directory.js',
-  );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'));
+  HtmlHelper::registerCssAndScriptsFiles( array('/js/default/directory.js') , $this->module->assetsUrl);
 ?>
 
   <style>
@@ -110,7 +107,7 @@ var headerParams = {
   "vote"          : { color: "azure",   icon: "gavel",        name: "débats" },
   "actions"       : { color: "lightblue2",    icon: "cogs",         name: "actions" },
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
-
+  "poi"       	  :	{ color: "black",    icon: "map-marker",         name: "points d'intérêts" },
 }
 function setHeaderDirectory(type){
  
@@ -163,7 +160,7 @@ jQuery(document).ready(function() {
 
 
   searchType = (typeSelected == null) ? [ "persons" ] : [ typeSelected ];
-  allSearchType = [ "persons", "organizations", "projects", "events", "events", "vote", "cities" ];
+  allSearchType = [ "persons", "organizations", "projects", "events", "events", "vote", "cities","poi" ];
 	topMenuActivated = true;
 	hideScrollTop = true; 
   loadingData = false;

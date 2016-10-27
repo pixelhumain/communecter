@@ -1,6 +1,9 @@
 
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/menus/multiscopes.css', '/js/menus/multiscopes.js'), $this->module->assetsUrl); ?>
+<?php  
+HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multiscopes.css') );
+HtmlHelper::registerCssAndScriptsFiles(array( '/js/menus/multiscopes.js'), $this->module->assetsUrl);
+?>
 
 <div class="dropdown pull-left" id="dropdown-content-multi-scope">
   <button class="pull-left"  data-toggle="dropdown"  id="btn-modal-multi-scope"
