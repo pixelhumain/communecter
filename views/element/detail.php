@@ -197,7 +197,7 @@ if($('#breadcum').length)
 					                    <?php } ?>
 				                          	<i class="fa fa-home"></i>
 				                        </a><br>
-				                        <span class="text-red discover-subtitle"> <?php if(@$element["address"]["codeInsee"] && !empty($element["address"]["codeInsee"])){ echo Yii::t("common","My city"); }  else echo Yii::t("common","Communected me"); ?></span>
+				                        <span class="text-red discover-subtitle"> <?php if(@$element["address"]["codeInsee"] && !empty($element["address"]["codeInsee"])){ echo Yii::t("common","My city"); }  else echo "Communectez-vous"; ?></span>
 				                    </div>
 
 				                   

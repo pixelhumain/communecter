@@ -9,7 +9,7 @@
 		<img class="" id="logo-main-menu" src="<?php echo $this->module->assetsUrl?>/images/Communecter-32x32.svg"/>
 	</a>
 	<?php // BTN Doc = Doc // ?>
-	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-left" 
+	<button class="btn-menu btn-menu-top bg-white text-dark tooltips pull-left lbh" 
 			id="btn-documentation" data-hash="#default.view.page.index.dir.docs"
 			data-toggle="tooltip" data-placement="bottom" title="Lire la documentation" alt="Lire la documentation">
 			<i class="fa fa-book"></i>

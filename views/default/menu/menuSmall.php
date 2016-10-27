@@ -37,8 +37,6 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 					</a>
 				</div>
 			</div>
-
-
 		    <?php if(isset($me)) if(Role::isSuperAdmin($me['roles'])){?>
 			<div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark-red lbh" href="#admin.index">
@@ -47,6 +45,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 			    </a>
 		    </div>
 			<?php } ?>	
+
 			<div class="col-xs-12 center no-padding">
 				<a class="btn bg-dark visible-xs padding-5" href="javascript:$('.btn-menu-notif').trigger('click');$.unblockUI();">
 			        <i class="fa fa-bell" style="font-size: 1em!important;"></i> 
@@ -58,6 +57,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 			    </a>
 			</div>
 			<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["live"])){ ?>
+
 		    <div class="col-xs-12 center no-padding">
 			    <a class="btn bg-dark lbh padding-5" href="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>.viewer.<?php echo Yii::app()->session['userId']?>"  >
 			        <i class="fa fa-newspaper-o" style="font-size: 1em!important;"></i> 

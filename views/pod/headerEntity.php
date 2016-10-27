@@ -207,7 +207,7 @@ $controler = Element::getControlerByCollection($type);
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 			<button class="col-xs-12 center btn btn-default text-azure" style="margin-left:10px;" onclick="showMap(true)">
-				<i class="fa fa-map-marker"></i> Afficher sur la carte
+				<i class="fa fa-map-marker"></i> <span class="hidden-xs">Afficher sur la carte</span>
 			</button>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
@@ -237,11 +237,11 @@ $controler = Element::getControlerByCollection($type);
 				</div>
 				<div id="addressHeader" class="col-md-12 no-padding no-padding margin-bottom-10">
 					<span class="lbl-entity-locality text-red">
-						<i class="fa fa-globe"></i>
 						<?php if( ($type == Person::COLLECTION && Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])) || $type!=Person::COLLECTION) { ?>
-						<label class="text-red" id="localityHeader"><?php echo @$entity["address"]["addressLocality"] ; ?></label>, 
-						<label class="text-red" id="pcHeader"><?php echo @$entity["address"]["postalCode"] ; ?></label>, 
-						<label class="text-red" id="countryHeader"><?php echo @$entity["address"]["addressCountry"] ; ?></label> 
+						<i id="iconLocalityyHeader" class="fa fa-globe <?php echo (empty($entity['address'])?'hidden':'');?>"></i>
+						<label class="text-red" id="localityHeader"><?php echo (empty($entity["address"]["addressLocality"])?"":$entity["address"]["addressLocality"].","); ?></label> 
+						<label class="text-red" id="pcHeader"><?php echo (empty($entity["address"]["postalCode"])?"":($entity["address"]["postalCode"].",")); ?></label>
+						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":$entity["address"]["addressCountry"].","); ?></label> 
 						<?php } ?>	
 					</span>
 				</div>
@@ -292,60 +292,58 @@ $controler = Element::getControlerByCollection($type);
 		</div>
 		
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
-			<?php //if(isset($entity["tags"]) || isset($entity["gamification"])){ ?>
-				<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
-					<?php if ($type==Person::COLLECTION){ ?>
-					<span class="tag label label-warning pull-right">
-						<?php echo  @$entity["gamification"]['total'] ? 
-									@$entity["gamification"]['total'] :
-									"0"; 
-						?> pts
-					</span>
-					<?php } ?>
-					<div id="divTagsHeader">
-						<?php if(isset($entity["tags"])){ ?>
-							<?php 
-								$i=0; 
-								foreach($entity["tags"] as $tag){ 
-									if($i<6) { 
-										$i++;?>
-										<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
-											<i class="fa fa-tag"></i> <?php echo  $tag; ?>
-										</div>
-						<?php 		}
-								} 
-						} ?>
-					</div>
+			<style type="text/css">
+				.badgePH{ 
+					cursor: pointer;
+					display: inline-block;
+					margin-top: 10px;
+					/*margin-bottom: 10px;*/
+				}
+				/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
+				.badgePH .fa-stack .main { font-size:1.5em}
+				.badgePH .fa-stack .mainTop { 
+					/*margin-left:10px;*/
+					text-shadow: 0px -1px #656565;;
+					margin-top:-5px}
+				.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
+				/* Tooltip container */
+				.opendata .mainTop{
+				    color: white;
+				    font-size: 1em;
+				    padding: 5px;
+				}
+				.opendata .main{
+				    color: #00cc00;
+				}
+			</style>
+
+			<div class="col-xs-12 no-padding">
+				<?php if ($type==Person::COLLECTION){ ?>
+				<span class="tag label label-warning pull-right">
+					<?php echo  @$entity["gamification"]['total'] ? 
+								@$entity["gamification"]['total'] :
+								"0"; 
+					?> pts
+				</span>
+				<?php } ?>
+				<div id="divTagsHeader" class="badgePH pull-right">
+					<?php if(isset($entity["tags"])){ ?>
+						<?php 
+							$i=0; 
+							foreach($entity["tags"] as $tag){ 
+								if($i<6) { 
+									$i++;?>
+									<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
+										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+									</div>
+					<?php 		}
+							} 
+					} ?>
 				</div>
-			<?php //} 
+			</div>
+			
 
-			?>
-
-			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
-				<style type="text/css">
-					.badgePH{ 
-						cursor: pointer;
-						display: inline-block;
-						margin-top: 10px;
-						/*margin-bottom: 10px;*/
-					}
-					/*.badgePH .fa-stack .main { font-size:2.2em;margin-left:10px;margin-top:20px}*/
-					.badgePH .fa-stack .main { font-size:1.5em}
-					.badgePH .fa-stack .mainTop { 
-						/*margin-left:10px;*/
-						text-shadow: 0px -1px #656565;;
-						margin-top:-5px}
-					.badgePH .fa-stack .fa-circle-o{ font-size:4em;}
-					/* Tooltip container */
-					.opendata .mainTop{
-					    color: white;
-					    font-size: 1em;
-					    padding: 5px;
-					}
-					.opendata .main{
-					    color: #00cc00;
-					}
-				</style>
+			<div class="col-xs-12 no-padding">
 				<?php 
 				if(!empty($entity["badges"])){?>
 					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
@@ -354,7 +352,7 @@ $controler = Element::getControlerByCollection($type);
 								<i class="fa fa-database main fa-stack-1x text-dark"></i>
 								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
 							</span>
-							<span class="text-dark inline" style="font-family:initial;font-size: 15px; line-height: 30px;"> 
+							<span class="text-dark inline" style="font-size: 15px; line-height: 30px;"> 
 								<?php echo Yii::t("common","Open data") ?>						
 							</span>
 						</div>
@@ -362,13 +360,14 @@ $controler = Element::getControlerByCollection($type);
 				} ?>
 			</div>
 
-			<div class="col-lg-12 col-md-12 col-sm-12 no-padding">
-				<h4 class="panel-title text-dark"> 
-					<?php 
-					if ($openEdition == true) { ?>
-						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-					<?php } ?>
-				</h4>
+			<div class="col-xs-12 no-padding">
+				<?php 
+				if ($openEdition == true) { ?>
+					<div class="badgePH pull-right" data-title="OPENEDITION">
+						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					</div>
+				<?php } ?>
+				
 			</div>
 
 			

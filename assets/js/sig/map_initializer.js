@@ -236,7 +236,7 @@
 			//TODO : définir les icons et couleurs de chaque type disponoble
 			this.icoMarkersMap = { 		"default" 			: "",
 
-										  	"city" 				: "city-marker-empty",
+										  	"city" 				: "city-marker-default",
 											
 											"news" 				: "NEWS_A",
 											"idea" 				: "NEWS_A",
@@ -244,20 +244,20 @@
 											"announce" 			: "NEWS_A",
 											"information" 		: "NEWS_A",
 
-											"citoyen" 			: "citizen-marker-empty",
-											"citoyens" 			: "citizen-marker-empty",
-											"people" 			: "citizen-marker-empty",
+											"citoyen" 			: "citizen-marker-default",
+											"citoyens" 			: "citizen-marker-default",
+											"people" 			: "citizen-marker-default",
 
-											"NGO" 				: "ngo-marker-empty",
-											"organizations" 	: "ngo-marker-empty",
-											"organization" 		: "ngo-marker-empty",
+											"NGO" 				: "ngo-marker-default",
+											"organizations" 	: "ngo-marker-default",
+											"organization" 		: "ngo-marker-default",
 
-											"event" 			: "event-marker-empty",
-											"events" 			: "event-marker-empty",
-											"meeting" 			: "event-marker-empty",
+											"event" 			: "event-marker-default",
+											"events" 			: "event-marker-default",
+											"meeting" 			: "event-marker-default",
 
-											"project" 			: "project-marker-empty",
-											"projects" 			: "project-marker-empty",
+											"project" 			: "project-marker-default",
+											"projects" 			: "project-marker-default",
 
 											"markerPlace" 		: "map-marker",
 

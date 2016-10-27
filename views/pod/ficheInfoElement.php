@@ -465,9 +465,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-default text-azure btn-sm col-xs-6" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
-				</a>
 				<?php 
 					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
 					if(@$roles["superAdmin"] == true){
@@ -596,7 +593,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 			</div>
 		<?php } ?>
-		<div id="divShortDescription" class="col-xs-12 col-md-12 no-padding">
+		<div id="divShortDescription" class="col-xs-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
 			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
 			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description"); ?>" class="editable editable-click">
@@ -605,7 +602,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			
 		</div>
 
-		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
+		<div class="col-xs-12 no-padding margin-top-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Enter the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
@@ -646,7 +643,13 @@ if($showOdesc == true){
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>,
-		odesc : <?php echo json_encode($odesc) ?>
+		odesc : <?php echo json_encode($odesc) ?>,
+		<?php 
+		if( @$element["startDate"] )
+			echo "'startDate':'".$element["startDate"]."',";
+		if( @$element["endDate"] )
+			echo "'endDate':'".$element["endDate"]."'"; ?>
+
 	};	
 
 	/*var showOdesc = "<?php echo $showOdesc ?>";

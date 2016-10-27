@@ -1,0 +1,135 @@
+@media screen and (min-width: 920px) and (max-width: 1200px) {
+	.main-top-menu .moduleLabel {
+    	max-width: 32% !important;
+	}
+
+
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1350px) {
+	.main-top-menu .moduleLabel {
+    	/*max-width: 25% !important;*/
+	}
+	.moduleLabel.offline{
+		max-width: 32% !important;
+	}
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 5px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 5px 5px rgba(50, 50, 50, 0.75);
+}
+
+/* Toogle map button */
+button#btn-toogle-map{
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
+}
+
+#btn-toogle-map{
+	margin-right: 10px;
+	padding-top: 5px !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+}
+
+#btn-toogle-map:hover{
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px 0px rgba(66, 66, 66, 0.79) !important;
+}
+
+/* Documentation button */
+button#btn-documentation{
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	color:#2BB0C6;
+	border-radius: 0px 0px 0px 0px;
+	z-index: 15;
+	border: 0;
+}
+
+#btn-documentation{
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px -1px 4px -1px rgba(66, 66, 66, 0.79) !important;
+}
+
+#btn-documentation:hover{
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
+}
+
+
+#main-btn-co{
+	margin-left: 5px;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -4px rgba(66, 66, 66, 0.79) !important;
+}
+#main-btn-co:hover{
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-webkit-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	-o-box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+	box-shadow: 4px 0px 5px -2px rgba(66, 66, 66, 0.79) !important;
+}
+
+#logo-main-menu{
+	float:left;
+	font-size: 24px;
+	width: 45px;
+	height: 50px;
+	padding: 5px;
+	top: 0px;
+	z-index: 15;
+	background-color: rgb(255, 255, 255);
+	display: inline;
+	margin-right: 10px;
+}
+
+.mainLabel {
+    font-size: 21px;
+	margin-bottom: 0px;
+	margin-left: -17px;
+	margin-top: 16px;
+	display: inline-block;
+}
+#main-title {
+    margin-top: 16px !important;
+}
+
+@media screen and (max-width: 767px){
+	#notificationPanelSearch{
+		position: fixed;
+		top: 51px;
+		right: 50px;
+		width: 300px;
+		/*max-height: 80%;
+		overflow-y: auto;
+		background-color: white;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-radius: 0px 0px 10px 10px;*/
+	}
+	#main-btn-co{
+		margin-right:0px;
+	}
+}

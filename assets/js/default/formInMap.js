@@ -30,8 +30,10 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 				  };
 	console.log(options);
 	var coordinates = new Array(0, 0);
-	if(typeof Sig.myPosition != "undefined")
-		var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
+	//if(typeof Sig.myPosition != "undefined")
+	if(typeof contextData.geo != "undefined" && updateLocality == true)
+		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
+		//var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
 	//efface le marker s'il existe
 	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
@@ -41,7 +43,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.centerSimple(coordinates, 12);
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
-								  "<a href='javascript:backToForm()' class='btn no-padding margin-top-10'>"+
+								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
 								  "</a>");
 
@@ -56,8 +58,12 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		$("#newElement_btnValidateAddress").prop('disabled', false);
-		//$('[name="update"]').val("true");
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		if(NE_insee != ""){
+			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
 	}
 
 	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
@@ -72,8 +78,12 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		if(updateLocality == true)
-			$("#newElement_btnValidateAddress").prop('disabled', false);
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		if(NE_insee != ""){
+			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
 		bindEventFormSig();
 	});
 
@@ -149,8 +159,24 @@ function bindEventFormSig(){
 	 	$('[name="newElement_country"]').append("<option value='"+country.id+"'>"+country.text+"</option>");
 	});*/
 
-	$("#newElement_country").change(function(){
-		NE_country = $('[name="newElement_cp"]').val() ;
+	$('[name="newElement_country"]').change(function(){
+		console.log("change country");
+		NE_country = $('[name="newElement_country"]').val() ;
+		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";NE_cp = "";NE_street = "";
+		$('[name="newElement_insee"]').val(NE_insee);
+		$('[name="newElement_city"]').val(NE_city);
+		$('[name="newElement_cp"]').val(NE_cp);
+		$('[name="newElement_streetAddress"]').val(NE_street);
+		$('[name="newElement_dep"]').val(NE_dep);
+		$('[name="newElement_region"]').val(NE_region);
+		$("#newElement_btnValidateAddress").prop('disabled', true);
+		$("#divStreetAddress").addClass("hidden");
+		initDropdown();
+		if(NE_country != ""){
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}
+			
 	});
 
 	$("#info_insee_latlng").html(
@@ -281,6 +307,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 						"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
 						);
 				$("#newElement_btnValidateAddress").prop('disabled', false);
+				$("#divStreetAddress").removeClass("hidden");
     		});
     		
     		
@@ -332,6 +359,7 @@ function searchAdressNewElement(){
 			var html = "";
 			$.each(res, function(key, value){ //console.log(allCities);
     			if(notEmpty(value.countryCode)){
+    				console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
     				if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
     					html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'>"+value.name+"</a></li>";
     				}
@@ -407,6 +435,10 @@ function initUpdateLocality(address, geo, type){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
+		initDropdown();
+	}else{
+		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
+		NE_cp = "";NE_street = "";NE_country = "";NE_dep = "";NE_region = "";
 	}
 	formType = type ;
 	updateLocality = true;
@@ -417,6 +449,7 @@ function initUpdateLocality(address, geo, type){
 
 function updateLocalityElement(){
 	console.log("updateLocalityElement");
+	var unikey = NE_country + "_" + NE_insee + "-" + NE_cp; 
 	var locality = {
 		address : {
 			codeInsee : NE_insee,
@@ -430,103 +463,111 @@ function updateLocalityElement(){
 		geo : {
 			latitude : NE_lat,
 			longitude : NE_lng
-		}
+		},
+		unikey : unikey
 	}
+	addScopeToMultiscope(unikey, locality.address.addressLocality);
+	
 	params = new Object;
 	params.name = "locality";
 	params.value = locality;
 	params.pk = contextData.id;
 	params.type = contextData.type;
-
-	$.ajax({
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+params.type,
-        data: params,
-       	dataType: "json",
-    	success: function(data){
-    		console.log("data", data);
-	    	//toastr.success(data.msg);
-	    	if(data.result){
-	    		var inMap = true ;
-	    		if(contextData != null){
-	    			if(contextData.address != null){
-		    			contextData.address.codeInsee = locality.address.codeInsee ;
-						contextData.address.addressLocality = locality.address.addressLocality ;
-						contextData.address.postalCode = locality.address.postalCode ;
-						contextData.address.streetAddress = locality.address.streetAddress ;
-						contextData.address.addressCountry = locality.address.addressCountry ;
-						contextData.address.depName = locality.address.depName ;
-						contextData.address.regionName = locality.address.regionName ;
-		    		}else{
-		    			contextData.address = {
-		    				codeInsee : locality.address.codeInsee ,
-							addressLocality : locality.address.addressLocality ,
-							postalCode : locality.address.postalCode ,
-							streetAddress : locality.address.streetAddress ,
-							addressCountry : locality.address.addressCountry ,
-							depName : locality.address.depName ,
-							regionName : locality.address.regionName
-						}
-						inMap =false ;
+	if(userId != ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+params.type,
+	        data: params,
+	       	dataType: "json",
+	    	success: function(data){
+	    		console.log("data", data);
+		    	
+		    	if(data.result){
+		    		var inMap = true ;
+		    		if(contextData != null){
+		    			if(contextData.address != null){
+			    			contextData.address.codeInsee = locality.address.codeInsee ;
+							contextData.address.addressLocality = locality.address.addressLocality ;
+							contextData.address.postalCode = locality.address.postalCode ;
+							contextData.address.streetAddress = locality.address.streetAddress ;
+							contextData.address.addressCountry = locality.address.addressCountry ;
+							contextData.address.depName = locality.address.depName ;
+							contextData.address.regionName = locality.address.regionName ;
+			    		}else{
+			    			contextData.address = {
+			    				codeInsee : locality.address.codeInsee ,
+								addressLocality : locality.address.addressLocality ,
+								postalCode : locality.address.postalCode ,
+								streetAddress : locality.address.streetAddress ,
+								addressCountry : locality.address.addressCountry ,
+								depName : locality.address.depName ,
+								regionName : locality.address.regionName
+							}
+							inMap =false ;
+			    		}
+						if(contextData.geo != null){
+			    			contextData.geo.latitude = locality.geo.latitude ;
+							contextData.geo.longitude = locality.geo.longitude;
+			    		}else{
+			    			contextData.geo = {
+			    				latitude : locality.geo.latitude ,
+								longitude : locality.geo.longitude
+							}
+			    		}
 		    		}
-					if(contextData.geo != null){
-		    			contextData.geo.latitude = locality.geo.latitude ;
-						contextData.geo.longitude = locality.geo.longitude;
-		    		}else{
-		    			contextData.geo = {
-		    				latitude : locality.geo.latitude ,
-							longitude : locality.geo.longitude
-						}
-		    		}
-	    		}
-				var unikey = locality.address.addressCountry + "_" + locality.address.codeInsee + "-" + locality.address.postalCode; 
-				addScopeToMultiscope(unikey, locality.address.addressLocality);
-				
-				$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
-				$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
-				$("#btn-geoloc-auto-menu").attr("onclick", "");
-				$("#btn-geoloc-auto-menu").addClass("lbh");
-				
-				if(contextData.id != userId){
+					
+					
+					//ficheInfoElement
 					$("#detailStreetAddress").html(locality.address.streetAddress);
 					$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
 					$("#detailCountry").html(locality.address.addressCountry);
 					$('#localityHeader').html(locality.address.addressLocality);
 					$('#pcHeader').html(locality.address.postalCode);
 					$('#countryHeader').html(locality.address.addressCountry);
-
-					$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
-					$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
-					
+					$('#iconLocalityyHeader').removeClass("hidden");
 					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
 					$(".detailMyCity").attr("onclick", "");
 					$(".detailMyCity").removeClass("detailMyCity");
 					$(".detailMyCity").addClass("lbh");
-
-					$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + locality.address.addressLocality);
-					$(".hide-communected").hide();
-					$(".visible-communected").show();
+					//Header && ficheInfoElement
 					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 
-					var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
-					if(typeMap == "citoyens")
-						typeMap = "people";
-					if(inMap == false)
-						contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
-					Sig.restartMap();
-					Sig.showMapElements(Sig.map, contextMap);
-				}else{
-					Sig.myPosition.position.latitude = locality.geo.latitude;
-					Sig.myPosition.position.longitude = locality.geo.longitude;
-					var url = window.location.href ;
-					if(url.indexOf("#person.detail.id."+userId) == -1) {
-						loadByHash("#person.detail.id."+userId);
+					toastr.success(data.msg);
+					initData();
+					if(contextData.id != userId){
+						var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
+						if(typeMap == "citoyens")
+							typeMap = "people";
+						if(inMap == false)
+							contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
+						Sig.restartMap();
+						Sig.showMapElements(Sig.map, contextMap);
+					}else{
+
+						changeMenuCommunextion(locality);
+
+						Sig.myPosition.position.latitude = locality.geo.latitude;
+						Sig.myPosition.position.longitude = locality.geo.longitude;
+						var url = window.location.href ;
+						if(url.indexOf("#person.detail.id."+userId) == -1) {
+							loadByHash("#person.detail.id."+userId);
+						}
 					}
-				}
-				//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+contextData.address.codeInsee+"', 'MA COMMUNE','university' )");
-	    	}
-	    }
-	});
+
+					
+		    	}
+		    }
+		});
+	}else{
+		changeMenuCommunextion(locality);
+		inseeCommunexion = locality.address.codeInsee ;
+		cityNameCommunexion = locality.address.addressLocality ;
+		cpCommunexion = locality.address.postalCode ;
+		countryCommunexion = locality.address.addressCountry ;
+		setCookies("/");
+		initData();
+	}
+	
 }
 
 // Pour effectuer une recherche a la Réunion avec Nominatim, il faut choisir le code de la France, pas celui de la Réunion
@@ -565,5 +606,46 @@ function changeSelectCountrytim(){
 	
 }
 
+function changeMenuCommunextion(locality){
+	//Menu Left
+	$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
+	$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
+	$("#btn-geoloc-auto-menu").attr("onclick", "");
+	$("#btn-geoloc-auto-menu").addClass("lbh");
+	//Dashbord
+	$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
+	$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+locality.unikey);
+	//Multiscope
+	$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + locality.address.addressLocality);
+	//MenuSmall
+	$(".hide-communected").hide();
+	$(".visible-communected").show();
+}
+
+function initDropdown(){
+	$("#dropdown-newElement_cp-found").html("<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>");
+	$("#dropdown-newElement_city-found").html("<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>");
+}
+
+function initData(){
+	console.log("initData");
+	timeoutAddCity;
+	NE_insee = "";
+	NE_lat = "";
+	NE_lng = "";
+	NE_city = "";
+	NE_cp = "";
+	NE_street = "";
+	NE_country = "";
+	NE_dep = "";
+	NE_region = "";
+	typeSearchInternational = "";
+	formType = "";
+	updateLocality = false;
+	initDropdown();
+	$("#divStreetAddress").addClass("hidden");
+	$("#divPostalCode").addClass("hidden");
+	$("#divCity").addClass("hidden");
+}
 
 

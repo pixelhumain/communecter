@@ -865,5 +865,31 @@ class DatamigrationController extends CommunecterController {
 
 	}
 
+
+	public function actionDeleteDoublonLinks(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
+			foreach ($elements as $keyElt => $elt) {
+				if(!empty($elt["links"])){
+					foreach (@$elt["links"] as $typeLinks => $links) {
+						if(array_key_exists ($keyElt , $links)){
+							echo  $type." Elts: ".$typeLinks." " .$keyElt."<br>" ;
+							$res = PHDB::update( $type, 
+							  	array("_id"=>new MongoId($key)),
+		                        array('$set' => array(	"geoPosition" => $geoPosition,
+		                        						"modifiedByBatch" => $elt["modifiedByBatch"])), 
+		                        array('upsert' => true ));
+		                    $nbelement ++ ;
+						}
+					}
+				}
+				
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 
