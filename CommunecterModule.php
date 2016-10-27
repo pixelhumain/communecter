@@ -21,7 +21,7 @@ class CommunecterModule extends CWebModule
 		));
 		
 		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
-		Yii::app()->theme  = "notragora";
+		Yii::app()->theme  = "ph-dori";
 		Yii::app()->language = (isset(Yii::app()->session["lang"])) ? Yii::app()->session["lang"] : 'fr';
 		
 		// import the module-level models and components
