@@ -47,6 +47,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
+<style>
+	.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
@@ -54,14 +69,15 @@ if($('#breadcum').length)
 ?>
 <div class="row" id="detailPad">
 	<div class=" col-xs-12">
-		<div class="col-xs-12">
+		<div class="col-xs-12 col-md-12">
 			<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
-				$vieoLink=str_replace ( "&autoplay=1" , "&autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
+				
+				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
 					<div class="embed-responsive embed-responsive-16by9">
-						<iframe class="embed-responsive-item" src="<?php echo @$vieoLink ?>"></iframe>
+						<iframe class="embed-responsive-item" src="<?php echo @$videoLink ?>"></iframe>
 					</div>
 				</div>
 				<?php } ?>

@@ -256,7 +256,8 @@
 
 <?php 
 	if(!isset($me)) $me = "";
- 	$this->renderPartial("./menu/menuSmall", 
+	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.'; 
+ 	$this->renderPartial($layoutPath.".menu.menuSmall", 
  					array(  "me"=>$me,
  			 				"myCity" => $myCity)); 
 ?> 
