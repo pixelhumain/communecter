@@ -150,7 +150,7 @@
 			var url = '#'+typeElement+'.detail.id.'+id;
 			onclick = 'loadByHash("'+url+'");';
 			
-			if(notEmpty(TPL_IFRAME) && TPL_IFRAME==true){
+			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){
 				url = "https://www.communecter.org/"+url;
 				popupContent += "<a href='"+url+"' target='_blank' class='item_map_list popup-marker' id='popup"+id+"'>";
 			}else{							
