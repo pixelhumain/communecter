@@ -188,12 +188,12 @@ if($('#breadcum').length)
 
 				if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
 				<div id="div-discover" class="col-md-4 pull-right">
-					<div class="panel no-padding">
+					<div class="panel panel-white no-padding">
 			            
 						<div class="panel-heading text-center border-light">
 			                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
 			            </div>
-				        <div class="panel panel-white padding-10 text-left">
+				        <div class="padding-10 text-left">
 			               	<div class="panel-body no-padding ">
 				                <div class="col-md-12 no-padding" style="margin-top:20px">
 
@@ -232,11 +232,11 @@ if($('#breadcum').length)
 				        </div>
 			        </div>
 
-			        <div class="panel no-padding margin-top-15 ">
+			        <div class="panel panel-white no-padding margin-top-15 ">
 				        <div class="panel-heading text-center border-light">
 			                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
 			            </div>
-				        <div class="panel panel-white padding-10">
+				        <div class="padding-10">
 				            <div id="local-actors-popup-sig">
 				              
 				              <div class="panel-body no-padding ">

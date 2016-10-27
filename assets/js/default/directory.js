@@ -572,12 +572,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               }else{
                 str += thisLocality;
               }
-
-                  }
-                }else{
-                  str += thisLocality;
-                }
-
+              
               
               if(o.type == "entry"){
                 var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
