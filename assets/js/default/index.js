@@ -154,7 +154,7 @@ function showMap(show)
 
 		var iconMap = "map-marker";
 		if(typeof ICON_MAP_MENU_TOP != "undefined") iconMap = ICON_MAP_MENU_TOP;
-		console.log(ICON_MAP_MENU_TOP);
+		//console.log(ICON_MAP_MENU_TOP);
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();

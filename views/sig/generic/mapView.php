@@ -22,6 +22,20 @@
 		</div>
 	</div>	 -->
 	
+	<?php if(isset($sigParams['useHorizontalAroundMe']) && 
+				@$sigParams['useHorizontalAroundMe'] == true ){ ?>
+			<div class="btn-group btn-groupe-around-me-km  btn-groupe-around-me-km-hz" 
+				 role="group" aria-label="...">
+			  <button class="btn btn-map" data-km="2000">2 km</button>
+			  <button class="btn btn-map" data-km="5000">5 km</button>
+			  <button class="btn btn-map" data-km="10000">10 km</button>
+			  <button class="btn btn-map" data-km="25000">25 km</button>
+			  <button class="btn btn-map" data-km="50000">50 km</button>
+			  <button class="btn btn-map" id="loader-aroundme"></button>
+
+			</div>
+	<?php } ?>
+
 	<div class="bg-main-menu bgpixeltree_sig"></div>
 
 	<?php if($sigParams['useRightList']){ ?>
@@ -133,12 +147,14 @@
 
 		<div class="btn-group-map tools-btn">
 		
+			<?php if(!isset($sigParams['useBtnCloseMap']) || @$sigParams['useBtnCloseMap'] == true ){ ?>
 			<div class="btn-group btn-group-lg tooltips"
 				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
 				<button type="button" class="btn btn-map " id="btn-back" >
 				<i class="fa fa-chevron-up"></i></button>
 			</div>
-
+			<?php } ?>	
+			
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
 				<div class="btn-group btn-group-lg hidden-xs tooltips"
 					 data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
@@ -166,6 +182,8 @@
 			
 		</div>
 
+		<?php if(!isset($sigParams['useHorizontalAroundMe']) || 
+				@$sigParams['useHorizontalAroundMe'] != true ){ ?>
 		<div class="btn-group-vertical btn-groupe-around-me-km" role="group" aria-label="...">
 		  <button class="btn btn-map" data-km="2000">2 km</button>
 		  <button class="btn btn-map" data-km="5000">5 km</button>
@@ -173,8 +191,8 @@
 		  <button class="btn btn-map" data-km="25000">25 km</button>
 		  <button class="btn btn-map" data-km="50000">50 km</button>
 		  <button class="btn btn-map" id="loader-aroundme"></button>
-
 		</div> 
+		<?php } ?>
 
 		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>
 
