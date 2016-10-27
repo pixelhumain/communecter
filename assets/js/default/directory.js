@@ -394,7 +394,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
         }
         if(typeObj[o.type].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
-			   imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>"
+
+			 imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>"
+
         var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
         // if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
         //   htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilImageUrl+"'/>"
@@ -419,8 +421,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         '#news.index.type.'+o.parentType+'.id.' + o.parentId : "";
 
         var url = '#news.index.type.'+type+'.id.' + id;
+
         if(type == "citoyens") url += '.viewer.' + userId;
-        if(type == "poi") 	 url = '#element.detail.type.poi.id.' + id;
+        if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
         if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
         if(type == "surveys") url = "#survey.entry.id."+id;
         if(type == "actions") url = "#rooms.action.id."+id;
@@ -501,7 +504,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
             if(updated != null)
               str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
-              
+            
+            if(o.type!="city")  
             str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
             str += "<div class='padding-10'>";
