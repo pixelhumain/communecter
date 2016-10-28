@@ -205,9 +205,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	</div>
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">				
 		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
-				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Enter the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
 					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
-				</a>	
 		</div>
 		<div id="divTags" class="col-md-12 no-padding" >
 			<?php if(isset($element["tags"])){ ?>
