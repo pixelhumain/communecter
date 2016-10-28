@@ -731,9 +731,10 @@ function initXEditable() {
 }
 function checkAndCutLongString(text,limitLength,idNews){
 	if(text.length > limitLength){
+		allText=text;
 		text=text.substring(0,limitLength);
 		if(limitLength==500){
-			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span>";
+			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span><div class='allText' style='display:none;'>"+allText+"</div>";
 		}else{
 			text += " ..."
 		}
