@@ -670,16 +670,15 @@ function bindInviteSubViewInvites() {
     	else{
     		var nameUtil = "" ;
     		console.log("listMails", listMails);
-    		/*$.ajax({
+    		$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/person/follows',
 		        dataType : "json",
 		        data: {
 		        	parentId : $("#parentId").val(),
-		        	invitedUserName : nameUtil,
-		        	invitedUserEmail : value.mail,
 		        	listMails : listMails,
-		        	msgEmail : $("#textmail").val()
+		        	msgEmail : $("#textmail").val(),
+		        	gmail : true
 		        },
 				type:"POST",
 		    })
@@ -688,19 +687,22 @@ function bindInviteSubViewInvites() {
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
 		        	console.log(data);
-		        	addFloopEntity(formData.invitedUser._id.$id, <?php echo Person::COLLECTION ?>, data.invitedUser);
+		        	$.each(data.data, function(key, elt) {
+		        		addFloopEntity(elt.invitedUser.id, <?php echo Person::COLLECTION ?>, elt.invitedUser);
+		        	});
+		        	
 		        	$('#inviteSearch').val("");
 					//Minus 1 on number of invit
-					var count = parseInt($("#numberOfInvit").data("count")) - 1;
+					/*var count = parseInt($("#numberOfInvit").data("count")) - 1;
 					$("#numberOfInvit").html(count + ' invitation(s)');
-					$("#numberOfInvit").data("count", count);
+					$("#numberOfInvit").data("count", count);*/
 					backToSearch();
 		        } else {
 		        	$.unblockUI();
 					toastr.error(data.msg);
 		        }
-		    });*/
-    		$.each(listMails, function(key, value) {
+		    });
+    		/*$.each(listMails, function(key, value) {
     			console.log("value", value)
     			if(value.mail != ""){
     				if(typeof value.name != "undefined" && value.name != "")
@@ -741,7 +743,7 @@ function bindInviteSubViewInvites() {
 				        }
 				    });
 				}
-    		});
+    		});*/
     	}
   	});
 };

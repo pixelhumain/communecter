@@ -29,11 +29,15 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 					 content : Sig.getPopupConfigAddress()
 				  };
 	console.log(options);
+
+	if(typeof currentUser != "undefined" && currentUser != null && typeof currentUser.addressCountry != "undefined" && currentUser.addressCountry != null){
+		NE_country = currentUser.addressCountry;
+		console.log("NE_country", NE_country);
+	}
+
 	var coordinates = new Array(0, 0);
-	//if(typeof Sig.myPosition != "undefined")
 	if(typeof contextData != "undefined" && contextData != null && typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
 		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
-		//var coordinates = new Array(Sig.myPosition.position.latitude, Sig.myPosition.position.longitude);
 	
 	//efface le marker s'il existe
 	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
@@ -47,7 +51,12 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
 								  "</a>");
 
-
+	$('[name="newElement_country"]').val(NE_country);
+	
+	if(NE_country != ""){
+		$("#divPostalCode").removeClass("hidden");
+		$("#divCity").removeClass("hidden");
+	}
 	if(updateLocality == true){
 		$('[name="newElement_insee"]').val(NE_insee);
 		$('[name="newElement_lat"]').val(NE_lat);
@@ -57,12 +66,9 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 		$('[name="newElement_streetAddress"]').val(NE_street);
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
-		$('[name="newElement_country"]').val(NE_country);
-		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_insee==""?true:false));
 		if(NE_insee != ""){
 			$("#divStreetAddress").removeClass("hidden");
-			$("#divPostalCode").removeClass("hidden");
-			$("#divCity").removeClass("hidden");
 		}
 	}
 
@@ -187,10 +193,11 @@ function bindEventFormSig(){
 			
 	});
 
-	$("#info_insee_latlng").html(
+	/*$("#info_insee_latlng").html(
 		"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
 		"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
-	);
+	);*/
+	updateHtmlInseeLatLon();
 
 	$("#newElement_btnCancelAddress").click(function(){
 		$('[name="newElement_insee"]').val("");
@@ -310,10 +317,11 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
-				$("#info_insee_latlng").html(
+				/*$("#info_insee_latlng").html(
 						"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
 						"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
-						);
+						);*/
+				updateHtmlInseeLatLon();
 				$("#newElement_btnValidateAddress").prop('disabled', false);
 				$("#divStreetAddress").removeClass("hidden");
     		});
@@ -379,7 +387,13 @@ function searchAdressNewElement(){
     			Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
 				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
 				Sig.map.setZoom(16);
+				console.log("lat lon", $(this).data("lat"), $(this).data("lng"));
 				$("#dropdown-newElement_streetAddress-found").hide();
+				$('[name="newElement_lat"]').val($(this).data("lat"));
+				$('[name="newElement_lng"]').val($(this).data("lng"));
+				NE_lat = $(this).data("lat");
+				NE_lng = $(this).data("lng");
+				updateHtmlInseeLatLon();
     		});
 		}, 
 		function(){
@@ -410,13 +424,14 @@ function backToForm(cancel){
 				},
 				geoPosition : {
 					"type" : "Point",
-					"coordinates" : [ $("[name='newElement_lng']").val(), $("[name='newElement_lat']").val() ]
+					"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
 				}
 			};
 			copyMapForm2Dynform(locationObj);
 			addLocationToForm(locationObj);
 		}
 		showMap(false);
+		Sig.clearMap();
 		$('#ajax-modal').modal("show");
 	}else{
 		if(typeof cancel == "undefined" || cancel == false)
@@ -458,6 +473,7 @@ function updateLocalityElement(){
 	var unikey = NE_country + "_" + NE_insee + "-" + NE_cp; 
 	var locality = {
 		address : {
+			"@type" : "PostalAddress",
 			codeInsee : NE_insee,
 			streetAddress : NE_street,
 			postalCode : NE_cp,
@@ -467,8 +483,13 @@ function updateLocalityElement(){
 			addressCountry : NE_country
 		},
 		geo : {
+			"@type" : "GeoCoordinates",
 			latitude : NE_lat,
 			longitude : NE_lng
+		},
+		geoPosition : {
+			"type" : "Point",
+			"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
 		},
 		unikey : unikey
 	}
@@ -492,15 +513,17 @@ function updateLocalityElement(){
 		    		var inMap = true ;
 		    		if(contextData != null){
 		    			if(contextData.address != null){
-			    			contextData.address.codeInsee = locality.address.codeInsee ;
+		    				contextData.address = locality.address;
+			    			/*contextData.address.codeInsee = locality.address.codeInsee ;
 							contextData.address.addressLocality = locality.address.addressLocality ;
 							contextData.address.postalCode = locality.address.postalCode ;
 							contextData.address.streetAddress = locality.address.streetAddress ;
 							contextData.address.addressCountry = locality.address.addressCountry ;
 							contextData.address.depName = locality.address.depName ;
-							contextData.address.regionName = locality.address.regionName ;
+							contextData.address.regionName = locality.address.regionName ;*/
 			    		}else{
-			    			contextData.address = {
+			    			contextData.address = locality.address;
+			    			/*contextData.address = {
 			    				codeInsee : locality.address.codeInsee ,
 								addressLocality : locality.address.addressLocality ,
 								postalCode : locality.address.postalCode ,
@@ -508,18 +531,21 @@ function updateLocalityElement(){
 								addressCountry : locality.address.addressCountry ,
 								depName : locality.address.depName ,
 								regionName : locality.address.regionName
-							}
+							}*/
 							inMap =false ;
 			    		}
 						if(contextData.geo != null){
-			    			contextData.geo.latitude = locality.geo.latitude ;
-							contextData.geo.longitude = locality.geo.longitude;
+							contextData.geo = locality.geo;
+			    			//contextData.geo.latitude = locality.geo.latitude ;
+							//contextData.geo.longitude = locality.geo.longitude;
 			    		}else{
-			    			contextData.geo = {
+			    			contextData.geo = locality.geo;
+			    			/*contextData.geo = {
 			    				latitude : locality.geo.latitude ,
 								longitude : locality.geo.longitude
-							}
+							}*/
 			    		}
+			    		contextData.geoPosition = locality.geoPosition;
 		    		}
 					
 					
@@ -660,4 +686,11 @@ function initData(){
 	$("#divCity").addClass("hidden");
 }
 
+
+function updateHtmlInseeLatLon(){
+	$("#info_insee_latlng").html(
+		"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
+		"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
+	);
+}
 
