@@ -1442,7 +1442,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 		            inviteSearch : {
 		            	placeholder : " Nom ou Email",
@@ -1591,7 +1591,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
@@ -1748,7 +1748,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
@@ -1964,7 +1964,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
