@@ -64,8 +64,6 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
 		}
-	}else{
-		$("#newElement_country").append("<option value=''>Country</option>");
 	}
 
 	//lorsque la popup s'ouvre, on ajoute l'event click sur le bouton de validation
@@ -177,9 +175,14 @@ function bindEventFormSig(){
 		$("#newElement_btnValidateAddress").prop('disabled', true);
 		$("#divStreetAddress").addClass("hidden");
 		initDropdown();
+		console.log("NE_country", NE_country, typeof NE_country, NE_country.length);
 		if(NE_country != ""){
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
+		}else{
+			console.log("NE_country", NE_country, typeof NE_country, NE_country.length);
+			$("#divPostalCode").addClass("hidden");
+			$("#divCity").addClass("hidden");
 		}
 			
 	});
