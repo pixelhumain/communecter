@@ -1828,13 +1828,18 @@ var typeObj = {
 		            },
 		            allday : {
 		            	"inputType" : "checkbox",
+		            	init : function(){
+			            	$("#ajaxFormModal #allday").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		console.log("toto");
+			            	})
+			            },
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
 		            		"labelText":"Journée",
 		            		"onChange" : function(){
 		            			//TODO SBAR : change date time to date picker
-		            			var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			/*var allDay = $("#ajaxFormModal #allday").is(':checked');
 		            			if (allDay) {
 		            				console.log("init dateInput");
 		            				$(".dateTimeInput").addClass("dateInput");
@@ -1855,7 +1860,7 @@ var typeObj = {
 										lang: 'fr',
 										format: 'Y/m/d H:i'
 								    });
-		            			}
+		            			}*/
 		            		}
 		            	}
 		            },
