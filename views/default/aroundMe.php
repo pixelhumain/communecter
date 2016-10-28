@@ -5,31 +5,8 @@
 
 <style>
   
-  .btn-add-to-directory{
-    font-size: 14px;
-    margin-right: 0px;
-    border-radius: 6px;
-    color: #666;
-    border: 1px solid rgba(188, 185, 185, 0.69);
-    margin-left: 3px;
-    float: left;
-    padding: 1px;
-    width: 24px;
-    margin-top: 15px;
-  }
-  .searchEntity{
-    padding: 10px 0 10px 0 !important;
-    margin: 0px !important;
-    border-top: solid rgba(128, 128, 128, 0.2) 1px;
-    margin-left: 0% !important;
-    width: 100%;
-  }
-  .searchEntity:hover{
-    background-color: rgba(211, 211, 211, 0.2);
-  }
-
   #grid_around{
-    margin:0 -15px 0 -15px;
+    padding: 20px 0px;
   }
 
   .btn-groupe-around-me-km {
