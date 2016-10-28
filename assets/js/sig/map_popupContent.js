@@ -691,7 +691,8 @@
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
 									"<hr class='col-md-12'>"+
-									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+countries+
+									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
+									"<option value=''>"+trad.chooseCountry+"</option>"+countries+
 									"</select>"+
 									"<div id='divCity' class='hidden dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
 								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+

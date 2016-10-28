@@ -348,7 +348,7 @@ border: 1px solid #E4E4E4;
                       " : ".$endDate
                       : "Non défini";
           $ends .= "</div>";
-        }else{
+        } else {
           $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'>".
                     "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
           $ends .=  (!empty( $endDate )) ? 

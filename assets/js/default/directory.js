@@ -486,7 +486,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
         var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
         
         //template principal
-        str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer'>";
+        str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
         str +=    "<div class='searchEntity'>";
 
           if(userId != null){
@@ -531,9 +531,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                           + o.parent.name + 
                         "</a>";
 
-
+              var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
               str += "<a href='"+url+"' class='entityName text-dark lbh'>"+
-                        "<i class='fa fa-reply fa-rotate-180'></i> " + name + 
+                        iconFaReply + name + 
                      "</a>";
               
               var thisLocality = "";
