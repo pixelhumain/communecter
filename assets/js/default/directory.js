@@ -531,9 +531,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                           + o.parent.name + 
                         "</a>";
 
-
+              var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
               str += "<a href='"+url+"' class='entityName text-dark lbh'>"+
-                        "<i class='fa fa-reply fa-rotate-180'></i> " + name + 
+                        iconFaReply + name + 
                      "</a>";
               
               var thisLocality = "";
