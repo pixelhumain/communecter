@@ -644,10 +644,9 @@ function loadByHash( hash , back ) {
 	CoAllReadyLoad = true;
 	contextData = null;
 
-	$(".my-main-container").off(); 
-	console.log("LBH scroll shadows!");
-	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
-	$(".my-main-container").scrollTop(0);
+	$(".my-main-container").off()
+						   .bind("scroll", function () {shadowOnHeader()})
+						   .scrollTop(0);
 
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
