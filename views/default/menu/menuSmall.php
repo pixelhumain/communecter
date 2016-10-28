@@ -1,7 +1,7 @@
 
 
 <?php  
-HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuSmall.css')); 
+HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuSmall.css', Yii::app()->theme->baseUrl)); 
 
 if (isset(Yii::app()->session['userId']) && !empty($me)) {
           $profilMediumImageUrl = Element::getImgProfil($me, "profilMediumImageUrl", $this->module->assetsUrl);

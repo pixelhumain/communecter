@@ -207,7 +207,7 @@ $controler = Element::getControlerByCollection($type);
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 			<button class="col-xs-12 center btn btn-default text-azure" style="margin-left:10px;" onclick="showMap(true)">
-				<i class="fa fa-map-marker"></i> <span class="hidden-xs">Afficher sur la carte</span>
+				<i class="fa fa-map-marker"></i> <span class="hidden-xs hidden-sm">Afficher sur la carte</span>
 			</button>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
