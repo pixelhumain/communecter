@@ -278,6 +278,7 @@
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"citoyens" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
+											"person" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
@@ -353,7 +354,7 @@
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (data){
+		Sig.getIcoByType = function (data){ 
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;

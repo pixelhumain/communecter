@@ -103,8 +103,11 @@ jQuery(document).ready(function() {
 
   <?php if(isset($_GET["tpl"]) && @$_GET["tpl"]=="iframesig"){ ?>
     //iframesig TPL
-    var lblParentName = "<span class='text-'>"+parentName+"</span>";
-    $(".main-top-menu #menuParentName").html(parentName);
+    var color = Sig.getIcoColorByType({"typeSig": typeElement});
+    var icon = Sig.getIcoByType({"typeSig": typeElement});
+
+    var lblParentName = "<span class='text-"+color+"'><i class='fa fa-"+icon+"'></i> "+parentName+"</span>";
+    $(".main-top-menu #menuParentName").html(lblParentName);
   <?php } ?>
 
 });
