@@ -22,6 +22,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
 	
 );
+error_log("BasURL : ".Yii::app()->request->baseUrl);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(

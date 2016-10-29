@@ -644,10 +644,9 @@ function loadByHash( hash , back ) {
 	CoAllReadyLoad = true;
 	contextData = null;
 
-	$(".my-main-container").off(); 
-	console.log("LBH scroll shadows!");
-	$(".my-main-container").bind("scroll", function () {shadowOnHeader()});
-	$(".my-main-container").scrollTop(0);
+	$(".my-main-container").off()
+						   .bind("scroll", function () {shadowOnHeader()})
+						   .scrollTop(0);
 
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
@@ -1443,7 +1442,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 		            inviteSearch : {
 		            	placeholder : " Nom ou Email",
@@ -1592,7 +1591,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
@@ -1749,7 +1748,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
@@ -1828,13 +1827,18 @@ var typeObj = {
 		            },
 		            allday : {
 		            	"inputType" : "checkbox",
+		            	init : function(){
+			            	$("#ajaxFormModal #allday").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		console.log("toto");
+			            	})
+			            },
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
 		            		"labelText":"Journée",
 		            		"onChange" : function(){
 		            			//TODO SBAR : change date time to date picker
-		            			var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			/*var allDay = $("#ajaxFormModal #allday").is(':checked');
 		            			if (allDay) {
 		            				console.log("init dateInput");
 		            				$(".dateTimeInput").addClass("dateInput");
@@ -1855,7 +1859,7 @@ var typeObj = {
 										lang: 'fr',
 										format: 'Y/m/d H:i'
 								    });
-		            			}
+		            			}*/
 		            		}
 		            	}
 		            },
@@ -1960,7 +1964,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si tu veux créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Tu peux ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",

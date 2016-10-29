@@ -54,5 +54,6 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"addProject" : "<?php echo Yii::t("common","Add a Project") ?>",
 		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
 		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
+		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
 };
 

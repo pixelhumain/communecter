@@ -4,7 +4,7 @@
     	$me = Person::getById(Yii::app()->session['userId']);
     	$newsToModerate = count(News::getNewsToModerate());
 
-    HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/menu.css'));
+    HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/menu.css', Yii::app()->theme->baseUrl));
 	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/menu.js'), $this->module->assetsUrl);
 ?>
 <?php 

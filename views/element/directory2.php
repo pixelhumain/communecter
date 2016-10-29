@@ -392,7 +392,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					<?php	if (@$manage){ ?> 
 						<input type="hidden" id="parentType" value="<?php echo $type ?>"/>
 						<input type="hidden" id="parentId" value="<?php echo $elementId ?>"/>
-						<input type="hidden" id="connectType" value="<?php echo "members"/*$connectType*/ ?>"/>
+						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
 					<?php } ?>
 					<?php 
 					$memberId = Yii::app()->session["userId"];
@@ -447,7 +447,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -455,7 +455,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 
@@ -952,7 +952,10 @@ function bindBtnEvents(){
 			    params.fromMyDirectory = true;
 	        }else{
 		        params.childId = $(this).data("id");
-		        params.childType = $(this).data("type");
+		        if($("#parentType").val() == "events")
+		        	params.childType = "citoyens";
+		        else
+		        	params.childType = $(this).data("type");
 		        params.parentType = $("#parentType").val();
 		        params.parentId = $("#parentId").val();
 		        params.connectType = $("#connectType").val();

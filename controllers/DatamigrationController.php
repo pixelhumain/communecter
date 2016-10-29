@@ -898,5 +898,33 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
+
+	public function actionUpdateCitiesBelgiqueGeo() {
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbelement= 0 ;
+		foreach ($cities as $key => $city) {
+			$find = false ;
+			$newCPs = array();
+			foreach ($city["postalCodes"] as $keyPC => $cp) {
+				if(empty($cp["geo"])){
+					$find = true ;
+					$cp["geo"] = $city["geo"];
+					$cp["geoPosition"] = $city["geoPosition"];
+				}
+				$newCPs[] = $cp;
+			}
+			if($find == true){
+				echo  $city["name"]." ".$key."<br>" ;
+				$nbelement ++ ;
+				$res = PHDB::update( City::COLLECTION, 
+			  		array("_id"=>new MongoId($key)),
+                	array('$set' => array("postalCodes" => $newCPs)));
+			}
+			
+	
+		}
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 

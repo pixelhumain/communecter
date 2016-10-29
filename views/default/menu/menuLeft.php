@@ -9,7 +9,7 @@
 		'/assets/css/default/menu.css',
 		'/assets/css/menus/menuLeft.css'
 	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
     $cssAnsScriptFilesModule = array(
 		'/js/default/menu.js',
