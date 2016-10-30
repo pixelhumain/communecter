@@ -230,8 +230,19 @@
 						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
 			}
-		};
 
+			
+		};
+		
+		Sig.showIframeSig = function(){
+				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
+				$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
+			  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+			  										
+									              "</div>");
+			  	$('#ajax-modal').modal("show");
+			};
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
 			this.icoMarkersMap = { 		"default" 			: "",
