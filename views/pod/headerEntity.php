@@ -252,7 +252,7 @@ $controler = Element::getControlerByCollection($type);
 					</div>
 					<?php if(@$entity["seePreferences"] && $entity["seePreferences"]==true){ ?>
 						<div id="divSeePreferencesHeader" class="col-md-12 text-dark no-padding">
-							<a href="javascript:;" id="confidentialityBtn" class="btn bg-red">Vérifier si les paramètres vous convient</a> 
+							<a href="javascript:;" id="confidentialityBtn" class="btn bg-red"><i class="fa fa-cog"></i> Vérifier si les paramètres vous conviennent</a> 
 						</div>
 					<?php }
 				} ?>
