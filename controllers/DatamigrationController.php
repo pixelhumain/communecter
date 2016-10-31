@@ -900,6 +900,7 @@ class DatamigrationController extends CommunecterController {
 
 
 	public function actionUpdateCitiesBelgiqueGeo() {
+		ini_set('memory_limit', '-1');
 		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
 		$nbelement= 0 ;
 		foreach ($cities as $key => $city) {
