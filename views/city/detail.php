@@ -7,7 +7,7 @@ $this->renderPartial('../default/panels/toolbar');
  $cssAnsScriptFilesModule = array(
     '/assets/css/city/detail.css',
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 ?>
 
 
