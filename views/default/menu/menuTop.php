@@ -1,4 +1,4 @@
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuTop.css')); ?>
+<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/menuTop.css'), Yii::app()->theme->baseUrl); ?>
 <div class="col-xs-12 main-top-menu no-padding"  data-tpl="default.menu.menuTop">
 	
 	<?php // BTN CO = Live // ?>
