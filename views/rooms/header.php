@@ -4,7 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/assets/css/rooms/header.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule); ?>
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl); ?>
  <style>
 
 .assemblyHeadSection {  

@@ -1,5 +1,5 @@
 <?php 
-  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'));
+  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'), Yii::app()->theme->baseUrl);
   HtmlHelper::registerCssAndScriptsFiles( array('/js/default/directory.js') , $this->module->assetsUrl);
 ?>
 
