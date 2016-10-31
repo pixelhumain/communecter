@@ -10,7 +10,7 @@ $cssAnsScriptFilesModule = array(
 	'/assets/css/sig/sig.css',
 	'/assets/css/sig/sig_network_mapping.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 $cs = Yii::app()->getClientScript();
 

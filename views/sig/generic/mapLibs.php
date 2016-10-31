@@ -9,7 +9,7 @@
 		'/assets/css/sig/leaflet/leaflet.awesome-markers.css',
 		'/assets/css/sig/sig.css',
 	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 		$cssAndScriptFiles = array(
 			
