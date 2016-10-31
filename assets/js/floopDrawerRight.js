@@ -113,7 +113,10 @@ function getFloopItem(id, type, value){
 
 	var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 	var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
-	var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/news/profile_default_l.png";
+	defaultImg=type.name;
+	if(defaultImg=="people")
+		defaultImg="citoyens";
+	var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/thumb/default_"+defaultImg+".png";
 	var id = (typeof value._id != "undefined" && typeof value._id.$id != "undefined") ? value._id.$id : id;
 	var path = "#"+openPanelType[type.name]+".detail.id."+id;
 	var elementClass = oldElement ? "oldFloopDrawer"+type.name : "";
