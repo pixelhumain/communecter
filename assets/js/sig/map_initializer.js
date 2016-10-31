@@ -399,6 +399,7 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
+			console.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
