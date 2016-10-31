@@ -1,6 +1,6 @@
 
 <?php  
-  	HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/live.css'));
+  	HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/live.css'), Yii::app()->theme->baseUrl);
 	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/live.js'), $this->module->assetsUrl); ?>
 
 <div class="row headerHome">
