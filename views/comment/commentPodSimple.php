@@ -36,7 +36,7 @@
 		background-color: rgba(231, 231, 231, 0.62);
 	}
 	.content-comment{
-		max-width:85%;
+		max-width:80%;
 		min-height: 35px;
 	}
 	.answerCommentContainer {
@@ -45,11 +45,13 @@
 	}
 	
 	.ctnr-txtarea{
-		position: absolute;right:10px; left:50px;
+		position: absolute;
+		right:10px; 
+		left:50px;
 	}
 
 	.answerCommentContainer .ctnr-txtarea{
-		left:40px;
+		left:40px!important;
 	}
 
 	.content-comment .tool-action-comment{
@@ -223,7 +225,7 @@
 							<?php } ?>
 							</span>
 						</span>
-						<div id="comments-list-<?php echo $comment["_id"]; ?>" class="hidden pull-left col-md-10 col-sm-10 col-xs-10 no-padding answerCommentContainer">
+						<div id="comments-list-<?php echo $comment["_id"]; ?>" class="hidden pull-left col-md-11 col-sm-11 col-xs-11 no-padding answerCommentContainer">
 							<?php if(sizeOf($comment["replies"]) > 0) //recursive for answer (replies)
 									showCommentTree($comment["replies"], $assetsUrl, $comment["_id"], $canComment, $level+1);  ?>
 						</div>
@@ -417,7 +419,7 @@
 								<?php } ?>
 							'</span>'+
 						'</span>'+	
-						'<div id="comments-list-'+idNewComment+'" class="pull-left col-md-9 no-padding answerCommentContainer"></div>' +
+						'<div id="comments-list-'+idNewComment+'" class="pull-left col-md-11 no-padding answerCommentContainer"></div>' +
 							
 					'</div>';
 
@@ -450,6 +452,11 @@
 	function saveComment(textComment, parentCommentId){
 		textComment = $.trim(textComment);
 		if(!notEmpty(parentCommentId)) parentCommentId = "";
+		if(textComment == "") {
+			toastr.error("Votre commentaire est vide");
+			return;
+		}
+
 		$.ajax({
 			url: baseUrl+'/'+moduleId+"/comment/save/",
 			data: {
@@ -776,9 +783,10 @@
 
 	function editComment(idComment){
 		// console.log(contextId);
-		var commentContent = $('#item-comment-'+idComment+' .text-comment').html();
+		var commentContent = $('#item-comment-'+idComment+' .text-comment').html().trim();
 		var message = "<div id='container-txtarea-"+idComment+"'>"+
-						"<textarea id='textarea-new-comment"+idComment+"' class='form-control' placeholder='modifier votre commentaire'>"+commentContent+"</textarea>"+
+						"<textarea id='textarea-new-comment"+idComment+"' class='form-control' placeholder='modifier votre commentaire'>"+commentContent+
+						"</textarea>"+
 					  "</div>";
 		var boxComment = bootbox.dialog({
 		  message: message,

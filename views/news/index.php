@@ -522,7 +522,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<button class="btn text-red btn-default" id="btn-filter-scope-news" onclick="toggleFilters('#scopeFilters');"><i class="fa fa-circle-o"></i> Rechercher par lieu</button>
 			<button class="btn btn-sm btn-default bg-red" onclick="showAllNews();"><i class="fa fa-times"></i> Annuler</button>
 		</div>-->
-		<div class="col-md-11 no-padding">
+		<div class="col-md-11 no-padding main-col-live">
 			<!-- start: TIMELINE PANEL -->
 			<div class="no-padding panel" style="padding-top:10px;box-shadow:inherit;">
 				<div id="top" class="no-padding panel-body">
