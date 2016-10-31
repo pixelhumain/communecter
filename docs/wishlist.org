@@ -25,6 +25,8 @@
 [ ] dynform evolutif par type 
     [ ] start by name
     [ ] build as you complete the info
+[.17] event + project : change organiser
+
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
@@ -127,6 +129,9 @@
   - user pourront demander des push sur differentes destination FB, twitter, 
 [.17] point d'entrée thématique sur la page d'acceuil 
   - pour voir combien d'acteur oeuvre dans une thematique
+[ ] systeme calculant la valeur indirect de communecter basé sur un systeme de valeur economique existant 
+  ex : sur les base des prix des pages jaune calculé la valeur cumulé de l'annuaire 
+[.17] reflechir First Connect , show notifications, hot news ....  
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
@@ -140,6 +145,7 @@
 
 * News
   [ ] Améliorer l'affichage de commentaires dans les news
+  [.17] Ajouter dans le journal un post de la creation de l'element qui le porte  
 
 * admin 
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)

@@ -2143,7 +2143,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}	},
+		}},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
 	"action" : {
 		col:"actions",
