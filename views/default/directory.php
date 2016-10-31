@@ -17,7 +17,7 @@
           <i class="fa fa-angle-down"></i> 
           <?php 
             $typeName = Yii::t("common",$_GET['type']); 
-            if($_GET['type'] == "vote") $typeName = "débats";
+            if($_GET['type'] == "vote") $typeName = "propositions";
             if($_GET['type'] == "cities") $typeName = "communes";
           ?>
           <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
@@ -104,10 +104,10 @@ var headerParams = {
   "organizations" : { color: "green",   icon: "group",        name: "organisations" },
   "projects"      : { color: "purple",  icon: "lightbulb-o",  name: "projets" },
   "events"        : { color: "orange",  icon: "calendar",     name: "événements" },
-  "vote"          : { color: "azure",   icon: "gavel",        name: "débats" },
-  "actions"       : { color: "lightblue2",    icon: "cogs",         name: "actions" },
+  "vote"          : { color: "azure",   icon: "gavel",        name: "Propositions, Questions, Votes" },
+  "actions"       : { color: "lightblue2",    icon: "cogs",   name: "actions" },
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
-  "poi"       	  :	{ color: "black",    icon: "map-marker",         name: "points d'intérêts" },
+  "poi"       	  :	{ color: "black",   icon: "map-marker",   name: "points d'intérêts" },
 }
 function setHeaderDirectory(type){
  

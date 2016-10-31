@@ -425,10 +425,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
           var url = '#news.index.type.'+type+'.id.' + id;
           if(type == "citoyens") url += '.viewer.' + userId;
-          if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
-          if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
-          if(type == "surveys") url = "#survey.entry.id."+id;
-          if(type == "actions") url = "#rooms.action.id."+id;
+          else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
+          else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
+          else if(type == "surveys") url = "#survey.entry.id."+id;
+          else if(type == "actions") url = "#rooms.action.id."+id;
 
           //if(type=="citoyen") type = "person";
          
@@ -547,10 +547,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 
                 //debat / actions
                 if(notEmpty(o.parentRoom)){
-                  str += "<div class='entityDescription text-dark'><i class='fa fa-archive'></i> " + o.parentRoom.name + "</div>";
+                  parentUrl = "";
+                  parentIco = "";
+                  if(type == "surveys"){ parentUrl = "#survey.entries.id."+o.survey; parentIco = "archive"; }
+                  else if(type == "actions") {parentUrl = "#rooms.actions.id."+o.room;parentIco = "cogs";}
+                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                    console.log("typeIcoParent", typeIcoParent);
+                    console.log("typeIcoParent", o.parentRoom);
                     var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
                     var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
                     

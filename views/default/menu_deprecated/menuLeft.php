@@ -118,7 +118,7 @@
 		<a href="javascript:extendMenu();" id=""
 				class="menu-button-left">
 			<i class="fa fa-search tooltips"
-				data-toggle="tooltip" data-placement="right" title="Rechercher"></i> 
+				data-toggle="tooltip" data-placement="right" title="Rechercher Globale"></i> 
 			<span class="lbl-btn-menu"><b>Recherche</b></span>
 		</a>
 		<a href="javascript:extendMenu();" class="menu-button-left pull-right lbl-extends-menu lbl-btn-menu">
@@ -134,7 +134,7 @@
 					data-hash="#default.agenda"
 					class="menu-button-left glass-hover lbh">
 				<i class="fa fa-calendar tooltips"
-					data-toggle="tooltip" data-placement="right" title="Agenda"></i> 
+					data-toggle="tooltip" data-placement="right" title="Recherche d'évènement"></i> 
 				<span class="lbl-btn-menu">Agenda</span>
 			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -148,7 +148,7 @@
 			<a href="#default.directory?type=organizations" id="menu-btn-organizations"
 					class="menu-button-left glass-hover lbh">
 				<i class="fa fa-group tooltips"
-					data-toggle="tooltip" data-placement="right" title="Organisations"></i> 
+					data-toggle="tooltip" data-placement="right" title="Recherche d'Organisations"></i> 
 				<span class="lbl-btn-menu">Organisations</span>
 			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -162,7 +162,7 @@
 			<a href="#default.directory?type=projects" id="menu-btn-projects"
 					class="menu-button-left glass-hover  lbh">
 				<i class="fa fa-lightbulb-o tooltips"
-					data-toggle="tooltip" data-placement="right" title="Projets"></i> 
+					data-toggle="tooltip" data-placement="right" title="Recherche de Projets"></i> 
 				<span class="lbl-btn-menu">Projets</span>
 			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -176,7 +176,7 @@
 			<a href="#default.directory?type=persons"  id="menu-btn-persons"
 					class="menu-button-left glass-hover  lbh">
 				<i class="fa fa-user tooltips"
-					data-toggle="tooltip" data-placement="right" title="Citoyens"></i> 
+					data-toggle="tooltip" data-placement="right" title="Recherche de citoyens "></i> 
 				<span class="lbl-btn-menu">Citoyens</span>
 			</a>
 			<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -191,8 +191,8 @@
 				<a href="#default.directory?type=vote" id="menu-btn-vote"
 						class="menu-button-left glass-hover  lbh">
 					<i class="fa fa-gavel tooltips"
-						data-toggle="tooltip" data-placement="right" title="Débats"></i> 
-					<span class="lbl-btn-menu">Débats</span>
+						data-toggle="tooltip" data-placement="right" title="Questionnez, Proposez, Votez"></i> 
+					<span class="lbl-btn-menu">Propositions</span>
 				</a>
 				<?php if(isset(Yii::app()->session['userId'])){ ?>
 				<a href="javascript:openForm ( 'entry' );" class="menu-button-left pull-right lbl-btn-menu">
@@ -205,7 +205,7 @@
 				<a href="#default.directory?type=actions" id="menu-btn-actions"
 						class="menu-button-left glass-hover lbh">
 					<i class="fa fa-cogs tooltips"
-						data-toggle="tooltip" data-placement="right" title="Actions"></i> 
+						data-toggle="tooltip" data-placement="right" title="Des Actions Concrète"></i> 
 					<span class="lbl-btn-menu">Actions</span>
 				</a>
 				<?php if(isset(Yii::app()->session['userId'])){ ?>
@@ -256,8 +256,7 @@
 
 <?php 
 	if(!isset($me)) $me = "";
-	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.'; 
- 	$this->renderPartial($layoutPath.".menu.menuSmall", 
+	$this->renderPartial($layoutPath.".menu.menuSmall", 
  					array(  "me"=>$me,
  			 				"myCity" => $myCity)); 
 ?> 
