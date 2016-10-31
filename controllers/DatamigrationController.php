@@ -915,14 +915,11 @@ class DatamigrationController extends CommunecterController {
 				$newCPs[] = $cp;
 			}
 			if($find == true){
-				echo  $city["name"]." ".$key."<br>" ;
 				$nbelement ++ ;
 				$res = PHDB::update( City::COLLECTION, 
 			  		array("_id"=>new MongoId($key)),
                 	array('$set' => array("postalCodes" => $newCPs)));
 			}
-			
-	
 		}
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
