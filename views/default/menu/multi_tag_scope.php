@@ -1,5 +1,5 @@
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multi_tags_scopes.css')); ?>
+<?php  HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multi_tags_scopes.css'), Yii::app()->theme->baseUrl); ?>
 
 <span data-tpl="default.menu.multi_tag_scope">
 <?php 
