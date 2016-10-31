@@ -307,13 +307,17 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
 				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
 				
+				console.log("geoShape", inseeGeoSHapes);
 				if(notEmpty(inseeGeoSHapes[NE_insee])){
 					var shape = inseeGeoSHapes[NE_insee];
 					shape = Sig.inversePolygon(shape);
 					Sig.showPolygon(shape);
 					Sig.map.fitBounds(shape);
 				}else{
-					timeoutAddCity = setTimeout(function(){ Sig.map.setZoom(14); }, 500);
+					timeoutAddCity = setTimeout(function(){ //alert("zoom");
+											Sig.map.panTo([NE_lat, NE_lng]);
+											Sig.map.setZoom(14); 
+									}, 500);
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
