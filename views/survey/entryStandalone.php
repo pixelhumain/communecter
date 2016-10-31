@@ -2,11 +2,14 @@
 	$cs = Yii::app()->getClientScript();
 	$cssAnsScriptFilesModule = array(
 	  //'/survey/js/highcharts.js',
-	  '/js/dataHelpers.js',
-	  '/css/circle.css'
+	  '/js/dataHelpers.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
+  $cssAnsScriptFiles = array(
+    '/assets/css/circle.css'
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
 
 	$logguedAndValid = Person::logguedAndValid();
 	$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);

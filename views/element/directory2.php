@@ -830,15 +830,29 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
     		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
-    if(@$contextData) $contextMap = array("context" => $contextData);
+    if(@$contextData) 	$contextMap = array("context" => $contextData);
     if(@$people)          $contextMap = array_merge($contextMap, $people);
     if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
     if(@$events)         $contextMap = array_merge($contextMap, $events);
     if(@$projects)        $contextMap = array_merge($contextMap, $projects);
 ?>
 <script type="text/javascript">
+var contextData = {
+		name : "<?php echo addslashes($element["name"]) ?>",
+		id : "<?php echo (string)$element["_id"] ?>",
+		type : "<?php echo $type ?>",
+		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
+		geo : <?php echo json_encode(@$element["geo"]) ?>,
+		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
+		address : <?php echo json_encode(@$element["address"]) ?>,
+		<?php 
+		if( @$element["startDate"] )
+			echo "'startDate':'".$element["startDate"]."',";
+		if( @$element["endDate"] )
+			echo "'endDate':'".$element["endDate"]."'"; ?>
 
-var contextData = <?php echo json_encode($element)?>;
+	};	
+//var contextData = <?php echo json_encode($element)?>;
 var contextIconTitle = "<?php echo $contextIconTitle; ?>";
 var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getControlerByCollection($type))));?>;
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";

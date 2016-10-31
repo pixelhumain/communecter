@@ -408,7 +408,7 @@ class Menu {
 
 				self::entry("right", 'href',
                 Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
-                Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
+                Yii::t("common",'Add '.$strongLinks),'user-plus',
                 "javascript:;",null,null,"btn-menu-element btn-menu-element-addmembers","","data-toggle='modal' data-target='#modal-scope'");
         }
         
@@ -437,14 +437,14 @@ class Menu {
 	            self::entry("right", 'onclick',
                         Yii::t( "common", "Leave this ".$controllerType),
                         Yii::t( "common", "Leave"),
-                        'fa fa-unlink disconnectBtnIcon',
+                        'unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$strongLinks."')",null,null,"text-red"); 
             } else if (isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($element["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
                         Yii::t( "common", "Unfollow this ".$controllerType),
                         Yii::t( "common", "Unfollow"),
-                        'fa fa-unlink disconnectBtnIcon',
+                        'unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
             } else if(@$element["_id"] 
                         && @Yii::app()->session["userId"] 
@@ -454,7 +454,7 @@ class Menu {
 	                self::entry("right", 'onclick',
 	                        Yii::t( "common", "Follow this ".$controllerType),
 	                        Yii::t( "common", "Follow"),
-	                        'fa fa-link followBtn',
+	                        'link followBtn',
 	                        "follow('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
             }
 
@@ -470,7 +470,7 @@ class Menu {
                 self::entry("right", 'onclick',
                                 Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
-                                'fa fa-user-plus becomeAdminBtn',
+                                'user-plus becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."', '".$connectAs."','".addslashes($element["name"])."')",null,null);
             }else{
                 //Ask Admin button
@@ -483,7 +483,7 @@ class Menu {
                         self::entry("right", 'onclick',
                                 Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
-                                'fa fa-user-plus becomeAdminBtn',
+                                'user-circle-o becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($element["name"])."')",null,null);
                     }             
                 }

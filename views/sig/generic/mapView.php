@@ -190,7 +190,12 @@
 		  <button class="btn btn-map" data-km="10000">10 km</button>
 		  <button class="btn btn-map" data-km="25000">25 km</button>
 		  <button class="btn btn-map" data-km="50000">50 km</button>
-		  <button class="btn btn-map" id="loader-aroundme"></button>
+		  <button class="btn btn-map bg-azure tooltips" id="btn-share-aroundme" onclick="javascript:Sig.showIframeSig()"
+				  data-toggle="tooltip" data-placement="bottom" title="Autour de moi">
+		  	<i class="fa fa-share-square-o"></i>
+		  </button>
+		  <button class="btn btn-map" id="loader-aroundme">
+		  </button>
 		</div> 
 		<?php } ?>
 

@@ -11,7 +11,7 @@
   $cssAnsScriptFiles = array(
     '/assets/css/rooms/header.css'
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
 
   //$cssAnsScriptFilesTheme = array('js/form-elements.js');
   //HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);

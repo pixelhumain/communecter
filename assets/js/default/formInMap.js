@@ -512,42 +512,13 @@ function updateLocalityElement(){
 		    	if(data.result){
 		    		var inMap = true ;
 		    		if(contextData != null){
-		    			if(contextData.address != null){
-		    				contextData.address = locality.address;
-			    			/*contextData.address.codeInsee = locality.address.codeInsee ;
-							contextData.address.addressLocality = locality.address.addressLocality ;
-							contextData.address.postalCode = locality.address.postalCode ;
-							contextData.address.streetAddress = locality.address.streetAddress ;
-							contextData.address.addressCountry = locality.address.addressCountry ;
-							contextData.address.depName = locality.address.depName ;
-							contextData.address.regionName = locality.address.regionName ;*/
-			    		}else{
-			    			contextData.address = locality.address;
-			    			/*contextData.address = {
-			    				codeInsee : locality.address.codeInsee ,
-								addressLocality : locality.address.addressLocality ,
-								postalCode : locality.address.postalCode ,
-								streetAddress : locality.address.streetAddress ,
-								addressCountry : locality.address.addressCountry ,
-								depName : locality.address.depName ,
-								regionName : locality.address.regionName
-							}*/
-							inMap =false ;
+		    			if(contextData.address == null){
+		    				inMap =false ;
 			    		}
-						if(contextData.geo != null){
-							contextData.geo = locality.geo;
-			    			//contextData.geo.latitude = locality.geo.latitude ;
-							//contextData.geo.longitude = locality.geo.longitude;
-			    		}else{
-			    			contextData.geo = locality.geo;
-			    			/*contextData.geo = {
-			    				latitude : locality.geo.latitude ,
-								longitude : locality.geo.longitude
-							}*/
-			    		}
+			    		contextData.address = locality.address;
+						contextData.geo = locality.geo;
 			    		contextData.geoPosition = locality.geoPosition;
 		    		}
-					
 					
 					//Header && ficheInfoElement
 					$("#detailStreetAddress").html(locality.address.streetAddress);
@@ -558,7 +529,7 @@ function updateLocalityElement(){
 					$('#countryHeader').html(locality.address.addressCountry);
 					$('#iconLocalityyHeader').removeClass("hidden");
 					$('#addressHeader').removeClass("hidden");
-					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
+					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 					$(".detailMyCity").attr("onclick", "");
 					$(".detailMyCity").removeClass("detailMyCity");
 					$(".detailMyCity").addClass("lbh");
@@ -646,7 +617,7 @@ function changeSelectCountrytim(){
 
 function changeMenuCommunextion(locality){
 	//Menu Left
-	$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode"+locality.address.postalCode);
+	$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 	$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
 	$("#btn-geoloc-auto-menu").attr("onclick", "");
 	$("#btn-geoloc-auto-menu").addClass("lbh");

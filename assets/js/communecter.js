@@ -2049,13 +2049,13 @@ var typeObj = {
 		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
 		dynForm : {
 		    jsonSchema : {
-			    title : "Ajouter un débat",
+			    title : "Ajouter une proposition",
 			    icon : "gavel",
 			    type : "object",
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un débat sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
 		            },
 			        id :{
 		              "inputType" : "hidden",
@@ -2094,7 +2094,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	//custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2104,12 +2104,19 @@ var typeObj = {
 		            message :{
 		              "inputType" : "wysiwyg",
 		              "placeholder" : "Texte de la proposition",
-		              "rules" : { "required" : true }
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
+		              
 		            },
 		            dateEnd :{
 		              "inputType" : "date",
 		              "placeholder" : "Fin de la période de vote",
-		              "rules" : { "required" : true }
+		              "rules" : { 
+		              	required : true,
+		              	greaterThanNow : true
+		              }
 		            },
 		            tags :{
 		                "inputType" : "tags",
@@ -2143,7 +2150,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}	},
+		}},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
 	"action" : {
 		col:"actions",
@@ -2209,7 +2216,10 @@ var typeObj = {
 		            message :{
 		              "inputType" : "wysiwyg",
 		              "placeholder" : "Description de l'action'",
-		              "rules" : { "required" : true }
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
 		            },
 		            startDate :{
 		              "inputType" : "date",

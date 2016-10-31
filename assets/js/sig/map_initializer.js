@@ -230,8 +230,59 @@
 						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
 			}
-		};
 
+			
+		};
+		
+		Sig.showIframeSig = function(){
+			
+			var hash = location.hash+"?tpl=iframesig";
+				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
+				$("#ajax-modal-modal-title").html("<i class='fa fa-share-square-o'></i> Partager cette carte.");
+				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
+			  	$("#ajax-modal-modal-body").html(   "<div class='row'>"+
+			  										  "<div class='col-md-3'>"+
+				  										"<div class='form-group'>"+
+  															"<label>Largeur</label>"+
+  															"<input class='form-control' type='text' name='width' value='500'>"+
+											            "</div>"+
+  													  "</div>"+
+  													  "<div class='col-md-3'>"+
+				  										"<div class='form-group'>"+
+  															"<label>Hauteur</label>"+
+  															"<input class='form-control' type='text' name='height' value='500'>"+
+											            "</div>"+
+  													  "</div>"+
+  													  "<div class='col-md-6'>"+
+				  										"<h4 class='text-left no-margin padding-5'>Forme :</h4>"+
+											            "<div class='radio-inline'>"+
+  															"<label><input type='radio' name='forme' value='square'> Carré</label>"+	
+											            "</div>"+
+											            "<div class='radio-inline'>"+
+  															"<label><input type='radio' name='forme' value='circle'> Cercle</label>"+	
+											            "</div>"+										            
+										              "</div>"+
+										              "<div class='col-md-12'>"+
+				  										"<h2 class='text-left text-dark'><i class='fa fa-angle-down'></i> Copiez / collez ce code dans la page de votre site web :</h2>" +
+			  										  	"<textarea class='form-control' rows='3' id='txtarea_iframe'>"+
+				  											"<iframe height='500' width='500' style='border-radius:50%'"+
+				  													" src='https://www.communecter.org"+hash+"'></iframe>"+
+				  										"</textarea>"+
+										              "</div>" +
+										              
+										            "</div>");
+			  	$('#ajax-modal').modal("show");
+
+			  	$("input[name='forme'], input[name='width'], input[name='height']").change(function(){
+			  		var height=$("input[name='height']").val();
+			  		var width=$("input[name='width']").val();
+			  		var forme=$("input[name='forme']:checked").val();
+			  		var radius = (forme == "circle") ? "style='border-radius:50%'" : "";
+
+			  		$("#txtarea_iframe").html("<iframe height='"+height+"' width='"+width+"' "+radius+
+				  								" src='https://www.communecter.org"+hash+"'></iframe>")
+			  	});
+			};
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
 			this.icoMarkersMap = { 		"default" 			: "",
@@ -278,6 +329,7 @@
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"citoyens" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
+											"person" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
@@ -347,13 +399,14 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
+			console.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (data){
+		Sig.getIcoByType = function (data){ 
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;

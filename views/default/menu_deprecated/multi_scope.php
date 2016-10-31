@@ -1,7 +1,7 @@
 
 
 <?php  
-HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multiscopes.css') );
+HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/menus/multiscopes.css'), Yii::app()->theme->baseUrl );
 HtmlHelper::registerCssAndScriptsFiles(array( '/js/menus/multiscopes.js'), $this->module->assetsUrl);
 ?>
 

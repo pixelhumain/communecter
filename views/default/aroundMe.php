@@ -1,5 +1,5 @@
 <?php 
-  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'));
+  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'), Yii::app()->theme->baseUrl);
   HtmlHelper::registerCssAndScriptsFiles( array('/js/default/directory.js') , $this->module->assetsUrl);
 ?>
 
@@ -103,8 +103,11 @@ jQuery(document).ready(function() {
 
   <?php if(isset($_GET["tpl"]) && @$_GET["tpl"]=="iframesig"){ ?>
     //iframesig TPL
-    var lblParentName = "<span class='text-'>"+parentName+"</span>";
-    $(".main-top-menu #menuParentName").html(parentName);
+    var color = Sig.getIcoColorByType({"typeSig": typeElement});
+    var icon = Sig.getIcoByType({"typeSig": typeElement});
+
+    var lblParentName = "<span class='text-"+color+"'><i class='fa fa-"+icon+"'></i> "+parentName+"</span>";
+    $(".main-top-menu #menuParentName").html(lblParentName);
   <?php } ?>
 
 });
