@@ -447,7 +447,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -455,7 +455,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 
@@ -531,20 +531,23 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 						$actions = "";
 						if(@$e['id'])
 							$id = $e["id"];
-						//else
-						//	$id = $e["_id"]["$id"];
+							
+						// Don't consider context element
+						if($id==$elementId && $collection==$elementType)
+							return;
 
 						/* **************************************
 						* TYPE + ICON
 						***************************************** */
-						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+						$img = '';
 						if ($e && !empty($e["profilThumbImageUrl"])){ 
 							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
 						}else{
-							if(!empty($e["profilImageUrl"]))
-								$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$e['profilImageUrl']).'">';
-							else
-							$img = "<div class='thumbnail-profil'></div>";
+							$defaultImg=$collection;
+							$assetsUrl= Yii::app()->controller->module->assetsUrl;
+							if($collection == "followers" || $collection == "attendees" || $collection == "guests")
+								$defaultImg = Person::COLLECTION;
+							$img ='<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.$assetsUrl.'/images/thumb/default_'.$defaultImg.'.png">';
 						}
 						
 						/* **************************************
@@ -991,7 +994,7 @@ function bindBtnEvents(){
 					        	thisParent.find(".toolsLoader").remove();
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");	
-						       	 	$("#"+data.collection+userId).css("background-color","#5f8295 !important").fadeOut(600);
+						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600);
 						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");

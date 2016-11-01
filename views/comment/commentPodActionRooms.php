@@ -12,8 +12,8 @@
 }
 .ctnr-txtarea {
     position: absolute;
-    right: 30px!important;
-    left: 70px!important;
+    right: 30px;
+    left: 70px !important;
 }
 </style>
 <?php } ?>

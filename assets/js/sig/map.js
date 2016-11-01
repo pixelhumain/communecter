@@ -223,39 +223,41 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					//console.log("MYPOSITION !!");
-					//console.dir(thisSig.myPosition);
-					var center = [thisSig.myPosition.position.latitude, 
-								  thisSig.myPosition.position.longitude];
+					if(thisSig.myPosition.position.latitude != 0 && thisSig.myPosition.position.longitude != 0){
+						//console.log("MYPOSITION !!");
+						//console.dir(thisSig.myPosition);
+						var center = [thisSig.myPosition.position.latitude, 
+									  thisSig.myPosition.position.longitude];
 
-					var popup = Sig.getPopupSimple(Sig.userData);
-					var properties = { 	id : "0",
-										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
-										type : thisSig.myPosition["type"],
-										typeSig : thisSig.myPosition["typeSig"],
-										faIcon : this.getIcoByType(thisSig.myPosition),
-										zIndexOffset: 10000,
-										content: popup };
+						var popup = Sig.getPopupSimple(Sig.userData);
+						var properties = { 	id : "0",
+											icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
+											type : thisSig.myPosition["type"],
+											typeSig : thisSig.myPosition["typeSig"],
+											faIcon : this.getIcoByType(thisSig.myPosition),
+											zIndexOffset: 10000,
+											content: popup };
 
-					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
-					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
-					thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
+						if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
+						thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
+						thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
 
-					var objectId = thisSig.getObjectId(thisSig.userData);
-					this.listId = new Array(objectId);
+						var objectId = thisSig.getObjectId(thisSig.userData);
+						this.listId = new Array(objectId);
 
-					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-					{	thisSig.map.panTo(center, {"animate" : true });
-						thisSig.checkListElementMap(thisSig.map);
-						thisSig.myMarker.openPopup();
-					});
-					
-					$( "#btn-home" ).off().click(function (){ 
-							thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
-					});
-					// $( ".btn-home" ).off().click(function (){ 
-					// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
-					// });
+						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
+						{	thisSig.map.panTo(center, {"animate" : true });
+							thisSig.checkListElementMap(thisSig.map);
+							thisSig.myMarker.openPopup();
+						});
+						
+						$( "#btn-home" ).off().click(function (){ 
+								thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
+						});
+						// $( ".btn-home" ).off().click(function (){ 
+						// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
+						// });
+					}
 				}
 			}
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen

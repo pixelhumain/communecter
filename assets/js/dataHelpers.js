@@ -144,6 +144,13 @@ function addCustomValidators() {
 	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
 	},'Doit ètre aprés {1}.');
 
+	jQuery.validator.addMethod("greaterThanNow", function(value, element) {    
+	    if (!/Invalid|NaN/.test(new Date(value))) {
+	        return new Date(value) > new Date();
+	    }    
+	    return isNaN(value); 
+	},"Doit ètre aprés la date d'aujourd'hui.");
+
 	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
 		if( $(params[0]).val() && $(params[1]).val() ){
 	    return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );

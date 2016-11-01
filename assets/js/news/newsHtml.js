@@ -225,17 +225,19 @@ function buildLineHTML(newsObj,idSession,update)
 		var countTag = 0;
 		var maxTag = 5;
 		$.each( newsObj.tags , function(i,tag){ if(countTag < maxTag){
-			countTag++;
-			tagsClass += tag+" ";
-
-			/*tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextScopesTags.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				contextScopesTags.tags.push(tag);*/
-
-			tags += "<span class='label tag_item_map_list tag' data-tag-value='"+tag+"'>#"+tag+"</span> ";
-			if( $.inArray(tag, newsObj.tags/*contextMap.tags*/)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				/*contextMap.tags*/ newsObj.tags.push(tag);
-				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+			if(tag != ""){
+				countTag++;
+				tagsClass += tag+" ";
+	
+				/*tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
+				if( $.inArray(tag, contextScopesTags.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+					contextScopesTags.tags.push(tag);*/
+	
+				tags += "<span class='label tag_item_map_list tag' data-tag-value='"+tag+"'>#"+tag+"</span> ";
+				if( $.inArray(tag, newsObj.tags/*contextMap.tags*/)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+					/*contextMap.tags*/ newsObj.tags.push(tag);
+					tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+				}
 			}
 		} });
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
@@ -283,9 +285,10 @@ function buildLineHTML(newsObj,idSession,update)
 			});
 			
 		}else  { //activityStream
-			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
+			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null &&  newsObj.scope.address.addressLocality != "Unknown") {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
+				scopes += "<span class='label label-danger'>"+postalCode+" , "+city+"</span> ";
 			}
 		}
 		// if( typeof postalCode != "undefined" && postalCode!="")

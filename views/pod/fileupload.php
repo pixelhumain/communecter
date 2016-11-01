@@ -4,9 +4,9 @@
 		position: relative;
 		width: 100%;
 		z-index: 8;
-		background-color: #CBCBCB;
+		background-color: transparent;
 		margin: 3%;
-		border: #E0E0E0 solid 1px;
+		border: transparent solid 1px;
 		margin: 0px 10px 10px 10px;
 		border-radius: 5px;
 
@@ -16,9 +16,9 @@
 	}
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, .fileupload-new .thumbnail img, .fileupload-preview.thumbnail img{
 		/*width: 100%;*/
-		min-height: 150px;
+		min-height: 50px;
 		max-width: 100%;
-		max-height: 200px;
+		max-height: 300px;
 		padding : 0px;
 		margin:0px !important;
 	}
