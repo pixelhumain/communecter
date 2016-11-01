@@ -1,4 +1,5 @@
 <?php 
+
 $this->renderPartial('newsSV');
 
 $cssAnsScriptFilesModule = array(
@@ -6,49 +7,42 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
 	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	'/plugins/x-editable/css/bootstrap-editable.css',
-	'/plugins/select2/select2.css',
 	//X-editable...
 	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
 	'/plugins/x-editable/js/bootstrap-editable.js' , 
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
 	'/plugins/wysihtml5/wysihtml5.js',
-	'/plugins/moment/min/moment.min.js',
 	'/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
 	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
 	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
 	'/plugins/jquery.appear/jquery.appear.js',
 	'/plugins/jquery.elastic/elastic.js',
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
+	
 
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-?>	
-<?php 
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
-	$cs = Yii::app()->getClientScript();
-
-		//$cs->registerCssFile("//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css");
-		$cs->registerScriptFile($this->module->assetsUrl.'/js/news/newsHtml.js' , CClientScript::POS_END);
+$cssAnsScriptFilesModule = array(
+	'/css/news/index.css',	
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
 $cssAnsScriptFilesModule = array(
 		'/js/news/newsHtml.js',
-		'/js/news/index.js',
-		'/css/news/index.css',
-	
+		'/js/news/index.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <!-- start: PAGE CONTENT -->
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12 no-padding">
 		<!-- start: TIMELINE PANEL -->
-		<div id="newsHistory" class="padding-10">
+		<div id="newsHistory" class="no-padding">
 		<!-- start: TIMELINE PANEL -->
-			<div class="panel panel-white" style="padding-top:10px;box-shadow:inherit;">
-				<div id="top" class="panel-body panel-white">
-					<div id="timeline" class="col-md-12">
+			<div class="panel panel-white" style="box-shadow:inherit;">
+				<div id="top" class="panel-body panel-white no-padding">
+					<div id="timeline" class="col-md-12 no-padding">
 						<div class="timeline">
 							<div class="newsList newsTL">
 							</div>
@@ -78,7 +72,7 @@ $cssAnsScriptFilesModule = array(
 }
 
 #newsHistory{
-	overflow: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 
 	/*padding-top:100px !important;*/
@@ -229,11 +223,18 @@ div.timeline .newsTL > .newsFeed {
 }
 
 div.timeline .newsTL > .newsFeed .timeline_element {
-    /*float: right;*/
-    left: 10%;
-    margin-right: 30px;
-    left: 0;
-    opacity: 1;
+	left: 5% !important;
+	margin-right: 30px;
+	margin-top: 20px;
+	/*left: 0;*/
+	opacity: 1;
+	right: 10%;
+	width: 90% !important;
+	min-width: 90% !important;
+	max-width: 90% !important;
+	padding: 10px;
+    max-width: unset !important;
+    float:left!important;
 }
 div.timeline .newsTL > .newsFeed .timeline_element:after {
 	display:none;
@@ -241,16 +242,23 @@ div.timeline .newsTL > .newsFeed .timeline_element:after {
 div.timeline .newsTL > .newsFeed .timeline_element:before {
 	display:none;
 }
-.timeline_element {padding: 10px;}
+.timeline_element {}
 
-.timeline_element {
-	    max-width: unset !important;
+.timeline_element .timeline_text {
+    font-size: 14px !important;
+}
+
+@media screen and (max-width: 1024px) {
+	.timeline_element {
+		left: 0% !important;
 	}
+}
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
 var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
+var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 var news = <?php echo json_encode($news) ?>;
 var canManageNews="";
 var mode="view";
@@ -259,8 +267,9 @@ var idSession = "<?php echo Yii::app()->session["userId"] ?>";
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
 jQuery(document).ready(function() 
 {
-	$(".my-main-container").off(); 
-	$(".moduleLabel").html("<i class='fa fa-rss'></i> L'actualité");
+	//Modif SBAR
+	//$(".my-main-container").off(); 
+	setTitle("L'actualité","rss");
 	newsTLLine=buildLineHTML(news,idSession);
 	$(".newsList").append(newsTLLine);
 	initXEditable();

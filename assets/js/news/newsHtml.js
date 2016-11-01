@@ -1,4 +1,4 @@
-var contextMap = {
+var contextScopesTags = {
 	"tags" : [],
 	"scopes" : {
 		codeInsee : [],
@@ -78,7 +78,7 @@ function buildLineHTML(newsObj,idSession,update)
 		//alert(canPostNews);
 		if (currentMonth == null  && canPostNews == true){
 		//	alert();
-			form = "<div class='newsFeed'>"+
+			form = "<div class='newsFeed newsFeedForm'>"+
 						"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding' style='min-width:85%;'></div>"+
 					"</div>";
 			addForm=true;
@@ -92,7 +92,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// Add date separator by month YY
 		$(".newsTLmonthsList").append(linkHTML);
 		newsTLLine += '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+						'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'<br><i class="fa fa-angle-down fa-2x"></i></span>'+
 					'</div>'+form;
 		
 		$(".spine").css("bottom","0px");
@@ -150,9 +150,9 @@ function buildLineHTML(newsObj,idSession,update)
 				actionTitle = "";//getMentionLabel(newsObj)+'<div class="space5"></div><hr/>';
 				textNews = addMentionInText(textNews,newsObj.mentions);
 			}
-			textHtml='<span class="timeline_text no-padding" >'+textNews+'</span>';
+			textHtml='<span class="timeline_text no-padding text-black" >'+textNews+'</span>';
 		}
-		text='<a href="javascript:" id="newsContent'+newsObj._id.$id+'" data-type="textarea" data-pk="'+newsObj._id.$id+'" data-emptytext="Vide" class="editable-news editable-pre-wrapped ditable editable-click newsContent" >'+textHtml+'</a>';
+		text='<div id="newsContent'+newsObj._id.$id+'" data-pk="'+newsObj._id.$id+'" class="newsContent" >'+textHtml+'</div>';
 		if("undefined" != typeof newsObj.media){
 			if(typeof(newsObj.media.type)=="undefined" || newsObj.media.type=="url_content"){
 				if("object" != typeof newsObj.media)
@@ -183,9 +183,11 @@ function buildLineHTML(newsObj,idSession,update)
 				var endMonth = months[endDate.getMonth()];
 				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
 			}
+			var objectLocality = "";
 			if (newsObj.object.objectType=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
+				if(typeof newsObj.scope != "undefined")
 				objectLocality=newsObj.scope.address.addressLocality;
  
 			//var hour = (startDate.getHours() < 10) ?  "0"+startDate.getHours() : startDate.getHours();
@@ -220,60 +222,97 @@ function buildLineHTML(newsObj,idSession,update)
 	scopeClass = "";
 	if( "object" == typeof newsObj.tags && newsObj.tags )
 	{
-		$.each( newsObj.tags , function(i,tag){
-			tagsClass += tag+" ";
-			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
-			if( $.inArray(tag, contextMap.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
-				contextMap.tags.push(tag);
-				tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+		var countTag = 0;
+		var maxTag = 5;
+		$.each( newsObj.tags , function(i,tag){ if(countTag < maxTag){
+			if(tag != ""){
+				countTag++;
+				tagsClass += tag+" ";
+	
+				/*tags += "<span class='label tag_item_map_list tag' data-val='"+tag+"'>#"+tag+"</span> ";
+				if( $.inArray(tag, contextScopesTags.tags)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+					contextScopesTags.tags.push(tag);*/
+	
+				tags += "<span class='label tag_item_map_list tag' data-tag-value='"+tag+"'>#"+tag+"</span> ";
+				if( $.inArray(tag, newsObj.tags/*contextMap.tags*/)  == -1 && tag != undefined && tag != "undefined" && tag != "" ){
+					/*contextMap.tags*/ newsObj.tags.push(tag);
+					tagsFilterListHTML += ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red" data-filter=".'+tag+'"><span class="text-red text-xss">#'+tag+'</span></a>';
+				}
 			}
-		});
+		} });
 		tags = '<div class="pull-left"><i class="fa fa-tags text-red"></i> '+tags+'</div>';
 	}
-
 	var author = typeof newsObj.author != "undefined" ? newsObj.author : null;
 	if(((author != null && typeof author.address != "undefined") || newsObj.type == "activityStream") && newsObj.scope.type != "restricted" && newsObj.scope.type != "private")
 	{
 		postalCode = "";
 		city = "";
 		if(newsObj.type != "activityStream"){
-			if(newsObj.target.type=="citoyens"){
-				if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
-					postalCode=newsObj.scope.cities[0].postalCode;
-				if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
-					city=newsObj.scope.cities[0].addressLocality;			
-			}
-			else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
-				postalCode=newsObj.target.address.postalCode;
-				city=newsObj.target.address.addressLocality;			
-			}
-		}else{
-			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null) {
+			// if(newsObj.target.type=="citoyens"){
+			// 	if(typeof(newsObj.scope.cities[0].postalCode) != "undefined")
+			// 		postalCode=newsObj.scope.cities[0].postalCode;
+			// 	if(typeof(newsObj.scope.cities[0].addressLocality) != "undefined")
+			// 		city=newsObj.scope.cities[0].addressLocality;			
+			// }
+			// else if(typeof(newsObj.target) != 'undefined' && typeof(newsObj.target.address) != 'undefined'){
+			// 	postalCode=newsObj.target.address.postalCode;
+			// 	city=newsObj.target.address.addressLocality;			
+			// }
+			var countScope = 0;
+			var maxScope = 6;
+			if(typeof(newsObj.scope.cities) != "undefined")
+			$.each(newsObj.scope.cities, function(key, value){ countScope++;
+				var name = "";
+				if (typeof(value.postalCode) != "undefined") {
+					name += value.postalCode;
+				}
+
+				if(name != "") name += ", " ;
+					
+				name += (value.addressLocality != "" && value.addressLocality != null) ? value.addressLocality : "";
+				if(countScope<maxScope)
+					scopes += "<span class='label label-danger'>" + name + "</span> ";
+			});
+			if(typeof(newsObj.scope.departements) != "undefined")
+			$.each(newsObj.scope.departements, function(key, value){ countScope++;
+				if(countScope<maxScope)
+					scopes += "<span class='label label-danger'>"+value.name + "</span> ";
+			});
+			if(typeof(newsObj.scope.regions) != "undefined")
+			$.each(newsObj.scope.regions, function(key, value){ countScope++;
+				if(countScope<maxScope)
+					scopes += "<span class='label label-danger'>"+value.name + "</span> ";
+			});
+			
+		}else  { //activityStream
+			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null &&  newsObj.scope.address.addressLocality != "Unknown") {
 				postalCode=newsObj.scope.address.postalCode;
 				city=newsObj.scope.address.addressLocality;		
+				scopes += "<span class='label label-danger'>"+postalCode+" , "+city+"</span> ";
 			}
 		}
-		
-		if( typeof postalCode != "undefined" && postalCode!="")
-		{
-			scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
-			scopeClass += postalCode+" ";
-			if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
-				contextMap.scopes.codePostal.push(postalCode);
-			}
-		}
-		if( typeof city != "undefined" && city != "")
-		{
-			scopes += "<span class='label label-danger'>"+city+"</span> ";
-			scopeClass += city+" ";
-			if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
-				cityFilter=city.replace(/\s/g, "");
-				console.log(city);
-				contextMap.scopes.addressLocality.push(cityFilter);
-				scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
-			}
-		}
-		scopes = '<div class="pull-right"><i class="fa fa-circle-o"></i> '+scopes+'</div>';
+		// if( typeof postalCode != "undefined" && postalCode!="")
+		// {
+		// 	scopes += "<span class='label label-danger'>"+postalCode+"</span> ";
+		// 	scopeClass += postalCode+" ";
+		// 	if( $.inArray(postalCode, contextMap.scopes.codePostal )  == -1){
+		// 		contextMap.scopes.codePostal.push(postalCode);
+		// 	}
+		// }
+		// if( typeof city != "undefined" && city != "")
+		// {
+		// 	scopes += "<span class='label label-danger'>"+city+"</span> ";
+		// 	scopeClass += city+" ";
+		// 	if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
+		// 		cityFilter=city.replace(/\s/g, "");
+		// 		console.log(city);
+		// 		contextMap.scopes.addressLocality.push(cityFilter);
+		// 		scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
+		// 	}
+		// }
+		if(scopes != "")
+		scopes = '<div class="pull-right" style="margin: 5px 0px;"><i class="fa fa-bullseye"></i> '+scopes+'</div>'; //<i class="fa fa-circle-o"></i>
+
 	}
 	var objectDetail = (newsObj.object && newsObj.object.displayName) ? '<div>Name : '+newsObj.object.displayName+'</div>'	 : "";
 	var objectLink = (newsObj.object) ? ' <a '+urlAction.url+'>'+iconStr+'</a>' : iconStr;
@@ -286,20 +325,23 @@ function buildLineHTML(newsObj,idSession,update)
 			nameAuthor = newsObj.target.name.substr(0,25)+"...";
 		else
 			nameAuthor = newsObj.target.name;
-		urlTarget = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'\')"';
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
+		urlTarget = 'href="#'+redirectTypeUrl+'.detail.id.'+newsObj.target.id+'" ';
+		var personName = "<a "+urlTarget+" class='lbh' style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	else {
 		if(typeof newsObj.author.id != "undefined")
 			authorId=newsObj.author.id;
 		else
 			authorId=newsObj.author._id.$id;
-			urlTarget = 'href="javascript:" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
+			urlTarget = 'href="#person.detail.id.'+authorId+'" onclick="loadByHash(\'#person.detail.id.'+authorId+'\')"';
 		if (newsObj.author.name.length > 25)
 			nameAuthor = newsObj.author.name.substr(0,25)+"...";
 		else
 			nameAuthor = newsObj.author.name;
-		var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
+		if(typeof newsObj.targetIsAuthor != "undefined")
+			var personName = urlAction.titleAction;
+		else
+			var personName = "<a "+urlTarget+" style='color:#3C5665;'>"+nameAuthor+"</a> "+urlAction.titleAction;
 	}
 	// END HOST NAME AND REDIRECT URL
 	// Created By Or invited by
@@ -310,13 +352,20 @@ function buildLineHTML(newsObj,idSession,update)
 	else 
 		authorLine="";*/
 	//END OF CREATED BY OR INVITED BY
+
 	var commentCount = 0;
 	idVote=newsObj._id['$id'];
 	if ("undefined" != typeof newsObj.commentCount) 
 		commentCount = newsObj.commentCount;
 	vote=voteCheckAction(idVote,newsObj);
 
-	newsTLLine += '<div class="newsFeed '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' ">'+
+	var lblCommentCount = '';
+	if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
+	if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
+	if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
+	if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
+	
+	newsTLLine += '<div class="newsFeed newsFeedNews '+''+tagsClass+' '+scopeClass+' '+newsObj.type+' " id="newsFeed'+newsObj._id.$id+'">'+
 					'<div class="timeline_element partition-'+color+'">'+
 						actionTitle+
 						tags+
@@ -336,13 +385,20 @@ function buildLineHTML(newsObj,idSession,update)
 							'<div>'+title + text + "</div>"+media +
 						//'</a>'+
 						'<div class="space5"></div>';
-						 if(idSession){ 
+						
 	newsTLLine +=		'<hr>'+
-						"<div class='bar_tools_post'>"+
-							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' data-id='"+idVote+"' data-type='"+newsObj.target.type+"'><span class='label text-dark'><span class='nbNewsComment'>"+commentCount+"</span> <i class='fa fa-comment'></i></span></a> "+
+						"<div class='bar_tools_post margin-bottom-10'>"+
+							"<a href='javascript:;' class='newsAddComment' data-count='"+commentCount+"' onclick='showComments(\""+idVote+"\")' "+
+								"data-id='"+idVote+"' data-type='"+newsObj.target.type+"'>"+
+								"<span class='label text-dark lblComment'> " + lblCommentCount + "</span>"+
+							"</a> "+
 							vote+
 						"</div>";
-						}
+	newsTLLine +=		//'<hr>'+
+						"<div id='commentContent"+idVote+"' class='commentContent'>"+
+						
+						"</div>";
+						//}
 	newsTLLine +=	'</div>'+
 				'</div>';
 	if(update==true)
@@ -353,8 +409,18 @@ function buildLineHTML(newsObj,idSession,update)
 		// Append news in timeline
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
-			$("#newFeedForm").append($("#formCreateNewsTemp"));
-			$("#formCreateNewsTemp").css("display", "inline");
+			if(isLiveGlobal()){ 
+				$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+				$(".newsFeedForm").css("display", "none");
+
+			}else{
+				$("#newFeedForm").append($("#formCreateNewsTemp"));
+				$("#formCreateNewsTemp").css("display", "inline");
+			}
+
+			//$("#newFeedForm").append($("#formCreateNewsTemp"));
+			//$("#formCreateNewsTemp").css("display", "inline");
 		}
 		// Bug on timeline style increment due to the two part
 		// Still have few news at the same level (but tempory fixed
@@ -367,6 +433,12 @@ function buildLineHTML(newsObj,idSession,update)
 		if(typeof(offsetLastNews) == "undefined" || (minusOff < $(".newsFeed").last().position().top && $(".newsFeed").last().position().top < maxOff)){
 			$(".newsFeed").last().css("margin-top","20px");
 		}
+		//affiche en gras les tags qui font parti de mes favoris
+		if(typeof myMultiTags != "undefined"){
+        $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+          $("[data-tag-value='"+key+"'].tag").addClass("bold");
+        });
+      }
 	}
 }
 
@@ -376,7 +448,7 @@ function buildHtmlUrlAndActionObject(obj){
 	else 
 		redirectTypeUrl="news";
 
-	if(obj.type=="news"){
+	if(obj.type!="activityStream"){
 		url = '';
 		// Check media content is gallery image
 		if(typeof(obj.media) != "undefined" && typeof(obj.media.type) != "undefined" && obj.media.type=="gallery_images"){
@@ -384,7 +456,7 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 		else
 			titleAction="";
-		if((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id && (contextParentType !="city" || obj.target.type != "citoyens")){
+		if((((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id) || typeof obj.targetIsAuthor != "undefined") && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
 			}else if (obj.target.type == "projects"){
@@ -405,7 +477,9 @@ function buildHtmlUrlAndActionObject(obj){
 				else
 					namePostOn = obj.target.name;
 			}
-			titleAction += ' <i class="fa fa-caret-right"></i> <a href="javascript:;" onclick="loadByHash(\'#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'\')"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			if(typeof obj.targetIsAuthor == "undefined")
+				titleAction += ' <i class="fa fa-caret-right"></i> ';
+			titleAction += '<a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" class="lbh"><span class="text-'+color+'">'+namePostOn+"</span></a>";
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction += "a partagé un lien";
@@ -444,22 +518,25 @@ function buildHtmlUrlAndActionObject(obj){
 			titleAction = "a créé un besoin";
 		}
 
-		url = 'href="javascript:;" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
+		url = 'href="#'+redirectTypeUrl+'.detail.id.'+id+'" onclick="loadByHash(\'#'+redirectTypeUrl+'.detail.id.'+id+'\')"';
 	}
 	object=new Object;
 	object.url= url,
 	object.titleAction= titleAction;
 	return object; 
 }
-function builHtmlAuthorImageObject(obj){
+function builHtmlAuthorImageObject(obj){ //console.log("[[[[[[[[[[[[[[[[[[[[[[[[[["); console.dir(obj);
+	var icon = "fa-rss";
+	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		var colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
+		colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
 		if (icon == "fa-circle")
 			icon = obj.icon;
-	}else{ 
-		icon = "fa-rss";
-		colorIcon="blue";
+	}
+	if(obj.type != "activityStream"){
+		icon = "fa-" + Sig.getIcoByType({type : obj.type});
+		colorIcon = Sig.getIcoColorByType({type : obj.type});
 	}
 	var flag = '<div class="ico-type-account"><i class="fa '+icon+' fa-'+colorIcon+'"></i></div>';	
 	// IMAGE AND FLAG POST BY - TARGET IF PROJECT AND EVENT - AUTHOR IF ORGA
@@ -472,7 +549,7 @@ function builHtmlAuthorImageObject(obj){
 			imgProfilPath = obj.target.profilThumbImageUrl;
 		var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" +baseUrl+ imgProfilPath + "'></div>" + flag ; 
 		}else {
-			var iconStr = "<div class='thumbnail-profil text-center text-white' style='overflow:hidden;text-shadow: 2px 2px grey;'><i class='fa "+iconBlank+"' style='font-size:50px;'></i></div>"+flag;
+			var iconStr = "<div class='thumbnail-profil text-center text-white'><img height=50 width=50 src='"+assetPath+"/images/thumb/default_"+obj.target.type+".png'></div>"+flag;
 		}
 	}else{
 			var imgProfilPath =  assetPath+"/images/news/profile_default_l.png";
@@ -489,8 +566,15 @@ function builHtmlAuthorImageObject(obj){
 				}
 			}
 			else{	
-				if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
+				if(typeof obj.targetIsAuthor != "undefined"){
+					if(typeof obj.target.profilThumbImageUrl !== "undefined" && obj.target.profilThumbImageUrl != "")
+						imgProfilPath = baseUrl + obj.target.profilThumbImageUrl;
+					else
+						imgProfilPath = assetPath+"/images/thumb/default_"+obj.target.type+".png";
+				}else{
+					if(typeof obj.author.profilThumbImageUrl !== "undefined" && obj.author.profilThumbImageUrl != ""){
 					imgProfilPath = baseUrl + obj.author.profilThumbImageUrl;
+					}
 				}
 				var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='"+ imgProfilPath + "'></div>" + flag ;	 
 			}
@@ -590,7 +674,7 @@ function voteCheckAction(idVote, newsObj) {
 }
 
 function manageModeContext(id) {
-	listXeditables = ['#newsContent'+id, '#newsTitle'+id];
+	listXeditables = [/*'#newsContent'+id,*/ '#newsTitle'+id];
 	if (mode == "view") {
 		//$('.editable-project').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -632,27 +716,28 @@ function initXEditable() {
     	if(!v) return 'Required field!';
 	});
 
-	$('.newsContent').editable({
-		url: baseUrl+"/"+moduleId+"/news/updatefield", 
-		showbuttons: 'bottom',
-		wysihtml5: {
-			html: true,
-			video: true,
-			image: true
-		},
-		success : function(data) {
-	        if(data.result) 
-	        	toastr.success(data.msg);
-	        else
-	        	toastr.error(data.msg);  
-	    },
-	});
+	// $('.newsContent').editable({
+	// 	url: baseUrl+"/"+moduleId+"/news/updatefield", 
+	// 	showbuttons: 'bottom',
+	// 	wysihtml5: {
+	// 		html: true,
+	// 		video: true,
+	// 		image: true
+	// 	},
+	// 	success : function(data) {
+	//         if(data.result) 
+	//         	toastr.success(data.msg);
+	//         else
+	//         	toastr.error(data.msg);  
+	//     },
+	// });
 }
 function checkAndCutLongString(text,limitLength,idNews){
 	if(text.length > limitLength){
+		allText=text;
 		text=text.substring(0,limitLength);
 		if(limitLength==500){
-			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span>";
+			text += "<span class='removeReadNews'> ...<br><a href='javascript:;' onclick='blankNews(\""+idNews+"\")'>Lire la suite</a></span><div class='allText' style='display:none;'>"+allText+"</div>";
 		}else{
 			text += " ..."
 		}
@@ -660,13 +745,26 @@ function checkAndCutLongString(text,limitLength,idNews){
 	return text;
 }
 function showComments(id){
-	$.blockUI({
-			message : '<div class="commentContent"><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
-			onOverlayClick: $.unblockUI,
-			css: {"text-align": "left", "cursor":"default"}
-		});
-		getAjax('.commentContent',baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
-		},"html");
+		// $.blockUI({
+		// 	message : '<div class=""><h2 class="homestead text-dark" style="padding:40px;"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</h2></div>', 
+		// 	onOverlayClick: $.unblockUI,
+		// 	css: {"text-align": "left", "cursor":"default"}
+		// });
+		
+		
+		if(!$("#commentContent"+id).hasClass("hidden")){
+			$(".commentContent").html("");
+			$(".commentContent").removeClass("hidden");		
+			
+			$('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
+			getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
+				
+			},"html");
+		}else{
+			$("#commentContent"+id).removeClass("hidden");		
+			console.log("scroll TO : ", $('#newsFeed'+id).position().top);
+			
+		}
 }
 function newsVoteUp($this, id){
 	if($(".newsVoteDown[data-id='"+id+"']").children(".label").hasClass("text-orange"))

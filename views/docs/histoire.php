@@ -1,7 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+	$this->renderPartial("../docs/assets");
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -18,19 +16,15 @@
   <!-- Round button indicators -->
   <ol class="carousel-indicators">
     <li data-target="#docCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#docCarousel" data-slide-to="1" class=""></li>
+    <!--<li data-target="#docCarousel" data-slide-to="1" class=""></li>
     <li data-target="#docCarousel" data-slide-to="2" class=""></li>
     <li data-target="#docCarousel" data-slide-to="3" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="4" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="4" class=""></li>-->
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/person", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div>
+    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/histoire/une_histoire_naturelle.png" class="img-schemas img-responsive "></div>
   </div>
 
   <!-- Left and right SLIDER controls -->
@@ -45,10 +39,10 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:loadByHash('#default.view.page.communication.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+<a href="#default.view.page.communication.dir.docs" class="lbh homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
 	<i class="fa fa-arrow-left"></i> Communication
 </a>
-<a href="javascript:loadByHash('#default.view.page.rd.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+<a href="#default.view.page.rd.dir.docs"  class="lbh homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
 	R&D <i class="fa fa-arrow-right"></i>
 </a>
 

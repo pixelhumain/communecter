@@ -2,17 +2,15 @@
 
 $cssAnsScriptFilesModule = array(
   //Full calendar
-  '/assets/plugins/moment/min/moment.min.js',
-  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
-  '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-  '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
+  '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+  '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+  '/plugins/fullcalendar/fullcalendar/lang/fr.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 
-if(@$event)
-  Menu::event($event,true);
-$this->renderPartial('../default/panels/toolbar');
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
 ?>
 
 <style>
@@ -94,7 +92,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <!-- *** SHOW CALENDAR *** -->
 
-
+<div id="calendarviewPad">
   <div id="showCalendar" class="col-md-12 ">
       
       <div class="row ">
@@ -116,8 +114,11 @@ $this->renderPartial('../default/panels/toolbar');
         	</div>
         </div>
       </div>	
-  </div>
-      
+  </div>   
+</div> 
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 
 
 <script type="text/javascript">
@@ -131,10 +132,10 @@ $this->renderPartial('../default/panels/toolbar');
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
-      $(".moduleLabel").html("<i class='fa fa-calendar'></i> <?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>");
+      setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>","calendar");
       showCalendar();
       initLastsEvents();
-
+	  activeMenuElement("calendar");
       $(window).on('resize', function(){
   			$('#calendar').fullCalendar('destroy');
   			showCalendar();
@@ -339,7 +340,7 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft lbh" href="#event.detail.id.'+currentEvent["_id"]["$id"]+'">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+

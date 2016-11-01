@@ -1,31 +1,22 @@
 <?php
 	$cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js',
+	);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
+	$cssAnsScriptFilesModule = array(
 	'/js/pages-gallery.js',
 	);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
-if( isset($itemType) && $itemType == Organization::COLLECTION && isset($organization) ){
-	Menu::organization( $organization );
-	$contextName = $organization["name"];
-	$parentName=$organization["name"];
-}
-else if( isset($itemType) && $itemType == Person::COLLECTION && isset($person) ){
-	Menu::person( $person );
-	$contextName = $person["name"];
 
+if( isset($parent) ){
+	$contextName = $parent["name"];
+	$parentName=$parent["name"];
 }
-else if( isset($itemType) && $itemType == Project::COLLECTION && isset($project) ){
-	Menu::project( $project );
-	$contextName = $project["name"];
-}
-else if( isset($itemType) && $itemType == Event::COLLECTION && isset($event) ){
-	Menu::event( $event );
-	$contextName = $event["name"];
+if(!@$_GET["renderPartial"])
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery")); 
 
-}
-$this->renderPartial('../default/panels/toolbar'); 
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -78,8 +69,8 @@ $this->renderPartial('../default/panels/toolbar');
 		color: white !important;
 	}
 </style>
-<div class="row">
-	<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="row" id="galleryPad">
+	<div class="col-xs-12">
 		<div class="panel panel-white">
 			<div class="panel-body">
 				<div class="controls">
@@ -101,28 +92,34 @@ $this->renderPartial('../default/panels/toolbar');
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
-
+<?php if(!@$_GET["renderPartial"]){ 
+	// End div .pad-element-container if newspaper of orga, project, event and person 
+	// Present in pod/headerEntity.php
+?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 
 var images;
 var tabButton = [];
 var mapButton = {"media": "Media", "slider": "Album", "profil" : "Profil", "banniere" : "Banniere", "logo" : "Logo"};
-var itemId = "<?php echo $itemId; ?>"
-var itemType = "<?php echo $itemType; ?>"
-var controllerId = "<?php echo $controllerId; ?>"
+var itemId = "<?php echo $itemId; ?>";
+var itemType = "<?php echo $itemType; ?>";
 
 var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
 var images = <?php echo json_encode($images); ?>;
-var contextName = "<?php echo addslashes($contextName); ?>";	
+var contextName = "<?php echo addslashes(@$contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> Galerie photos de " + contextName);
+ 	activeMenuElement("gallery");
+	setTitle("Galerie photos de " + contextName,contextIcon);
 	initGrid();
 	$(".portfolio-item").mouseenter(function(){
 		$(this).find(".tools.tools-bottom").show();
 	}).mouseleave(function(){
 		$(this).find(".tools.tools-bottom").hide();
 	});
+
 });
 
 function initGrid(){

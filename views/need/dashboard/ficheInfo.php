@@ -1,29 +1,24 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+	'/plugins/x-editable/css/bootstrap-editable.css',
 	//X-editable...
-	'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js',
-	'/assets/plugins/moment/min/moment.min.js',
-	'/assets/plugins/Chart.js/Chart.min.js'
+	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+	'/plugins/x-editable/js/bootstrap-editable.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/Chart.js/Chart.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
 	'/js/postalCode.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-$cssAnsScriptFilesModuleSS = array(
-	'/plugins/Chart.js/Chart.min.js',
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->theme->baseUrl."/assets");
 ?>
 
 <style>
@@ -98,11 +93,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 	#fileuploadContainer{
 		margin:inherit !important;
 	}
+	#profil_imgPreview{
+      max-height:400px;
+      width:100%;
+      border-radius: 5px;
+      /*border:3px solid #93C020;*/
+      /*border-radius:  4px 4px 0px 0px;*/
+      margin-bottom:0px;
+     
+
+    }
 </style>
 <div class="panel-white">
 	<div class="panel-heading border-light">
 		<h4 class="panel-title text-dark"> 
-			<i class="fa fa-info-circle"></i> Infos générales		</h4>
+			<i class="fa fa-cubes"></i> Info besoin</h4>
 	</div>
 	<div class="panel-tools" style="">
 				<?php if ($isAdmin){ ?>
@@ -138,7 +143,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 										else
 											echo Yii::t("common", "the ".$urlType);
 								?>
-							<a href="javascript:;" onclick="loadByHash('#<?php echo $urlType ?>.detail.id.<?php echo $parentId; ?>')" class="text-<?php echo $color ?>"><?php echo $parent["name"]; ?></a> 
+							<a href="#<?php echo $urlType ?>.detail.id.<?php echo $parentId; ?>" class="lbh text-<?php echo $color ?>"><?php echo $parent["name"]; ?></a> 
 						</h2>					
 					</div>
 				</div>
@@ -165,8 +170,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 					</div>
 					<div class="durationDate <?php if ($need["duration"]== "Permanent") echo "hide"; ?>">
 						<i class="fa fa-calendar"></i> 
-							De <a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a>
-						<label id="labelTo">Au</label> <a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a>
+							<?php echo Yii::t("common","From") ?> <a href="#" id="startDate" data-type="date" data-original-title="Enter the need's start" class="editable editable-click"></a>
+						<label id="labelTo"><?php echo Yii::t("common","To"); ?></label> <a href="#" id="endDate" data-type="date" data-original-title="Enter the need's end" class="editable editable-click"></a>
 					</div>
 					<div class="col-md-6 no-padding">
 						<label class="control-label text-dark">
@@ -183,7 +188,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModuleSS,Yii::app()->th
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 padding-10">
+		<div class="col-xs-12 padding-10">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 			<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t("need","Enter the need's description",null,Yii::app()->controller->module->id) ?>" class="editable editable-click"></a>	
 		</div>
@@ -271,7 +276,7 @@ function initNeedXEditable() {
 			url: baseUrl+"/"+moduleId+"/need/updatefield", 
 			//mode: 'popup',
 			source:function() {
-				listType=["Materials","Competences","Services"];
+				listType=["Matériel","Competences","Services"];
 				return listType;
 			},
 			success : function(data) {

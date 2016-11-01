@@ -1,0 +1,180 @@
+* BUGS
+[ ] repairing localisation HTML5
+
+* optim
+[ ] reactiver viewport filter sur la carte
+[ ] on person.detail add autocomplete on tags
+[ ] refactor : chgt de carte avec bcp de data
+  [ ] repertoire
+  [ ] lazy loading sur la carto
+[ ] passing to Yii 2.0
+[ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
+[ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
+[ ] refactor design recherche a directory et utiliser la page recherche pour communauté
+* refactor 
+[ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
+
+* Elements
+[ ] comptabiliser le temps + type 
+[ ] ecrire noir sur blanc les regles de remuneration de chaque 
+[ ] ecrire la doc de fonctionnement 
+  [ ] a quoi ca peut servir 
+  [ ] .... autres question
+[ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
+[ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
+[ ] dynform evolutif par type 
+    [ ] start by name
+    [ ] build as you complete the info
+[.17] event + project : change organiser
+
+  ** Person 
+  [ ] citoyen recoltant
+  [ ] pouvoir supprimer son compte
+  [ ] Indicateur du nb de nouveauté depuis dernier login
+  [ ] validation de compte voir openhub
+
+  ** Orga
+  [ ] donner le choix lorsqu'on est invité a une orga 
+      [ ] inviter les gens a suivre
+
+  ** Event ideas 
+  [.17] agenda : les events prennent pas la durée sur plusieurs jours
+  [ ] affiché les event mois precedent et suivant
+  [ ] tester : calendrier full calendar sur agenda 
+  [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
+      [ ] affichage triable en mode mixitup
+          [ ] par salle , chrono, tag filter, all subevents
+          [ ] my events : events I participate in , calendrier perso 
+              [ ] doodle : pour comparer facilement les dispo 
+              [ ] covoit : décrire les trajet pour les partagers
+  [ ] Event intérrsant pour moi, moteur d'affinité
+  [.17] connecter a des sources events externes 
+  [ ] push back vers Open Agenda
+  [ ] Best place calculator : utilisant la position des participants
+  [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
+
+  ** Project
+  [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
+  [ ] QCM Propriété , common Chart
+  [ ] Finir Besoin Ressource compétence
+  [ ] Top 10 projet Locaux , liké ou soutenu par la population
+    [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
+
+  ** Needs
+  [.17] visualisation de la banque des besoins 
+    - section besoin
+    - filtre par type de besoin
+    - par type d'acteur 
+
+  ** POI
+  [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
+  [ ] use Poi as social bookmarking
+    [ ] import from diigo, bookmarks or delicious
+    [ ] btn add to my favorites 
+    [ ] bookmarklet like diigo 
+
+* City 
+[.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[ ] ajouter une photo de votre ville 
+    - baniere 
+[.17] refactor péi_insee-cp en péi_insee_cp
+[ ] faire des appels a projets 
+[ ] ajouter la gestion des quartier Isis dans les scope
+[ ] Valoriser les communes qui ont signées
+[ ] taper un nom de ville sur le scoper, avec le type region activé, si je tape Bordeau me ressort la REgion correspondante
+[ ] scoper adding a code postal > ajoute toute la chaine
+[ ] add a calendar on city page ???
+[ ] localiser libre : avec le nouvel input 
+  - si la city n'existe pas , panel de creation et on enchaine
+
+* Ergo 
+[ ] utiliser ce design du dashboard pour afficher notif et mon rep
+  - ca pourrait ouvrir des porte pour trier les section des notifs
+  - moins clostro que les bar vertical actuelle
+
+* Global
+[ ] shortcuts : navigate with 4 btns 
+  [ ] F1 : dashboard
+    - ajouter un champs de recherche qui fera comme le finder linux ou apple
+  [ ] F2 : me or my data dash comme le finder Apple
+  [ ] F3 : my map or my statistic 
+  [ ] F4 : My Society or my game
+[ ] refactor le design du notifier 
+[ ] turn notification list into a header panel
+[ ] Utilisateur qui n'ont cp
+  [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
+  [ ]  Dans le header : a la place du cp , proposer de ce communecter.
+[ ] synchroniser le scopper et la carto 
+[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
+[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
+[.16] internationalisation avec la Belgique
+[ ] Finance Transparente
+[ ] Module FAQ : posez une questions a cette entité
+[ ] rapatrier les docs module
+[ ] repair fluidlog
+[ ] declaration de pb contextualisé 
+  - bug idée ... sur chaque page , persistent et en mode votable
+[ ] representation du multi scoping sur la carte
+        - peut etre tracer les perimtres de chaque zone
+[.17] bouton share (Social) non intrusif 
+[ ] interoperability
+[ ] system de synchronisation between instances : download + upload 
+  - download from OCDB
+  - connect to one or many servers, info new differences
+  - upload from instance
+    - select types for what to upload 
+    - see diffs
+  - id unique : id_sourkeyInstance
+[ ] Post outside : ne pas juste utiliser les mails 
+  - user pourront demander des push sur differentes destination FB, twitter, 
+[.17] point d'entrée thématique sur la page d'acceuil 
+  - pour voir combien d'acteur oeuvre dans une thematique
+[ ] systeme calculant la valeur indirect de communecter basé sur un systeme de valeur economique existant 
+  ex : sur les base des prix des pages jaune calculé la valeur cumulé de l'annuaire 
+[.17] reflechir First Connect , show notifications, hot news ....  
+
+* API 
+[ ] globaliser le system de Tokens et utilisation API Communecte
+[ ] integrate France Connect
+
+* Interop 
+  [ ] possibility de soumettre une url pour connecter un profile externe
+  [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
+  [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
+  [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
+
+* News
+  [ ] Améliorer l'affichage de commentaires dans les news
+  [.17] Ajouter dans le journal un post de la creation de l'element qui le porte  
+
+* admin 
+  [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
+
+* DDA
+[.16] bug : sur archiver , persiste dans les listes 
+[.16] bug : une décision terminé, on peut toujours voté dessus
+[.16] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[ ] btn archiver afficher si deconnecté
+[ ] changer les lien des DDA sur les parent insee
+[ ] ajouter la proposition de signature du pacte de transition citoyenne
+[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
+[ ] Discussion externe : Roket Chat, Gitter or Slack with url 
+[ ] Réunion privée pour avancement interne organisation
+[ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
+[ ] optim : pour eviter les count propositions, dans les boucles ajouter le propalCount on the actionRoom
+
+* Notifications :
+    [ ] Un subevent a été ajouté sur un event auquel je suis participant
+    [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
+    [ ] ajouter des acceptation dans le notif, pour pas etre obligé d'aller sur le post
+    [ ] Améliorer la notification de report d'abus
+
+* Financement 
+[ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+    [ ] avec analyse de consommation et prix adapté à la conso
+    [ ] vision disk dur : en fonction de la consommation de chacun 
+
+
+* Recherche 
+[ ] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc)
+

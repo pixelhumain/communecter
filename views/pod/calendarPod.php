@@ -3,13 +3,12 @@
   $cssAnsScriptFilesModule = array(
 	
     //Full calendar
-    '/assets/plugins/moment/min/moment.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css',
-    '/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/assets/plugins/fullcalendar/fullcalendar/lang/fr.js'
+    '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
+    '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+    '/plugins/fullcalendar/fullcalendar/lang/fr.js'
     );
 
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 
 ?>
 
@@ -282,7 +281,7 @@ function showCalendar() {
 		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
 		                '</div>'+
 	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft" href="javascript:;" onclick="loadByHash(\'#event.detail.id.'+currentEvent["_id"]["$id"]+'\')">'+
+							'<a class="btn btn-green btn-block radius-bottomRightLeft lbh" href="#event.detail.id.'+currentEvent["_id"]["$id"]+'">'+
 								'En savoir + >'+
 							'</a>'+
 						'</div>'+

@@ -1,13 +1,11 @@
 <?php 
-$cssAnsScriptFilesModule = array(
-  
-  '/plugins/select2/select2.min.js'
-
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+  $cssAnsScriptFilesModule = array(
+    '/plugins/select2/select2.min.js'
+  );
+  HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
-<style>
 
+<style>
 .lbl-title-newsstream{
 	display: none;
 }
@@ -18,8 +16,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 display: inline;
 }
 
+.lbl-scope-list {
+  top: 200px;
+}
+
+#btn-filter-scope-news{
+  display:none;
+}
+.btn-tag{
+  font-weight:300;
+  padding-left: 0px;
+}
+.btn-tag.bold{
+  font-weight:600;
+}
 @media screen and (max-width: 1024px) {
-  button.btn-start-search {
+  /*button.btn-start-search {
     margin-top: -40px;
     margin-left: 47%;
     color: white;
@@ -37,57 +49,68 @@ display: inline;
   }
   #newsHistory #timeline {
     margin-top: -50px;
-  }
-
-
+  }*/
 }
-
-.lbl-scope-list{
-    top:250px !important;
-  }
-
-  #btn-filter-scope-news{
-    display:none;
-  }
-
 </style>
-<div class="lbl-scope-list text-red"></div>
 
-<div class="img-logo bgpixeltree_little">
-	<button data-id="explainNews" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
-		<i class="fa fa-question-circle"></i>
-	</button>
+<div class="lbl-scope-list text-red hidden"></div>
 
-	<input id="searchBarText" type="text" placeholder="Recherche par tags" class="input-search text-red">
+<div class="col-md-12 center">
 	
-	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button></br>
-</div>
-<div class="col-md-12 center" style="margin-top: 20px; margin-bottom: 0px; margin-left: 0px;">
-    <div class="btn-group inline-block" id="menu-directory-type">
-      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="News" type="news">
-        <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">News</span>
-      </button>
-      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
-        <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
-      </button>
-      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
-        <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs hidden-sm">Projets</span>
-      </button>
-      <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
-        <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
-      </button>
-	  <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Needs" type="needs">
-        <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Needs</span>
-      </button>
+  <div class="col-md-12 no-padding margin-top-15">
+  	<div class="input-group col-md-8 col-sm-8 col-xs-12 pull-left">
+        <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
+        <span class="input-group-btn">
+              <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+                      data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+                      <i class="fa fa-refresh"></i>
+              </button>
+        </span>
     </div>
+    <button class="btn btn-sm tooltips hidden-xs pull-left" id="btn-slidup-scopetags" 
+            style="margin-left:15px;margin-top:5px;"
+            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
+            <i class="fa fa-minus"></i>
+    </button>
+    <button data-id="explainNews" class="explainLink btn btn-sm tooltips hidden-xs  pull-left" 
+            style="margin-left:7px;margin-top:5px;"
+            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
+          <i class="fa fa-question-circle"></i>
+    </button>
   </div>
+</div>
+
+<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 0px; margin-left: 0px;"  id="list_filters">
+  <div class="btn-group inline-block" id="menu-directory-type">
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Messages" type="news">
+      <i class="fa fa-check-circle-o search_news"></i> <i class="fa fa-rss"></i> <span class="hidden-xs hidden-sm">Messages</span>
+    </button>
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisations" type="organizations">
+      <i class="fa fa-check-circle-o search_organizations"></i> <i class="fa fa-group"></i> <span class="hidden-xs hidden-sm">Organisations</span>
+    </button>
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projets" type="projects">
+      <i class="fa fa-check-circle-o search_projects"></i> <i class="fa fa-lightbulb-o"></i> <span class="hidden-xs hidden-sm">Projets</span>
+    </button>
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènements" type="events">
+      <i class="fa fa-check-circle-o search_events"></i> <i class="fa fa-calendar"></i> <span class="hidden-xs hidden-sm">Évènements</span>
+    </button>
+    <button class="btn btn-default btn-filter-type tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Besoins" type="needs">
+      <i class="fa fa-check-circle-o search_needs"></i> <i class="fa fa-cubes"></i> <span class="hidden-xs hidden-sm">Besoins</span>
+    </button>
+  </div>
+  <div class="col-xs-12 margin-top-15 no-padding">
+    <div id="list_tags_scopes" class="hidden-xs"></div>
+  </div>
+</div>
+
+<div class="col-xs-12 no-padding"><hr></div>
 
 <?php //$this->renderPartial("first_step_news"); ?> 
 <?php //$this->renderPartial("news/index"); ?> 
 
 
 <div class="" id="dropdown_search"></div>
-<div class="col-md-12" id="newsstream"></div>
+<div class="col-xs-12 no-padding" id="newsstream"></div>
 
 
 <script type="text/javascript">
@@ -102,12 +125,7 @@ jQuery(document).ready(function() {
 
   	$('.main-btn-toogle-map').click(function(e){ showMap(); });
   	
-  	
-  	$('#searchBarText').keyup(function(e){
-        clearTimeout(timeoutSearch);
-        timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-    });
-
+  	showTagsScopesMin("#list_tags_scopes");
   
     $('#btn-start-search').click(function(e){
         startSearch();
@@ -118,7 +136,19 @@ jQuery(document).ready(function() {
     $(".btn-geolocate").click(function(e){
     	initHTML5Localisation('prefillSearch');
     });
-	$(".btn-filter-type").click(function(e){
+
+    $("#btn-slidup-scopetags").click(function(){
+      if($("#list_filters").hasClass("hidden")){
+        $("#list_filters").removeClass("hidden");
+        $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+      }
+      else{
+        $("#list_filters").addClass("hidden");
+        $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
+      }
+    });
+
+	  $(".btn-filter-type").click(function(e){
 	    var type = $(this).attr("type");
 	    var index = searchType.indexOf(type);
 	
@@ -137,14 +167,15 @@ jQuery(document).ready(function() {
       //toogleCommunexion();
     });
     
-    $(".moduleLabel").html("<i class='fa fa-rss'></i> <span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE");
-	selectScopeLevelCommunexion(levelCommunexion);
+    setTitle("<span id='main-title-menu'>L'Actualité</span> <span class='text-red'>COMMUNE</span>CTÉE","rss","L'Actualité COMMUNECTÉE");
+	  selectScopeLevelCommunexion(levelCommunexion);
 });
 
 
 var timeout;
 function startSearch(){
-	$(".my-main-container").off();
+	//Modif SBAR
+  //$(".my-main-container").off();
 	var name = $('#searchBarText').val();
 	if(inseeCommunexion != ""){
 		if(name.length>=3 || name.length == 0){
@@ -170,20 +201,16 @@ function startSearch(){
 
 
 function showNewsStream(name,locality){
-	if(typeof(cityInseeCommunexion) != "undefined"){
-	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
-	                             2 : "INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}else{
-		var levelCommunexionName = { 1 : "INSEE",
-	                             2 : "CODE_POSTAL_INSEE",
-	                             3 : "DEPARTEMENT",
-	                             4 : "REGION"
-	                           };
-	}
-	var dataNewsSearch = {"tagSearch" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion]};
+	
+  var dataNewsSearch = {
+      "tagSearch" : name, 
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchType" : searchType,
+  };
+
 	$("#newsstream").html("<div class='loader text-dark '>"+
 		"<span style='font-size:25px;' class='homestead'>"+
 			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
@@ -211,6 +238,7 @@ function removeSearchType(type){
   }
   console.log(searchType);
 }
+
 
 </script>
 

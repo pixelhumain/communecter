@@ -7,17 +7,18 @@
 	$cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
+
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
-	'/plugins/select2/select2.css',
-	'/plugins/select2/select2.min.js',
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
-	'/plugins/autosize/jquery.autosize.min.js'
+	'/plugins/autosize/jquery.autosize.min.js',
+
+    //'/plugins/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css',
+    //'/plugins/toopay-bootstrap-markdown/js/bootstrap-markdown.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 <style>
 #newProject{
@@ -41,8 +42,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		display: none;
 	}
 
-
-
 /* design alpha tango*/
 .main-col-search{
 	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-purple.png");
@@ -62,9 +61,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	font-weight:600;
 }
 
-.main-top-menu{
+/*.main-top-menu{
 	background-color: rgba(255, 255, 255, 0.82) !important;
-}
+}*/
 .select2-container .select2-choice .select2-arrow b::before{
 	/*content:"";*/
 }
@@ -88,6 +87,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .input-icon > input {
     padding-left: 25px;
     padding-right: 6px;
+}
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 </style>
 
@@ -208,20 +212,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					</div>
 					<div class="form-group col-md-12">
 							<div>
-								<label for="form-field-24" class="control-label text-purple">
-								<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></label>
-								<textarea  class="project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+								<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+								</h3>
+								<textarea  class=" wysiwygInput project-description form-control" name="description" id="description" class="autosize form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 120px;"></textarea>
+
 							</div>
 					</div>
 						
 				</div>
-				<?php if(!isset(Yii::app()->session["userEmail"])){?>
-				<div class="col-md-12">
-					<div class="form-group">
-						<input class="project-name form-control" name="projectName" type="text" placeholder="Project Name...">
-					</div>
-				</div>
-				<?php } 
+				
+				<?php 
 				if( Yii::app()->session['userId'] ){ ?>
 				<div class= "row col-xs-12">
 					<button class="pull-right btn bg-purple" onclick="$('.form-event').submit();"><i class="fa fa-save"></i> Enregistrer</button>
@@ -245,7 +246,6 @@ jQuery(document).ready(function() {
 	$('#tagsProject').select2({tags:<?php echo $tags ?>});
 	addCustomValidators();
 	initProjectForm();
-	bindProjectSubViewProjects();
  	bindPostalCodeAction();
  	runProjectFormValidation();
  	Sig.clearMap();
@@ -256,21 +256,22 @@ jQuery(document).ready(function() {
 	$('#projectCountry').select2({
 		data : countries
 	});
+	var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
+	$("#projectCountry").select2('val', userCountry);
+
 	$("textarea.autosize").autosize();
 
     $(".daterangepicker").on("hide.daterangepicker", function(){
  		console.log("ok");
  	});
 
- 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i> Créer un projet");
+ 	setTitle("Créer un projet","<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i>");
+
+ 	$(".wysiwygInput").off().on("focus", function(){
+	 	activateSummernote('#description');
+	 });
 });
 
-function bindProjectSubViewProjects() {
-	$(".close-subview-button").off().on("click", function(e) {
-		$(".close-subviews").trigger("click");
-		e.prprojectDefault();
-	});
-};
 
 //var dateToShow, calendar;
 // creates an array of projects to display in the calendar
@@ -307,7 +308,7 @@ function runProjectFormValidation(el) {
 				date : true
 			},
 			postalCode : {
-				rangelength : [5, 5],
+				rangelength : [4, 5],
 				required : true,
 				validPostalCode : true
 			}
@@ -343,7 +344,7 @@ function runProjectFormValidation(el) {
 			endDateSubmitProj = moment($(".form-project .project-end-date").val()).format('YYYY/MM/DD HH:mm');
 			
 			newProject = new Object;
-			newProject.name = $(".form-project .project-name ").val(), 
+			newProject.name = $(".form-project .project-name ").val(),
 			newProject.parentType=parentType,
 			newProject.parentId=parentId
 			newProject.startDate=startDateSubmitProj,
@@ -352,10 +353,16 @@ function runProjectFormValidation(el) {
 			newProject.cityName=$(".form-project #cityName").val(),
 			newProject.streetAddress=$(".form-project #fullStreet").val(),
 			newProject.postalCode=$(".form-project #postalCode").val(),
-			newProject.description=$(".form-project .project-description").val(),
+			//newProject.description=$(".form-project .note-editable").text(),
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
 			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
 			newProject.tags = $(".form-project #tagsProject").val();
+
+			if ($(".form-project .note-editor").length != 0)
+				newProject.description=$(".form-project #description").code();
+			else
+				newProject.description="";
+
 			console.log(newProject);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
@@ -424,6 +431,8 @@ function initProjectForm(el) {
 	$('.form-project .project-range-date').data('daterangepicker').setStartDate(startDate);
 	$('.form-project .project-range-date').data('daterangepicker').setEndDate(endDate);
 	//alert();
+	
+	//$(".mdInput").markdown({autofocus:false,savable:false})
 };
 
 
@@ -432,7 +441,7 @@ function runShowCity(searchValue) {
 	citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	
 
-	var oneValue = "";
+	var oneValue = "";  var oneName = "";
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;
@@ -535,6 +544,7 @@ function convertDate2(date, num){
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
 		console.log("callback ok");
+		console.dir(resultNominatim);
 		var show = Sig.showCityOnMap(resultNominatim, true, "project");
 		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, true, "project");
@@ -559,24 +569,29 @@ function convertDate2(date, num){
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
 		    			console.log("res getlatlngbyinsee");
 		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ 
-							if(typeof obj.geoShape != "undefined") {
-								//on recherche avec une limit bounds
-								var polygon = L.polygon(obj.geoShape.coordinates);
-								var bounds = polygon.getBounds();
-								Sig.execFullSearchNominatim(0, bounds);
+		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				console.dir(obj);
+		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
+								if(typeof obj.geoShape != "undefined") {
+									//on recherche avec une limit bounds
+									var polygon = L.polygon(obj.geoShape.coordinates);
+									var bounds = polygon.getBounds();
+									Sig.execFullSearchNominatim(0, bounds);
+								}
+								else{
+									//on recherche partout
+									Sig.execFullSearchNominatim(0);
+								}					
+							
+							}else{
+								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
+								callBackFullSearch(obj);
 							}
-							else{
-								//on recherche partout
-								Sig.execFullSearchNominatim(0);
-							}					
-						
-						}else{
-							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
 	
 					},
 					error: function(error){
+						$("#iconeChargement").hide();
 						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
@@ -657,6 +672,7 @@ function convertDate2(date, num){
 			console.log("Erreur getlatlngbyinsee vide");
 		}
 	}
+
 	function callbackGoogleMapsSuccess(result){
 		console.log("callbackGoogleMapsSuccess");
 		console.dir(result);
@@ -677,6 +693,7 @@ function convertDate2(date, num){
 			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 			
   		}else{
+  			$("#iconeChargement").hide();
   			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
   		}
 	}

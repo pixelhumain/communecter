@@ -2,19 +2,19 @@
 <style>
 	.main-login{
 		position:absolute;
-		top:80px;
+		top:20px;
 	}
 	@media screen and (min-width: 1025px) {
 		.box-login, .box-register, .box-email{
 			left: unset !important;
-			right: 14% !important;
+			right: 0% !important;
 			border-radius:15px;
 			display:none;
 		}
 	}
 	.form-login, .form-register, .form-email{
 		left: unset !important;
-		right: 14% !important;
+		right: 0% !important;
 		border-radius:15px;
 	}
 	.btn-round{
@@ -112,6 +112,12 @@
 							<div class="alert alert-danger no-display custom-msg">
 								<i class="fa fa-remove-sign"></i> <?php echo Yii::t("login","You have some form errors. Please check below.") ?>
 							</div>
+							<div class="alert alert-danger no-display emailAndPassNotMatchResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Email or password does not match. Please try again !")?>
+							</div>
+							<div class="alert alert-danger no-display emailNotFoundResult">
+								<i class="fa fa-remove-sign"></i><?php echo Yii::t("login","Impossible to find an account for this username or password.")?>
+							</div>
 							
 							<br/>
 							<button type="submit"  data-size="s" data-style="expand-right" style="background-color:#E33551" class="loginBtn ladda-button center-block">
@@ -165,14 +171,14 @@
 			<div class="box-register box box-white-round no-padding" style=" margin-top:-25px !important;">
 				<button class="btn btn-default btn-close-box" id=""><i class="fa fa-times"></i></button>
 				<form class="form-register center box-white-round" style="background-color:white !important;">
-					<img style="width:70%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
+					<img style="width:0%; border: 10px solid white;" class="" src="<?php echo $this->module->assetsUrl?>/images/logoLTxt.jpg"/>
 					
 					<fieldset>
-						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> Je crée mon compte</h2>
+						<h2 class="text-red margin-bottom-10 text-center"><i class="fa fa-angle-down"></i> <?php echo Yii::t("login","I create my account") ?></h2>
 						<div class="col-md-12 padding-5">
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="text" class="form-control" id="name" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
+									<input type="text" class="form-control" id="registerName" name="name" placeholder="<?php echo Yii::t("login","Firstname Lastname") ?>">
 									<i class="fa fa-user"></i> </span>
 							</div>
 						</div>
@@ -281,8 +287,8 @@ jQuery(document).ready(function() {
 
 
 	$('.form-register #username').keyup(function(e) {
-		validateUserName();
-	})
+		//validateUserName();
+	});
 
 	if(email != ''){
 		$('#email-login').val(email);
@@ -317,7 +323,7 @@ function userValidatedActions() {
 	if (invitor != "") {
 		$(".errorHandler").hide();
 		$('.pendingProcess').show();
-		$('.form-register #name').val(name);
+		$('.form-register #registerName').val(name);
 		$('#email3').prop('disabled', true);
 		$('#inviteCodeLink').hide();
 	}
@@ -415,6 +421,7 @@ var Login = function() {
 			},
 			submitHandler : function(form) {
 				errorHandler.hide();
+				$(".alert").hide();
 				loginBtn.start();
 				var params = { 
 				   "email" : $("#email-login").val(), 
@@ -450,7 +457,7 @@ var Login = function() {
 		        			else {
 		        				//console.log("login 3 reload");
 		        				//for urls like notifications/get/not/id...
-		        				window.location.href = baseUrl+'#default.home';
+		        				window.location.href = baseUrl+'#default.live';
 		        				//window.location.reload();
 		        			}
 		        		}
@@ -460,12 +467,17 @@ var Login = function() {
 							$('.notValidatedEmailResult').show();
 		    		  	} else if (data.msg == "betaTestNotOpen") {
 		    		  		$('.betaTestNotOpenResult').show();
+		    		  	} else if (data.msg == "emailNotFound") {
+		    		  		$('.emailNotFoundResult').show();
+		    		  	} else if (data.msg == "emailAndPassNotMatch") {
+		    		  		$('.emailAndPassNotMatchResult').show();
 		    		  	} else if (data.msg == "accountPending") {
 		    		  		pendingUserId = data.pendingUserId;
 		    		  		$(".errorHandler").hide();
 							$('.register').click();
 							$('.pendingProcess').show();
-							$('#email3').val($("#email-login").val());
+							var pendingUserEmail = data.pendingUserEmail;
+							$('#email3').val(pendingUserEmail);
 							$('#email3').prop('disabled', true);
 		    		  	} else{
 		    		  		msg = data.msg;
@@ -561,7 +573,8 @@ var Login = function() {
 		form3.validate({
 			rules : {
 				name : {
-					required : true
+					required : true,
+					minlength : 4
 				},
 				username : {
 					required : true,
@@ -596,7 +609,7 @@ var Login = function() {
 				errorHandler3.hide();
 				createBtn.start();
 				var params = { 
-				   "name" : $('.form-register #name').val(),
+				   "name" : $('.form-register #registerName').val(),
 				   "username" : $(".form-register #username").val(),
 				   "email" : $(".form-register #email3").val(),
                    "pwd" : $(".form-register #password3").val(),
@@ -622,7 +635,7 @@ var Login = function() {
 					    $('#modalRegisterSuccess .btn-default').click(function() {
 					        console.log("hide modale and reload");
 					        $('modalRegisterSuccess').modal('hide');
-					    	window.location.href = baseUrl+'/#default.home';
+					    	window.location.href = baseUrl+'/#default.live';
 					    	window.location.reload();
 					    });
 		        		//loadByHash("#default.directory");
@@ -674,7 +687,7 @@ function validateUserName() {
   						"username": '<?php echo Yii::t("login","The user name is not unique : please change it.")?>'
 					});
 				}
-			}, 200);
+			}, 3000);
 	}
 }
 
@@ -767,7 +780,7 @@ function callbackFindByInseeError(){
 }
 
 function initRegister() {
-	$('.form-register #name').val("");
+	$('.form-register #registerName').val("");
 	$(".form-register #username").val("");
 	$(".form-register #email3").val("");
 	$(".form-register #password3").val("");

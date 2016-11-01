@@ -164,8 +164,9 @@
         var countEvent = 0;
         var items = "";
         var startDate = "";
-
-        console.log("allDayEvents", allDayEvents);
+        var zIndex=31;
+        //console.log("allDayEvents");
+        //console.dir(allDayEvents);
         
         $.each(allDayEvents, function(key, dayEvents){
 
@@ -173,8 +174,8 @@
               var action = 'loadByHash("#event.detail.id.'+dayEvents.id+'");';
               var item = "<li>";
               var imgProfil = "<i class='badge bg-orange fa fa-calendar'></i>";
-              if (dayEvents.thumb_url != "") {
-                      imgProfil = "<img class='badge bg-orange' src='"+dayEvents.thumb_url+"'>"; 
+              if (typeof dayEvents.thumb_url != "undefined" && dayEvents.thumb_url != "") {
+                  imgProfil = "<img class='badge bg-orange' src='"+dayEvents.thumb_url+"'>"; 
               }
               item += "<a href='javascript:' onclick='"+action+"' class=''>" +
                         imgProfil + 
@@ -185,19 +186,29 @@
 
               items += item;      
           }
-          startDate = dayEvents["startDate"].substr(0, 10);
-          countEvent++;
+          if(typeof dayEvents["startDate"] != "undefined")
+            startDate = dayEvents["startDate"].substr(0, 10);
+            countEvent++;
          });
 
-         var dropdown =     '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown"><span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
-                            ' <span class="caret"></span></button>'+
-                            '<ul class="dropdown-menu date'+startDate+'">'+
-                              items +
-                            '</ul>';
-
-        dropdown = $(dropdown);
-        day.append(dropdown);
-
+        // if(typeof dayEvents["startDate"] != "undefined"){
+           var align = "pull-right";
+           var d = new Date(startDate);
+           var numDay = d.getDay();
+           //console.log("ce jour est le "+numDay+" de la semaine");
+           if(numDay>0&&numDay<4) align = "pull-left";
+           var dropdown =     
+              '<button class="btn bg-orange homestead dropdown-toggle" type="button" data-toggle="dropdown">'+
+                '<span class="hidden-xs">'+countEvent+'</span> <i class="fa fa-calendar hidden-sm hidden-xs"></i>'+
+                ' <span class="caret"></span>'+
+              '</button>'+
+              '<ul class="'+align+' dropdown-menu date'+startDate+'">'+
+                items +
+              '</ul>';
+           dropdown = $(dropdown);
+           day.append(dropdown);
+        // }
+        zIndex--;
         return day;
       },
       makeActive: function(day, dayEvents) {
@@ -222,6 +233,7 @@
       drawDay: function(lastDayOfMonth, yearNum, monthNum, dayNum, i) {
         var calcDate, dateNow, dateString, day, dayDate, pastFutureClass;
         day = $("<div></div>").addClass("day dropdown");
+        day.css("zIndex",100-dayNum);
         dateNow = new Date();
         dateNow.setHours(0, 0, 0, 0);
         dayDate = new Date(yearNum, monthNum - 1, dayNum);
@@ -329,7 +341,7 @@
         return currentMonth;
       }
     };
-    $.fn.responsiveCalendar = function(option, params) { console.log("RELOAD CALENDAR");
+    $.fn.responsiveCalendar = function(option, params) { //console.log("RELOAD CALENDAR");
       var init, options, publicFunc;
       options = $.extend({}, $.fn.responsiveCalendar.defaults, typeof option === 'object' && option);
       publicFunc = {

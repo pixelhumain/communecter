@@ -3,56 +3,79 @@
 <style type="text/css">
 
 #commentHistory .panel-heading{
-	/*padding:15px !important;*/
+	min-height:185px !important;
+}
+.footer-comments{
+  margin-top: 15px !important;
+  /*float:left;*/
+  padding: 30px;
+}
+.ctnr-txtarea {
+    position: absolute;
+    right: 30px;
+    left: 70px !important;
 }
 </style>
-
-<?php 
-	Menu::comments( $parentType, $parentId );
-	$this->renderPartial('../default/panels/toolbar');
-
-}
-
-?>
+<?php } ?>
 
 
-
-<?php if($contextType == "actionRooms"){ ?>
-   		 <?php $this->renderPartial('../rooms/header',array(    
-		   					"parent" => $parent, 
+<?php if($contextType == "actionRooms" && !isset($_GET["renderPartial"])){ 
+   	$this->renderPartial('../rooms/header',array(    
+		   					            "parent" => $parent, 
                             "parentId" => $parentId, 
                             "parentType" => $parentType, 
                             "fromView" => "comment.index",
                             "faTitle" => "comments",
                             "colorTitle" => "azure",
                             "textTitle" => "<a class='text-dark btn' href='javascript:loadByHash(\"#rooms.index.type.$parentType.id.$parentId.tab.1\")'><i class='fa fa-comments'></i> ".Yii::t("rooms","Discuss", null, Yii::app()->controller->module->id)."</a>"
-                            )); ?>
+                            )); 
+    echo '<div class="col-md-12 panel-white padding-15 discussContainer" id="room-container">';
+  }
+?>
+<?php if($contextType == "actionRooms"){ ?>
+    <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
+      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
+      <?php //echo $context["name"]; ?>
+    </h1> 
 <?php } ?>
 
+
+<?php if($contextType == "actionRooms"){
+  Menu::comments( $parentType, $parentId );
+  $this->renderPartial('../default/panels/toolbar');
+}
+?>
 
 <?php
 	//$canComment = (isset($parentId) && isset($parentType) && isset(Yii::app()->session["userId"])
 	//		&& Authorisation::canParticipate(Yii::app()->session["userId"], $parentType, $parentId));
-
-	$this->renderPartial("../comment/commentPod", array("comments"=>$comments,
+	$this->renderPartial("../comment/commentPodSimple", array("comments"=>$comments,
 											 "communitySelectedComments"=>$communitySelectedComments,
 											 "abusedComments"=>$abusedComments,
 											 "options"=>$options,
 											 "canComment"=>$canComment,
-											 "parentType"=>$parentType,
+                       "idComment"=>$idComment,
+                       "parentType"=>$parentType,
+											 "parentId" => $parentId, 
 											 "contextType"=>$contextType,
 											 "nbComment"=>$nbComment,
 											 "canComment" => $canComment,
-											 "context"=>$context));
+											 "context"=>$context,
+											 "images"=>$images));
+
+  if($contextType == "actionRooms" && !isset($_GET["renderPartial"]))
+    echo "</div>";
 ?>
 
-<script type="text/javascript">
 
+
+<script type="text/javascript">
+var images = <?php echo json_encode($images) ?>;
 var latestComments = <?php echo time(); ?>;
 jQuery(document).ready(function() {
 	
 	<?php if($contextType == "actionRooms"){ ?>
-  		$(".moduleLabel").html("<i class='fa fa-comments'></i> <?php echo Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id); ?>");
+  		setTitle("<?php echo Yii::t("rooms","Discussion", null, Yii::app()->controller->module->id); ?>","comments");
 		$(".main-col-search").addClass("assemblyHeadSection");
   	<?php } ?>
 
@@ -73,9 +96,8 @@ function checkCommentCount(){
         success: function(data){
           if(data.count>0){
           	console.log("you have new comments", data.count);
-          	
-          	$(".refreshComments").removeClass('hide')
-          	$(".refreshComments").html("<i class='fa fa-refresh'></i> "+data.count+" <?php echo Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id)?> ");
+          	$(".refreshComments").removeClass('hidden').html("<i class='fa fa-refresh fa-spin'></i> <?php echo Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id)?> ");
+            latestComments = data.time;
           } else {
           	console.log("nothing new");
           }
@@ -84,5 +106,26 @@ function checkCommentCount(){
 	    	}
         }
     });
+}
+
+function archive(collection,id){
+  console.warn("--------------- archive ---------------------",collection,id);
+    
+  bootbox.confirm("Vous êtes sûr ? ",
+      function(result) {
+        if (result) {
+          params = { 
+             "id" : id ,
+             "type":collection,
+             "name":"status",
+             "value":"<?php echo ( @$context["status"] != ActionRoom::STATE_ARCHIVED ) ? ActionRoom::STATE_ARCHIVED : "" ?>",
+          };
+          ajaxPost(null,'<?php echo Yii::app()->createUrl(Yii::app()->controller->module->id."/element/updatefield")?>',params,function(data){
+            loadByHash(window.location.hash);
+          });
+      } else {
+        $("."+clickedVoteObject).removeClass("faa-bounce animated");
+      }
+  });
 }
 </script>

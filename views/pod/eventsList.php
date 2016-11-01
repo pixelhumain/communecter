@@ -2,44 +2,61 @@
 
 $cssAnsScriptFilesTheme = array(
 
-'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+'/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-orange">
-		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","EVENTS",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("event","Events",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
-		<?php if( @$authorised && !isset($noAddLink) ) { ?>
-			<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" onclick="loadByHash('#event.eventsv.contextId.<?php echo $contextId ?>.contextType.<?php echo $contextType ?>')">
-	    		
-	    		<i class="fa fa-plus"></i> <?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>
+		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>
+			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'event','subEvent' )">
+	    		<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>
 	    	</a>
-		
+	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()">
+	    		<i class="fa fa-history"></i> <?php echo Yii::t("event","Old events",null,Yii::app()->controller->module->id) ?>
+	    	</a>
 		<?php } ?>
 	</div>
 	
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">
-			<table class="table table-striped table-hover" id="events">
-				<tbody>
-					<?php
-					if(isset($events) && count($events)>0 )
-					{ 
-						foreach ($events as $e) 
-						{
+				<?php
+						
+					$nbOldEvents = 0;
+					$nbEventVisible = 0;
+					if(isset($events) && count($events)>0 ) { ?>
+					<table class="table table-striped table-hover" id="events">
+						<tbody>
+					<?php	
+						foreach ($events as $e) {						
+							if (empty($e["endDate"]) || (!empty($e["endDate"]) && isset($e["endDate"]->sec) && $e["endDate"]->sec > time())) {
+								$eventStyle = "";
+								$eventClass = "";
+								$nbEventVisible++;
+							} else {
+								$eventStyle = "display:none;";
+								$eventClass = "oldEvent";
+								$nbOldEvents++;
+							}
+
 						?>
-						<tr id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
-							<td class="center  hidden-sm hidden-xs" style="padding-left: 18px; ">
+						<tr class="<?php echo $eventClass ?>" style="<?php echo $eventStyle ?>" id="<?php echo Event::COLLECTION.(string)$e["_id"];?>">
+							<td class="center hidden-sm hidden-xs" style="padding-left: 18px; ">
 								<?php  
-								$url = '#event.detail.id.'.$e["_id"]; 
+
+								//$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
+
+								$url = '#event.detail.id.'.$e["_id"];
+
 								if(@$organiserImgs && @$e["links"]["organizer"]){
 
 									$id = array_keys($e["links"]["organizer"])[0];
-									$o = Element::getInfos( $e["links"]["organizer"][$id]['type'], $id);
-									if ($o["type"]==Person::COLLECTION){
+									$o = Element::getInfos( @$e["links"]["organizer"][$id]['type'], $id);
+									if ( $o["type"]==Person::COLLECTION ){
 										$icon='<img height="35" width="35" class="tooltips" data-placement="right" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
 										$refIcon="fa-user";
 										$redirect="person";
@@ -50,7 +67,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 										$refIcon="fa-group";
 									}
 									?>
-									<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>')" title="<?php echo $o['name'] ?>" class="btn no-padding ">
+									<a href="#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>" class="lbh" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
 									<?php if(@$o["profilThumbImageUrl"]) {
 										// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
@@ -63,7 +80,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php } 
 								else 
 								{ ?>
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+								<a href="<?php echo $url?>" class="lbh text-dark">
 								<?php if (@$o["profilThumbImageUrl"]){ ?>
 									<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$o["profilThumbImageUrl"]) ?>">
 								<?php } else { ?>
@@ -73,7 +90,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 								<?php } ?>
 							</td>
 							<td>
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')" class="text-dark">
+								<a href="<?php echo $url?>" class="lbh text-dark">
 									<?php 
 									if(@$e["name"]) echo $e["name"];
 									if(@$e["links"]["subEvents"]) echo "(".count($e["links"]["subEvents"]).")";
@@ -98,32 +115,39 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						<?php
 						}
 					}
-					?>
-				</tbody>
-			</table>
-			<?php if(isset($events) && count($events)>0 ){ ?>
-			<div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 230px; display: inherit;"><div class="ps-scrollbar-y" style="top: 11px; height: 200px;"></div></div>
-			<?php } ?>
-		<?php if(isset($events) && count($events) == 0 ) { ?>
+					if(isset($events) && count($events)>0 ) { ?>
+						</tbody>
+					</table>
+					<?php } ?>
+		<?php if( $nbEventVisible == 0 && $nbOldEvents== 0) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
 					<?php 
 						if($contextType==Event::CONTROLLER)
-							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
+							$explain="Create sub-events to show the event's program.<br/>And Organize the event's sequence";
 						else
-							$explain="Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
+							$explain="Publiez les événements que vous organisez";
 						echo Yii::t("event",$explain); 
 					?>
 				</blockquote>
 			</div>
 		<?php } ?>
+		<?php if(isset($events) && count($events) > 0 && count($events)==$nbOldEvents ) {?>
+			<div id="infoLastButNotNew" class="padding-10">
+				<blockquote>
+					<?php echo Yii::t("event","Create your next events <br>To show your next meet-up<br>And where people can go",null,Yii::app()->controller->module->id) ?>
+				</blockquote>
+			</div>
+		<?php } ?>
+
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	
+	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
 	jQuery(document).ready(function() {	 
+		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
 
 		var itemId = '<?php echo @$contextId;?>';
 		$('.init-event').off().on("click", function(){
@@ -145,36 +169,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			
 		})
 	})
-	// TODO BOUBOULE - TO DELETE OLD MAN LONG
-	/*function updateMyEvents(nEvent) {
-		if('undefined' != typeof contextMap){
-			contextMap["events"].push(nEvent);
-		}
-		var image = "<i class='fa fa-calendar fa-2x'></i>";
-		if('undefined' != typeof(nEvent["imagePath"]))
-			image = "<img src='"+nEvent["imagePath"]+"' width='50' height='50' alt='image' class='img-circle'/>";
-		var htmlEvent = "<tr id='"+nEvent['_id']['$id']+"'>" +
-							"<td class='center'>" +
-								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" +
-								 	image +
-								 "</a>" +
-							"</td>" +
-							"<td>" +
-								"<a href='"+baseUrl+"/"+moduleId+"/event/dashboard/id/"+nEvent['_id']['$id']+"' class='text-dark'>" + 
-									nEvent["name"] +
-								"</a>" +
-							"</td>" +
-							"<td>" +
-								nEvent["type"] +
-							"</td>" +
-							"<td class='center'>" +
-								"<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-									"<a href='#'' class='btn btn-xs btn-grey tooltips delBtn' data-id='"+nEvent['_id']['$id']+"'' data-name='"+nEvent["name"]+"'' data-placement='left' data-original-title='Remove'><i class='fa fa-times fa fa-white'></i></a>"+
-								"</div>" +
-							"</td>" +
-						"</tr>";
-		$("#events").append(htmlEvent);
-		$('.tooltips').tooltip();
-		$('#infoEventPod').hide();
-	}*/
+
+	function toogleOldEvent() {
+		$(".oldEvent").toggle("slow");
+		$("#infoLastButNotNew").toggle("slow");
+	}
+
 </script>

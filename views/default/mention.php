@@ -118,7 +118,6 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	$(".moduleLabel").html('<?php echo Yii::t("common","Terms of Use") ?>');
-	
+	setTitle("<?php echo Yii::t("common","Terms of Use") ?>","");
 });
 </script>

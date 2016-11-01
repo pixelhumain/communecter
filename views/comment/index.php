@@ -1,10 +1,10 @@
 <?php
 
 $cssAnsScriptFiles = array(
-	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+	"/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
 
 ?>	
 	<!-- start: PAGE CONTENT -->
@@ -67,7 +67,7 @@ var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-comments'></i> COMMENTS");
+	setTitle("COMMENTS","comments");
 	buildTimeLine();
 	addEmptyCommentOnTop();
 	bindEvent();
@@ -314,7 +314,6 @@ function cancelComment(commentId) {
 }
 
 function validateComment(commentId, parentCommentId) {
-	
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/comment/save/",
 		data: {

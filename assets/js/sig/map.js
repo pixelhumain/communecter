@@ -43,6 +43,8 @@
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
 
+			this.Sig.circleAroundMe = null;
+
 			//##
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
@@ -61,7 +63,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
-				//console.warn("--------------- getMarkerSingle ---------------------");
+				console.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "";
@@ -93,7 +95,8 @@
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;	
 					}						
-				});
+				});console.log("MARKER OK");
+				
 				return marker;
 			};
 
@@ -134,12 +137,13 @@
 				if(typeof thisData.author != "undefined") thisData = thisData.author;
 
 				this.allowMouseoverMaker = true;
-
+				//console.log("thisData", thisData);
 				var markerName = this.getIcoNameByType(thisData);
-				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
-				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
+				//console.log("markerName", markerName);
+				var iconUrl = assetPath+'/images/sig/markers/icons_carto/'+markerName+'.png';
+				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != ""){ 
 					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
-
+				}
 				return L.icon({
 				    iconUrl: iconUrl,
 				    iconSize: [53, 60], //38, 95],
@@ -164,7 +168,7 @@
 			{
 				if(typeof showMe == "undefined") showMe = true;
 
-				console.warn("--------------- clearMap ---------------------");
+				//console.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
@@ -173,6 +177,9 @@
 				
 				if(this.markerModifyPosition != null) 
 					this.map.removeLayer(this.markerModifyPosition);
+
+				if(notEmpty(this.circleAroundMe)) 
+						this.map.removeLayer(this.circleAroundMe);
 
 				var thisSig = this;
 				if(this.markerSingleList != null)
@@ -188,7 +195,7 @@
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
-				showMe = false;
+				//showMe = false;
 				if(showMe)
 				this.showMyPosition();
 
@@ -216,39 +223,41 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					//console.log("MYPOSITION !!");
-					//console.dir(thisSig.myPosition);
-					var center = [thisSig.myPosition.position.latitude, 
-								  thisSig.myPosition.position.longitude];
+					if(thisSig.myPosition.position.latitude != 0 && thisSig.myPosition.position.longitude != 0){
+						//console.log("MYPOSITION !!");
+						//console.dir(thisSig.myPosition);
+						var center = [thisSig.myPosition.position.latitude, 
+									  thisSig.myPosition.position.longitude];
 
-					var popup = Sig.getPopupSimple(Sig.userData);
-					var properties = { 	id : "0",
-										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
-										type : thisSig.myPosition["type"],
-										typeSig : thisSig.myPosition["typeSig"],
-										faIcon : this.getIcoByType(thisSig.myPosition),
-										zIndexOffset: 10000,
-										content: popup };
+						var popup = Sig.getPopupSimple(Sig.userData);
+						var properties = { 	id : "0",
+											icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
+											type : thisSig.myPosition["type"],
+											typeSig : thisSig.myPosition["typeSig"],
+											faIcon : this.getIcoByType(thisSig.myPosition),
+											zIndexOffset: 10000,
+											content: popup };
 
-					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
-					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
-					thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
+						if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
+						thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
+						thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
 
-					var objectId = thisSig.getObjectId(thisSig.userData);
-					this.listId = new Array(objectId);
+						var objectId = thisSig.getObjectId(thisSig.userData);
+						this.listId = new Array(objectId);
 
-					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-					{	thisSig.map.panTo(center, {"animate" : true });
-						thisSig.checkListElementMap(thisSig.map);
-						thisSig.myMarker.openPopup();
-					});
-					
-					$( "#btn-home" ).off().click(function (){ 
-							thisSig.map.setView(center, 16);
-					});
-					$( ".btn-home" ).off().click(function (){ 
-							thisSig.centerSimple(center, 16);
-					});
+						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
+						{	thisSig.map.panTo(center, {"animate" : true });
+							thisSig.checkListElementMap(thisSig.map);
+							thisSig.myMarker.openPopup();
+						});
+						
+						$( "#btn-home" ).off().click(function (){ 
+								thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
+						});
+						// $( ".btn-home" ).off().click(function (){ 
+						// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
+						// });
+					}
 				}
 			}
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
@@ -288,24 +297,24 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 140;
-
+				var menuTopHeight = $(".main-top-menu").height();// - $(".toolbar").height();
+				var rightPanelHeight = mapHeight - menuTopHeight - 110;
+				
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
 				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});
 				
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
-
-				$(this.cssModuleName + " .tools-btn").css( 
-					{"left":$("#mapCanvas" + this.sigKey).width() - 
-					$("#right_tool_map").width() - 
-					$(this.cssModuleName + " .tools-btn").width() - 20});// - $(this.cssModuleName + " #right_tool_map").width()});
+				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
+				var GAM_width =  ($("#right_tool_map").css('display') != 'none') ? RTM_width+30 : RTM_width+30;
+				$(this.cssModuleName + " .tools-btn").css({"right": RTM_width });
+				$(this.cssModuleName + " .btn-groupe-around-me-km").css({"right": GAM_width });
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
-				var left = $(this.cssModuleName + " .tools-btn").position().left;
-				var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
+				//var left = $(this.cssModuleName + " .tools-btn").position().left;
+				//var top = $(this.cssModuleName + " .btn-group-map").position().top + $(this.cssModuleName + " #btn-filter").height();
 	
 			};
 
@@ -376,7 +385,7 @@
 
 			this.Sig.addPolygon = function(polygonPoints, options)
 			{
-				console.log("addPolygon");
+				//console.log("addPolygon");
 				var poly = L.polygon(polygonPoints, {
 										color: '#FFF', 
 										opacity:0.7,
@@ -386,6 +395,21 @@
 										smoothFactor:0.5}).addTo(this.map);
 
 				this.polygonsCollection.push(poly);
+			};
+
+			this.Sig.showCircle = function(center, radius, options)
+			{
+				console.log("showCircle", notEmpty(this.circleAroundMe), radius);
+				if(notEmpty(this.circleAroundMe)) this.map.removeLayer(this.circleAroundMe);
+				this.circleAroundMe = L.circle(center, radius, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.3,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+
+				
 			};
 
 			this.Sig.clearPolygon = function()
@@ -399,7 +423,7 @@
 
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
-				console.log("showPolygon");
+				//console.log("showPolygon");
 				//console.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
@@ -454,11 +478,11 @@
 					}
 				}
 				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
-					console.log("thisData.geometry ?");
-					console.dir(thisData);
+					//console.log("thisData.geometry ?");
+					//console.dir(thisData);
 					if(type == "markerSingle"){
 						if(typeof thisData.geometry.location != "undefined"){
-							console.log(thisData.geometry.location.lat);
+							//console.log(thisData.geometry.location.lat);
 							var lat = thisData.geometry.location.lat;
 							var lng = thisData.geometry.location.lng;
 							console.dir(new Array (lat, lng));
@@ -483,16 +507,22 @@
 				//console.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
+							
 				//console.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
-				console.log(thisData);
+				//console.log(thisData);
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
-					{			
-						if(("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || ("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
+					{	
+						if( ("undefined" != typeof thisData['geo'] && thisData['geo'] != null) || 
+							("undefined" != typeof thisData['geoPosition'] && thisData['geoPosition'] != null) ||
+
 							("undefined" != typeof thisData['author'] && 
-									(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || ("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) {
+							(("undefined" != typeof thisData['author']['geo'] && thisData['author']['geo'] != null) || 
+							("undefined" != typeof thisData['author']['geoPosition'] && thisData['author']['geoPosition'] != null) ))) 
+						{
+							
 							if(this.verifyPanelFilter(thisData))
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
@@ -514,13 +544,14 @@
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
 								//TODO : refactor notClusteredTag > notClusteredType
-								
-								if($.inArray(type, this.notClusteredTag) > -1){
+								//console.log("getCoordinates");
+								//console.dir(thisData);
+								if($.inArray(type, this.notClusteredTag) > -1){ 
 									coordinates = this.getCoordinates(thisData, "markerSingle");
 									marker = this.getMarkerSingle(thisMap, properties, coordinates);
 								}
 								//sinon on crée un nouveau marker pour cluster
-								else {
+								else { 
 									coordinates = this.getCoordinates(thisData, "markerGeoJson");
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
@@ -568,42 +599,40 @@
 								});	
 							}	
 						}
-
-
-				
 					}
 					
-
 					//affiche les MEMBERS
 					var thisSig = this;
-					if(thisData.links != null)
-						if(thisData.links.members != null){
+					if(thisData.links != null){
+						if(thisData.links.members != null){ 
 							$.each(thisData.links.members, function(i, thisMember)  {
 								thisMember._id = { $id : i };
 								thisSig.showOneElementOnMap(thisMember, thisMap);
 							});
 						}
-
-					}else {
-						if(thisData == null) return false;
-
-						//console.warn("--------------- PAS D'ID ---------------------");
-						//console.dir(thisData);
-
-						if("undefined" != typeof thisData["chartOptions"]){
-							//console.warn("--------------- LOAD CHART ---------------------");
-							this.addChart(thisData)
-						}
-						return false;
 					}
-					
+
+				}else {
+					if(thisData == null) return false;
+
+					//console.warn("--------------- PAS D'ID ---------------------");
+					//console.dir(thisData);
+
+					if("undefined" != typeof thisData["chartOptions"]){
+						//console.warn("--------------- LOAD CHART ---------------------");
+						this.addChart(thisData)
+					}
+					return false;
+				}
 
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
 				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
-				var dataFilter = (data != null) ? data[thisFilter] : thisFilter;	//alert(JSON.stringify(dataFilter));
+				//console.dir(data);
+				//console.dir(thisFilter);
+				var dataFilter = data; //(data != null) ? data[thisFilter] : thisFilter;	alert(JSON.stringify(dataFilter));
 				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
@@ -621,7 +650,7 @@
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				console.warn("--------------- showMapElements ---------------------");
-				console.log(data);
+				//console.log(data);
 				if(data == null) return;
 
 				var filterPanelValue = "citoyens";
@@ -648,21 +677,33 @@
 
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
-					$.each(data, function (key, value){
-						var oneData = key;
-						if((value.typeSig == "news" /*|| value.typeSig == "activityStream"*/) && typeof value.author !== "undefined") 
-							oneData = key.author;
-						thisSig.showFilterOnMap(data, key, thisMap);
+					$.each(data, function (key, value){ //console.log("type SIG ?"); console.dir(value);
+						var oneData = value;
+						if((value.typeSig == "news" || 
+							value.typeSig == "idea" || 
+							value.typeSig == "question" || 
+							value.typeSig == "announce" || 
+							value.typeSig == "information" || 
+							value.type == "activityStream"
+							) && typeof value.author !== "undefined") {
+							oneData = value.author;
+						}
+						// if(value.type == "activityStream" && typeof value.target !== "undefined") { //console.log("newsStream");
+						// 	oneData = value.target;
+						// }
+						thisSig.showFilterOnMap(oneData, key, thisMap);
 					});
 					
 				}else{
+					//console.log("showOneElementOnMap");
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
-
-
-				
+			
+				//console.log("before onEachFeature");
+				//console.dir(this.geoJsonCollection);
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
+							//console.log("onEachFeature");
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
@@ -678,9 +719,8 @@
 								thisSig.currentMarkerPopupOpen = layer;
 								thisMap.panTo(layer.getLatLng());	
 								layer.openPopup(); 
-								
 							});
-							
+						
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
 								thisSig.allowMouseoverMaker = false;
@@ -711,7 +751,7 @@
 											thisMap.setZoom(15, {"animate" : false });
 											thisMap.panTo(coordinates, {"animate" : false });
 											thisSig.currentParentToOpen = null;
-								
+
 										}
 									}
 								}
@@ -719,11 +759,11 @@
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;
 								setTimeout("Sig.openCurrentMarker()", 700);
-							});						
+							});			
 						}
 
 					});
-					////console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
+					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
@@ -738,7 +778,8 @@
 					
 					//console.log("fitBounds");
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds() &&
+					if( typeof noFitBoundAroundMe != "undefined" && notEmpty(noFitBoundAroundMe) == false &&
+					   "undefined" != typeof this.markersLayer.getBounds() &&
 					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
 						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
 						thisMap.zoomOut();
@@ -777,13 +818,37 @@
 				$("#"+canvasId).html("");
 				$("#"+canvasId).css({"background-color": this.mapColor});
 
+				console.log("initParams", initParams);
 				//initialisation des variables de départ de la carte
-				if(canvasId != "")
-				var map = L.map(canvasId, { "zoomControl" : false,
-											"scrollWheelZoom":true,
-											"center" : [51.505, -0.09],
-											"zoom" : 4,
-											"worldCopyJump" : false });
+				//TODO not show accessToken here => use conf file or db
+				L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
+				if(canvasId != ""){
+
+					var options = { "zoomControl" : false,
+									"scrollWheelZoom":true,
+									"center" : [51.505, -0.09],
+									"zoom" : 4,
+									"maxZoom" : 17,
+									"minZoom" : 3,
+									"worldCopyJump" : false };
+
+					if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "mapbox"){
+						var map =  L.mapbox.map(canvasId, 'mapbox.streets', options);
+		    						//.setView([51.505, -0.09], 9);
+	    			}else if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "OSM"){
+						var map = L.map(canvasId, options);
+						Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+							//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+							attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+							//subdomains: 'abc',
+							zIndex:1,
+							minZoom: 3,
+							maxZoom: 17
+						});
+
+						Sig.tileLayer.addTo(map).setOpacity(initParams.mapOpacity);
+					}
+				}
 			}else{
 				var map = this.map;
 			}
@@ -791,38 +856,10 @@
 			Sig.initEnvironnement(map, initParams);
 			if(canvasId == "") return;
 
-			Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-				//subdomains: 'abc',
-				zIndex:1,
-				minZoom: 3,
-				maxZoom: 20
-			});
+			Sig.map.minZoom = 3;
+			Sig.map.maxZoom = 17;
 
-			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
 			
-			Sig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
-							ext: 'png',
-							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-							subdomains: 'abcd',
-							zIndex:2,
-							opacity: 0.7,
-							minZoom:12,
-							maxZoom: 20
-						});
-			Sig.roadTileLayer.addTo(map);
-			
-			Sig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
-									attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-									subdomains: 'abcd',
-									opacity: 0.7,
-									zIndex:3,
-									minZoom: 12,
-									maxZoom: 20,
-									ext: 'png'
-								});
-			Sig.StamenTonerLabels.addTo(map);
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
@@ -846,9 +883,59 @@
 			});
 		}
 
+		//##	addContextMap	##
+		//Ajouter un élément au contextMap
+	 	this.Sig.addContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+			var elementMap = {
+				name : element.name ,
+				username : element.username ,
+				address : element.address ,
+				geo : element.geo ,
+				email : element.email ,
+				id : element.id ,
+				pending : element.pending ,
+				profilImageUrl : element.profilImageUrl ,
+				profilMarkerImageUrl : element.profilMarkerImageUrl ,
+				profilMediumImageUrl : element.profilMediumImageUrl ,
+				profilThumbImageUrl : element.profilThumbImageUrl ,
+				tags : element.tags ,
+				tobeactivated : element.tobeactivated ,
+				type : element.type ,
+			}
+
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+			
+			contextMap[type].push(elementMap);
+			
+			return contextMap;
+		};
+
+		this.Sig.modifLocalityContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+
+			$.each(contextMap[type], function(key, elt){
+				if(elt.id == contextData.id){
+					contextMap[type][key]["address"] = element.address;
+					contextMap[type][key]["geo"] = element.geo;
+				}	
+			});
+			return contextMap;
+		};
+
+		
+
 		this.Sig = this.getSigInitializer(this.Sig);
 
-		console.log("load");
+		//console.log("load");
 
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);

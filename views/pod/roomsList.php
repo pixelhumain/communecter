@@ -2,10 +2,10 @@
 
 $cssAnsScriptFilesTheme = array(
 
-'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+'/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 $moduleId = Yii::app()->controller->module->id;
 ?>
@@ -91,13 +91,13 @@ $moduleId = Yii::app()->controller->module->id;
 		<div class="panel-heading border-light bg-azure">
 			<h4 class="panel-title">
 				<?php if($surveyOpen){ ?>
-					<a href="javascript:" onclick="loadByHash('#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>');" class="text-white-hover homestead">
+					<a href="#rooms.index.type.<?php echo $parentType; ?>.id.<?php echo (string)$parentId; ?>" class="lbh text-white-hover homestead">
 						<i class="fa fa-connectdevelop"></i> 
 						<?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?>
 					</a>
 					<?php if($canParticipate){ ?>
-						<a  href="javascript:" onclick="loadByHash('#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>');" 
-							class="text-white pull-right helvetica tooltips"
+						<a  href="#rooms.editroom.type.<?php echo $parentType; ?>.id.<?php echo $parentId; ?>" 
+							class="text-white pull-right helvetica tooltips lbh"
 							data-toggle="tooltip" data-placement="left" title="Créer un nouvel espace"
 						> 
 							<i class="fa fa-plus-circle"></i> nouveau
@@ -205,7 +205,7 @@ $moduleId = Yii::app()->controller->module->id;
 	jQuery(document).ready(function() {
 		//change le titre global uniquement si on est sur le pod d'activation d'un citoyen
 		<?php if($canEdit && !$surveyOpen && ($parentType == Person::COLLECTION || $parentType == City::COLLECTION)){ ?>
-			$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i> Activer votre espace coopératif");
+			setTitle("Activer votre espace coopératif","<i class='fa fa-connectdevelop'></i> <i class='fa fa-plus'></i>");
 		<?php } ?>
 
 		if($(".tooltips").length) {

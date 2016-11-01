@@ -5,20 +5,17 @@
 		<h1 class="homestead explainTitle blue "><i class="fa fa-home"></i> Communectez-moi</h1>
 		<center class="caretExplain blue"><i class="fa fa-caret-down"></i><br/></center>
 		<div class="explainDesc">
-			Ce n'est pas la technologie qui changera la société mais la philosophie bien outillée.
+			Ce n'est pas la technologie qui changera la société mais une population bien outillée.
+			<br/>Se communecter c'est etre citoyen acteur locale
 			<br/>Me communecter me permet :  
 			<ul>
-				<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li
-								<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auxquelles je crois ici et là</li>
-				<li><i class="fa fa-angle-right"></i> je peux ajouter à mon réseau 
-				<ul>
-					<li><i class="fa fa-user"></i> des personnes</li>
-					<li><i class="fa fa-users"></i> des organisations</li>
-					<li><i class="fa fa-lightbulb-o"></i> des projets</li>
-					<li><i class="fa fa-calendar"></i>des évènements</li>
-				</ul>
+				<li><i class="fa fa-angle-right"></i> d'agir localement et pas juste m'informer</li>
+				<li><i class="fa fa-angle-right"></i> de voir les acteurs autour de moi</li>
+				<li><i class="fa fa-angle-right"></i> de référencer et valoriser les choses auxquelles je crois ici et là</li>
+				
 				<li><i class="fa fa-angle-right"></i> je participe à l'activité citoyenne locale</li>
 				<li><i class="fa fa-angle-right"></i> je partage pour améliorer mon territoire</li>
+				<li><i class="fa fa-angle-right"></i> je fais des propositions aux autres habitants (Discuter, Décider , Agir)</li>
 			</ul>
 		</div>
 	</div>
@@ -812,6 +809,44 @@
 					</ul>
 				</li>
 
+			</ul>
+		</div>
+	</div>
+
+	<div class="qrCodeExplain <?php echo $class?> hide">
+			<h1 class="homestead explainTitle">QR CODES</h1>
+			<center class="caretExplain"><i class="fa fa-caret-down"></i><br/></center>
+			<div class="explainDesc">
+			<ul>
+				
+				<li>La création de lien simplifié</li>
+				<li>Imprimer votre QR Code pour vous connecter dans le reel </li>
+				<li>avec l'application <a href="https://play.google.com/store/apps/details?id=org.communevent.meteor.pixelhumain&ah=lVN3mXqHKQjIOg3qHn0YzhiUebc&hl=fr" target="_blank">communEvent</a></li>
+				<li><b>Pour les personnes</b> 
+					<ul>
+						<li>porter sur vous un système de création de lien</li>
+						<li>ne perdez jamais une occasion pour créer un lien lors d'une rencontre</li>
+						<li>vous croisez une organisation, avec un QR, connectez vous directement pour suivre son activité</li>
+					</ul>
+				</li>
+				<li><b>Pour les organisations</b> 
+					<ul>
+						<li>Afficher le dans vos locaux ou documents, les gens pourront alors se connecter automatiquement à vous</li>
+						<li>les plus facilement vous suivre</li>
+						<li>Rien de mieux comme communication que d'etre dans les réseaux des gens qui vous soutiennent </li>
+					</ul>
+				</li>
+				<li><b>Pour vos évennements</b> 
+					<ul>
+						<li>transmettez sur vos documents de communication</li>
+						<li> les gens pourront rejoindre l'event</li>
+						<li>retrouver les autres participants</li>
+						<li>viraliser le système d'invitation</li>
+						<li>si nécessaire, émargé les présences lors de l'event</li>
+					</ul>
+				</li>
+				
+				
 			</ul>
 		</div>
 	</div>

@@ -4,12 +4,12 @@
 	// if(!Yii::app()->request->isAjaxRequest)
 	// {
   	$cssAnsScriptFilesModule = array(
-		'/assets/plugins/nvd3/lib/d3.v3.js',
-  		'/assets/plugins/nvd3/nv.d3.min.js',
-  		'/assets/plugins/nvd3/nv.d3.js',
+		'/plugins/nvd3/lib/d3.v3.js',
+  		'/plugins/nvd3/nv.d3.min.js',
+  		'/plugins/nvd3/nv.d3.js',
   		
   	);
-  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
   	// }
 	// $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
 	// $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
@@ -189,8 +189,7 @@
 	jQuery(document).ready(function() {
 
 		//Title
-        $(".moduleLabel").html("<i class='fa fa-cog'></i> COMMUNE : Statistiques de population");
-
+        setTitle("COMMUNE : Statistiques de population","cog");
 		var insee = "<?php echo $_GET['insee']; ?>";
 		var res ="";
 		var map = <?php echo json_encode($cityData) ?>;

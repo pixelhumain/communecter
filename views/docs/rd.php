@@ -1,7 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$this->renderPartial("../docs/assets");
   Menu::docs("elements", "comprendre");
   $this->renderPartial('../default/panels/toolbar');
 
@@ -21,8 +19,8 @@
   <!-- Round button indicators -->
   <ol class="carousel-indicators">
     <li data-target="#docCarousel" data-slide-to="0" class=" <?php if($slide=='roadmap' || $slide=='') echo "active"; ?>"></li>
-   <!--  <li data-target="#docCarousel" data-slide-to="1" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="2" class=""></li>
+   <li data-target="#docCarousel" data-slide-to="1" class=""></li>
+   <!--   <li data-target="#docCarousel" data-slide-to="2" class=""></li>
     <li data-target="#docCarousel" data-slide-to="3" class=""></li>
     <li data-target="#docCarousel" data-slide-to="4" class=""></li> -->
   </ol>
@@ -31,8 +29,8 @@
   <div class="carousel-inner" role="listbox">
     <!-- <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/elements/index.png" class="img-schemas img-responsive "></div> -->
     <div class="item <?php if($slide=='roadmap' || $slide=='') echo "active"; ?>"><?php $this->renderPartial("../docs/rd/roadmap", array("renderPartial"=>true)); ?></div>
-    <!-- <div class="item"><?php //$this->renderPartial("../docs/elements/organisation", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php //$this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
+    <div class="item"><?php $this->renderPartial("../docs/rd/architecture", array("renderPartial"=>true)); ?></div>
+    <!-- <div class="item"><?php //$this->renderPartial("../docs/elements/projects", array("renderPartial"=>true)); ?></div>
     <div class="item"><?php //$this->renderPartial("../docs/elements/events", array("renderPartial"=>true)); ?></div> -->
   </div>
 
@@ -48,7 +46,7 @@
 </div>
 
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+<a href="#default.view.page.histoire.dir.docs" class="lbh homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
 	<i class="fa fa-arrow-left"></i> L'histoire
 </a>
 

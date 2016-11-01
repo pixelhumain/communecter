@@ -24,7 +24,6 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    $this->layout = "//layouts/mainSearch";
     $this->render("index");
   }
 
@@ -35,19 +34,46 @@ class DefaultController extends CommunecterController {
   }
   public function actionAgenda() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("agenda");
+  }
+
+  public function actionLive($type=null) 
+  {
+    $stream = array();
+    $now = array();
+    /*if( !$type || $type == "dda" ){
+      $stream = array_merge( $stream, ActionRoom::getAllRoomsActivityByTypeId( Person::COLLECTION, Yii::app()->session['userId'] ) );  
+    }*/
+    if( !$type || $type == Project::COLLECTION ){
+      $stream = array_merge( $stream, Element::getActive( Project::COLLECTION ) );  
+    }
+    if( !$type || $type == Event::COLLECTION ){
+      $stream = array_merge( $stream, Element::getActive( Event::COLLECTION ) );  
+    }
+    if( !$type || $type == Organization::COLLECTION ){
+      $stream = array_merge( $stream, Element::getActive( Organization::COLLECTION ) );  
+    }
+    function mySort($a, $b){ 
+          if( isset($a['updated']) && isset($b['updated']) ){
+              return (strtolower(@$b['updated']) > strtolower(@$a['updated']));
+          }else{
+              return false;
+          }
+      }
+      
+      usort($stream,"mySort");
+    $this->renderPartial("live", array( "stream"=>$stream,
+                                        "now"=>$now,
+                                        "type"=>$type ));
   }
 
   public function actionNews() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("news");
   }
 
   public function actionDirectory() 
   {
-    $this->layout = "//layouts/mainSearch";
     $this->renderPartial("directory");
   }
 
@@ -63,8 +89,12 @@ class DefaultController extends CommunecterController {
     //Get the last global statistics
     $stats = Stat::getWhere(array(),null,1);
     if(is_array($stats)) $stats = array_pop($stats);
+    $tpl = "home";
+    if(Yii::app()->theme != "ph-dori")
+    	$tpl = "//layouts/default/home";
 
-    $this->renderPartial("home", array("stats"=>$stats));
+   // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
+    $this->renderPartial($tpl, array("stats"=>$stats));
   }
   public function actionLogin() 
   {

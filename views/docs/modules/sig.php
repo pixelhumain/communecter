@@ -18,13 +18,13 @@
     <div class="panel-body tpl_content">
      
         <div class="col-xs-12">
-	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
+	        <div class=" col-xs-12 col-md-6 center bg-red">
 	        	<div class="text-bold text-extra-large" style="padding: 50px;">
 	        		Revenez bientot pour la vidéo
 	        	</div>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" data-title="Schéma notre Open System"  data-lightbox="all">
-				<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+				<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/sig.png" class="col-md-6 col-xs-12 img-responsive ">
 	        </a>
         </div>
 
@@ -65,7 +65,7 @@
 			</div>
 			<div class="col-xs-12">
 		        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" data-title="Schéma notre Open System"  data-lightbox="all">
-					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" class="col-sm-12 col-xs-12 img-responsive ">
+					<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/interface.png" class="col-xs-12 img-responsive ">
 		        </a>
 	        </div>
 			<div class="col-sm-12 hidden">
@@ -89,9 +89,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-			"<span class='text-red'>MODULE</span> SIG</span>");
+  setTitle("MODULE : SIG","cube");
 });
 </script>
 

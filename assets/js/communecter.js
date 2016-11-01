@@ -1,10 +1,40 @@
 var debug = true;
 var countPoll = 0;
 $(document).ready(function() { 
-	
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
+	document.onkeyup = checkKeycode;
 });
+
+var prevStep = 0;
+var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
+var slides = {
+	explain1 : function() { showDefinition("explainCommunectMe")},
+	live : function() { loadByHash("#default.live")},
+	explain2 : function() { showDefinition("explainCartographiedeReseau")},
+	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	explain3 : function() { showDefinition("explainDemoPart")},
+	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
+	explain4 : function() { showDefinition("explainCommunecter")},
+	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
+	explain5 : function() { showDefinition("explainProxicity")},
+	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
+};
+function runslide(cmd)
+{
+	if(cmd == 0){
+		prevStep = null;
+		loadByHash("#default.live");
+	}
+
+	if( prevStep != null ){
+		slides[ steps[prevStep] ]();
+		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
+		setTimeout( function () { 
+			runslide();
+		 }, 8000);
+	}
+}
 
 function checkPoll(){
 	countPoll++;
@@ -435,35 +465,45 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
         );      
 	}
 }		
+
 var loadableUrls = {
 	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
 	"#person.invite": {title:'INVITE SOMEONE', icon : "share-alt","login":true},
 	"#event.eventsv": {title:'ADD AN EVENT', icon : "calendar","login":true},
 	"#project.projectsv": {title:'ADD A PROJECT', icon : 'lightbulb-o',"login":true},
-	"#person.directory" : {title:"PERSON DIRECTORY ", icon : "share-alt"},
-	"#organization.directory" : {title:"ORGANIZATION MEMBERS ", icon : "users"},
-	"#project.directory" : {title:"PROJECT CONTRIBUTORS ", icon : "users"},
-	"#event.directory" : {title:"EVENT VISUALISATION ", icon : "calendar"},
+	//directory
+	"#person.directory" : {aliasParam: "#element.directory.type.citoyens.id.$id", params: ["id"], title:"PERSON DIRECTORY ", icon : "share-alt"},
+	"#organization.directory" : {aliasParam: "#element.directory.type.organizations.id.$id", params: ["id"], title:"ORGANIZATION MEMBERS ", icon : "users"},
+	"#project.directory" : {aliasParam: "#element.directory.type.projects.id.$id", params: ["id"], title:"PROJECT CONTRIBUTORS ", icon : "users"},
+	"#event.directory" : {aliasParam: "#element.directory.type.events.id.$id", params: ["id"], title:"EVENT VISUALISATION ", icon : "calendar"},
 	"#event.calendarview" : {title:"EVENT CALENDAR ", icon : "calendar"},
 	//"#city.directory" : {title:"CITY DIRECTORY ", icon : "bookmark fa-rotate-270","urlExtraParam":"tpl=directory2"},
 	"#city.opendata" : {title:'STATISTICS ', icon : 'line-chart' },
-    "#person.detail" : {title:'PERSON DETAIL ', icon : 'user' },
+    "#person.detail" : {aliasParam: "#element.detail.type.citoyens.id.$id", params: ["id"], title:'PERSON DETAIL ', icon : 'user' },
     "#person.invite" : {title:'PERSON INVITE ', icon : 'user' },
     "#person.changepassword" : {title:'Change your password ', icon : 'fa-lock' },
     "#person.updateprofil" : {title:'Update profil', icon : 'fa-lock' },
-    "#event.detail" : {title:'EVENT DETAIL ', icon : 'calendar' },
-    "#project.detail" : {title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
+    "#person.telegram" : {title:'CONTACT PERSON VIA TELEGRAM ', icon : 'send' },
+    "#event.detail" : {aliasParam: "#element.detail.type.events.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
+    "#poi.detail" : {aliasParam: "#element.detail.type.poi.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
+    "#project.detail" : {aliasParam: "#element.detail.type.projects.id.$id", params: ["id"], title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
-    "#organization.detail" : {title:'ORGANIZATION DETAIL ', icon : 'users' },
+    "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
+    "#organization.detail" : {aliasParam: "#element.detail.type.organizations.id.$id", params: ["id"], title:'ORGANIZATION DETAIL ', icon : 'users' },
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
-    "#city.detail" : {title:'CITY ', icon : 'university' },
+    "#need.addneedsv" : {title:'NEED DETAIL ', icon : 'cubes' },
+    "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
+    "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},
-    "#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#rooms.index.type.cities" : {title:'ACTION ROOMS ', icon : 'cubes', menuId:"btn-citizen-council-commun"},
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
-
+	"#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
+    "#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
+	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
+    "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
     "#admin.checkgeocodage" : {title:'CHECKGEOCODAGE ', icon : 'download'},
     "#admin.openagenda" : {title:'OPENAGENDA ', icon : 'download'},
@@ -473,12 +513,13 @@ var loadableUrls = {
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.mailerrordashboard" : {title:'MAIL ERROR ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
-    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop',"urlExtraParam":"isSearchDesign=1"},
-    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss' },
-    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
+    "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
+    "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
+    "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
@@ -487,6 +528,7 @@ var loadableUrls = {
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
 
+    "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
 	"#organization.addmember" : {title:'Add Members ', icon : 'plus'},
@@ -496,7 +538,7 @@ var loadableUrls = {
 	"#define." : {title:'TAG MAP ', icon : 'map-marker', action:function( hash ){ showDefinition("explain"+hash.split('.')[1])	} },
 	"#data.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
 	"#opendata" : {"alias":"#data.index"},
-	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ searchByHash(hash);} },
+	"#search" : { "title":'SEARCH AND FIND', "icon" : 'map-search', "hash" : "#default.directory", "preaction":function( hash ){ return searchByHash(hash);} },
 };
 
 function jsController(hash){
@@ -508,12 +550,28 @@ function jsController(hash){
 		//console.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
+			checkMenu(urlObj, hash);
+		
 			endPoint = loadableUrls[urlIndex];
 			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
 				//alises are renaming of urls example default.home could be #home
 				if( endPoint.alias ){
 					endPoint = jsController(endPoint.alias);
+					return false;
+				} 
+				if( endPoint.aliasParam ){
+					hashT=hash.split(".");
+					alias=endPoint.aliasParam;
+					$.each(endPoint.params, function(i, v){
+						$.each(hashT, function(ui, e){
+							if (v == e){
+								paramId=hashT[ui+1];
+								alias = alias.replace("$"+v, paramId);
+							}
+						});
+					});		
+					endPoint = jsController(alias);	
 					return false;
 				} 
 				// an action can be connected to a url, and executed
@@ -524,14 +582,24 @@ function jsController(hash){
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
 					//execute actions before teh ajax request
+					res = false;
 					if( endPoint.preaction && typeof endPoint.preaction == "function")
-						endPoint.preaction(hash);
+						res = endPoint.preaction(hash);
 					//hash can be iliased
 					if (endPoint.hash) 
 						hash = endPoint.hash;
+					if(hash.indexOf("?") >= 0){
+						hashT=hash.split("?");
+						console.log(hashT);
+						hash=hashT[0];
+						extraParams = "?"+hashT[1];
+					}
+					if(extraParams.indexOf("#") >= 0){
+						extraParams=extraParams.replace( "#","%hash%" );
+					}
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
-					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon );
-
+					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon, res );
+					
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
 				}
@@ -548,13 +616,43 @@ function jsController(hash){
 	return res;
 }
 
+ var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) { 
+
+	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
+	console.log("IS DIRECTORY ? ", 
+				hash.indexOf("#default.directory"), 
+				location.hash.indexOf("#default.directory"), CoAllReadyLoad);
+
+	if( hash.indexOf("#default.directory") >= 0 &&
+		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
+		var n = hash.indexOf("type=")+5;
+		var type = hash.substr(n);
+		console.log("CHANGE directory", type);
+		searchType = [type];
+		setHeaderDirectory(type);
+		loadingData = false;
+		startSearch(0, indexStepInit);
+		location.hash = hash;
+		return;
+	}
+
 	currentUrl = hash;
 	allReadyLoad = true;
-	$(".my-main-container").off(); 
-	//alert("loadByHash");
+	CoAllReadyLoad = true;
+	contextData = null;
+
+	$(".my-main-container").off()
+						   .bind("scroll", function () {shadowOnHeader()})
+						   .scrollTop(0);
+
+	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
+	searchPage = false;
+	
+
+	//alert("loadByHash"+hash);
     console.warn("loadByHash",hash,back);
     if( jsController(hash) ){
     	console.log("loadByHash >>> jsController",hash);
@@ -573,19 +671,24 @@ function loadByHash( hash , back ) {
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ACTIONS in this '+typesLabels[hashT[3]],'rss' );
     }
-    else if( hash.indexOf("#news.index.type") >= 0 ){
+    /*else if( hash.indexOf("#news.index.type") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" )+'?isFirst=1', 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
 
-    } 
+    } */
     else if( hash.indexOf("#city.directory") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
     } 
-	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	/*else if( hash.indexOf("#need.addneedsv") >= 0 ){
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
 	} 
+	else if( hash.indexOf("#need.addneedsv") >= 0 ){
+	        hashT = hash.split(".");
+	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
+	} */
+
     else 
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
@@ -597,12 +700,35 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function setTitle(str, icon, topTitle,keywords,shortDesc) { 
+	if(icon != "")
+		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
+	$(".moduleLabel").html( icon +" "+ str);
+	if(topTitle)
+		str = topTitle;
+	$(document).prop('title', ( str != "" ) ? str : "Communecter, se connecter à sa commune" );
+	if(notNull(keywords))
+		$('meta[name="keywords"]').attr("content",keywords);
+	else
+		$('meta[name="keywords"]').attr("content","communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre");
+	
+	if(notNull(shortDesc))
+		$('meta[name="description"]').attr("content",shortDesc);
+	else
+		$('meta[name="description"]').attr("content","Communecter : Connecter à sa commune, inter connecter les communs, un réseau sociétal pour un citoyen connecté et acteur au centre de sa société.");
+}
+
 //ex : #search:bretagneTelecom:all
+//#search:#fablab
+//#search:#fablab:all:map
 function searchByHash (hash) 
 { 
+	var mapEnd = false;
 	var searchT = hash.split(':');
+	// 1 : is the search term
 	var search = searchT[1]; 
 	scopeBtn = null;
+	// 2 : is the scope
 	if( searchT.length > 2 )
 	{
 		if( searchT[2] == "all" )
@@ -619,6 +745,20 @@ function searchByHash (hash)
 	//startGlobalSearch();
 	if( scopeBtn )
 		$(scopeBtn).trigger("click"); 
+
+	if( searchT.length > 3 && searchT[3] == "map" )
+		mapEnd = true;
+	return mapEnd;
+}
+
+function checkMenu(urlObj, hash){
+	console.log("checkMenu *******************", hash);
+	console.dir(urlObj);
+	$(".menu-button-left").removeClass("selected");
+	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
+		if($("#"+urlObj.menuId).attr("href") == hash)
+			$("#"+urlObj.menuId).addClass("selected");
+	}
 }
 
 var backUrl = null;
@@ -627,7 +767,7 @@ function checkIsLoggued(uId){
 		console.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
-		$(".moduleLabel").html("<i class='fa fa-user-secret '></i> Section Sécuriser");
+		setTitle("Section Sécuriser", "user-secret");
 
 		backUrl = location.hash;
 		showPanel( "box-login" );
@@ -662,7 +802,6 @@ function _checkLoggued() {
 Generic non-ajax panel loading process 
 **************/
 function showPanel(box,callback){ 
-
 	$(".my-main-container").scrollTop(0);
 
   	$(".box").hide(200);
@@ -694,7 +833,7 @@ function  processingBlockUi() {
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
-function showAjaxPanel (url,title,icon) { 
+function showAjaxPanel (url,title,icon, mapEnd) { 
 	//$(".main-col-search").css("opacity", 0);
 	console.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
@@ -705,9 +844,9 @@ function showAjaxPanel (url,title,icon) {
 
 	setTimeout(function(){
 		$(".main-col-search").html("");
-		$(".hover-info").hide();
+		$(".hover-info,.hover-info2").hide();
 		processingBlockUi();
-		$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i>"); //" Chargement en cours ...");
+		setTitle("Chargement en cours ...", "spin fa-circle-o-notch");
 		//$(".main-col-search").show();
 		showMap(false);
 	}, 800);
@@ -721,7 +860,7 @@ function showAjaxPanel (url,title,icon) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search',baseUrl+'/'+moduleId+url,function(data){ 
+		getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
@@ -729,13 +868,14 @@ function showAjaxPanel (url,title,icon) {
 			//$(".main-col-search").slideDown(); 
 			initNotifications(); 
 			
-			$(".explainLink").click(function() {  
-			    showDefinition( $(this).data("id") );
-			    return false;
-			 });
+			bindExplainLinks();
+			bindTags();
+			bindLBHLinks();
 
 			$.unblockUI();
 
+			if(mapEnd)
+				showMap(true);
 			// setTimeout(function(){
 			// 	console.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
@@ -765,7 +905,7 @@ function showTagOnMap (tag) {
             		 "indexMax" : 500  
             		};
 
-        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+        //setTitle("", "");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 		
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
@@ -786,7 +926,7 @@ function showTagOnMap (tag) {
 	            else{
 	            	console.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
-	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+	            	//setTitle("", "");$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
 					//toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
 					$.unblockUI();
@@ -801,13 +941,27 @@ function showTagOnMap (tag) {
 /* ****************
 show a definition in the focus menu panel
 **************/
-function showDefinition( id ){
-	console.log("showDefinition",id);
-	$(".main-col-search").animate({ opacity:0.3 }, 400 );
-	$(".hover-info").css("display" , "inline");
-	toggle( "."+id , ".explain" );
-	$("."+id+" .explainDesc").removeClass("hide");
-	return false;
+function showDefinition( id,copySection ){ 
+
+	setTimeout(function(){
+		console.log("showDefinition",id,copySection);
+		$(".hover-info,.hover-info2").hide();
+		$(".main-col-search").animate({ opacity:0.3 }, 400 );
+		
+		if(copySection){
+			contentHTML = $("."+id).html();
+			if(copySection != true)
+				contentHTML = copySection;
+			$(".hover-info2").css("display" , "inline").html( contentHTML );
+			bindExplainLinks()	
+		}
+		else {
+			$(".hover-info").css("display" , "inline");
+			toggle( "."+id , ".explain" );
+			$("."+id+" .explainDesc").removeClass("hide");
+		}
+		return false;
+	}, 500);
 }
 
 var timeoutHover = setTimeout(function(){}, 0);
@@ -838,16 +992,1917 @@ function openMenuSmall () {
 		message : menuContent,
 		onOverlayClick: $.unblockUI,
         css: { 
-            border: 'none', 
-            padding: '15px', 
-            backgroundColor: 'rgba(0,0,0,0.7)', 
-            '-webkit-border-radius': '10px', 
-            '-moz-border-radius': '10px', 
-            color: '#fff' ,
-        	"cursor": "pointer"
+         //    border: 'none', 
+         //    padding: '15px', 
+         //    backgroundColor: 'rgba(0,0,0,0.7)', 
+         //    '-webkit-border-radius': '10px', 
+         //    '-moz-border-radius': '10px', 
+         //    color: '#fff' ,
+        	// "cursor": "pointer"
         },
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	bindLBHLinks();
 }
 
+var selection;
+function  bindHighlighter() { 
+	//console.clear();  
+	console.log("bindHighlighter");
+  	console.dir(window.getSelection());
+	$(".my-main-container").bind('mouseup', function(e){
+		if (window.getSelection) {
+	      selection = window.getSelection();
+	    } else if (document.selection) {
+	      selection = document.selection.createRange();
+	    }
+	    selTxt = selection.toString();
+	    if( selTxt){
+	    	//alert(selTxt);
+	    	/*
+	    	if($(".selBtn").length)
+	    		$(".selBtn").remove();
+	    	links = "<a href='javascript:;' onclick='fastAdd(\"/rooms/fastaddaction\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-cogs'></i> créer en action <i class='fa fa-plus'></i></a>"+
+	    			" <a href='javascript:;'  onclick='fastAdd(\"/survey/fastaddentry\")' class='selBtn text-bold btn btn-purple btn-xs'><i class='fa fa-archive'></i> créer en proposition <i class='fa fa-plus'></i></a>";
+
+	    	$(this).parent().find("div.bar_tools_post").append(links);
+	    	*/
+	    }
+	});
+}
+
+function  bindTags() { 
+	console.log("bindTags");
+	//var tagClasses = ".tag,.label tag_item_map_list"
+	$(".tag,.label tag_item_map_list").off().on('click', function(e){
+		//if(userId){
+			var tag = ($(this).data("val")) ? $(this).data("val") : $(this).html();
+			//alert(tag);
+			//showTagInMultitag(tag);
+			//$('#btn-modal-multi-tag').trigger("click");
+			//$('.tags-count').html( $(".item-tag-name").length );
+			if(addTagToMultitag(tag))
+				toastr.success("Le tag \""+tag+"\" ajouté à vos favoris");
+			else
+				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags favoris");
+			
+		//} else {
+		//	toastr.error("must be loggued");
+		//}
+	});
+}
+
+function  bindExplainLinks() { 
+	$(".explainLink").click(function() {  
+	    showDefinition( $(this).data("id") );
+	    return false;
+	 });
+}
+
+function  bindLBHLinks() { 
+	$(".lbh").off().on("click",function(e) {  		
+		e.preventDefault();
+		console.warn("***************************************");
+		console.warn("bindLBHLinks",$(this).attr("href"));
+		console.warn("***************************************");
+		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
+	    loadByHash( h );
+	});
+}
+
+function bindRefreshBtns() { console.log("bindRefreshBtns");
+	if( $("#dropdown_search").length || $(".newsTL").length)
+	{
+		var searchFeed = "#dropdown_search";
+		var method = "startSearch(0, indexStepInit);"
+		if( $(".newsTL").length){
+			searchFeed = ".newsTL";
+			method = "reloadNewsSearch();"
+		}
+	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
+	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+	          var str = getFooterScopeChanged(method);
+	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+		          $(searchFeed).append( str );
+		      }else { console.log("vide autre news stream perso", searchFeed);
+		          $(searchFeed).html( str );
+		      }
+		      $(".search-loader").html("<i class='fa fa-ban'></i>");
+	    });
+	}
+}
+function hideSearchResults(){
+	var searchFeed = "#dropdown_search";
+		var method = "startSearch(0, indexStepInit);"
+		if( $(".newsTL").length){
+			searchFeed = ".newsTL";
+			method = "reloadNewsSearch();"
+		}
+      //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+      str = getFooterScopeChanged(method);
+      if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
+          $(searchFeed).append( str );
+      }else { console.log("vide autre news stream perso", searchFeed);
+          $(searchFeed).html( str );
+      }
+      $(".search-loader").html("<i class='fa fa-ban'></i>");
+	    
+}
+function getFooterScopeChanged(method){
+	var str = 	'<div class="padding-15" id="footerDropdown">';
+	    str += 		"<hr style='float:left; width:100%;'/>"
+	    str += 		'<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la recherche</button>'+
+	    	   		"<span style='' class='text-dark padding-10'><i class='fa fa-angle-right'></i> Les critères ont changés</span><br/>";
+	    str +=  "</div>";
+	return str;  
+}
+
+function reloadNewsSearch(){
+	if(location.hash.indexOf("#default.live")==0)
+    	startSearch(false);
+	else{
+		dateLimit = 0;
+		loadStream(0, 5);
+	}
+}
+/* **************************************
+maybe movebale into Element.js
+***************************************** */
+
+
+
+
+function  buildQRCode(type,id) { 
+		
+	$(".qrCode").qrcode({
+	    text: baseUrl+"/"+moduleId+"#"+type+".detail.id"+id,//'{type:"'+type+'",_id:"'+id+'"}',
+	    render: 'image',
+		minVersion: 8,
+	    maxVersion: 40,
+	    ecLevel: 'L',
+	    size: 150,
+	    radius: 0,
+	    quiet: 2,
+	    /*mode: 2,
+	    mSize: 0.1,
+	    mPosX: 0.5,
+	    mPosY: 0.5,
+
+	    label: name,
+	    fontname: 'Ubuntu',
+	    fontcolor: '#E33551',*/
+	});
+}
+
+function activateSummernote(elem) { 
+		
+	if( !$('script[src="'+baseUrl+'/plugins/summernote/dist/summernote.min.js"]').length )
+	{
+		$("<link/>", {
+		   rel: "stylesheet",
+		   type: "text/css",
+		   href: baseUrl+"/plugins/summernote/dist/summernote.css"
+		}).appendTo("head");
+		$.getScript( baseUrl+"/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
+		  //console.log( data ); // Data returned
+		  //console.log( textStatus ); // Success
+		  //console.log( jqxhr.status ); // 200
+		  //console.log( "Load was performed." );
+		  
+		  $(".btnEditAdv").hide();
+		  $(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+			});
+		});
+	} else {
+		$(".btnEditAdv").hide();
+		$(elem).summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+				]
+		});
+	}
+}
+
+
+/* *********************************
+			ELEMENTS
+********************************** */
+
+
+function formatData(formData, collection,ctrl) { 
+	console.warn("formatData");
+	formData.collection = collection;
+	formData.key = ctrl;
+	
+	if(elementLocation){
+		//formData.multiscopes = elementLocation;
+		formData.address = centerLocation.address;
+		formData.geo = centerLocation.geo;
+		formData.geoPosition = centerLocation.geoPosition;
+		if( elementLocations.length ){
+			formData.addresses = elementLocations;
+			$.each( formData.addresses,function (i,v) { 
+				delete v.geoPosition;
+			});
+		}
+	}
+	
+	formData.medias = [];
+	$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($("#form-news #results .video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.medias.push(mediaObject);
+		}
+	});
+	
+	if( typeof formData.tags != "undefined" && formData.tags != "" )
+		formData.tags = formData.tags.split(",");
+	removeEmptyAttr(formData);
+
+	console.dir(formData);
+	return formData;
+}
+
+function saveElement ( formId,collection,ctrl,saveUrl ) 
+{ 
+	console.warn("saveElement",formId,collection);
+	formData = $(formId).serializeFormJSON();
+	console.log("before",formData);
+	formData = formatData(formData,collection,ctrl);
+	formData.medias = [];
+	$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($(this).find(".video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.medias.push(mediaObject);
+		}
+	});
+	$.ajax( {
+    	type: "POST",
+    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
+    	data: formData,
+    	dataType: "json",
+    	success: function(data){
+    		console.warn("saveElement ajax result");
+    		console.dir(data);
+			if(data.result == false){
+                toastr.error(data.msg);
+                //reset save btn 
+                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
+					$( settings.formId ).submit();	        	
+		        });
+           	}
+            else { 
+                toastr.success(data.msg);
+                $('#ajax-modal').modal("hide");
+                if(data.url)
+                	loadByHash( data.url );
+                else if(data.id)
+	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+	        		addFloopEntity(data.id, collection, data.map);
+            }
+    	}
+    });
+}
+
+function editElement(type,id){
+	console.warn("--------------- editElement "+type+" ---------------------",id);
+	//get ajax of the elemetn content
+	$.ajax({
+        type: "GET",
+        url: baseUrl+"/"+moduleId+"/element/get/type/"+type+"/id/"+id,
+        dataType : "json"
+    })
+    .done(function (data) {
+        if ( data && data.result ) {
+        	//toastr.info(type+" found");
+        	
+			//onLoad fill inputs
+			//will be sued in the dynform  as update 
+			data.map.id = data.map["_id"]["$id"];
+			delete data.map["_id"];
+			//console.dir(data);
+			openForm(type,null, data.map);
+        } else {
+           toastr.error("something went wrong!! please try again.");
+        }
+    });
+}
+
+function openForm (type, afterLoad,data) { 
+    //console.clear();
+    $.unblockUI();
+    console.warn("--------------- Open Form "+type+" ---------------------",data);
+    console.dir(data);
+    elementLocation = null;
+    elementLocations = [];
+    centerLocation = null;
+    formType = type;
+    specs = typeObj[type];
+    if(specs.lbh){
+    	loadByHash(specs.lbh);
+    }
+	else if( specs.form && specs.form.url ) {
+		//charge le resultat d'une requete en Ajax
+		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
+	} else if( specs.dynForm )
+	{
+		console.dir(specs);
+		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
+		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
+	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+	  										"<div class='col-sm-10 col-sm-offset-1'>"+
+							              	"<div class='space20'></div>"+
+							              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+							              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
+							              	"</div>"+
+							              "</div>");
+	  	$('.modal-footer').hide();
+	  	$('#ajax-modal').modal("show");
+	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
+	  	data = ( notNull(data) ) ? data : {};
+	  	buildDynForm(specs, afterLoad, data);
+	} else 
+		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
+}
+
+function buildDynForm(elementObj, afterLoad,data) { 
+	console.warn("--------------- buildDynForm", afterLoad,data);
+	if(userId)
+	{
+		var form = $.dynForm({
+		      formId : "#ajax-modal-modal-body #ajaxFormModal",
+		      formObj : elementObj.dynForm,
+		      formValues : data,
+		      onLoad : function  () {
+		        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+		        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
+		        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad](data);
+		        //incase we need a second global post process
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+		        	elementObj.dynForm.jsonSchema.onLoads.onload();
+		        bindLBHLinks();
+		      },
+		      onSave : function(){
+
+		      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
+		        	elementObj.dynForm.jsonSchema.beforeSave();
+
+		        if( elementObj.save )
+		        	elementObj.save("#ajaxFormModal");
+		        else if(elementObj.saveUrl)
+		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
+		        else
+		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
+
+		        return false;
+		    }
+		});
+		console.dir(form);
+	} else 
+		toastr.error('Vous devez etre loggué');
+}
+
+var contextData = null;
+var typeObj = {
+	"person" : {
+		col : "citoyens" , 
+		ctrl : "person",
+		titleClass : "bg-yellow",
+		bgClass : "bgPerson",
+		lbh : "#person.invite",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Inviter quelqu'un",
+			    icon : "user",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+		            inviteSearch : {
+		            	placeholder : " Nom ou Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
+						    var search = $('#inviteSearch').val();
+						    if(search.length>2){
+						    	clearTimeout(timeout);
+								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+							}else{
+							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
+							}	
+						});
+			            }
+		            },
+			        invitedUserName : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$(".invitedUserNametext").css("display","none");	
+			            }
+			        },
+			        invitedUserEmail : {
+			        	placeholder : "Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init:function(){
+			            	$(".invitedUserEmailtext").css("display","none");	 
+			            }
+			        },
+			        "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : false
+		            },
+			    }
+			}
+		}
+	},
+	"persons" : {col:"citoyens" , ctrl:"person"},
+	"citoyen" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person"},
+	"poi":{ 
+		col:"poi",
+		ctrl:"poi",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	console.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		            },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true }
+			        },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			    }
+			}
+		}},
+	"organization" : { 
+		col:"organizations", 
+		ctrl:"organization", 
+		icon : "group",
+		titleClass : "bg-green",
+		bgClass : "bgOrga",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addOrganization,
+			    icon : "group",
+			    type : "object",
+			    
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+				            		globalSearch($(this).val(),["organizations"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d'organisation",
+		            	"rules" : { "required" : true },
+		            	"options" : organizationTypes
+		            },
+		            role :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
+		            	"rules" : { "required" : true },
+		            	//value : "admin",
+		            	"options" : {
+		            		admin : trad.administrator,
+							member : trad.member,
+							creator : trad.justCitizen
+		            	}
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+		            },
+		            email : {
+			        	placeholder : "Email du responsable",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".emailtext").css("display","none");
+			            }
+			        },
+			        
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            urls : {
+			        	placeholder : "URL du site web",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+			        telephone : {
+			        	placeholder : "Téléphne",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".telephonetext").css("display","none");
+			            }
+			        },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url : "/"+moduleId+"/organization/addorganizationform",
+			title : "Ajouter une Organisation"
+		}*/	},
+	"organizations" : {col:"organizations",ctrl:"organization"},
+	"event" : {
+		col:"events",
+		ctrl:"event",
+		icon : "calendar",
+		titleClass : "bg-orange",
+		bgClass : "bgEvent",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addEvent,
+			    icon : "calendar",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"subEvent" : function(){
+			    		//alert(contextData.type);
+			    		if(contextData.type == "events"){
+			    			$("#ajaxFormModal #parentId").removeClass('hidden');
+			    		
+		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
+			    			else if ( contextData && contextData.id ){
+				    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    			}
+			    			
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #parentType").val( typeObj[contextData.type].ctrl ); 
+
+			    			if(contextData.startDate && contextData.endDate ){
+			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
+			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
+			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    			}
+			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
+			    		}
+			    		else {
+				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+typeObj[contextData.type].ctrl+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
+			    			else if( contextData && contextData.id )
+				    			$("#ajaxFormModal #organizerId").val( contextData.id );
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #organizerType").val( typeObj[contextData.type].ctrl );
+			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
+			    		}
+			    	}
+			    },
+			    beforeSave : function(){
+			    	//alert("onBeforeSave");
+			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
+					console.log($("#ajaxFormModal #startDate").val());
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
+		            },
+		            name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["events"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        organizerId :{
+			        	"rules" : { "required" : true },
+		            	"inputType" : "select",
+		            	"placeholder" : "Qui organise ?",
+		            	"rules" : { "required" : true },
+		            	"options" : firstOptions(),
+		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
+			            init : function(){
+			            	$("#ajaxFormModal #organizerId ").off().on("change",function(){
+			            		
+			            		organizerId = $(this).val();
+			            		if(organizerId == "dontKnow" )
+			            			organizerType = "dontKnow";
+			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
+			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
+			            		else
+			            			organizerType = typeObj["person"].col;
+
+			            		console.warn( "organizer",organizerId,organizerType );
+			            		$("#ajaxFormModal #organizerType ").val( organizerType );
+			            	});
+			            }
+		            },
+			        organizerType : {
+			            "inputType" : "hidden"
+			        },
+			        parentId :{
+		            	"inputType" : "select",
+		            	"class" : "hidden",
+		            	"placeholder" : "Fait parti d'un évènement ?",
+		            	"options" : {
+		            		"":"Pas de Parent"
+		            	},
+		            	"groupOptions" : myAdminList( ["events"] ),
+		            	init : function(){
+			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
+			            		
+			            		parentId = $(this).val();
+			            		if( parentId != "" ){
+			            			$.each(myContacts.events,function (i,evObj) { 
+			            				//console.log("event : ",evObj["_id"]["$id"]);
+			            				if( evObj["_id"]["$id"] == parentId){
+			            					console.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
+				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
+				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
+				    					}
+			            			});
+			            		}
+			            	});
+			            }
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d\'évènement",
+		            	"options" : eventTypes,
+		            	"rules" : { "required" : true },
+		            },
+		            allday : {
+		            	"inputType" : "checkbox",
+		            	init : function(){
+			            	$("#ajaxFormModal #allday").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		console.log("toto");
+			            	})
+			            },
+		            	"switch" : {
+		            		"onText" : "Oui",
+		            		"offText" : "Non",
+		            		"labelText":"Journée",
+		            		"onChange" : function(){
+		            			//TODO SBAR : change date time to date picker
+		            			/*var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			if (allDay) {
+		            				console.log("init dateInput");
+		            				$(".dateTimeInput").addClass("dateInput");
+		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$(".dateInput").datetimepicker({ 
+								        autoclose: true,
+								        lang: "fr",
+								        format: "d/m/Y",
+								        timepicker:false
+								    });
+		            			} else {
+		            				console.log("init dateTimeInput");
+		            				$(".dateInput").addClass("dateTimeInput");
+		            				$(".dateInput").removeClass("dateInput");
+		            				$(".dateTimeInput").datetimepicker({ 
+					       				weekStart: 1,
+										step: 15,
+										lang: 'fr',
+										format: 'Y/m/d H:i'
+								    });
+		            			}*/
+		            		}
+		            	}
+		            },
+		            startDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de début",
+			            "rules" : { 
+			            	required : true,
+			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
+			        	}
+		            },
+		            endDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de fin",
+			            "rules" : { 
+			            	required : true,
+			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
+			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
+					    }
+		            },
+		            /*public : {
+		            	"inputType" : "hidden",
+		            	"switch" : {
+		            		"onText" : "Privé",
+		            		"offText" : "Public",
+		            		"labelText":"Type"
+		            	}
+		            },*/
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags de l\'événement",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		            },
+			        
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url:"/"+moduleId+"/event/eventsv",
+			title : "Ajouter un évènement"
+		}*/	},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {
+		col:"projects",
+		ctrl:"project",
+		icon : "lightbulb-o",
+		titleClass : "bg-purple",
+		bgClass : "bgProject",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addProject,
+			    icon : "lightbulb-o",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["projects"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		            },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
+			    }
+			}
+		} },
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
+	"entry" : {
+		col:"surveys",
+		ctrl:"survey",
+		titleClass : "bg-lightblue",
+		bgClass : "bgDDA",
+		icon : "gavel",
+		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une proposition",
+			    icon : "gavel",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            survey :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myVotesList)){
+			            			html = buildSelectGroupOptions( window.myVotesList);
+			            			$("#survey").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
+			            			    window.myVotesList = {};
+			            			    $.each( data.votes , function( k,v ) 
+			            			    { 
+				            			    if(!window.myVotesList[ v.parentType]){
+				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+				            			    	window.myVotesList[ v.parentType] = {"label":label};
+				            			    	window.myVotesList[ v.parentType].options = {}
+				            			    }
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+			            			    }); 
+			            			    console.dir(window.myVotesList);
+			            			    html = buildSelectGroupOptions(window.myVotesList);
+										$("#survey").append(html);
+								    } );
+			            		}
+			            		/*$("#survey").change(function() { 
+			            			console.dir( $(this).val().split("_"));
+			            		});*/
+
+		            		}
+		            	},
+		            	//custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la proposition",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Texte de la proposition",
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
+		              
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Fin de la période de vote",
+		              "rules" : { 
+		              	required : true,
+		              	greaterThanNow : true
+		              }
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            type : {
+		            	inputType : "hidden",
+		            	value : "entry"
+		            },
+			    }
+			}
+		}},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"action" : {
+		col:"actions",
+		ctrl:"room",
+		titleClass : "bg-lightblue",
+		bgClass : "bgDDA",
+		icon : "cogs",
+		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une action",
+			    icon : "gavel",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            room :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myActionsList)){
+			            			html = buildSelectGroupOptions( window.myActionsList);
+			            			$("#room").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
+			            			    window.myActionsList = {};
+			            			    $.each( data.actions , function( k,v ) 
+			            			    { console.log(v.parentType,v.parentId);
+			            			    	if(v.parentType){
+					            			    if( !window.myActionsList[ v.parentType] ){
+					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+					            			    	window.myActionsList[ v.parentType] = {"label":label};
+					            			    	window.myActionsList[ v.parentType].options = {};
+					            			    }
+				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    }
+			            			    }); 
+			            			    console.dir(window.myActionsList);
+			            			    html = buildSelectGroupOptions(window.myActionsList);
+										$("#room").append(html);
+								    } );
+			            		}
+
+		            		}
+		            	},
+
+		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la l'action",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Description de l'action'",
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
+		            },
+		            startDate :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de début"
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de fin"
+		            },
+
+		         	tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+			            	$(".urlsarray").css("display","none");	
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            "type" : {
+		            	inputType : "hidden",
+		            	value : "action"
+		            },
+			    }
+			}
+		} },
+	"actions" : {col:"actions",ctrl:"room"},
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+	"samples":{ 
+		//col:"poi",
+		//ctrl:"poi",
+		dynForm : {
+		    jsonSchema : {
+			    title : "All possible inputs",
+			    icon : "map-marker",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            }
+			        },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager"
+		            },
+			        location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags",
+		              "values" : tagsList
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+			            	$(".urlsarray").addClass("hidden");	 
+			            }
+			        },
+			        select :{
+		            	"inputType" : "select",
+		            	"placeholder" : "type select",
+		            	"options" : {
+		            		"person":"Person",
+		            		"organization":"Organisation",
+	                    	"event":"Event",
+	                    	"project":"Project"
+		            	}
+		            },
+		            selectMultiple :{
+		            	"inputType" : "selectMultiple",
+		            	"placeholder" : "Thematique",
+		            	"options" : {
+		            		"sport":"Sport",
+	                    	"agriculture":"Agricutlture",
+	                    	"culture":"Culture",
+	                    	"urbanisme":"Urbanisme",
+		            	}
+		            },
+
+		            date : {
+		                "inputType" : "date",
+		                "icon" : "fa fa-calendar",
+		                "placeholder":"Input Type Date"
+		            },
+
+		            daterange : {
+		                "inputType" : "daterange",
+		                "icon" : "fa fa-clock-o",
+		                "placeholder":"Input Type daterange"
+		            },
+		            properties : {
+		                "inputType" : "properties",
+		                "placeholder" : "Key",
+		                "placeholder2" : "Value",
+		                "value":[]
+		            },
+			    }
+			}
+		} },
+};
+
+function  firstOptions() { 
+	var res = {
+		"dontKnow":"Je ne sais pas",
+	};
+	res[userId] = "Moi";
+	return res;
+ }
+
+function myAdminList (ctypes) { 
+	var myList = {};
+	if(userId){
+		//types in MyContacts
+		var connectionTypes = {
+			organizations : "members",
+			projects : "contributors",
+			events : "attendees"
+		};
+		$.each( ctypes, function(i,ctype) {
+			var connectionType = connectionTypes[ctype];
+			myList[ ctype ] = { label: ctype, options:{} };
+			$.each( myContacts[ ctype ],function(id,elemObj){
+				//console.log(ctype+"-"+id+"-"+elemObj.name);
+				if( elemObj.links && elemObj.links[connectionType] && elemObj.links[connectionType][userId] && elemObj.links[connectionType][userId].isAdmin) {
+					//console.warn(ctype+"-"+id+"-"+elemObj.name);
+					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
+				}
+			});
+		});
+		console.dir(myList);
+	}
+	return myList;
+}
+
+function globalSearch(searchValue,types){
+	
+	searchType = (types) ? types : ["organizations", "projects", "events", "needs"];
+
+	var data = { 	 
+		"name" : searchValue,
+		// "locality" : "", a otpimiser en utilisant la localité 
+		"searchType" : searchType,
+		"indexMin" : 0,
+		"indexMax" : 50
+	};
+	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
+	$("#similarLink").show();
+	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin"></i>').prop("disabled",true);
+	$.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             console.log("error"); console.dir(data);
+             $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
+          },
+          success: function(data){
+            var str = "";
+ 			var compt = 0;
+ 			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
+ 			$.each(data, function(id, elem) {
+  				console.log(elem);
+  				city = "";
+				postalCode = "";
+				var htmlIco ="<i class='fa fa-users'></i>";
+				if(elem.type){
+				typeIco = elem.type;
+				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
+				}
+				if (elem.address != null) {
+					city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
+					postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+				}
+				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
+					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
+				}
+				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+							"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+						"</a>";
+				compt++;
+  				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
+  			});
+			
+			if (compt > 0) {
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+				//bindLBHLinks();
+			} else {
+				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
+			}
+
+			
+          }
+ 	});
+
+	
+}
+var elementLocation = null;
+var centerLocation = null;
+var elementLocations = [];
+var countLocation = 0;
+function copyMapForm2Dynform(locationObj) { 
+	//if(!elementLocation)
+	//	elementLocation = [];
+	elementLocation = locationObj;
+	elementLocations.push(elementLocation);
+	if(!centerLocation || locationObj.center == true){
+		centerLocation = elementLocation;
+		elementLocation.center = true;
+	}
+	console.dir(elementLocations);
+	//elementLocation.push(positionObj);
+}
+
+function addLocationToForm(locationObj)
+{
+	console.warn("---------------addLocationToForm----------------");
+	console.dir(locationObj);
+	var strHTML = "";
+	if( locationObj.address.addressCountry)
+		strHTML += locationObj.address.addressCountry;
+	if( locationObj.address.postalCode)
+		strHTML += " ,"+locationObj.address.postalCode;
+	if( locationObj.address.addressLocality)
+		strHTML += " ,"+locationObj.address.addressLocality;
+	if( locationObj.streetAddress)
+		strHTML += " ,"+locationObj.address.streetAddress;
+	var btnSuccess = "";
+	var locCenter = "";
+	if( countLocation == 0){
+		btnSuccess = "btn-success";
+		locCenter = "<span class='lblcentre'>(localité centrale)</span>";
+	}
+	
+	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
+			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
+			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
+	$(".locationlocation").prepend(strHTML);
+	countLocation++;
+}
+
+
+function removeLocation(ix){
+	elementLocation = null;
+	elementLocations.splice(ix,1);
+	//TODO check if this center then apply on first
+	$(".locationEl"+countLocation).remove();
+}
+
+function setAsCenter(ix){
+
+	$(".centers").removeClass('btn-success');
+	$(".lblcentre").remove();
+	$.each(elementLocations,function(i, v) { 
+		if( v.center)
+			delete v.center;
+	})
+	$(".centers").removeClass('btn-success');
+	$(".center"+ix).addClass('btn-success').append(" <span class='lblcentre'>(localité centrale)</span>");
+	centerLocation = elementLocations[ix];
+	elementLocations[ix].center = true;
+}
+
+function notEmpty(val){
+	return typeof val != "undefined"
+			&& val != null
+			&& val != "";
+}
+
+function activeMenuElement(page) {
+	console.log("-----------------activeMenuElement----------------------");
+	listBtnMenu = [	'detail', 'news', 'directory', 'gallery', 'addmembers', 'calendar'];
+	$.each(listBtnMenu, function(i,value) {
+		$(".btn-menu-element-"+value).removeClass("active");
+	});
+	$(".btn-menu-element-"+page).addClass("active");
+}
+
+function shadowOnHeader() {
+	var y = $(".my-main-container").scrollTop(); 
+    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+    else { $('.main-top-menu').removeClass('shadow'); }
+}
+function getMediaFromUrlContent(className, appendClassName){
+    //user clicks previous thumbail
+    lastUrl = "";
+    $("body").on("click","#thumb_prev", function(e){        
+        if(img_arr_pos>0) 
+        {
+            img_arr_pos--; //thmubnail array position decrement
+            
+            //replace with new thumbnail
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
+            
+            //replace thmubnail position text
+            $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
+        }
+    });
+    
+    //user clicks next thumbail
+    $("body").on("click","#thumb_next", function(e){        
+        if(img_arr_pos<total_images)
+        {
+            img_arr_pos++; //thmubnail array position increment
+            
+            //replace with new thumbnail
+            $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
+            
+            //replace thmubnail position text
+            $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
+        }
+    });
+    var getUrl  = $(className); //url to extract from text field
+    var appendClassName = appendClassName;
+    getUrl.keyup(function() { //user types url in text field        
+        //url to match in the text field
+        var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
+        var $this = $(this);
+        //continue if matched url is found in text field
+//        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href"))
+        if (match_url.test(getUrl.val())) {
+	        if(lastUrl != getUrl.val().match(match_url)[0]){
+	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
+                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>").css("height","20px");//hide();
+                $("#loading_indicator").show(); //show loading indicator image
+                //ajax request to be sent to extract-process.php
+                //alert(extracted_url);
+                lastUrl=extracted_url;
+                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
+                $.ajax({
+					url: baseUrl+'/'+moduleId+"/news/extractprocess",
+					data: {
+					'url': extracted_url},
+					type: 'post',
+					dataType: 'json',
+					success: function(data){        
+		                console.log(data); 
+	                    content = getMediaCommonHtml(data,"save");
+	                    //load results in the element
+	                    //return content;
+	                   //$("#results").html(content); 
+	                    $this.parent().find(appendClassName).html(content);
+	                    $this.parent().find(appendClassName).slideDown();
+//append received data into the element
+	                    //$("#results").slideDown(); //show results with slide down effect
+	                    //$("#loading_indicator").hide(); //hide loading indicator image
+                	},
+					error : function(){
+						$.unblockUI();
+						//toastr.error(trad["wrongwithurl"] + " !");
+						//content to be loaded in #results element
+						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
+	                    //load results in the element
+	                    $this.parent().find(appendClassName).hide();
+	                    $this.parent().find(appendClassName).html(content);
+	                    $this.parent().find(appendClassName).slideDown();
+	                    //$("#results").html(content); //append received data into the element
+	                    //$("#results").slideDown(); //show results with slide down effect
+	                    $("#loading_indicator").hide(); //hide loading indicator image
+						$("#loading_indicator").hide();
+					}	
+                });
+			}
+        }
+    }); 
+}
+function getMediaCommonHtml(data,action,id){
+	if(typeof(data.images)!="undefined"){
+		extracted_images = data.images;
+		total_images = parseInt(data.images.length);
+		img_arr_pos=1;
+    }
+    inputToSave="";
+    if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
+        if (data.content.videoLink){
+            extractClass="extracted_thumb";
+            width="100";
+            height="100";
+
+            aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
+            inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
+            "<input type='hidden' class='media_type' value='video_link' />";   
+		}
+        else{
+            aVideo="";
+            endAVideo="";
+            if(data.content.imageSize =="large"){
+                extractClass="extracted_thumb_large";
+                width="100%";
+                height="";
+            }
+            else{
+                extractClass="extracted_thumb";
+                width="100";
+                height="100";
+            }
+            inputToSave+="<input type='hidden' class='media_type' value='img_link' />";
+		}
+		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
+    }
+    if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
+        inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo;
+        if(data.content.type=="img_link"){
+	        if(typeof(data.content.imageId) != "undefined"){
+		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+id+"' value='"+data.content.imageId+"'/>";
+		       titleImg = "De l&apos;application communevent"; 
+		    }else
+		    	titleImg = "Image partagée"; 
+	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='"+titleImg+"'  data-lightbox='allimgcontent'>";
+	    }
+        inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
+        if(data.content.type=="img_link")
+        	inc_image += '</a>';
+        inc_image += '</div>';
+        countThumbail="";
+        inputToSave+="<input type='hidden' class='img_link' value='"+data.content.image+"'/>";
+    }
+    else {
+        if(typeof(total_images)!="undefined" && total_images > 0){
+            if(total_images > 1){
+                selectThumb='<div class="thumb_sel"><span class="prev_thumb" id="thumb_prev">&nbsp;</span><span class="next_thumb" id="thumb_next">&nbsp;</span> </div>';
+                countThumbail='<span class="small_text" id="total_imgs">'+img_arr_pos+' of '+total_images+'</span><span class="small_text">&nbsp;&nbsp;Choose a Thumbnail</span>';
+            }
+            else{
+                selectThumb="";
+                countThumbail="";
+            }
+            inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
+      		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";      
+        }else{
+            inc_image ='';
+            countThumbail='';
+        }
+    }
+    
+    //content to be loaded in #results element
+	if(data.content==null)
+		data.content="";
+	if(typeof(data.url)!="undefined")
+		mediaUrl=data.url;
+	else if (typeof(data.content.url) !="undefined")
+		mediaUrl=data.content.url;
+	else
+		mediaUrl="";
+	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
+		contentMedia='<div class="extracted_content col-xs-8 padding-20"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
+		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
+	}
+	else{
+		contentMedia="";
+	}
+	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
+	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
+	    
+    content = '<div class="extracted_url padding-10">'+ inc_image +contentMedia+'</div>'+inputToSave;
+    return content;
+}
+
+function myContactLabel (type,id) { 
+	if(myContacts && myContacts[type]){
+		$.each( myContacts[type], function( key,val ){
+			if( id == val["_id"]["$id"] ){
+				return val;
+			}
+		});
+	}
+	return null;
+}
+
+
+function shadowOnHeader() {
+	var y = $(".my-main-container").scrollTop(); 
+    if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
+    else { $('.main-top-menu').removeClass('shadow'); }
+}
+
+/* ************************************
+Keyboard Shortcuts
+*************************************** */
+var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
+"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
+"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
+"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
+"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
+"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
+"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
+
+var keyMap = {
+	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
+	"114" : function(){ showMap(true); },//f3
+	"115" : function(){ console.clear();console.warn("repair society") },//f4
+	"117" : function(){ console.clear();loadByHash(location.hash) },//f6
+};
+var keyMapCombo = {
+	"69" : function(){openForm('event')}, //e
+	"79" : function(){openForm('organization')},//o
+	"80" : function(){openForm('project')},//p
+	"73" : function(){openForm('person')},//i
+	"65" : function(){openForm('action')},//a
+	"86" : function(){openForm('entry')}//v
+};
+
+function checkKeycode(e) {
+	e.preventDefault();
+	var keycode;
+	if (window.event) {keycode = window.event.keyCode;e=event;}
+	else if (e){ keycode = e.which;}
+	//console.log("keycode: ",keycode);
+	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
+		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+		keyMapCombo[keycode]();
+	}
+	else if( keyMap[keycode] ){
+		console.warn("keyMap",keycode);
+		keyMap[keycode]();
+	}
+}
+
+function autoCompleteInviteSearch(search){
+	if (search.length < 3) { return }
+	tabObject = [];
+
+	var data = { 
+		"search" : search,
+		"searchMode" : "personOnly"
+	};
+	
+	
+	ajaxPost("", moduleId+'/search/searchmemberautocomplete', data,
+		function (data){
+			console.log(data);
+			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
+			var compt = 0;
+			var city, postalCode = "";
+			if(data["citoyens"].length > 0){
+				$.each(data["citoyens"], function(k, v) { 
+					city = "";
+					console.log(v);
+					postalCode = "";
+					var htmlIco ="<i class='fa fa-user fa-2x'></i>"
+					if(v.id != userId) {
+						tabObject.push(v);
+		 				if(v.profilImageUrl != ""){
+		 					var htmlIco= "<img width='50' height='50' alt='image' class='img-circle' src='"+baseUrl+v.profilImageUrl+"'/>"
+		 				}
+		 				if (v.address != null) {
+		 					city = v.address.addressLocality;
+		 					postalCode = v.address.postalCode;
+		 				}
+		  				str += 	"<li class='li-dropdown-scope'>" +
+		  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
+	
+		  				if(typeof postalCode != "undefined")
+		  					str += "<br/>"+postalCode+" "+city;
+		  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
+		  				str += "</a></li>";
+	
+		  				compt++;
+	  				}
+				});
+			}
+			
+			$("#newInvite #dropdown_searchInvite").html(str);
+			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
+		}
+	);	
+}
+
+function communecterUser(){
+	console.warn("communecterUser");
+	if(typeof contextData == "undefined" || contextData == null || contextData.id != userId){
+		contextData = {
+			id : userId,
+			type : "citoyens"
+		};
+	}
+	$.unblockUI();
+	updateLocalityEntities();
+}
+
+function updateLocalityEntities(){
+	console.warn("updateLocalityEntities");
+	$("#ajax-modal").modal("hide");
+	showMap(true);
+	if(typeof initUpdateLocality != "undefined"){ 
+		initUpdateLocality(contextData.address, contextData.geo, contextData.type); 
+	}
+}
+/*
+elementJson = {
+    //reuired
+    "name" : "",
+    "email" : "",
+    "creator" :"" ,
+
+    "url":"",
+    "shortDescription" : "",	
+	"description" : "",
+
+	"address" : {
+        "@type" : "PostalAddress",
+        "codeInsee" : "",
+        "addressCountry" : "",
+        "postalCode" : "",
+        "addressLocality" : "",
+        "streetAddress" : ""
+    },
+    "geo" : {
+        "@type" : "GeoCoordinates",
+        "latitude" : "-21",
+        "longitude" : "55"
+    },
+    "geoPosition" : {
+        "type" : "Point",
+        "coordinates" : [ 55,  -21]
+    },
+
+    "tags" : [],
+    "scopes" : [],
+
+    "profilImageUrl" : "",
+    "profilThumbImageUrl" : "",
+    "profilMarkerImageUrl" : "",
+    "profilMediumImageUrl" : "",
+
+    "isOpenData":"",
+
+    //generated
+    "updated" :"" ,
+    "modified" :"" ,
+    "created" :"",
+    
+}
+
+organizationJson = {
+	"telephone":"",
+    "mobile":"",
+    "fixe":"",
+    "fax":"",
+    "type":"",
+}
+
+eventJson = {
+    "type" : "",
+    "allDay" : true,
+    "public" : true,
+    "startDate" : "",
+    "endDate" : "",
+}
+
+var projectJson = {
+    "startDate" : "",
+    "endDate" :"" 
+}
+
+*/

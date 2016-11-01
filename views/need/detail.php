@@ -1,8 +1,9 @@
 <?php 
-Menu::need($need,$parentType,$parentId);
-$this->renderPartial('../default/panels/toolbar'); 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $parentType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "need".(string)$need["_id"]));  
 ?>
-<div class="row">
+
+<div class="row" id="need<?php echo (string)$need["_id"] ?>">
 	<div class=" col-md-12">
 		<div class="col-md-12">
 			<div class="panel no-padding col-md-8">
@@ -10,11 +11,13 @@ $this->renderPartial('../default/panels/toolbar');
 				$this->renderPartial('dashboard/ficheInfo', 
 							array( 	"need" => $need, 
 									"parent" => $parent,
-									"parentType" => $parentType,														"parentId" => $parentId,
+									"parentType" => $parentType,														
+									"parentId" => $parentId,
 									"helpers" => $helpers, 
 									"description" => $description,
 									"imagesD" => $images, 
-									"isAdmin"=> $isAdmin														));
+									"isAdmin"=> $isAdmin														
+									));
 				?>
 			</div>
 			
@@ -32,14 +35,16 @@ $this->renderPartial('../default/panels/toolbar');
 			 ?>
 		</div>
 	</div>
-	<div class="col-md-12" id="commentNeed">
+	<div class="col-md-12" id="commentNeed<?php echo (string)$need["_id"] ?>">
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-cubes'></i> <?php echo $need["name"] ?> ");
-		getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo Need::COLLECTION ?>/id/<?php echo (string)$need["_id"];?>",null,"html");
+		setTitle("<?php echo $need["name"] ?>","cubes");
+		getAjax("#commentNeed<?php echo (string)$need["_id"] ?>",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo Need::COLLECTION ?>/id/<?php echo (string)$need["_id"];?>",null,"html");
 		$(".fa-comments").removeClass("fa-2x");
 	});
 </script>

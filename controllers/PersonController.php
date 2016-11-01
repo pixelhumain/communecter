@@ -43,16 +43,22 @@ class PersonController extends CommunecterController {
           'update'             => 'citizenToolKit.controllers.person.UpdateAction',
           'directory'          => 'citizenToolKit.controllers.person.DirectoryAction',
           'data'               => 'citizenToolKit.controllers.person.DataAction',
-          'chooseinvitecontact'      => 'citizenToolKit.controllers.person.ChooseInviteContactAction',
+          'chooseinvitecontact'=> 'citizenToolKit.controllers.person.ChooseInviteContactAction',
           'changepassword'     => 'citizenToolKit.controllers.person.ChangePasswordAction',
           'changerole'         => 'citizenToolKit.controllers.person.ChangeRoleAction',
           'checkusername'      => 'citizenToolKit.controllers.person.CheckUsernameAction',
           'checklinkmailwithuser'   => 'citizenToolKit.controllers.person.CheckLinkMailWithUserAction',
           'validateinvitation' => 'citizenToolKit.controllers.person.ValidateInvitationAction',
           'getuseridbymail'   => 'citizenToolKit.controllers.person.GetUserIdByMailAction',
-          "updatesettings" => 'citizenToolKit.controllers.person.UpdateSettingsAction',
+          "updatesettings"    => 'citizenToolKit.controllers.person.UpdateSettingsAction',
           "updateprofil"      => 'citizenToolKit.controllers.person.UpdateProfilAction',
-          "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction'
+          "updatewithjson"      => 'citizenToolKit.controllers.person.UpdateWithJsonAction',
+          "telegram"           => 'citizenToolKit.controllers.person.TelegramAction',
+          "updatemultitag"      => 'citizenToolKit.controllers.person.UpdateMultiTagAction',
+          "updatemultiscope"      => 'citizenToolKit.controllers.person.UpdateMultiScopeAction',
+          "sendinvitationagain"      => 'citizenToolKit.controllers.person.SendInvitationAgainAction',
+          'get'              => 'citizenToolKit.controllers.person.GetAction',
+
 	    );
 	}
 

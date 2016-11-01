@@ -1,7 +1,5 @@
 <?php 
-  $cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+  $this->renderPartial("../docs/assets");
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
@@ -47,13 +45,16 @@
   </a>
 </div>
 
+<div class="space20"></div>
+
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:loadByHash('#default.view.page.pourquoi.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+<a href="#default.view.page.pourquoi.dir.docs" class="lbh homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
   <i class="fa fa-arrow-left"></i> Pour quoi faire ?
 </a>
-<a href="javascript:loadByHash('#default.view.page.modules.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+<a href="#default.view.page.modules.dir.docs"  class="lbh homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
   Les modules <i class="fa fa-arrow-right"></i>
 </a>
+<div class="space20"></div>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {

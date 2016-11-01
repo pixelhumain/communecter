@@ -4,7 +4,7 @@
 			<h3 class="panel-title text-red"><i class="fa fa-calendar"></i> OpenAgenda</h3>
 		</div>
 		<div class="panel-body">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a href="#" class="btn btn-primary" id="collectOpenAgenda"> Récupérer les évenements de OpenAgenda </a>
 			</div>
 		</div>
@@ -70,9 +70,8 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Open Agenda");
-
 jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Open Agenda","cog");
 	$("#divCheckEvents").hide();
 	bindEvents();
 });

@@ -7,7 +7,7 @@
 		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
 		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      	: 0;
 
-		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#2A3945';
+		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#384C5D';
 		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#fff';
 		$mapBtnBgColor_hover = ( isset( $sigParams["mapBtnBgColor_hover"]))   	? $sigParams["mapBtnBgColor_hover"]   	: '#5896AB';
 
@@ -50,6 +50,17 @@
 		height:<?php echo (int)$mapHeight - 60; ?>px;
 		top:<?php echo (int)$mapTop + 30; ?>px;
 	}
+	.<?php echo $moduleName; ?> .right_tool_map_header,
+	.<?php echo $moduleName; ?> .panel_map,
+	.<?php echo $moduleName; ?> .btn-panel{
+		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+	}
+
+	.<?php echo $moduleName; ?> 
+	#pagination > li.active a{
+		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+		border-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
+	}
 
 	.<?php echo $moduleName; ?>
 	#lbl-chk-scope{
@@ -65,14 +76,16 @@
 	<?php   $right = "0px";
 			if($sigParams['useRightList']) $right = "30%";
 	?>
+
 	.<?php echo $moduleName; ?>
 	.btn-group-map{
 		position:absolute !important;
 		/*right:<?php echo $right; ?>;*/
 		left:20px;
-		top:<?php echo $mapTop+30; ?>px;
+		top:<?php echo (int)$mapTop+30; ?>px;
 	}
 	
+
 	.<?php echo $moduleName; ?>
 	.btn-map{
 		background-color:<?php echo $mapBtnBgColor." !important"; ?>; /*#E6D414*/
@@ -114,17 +127,17 @@
 
 	.<?php echo $moduleName; ?>
 	.bg-main-menu{
-		background-color: rgba(26, 33, 38, 0.68);
+		background-color: rgba(237, 237, 237, 0.88);
 		position: fixed;
 		top: 0px;
 		left: 0px;
-		width: 16.5%;
+		width: 47px;
 		height: 100%;
 		-moz-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    -webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    -o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
-	    filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
+		-webkit-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		-o-box-shadow: 0px 0px 5px -2px rgba(153, 153, 153, 0.73);
+		box-shadow: 0px 0px 5px 1px rgba(44, 44, 44, 0.87);
+		filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=180, Strength=5);
 	}
 
 
@@ -138,8 +151,8 @@
 		display: none;
 		position: fixed;
 		top: 70px;
-		left: 19%;
-		width: 30%;
+		left: 70px;
+		width: 22%;
 		min-width: 200px;
 		max-height: 100px;
 		background-color: rgba(26, 33, 38, 0.93);
@@ -160,10 +173,12 @@
 			width:100%;
 		}
 
+		<?php if(!isset($sigParams['centerBtnTools']) || @$sigParams['centerBtnTools'] != true){ ?>
 		.<?php echo $moduleName; ?>
 		.btn-group-map{
 			right:0% !important;
-		}
+			left:unset!important;
+		}<?php } ?>
 	}
 
 </style>

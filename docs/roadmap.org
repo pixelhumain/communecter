@@ -1,0 +1,456 @@
+
+* ************************************************************    
+* Bug et retoure  des rencontre alternative 
+* ************************************************************   
+[ ] Bug detail  orga, lorsuqe l'on clic sur une dda , retour a la page home (PROD)
+[ ] possibilité d'envoie un messsage entre conseil citoyen 
+[ ] Btn suggest sur co
+‎   [ ]    Ajouter un participant type orga 
+[ ] Pano facon reparali 
+[ ] Invité par le phone
+[ ] partager le lien vers lappli dans l'email 
+
+
+[ ] ajouter un event a une orga 
+
+* ************************************************************    
+
+Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action 
+De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". 
+A la base j'avais mis une date de fin qui avait été dépassée, 
+j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
+
+* ************************************************************    
+* Version 0.16 (début oct) : en cours
+* ************************************************************    
+
+** @Tango 
+    [ ] Recherche par 100, 500, 1000, all
+      [X] page recherche
+      [ ] page agenda
+    [X] synchronize new item menu (on selected)
+    [ ] Finir Orga:Add member
+      [X] refaire marcher la modal
+      [X] brancher le save de la modal sur un controller (link/multiConnectAction)
+      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
+      [??] Project:contributeur
+      [??] People:invitation
+      [??] Event:Participation
+    [ ] Around me
+      [X] Liste HTML
+      [X] result on map
+      [X] change radius on map
+      [ ] around all element
+    [X] modification du menu principal (recherche)
+    [X] modifications page directory
+      [X] ajout Debat & Action dans le globalSearch
+      [X] création de la page recherche commune
+
+** @Sylvain 
+    [X] pb d'images dans en ce moment (ex : Manapany)
+    [X] delete person : 
+      [X] on admin : delete simple person (links but no news/votes/comments)
+      [X] delete with anonymization
+      [X] delete my account
+    [ ] rsync on server for upload
+    [ ] interface screen shot tutoriel 
+      [ ] test d'un guided tour simplifier
+    [ ] cannot empty communected location
+    [X] remove betatester attr
+    [X] remove empty image attribs
+    [ ] mailing + notification + parametre
+      [X] doc
+      [ ] faire un mail hebdomadaire
+      [ ] invitation event 
+      [ ] news privée
+      [ ] nouveau DDA
+      [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+      [ ] faire un mail, special quand invité par l'invitation communEvent 
+          faisant reference à l'event , vous etiez ou serez à event xxx
+          communecter vous aide ....
+    [X] Gérer le retour de mail en erreur 
+      [X] créer un hook + erreur dans mailerror
+      [X] creation de notif pour super admin
+      [X] page admin avec les erreurs de mails
+    [ ] Stocker les images en S3
+    [X] passer configDB en externe configdb.example.php
+    [ ] mon calendar 
+    [ ] filtrer par type d'event
+    [ ] event modifier l'organisateur
+    [ ] améliorer la verification d'existence d'elements
+
+
+** @Tib 
+  [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
+  [ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
+  
+  [ ] delete empty element
+  
+  [ ] Count requests DB per page
+  [ ] moving discussion polling to discussion page instead of communecter.js
+  [ ] desactivate dynForm if not Logged
+  ** wishlist 
+    [ ] dynform : auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+    [ ] check bad sub attributes : address.cococo 
+  ** PROD
+    [ ] no message on debat
+
+  [ ] finish fromNow method
+  [ ] HTML5 notifications
+  [ ] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
+  [X] new theme architecture 
+    [X] moving plugins into the ph base
+    [X] front end configuration by configparams
+    [X] activating forms 
+    [X] movins communecter's css into the theme for specific tweaking 
+  [X] connected to mention
+  [X] generate basic element code
+  [X] parse and build post genericaly jsonHelper.stringFormtoJson
+  [X] on press send 
+    [X] post proper ajax
+  [X] build a dynform for a simplest element POI 
+    [X] inside a modal
+  [X] url form in modal 
+    [X] personnalisé 
+    [X] le scroll marche pas
+  [ ] elements to simple dynform
+    [X] connect btns 
+      [X] dashboard
+      [X] profile page
+
+    [ ] bugs
+      [X] add to floopdrawer after save
+      [X] [[@Rapha :: location > tape CP > validate , ca passe]] 
+      [X] cancel location is not empty
+      [ ] delete from location liste after having added
+    [X] onclick add spinner on save btn +disable
+    [X] type::afterSave : connect specific post process for each elem
+      [X] organization
+      [X] project
+      [X] event
+    [X] dynForm on create project of orga  
+      [X] add parentId and TYpe on project.orga
+    
+    [X] refactor : move from ACtion to model Element
+    [ ] [[affichage des addresses]]
+      [ ] bloquer a une seule addresses
+    [X] wisiwig on desc
+    [X] orga simplified to name, type, location btn
+      [X] validate exist using globalSearch works on any element
+      [X] ajouter les autres champs en activable
+      [ ] link to create subProjects
+    [X] project to name, location btn
+    [ ] event to organizer, name, type, allday, dates, location btn
+      [X] organizer select & parent Id based on myContacts var from index.php
+      [X] parent Event : load param ajax
+        [ ] [[ show only ongoing or event to come ]]
+      [ ] simplify add for sub events: [[pré remplir les dates, lieu]]
+      [X] connecté l'ajout new subEvent aux neaux formulaires
+    [X] connect locality data from copyMapForm2Dynform()
+    [ ] POI et Element de base : name,desc, url, location,photo
+      periscope,youtube,twitter journal
+      [ ] [[ @Tango :: switch on map , show / hide POI, point of parent]]
+      [X] link to parent : can have a parent, Type & Id
+      [X] add a btn on any parent add POI
+      [X] place avec geoloc 
+      [X] Thing sans geoloc
+      [X] formulaire evolutif
+      [ ] [[ add photo ]]
+      [ ] [[ @Clem :: add POI to news]]
+      [X] add text : getUrl, multiple medias , $.each
+      [X] unknown attribute passes the the save 
+      [X] delete POI
+      [X] edit POI
+      [ ] [[view POI in modal], pour @Hord Cadre]
+        [ ] on pourrait alors creer un poi d'abord et ensuite créer dessus des orga , event ,projet ... 
+      [ ] add to favorite
+    [ ] debat 
+      [X] ouvrir une proposition sur un element orga ou projet
+      [ ] ouvrir une proposition une geo scope cp, insee..
+      [ ] ouvrir une proposition sans parent room
+      [X] localiser une propistion 
+    [X] action
+    [X] save process
+      [X] Element::save 
+        [X] params containing map using a json source base + specific attributes
+          - { element: {}, orga:{} }
+      [X] dataBinding validation process
+    [X] parse and build post genericaly jsonHelper.stringFormtoJson
+    [X] on press send post proper ajax
+  [X] added middle click to notifications
+  [X] switched QRcodes to full URLs, they can then be parsed
+  
+** @Rapha et Clement
+
+  [ ] Préférences :
+    [X] Bloqué l'acces a mon répertoire mode Privé
+    [ ] Mieux gére les addresses
+      [X] renomer locality en streetAddress
+    [X] Checker au moins une ces préférences
+      [X] Ajouter un btn comme pour le "Communecter-moi" pour que l'utilisateur check au moins un fois le les preferences
+      [X] Ajouter "seePreferences" à la création d'un user
+      [X] Batch pour ajouter "seePreferences" au user.
+    [X] Batch qui remet tout les Preférence au niveau de base
+    [ ] Vérifier qu'au niveau de l'api c'est géré
+  [ ] Traduction
+    [X] Add members et tooltip
+  [ ] Bugs 
+    [ ] SI on change la ville du user, et qu'on clique sur repositionner alors il y une erreur
+    [X] TypeError: newsObj.target.name is undefined : Lorsqu'on va arrive sur la communauté depuis (detail , news ou gallery);
+    [X] Design : lorsqu'on veut modifier la description ou shortDescription , le panel de x-edit se cache derrier le menu de gauche.
+    [ ] Impossible de mettre les tags a vide
+
+  [ ] Caché les consoles.log
+    [ ] news : lorsqu'on ecrit sur le message 
+        hidden slidupScopetagsMin false
+        slidupScopetagsMin false
+
+** @Rapha
+
+  *** Priority 1
+    [ ] bug : open edition : on peut pas ajouter de sous event
+      - info : ca marche que pour les admins > devinir admin et ca marche
+    [X] remonté tes points de la 0.15
+    [X] Vérifier que les badges s'ajouter a la création d'une entité
+    [X] Evénement : admin + open edition
+    [X] bug, ajout event sur projet , s'affiche pas dans la liste 
+    [ ] Refactor Element
+      [X] Refactor sur Element::UpdateField()
+      [X] Rajout des badges
+      [X] Correction sur les url
+      [X] FAire appaitre sur l'event parent dans un sous événement
+      [X] le pod et le btn menu pour le calendrier des événements
+      [ ] TEST Global
+        [ ] Test des updatefields
+          [ ] Person
+          [ ] Orga
+          [ ] Event
+          [ ] Project
+        [ ] Test Confidentialité
+      [X] Bug image QR Code
+      [X] User sans etre Communecter
+      [X] Refactor DirectoryAction et directory2
+      [X] Le Header qui est dans details et plus grand que dans fil d'actualité,  etc...
+      [X] Améliorer le btn "Communecter-moi", celui du HeaderElement
+      [X] Active des btn menu 
+      [X] Bug ajout d'une image de profil
+      [X] Error 404 , pendant la deconnexion
+      [X] tooltip menu (detail, news etc ...) traduire ou améliorer
+      [ ] Dans news/index.js : buildTimeLine() ; cette fct continue de s'executer meme si on est sur la page détail de l'élément
+      
+
+  *** Priority 2
+    [ ] Récuperer activeMenuElement() dans communecter.js et l mettre dans element.js lorsque qu'il sera crée
+    [ ] Admin
+      [ ] GEstion des utilisateurs en toBeActiveted and Pendig
+        [ ] Afficher la liste de ces utilisateurs
+        [ ] Batch qui envoie un mail pour signaler aux utilsateurs de valider leur compte
+        [ ] Ajouter un le nombre de fois on a envoyer le mail
+    [ ] form keep my position / my latest psitions
+    [ ] Ajouter les numéros de tel dans le formulaire de création
+    [ ] Sur une person, retirer superAdmin false, inutile ?
+    [ ] API
+      [ ] Regarder la doc de https://insomnia.rest/?utm_source=hackernewsletter&utm_medium=email&utm_term=show_hn
+      [ ] Vérifier que tout les retours URL soit conforme au format { result : true or false ,  msg : "" , data : ... }
+      [ ] Doc
+        [ ] Amélioration / Correction
+          [ ] Correction faute orthographe
+          [ ] UpdateField, pour nameField mettre un select avec tout les fields possible
+          [ ] Faire les types evenements
+          [ ] Faire les définitions 
+              [ ] Checker si link/connect permet de fairemettre en attente de validation ou si c'est follow pour les events
+          [ ] Mettre a jour DOC API : https://docs.google.com/document/d/1AyDWnipUeKR_r1kf5RcRMJn4xB7dxADSFNPmjvyzLs4/edit#heading=h.w75go4nanjvk
+      [ ] AJouter la partie recherche 
+      [ ] Faire la partie Authorisation/Token
+      [ ] Bugs
+        [ ] person/get/id : les préférences ne sont pas traité
+    [ ] RSS
+      [ ] News to RSS
+        [ ] Checker NewsTRanlate de Clem
+        [ ] Faire apparaitre les news via l'api
+        [ ] Faire la traduction en RSS
+      [ ] RSS to News
+    [0.17] Evénement : import /export open agenda
+      [ ] evenement récurent
+      [ ] cronJob 
+
+** @Clement
+    [ ] "Si j'écris une news en mode ""privé"" (visible seulement par les membres d'une orga) en notifiant quelqu'un qui n'est pas membre de l'orga (donc qui ne devrait pas voir la news) et bah il l'a recoit dans son fil d'actu quand même. Mais ne la voit pas dans le journal de l'orga. Proposition : en mode privée, ne proposer à la notification que les membres de l'orga / projet."
+    [X] sur orga reparer afficher tous les membres
+    [ ] pouvoir ajouter une liste d'url Typé pour Elements (loomio, video, pad) 
+        [ ] visionneur spécialisé par type (image, video, simple lien)
+        [ ] uplodaer de document
+    [ ] Regroupement de notifications (plusieurs notifications avec la même source)
+    [ ] Regroupement de news de communevent (plusieurs photos sur le même event). En collab avec Thomas.
+    [ ] bug : mention aprés avoir ajouter une fois , ca marche plus
+
+** @Thomas communEvent
+    [ ] mettre une etape de validation lors du connect, vous allez vous connecter à
+    [ ] si je suis logguer et admin d'une orga , permettre de scan pour inviter qlqun
+    [ ] ajouter l'invitation à un event par scan, sur un event> click inviter > scan QR
+    [ ] ajouter mon QR code , envoyer par mail, copier dans mes images, icone sur le mobile
+    [ ] filtrer par type d'event (Nacelle, Rencontre, Reunion... ) [[https://github.com/pixelhumain/communEvent/issues/112]]
+    [ ] btn utiliser la position GPS [[https://github.com/pixelhumain/communEvent/issues/113]]
+    [ ] simulation du village et du systeme QR code
+    [ ] dans un event filtrer par mes posts,et plus globalmeent on click qlqun on verrait que ces postes
+    [ ] Photo taille originale
+    [ ] utilisé ma position > fait un reverse geocodage pour trouver l'adresse
+
+
+* ************************************************************    
+* Version 0.15 (31/08/2016) : Livré 01/09/2016
+* ************************************************************
+
+  ** @Rapha
+    [ ] Modifier un paramètre (open data / open edition) ne fait pas une entrée dans l'historique        
+    [ ] Bug 
+      [ ] voteUp voteDown
+    [ ] Event :
+      [ ] Ajout de l'utilisation des tags pour les évenement
+      [ ] Gestion des admins pour les events
+    [ ] Refactor Element
+      [ ] Preferences avec open data / open edition / public-hide-private data
+      [ ] Formulaire d'édition:
+        [ ] Depuis orga
+          [ ] Ajouter un evenement ou un projet d'un element à partir des pods
+        [ ] AddContributors / AddMembers / AddAttendees
+        [ ] AddTasksGantt / AddChartSV pour les projets
+      [ ] Pod need pour les projets et orga [asso et groupe] et AddNeed
+      [ ] Ajout du dda pour project et orga
+      [ ] Authorization (admin-membre-openedition) à rajouter coté ctk 
+      [ ] Bugs
+        [ ] Btn Editer 
+        [ ] Unknown type: postalCode Detail -> Fil d'actue -> détail
+  
+  ** @Tango 
+    [ ] onChange search criteria, empty list + reload button
+    [ ] interface ND
+        [ ] menu
+        [ ] multi scope 
+        [ ] multi tags
+        [ ] type sur les news (idea, question announce, information)
+    [ ] Refactor design top bar 
+    [ ] Refactor agenda
+    [ ] Recherche connecté au multi scope
+    [ ] search by name on live page
+    [ ] Bug Repair geoloc sur tous les element
+    [ ] two step refactor
+    [ ] home page : switch to live ?
+
+  ** @Tib 
+    [ ] DDA
+        [ ] bug : Pas de possibilité d'éditer la photo d'une proposition  
+        [ ] Decision : restreindre les votes citoyens city, aux communecter de la commune
+        [ ] généré les catégories principale
+           [ ] généré lors de la premiere visite du DDA espace collab
+        [ ] remettre le contexte sur la room dans mon DDA
+        [ ] ajouter un scope geo sur une proposition
+    [ ] scoper dep et region : type number 
+    [ ] moved search to opendata
+    [ ] live on city page
+    [ ] wisiwig sur les commentaires
+    [ ] dashboard
+        [ ] live controller 
+            [ ] not connected > shows live , public information 
+            [ ] getActivity
+                - global activity based on scope and tags search filters
+                - can be filtered by userId
+                [ ] dda 
+                    [ ] stream : shows recent sorted by "updated"
+                    [ ] en ce moment : most active updated 
+                        - how to define activity ? vote counts, comment counts
+                            algorythm based on vote and comment dates 
+                [ ] projects
+                [ ] organisations
+                [ ] events
+    [ ] QR code
+        [ ] onclick : explain why QR Codes
+        [???] add QR code to invite mail / and create mail
+    [ ] script devlog pour ajouter updated sur les anciennes data 
+    [ ] reparer le click du milieu
+        - en mettant simplement notre hash dans le href
+    [ ] refactor links.loadByHash + chemin dans href
+    [ ] search and filter tag engine
+    [ ] wisiwig sur les desc de form create
+    [ ] markdown editor sur les desc de form create using bootstrap-markdown ex : in projectsv.php
+        - not activated globaly because front end isn't ready
+    [ ] ajouter un tag onclick methode générique utilisant juste la class="tag" + data-val="xxx" 
+        [ ] only when loggued
+    [ ] getRRoomsListByActivity : Pour un pod d'affichage des DDA actif pour projet, orga et city 
+        [ ] added "updated" attribute on all DDA elemnts used on any activity (votes , assigned, comments ...)
+            [ ] survey/proposals : create , votes, edit
+            [ ] actions : create, assign, edit
+            [ ] discuss : create, new post
+            [ ] archiving
+        [ ] getRoomsListByActivity
+        [ ] getRoomsActivity
+            [ ] Action:addAction : add update parent Action::updateParent($_POST['id'], self::COLLECTION_ACTIONS);
+    [ ] switcher le titre navigateur
+        [ ] replacing all $(".moduleLabel").html
+    [ ] badge organisation "Communecteur" + documentation 
+        - association "communecteuse" (Livin Coop ,comm1possible , cheznous, ekprotik,cyberungame, forum des debats)
+        - association référante de communecter
+        - peuvent faire des formations et etre un lieu d'acceuil et de conseil 
+    
+    
+  ** @Sylvain
+    [ ] ajouter updated on login
+
+  ** @Thomas communEvent
+    [ ] remplacer la map par une url parser dans les QR code
+    [ ] mettre en PROD 
+    [ ] ajouter le linker sur le scan connectant lutilisateur et les elements du QR person, event, orga, project
+ 
+
+* ************************************************************
+* Version 0.14 : Livré
+* ************************************************************
+
+    ** @Tango
+    [ ] Refonte interface DDA
+    [ ] Documentation
+    ** @Rapha
+    [ ] Open Data préférence
+    [ ] Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )
+    ** @Clement
+    [ ] Open Edition ubiquité en préférence
+    [ ] Mentionner qlq'un dans une actu/News @someone
+    [ ] DDA : pouvoir ajouter des images sur les propositions et les actions
+    ** @Tib
+        [ ] Ajouter un Framapad
+        [ ] Archiving : discussion, decision et action rooms
+          [ ] who can archive
+            [ ] owner of the vote or the action
+          [ ] archiver == passer le status à "archived"
+            [ ] survey
+            [ ] actions
+            [ ] discussions
+          [ ] decision & action room archived
+            [ ] when archived remove features : 
+              [ ] edit features 
+              [ ] Add proposals
+              [ ] desactivate votes 
+          [ ] front ends  
+            [ ] differntiate style when archived
+            [ ] show index without archived rooms
+            [ ] add btn, see archives
+            [ ] show only  archived rooms
+        [ ] move Menu::Btn
+            [ ] permission 
+                [ ] only organizer on survey and actions
+            [ ] open Modal : 
+                [ ] list all possible destinations
+                [ ] romve in list the current parent room
+            [ ] convertir une proposition en action
+                [ ] copy as action 
+                [ ] action Room must exist already
+                [ ] add moved attribute add room attr
+            [ ] convertir une action en proposition
+            [ ] deplacer vers une autre room  
+                [ ] vote proposals : switch survey Id 
+                [ ] actions : switch room Id
+        

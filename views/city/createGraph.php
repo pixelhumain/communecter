@@ -3,11 +3,10 @@
 	if(!Yii::app()->request->isAjaxRequest)
 	{
 	  	$cssAnsScriptFilesModule = array(
-	  		'/assets/plugins/nvd3/nv.d3.js',
+	  		'/plugins/nvd3/nv.d3.js',
 	  		);
-	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
   	}
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
 	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
 ?>
 
@@ -28,7 +27,7 @@
 				<div class="col-sm-4 col-xs-12">
 					<label for="typeData" />Type :</label>
 					<!--class="selectpicker" -->
-			      	<select id="typeData" class="col-sm-12 col-xs-12">
+			      	<select id="typeData" class="col-xs-12">
 			        	<?php
 							$where = array("insee"=>$_GET['insee']);
 							$fields = array();
@@ -50,7 +49,7 @@
 
 			    <div id="divTypeOption" class="col-sm-4 col-xs-12">
 					<label for="typeOption" />Option : </label>
-			      	<select id="typeOption" class="col-sm-12 col-xs-12" multiple="multiple">
+			      	<select id="typeOption" class="col-xs-12" multiple="multiple">
 			        	<?php
 							$typeData= "population";
 							$where = array("insee"=>$_GET['insee'], $typeData => array( '$exists' => 1 ));
@@ -75,7 +74,7 @@
 
 		      	<div class="col-sm-4 col-xs-12">
 					<label for="typeGraph"/>Graphe :</label>
-			      	<select id="typeGraph" class="col-sm-12 col-xs-12">
+			      	<select id="typeGraph" class="col-xs-12">
 			        	<option value="multibart">Multi-Bar</option>
 			        	<option value="piechart">PieChart</option>
 			      	</select>
@@ -87,7 +86,7 @@
 			<div class="row">
 			    <div class="col-sm-4 col-xs-12">
 					<label for="typeZone"/>Zone :</label>
-			      	<select id="typeZone" class="col-sm-12 col-xs-12">
+			      	<select id="typeZone" class="col-xs-12">
 			        	<option value="commune">Commune</option>
 			        	<option value="departement">Departement</option>
 			        	<option value="region">Region</option>
@@ -96,12 +95,12 @@
 
 			    <div id="divChooseCities" class="col-sm-4 col-xs-12" >
 					<label for="chooseCities"/>Comparer :</label>
-			      	<select id="chooseCities" class="col-sm-12 col-xs-12" multiple="multiple">
+			      	<select id="chooseCities" class="col-xs-12" multiple="multiple">
 			      	</select>
 			    </div>
 
 	 			<div class="col-sm-4 col-xs-12">
-					<a href="#" id="addPod" class="btn btn-primary col-sm-12 col-xs-12">Ajouter</a>
+					<a href="#" id="addPod" class="btn btn-primary col-xs-12">Ajouter</a>
 			    </div>
 		   	</div>
 		</div>

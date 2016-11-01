@@ -1,7 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$this->renderPartial("../docs/assets");
   $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
 <style>.btn-nav-in-doc { display: none !important; }</style>
@@ -48,10 +46,14 @@
 
 <div class="space20"></div>
 <!-- Left and right CHAPTER controls -->
-<a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+<!--<a href="javascript:loadByHash('#default.view.page.comprendre.dir.docs')" class="homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
 	<i class="fa fa-arrow-left"></i> Comprendre
+</a>-->
+<a href="#default.view.page.elements.dir.docs" class="lbh homestead text-extra-large bg-red pull-left tooltips radius-5 padding-10 homestead pull-left btn-carousel-previous">
+  <i class="fa fa-arrow-left"></i> 4 Elements
 </a>
-<a href="javascript:loadByHash('#default.view.presentation.pourquoi.dir.docs')"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+
+<a href="#default.view.page.presentation.dir.docs"  class="lbh homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
 	Présentation <i class="fa fa-arrow-right"></i>
 </a>
 

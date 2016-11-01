@@ -8,14 +8,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 $cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	'/plugins/bootstrap-select/bootstrap-select.min.css',
-	'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/bootstrap-select/bootstrap-select.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 
 <style>
@@ -101,9 +100,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	font-weight:600;
 }
 
-.main-top-menu{
+/*.main-top-menu{
 	background-color: rgba(255, 255, 255, 0.82) !important;
-}
+}*/
 .select2-container .select2-choice .select2-arrow b::before{
 	/*content:"";*/
 }
@@ -127,6 +126,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 .input-icon > input {
     padding-left: 25px;
     padding-right: 6px;
+}
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
 }
 </style>
 
@@ -261,6 +265,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						?>
 					</select>
 				</div>
+				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Tags") ?> </h3>
+				<div class="form-group">
+        		    <input id="tagsEvent" type="" data-type="select2" name="tagsEvent" value="" style="display: none;width:100%; height:auto;">		        		    
+				</div>
 
 				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Duration") ?> ?</h3>
                 <div class="form-group">
@@ -286,7 +294,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 						<input type="text" class="event-end-date" name="eventEndDate"/>
 					</div>
 				</div>
-					
+				
 			</div>
 
 			<div class="col-md-6">
@@ -346,21 +354,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 			<div class="col-md-12">
 				
-				<h3 class="text-dark"><i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?></h3>
+				<h3 class="text-dark">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+				</h3>
                         
-					<div class="form-group">
-						<textarea name="eventDetail" id="eventDetail" class="eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
-					</div>
-				
-					<?php if( Yii::app()->session['userId'] ){ ?>
+				<div class="form-group">
+					<textarea name="eventDetail" id="eventDetail" class="wysiwygInput eventDetail height-250" style="width: 100%;"  placeholder="<?php echo Yii::t("common","Write note here") ?>..."></textarea>
+				</div>
+			
+				<?php if( Yii::app()->session['userId'] ){ ?>
+				<div class= "row  col-xs-12">
+					<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> <?php echo Yii::t("common","Save") ?></button>
+				</div>
+				<?php } else {  ?>
 					<div class= "row  col-xs-12">
-						<button class="pull-right btn bg-orange" onclick=""><i class="fa fa-save"></i> <?php echo Yii::t("common","Save") ?></button>
+						<button class="pull-right btn btn-primary" onclick="showPanel('box-login')"><?php echo Yii::t("common","Please Login First") ?></button>
 					</div>
-					<?php } else {  ?>
-						<div class= "row  col-xs-12">
-							<button class="pull-right btn btn-primary" onclick="showPanel('box-login')"><?php echo Yii::t("common","Please Login First") ?></button>
-						</div>
-					<?php } ?>
+				<?php } ?>
 			</div>
 		</form>
 	</div>
@@ -381,6 +391,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 	var citiesByPostalCode;
 	var organizerParentType = "<?php if (@$parentType) echo $parentType; ?>";
 	var organizerParentId = "<?php if (@$parentId) echo $parentId; ?>";
+	
 	//var organizerParentName = "<?php if (@$_GET["organizerParentName"]) echo $_GET["organizerParentName"]; ?>"; 
 	/*if("undefined" != typeof organizationId && organizationId != ""){
 		parentOrga = organizationId;
@@ -388,25 +399,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	$(".daterangepicker").on("hide.daterangepicker", function(){
 	 	console.log("ok");
-	})
+	});
 
 	$(".daterangepicker").on("apply.daterangepicker", function(ev, picker){
  		console.log("ok");
- 	})
+ 	});
 
 	jQuery(document).ready(function() {
+		$('#tagsEvent').select2({tags:<?php echo $tags ?>});
+		$('#tagsEvent').select2({tags:<?php echo $tags ?>});
 	 	bindEventSubViewEvents();
 	 	bindPostalCodeAction();
 	 	editEvent();
 		initMyOrganization();
 	 	runEventFormValidation();
-	 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> <?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>");
+	 	setTitle("<?php echo Yii::t("event","Create an event",null,Yii::app()->controller->module->id) ?>","<i class='fa fa-plus'></i> <i class='fa fa-calendar'></i> ");
+	 	
+	 	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#eventDetail');
+		 });
+
+	 	
 	});
 
 	function runShowCity(searchValue) {
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
 		
-		var oneValue = "";
+		var oneValue = "";  var oneName = "";
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
 	    	oneValue = value.value;
@@ -471,7 +490,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		});
 			
 		var searchValue = $('.form-event #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length <= 5 ) {
 			$("#city").empty();
 			setTimeout(function(){
 				$("#iconeChargement").css("display", "inline-block");
@@ -487,16 +506,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function bindEventSubViewEvents() {
 			
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.preventDefault();
-		});
 
 		$('#eventCountry').select2({
 			data : countries,
 		});
+
+		var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
+		$("#newEvent #eventCountry").select2('val', userCountry);
 	};
 
+
+	
 	//validate new event form
 	function runEventFormValidation(el) {
 		console.log("runEventFormValidation");
@@ -528,7 +548,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					required : true
 				},
 				postalCode : {
-					rangelength : [5, 5],
+					rangelength : [4, 5],
 					required : true
 				},
 				city : {
@@ -581,7 +601,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.type = $(".form-event .event-categories option:checked").val();
 				newEvent.startDate = startDateSubmit; 
 				newEvent.endDate = endDateSubmit;
-				newEvent.description = $(".form-event .eventDetail ").val();
+				//newEvent.description = $(".form-event .eventDetail ").val();
+				if ($(".form-event .note-editor").length != 0)
+					newEvent.description=$(".form-event #eventDetail").code();
+				else
+					newEvent.description="";
 				//newEvent.userId = "<?php echo Yii::app() ->session['userId'] ?>";
 				newEvent.postalCode = $(".form-event #postalCode ").val();
 				newEvent.streetAddress = $(".form-event #fullStreet ").val();
@@ -592,6 +616,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 				newEvent.organizerType = $(".form-event #newEventOrgaType").val();				
 				newEvent.geoPosLatitude = $(".form-event #geoPosLatitude").val();		
 				newEvent.geoPosLongitude = $(".form-event #geoPosLongitude").val();	
+				newEvent.tags = $(".form-event #tagsEvent").val();
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
@@ -648,7 +673,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		$('.form-event .all-day-range').hide();
 		$(".form-event .event-start-date").val(roundMoment());
 		$(".form-event .event-end-date").val(roundMoment().add('days', 1));
-
+		$(".form-event #tagsEvent").select2('val', "");
 		defaultHours = new Date(roundMoment()).getHours()+ ":" +new Date(roundMoment()).getMinutes();
 		
 		$('.form-event .no-all-day-range .event-range-date').val(roundMoment().format('DD/MM/YYYY HH:mm') + ' - ' + roundMoment().add('days', 1).format('DD/MM/YYYY HH:mm'))
@@ -716,8 +741,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 
 	function initMyOrganization(){
 
-		$("#eventCountry").select2('val', "");
-
+		//$("#eventCountry").select2('val', "");
 		if(organizerParentType.length > 0){
 			contextName="<?php if (@$parent) echo addslashes($parent["name"]) ?>";
 			if(organizerParentType=="event"){
@@ -806,27 +830,31 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 					type: 'POST',
 					data: "insee="+insee+"&postalCode="+postalCode,
 		    		success: function (obj){
-		    			//toastr.success("Votre addresse a été mise à jour avec succès");
 		    			console.log("res getlatlngbyinsee");
 		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ 
-							if(typeof obj.geoShape != "undefined") {
-								//on recherche avec une limit bounds
-								var polygon = L.polygon(obj.geoShape.coordinates);
-								var bounds = polygon.getBounds();
-								Sig.execFullSearchNominatim(0, bounds);
+		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				console.dir(obj);
+		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
+								if(typeof obj.geoShape != "undefined") {
+									//on recherche avec une limit bounds
+									var polygon = L.polygon(obj.geoShape.coordinates);
+									var bounds = polygon.getBounds();
+									Sig.execFullSearchNominatim(0, bounds);
+								}
+								else{
+									//on recherche partout
+									Sig.execFullSearchNominatim(0);
+								}					
+							
+							}else{
+								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
+								callBackFullSearch(obj);
 							}
-							else{
-								//on recherche partout
-								Sig.execFullSearchNominatim(0);
-							}					
-						
-						}else{
-							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
 	
 					},
 					error: function(error){
+						$("#iconeChargement").hide();
 						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
@@ -925,6 +953,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 			
   		}else{
+  			$("#iconeChargement").hide();
   			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
   		}
 	}

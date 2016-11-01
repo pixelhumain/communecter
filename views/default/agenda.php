@@ -1,140 +1,84 @@
-<?php 
+    <?php 
+  $cssAnsScriptFilesModule = array(
+    '/assets/css/default/responsive-calendar.css',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+  
   $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',
-    '/css/default/responsive-calendar.css',
+    '/js/default/directory.js',
     '/js/default/responsive-calendar.js',
-    '/js/default/agenda.js',
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 
 <style>
-	.btn-add-to-directory{
-		font-size: 14px;
-		margin-right: 0px;
-		border-radius: 6px;
-		color: #666;
-		border: 1px solid rgba(188, 185, 185, 0.69);
-		margin-left: 3px;
-		float: right;
-		padding: 1px;
-		width: 24px;
-		margin-top: 4px;
-	}
-  
+  .btn-add-to-directory{
+    font-size: 14px;
+    margin-right: 0px;
+    border-radius: 6px;
+    color: #666;
+    border: 1px solid rgba(188, 185, 185, 0.69);
+    margin-left: 3px;
+    float: left;
+    padding: 1px;
+    width: 24px;
+    margin-top: 15px;
+  }
+  .img-logo {
+    height: 290px;
+  }
+  .btn-filter-type{
+    height:35px;
+  }
   .btn-scope{
     display: inline;
   }
-
-
-  .btn-month-before{
-    position:absolute !important;
-    top:160px;
-    left:0%;
-    font-size:19px;
-    -moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    -o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-  }
-  .btn-month-next{
-    position:absolute !important;
-    top:160px;
-    right:0%;
-    font-size: 19px;
-    -moz-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    -o-box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    box-shadow: 0px 0px 5px 0px rgba(66, 66, 66, 0.79) !important;
-    filter:progid:DXImageTransform.Microsoft.Shadow(color=#2BB0C6, Direction=NaN, Strength=5) !important;
-  }
-
-
-@media screen and (max-width: 1024px) {
-  .btn-month-before{
-    position:absolute !important;
-    top:100px;
-    left:0%;
-    font-size:19px;
-  }
-  .btn-month-next{
-    position:absolute !important;
-    top:100px;
-    right:0%;
-    font-size: 19px;
-  }
   .lbl-scope-list {
-      /*left: 53%;*/
-      top: 210px !important;
-      font-size: 20px;
+    top: 255px;
+  }
+  .btn-tag{
+    font-weight:300;
+    padding-left: 0px;
+  }
+  .btn-tag.bold{
+    font-weight:600;
+  }
+  #scopeListContainer span.text-red.disabled{
+    color:#DBBCC1 !important;
+    font-weight:300 !important;
+  }
+  @media screen and (max-width: 1024px) {
+    #menu-directory-type .hidden-sm{
+     display:none;
     }
-    .img-logo {
-      height: 195px !important;
-    }
-  
-}
+  }
+
+/*responsive calendar*/
+
+
 
 @media screen and (max-width: 767px) {
-  .img-logo {
-    height: 125px !important;
+  .searchEntity{
+        /*margin-left: 25px !important;*/
   }
-  .lbl-scope-list {
-    top: 150px !important;
+  #searchBarText{
+    font-size:13px !important;
+    margin-right:-30px;
   }
-  .responsive-calendar .open > .dropdown-menu {
-
-    margin-left: -80px;
-  }
+  /*.btn-add-to-directory {
+      position: absolute;
+      right: 0px;
+      z-index:9px !important;
+  }*/
 }
+
 </style>
 
-<!-- <h1 class="homestead text-dark text-center" id="main-title"
-	style="font-size:25px;margin-bottom: 0px; margin-left: -112px;"><i class="fa fa-calendar"></i> L'Agenda</h1>
 
-<h1 class="homestead text-red  text-center" id="main-title-communect"
-	style="font-size:50px; margin-top:0px;">COMMUNE<span class="text-dark">CTÉ</span></h1> -->
-
-<div class="lbl-scope-list text-red"></div>
-
-<div class="img-logo bgpixeltree_little">
-	<!-- <button class="menu-button btn-activate-communexion bg-red tooltips" data-toggle="tooltip" data-placement="left" title="Activer / Désactiver la communection" alt="Activer / Désactiver la communection">
-    <i class="fa fa-university"></i>
-  </button> -->
-	<button data-id="explainAgenda" class="explainLink menu-button btn-infos bg-red tooltips hidden-xs" data-toggle="tooltip" data-placement="left" title="Comment ça marche ?" alt="Comment ça marche ?">
-		<i class="fa fa-question-circle"></i>
-	</button>
-	<input id="searchBarText" type="text" placeholder="Que recherchez-vous ?" class="input-search"/>
-
-	<button class="btn btn-primary btn-start-search" id="btn-start-search"><i class="fa fa-search"></i></button><br/>
-
-  <button class="btn-month-before menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="right" title="Mois précédent" alt="Mois précédent">
-    <i class="fa fa-arrow-left"></i>
-  </button>
-  
-  <button class="btn-month-next menu-button bg-dark tooltips" data-toggle="tooltip" data-placement="left" title="Mois suivant" alt="Mois suivant">
-    <i class="fa fa-arrow-right"></i>
-  </button>
-  
-
-</div>
-
-
-<?php //$this->renderPartial("first_step_agenda"); ?> 
-
-<div class="col-md-12 calendar">
-
-</div>
-
-
+<div class="row calendar"></div>
 <div class="responsive-calendar-init hidden"> 
-  <div class="responsive-calendar col-md-8 col-md-offset-2">
-      <div class="controls ">
-        <a id="btn-month-before" class="hidden" data-go="prev"><div class="btn bg-dark"><i class="fa fa-arrow-left"></i></div></a>
-        <h4 class="text-dark"><span data-head-month></span> <span data-head-year></span></h4>
-        <a id="btn-month-next" class="hidden" data-go="next"><div class="btn bg-dark"><i class="fa fa-arrow-right"></i></div></a>
-    </div>
-      <hr/>
+  <div class="responsive-calendar col-md-12 no-padding">   
       <div class="day-headers">
         <div class="day header">Lun</div>
         <div class="day header">Mar</div>
@@ -144,101 +88,128 @@
         <div class="day header">Sam</div>
         <div class="day header">Dim</div>
       </div>
-      <div class="days" data-group="days"></div>
+      <div class="days" data-group="days"></div>   
+      <div class="controls">
+          <a id="btn-month-before" class="" data-go="prev"><div class="btn"><i class="fa fa-arrow-left"></i></div></a>
+          <h4 class="text-white"><span data-head-month></span> <span data-head-year></span></h4>
+          <a id="btn-month-next" class="" data-go="next"><div class="btn"><i class="fa fa-arrow-right"></i></div></a>
+          <a href="javascript:loadByHash('#event.eventsv');" class="btn text-white pull-right" style="margin-top:3px;">
+            <i class="fa fa-plus"></i> <i class="fa fa-calendar"></i> ajouter un événement
+          </a>
+      </div>
     </div>
-    <!-- Responsive calendar - END -->
   </div>
 </div>
 
-<div style="" id="dropdown_search"></div>
+<div class="col-md-12">
+  <div class="col-md-12 no-padding margin-top-15 ">
 
+    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-12 pull-left">
+      <input id="searchBarText" data-searchPage="true" type="text" placeholder="Que recherchez-vous ?" class="input-search form-control">
+      <span class="input-group-btn">
+            <button class="btn btn-success btn-start-search tooltips" id="btn-start-search"
+                    data-toggle="tooltip" data-placement="bottom" title="Actualiser les résultats">
+                    <i class="fa fa-refresh"></i>
+            </button>
+      </span>
+    </div>
+    <button class="btn btn-sm tooltips hidden-xs" id="btn-slidup-scopetags" 
+            style="margin-left:15px;margin-top:5px;"
+            data-toggle="tooltip" data-placement="bottom" title="Afficher/Masquer les filtres">
+            <i class="fa fa-minus"></i>
+    </button>
+    <button data-id="explainDirectory" class="explainLink btn btn-sm tooltips hidden-xs" 
+            style="margin-left:7px;margin-top:5px;"
+            data-toggle="tooltip" data-placement="bottom" title="Comment ça marche ?">
+          <i class="fa fa-question-circle"></i>
+    </button>
+  </div>
+  <div class="space20"></div>
+  <div class="col-xs-12 no-padding " id="list_filters">
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    <div class='city-name-locked homestead text-red'></div>
+  </div>
+  
+<div class="col-xs-12 no-padding"><hr></div>
 
-<?php $this->renderPartial("first_step_agenda"); ?> 
+</div>
 
+<div style="" class="col-xs-12 no-padding no-margin" id="dropdown_search"></div>
+
+<?php //$this->renderPartial(@$path."first_step_directory"); ?> 
+<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
+       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+?> 
 
 <script type="text/javascript">
-
 
 var searchType = [ "events" ];
 var allSearchType = [ "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
-
+var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+var cityNameLocked = "<?php echo $cityName; ?>";
 
 jQuery(document).ready(function() {
-  
-  selectScopeLevelCommunexion(levelCommunexion);
-  
+
+  $("#searchBarText").val($(".input-global-search").val());
+
+  //selectScopeLevelCommunexion(levelCommunexion);  
   searchType = [ "events" ];
   allSearchType = [ "events" ];
 
   topMenuActivated = true;
   hideScrollTop = true; 
+  loadingData = false;
+
   checkScroll();
-
-
-  /*$(".responsive-calendar").responsiveCalendar({
-          time: '2013-05',
-          events: {
-            "2013-04-30": {"number": 5, "url": "http://w3widgets.com/responsive-slider"},
-            "2013-04-26": {"number": 1, "url": "http://w3widgets.com"}, 
-            "2013-05-03":{"number": 1}, 
-            "2013-06-12": {}}
-        });
-  */
   var timeoutSearch = setTimeout(function(){ }, 100);
   
   setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+
+  setTitle("<span id='main-title-menu'>Agenda</span>","calendar","Agenda");
   
-  $(".moduleLabel").html("<i class='fa fa-calendar'></i> <span id='main-title-menu'>L'Agenda</span> <span class='text-red'>COMMUNE</span>CTÉ");
+  $('.tooltips').tooltip();
 
-  $(".btn-month-next").click(function(){
-    $("#btn-month-next").click();
-  });
-
-  $(".btn-month-before").click(function(){
-    $("#btn-month-before").click();
-  });
-
-  $('.main-btn-toogle-map').click(function(e){ showMap(); });
-
-  $('#searchBarText').keyup(function(e){
-      clearTimeout(timeoutSearch);
-      timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  });
-  // $('#searchBarPostalCode').keyup(function(e){
-  //     clearTimeout(timeoutSearch);
-  //     timeoutSearch = setTimeout(function(){ startSearch(); }, 800);
-  // });
-  $('#btn-start-search').click(function(e){
-      //signal que le chargement est terminé
-      loadingData = false;
-      startSearch();
-  });
-  $('#link-start-search').click(function(e){
-      startSearch();
-  });
-
-  $(".btn-geolocate").click(function(e){
-    if(geolocHTML5Done == false){
-        initHTML5Localisation('prefillSearch');
-        $("#modal-select-scope").modal("show");
-        $("#main-title-modal-scope").html('<i class="fa fa-spin fa-circle-o-notch"></i> Recherche de votre position ... Merci de patienter ...'); 
-        //<i class="fa fa-angle-right"></i> Dans quelle commune vous situez-vous en ce moment ?
-    } else{
-        $("#modal-select-scope").modal("show");
+  $("#btn-slidup-scopetags").click(function(){
+    if($("#list_filters").hasClass("hidden")){
+      $("#list_filters").removeClass("hidden");
+      $("#btn-slidup-scopetags").html("<i class='fa fa-minus'></i>");
+    }
+    else{
+      $("#list_filters").addClass("hidden");
+      $("#btn-slidup-scopetags").html("<i class='fa fa-plus'></i>");
     }
   });
 
-  $(".my-main-container").scroll(function(){
+
+  showTagsScopesMin("#scopeListContainer");
+  
+  if(lockCityKey != null){
+    lockScopeOnCityKey(lockCityKey, cityNameLocked);
+  }else{
+    rebuildSearchScopeInput();
+  }
+
+  $('#btn-start-search').click(function(e){
+      //signal que le chargement est terminé
+      loadingData = false;
+      startSearch(0, indexStepInit);
+  });
+
+  // $('#link-start-search').click(function(e){
+  //     startSearch(0, indexStepInit);
+  // });
+
+  $(".my-main-container").bind('scroll', function(){
     if(!loadingData && !scrollEnd){
         var heightContainer = $(".my-main-container")[0].scrollHeight;
         var heightWindow = $(window).height();
-        //console.log("scroll : ", scrollEnd, heightContainer, $(this).scrollTop() + heightWindow);
+        
         if(scrollEnd == false){
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
-          if( ($(this).scrollTop() + heightWindow) == heightContainer){
+          if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
             console.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
@@ -246,23 +217,56 @@ jQuery(document).ready(function() {
     }
   });
 
+  $(".btn-filter-type").click(function(e){
+    var type = $(this).attr("type");
+    var index = searchType.indexOf(type);
+
+    if(type == "all" && searchType.length > 1){
+      $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
+    }
+    if(type == "all" && searchType.length == 1){
+      $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
+    }
+
+    if (index > -1) removeSearchType(type);
+    else addSearchType(type);
+  });
+ 
+  //$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  //$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");
+  $('.tooltips').tooltip();
+  searchPage = true;
+
+  //initBtnToogleCommunexion();
+  //$(".btn-activate-communexion").click(function(){
+  //  toogleCommunexion();
+  //});
+
+  //initBtnScopeList();
+  startSearch(0, 30);
 });
+
 
 var calendarInit = false;
 function showResultInCalendar(mapElements){
-  console.log("showResultInCalendar");
-  console.dir(mapElements);
+  //console.log("showResultInCalendar");
+  //console.dir(mapElements);
 
   var events = new Array();
   $.each(mapElements, function(key, thisEvent){
     
-    var startDate = thisEvent["startDate"].substr(0, 10);
-    var endDate = thisEvent["endDate"].substr(0, 10);
+    var startDate = exists(thisEvent["startDate"]) ? thisEvent["startDate"].substr(0, 10) : "";
+    var endDate = exists(thisEvent["endDate"]) ? thisEvent["endDate"].substr(0, 10) : "";
+    var cp = "";
+    var loc = "";
+	if(thisEvent["address"] != null){
+    	var cp = exists(thisEvent["address"]["postalCode"]) ? thisEvent["address"]["postalCode"] : "" ;
+		var loc = exists(thisEvent["address"]["addressLocality"]) ? thisEvent["address"]["addressLocality"] : "";
+	}
+    var position = cp + " " + loc;
 
-    var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
-
-    var name = (typeof thisEvent["name"] != "undefined") ? thisEvent["name"] : "";
-    var thumb_url = (typeof thisEvent["profilThumbImageUrl"] != "undefined" && thisEvent["profilThumbImageUrl"] != "") ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
+    var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
+    var thumb_url = notEmpty(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";
     
     if(typeof events[startDate] == "undefined") events[startDate] = new Array();
     events[startDate].push({  "id" : thisEvent["_id"]["$id"],
@@ -299,5 +303,15 @@ function showResultInCalendar(mapElements){
 
 
 
-
+function searchCallback() { 
+  console.log("searchCallback");
+  startSearch(0, indexStepInit);
+}
 </script>
+
+
+
+
+
+
+

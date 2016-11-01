@@ -7,7 +7,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery.appear/jquery.appear.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>	
 	<!-- start: PAGE CONTENT -->
 <?php 
@@ -212,7 +212,7 @@ function buildLineHTML(newsObj)
 	{
 		$.each( newsObj.tags , function(i,tag){
 			tagsClass += tag+" ";
-			tags += "<span class='label tag_item_map_list'>#"+tag+"</span> ";
+			tags += "<span class='label tag_item_map_list coco'>#"+tag+"</span> ";
 			if( $.inArray(tag, contextMap.tags )  == -1)
 				contextMap.tags.push(tag);
 		});

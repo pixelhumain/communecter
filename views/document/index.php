@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div class="col-sm-12 col-xs-12">
+  <div class="col-xs-12">
     <div class="panel panel-white">
       <div class="panel-heading border-light">
         <h4 class="panel-title">Documents </h4>

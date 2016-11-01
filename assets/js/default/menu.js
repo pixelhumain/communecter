@@ -138,11 +138,11 @@ function bindEventMenu(){
 	    }
 	});
     
-    $(".btn-menu-add").mouseenter(function(){
-    	$(".drop-up-btn-add").show(400);
-    	$(".drop-up-btn-add .lbl-btn-menu-name").css("display","inline");
-    	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");
-    });
+    // $(".btn-menu-add").mouseenter(function(){
+    // 	$(".drop-up-btn-add").show(400);
+    // 	$(".drop-up-btn-add .lbl-btn-menu-name").css("display","inline");
+    // 	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");
+    // });
     
     $(".btn-login").click(function(){
 		//console.log("btn-login");
@@ -173,7 +173,7 @@ function bindEventMenu(){
 
 	$(".btn-scope, .btn-param-postal-code").mouseenter(function(e){
 		clearTimeout(timeoutHover);
-		$(".hover-info").hide();
+		$(".hover-info,.hover-info2").hide();
 	});
 
 	$(".btn-param-postal-code").mouseenter(function(e){
@@ -229,56 +229,56 @@ function bindEventMenu(){
 	var hoverPersist = false;
 	var positionMouseMenu = "out";
 
-	$(".hover-menu").mouseenter(function(){
-		////console.log("enter all");
-		positionMouseMenu = "in";
-		$(".main-col-search").animate({ opacity:0.3 }, 0 );
-		$(".lbl-btn-menu-name").show(0);
-		$(".lbl-btn-menu-name").css("display", "inline");
-		$(".menu-button-title").addClass("large");
+	// $(".hover-menu").mouseenter(function(){
+	// 	////console.log("enter all");
+	// 	positionMouseMenu = "in";
+	// 	//$(".main-col-search").animate({ opacity:0.3 }, 0 );
+	// 	$(".main-menu-right .lbl-btn-menu-name").show(0);
+	// 	$(".main-menu-right .lbl-btn-menu-name").css("display", "inline");
+	// 	$(".main-menu-right .menu-button-title").addClass("large");
 
-		//showInputCommunexion();
+	// 	//showInputCommunexion();
 
 		
-	});
+	// });
 
-	$(".hover-menu").mouseleave(function(){
-		clearTimeout(timeoutHover);
-		$(".hover-info").hide();
-	});
+	// $(".hover-menu").mouseleave(function(){
+	// 	//clearTimeout(timeoutHover);
+	// 	//$(".hover-info").hide();
+	// });
 
 
-	$(".hover-menu .btn-menu").mouseenter(function(){
-		////console.log("enter btn, loginRegister", isLoginRegister());
-		if(!isLoginRegister()){
-			positionMouseMenu = "inBtn";
-			$(".main-col-search").animate({ opacity:0.3 }, 0 );
-			$(".menu-button-title").addClass("large");
+	// $(".hover-menu .btn-menu").mouseenter(function(){
+	// 	////console.log("enter btn, loginRegister", isLoginRegister());
+	// 	if(!isLoginRegister()){
+	// 		positionMouseMenu = "inBtn";
+	// 		//$(".main-col-search").animate({ opacity:0.3 }, 0 );
+	// 		$(".main-menu-right .menu-button-title").addClass("large");
 
-			if(!showMenuExplanation)
-				$(".removeExplanationCont").hide();
+	// 		if(!showMenuExplanation)
+	// 			$(".removeExplanationCont").hide();
 
-			$(".lbl-btn-menu-name, .infoVersion").css("display" , "inline");
+	// 		$(".main-menu-right .lbl-btn-menu-name, .infoVersion").css("display" , "inline");
 
-			clearTimeout(timeoutHover);
-			timeoutHover = setTimeout(function(){
-				//hoverPersist = true;
-				if(showMenuExplanation)
-					$(".hover-info").css("display" , "inline");
-			}, 1500);
-		}
-	});
+	// 		clearTimeout(timeoutHover);
+	// 		timeoutHover = setTimeout(function(){
+	// 			//hoverPersist = true;
+	// 			if(showMenuExplanation)
+	// 				$(".hover-info").css("display" , "inline");
+	// 		}, 1500);
+	// 	}
+	// });
 
 	$(document).mouseleave(function(){
 		if(!isLoginRegister()){
-	    	hoverPersist = false;
-			clearTimeout(timeoutHover);
-			positionMouseMenu = "out";
-			$(".main-col-search").animate({ opacity:1 }, 0 );
-			$(".lbl-btn-menu-name").hide();
-			$(".menu-button").removeClass("large");
+	  //   	hoverPersist = false;
+			// clearTimeout(timeoutHover);
+			// positionMouseMenu = "out";
+			// //$(".main-col-search").animate({ opacity:1 }, 0 );
+			// $(".main-menu-right .lbl-btn-menu-name").hide();
+			// $(".main-menu-right .menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
 		$("#input-communexion").hide(400);
@@ -297,7 +297,7 @@ function bindEventMenu(){
 			$(".lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		$(".drop-up-btn-add").hide(400);
 		$("#notificationPanelSearch").hide();
 		$("#input-communexion").hide(400);
@@ -312,13 +312,13 @@ function bindEventMenu(){
 				if(!isLoginRegister()){
 					positionMouseMenu = "out";
 					$(".main-col-search").animate({ opacity:1 }, 200 );
-					$(".lbl-btn-menu-name").hide();
+					$(".main-menu-right .lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
 					timeoutCommunexion = setTimeout(function(){ 
 						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
 					}, 300);
 				}
-				$(".hover-info").hide();
+				//$(".hover-info,.hover-info2").hide();
 				$(".drop-up-btn-add").hide(400);
 				$("#notificationPanelSearch").hide();
 				clearTimeout(timeoutHover);
@@ -336,17 +336,17 @@ function bindEventMenu(){
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );
 			hoverPersist = false;
-			$(".lbl-btn-menu-name").hide();
+			$(".main-menu-right .lbl-btn-menu-name").hide();
 			$(".menu-button").removeClass("large");
 		}
-		$(".hover-info, .infoVersion").hide();
+		$(".hover-info,.hover-info2, .infoVersion").hide();
 		//$(".drop-up-btn-add").hide(400);
 	});
 
-	$(".btn-menu-add").click(function(){
-    	$(".btn-menu-add .lbl-btn-menu-name").show(200);
-		$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");;
-    });
+	// $(".btn-menu-add").click(function(){
+ //    	$(".btn-menu-add .lbl-btn-menu-name").show(200);
+	// 	$(".btn-menu-add .lbl-btn-menu-name").css("display", "inline");;
+ //    });
 
 	
 	function isLoginRegister(){

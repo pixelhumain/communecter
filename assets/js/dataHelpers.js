@@ -67,7 +67,7 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 		global: false,
 		async: false,
 		dataType: 'json',
-		success: function(data) { console.dir(data);
+		success: function(data) { //console.dir(data);
 			result.push(data);
 		}
 	});
@@ -110,7 +110,7 @@ function addCustomValidators() {
 	    } else {
 	    	return false;
 	    }
-	}, "Unknown Postal Code");
+	}, "Code postal inconnu");
 
 	jQuery.validator.addMethod("validUserName", function(value, element) {
 	    //Check authorized caracters
@@ -127,6 +127,36 @@ function addCustomValidators() {
 	    //Check unique username
 	   	return isUniqueUsername(value);
 	}, "A user with the same username already exists. Please choose an other one.");
+
+	jQuery.validator.addMethod("inArray", function(value, element) {
+	    //Check authorized caracters
+		test = $.inArray( element, value );
+    	if (test >= 0) 
+    		return true;
+    	else
+    		return false;
+    }, "Invalid : please stick to given values.");
+
+    jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
+	    if (!/Invalid|NaN/.test(new Date(value))) {
+	        return new Date(value) > new Date($(params[0]).val());
+	    }    
+	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+	},'Doit ètre aprés {1}.');
+
+	jQuery.validator.addMethod("greaterThanNow", function(value, element) {    
+	    if (!/Invalid|NaN/.test(new Date(value))) {
+	        return new Date(value) > new Date();
+	    }    
+	    return isNaN(value); 
+	},"Doit ètre aprés la date d'aujourd'hui.");
+
+	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
+		if( $(params[0]).val() && $(params[1]).val() ){
+	    return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
+		} 
+		return true;
+	},"Cette date exterieur à l'évènement parent.");
 }
 
 
@@ -139,6 +169,16 @@ function hideLoadingMsg(){
 	$("#main-title-public1").html("");
 	$("#main-title-public1").hide(300);
 }
+function dateSecToString(date){
+	var yyyy = date.getFullYear().toString();
+	var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+    var dd  = date.getDate().toString();
+    var min  = date.getMinutes().toString();
+    var ss  = date.getSeconds().toString();
+    date = yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]) + " " +
+    					(min[1]?min:"0"+min[0]) + ":" + (ss[1]?ss:"0"+ss[0]) + ":00"; // padding
+    return date;
+}
 function dateToStr(date, lang, inline, fullMonth){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
 
 	if(typeof date == "undefined") return;
@@ -147,15 +187,13 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 	//console.log("convert format date 1", date);
 	if(typeof date.sec != "undefined"){
 		date = new Date(date.sec);
-		var yyyy = date.getFullYear().toString();
-	    var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-	    var dd  = date.getDate().toString();
-	    var min  = date.getMinutes().toString();
-	    var ss  = date.getSeconds().toString();
-	    date = yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]) + " " +
-	    					(min[1]?min:"0"+min[0]) + ":" + (ss[1]?ss:"0"+ss[0]) + ":00"; // padding
+		date = dateSecToString(date);
 	}
-
+	else if(typeof date == "number"){
+		date = new Date(date);
+		date = dateSecToString(date);
+	}
+	//console.log(date);
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
 		//console.log("convert format date", date);

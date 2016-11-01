@@ -1,14 +1,19 @@
 <?php
-		$cssAndScriptFiles = array(
-			'/css/sig/leaflet/leaflet.css',
-			'/css/sig/leaflet/leaflet.draw.css',
-			'/css/sig/leaflet/leaflet.draw.ie.css',
-			'/css/sig/leaflet/MarkerCluster.css',
-			'/css/sig/leaflet/MarkerCluster.Default.css',
-			'/css/sig/leaflet/leaflet.awesome-markers.css',
-			'/css/sig/sig.css',
+	$cssAnsScriptFilesModule = array(
+		
+		'/assets/css/sig/leaflet/leaflet.css',
+		'/assets/css/sig/leaflet/leaflet.draw.css',
+		'/assets/css/sig/leaflet/leaflet.draw.ie.css',
+		'/assets/css/sig/leaflet/MarkerCluster.css',
+		'/assets/css/sig/leaflet/MarkerCluster.Default.css',
+		'/assets/css/sig/leaflet/leaflet.awesome-markers.css',
+		'/assets/css/sig/sig.css',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
-			'/js/sig/leaflet/leaflet.js',
+		$cssAndScriptFiles = array(
+			
+			//'/js/sig/leaflet/leaflet.js',
 			'/js/sig/leaflet/leaflet.draw-src.js',
 			'/js/sig/leaflet/leaflet.draw.js',
 			'/js/sig/leaflet/leaflet.markercluster-src.js',
@@ -47,3 +52,4 @@
 
 		HtmlHelper::registerCssAndScriptsFiles($cssAndScriptFiles, $this->module->assetsUrl);
 ?>
+

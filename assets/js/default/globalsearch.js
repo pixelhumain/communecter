@@ -19,7 +19,7 @@ function showDropDownGS(show){
 }
 
 var searchTypeGS = [ "persons", "organizations", "projects", "events", "cities" ];
-var allSearchTypeGS = [ "persons", "organizations", "projects", "events" ];
+var allSearchTypeGS = [ "persons", "organizations", "projects", "events", "cities" ];
 
 var loadingDataGS = false;
 var indexStepGS = 20;
@@ -243,7 +243,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                 $("#btnShowMoreResultGS").click(function(){
                   if(!loadingDataGS){
                     //startGlobalSearch(indexMin+indexStepGS, indexMax+indexStepGS);
-                    selectScopeLevelCommunexion(5);
+                    //selectScopeLevelCommunexion(5);
                     loadByHash("#default.directory");
                   }
                 });

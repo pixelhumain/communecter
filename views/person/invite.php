@@ -53,7 +53,7 @@
 }
 
 .main-top-menu{
-	background-color: rgba(255, 255, 255, 0.82) !important;
+	/*background-color: rgba(255, 255, 255, 0.82) !important;*/
 }
 .select2-container .select2-choice .select2-arrow b::before{
 	/*content:"";*/
@@ -310,7 +310,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-googlePlus" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<!-- Placez cette balise où vous souhaitez faire apparaître le gadget bouton "Partager". -->
 						<div class="g-plus" data-action="share" data-height="24" data-href="https://www.communecter.org"></div>
 						<!--<a  href="#" 
@@ -334,7 +334,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-importFile" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
 					</div>
 				</form>
@@ -346,7 +346,7 @@ $this->renderPartial('../default/panels/toolbar');
 			</div>
 			<div class="panel-body">
 				<form class="form-writeMails" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<div class="col-sm-5 col-xs-12">
 							<textarea id="textareaMails" class="form-control col-sm-5" rows="5"></textarea>
 						</div>
@@ -357,12 +357,12 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>
 		<div class="panel panel-white" id="divCheckMail">
         	<div class="panel-body">
-        		<div id="checkMail" class="col-sm-12 col-xs-12">
+        		<div id="checkMail" class="col-xs-12">
         			<div class="homestead panelLabel pull-left">
 							<i class="fa fa-edit"></i>
 							<label for="textmail" class="control-label">Message</label>
 					</div>
-        			<div id="Messages" class="col-sm-12 col-xs-12">
+        			<div id="Messages" class="col-xs-12">
 		        		<textarea id="textmail" class="form-control" rows="3">Bonjour, J'ai découvert un réseau sociétal citoyen appelé "Communecter - être connecter à sa commune". 
 Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.</textarea>
 		        		<div class="col-sm-12">&nbsp;</div>
@@ -373,7 +373,7 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
 							Liste des contacts 		
 						</div>
 				
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						<div  id="nbContact" class="homestead pull-left">
 						</div>
 						<select id="selectContact" class="col-sm-offset-2">
@@ -402,7 +402,7 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
 						</ul>
 					</div>
 					<br/>
-					<div class="col-sm-12 col-xs-12 pull-center">
+					<div class="col-xs-12 pull-center">
 		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter">Inviter</a>
 					</div>
 				</div>
@@ -424,7 +424,6 @@ Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Vi
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 </script> -->
-
 <script src="https://apis.google.com/js/client.js"></script>
 <script type="text/javascript">
 
@@ -450,7 +449,7 @@ jQuery(document).ready(function() {
  	bindInviteSubViewInvites();
  	runinviteFormValidation();
 
- 	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-user'></i> Inviter quelqu'un");
+ 	setTitle("Inviter quelqu'un","<i class='fa fa-plus'></i> <i class='fa fa-user'></i>");
 });
 
 function bindInviteSubViewInvites() {
@@ -671,7 +670,39 @@ function bindInviteSubViewInvites() {
     	else{
     		var nameUtil = "" ;
     		console.log("listMails", listMails);
-    		$.each(listMails, function(key, value) {
+    		$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+'/person/follows',
+		        dataType : "json",
+		        data: {
+		        	parentId : $("#parentId").val(),
+		        	listMails : listMails,
+		        	msgEmail : $("#textmail").val(),
+		        	gmail : true
+		        },
+				type:"POST",
+		    })
+		    .done(function (data){
+		    	$.unblockUI();
+		        if (data &&  data.result) {               
+		        	toastr.success('L\'invitation a été envoyée avec succès!');
+		        	console.log(data);
+		        	$.each(data.data, function(key, elt) {
+		        		addFloopEntity(elt.invitedUser.id, <?php echo Person::COLLECTION ?>, elt.invitedUser);
+		        	});
+		        	
+		        	$('#inviteSearch').val("");
+					//Minus 1 on number of invit
+					/*var count = parseInt($("#numberOfInvit").data("count")) - 1;
+					$("#numberOfInvit").html(count + ' invitation(s)');
+					$("#numberOfInvit").data("count", count);*/
+					backToSearch();
+		        } else {
+		        	$.unblockUI();
+					toastr.error(data.msg);
+		        }
+		    });
+    		/*$.each(listMails, function(key, value) {
     			console.log("value", value)
     			if(value.mail != ""){
     				if(typeof value.name != "undefined" && value.name != "")
@@ -712,7 +743,7 @@ function bindInviteSubViewInvites() {
 				        }
 				    });
 				}
-    		});
+    		});*/
     	}
   	});
 };
@@ -1034,16 +1065,13 @@ function fadeInView(inView){
 	
 }*/
 
-
 function auth() {
 	var config = {
-		'client_id': googleID,
-		'scope': 'https://www.google.com/m8/feeds'
+	  'client_id': googleID,
+	  'scope': 'https://www.google.com/m8/feeds'
 	};
 	gapi.auth.authorize(config, function() {
 		getToken();
-
-		//fetch(gapi.auth.getToken());
 	});
 }
 
@@ -1069,8 +1097,6 @@ function fetch(token){
 			});
 	var urlGmail = "https://www.google.com/m8/feeds/contacts/default/thin?access_token=" + token.access_token + "&alt=json&max-results=10000&showdeleted=false";
 	
-
-
 	if($("#selectContact").val() != "all")
 		urlGmail += "&updated-min="+$("#selectContact").val();
 
@@ -1080,16 +1106,12 @@ function fetch(token){
   		success:function(data){
     		console.log("dataFetch", data);
     		$("#list-contact").html("");
-    		
     		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
     			var text = "";
       			var text2 = "";
       			if(value.gd$email){
-
       				$.each(value.gd$email, function( keyMails, valueMails ){
-        				console.log("valueMails.address", valueMails.address);
-        				console.log("valueMails.address", valueMails.address);
         				if(jQuery.inArray(valueMails.address, listFollows) == -1 ){
 	        				nbContact++;
 	          				idMail = "contact"+nbContact ;
@@ -1118,7 +1140,6 @@ function fetch(token){
   			console.log("error",data)
   		}
 	});
-
 	bindInviteSubViewInvites();
 }
 

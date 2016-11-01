@@ -9,6 +9,7 @@
 return array(
 	"NEEDS" => "BESOINS",
 	"Need" => "Besoin",
+	"Needs" => "Besoins",
 	"Task will show what's next in the project" => "Chaque projet a des besoins différents.</br>Pour trouver facilement ce dont vous avez besoin autour de vous, c'est simple : publiez vos besoins sur la page de votre projet !",
 	"Add a need" => "Ajouter un besoin",
 	"You are already helpers for this need !" => "Vous venez déjà en aide à ce besoin !",

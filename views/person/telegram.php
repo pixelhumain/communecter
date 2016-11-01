@@ -4,6 +4,6 @@
 <script type="text/javascript">
 var pseudo = "<?php echo $pseudo; ?>";
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<span class='text-azure'><i class='fa fa-send'></i> " + "Telegram : </span>"+pseudo);
+	setTitle("<span class='text-azure'>Telegram : </span>"+pseudo,"<i class='text-azure fa fa-send'></i>","Telegram : "+pseudo);
 });	
 </script>

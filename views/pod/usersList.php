@@ -45,7 +45,10 @@
 	-webkit-filter:grayscale(100%);
 }
 </style>
-<?php if ($contentType == Project::COLLECTION){ 
+
+<?php 
+	$parentId="";
+	if ($contentType == Project::COLLECTION){ 
 		$parentRedirect = "project";
 		$parentId = (string)$project["_id"];
 		$tooltips = "La communauté du projet";
@@ -60,34 +63,52 @@
 		$parentId = (string)$event["_id"];	
 		$tooltips = "La communauté de l'évènement";						
 	}
+
+
+	$addLink = (empty($users[Yii::app()->session["userId"]])?false:true);
 ?>
 	<div class="panel panel-white user-list">
-		<div class="panel-heading border-light text-white bg-yellow">
+		<div class="panel-heading border-light bg-yellow">
 			<h4 class="panel-title"><i class="fa fa-connectdevelop"></i> <?php echo $userCategory ?></h4>
 			
 		</div> 
 		<div class="panel-tools">
 			<?php if ( @$admin && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
-					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 					</a>								
 			<?php } else if ($contentType != ActionRoom::COLLECTION_ACTIONS){ ?>
-				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
+				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-eye"></i> <?php echo Yii::t("common","Visualize"); ?>
 					</a>								
 
 			<?php } 
-			if ($contentType == "events" && !@$noAddLink){ ?>
-				<a href="javascript:;" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" onclick="loadByHash( '#event.addattendeesv.eventId.<?php echo (string)$event["_id"];?>')">
-					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ?>
+			if ($contentType == Event::COLLECTION && $addLink == true){ ?>
+				<a href="javascript:" class=" btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" 
+				 data-toggle="modal" data-target="#modal-scope">
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ; ?>
+				</a>			
+			<?php } 
+			
+			if ($contentType == Organization::COLLECTION && $addLink == true){ ?>
+				<a href="javascript:" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a member to this organization'); ?>" 
+				 data-toggle="modal" data-target="#modal-scope">
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add member') ; ?>
+				</a>			
+			<?php }
+
+			if ($contentType == Project::COLLECTION && $addLink == true){ ?>
+				<a href="javascript:" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a contributor to this project'); ?>" 				 data-toggle="modal" data-target="#modal-scope">
+					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add contributor') ; ?>
 				</a>			
 			<?php } ?>
+
 		</div>
 		<?php
 			if(@$invitedMe && !empty($invitedMe)){
 				echo "<div class='no-padding' style='border-bottom: 1px solid lightgray;margin-bottom:10px !important;'>".
 					"<div class='padding-5'>".
-						"<a href='javascript:;' onclick='loadByHash(\'#person.detail.id.".$invitedMe["invitorId"]."\')'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
+						"<a href='#element.detail.type.".Person::COLLECTION.".id.".$invitedMe["invitorId"]."' class='lbh'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
 						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="connectTo(\''.Event::COLLECTION.'\',\''.(string)$event["_id"].'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendee\')" data-placement="bottom" data-original-title="Go to the event">'.
 							'<i class="fa fa-check "></i> '.Yii::t("event","I go").
 						'</a>'.
@@ -151,10 +172,9 @@
 							$redirect="organization";
 							$refIcon="fa-group";
 						}
-						
+						$anId = isset($e["id"]) ? $e["id"] : ""; 
 					?>
-					
-						<a href="javascript:;" onclick="loadByHash('#<?php echo $redirect; ?>.detail.id.<?php if (@$e["_id"]) echo $e['_id']; else echo $e["id"]?>')" title="<?php echo $name ?>" class="btn no-padding contentImg <?php echo $grayscale ?>">
+					<a href="#element.detail.type.<?php echo $e["type"] ?>.id.<?php echo $anId; ?>" title="<?php echo $name ?>" class=" lbh btn no-padding contentImg <?php echo $grayscale ?>">
 	
 						<?php if($e && !empty($e["profilThumbImageUrl"])) {
 							// Utiliser profilThumbImageUrl && createUrl(/.$profilThumbUrl.)
@@ -180,7 +200,7 @@
 						$fontSize="font-size:14px;";
 					}
 				?>
-				<a href="javascript:;" onclick="loadByHash('#<?php echo $parentRedirect ?>.directory.id.<?php echo $parentId ?>?tpl=directory2')" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
+				<a href="javascript:;" onclick="showElementPad('directory');" title="<?php echo Yii::t("common","See all") ?>" data-placement="top" data-original-title="<?php echo Yii::t("common","See all") ?>" class="btn no-padding contentImg count tooltips">
 					<span style="line-height:50px;<?php echo $fontSize ?>">+ <?php echo $nbCommunity ?></span>
 				</a>
 				<?php } 
@@ -199,10 +219,10 @@
 
 				}
 				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
-				if (!empty($countStrongLinks)){
+				if (@$countStrongLinks && !empty($countStrongLinks)){
 					if($contentType==Organization::COLLECTION)
 						$strongLinksLabel=Yii::t("common","member");
-					else if ($contentType==Project::COLLECTION)
+					else if ($contentType==Project::COLLECTION || $contentType == ActionRoom::COLLECTION_ACTIONS)
 						$strongLinksLabel=Yii::t("common","contributor");
 					else if ($contentType==Event::COLLECTION)
 						$strongLinksLabel=Yii::t("event","attendee");
@@ -210,10 +230,9 @@
 						$strongLinksLabel .= "s";
 					echo "<div class='col-md-4 inline' style='float:inherit;'>".
 							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countStrongLinks."</span><br/>".
-							"<span class='text-dark'>".ucfirst($strongLinksLabel)."</span>".
+							"<span class='text-dark'>".ucfirst(@$strongLinksLabel)."</span>".
 						"</div>";
-					
-				}if ($countLowLinks != 0){
+				}if (@$countLowLinks && $countLowLinks != 0){
 					$style="";		
 					if ($contentType==Event::COLLECTION)
 						$lowLinksLabel = Yii::t("event","guest");
@@ -231,6 +250,10 @@
 				echo "</div>";
 			}
 		?>
+
+		<?php if($addLink) 
+				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$contentType, "parentId" =>@$parentId)); ?>
+		
 	</div>
 
  <script type="text/javascript">

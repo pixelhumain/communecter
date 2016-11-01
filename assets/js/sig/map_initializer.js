@@ -56,10 +56,10 @@
 
 			//initialise les boutons zoom-in et zoom-out
 			if(params.useZoomButton){
-				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ 
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() < thisSig.maxZoom) thisMap.zoomIn(); 
 				});
-				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ 
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() > thisSig.minZoom) thisMap.zoomOut(); 
 				});
 			}
@@ -69,7 +69,9 @@
 				this.initHomeBtn();
 			}
 
-
+			$("#btn-back").click(function(){
+				showMap(false);
+			})
 			//if(params.useFullScreen){
 				//$( this.cssModuleName + " #btn-full-screen" ).click(function (){ thisMap.setFullScreen(); });
 				$( window ).resize(function() {
@@ -162,80 +164,172 @@
 				$(this.cssModuleName + " #btn-satellite").click(function(){
 					if(thisSig.tileMode == "terrain"){
 						thisSig.tileMode = "satellite";
+						
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
-						thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
-														{maxZoom:17,
-														 minZoom:3}).addTo(Sig.map);
-						thisSig.map.minZoom = 3;
-						thisSig.map.maxZoom = 17;
 
-						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":17, "minZoom":3});
-							thisSig.roadTileLayer.redraw();
-						}
+						/* chargement fond de carte SATELLITE */
+						if(params.mapProvider == "OSM"){
+							thisSig.tileLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', //http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
+															{maxZoom:17, minZoom:3}).addTo(Sig.map);
+						}else if(params.mapProvider == "mapbox"){
+							thisSig.tileLayer = L.mapbox.tileLayer('mapbox.satellite',{maxZoom:17, minZoom:3}).addTo(thisSig.map);
+						}	
+
+						/* chargement des routes */
+						thisSig.roadTileLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.{ext}', {
+							ext: 'png',
+							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+							subdomains: 'abcd',
+							zIndex:2,
+							opacity: 0.7,
+							minZoom:3,
+							maxZoom: 17
+						});
+						thisSig.roadTileLayer.addTo(thisSig.map);
+						
+						/* chargement des noms */
+						thisSig.StamenTonerLabels = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.{ext}', {
+												attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+												subdomains: 'abcd',
+												opacity: 0.7,
+												zIndex:3,
+												minZoom: 3,
+												maxZoom: 17,
+												ext: 'png'
+											});
+						thisSig.StamenTonerLabels.addTo(thisSig.map);
+
 
 					}else if(thisSig.tileMode == "satellite"){
 						thisSig.tileMode = "terrain";
+
 						if(thisSig.tileLayer != null) thisSig.map.removeLayer(thisSig.tileLayer);
-						thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
-												{maxZoom:20,
-												 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(Sig.map);
-						thisSig.map.minZoom = 3;
-						thisSig.map.maxZoom = 20;
 
+						/* chargement fond de carte TERRAIN */
+						if(params.mapProvider == "OSM"){
+							thisSig.tileLayer = L.tileLayer(thisSig.initParameters.mapTileLayer, 
+													{maxZoom:17,
+													 minZoom:3}).setOpacity(thisSig.initParameters.mapOpacity).addTo(thisSig.map);
+						}else if(params.mapProvider == "mapbox"){
+							/* mapBox fourni le fond de carte, les rues et les noms en même temps */
+							thisSig.tileLayer = L.mapbox.tileLayer('mapbox.streets',{maxZoom:17, minZoom:3}).addTo(thisSig.map);
+						}
+
+						/* efface les routes */
 						if(thisSig.roadTileLayer != null) {
-							L.setOptions(thisSig.roadTileLayer, {"maxZoom":20, "minZoom":12});
-							thisSig.roadTileLayer.redraw();
+							if(thisSig.roadTileLayer != null) thisSig.map.removeLayer(thisSig.roadTileLayer);
 						}
 
+						/* efface les noms */
 						if(thisSig.StamenTonerLabels != null) {
-							L.setOptions(thisSig.StamenTonerLabels, {"maxZoom":20, "minZoom":12});
-							thisSig.StamenTonerLabels.redraw();
+							if(thisSig.StamenTonerLabels != null) thisSig.map.removeLayer(thisSig.StamenTonerLabels);
 						}
-						
 					}
-					if(thisSig.map.getZoom() > thisSig.map.getMaxZoom()) 
-						thisSig.map.setZoom(thisSig.map.getMaxZoom());
+					console.log("maxZoom", thisSig.map.getZoom(), 17);
+					if(thisSig.map.getZoom() > thisSig.map.maxZoom )
+						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
 			}
-		};
 
+			
+		};
+		
+		Sig.showIframeSig = function(){
+			
+			var hash = location.hash+"?tpl=iframesig";
+				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
+				$("#ajax-modal-modal-title").html("<i class='fa fa-share-square-o'></i> Partager cette carte.");
+				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
+			  	$("#ajax-modal-modal-body").html(   "<div class='row'>"+
+			  										  "<div class='col-md-3'>"+
+				  										"<div class='form-group'>"+
+  															"<label>Largeur</label>"+
+  															"<input class='form-control' type='text' name='width' value='500'>"+
+											            "</div>"+
+  													  "</div>"+
+  													  "<div class='col-md-3'>"+
+				  										"<div class='form-group'>"+
+  															"<label>Hauteur</label>"+
+  															"<input class='form-control' type='text' name='height' value='500'>"+
+											            "</div>"+
+  													  "</div>"+
+  													  "<div class='col-md-6'>"+
+				  										"<h4 class='text-left no-margin padding-5'>Forme :</h4>"+
+											            "<div class='radio-inline'>"+
+  															"<label><input type='radio' name='forme' value='square' checked> Carré</label>"+	
+											            "</div>"+
+											            "<div class='radio-inline'>"+
+  															"<label><input type='radio' name='forme' value='circle'> Cercle</label>"+	
+											            "</div>"+										            
+										              "</div>"+
+										              "<div class='col-md-12'>"+
+				  										"<h2 class='text-left text-dark'><i class='fa fa-angle-down'></i> Copiez / collez ce code dans la page de votre site web :</h2>" +
+			  										  	"<textarea class='form-control' rows='3' id='txtarea_iframe'>"+
+				  											"<iframe height='500' width='500'"+
+				  													" src='https://www.communecter.org"+hash+"'></iframe>"+
+				  										"</textarea>"+
+										              "</div>" +
+										              
+										            "</div>");
+			  	$('#ajax-modal').modal("show");
+
+			  	$("input[name='forme'], input[name='width'], input[name='height']").change(function(){
+			  		var height=$("input[name='height']").val();
+			  		var width=$("input[name='width']").val();
+			  		var forme=$("input[name='forme']:checked").val();
+			  		var radius = (forme == "circle") ? "style='border-radius:50%'" : "";
+
+			  		$("#txtarea_iframe").html("<iframe height='"+height+"' width='"+width+"' "+radius+
+				  								" src='https://www.communecter.org"+hash+"'></iframe>")
+			  	});
+			};
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			this.icoMarkersMap = { 		"default" 			: "CITOYEN_A",
+			this.icoMarkersMap = { 		"default" 			: "",
 
-										  	"city" 				: "COLLECTIVITE_A",
+										  	"city" 				: "city-marker-default",
 											
 											"news" 				: "NEWS_A",
+											"idea" 				: "NEWS_A",
+											"question" 			: "NEWS_A",
+											"announce" 			: "NEWS_A",
+											"information" 		: "NEWS_A",
 
-											"citoyen" 			: "CITOYEN_A",
-											"citoyens" 			: "CITOYEN_A",
-											"people" 			: "CITOYEN_A",
+											"citoyen" 			: "citizen-marker-default",
+											"citoyens" 			: "citizen-marker-default",
+											"people" 			: "citizen-marker-default",
 
-											"NGO" 				: "ASSO_A",
-											"organizations" 	: "ASSO_A",
-											"organization" 		: "ASSO_A",
+											"NGO" 				: "ngo-marker-default",
+											"organizations" 	: "ngo-marker-default",
+											"organization" 		: "ngo-marker-default",
 
-											"event" 			: "EVENEMENTS_A",
-											"events" 			: "EVENEMENTS_A",
-											"meeting" 			: "EVENEMENTS_A",
+											"event" 			: "event-marker-default",
+											"events" 			: "event-marker-default",
+											"meeting" 			: "event-marker-default",
 
-											"project" 			: "PROJET_A",
-											"projects" 			: "PROJET_A",
+											"project" 			: "project-marker-default",
+											"projects" 			: "project-marker-default",
 
 											"markerPlace" 		: "map-marker",
+
+											"POI" 				: "NEWS_A",
 
 									  };
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
 
-										  	"news" 				: { ico : "rss", color : "blue" 	},
+										  	"news" 				: { ico : "rss", 			 color : "blue" 	},
+										  	"idea" 				: { ico : "info-circle",	 color : "white" 	},
+										  	"question" 			: { ico : "question-circle", color : "white" 	},
+										  	"announce" 			: { ico : "ticket", 		 color : "white" 	},
+										  	"information" 		: { ico : "newspaper-o", 	 color : "white" 	},
 
 										  	"city" 				: { ico : "university", color : "red" 	},
 
 										  	"citoyen" 			: { ico : "user", color : "yellow" 		},
 										  	"citoyens" 			: { ico : "user", color : "yellow" 		},
 										  	"people" 			: { ico : "user", color : "yellow" 		},
+											"person" 			: { ico : "user", color : "yellow" 		},
 
 											"NGO" 				: { ico : "group", color : "green" 		},
 											"organizations" 	: { ico : "group", color : "green" 		},
@@ -254,6 +348,8 @@
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
 
+											"POI" 				: { ico : "map-marker", color : "dark" 	},
+
 									  };
 
 			//TODO : définir les icons et couleurs de chaque tag
@@ -266,7 +362,7 @@
 		
 		Sig.switchDropDown = function(panelId){		
 			$(".panel_map").hide();
-			$("#"+panelId).show(400);
+			$("#"+panelId).show(100);
 		}
 
 		Sig.vMarker = 1;
@@ -303,13 +399,14 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
+			console.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (data){
+		Sig.getIcoByType = function (data){ 
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
@@ -336,6 +433,7 @@
 		};
 		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
+			if(typeof object == "undefined") return null; //if(object["type"] == "meeting") alert("trouvé !");
 
 			var objectName = (typeof object.name != "undefined") ? this.clearStr(object.name) : "";
 
@@ -369,6 +467,14 @@
 			//alert("yo");
 			//this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
+		};
+
+		Sig.showRightToolMap = function(bool){
+			if(bool){
+				$("#right_tool_map").show();
+			}else{
+				$("#right_tool_map").hide();
+			}
 		};
 
 		//***chargement

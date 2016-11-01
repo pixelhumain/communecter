@@ -6,9 +6,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/js/bootstrap-editable.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
 	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/plugins/wysihtml5/wysihtml5.js'
+	'/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
@@ -24,7 +25,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.fileupload-new .thumbnail, 
 	.fileupload-new .thumbnail img, 
 	.fileupload-preview.thumbnail img {
-	    width: 100%;
+	    width: 100% !important;
 	}
 	.panelDetails .row{
 		margin:0px !important;
@@ -53,7 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
       background-color: #FFF; /*#EFEFEF; /*#2A3A45;*/
       margin-bottom: 10px;
       border-radius: 0px 0px 4px 4px;
-      margin-top: -10px;
+      margin-top: 0px;
       font-weight: 200;
     }
     .entityTitle h2{
@@ -87,13 +88,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     .entityDetails i.fa{
       margin-right:7px;
       font-size: 17px;
-		margin-top: 5px;
+	  margin-top: 5px;
+    }
+
+
+    blockquote {
+	    margin: 0 0 10px;
+	    font-size: 15px;
+	    line-height: 1.2;
+	}
+    .panel-heading{
+    	padding: 7px 10px 5px 10px;
+		min-height: 25px;
     }
     .panel-title{
     	font-weight: 200;
-    	font-size: 21px;
-    	font-family: "homestead";
+    	font-size: 15px;
+    	/*font-family: "homestead";*/
     }
+    .panel-scroll {
+	    height: unset !important;
+	    min-height:25px;
+	}
+
+
     #fileuploadContainer{
     	z-index:0 !important;
     }
@@ -120,33 +138,37 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
 			<?php if ($openEdition==true) { ?>
-				<a href='javascript:' class='pull-right editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="top" title="Paramètrer l'édition" alt="">
-					<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-				</a>
+				<span class="pull-right tooltips text-green" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style=""><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
 			<?php } ?>
 		</h4>
 	</div>
 	<div class="panel-tools">
-		<?php if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])
-			 && $edit) { 
+		<?php
+		if (isset($organization["_id"]) && isset(Yii::app()->session["userId"]) && ($edit || $openEdition)) { 
 			 	?>
 				<a href="javascript:" id="editFicheInfo" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer les informations" alt=""><i class="fa fa-pencil"></i> <span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 				<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifier la position géographique" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position géographique</span></a>-->
+				
+				<?php if($edit == true){ ?>
 				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètre de confidentialité" alt="">
 					<i class='fa fa-cog'></i> 
 					<span class="hidden-sm hidden-xs">
 					<?php echo Yii::t("common","Settings"); ?>
 					</span>
 				</a>
-				<?php if ($openEdition==true) { ?>
+				<?php 
+				}
+				if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $organization["_id"] ?>','<?php echo Organization::COLLECTION ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityHistory","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
-				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+			<?php } 
 
-		<?php } 
+			if($edit == true){?>
+				<a href="javascript:" id="disableOrganization" class="btn btn-sm btn-red tooltips" data-id="<?php echo $organization["_id"] ?>" data-toggle="tooltip" data-name="<?php echo $organization["name"] ?>" data-placement="bottom" title="Disable this organization" alt=""><i class="fa fa-times"></i> <span class="hidden-xs"> Supprimer</span></a>
+		<?php 
 				if(isset($organization["disabled"])){?>
 					<span class="label label-danger"><?php echo Yii::t("organization","DISABLED") ?></span>
-		<?php } ?>
+		<?php }  } } ?>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -172,6 +194,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		</style>
 		<?php if(!empty($organization["badges"])){?>
 			<?php if( Badge::checkBadgeInListBadges("opendata", $organization["badges"]) ){?>
+
 				<div class="badgePH pull-right" data-title="OPENDATA">
 					<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
 						<i class="fa fa-database main fa-stack-1x text-orange"></i>
@@ -180,8 +203,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				</div>
 		<?php } 
 		} ?>
-	</div>
 
+		<a class="btn btn-sm tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+	</div>
+	<style type="text/css">
+		.urlOpenData{
+		    padding: 9px;
+		}
+	</style>
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -193,9 +222,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
 	        <div class="row">
 	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
-	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<!--<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
 	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
-	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>-->
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
 	        	</div>
 		    </div>
 		    <div class="row text-dark panel-btn-confidentiality">
@@ -206,6 +237,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        	<div class="btn-group btn-group-isOpenData inline-block">
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/organizations/id/'.$organization['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
 					</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -252,7 +284,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="btn btn-success lbh" data-dismiss="modal" aria-label="Close" data-hash="#organization.detail.id.<?php echo $organization['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -267,7 +299,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">
 		<div class="row">
 
-			<div class="col-sm-6 col-md-6">
+			<div class="col-sm-6 col-md-6 margin-bottom-10">
 				<?php 
 					$this->renderPartial('../pod/fileupload', array("itemId" => $organization["_id"],
 																	  "type" => Organization::COLLECTION,
@@ -277,7 +309,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "image" => $images)); 
 				?>
 			</div>
-			<div class="col-sm-6 col-md-6 pull-right margin-bottom-15">
+			<div class="col-xs-12 col-sm-6 col-md-6 pull-right margin-bottom-15">
 				<div class="row text-dark" style="margin-top:10px !important;">
 					<div class="entityTitle">
 						<h2  style="font-weight:100; font-size:19px;">
@@ -298,6 +330,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<?php echo (isset($organization["shortDescription"])) ? $organization["shortDescription"] : null; ?>
 						</a>
 					</div>
+					<?php 
+						$address = (@$organization["address"]["streetAddress"]) ? $organization["address"]["streetAddress"] : "";
+						$address2 = (@$organization["address"]["postalCode"]) ? $organization["address"]["postalCode"] : "";
+						if(isset(OpenData::$phCountries[ @$organization["address"]["addressCountry"] ]))
+						$address2 .= (@$organization["address"]["addressCountry"] && @OpenData::$phCountries[ $organization["address"]["addressCountry"] ]) ? ", ".OpenData::$phCountries[ $organization["address"]["addressCountry"] ] : "";
+						
+						$tel = "";
+						if( @$organization["telephone"]["fixe"]){
+							foreach ($organization["telephone"]["fixe"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+						if(isset($organization["telephone"]["mobile"])){
+							foreach ($organization["telephone"]["mobile"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".$num : $num;
+							}
+						}
+							
+						$this->renderPartial('../pod/qrcode',array(
+																"type" => @$organization['type'],
+																"name" => @$organization['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$organization['email'],
+																"url" => @$organization["url"],
+																"tel" => $tel,
+																"img"=>@$organization['profilThumbImageUrl']));?>
 				</div>
 			</div>
 			
@@ -518,7 +577,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			
 		</div>
 		<div class="row">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
 				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 				</a>
@@ -620,6 +679,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			$(this).addClass("active");
 		});
 
+		buildQRCode("organization","<?php echo (string)$organization["_id"]?>");
 		
 	});
 
@@ -688,36 +748,37 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	function changeHiddenIcone() 
-{ 
-	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
-	console.log("------------", mode);
-	if(mode == "view"){
-		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
-		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
-		if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
-		if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
-		if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
-		if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
-		if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
-		if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
-		if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
-	} else {
-		$(".fa_name").removeClass("hidden"); 
-		$(".fa_birthDate").removeClass("hidden"); 
-		$(".fa_email").removeClass("hidden"); 
-		$(".fa_streetAddress").removeClass("hidden"); 
-		$(".fa_postalCode").removeClass("hidden"); 
-		$(".fa_addressCountry").removeClass("hidden"); 
-		$(".fa_telephone_mobile").removeClass("hidden"); 
-		$(".fa_telephone").removeClass("hidden"); 
-		$(".fa_telephone_fax").removeClass("hidden"); 
+	{ 
+		/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
+		console.log("------------", mode);
+		if(mode == "view"){
+			if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
+			if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
+			if($("#email").text().length == 0){ $(".fa_email").addClass("hidden"); }
+			if($("#streetAddress").text().length == 0){ $(".fa_streetAddress").addClass("hidden"); }
+			if($("#address").text().length == 0){ $(".fa_postalCode").addClass("hidden"); }
+			if($("#addressCountry").text().length == 0){ $(".fa_addressCountry").addClass("hidden"); }
+			if($("#mobile").text().length == 0){ $(".fa_telephone_mobile").addClass("hidden"); }
+			if($("#fixe").text().length == 0){ $(".fa_telephone").addClass("hidden"); }
+			if($("#fax").text().length == 0){ $(".fa_telephone_fax").addClass("hidden"); }
+		} else {
+			$(".fa_name").removeClass("hidden"); 
+			$(".fa_birthDate").removeClass("hidden"); 
+			$(".fa_email").removeClass("hidden"); 
+			$(".fa_streetAddress").removeClass("hidden"); 
+			$(".fa_postalCode").removeClass("hidden"); 
+			$(".fa_addressCountry").removeClass("hidden"); 
+			$(".fa_telephone_mobile").removeClass("hidden"); 
+			$(".fa_telephone").removeClass("hidden"); 
+			$(".fa_telephone_fax").removeClass("hidden"); 
+		}
 	}
-}
 
 	function activateEditableContext() {
 
 		
 		$.fn.editable.defaults.mode = 'popup';
+		$.fn.editable.defaults.container='body';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			title : $(this).data("title"),
@@ -1123,7 +1184,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$(".editConfidentialityBtn").click(function(){
 	    	console.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
-	    	$(".confidentialitySettings").click(function(){
+	    });
+
+	    $(".confidentialitySettings").click(function(){
 		    	param = new Object;
 		    	param.type = $(this).attr("type");
 		    	param.value = $(this).attr("value");
@@ -1139,7 +1202,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				    }
 				});
 	    	});
-	    });
 	}
 
 </script>

@@ -1,7 +1,5 @@
 <?php 
-	$cssAnsScriptFilesModule = array('/css/docs/docs.css',  '/js/docs/docs.js');
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$this->renderPartial("../docs/assets");
 
   $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
@@ -50,8 +48,11 @@
   </a>
 </div>
 
-<a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+<!-- <a href="javascript:"  class="homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
   Pour quoi faire ? <i class="fa fa-arrow-right"></i>
+</a> -->
+<a href="#default.view.page.modules.dir.docs"  class="lbh homestead text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead btn-carousel-next">
+  Modules <i class="fa fa-arrow-right"></i>
 </a>
 
 <script type="text/javascript">

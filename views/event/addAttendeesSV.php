@@ -4,10 +4,10 @@ if(@$event) {
 	$this->renderPartial('../default/panels/toolbar'); 
 }
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
 $admin = false;
 if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
@@ -133,7 +133,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i> <?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		setTitle("<?php echo addslashes(@$event["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>","<i class='fa fa-circle text-orange'></i><i class='fa fa-calendar'></i>", "ADD EVENT PARTICIPANTS");
 	 	bindeventSubViewattendees();
 	 	runAttendeesFormValidation();
 	 	$('#attendeesSearch').keyup(function(e){
@@ -157,28 +157,6 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 			
 		}); 
 	});
-
-	function bindeventSubViewattendees() {	
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prattendeesDefault();
-		});
-
-
-		/*$(".connectAttendeesBtn").off().on("click", function(){
-			var idToconnect= $(this).data("id");
-			var eventId = $(".form-attendees .attendees-id").val();
-			$.ajax({
-				type: "POST",
-				url: baseUrl+"/"+moduleId+'/event/saveAttendees',
-				data: data,
-				dataType: "json",
-	       		success: function(data){
-	       		}
-			})
-		});*/
-
-	};
 
 	var subViewElement, subViewContent, subViewIndex;
 	var timeout;

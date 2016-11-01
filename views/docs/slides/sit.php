@@ -19,7 +19,7 @@
             <blockquote class=" text-dark">Internet et CivicTech </blockquote>
             <blockquote class=" text-dark">Innovation et Evolution constante</blockquote>
             <blockquote class=" text-dark text-bold">Le citoyen au centre</blockquote>
-            <a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo Yii::app()->session['userId']?>');" class="homestead bg-red tooltips text-extra-large pull-right radius-5 padding-10" style="display: block;" >du virtuel au réél, c'est parti <i class="fa fa-arrow-right"></i> </a>
+            <a href="#person.detail.id.<?php echo Yii::app()->session['userId']?>" class="lbh homestead bg-red tooltips text-extra-large pull-right radius-5 padding-10" style="display: block;" >du virtuel au réél, c'est parti <i class="fa fa-arrow-right"></i> </a>
         </div>
     </div>
 </div>

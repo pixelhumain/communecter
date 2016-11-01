@@ -3,7 +3,7 @@ $cs = Yii::app()->getClientScript();
 
 ?>
 <!-- start: PAGE CONTENT -->
-<div class="col-sm-12 col-xs-12" id="">
+<div class="col-xs-12" id="">
   <div class="panel panel-white">
       <div class="panel-heading text-center border-light">
         <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> Admin </h3>
@@ -87,6 +87,15 @@ $cs = Yii::app()->getClientScript();
               
               <?php echo Yii::t("admin", "STATISTICS", null, Yii::app()->controller->module->id); ?>
 
+            </div>
+          </li>
+
+          <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.mailerrordashboard')">
+              <i class="fa fa-envelope fa-2x"></i>
+                
+              <?php echo Yii::t("admin", "MAILERROR", null, Yii::app()->controller->module->id); ?>
+              
             </div>
           </li>
          
@@ -1390,10 +1399,9 @@ $cs = Yii::app()->getClientScript();
 </div>-->
 <!-- end: PAGE CONTENT-->
 <script>
-$(".moduleLabel").html("<i class='fa fa-cog'></i> <span id='main-title-menu'>Espace administrateur");
 
   jQuery(document).ready(function() {
-    
+    setTitle("Espace administrateur","cog");
    //Index.init();
   });
 

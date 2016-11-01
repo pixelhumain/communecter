@@ -29,7 +29,7 @@ Documents à supprimer -- n'a plus lieu d'exister !! a confirmer
 						<tr id="<?php echo Organization::COLLECTION.(string)$e["_id"];?>">
 							<td class="center organizationLine" style="padding-left: 18px;">
 								<?php $url = '#organization.detail.id.'.$e["_id"];?>
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')">
+								<a href="<?php echo $url?>" class="lbh" >
 									<?php if ($e && isset($e["imagePath"])){ ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$e['imagePath']) ?>">
 									<?php } else { ?>
@@ -38,7 +38,7 @@ Documents à supprimer -- n'a plus lieu d'exister !! a confirmer
 								</a>
 							</td>
 							<td >							
-								<a href="javascript:;" onclick="loadByHash('<?php echo $url?>')">
+								<a class="lbh" href="<?php echo $url?>">
 									<?php if(isset($e["name"]))echo $e["name"]?>
 								</a>
 							</td>

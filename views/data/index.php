@@ -77,6 +77,6 @@ ol.slats li p span.meta {
 	
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	$(".moduleLabel").html('<i class="fa fa-folder-open-o"></i> <?php echo Yii::t("common","Open Data") ?>');
+	setTitle("<?php echo Yii::t("common","Open Data") ?>","folder-open-o");
 });
 </script>

@@ -3,10 +3,10 @@
 		<h3 class="panel-title text-red"><i class="fa fa-map-marker"></i>   <?php echo Yii::t("common", "SOURCE ADMIN"); ?></h3>
 	</div>
 	<div class="panel-body">
-		<h4 class="panel-title">Entité mal </h4>
+		<h4 class="panel-title"><span id="nbWarnings"></span> Eléments </h4>
 		<br/>
-		<div><span id="nbWarnings"></span></div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12 table table-striped">
+		<div></div>
+		<table id="tableEntity" class="col-xs-12 table table-striped">
 			<tr>
 				<th>Name</th>
 				<th>Warnings</th>
@@ -20,10 +20,23 @@
 					foreach ($entities as $key => $entity) {
 						//var_dump($entity);
 						if(count($entity) > 0){
-							//var_dump($entity["warnings"]);
+							if(Person::CONTROLLER == $typeEntities){
+		                        $contextIcon = "user text-yellow";
+		                    }
+		                    else if(Organization::CONTROLLER == $typeEntities){
+		                        $contextIcon = "users text-green";
+		                    }
+		                    else if(Event::CONTROLLER == $typeEntities){
+		                        $contextIcon = "calendar text-orange";
+		                    }
+		                    else if(Project::CONTROLLER == $typeEntities){
+		                        $contextIcon = "lightbulb-o text-purple";
+		                    } 
 							?>
 							<tr>
 								<td>
+									<i class='fa fa-<?php echo $contextIcon;?> '></i> 
+
 									<a  href='javascript:;' onclick='loadByHash("#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
 										<?php echo $entity["name"]; ?> 
 									</a>
@@ -43,13 +56,17 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+var mapData = <?php echo json_encode($contextMap) ?>;
 jQuery(document).ready(function() {
-
+	setTitle("Espace administrateur : Import de données","cog");
 	var nbWarnings = "<?php echo $nb ?>" ;
 	console.log(nbWarnings);
 	$("#nbWarnings").html(nbWarnings);
 	bindCheckGeo();
+	console.log("herrerer");
+	console.dir(mapData);
+	Sig.restartMap();
+	Sig.showMapElements(Sig.map, mapData);
 });
 
 function bindCheckGeo(){

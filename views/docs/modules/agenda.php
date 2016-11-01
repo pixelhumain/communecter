@@ -20,13 +20,13 @@
 <div class="col-sm-12 ">   
     <div class="panel-body tpl_content">        
         <div class="col-xs-12">
-	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
+	        <div class=" col-xs-12 col-md-6 center bg-red">
 	        	<div class="text-bold text-extra-large" style="padding: 50px;">
 	        		Revenez bientot pour la vidéo
 	        	</div>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/agendaGlobal.png" data-title="Schéma notre Open System"  data-lightbox="all">
-			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/agendaGlobal.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/agendaGlobal.png" class="col-md-6 col-xs-12 img-responsive ">
 	        </a>
         </div>
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
@@ -82,7 +82,7 @@
 
 	    </div>
 		<div class="center col-md-12">
-			<button onclick="loadByHash('#event.eventsv');" class="btn bg-orange"><i class="fa fa-calendar-plus-o"></i> Ajouter un événement</button><br>
+			<button data-hash="#event.eventsv" class="btn bg-orange lbh" ><i class="fa fa-calendar-plus-o"></i> Ajouter un événement</button><br>
 			<label>Vous organisez un événement ? Partagez-le dans l'agenda ! </label>
 		</div>
     </div>
@@ -90,8 +90,6 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-			"<i class='fa fa-cube'></i> "+
-			"<span class='text-red'>MODULE</span> : Agenda</span>");
+  setTitle("<span class='text-red'>MODULE</span> : Agenda</span>","cube","MODULE : Agenda");
 });
 </script>

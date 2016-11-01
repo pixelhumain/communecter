@@ -6,7 +6,7 @@
 		<h4 class="panel-title">Entité mal </h4>
 		<br/>
 		<div><span id="nbWarnings"></span></div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12">
+		<table id="tableEntity" class="col-xs-12">
 			<tr>
 				<th>Type</th>
 				<th>Name</th>
@@ -28,7 +28,7 @@
 									<td>
 									</td>
 									<td>
-										<a  href='javascript:;' onclick='loadByHash("#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
+										<a  href='#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>' class='lbh'>
 											<?php echo $entity["name"]; ?> 
 										</a>
 									</td>
@@ -49,9 +49,8 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
 jQuery(document).ready(function() {
-
+	setTitle("Espace administrateur : Import de données","cog");
 	var nbWarnings = "<?php echo $nb ?>" ;
 	console.log(nbWarnings);
 	$("#nbWarnings").html(nbWarnings);

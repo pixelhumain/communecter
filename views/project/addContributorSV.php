@@ -1,21 +1,21 @@
 <?php 
 
-	$cssAnsScriptFilesModule = array(
+	/*$cssAnsScriptFilesModule = array(
 		//Data helper
 		'/js/dataHelpers.js'
 		);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);*/
 	$cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
-	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
-	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	//'/plugins/moment/min/moment.min.js' , 
+	//'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+	//'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 	//'/plugins/bootstrap-select/bootstrap-select.min.css',
 	//'/plugins/bootstrap-select/bootstrap-select.min.js'
 	'/plugins/autosize/jquery.autosize.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 ?>
 <style>
@@ -33,9 +33,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 }
 </style>
 <?php 
-Menu::project($project);
-$this->renderPartial('../default/panels/toolbar'); 
- ?>
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit));  
+?>
 <div id="newContributors">
 	<?php   
   		if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
@@ -160,11 +160,13 @@ $this->renderPartial('../default/panels/toolbar');
 		</form>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	var projectId=$(".form-contributor #projectID").val();
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<i class='fa fa-lightbulb-o'></i> PROJECT : <?php echo addslashes($project["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+		setTitle("PROJECT : <?php echo addslashes($project["name"]) ?>  <a href='javascript:showMap()' id='btn-center-city'><i class='fa fa-map-marker'></i></a>","lightbulb-o","PROJECT : <?php echo addslashes($project["name"]) ?>");
 	 	bindprojectSubViewcontributor();
 	 	runContributorFormValidation();
 	 	$('#contributorEmail').keyup(function(e){
@@ -199,10 +201,6 @@ $this->renderPartial('../default/panels/toolbar');
 			});
 		});
 
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
 		$('#newContributors #contributorSearch').keyup(function(e){
 		    var searchValue = $('#newContributors #contributorSearch').val();
 		    if(searchValue.length>2){

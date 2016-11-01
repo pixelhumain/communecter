@@ -8,9 +8,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/js/bootstrap-editable.js' , 
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' ,
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js',
-	'/plugins/moment/min/moment.min.js',
+
+	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
@@ -176,7 +177,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	}
 
 	.container-info-perso{
-		margin-top:70px;
+		/*margin-top:70px;*/
 	}
 
 	#fileuploadContainer, #profil_imgPreview{
@@ -199,6 +200,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	.select2-hidden {
 	    display:none !important;
 	}
+
 </style>
 
 <div class="panel panel-white">
@@ -207,9 +209,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     </div>
 	<div class="panel-tools">
  		<?php    
-				if ( $canEdit ) { ?>
-					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs"> Editer</span></a>
-					<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+			if ( $canEdit ) { ?>
+				<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
+				<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>	
 
 		<?php
@@ -249,6 +251,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			<a href="javascript:;" class="btn btn-xs btn-red exportMyDataBtn" ><i class="fa fa-upload"></i> Export my data</a>
 			*/ 
 		?>
+		
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick=" showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+
 		<style type="text/css">
 			.badgePH{ 
 				cursor: pointer;
@@ -364,10 +369,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		        </div>
 	        </div>
 	      </div>
-	      <?php 
-	      	var_dump($person["preferences"]);
-	      	var_dump(is_array($person["preferences"]["privateFields"]));
-	      ?>
 	      <script type="text/javascript">
 			<?php
 				//Params Checked
@@ -398,16 +399,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#person.detail.id.<?php echo $person['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-  	<div class="panel-body" style="padding-top: 0px">
-		<div class="row" style="">
-			<div class="col-sm-6 col-md-5 padding-15">
 
-				<div class="padding-10">
+
+  	<div class="panel-body" style="padding-top: 0px">
+		<div class="col-md-8 col-xs-12" >
+
+				
+			<div class="padding-10">
 					<h2 class="entityTitle">
 						<!-- <i class="fa fa-user fa_username"></i>  -->
 						<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-person editable editable-click">
@@ -422,8 +425,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-person editable editable-click">
 						<?php if(isset($person["username"]) && ! isset($person["pending"])) echo $person["username"]; else echo "";?>
 					</a>
+					<div class="form-group tag_group no-margin">
+						<label class="control-label  text-red">
+							<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+						</label>
+						
+						<a href="#" id="tags" data-type="select2" data-original-title="Mes tags perso (liste des mot-clés qui vous définissent)" class="editable editable-click text-red">
+							<?php if(isset($person["tags"])){
+								foreach ($person["tags"] as $tag) {
+									//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
+								}
+							}?>
+						</a>
+					</div>
 				</div>
 
+			<div class="col-sm-12 col-md-5 col-lg-5 no-padding">
 				<?php $this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $person["_id"],
 																	  "type" => Person::COLLECTION,
 																	  "resize" => false,
@@ -432,7 +449,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 																	  "editMode" => $canEdit,
 																	  "image" => $imagesD )); 
 				?>
-
 				<div class="socialNetwork col-md-12">
 
 					<div class="col-md-12 no-padding">
@@ -484,7 +500,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 								>
 								<?php if (isset($person["socialNetwork"]["telegram"])) echo $person["socialNetwork"]["telegram"]; else echo ""; ?>
 							</a> 
-							<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
+							<a href="javascript:" onclick="" class="pull-right hidden badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
 							 		<i class="fa fa-question-circle text-dark" style="">
 							 		</i>
 							</a> 
@@ -493,9 +509,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
 						<?php } ?>
 					</div>
-
+					
 				</div>
-
+				<?php 
+						$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
+						if(Role::isSuperAdmin($roles)){
+							?>
+								<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin-top:10px;">
+									<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
+								</a>
+							<?php
+						}
+					?>
 			</div>
 			<div class="col-sm-6 col-md-7 container-info-perso">
 				<div class="entityDetails text-dark">
@@ -503,13 +528,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 					<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
 					<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="editable editable-click required">
 					</a>
-					<br>
+					<br/>
 					<i class="fa fa-envelope fa_email"></i> 
 					<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-person editable editable-click required">
 						<?php echo Person::showField("email",$person, $isLinked);?>
 					</a>
-					<br>
-					<i class="fa fa-bookmark"></i> <a href="javascript:loadByHash('#define.Gamification');">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
+					<br/>
+					<i class="fa fa-bookmark"></i> <a href="#define.Gamification"  class="lbh">Gamification</a> : <span class="badge badge-warning badgeText text-black"><?php echo Gamification::badge( (string)$person["_id"] )?> <?php echo (isset($person["gamification"]['total'])) ? $person["gamification"]['total'] : 0; ?> pts</span>
 					
 					<hr style="margin:10px 0px 3px 0px;">
 					
@@ -518,15 +543,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 						<?php echo Person::showField("address.streetAddress",$person, $isLinked)?>
 					</a>
 
-					<br>
+					<br/>
 					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom">
-					</a>
-					<br>
+					<a href="#" id="address" data-type="postalCode" data-title="<?php echo Yii::t("person","Postal Code"); ?>" data-emptytext="<?php echo Yii::t("person","Postal Code"); ?>" class="editable editable-click" data-placement="bottom"></a>
+					<?php if (@Yii::app()->session["userId"] && Yii::app()->session["userId"]==(string)$person["_id"]){ ?>
+					<a href="javascript:;" class="cobtn hidden btn bg-red">Communectez-moi</a> <a href="javascript:;" class="whycobtn hidden btn btn-default explainLink" data-id="explainCommunectMe" >Pourquoi ?</a>
+					<?php } ?>
+					<br/>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<a href="#" id="addressCountry" data-type="select" data-title="<?php echo Yii::t("person","Country"); ?>" data-emptytext="<?php echo Yii::t("person","Country"); ?>" data-original-title="" class="editable editable-click">					
 					</a>
-					<br>
+					<br/>
 					
 					<i class="fa fa-phone fa_telephone hidden"></i>
 					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
@@ -540,7 +567,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						?>
 					</a>
-					<br>
+					<br/>
 
 					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
 					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
@@ -552,7 +579,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}?>
 					</a>
-					<br>
+					<br/>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
 					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
@@ -564,89 +591,229 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 							}
 						}?>
 					</a>
-					<br>
-					
-					
-				</div>
+					<br/>
 					
 					<a href="javascript:" id="btn-update-geopos" class="btn btn-primary btn-sm hidden" style="margin: 10px 0px;">
 						<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner
 					</a>
-					<?php 
-							$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-							if(Role::isSuperAdmin($roles)){
-								?>
-									<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
-										<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-									</a>
-								<?php
-							}
-						?>
+					
+				</div>
+					
+					
+					
 					<div class="hidden" id="entity-insee-value" 
 						 insee-val="<?php echo (isset( $person["address"]["codeInsee"])) ? $person["address"]["codeInsee"] : ""; ?>">
 					</div>
 					<div class="hidden" id="entity-cp-value" 
 							 cp-val="<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : ""; ?>">
 						</div>
+
+					<?php 
+						$address = ( @$person["address"]["streetAddress"]) ? $person["address"]["streetAddress"] : "";
+						$address2 = ( @$person["address"]["postalCode"]) ? $person["address"]["postalCode"] : "";
+						$address2 .= ( @$person["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $person["address"]["addressCountry"] ] : "";
+
+						$this->renderPartial('../pod/qrcode',array("class"=>"col-sm-6 col-md-10",
+																"name" => @$person['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$person['email'],
+																"img"=>@$person['profilThumbImageUrl']));?>
+				</div>
+
+				
+				<div class="col-xs-12 text-dark">
+					<div class="no-padding margin-top-10 col-sm-12 col-md-12 border-light" style="border-width: 1px">
+						<!-- Description -->
+						<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
+							<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
+						</a>
+					</div>
 				</div>
 			</div>
+		
+		
+			<style type="text/css">
+				
+				  #div-discover .btn-discover{
+				    border-radius: 60px;
+					font-size: 27px;
+					font-weight: 200;
+					border: 1px solid transparent;
+					width: 60px;
+					height: 60px;
+					padding-top: 10px;
+				  }
+				  #div-discover .btn-discover.bg-red{
+				    /*font-size: 43px;
+				    padding-top: 12px;*/
+				  }
+				  #div-discover .btn-discover.bg-azure:hover{
+				    background-color: white !important;
+				    border-color: #2BB0C6 !important;
+				    color: #2BB0C6 !important;
+				  }
+				  #div-discover .btn-discover.bg-red:hover{
+				    background-color: white !important;
+				    border-color: #E33551 !important;
+				    color: #E33551 !important;
+				  }
+				  .btnSubTitle{
+					  margin-bottom:10px; 
+					  font-size:13px; 
+					  font-weight: 300; height: 95px;
+					}
+					@media screen and (max-width: 768px) {
+					    /*#div-discover .btn-discover.bg-red{
+						    font-size: 30px;
+						    padding-top: 3px;
+
+						}
+						#div-discover .btn-discover {
+						    height: 50px;
+						    width: 50px;
+						    font-size: 25px;
+						}
+						.btnSubTitle{
+						  font-size:14px; font-weight: 100;
+						}*/
+					}
+			</style>
+			<?php if(Yii::app()->session["userId"] && (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+			<div id="div-discover" class="center col-xs-12 col-md-4">
+				<div class="panel no-padding margin-top-15">
+		            
+					<div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
+		            </div>
+			        <div class="panel panel-white padding-10 text-left">
+		               	<div class="panel-body no-padding ">
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6 center text-azure btnSubTitle hidden">
+			                        <a href="javascript:;" onclick="$('#profil_avatar').trigger('click');return false;" id="open-multi-tag" class=" btn btn-discover bg-azure">
+
+			                          <i class="fa fa-camera"></i>
+			                        </a><br>
+			                        <span class="text-azure discover-subtitle"> Image de profil</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#tags').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Mes tags perso</span>
+			                    </div>
+
+			                    <div class="col-xs-6 center text-red btnSubTitle">
+			                        <a href="javascript:;" onclick="$('#editProfil').trigger('click');setTimeout( function () { $('#address').trigger('click'); }, 500);return false;" class=" btn btn-discover bg-red">
+			                          <i class="fa fa-home"></i>
+			                        </a><br>
+			                        <span class="text-red discover-subtitle"> Ma commune</span>
+			                    </div>
+
+			                   
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-tag-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-tags"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes tags favoris</span>
+			                    </div>    
+			                    <div class="col-xs-6 center text-dark btnSubTitle">
+			                        <a href="javascript:;" class="toggle-scope-dropdown  btn btn-discover bg-dark">
+			                          <i class="fa fa-bullseye"></i>
+			                        </a><br><span class="text-dark discover-subtitle"> Mes lieux favoris</span>
+			                    </div>
+			                                    
+			                </div>
+		                </div>
+			        </div>
+		        </div>
+
+		        <div class="panel no-padding margin-top-15 ">
+			        <div class="panel-heading text-center border-light">
+		                <h3 class="panel-title text-blue"> <i class="fa fa-plus"></i> Ajouter</h3>
+		            </div>
+			        <div class="panel panel-white padding-10">
+			            <div id="local-actors-popup-sig">
+			              
+			              <div class="panel-body no-padding ">
+
+			                <div class="col-md-12 no-padding" style="margin-top:20px">
+
+			                    <div class="col-xs-6  center text-yellow btnSubTitle">
+			                        <a href="#person.invite" class="lbh btn btn-discover bg-yellow">
+
+			                          <i class="fa fa-user"></i>
+			                        </a><br/><span class="discover-subtitle">Une personne</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-green btnSubTitle">
+			                        <a href="#organization.addorganizationform" class="lbh btn btn-discover bg-green">
+			                          <i class="fa fa-group"></i>
+			                        </a>
+			                        <br/><span class="discover-subtitle">Organisation</span>
+			                    </div>
+
+			                    <div class="col-xs-6  center text-purple btnSubTitle">
+			                        <a href="#event.eventsv" class="lbh btn btn-discover bg-purple">
+			                          <i class="fa fa-calendar"></i>
+			                        </a><br/><span class="discover-subtitle">Évènement</span>
+			                    </div>
+			                    
+			                    <div class="col-xs-6  center text-orange btnSubTitle">
+			                        <a href="#project.projectsv" class="lbh btn btn-discover bg-orange">
+			                          <i class="fa fa-lightbulb-o"></i>
+			                        </a><br/><span class="discover-subtitle">Projet</span>
+			                    </div>
+
+			                </div>
+
+			              </div>
+			            </div>
+			           
+			        </div>
+			    </div>
+
+			    <div class="col-md-12 col-xs-12">
+					<?php   $this->renderPartial('../pod/POIList', array( "parentId" => (String) $person["_id"],
+																			"parentType" => Person::CONTROLLER));
+					?>
+		    	</div>
+		    </div>
+		    <?php } ?>
 		</div>
 		
-		<div class="row text-dark">
-			<div class="padding-20 col-sm-12 col-md-12 col-lg-12 border-light" style="border-width: 1px">
-				<!-- Description -->
-				<a href="#" id="shortDescription" data-type="wysihtml5" data-showbuttons="true" data-title="<?php echo Yii::t("person","Short Description"); ?>" data-emptytext="<?php echo Yii::t("person","Short Description"); ?>" class="editable-person editable editable-click">
-					<?php echo (isset( $person["shortDescription"])) ? $person["shortDescription"] : ""; ?>
-				</a>
-			</div>
-		</div>
-		<div class="padding-10 row text-dark">
-			<div class="pull-left col-sm-7 col-md-8 tag_group">
-				
-			</div>
-			
-			<div class="pull-right text-right col-sm-5 col-md-4">
-				<div class="form-group tag_group no-margin">
-					<label class="control-label  text-red">
-						<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
-					</label>
-					
-					<a href="#" id="tags" data-type="select2" data-original-title="Enter tagsList" class="editable editable-click text-red">
-						<?php if(isset($person["tags"])){
-							foreach ($person["tags"] as $tag) {
-								//echo " <a href='#' onclick='toastr.info(\"TODO : find similar people!\"+$(this).data((\"tag\")));' data-tag='".$tag."' class='btn btn-default btn-xs'>".$tag."</a>";
-							}
-						}?>
-					</a>
-				</div>	
-			</div>
-		</div>
+		
+		
 
-		<?php if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
-		<div class="row text-dark">
+
+		<?php /* if( (string)$person["_id"] == Yii::app()->session["userId"] ){ ?>
+		<div class="text-dark">
 			<div class="col-md-12 center bg-dark" id="panel-add">
+				
 				<h1 class="homestead text-white">
 					<i class="fa fa-plus-circle" style="margin-left: 6px;"></i> ajouter
 				</h1>
-				<button class="btn bg-yellow" onclick="loadByHash('#person.invite');">
+				<a class="btn bg-yellow lbh" href="#person.invite">
 					<i class="fa fa-user"></i>
 					<span class="lbl-btn-menu-name-add">quelqu'un</span>
-				</button>
-				<button class="btn bg-green" onclick="loadByHash('#organization.addorganizationform');">
+				</a>
+				<a class="btn bg-green lbh" href="#organization.addorganizationform">
 					<i class="fa fa-group"></i>
 					<span class="lbl-btn-menu-name-add">une organisation</span>
-				</button>
-				<button class="btn bg-purple" onclick="loadByHash('#project.projectsv');">
+				</a>
+				<a class="btn bg-purple lbh" href="#project.projectsv">
 					<i class="fa fa-lightbulb-o"></i>
 					<span class="lbl-btn-menu-name-add">un projet</span>
-				</button>
-				<button class="btn bg-orange" onclick="loadByHash('#event.eventsv');">
+				</a>
+				<a class="btn bg-orange lbh" href="#event.eventsv">
 					<i class="fa fa-calendar"></i>
 					<span class="lbl-btn-menu-name-add">un événement</span>
-				</button>
+				</a>
 			</div>
 		</div>
-		<?php } ?>
+		<?php } */ ?>
+		
 	</div>
 </div>
 
@@ -697,14 +864,22 @@ jQuery(document).ready(function()
 		/*$(".badgePH").hover(function(){
 			$(".badgeText").html($(this).data('title'));
 		});*/
-		
-
+		if(personData.address.addressLocality == ""){
+			$(".cobtn,.whycobtn").removeClass("hidden");
+			$(".cobtn").click(function () { 
+				$(".cobtn,.whycobtn").hide();
+				$('#editProfil').trigger('click');
+				setTimeout( function () { 
+					$('#address').trigger('click'); 
+					}, 500);
+				return false;
+			});
+		}
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
-
 		});
 
 		Sig.currentPersonData = personData;
@@ -712,7 +887,17 @@ jQuery(document).ready(function()
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, elementsMap);
 	}
-
+	buildQRCode("person","<?php echo (string)$person["_id"]?>");
+	
+	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-tag").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
+		$("#dropdown-content-multi-tag").addClass('open');
+	});
+	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		if(!$("#dropdown-content-multi-scope").hasClass('open'))
+		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
+	});
 });
 
 function buildBgClassesList() 
@@ -749,7 +934,7 @@ function bindAboutPodEvents()
 			success: function (obj){
 				console.log("obj", obj);
 				$("<a />", {
-				    "download": "data.json",
+				    "download": "profil.json",
 				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
 				  }).appendTo("body")
 				  .click(function() {
@@ -798,7 +983,9 @@ function bindAboutPodEvents()
     $(".editConfidentialityBtn").click(function(){
     	console.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
-    	$(".confidentialitySettings").click(function(){
+    });
+
+    $(".confidentialitySettings").click(function(){
 	    	param = new Object;
 	    	param.type = $(this).attr("type");
 	    	param.value = $(this).attr("value");
@@ -812,7 +999,12 @@ function bindAboutPodEvents()
 			    }
 			});
     	});
-    });
+
+    
+
+    $(".btn-confidentialitySettings").click(function(){
+    	
+	});
 
 
 }
@@ -946,9 +1138,33 @@ function initXEditable() {
 			console.log("success update postal Code : ");
 			console.dir(newValue);
 			
+			var country = notEmpty(response.user.address.addressCountry) ? response.user.address.addressCountry : null;
+			var depName = notEmpty(response.user.address.depName) ? response.user.address.depName : null;
+			var regionName = notEmpty(response.user.address.regionName) ? response.user.address.regionName : null;
+
+			currentScopeType = "cp";
+			addScopeToMultiscope(newValue.postalCode,newValue.postalCode);
+			currentScopeType = "city";
+			var unikey = response.user.address.addressCountry + "_" + newValue.codeInsee + "-" + newValue.postalCode; 
+			addScopeToMultiscope(unikey, newValue.addressLocality);
+			currentScopeType = "dep";
+			if(notEmpty(depName)) addScopeToMultiscope(depName, depName);
+			currentScopeType = "region";
+			if(notEmpty(regionName)) addScopeToMultiscope(regionName, regionName);
+
 			$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 			$("#entity-cp-value").attr("cp-val", newValue.postalCode);
-			$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"', 'MA COMMUNE','university' )");
+			//$(".menuContainer #menu-city").attr("onclick", "loadByHash( '#city.detail.insee."+newValue.codeInsee+"' )");
+
+			$("#btn-geoloc-auto-menu").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode"+newValue.postalCode);
+
+			$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(newValue.addressLocality);
+			$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+newValue.codeInsee+".postalCode."+newValue.postalCode);
+			$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+unikey);
+			
+			$(".msg-scope-co").html("<i class='fa fa-home'></i> Vous êtes communecté à " + newValue.addressLocality);
+			$(".hide-communected").hide();
+			$(".visible-communected").show();
 		},
 		value : {
         	postalCode: '<?php echo (isset( $person["address"]["postalCode"])) ? $person["address"]["postalCode"] : null; ?>',
@@ -971,8 +1187,10 @@ function initXEditable() {
 
 function manageModeContext() {
 	console.log("-----------------manageModeContext----------------------");
-	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', '#addressCountry', '#facebookAccount', '#twitterAccount',
+	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', 
+						'#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
+
 	if (mode == "view") {
 		$('.editable-person').editable('toggleDisabled');
 		$.each(listXeditables, function(i,value) {
@@ -998,10 +1216,20 @@ function switchMode() {
 		mode = "update";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").show();
+		$(".editProfilLbl").html(" Enregistrer les changements");
+		$("#editProfil").addClass("btn-red");
+		$(".cobtn,.whycobtn").addClass("hidden");
 	} else {
 		mode ="view";
 		manageModeContext();
 		changeHiddenIcone() ;
+		$("#btn-validate-changes").hide();
+		$(".editProfilLbl").html(" Éditer");
+		$("#editProfil").removeClass("btn-red");
+		if(personData.address.addressLocality == "")
+			$(".cobtn,.whycobtn").removeClass("hidden");
+
 	}
 }
 

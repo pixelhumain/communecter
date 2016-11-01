@@ -9,6 +9,7 @@
 return array(
 	//Title
 		"PROJECT TIMELINE" => "VIE DU PROJET",
+		"Project timeline" => "Vie du projet",
 		"EVENT PROGRAM" => "Programme",
 		"Edit timeline" => "Editer la chronologie du projet",
 		"Yearly" => "Annuel",

@@ -4,13 +4,11 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
 	'/plugins/DataTables/media/js/DT_bootstrap.js',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
-
-$cssAnsScriptFilesModule = array(
-  '/css/rooms/header.css'
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+$cssAnsScriptFilesTheme = array(
+	'/css/rooms/header.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->theme->baseUrl."/assets");
 
 Menu::rooms($_GET["id"],$_GET["type"]);
 $this->renderPartial('../default/panels/toolbar');
@@ -147,7 +145,7 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
                             )); ?>
 	    
 <div class="" id="main-panel-room">
-		     <?php $this->renderPartial('../pod/roomTable',array(    
+		     <?php $this->renderPartial('../pod/roomTable',array( 
 		   					"history" => $history, 
                             "moduleId" => $moduleId, 
                             "discussions" => $discussions, 
@@ -166,16 +164,15 @@ blockquote.active {border: 1px solid #E33551; cursor: pointer;}
 var nameParentTitle = "<?php echo htmlspecialchars($nameParentTitle); ?>";
 jQuery(document).ready(function() {
 	
-	$(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> " + "espaces coopératifs");
-	
+	setTitle("espaces coopératifs","connectdevelop");
 	$(".main-col-search").addClass("assemblyHeadSection");
 	resetDirectoryTable() ;
 	$(".DataTables_Table_1_wrapper").addClass("hide");
 
 	$(".explainLink").click(function() {
-			showDefinition( $(this).data("id") );
-			return false;
-		});
+		showDefinition( $(this).data("id") );
+		return false;
+	});
 	$(".dataTables_length").append("");
 	
 	activeTab = <?php echo (@$_GET["tab"]) ? $_GET["tab"] : "1"?>;

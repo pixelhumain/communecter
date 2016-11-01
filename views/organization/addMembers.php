@@ -1,10 +1,10 @@
 <?php
 	
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 ?>
 <style>
 	#dropdown_search{
@@ -339,15 +339,24 @@ Menu::organization($organization);
 			<?php //echo Yii::t("person","Add a Person") ?>
 		</div>
 	</a>
+	<button class="btn btn-default pull-left margin-right-15" id="menuImportFile"
+		data-toggle="modal" data-target="#modal-scope">
+		<div id="titleImportFile" class='text-grey text-dark'>
+			<i class="fa fa-users"></i> 
+			Ajouter un contact
+		</div>
+	</button>
 	<a href="javascript:;" onclick="fadeInView('divImportFile');" class="btn btn-default pull-left margin-right-15" id="menuImportFile">
 		<div id="titleImportFile" class='text-grey text-dark'>
 			<i class="fa fa-upload"></i> 
 			Importer un fichier
 		</div>
 	</a>
-	<div id="modalDirectoryForm" class="pull-left margin-15"></div>
 
-	<div class="col-md-12">  
+	<?php $this->renderPartial('../organization/addMembersFromMyContacts',array()); ?>
+
+	<div class="col-md-12 margin-top-15">  
+
     	<ul class="nav nav-tabs hidden">
 			<li role="presentation">
 				<a href="javascript:;" onclick="fadeInView('divSearch');" class="btn btn-default" id="menuInviteSomeone">
@@ -495,7 +504,7 @@ Menu::organization($organization);
 			</div>
 			<div class="panel-body">
 				<form class="form-importFile" autocomplete="off">
-					<div class="col-sm-12 col-xs-12">
+					<div class="col-xs-12">
 						Fichier (CSV) : <input type="file" id="fileEmail" name="fileEmail" accept=".csv">
 					</div>
 				</form>
@@ -517,7 +526,7 @@ Menu::organization($organization);
 						</ul>
 					</div>
 					<br/>
-					<div class="col-sm-12 col-xs-12 pull-center">
+					<div class="col-xs-12 pull-center">
 		        		<a href="#" class="btn bg-dark col-sm-2 " id="submitInviter" onclick="inviteImportFile();">Inviter</a>
 					</div>
 				</div>
@@ -540,163 +549,24 @@ Menu::organization($organization);
 	        </table>
 	    </div>
 	</div>
-	
-        	
-    
-
-    
 </div>
+
+
 <script type="text/javascript">
 	var timeout;
 	var listMails = [];
 	var totalMails = 0;
 	var organization = <?php echo json_encode($organization) ?>;
 	
-	var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
-
-	var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user", label:"Mes contacts" },
-							{ name : "organizations", 	color: "green" 	, icon:"group", label:"Mes organisations" },
-							//{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
-							//{ name : "events", 			color: "orange"	, icon:"calendar"		}
-							];
-
-	var importMembreDynForm = {
-		    "jsonSchema" : {
-		        "title" : "News Form",
-		        "type" : "object",
-		        "properties" : {
-		        	"scope" : {
-		          		"inputType" : "scope",
-			            "values" : myContacts,
-			            "mainTitle" : "Inviter vos contacts",
-			            "labelBtnOpenModal" : "<span class='text-dark'><i class='fa fa-group'></i> Sélectionner parmis mes contacts</span>",
-			            "contactTypes" : contactTypes
-			        }
-		        }
-		    }
-		};
-
 	jQuery(document).ready(function() {
-		$(".moduleLabel").html("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($organization["name"]) ?>");
+		setTitle("<span class='text-green'><i class='fa fa-users'></i> ORGANISATION :</span> <?php echo addslashes($organization["name"]) ?>",""," ORGANISATION : <?php echo addslashes($organization["name"]) ?>");
 		initFormAddMember();
 		
 		bindTEST();
 
-		buildDynForm();
+		//buildDynForm();
 	});
 
-	function buildDynForm(){ 
-		var form = $.dynForm({
-			formId : "#modalDirectoryForm",
-			formObj : importMembreDynForm,
-			onLoad : function  () {
-				bindEventScopeModal();
-			},
-			onSave : function(){
-				console.log("onSave import contact !!");
-				
-				return false;
-			}
-		});
-	}
-	
-	function bindEventScopeModal(){
-	/* initialisation des fonctionnalités de la modale SCOPE */
-	//parcourt tous les types de contacts
-	$.each(contactTypes, function(key, type){ //console.log("BINDEVENT CONTACTTYPES : " + type.name);
-		//initialise le scoll automatique de la liste de contact
-		$("#btn-scroll-type-"+type.name).click(function(){
-			//console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
-			$('#list-scroll-type').animate({
-	         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top 
-	         }, 400);
-		});
-		//initialisation des boutons pour selectionner toutes les checkbox d'un type de contact
-		$("#chk-all-type"+type.name).click(function(){
-			$(".chk-scope-"+type.name).prop("checked", $(this).prop('checked'));
-		});
-	});
-	//initialise la selection d'une checkbox contact au click sur le bouton qui lui correspond
-	$(".btn-chk-contact").click(function(){
-		var id = $(this).attr("idcontact");
-		$("#chk-scope-"+id).prop("checked", !$("#chk-scope-"+id).prop('checked'));
-	});
-
-
-	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	$("#btn-scroll-type-my-city").click(function(){
-		$("#chk-my-city").prop("checked", !$("#chk-my-city").prop('checked'));
-	});
-	
-	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	$("#btn-show-other-cities").mouseover(function(){
-		$("#scope-postal-code").show();
-	});
-	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	$("#btn-show-other-cities").click(function(){
-		$("#scope-postal-code").show();
-		$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
-	});
-	//initialise l'affichage du champ "code postal" de l'item "OTHER CITIES"
-	$("#btn-show-other-cities").mouseout(function(){
-		$("#scope-postal-code").hide();
-	});
-
-	//initialise la selection de la checkbox "other cities"
-	$("#btn-scroll-type-cities").click(function(){
-		$("#chk-cities").prop("checked", !$("#chk-cities").prop('checked'));
-	});
-	//initialise la selection de la checkbox "other cities" quand le champs text "other cities" n'est pas vide 
-	$("#scope-postal-code").keyup(function(){
-		$("#chk-cities").prop("checked", ($("#scope-postal-code").val() != ""));
-	});
-	//par defaut, marsque le champ txt "other cities"
-	$("#scope-postal-code").hide();
-
-	$("#search-contact").keyup(function(){
-		filterContact($(this).val());
-	});
-
-	$("#btn-cancel").click(function(){
-		//showStateScope("cancel");
-	});
-	$("#btn-save").click(function(){
-		//showStateScope("save");
-	});
-	$("#btn-reset-scope").click(function(){
-		$.each($('.modal input:checkbox'), function(){
-			$(this).prop("checked", false);
-		});
-		$("#scope-postal-code").val("");
-	});
-	$("#scope-my-wall").click(function(){
-		//showStateScope("cancel");
-	});
-	$("#scope-select").click(function(){
-		//showStateScope("save");
-	});
-
-}
-
-function filterContact(searchVal){
-	//masque/affiche tous les contacts présents dans la liste
-	if(searchVal != "")	$(".btn-select-contact").hide();
-	else				$(".btn-select-contact").show();
-	//recherche la valeur recherché dans les 3 champs "name", "cp", et "city"
-	$.each($(".scope-name-contact"), function() { checkSearch($(this), searchVal); });
-	$.each($(".scope-cp-contact"), 	 function()	{ checkSearch($(this), searchVal); });
-	$.each($(".scope-city-contact"), function() { checkSearch($(this), searchVal); });
-}
-
-//si l'élément contient la searchVal, on l'affiche
-function checkSearch(thisElement, searchVal, type){
-	var content = thisElement.html();
-	var found = content.search(new RegExp(searchVal, "i"));
-	if(found >= 0){
-		var id = thisElement.attr("idcontact");
-		$("#contact"+id).show();
-	}
-}
 
 	var mapIcon = {
 		"citoyens":"fa-user", 
@@ -852,10 +722,6 @@ function checkSearch(thisElement, searchVal, type){
 			});
 		});
 
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
 	};
 	function initFormAddMember(){ //checkMail
 		$("#divImportFile").hide();

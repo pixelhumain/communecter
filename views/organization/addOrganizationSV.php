@@ -1,13 +1,14 @@
+
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
-
+	'/plugins/autosize/jquery.autosize.min.js',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
@@ -20,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		padding: 0px 15px; 
 		margin-left:2%; 
 		width:96%;
-	};
+	}
 	.select2-input {
 		width:100%;
 	}
@@ -69,9 +70,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	font-weight:600;
 }
 
-.main-top-menu{
+/*.main-top-menu{
 	background-color: rgba(255, 255, 255, 0.82) !important;
-}
+}*/
 .select2-container .select2-choice .select2-arrow b::before{
 	content:"";
 }
@@ -92,11 +93,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	width: 924px;
 	min-height: 250px !important;
 }
-
+.noteWrap .note-editor .note-editable{
+	background-color: white;
+    border: 1px solid #aaa;
+    padding: 5px;
+}
 </style>
-<?php 
-$this->renderPartial('../default/panels/toolbar');  
-?>
+
 <div id="addOrganization" >
 	
 	<?php $this->renderPartial('../pod/helpPostalCode', array("idCountryInput"=>"organizationCountry"));  ?>
@@ -130,13 +133,13 @@ $this->renderPartial('../default/panels/toolbar');
 										foreach ($types as $key=>$value) {
 											$icon = "" ;
 											if($key=="NGO")
-												$icon = '<i class="fa fa-group"></i>' ;
+												$icon = '<i class="fa fa-group"></i>';
 											if($key=="LocalBusiness")
-												$icon = '<i class="fa fa-industry"></i>' ;
+												$icon = '<i class="fa fa-industry"></i>';
 											if($key=="Group")
-												$icon = '<i class="fa fa-circle"></i>' ;
+												$icon = '<i class="fa fa-circle"></i>';
 											if($key=="GovernmentOrganization")
-												$icon = '<i class="fa fa-lightbulb-o"></i>' ;
+												$icon = '<i class="fa fa-lightbulb-o"></i>';
 									?>
 										<div class="btn btn-select-type-orga btn-default text-dark bg-white" val="<?php echo $key?>"><?php echo $icon ." ".$value ; ?></div>
 										
@@ -217,6 +220,7 @@ $this->renderPartial('../default/panels/toolbar');
 									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Address") ?></span>
 								</label>
 								<input type="text" class="form-control" name="streetAddress" id="fullStreet" value="<?php if(isset($organization["address"])) echo $organization["address"]["streetAddress"]?>" >
+								<label class="" id="error_street"></label>
 							</div>
 							<div class="row">
 								<div class="col-md-4 form-group">
@@ -243,19 +247,17 @@ $this->renderPartial('../default/panels/toolbar');
 
 							<input type="hidden" name="geoPosLatitude" id="geoPosLatitude" style="width: 100%; height:35px;">
 							<input type="hidden" name="geoPosLongitude" id="geoPosLongitude" style="width: 100%; height:35px;">
-
-
-							
+			
 						</div>
 
 							
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<label for="form-field-24" class="control-label text-dark">
-										<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
-									</label>
-									<textarea  class="form-control" name="description" id="description" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
+									<h3 class="text-dark">
+									<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Description") ?>
+								</h3>
+									<textarea  class="wysiwygInput form-control" name="description" id="description" data-type="wysihtml5" class="autosize form-control"><?php if($organization && isset($organization['description']) ) echo $organization['description']; else $organization["description"]; ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -287,7 +289,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 <script type="text/javascript">
-
+var userCountry = "<?php echo @Yii::app()->session['user']['addressCountry']; ?>";
 jQuery(document).ready(function() {
 	$(".btn-select-type-orga").click(function(){
 		var val = $(this).attr("val");
@@ -296,8 +298,12 @@ jQuery(document).ready(function() {
 		$("#type").val(val);
 		console.log("TYPE : ", val);
 		//$('#type option[value="'+val+'"]').prop('selected', true);
+		
 	});
 
+	$(".wysiwygInput").off().on("focus", function(){
+		 	activateSummernote('#description');
+		 });
 });
 
 
@@ -317,19 +323,25 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				rangelength : [5, 5],
+				rangelength : [4, 5],
 				required : true,
 				validPostalCode : true
 			}
 		},
 		submitHandler : function(form) {
+			//console.log(typeof($("#description").code()));
+			if($(".note-editor").length != 0)
+				$("#description").val($("#description").code());
+
+			var newOrganization = $("#organizationForm").serialize();
+			console.log(newOrganization);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
 	        $.ajax({
 		    	  type: "POST",
 		    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/save",
-		    	  data: $("#organizationForm").serialize(),
+		    	  data: newOrganization,
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
@@ -348,7 +360,7 @@ var formValidator = function() {
 	       	return false; // required to block normal submit since you used ajax
 		},
 		invalidHandler : function(event, validator) {//display error alert on form submit
-			errorHandler.show();
+			//errorHandler.show();
 		}
 	});
 }
@@ -374,7 +386,7 @@ jQuery(document).ready(function() {
 	var localBusinessCategories = formatDataForSelect(<?php echo empty($localBusinessCategories) ? "[]" : json_encode($localBusinessCategories); ?>, "select2");
 	console.log(countries, NGOcategories);
 	$('#tagsOrganization').select2({ tags: <?php echo empty($tags) ? "''" : $tags; ?> });
-	
+
 	$('#categoryNGO').select2({ 
 		data : NGOcategories,
 		multiple: true,
@@ -390,7 +402,7 @@ jQuery(document).ready(function() {
 	$('#organizationCountry').select2({
 		data : countries,
 	});
-
+	$("#addOrganization #organizationCountry").select2('val', userCountry);
 
 	Sig.clearMap();
 	
@@ -400,7 +412,7 @@ jQuery(document).ready(function() {
 	formValidator();
 	initForm();
 	bindPostalCodeAction();
-	$(".moduleLabel").html("<i class='fa fa-plus'></i> <i class='fa fa-group'></i> Référencer votre organisation");
+	setTitle("Référencer votre organisation","<i class='fa fa-plus'></i> <i class='fa fa-group'></i>");
  }); 
 
 	function initForm() {
@@ -466,7 +478,7 @@ jQuery(document).ready(function() {
 					$("#similarOrganizationLink").hide();
 				}
 
-				$("#addOrganization #listOrgaSameName").html(str);
+				$("#listOrgaSameName").html(str);
 			}	
 		})
 	}
@@ -498,7 +510,7 @@ jQuery(document).ready(function() {
 		citiesByPostalCode;
 		Sig.citiesByPostalCode = citiesByPostalCode;
 		
-		var oneValue = "";
+		var oneValue = ""; var oneName = "";
 		$.each(citiesByPostalCode,function(i, value) {
 	    	$("#city").append('<option value=' + value.value + ' data-city="'+ value.text +'">' + value.text + '</option>');
 	    	oneValue = value.value;
@@ -561,7 +573,7 @@ jQuery(document).ready(function() {
 		});
 
 		var searchValue = $('#organizationForm #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length <= 5) {
 			$("#city").empty();
 
 			clearTimeout(timeout);
@@ -603,24 +615,29 @@ jQuery(document).ready(function() {
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
 		    			console.log("res getlatlngbyinsee");
 		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ 
-							if(typeof obj.geoShape != "undefined") {
-								//on recherche avec une limit bounds
-								var polygon = L.polygon(obj.geoShape.coordinates);
-								var bounds = polygon.getBounds();
-								Sig.execFullSearchNominatim(0, bounds);
+		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				console.dir(obj);
+		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
+								if(typeof obj.geoShape != "undefined") {
+									//on recherche avec une limit bounds
+									var polygon = L.polygon(obj.geoShape.coordinates);
+									var bounds = polygon.getBounds();
+									Sig.execFullSearchNominatim(0, bounds);
+								}
+								else{
+									//on recherche partout
+									Sig.execFullSearchNominatim(0);
+								}					
+							
+							}else{
+								obj["address"] = {"postalCode" : $('#postalCode').val(), "city" : obj["name"] };
+								callBackFullSearch(obj);
 							}
-							else{
-								//on recherche partout
-								Sig.execFullSearchNominatim(0);
-							}					
-						
-						}else{
-							//$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé la position de votre commune. Recherche google");	
 						}
 	
 					},
 					error: function(error){
+						$("#iconeChargement").hide();
 						console.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
@@ -649,6 +666,7 @@ jQuery(document).ready(function() {
 							if(typeof result.geoShape != "undefined") Sig.showPolygon(result.geoShape);
 							var coords = L.latLng(result.lat, result.lon);
 							Sig.showCityOnMap(result, true, "organization");
+							$("#error_street").html("<i class='fa fa-check'></i> Nous avons trouvé votre rue");
 	
 						}else{
 							findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
@@ -659,6 +677,7 @@ jQuery(document).ready(function() {
 						console.dir(obj);
 						$("#error_street").html("Aucun résultat");
 						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
+						$("#iconeChargement").hide();
 						$.unblockUI();
 					}
 				});
@@ -718,8 +737,13 @@ jQuery(document).ready(function() {
 			//showGeoposFound(coords, Sig.getObjectId(userConnected), "person", userConnected);
 			
   		}else{
+  			$("#iconeChargement").hide();
   			$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
   		}
+	}
+	function callbackGoogleMapsSuccess(result){
+		$("#iconeChargement").hide();
+  		$("#error_street").html("<i class='fa fa-times'></i> Nous n'avons pas trouvé votre rue.");
 	}
 
 	function manageOrganizationCategory(type) {

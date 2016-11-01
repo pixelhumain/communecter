@@ -2,10 +2,10 @@
 
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/nvd3/lib/d3.v3.js',
-	'/assets/plugins/nvd3/nv.d3.js',
+	'/plugins/nvd3/lib/d3.v3.js',
+	'/plugins/nvd3/nv.d3.js',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
 Menu::city($city);
 $this->renderPartial('../default/panels/toolbar');
@@ -23,7 +23,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 <script>
 jQuery(document).ready(function() {
-	//$(".moduleLabel").html( $(".moduleLabel").html()+" : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
+	//setTitle("","");$(".moduleLabel").html( $(".moduleLabel").html()+" : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	getPod();
 });
 

@@ -11,18 +11,23 @@ return array(
 	"test" => "TEST FR",
 	"MY PROJECTS" => "MES PROJETS",
 	"PROJECTS" => "PROJETS",
+	"Projects" => "Projets",
 	"PROJECT TIMELINE" => "VIE DU PROJET",
 	"PROJECT INFORMATIONS" => "INFORMATIONS DU PROJET",
 	"PROJECT DESCRIPTION" => "DESCRIPTION DU PROJET",
+	"Project description" => "Description du projet",
 	"CHART" => "CHARTE",
+	"Chart" => "Charte",
 	//Informations 
 	"Maturity" => "Maturité",
+	"Project maturity" => "Maturité du projet",
 	"idea" => "Idée",
 	"started" => "En démarrage", 
 	"development" => "Développement",
 	"testing" => "En test",
 	"Enter the project's name" => "Entrer le nom du projet",
-	"Enter the project's description" => "Entrer la description du projet",
+	"Write the project's description" => "Rédigez la description du projet",
+	"Write the project's short description" => "Décrivez ce projet en quelques mots (moins de 141 caractères)",
 	"Enter the project's maturity" => "Entrer l'avancement du projet",
 	"Enter the project's start" => "Entrer le début du projet",
 	"Enter the project's end" => "Entrer la fin du projet",
@@ -46,8 +51,12 @@ return array(
 	"Add<br/>A new<br/>Property" => "Ajouter<br/>Une nouvelle<br/>Propriété",
 	"No contributor for this project" => "Pas de contributeur sur le projet",
 	"Your project is updated" => "Projet mis à jour avec succés",
-	"Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects" => "Créer ou Contribuer<br>Construire<br>Trouver de l'Aide<br>Organiser des Projets<br>Localement ou à distance"
-
+	"Create or Contribute <br>Build Things<br>Find Help<br>Organize<br>Local or distant<br>Projects" => "Créer ou Contribuer<br>Construire<br>Trouver de l'Aide<br>Organiser des Projets<br>Localement ou à distance",
+	"Old projects" => "Anciens projects",
+	"Display/Hide old projects" => "Afficher/Cacher les anciens projets",
+	"Create new projects <br>To show your current activity<br>And what's happened around people" => "Référencer vos nouveaux projets<br>Pour montrer votre activité<br>Et ce qu'il se passe autour de nous",
+	"Add a contributor to this project" => "Ajouter des contributeurs à ce projet",
+	"A project can have People as contributors or Organizations" => "Des citoyens et des organisations peuvent contribuer au projet"
 
 	//Erreur
 );

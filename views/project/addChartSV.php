@@ -4,27 +4,25 @@ $cssAnsScriptFilesTheme = array(
 
 	//autosize
 	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
-
-	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	'/assets/plugins/jquery.dynSurvey/jquery.dynForm.js',
-	'/assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
-	'/assets/plugins/jquery-validation/dist/jquery.validate.min.js',
-	'/assets/js/jsonHelper.js',
-	'/assets/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
+	//'/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/jQuery-Knob/js/jquery.knob.js',
+	'/plugins/jquery.dynSurvey/jquery.dynForm.js',
+	'/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+	'/js/jsonHelper.js',
+	'/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 	//'/assets/js/ui-sliders.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
 ?>
 <style>
 .borderHover{
@@ -47,11 +45,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 }
 </style>
 <?php
-	
-	if(@$project)
-		Menu::project($project);
-	$this->renderPartial('../default/panels/toolbar'); 
-
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "addchart"));  
 ?>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
@@ -59,7 +54,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<form id="opendata"></form>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
 var parentId = "<?php echo (string)$project["_id"]; ?>";
@@ -231,7 +228,6 @@ var form6 = {
 };
 
 jQuery(document).ready(function() {
-	
     /* **************************************
     *   Using the dynForm
     - declare a destination point
@@ -388,6 +384,13 @@ function runChartFormValidation() {
 		        	toastr.success('Project properties succesfully update');
 		        	$.unblockUI();
 					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
+	//////// LAST FROM DEVELOPMENT ////////////////
+		        	/*var chartToLoad=true;
+		        	showElementPad("detail");
+		        	if(typeof updateChart != "undefined" && typeof updateChart == "function"){
+			        	updateChart(data.properties, data.properties.length);
+			        }*/
+	//////// ENND LAST FROM DEVELOPMENT /////////////
 		        } else {
 		           toastr.error('Something Went Wrong');
 		        }

@@ -19,6 +19,7 @@ class AdminController extends CommunecterController {
 	    return array(
 	        'index'       => 'citizenToolKit.controllers.admin.IndexAction',
 	        'directory'   => 'citizenToolKit.controllers.admin.DirectoryAction',
+	        'mailerrordashboard'   => 'citizenToolKit.controllers.admin.MailErrorDashboardAction',
 	        'switchto'    => 'citizenToolKit.controllers.admin.SwitchtoAction',
 	        'delete'      => 'citizenToolKit.controllers.admin.DeleteAction',
 	        'activateuser'=> 'citizenToolKit.controllers.admin.ActivateUserAction',

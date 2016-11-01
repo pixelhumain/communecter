@@ -1,22 +1,22 @@
 <?php
 $cssAnsScriptFilesTheme = array(
-	'/assets/plugins/ion.rangeSlider/js/ion.rangeSlider.min.js',
-	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.css',
-	'/assets/plugins/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
-	'/assets/plugins/ion.rangeSlider/css/normalize.min.css',
+	'/plugins/ion.rangeSlider/js/ion.rangeSlider.min.js',
+	'/plugins/ion.rangeSlider/css/ion.rangeSlider.css',
+	'/plugins/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
+	'/plugins/ion.rangeSlider/css/normalize.min.css',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 
-	$cssAnsScriptFilesModule = array(
-		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-		'/plugins/moment/min/moment.min.js' , 
-		'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
-		'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
+	/*$cssAnsScriptFilesModule = array(
+		//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
+		//'/plugins/moment/min/moment.min.js' , 
+		//'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+		//'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
 		'/plugins/autosize/jquery.autosize.min.js'
 	);
-	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+	HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."");*/
 ?>
 <style>
 
@@ -72,126 +72,127 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 </style>
 <?php 
-	if(@$project)
-		Menu::project($project);
-	else 
-		Menu::organization($organization);
-	$this->renderPartial('../default/panels/toolbar'); 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "addneed"));  
 ?>
-<div id="newNeed">
-		<h2 class='radius-10 padding-10 text-azure text-bold'><i class="fa fa-plus"></i> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>
-	<div class="col-md-8 col-md-offset-2">
-		<div class="panel panel-white">
-			<div class="panel-heading border-light">
-				<p><?php echo Yii::t("need","Task will show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
-			</div>
-			<div class="panel-body">
-				<form class="form-need" autocomplete="off">
-					<input  class="parent-id"  id="parentId" name="parentId" type="hidden" value='<?php echo $_GET["id"]; ?>'>
-					<input  class="parent-type"  id="parentType" name="parentType" type="hidden" value='<?php echo $_GET["type"]; ?>'>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group"  id="addNeedSection">
-								<div class='row center'>
-									<h2 class="text-azure"><i class="fa fa-angle-down"></i> <?php echo Yii::t("need","What do you need ?",null,Yii::app()->controller->module->id) ?></h2>
-									<input type="hidden" id="needType"/>
-				            		<div class="btn-group ">
-										<a id="btnServices" href="javascript:;" onclick="switchTypeNeed('services')" class="btn btn-azure">
-											<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Services",null,Yii::app()->controller->module->id) ?>
-										</a>
-										<a id="btnCompetences" href="javascript:;" onclick="switchTypeNeed('competences')" class="btn btn-azure">
-											<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Competences",null,Yii::app()->controller->module->id) ?>
-										</a>
-										<a id="btnMaterials" href="javascript:;" onclick="switchTypeNeed('materials')" class="btn btn-azure">
-											<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Materials",null,Yii::app()->controller->module->id) ?>
-										</a>
-									</div>
-					            </div><br>
-				                <div id="formNewNeed" class='text-center'>
-					    	        <div class="col-md-12 form-group">
-					    	        	<label class="control-label text-dark col-md-12">
-					    	        		<i class="fa fa-angle-down"></i> 
-											<?php echo Yii::t("need","Name of need",null,Yii::app()->controller->module->id) ?><span class="symbol required"></span>
-										</label>
-							           	<div class="row col-md-12 no-padding">
-					    	        		<input class="need-name form-control text-center" placeholder="<?php echo Yii::t("need","Name of need",null,Yii::app()->controller->module->id) ?> ..." id="needName" name="needName" value=""/>
-										</div>		    	        
-					    	        </div>
-					    	        <div class="col-md-4 form-group">
-										<label class="control-label text-dark">
-					    	        		<i class="fa fa-angle-down"></i> 
-											Quantité <span class="symbol required"></span>
-										</label></br>
-										<input type="number" class="need-quantity" name="need-quantity" value="1">
-									</div>
-
-									<div class="col-md-4 form-group duration">
-								    	<label class="control-label text-dark">
-					    	        		<i class="fa fa-angle-down"></i> 
-											Durée limitée? 
-										</label>
-										<div class="col-md-12 no-padding">
-											<input class="hide" id="needIsPonctual" name="needIsPonctual" value="ponctuel"></input>
-											<input type="checkbox" data-on-text="<?php echo Yii::t("common","YES") ?>" data-off-text="<?php echo Yii::t("common","NO") ?>" name="my-checkbox" checked></input>
+<div id="addneedPad">
+	<div id="newNeed">
+			<h2 class='radius-10 padding-10 text-azure text-bold'><i class="fa fa-plus"></i> <?php echo Yii::t("need","Add a need",null,Yii::app()->controller->module->id) ?></h2>
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-white">
+				<div class="panel-heading border-light">
+					<p><?php echo Yii::t("need","Task will show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
+				</div>
+				<div class="panel-body">
+					<form class="form-need" autocomplete="off">
+						<input  class="parent-id"  id="parentId" name="parentId" type="hidden" value='<?php echo $_GET["id"]; ?>'>
+						<input  class="parent-type"  id="parentType" name="parentType" type="hidden" value='<?php echo $_GET["type"]; ?>'>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group"  id="addNeedSection">
+									<div class='row center'>
+										<h2 class="text-azure"><i class="fa fa-angle-down"></i> <?php echo Yii::t("need","What do you need ?",null,Yii::app()->controller->module->id) ?></h2>
+										<input type="hidden" id="needType"/>
+					            		<div class="btn-group ">
+											<a id="btnServices" href="javascript:;" onclick="switchTypeNeed('services')" class="btn btn-azure">
+												<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Services",null,Yii::app()->controller->module->id) ?>
+											</a>
+											<a id="btnCompetences" href="javascript:;" onclick="switchTypeNeed('competences')" class="btn btn-azure">
+												<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Competences",null,Yii::app()->controller->module->id) ?>
+											</a>
+											<a id="btnMaterials" href="javascript:;" onclick="switchTypeNeed('materials')" class="btn btn-azure">
+												<i class="fa fa-circle-thin"></i> <?php echo Yii::t("need","Materials",null,Yii::app()->controller->module->id) ?>
+											</a>
 										</div>
-										</br><p class="explainLimit">Besoin ponctuel</p>
-									</div>
-
-									<div class="col-md-4 form-group remunarate">
-								    	<label class="control-label text-dark">
-					    	        		<i class="fa fa-angle-down"></i> 
-											Rémunération
-										</label>
-										<div class="col-md-12 no-padding">
-											<input class="hide" id="needIsRemunerate" name="needIsRemunerate" value="volontaire"></input>
-											<input type="checkbox" data-on-text="<?php echo Yii::t("common","YES") ?>" data-off-text="<?php echo Yii::t("common","NO") ?>" name="benefits-checkbox"></input>
+						            </div><br>
+					                <div id="formNewNeed" class='text-center'>
+						    	        <div class="col-md-12 form-group">
+						    	        	<label class="control-label text-dark col-md-12">
+						    	        		<i class="fa fa-angle-down"></i> 
+												<?php echo Yii::t("need","Name of need",null,Yii::app()->controller->module->id) ?><span class="symbol required"></span>
+											</label>
+								           	<div class="row col-md-12 no-padding">
+						    	        		<input class="need-name form-control text-center" placeholder="<?php echo Yii::t("need","Name of need",null,Yii::app()->controller->module->id) ?> ..." id="needName" name="needName" value=""/>
+											</div>		    	        
+						    	        </div>
+						    	        <div class="col-md-4 form-group">
+											<label class="control-label text-dark">
+						    	        		<i class="fa fa-angle-down"></i> 
+												Quantité <span class="symbol required"></span>
+											</label></br>
+											<input type="number" class="need-quantity" name="need-quantity" value="1">
 										</div>
-										<div class="col-md-12 rangeRemunaration">
-											<input type="text" id="range_remunerate" name="rangeBenefits" value="" />
+	
+										<div class="col-md-4 form-group duration">
+									    	<label class="control-label text-dark">
+						    	        		<i class="fa fa-angle-down"></i> 
+												Durée limitée? 
+											</label>
+											<div class="col-md-12 no-padding">
+												<input class="hide" id="needIsPonctual" name="needIsPonctual" value="ponctuel"></input>
+												<input type="checkbox" data-on-text="<?php echo Yii::t("common","YES") ?>" data-off-text="<?php echo Yii::t("common","NO") ?>" name="my-checkbox" checked></input>
+											</div>
+											</br><p class="explainLimit">Besoin ponctuel</p>
 										</div>
-										</br><p class="explainLimit">Volontaire</p>
-										
-									</div>
-
-					               	
-									<div class='col-md-12 form-group rangeDatePonctual'>
-										<label class="control-label text-dark">
-					    	        		<i class="fa fa-angle-down"></i> 
-											Durée du besoin <span class="symbol required"></span>
-										</label>
-										<div class="all-day-range">
-											<div class="">
+	
+										<div class="col-md-4 form-group remunarate">
+									    	<label class="control-label text-dark">
+						    	        		<i class="fa fa-angle-down"></i> 
+												Rémunération
+											</label>
+											<div class="col-md-12 no-padding">
+												<input class="hide" id="needIsRemunerate" name="needIsRemunerate" value="volontaire"></input>
+												<input type="checkbox" data-on-text="<?php echo Yii::t("common","YES") ?>" data-off-text="<?php echo Yii::t("common","NO") ?>" name="benefits-checkbox"></input>
+											</div>
+											<div class="col-md-12 rangeRemunaration">
+												<input type="text" id="range_remunerate" name="rangeBenefits" value="" />
+											</div>
+											</br><p class="explainLimit">Volontaire</p>
+											
+										</div>
+	
+						               	
+										<div class='col-md-12 form-group rangeDatePonctual'>
+											<label class="control-label text-dark">
+						    	        		<i class="fa fa-angle-down"></i> 
+												Durée du besoin <span class="symbol required"></span>
+											</label>
+											<div class="all-day-range">
 												<div class="">
 													<div class="">
-														<span class="input-icon">
-															<input type="text" class="need-range-date form-control text-center" name="" placeholder="Range date"/>
-															<i class="fa fa-calendar"></i> </span>
+														<div class="">
+															<span class="input-icon">
+																<input type="text" class="need-range-date form-control text-center" name="" placeholder="Range date"/>
+																<i class="fa fa-calendar"></i> </span>
+														</div>
 													</div>
 												</div>
 											</div>
+											<div class="hide">
+												<input type="text" class="need-start-date" value="" name="needStartDate"/>
+												<input type="text" class="need-end-date" value="" name="needEndDate"/>
+											</div>
 										</div>
-										<div class="hide">
-											<input type="text" class="need-start-date" value="" name="needStartDate"/>
-											<input type="text" class="need-end-date" value="" name="needEndDate"/>
-										</div>
-									</div>
-
-									
-									<div class="">
-										<div class="row center">
-							    	        <button class="btn btn-success" style="min-width:40%;"><i class="fa fa-check"></i> Enregistrer</button>
-							    	    </div>
+	
+										
+										<div class="">
+											<div class="row center">
+								    	        <button class="btn btn-success" style="min-width:40%;"><i class="fa fa-check"></i> Enregistrer</button>
+								    	    </div>
+								    	</div>
 							    	</div>
-						    	</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 <script type="text/javascript">
 	var parentId = $(".form-need #parentId").val();
 	var parentType = $(".form-need #parentType").val();
@@ -200,7 +201,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 		iconRedirect="fa-lightbulb-o";
 	}
 	jQuery(document).ready(function() {
-		 $(".moduleLabel").html("<i class='fa fa-cubes'></i> <span id='main-title-menu'>Ajouter un besoin</span>");
+		 setTitle("<span id='main-title-menu'>Ajouter un besoin</span>","cubes","Ajouter un besoin");
 	 	bindSubViewNeed();
 	 	runNeedFormValidation();
 	});
@@ -223,10 +224,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				}
 			});
 		});
-		$(".close-subview-button").off().on("click", function(e) {
-			$(".close-subviews").trigger("click");
-			e.prinviteDefault();
-		});
+		
 	};
 
 	var subViewElement, subViewContent, subViewIndex;
@@ -388,7 +386,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
 					        console.log(data);           
-				        	toastr.success('Need added successfuly');
+				        	toastr.success('Le besoin a été ajouté');
 				        	loadByHash("#need.detail.id."+data.idNeed.$id);				        		
 				        } else {
 				           toastr.error('Something Went Wrong');

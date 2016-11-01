@@ -12,10 +12,10 @@
 			</h4>
 			<input type="file" id="fileImport" name="fileImport" accept=".csv,.json,.js,.geojson">
 		</div>
-		<div class="col-sm-12 col-xs-12">
+		<div class="col-xs-12">
 				<a href="#" id="btnVerification" class="btn btn-success margin-top-15">Vérification</a>
 			</div>
-		<table id="tableEntity" class="col-sm-12 col-xs-12">
+		<table id="tableEntity" class="col-xs-12">
 			<?php
 				//var_dump($cities);
 				/*foreach ($cities as $name => $find) {
@@ -28,10 +28,10 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Import de données");
+
 var file = [];
 jQuery(document).ready(function() {
-	
+	setTitle("Espace administrateur : Import de données","cog");
 	//init();
 	 bindCheck();
 });

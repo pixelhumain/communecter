@@ -11,6 +11,7 @@ return array(
 	"UPCOMING EVENTS"=>"PROCHAINS EVENEMENTS",
 	"ALL EVENTS"=>"TOUS LES EVENEMENTS",
 	"EVENT" => "ÉVÈNEMENT",
+	"Events" => "Événements",
 	"MY EVENTS" => "MES ÉVÈNEMENTS",
 	"EVENTS" => "ÉVÈNEMENTS",
 	"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement" 
@@ -70,6 +71,16 @@ return array(
 	"Please specify the city"=>"La commune est obligatoire",
 
 	'Calendar' => "Calendrier",
-	"No Parent Event" => "Pas de parent"
+	"No Parent Event" => "Pas de parent",
+	"Display/Hide old events" => "Afficher/Cacher les événements passés",
+	"Old events" => "Evénements passés",
+	"Create your next events <br>To show your next meet-up<br>And where people can go" => "Référencer vos prochains événements<br>Pour montrer les prochains rendez-vous<br>Et où les gens peuvent sortir",
+	"View this event calendar" => "Voir la programmation de l&#146;événement",
+	"Invite people to this event" => "Inviter des personnes à cet événement",
+	"Invite people to your event and manage its administration" => "Inviter des personnes à participer et gérer l'administration de l'événement",
+
+	"Write the event's short description" => "Ecrire la description courte de l'événement",
+	"Write the event's description" => "Ecrire la description de l'événement"
+
 );
 ?>

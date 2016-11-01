@@ -13,9 +13,30 @@
 		<!-- <center><img class="world_pix" style="margin-top:50px;" src="<?php echo $this->module->assetsUrl; ?>/images/shattered.png"></center> -->
     </div>
 
-	<div class="bg-main-menu bgpixeltree_sig hidden-xs"></div>
-
+	<!-- <div id="form-in-map">
+		<div id="form-in-map-title">
+		
+		</div>
+		<div id="form-in-map-content">
+		
+		</div>
+	</div>	 -->
 	
+	<?php if(isset($sigParams['useHorizontalAroundMe']) && 
+				@$sigParams['useHorizontalAroundMe'] == true ){ ?>
+			<div class="btn-group btn-groupe-around-me-km  btn-groupe-around-me-km-hz" 
+				 role="group" aria-label="...">
+			  <button class="btn btn-map" data-km="2000">2 km</button>
+			  <button class="btn btn-map" data-km="5000">5 km</button>
+			  <button class="btn btn-map" data-km="10000">10 km</button>
+			  <button class="btn btn-map" data-km="25000">25 km</button>
+			  <button class="btn btn-map" data-km="50000">50 km</button>
+			  <button class="btn btn-map" id="loader-aroundme"></button>
+
+			</div>
+	<?php } ?>
+
+	<div class="bg-main-menu bgpixeltree_sig"></div>
 
 	<?php if($sigParams['useRightList']){ ?>
 		<div id="right_tool_map" class="hidden-xs hidden-sm">
@@ -55,15 +76,12 @@
 			
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
-
 				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="filtrer par nom ...">
-				
 			</div>
 			<!-- 	PSEUDO SEARCH -->
 
 			<!-- 	LIST ELEMENT -->
-			<div id="liste_map_element">
-			</div>
+			<div id="liste_map_element"></div>
 
 			<label id="lbl-chk-scope">
 				<nav>
@@ -129,29 +147,59 @@
 
 		<div class="btn-group-map tools-btn">
 		
-			
+			<?php if(!isset($sigParams['useBtnCloseMap']) || @$sigParams['useBtnCloseMap'] == true ){ ?>
+			<div class="btn-group btn-group-lg tooltips"
+				 data-toggle="tooltip" data-placement="bottom" title="Fermer la carte">
+				<button type="button" class="btn btn-map " id="btn-back" >
+				<i class="fa fa-chevron-up"></i></button>
+			</div>
 
+			<?php } ?>	
 			<?php if(@$sigParams['useSatelliteTiles']){ ?>
-				<div class="btn-group btn-group-lg">
-					<button type="button" class="btn btn-map" id="btn-satellite"><i class="fa fa-magic"></i></button>
+				<div class="btn-group btn-group-lg hidden-xs tooltips"
+					 data-toggle="tooltip" data-placement="bottom" title="Changer le fond de carte">
+					<button type="button" class="btn btn-map " id="btn-satellite" >
+						<i class="fa fa-magic"></i></button>
 				</div>
 			<?php } ?>	
 			<?php if($sigParams['useZoomButton']){ ?>
 				<div class="btn-group btn-group-lg">		
-					<button type="button" class="btn btn-map " id="btn-zoom-out"><i class="fa fa-search-minus"></i></button>
-					<button type="button" class="btn btn-map" id="btn-zoom-in"><i class="fa fa-search-plus"></i></button>
+					<button type="button" class="btn btn-map tooltips" id="btn-zoom-out" 
+							data-toggle="tooltip" data-placement="bottom" title="Zoom -">
+					<i class="fa fa-search-minus"></i></button>
+					<button type="button" class="btn btn-map tooltips" id="btn-zoom-in" 
+							data-toggle="tooltip" data-placement="bottom" title="Zoom +">
+					<i class="fa fa-search-plus"></i></button>
 				</div>
 			<?php } ?>
 			<?php if($sigParams['useHomeButton']){ ?>
-				<div class="btn-group btn-group-lg">
-					<button type="button" class="btn btn-map" id="btn-home"><i class="fa fa-bullseye"></i></button>
+				<div class="btn-group btn-group-lg tooltips" 
+							data-toggle="tooltip" data-placement="bottom" title="Autour de moi">
+					<button type="button" class="btn btn-map " id="btn-home">
+					<i class="fa fa-bullseye"></i></button>
 				</div>
-			<?php } ?>	
-			
+			<?php } ?>			
 			
 		</div>
 
-		<div id="mapLegende" class="text-azure">Legende</div>
+		<?php if(!isset($sigParams['useHorizontalAroundMe']) || 
+				@$sigParams['useHorizontalAroundMe'] != true ){ ?>
+		<div class="btn-group-vertical btn-groupe-around-me-km" role="group" aria-label="...">
+		  <button class="btn btn-map" data-km="2000">2 km</button>
+		  <button class="btn btn-map" data-km="5000">5 km</button>
+		  <button class="btn btn-map" data-km="10000">10 km</button>
+		  <button class="btn btn-map" data-km="25000">25 km</button>
+		  <button class="btn btn-map" data-km="50000">50 km</button>
+		  <button class="btn btn-map bg-azure tooltips" id="btn-share-aroundme" onclick="javascript:Sig.showIframeSig()"
+				  data-toggle="tooltip" data-placement="bottom" title="Autour de moi">
+		  	<i class="fa fa-share-square-o"></i>
+		  </button>
+		  <button class="btn btn-map" id="loader-aroundme">
+		  </button>
+		</div> 
+		<?php } ?>
+
+		<div id="mapLegende" class="text-azure hidden-xs">Legende</div>
 
 	<?php if($sigParams['useFullScreen']){ ?>
 		<!--<div class="btn-group btn-group-lg btn-group-map btn-full-screen">

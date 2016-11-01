@@ -1,20 +1,20 @@
 <?php
 
 $cssAnsScriptFiles = array(
-	"/assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-	'/assets/plugins/jquery-shorten/jquery.shorten.1.0.js',
-	'/assets/plugins/moment/min/moment.min.js',
-	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
-	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
-	'/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-	'/assets/plugins/wysihtml5/wysihtml5.js'
+	"/plugins/ScrollToFixed/jquery-scrolltofixed-min.js",
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+	'/plugins/jquery-shorten/jquery.shorten.1.0.js',
+	'/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
+	'/plugins/perfect-scrollbar/src/perfect-scrollbar.js',
+	'/plugins/perfect-scrollbar/src/jquery.mousewheel.js',
+	'/plugins/x-editable/js/bootstrap-editable.js' , 
+	/*'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/wysihtml5.js'*/
+	'/plugins/x-editable/js/bootstrap-editable.js' , 
 
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
 ?>	
 
 <style>
@@ -39,7 +39,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
 	opacity: 1;
 }
 #commentHistory .panel-heading{
-	min-height:0px;
+	/*min-height:50px;*/
 }
 #commentHistory .panel-scroll{
 	/*overflow-y: hsidden;*/
@@ -95,26 +95,54 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 <!-- start: PAGE CONTENT -->
 
 
-<div id="commentHistory" class="no-padding">
+<div id="commentHistory" class="no-padding pull-left col-md-12">
 	<div class="panel panel-white">
-		<div class="panel-heading border-light">
+		<div class="panel-body border-light">
+
 			<?php if($contextType == "actionRooms"){ ?>
-  				<h1 class="homestead" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
-			     <i class="fa fa-comment"></i> "<?php echo $context["name"]; ?>"
-			  	 </h1>
+				<?php
+					if($contextType == "actionRooms" && $context["type"] == ActionRoom::TYPE_DISCUSS){
+						echo "<div class='col-md-4'>";
+						$this->renderPartial('../pod/fileupload', array("itemId" => (string)$context["_id"],
+							  "type" => ActionRoom::COLLECTION,
+							  "resize" => false,
+							  "contentId" => Document::IMG_PROFIL,
+							  "editMode" => $canComment,
+							  "image" => $images,
+							   "parentType" => $parentType,
+							   "parentId" => $parentId, 
+)); 
+						}
+						echo "</div>";
+				
+				  	$icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
+	              	$archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
+	              	$color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";
+                ?>
+                <div class='col-md-8'>
+					<h1 class=" <?php echo $color;?>" style="color:rgba(0, 0, 0, 0.8); font-size:27px;">
+				      <i class="fa fa-<?php echo $icon;?>"></i> "<?php echo $context["name"].$archived; ?>"
+				  	</h1>
+
+			<?php }else{ ?>
+				<div class='col-md-12'>
 			<?php } ?>
+
 			<?php $currentUser = Yii::app()->session["user"]; ?>
 			<?php if (@$currentUser && Role::isDeveloper($currentUser['roles'])){ ?>
-			<div class="options pull-right">
-				<?php foreach ($options as $optionKey => $optionValue) {
-					$currentLabel = $optionsLabels[$optionKey][$optionValue];
-					echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
-				}?>
-			</div>
+				<div class="options pull-right">
+					<?php foreach ($options as $optionKey => $optionValue) {
+						$currentLabel = $optionsLabels[$optionKey][$optionValue];
+						echo '<span class="comment-options" title="'.$currentLabel["title"].'">'.$currentLabel["label"].' | </span>';
+					}?>
+				</div>
 			<?php } ?>
-			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> <span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?></h4>
+			<h4 class="panel-title text-dark" style="font-weight: 300;"><i class="fa fa-comments"></i> 
+				<span class="nbComments"><?php echo ' '.$nbComment; ?></span> <?php echo Yii::t("comment","Comments") ?>
+			</h4>
+			</div>
 		</div>
-
+		  
 		<div class="panel-body panel-white">
 			<div class='row'>
 				<div class="tabbable no-margin no-padding partition-dark">
@@ -137,7 +165,7 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 								</span>
 							</a>
 						</li>
-					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditEntry(Yii::app()->session["userId"], (String) $context["_id"]))) 
+					<?php if ( ($context["type"] == ActionRoom::TYPE_VOTE && (Authorisation::canEditItem(Yii::app()->session["userId"], Survey::COLLECTION, (String) $context["_id"]))) 
 								//|| ($context["type"] == ActionRoom::TYPE_ACTIONS && (Authorisation::canEditAction(Yii::app()->session["userId"], (String) $context["_id"])))  
 								) { ?>
 						<li role="presentation">
@@ -182,7 +210,8 @@ $canComment = $canComment && isset(Yii::app()->session["user"]);
 
 </div>
 <style type="text/css">
-
+	ul li.comment {border-left : 5px solid #ccc; margin-bottom: 5px;padding-left: 5px;} 
+	.commentContent-posted {margin-left:10px};
 </style>
 <!-- end: PAGE CONTENT-->
 <script type="text/javascript">
@@ -203,7 +232,7 @@ var modeComment = "view";
 //var canParticipate = <?php //echo ( $canParticipate ) ? "true" : "false"; ?>;
 
 jQuery(document).ready(function() {
-	//$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
+	//setTitle("","");$(".moduleLabel").html("<i class='fa fa-comments'></i> Espace de discussion");
   	
 	buildCommentsTree('.commentTable', comments, "all");
 	buildCommentsTree('.communityCommentTable', commentsSelected, "all");
@@ -211,6 +240,7 @@ jQuery(document).ready(function() {
 	bindEvent();
 	$('.ps-container').perfectScrollbar({suppressScrollX : true});
 
+	
 
 	/*!
 	  Non-Sucking Autogrow 1.1.1
@@ -228,11 +258,10 @@ function buildCommentsTree(where, commentsList, withActions) {
 	$(where).append(buildComments(commentsList, 0, withActions,where));
 	if(where != ".communityCommentTable")
 		initCommentUpdate(commentsList);
-	
-	
 }
+
 function initCommentUpdate(comment){
-	$.each( comment , function(key,o){
+	$.each( comment , function(key,o) {
 		if (o.replies.length != 0){
 				initCommentUpdate(o.replies);
 		}
@@ -412,7 +441,8 @@ function commentDisabledActions(commentObj) {
 }
 
 function bindEvent(){
-	var separator, anchor;
+	var separator;
+	var anchor;
 	$('.commentline-scrubber').scrollToFixed({
 		marginTop: $('header').outerHeight() + 100
 	}).find("a").on("click", function(e){			
@@ -428,6 +458,7 @@ function bindEvent(){
 			$('.saySomething').hide();
 			addEmptyCommentOnTop();
 			bindEvent();
+			activateSummernote('.newComment');
 		}
 	});
 	$('.newComment').unbind('keydown').keydown(function(event) {
@@ -706,7 +737,7 @@ function reportAbuse(comment, contextId) {
 	});
 }
 
-function actionAbuseComment(comment, action, reason, reasonComment=null) {
+function actionAbuseComment(comment, action, reason, reasonComment) {
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: {
@@ -805,6 +836,7 @@ function replyComment(parentCommentId) {
 	}
 	bindEvent();
 	$(".newComment").focus();
+	activateSummernote('.newComment');
 }
 
 function buildNewCommentLine(parentCommentId) {
@@ -818,7 +850,7 @@ function buildNewCommentLine(parentCommentId) {
 	
 	var name = currentUser.name;
 	var city = "";
-	var text = '<textarea class="newComment" rows="2" style="width: 100%" data-id="'+id+'" data-parentid="'+parentCommentId+'"></textarea>';
+	var text = '<textarea class="newComment wysiwygInput" rows="2" style="width: 100%" data-id="'+id+'" data-parentid="'+parentCommentId+'"></textarea>';
 	
 	if (canUserComment == true) {
 		commentsTLLine = 
@@ -858,44 +890,43 @@ function cancelComment(commentId) {
 }
 
 function validateComment(commentId, parentCommentId) {
-	content = $.trim($('#'+commentId+' .newComment').val());
+	content = $.trim($('#'+commentId+' .newComment').code());
 	if (content == "" || content == null) {
 		$('#'+commentId).remove();
-	}
-
-	$.ajax({
-		url: baseUrl+'/'+moduleId+"/comment/save/",
-		data: {
-			parentCommentId: parentCommentId,
-			content : $('#'+commentId+' .newComment').val(),
-			contextId : context["_id"]["$id"],
-			contextType : contextType
-		},
-		type: 'post',
-		global: false,
-		dataType: 'json',
-		success: 
-			function(data) {
-				if(!data.result){
-					toastr.error(data.msg);
-				}
-				else { 
-					toastr.success(data.msg);
-					console.log(data);
-					$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
-					if (data.newComment.contextType=="news"){
-						$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
-					}
-					switchComment(commentId, data.newComment, parentCommentId);
-
-				}
+	} else {
+		$.ajax({
+			url: baseUrl+'/'+moduleId+"/comment/save/",
+			data: {
+				parentCommentId: parentCommentId,
+				content : content,
+				contextId : context["_id"]["$id"],
+				contextType : contextType
 			},
-		error: 
-			function(data) {
-				toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
-			}
-	});
-
+			type: 'post',
+			global: false,
+			dataType: 'json',
+			success: 
+				function(data) {
+					if(!data.result){
+						toastr.error(data.msg);
+					}
+					else { 
+						toastr.success(data.msg);
+						console.log(data);
+						$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
+						if (data.newComment.contextType=="news"){
+							$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
+						}
+						switchComment(commentId, data.newComment, parentCommentId);
+						latestComments = data.time;
+					}
+				},
+			error: 
+				function(data) {
+					toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
+				}
+		});
+	}
 	//return newCommentId;
 }
 
@@ -920,7 +951,8 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 	bindEvent();
 }
 
-function getProfilImageUrl(imageURL) {console.log("imageURL",imageURL);
+function getProfilImageUrl(imageURL) {
+	console.log("imageURL",imageURL);
 	var iconStr = '<div class="avatar">';
 	
 	if ("undefined" != typeof imageURL && imageURL != "") {
@@ -957,9 +989,11 @@ function deleteComment(id,$this){
 	    }
 	});
 }
+
 function modifyComment(id){
 	switchModeCommentEdit(id);
 }
+
 function switchModeCommentEdit(id){
 	//alert(mode);
 	if(modeComment == "view"){

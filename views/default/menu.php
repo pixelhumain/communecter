@@ -4,13 +4,8 @@
     	$me = Person::getById(Yii::app()->session['userId']);
     	$newsToModerate = count(News::getNewsToModerate());
 
-
-
-    $cssAnsScriptFilesModule = array(
-		'/css/default/menu.css',
-		'/js/default/menu.js',
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+    HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/menu.css', Yii::app()->theme->baseUrl));
+	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/menu.js'), $this->module->assetsUrl);
 ?>
 <?php 
 	$inseeCommunexion = "";
@@ -63,7 +58,7 @@
 	<?php } ?>
 </style>
 
-<div class="hover-info col-md-7 col-md-offset-3 col-sm-6 col-sm-offset-5 hidden-xs panel-white padding-20">
+<div class="hover-info col-sm-10 col-sm-offset-1 hidden-xs panel-white padding-20">
 	<?php echo $this->renderPartial('explainPanels',array("class"=>"explain")); ?>
 </div>
 
@@ -133,7 +128,7 @@
 	</button>
 	
 	<?php if(isset($cityCommunexion)) { ?>
-	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 bg-azure" id="btn-citizen-council-commun" onclick="loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>')">
+	<button class="menu-button menu-button-left menu-button-title btn-menu btn-menu11 bg-azure lbh" id="btn-citizen-council-commun" data-hash="#rooms.index.type.cities.id.<?php echo City::getUnikey($cityCommunexion); ?>">
 		<span class="fa-stack">
 				<i class="fa fa-university fa-stack-1x"></i>
 				<i class="fa fa-group fa-stack-1x stack-right-bottom text-dark" style="font-size:15px;"></i>
@@ -173,27 +168,27 @@
 		<?php } ?>
 
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu6 text-red" onclick="javascript:loadByHash('#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>')">
+		<button class="menu-button menu-button-title btn-menu6 text-red lbh" data-hash="#rooms.index.type.cities.id.<?php echo City::getUnikey($myCity); ?>">
 				<i class="fa fa-group"></i>
 				<span class="lbl-btn-menu-name"><?php echo  ucfirst(strtolower(Yii::t("common","MY CITIZEN COUNCIL")));?></span>
 		</button>
 		<?php } ?>
 
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu7 text-red" onclick="javascript:loadByHash('#city.detail.insee.<?php echo $inseeCommunexion; ?>.postalCode.<?php echo $cpCommunexion; ?>')">
+		<button class="menu-button menu-button-title btn-menu7 text-red lbh" data-hash="#city.detail.insee.<?php echo $inseeCommunexion; ?>.postalCode.<?php echo $cpCommunexion; ?>">
 				<i class="fa fa-university"></i>
 				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","MY CITY")));?></span>
 		</button>
 		<?php } ?>
 
 		<?php if(isset(Yii::app()->session['userId'])){ ?>
-		<button class="menu-button menu-button-title btn-menu8 text-dark" onclick="javascript:loadByHash('#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>')">
+		<button class="menu-button menu-button-title btn-menu8 text-dark lbh" data-hash="#news.index.type.citoyens.id.<?php echo Yii::app()->session['userId'] ?>">
 				<i class="fa fa-rss fa-rotate-270"></i>
 				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common","My News Stream")));?></span>
 		</button>
 		<?php } ?>
 
-		<button class="menu-button menu-button-title btn-menu btn-menu9 text-dark" onclick="loadByHash('#news.index.type.pixels')">
+		<button class="menu-button menu-button-title btn-menu btn-menu9 text-dark lbh" data-hash="#news.index.type.pixels">
 				<i class="fa fa-bullhorn"></i>
 				<span class="lbl-btn-menu-name"><?php echo ucfirst(strtolower(Yii::t("common", "BUGS, IDEAS"))); ?></span></span>
 		</button>
@@ -219,22 +214,22 @@
 
 <div class="drop-up-btn-add">
 
-	<button class="menu-button btn-menu btn-menu-add1 bg-yellow" onclick="loadByHash('#person.invite');" >
+	<button class="menu-button btn-menu btn-menu-add1 bg-yellow lbh" data-hash="#person.invite" >
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-user"></i>
 		<span class="lbl-btn-menu-name-add">inviter quelqu'un</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add2 bg-green" onclick="loadByHash('#organization.addorganizationform');">
+	<button class="menu-button btn-menu btn-menu-add2 bg-green lbh" data-hash="#organization.addorganizationform">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-group"></i>
 		<span class="lbl-btn-menu-name-add">une organisation</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add3 bg-purple" onclick="loadByHash('#project.projectsv');">
+	<button class="menu-button btn-menu btn-menu-add3 bg-purple lbh" data-hash="#project.projectsv">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-lightbulb-o"></i>
 		<span class="lbl-btn-menu-name-add">un projet</span></span>
 	</button>
-	<button class="menu-button btn-menu btn-menu-add4 bg-orange" onclick="loadByHash('#event.eventsv');">
+	<button class="menu-button btn-menu btn-menu-add4 bg-orange lbh" data-hash="#event.eventsv">
 		<i class="fa fa-plus-circle" style="margin-left: 6px;"></i>
 		<i class="fa fa-calendar"></i>
 		<span class="lbl-btn-menu-name-add">un événement</span></span>

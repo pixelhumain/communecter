@@ -39,7 +39,7 @@ if(!isset($toolbarFloat)) $toolbarFloat = "";//"pull-right";
       $tooltip = ( isset( $item["tooltip"] ) ) ? " data-placement='bottom' data-original-title='".$item["tooltip"]."'" : "";
       //par defaut, si un item n'a pas de position, on le met à gauche
       $item["position"] = isset( $item["position"] ) ? $item["position"] : "left";
-      $class =  ($item["position"] == "right" || $item["label"] == "Album" || $item["label"] == "Vote") ? "hidden-sm hidden-md hidden-xs" : "hidden-xs";
+      $class =  ($item["position"] == "left"|| $item["position"] == "right" || $item["label"] == "Album" || $item["label"] == "Vote") ? "hidden-sm hidden-md hidden-xs" : "hidden-xs";
       //$position = ( isset( $value["position"] ) ) ? $value["position"] : "left";
       $html = $href.$tooltip.">".$badge.$icon.' <span class="'.$class.'">'.$label.'</span></a>';
 

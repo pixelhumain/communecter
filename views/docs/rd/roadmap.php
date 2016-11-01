@@ -13,21 +13,27 @@
         <div class="panel-body">
            La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
 
-			<div class="col-sm-12" style="margin-top: 20px">	
+			<div class="col-sm-12" style="margin-top: 20px">
+
 				<div class="col-sm-12">
-					<h2 class="text-red homestead">version 0.14 ???</h2>
+					<h2 class="text-red homestead">version 0.15 INTERACT</h2>
 					<ul>
-						<li><i class="fa fa-angle-right"></i> Full mobile sur meteor</li>
-						<li><i class="fa fa-angle-right"></i> flux RSS et ESS</li>
-						<li><i class="fa fa-angle-right"></i> Interoperabilité : connecter l'instance Communecté avec Granddir</li>
-						<li><i class="fa fa-angle-right"></i> Scope quartier pour les communes inscrites</li>
-						<li><i class="fa fa-angle-right"></i> Système Module Tiers : ex CommuNacelle (Communecter épuré ou en meteor à voir)</li>
-						<li><i class="fa fa-angle-right"></i> Besoin et Compétence </li>
-						<li><i class="fa fa-angle-right"></i> Messagerie privé</li>
-						<li><i class="fa fa-angle-right"></i> subscribe to a tag on news</li>
-						<li><i class="fa fa-angle-right"></i> ouverture international </li>
-						<li><i class="fa fa-angle-right"></i> multi scope</li>
-						<li><i class="fa fa-angle-right"></i> refactor full text search </li>
+						<li><i class="fa fa-angle-right"></i> </li>
+						
+					</ul>
+				</div>
+
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.14 SEE</h2>
+					<ul>
+						<li><i class="fa fa-angle-right"></i> Refonte interface DDA</li>
+						<li><i class="fa fa-angle-right"></i> Documentation</li>
+						<li><i class="fa fa-angle-right"></i> Open Data préférence</li>
+						<li><i class="fa fa-angle-right"></i> Moteur de traduction, pour lire et convertir les sources externes ( ex : Open Agenda )</li>
+						<li><i class="fa fa-angle-right"></i> Open Edition ubiquité en préférence</li>
+						<li><i class="fa fa-angle-right"></i> Mentionner qlq'un dans une actu/News @someone </li>
+						<li><i class="fa fa-angle-right"></i> DDA : Ajouter un Framapad</li>
+						<li><i class="fa fa-angle-right"></i> Archiving : discussion, decision et action rooms</li>
 					</ul>
 				</div>
 

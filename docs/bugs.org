@@ -1,0 +1,73 @@
+* ************************************************************    
+* Correction de bugs
+* ************************************************************
+
+  [ ] Impossible d'ajouter une image sur un subevent en production (Sitti) => Pas reproduit en attente de voir avec Sitti.
+  [ ] avec le wysiwyg sur les addsv qui s'active au clic c'est chiant, tu es obligé de cliquer deux fois dans la zone description
+  [ ] Erreur sur les projets de Fabienne
+  [ ] https://www.communecter.org/#event.calendarview.id.57d78dab40bb4efa33ec9f71 => Syntaxe error
+  [ ] Bouton communecter-moi qui apparait sur la page de profil d'un autre user [https://www.communecter.org/#person.detail.id.57c5965640bb4e4b36fb8257]
+
+** Bugs relevés sur le fil de Communecter "help and debug"
+
+  [ ] Je suis admin du projet "jardin partagé Vauban" et je ne peux pas créer de discussion / décision / action De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout Saint-Denis". A la base j'avais mis une date de fin qui avait été dépassée, j'ai modifié la date de fin, mais ce projet reste dans "ancien projet
+
+** Bugs relevés pas le ND : https://www.communecter.org/#comment.index.type.actionRooms.id.57c847ac40bb4ebd0efb8257
+
+  [ ] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
+  [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
+  [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
+  [ ] Lorsque l'on change de commune dans le profil utilisateur, Qu'ensuite on clique sur "Ma commune" on obtiens la page de la commune précédente. un CTRL F5 résout le probléme
+  [ ] Dans son profil>editer : on peut changer d'email, si on change d'email, ca change le login, sans activation, du coup si on se trompe en tapant le nouvel email, et bien plus possible de retrouver son mot de passe, en cas d'oubli.
+  [@clement] Le partage de lien n'est pas efficace : quand on met un lien il ne prend pas la vignette, le titre, et la description de la page ciblée, et le lien n'est pas cliquable
+  [ ] Infobulles manquantes. Espace connecté : *Alertes *Profil Espace non connecté : * [to edit]
+  [ ] Bug affichage si fenétre réduite : Dans Mon espace perso: je clique sur "Ma commune"  les boutons sont hors du tooltip dans le changement de code postal ( <input name="postalCode" class="input-small" id="postalCode" type="text">)(screencast-01-09-2016-20-14-35.webm)
+  [ ] Lorsque l'on change de commune dans le profil utilisateur, Qu'ensuite on clique sur "Ma commune" on obtiens la page de la commune précédente. un CTRL F5 résout le probléme
+  [X] En résolution 1920x1200, quand je clique sur la "Cloche de notification" dans le topmenu a droite ,  la boite de notification apparait décalée vers la gauche, et donc disparait avant que je puisse cliquer dessus. .main-top-menu button.btn-menu-notif
+  [ ] Le partage sur FB et twitter n'est pas optimal pour ramener le titre, l'image et la description du post - par exemple un post de projet
+  [ ] Filtre ne marche plus sur un event (participants / invités). Ex : [https://www.communecter.org/#event.directory.id.57d1b4c040bb4e706caa4157?tpl=directory2]
+
+
+** Erreurs de logs en prods 
+  [ ] 2016/09/05 14:16:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/css/rooms/header.css".'
+  [ ] 2016/09/05 23:23:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/d8941b81/images/testamonials/guillaumeR.png".' in /home/ubuntu/communecter/pixelhumain/ph/vendor/yiisoft/yii/framework/web/CWebApplication.php:286
+  [ ] 2016/09/05 14:14:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "themes/ph-dori/assets/plugins/jQuery/wysihtml5x-toolbar.min.map".
+  [ ] 2016/09/04 21:41:23 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "assets/d8941b81/images/logoL.jpg".'
+  [ ] 2016/09/04 21:45:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "upload/communecter/events/57c8701c40bb4e021dfb8264fives.JPG".'
+
+
+* ************************************************************    
+* Version 0.15.2 
+* ************************************************************
+
+* Non reproduit
+  [ ] Je me dis participant d'un evénénement => on me dit que j'été invité par moi même et on me demande de confirmer ma participation ????
+
+* Sylvain
+
+* Rapha
+
+* Tib
+
+* ************************************************************    
+* Version 0.15.1 
+* ************************************************************
+
+* Rapha
+  
+  [X] En open edition, sur une Orga, on ne pouvez ajouter un évènement, un besoin ou un projet.
+  [X] les boutons "Devenir Admin", "Ajouter un évènement" etc ... apparait lorsque l'utilisateur n'est pas connecter et que l'orga est en open edition
+  [X] https://www.communecter.org/#gallery.index.id.56ad340cdd04528b3dd37405.type.citoyens Erreur 404 sur la galerie d'image
+  [X] Si on regarde le compteur dans "discussion" il ne fonctionne pas malgré 2 commentaires
+  [X] Quand je crée un projet (et il me semble d'autres types de contenus), quand je renseigne la description, elle ne se retrouve pas dans le projet créé, il faut que je la renseigne à nouveau 
+    [X] Meme probleme dans orga 
+    [X] Meme probleme pour event
+
+* Sylvain
+  [X] bug : gestion des comptes en doublon depuis communEvent ou invitation (ex : 57cbce3a40bb4e0a0dfb8256 et 57be6caa40bb4eb84ef5aa49 en prod)
+    [X] gestion des comptes en doublons sur la prod : suppression et report
+    [X] pb de case + trim sur l'email avec link.connect
+    [X] pb de case + trim sur l'email au login
+    [X] pb de case + trim sur l'email au register
+  [X] 404 lors de l'ajout d'un commentaire lors d'un vote : 2016/09/05 14:15:51 [error] [php] Undefined index: content (/home/ubuntu/communecter/modules/citizenToolKit/models/Comment.php:74)
+  [X] Manque un '/' dans l'URL des images de "En ce moment". Ex Manapany Festival. Arrive lorsque l'événement a des sous events ! Les URL des thumbs sont mal recalculées.

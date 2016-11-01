@@ -2,19 +2,19 @@
 
 $cssAnsScriptFilesTheme = array(
 
-'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+'/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-dark">
-		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","NEEDS",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title text-left"><i class="fa fa-cubes"></i> <?php echo Yii::t("need","Needs",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
-	<?php if($isAdmin) { ?>
+	<?php if( ($isAdmin || $openEdition) && isset(Yii::app()->session["userId"]) ) { ?>
 		<div class="panel-tools">
-    		<a class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("needs","Add need to find energies to help you",null,Yii::app()->controller->module->id) ?>ok" onclick="loadByHash('#need.addneedsv.id.<?php echo $parentId ?>.type.<?php echo $parentType ?>')">
+    		<a class="tooltips btn btn-xs btn-light-blue lbh"  data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("need","Add need to find energies to help you") ?>" onclick="showElementPad('addneed')">
 	    		
 	    		<i class="fa fa-plus"></i> Ajouter un besoin
 	    	</a>
@@ -26,22 +26,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 				<tbody>
 					<?php
 					if (isset($needs) && !empty($needs)){
-						foreach ($needs as $data){ 
+						foreach ($needs as $key => $data) {
 							if(!empty($data["name"])){
-							if ($data["type"]=="materials")
-								$icon="fa-bullhorn";
-							else 
-								$icon="fa-gears"; ?>
-							<tr>
-								<td class="center">
-									<i class="fa <?php echo $icon; ?> fa-2 text-blue"></i> 
-								</td>
-								<td class="text-left">
-									<span class="text-large"><?php echo $data["name"]; ?></span>
-									<a href="javascript:;" onclick="loadByHash('#need.detail.id.<?php echo $data["_id"] ?>')" class="btn"><i class="fa fa-chevron-circle-right"></i></a>
-								</td>
-							</tr>
-				<?php } } } ?>
+								if ($data["type"]=="materials")
+									$icon="fa-bullhorn";
+								else 
+									$icon="fa-gears"; ?>
+								<tr>
+									<td class="center">
+										<i class="fa <?php echo $icon; ?> fa-2 text-blue"></i> 
+									</td>
+									<td class="text-left">
+										<span class="text-large"><?php echo $data["name"]; ?></span>
+										<a href="javascript:;" class="btn" onclick="showElementPad('need', '<?php echo $data['_id'] ?>')"><i class="fa fa-chevron-circle-right"></i></a>
+									</td>
+								</tr>
+				<?php 		} 
+						}
+					} ?>
 						</tbody>
 			</table>
 			<?php if(isset($needs) && !empty($needs)){ ?>
@@ -52,7 +54,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<?php if (empty($needs)){ ?>
 				<div id="infoPodOrga" class="padding-10 info-no-need">
 					<blockquote> 
-						<?php echo Yii::t("need","Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need",null,Yii::app()->controller->module->id); ?>
+						Faites connaître vos besoins pour développer votre activité : matériels, savoirs, compétences...
+						<?php //echo Yii::t("need","Create needs<br/>Materials<br/>Knowledge<br/>Skills<br/>To call ressources that you need",null,Yii::app()->controller->module->id); ?>
 					</blockquote>
 				</div>
 			<?php } ?>

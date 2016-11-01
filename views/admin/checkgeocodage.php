@@ -4,10 +4,10 @@
 			<h3 class="panel-title text-red"><i class="fa fa-map-marker"></i>   <?php echo Yii::t("common", "CHECKGEOCODAGE"); ?></h3>
 		</div>
 		<div class="panel-body">
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a href="#" class="btn btn-primary" id="btnCheckGeo"> Récupérer les entités qui sont mal géolocaliser</a>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				Process : <br/>
 				- On vérifie si l'entité a une adresse, si il en a une, on vérifie si l'entité a un code postal et un code INSEE : <br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;- Si il n'y en pas alors on retourne avec l'erreur : "Code INSEE ou code postal absent".<br/>
@@ -26,7 +26,7 @@
 			<h4 class="panel-title">Entité mal géolocalisé</h4>
 		</div>
 		<div class="panel-body">
-			<table id="tableEntity" class="col-sm-12 col-xs-12">
+			<table id="tableEntity" class="col-xs-12">
 				
 
 			</table>
@@ -35,8 +35,10 @@
 </div>
 
 <script type="text/javascript">
-$(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Entités mal géolocalisé");
+
 jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Entités mal géolocalisé","cog");
+	
 	bindCheckGeo();
 });
 
@@ -60,7 +62,7 @@ function bindCheckGeo(){
 	  					textHTML += "<tr>"+
 	  									"<td>"+typeEntity+"</td>"+          
 	  									"<td>"+								    
-	  										'<a  href="javascript:;" onclick="loadByHash(\'#'+typeEntity+'.detail.id.'+entity["id"]+'\')" class=""> '+
+	  										'<a  href="#'+typeEntity+'.detail.id.'+entity["id"]+'" class="lbh"> '+
 	  										entity["name"]+ "</a></td>"+
 	  									"<td>"+entity["error"]+"</td>"+
 	  								"</tr>";

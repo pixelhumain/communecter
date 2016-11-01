@@ -25,8 +25,8 @@
 	        <h2 class="text-red homestead tpl_title"> Espace coopératif</h2><br>
 	    	<!-- <h3 class="center text-dark homestead no-margin">Discuter, Décider, Agir (DDA)</h3> -->
 	    
-	        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda11.png" class="col-sm-12 img-responsive ">
-	        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda12.png" class="col-sm-12 img-responsive ">
+	        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda.png" class="col-sm-12 img-responsive ">
+	        <img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/dda2.png" class="col-sm-12 img-responsive ">
 	        
 	        <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
 		        <div class="col-sm-12 ">

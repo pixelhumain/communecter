@@ -9,7 +9,7 @@ return array(
 	"THIS VOTE IS CLOSED" => "Ce vote est terminé",
 	"people voted" => "ont voté",
 	"You are Following this vote." => "Vous suivez cette session",
-	"You created this vote." => "Vous etes créateur de la session",
+	"You created this vote." => "Vous êtes l'auteur de cette proposition",
 	"VOTE"=>"VOTER",
 	"DISCUSS"=>"DISCUTER",
 	"DECIDE"=>"DECIDER",
@@ -23,9 +23,10 @@ return array(
 	"Feel Free to vote"=>"Voter est un droit, pas un devoir.",
 	"INVITATION TO VOTE" => "INVITATION A VOTER",
 	"VOTERS"=>"Nombre de votants",
-	"Since"=>"Début",
-	"Ends"=>"Fin",
-	"VISITORS"=>"Visiteurs",
+	"Since"=>"Ouvert le",
+	"Started"=>"En cours depuis le",
+	"Ends"=>"Se termine le",
+	"VISITORS"=>"Nombre de visiteurs",
 	"Voted" => "Vous avez voté",
 	"Not Voted" => "Vous n'avez pas voté",
 	"Closed" => "Cloturé",
@@ -67,6 +68,8 @@ return array(
 	"Result" => "Résultats",
 	"You did not vote" => "Vous n'avez pas voté",
 	"Login to vote" => "Connectez-vous",
+	"Closed" => "Fermé",
+	"Archived" => "Archivé",
 
 	"Type / Action" => "Type / Action",
 	"Name" => "Thématique",
@@ -124,9 +127,10 @@ return array(
 	"Estimated End Date" => "Date de fin",
 	"Add urls or Bullet points" => "Ajouter des liens ou actions à faire" ,
 	"Assignees" => "Responsable",
-	"start" => "début",
+	"start" => "Début",
 
 	"Todo" => "A faire",
+	"Move" => "Déplacer",
 	'My Todo' => "Mes Actions",
 	"Progressing"=> "En cours",
 	"In Progress" => "En cours",
@@ -166,8 +170,22 @@ return array(
 	"{who} added a new Actions List on {where}" => "{who} a ajouté une salle d'action sur {where}",
 	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une Proposition {what} dans {where}",
 	"{who} added a new Action {what} in {where}" => "{who} a ajouté une Action {what} dans {where}",
-	"{who} voted on {what} in {where}" => "{who} a voté sur {what} dans {where}"
+	"{who} voted on {what} in {where}" => "{who} a voté sur {what} dans {where}",
 
+	"Archive" => "Archiver",
+	"This will hide and Archive this Decision Room" => "Archiver le contenu de cet espace",
+	"Create an Action for your community" => "Créer une nouvelle action dans cet espace",
+	"Understanding action list" => "Comprendre les listes d'actions",
+
+	"Moved Succesfully to " => "Déplacé avec Succés vers ",
+    "Moved Succesfully to Decision room : " => "Déplacé avec Succés vers la salle de décision : ",
+    "Moved Succesfully to action room : " => "Déplacé avec Succés vers la salle d'action : ",
+    "Destination Room doen't exist" => "L'espace de destination n'existe pas",
+
+    "Edit this proposal" => "Editer cette proposition",
+    "Move this proposal" => "Déplacer cette proposition dans un autre espace",
+    "Close this proposal" => "Supprimer cette proposition",
+    'Participation open to city residents only' => "Seuls les citoyens de cette ville peuvent participer"
 );
 
 

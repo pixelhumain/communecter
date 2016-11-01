@@ -25,7 +25,7 @@
 			</ul>
 
 			<!-- Tab panes -->
-			<div class="tab-content">
+			<div class="tab-content " id="ddaIndexContainer">
 			  <div class="tab-pane active col-lg-12 col-md-12" id="discussions">
 	  			<table class="table table-striped table-bordered table-hover directoryTable ">
 					<thead class="">
@@ -38,7 +38,6 @@
 								<th class=""><i class="fa fa-link"></i> <?php echo Yii::t("rooms", "Element", null, $moduleId); ?></th>
 							<?php } ?>
 							<th class="hidden-xs"><i class="fa fa-clock-o"></i> <?php echo Yii::t("rooms", "Created", null, $moduleId); ?></th>
-							
 						</tr>
 					</thead>
 					<tbody class="directoryLines">
@@ -58,14 +57,19 @@
 									<?php 
 										$type = "comment.index.type.actionRooms";
 										$icon = "comments";
+										if( $e["type"] == ActionRoom::TYPE_FRAMAPAD ){
+											$type = "rooms.external";
+											$icon = "file-text-o";
+										}
 										//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
 										$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
 										$link = 'href="javascript:;" onclick="'.$link.'"';
+										$iconColor = ( @$e["status"] == ActionRoom::STATE_ARCHIVED ) ? "text-red" : "text-dark";
 										?>
 									<td class="center organizationLine hidden">
 										<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
 									</td>
-									<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+									<td><i class="fa <?php echo @$iconColor ?> fa-<?php echo @$icon ?> fa-2x" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 									<td class="hidden"><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 									<td class="hidden"><i class="fa fa-users"></i> //<?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 									
@@ -114,15 +118,15 @@
 									$type = "survey.entries";
 									$icon = "archive";
 									
-									
 									//$link = Yii::app()->createUrl('/'.$this->module->id.'/'.$type.'/id/'.$e["_id"])
 									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
 									$link = 'href="javascript:;" onclick="'.$link.'"';
-									?>
+									$iconColor = ( @$e["status"] == ActionRoom::STATE_ARCHIVED ) ? "text-red" : "text-dark";
+								?>
 								<td class="center organizationLine hidden">
-									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
+									<i class="fa  fa-<?php echo @$icon ?> fa-2x"></i> <?php //if(isset($e["type"]))echo $e["type"]?> 
 								</td>
-								<td><i class="fa fa-<?php echo @$icon ?> fa-2x text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+								<td><i class="fa <?php echo $iconColor ?> fa-<?php echo @$icon ?> fa-2x" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?>xxxx</a></td>
 								<td class=""><i class="fa fa-file-text"></i> <?php echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
@@ -171,7 +175,7 @@
 								<?php 
 									$type = "rooms.actions";
 									$icon = "cogs";
-									
+									$iconColor = ( @$e["status"] == ActionRoom::STATE_ARCHIVED ) ? "text-red" : "text-dark";
 									
 									$link = "loadByHash('#".$type.".id.".$e["_id"]."')";
 									$link = 'href="javascript:;" onclick="'.$link.'"';
@@ -179,7 +183,7 @@
 								<td class="center organizationLine hidden">
 									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> 
 								</td>
-								<td><i class="fa fa-<?php echo @$icon ?> text-dark" style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
+								<td><i class="fa <?php echo $iconColor ?> fa-<?php echo @$icon ?> " style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
 								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(ActionRoom::COLLECTION_ACTIONS,array('room'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								
@@ -199,6 +203,7 @@
 					</tbody>
 				</table>	
 			  </div>
+			  
 			  <div class="tab-pane col-lg-12 col-md-12" id="history">
 			  	<?php if(count(@$history)){ ?>
 						<div class="actionsTable infoTables" style="padding-top:7px;">	
@@ -315,3 +320,4 @@
 					<?php } ?>
 			  </div>
 			</div>
+			<div id="endOfRoom"></div>

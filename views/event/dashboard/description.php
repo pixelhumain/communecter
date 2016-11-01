@@ -2,35 +2,30 @@
 
 $cssAnsScriptFilesTheme = array(
 //X-editable...
-'/assets/plugins/x-editable/css/bootstrap-editable.css',
-'/assets/plugins/x-editable/js/bootstrap-editable.js',
+'/plugins/x-editable/css/bootstrap-editable.css',
+'/plugins/x-editable/js/bootstrap-editable.js',
 
 //DatePicker
-'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/plugins/bootstrap-datepicker/css/datepicker.css',
 
 //DateTime Picker
-'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 
 //Wysihtml5
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-'/assets/plugins/wysihtml5/wysihtml5.js',
-
-'/assets/plugins/moment/min/moment.min.js' , 
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/plugins/wysihtml5/wysihtml5.js',
+ 
+'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-$cssAnsScriptFilesModule = array(
-	
-	
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	//Data helper
@@ -148,31 +143,34 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		<h4 class="panel-title text-left text-dark ficheInfoTitle">
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","General infos") ?>
 			<?php if ($openEdition==true) { ?>
-				<a href='javascript:' class='pull-right editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="top" title="Paramètrer l'édition" alt="">
-					<span class="pull-right" style="font-family:initial;font-size: 15px;line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-				</a>
+				<span class="pull-right tooltips" data-toggle="tooltip" data-placement="top" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-family:initial;font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+
 			<?php } ?>
 		</h4>
 	</div>
 	<div class="navigator padding-0 text-right">
 		<div class="panel-tools">
 		<?php 
-			if($edit){
-		?>
-
-			<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
+			if( ($edit || $openEdition ) && isset(Yii::app()->session["userId"])) { ?>
+				<a href="javascript:" id="editEventDetail" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer l'événement" alt=""><i class="fa fa-pencil"></i><span class="hidden-xs"> <?php echo Yii::t("common","Edit") ?></span></a>
 			<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
-			<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètres de confidentialité" alt="">
-				<i class='fa fa-cog'></i> 
-				<span class="hidden-sm hidden-xs">
-				<?php echo Yii::t("common","Settings"); ?>
-				</span>
-			</a>
+		<?php }
+
+			if($edit){ ?>
+				<a href='javascript:' class='btn btn-sm btn-default editConfidentialityBtn tooltips' data-toggle="tooltip" data-placement="bottom" title="Paramètres de confidentialité" alt="">
+					<i class='fa fa-cog'></i> 
+					<span class="hidden-sm hidden-xs">
+					<?php echo Yii::t("common","Settings"); ?>
+					</span>
+				</a>
 			<!--<a href="javascript:" id="removeEvent" class="btn btn-sm btn-red btn-light-red tooltips removeEventBtn" data-toggle="tooltip" data-placement="bottom" title="Delete this event" alt=""><i class="fa fa-times"></i><span class="hidden-xs"> Annuler l'événement</span></a>-->
-    		<?php } ?>
-    		<?php if ($openEdition==true) { ?>
+    	<?php } 
+
+    		if ($openEdition==true) { ?>
 				<a href="javascript:" id="getHistoryOfActivities" class="btn btn-sm btn-light-blue tooltips" onclick="getHistoryOfActivities('<?php echo $itemId ?>','<?php echo $type ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("activityList","See modifications"); ?>" alt=""><i class="fa fa-history"></i><span class="hidden-xs"> <?php echo Yii::t("common","History")?></span></a>
-			<?php } ?>
+		<?php } ?>
+		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title="Show the QRCode for this organization"><i class="fa fa-qrcode"></i> QR Code</a>
+		
 			<style type="text/css">
 				.badgePH{ 
 					cursor: pointer;
@@ -210,7 +208,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	</div>
 
-
+	<style type="text/css">
+		.urlOpenData{
+		    padding: 9px;
+		}
+	</style>
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -222,9 +224,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	        <!-- <h3><i class="fa fa-cog"></i> Paramétrez la confidentialité de vos informations personnelles :</h3> -->
 	        <div class="row">
 	        	<div class="pull-left text-left padding-10" style="border: 1px solid rgba(128, 128, 128, 0.3); margin-left: 10px; margin-bottom: 20px;">
-	        		<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
+	        		<!--<strong><i class="fa fa-group"></i> Public</strong> : visible pour tout le monde<br/>
 	        		<strong><i class="fa fa-user-secret"></i> Privé</strong> : visible pour mes contacts seulement<br/>
-	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>
+	        		<strong><i class="fa fa-ban"></i> Masqué</strong> : visible pour personne<br/>-->
+	        		<strong><i class="fa fa-group"></i> Open Data</strong> : Vous proposez vos données en accès libre, afin de contribuer au bien commun.<br/>
+	        		<strong><i class="fa fa-group"></i> Open Edition</strong> : Tous les utilisateurs ont la possibilité de participer / modifier les informations.<br/>
 	        	</div>
 		    </div>
 		    <div class="row text-dark panel-btn-confidentiality">
@@ -235,6 +239,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        	<div class="btn-group btn-group-isOpenData inline-block">
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="true"><i class="fa fa-group"></i> Oui</button>
 		        		<button class="btn btn-default confidentialitySettings" type="isOpenData" value="false"><i class="fa fa-user-secret"></i> Non</button>
+						<a href="<?php echo Yii::app()->baseUrl.'/communecter/data/get/type/events/id/'.$event['_id'] ;?>" data-toggle="tooltip" title='Visualiser la données' id="urlOpenData" class="urlOpenData" target="_blank"><i class="fa fa-eye"></i></a>
 					</div>
 		        </div>
 		        <div class="col-sm-4 text-right padding-10 margin-top-10">
@@ -283,7 +288,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>
+	        <button type="button" class="btn btn-success lbh" data-dismiss="modal" aria-label="Close" data-hash="#event.detail.id.<?php echo $event['_id'] ;?>">OK</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -311,6 +316,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 																		  "show" => "true" ,
 																		  "resize" => false,
 																		  "editMode" => $edit,
+																		  "openEdition" => $openEdition,
 																		  "image" => $imagesD )); ?>
 			</div>
 		</div>
@@ -329,7 +335,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					
 					<?php if(isset($event["parentId"])) {
 						$parentEvent = Event::getSimpleEventById($event["parentId"]);
-						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="javascript:;" onclick="loadByHash(\'#event.detail.id.'.$event["parentId"].'\')" >'.$parentEvent["name"]."</a>";
+						echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a class="lbh" href="#event.detail.id.'.$event["parentId"].'" >'.$parentEvent["name"]."</a>";
 					}
 					?>
 						
@@ -347,10 +353,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
 					</div>
+					<?php 
+						$address = (isset( $event["address"]["streetAddress"])) ? $event["address"]["streetAddress"] : "";
+						$address2 = (isset( $event["address"]["postalCode"])) ? $event["address"]["postalCode"] : "";
+						$address2 .= (isset( $event["address"]["addressCountry"])) ? ", ".OpenData::$phCountries[ $event["address"]["addressCountry"] ] : "";
+
+						$this->renderPartial('../pod/qrcode',array(
+																"type" => @$event['type'],
+																"name" => @$event['name'],
+																"address" => $address,
+																"address2" => $address2,
+																"email" => @$event['email'],
+																"img"=>@$event['profilThumbImageUrl']));?>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-12 col-xs-12">
+		<div class="col-xs-12">
 			<?php 
 			if( @$organizer["type"])
 			{ ?>
@@ -384,7 +402,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					if($icon == "fa-lightbulb-o") $color = "purple";
 					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
+					 ?> <a href="#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>" class="lbh"><?php echo @$organizer["name"]; ?></a><br/>
 					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				</div>
 			</div>
@@ -420,13 +438,31 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-12">
-            <!-- <hr/> -->
+		<!--<div class="col-sm-12">
             <div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
         </div>
 		<div class="col-sm-12 hidden-xs padding-20">
 			<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
 			</a>
+		</div>-->
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+				<a href="#" id="description" data-title="Description" data-type="wysihtml5" data-emptytext="Description" class="editable editable-click">
+				</a>
+			</div>
+		</div>
+		<div class="row tag_group">
+			<!-- <div class="col-sm-6 col-xs-6 padding-20 text-dark">
+				<h3><i class="fa fa-angle-down"></i> Activités</h3>
+				<a href="#" id="category" data-title="Categories" data-type="checklist" data-emptytext="Catégories" class="editable editable-click"></a>
+			</div> -->
+			<div class="col-md-12 padding-20 text-red text-right pull-right">
+				<!-- <h3><i class="fa fa-angle-down"></i> Thématiques</h3> -->
+				<i class="fa fa-tags"></i> Tags : 
+				<a href="#" id="tags" data-type="select2" data-type="Tags" data-emptytext="Tags" class="text-red editable editable-click">
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
@@ -440,6 +476,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	var mode = "view";
 	var allDay = '<?php echo (@$event["allDay"] == true) ? "true" : "false"; ?>'
 	var startDate = '<?php echo $event["startDate"]; ?>';
+	//alert(startDate);
 	var endDate = '<?php echo $event["endDate"]; ?>';
 	var imagesD = <?php echo(isset($imagesD)) ? json_encode($imagesD) : 'null'; ?>;
 	var loadActivity = true;	
@@ -490,23 +527,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$(".editConfidentialityBtn").click(function(){
 	    	console.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
-	    	$(".confidentialitySettings").click(function(){
-		    	param = new Object;
-		    	param.type = $(this).attr("type");
-		    	param.value = $(this).attr("value");
-		    	param.typeEntity = "events";
-		    	param.idEntity = itemId;
-				$.ajax({
-			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/event/updatesettings",
-			        data: param,
-			       	dataType: "json",
-			    	success: function(data){
-				    	toastr.success(data.msg);
-				    }
-				});
-	    	});
 	    });
+
+	    $(".confidentialitySettings").click(function(){
+	    	param = new Object;
+	    	param.type = $(this).attr("type");
+	    	param.value = $(this).attr("value");
+	    	param.typeEntity = "events";
+	    	param.idEntity = itemId;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/event/updatesettings",
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	toastr.success(data.msg);
+			    }
+			});
+    	});
 
 
 		$(".panel-btn-confidentiality .btn").click(function(){
@@ -515,6 +553,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
+
+		buildQRCode("event","<?php echo (string)$event["_id"]?>");
+		
 	})
 
 	function activateEditable() {
@@ -623,6 +664,29 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		        	toastr.error(data.msg);  
 		    },
 		});
+
+
+		//Select2 tags
+		$('#tags').editable({
+			url: baseUrl+"/"+moduleId+"/event/updatefield", 
+			mode: 'popup',
+			value: returnttag(),
+			select2: {
+				tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+				tokenSeparators: [","],
+				width: 200
+			},
+			success : function(data) {
+		        if(data.result) {
+		        	toastr.success(data.msg);
+					loadActivity=true;	
+		        }else {
+					return (data.msg);
+			    }  
+		    }
+		});
+
+
 	}
 
 	function switchMode() {
@@ -645,7 +709,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
-
+			$('#tags').editable('toggleDisabled');
 			$("#btn-update-geopos").addClass("hidden");
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
@@ -657,7 +721,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('option', 'pk', itemId);
 			$('#address').editable('option', 'pk', itemId);
 			$('#description').editable('option', 'pk', itemId);
-			
+			$('#tags').editable('option', 'pk', itemId);
+
 			$('.editable-event').editable('toggleDisabled');
 			$('#type').editable('toggleDisabled');
 			$('#allDay').editable('toggleDisabled');
@@ -666,6 +731,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$('#addressCountry').editable('toggleDisabled');
 			$('#address').editable('toggleDisabled');
 			$('#description').editable('toggleDisabled');
+			$('#tags').editable('toggleDisabled');
 
 			$("#btn-update-geopos").removeClass("hidden");
 		}
@@ -884,5 +950,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$("#activityContent").addClass("hide");
 		$("#contentGeneralInfos").show();
 		loadActivity=false;
+	}
+
+	function returnttag() {
+		var tag = <?php echo (isset($event["tags"])) ? json_encode(implode(",", $event["tags"])) : "''"; ?>;
+		console.log("tag", tag);
+		return tag ;
 	}
 </script>

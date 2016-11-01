@@ -27,8 +27,18 @@
 	<td>22102210</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
+	<td>click</td>
 	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.clean()</td>
 	<td></td>
 </tr>
 <tr>
@@ -41,7 +51,6 @@
 	<td>loadByHash('#person.detail.id.'+userId)</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

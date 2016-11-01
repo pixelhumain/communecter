@@ -1,14 +1,14 @@
 <?php
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-		'/assets/plugins/jsonview/jquery.jsonview.js',
-		'/assets/plugins/jsonview/jquery.jsonview.css',
-		'/assets/js/sig/geoloc.js',
-		'/assets/js/dataHelpers.js',
-		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+		'/plugins/jsonview/jquery.jsonview.js',
+		'/plugins/jsonview/jquery.jsonview.css',
+		'/js/sig/geoloc.js',
+		'/js/dataHelpers.js',
+		'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+		'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 $userId = Yii::app()->session["userId"] ;
 ?>
 <style>
@@ -137,7 +137,7 @@ $userId = Yii::app()->session["userId"] ;
 				<input type="text" id="pathObject" name="pathObject" value="">
 			</div>
 
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a href="#" id="btnVerification" class="btn btn-success margin-top-15">Vérification</a>
 			</div>
 			
@@ -179,7 +179,7 @@ $userId = Yii::app()->session["userId"] ;
 					<input class="" placeholder="Saisir l'ID du creator de données" id="creatorID" name="creatorID" value="">
 					<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<label for="selectRole">Role : </label>
 				<select id="selectRole">
 					<option value="creator">Creator</option>
@@ -200,7 +200,7 @@ $userId = Yii::app()->session["userId"] ;
 					Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
 				</label>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-6 col-xs-12">
 					<label>
 						Test : <input class="hide" id="isTest" name="isTest"></input>
@@ -229,7 +229,7 @@ $userId = Yii::app()->session["userId"] ;
 				<textarea id="msgInvite" class="form-control" rows="3">Message Invite</textarea>
 			</div>
 
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<a href="#" id="btnVisualisation" class="btn btn-success margin-top-15">Visualisation</a>
 			</div>
 		</div>
@@ -273,7 +273,7 @@ $userId = Yii::app()->session["userId"] ;
 <!--
 		<div class="panel-body">
 			<div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
-				<div class="col-sm-12 col-xs-12 rows">
+				<div class="col-xs-12 rows">
 					<div class="col-sm-3 col-xs-12">
 						<label for="chooseCollection">Collection : </label>
 						<?php
@@ -311,7 +311,7 @@ $userId = Yii::app()->session["userId"] ;
 						</select>
 					</div>
 				</div>
-				<div class="col-sm-12 col-xs-12 rows">
+				<div class="col-xs-12 rows">
 					<div id="divFile">
 						<div class="col-sm-3 col-xs-12">
 							<label for="fileImport">Fichier (CSV,JSON) :</label>
@@ -335,17 +335,17 @@ $userId = Yii::app()->session["userId"] ;
 						</div>
 					</div>
 					<div id="divUrl">
-						<div class="col-sm-12 col-xs-12">
+						<div class="col-xs-12">
 							<label for="textUrl">URL (format JSON):</label>
 							<input type="text" id="textUrl" name="textUrl" value="">
 						</div>
-						<div class="col-sm-12 col-xs-12">
+						<div class="col-xs-12">
 							<label for="textUrl">Path Object :</label>
 							<input type="text" id="pathObject" name="pathObject" value="">
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-12 col-xs-12">
+				<div class="col-xs-12">
 					<div class="form-group col-sm-2 col-sm-offset-5">
 						<a href="#" id="btnVerification" class="btn btn-primary col-sm-12">Vérification</a>
 					</div>
@@ -359,7 +359,7 @@ $userId = Yii::app()->session["userId"] ;
 		<div class="panel-body">
 
 			
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				
 
 			</div>
@@ -389,7 +389,7 @@ $userId = Yii::app()->session["userId"] ;
 					</tbody>
 				</table>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-6 col-xs-12">
 					<label for="selectCreator">Créateur : </label>
 					<select id="selectCreator">
@@ -402,7 +402,7 @@ $userId = Yii::app()->session["userId"] ;
 						<input class="" placeholder="Saisir l'Email du creator de données" id="creatorEmail" name="creatorEmail" value="">
 				</div>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<label for="selectRole">Role : </label>
 				<select id="selectRole">
 					<option value="creator">Creator</option>
@@ -410,7 +410,7 @@ $userId = Yii::app()->session["userId"] ;
 					<option value="member">Member</option>
 				</select>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-6 col-xs-12">
 					<label for="inputKey">Key : </label>
 					<input class="" placeholder="Key attribuer a l'ensemble des données importer" id="inputKey" name="inputKey" value="">
@@ -421,7 +421,7 @@ $userId = Yii::app()->session["userId"] ;
 					</label>
 				</div>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-6 col-xs-12">
 					<label>
 						Test : <input type="checkbox" value="" id="checkboxTest" name="checkboxTest">
@@ -432,7 +432,7 @@ $userId = Yii::app()->session["userId"] ;
 					<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="">
 				</div>
 			</div>
-			<div class="col-sm-12 col-xs-12">
+			<div class="col-xs-12">
 				<div class="col-sm-6 col-xs-12">
 					<label>
 						Invite : <input type="checkbox" value="" id="checkboxInvite" name="checkboxInvite">

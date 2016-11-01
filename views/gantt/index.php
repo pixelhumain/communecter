@@ -17,7 +17,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 </style>
 <div class="parentTimeline">
 <div class="panel panel-white">
-	<div class="panel-heading border-light bg-dark">
+	<div class="panel-heading border-light bg-azure">
 		<h4 class="panel-title"><span><i class="fa fa-tasks"></i> <?php echo $podtitle ?></span></h4>
 	</div>
 	<div class="panel-tools">
@@ -26,7 +26,7 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 			$tasksSerialize = str_replace('"','/"',$tasksSerialize);
 			$urlArray = '&tasks={'.$tasksSerialize.'}';
 		?> 
-		<a href="javascript:;" id="" class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" onclick="loadByHash('#gantt.addtimesheetsv.id.<?php echo $_GET["id"] ?>.type.<?php echo $_GET["type"] ?>')">
+		<a class="edit-timesheet btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t("gantt","Edit timeline",null,Yii::app()->controller->module->id) ?>" alt="" onclick="showElementPad('addtimesheet')">
 			<i class="fa fa-pencil"></i> Ajouter / modifier des tâches
 		</a>
 		<?php } ?>

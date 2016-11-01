@@ -10,17 +10,17 @@
 	// if(!Yii::app()->request->isAjaxRequest)
 	// {
 	  	$cssAnsScriptFilesModule = array(
-	  		'/assets/plugins/d3/d3.v3.min.js',
-        '/assets/plugins/d3/c3.min.js',
-        '/assets/plugins/d3/c3.min.css',
+	  		'/plugins/d3/d3.v3.min.js',
+        '/plugins/d3/c3.min.js',
+        '/plugins/d3/c3.min.css',
 	  	);
-	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
   	// }
 
 ?>
 <script>
     //Title
-    $(".moduleLabel").html("<i class='fa fa-cog'></i> Espace administrateur : Statistiques");
+    setTitle("Espace administrateur : Statistiques","cog");
 
 </script>
 <!-- ***** CITOYENS ***** -->

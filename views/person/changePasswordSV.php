@@ -1,10 +1,10 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 
 <div id="changePassword" >
@@ -108,6 +108,7 @@ var formValidator = function() {
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
+	                        $.unblockUI();
 	                   	}
 	                    else { 
 	                        toastr.success(data.msg);
@@ -128,7 +129,7 @@ var formValidator = function() {
 }
 
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-lock'></i> <?php echo Yii::t("common","Change password") ?>");
+	setTitle("<?php echo Yii::t("common","Change password") ?>","lock");
 	$("#changePassword").show();
 	formValidator();
 });

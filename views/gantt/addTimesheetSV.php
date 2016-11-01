@@ -1,129 +1,113 @@
 <?php
 	
-$cssAnsScriptFilesTheme = array(
-//Select2
-
-	//autosize
-	//Select2
-	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css',
-	'/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js',
-		//'/assets/js/ui-sliders.js',
-);
-
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
-
-		$cssAnsScriptFilesModule = array(
+$cssAnsScriptFilesModule = array(
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
-	'/plugins/moment/min/moment.min.js' , 
 	'/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
 	'/plugins/bootstrap-daterangepicker/daterangepicker.js' , 
-	//'/plugins/bootstrap-select/bootstrap-select.min.css',
-	//'/plugins/bootstrap-select/bootstrap-select.min.js'
+	'/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css',
+	'/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js',
 	'/plugins/autosize/jquery.autosize.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
-
-$cssAnsScriptFilesModule = array(
-	//Data helper
-	'/js/dataHelpers.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 
-<?php
-
-	if(@$project)
-		Menu::project($project);
-	$this->renderPartial('../default/panels/toolbar'); 
-
+<?php 
+if(!@$_GET["renderPartial"])
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "addtimesheet")); 
+ 
 ?>
-<div id="editTimesheet" class="col-md-12 col-xs-12">
-
-<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
-
-	<div class="col-md-6 col-md-offset-3">
-		<div class="panel panel-white">
-	    	<div class="panel-heading border-light">
-	    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
-	    	</div>
-	    	<div class="panel-body">
-				<form class="form-timesheet" submit="false">
-					<input type="hidden" value="<?php echo $_GET["id"] ?>" class="parentId"/>
-					<input type="hidden" value="<?php echo $_GET["type"] ?>" class="parentType"/>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="">
-								<label class="control-label">
-									<?php echo Yii::t("gantt","Task's name",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
-								</label>
-								<input type="text" class="task-name form-control" name="taskName" value=""/>
-							</div>
-							<div>
-								<label class="control-label">
-									<?php echo Yii::t("gantt","Task's duration",null,Yii::app()->controller->module->id) ?><span class="symbol required"></span>
-								</label>
-								<div class="all-day-range">
-									<div class="">
+<div id="addtimesheetPad">
+	<div id="editTimesheet" class="col-md-12 col-xs-12">
+	
+	<h2 class='radius-10 padding-10 partition-blue text-bold'> <?php echo Yii::t("gantt","Add a Task",null,Yii::app()->controller->module->id) ?></h2>
+	
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-white">
+		    	<div class="panel-heading border-light">
+		    		<p><?php echo Yii::t("gantt","Tasks show what's next in the project",null,Yii::app()->controller->module->id) ?></p>
+		    	</div>
+		    	<div class="panel-body">
+					<form class="form-timesheet" submit="false">
+						<input type="hidden" value="<?php echo $_GET["id"] ?>" class="parentId"/>
+						<input type="hidden" value="<?php echo $_GET["type"] ?>" class="parentType"/>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="">
+									<label class="control-label">
+										<?php echo Yii::t("gantt","Task's name",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
+									</label>
+									<input type="text" class="task-name form-control" name="taskName" value=""/>
+								</div>
+								<div>
+									<label class="control-label">
+										<?php echo Yii::t("gantt","Task's duration",null,Yii::app()->controller->module->id) ?><span class="symbol required"></span>
+									</label>
+									<div class="all-day-range">
 										<div class="">
 											<div class="">
-												<span class="input-icon">
-													<input type="text" class="task-range-date form-control" name="" placeholder="Range date"/>
-													<i class="fa fa-calendar"></i> </span>
+												<div class="">
+													<span class="input-icon">
+														<input type="text" class="task-range-date form-control" name="" placeholder="Range date"/>
+														<i class="fa fa-calendar"></i> </span>
+												</div>
 											</div>
 										</div>
 									</div>
+									<div class="hide">
+										<input type="text" class="task-start-date" value="" name="taskStartDate"/>
+										<input type="text" class="task-end-date" value="" name="taskEndDate"/>
+									</div>
 								</div>
-								<div class="hide">
-									<input type="text" class="task-start-date" value="" name="taskStartDate"/>
-									<input type="text" class="task-end-date" value="" name="taskEndDate"/>
+								<div>
+									<label class="control-label">
+										<?php echo Yii::t("gantt","Task's color",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
+									</label>
+									<select name="colorpicker">
+									  <option value="#9ACA27"><?php echo Yii::t("common","Green") ?></option>
+									  <option value="#3CB6E3"><?php echo Yii::t("common","Blue") ?></option>
+									  <option value="#FC464A"><?php echo Yii::t("common","Red") ?></option>
+									  <option value="#F4CF30"><?php echo Yii::t("common","Yellow") ?></option>
+									  <option value="#A969CA"><?php echo Yii::t("common","Purple") ?></option>
+									</select>
 								</div>
 							</div>
 							<div>
-								<label class="control-label">
-									<?php echo Yii::t("gantt","Task's color",null,Yii::app()->controller->module->id) ?> <span class="symbol required"></span>
-								</label>
-								<select name="colorpicker">
-								  <option value="#9ACA27"><?php echo Yii::t("common","Green") ?></option>
-								  <option value="#3CB6E3"><?php echo Yii::t("common","Blue") ?></option>
-								  <option value="#FC464A"><?php echo Yii::t("common","Red") ?></option>
-								  <option value="#F4CF30"><?php echo Yii::t("common","Yellow") ?></option>
-								  <option value="#A969CA"><?php echo Yii::t("common","Purple") ?></option>
-								</select>
+								<div class="row center">
+					    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
+								</div>
 							</div>
 						</div>
-						<div>
-							<div class="row center">
-				    	        <button class="btn btn-primary" ><?php echo Yii::t("common","SAVE") ?></button>
-							</div>
-						</div>
-					</div>
-				</form>
-	    	</div>
+					</form>
+		    	</div>
+			</div>
+		</div>
+		<div class="row ">
+		 	<div class="col-md-8 col-md-offset-2">
+		        <table class="table table-striped table-bordered table-hover newTasksAddedTable hide">
+		            <thead>
+		                <tr>
+		                    <th><?php echo Yii::t("common","Name") ?></th>
+		                    <th><?php echo Yii::t("common","Start") ?></th>
+		                    <th><?php echo Yii::t("common","End") ?></th>
+		                    <th><?php echo Yii::t("common","Color") ?></th>
+		                    <th><?php echo Yii::t("common","Status") ?></th>
+		                </tr>
+		            </thead>
+		            <tbody class="newTaskAdded"></tbody>
+		        </table>
+		    </div>
 		</div>
 	</div>
-	<div class="row ">
-	 	<div class="col-md-8 col-md-offset-2">
-	        <table class="table table-striped table-bordered table-hover newTasksAddedTable hide">
-	            <thead>
-	                <tr>
-	                    <th><?php echo Yii::t("common","Name") ?></th>
-	                    <th><?php echo Yii::t("common","Start") ?></th>
-	                    <th><?php echo Yii::t("common","End") ?></th>
-	                    <th><?php echo Yii::t("common","Color") ?></th>
-	                    <th><?php echo Yii::t("common","Status") ?></th>
-	                </tr>
-	            </thead>
-	            <tbody class="newTaskAdded"></tbody>
-	        </table>
-	    </div>
-	</div>
 </div>
+<?php if(!isset($_GET["renderPartial"])){ ?>
+</div>
+<?php } ?>
 
 <script type="text/javascript">
 var parentId = $('.parentId').val();
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-tasks'></i> Editer la timeline</a>");
+	setTitle("Editer la timeline","tasks");
 	bindSubViewTimesheet();
 	initValidationTaskTable();
 	bindBtnRemoveTask();

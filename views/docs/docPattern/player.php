@@ -1,6 +1,5 @@
 <?php 
-  $cssAnsScriptFilesModule = array('/css/docs/docs.css');
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+$this->renderPartial("../docs/assets");
 ?>
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
@@ -58,6 +57,6 @@
 <script type="text/javascript">
   
 jQuery(document).ready(function() {
-  $(".moduleLabel").html("<i class='fa fa-file'></i> DOCUMENTATION");
+  setTitle("DOCUMENTATION","file");
 });
 </script>

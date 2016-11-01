@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="https://127.0.0.1:80/" />
+<title>news</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">news</td></tr>
+</thead><tbody>
+<tr>
+	<td>click</td>
+	<td>css=.btn-menu8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=get_url</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=get_url</td>
+	<td>Bonne nouvelle, bientot la création d'un nouveau commun</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=get_url</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=get_url</td>
+	<td>Nouveau MOAC : https://www.youtube.com/watch?v=DZUF6Ej7GTI</td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>getUrlContent();</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.form-actions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#s2id_tags &gt; ul.select2-choices</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=.select2-result-label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=.select2-result-label:contains(&quot;commun&quot;)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=btn-submit-form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.label.text-dark &gt; i.fa.fa-thumbs-up</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=i.fa.fa-comment</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=div.saySomething.padding-5 &gt; input[type=&quot;text&quot;]</td>
+	<td>Exprimez-vous</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.newComment</td>
+	<td>Super vidéo</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.label.label-info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>console.log(&quot;comments----------------&quot;, comments);</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.label.label-green &gt; i.fa.fa-thumbs-up</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>********* UPDATE COMMENT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.comment-modify.pull-right</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>runScript</td>
+	<td>var idComment = </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=commentText5799a77194ef4708057b23db</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.form-control.input-large</td>
+	<td>Super vidéo :)</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='submit'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=i.fa.fa-reply</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=textarea.newComment</td>
+	<td>Super sujet</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.validateComment &gt; span.label.label-info</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

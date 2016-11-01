@@ -8,7 +8,6 @@
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopup = function(data){
-			//console.log("typeSIG POPUP" + data["typeSig"]);
 			if(typeof(data.typeSig) != "undefined" && data.typeSig == "news"){
 				return this.getPopupSimpleNews(data);
 			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
@@ -16,7 +15,6 @@
 			}else{
 				return this.getPopupSimple(data);
 			}
-
 			/*	if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
 					return this.getPopupEvent(data);
 				}
@@ -138,13 +136,13 @@
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 			//console.log("type de donnée sig : ",type);
 			
-			var typeElement = "";
+			var typeElement = type;
 			if(type == "people") 		typeElement = "person";
 			if(type == "citoyens") 		typeElement = "person";
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			//console.log("type", type);
+			console.log("type", type);
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -152,9 +150,12 @@
 			var url = '#'+typeElement+'.detail.id.'+id;
 			onclick = 'loadByHash("'+url+'");';
 			
-
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='"+onclick+"'>";
-										
+			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){
+				url = "https://www.communecter.org/"+url;
+				popupContent += "<a href='"+url+"' target='_blank' class='item_map_list popup-marker' id='popup"+id+"'>";
+			}else{							
+				popupContent += "<a href='"+url+"' class='item_map_list popup-marker lbh' id='popup"+id+"'>";
+			}
 			popupContent += 
 						  "<div class='left-col'>"
 	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
@@ -283,7 +284,7 @@
 					// }
 				}
 				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
-				popupContent += '</button>';
+				popupContent += '</a>';
 
 
 
@@ -329,7 +330,7 @@
 			title = title.replace('"', "");
 
 			var icon = 'fa-'+ this.getIcoByType(data);
-			popupContent += "<button class='item_map_list popup-marker' id='popup"+id+"' onclick='loadByHash(\"#news.detail.id."+id+"\");'>";
+			popupContent += "<button class='item_map_list popup-marker lbh' id='popup"+id+"' data-hash='#news.detail.id."+id+"'>";
 										
 			popupContent += 
 						  "<div class='left-col'>"
@@ -553,7 +554,7 @@
 
 		Sig.getPopupSimpleCity = function(data){
 			console.log(data);
-			var cityName = data["name"].replace("'", "\'");;
+			var city = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
 			var reg = data["regionName"];
@@ -567,17 +568,17 @@
 			var showAjaxPanel = 'loadByHash("#city.detail.insee.'+insee+'.postalCode.'+cp+'");'
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<h4 class='panel-title text-red homestead'>"+
-										"<i class='fa fa-university'></i> "+cityName+
+										"<i class='fa fa-university'></i> "+city+
 									"</h4>" + 
-									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>" + 
+									"<h4 class='panel-title text-red homestead'>"+ cp + "</h4>";/* + 
 									"<button class='btn btn-default btn-communecter-city btn-sm col-md-12 text-red bold' "+
-											 "name-com='" + cityName + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
+											 "name-com='" + city + "' " + "insee-com='" + insee + "' " + "cp-com='" + cp + "'" + "lat-com='" + lat + "'" + "lng-com='" + lng + "'" +  "reg-com='" + reg + "'" +  "ctry-com='" + cntry + "'";
 				if (typeof(nbCpByInsee) != "undefined"){
 				popupContent += " nbCpByInsee-com='" + nbCpByInsee + "'" + "cityInsee-com='" + cityInsee + "'";
 				}						
 				popupContent += 			"onclick='javascript:setScopeValue($(this))'>"+
 										"<i class='fa fa-crosshairs'></i> Communecter"+
-									"</button>";
+									"</button>";*/
 
 			if(location.hash != "#default.twostepregister")
 			popupContent +=			"<button class='no-margin btn btn-default btn-more btn-sm col-md-12' onclick='javascript:"+showAjaxPanel+"'>"+
@@ -590,7 +591,7 @@
 
 		Sig.getPopupAddress = function(data, label){
 			console.log(data);
-			var cityName = data["name"].replace("'", "\'");;
+			var city = data["name"].replace("'", "\'");;
 			var cp = data["postalCode"];
 			if(typeof(data["countCpByInsee"]) != "undefined"){
 				var nbCpByInsee = data["countCpByInsee"];
@@ -598,7 +599,7 @@
 			}
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
 									"<div class='panel-title text-dark center'>"+
-										"<i class='fa fa-map-marker'></i> "+cityName+
+										"<i class='fa fa-map-marker'></i> "+city+
 									"</div>" + 
 									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' cp-com='" + cp + "'";					
 				popupContent += 		">"+
@@ -672,6 +673,58 @@
 			popupContent += '</div>' +
 							'<div id="lbl-loading-saving" class="alert alert-success hidden" style="margin:10px;"></div>';
 				
+
+			return popupContent;
+		};
+
+		Sig.getPopupConfigAddress = function(){
+			var allCountries = getCountries("select2");
+			countries ="";
+			$.each(allCountries, function(key, country){
+				console.log(country.id, country.text);
+			 	countries += "<option value='"+country.id+"'>"+country.text+"</option>";
+			});
+			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +
+								"</style>"+
+								"<div class='form-group inline-block padding-15'>"+
+									"<h3 class='margin-top-5'><i class='fa fa-angle-down'></i> <i class='fa fa-home'></i> Adresse</h3>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
+									"<hr class='col-md-12'>"+
+									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
+									"<option value=''>"+trad.chooseCountry+"</option>"+countries+
+									"</select>"+
+									"<div id='divCity' class='hidden dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_city' placeholder='Ville, village, commune'>"+
+										"<ul class='dropdown-menu col-md-12 col-xs-12' id='dropdown-newElement_city-found'>"+
+											"<li><a href='javascript:' class='disabled'>Rechercher une ville, un village, une commune</a></li>"+
+										"</ul>"+
+							  		"</div>" +
+									"<div id='divPostalCode' class='hidden dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newElement_cp' placeholder='Code postal'>"+
+										"<ul class='dropdown-menu' id='dropdown-newElement_cp-found'>"+
+											"<li><a href='javascript:' class='disabled'>Rechercher un code postal</a></li>"+
+										"</ul>"+
+							  		"</div>" +
+							  		"<div id='divStreetAddress' class='hidden dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+										"<input class='form-group col-md-9 col-xs-9' type='text' style='margin-right:-3px;' name='newElement_streetAddress' placeholder='(n° rue) + Adresse'>"+
+										"<button class='col-md-3 col-xs-3 btn btn-default' style='padding:3px;border-radius:0 4px 4px 0;' type='text' id='newElement_btnSearchAddress'><i class='fa fa-search'></i></button>"+
+									"</div>" +
+									"<div class='dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<ul class='dropdown-menu' id='dropdown-newElement_streetAddress-found'></ul>"+
+									"</div>" +
+									"<div id='info_insee_latlng' class='text-dark col-md-12 no-padding'></div>"+
+									"<input type='hidden' name='newElement_insee'>"+
+									"<input type='hidden' name='newElement_lat'>"+
+									"<input type='hidden' name='newElement_lng'>"+
+									"<input type='hidden' name='newElement_dep'>"+
+									"<input type='hidden' name='newElement_region'>"+
+									"<hr class='col-md-12 col-xs-12'>"+
+									//"<hr style='margin: 5px 0px;padding: 0px;' class='col-md-12'>"+
+									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newElement_btnValidateAddress' disabled='disabled'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
+									"<button class='col-md-3 btn btn-danger pull-right' type='text' id='newElement_btnCancelAddress' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
+									
+								"</div>";
 
 			return popupContent;
 		};

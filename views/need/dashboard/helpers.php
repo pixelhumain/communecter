@@ -44,7 +44,7 @@
 						foreach ($helpers as $id => $val){
 							if($val["isValidated"] == 1){ ?>
 								<div class="col-md-3 col-xs-4 center padding-10 helperBox">
-									<a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo (string)$val["_id"] ?>')" title="validated">
+									<a class="lbh" href="#person.detail.id.<?php echo (string)$val["_id"] ?>" title="validated">
 									<?php if(isset($val["imagePath"])) { ?>
 										<img width="50" height="50" alt="image" class="img-circle" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$val['imagePath']) ?>">
 								<?php } else{ 
@@ -60,7 +60,7 @@
 									<a href="javascript:;" class="refuseHelp">
 										<i class="fa fa-times-circle refuseBtn confirmBtn"></i>
 									</a>
-									<a href="javascript:;" onclick="loadByHash('#person.detail.id.<?php echo (string)$val["_id"] ?>')" title="wait for validation">
+									<a class="lbh" href="#person.detail.id.<?php echo (string)$val["_id"] ?>" title="wait for validation">
 									<?php if(isset($val["imagePath"])) { ?>
 									<img width="50" height="50" alt="image" class="img-circle grayscale" src="<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50'.$val['imagePath']) ?>">
 									<?php } else{ 
@@ -193,7 +193,7 @@ function addAttentConfirmBox(helper, bool){
 	if(bool == 0){
 		console.log(helper);
 		divHelper = '<div class="col-md-3 col-xs-4 center padding-10 helperBox'+helper._id["$id"]+'">'+
-						'<a href="javascript:;" onclick="loadByHash(\'#person.detail.id.'+helper._id["$id"]+'\')" title="wait for validation">';
+						'<a class="lbh" href="#person.detail.id.'+helper._id["$id"]+'" title="wait for validation">';
 						if(typeof(helper.imagePath) != "undefined") { 
 							divHelper += '<img width="50" height="50" alt="image" class="img-circle grayscale" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+helper.imagePath+'">';
 						}else{ 
@@ -204,7 +204,7 @@ function addAttentConfirmBox(helper, bool){
 	}
 	else {
 		divHelper='<div class="col-md-3 col-xs-4 center padding-10 helperBox">'+
-						'<a href="javascript:;" onclick="loadByHash(\'#person.detail.id.'+helper._id["$id"]+'\')" title="validated">';
+						'<a class="lbh" href="#person.detail.id.'+helper._id["$id"]+'" title="validated">';
 						if(typeof(helper.imagePath) != "undefined") { 
 							divHelper += '<img width="50" height="50" alt="image" class="img-circle" src="'+baseUrl+'/'+moduleId+'/document/resized/50x50'+helper.imagePath+'">';
 						}else{ 

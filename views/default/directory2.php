@@ -4,7 +4,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js' 
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -279,16 +279,28 @@ if( @$type == Organization::CONTROLLER && @$organization ){
 	$projects=array();
 }
 else if( @$type == City::CONTROLLER && @$city ){
-	Menu::city( $city );
-	$contextName = Yii::t("common","City")." : ".$city["name"];
+	Menu::city($city, $cityGlobal);
+	//$contextName = Yii::t("common","City")." : ".$city["name"];
+	$contextName = Yii::t("common","City")." : ".(($cityGlobal == false) ? $city["namePc"]. " ( ".$city["cp"]." ) " /*((count($city["postalCodes"]) > 1) ? ." ".Yii::t("common", "town of")." ".$city["name"])*/ : $city["name"]);
 	$contextIcon = "university";
-	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
+	$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".(($cityGlobal == false) ? $city["namePc"]. " ( ".$city["cp"]." ) " /*." ".Yii::t("common", "town of")." ".$city["name"] */: $city["name"]);
 }
 else if( @$type == Event::CONTROLLER && @$event ){
 	Menu::event( $event,true );
 	$contextName = Yii::t("common","Event")." : ".$event["name"];
 	$contextIcon = "calendar";
 	$contextTitle = Yii::t("common", "Visualize Event")." ".$event["name"];
+	if (isset($event["_id"]) && isset(Yii::app()->session["userId"])
+			 && Authorisation::isEventAdmin($event["_id"], Yii::app()->session["userId"])) { 
+			$manage=1;
+	}
+	$parentName=$event["name"];
+	$parentId=$event["_id"];
+	$parentType=Event::COLLECTION;
+	$connectType="contributors";
+	$contextData = $event;
+	$projects=array();
+	$events=array();
 }
 else if( @$type == Person::CONTROLLER && @$person ){
 	Menu::person( $person );
@@ -308,6 +320,7 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 			 && Authorisation::isProjectAdmin($project["_id"], Yii::app()->session["userId"]) == 1){
 		$manage=1;
 	}
+
 	$parentName=$project["name"];
 	$parentId=$project["_id"];
 	$parentType=Project::COLLECTION;
@@ -372,7 +385,7 @@ if (@$follows){
 					<?php echo $contextTitle; ?>
 				</span>
 				
-				<div class="col-md-12 col-sm-12 col-xs-12 row">
+				<div class="col-xs-12 row">
 					<ul class="nav nav-pills menu_directory container_menu_directory controls list-unstyled">
 						<li class="filter active" data-filter="all">
 							<a href="javascript:;" class="bg-dark" onclick="$('.optionFilter').hide();<?php if(($followsProject+$followsOrga) > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>">
@@ -459,7 +472,7 @@ if (@$follows){
 					</div>
 				</div>
 				<ul id="Grid" class="pull-left  list-unstyled">
-					<?php	if (@$manage){ ?> 
+					<?php if (@$manage){ ?> 
 						<input type="hidden" id="parentType" value="<?php echo $parentType ?>"/>
 						<input type="hidden" id="parentId" value="<?php echo $parentId ?>"/>
 						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
@@ -477,7 +490,7 @@ if (@$follows){
 					);
 					$scopesHTMLFull = "";
 					/*if ($parentType==Person::COLLECTION){ 
-						<div class="col-md-12 col-sm-12 col-xs-12 row">
+						<div class="col-xs-12 row">
 							<span class="homestead panelLabel pull-left labelCommunity"> 
 							<?php echo ucfirst(Yii::t("common",$connectType)) 
 							</span>
@@ -506,7 +519,7 @@ if (@$follows){
 					{ 
 						foreach ($events as $e) 
 						{ 
-							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Event::COLLECTION, Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 	
@@ -515,7 +528,7 @@ if (@$follows){
 					{ 
 						foreach ($projects as $e) 
 						{ 
-							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Project::COLLECTION, Project::CONTROLLER, Project::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 					/* ************ ATTENDEES OF AN EVENT ************************ */
@@ -523,7 +536,7 @@ if (@$follows){
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -531,7 +544,7 @@ if (@$follows){
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage=null);
+							buildDirectoryLine($e, Person::COLLECTION, Person::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage /*$manage=null*/);
 						}
 					}
 
@@ -566,7 +579,7 @@ if (@$follows){
 						}
 					///// SHOW FOLLOWS
 					if (@$follows && ($followsProject+$followsOrga) > 0){ ?>
-						<div class="col-md-12 col-sm-12 col-xs-12 row" style="margin-top:20px;">
+						<div class="col-xs-12 row" style="margin-top:20px;">
 							<span class="homestead panelLabel pull-left labelCommunity labelFollows"> 
 							<?php echo ucfirst(Yii::t("common","follows")) ?>
 							</span>
@@ -800,6 +813,7 @@ if (@$follows){
 													'</a>'.
 												'</li>';
 							}
+
 							if(@$e["isAdminPending"]){
 								$strHTML .= 	'<li>'.
 													'<a href="javascript:;" class="acceptAsAdminBtn btn btn-xs tooltips text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
@@ -850,24 +864,17 @@ if (@$follows){
 <!-- end: PAGE CONTENT-->
 
 <?php 
-    //rajoute un attribut typeSig sur chaque donnée pour déterminer quel icon on doit utiliser sur la carte
-    //et pour ouvrir le panel info correctement
-    if(@$people)
-	    foreach($people as $key => $data) { 
-	    	$people[$key]["typeSig"] = PHType::TYPE_CITOYEN; }
-    if(@$organizations)
-    	foreach($organizations as $key => $data) { 
-    		$organizations[$key]["typeSig"] = PHType::TYPE_ORGANIZATIONS; }
-    if(@$events)
-    	foreach($events as $key => $data) { 
-    		$events[$key]["typeSig"] = PHType::TYPE_EVENTS; }
-    if(@$projects)
-    	foreach($projects as $key => $data) { 
-    		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
-    
     $contextMap = array();
     if(@$contextData) $contextMap = array("context" => $contextData);
-    if(@$people)          $contextMap = array_merge($contextMap, $people);
+    //Add follows : people, organization and project
+    if(@$follows) {    
+    	if (@$follows[Person::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Person::COLLECTION]);
+    	if (@$follows[Organization::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Organization::COLLECTION]);
+    	if (@$follows[Project::COLLECTION])
+    		$contextMap = array_merge($contextMap, $follows[Project::COLLECTION]);
+    }
     if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
     if(@$events)         $contextMap = array_merge($contextMap, $events);
     if(@$projects)        $contextMap = array_merge($contextMap, $projects);
@@ -888,7 +895,7 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 var contextName = "<?php echo addslashes($contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";	
 jQuery(document).ready(function() {
-	$(".moduleLabel").html("<i class='fa fa-"+contextIcon+"'></i> " + contextName);
+	setTitle(contextName,contextIcon);
 
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;

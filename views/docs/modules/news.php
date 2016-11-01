@@ -13,14 +13,14 @@
 <div class="col-sm-12 ">
     <div class="panel panel-white ">
         <div class="panel-body tpl_content">
-	        <div class=" col-sm-12 col-xs-12 col-md-6 embed-responsive embed-responsive-4by3" style="padding-bottom:35%;">
+	        <div class=" col-xs-12 col-md-6 embed-responsive embed-responsive-4by3" style="padding-bottom:35%;">
 				<iframe class="embed-responsive-item" height="300" src="https://www.youtube.com/embed/66m1hm3A2ic" frameborder="0" allowfullscreen>
 				</iframe>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/news.png" data-title="Schéma explicatif des fils d'actualité"  data-lightbox="all">
-			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/news.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/news.png" class="col-md-6 col-xs-12 img-responsive ">
 	        </a>
-	        <div class="col-sm-12 col-xs-12" style="margin-top:30px;margin-bottom:30px;">
+	        <div class="col-xs-12" style="margin-top:30px;margin-bottom:30px;">
 		        <div class="col-xs-12">
 			        <div class="panel panel-white user-list ">
 						<div class="panel-heading border-light">
@@ -88,6 +88,6 @@
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		$(".moduleLabel").html("<span style='font-size:18px;'>Tout comprendre sur communecter</span>");
+		setTitle("<span style='font-size:18px;'>Tout comprendre sur communecter</span>","","Tout comprendre sur communecter");
 	});
 </script>

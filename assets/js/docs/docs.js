@@ -1,8 +1,6 @@
 function initDocJs(faIcon, title){
-  $(".moduleLabel").html(
-        "<i class='fa fa-binoculars'></i> La doc :"+
-        " <span class='text-red'><i class='fa fa-"+faIcon+"'></i> "+title+"</span>");
-
+  setTitle(" La doc : <span class='text-red'><i class='fa fa-"+faIcon+"'></i> "+title+"</span>", "binoculars",title);
+  
   $(".carousel-control").click(function(){
     var top = $("#docCarousel").position().top-30;
     $(".my-main-container").animate({ scrollTop: top, }, 100 );

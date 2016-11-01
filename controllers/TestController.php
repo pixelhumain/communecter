@@ -193,7 +193,23 @@ class TestController extends CommunecterController {
 		}
     }
   public function actionTest() {
-  	echo hash('sha256', "mc420011@gmail.com"."communecter974");
+  	$allOrganizations = PHDB::findAndSort ( Organization::COLLECTION ,array("disabled" => array('$exists' => false)), 
+	  												array("updated" => -1, "name" => 1), 100, 
+
+	  												array("name", "address", "shortDescription", "description","updated"));
+  	foreach ($allOrganizations as $key => $value) 
+  	{
+  		echo $value['name']." > ".$value['updated']."<br/>";
+  	}
+  	echo "*************************************";
+  	$all = PHDB::findAndSort ( Event::COLLECTION ,array(), 
+	  												array("updated" => -1, "startDate" => 1), 100, 
+													array("name","updated",'startDate'));
+  	foreach ($all as $key => $value) 
+  	{
+  		echo $value['name']." > ".date("d/m/Y",$value['updated'])." > ".$value['startDate']."<br/>";
+  	}
+  	//echo hash('sha256', "mc420011@gmail.com"."communecter974");
     //echo $_SERVER["X-Auth-Token"];
     //Authorisation::isMeteorConnected( "TCvdPtAVCkkDvrBDtICLUfRIi93L3gOG+MwT4SvDK0U=", true );
 	//var_dump(Link::addMember("551a5c00a1aa146d160041b0", PHType::TYPE_ORGANIZATIONS, 
@@ -598,14 +614,14 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   public function actionHelper() {
   	$cssAnsScriptFiles = array(
 		//dropzone
-		'/assets/plugins/dropzone/downloads/css/ph.css',
-		'/assets/plugins/dropzone/downloads/dropzone.min.js',
+		'/plugins/dropzone/downloads/css/ph.css',
+		'/plugins/dropzone/downloads/dropzone.min.js',
 		//lightbox
-		'/assets/plugins/lightbox2/css/lightbox.css',
-		'/assets/plugins/lightbox2/js/lightbox.min.js'
+		'/plugins/lightbox2/css/lightbox.css',
+		'/plugins/lightbox2/js/lightbox.min.js'
 	);
 
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
   }  
 
   public function actionAverageComment() {
@@ -779,7 +795,139 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
 		$res = Document::uploadDocument($dir,$folder,$ownerId,$input,$rename, $pathFile, $nameFile);
         var_dump($res);
 	}
+	public function actionAddPersonMediumImage(){
+		$people=PHDB::find(Person::COLLECTION);
+		foreach ($people as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				echo $upload_dir_medium;
+				if(!file_exists ($upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Person::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
 
+			}
+		}
+	}
+	public function actionAddOrgaMediumImage(){
+		$organization=PHDB::find(Organization::COLLECTION);
+		foreach ($organization as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Organization::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddProjectMediumImage(){
+		$project=PHDB::find(Project::COLLECTION);
+		foreach ($project as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Project::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
+	public function actionAddEventMediumImage(){	
+		$event=PHDB::find(Event::COLLECTION);
+		foreach ($event as $key => $value){
+			if(@$value["profilImageUrl"]){
+				$tabImage=explode("/", $value["profilImageUrl"]);
+				$countTabImage=count($tabImage);
+				$nameImage=$tabImage[$countTabImage-1];
+				$i=0;
+				$urlImage="";
+				foreach($tabImage as $data){
+					if($i != 0 && $i<($countTabImage-1))
+						$urlImage.= $data."/";
+					$i++;
+				}
+				$upload_dir_medium = $urlImage.Document::GENERATED_MEDIUM_FOLDER ;
+				if(!file_exists ( $upload_dir_medium )) {       
+					mkdir($upload_dir_medium, 0777);
+				}
+				$imageMediumUtils = new ImagesUtils(substr($value["profilImageUrl"],1));
+				$destPathMedium = $upload_dir_medium."/".$nameImage;
+				$profilMediumUrl = "/".$upload_dir_medium."/".$nameImage;
+				$imageMediumUtils->resizePropertionalyImage(400,400)->save($destPathMedium,100);
+				echo '/////////////'.$key.'////////////<br/>';
+				echo 'destPath : '.$destPathMedium.'<br/>';
+				echo 'profilPath : '.$profilMediumUrl.'<br/>';
+				PHDB::update(Event::COLLECTION, array("_id" => new MongoId($key)), array('$set' => array("profilMediumImageUrl" => $profilMediumUrl)));
+				//if(!file_exists ( $upload_dir_medium )) {       
+				//	mkdir($upload_dir_medium, 0777);
+				//}
+
+			}
+		}
+	}
 	// Log
 	public function actionLogDeletePasswordCitoyen(){
 	  	echo "actionLogDeletePasswordCitoyen => ";  	
@@ -969,6 +1117,195 @@ La vie en santé;Santé;;
 
 			die('OK');
 
+	}
+
+	public function actionAddBadgeOpenData(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenData" => true), 0, array("_id"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				$eeeee[] = Badge::addAndUpdateBadges("opendata", (String)$entity["_id"], $type);
+			}
+			$res[$type] = $eeeee;
+
+		}
+
+		//var_dump(count($res));
+
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
+
+	public function actionAddOpenEdition(){
+		$types = array(Event::COLLECTION, Organization::COLLECTION, Project::COLLECTION);
+		$res = array();
+		foreach ($types as $key => $type) {
+			$entities = PHDB::find($type,array("preferences.isOpenEdition" => array('$exists' => 0)), array("_id", "links", "preferences"));
+			$eeeee = array();
+			foreach ($entities as $key => $entity) {
+				if(!empty($entity["links"])){
+					$isAdmin = false;
+					if($type == Project::COLLECTION){
+						if (!empty($entity["links"]["contributors"])) {
+							foreach ($entity["links"]["contributors"] as $key => $contributors) {
+								if(!empty($contributors["isAdmin"]) && $contributors["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+					}
+					if($type == Event::COLLECTION){
+						if (!empty($entity["links"]["attendees"])) {
+							foreach ($entity["links"]["attendees"] as $key => $attendees) {
+								if( !empty($attendees["isAdmin"]) && $attendees["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}
+							
+					}
+
+					if($type == Organization::COLLECTION){
+						if (!empty($entity["links"]["members"])) {
+							foreach ($entity["links"]["members"] as $key => $members) {
+								if( !empty($members["isAdmin"]) && $members["isAdmin"] == true){
+									$isAdmin = true;
+									break;
+								}	
+							}
+						}	
+					}
+
+					if($isAdmin == false){
+						$entity["preferences"]["isOpenEdition"] = true ;
+					}else{
+						$entity["preferences"]["isOpenEdition"] = false ;
+					}
+				}else{
+					$entity["preferences"]["isOpenEdition"] = true ;	
+				}
+
+				PHDB::update($type,
+					   		array("_id" => $entity['_id']) , 
+					   		array('$set' => array("preferences" => $entity["preferences"]))
+					   	);
+				$eeeee[] = $entity;
+			}
+			$res[$type] = $eeeee;
+
+		}
+		foreach ($res as $key => $val) {
+			echo "</br> </br>".$key;
+			foreach ($val as $key2 => $val2) {
+				echo "</br> </br>";
+				echo "-------------------</br>";
+				var_dump($val2);
+			}		
+		}
+	}
+
+
+
+	public function actionRecherche(){
+		$Citoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 10, 0);
+		$allCitoyen = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(),array("name" => 1), 5, 0);
+		$allCitoyen2 = PHDB::findAndSortAndLimitAndIndex(Person::COLLECTION , array(), array("name" => 1), 5, 5);
+
+
+		foreach ($Citoyen as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+		echo "<br/><br/>-------------------------------<br/><br/>";
+		foreach ($allCitoyen as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+		echo "<br/><br/>-------------------------------<br/><br/>";
+		foreach ($allCitoyen2 as $key => $value) {
+			var_dump(@$value["name"]);
+			echo "<br/>";
+		}
+	}
+
+
+	public function actionCheckGeoShape(){
+		Import::checkGeoShape();
+	}
+
+	public function actionCheckGeo(){
+		Import::checkGeo();
+	}
+
+	public function actionCheckGeoPostalCodes(){
+		Import::checkGeoPostalCode();
+	}
+
+	public function actionDepRegion(){
+		$where = array("country" => "BEL");
+        $cities = PHDB::find(City::COLLECTION, $where);
+
+        $dep = array() ;
+        $region = array() ;
+
+        $depS = "" ;
+        $regionS = "" ;
+
+        foreach ($cities as $key => $value) {
+        	if(!in_array($value["region"], $region)){
+        		$region[] = $value["region"];
+        		$regionS .= '"'.$value["regionName"].'" => array("'.$value["regionName"].'","'.$value["region"].'"), <br/>';
+        	}
+
+        	if(!in_array($value["dep"], $dep)){
+        		$dep[] = $value["dep"];
+        		$depS .= '"'.$value["depName"].'" => array("'.$value["depName"].'","'.$value["dep"].'"), <br/>';
+        	}
+        }
+
+        echo $depS ;
+        echo "<br><br>";
+        echo $regionS;
+	}
+
+
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		$str = "" ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) > 1){
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					//echo  $cp["name"]." : " .$name."<br>" ;
+					if(trim($cp["name"]) == trim($name)){
+						$find =true;
+					}
+				}
+
+				if($find == false){
+					$nbcities++;
+					$str .=  $key." : ".$name."<br>" ;
+				}
+			}
+			
+
+			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+		echo $str;
 	}
 
 }

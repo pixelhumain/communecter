@@ -7,10 +7,7 @@
 <?php 
 	if (isset($organization["_id"]) && isset(Yii::app()->session["userId"])) {
 		if(!isset($organization["disabled"])) {
-			if($openEdition==true)
-				$admin=true;
-			else 
-				$admin=Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]);
+			$admin=Authorisation::canEditItem(Yii::app()->session["userId"], Organization::COLLECTION, $organization["_id"]);
 		}else 
 			$admin=false;
 	}
@@ -20,7 +17,7 @@
 
 <div class="col-xs-12 infoPanel dataPanel">
 		<div class="row">
-			<div class="col-sm-12 col-xs-12 col-md-8">
+			<div class="col-xs-12 col-md-8">
 	    		<?php 
 	    			$params = array(
 	    				"organization" => $organization,
@@ -41,56 +38,64 @@
 	    			$this->renderPartial('../pod/ficheInfo',$params); 
 	    		?>
 
-    			<div id="podCooparativeSpace">
-    				<div id="pod-room" class="panel panel-white">
 
-						<div class="panel-heading border-light bg-azure">
-							<h4 class="panel-title">
-									<i class="fa fa-connectdevelop"></i> 
-									<span class="homestead"><?php echo Yii::t("rooms","COOPERATIVE SPACE",null,Yii::app()->controller->module->id); ?></span>
-							</h4>		
-						</div>
+    			<div class="col-md-12 col-sm-12 col-xs-12 no-padding pull-left">
+					<div class="row padding-15">
+						<hr>
+						<a href='javascript:loadByHash("#rooms.index.type.organizations.id.<?php echo (String) $organization["_id"]; ?>")'>
+				        	<h1 class="text-azure text-left homestead no-margin">
+				        		<i class='fa fa-angle-down'></i> <i class='fa fa-connectdevelop'></i> Espace coopératif <i class='fa fa-sign-in'></i> <span class="text-small helvetica">(activité récente)</span>
+				        	</h1>
+				        </a>
 
-						<div class="panel-body no-padding">
-							<blockquote>
-							Pour accéder à cet espace, connectez-vous !<br>
-							<span class="text-azure">
-				   				<i class="fa fa-check-circle"></i> Discuter<br>
-				   				<i class="fa fa-check-circle"></i> Débattre<br>
-				   				<i class="fa fa-check-circle"></i> Proposer<br>
-				   				<i class="fa fa-check-circle"></i> Voter<br>
-				   				<i class="fa fa-check-circle"></i> Agir
-				   			</span>
-				   			</blockquote>
-						</div>   
-							
-					</div>
-    			</div>
+				    </div>
+					<?php 
+							$list = ActionRoom::getAllRoomsActivityByTypeId(Organization::COLLECTION, (string)$organization["_id"]);	
+							$this->renderPartial('../pod/activityList2',array(    
+			   					"parent" => $organization, 
+			                    "parentId" => (string)$organization["_id"], 
+			                    "parentType" => Organization::COLLECTION, 
+			                    "title" => "Activité Coop",
+	                        	"list" => @$list, 
+			                    "renderPartial" => true
+			                    ));
+						?>	
+				</div>
 	    	</div>
+
 	    	
 	    	<div class="col-md-4 no-padding">
 		    	<div class="col-md-12 col-xs-12">
 					<?php   $this->renderPartial('../pod/usersList', array(  "organization"=> $organization,
 															"users" => $members,
-															"userCategory" => Yii::t("common","COMMUNITY"), 
+															"userCategory" => Yii::t("common","Community"), 
 															"contentType" => Organization::COLLECTION,
 															"countStrongLinks" => $countStrongLinks,
 															"countLowLinks" => $countLowLinks,
-															"admin" => $admin	));
+															"admin" => $admin,
+															"openEdition" => $openEdition));
 					?>
 		    	</div>
-		    	<?php if (($admin == 1 || !empty($needs)) && ($organization["type"]=="NGO" || $organization["type"]=="Group")){ ?> 
+		    	<div class="col-md-12 col-xs-12">
+					<?php  
+							$this->renderPartial('../pod/POIList', array( "parentId" => (String) $organization["_id"],
+																		"parentType" => Organization::CONTROLLER));
+					?>
+		    	</div>
+		    	<?php
+		    	if ( $admin == 1 || !empty($needs) || $openEdition == true ){ ?> 
 				<div class="col-md-12 col-xs-12 needsPod">	
 					<?php $this->renderPartial('../pod/needsList',array( 	"needs" => $needs, 
 																			"parentId" => (String) $organization["_id"],
 																			"parentType" => Organization::COLLECTION,
 																			"isAdmin" => $admin,
-																			"parentName" => $organization["name"]
+																			"parentName" => $organization["name"],
+																			"openEdition" => $openEdition
 																		  )); ?>
 
 				</div>
 				<?php } ?>
-				<?php if ($admin == 1 || !empty($events)){ ?>
+				<?php if ($admin == 1 || !empty($organizations) || $openEdition == true){ ?>
 				<div class="col-md-12 col-xs-12">
 					<?php 
 						if(!isset($eventTypes)) $eventTypes = array();
@@ -98,16 +103,18 @@
 																			"contextId" => (String) $organization["_id"],
 																			"contextType" => Organization::CONTROLLER,
 																			"list" => $eventTypes,
-																			"authorised" => $admin
+																			"authorised" => $admin,
+																			"openEdition" => $openEdition
 																		  )); ?>
 				</div>
 				<?php } ?>
-				<?php if ($admin == 1 || !empty($projects)){ ?>
+				<?php if ($admin == 1 || !empty($projects) || $openEdition == true){ ?>
 				<div class="col-md-12 col-xs-12">
 		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => $projects, 
 															"contextId" => (String) $organization["_id"],
 															"contextType" => Organization::COLLECTION,
-															"authorised" =>	$admin
+															"authorised" =>	$admin,
+															"openEdition" => $openEdition
 					)); ?>
 				</div>
 				<?php } ?>
@@ -123,23 +130,14 @@
 
 
 	jQuery(document).ready(function() {
-
-		<?php if(isset($organization["citizenType"]) && $organization["citizenType"] == "citizenAssembly") { ?>
-			$(".moduleLabel").html("<i class='fa fa-circle text-red'></i> <i class='fa fa-users text-red'></i> <?php echo addslashes($organization["name"]) ?> ");
-		<?php }else{ ?>
-			$(".moduleLabel").html("<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i> <?php echo addslashes($organization["name"]) ?> ");
-		<?php } ?>
-		//if($(".tooltips").length) {
-     	//	$('.tooltips').tooltip();
-   		//}
-   		bindFicheInfoBtn();
-
-   		<?php if (isset(Yii::app()->session["userId"])) { ?>
-	   		$("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
-				var id = "<?php echo (String) $organization['_id']; ?>";
-		   		getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/organizations/id/"+id+"/view/pod",
-		   			function(){}, "html");
-	   	<?php } ?>
+		contextData = {
+			name : "<?php echo $organization["name"] ?>",
+			id : "<?php echo (string)$organization["_id"] ?>",
+			type : "<?php echo Organization::CONTROLLER ?>",
+			otags : "<?php echo addslashes($organization["name"]).",organisation,communecter,".$organization["type"].",".@implode(",", $organization["tags"]) ?>",
+			odesc : "Organisation :  <?php echo $organization["type"].", ".addslashes( strip_tags(json_encode(@$organization["shortDescription"]))).",".addslashes(@$organization["address"]["streetAddress"]).",".@$organization["address"]["postalCode"].",".@$organization["address"]["addressLocality"].",".@$organization["address"]["addressCountry"] ?>"
+		}; 
+		setTitle( "<?php echo addslashes($organization["name"]) ?>" , "<i class='fa fa-circle text-green'></i> <i class='fa fa-users'></i>" ,null,contextData.otags, contextData.odesc);
 	});
 	
 	function bindFicheInfoBtn(){

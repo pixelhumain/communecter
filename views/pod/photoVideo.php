@@ -1,17 +1,17 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//X-editable...
-	'/assets/plugins/x-editable/js/bootstrap-editable.js',
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/x-editable/js/bootstrap-editable.js',
+	'/plugins/x-editable/css/bootstrap-editable.css',
 	//wysihtml5
-	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-	'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-	'/assets/plugins/wysihtml5/wysihtml5.js'
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+	'/plugins/wysihtml5/wysihtml5.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 ?>
 
@@ -84,7 +84,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 			<hr>
 			<div class="row">
 				<div class="center">
-					<div class="col-sm-12 col-xs-12 padding-20" style="min-height: 250px">
+					<div class="col-xs-12 padding-20" style="min-height: 250px">
 						<a href="#" id="video" data-title="video" data-type="wysihtml5" data-emptytext="Video" class="editable editable-click">
 						</a>
 					</div>

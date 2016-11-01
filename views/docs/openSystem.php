@@ -17,13 +17,13 @@
         <div class="panel-body tpl_content">
          
         <div class="col-xs-12">
-	        <div class=" col-sm-12 col-xs-12 col-md-6 center bg-red">
+	        <div class=" col-xs-12 col-md-6 center bg-red">
 	        	<div class="text-bold text-extra-large" style="padding: 50px;">
 	        		Revenez bientot pour la vidéo
 	        	</div>
 	        </div>
 	        <a class="thumb-info" href="<?php echo $this->module->assetsUrl; ?>/images/docs/openSystem.png" data-title="Schéma notre Open System"  data-lightbox="all">
-			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/openSystem.png" class="col-md-6 col-sm-12 col-xs-12 img-responsive ">
+			<img src="<?php echo $this->module->assetsUrl; ?>/images/docs/openSystem.png" class="col-md-6 col-xs-12 img-responsive ">
 	        </a>
         </div>
         <div class="col-sm-12" style="margin-top:30px;margin-bottom:30px; " >
@@ -201,13 +201,11 @@
 	    </div>
 	    <div class="space20"></div>
         <br><br>
-        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead" href="javascript:loadByHash('#default.view.page.import.dir.docs');">Import Export API <i class="fa fa-arrow-right"></i> </a></div></div>
+        <div class="col-sm-12 "><a style="display: block;" class="text-extra-large bg-dark pull-left tooltips radius-5 padding-10 homestead" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i>  Retour </a><a style="display: block;" class="text-extra-large bg-red pull-right tooltips radius-5 padding-10 homestead lbh " href="#default.view.page.import.dir.docs">Import Export API <i class="fa fa-arrow-right"></i> </a></div></div>
     </div>
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $(".moduleLabel").html(
-  			"<i class='fa fa-book'></i> "+
-  			"<span class='text-red'>DOC</span> : OPEN SYSTEM</span>");
+  setTitle("<span class='text-red'>DOC</span> : OPEN SYSTEM</span>","book","DOC : OPEN SYSTEM");
 });
 </script>

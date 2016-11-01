@@ -4,7 +4,7 @@ var currentRoleLoc = "";
 var locationHTML5Found = false;
 var positionFound = false;
 
-function initHTML5Localisation(role){
+function initHTML5Localisation(role){ return;
 
 	if(!locationHTML5Found)
 	$.blockUI({
@@ -15,58 +15,46 @@ function initHTML5Localisation(role){
 
 	if (navigator.geolocation)
 	{
-	  if(!locationHTML5Found){
-	  navigator.geolocation.getCurrentPosition(
-		function(position){ //success
-			//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
-	  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
-			//$("#main-title-public1").show(400);
-			positionFound = position;
-			$.blockUI({
-				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
+	  if(!locationHTML5Found)
+	  {
+		  navigator.geolocation.getCurrentPosition(
+			function(position){ //success
+				//toastr.success('<i class="fa fa-refresh fa-spin"></i> Recherche de votre position... Merci de patienter...');
+		  		//$("#main-title-public1").html("<i class='fa fa-refresh fa-spin'></i> Recherche de votre position. Merci de patienter");
+				//$("#main-title-public1").show(400);
+				positionFound = position;
+				// var position = {
+				// 		coords : {
+				// 		 latitude : -20.9190923,
+				// 		 longitude : 55.4859363
+				// 		}
+				// 	};
+				 console.log(position.coords);
+			    
+			},
+			function (error){	//error
+				var info = "Erreur lors de la géolocalisation : ";
+			    switch(error.code) {
+				    case error.TIMEOUT:
+				    	info += "Timeout !";
+				    break;
+				    case error.PERMISSION_DENIED:
+				    info += "Vous n’avez pas donné la permission, ou votre navigateur ne permet pas la géolocalisation.";
+				    break;
+				    case error.POSITION_UNAVAILABLE:
+				    	info += "La position n’a pu être déterminée";
+				    break;
+				    case error.UNKNOWN_ERROR:
+				    	info += "Erreur inconnue";
+				    break;
+				}
+				toastr.error(info);
+				$.unblockUI();
+				showMap(false);
 			});
-			
-			showMap(true);
-			
-			$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
-			locationHTML5Found = true;
-			$(".box-discover").hide(400);
-			$(".box-menu").hide(400);
-			// var position = {
-			// 		coords : {
-			// 		 latitude : -20.9190923,
-			// 		 longitude : 55.4859363
-			// 		}
-			// 	};
-			// console.log(position.coords);
-		    mapBg.panTo([position.coords.latitude, position.coords.longitude], {animate:false});
-		    mapBg.setZoom(13, {animate:false});
-		    
-		    //toastr.info("Votre position géographique a été trouvée");
-		    currentRoleLoc = role;
-		    getCityInseeByGeoPos(position.coords);
-		},
-		function (error){	//error
-			var info = "Erreur lors de la géolocalisation : ";
-		    switch(error.code) {
-			    case error.TIMEOUT:
-			    	info += "Timeout !";
-			    break;
-			    case error.PERMISSION_DENIED:
-			    info += "Vous n’avez pas donné la permission, ou votre navigateur ne permet pas la géolocalisation.";
-			    break;
-			    case error.POSITION_UNAVAILABLE:
-			    	info += "La position n’a pu être déterminée";
-			    break;
-			    case error.UNKNOWN_ERROR:
-			    	info += "Erreur inconnue";
-			    break;
-			}
-			toastr.error(info);
-			$.unblockUI();
-			showMap(false);
-		});
-		}else{
+		} 
+		else 
+		{
 			$.blockUI({
 				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
 			});
