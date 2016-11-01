@@ -73,11 +73,10 @@ var form1 = {
                 "description" : {
                     "inputType" : "textarea",
                     "placeholder" : "Description",
-                    "value":""
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -106,7 +105,7 @@ var form2 = {
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -134,7 +133,7 @@ var form3 = {
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -161,7 +160,7 @@ var form4 = {
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -188,7 +187,7 @@ var form5 = {
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -215,7 +214,7 @@ var form6 = {
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "placeholder" : "evaluate",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -248,7 +247,7 @@ jQuery(document).ready(function() {
             "section5":{dynForm : form5, key : "juridique" },
 			"section6":{dynForm : form6, key : "contribution" }
         },
-                surveyValues : properties,
+        surveyValues : properties,
         onSave : function(params) {
 			//console.dir( $(params.surveyId).serializeFormJSON() );
 			var result = {};

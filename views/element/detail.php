@@ -336,7 +336,7 @@ if($('#breadcum').length)
 			<div class="col-xs-12">
 				<?php
 					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
-					$this->renderPartial('../project/pod/projectChart',array(
+					$this->renderPartial('../chart/index',array(
 											"itemId" => (string)$element["_id"], 
 											"itemName" => $element["name"], 
 											"properties" => $element["properties"]["chart"],
