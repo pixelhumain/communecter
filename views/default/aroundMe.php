@@ -13,6 +13,9 @@
     display: inline-block!important;
   }
 
+  .headerDirectory a.lbh:hover{
+    text-decoration: underline !important;
+  }
 </style>
 
 <?php 
@@ -31,14 +34,14 @@
     </div>
     <?php }else{ ?>
       <h3 class="text-dark text-left">
-        <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs</b>, dans un rayon de 
+        <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs</b>, autour de <a href="#<?php echo $link; ?>" class="lbh" id="element-name"></a> dans un rayon de 
         <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
           <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
           <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
           <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
           <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
           <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
-        </select> km, autour de <a href="#<?php echo $link; ?>" class="lbh" id="element-name"></a>
+        </select> km
         <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
           <i class="fa fa-map-marker"></i> Afficher sur la carte
         </button>
@@ -210,12 +213,14 @@ function refreshAroundMe(radius){
         var new_URL = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
         window.history.replaceState( {} , "", new_URL );
 
-        var str = showResultsDirectoryHtml(data.all);
-         $("#grid_around").html(str);
-        initBtnLink();
-        refreshUIAroundMe(data.all); 
-        $("#loader-aroundme").html("");
-        setTimeout(function(){ hideMapLegende(); }, 300);
+        setTimeout(function(){ 
+          var str = showResultsDirectoryHtml(data.all);
+          $("#grid_around").html(str);
+          initBtnLink();
+          refreshUIAroundMe(data.all); 
+          $("#loader-aroundme").html("");
+          hideMapLegende();
+        }, 1500);
       } else {
         toastr.error(data.msg);
       }
