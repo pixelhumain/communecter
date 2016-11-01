@@ -166,7 +166,10 @@ function refreshAroundMe(radius){
     success: function(data) {
       if (data.result) {
         radiusElement = data.radius;
-        //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        
+        var new_URL = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        window.history.replaceState( {} , "", new_URL );
+
         var str = showResultsDirectoryHtml(data.all);
          $("#grid_around").html(str);
         initBtnLink();
