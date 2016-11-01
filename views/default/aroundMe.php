@@ -15,29 +15,43 @@
 
 </style>
 
-<div class="row headerDirectory bg-white padding-15">
-  <h3 class="text-dark text-left">
-    <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs autour de vous</b>, dans un rayon de 
-    <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
-      <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
-      <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
-      <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
-      <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
-      <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
-    </select> km
-    <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
-      <i class="fa fa-map-marker"></i> Afficher sur la carte
-    </button>
-  </h3>
+<?php 
+  $specs = Element::getElementSpecsByType ($type);
+  $link = $specs["hash"].$id;
+?>
 
-    
-    <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+<div class="row headerDirectory bg-white padding-15">
+  
+    <?php if($lat==null){ ?>
+    <div class="info-no-result">
       <h3 class="text-red">
-        <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
-        <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+        <i class="fa fa-ban"></i> Cet élément n'est pas communecté. 
+        <br><small><b>Impossible d'effectuer une recherche géographique.</b></small>
       </h3>
-      <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
     </div>
+    <?php }else{ ?>
+      <h3 class="text-dark text-left">
+        <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs</b>, dans un rayon de 
+        <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
+          <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
+          <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
+          <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
+          <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
+          <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
+        </select> km, autour de <a href="#<?php echo $link; ?>" class="lbh" id="element-name"></a>
+        <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
+          <i class="fa fa-map-marker"></i> Afficher sur la carte
+        </button>
+      </h3>
+
+      <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+        <h3 class="text-red">
+          <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
+          <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+        </h3>
+        <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+      </div>
+    <?php } ?>
     
     <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
       <h3 class="text-dark">
@@ -73,9 +87,13 @@ var noFitBoundAroundMe = true;
 
 jQuery(document).ready(function() {
 	
-	setTitle("Autour de <span class='text-"+colorTitle+"'><i class='fa "+iconTitle+"'></i> "+parentName+"</span>",
+  var elementName = "<span class='text-"+colorTitle+"'><i class='fa "+iconTitle+"'></i> "+parentName+"</span>";
+	setTitle("Autour de "+elementName,
 			 "<i class='fa fa-crosshairs'></i>", 
 			 "Autour de "+parentName);
+
+  $("#element-name").html(elementName);
+  $("#element-name").addClass("text-"+colorTitle);
 
   //console.log(elementsMap);
 
