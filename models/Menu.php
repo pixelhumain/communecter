@@ -364,6 +364,9 @@ class Menu {
                     'connectdevelop',
                     "showElementPad('directory')", $controller, "directory","communityBtn btn-menu-element btn-menu-element-directory");
         }
+        
+        
+
         if( $type == Event::COLLECTION && @$element["links"] && @$element["links"]["subEvents"])
         {
             //DIRECTORY
@@ -389,6 +392,16 @@ class Menu {
                     'photo',
                     "showElementPad('gallery')","gallery", "index", "btn-menu-element btn-menu-element-gallery");
 
+        //AROUND ME
+        //-----------------------------
+        
+        self::entry("left", 'onclick',
+                    Yii::t("common","Voir ce qui se trouve autour"),
+                    Yii::t("common","A proximité") ,
+                    'crosshairs',
+                    "loadByHash('#element.aroundme.type.".$type.".id.".$id.".radius.5000')", 
+                    $controller, "aroundme", "btn-menu-element btn-menu-element-directory");
+        
         //ACTION ROOMS
         //-----------------------------
         /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 

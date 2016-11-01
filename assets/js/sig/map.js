@@ -137,9 +137,9 @@
 				if(typeof thisData.author != "undefined") thisData = thisData.author;
 
 				this.allowMouseoverMaker = true;
-				console.log("thisData", thisData);
+				//console.log("thisData", thisData);
 				var markerName = this.getIcoNameByType(thisData);
-				console.log("markerName", markerName);
+				//console.log("markerName", markerName);
 				var iconUrl = assetPath+'/images/sig/markers/icons_carto/'+markerName+'.png';
 				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != ""){ 
 					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
@@ -478,11 +478,11 @@
 					}
 				}
 				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
-					console.log("thisData.geometry ?");
-					console.dir(thisData);
+					//console.log("thisData.geometry ?");
+					//console.dir(thisData);
 					if(type == "markerSingle"){
 						if(typeof thisData.geometry.location != "undefined"){
-							console.log(thisData.geometry.location.lat);
+							//console.log(thisData.geometry.location.lat);
 							var lat = thisData.geometry.location.lat;
 							var lng = thisData.geometry.location.lng;
 							console.dir(new Array (lat, lng));

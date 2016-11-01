@@ -2,7 +2,7 @@
   $cssAnsScriptFilesModule = array(
     '/assets/css/default/responsive-calendar.css',
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
   
   $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',

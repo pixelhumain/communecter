@@ -256,7 +256,7 @@
   													  "<div class='col-md-6'>"+
 				  										"<h4 class='text-left no-margin padding-5'>Forme :</h4>"+
 											            "<div class='radio-inline'>"+
-  															"<label><input type='radio' name='forme' value='square'> Carré</label>"+	
+  															"<label><input type='radio' name='forme' value='square' checked> Carré</label>"+	
 											            "</div>"+
 											            "<div class='radio-inline'>"+
   															"<label><input type='radio' name='forme' value='circle'> Cercle</label>"+	
@@ -265,7 +265,7 @@
 										              "<div class='col-md-12'>"+
 				  										"<h2 class='text-left text-dark'><i class='fa fa-angle-down'></i> Copiez / collez ce code dans la page de votre site web :</h2>" +
 			  										  	"<textarea class='form-control' rows='3' id='txtarea_iframe'>"+
-				  											"<iframe height='500' width='500' style='border-radius:50%'"+
+				  											"<iframe height='500' width='500'"+
 				  													" src='https://www.communecter.org"+hash+"'></iframe>"+
 				  										"</textarea>"+
 										              "</div>" +

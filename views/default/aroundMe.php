@@ -56,6 +56,7 @@
 
 var mapElements = new Array();
 var elementsMap = <?php echo json_encode($all) ?>;
+var parent = <?php echo json_encode($parent) ?>;
 var elementPosition = [<?php echo @$lat ?>, <?php echo @$lng ?>];
 
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
@@ -65,13 +66,16 @@ var idElement = "<?php echo $id ?>";
 var typeElement = "<?php echo $type ?>";
 var parentName = "<?php echo @$parentName ?>";
 
+var iconTitle = mapIconTop[typeElement];
+var colorTitle = mapColorIconTop[typeElement];
+
 var noFitBoundAroundMe = true;
 
 jQuery(document).ready(function() {
 	
-	setTitle("Autour de moi",
+	setTitle("Autour de <span class='text-"+colorTitle+"'><i class='fa "+iconTitle+"'></i> "+parentName+"</span>",
 			 "<i class='fa fa-crosshairs'></i>", 
-			 "Autour de moi");
+			 "Autour de "+parentName);
 
   //console.log(elementsMap);
 
@@ -121,6 +125,24 @@ function refreshUIAroundMe(elementsMap){
   var nbRes = elementsMap.length;
   Sig.showMapElements(Sig.map, elementsMap);
 
+  //Sig.showOneElementOnMap(parent, Sig.map);
+  var objectId = this.getObjectId(parent);
+  var content = Sig.getPopup(parent);
+  //création de l'icon sur la carte
+  var theIcon = Sig.getIcoMarkerMap(parent);
+  
+  var properties = {  id : objectId,
+                          icon : theIcon,
+                          type : parent["type"],
+                          typeSig : typeElement,
+                          name : parent["name"],
+                          faIcon : Sig.getIcoByType(parent),
+                          content: content };
+
+  var coordinates = Sig.getCoordinates(parent, "markerSingle");
+  var marker = Sig.getMarkerSingle(Sig.map, properties, coordinates);
+  marker.openPopup();
+
   setTimeout(function(){
     Sig.showCircle(elementPosition, radiusElement);
     Sig.map.fitBounds(Sig.circleAroundMe.getBounds());
@@ -166,7 +188,10 @@ function refreshAroundMe(radius){
     success: function(data) {
       if (data.result) {
         radiusElement = data.radius;
-        //location.hash = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        
+        var new_URL = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
+        window.history.replaceState( {} , "", new_URL );
+
         var str = showResultsDirectoryHtml(data.all);
          $("#grid_around").html(str);
         initBtnLink();
