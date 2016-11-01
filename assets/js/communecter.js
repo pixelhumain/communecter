@@ -1617,6 +1617,7 @@ var typeObj = {
 		            role :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
+		            	"rules" : { "required" : true },
 		            	//value : "admin",
 		            	"options" : {
 		            		admin : trad.administrator,

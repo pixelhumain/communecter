@@ -924,5 +924,41 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
+
+	public function actionDeleteLinksDeprecated(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
+			foreach ($elements as $keyElt => $elt) {
+				if(!empty($elt["links"])){
+					$find = false;
+					$newLinks = array();
+					foreach(@$elt["links"] as $typeLinks => $links){
+
+						foreach(@$links as $keyLink => $link){
+							$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
+							if(empty($eltL)){
+								$find = true;
+			                    unset($links[$keyLink]);
+							}
+							$newLinks[$typeLinks] = $links;
+						}
+					}
+					if($find == true){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("deleteLinksDeprecated" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($keyElt)),
+	                        array('$set' => array(	"links" => $newLinks,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						echo "Suppression de link  deprecated pour le type : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 
