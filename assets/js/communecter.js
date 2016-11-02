@@ -2830,12 +2830,16 @@ function communecterUser(){
 	updateLocalityEntities();
 }
 
-function updateLocalityEntities(){
+function updateLocalityEntities(addressesIndex, addressesLocality){
 	console.warn("updateLocalityEntities");
 	$("#ajax-modal").modal("hide");
 	showMap(true);
-	if(typeof initUpdateLocality != "undefined"){ 
-		initUpdateLocality(contextData.address, contextData.geo, contextData.type); 
+	if(typeof initUpdateLocality != "undefined"){
+
+		if(addressesIndex)
+			initUpdateLocality(addressesLocality.address, addressesLocality.geo, contextData.type, addressesIndex);
+		else
+			initUpdateLocality(contextData.address, contextData.geo, contextData.type, addressesIndex); 
 	}
 }
 /*
