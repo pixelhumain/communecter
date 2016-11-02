@@ -295,6 +295,8 @@
   $count = 0;
   $switchcount = 1;
 
+ 
+
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
@@ -641,7 +643,7 @@
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
                     <br><br>
-                    <button class="btn btn-success" onclick="$('#modal-create-proposal').modal('show')">
+                    <button class="btn btn-success" onclick="openForm("entry","sub")">
                       <i class="fa fa-plus"></i> Ajouter une proposition
                     </button>
                   </blockquote>
@@ -717,6 +719,16 @@
 *  Initialisation
 *
 ***************************************** */
+
+ var contextData = {
+    name : "<?php echo addslashes($entry["name"]) ?>",
+    id : "<?php echo (string)$entry["_id"] ?>",
+    type : "entry",
+    controller : "survey",
+    otags : "<?php echo addslashes($entry["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", $entry["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$entry["name"])); ?>
+  };  
+
 var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
