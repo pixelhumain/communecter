@@ -2095,7 +2095,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	//custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
 		            },
 		            name :{
 		              "inputType" : "text",

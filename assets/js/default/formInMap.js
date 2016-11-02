@@ -472,7 +472,7 @@ function initUpdateLocality(address, geo, type){
 	showMarkerNewElement();
 }
 
-function updateLocalityElement(){
+function updateLocalityElement(addressesIndex){
 	console.log("updateLocalityElement");
 	var unikey = NE_country + "_" + NE_insee + "-" + NE_cp; 
 	var locality = {
@@ -495,8 +495,12 @@ function updateLocalityElement(){
 			"type" : "Point",
 			"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
 		},
+		
 		unikey : unikey
-	}
+	};
+	if(addressesIndex)
+		locality[addresses] = addressesIndex ;
+	
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
 	
 	params = new Object;

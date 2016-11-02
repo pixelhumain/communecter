@@ -187,6 +187,7 @@ function editEntrySV () {
           formObj : proposalFormDefinition,
           onLoad : function() {
             console.log("onLoad",proposalObj);
+            $('.btn-annuler').hide();
             if( proposalObj )
             {
                if(proposalObj.dateEnd)

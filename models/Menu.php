@@ -825,6 +825,7 @@ class Menu {
         {
             // Edit proposal
             //-----------------------------
+            //hide if a vote exist , only show date end date change
             $hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
             if( !$hasVote && Yii::app()->controller->action->id != "editentry"  )
             {

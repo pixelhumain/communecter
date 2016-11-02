@@ -430,7 +430,23 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<i class="fa fa-trash-o" style="margin:0px !important;"></i>
 						<span class="hidden-sm"><?php echo Yii::t("common","Remove Locality"); ?></span>
 					</a>
-					
+					<?php if( @$element["addresses"] ){ 
+						echo '<div class="space5"></div><div class="text-dark lbl-info-details">Multi scope : </div>';
+						foreach ($element["addresses"] as $p) { 
+						?>
+							<div class="col-xs-12" style="border-bottom:1px solid #ccc">
+								<?php 
+								$address = ( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"] : "";
+								$address .= ( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "";
+								$address .= ( @$p["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "";
+								echo $address;
+
+								if(@$p["geo"]){?>
+								<a href="javascript:showMap(true);"><i class="fa text-red fa-map-marker"></i></a>
+								<?php }?>
+							</div>
+					<?php }  
+					} ?>
 				</div>
 				<?php } ?>
 				<br>
