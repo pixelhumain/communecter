@@ -247,7 +247,7 @@ $controler = Element::getControlerByCollection($type);
 				</div>
 				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $entity["_id"]) { ?>
 					<div id="divCommunecterMoi" class="col-md-12 no-padding no-padding margin-bottom-10">
-						<a href="javascript:;" class="cobtnHeader hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city");?></a> 
+						<a href="javascript:;" class="cobtnHeader hidden btn bg-red"><i class="fa fa-home"></i> <?php echo Yii::t("common", "Connect to your city");?></a> 
 						<a href="javascript:;" class="whycobtnHeader hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
 					</div>
 					<?php if(@$entity["seePreferences"] && $entity["seePreferences"]==true){ ?>
