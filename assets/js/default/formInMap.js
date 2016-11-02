@@ -49,7 +49,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
-								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
+								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
 								  "</a>");
 
 	$('[name="newElement_country"]').val(NE_country);
