@@ -19,7 +19,7 @@
 </style>
 
 <?php 
-  $specs = Element::getElementSpecsByType ($type);
+  $specs = Element::getElementSpecsByType($type);
   $link = $specs["hash"].$id;
 ?>
 
