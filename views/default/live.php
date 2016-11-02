@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];
-	else liveType = ", la boite à outil citoyenne connectée " + liveType;
+	else liveType = ", la boite à outils citoyenne connectée " + liveType;
 
 	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
