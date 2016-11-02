@@ -410,9 +410,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-12" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> 
-					<span class="hidden-sm"><?php echo Yii::t("common","Update Locality"); ?></span>
+				<a href='javascript:updateLocalityEntities("<?php echo count($element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
+					<i class="fa fa-plus" style="margin:0px !important;"></i> 
+					<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
 				</a>
 				<div class="col-xs-12 no-padding">
 
@@ -423,11 +423,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						$address .= '<span id="detailCountry">'.(( @$element["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "").'</span>';
 						echo $address;
 
-						if(@$element["geo"]){?>
-						<a href="javascript:;" id="btn-update-geopos"><i class="fa text-red fa-map-marker"></i></a> 
-						<?php }?>
-
-						<a href="javascript:;" class="hidden" id="btn-remove-geopos"><i class="fa text-red fa-times"></i></a>
+						?>
+						<a href="javascript:;" class="hidden addresses" id="btn-update-geopos"><i class="fa text-red fa-map-marker"></i></a> 
+						<a href="javascript:;" class="hidden addresses" id="btn-remove-geopos"><i class="fa text-red fa-trash-o"></i></a>
 
 					</div>
 
@@ -439,12 +437,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							$address = '<span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
 							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
 							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
-							echo $address;
-
-							if(@$p["geo"]){?>
-							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker"></i></a>
-							<?php }?>
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="hidden"><i class="fa text-red fa-trash-o"></i></a>
+							echo $address;?>
+							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker hidden addresses"></i></a>
+							
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses hidden"><i class="fa text-red fa-trash-o"></i></a>
 						</div>
 				<?php 	} 
 					} ?>
@@ -920,9 +916,9 @@ if($showOdesc == true){
 			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
-			$("#btn-update-geopos").addClass("hidden");
+			/*$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
-			$("#btn-add-geopos").addClass("hidden");
+			$("#btn-add-geopos").addClass("hidden");*/
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -934,9 +930,9 @@ if($showOdesc == true){
 				$(value).editable('option', 'pk', contextData.id);
 				$(value).editable('toggleDisabled');
 			})
-			$("#btn-update-geopos").removeClass("hidden");
+			/*$("#btn-update-geopos").removeClass("hidden");
 			$("#btn-remove-geopos").removeClass("hidden");
-
+			$("#btn-add-geopos").removeClass("hidden");*/
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
@@ -996,7 +992,7 @@ if($showOdesc == true){
 		//
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
-						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry"];
+						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry",".addresses"];
 
 		listXeditablesId = ['#username','#birthDate',"#email", "#mobile", 
 							"#fixe", "#fax","#url", "#licence",
