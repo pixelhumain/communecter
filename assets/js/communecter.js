@@ -2835,11 +2835,16 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 	$("#ajax-modal").modal("hide");
 	showMap(true);
 	if(typeof initUpdateLocality != "undefined"){
-
-		if(addressesIndex)
-			initUpdateLocality(addressesLocality.address, addressesLocality.geo, contextData.type, addressesIndex);
-		else
-			initUpdateLocality(contextData.address, contextData.geo, contextData.type, addressesIndex); 
+		var address = contextData.address ;
+		var geo = contextData.geo ;
+		if(addressesLocality){
+			address = addressesLocality.address ;
+			geo = addressesLocality.geo ;
+		}else{
+			address = null ;
+			geo = null ;
+		}
+		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
 }
 /*

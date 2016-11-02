@@ -434,6 +434,8 @@ function backToForm(cancel){
 			};
 			copyMapForm2Dynform(locationObj);
 			addLocationToForm(locationObj);
+			
+			
 		}
 		showMap(false);
 		Sig.clearMap();
@@ -466,9 +468,22 @@ function initUpdateLocality(address, geo, type, index){
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
 		NE_cp = "";NE_street = "";NE_country = "";NE_dep = "";NE_region = "";
+		if(index)
+			addressesIndex = index ;
 	}
 	formType = type ;
 	updateLocality = true;
+	if(typeof contextMap == "undefined")
+		contextMap = [];
+	showMarkerNewElement();
+}
+
+function initAddLocality(type, index){
+	console.log("initUpdateLocality", address, geo, type, index);
+	NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
+	NE_cp = "";NE_street = "";NE_country = "";NE_dep = "";NE_region = "";
+	formType = type ;
+	addLocality = true;
 	if(typeof contextMap == "undefined")
 		contextMap = [];
 	showMarkerNewElement();

@@ -448,6 +448,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							</div>
 					<?php }  
 					} ?>
+
+					<a id="btn-add-geopos" href='javascript:updateLocalityEntities("<?php echo count($element["addresses"]) ; ?>");' class="btn btn-danger btn-sm hidden col-xs-12" style="margin: 10px 0px;">
+						<i class="fa fa-plus" style="margin:0px !important;"></i> 
+						<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
+					</a>
 				</div>
 				<?php } ?>
 				<br>
@@ -719,6 +724,10 @@ if($showOdesc == true){
 			updateLocalityEntities();
 		});
 
+		$("#btn-add-geopos").off().on( "click", function(){
+			updateLocalityEntities();
+		});
+
 		$("#btn-remove-geopos").off().on( "click", function(){
 			param = new Object;
 	    	param.name = "locality";
@@ -918,6 +927,7 @@ if($showOdesc == true){
 			});
 			$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
+			$("#btn-add-geopos").addClass("hidden");
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -931,6 +941,7 @@ if($showOdesc == true){
 			})
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#btn-remove-geopos").removeClass("hidden");
+			$("#btn-add-geopos").removeClass("hidden");
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
