@@ -1,3 +1,5 @@
+* Communication 
+[ ] connect Rocket + Github [[https://github.com/RocketChat/Rocket.Chat.Ops]]
 * BUGS
 [ ] repairing localisation HTML5
 

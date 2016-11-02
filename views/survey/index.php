@@ -721,12 +721,12 @@
 ***************************************** */
 
  var contextData = {
-    name : "<?php echo addslashes($entry["name"]) ?>",
-    id : "<?php echo (string)$entry["_id"] ?>",
+    name : "<?php echo addslashes(@$where["survey"]["name"]) ?>",
+    id : "<?php echo (string)@$where["survey"]["_id"] ?>",
     type : "entry",
     controller : "survey",
-    otags : "<?php echo addslashes($entry["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", $entry["tags"])) ?>",
-    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$entry["name"])); ?>
+    otags : "<?php echo addslashes(@$where["survey"]["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$where["survey"]["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$where["survey"]["name"])); ?>
   };  
 
 var layout = 'grid', // Store the current layout as a variable
