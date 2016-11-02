@@ -1021,7 +1021,7 @@ if($showOdesc == true){
 
 	function activateEditableContext() {
 		$.fn.editable.defaults.mode = 'popup';
-
+		$.fn.editable.defaults.container='body';
 		$('.editable-context').editable({
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			title : $(this).data("title"),
@@ -1300,7 +1300,8 @@ if($showOdesc == true){
 			placement: 'top',
 			wysihtml5: {
 				html: true,
-				video: false
+				video: false,
+				image:true
 			},
 			container: 'body',
 			success : function(data) {
