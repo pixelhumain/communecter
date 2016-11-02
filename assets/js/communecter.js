@@ -1215,9 +1215,6 @@ function formatData(formData, collection,ctrl) {
 					elementLocations.splice(i, 1);
 			});
 			formData.addresses = elementLocations;
-			$.each( formData.addresses,function (i,v) { 
-				delete v.geoPosition;
-			});
 		}
 	}
 	
