@@ -732,13 +732,14 @@ if($showOdesc == true){
 			    	if(data.result){
 						if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
 							//Menu Left
-							$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
+							$("#btn-geoloc-auto-menu").attr("href", "javascript:");
 							$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
 							$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
 							$("#btn-geoloc-auto-menu").removeClass("lbh");
+							$("#btn-geoloc-auto-menu").off();
 							//Dashbord
-							$("#btn-menuSmall-mycity").attr("href", "javascript:;");
-							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
+							$("#btn-menuSmall-mycity").attr("href", "javascript:");
+							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:");
 							//Multiscope
 							$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
 							//MenuSmall

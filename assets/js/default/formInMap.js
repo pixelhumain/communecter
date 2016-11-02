@@ -629,6 +629,8 @@ function changeMenuCommunextion(locality){
 	$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
 	$("#btn-geoloc-auto-menu").attr("onclick", "");
 	$("#btn-geoloc-auto-menu").addClass("lbh");
+	bindLBHLinks();
+
 	//Dashbord
 	$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 	$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+locality.unikey);
