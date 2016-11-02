@@ -2061,6 +2061,9 @@ var typeObj = {
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
 			    },
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
