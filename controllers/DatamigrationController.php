@@ -930,7 +930,7 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
-			foreach ($elements as $keyElt => $elt) {
+			foreach (@$elements as $keyElt => $elt) {
 				if(!empty($elt["links"])){
 					$find = false;
 					$newLinks = array();
