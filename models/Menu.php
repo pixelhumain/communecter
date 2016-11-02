@@ -777,7 +777,7 @@ class Menu {
                             Yii::t( "common", 'Create a proposal for your community'),
                             Yii::t( "common", 'Add a proposal'), 'plus',
                             //"loadByHash('#survey.editEntry.survey.".$id."')",
-                            "$('#modal-create-proposal').modal('show')",
+                            "openForm('entry','sub')",
                             "addProposalBtn",null);
             self::entry("left", 'onclick', 
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),

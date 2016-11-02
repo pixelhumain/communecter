@@ -93,8 +93,10 @@
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
+<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null;
+      
        $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+      
 ?>
 
 <script type="text/javascript">

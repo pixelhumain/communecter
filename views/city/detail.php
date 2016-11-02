@@ -223,7 +223,7 @@ $this->renderPartial('../default/panels/toolbar');
                           <i class="fa fa-rss"></i>
                         </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
                     </div> -->
-
+                    <?php if($cityGlobal != true){ ?>
                     <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
                           <i class="fa fa-group"></i>
@@ -231,6 +231,25 @@ $this->renderPartial('../default/panels/toolbar');
                         <br/><span class='text-red'><strong>Conseil citoyen</strong>
                         <br><?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?></span>
                     </div>
+                   <?php }else{?>
+                      <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                          <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
+                          <br/><span class='text-red'><strong>Conseil citoyen</strong>
+                          <select id="selectRoom">
+                              <option value="">Chosir</option>
+                              <?php 
+                                foreach ($city["postalCodes"] as $key => $value) {
+                                  $cityUniKey = array("country" => $city["country"],
+                                                        "insee" => $city["insee"],
+                                                        "cp" => $value["postalCode"]);
+                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].'</option>';
+                                }
+                              ?>
+                          </select> 
+                          </span> 
+                      </div>
+                    <?php } ?>
+                    
                     <?php /*
                     <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
                         <strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision
@@ -338,6 +357,12 @@ jQuery(document).ready(function() {
 		}
 	});
 
+
+  $('#selectRoom').change(function(){
+    if($('#selectRoom').val() != "")
+      loadByHash($('#selectRoom').val());
+      
+  });
    // $("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
    //  var id = "<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>";
    //    getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/cities/id/"+id+"/view/pod",

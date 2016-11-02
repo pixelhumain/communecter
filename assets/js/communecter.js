@@ -1210,10 +1210,11 @@ function formatData(formData, collection,ctrl) {
 		formData.geo = centerLocation.geo;
 		formData.geoPosition = centerLocation.geoPosition;
 		if( elementLocations.length ){
-			formData.addresses = elementLocations;
-			$.each( formData.addresses,function (i,v) { 
-				delete v.geoPosition;
+			$.each( elementLocations,function (i,v) { 
+				if( notNull(v) && notNull(v.center) )
+					elementLocations.splice(i, 1);
 			});
+			formData.addresses = elementLocations;
 		}
 	}
 	
@@ -2053,6 +2054,16 @@ var typeObj = {
 			    title : "Ajouter une proposition",
 			    icon : "gavel",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #survey").val( contextData.id );
+			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -2095,7 +2106,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	//<custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2148,7 +2159,7 @@ var typeObj = {
 		            type : {
 		            	inputType : "hidden",
 		            	value : "entry"
-		            },
+		            }
 			    }
 			}
 		}},
@@ -2835,11 +2846,16 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 	$("#ajax-modal").modal("hide");
 	showMap(true);
 	if(typeof initUpdateLocality != "undefined"){
-
-		if(addressesIndex)
-			initUpdateLocality(addressesLocality.address, addressesLocality.geo, contextData.type, addressesIndex);
-		else
-			initUpdateLocality(contextData.address, contextData.geo, contextData.type, addressesIndex); 
+		var address = contextData.address ;
+		var geo = contextData.geo ;
+		if(addressesLocality){
+			address = addressesLocality.address ;
+			geo = addressesLocality.geo ;
+		}else{
+			address = null ;
+			geo = null ;
+		}
+		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
 }
 /*

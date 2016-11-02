@@ -410,43 +410,39 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-12" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> 
-					<span class="hidden-sm"><?php echo Yii::t("common","Update Locality"); ?></span>
+				<a href='javascript:updateLocalityEntities("<?php echo count($element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
+					<i class="fa fa-plus" style="margin:0px !important;"></i> 
+					<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
 				</a>
 				<div class="col-xs-12 no-padding">
-					
-					<i class="fa fa-road fa_streetAddress hidden"></i> 
-					<span id="detailStreetAddress"><?php echo (!empty( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?></span>
-					<br/>
-					<i class="fa fa-bullseye fa_postalCode hidden"></i> 
-					<span id="detailCity"><?php echo (!empty($element["address"]["addressLocality"])) ? $element["address"]["addressLocality"] : null;?><?php echo (!empty( $element["address"]["postalCode"])) ? ", ".$element["address"]["postalCode"] : null;?></span>
-					<br/>
-					<i class="fa fa-globe fa_addressCountry hidden"></i> 
-					<span id="detailCountry"><?php echo (!empty( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?></span>
 
-					<a 	href="javascript:" id="btn-remove-geopos" class="btn btn-danger btn-sm hidden col-xs-12 " 
-						style="height: 100%" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality"); ?>">
-						<i class="fa fa-trash-o" style="margin:0px !important;"></i>
-						<span class="hidden-sm"><?php echo Yii::t("common","Remove Locality"); ?></span>
-					</a>
-					<?php if( @$element["addresses"] ){ 
-						echo '<div class="space5"></div><div class="text-dark lbl-info-details">Multi scope : </div>';
-						foreach ($element["addresses"] as $keyP => $p) { 
+					<div class="col-xs-12" style="border-bottom:1px solid #CCC">
+						<?php 
+						$address = '<span id="detailStreetAddress">'.(( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"]."</span><br/>" : "").'</span>';
+						$address .= '<span id="detailCity">'.(( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "")." ".(( @$element["address"]["addressLocality"]) ? $element["address"]["addressLocality"] : "").'</span>';
+						$address .= '<span id="detailCountry">'.(( @$element["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "").'</span>';
+						echo $address;
+
 						?>
-							<div  id="addresses_<?php echo $keyP ; ?>" class="col-xs-12" style="border-bottom:1px solid #ccc">
-								<?php 
-								$address = ( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"] : "";
-								$address .= ( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "";
-								$address .= ( @$p["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "";
-								echo $address;
+						<a href="javascript:;" class="hidden addresses" id="btn-update-geopos"><i class="fa text-red fa-map-marker"></i></a> 
+						<a href="javascript:;" class="hidden addresses" id="btn-remove-geopos"><i class="fa text-red fa-trash-o"></i></a>
 
-								if(@$p["geo"]){?>
-								<a href='javascript:updateLocalityEntities("<?php echo $keyP ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker"></i></a>
-								<?php }?>
-								<a href='javascript:removeAddresses("<?php echo $keyP ; ?>");'><i class="fa text-red fa-trash-o"></i></a>
-							</div>
-					<?php }  
+					</div>
+
+				<?php 
+					if( @$element["addresses"] ){ 
+						foreach ($element["addresses"] as $ix => $p) { ?>
+						<div id="addresses_<?php echo $ix ; ?>" class="col-xs-12" style="border-bottom:1px solid #CCC">
+							<?php 
+							$address = '<span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
+							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
+							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
+							echo $address;?>
+							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker hidden addresses"></i></a>
+							
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses hidden"><i class="fa text-red fa-trash-o"></i></a>
+						</div>
+				<?php 	} 
 					} ?>
 				</div>
 				<?php } ?>
@@ -719,6 +715,10 @@ if($showOdesc == true){
 			updateLocalityEntities();
 		});
 
+		$("#btn-add-geopos").off().on( "click", function(){
+			updateLocalityEntities();
+		});
+
 		$("#btn-remove-geopos").off().on( "click", function(){
 			param = new Object;
 	    	param.name = "locality";
@@ -734,14 +734,13 @@ if($showOdesc == true){
 			    	if(data.result){
 						if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
 							//Menu Left
-							$("#btn-geoloc-auto-menu").attr("href", "javascript:");
+							$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
 							$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
 							$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
 							$("#btn-geoloc-auto-menu").removeClass("lbh");
-							$("#btn-geoloc-auto-menu").off();
 							//Dashbord
-							$("#btn-menuSmall-mycity").attr("href", "javascript:");
-							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:");
+							$("#btn-menuSmall-mycity").attr("href", "javascript:;");
+							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
 							//Multiscope
 							$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
 							//MenuSmall
@@ -917,8 +916,9 @@ if($showOdesc == true){
 			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
-			$("#btn-update-geopos").addClass("hidden");
+			/*$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
+			$("#btn-add-geopos").addClass("hidden");*/
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -930,8 +930,9 @@ if($showOdesc == true){
 				$(value).editable('option', 'pk', contextData.id);
 				$(value).editable('toggleDisabled');
 			})
-			$("#btn-update-geopos").removeClass("hidden");
+			/*$("#btn-update-geopos").removeClass("hidden");
 			$("#btn-remove-geopos").removeClass("hidden");
+			$("#btn-add-geopos").removeClass("hidden");*/
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
@@ -991,7 +992,7 @@ if($showOdesc == true){
 		//
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
-						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry"];
+						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry",".addresses"];
 
 		listXeditablesId = ['#username','#birthDate',"#email", "#mobile", 
 							"#fixe", "#fax","#url", "#licence",
