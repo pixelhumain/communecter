@@ -1617,6 +1617,7 @@ var typeObj = {
 		            role :{
 		            	"inputType" : "select",
 		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
+		            	"rules" : { "required" : true },
 		            	//value : "admin",
 		            	"options" : {
 		            		admin : trad.administrator,
@@ -2094,7 +2095,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	//custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2829,12 +2830,16 @@ function communecterUser(){
 	updateLocalityEntities();
 }
 
-function updateLocalityEntities(){
+function updateLocalityEntities(addressesIndex, addressesLocality){
 	console.warn("updateLocalityEntities");
 	$("#ajax-modal").modal("hide");
 	showMap(true);
-	if(typeof initUpdateLocality != "undefined"){ 
-		initUpdateLocality(contextData.address, contextData.geo, contextData.type); 
+	if(typeof initUpdateLocality != "undefined"){
+
+		if(addressesIndex)
+			initUpdateLocality(addressesLocality.address, addressesLocality.geo, contextData.type, addressesIndex);
+		else
+			initUpdateLocality(contextData.address, contextData.geo, contextData.type, addressesIndex); 
 	}
 }
 /*

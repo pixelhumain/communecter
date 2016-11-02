@@ -131,21 +131,30 @@
 				</div>
 				<div class="col-md-6">
 					<div class="box-ajaxTools">					
-						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
-							<a class="tooltips btn btn-default  " href="javascript:" 
-							   data-toggle="modal" data-target="#modal-edit-entry"
-							   data-placement="bottom" data-original-title="Editer cette proposition">
-								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
-							</a>
+						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  
+						{
+							$hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
+				            if( !$hasVote && $voteLinksAndInfos["avoter"] != "closed" )
+				            { ?>
+								<a class="tooltips btn btn-default  " href="javascript:" 
+								   data-toggle="modal" data-target="#modal-edit-entry"
+								   data-placement="bottom" data-original-title="Editer cette proposition">
+									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+								</a>
+							<?php } ?>
 							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
 								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
 							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
 							</a>
+							<?php 
+							if( !( ( @$survey["dateEnd"] && $survey["dateEnd"] < time()) )   )
+            				{ ?>
 							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
 							   data-placement="bottom" data-original-title="Supprimer cette proposition">
 								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
 							</a>
-						<?php } ?>
+						<?php } 
+						} ?>
 						<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
 						   data-placement="bottom" data-original-title="Comprendre les propositions">
 							<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
@@ -154,7 +163,7 @@
 				</div>	
 			</div>	
 
-			<div class="col-md-4 no-padding" style="padding-right: 15px !important;">
+			<div class="col-md-4 col-sm-4 col-xs-12 no-padding" style="padding-right: 15px !important;">
 				
 				<?php  $this->renderPartial('../pod/fileupload', 
 											 array("itemId" => $survey["_id"],
@@ -203,7 +212,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
+			<div class="col-md-8 col-sm-8 col-xs-12 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
 				
 				<span class="text-azure">
 					<i class="fa fa-calendar"></i> 
@@ -234,10 +243,12 @@
 			 	<div class="text-bold text-dark">
 			 		<?php 
 						$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
-						if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
+						if( $canParticipate && $voteLinksAndInfos["hasVoted"] && $voteLinksAndInfos["avoter"] != "closed" ) 
 							echo $voteLinksAndInfos["links"]; 
+						else if( $canParticipate && $voteLinksAndInfos["avoter"] == "closed" )
+							echo '<i class="fa fa-angle-right"></i><span class="text-red"> Cette proposition est cloturé depuis le '.date("d/m/y",@$survey["dateEnd"]).'</span>';
 						else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
-							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté'.$parentType;
+							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
 						else if( !$canParticipate && isset(Yii::app()->session['userId']) && $parentType == "cities")
 							echo '<i class="fa fa-angle-right"></i> Vous devez habiter cette commune pour voter ici';
 						else if( !$canParticipate && isset(Yii::app()->session['userId']) )
@@ -249,23 +260,24 @@
 
 			</div>
 
-			<div class="col-md-12 no-padding">
+			<div class="col-xs-12 no-padding">
 
-				<div class="col-md-12 text-dark" style="font-size:15px">
+				<div class="col-xs-12 text-dark" style="font-size:15px">
 					<hr style="margin-top:0px">
 					<?php echo $survey["message"]; ?>
 					<hr>
 					<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
 				</div>
 
-				<div class="col-md-12 padding-15">
+				<div class="col-xs-12">
 					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos, $parentType,$parentId); ?>
-					<div class="col-md-12 no-padding margin-top-10"><hr></div>
+					<div class="col-md-12 col-sm-12 no-padding margin-top-10"><hr></div>
 				</div>
 
 				<?php if( @( $survey["urls"] ) ){ ?>
+				<div class="col-md-12 col-xs-12 col-sm-12">
 					
-					<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
+					<h2 class="text-dark"><br>Des liens d'informations ou actions à faire</h2>
 					<?php foreach ( $survey["urls"] as $value) {
 						if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 							echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
@@ -274,7 +286,7 @@
 						else
 							echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
 					}?>
-					
+				</div>	
 				<?php }	?>
 			</div>
 
@@ -289,7 +301,8 @@
 		</div>
 	</div>
 		
-	<div class="col-md-12 commentSection leftInfoSection" >
+	<div class="col-md-12 col-sm-12 commentSection leftInfoSection" >
+		<hr>
 		<h2 class='text-dark homestead' style="margin: -20px 0px 15px;"><i class="fa fa-angle-down"></i><br>Discussion</h2>
 		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>

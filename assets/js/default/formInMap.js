@@ -15,6 +15,7 @@ var NE_region = "";
 var typeSearchInternational = "";
 var formType = "";
 var updateLocality = false;
+var addressesIndex = false;
 
 
 function showMarkerNewElement(){ console.log("showMarkerNewElement");
@@ -307,13 +308,17 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 				Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
 				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
 				
+				console.log("geoShape", inseeGeoSHapes);
 				if(notEmpty(inseeGeoSHapes[NE_insee])){
 					var shape = inseeGeoSHapes[NE_insee];
 					shape = Sig.inversePolygon(shape);
 					Sig.showPolygon(shape);
 					Sig.map.fitBounds(shape);
 				}else{
-					timeoutAddCity = setTimeout(function(){ Sig.map.setZoom(14); }, 500);
+					timeoutAddCity = setTimeout(function(){ //alert("zoom");
+											Sig.map.panTo([NE_lat, NE_lng]);
+											Sig.map.setZoom(14); 
+									}, 500);
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
@@ -444,8 +449,8 @@ function backToForm(cancel){
 
 }
 
-function initUpdateLocality(address, geo, type){
-	console.log("initUpdateLocality", address, geo, type);
+function initUpdateLocality(address, geo, type, index){
+	console.log("initUpdateLocality", address, geo, type, index);
 	if(address != null && geo != null ){
 		NE_insee = address.codeInsee;
 		NE_lat = geo.latitude;
@@ -456,6 +461,7 @@ function initUpdateLocality(address, geo, type){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
+		addressesIndex = index ;
 		initDropdown();
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
@@ -491,8 +497,12 @@ function updateLocalityElement(){
 			"type" : "Point",
 			"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
 		},
+		
 		unikey : unikey
-	}
+	};
+	if(addressesIndex)
+		locality["addressesIndex"] = addressesIndex ;
+	
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
 	
 	params = new Object;
@@ -520,48 +530,55 @@ function updateLocalityElement(){
 			    		contextData.geoPosition = locality.geoPosition;
 		    		}
 					
-					//Header && ficheInfoElement
-					$("#detailStreetAddress").html(locality.address.streetAddress);
-					$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
-					$("#detailCountry").html(locality.address.addressCountry);
-					$('#localityHeader').html(locality.address.addressLocality);
-					$('#pcHeader').html(locality.address.postalCode);
-					$('#countryHeader').html(locality.address.addressCountry);
-					$('#iconLocalityyHeader').removeClass("hidden");
-					$('#addressHeader').removeClass("hidden");
-					$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
-					$(".detailMyCity").attr("onclick", "");
-					$(".detailMyCity").removeClass("detailMyCity");
-					$(".detailMyCity").addClass("lbh");
-					$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
+					if(!addressesIndex){
+						//Header && ficheInfoElement
+						$("#detailStreetAddress").html(locality.address.streetAddress);
+						$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
+						$("#detailCountry").html(locality.address.addressCountry);
+						$('#localityHeader').html(locality.address.addressLocality);
+						$('#pcHeader').html(locality.address.postalCode);
+						$('#countryHeader').html(locality.address.addressCountry);
+						$('#iconLocalityyHeader').removeClass("hidden");
+						$('#addressHeader').removeClass("hidden");
+						$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
+						$(".detailMyCity").attr("onclick", "");
+						$(".detailMyCity").removeClass("detailMyCity");
+						$(".detailMyCity").addClass("lbh");
+						$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 
-					toastr.success(data.msg);
-					initData();
-					if(contextData.id != userId){
-						var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
-						if(typeMap == "citoyens")
-							typeMap = "people";
-						if(inMap == false)
-							contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
-						else{
-							contextMap = Sig.modifLocalityContextMap(contextMap, contextData, typeMap);
-						}
-						Sig.restartMap();
-						Sig.showMapElements(Sig.map, contextMap);
-					}else{
-
-						changeMenuCommunextion(locality);
-
-						Sig.myPosition.position.latitude = locality.geo.latitude;
-						Sig.myPosition.position.longitude = locality.geo.longitude;
-						var url = window.location.href ;
-						if(url.indexOf("#person.detail.id."+userId) == -1) {
-							loadByHash("#person.detail.id."+userId);
-						}else{
+						toastr.success(data.msg);
+						initData();
+						if(contextData.id != userId){
+							var typeMap = ((typeof contextData == "undefined" || contextData == null)?"citoyens":contextData.type) ;
+							if(typeMap == "citoyens")
+								typeMap = "people";
+							if(inMap == false)
+								contextMap = Sig.addContextMap(contextMap, contextData, typeMap);
+							else{
+								contextMap = Sig.modifLocalityContextMap(contextMap, contextData, typeMap);
+							}
 							Sig.restartMap();
 							Sig.showMapElements(Sig.map, contextMap);
+						}else{
+
+							changeMenuCommunextion(locality);
+
+							Sig.myPosition.position.latitude = locality.geo.latitude;
+							Sig.myPosition.position.longitude = locality.geo.longitude;
+							var url = window.location.href ;
+							if(url.indexOf("#person.detail.id."+userId) == -1) {
+								loadByHash("#person.detail.id."+userId);
+							}else{
+								Sig.restartMap();
+								Sig.showMapElements(Sig.map, contextMap);
+							}
 						}
+					}else{
+						initData();
+						toastr.success(data.msg);
+						loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 					}
+					
 		    	}else{
 		    		toastr.error(data.msg);
 		    	}
@@ -651,6 +668,7 @@ function initData(){
 	typeSearchInternational = "";
 	formType = "";
 	updateLocality = false;
+	addressesIndex = false;
 	initDropdown();
 	$("#divStreetAddress").addClass("hidden");
 	$("#divPostalCode").addClass("hidden");

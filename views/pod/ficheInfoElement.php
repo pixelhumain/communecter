@@ -410,10 +410,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a> -->
-				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Update Locality"); ?>
+				<a href="javascript:" id="btn-update-geopos" class="btn btn-danger btn-sm hidden col-xs-12" style="margin: 10px 0px;">
+					<i class="fa fa-map-marker" style="margin:0px !important;"></i> 
+					<span class="hidden-sm"><?php echo Yii::t("common","Update Locality"); ?></span>
 				</a>
 				<div class="col-xs-12 no-padding">
+					
 					<i class="fa fa-road fa_streetAddress hidden"></i> 
 					<span id="detailStreetAddress"><?php echo (!empty( $element["address"]["streetAddress"])) ? $element["address"]["streetAddress"] : null; ?></span>
 					<br/>
@@ -422,6 +424,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<br/>
 					<i class="fa fa-globe fa_addressCountry hidden"></i> 
 					<span id="detailCountry"><?php echo (!empty( $element["address"]["addressCountry"])) ? $element["address"]["addressCountry"] : null; ?></span>
+
+					<a 	href="javascript:" id="btn-remove-geopos" class="btn btn-danger btn-sm hidden col-xs-12 " 
+						style="height: 100%" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality"); ?>">
+						<i class="fa fa-trash-o" style="margin:0px !important;"></i>
+						<span class="hidden-sm"><?php echo Yii::t("common","Remove Locality"); ?></span>
+					</a>
+					<?php if( @$element["addresses"] ){ 
+						echo '<div class="space5"></div><div class="text-dark lbl-info-details">Multi scope : </div>';
+						foreach ($element["addresses"] as $keyP => $p) { 
+						?>
+							<div  id="addresses_<?php echo $keyP ; ?>" class="col-xs-12" style="border-bottom:1px solid #ccc">
+								<?php 
+								$address = ( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"] : "";
+								$address .= ( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "";
+								$address .= ( @$p["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "";
+								echo $address;
+
+								if(@$p["geo"]){?>
+								<a href='javascript:updateLocalityEntities("<?php echo $keyP ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker"></i></a>
+								<?php }?>
+								<a href='javascript:removeAddresses("<?php echo $keyP ; ?>");'><i class="fa text-red fa-trash-o"></i></a>
+							</div>
+					<?php }  
+					} ?>
 				</div>
 				<?php } ?>
 				<br>
@@ -627,15 +653,16 @@ if($showOdesc == true){
 
 <script type="text/javascript">
 	
-	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
 	var contextData = {
 		name : "<?php echo addslashes($element["name"]) ?>",
 		id : "<?php echo (string)$element["_id"] ?>",
 		type : "<?php echo $type ?>",
+		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>,
+		addresses : <?php echo json_encode(@$element["addresses"]) ?>,
 		odesc : <?php echo json_encode($odesc) ?>,
 		<?php 
 		if( @$element["startDate"] )
@@ -692,6 +719,43 @@ if($showOdesc == true){
 			updateLocalityEntities();
 		});
 
+		$("#btn-remove-geopos").off().on( "click", function(){
+			param = new Object;
+	    	param.name = "locality";
+	    	param.value = "";
+	    	param.pk = contextData.id;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	//
+			    	if(data.result){
+						if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
+							//Menu Left
+							$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
+							$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
+							$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
+							$("#btn-geoloc-auto-menu").removeClass("lbh");
+							//Dashbord
+							$("#btn-menuSmall-mycity").attr("href", "javascript:;");
+							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
+							//Multiscope
+							$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
+							//MenuSmall
+							$(".hide-communected").show();
+							$(".visible-communected").hide();
+						}
+						toastr.success(data.msg);
+						loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+			    	}
+			    }
+			});
+		});
+
+		
+
 		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
@@ -700,7 +764,7 @@ if($showOdesc == true){
 			showMap(true);
 		});
 
-		buildQRCode(contextControler,contextData.id);
+		buildQRCode(contextData.controller,contextData.id);
 
 		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
@@ -853,6 +917,7 @@ if($showOdesc == true){
 				$(value).editable('toggleDisabled');
 			});
 			$("#btn-update-geopos").addClass("hidden");
+			$("#btn-remove-geopos").addClass("hidden");
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -865,6 +930,7 @@ if($showOdesc == true){
 				$(value).editable('toggleDisabled');
 			})
 			$("#btn-update-geopos").removeClass("hidden");
+			$("#btn-remove-geopos").removeClass("hidden");
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
@@ -1498,7 +1564,25 @@ if($showOdesc == true){
 		console.log("erreur getlatlngbyinsee", error);
 	}
 
-
+	function removeAddresses (index){
+		var addresses = { addressesIndex : index };
+		var param = new Object;
+		param.name = "locality";
+		param.value = addresses;
+		param.pk = contextData.id;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	if(data.result){
+					toastr.success(data.msg);
+					loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+		    	}
+		    }
+		});
+	}
 	
 	
 
