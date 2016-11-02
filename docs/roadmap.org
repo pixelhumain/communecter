@@ -29,18 +29,16 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [X] page recherche
       [ ] page agenda
     [X] synchronize new item menu (on selected)
-    [ ] Finir Orga:Add member
+    [X] Finir Orga:Add member
       [X] refaire marcher la modal
       [X] brancher le save de la modal sur un controller (link/multiConnectAction)
-      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
-      [??] Project:contributeur
-      [??] People:invitation
-      [??] Event:Participation
-    [ ] Around me
+      [X] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
+    [X] Around me
       [X] Liste HTML
       [X] result on map
       [X] change radius on map
-      [ ] around all element
+      [X] around all element
+      [X] share aroundMe in iframe
     [X] modification du menu principal (recherche)
     [X] modifications page directory
       [X] ajout Debat & Action dans le globalSearch
