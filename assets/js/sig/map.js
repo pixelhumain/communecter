@@ -557,6 +557,14 @@
 									this.geoJsonCollection['features'].push(marker);
 								}
 
+								var thisSig = this;
+								if(notEmpty(thisData["addresses"])){
+									$.each(thisData["addresses"], function(key, addr){
+										coordinates = thisSig.getCoordinates(addr, "markerSingle");
+										marker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
+									});
+								}
+
 
 								if(thisData["type"] == "city"){
 									//console.log("geoshapes ?");
