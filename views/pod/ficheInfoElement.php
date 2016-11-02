@@ -432,9 +432,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</a>
 					<?php if( @$element["addresses"] ){ 
 						echo '<div class="space5"></div><div class="text-dark lbl-info-details">Multi scope : </div>';
-						foreach ($element["addresses"] as $p) { 
+						foreach ($element["addresses"] as $keyP => $p) { 
 						?>
-							<div class="col-xs-12" style="border-bottom:1px solid #ccc">
+							<div  id="addresses_<?php echo $keyP ; ?>" class="col-xs-12" style="border-bottom:1px solid #ccc">
 								<?php 
 								$address = ( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"] : "";
 								$address .= ( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "";
@@ -442,8 +442,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 								echo $address;
 
 								if(@$p["geo"]){?>
-								<a href="javascript:showMap(true);"><i class="fa text-red fa-map-marker"></i></a>
+								<a href='javascript:updateLocalityEntities("<?php echo $keyP ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker"></i></a>
 								<?php }?>
+								<a href='javascript:removeAddresses("<?php echo $keyP ; ?>");'><i class="fa text-red fa-trash-o"></i></a>
 							</div>
 					<?php }  
 					} ?>
@@ -652,15 +653,16 @@ if($showOdesc == true){
 
 <script type="text/javascript">
 	
-	var contextControler = <?php echo json_encode(Element::getControlerByCollection($type))?> ;
 	var contextData = {
 		name : "<?php echo addslashes($element["name"]) ?>",
 		id : "<?php echo (string)$element["_id"] ?>",
 		type : "<?php echo $type ?>",
+		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
 		geo : <?php echo json_encode(@$element["geo"]) ?>,
 		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
 		address : <?php echo json_encode(@$element["address"]) ?>,
+		addresses : <?php echo json_encode(@$element["addresses"]) ?>,
 		odesc : <?php echo json_encode($odesc) ?>,
 		<?php 
 		if( @$element["startDate"] )
@@ -728,7 +730,7 @@ if($showOdesc == true){
 		        data: param,
 		       	dataType: "json",
 		    	success: function(data){
-			    	//toastr.success(data.msg);
+			    	//
 			    	if(data.result){
 						if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
 							//Menu Left
@@ -746,12 +748,14 @@ if($showOdesc == true){
 							$(".hide-communected").show();
 							$(".visible-communected").hide();
 						}
-						
-						loadByHash("#"+contextControler+".detail.id."+contextData.id);
+						toastr.success(data.msg);
+						loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 			    	}
 			    }
 			});
 		});
+
+		
 
 		$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
@@ -761,7 +765,7 @@ if($showOdesc == true){
 			showMap(true);
 		});
 
-		buildQRCode(contextControler,contextData.id);
+		buildQRCode(contextData.controller,contextData.id);
 
 		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
@@ -1561,7 +1565,25 @@ if($showOdesc == true){
 		console.log("erreur getlatlngbyinsee", error);
 	}
 
-
+	function removeAddresses (index){
+		var addresses = { addressesIndex : index };
+		var param = new Object;
+		param.name = "locality";
+		param.value = addresses;
+		param.pk = contextData.id;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+		    	if(data.result){
+					toastr.success(data.msg);
+					loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+		    	}
+		    }
+		});
+	}
 	
 	
 

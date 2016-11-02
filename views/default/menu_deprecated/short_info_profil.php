@@ -1,6 +1,6 @@
 
 <?php 
-HtmlHelper::registerCssAndScriptsFiles(array( '/assets/css/menus/short_info_profil.css') ); ?>
+HtmlHelper::registerCssAndScriptsFiles(array( '/assets/css/menus/short_info_profil.css'), Yii::app()->theme->baseUrl ); ?>
 
 <style type="text/css">
  
