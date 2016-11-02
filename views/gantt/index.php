@@ -3,7 +3,7 @@
 $cssAnsScriptFilesModule = array(
 	'/assets/css/timesheet.css/timesheet.css',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 Yii::import('ext.timesheetphp.sources.timesheet', true); 
 ?>
 

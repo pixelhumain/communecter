@@ -26,6 +26,7 @@
     [ ] start by name
     [ ] build as you complete the info
 [.17] event + project : change organiser
+[ ] dynform Location amélioration : affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
 
   ** Person 
   [ ] citoyen recoltant
@@ -75,7 +76,7 @@
 
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[ ] ajouter une photo de votre ville 
+[.17] ajouter une photo de votre ville 
     - baniere 
 [.17] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
@@ -86,6 +87,7 @@
 [ ] add a calendar on city page ???
 [ ] localiser libre : avec le nouvel input 
   - si la city n'existe pas , panel de creation et on enchaine
+[.17] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
 
 * Ergo 
 [ ] utiliser ce design du dashboard pour afficher notif et mon rep
@@ -142,6 +144,9 @@
   [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
   [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
   [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
+  [ ] intégrer plus d'outil externe 
+    - framasoft
+    - http://www.covoit.net/
 
 * News
   [ ] Améliorer l'affichage de commentaires dans les news

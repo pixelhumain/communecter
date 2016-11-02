@@ -49,7 +49,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
-								  	"<i class='fa fa-arrow-circle-left'></i> retour au formulaire"+
+								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
 								  "</a>");
 
 	$('[name="newElement_country"]').val(NE_country);
@@ -653,6 +653,8 @@ function changeMenuCommunextion(locality){
 	$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html(locality.address.addressLocality);
 	$("#btn-geoloc-auto-menu").attr("onclick", "");
 	$("#btn-geoloc-auto-menu").addClass("lbh");
+	bindLBHLinks();
+
 	//Dashbord
 	$("#btn-menuSmall-mycity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
 	$("#btn-menuSmall-citizenCouncil").attr("href", "#rooms.index.type.cities.id."+locality.unikey);
