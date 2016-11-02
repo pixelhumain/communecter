@@ -419,12 +419,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<div class="col-xs-12" style="border-bottom:1px solid #CCC">
 						<?php 
 						$address = '<span id="detailStreetAddress">'.(( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"]."</span><br/>" : "").'</span>';
-						$address .= '<span id="detailCity">'.(( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "").'</span>';
-						$address .= '<span id="detailCountry">'.(( @$element["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "").'</span>';
+						$address .= '<span id="detailCity">'.(( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "")." ".(( @$element["address"]["addressLocality"]) ? $element["address"]["addressLocality"] : "").'</span>';
+						$address .= '<span id="detailCountry">'.(( @$element["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "").'</span>';
 						echo $address;
 
 						if(@$element["geo"]){?>
-						<a href="javascript:;" id="btn-update-geopos"><i class="fa text-red fa-map-marker <i class="fa text-red fa-pencil"></i></i></a> 
+						<a href="javascript:;" id="btn-update-geopos"><i class="fa text-red fa-map-marker"></i></a> 
 						<?php }?>
 
 						<a href="javascript:;" class="hidden" id="btn-remove-geopos"><i class="fa text-red fa-times"></i></a>
@@ -433,19 +433,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 				<?php 
 					if( @$element["addresses"] ){ 
-						echo '<div class="space5"></div><div class="text-dark lbl-info-details">Multi scope : </div>';
 						foreach ($element["addresses"] as $ix => $p) { ?>
 						<div id="addresses_<?php echo $ix ; ?>" class="col-xs-12" style="border-bottom:1px solid #CCC">
 							<?php 
 							$address = '<span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
-							$address .= '<span id="detailCity_'.$ix.'">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "").'</span>';
-							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? ", ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
+							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
+							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
 							echo $address;
 
 							if(@$p["geo"]){?>
 							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker"></i></a>
 							<?php }?>
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'><i class="fa text-red fa-trash-o"></i></a>
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="hidden"><i class="fa text-red fa-trash-o"></i></a>
 						</div>
 				<?php 	} 
 					} ?>
