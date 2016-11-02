@@ -2088,14 +2088,21 @@ var typeObj = {
 			            			    window.myVotesList = {};
 			            			    $.each( data.votes , function( k,v ) 
 			            			    { 
+			            			    	parentName = "";
 				            			    if(!window.myVotesList[ v.parentType]){
 				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
 				            			    	window.myVotesList[ v.parentType] = {"label":label};
 				            			    	window.myVotesList[ v.parentType].options = {}
+				            			    }else{
+				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
+				            			    		//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
 				            			    }
-			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
+			            			    //run through myContacts to fill parent names 
 			            			    console.dir(window.myVotesList);
+			            			    
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
 								    } );

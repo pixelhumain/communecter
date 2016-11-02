@@ -28,7 +28,10 @@
     [ ] start by name
     [ ] build as you complete the info
 [.17] event + project : change organiser
-[ ] dynform Location amélioration : affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
+  ** dynform 
+    *** Location amélioration 
+    [ ] affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
+    [ ] ajouter une colonne mes lieux préférés, click et rempli
 
   ** Person 
   [ ] citoyen recoltant
