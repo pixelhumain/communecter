@@ -767,38 +767,45 @@ if($showOdesc == true){
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
-			param = new Object;
-	    	param.name = "locality";
-	    	param.value = "";
-	    	param.pk = contextData.id;
-			$.ajax({
-		        type: "POST",
-		        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-		        data: param,
-		       	dataType: "json",
-		    	success: function(data){
-			    	//
-			    	if(data.result){
-						if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
-							//Menu Left
-							$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
-							$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
-							$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
-							$("#btn-geoloc-auto-menu").removeClass("lbh");
-							//Dashbord
-							$("#btn-menuSmall-mycity").attr("href", "javascript:;");
-							$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
-							//Multiscope
-							$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
-							//MenuSmall
-							$(".hide-communected").show();
-							$(".visible-communected").hide();
-						}
-						toastr.success(data.msg);
-						loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-			    	}
-			    }
+			bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?", function(result) {
+				if (!result) {
+					return;
+				} else {
+					param = new Object;
+			    	param.name = "locality";
+			    	param.value = "";
+			    	param.pk = contextData.id;
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+				        data: param,
+				       	dataType: "json",
+				    	success: function(data){
+					    	//
+					    	if(data.result){
+								if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
+									//Menu Left
+									$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
+									$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
+									$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
+									$("#btn-geoloc-auto-menu").removeClass("lbh");
+									//Dashbord
+									$("#btn-menuSmall-mycity").attr("href", "javascript:;");
+									$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
+									//Multiscope
+									$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
+									//MenuSmall
+									$(".hide-communected").show();
+									$(".visible-communected").hide();
+								}
+								toastr.success(data.msg);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+					    	}
+					    }
+					});
+				}
 			});
+
 		});
 
 		
@@ -1615,23 +1622,33 @@ if($showOdesc == true){
 	}
 
 	function removeAddresses (index){
-		var addresses = { addressesIndex : index };
-		var param = new Object;
-		param.name = "locality";
-		param.value = addresses;
-		param.pk = contextData.id;
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-	        data: param,
-	       	dataType: "json",
-	    	success: function(data){
-		    	if(data.result){
-					toastr.success(data.msg);
-					loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-		    	}
-		    }
+
+		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?", function(result) {
+			if (!result) {
+				return;
+			} else {
+				var addresses = { addressesIndex : index };
+				var param = new Object;
+				param.name = "locality";
+				param.value = addresses;
+				param.pk = contextData.id;
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			        data: param,
+			       	dataType: "json",
+			    	success: function(data){
+				    	if(data.result){
+							toastr.success(data.msg);
+							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+				    	}
+				    }
+				});
+			}
 		});
+
+
+		
 	}
 	
 	

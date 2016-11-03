@@ -241,7 +241,7 @@ $controler = Element::getControlerByCollection($type);
 						<i id="iconLocalityyHeader" class="fa fa-globe <?php echo (empty($entity['address'])?'hidden':'');?>"></i>
 						<label class="text-red" id="localityHeader"><?php echo (empty($entity["address"]["addressLocality"])?"":$entity["address"]["addressLocality"].","); ?></label> 
 						<label class="text-red" id="pcHeader"><?php echo (empty($entity["address"]["postalCode"])?"":($entity["address"]["postalCode"].",")); ?></label>
-						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":$entity["address"]["addressCountry"].","); ?></label> 
+						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]].","); ?></label> 
 						<?php } ?>	
 					</span>
 				</div>
