@@ -2088,14 +2088,21 @@ var typeObj = {
 			            			    window.myVotesList = {};
 			            			    $.each( data.votes , function( k,v ) 
 			            			    { 
+			            			    	parentName = "";
 				            			    if(!window.myVotesList[ v.parentType]){
 				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
 				            			    	window.myVotesList[ v.parentType] = {"label":label};
 				            			    	window.myVotesList[ v.parentType].options = {}
+				            			    }else{
+				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
+				            			    		//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
 				            			    }
-			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
+			            			    //run through myContacts to fill parent names 
 			            			    console.dir(window.myVotesList);
+			            			    
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
 								    } );
@@ -2127,7 +2134,7 @@ var typeObj = {
 		              "placeholder" : "Fin de la période de vote",
 		              "rules" : { 
 		              	required : true,
-		              	greaterThanNow : true
+		              	greaterThanNow : ["DD/MM/YYYY"]
 		              }
 		            },
 		            tags :{
@@ -2848,13 +2855,14 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 	if(typeof initUpdateLocality != "undefined"){
 		var address = contextData.address ;
 		var geo = contextData.geo ;
-		if(addressesLocality){
+		if(addressesLocality && addressesIndex){
 			address = addressesLocality.address ;
 			geo = addressesLocality.geo ;
-		}else{
+		}else if(addressesIndex) {
 			address = null ;
 			geo = null ;
 		}
+		console.log(address, geo, contextData.type, addressesIndex);
 		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
 }

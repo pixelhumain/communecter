@@ -57,3 +57,14 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
 };
 
+var tradCountry = {
+	"BE":"Belgique", 
+    "FR":"France",
+	"GP":"Guadeloupe", 
+	"GF":"Guyanne Française",
+	"MQ":"Martinique",
+	"YT":"Mayotte",
+	"NC":"Nouvelle-Calédonie",
+	"RE":"Réunion",
+    "PM":"St Pierre et Miquelon",
+};
