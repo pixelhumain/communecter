@@ -2855,13 +2855,14 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 	if(typeof initUpdateLocality != "undefined"){
 		var address = contextData.address ;
 		var geo = contextData.geo ;
-		if(addressesLocality){
+		if(addressesLocality && addressesIndex){
 			address = addressesLocality.address ;
 			geo = addressesLocality.geo ;
-		}else{
+		}else if(addressesIndex) {
 			address = null ;
 			geo = null ;
 		}
+		console.log(address, geo, contextData.type, addressesIndex);
 		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
 }
