@@ -65,6 +65,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
     .titleField{
     	font-weight: 400;
+    	font-size: 14px;
+    }
+    .editable-click, a.editable-click, a.editable-click:hover{
+    	font-size: 17px;
+		font-weight: 500;
     }
 
     .entityTitle{
@@ -132,6 +137,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	    margin-bottom: 5px;
 	    width:100%;
 	    float:left;
+	    font-size: 16px;
 	}
 
     /*.panel-title{
@@ -171,6 +177,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     .panel-scroll {
 	    height: unset !important;
 	    min-height:25px;
+	}
+
+	.entityDetails i.fa.fa-circle {
+	    margin-right: 0px;
+	    font-size: 11px;
+	}
+	.entityDetails i.fa.fa-home {
+	    margin: 0px;
 	}
 
 /*
@@ -288,7 +302,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<?php if (  !empty($element["socialNetwork"]["telegram"]) || 
 									((string)$element["_id"] == Yii::app()->session["userId"] )){ ?>
 									
-									<span class="text-azure pull-left" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
+									<span class="text-azure pull-left titleField" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
 									<a 	href='<?php echo ((@$element["socialNetwork"]["telegram"])?"https://web.telegram.org/#/im?p=@".$element["socialNetwork"]["telegram"]:"https://telegram.org/"); ?>'
 										$pseudo;
 										id="telegramAccount"
@@ -392,16 +406,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>
 		<?php } ?>
 
-		<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
-			<?php if($type==Event::COLLECTION){?>
-				<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
-			<?php }else{ ?>
-				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-			<?php } ?>
-		</div>
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
-			<div class="col-md-6 col-sm-6  no-padding">
-
+			<div class="col-md-6 col-sm-6  no-padding" style="padding-right: 25px !important;">
+				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
+					<?php if($type==Event::COLLECTION){?>
+						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
+					<?php }else{ ?>
+						<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Localities"); ?>
+					<?php } ?>
+				</div>
+				
 				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
 				<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
 				<a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
@@ -416,31 +430,54 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				</a>
 				<div class="col-xs-12 no-padding">
 
-					<div class="col-xs-12" style="border-bottom:1px solid #CCC">
-						<?php 
-						$address = '<span id="detailStreetAddress">'.(( @$element["address"]["streetAddress"]) ? $element["address"]["streetAddress"]."</span><br/>" : "").'</span>';
-						$address .= '<span id="detailCity">'.(( @$element["address"]["postalCode"]) ? $element["address"]["postalCode"] : "")." ".(( @$element["address"]["addressLocality"]) ? $element["address"]["addressLocality"] : "").'</span>';
-						$address .= '<span id="detailCountry">'.(( @$element["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $element["address"]["addressCountry"] ] : "").'</span>';
+					<div class="col-xs-12 padding-10" style="border-bottom:1px solid #CCC">
+					<?php 
+						$address = "";
+						
+						$address .= '<i class="fa fa-home"></i> <span id="detailStreetAddress">'.
+										(( @$element["address"]["streetAddress"]) ? 
+											$element["address"]["streetAddress"]."</span><br/>" : 
+											"").
+									'</span>';
+
+						$address .= '<span id="detailCity">'.
+										(( @$element["address"]["postalCode"]) ?
+										 $element["address"]["postalCode"] :
+										 "")
+										." ".(( @$element["address"]["addressLocality"]) ? 
+												 $element["address"]["addressLocality"] : "")
+									.'</span>';
+						
+						$address .= '<span id="detailCountry">'.
+										(( @$element["address"]["addressCountry"]) ?
+										 " ".OpenData::$phCountries[ $element["address"]["addressCountry"] ] 
+						 				: "").
+						 			'</span>';
+
 						echo $address;
 
 						?>
-						<a href="javascript:;" class="hidden addresses" id="btn-update-geopos"><i class="fa text-red fa-map-marker"></i></a> 
-						<a href="javascript:;" class="hidden addresses" id="btn-remove-geopos"><i class="fa text-red fa-trash-o"></i></a>
+						<a href="javascript:;" class="hidden addresses pull-right" id="btn-update-geopos">
+							<i class="fa text-red fa-map-marker"></i>
+						</a> 
+						<a href="javascript:;" class="hidden addresses pull-right" id="btn-remove-geopos">
+							<i class="fa text-red fa-trash-o"></i>
+						</a>
 
 					</div>
 
 				<?php 
 					if( @$element["addresses"] ){ 
 						foreach ($element["addresses"] as $ix => $p) { ?>
-						<div id="addresses_<?php echo $ix ; ?>" class="col-xs-12" style="border-bottom:1px solid #CCC">
+						<div id="addresses_<?php echo $ix ; ?>" class="col-xs-12 padding-10" style="border-bottom:1px solid #CCC">
 							<?php 
-							$address = '<span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
+							$address = '<i class="fa fa-circle"></i> <span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
 							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
-							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? "<br/>".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
+							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? " ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
 							echo $address;?>
-							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);'><i class="fa text-red fa-map-marker hidden addresses"></i></a>
+							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right"><i class="fa text-red fa-map-marker hidden addresses"></i></a>
 							
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses hidden"><i class="fa text-red fa-trash-o"></i></a>
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right hidden"><i class="fa text-red fa-trash-o"></i></a>
 						</div>
 				<?php 	} 
 					} ?>
@@ -493,6 +530,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
 			<div class="col-md-6 col-sm-6">
+				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
+					<?php if($type==Event::COLLECTION){?>
+						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
+					<?php }else{ ?>
+						<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
+					<?php } ?>
+				</div>
+				
 				<?php if($type==Person::COLLECTION){
 					if(Preference::showPreference($element, $type, "birthDate", Yii::app()->session["userId"])){ ?>
 						<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
