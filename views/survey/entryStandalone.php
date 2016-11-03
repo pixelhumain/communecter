@@ -6,10 +6,17 @@
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-  $cssAnsScriptFiles = array(
-    '/assets/css/circle.css'
-  );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
+	$cssAnsScriptFiles = array(
+	'/assets/css/circle.css',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
+
+	$cssAnsScriptFilesBase = array(
+		//X-editable
+		'/plugins/x-editable/css/bootstrap-editable.css',
+		'/plugins/x-editable/js/bootstrap-editable.js' 
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesBase, Yii::app()->request->baseUrl);
 
 	$logguedAndValid = Person::logguedAndValid();
 	$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
@@ -218,13 +225,24 @@
 					<i class="fa fa-calendar"></i> 
 					<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
 					<?php echo date("d/m/y",$survey["created"]) ?>
+					
 				</span>
 				<br>
 				<?php if( @$survey["dateEnd"] ){ ?>
 				<span class="text-red">
-					<i class="fa fa-calendar"></i> 
+					<i class="fa fa-calendar"></i>
 					<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
-					<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
+					<a href="javascript:" id="endDate" data-type="text" data-title="Date de fin" data-emptytext="Date de cloture de la proposition" class="editable editable-click" >
+						<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
+					</a>
+				</span>
+				<span>
+					<?php 
+						$canEditEndDate = ( $voteLinksAndInfos["avoter"] != "closed" && isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"]) ? true : false;
+						if ($canEditEndDate) { ?>
+							<a href="javascript:" id="editSurveyEndDate" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer la date de fin de la proposition" alt=""><i class="fa fa-pencil"></i></a>
+						<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
+					<?php } ?>
 				</span>
 				<br><hr>
 				<span>
@@ -355,14 +373,14 @@
 <script type="text/javascript">
 clickedVoteObject = null;
 var images = <?php echo json_encode($images) ?>;
+var mode = "view";
+var itemId = "<?php echo $survey["_id"] ?>";
+
 jQuery(document).ready(function() {
-	
+
 	$(".main-col-search").addClass("assemblyHeadSection");
   	setTitle("Propositions, débats, votes","gavel");
   	$('.box-vote').show();
- 	//  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-	// 	$(this).removeClass("animated flipInX");
-	// });
 
   	$(".tooltips").tooltip();
 	
@@ -377,8 +395,65 @@ jQuery(document).ready(function() {
 		showDefinition( $(this).data("id") );
 		return false;
 	});
-	//buildResults (); //old piechart
+
+	$("#editSurveyEndDate").on("click", function(){
+		switchMode();
+	});
+
+	editEndDate();
 });
+
+function switchMode() {
+	if(mode == "view"){
+		mode = "update";
+		manageModeContext();
+	}else{
+		mode ="view";
+		manageModeContext();
+	}
+}
+
+function manageModeContext() {
+	if (mode == "view") {
+		$('#endDate').editable('toggleDisabled');
+	} else {
+		$('#endDate').editable('option', 'pk', itemId);
+		$('#endDate').editable('toggleDisabled');
+	}
+}
+
+//activate Xedit on endDate (#1177)
+function editEndDate() {
+<?php
+	if( $canEditEndDate ) {
+?>
+	
+
+	$('#endDate').editable({
+		url: baseUrl+"/"+moduleId+"/survey/updatefield", 
+		pk: itemId,
+		mode: "popup",
+		type: "datetime",
+		placement: "bottom",
+		format: 'yyyy-mm-dd hh:ii',
+    	viewformat: 'dd/mm/yyyy hh:ii',
+    	datetimepicker: {
+            weekStart: 1,
+            minuteStep: 30,
+            language: 'fr'
+       },
+       success : function(data) {
+	        if(data.result) {
+	        	toastr.success(data.msg);
+				loadActivity=true;	
+	        }else 
+				return data.msg;
+	    }
+    });
+
+	formatDate = "YYYY-MM-DD HH:mm";
+<?php } ?>
+}
 
 function saveEditEntry(){ 
 	$('#form-edit-entry #btn-submit-form').click();
