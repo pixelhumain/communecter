@@ -386,7 +386,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           typeIco = o.type;
           var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
           var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-          
           var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
           var parentColor = ("undefined" != typeof mapColorIconTop[o.parentType]) ? mapColorIconTop[o.parentType] : mapColorIconTop["default"];
           
@@ -422,11 +421,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           //type += "s";
 
   		    var urlParent = (notEmpty(o.parentType) && notEmpty(o.parentId)) ? 
-                          '#news.index.type.'+o.parentType+'.id.' + o.parentId : "";
+                          '#element.detail.type.'+o.parentType+'.id.' + o.parentId : "";
 
-          var url = '#news.index.type.'+type+'.id.' + id;
+          var url = '#element.detail.type.'+type+'.id.' + id;
           if(type == "citoyens") url += '.viewer.' + userId;
-          else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
+          //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
           else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
           else if(type == "surveys") url = "#survey.entry.id."+id;
           else if(type == "actions") url = "#rooms.action.id."+id;
@@ -495,7 +494,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             if(userId != null){
                     isFollowed=false;
                     if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                    if(type!="cities" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
+                    if(type!="cities" && type!="poi" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
                       tip = (type == "events") ? "Participer" : 'Suivre';
                       str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
                             'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
