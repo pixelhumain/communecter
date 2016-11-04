@@ -31,7 +31,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 				  };
 	console.log(options);
 
-	if(typeof currentUser != "undefined" && currentUser != null && typeof currentUser.addressCountry != "undefined" && currentUser.addressCountry != null){
+	if(NE_country== "" && typeof currentUser != "undefined" && currentUser != null && typeof currentUser.addressCountry != "undefined" && currentUser.addressCountry != null){
 		NE_country = currentUser.addressCountry;
 		console.log("NE_country", NE_country);
 	}
@@ -463,7 +463,8 @@ function initUpdateLocality(address, geo, type, index){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
-		addressesIndex = index ;
+		if(index)
+			addressesIndex = index ;
 		initDropdown();
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
@@ -521,7 +522,7 @@ function updateLocalityElement(){
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
 	
 	params = new Object;
-	params.name = "locality";
+	params.name = ((addressesIndex)?"addresses":"locality");
 	params.value = locality;
 	params.pk = contextData.id;
 	params.type = contextData.type;
@@ -575,6 +576,7 @@ function updateLocalityElement(){
 							}
 							Sig.restartMap();
 							Sig.showMapElements(Sig.map, contextMap);
+							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 						}else{
 
 							changeMenuCommunextion(locality);
@@ -587,7 +589,9 @@ function updateLocalityElement(){
 							}else{
 								Sig.restartMap();
 								Sig.showMapElements(Sig.map, contextMap);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 							}
+
 						}
 					}else{
 						initData();

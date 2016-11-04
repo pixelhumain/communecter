@@ -380,7 +380,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           var typeIco = i;
           
           mapElements.push(o);
-         
+          itemType=o.type;
           if(typeof(typeObj[o.type]) == "undefined")
           	itemType="poi";
           typeIco = o.type;
