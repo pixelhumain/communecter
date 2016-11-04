@@ -424,19 +424,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
 				</a> -->
-				<?php if($type!=Person::COLLECTION ) { ?>
-				<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
-					<i class="fa fa-plus" style="margin:0px !important;"></i> 
-					<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
-				</a>
-				<?php } ?>
+				
 				<div class="col-xs-12 no-padding">
 
 					<div class="col-xs-12 padding-10" style="border-bottom:1px solid #CCC">
+					<i class="fa fa-home"></i>
+					
 					<?php 
 						$address = "";
 						
-						$address .= '<i class="fa fa-home"></i> <span id="detailStreetAddress">'.
+						$address .= '<span id="detailStreetAddress">'.
 										(( @$element["address"]["streetAddress"]) ? 
 											$element["address"]["streetAddress"]."</span><br/>" : 
 											"").
@@ -459,16 +456,33 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						echo $address;
 
 						?>
-						<a href="javascript:;" class="hidden addresses pull-right" id="btn-update-geopos">
-							<i class="fa text-red fa-map-marker"></i>
-						</a> 
-						<a href="javascript:;" class="hidden addresses pull-right" id="btn-remove-geopos">
-							<i class="fa text-red fa-trash-o"></i>
-						</a>
+						
+
+						<?php 
+						if(empty($element["address"]) && $type!=Person::COLLECTION){
+							echo '	<a href="javascript:;" class="hidden addresses btn btn-danger btn-sm" id="btn-update-geopos">
+										<i class="fa fa-map-marker"></i>
+										<span class="hidden-sm">'.Yii::t("common","Add Locality center").'</span>
+									</a>' ;
+						}else{
+							echo '	<a href="javascript:;" id="btn-remove-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
+										<i class="fa text-red fa-trash-o"></i>
+									</a>
+									<a href="javascript:;" id="btn-update-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
+										<i class="fa text-red fa-map-marker"></i>
+									</a> ';	
+						}
+						?>
+						
 
 					</div>
 
-				<?php 
+				<?php if($type!=Person::COLLECTION ) { ?>
+				<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
+					<i class="fa fa-plus" style="margin:0px !important;"></i> 
+					<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
+				</a>
+				<?php }
 					if( @$element["addresses"] ){ 
 						foreach ($element["addresses"] as $ix => $p) { ?>
 						<div id="addresses_<?php echo $ix ; ?>" class="col-xs-12 padding-10" style="border-bottom:1px solid #CCC">
@@ -477,9 +491,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
 							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? " ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
 							echo $address;?>
-							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right"><i class="fa text-red fa-map-marker hidden addresses"></i></a>
+
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right hidden tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality");?>"><i class="fa text-red fa-trash-o"></i></a>
+							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Locality");?>"><i class="fa text-red fa-map-marker hidden addresses"></i></a>
 							
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right hidden"><i class="fa text-red fa-trash-o"></i></a>
+							
 						</div>
 				<?php 	} 
 					} ?>
@@ -503,8 +519,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 								$tel .= ($tel != "") ? ", ".$num : $num;
 							}
 						}
-
-
 						$this->renderPartial('../pod/qrcode',array(
 																"type" => @$element['type'],
 																"name" => @$element['name'],
@@ -767,7 +781,10 @@ if($showOdesc == true){
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
-			bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?", function(result) {
+			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
+			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
+				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
+			bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
 				if (!result) {
 					return;
 				} else {
@@ -970,9 +987,9 @@ if($showOdesc == true){
 			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
-			/*$("#btn-update-geopos").addClass("hidden");
+			$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
-			$("#btn-add-geopos").addClass("hidden");*/
+			$("#btn-add-geopos").addClass("hidden");
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -984,9 +1001,9 @@ if($showOdesc == true){
 				$(value).editable('option', 'pk', contextData.id);
 				$(value).editable('toggleDisabled');
 			})
-			/*$("#btn-update-geopos").removeClass("hidden");
+			$("#btn-update-geopos").removeClass("hidden");
 			$("#btn-remove-geopos").removeClass("hidden");
-			$("#btn-add-geopos").removeClass("hidden");*/
+			$("#btn-add-geopos").removeClass("hidden");
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
