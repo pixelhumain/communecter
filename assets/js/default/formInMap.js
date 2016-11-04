@@ -46,7 +46,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
+	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 1000);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
@@ -313,12 +313,16 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 					var shape = inseeGeoSHapes[NE_insee];
 					shape = Sig.inversePolygon(shape);
 					Sig.showPolygon(shape);
-					Sig.map.fitBounds(shape);
+					setTimeout(function(){
+						Sig.map.fitBounds(shape);
+						Sig.map.invalidateSize();
+					}, 1500);
 				}else{
 					timeoutAddCity = setTimeout(function(){ //alert("zoom");
 											Sig.map.panTo([NE_lat, NE_lng]);
 											Sig.map.setZoom(14); 
-									}, 500);
+											Sig.map.invalidateSize();
+									}, 1500);
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
