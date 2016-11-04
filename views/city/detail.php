@@ -200,7 +200,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <div class="col-md-12 no-padding" style="margin-top:20px">
 
                     <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                        <a href="#default.directory?type=cities&<?php echo ($cityGlobal == true) ? 'insee='.$city["insee"] : 'lockCityKey='.City::getUnikey($city) ?> " class="lbh btn btn-discover bg-azure">
                           <i class="fa fa-search"></i>
                         </a>
                         <br/>Rechercher à<br/>
@@ -234,15 +234,15 @@ $this->renderPartial('../default/panels/toolbar');
                    <?php }else{?>
                       <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                           <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
-                          <br/><span class='text-red'><strong>Conseil citoyen</strong>
+                          <br/><span class='text-red'><strong>Conseil citoyen</strong><br/>
                           <select id="selectRoom">
-                              <option value="">Chosir</option>
+                              <option value="">Choisir</option>
                               <?php 
                                 foreach ($city["postalCodes"] as $key => $value) {
                                   $cityUniKey = array("country" => $city["country"],
                                                         "insee" => $city["insee"],
                                                         "cp" => $value["postalCode"]);
-                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].'</option>';
+                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].' ('. $value["postalCode"].')</option>';
                                 }
                               ?>
                           </select> 

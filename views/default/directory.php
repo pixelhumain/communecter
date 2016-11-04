@@ -93,9 +93,9 @@
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null;
-      
-       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+<?php  $city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
+       $city = (($city == null && @$_GET['insee']) ? City::getCityByInsee($_GET['insee']) : false);
+       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
       
 ?>
 
