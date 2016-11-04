@@ -150,18 +150,19 @@ $this->renderPartial('../default/panels/toolbar');
                       <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
                       <span class="badge bg-yellow pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
-
-                    <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
-                      <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
-                      <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                      <span class="badge bg-purple pull-right helvetica"><?php echo $cnt;?></span>
-                    </a>
+                      <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
+                        <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
+                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
+                        <span class="badge bg-purple pull-right helvetica"><?php echo $cnt;?></span>
+                      </a>
+                    <?php //echo Yii::t('common','Search a projects of your city.');?>
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events" 
                        class="lbh text-orange homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-calendar"></i> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
                       <span class="badge bg-orange pull-right helvetica"><?php echo count($events);?></span>
                     </a>
+                    
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations" 
                       class="lbh text-green homestead col-xs-12 text-extra-large padding-5 bborder"'>
@@ -169,6 +170,7 @@ $this->renderPartial('../default/panels/toolbar');
                       <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                       <span class="badge bg-green pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
+                    
                     <?php /*
                     <div class="text-prune" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                       <i class="fa fa-male"></i><i class="fa fa-male"></i><i class="fa fa-male"></i><?php echo strtolower (Yii::t("common", "GROUPES")); ?>
@@ -198,19 +200,46 @@ $this->renderPartial('../default/panels/toolbar');
               <div class="panel-body no-padding ">
 
                 <div class="col-md-12 no-padding" style="margin-top:20px">
+                    <?php
+                      $lockCityKey = ($cityGlobal == true) ? $city["country"].'_'.$city["insee"] : City::getUnikey($city) ;
 
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?type=cities&<?php echo ($cityGlobal == true) ? 'insee='.$city["insee"] : 'lockCityKey='.City::getUnikey($city) ?> " class="lbh btn btn-discover bg-azure">
+                    ?>
+                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=persons&lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-yellow">
                           <i class="fa fa-search"></i>
                         </a>
-                        <br/>Rechercher à<br/>
-                        <span class="text-red discover-subtitle">
-                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        <br/>Rechercher des<br/>
+                        <span class="text-yellow discover-subtitle">
+
+                         <?php echo Yii::t("common", "citizens") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=projects&<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
+                          <i class="fa fa-search"></i>
+                        </a>
+                        <br/>Rechercher des<br/>
+                        <span class="text-purple discover-subtitle">
+                         <?php echo Yii::t("common", "projects") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=organizations&<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-green">
+                          <i class="fa fa-search"></i>
+                        </a>
+                        <br/>Rechercher des<br/>
+                        <span class="text-green discover-subtitle">
+                         <?php echo Yii::t("common", "organizations") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
                         </span>
                     </div>
                     
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.agenda?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
                           <i class="fa fa-calendar"></i>
                         </a><br/>L'agenda de<br/>
                         <span class="text-red discover-subtitle">
