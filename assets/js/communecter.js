@@ -1742,6 +1742,9 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	//alert("onBeforeSave");
+			    	
+			    	if( !$("#ajaxFormModal #allDay").val())
+			    		$("#ajaxFormModal #allDay").val(false);
 			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
@@ -1827,11 +1830,11 @@ var typeObj = {
 		            	"options" : eventTypes,
 		            	"rules" : { "required" : true },
 		            },
-		            allday : {
+		            allDay : {
 		            	"inputType" : "checkbox",
 		            	init : function(){
-			            	$("#ajaxFormModal #allday").off().on("switchChange.bootstrapSwitch",function (e, data) {
-			            		console.log("toto");
+			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		console.log("toto",$("#ajaxFormModal #allDay").val());
 			            	})
 			            },
 		            	"switch" : {
@@ -1840,7 +1843,8 @@ var typeObj = {
 		            		"labelText":"Journée",
 		            		"onChange" : function(){
 		            			//TODO SBAR : change date time to date picker
-		            			/*var allDay = $("#ajaxFormModal #allday").is(':checked');
+		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
 		            			if (allDay) {
 		            				console.log("init dateInput");
 		            				$(".dateTimeInput").addClass("dateInput");
@@ -1861,7 +1865,7 @@ var typeObj = {
 										lang: 'fr',
 										format: 'Y/m/d H:i'
 								    });
-		            			}*/
+		            			}
 		            		}
 		            	}
 		            },

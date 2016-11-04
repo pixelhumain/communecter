@@ -131,14 +131,14 @@ input.form-control.input-search{
   		<div class="btn-group btn-group-sm inline-block scope-global-community">
 		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
 		    data-msg-info="Live public : retrouvez tous les messages publics selon vos lieux favoris"
-	  		data-write-info="Rédigez un message public en sélectionnant des lieux"
+	  		data-write-info="Envoyez un message public en sélectionnant des lieux"
 	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages publics">
 		  	<i class="fa fa-globe"></i> Public
 		  </button>
 		  <button style="margin-right:10px;" 
 		  	class="btn btn-sm btn-default btn-scope-type tooltips text-dark" data-scope-type="community"
 		    data-msg-info="Live communauté : retrouvez tous les messages de vos contacts"
-	  		data-write-info="Rédigez un message pour vos contacts"
+	  		data-write-info="Envoyez un message à vos contacts"
 	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages de ma communauté">
 		  	<i class="fa fa-users"></i> Ma communauté
 		  </button>

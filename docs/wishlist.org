@@ -16,6 +16,11 @@
 * refactor 
 [ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
 
+* Tags
+[ ] section sous la baniere de categorie de tags
+  - sport / alternative/ agriculture /santé ...etc
+  on click on decouvre une selection de tags, facilement ajoutable 
+
 * Elements
 [ ] comptabiliser le temps + type 
 [ ] ecrire noir sur blanc les regles de remuneration de chaque 
