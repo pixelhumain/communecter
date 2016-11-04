@@ -2134,7 +2134,7 @@ var typeObj = {
 		              "placeholder" : "Fin de la période de vote",
 		              "rules" : { 
 		              	required : true,
-		              	greaterThanNow : true
+		              	greaterThanNow : ["DD/MM/YYYY"]
 		              }
 		            },
 		            tags :{

@@ -380,9 +380,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           var typeIco = i;
           
           mapElements.push(o);
-
+         
+          if(typeof(typeObj[o.type]) == "undefined")
+          	itemType="poi";
           typeIco = o.type;
-          
           var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
           var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
           
@@ -396,7 +397,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
             imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
           }
-          if(typeObj[o.type] && typeObj[o.type].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+          if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
             imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
           
           var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
@@ -416,7 +417,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
           console.log(o.type);
-          type = typeObj[o.type].col;
+          type = typeObj[itemType].col;
           // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
           //type += "s";
 
