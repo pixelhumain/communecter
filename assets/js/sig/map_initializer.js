@@ -453,7 +453,7 @@
 				defaultType="citoyens";
 			else if(element['typeSig'].indexOf("poi.") >= 0){
 				defaultType=element['typeSig'].split(".");
-				defaultType=defaultType[0];
+				defaultType=defaultType[1];
 			}
 			var imgProfilPath =  assetPath + "/images/thumb/default_"+defaultType+".png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
