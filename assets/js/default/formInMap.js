@@ -548,11 +548,12 @@ function updateLocalityElement(){
 					if(!addressesIndex){
 						//Header && ficheInfoElement
 						$("#detailStreetAddress").html(locality.address.streetAddress);
-						$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
-						$("#detailCountry").html(locality.address.addressCountry);
+						$("#detailCity").html(((locality.address.postalCode)?locality.address.postalCode : "")+" "+((locality.address.addressLocality) ? locality.address.addressLocality : ""));
+						//$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);
+						$("#detailCountry").html(" "+tradCountry[locality.address.addressCountry]);
 						$('#localityHeader').html(locality.address.addressLocality);
 						$('#pcHeader').html(locality.address.postalCode);
-						$('#countryHeader').html(locality.address.addressCountry);
+						$('#countryHeader').html(tradCountry[locality.address.addressCountry]);
 						$('#iconLocalityyHeader').removeClass("hidden");
 						$('#addressHeader').removeClass("hidden");
 						$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
