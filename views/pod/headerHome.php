@@ -18,7 +18,7 @@
 		font-size: 15px;
 		font-weight: 100 !important;
 		position: absolute;
-		bottom: 23%;
+		bottom: 15%;
 		right: 20%;
 	}
 	.btn-go-home-xs {
