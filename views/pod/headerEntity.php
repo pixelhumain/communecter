@@ -92,6 +92,7 @@ $controler = Element::getControlerByCollection($type);
 	#shortDescriptionHeader{
 		max-height: 75px;
 		overflow: hidden;
+		font-size: 15px;
 	}
 
 

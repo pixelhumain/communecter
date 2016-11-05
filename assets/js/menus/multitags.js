@@ -235,7 +235,7 @@ function showTagSuggestion(tagValue, tagSpec){ console.log("showTagSuggestion()"
 		'</span>';
 		$("#multi-tag-suggestion").append(html);
 		$(".tooltips").tooltip();
-		$(".item-tag-adder").off().click(function(){ addTagToMultitag( $(this).data("tag-value")) });
+		$(".item-tag-suggest").off().click(function(){ addTagToMultitag( $(this).data("tag-value")) });
 		//showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
 	}else{
 		html = "";
