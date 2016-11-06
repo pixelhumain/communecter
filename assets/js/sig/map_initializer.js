@@ -236,7 +236,7 @@
 		
 		Sig.showIframeSig = function(){
 			
-			var hash = location.hash+"?tpl=iframesig";
+			var hash = "?tpl=iframesig"+location.hash+"?tpl=iframesig";
 				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
 				$("#ajax-modal-modal-title").html("<i class='fa fa-share-square-o'></i> Partager cette carte.");
 				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
