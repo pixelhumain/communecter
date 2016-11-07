@@ -300,7 +300,19 @@ function lockScopeOnCityKey(cityKey, cityName){ //console.log("lockScopeOnCityKe
 	$("#searchLocalityREGION").val("");
 	$(".list_tags_scopes").addClass("tagOnly");
 
-	$(".city-name-locked").html("<i class='fa fa-lock'></i> "+ cityName);
+	$(".city-name-locked").html("<a href='javascript:' class='text-red'>"+
+									"<i class='fa fa-lock tooltips' id='cadenas' data-toggle='tooltip' data-placement='top' title='Débloquer'></i>"+
+								"</a> <span class='homestead'>"+ cityName + "</span>" );
+
+	$(".city-name-locked").click(function(){
+		rebuildSearchScopeInput();
+	});
+	$("#cadenas").mouseover(function(){
+		$("#cadenas").removeClass("fa-lock").addClass("fa-unlock");
+	});
+	$("#cadenas").mouseout(function(){
+		$("#cadenas").addClass("fa-lock").removeClass("fa-unlock");
+	});
 }
 
 function openDropdownMultiscope(){
