@@ -381,7 +381,7 @@ var itemId = "<?php echo $survey["_id"] ?>";
 var endDate = "<?php echo date("d/m/Y",@$survey["dateEnd"]) ?>";
 
 jQuery(document).ready(function() {
-
+	$.fn.editable.defaults.container='body';
 	$(".main-col-search").addClass("assemblyHeadSection");
   	setTitle("Propositions, débats, votes","gavel");
   	$('.box-vote').show();
@@ -400,16 +400,15 @@ jQuery(document).ready(function() {
 		return false;
 	});
 
-	$("#editSurveyEndDate").on("click", function(){
-		switchMode();
-		$("#endDate").editable('toogle');
-	});
-
 	editEndDate();
 	manageModeContext();
+
+	$("#editSurveyEndDate").on("click", function(){
+		switchMode();
+	});
 });
 
-function switchMode(callback) {
+function switchMode() {
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
@@ -425,6 +424,7 @@ function manageModeContext() {
 	} else {
 		$('#endDate').editable('option', 'pk', itemId);
 		$('#endDate').editable('toggleDisabled');
+		$("#endDate").click();
 	}
 }
 
@@ -435,7 +435,7 @@ function editEndDate() {
 ?>
 	console.log("Init XEdit end date");
 	$('#endDate').editable({
-		url: baseUrl+"/"+moduleId+"/element/updatefields/type/survey", 
+		url: baseUrl+"/"+moduleId+"/element/updatefields/type/<?php echo Survey::COLLECTION?>", 
 		mode: 'popup',
 		placement: "right",
 		format: 'yyyy-mm-dd',   
@@ -457,6 +457,7 @@ function editEndDate() {
 	//formatDate = "YYYY-MM-DD HH:mm";
 	console.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
 	$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"), true);
+
 <?php } ?>
 }
 
