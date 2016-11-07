@@ -107,8 +107,11 @@ $this->renderPartial('../default/panels/toolbar');
     </a>
   <?php } ?>
   <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
-      <h1 class="homestead text-red cityName-header">
-        <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 
+      <h1 class="homestead text-red text-center cityName-header">
+        <span class="margin-bottom-10" style="">
+
+        <i class="fa fa-university"></i><br>
+        <?php if($cityGlobal == false) echo $city["cp"]; ?> 
         <?php
           if($cityGlobal == true)
             echo $city["name"]; 
@@ -124,7 +127,7 @@ $this->renderPartial('../default/panels/toolbar');
               </div>       
       <?php } 
           } ?>
-        </center>
+        </span>
 
          <div id="div-discover" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
         <!-- <div class="panel panel-white padding-10">
@@ -151,6 +154,20 @@ $this->renderPartial('../default/panels/toolbar');
                     </div>
                     
                     <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=projects&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
+                          <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
+                        <span class="badge nb-localactors bg-purple"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-purple discover-subtitle homestead">
+                         <?php echo Yii::t("common", "LOCAL PROJECTS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#default.directory?type=persons&lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-yellow">
                           <i class="fa fa-user"></i>
                         </a>
@@ -161,20 +178,6 @@ $this->renderPartial('../default/panels/toolbar');
                         <span class="text-yellow discover-subtitle homestead">
 
                          <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS") ;
-                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-
-                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?type=projects&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
-                          <i class="fa fa-lightbulb-o"></i>
-                        </a>
-                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                        <span class="badge nb-localactors bg-purple"><?php echo $cnt; ?></span>
-                        <!-- <br/>Rechercher des -->
-                        <br/>
-                        <span class="text-purple discover-subtitle homestead">
-                         <?php echo Yii::t("common", "LOCAL PROJECTS") ;
                          //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
                         </span>
                     </div>
