@@ -559,17 +559,18 @@
 								}
 
 								var thisSig = this;
-								var newData = thisData ;
-								var newProperties = properties ;
+								//var newData = thisData ;
+								//var newProperties = properties ;
 								if(notEmpty(thisData["addresses"])){
 									$.each(thisData["addresses"], function(key, addr){
 										coordinates = thisSig.getCoordinates(addr, "markerSingle");
-										newData["address"] = addr["address"];
+										/*newData["address"] = addr["address"];
 										newData["geo"] = addr["geo"];
 										newData["geoPosition"] = addr["geoPosition"];
 										var newContent = thisSig.getPopup(newData);
 										newProperties["content"] = newContent ;
-										marker = thisSig.getMarkerSingle(thisMap, newProperties, coordinates);
+										marker = thisSig.getMarkerSingle(thisMap, newProperties, coordinates);*/
+										marker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
 									});
 								}
 
