@@ -31,7 +31,7 @@ function saveCookieMultitags(){ //console.log("saveCookieMultitags", myMultiTags
 }
 
 function loadMultiTags(){
-	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
+	$.each(myMultiTags, function(key, value){ console.log("each myMultiTags", myMultiTags);
 		showTagInMultitag(key);
 	});
 	showCountTag();
@@ -105,6 +105,7 @@ function addTagToMultitag(tagValue){
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");
+		$("[data-tag-value='"+tagValue+"'].item-tag-suggest").hide();
 		return true;
 	}else{
 		showMsgInfoMultiTag("Ce tag est déjà dans votre liste", "info");
@@ -115,7 +116,8 @@ function addTagToMultitag(tagValue){
 function deleteTagInMultitag(tagValue){ //console.log("deleteTagInMultitag(tagValue)", tagValue);
 	if(tagExists(tagValue)){
 		delete myMultiTags[tagValue];
-		$("[data-tag-value='"+tagValue+"']").remove();
+		$("[data-tag-value='"+tagValue+"'].item-tag-input ").remove();
+		$("[data-tag-value='"+tagValue+"'].item-tag-suggest").show();
 		saveMultiTag();
 		//showMsgInfoMultiTag("Le tag a bien été supprimé", "success");
 	}
@@ -132,12 +134,12 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 		saveMultiTag();
 
 		if(myMultiTags[tagValue].active){
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-circle-o");
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").removeClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").addClass("fa-check-circle");
 			$("[data-tag-value='"+tagValue+"'].item-tag-input").removeClass("disabled");
 		}else{
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-circle-o");
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").addClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").removeClass("fa-check-circle");
 			$("[data-tag-value='"+tagValue+"'].item-tag-input").addClass("disabled");
 		}
 		
@@ -210,4 +212,35 @@ function showTagsMin(htmlId){
 		//else
 		//$("#dropdown-content-multi-tag").removeClass('open');
 	});
+}
+
+function loadTagSuggestion(tagsSuggest){
+	$.each(tagsSuggest, function(key, value){ console.log("each tagsSuggest");
+		showTagSuggestion(key, value);
+	});
+}
+function showTagSuggestion(tagValue, tagSpec){ console.log("showTagSuggestion()", tagValue);
+	var html = "";
+	if(!tagExists(tagValue)){
+		var faActive = tagSpec.active == true ? "check-circle" : "circle-o";
+		var classDisable = tagSpec.active == false ? "disabled" : "";
+		html = 
+		'<span class="item-tag-suggest bg-red '+classDisable+'" data-tag-value="'+tagValue+'">' +
+				'<a  href="javascript:" class="item-tag-adder tooltips"' +
+					'data-toggle="tooltip" data-placement="bottom" ' +
+					'title="Ajouter à mes favoris" data-tag-value="'+tagValue+'">' +
+					'<i class="fa fa-plus-circle"></i>' +
+				'</a>' +
+				'<span class="item-tag-name">#'+tagValue+'</span>' +
+		'</span>';
+		$("#multi-tag-suggestion").append(html);
+		$(".tooltips").tooltip();
+		$(".item-tag-suggest").off().click(function(){ addTagToMultitag( $(this).data("tag-value")) });
+		//showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
+	}else{
+		html = "";
+		//showMsgInfoMultiTag("showTagInMultitag error : ce tag n'existe pas - " + tagValue, "danger");
+	}
+	
+	
 }

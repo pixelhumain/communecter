@@ -236,7 +236,7 @@
 		
 		Sig.showIframeSig = function(){
 			
-			var hash = location.hash+"?tpl=iframesig";
+			var hash = "?tpl=iframesig"+location.hash+"?tpl=iframesig";
 				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
 				$("#ajax-modal-modal-title").html("<i class='fa fa-share-square-o'></i> Partager cette carte.");
 				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
@@ -312,7 +312,8 @@
 
 											"markerPlace" 		: "map-marker",
 
-											"POI" 				: "NEWS_A",
+											"poi" 				: "poi-marker-default",
+											"poi.video" 		: "poi-video-marker-default",
 
 									  };
 
@@ -348,7 +349,8 @@
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
 
-											"POI" 				: { ico : "map-marker", color : "dark" 	},
+											"poi" 				: { ico : "info-circle", color : "dark" 	},
+											"poi.video" 		: { ico : "video-camera", color : "dark" 	},
 
 									  };
 
@@ -446,11 +448,18 @@
 			return null;
 		};
 		Sig.getThumbProfil = function (element){
-			var imgProfilPath =  assetPath + "/images/news/profile_default_l.png";
+			defaultType=element['typeSig'];
+			if(element['typeSig']=="people")
+				defaultType="citoyens";
+			else if(element['typeSig'].indexOf("poi.") >= 0){
+				defaultType=element['typeSig'].split(".");
+				defaultType=defaultType[1];
+			}
+			var imgProfilPath =  assetPath + "/images/thumb/default_"+defaultType+".png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
 				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
-			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
-				imgProfilPath =  baseUrl + "/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+			if(typeof element.profilThumbImageUrl !== "undefined" && element.profilThumbImageUrl != "") 
+				imgProfilPath =  baseUrl + element.profilThumbImageUrl;
 			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
 				imgProfilPath =  assetPath + "/images/city/city_default_l.png";
 			return imgProfilPath;

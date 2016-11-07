@@ -31,7 +31,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 				  };
 	console.log(options);
 
-	if(typeof currentUser != "undefined" && currentUser != null && typeof currentUser.addressCountry != "undefined" && currentUser.addressCountry != null){
+	if(NE_country== "" && typeof currentUser != "undefined" && currentUser != null && typeof currentUser.addressCountry != "undefined" && currentUser.addressCountry != null){
 		NE_country = currentUser.addressCountry;
 		console.log("NE_country", NE_country);
 	}
@@ -46,7 +46,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 400);
+	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 1000);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
@@ -313,12 +313,16 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 					var shape = inseeGeoSHapes[NE_insee];
 					shape = Sig.inversePolygon(shape);
 					Sig.showPolygon(shape);
-					Sig.map.fitBounds(shape);
+					setTimeout(function(){
+						Sig.map.fitBounds(shape);
+						Sig.map.invalidateSize();
+					}, 1500);
 				}else{
 					timeoutAddCity = setTimeout(function(){ //alert("zoom");
 											Sig.map.panTo([NE_lat, NE_lng]);
 											Sig.map.setZoom(14); 
-									}, 500);
+											Sig.map.invalidateSize();
+									}, 1500);
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
@@ -463,7 +467,8 @@ function initUpdateLocality(address, geo, type, index){
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
-		addressesIndex = index ;
+		if(index)
+			addressesIndex = index ;
 		initDropdown();
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
@@ -518,10 +523,20 @@ function updateLocalityElement(){
 	if(addressesIndex)
 		locality["addressesIndex"] = addressesIndex ;
 	
+	currentScopeType = "city";
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
 	
+	currentScopeType = "cp";
+	addScopeToMultiscope(locality.address.postalCode, locality.address.postalCode);
+	
+	currentScopeType = "dep";
+	addScopeToMultiscope(locality.address.depName, locality.address.depName);
+	
+	currentScopeType = "region";
+	addScopeToMultiscope(locality.address.regionName, locality.address.regionName);
+
 	params = new Object;
-	params.name = "locality";
+	params.name = ((addressesIndex)?"addresses":"locality");
 	params.value = locality;
 	params.pk = contextData.id;
 	params.type = contextData.type;
@@ -575,6 +590,7 @@ function updateLocalityElement(){
 							}
 							Sig.restartMap();
 							Sig.showMapElements(Sig.map, contextMap);
+							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 						}else{
 
 							changeMenuCommunextion(locality);
@@ -587,7 +603,9 @@ function updateLocalityElement(){
 							}else{
 								Sig.restartMap();
 								Sig.showMapElements(Sig.map, contextMap);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
 							}
+
 						}
 					}else{
 						initData();

@@ -92,6 +92,7 @@ $controler = Element::getControlerByCollection($type);
 	#shortDescriptionHeader{
 		max-height: 75px;
 		overflow: hidden;
+		font-size: 15px;
 	}
 
 
@@ -291,6 +292,35 @@ $controler = Element::getControlerByCollection($type);
 
 		</div>
 		
+
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-8 pull-right padding-10">
+			<div class="col-xs-12 no-padding">
+				<?php 
+				if(!empty($entity["badges"])){?>
+					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
+						<div class="badgePH pull-right" data-title="OPENDATA">
+							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+								<i class="fa fa-database main fa-stack-1x text-dark"></i>
+								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
+							</span>
+							<span class="text-dark inline" style="font-size: 15px; line-height: 30px;"> 
+								<?php echo Yii::t("common","Open data") ?>						
+							</span>
+						</div>
+				<?php } 
+				} ?>
+			</div>
+
+			<div class="col-xs-12 no-padding">
+				<?php 
+				if ($openEdition == true) { ?>
+					<div class="badgePH pull-right" data-title="OPENEDITION">
+						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					</div>
+				<?php } ?>
+				
+			</div>
+		</div>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
 			<style type="text/css">
 				.badgePH{ 
@@ -342,34 +372,6 @@ $controler = Element::getControlerByCollection($type);
 				</div>
 			</div>
 			
-
-			<div class="col-xs-12 no-padding">
-				<?php 
-				if(!empty($entity["badges"])){?>
-					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
-						<div class="badgePH pull-right" data-title="OPENDATA">
-							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
-								<i class="fa fa-database main fa-stack-1x text-dark"></i>
-								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
-							</span>
-							<span class="text-dark inline" style="font-size: 15px; line-height: 30px;"> 
-								<?php echo Yii::t("common","Open data") ?>						
-							</span>
-						</div>
-				<?php } 
-				} ?>
-			</div>
-
-			<div class="col-xs-12 no-padding">
-				<?php 
-				if ($openEdition == true) { ?>
-					<div class="badgePH pull-right" data-title="OPENEDITION">
-						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-					</div>
-				<?php } ?>
-				
-			</div>
-
 			
 		</div>
 	<?php }else{ ?>

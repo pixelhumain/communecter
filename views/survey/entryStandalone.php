@@ -296,13 +296,13 @@
 				</div>
 
 				<?php if( @( $survey["urls"] ) ){ ?>
-				<div class="col-md-12 col-xs-12 col-sm-12">
+				<div class="col-md-12 col-xs-12 col-sm-12 center">
 					
-					<h2 class="text-dark"><br>Des liens d'informations ou actions à faire</h2>
+					<h2 class="text-dark"><br><i class="fa fa-link"></i> Informations complémentaires</h2>
 					<?php foreach ( $survey["urls"] as $value) {
 						if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 							echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
-									'<i class="fa fa-link"></i> '.$value.
+									''.$value.
 								 '</a><br/> ';
 						else
 							echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
