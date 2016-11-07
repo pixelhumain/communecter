@@ -31,7 +31,8 @@
 		"Add a proposal" => "Faire une proposition",
 		"You must login to vote" => "Vous devez vous connecter pour pouvoir voter",
 		"You must join to vote" => "Vous devez être membre pour pouvoir voter",
-		"Add an Action" => "Ajouter une action"
+		"Add an Action" => "Ajouter une action",
+		"The survey has been updated" => "La proposition a été mise à jour"
 		
 	)
 

@@ -58,7 +58,7 @@
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
     <?php  //if(@$_GET['type'] != "cities"){ ?>  
-      <div class='city-name-locked homestead text-red'></div>
+      <div class='city-name-locked text-red'></div>
       <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
     <?php //}else{ ?>
       <!-- <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche -->
@@ -93,10 +93,12 @@
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php  $city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
-       $city = (($city == null && @$_GET['insee']) ? City::getCityByInsee($_GET['insee']) : false);
-       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
+<?php $city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
+
+      if($city == null && @$_GET['insee'])
+        $city = City::getCityByInsee($_GET['insee']);
       
+      $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?>
 
 <script type="text/javascript">

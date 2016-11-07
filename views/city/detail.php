@@ -125,11 +125,138 @@ $this->renderPartial('../default/panels/toolbar');
       <?php } 
           } ?>
         </center>
+
+         <div id="div-discover" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <!-- <div class="panel panel-white padding-10">
+            <div id="local-actors-popup-sig">
+              <div class="panel-heading text-center border-light">
+                <h3 class="panel-title text-blue"> <i class="fa fa-search"></i> Découvrir - Participer</h3>
+              </div>
+              <div class="panel-body no-padding "> -->
+
+                <div class="col-md-12 no-padding" style="margin-top:20px">
+                    <?php
+                      $lockCityKey = ($cityGlobal == true) ? $city["country"].'_'.$city["insee"] : City::getUnikey($city) ;
+
+                    ?>
+
+                    <div class="col-xs-3 center no-padding hidden-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
+                          <i class="fa fa-calendar"></i>
+                        </a><br/>
+                        <span class="text-orange discover-subtitle">
+                          Agenda
+                         <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=persons&lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-yellow">
+                          <i class="fa fa-user"></i>
+                        </a>
+                        <?php $cnt= (isset($people)) ? count($people): 0; ?>
+                        <span class="badge nb-localactors bg-yellow"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-yellow discover-subtitle homestead">
+
+                         <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=projects&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
+                          <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
+                        <span class="badge nb-localactors bg-purple"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-purple discover-subtitle homestead">
+                         <?php echo Yii::t("common", "LOCAL PROJECTS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=organizations&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-green">
+                          <i class="fa fa-group"></i>
+                        </a>
+                        <?php $cnt= (isset($organizations)) ? count($organizations): 0; ?>
+                        <span class="badge nb-localactors bg-green"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-green discover-subtitle homestead">
+                         <?php echo Yii::t("common", "ORGANIZATIONS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <div class="col-xs-6 col-sm-3 col-md-3 center no-padding visible-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
+                          <i class="fa fa-calendar"></i>
+                        </a><br/>
+                        <span class="text-orange discover-subtitle">
+                          Agenda
+                         <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                          <i class="fa fa-rss"></i>
+                        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
+                    </div> -->
+                    <?php if($cityGlobal != true){ ?>
+                    <div class="col-xs-6 col-sm-3 col-md-3 center text-red no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
+                          <i class="fa fa-group"></i>
+                        </a>
+                        <br/>
+                        <span class='text-red discover-subtitle'>Conseil citoyen
+                        <!-- <br><?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> -->
+                        </span>
+                    </div>
+                   <?php }else{?>
+                      <div class="col-xs-6 col-sm-3 col-md-3 center text-red no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                          <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
+                          <br/><span class='text-red discover-subtitle'><strong>Conseil citoyen</strong><br/>
+                          <select id="selectRoom">
+                              <option value="">Choisir</option>
+                              <?php 
+                                foreach ($city["postalCodes"] as $key => $value) {
+                                  $cityUniKey = array("country" => $city["country"],
+                                                        "insee" => $city["insee"],
+                                                        "cp" => $value["postalCode"]);
+                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].' ('. $value["postalCode"].')</option>';
+                                }
+                              ?>
+                          </select> 
+                          </span> 
+                      </div>
+                    <?php } ?>
+                    
+                    <?php /*
+                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision
+                    </div>
+                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <strong>Tout le monde</strong> peut participer !
+                    </div>
+                    */?>
+                </div>
+
+        <!--       </div>
+            </div>
+           
+        </div> -->
+    </div>
       </h1>
      
   </div>
 
-    <div id="pod-local-actors" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+    <div id="pod-local-actors" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -191,109 +318,7 @@ $this->renderPartial('../default/panels/toolbar');
         </div>
     </div>
 
-    <div id="div-discover" class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
-        <div class="panel panel-white padding-10">
-            <div id="local-actors-popup-sig">
-              <div class="panel-heading text-center border-light">
-                <h3 class="panel-title text-blue"> <i class="fa fa-search"></i> Découvrir - Participer</h3>
-              </div>
-              <div class="panel-body no-padding ">
-
-                <div class="col-md-12 no-padding" style="margin-top:20px">
-                    <?php
-                      $lockCityKey = ($cityGlobal == true) ? $city["country"].'_'.$city["insee"] : City::getUnikey($city) ;
-
-                    ?>
-                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?type=persons&lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-yellow">
-                          <i class="fa fa-search"></i>
-                        </a>
-                        <br/>Rechercher des<br/>
-                        <span class="text-yellow discover-subtitle">
-
-                         <?php echo Yii::t("common", "citizens") ;
-                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-
-                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?type=projects&<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
-                          <i class="fa fa-search"></i>
-                        </a>
-                        <br/>Rechercher des<br/>
-                        <span class="text-purple discover-subtitle">
-                         <?php echo Yii::t("common", "projects") ;
-                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-
-                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?type=organizations&<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-green">
-                          <i class="fa fa-search"></i>
-                        </a>
-                        <br/>Rechercher des<br/>
-                        <span class="text-green discover-subtitle">
-                         <?php echo Yii::t("common", "organizations") ;
-                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-                    
-                    <div class="col-xs-2 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
-                          <i class="fa fa-calendar"></i>
-                        </a><br/>L'agenda de<br/>
-                        <span class="text-red discover-subtitle">
-                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-                    
-                    <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
-                          <i class="fa fa-rss"></i>
-                        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
-                    </div> -->
-                    <?php if($cityGlobal != true){ ?>
-                    <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
-                          <i class="fa fa-group"></i>
-                        </a>
-                        <br/><span class='text-red'><strong>Conseil citoyen</strong>
-                        <br><?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?></span>
-                    </div>
-                   <?php }else{?>
-                      <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                          <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
-                          <br/><span class='text-red'><strong>Conseil citoyen</strong><br/>
-                          <select id="selectRoom">
-                              <option value="">Choisir</option>
-                              <?php 
-                                foreach ($city["postalCodes"] as $key => $value) {
-                                  $cityUniKey = array("country" => $city["country"],
-                                                        "insee" => $city["insee"],
-                                                        "cp" => $value["postalCode"]);
-                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].' ('. $value["postalCode"].')</option>';
-                                }
-                              ?>
-                          </select> 
-                          </span> 
-                      </div>
-                    <?php } ?>
-                    
-                    <?php /*
-                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision
-                    </div>
-                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <strong>Tout le monde</strong> peut participer !
-                    </div>
-                    */?>
-                </div>
-
-              </div>
-            </div>
-           
-        </div>
-    </div>
+   
 
 </div>
 
