@@ -179,6 +179,9 @@
 							popupContent	+= 	"</div>";
 						}
 
+						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['streetAddress'] )
+						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['streetAddress'] + "</div>";
+								
 						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
 						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
 								

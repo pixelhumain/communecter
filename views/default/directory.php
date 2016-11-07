@@ -58,8 +58,9 @@
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
     <?php  //if(@$_GET['type'] != "cities"){ ?>  
+      <div id="scopeListContainer" class="hidden-xs list_tags_scopes inline-block"></div>
       <div class='city-name-locked text-red'></div>
-      <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+      
     <?php //}else{ ?>
       <!-- <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche -->
     <?php //} ?>

@@ -124,9 +124,9 @@
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
-  <div class="space20"></div>
+  
   <div class="col-xs-12 no-padding " id="list_filters">
-    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes inline-block"></div>
     <div class='city-name-locked homestead text-red'></div>
   </div>
   
