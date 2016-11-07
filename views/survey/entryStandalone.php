@@ -14,7 +14,11 @@
 	$cssAnsScriptFilesBase = array(
 		//X-editable
 		'/plugins/x-editable/css/bootstrap-editable.css',
-		'/plugins/x-editable/js/bootstrap-editable.js' 
+		'/plugins/x-editable/js/bootstrap-editable.js',
+		//DatePicker
+		'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+		'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+		'/plugins/bootstrap-datepicker/css/datepicker.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesBase, Yii::app()->request->baseUrl);
 
@@ -224,7 +228,7 @@
 				<span class="text-azure">
 					<i class="fa fa-calendar"></i> 
 					<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
-					<?php echo date("d/m/y",$survey["created"]) ?>
+					<?php echo date("d/m/Y",$survey["created"]) ?>
 					
 				</span>
 				<br>
@@ -232,8 +236,7 @@
 				<span class="text-red">
 					<i class="fa fa-calendar"></i>
 					<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
-					<a href="javascript:" id="endDate" data-type="text" data-title="Date de fin" data-emptytext="Date de cloture de la proposition" class="editable editable-click" >
-						<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
+					<a href="javascript:" id="endDate" data-type="date" data-title="Date de fin" data-emptytext="Date de cloture de la proposition" class="editable editable-click" >
 					</a>
 				</span>
 				<span>
@@ -375,6 +378,7 @@ clickedVoteObject = null;
 var images = <?php echo json_encode($images) ?>;
 var mode = "view";
 var itemId = "<?php echo $survey["_id"] ?>";
+var endDate = "<?php echo date("d/m/Y",@$survey["dateEnd"]) ?>";
 
 jQuery(document).ready(function() {
 
@@ -398,16 +402,18 @@ jQuery(document).ready(function() {
 
 	$("#editSurveyEndDate").on("click", function(){
 		switchMode();
+		$("#endDate").editable('toogle');
 	});
 
 	editEndDate();
+	manageModeContext();
 });
 
-function switchMode() {
+function switchMode(callback) {
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
-	}else{
+	} else{
 		mode ="view";
 		manageModeContext();
 	}
@@ -427,31 +433,30 @@ function editEndDate() {
 <?php
 	if( $canEditEndDate ) {
 ?>
-	
-
+	console.log("Init XEdit end date");
 	$('#endDate').editable({
-		url: baseUrl+"/"+moduleId+"/survey/updatefield", 
-		pk: itemId,
-		mode: "popup",
-		type: "datetime",
-		placement: "bottom",
-		format: 'yyyy-mm-dd hh:ii',
-    	viewformat: 'dd/mm/yyyy hh:ii',
-    	datetimepicker: {
+		url: baseUrl+"/"+moduleId+"/element/updatefields/type/survey", 
+		mode: 'popup',
+		placement: "right",
+		format: 'yyyy-mm-dd',   
+    	viewformat: 'dd/mm/yyyy',
+    	datepicker: {
             weekStart: 1,
-            minuteStep: 30,
-            language: 'fr'
-       },
-       success : function(data) {
-	        if(data.result) {
-	        	toastr.success(data.msg);
+        },
+        //toggle:'mouseenter',
+        showbuttons: true,
+		success : function(data) {
+			if(data.result) {
+				toastr.success(data.msg);
 				loadActivity=true;	
-	        }else 
+			}else 
 				return data.msg;
 	    }
     });
 
-	formatDate = "YYYY-MM-DD HH:mm";
+	//formatDate = "YYYY-MM-DD HH:mm";
+	console.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
+	$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"), true);
 <?php } ?>
 }
 
