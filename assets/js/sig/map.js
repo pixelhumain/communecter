@@ -527,6 +527,7 @@
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
 								//préparation du contenu de la bulle
+								console.log("!!!!!!!!!!!!!!!!!!!!!!showOneElementOnMap", thisData);
 								var content = this.getPopup(thisData);
 								//création de l'icon sur la carte
 								var theIcon = this.getIcoMarkerMap(thisData);
@@ -558,9 +559,17 @@
 								}
 
 								var thisSig = this;
+								//var newData = thisData ;
+								//var newProperties = properties ;
 								if(notEmpty(thisData["addresses"])){
 									$.each(thisData["addresses"], function(key, addr){
 										coordinates = thisSig.getCoordinates(addr, "markerSingle");
+										/*newData["address"] = addr["address"];
+										newData["geo"] = addr["geo"];
+										newData["geoPosition"] = addr["geoPosition"];
+										var newContent = thisSig.getPopup(newData);
+										newProperties["content"] = newContent ;
+										marker = thisSig.getMarkerSingle(thisMap, newProperties, coordinates);*/
 										marker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
 									});
 								}
