@@ -556,13 +556,22 @@
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
 								}
-
+								console.log("content POPUT thisAddr : ", thisData);
+										
 								var thisSig = this;
+
 								if(notEmpty(thisData["addresses"])){
-									$.each(thisData["addresses"], function(key, addr){
-										coordinates = thisSig.getCoordinates(addr, "markerSingle");
-										marker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
+									$.each(thisData["addresses"], function(key, addr){ 
+										var thisAddr = JSON.parse(JSON.stringify(thisData)); //duplicate value, prevent modifying thisData after this line DO NOT REMOVE IT CAN KILL THE WORLLLLLD ! ARE YOU CRAZY ? 
+										thisAddr["address"] = addr["address"];
+										thisAddr["geo"] = addr["geo"];
+										thisAddr["geoPosition"] = addr["geoPosition"];
+										var popup = thisSig.getPopup(thisAddr);
+										properties.content = popup;
+										coordinates = thisSig.getCoordinates(thisAddr, "markerSingle");
+										var multimarker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
 									});
+									properties.content = content;
 								}
 
 
