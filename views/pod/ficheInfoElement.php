@@ -68,8 +68,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     	font-size: 14px;
     }
     .editable-click, a.editable-click, a.editable-click:hover{
-    	font-size: 17px;
-		font-weight: 500;
+    	font-size: 15px;
+		font-weight: 300;
     }
 
     .entityTitle{
