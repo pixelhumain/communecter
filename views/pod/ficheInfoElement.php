@@ -416,10 +416,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<?php } ?>
 				</div>
 				
-				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) { ?>
-				<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;"><?php echo Yii::t("common", "Connect to your city"); ?></a> 
-				<a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
-				<?php } ?>
+				
 				<?php if( ($type == Person::COLLECTION && Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])) ||  $type!=Person::COLLECTION) { ?>
 				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-primary btn-sm col-xs-6 hidden" style="margin: 10px 0px;">
 					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
@@ -459,13 +456,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						
 
 						<?php 
+						
 						if(empty($element["address"]) && $type!=Person::COLLECTION){
 							echo '	<a href="javascript:;" class="hidden addresses btn btn-danger btn-sm" id="btn-update-geopos">
 										<i class="fa fa-map-marker"></i>
-										<span class="hidden-sm">'.Yii::t("common","Add Locality center").'</span>
+										<span class="hidden-sm">'.Yii::t("common","Add a primary address").'</span>
 									</a>' ;
+						}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) {
+							echo '<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
 						}else{
-							echo '	<a href="javascript:;" id="btn-remove-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
+							echo '<a href="javascript:;" id="btn-remove-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
 										<i class="fa text-red fa-trash-o"></i>
 									</a>
 									<a href="javascript:;" id="btn-update-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
@@ -478,10 +478,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</div>
 
 				<?php if($type!=Person::COLLECTION ) { ?>
-				<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
-					<i class="fa fa-plus" style="margin:0px !important;"></i> 
-					<span class="hidden-sm"><?php echo Yii::t("common","Add Locality"); ?></span>
-				</a>
+					<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
+						<i class="fa fa-plus" style="margin:0px !important;"></i> 
+						<span class="hidden-sm"><?php echo Yii::t("common","Add a secondary address"); ?></span>
+					</a>
 				<?php }
 					if( @$element["addresses"] ){ 
 						foreach ($element["addresses"] as $ix => $p) { ?>
@@ -850,12 +850,6 @@ if($showOdesc == true){
 		if(emptyAddress){
 			$(".cobtn,.whycobtn").removeClass("hidden");
 			$(".cobtn").click(function () { 
-				/*$(".cobtn,.whycobtn").hide();
-				$('#editElementDetail').trigger('click');
-				setTimeout( function () { 
-					$('#address').trigger('click'); 
-					}, 500);
-				return false;*/
 				updateLocalityEntities();
 			});
 			console.log("modeEdit",modeEdit);
