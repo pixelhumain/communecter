@@ -1354,6 +1354,7 @@ function openForm (type, afterLoad,data) {
     elementLocation = null;
     elementLocations = [];
     centerLocation = null;
+    updateLocality = false;
     formType = type;
     specs = typeObj[type];
     if(specs.lbh){

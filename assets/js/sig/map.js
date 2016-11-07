@@ -527,6 +527,7 @@
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
 								//préparation du contenu de la bulle
+								console.log("!!!!!!!!!!!!!!!!!!!!!!showOneElementOnMap", thisData);
 								var content = this.getPopup(thisData);
 								//création de l'icon sur la carte
 								var theIcon = this.getIcoMarkerMap(thisData);
