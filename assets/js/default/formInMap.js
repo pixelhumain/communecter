@@ -252,8 +252,8 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    		// html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\", \""+val+"\",\""+cp+"\" )'>"+lblList+"</a></li>";
     				
 		    		$.each(value.postalCodes, function(key, valueCP){
-    					if($.inArray(valueCP.postalCode, allCP)<0){ 
-	    					allCP.push(valueCP.postalCode);
+    					//if($.inArray(valueCP.postalCode, allCP)<0){ 
+	    				//	allCP.push(valueCP.postalCode);
 	    					if(notEmpty(value.geoShape))
 		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.name; 
@@ -262,7 +262,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    				var lng = valueCP.geo.longitude;
 		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
 		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
-	    			}
+	    			//}
 	    			});
     			}; 
     			if(currentScopeType == "cp") { 
