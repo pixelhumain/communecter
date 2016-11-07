@@ -1640,7 +1640,7 @@ if($showOdesc == true){
 			} else {
 				var addresses = { addressesIndex : index };
 				var param = new Object;
-				param.name = "locality";
+				param.name = "addresses";
 				param.value = addresses;
 				param.pk = contextData.id;
 				$.ajax({
