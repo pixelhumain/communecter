@@ -395,12 +395,14 @@ class Menu {
         //AROUND ME
         //-----------------------------
         
-        self::entry("left", 'onclick',
-                    Yii::t("common","Voir ce qui se trouve autour"),
-                    Yii::t("common","A proximité") ,
-                    'crosshairs',
-                    "loadByHash('#element.aroundme.type.".$type.".id.".$id.".radius.5000')", 
-                    $controller, "aroundme", "btn-menu-element btn-menu-element-directory");
+        if (! empty($entity["address"])) {
+            self::entry("left", 'onclick',
+                        Yii::t("common","Voir ce qui se trouve autour"),
+                        Yii::t("common","A proximité") ,
+                        'crosshairs',
+                        "loadByHash('#element.aroundme.type.".$type.".id.".$id.".radius.5000')", 
+                        $controller, "aroundme", "btn-menu-element btn-menu-element-around");
+        }
         
         //ACTION ROOMS
         //-----------------------------

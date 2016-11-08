@@ -1419,7 +1419,7 @@ if($showOdesc == true){
 			wysihtml5: {
 				html: true,
 				video: false,
-				image:true
+				image: false
 			},
 			container: 'body',
 			success : function(data) {
