@@ -523,6 +523,7 @@ function updateLocalityElement(){
 	if(addressesIndex)
 		locality["addressesIndex"] = addressesIndex ;
 	
+	
 	currentScopeType = "city";
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
 	
