@@ -76,7 +76,8 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
-
+    [ ] gljfdlkg
+    {gfdsg}
 
 ** @Tib 
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
