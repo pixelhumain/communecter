@@ -46,7 +46,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 1000);
+	//setTimeout(function(){ Sig.map.panBy([0, -50]);  }, 1000);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
