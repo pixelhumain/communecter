@@ -438,8 +438,6 @@ function backToForm(cancel){
 			};
 			copyMapForm2Dynform(locationObj);
 			addLocationToForm(locationObj);
-			
-			
 		}
 		showMap(false);
 		Sig.clearMap();
