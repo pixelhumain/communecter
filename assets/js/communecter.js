@@ -2475,8 +2475,11 @@ var countLocation = 0;
 function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
+	console.log("locationObj", locationObj);
 	elementLocation = locationObj;
+	console.log("elementLocation", elementLocation);
 	elementLocations.push(elementLocation);
+	console.log("elementLocations", elementLocations);
 	if(!centerLocation || locationObj.center == true){
 		centerLocation = elementLocation;
 		elementLocation.center = true;
@@ -2496,7 +2499,7 @@ function addLocationToForm(locationObj)
 		strHTML += " ,"+locationObj.address.postalCode;
 	if( locationObj.address.addressLocality)
 		strHTML += " ,"+locationObj.address.addressLocality;
-	if( locationObj.streetAddress)
+	if( locationObj.address.streetAddress)
 		strHTML += " ,"+locationObj.address.streetAddress;
 	var btnSuccess = "";
 	var locCenter = "";
@@ -2514,10 +2517,12 @@ function addLocationToForm(locationObj)
 
 
 function removeLocation(ix){
+	console.log("removeLocation", ix, elementLocations);
 	elementLocation = null;
 	elementLocations.splice(ix,1);
 	//TODO check if this center then apply on first
-	$(".locationEl"+countLocation).remove();
+	//$(".locationEl"+countLocation).remove();
+	$(".locationEl"+ix).remove();
 }
 
 function setAsCenter(ix){
