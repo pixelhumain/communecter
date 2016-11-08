@@ -545,7 +545,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				?>
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
-			<div class="col-md-6 col-sm-6">
+			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
 					<?php if($type==Event::COLLECTION){?>
 						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
