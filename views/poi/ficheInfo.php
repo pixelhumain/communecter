@@ -915,7 +915,8 @@ if($showOdesc == true){
 			placement: 'top',
 			wysihtml5: {
 				html: true,
-				video: false
+				video: false,
+				image: false,
 			},
 			container: 'body',
 			success : function(data) {
