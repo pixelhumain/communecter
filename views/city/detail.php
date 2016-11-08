@@ -146,7 +146,10 @@ $this->renderPartial('../default/panels/toolbar');
                     <div class="col-xs-3 center no-padding hidden-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
                           <i class="fa fa-calendar"></i>
-                        </a><br/>
+                        </a>
+                        <?php $cnt= (isset($events)) ? count($events): 0; ?>
+                        <span class="badge nb-localactors bg-orange"><?php echo $cnt; ?></span>
+                        <br>
                         <span class="text-orange discover-subtitle">
                           Agenda
                          <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 

@@ -2881,7 +2881,9 @@ function cityKeyPart(unikey, part){
 	var s = unikey.indexOf("_");
 	var e = unikey.indexOf("-");
 	var len = unikey.length;
+	if(e < 0) e = len;
 	if(part == "insee") return unikey.substr(s+1, e - s-1);
+	if(part == "cp" && unikey.indexOf("-") < 0) return "";
 	if(part == "cp") return unikey.substr(e+1, len);
 	if(part == "country") return unikey.substr(e+1, len);
 }
