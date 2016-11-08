@@ -1841,32 +1841,38 @@ var typeObj = {
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
-		            		"labelText":"Journée",
+		            		"labelText":"Toute la journée",
 		            		"onChange" : function(){
-		            			//TODO SBAR : change date time to date picker
 		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
 		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
 		            			if (allDay) {
-		            				console.log("init dateInput");
 		            				$(".dateTimeInput").addClass("dateInput");
 		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$('.dateInput').datetimepicker('destroy');
 		            				$(".dateInput").datetimepicker({ 
 								        autoclose: true,
 								        lang: "fr",
 								        format: "d/m/Y",
 								        timepicker:false
 								    });
+								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
 		            			} else {
-		            				console.log("init dateTimeInput");
 		            				$(".dateInput").addClass("dateTimeInput");
 		            				$(".dateInput").removeClass("dateInput");
+		            				$('.dateTimeInput').datetimepicker('destroy');
 		            				$(".dateTimeInput").datetimepicker({ 
 					       				weekStart: 1,
 										step: 15,
 										lang: 'fr',
-										format: 'Y/m/d H:i'
+										format: 'd/m/Y H:i'
 								    });
+								    
+		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 		            			}
+							    $('#ajaxFormModal #startDate').val(startDate);
+								$('#ajaxFormModal #endDate').val(endDate);
 		            		}
 		            	}
 		            },
