@@ -781,10 +781,10 @@ if($showOdesc == true){
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
-			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
+			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ;?>" ;
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
 				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
-			bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
+			/*bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
 				if (!result) {
 					return;
 				} else {
@@ -821,7 +821,59 @@ if($showOdesc == true){
 					    }
 					});
 				}
-			});
+			});*/
+
+			bootbox.confirm({
+				message: msg + "<span class='text-red'></span>",
+				buttons: {
+					confirm: {
+						label: "<?php echo Yii::t('common','Yes');?>",
+						className: 'btn-success'
+					},
+					cancel: {
+						label: "<?php echo Yii::t('common','No');?>",
+						className: 'btn-danger'
+					}
+				},
+				callback: function (result) {
+					if (!result) {
+						return;
+					} else {
+						param = new Object;
+				    	param.name = "locality";
+				    	param.value = "";
+				    	param.pk = contextData.id;
+						$.ajax({
+					        type: "POST",
+					        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+					        data: param,
+					       	dataType: "json",
+					    	success: function(data){
+						    	//
+						    	if(data.result){
+									if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
+										//Menu Left
+										$("#btn-geoloc-auto-menu").attr("href", "javascript:");
+										$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
+										$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
+										$("#btn-geoloc-auto-menu").off().removeClass("lbh");
+										//Dashbord
+										$("#btn-menuSmall-mycity").attr("href", "javascript:");
+										$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:");
+										//Multiscope
+										$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
+										//MenuSmall
+										$(".hide-communected").show();
+										$(".visible-communected").hide();
+									}
+									toastr.success(data.msg);
+									loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+						    	}
+						    }
+						});
+					}
+				}
+			});	
 
 		});
 
@@ -1634,32 +1686,79 @@ if($showOdesc == true){
 
 	function removeAddresses (index){
 
-		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?", function(result) {
-			if (!result) {
-				return;
-			} else {
-				var addresses = { addressesIndex : index };
-				var param = new Object;
-				param.name = "addresses";
-				param.value = addresses;
-				param.pk = contextData.id;
-				$.ajax({
-			        type: "POST",
-			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			        data: param,
-			       	dataType: "json",
-			    	success: function(data){
-				    	if(data.result){
-							toastr.success(data.msg);
-							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-				    	}
-				    }
-				});
+		/*bootbox.confirm({
+			message:  "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?",
+			buttons: {
+				confirm: {
+					label: 'Yes',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: 'No',
+					className: 'btn-danger'
+				}
+			},
+			callback: function(result) {
+				if (!result) {
+					return;
+				} else {
+					var addresses = { addressesIndex : index };
+					var param = new Object;
+					param.name = "addresses";
+					param.value = addresses;
+					param.pk = contextData.id;
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+				        data: param,
+				       	dataType: "json",
+				    	success: function(data){
+					    	if(data.result){
+								toastr.success(data.msg);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+					    	}
+					    }
+					});
+				}
+			});
+		});*/
+
+		bootbox.confirm({
+			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ?><span class='text-red'></span>",
+			buttons: {
+				confirm: {
+					label: "<?php echo Yii::t('common','Yes');?>",
+					className: 'btn-success'
+				},
+				cancel: {
+					label: "<?php echo Yii::t('common','No');?>",
+					className: 'btn-danger'
+				}
+			},
+			callback: function (result) {
+				if (!result) {
+					return;
+				} else {
+					var addresses = { addressesIndex : index };
+					var param = new Object;
+					param.name = "addresses";
+					param.value = addresses;
+					param.pk = contextData.id;
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+				        data: param,
+				       	dataType: "json",
+				    	success: function(data){
+					    	if(data.result){
+								toastr.success(data.msg);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+					    	}
+					    }
+					});
+				}
 			}
-		});
-
-
-		
+		});		
 	}
 	
 	

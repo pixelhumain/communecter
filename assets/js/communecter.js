@@ -2509,7 +2509,7 @@ function addLocationToForm(locationObj)
 	}
 	
 	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
-			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
+			  "<span class='locationEl"+countLocation+" locel text-azure'>"+strHTML+"</span> "+
 			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
