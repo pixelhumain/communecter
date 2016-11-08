@@ -26,7 +26,7 @@ error_log("BasURL : ".Yii::app()->request->baseUrl);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
-	'/css/news/index.css',	
+	//'/css/news/index.css',	
 	'/css/news/newsSV.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
@@ -34,7 +34,7 @@ $cssAnsScriptFilesModule = array(
 $cssAnsScriptFilesModule = array(
 	'/js/news/index.js',
 	'/js/news/newsHtml.js',
-	'/js/dataHelpers.js',
+	'/js/dataHelpers.js'
 	//'/js/news/autosize.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
@@ -251,9 +251,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     position:relative;
     float: right;
 }
-.form-group.tagstags{
-	margin-bottom:0px !important;
-}
 .timeline_shared_picture{
 	margin-top:5px;
 }
@@ -302,7 +299,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 <!-- <div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div> -->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
-	<div class='no-padding form-create-news-container'>
+	<div class='no-padding form-create-news-container col-sm-12'>
 
 	<?php if(false) { ?>
 		<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
@@ -355,7 +352,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</form>
 			</div>
 		</div>
-		<form id='form-news'>
+		<form id='form-news' class="col-sm-12 no-padding">
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
 			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
@@ -367,15 +364,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 			<div class="extract_url">
 				<div class="padding-10 bg-white">
-					<img id="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
+					<img class="loading_indicator" src="<?php echo $this->module->assetsUrl ?>/images/news/ajax-loader.gif">
 					<textarea id="get_url" placeholder="Exprimez-vous ..." class=" get_url_input form-control textarea mention" style="border:none;background:transparent !important" name="getUrl" spellcheck="false" ></textarea>
 					<ul class="dropdown-menu" id="dropdown_search" style="">
 					</ul>
 
-					<div id="results" class="bg-white results"></div>
+					<div id="results" class="bg-white results col-sm-12"></div>
 				</div>
 			</div>
-			<div class="form-group tagstags" style="">
+			<div class="form-group tagstags col-sm-12 no-padding">
 			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
@@ -707,7 +704,7 @@ jQuery(document).ready(function()
 		});
 		$('.tooltips').tooltip();
 	},100);
-	getUrlContent();
+	getMediaFromUrlContent(".get_url_input",".results",1);
 	
 	setTimeout(function(){
 		$("#btn-submit-form").on("click",function(){

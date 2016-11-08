@@ -1565,7 +1565,7 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
@@ -1660,7 +1660,7 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
@@ -1920,7 +1920,7 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
@@ -2014,7 +2014,7 @@ var typeObj = {
 			            "inputType" : "array",
 			            "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
@@ -2156,7 +2156,7 @@ var typeObj = {
 		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
 		                "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 		            },
@@ -2268,7 +2268,7 @@ var typeObj = {
 		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
 		                "value" : [],
 			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0");
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 		            },
@@ -2554,7 +2554,7 @@ function shadowOnHeader() {
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
 }
-function getMediaFromUrlContent(className, appendClassName){
+function getMediaFromUrlContent(className, appendClassName,nbParent){
     //user clicks previous thumbail
     lastUrl = "";
     $("body").on("click","#thumb_prev", function(e){        
@@ -2585,55 +2585,67 @@ function getMediaFromUrlContent(className, appendClassName){
     });
     var getUrl  = $(className); //url to extract from text field
     var appendClassName = appendClassName;
-    getUrl.keyup(function() { //user types url in text field        
+    getUrl.bind("input keyup",function() { //user types url in text field        
         //url to match in the text field
-        var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         var $this = $(this);
-        //continue if matched url is found in text field
-//        if(!$(".lastUrl").attr("href") || $(".lastUrl").attr("href"))
-        if (match_url.test(getUrl.val())) {
-	        if(lastUrl != getUrl.val().match(match_url)[0]){
-	        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>").css("height","20px");//hide();
-                $("#loading_indicator").show(); //show loading indicator image
-                //ajax request to be sent to extract-process.php
-                //alert(extracted_url);
-                lastUrl=extracted_url;
-                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
-                $.ajax({
-					url: baseUrl+'/'+moduleId+"/news/extractprocess",
-					data: {
-					'url': extracted_url},
-					type: 'post',
-					dataType: 'json',
-					success: function(data){        
-		                console.log(data); 
-	                    content = getMediaCommonHtml(data,"save");
-	                    //load results in the element
-	                    //return content;
-	                   //$("#results").html(content); 
-	                    $this.parent().find(appendClassName).html(content);
-	                    $this.parent().find(appendClassName).slideDown();
-//append received data into the element
-	                    //$("#results").slideDown(); //show results with slide down effect
-	                    //$("#loading_indicator").hide(); //hide loading indicator image
-                	},
-					error : function(){
-						$.unblockUI();
-						//toastr.error(trad["wrongwithurl"] + " !");
-						//content to be loaded in #results element
-						var content = '<h4><a href="'+extracted_url+'" target="_blank" class="lastUrl">'+extracted_url+'</a></h4>';
-	                    //load results in the element
-	                    $this.parent().find(appendClassName).hide();
-	                    $this.parent().find(appendClassName).html(content);
-	                    $this.parent().find(appendClassName).slideDown();
-	                    //$("#results").html(content); //append received data into the element
-	                    //$("#results").slideDown(); //show results with slide down effect
-	                    $("#loading_indicator").hide(); //hide loading indicator image
-						$("#loading_indicator").hide();
-					}	
-                });
-			}
+        if($this.parents().eq(nbParent).find(appendClassName).html()==""){
+	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+	        if (match_url.test(getUrl.val())) {
+		        console.log(getUrl.val().match(match_url));
+		        if(lastUrl != getUrl.val().match(match_url)[0]){
+			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
+		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
+	                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
+	                $(".loading_indicator").show(); //show loading indicator image
+	                //ajax request to be sent to extract-process.php
+	                //alert(extracted_url);
+	                lastUrl=extracted_url;
+	                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
+	                $.ajax({
+						url: baseUrl+'/'+moduleId+"/news/extractprocess",
+						data: {
+						'url': extracted_url},
+						type: 'post',
+						dataType: 'json',
+						success: function(data){        
+			                console.log(data); 
+		                    content = getMediaCommonHtml(data,"save");
+		                    //load results in the element
+		                    //return content;
+		                   //$("#results").html(content); 
+		                    $this.parents().eq(nbParent).find(appendClassName).html(content).slideDown();
+		                    //$this.parents().eq(nbParent).slideDown();
+		                    $(".removeMediaUrl").click(function(){
+			                    $trigger=$(this).parents().eq(1).find(className);
+							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
+							    $trigger.trigger("input");
+							});
+	//append received data into the element
+		                    //$("#results").slideDown(); //show results with slide down effect
+		                    $(".loading_indicator").hide(); //hide loading indicator image
+	                	},
+						error : function(){
+							$.unblockUI();
+							//toastr.error(trad["wrongwithurl"] + " !");
+							//content to be loaded in #results element
+							var content = '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-times"></i></a><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl wrongUrl">'+extracted_url+'</a></h4>';
+		                    //load results in the element
+		                    $this.parents().eq(nbParent).find(appendClassName).hide();
+		                    $this.parents().eq(nbParent).find(appendClassName).html(content);
+		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
+		                    $(".removeMediaUrl").click(function(){
+			                    $trigger=$(this).parents().eq(1).find(className);
+							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
+							    $trigger.trigger("input");
+							});
+
+		                    //$("#results").html(content); //append received data into the element
+		                    //$("#results").slideDown(); //show results with slide down effect
+		                    $(".loading_indicator").hide(); //hide loading indicator image
+						}	
+	                });
+				}
+        	}
         }
     }); 
 }
@@ -2725,8 +2737,10 @@ function getMediaCommonHtml(data,action,id){
 	}
 	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
 	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
-	    
-    content = '<div class="extracted_url padding-10">'+ inc_image +contentMedia+'</div>'+inputToSave;
+	content="";
+	if(action == "save")
+		content += '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-times"></i></a>';
+    content += '<div class="extracted_url padding-10">'+ inc_image +contentMedia+'</div>'+inputToSave;
     return content;
 }
 
