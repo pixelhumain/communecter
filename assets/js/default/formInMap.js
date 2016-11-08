@@ -46,7 +46,7 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
 	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 1000);
+	//setTimeout(function(){ Sig.map.panBy([0, -50]);  }, 1000);
 	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
@@ -252,8 +252,8 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    		// html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\", \""+val+"\",\""+cp+"\" )'>"+lblList+"</a></li>";
     				
 		    		$.each(value.postalCodes, function(key, valueCP){
-    					if($.inArray(valueCP.postalCode, allCP)<0){ 
-	    					allCP.push(valueCP.postalCode);
+    					//if($.inArray(valueCP.postalCode, allCP)<0){ 
+	    				//	allCP.push(valueCP.postalCode);
 	    					if(notEmpty(value.geoShape))
 		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.name; 
@@ -262,7 +262,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    				var lng = valueCP.geo.longitude;
 		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
 		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
-	    			}
+	    			//}
 	    			});
     			}; 
     			if(currentScopeType == "cp") { 

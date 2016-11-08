@@ -1354,6 +1354,7 @@ function openForm (type, afterLoad,data) {
     elementLocation = null;
     elementLocations = [];
     centerLocation = null;
+    updateLocality = false;
     formType = type;
     specs = typeObj[type];
     if(specs.lbh){
@@ -2869,6 +2870,15 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 		console.log(address, geo, contextData.type, addressesIndex);
 		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
+}
+
+function cityKeyPart(unikey, part){
+	var s = unikey.indexOf("_");
+	var e = unikey.indexOf("-");
+	var len = unikey.length;
+	if(part == "insee") return unikey.substr(s+1, e - s-1);
+	if(part == "cp") return unikey.substr(e+1, len);
+	if(part == "country") return unikey.substr(e+1, len);
 }
 /*
 elementJson = {

@@ -68,8 +68,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     	font-size: 14px;
     }
     .editable-click, a.editable-click, a.editable-click:hover{
-    	font-size: 17px;
-		font-weight: 500;
+    	font-size: 15px;
+		font-weight: 300;
     }
 
     .entityTitle{
@@ -545,7 +545,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				?>
 			</div>
 			<?php if($type != Event::COLLECTION){ ?>
-			<div class="col-md-6 col-sm-6">
+			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
 					<?php if($type==Event::COLLECTION){?>
 						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
@@ -802,13 +802,13 @@ if($showOdesc == true){
 					    	if(data.result){
 								if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
 									//Menu Left
-									$("#btn-geoloc-auto-menu").attr("href", "javascript:;");
+									$("#btn-geoloc-auto-menu").attr("href", "javascript:");
 									$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
 									$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
-									$("#btn-geoloc-auto-menu").removeClass("lbh");
+									$("#btn-geoloc-auto-menu").off().removeClass("lbh");
 									//Dashbord
-									$("#btn-menuSmall-mycity").attr("href", "javascript:;");
-									$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:;");
+									$("#btn-menuSmall-mycity").attr("href", "javascript:");
+									$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:");
 									//Multiscope
 									$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
 									//MenuSmall
