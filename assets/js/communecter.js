@@ -1546,7 +1546,10 @@ var typeObj = {
 			        },
 		            description : {
 		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
 		            },
 		            location : {
 		                inputType : "location"
@@ -1589,7 +1592,9 @@ var typeObj = {
 			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
-			    
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1746,6 +1751,7 @@ var typeObj = {
 			    	
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
@@ -1973,6 +1979,8 @@ var typeObj = {
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
+			    },beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -2068,8 +2076,8 @@ var typeObj = {
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	"sub" : function(){
-			    			$("#ajaxFormModal #survey").val( contextData.id );
-			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+		    			$("#ajaxFormModal #survey").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
 			    },
 			    beforeSave : function(){
@@ -2194,6 +2202,9 @@ var typeObj = {
 			    title : "Ajouter une action",
 			    icon : "gavel",
 			    type : "object",
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -2303,6 +2314,9 @@ var typeObj = {
 			    title : "All possible inputs",
 			    icon : "map-marker",
 			    type : "object",
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -2317,7 +2331,10 @@ var typeObj = {
 			        },
 			        description : {
 		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
 		            },
 			        location : {
 		                inputType : "location"
@@ -2447,15 +2464,18 @@ function globalSearch(searchValue,types){
 				typeIco = elem.type;
 				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
 				}
+				where = "";
 				if (elem.address != null) {
 					city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
 					postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+					if( notEmpty( city ) && notEmpty( postalCode ) )
+					where = ' ('+postalCode+" "+city+")";
 				}
 				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
 				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+							"<span>"+ htmlIco +"</span>  " + elem.name+where+
 						"</a>";
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
@@ -2887,7 +2907,9 @@ function cityKeyPart(unikey, part){
 	var s = unikey.indexOf("_");
 	var e = unikey.indexOf("-");
 	var len = unikey.length;
+	if(e < 0) e = len;
 	if(part == "insee") return unikey.substr(s+1, e - s-1);
+	if(part == "cp" && unikey.indexOf("-") < 0) return "";
 	if(part == "cp") return unikey.substr(e+1, len);
 	if(part == "country") return unikey.substr(e+1, len);
 }

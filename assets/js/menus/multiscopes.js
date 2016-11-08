@@ -300,7 +300,11 @@ function lockScopeOnCityKey(cityKey, cityName){ //console.log("lockScopeOnCityKe
 	$("#searchLocalityREGION").val("");
 	$(".list_tags_scopes").addClass("tagOnly");
 
-	var url = "#city.detail.insee." + cityKeyPart(cityKey, "insee") + ".postalCode." + cityKeyPart(cityKey, "cp");
+	var insee = cityKeyPart(cityKey, "insee");
+	var cp = cityKeyPart(cityKey, "cp");
+	var url = "#city.detail.insee." + insee;
+	if(cp != "") url += ".postalCode." + cityKeyPart(cityKey, "cp");
+	
 	$(".city-name-locked").html("<a href='javascript:' class='text-red'>"+
 									"<i class='fa fa-lock tooltips' id='cadenas' data-toggle='tooltip' data-placement='top' title='Débloquer'></i>"+
 								"</a> <a href='"+url+"' class='lbh homestead text-red tooltips' data-toggle='tooltip' data-placement='top' title='Retourner sur la page'>"+ cityName + "</a>" );
