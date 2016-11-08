@@ -478,6 +478,18 @@
 			this.map.invalidateSize(false);
 		};
 
+		Sig.centerPopupMarker = function(coordinates, zoom){
+			var thisSig = this;
+			thisSig.map.panTo(coordinates, {"animate" : false });
+			setTimeout(function(){  thisSig.map.setZoom(zoom); //Sig.map.panBy([0, -50]);
+									setTimeout(function(){
+										thisSig.map.panTo(coordinates, {"animate" : false });
+										setTimeout(function(){ thisSig.map.panBy([0, -200]);}, 500);
+										console.log("panBy 200");
+									}, 700);
+								}, 2000);
+		};
+
 		Sig.showRightToolMap = function(bool){
 			if(bool){
 				$("#right_tool_map").show();

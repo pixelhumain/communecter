@@ -1546,7 +1546,10 @@ var typeObj = {
 			        },
 		            description : {
 		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
 		            },
 		            location : {
 		                inputType : "location"
@@ -1589,7 +1592,9 @@ var typeObj = {
 			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
-			    
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -1746,6 +1751,7 @@ var typeObj = {
 			    	
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
@@ -1841,32 +1847,38 @@ var typeObj = {
 		            	"switch" : {
 		            		"onText" : "Oui",
 		            		"offText" : "Non",
-		            		"labelText":"Journée",
+		            		"labelText":"Toute la journée",
 		            		"onChange" : function(){
-		            			//TODO SBAR : change date time to date picker
 		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
 		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
 		            			if (allDay) {
-		            				console.log("init dateInput");
 		            				$(".dateTimeInput").addClass("dateInput");
 		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$('.dateInput').datetimepicker('destroy');
 		            				$(".dateInput").datetimepicker({ 
 								        autoclose: true,
 								        lang: "fr",
 								        format: "d/m/Y",
 								        timepicker:false
 								    });
+								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
 		            			} else {
-		            				console.log("init dateTimeInput");
 		            				$(".dateInput").addClass("dateTimeInput");
 		            				$(".dateInput").removeClass("dateInput");
+		            				$('.dateTimeInput').datetimepicker('destroy');
 		            				$(".dateTimeInput").datetimepicker({ 
 					       				weekStart: 1,
 										step: 15,
 										lang: 'fr',
-										format: 'Y/m/d H:i'
+										format: 'd/m/Y H:i'
 								    });
+								    
+		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 		            			}
+							    $('#ajaxFormModal #startDate').val(startDate);
+								$('#ajaxFormModal #endDate').val(endDate);
 		            		}
 		            	}
 		            },
@@ -1967,6 +1979,8 @@ var typeObj = {
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
+			    },beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -2062,8 +2076,8 @@ var typeObj = {
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	"sub" : function(){
-			    			$("#ajaxFormModal #survey").val( contextData.id );
-			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+		    			$("#ajaxFormModal #survey").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
 			    },
 			    beforeSave : function(){
@@ -2188,6 +2202,9 @@ var typeObj = {
 			    title : "Ajouter une action",
 			    icon : "gavel",
 			    type : "object",
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -2297,6 +2314,9 @@ var typeObj = {
 			    title : "All possible inputs",
 			    icon : "map-marker",
 			    type : "object",
+			    beforeSave : function(){
+			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
@@ -2311,7 +2331,10 @@ var typeObj = {
 			        },
 			        description : {
 		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager"
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
 		            },
 			        location : {
 		                inputType : "location"
@@ -2441,15 +2464,18 @@ function globalSearch(searchValue,types){
 				typeIco = elem.type;
 				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
 				}
+				where = "";
 				if (elem.address != null) {
 					city = (elem.address.addressLocality) ? elem.address.addressLocality : "";
 					postalCode = (elem.address.postalCode) ? elem.address.postalCode : "";
+					if( notEmpty( city ) && notEmpty( postalCode ) )
+					where = ' ('+postalCode+" "+city+")";
 				}
 				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
 				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span>  " + elem.name+' ('+postalCode+" "+city+")"+
+							"<span>"+ htmlIco +"</span>  " + elem.name+where+
 						"</a>";
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
@@ -2475,8 +2501,11 @@ var countLocation = 0;
 function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
+	console.log("locationObj", locationObj);
 	elementLocation = locationObj;
+	console.log("elementLocation", elementLocation);
 	elementLocations.push(elementLocation);
+	console.log("elementLocations", elementLocations);
 	if(!centerLocation || locationObj.center == true){
 		centerLocation = elementLocation;
 		elementLocation.center = true;
@@ -2496,7 +2525,7 @@ function addLocationToForm(locationObj)
 		strHTML += " ,"+locationObj.address.postalCode;
 	if( locationObj.address.addressLocality)
 		strHTML += " ,"+locationObj.address.addressLocality;
-	if( locationObj.streetAddress)
+	if( locationObj.address.streetAddress)
 		strHTML += " ,"+locationObj.address.streetAddress;
 	var btnSuccess = "";
 	var locCenter = "";
@@ -2506,7 +2535,7 @@ function addLocationToForm(locationObj)
 	}
 	
 	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
-			  " <a class='locationEl"+countLocation+" locel' href=''>"+strHTML+"</a> "+
+			  "<span class='locationEl"+countLocation+" locel text-azure'>"+strHTML+"</span> "+
 			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
@@ -2514,10 +2543,12 @@ function addLocationToForm(locationObj)
 
 
 function removeLocation(ix){
+	console.log("removeLocation", ix, elementLocations);
 	elementLocation = null;
 	elementLocations.splice(ix,1);
 	//TODO check if this center then apply on first
-	$(".locationEl"+countLocation).remove();
+	//$(".locationEl"+countLocation).remove();
+	$(".locationEl"+ix).remove();
 }
 
 function setAsCenter(ix){
@@ -2890,7 +2921,9 @@ function cityKeyPart(unikey, part){
 	var s = unikey.indexOf("_");
 	var e = unikey.indexOf("-");
 	var len = unikey.length;
+	if(e < 0) e = len;
 	if(part == "insee") return unikey.substr(s+1, e - s-1);
+	if(part == "cp" && unikey.indexOf("-") < 0) return "";
 	if(part == "cp") return unikey.substr(e+1, len);
 	if(part == "country") return unikey.substr(e+1, len);
 }

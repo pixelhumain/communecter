@@ -146,7 +146,10 @@ $this->renderPartial('../default/panels/toolbar');
                     <div class="col-xs-3 center no-padding hidden-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                         <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
                           <i class="fa fa-calendar"></i>
-                        </a><br/>
+                        </a>
+                        <?php $cnt= (isset($events)) ? count($events): 0; ?>
+                        <span class="badge nb-localactors bg-orange"><?php echo $cnt; ?></span>
+                        <br>
                         <span class="text-orange discover-subtitle">
                           Agenda
                          <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
@@ -224,8 +227,8 @@ $this->renderPartial('../default/panels/toolbar');
                    <?php }else{?>
                       <div class="col-xs-6 col-sm-3 col-md-3 center text-red no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
                           <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
-                          <br/><span class='text-red discover-subtitle'><strong>Conseil citoyen</strong><br/>
-                          <select id="selectRoom">
+                          <br/><span class='text-red discover-subtitle'>Conseil citoyen<br/>
+                          <select id="selectRoom" class="text-red">
                               <option value="">Choisir</option>
                               <?php 
                                 foreach ($city["postalCodes"] as $key => $value) {

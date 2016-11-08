@@ -45,9 +45,18 @@ function showMarkerNewElement(){ console.log("showMarkerNewElement");
 	Sig.markerFindPlace = Sig.getMarkerSingle(Sig.map, options, coordinates);
 	Sig.markerFindPlace.openPopup(); 
 	Sig.markerFindPlace.dragging.enable();
-	Sig.centerSimple(coordinates, 12);
-	setTimeout(function(){ Sig.map.panBy([0, -150]);  }, 1000);
-	showMapLegende("info-circle", "Définissez l'adresse et la position de l'élément<br>"+
+	//Sig.centerSimple(coordinates, 12);
+	Sig.centerPopupMarker(coordinates, 12);
+	/*
+	Sig.map.panTo(coordinates, {"animate" : false });
+	setTimeout(function(){  Sig.map.setZoom(12); //Sig.map.panBy([0, -50]);
+							setTimeout(function(){
+								Sig.map.panTo(coordinates, {"animate" : false });
+								setTimeout(function(){ Sig.map.panBy([0, -200]);}, 500);
+								console.log("panBy 200");
+							}, 700);
+						}, 2000);*/
+	showMapLegende("info-circle", "<style>#btn-back, #right_tool_map{display:none;}</style>Définissez l'adresse et la position de l'élément<br>"+
 								  "<a href='javascript:backToForm(true)' class='btn no-padding margin-top-10'>"+
 								  	"<i class='fa fa-arrow-circle-left'></i> retour"+
 								  "</a>");
@@ -318,11 +327,14 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 						Sig.map.invalidateSize();
 					}, 1500);
 				}else{
-					timeoutAddCity = setTimeout(function(){ //alert("zoom");
-											Sig.map.panTo([NE_lat, NE_lng]);
-											Sig.map.setZoom(14); 
-											Sig.map.invalidateSize();
-									}, 1500);
+					Sig.centerPopupMarker([NE_lat, NE_lng], 12);
+					// timeoutAddCity = setTimeout(function(){ //alert("zoom centerrrrr");
+					// 						Sig.centerPopupMarker([NE_lat, NE_lng], 12);
+	
+					// 						/*Sig.map.panTo([NE_lat, NE_lng]);
+					// 						Sig.map.setZoom(14); 
+					// 						Sig.map.invalidateSize();*/
+					// 				}, 1500);
 				}
 				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
@@ -438,8 +450,6 @@ function backToForm(cancel){
 			};
 			copyMapForm2Dynform(locationObj);
 			addLocationToForm(locationObj);
-			
-			
 		}
 		showMap(false);
 		Sig.clearMap();
@@ -522,6 +532,7 @@ function updateLocalityElement(){
 	};
 	if(addressesIndex)
 		locality["addressesIndex"] = addressesIndex ;
+	
 	
 	currentScopeType = "city";
 	addScopeToMultiscope(unikey, locality.address.addressLocality);
