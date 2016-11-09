@@ -1593,7 +1593,8 @@ var typeObj = {
 			    icon : "group",
 			    type : "object",
 			    beforeSave : function(){
-			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -1751,7 +1752,8 @@ var typeObj = {
 			    	
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
-			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
@@ -1980,7 +1982,8 @@ var typeObj = {
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
 			    },beforeSave : function(){
-			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -2081,7 +2084,9 @@ var typeObj = {
 			    	}
 			    },
 			    beforeSave : function(){
-			    	$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
+			    	
+			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
+			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -2203,7 +2208,8 @@ var typeObj = {
 			    icon : "gavel",
 			    type : "object",
 			    beforeSave : function(){
-			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -2315,7 +2321,8 @@ var typeObj = {
 			    icon : "map-marker",
 			    type : "object",
 			    beforeSave : function(){
-			    	$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
