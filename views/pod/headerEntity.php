@@ -351,6 +351,7 @@ $controler = Element::getControlerByCollection($type);
 				<?php if ($type==Person::COLLECTION){ ?>
 				<span class="label label-warning pull-right">
 					<i class="fa fa-bookmark"></i> <a href="javascript:;"  class="explainLink" data-id="explainGamification" style="color:inherit;"> 
+					<?php echo Gamification::badge( (string)$entity["_id"] )." : " ?>
 					<?php echo  @$entity["gamification"]['total'] ? 
 								@$entity["gamification"]['total'] :
 								"0"; 
