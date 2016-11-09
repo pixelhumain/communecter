@@ -386,8 +386,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
+				<div class="col-md-12 no-padding">
+					<hr class="submit">
 				
-				<div class="dropdown col-md-6">
+				<div class="dropdown col-md-6 no-padding">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<?php if (@$private && ($contextParentType==Project::COLLECTION || $contextParentType==Organization::COLLECTION)){ ?>
@@ -424,8 +426,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</li>-->
 					</ul>
 				</div>	
+
+				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
+
 				<?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
-				<div class="dropdown col-md-4 no-padding">
+				<div class="dropdown no-padding pull-right">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
 					<?php if(@$parent["profilThumbImageUrl"]){ ?>
 						<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
@@ -455,7 +460,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>	
 								<?php } ?>
 								<?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
-								<p class="list-group-item-text small"><?php echo "I write in element journal" ?></p>
+								<p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
 							</a>
 						</li>
 					</ul>
@@ -496,9 +501,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<input type="hidden" name="scope" value="private"/>
 
 				<?php } } ?>
-				<div class="col-md-12 no-padding">
-					<hr class="submit">
-					<button id="btn-submit-form" type="submit" class="btn btn-green">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 				</div>
 			</div>
 		</form>
