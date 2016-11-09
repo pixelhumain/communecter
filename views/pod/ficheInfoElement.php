@@ -1447,9 +1447,6 @@ if($showOdesc == true){
 		        	return data.msg;  
 		    }
 		});
-
-	
-		
 	   
 		//Validation Rules
 		//Mandotory field
