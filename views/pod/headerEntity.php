@@ -349,11 +349,13 @@ $controler = Element::getControlerByCollection($type);
 
 			<div class="col-xs-12 no-padding">
 				<?php if ($type==Person::COLLECTION){ ?>
-				<span class="tag label label-warning pull-right">
+				<span class="label label-warning pull-right">
+					<i class="fa fa-bookmark"></i> <a href="javascript:;"  class="explainLink" data-id="explainGamification" style="color:inherit;"> 
 					<?php echo  @$entity["gamification"]['total'] ? 
 								@$entity["gamification"]['total'] :
 								"0"; 
 					?> pts
+					</a>
 				</span>
 				<?php } ?>
 				<div id="divTagsHeader" class="badgePH pull-right">
