@@ -359,13 +359,13 @@ if($('#breadcum').length)
 				)); ?>
 			</div>
 			<?php } ?>
-			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
+			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ ?> 
 			<div class="col-xs-12">
 				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
 						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
 				?>
 	    	</div>	
-	    	<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"])){ ?>
+	    	<?php if( !$type==Event::COLLECTION && ( !@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"]))){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],

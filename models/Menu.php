@@ -395,7 +395,7 @@ class Menu {
         //AROUND ME
         //-----------------------------
         
-        if (! empty($entity["address"])) {
+        if (!empty($entity["address"])) {
             self::entry("left", 'onclick',
                         Yii::t("common","Voir ce qui se trouve autour"),
                         Yii::t("common","A proximité") ,
@@ -403,7 +403,7 @@ class Menu {
                         "loadByHash('#element.aroundme.type.".$type.".id.".$id.".radius.5000')", 
                         $controller, "aroundme", "btn-menu-element btn-menu-element-around");
         }
-        
+       
         //ACTION ROOMS
         //-----------------------------
         /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 

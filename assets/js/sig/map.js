@@ -794,14 +794,23 @@
 
 					this.checkListElementMap(thisMap); 
 					
-					//console.log("fitBounds");
+					console.log("fitBounds", typeof noFitBoundAroundMe);
 					//console.dir(this.markersLayer.getBounds());
-					if( typeof noFitBoundAroundMe != "undefined" && notEmpty(noFitBoundAroundMe) == false &&
-					   "undefined" != typeof this.markersLayer.getBounds() &&
-					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
-						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-						thisMap.zoomOut();
+					if( typeof noFitBoundAroundMe == "undefined" || noFitBoundAroundMe != true){
+						if("undefined" != typeof this.markersLayer.getBounds() &&
+						   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
+							thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							//thisMap.zoomOut();
+						}
 					}
+
+					/*
+					thisMap.setZoom(17, {"animate" : false });
+						   thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							// setTimeout(function(){
+							// 	thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							// }, 1500);
+							*/
 
 					thisSig.constructUI();
 
@@ -839,7 +848,6 @@
 				console.log("initParams", initParams);
 				//initialisation des variables de départ de la carte
 				//TODO not show accessToken here => use conf file or db
-				L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
 				if(canvasId != ""){
 
 					var options = { "zoomControl" : false,
@@ -851,6 +859,7 @@
 									"worldCopyJump" : false };
 
 					if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "mapbox"){
+						L.mapbox.accessToken = initParams["mapboxToken"];
 						var map =  L.mapbox.map(canvasId, 'mapbox.streets', options);
 		    						//.setView([51.505, -0.09], 9);
 	    			}else if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "OSM"){

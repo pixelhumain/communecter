@@ -1439,21 +1439,13 @@ if($showOdesc == true){
 			source:[{value: "true", text: "Oui"}, {value: "false", text: "Non"}],
 			success : function(data, newValue) {
 		        if(data.result) {
-		        	manageAllDayEvent(newValue);
+		        	manageAllDayElement(newValue);
 		        	toastr.success(data.msg);
 					loadActivity=true;	
 		        }
 		        else
 		        	return data.msg;  
-		    },
-		    success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
+		    }
 		});
 
 	
@@ -1474,7 +1466,8 @@ if($showOdesc == true){
 
 		$('#startDate').editable('destroy');
 		$('#endDate').editable('destroy');
-		if (isAllDay == '') {
+		if (isAllDay == "true") {
+			console.log("init Xedit with dd/mm/yyyy");
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 				pk: contextData.id,
@@ -1517,6 +1510,7 @@ if($showOdesc == true){
 
 			formatDate = "YYYY-MM-DD";
 		} else {
+			console.log("init Xedit with dd/mm/yyyy hh:ii");
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 				pk: contextData.id,
