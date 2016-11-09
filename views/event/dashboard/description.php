@@ -752,7 +752,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd',
+				format: 'dd/mm/yyyy',
 				viewformat: 'dd/mm/yyyy',
 				datepicker: {
 					weekStart: 1
@@ -772,7 +772,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd',   
+				format: 'dd/mm/yyyy',   
 	        	viewformat: 'dd/mm/yyyy',
 	        	datepicker: {
 	                weekStart: 1
@@ -786,7 +786,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    }
 	        });
 
-			formatDate = "YYYY-MM-DD";
+			formatDate = "DD/MM/YYYY";
 		} else {
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/event/updatefield", 
@@ -794,7 +794,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "datetime",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
+				format: 'dd/mm/yyyy hh:ii',
 				viewformat: 'dd/mm/yyyy hh:ii',
 				datetimepicker: {
 					weekStart: 1,
@@ -816,7 +816,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				mode: "popup",
 				type: "datetime",
 				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
+				format: 'dd/mm/yyyy hh:ii',
 	        	viewformat: 'dd/mm/yyyy hh:ii',
 	        	datetimepicker: {
 	                weekStart: 1,
@@ -832,11 +832,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    }
 	        });
 
-			formatDate = "YYYY-MM-DD HH:mm";
+			formatDate = "DD/MM/YYYY HH:mm";
 		}
 
-		$('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
-		$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
+		$('#startDate').editable('setValue', moment(startDate, "DD/MM/YYYY HH:mm").format(formatDate), true);
+		$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY HH:mm").format(formatDate), true);
 	}
 
 
