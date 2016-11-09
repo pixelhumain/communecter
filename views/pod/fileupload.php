@@ -123,7 +123,7 @@
 						}
 						$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
-						$(".btn").removeClass("disabled");
+						$(".btn-file").removeClass("disabled");
 						$("#"+contentId+"_fileUpload").fileupload("clear");
 					}
 				}, 200);
