@@ -379,6 +379,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="form-actions no-padding" style="display: block;">
 				
 				<div id="scopeListContainer" class="list_tags_scopes col-md-12 no-padding margin-bottom-10"></div>
+
+				<div class="col-md-12 no-padding">
+					<hr class="submit">
+					
+					<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
+
+
 				<?php if((@$canManageNews && $canManageNews==true) 
 							|| (@Yii::app()->session["userId"] 
 							&& $contextParentType==Person::COLLECTION 
@@ -386,8 +393,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
-				<div class="col-md-12 no-padding">
-					<hr class="submit">
 				
 				<div class="dropdown col-md-6 no-padding">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
@@ -427,8 +432,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</ul>
 				</div>	
 
-				<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
-
+				
 				<?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
 				<div class="dropdown no-padding pull-right">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
@@ -468,6 +472,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</div>	
 					<?php } ?>		
 				<?php } ?>
+
+
 
 				<?php if($type=="city"){ ?>
 					<?php /* ?>
