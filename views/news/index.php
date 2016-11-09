@@ -136,7 +136,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	else if( isset($type) && $type == "pixels"){
 		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
 		//$contextTitle = Yii::t("common", "Contributors of project");
-		$headerName= " Signaler un bug";
+		$headerName= " La foire aux bugs";
+		$topTitle = " La foire aux bugs";
 	}
 
 	$imgProfil = "";
@@ -660,7 +661,11 @@ jQuery(document).ready(function()
 
 	smoothScroll('0px');
 	<?php if(@$topTitle != ""){ ?>
-	setTitle("<?php echo @$headerName; ?>","rss", "<?php echo @$topTitle; ?>");
+		if(contextParentType=="pixels")
+			icon="bullhorn";
+		else
+			icon="rss";
+		setTitle("<?php echo @$headerName; ?>",icon, "<?php echo @$topTitle; ?>");
 	<?php } ?>
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
