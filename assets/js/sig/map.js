@@ -859,7 +859,7 @@
 									"worldCopyJump" : false };
 
 					if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "mapbox"){
-						L.mapbox.accessToken = 'pk.eyJ1IjoiY29tbXVuZWN0ZXIiLCJhIjoiY2lreWRkNzNrMDA0dXc3bTA1MHkwbXdscCJ9.NbvsJ14y2bMWWdGqucR_EQ';
+						L.mapbox.accessToken = initParams["mapboxToken"];
 						var map =  L.mapbox.map(canvasId, 'mapbox.streets', options);
 		    						//.setView([51.505, -0.09], 9);
 	    			}else if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "OSM"){

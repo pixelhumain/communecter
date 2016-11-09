@@ -33,7 +33,7 @@
 		'/js/sig/map_charts.js',
 	);
 
-	if(@$leaflet) array_merge($leaflet, $cssAndScriptFiles);
+	if(@$leaflet) $cssAndScriptFiles = array_merge($leaflet, $cssAndScriptFiles);
 
 	if(isset($sigParams) && isset($sigParams["useChartsMarkers"])){
 		if($sigParams["useChartsMarkers"] == true){ 
