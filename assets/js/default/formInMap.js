@@ -583,9 +583,10 @@ function updateLocalityElement(){
 						$('#iconLocalityyHeader').removeClass("hidden");
 						$('#addressHeader').removeClass("hidden");
 						$(".detailMyCity").attr("href", "#city.detail.insee."+locality.address.codeInsee+".postalCode."+locality.address.postalCode);
+						$("#detailMyCity").parent().find(".discover-subtitle").text("Ma commune");
 						$(".detailMyCity").attr("onclick", "");
 						$(".detailMyCity").removeClass("detailMyCity");
-						$(".detailMyCity").addClass("lbh");
+						$("#detailMyCity").addClass("lbh");
 						$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").hide();
 
 						toastr.success(data.msg);

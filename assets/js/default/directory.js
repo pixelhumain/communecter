@@ -125,7 +125,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
       });
    
     $.ajax({
@@ -214,7 +214,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 bindLBHLinks();
 
                 $.unblockUI();
-				        showMap(false);
+				        //showMap(false);
                 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)

@@ -318,7 +318,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$organizations && count($organizations) > 0){  ?>
+						<?php if(@$organizations && $countOrga > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Organizations") ?></span> 
@@ -326,7 +326,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$events && count($events) > 0){  ?>
+						<?php if(@$events && $countEvent > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Events") ?></span> 
@@ -334,7 +334,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$projects && count($projects) > 0){  ?>
+						<?php if(@$projects && $countProject > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();<?php if($followsProject > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 

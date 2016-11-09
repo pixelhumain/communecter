@@ -563,3 +563,4 @@ In file : pixelhumain/ph/protected/config/paramsconfig.php
 Default params :
   'mapboxActive'      => true, //set to false to disable MapBox on no-local-server = prod || dev || qa (use OSM)
   'forceMapboxActive' => false,//set to true  to use MapBox on local-server
+  'mapboxToken' => '', //pense à mettre le Token sur QA et prod pour utiliser mapbox
