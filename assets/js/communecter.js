@@ -622,9 +622,9 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
-	console.log("IS DIRECTORY ? ", 
-				hash.indexOf("#default.directory"), 
-				location.hash.indexOf("#default.directory"), CoAllReadyLoad);
+	// console.log("IS DIRECTORY ? ", 
+	// 			hash.indexOf("#default.directory"), 
+	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 
 	if( hash.indexOf("#default.directory") >= 0 &&
 		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
