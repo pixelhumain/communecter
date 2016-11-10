@@ -457,7 +457,7 @@
 			}
 			var imgProfilPath =  assetPath + "/images/thumb/default_"+defaultType+".png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
-				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
+				imgProfilPath = baseUrl + element.author.profilImageUrl;
 			if(typeof element.profilThumbImageUrl !== "undefined" && element.profilThumbImageUrl != "") 
 				imgProfilPath =  baseUrl + element.profilThumbImageUrl;
 			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
