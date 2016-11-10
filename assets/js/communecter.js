@@ -2128,6 +2128,8 @@ var typeObj = {
 			            			    
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #survey").val( contextData.id );
 								    } );
 			            		}
 			            		/*$("#survey").change(function() { 
@@ -2253,9 +2255,10 @@ var typeObj = {
 			            			    console.dir(window.myActionsList);
 			            			    html = buildSelectGroupOptions(window.myActionsList);
 										$("#room").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #room").val( contextData.id );
 								    } );
 			            		}
-
 		            		}
 		            	},
 		            	custom : "<br/><span class='text-small'>Une thématique est un espace d'action lié à une ville, une organisation ou un projet </span>"
