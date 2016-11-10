@@ -1479,7 +1479,8 @@ if($showOdesc == true){
 				success : function(data) {
 					if(data.result) {
 						toastr.success(data.msg);
-						loadActivity=true;	
+						loadActivity=true;
+						updateCalendar();
 					}else 
 						return data.msg;
 			    }
@@ -1499,7 +1500,8 @@ if($showOdesc == true){
 	           success : function(data) {
 			        if(data.result) {
 			        	toastr.success(data.msg);
-						loadActivity=true;	
+						loadActivity=true;
+						updateCalendar();	
 			        }else 
 						return data.msg;
 			    }
@@ -1524,7 +1526,8 @@ if($showOdesc == true){
 				success : function(data) {
 					if(data.result) {
 						toastr.success(data.msg);
-						loadActivity=true;	
+						loadActivity=true;
+						updateCalendar();
 					}else 
 						return data.msg;
 			    }
@@ -1546,7 +1549,9 @@ if($showOdesc == true){
 	           success : function(data) {
 			        if(data.result) {
 			        	toastr.success(data.msg);
-						loadActivity=true;	
+						loadActivity=true;
+						updateCalendar();
+						
 			        }else 
 						return data.msg;
 			    }
@@ -1558,6 +1563,12 @@ if($showOdesc == true){
 			$('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
 		if(endDate != "")
 			$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
+	}
+
+	function updateCalendar() {
+		if(contextData.type == "<?php echo Event::COLLECTION;?>"){
+			getAjax(".calendar",baseUrl+"/"+moduleId+"/event/calendarview/id/"+contextData.id +"/pod/1?date=1",null,"html");
+		}
 	}
 
 	function returnttags() {
