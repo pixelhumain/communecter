@@ -2119,9 +2119,8 @@ var typeObj = {
 				            			    	window.myVotesList[ v.parentType].options = {}
 				            			    }else{
 				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
-				            			    		//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
+				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
 				            			    }
-				            			    
 			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
 			            			    //run through myContacts to fill parent names 
@@ -2137,7 +2136,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	//<custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2207,6 +2206,13 @@ var typeObj = {
 			    title : "Ajouter une action",
 			    icon : "gavel",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    		$("#ajaxFormModal #room").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
 			    beforeSave : function(){
 			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
 			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
@@ -2252,8 +2258,7 @@ var typeObj = {
 
 		            		}
 		            	},
-
-		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace d'action lié à une ville, une organisation ou un projet </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2288,7 +2293,7 @@ var typeObj = {
 		            },
 		            urls : {
 		                "inputType" : "array",
-		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "placeholder" : "url",
 		                "value" : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
@@ -2307,6 +2312,14 @@ var typeObj = {
 		            	inputType : "hidden",
 		            	value : "action"
 		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
 			    }
 			}
 		} },
@@ -2627,14 +2640,17 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
         //url to match in the text field
         var $this = $(this);
         if($this.parents().eq(nbParent).find(appendClassName).html()=="" || (e.which==32 || e.which==13)){
-	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,8})+)(/(.)*)?(\\?(.)*)?");
-	        if (match_url.test(getUrl.val())) {
+
+	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+	        if (match_url.test(getUrl.val())) 
+	        {
 		        console.log(getUrl.val().match(match_url));
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
 			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
 		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
 	                //$this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
 	                $this.parents().eq(nbParent).find(".loading_indicator").show(); //show loading indicator image
+
 	                //ajax request to be sent to extract-process.php
 	                //alert(extracted_url);
 	                lastUrl=extracted_url;
@@ -2679,7 +2695,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
 		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site ou un problème est survenu à son extraction");
 		                    if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0)
-								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide!</span>" );         	
+								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
@@ -2693,7 +2709,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 	                });
 				}
         	} else if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0){
-				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide!</span>" );         	
+				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
         	}
         }
     }); 
