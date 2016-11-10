@@ -2627,21 +2627,21 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
         //url to match in the text field
         var $this = $(this);
         if($this.parents().eq(nbParent).find(appendClassName).html()=="" || (e.which==32 || e.which==13)){
-	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,8})+)(/(.)*)?(\\?(.)*)?");
 	        if (match_url.test(getUrl.val())) {
 		        console.log(getUrl.val().match(match_url));
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
 			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
 		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
 	                //$this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
-	                $(".loading_indicator").show(); //show loading indicator image
+	                $this.parents().eq(nbParent).find(".loading_indicator").show(); //show loading indicator image
 	                //ajax request to be sent to extract-process.php
 	                //alert(extracted_url);
 	                lastUrl=extracted_url;
 	                extracted_url_send=extracted_url;
 	                if(extracted_url_send.indexOf("http")<0)
 	                	extracted_url_send = "http://"+extracted_url;
-	                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
+	               // $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
 	                $.ajax({
 						url: baseUrl+'/'+moduleId+"/news/extractprocess",
 						data: {'url': extracted_url_send},
@@ -2655,14 +2655,17 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                   //$("#results").html(content); 
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content).slideDown();
 		                    //$this.parents().eq(nbParent).slideDown();
+		                    if($this.parent().find(".dynFormUrlsWarning").length > 0)
+			                   $this.parent().find(".dynFormUrlsWarning").remove(); 
+		                    
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
 							    $trigger.trigger("input");
 							});
-	//append received data into the element
+							//append received data into the element
 		                    //$("#results").slideDown(); //show results with slide down effect
-		                    $(".loading_indicator").hide(); //hide loading indicator image
+		                    $this.parents().eq(nbParent).find(".loading_indicator").hide(); //hide loading indicator image
 	                	},
 						error : function(){
 							$.unblockUI();
@@ -2674,7 +2677,9 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                    $this.parents().eq(nbParent).find(appendClassName).hide();
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content);
 		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
-		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site");
+		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site ou un problème est survenu à son extraction");
+		                    if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0)
+								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide!</span>" );         	
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
@@ -2683,10 +2688,12 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 
 		                    //$("#results").html(content); //append received data into the element
 		                    //$("#results").slideDown(); //show results with slide down effect
-		                    $(".loading_indicator").hide(); //hide loading indicator image
+		                    $this.parents().eq(nbParent).find(".loading_indicator").hide(); //hide loading indicator image
 						}	
 	                });
 				}
+        	} else if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0){
+				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide!</span>" );         	
         	}
         }
     }); 
@@ -2701,8 +2708,8 @@ function getMediaCommonHtml(data,action,id){
     if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
         if (data.content.videoLink){
             extractClass="extracted_thumb";
-            width="100";
-            height="100";
+            width="100%";
+            height="100%";
 
             aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
             inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
@@ -2726,7 +2733,7 @@ function getMediaCommonHtml(data,action,id){
 		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
-        inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo;
+        inc_image = '<div class="'+extractClass+'  col-xs-4 no-padding" id="extracted_thumb">'+aVideo;
         if(data.content.type=="img_link"){
 	        if(typeof(data.content.imageId) != "undefined"){
 		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+id+"' value='"+data.content.imageId+"'/>";
