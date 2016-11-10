@@ -2208,8 +2208,8 @@ var typeObj = {
 			    icon : "gavel",
 			    type : "object",
 			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
+			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {
