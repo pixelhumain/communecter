@@ -352,7 +352,7 @@ function modifyNews(idNews){
 		message += "<input type='text' id='textarea-edit-title"+idNews+"' class='form-control margin-bottom-5' style='text-align:left;' placeholder='Titre du message' value='"+commentTitle+"'>";
 	 	
 	 	message += "<div id='container-txtarea-news-"+idNews+"'>";
-		message += 	"<textarea id='textarea-edit-news"+idNews+"' class='form-control' placeholder='modifier votre message'>"+commentContent+"</textarea>"+
+		message += 	"<textarea id='textarea-edit-news"+idNews+"' class='form-control newsContentEdit' placeholder='modifier votre message'>"+commentContent+"</textarea>"+
 				   "</div>";
 	var boxComment = bootbox.dialog({
 	  message: message,
