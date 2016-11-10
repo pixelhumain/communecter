@@ -2668,11 +2668,12 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 							$.unblockUI();
 							//toastr.error(trad["wrongwithurl"] + " !");
 							//content to be loaded in #results element
-							var content = '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-times"></i></a><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl wrongUrl">'+extracted_url+'</a></h4>';
+							var content = '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-refresh"></i></a><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl wrongUrl">'+extracted_url+'</a></h4>';
 		                    //load results in the element
 		                    $this.parents().eq(nbParent).find(appendClassName).hide();
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content);
 		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
+		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site");
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
