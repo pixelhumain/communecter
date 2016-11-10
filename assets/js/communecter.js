@@ -2633,7 +2633,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
 			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
 		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-	                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
+	                //$this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
 	                $(".loading_indicator").show(); //show loading indicator image
 	                //ajax request to be sent to extract-process.php
 	                //alert(extracted_url);
@@ -2667,6 +2667,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 						error : function(){
 							$.unblockUI();
 							//toastr.error(trad["wrongwithurl"] + " !");
+
 							//content to be loaded in #results element
 							var content = '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-refresh"></i></a><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl wrongUrl">'+extracted_url+'</a></h4>';
 		                    //load results in the element
