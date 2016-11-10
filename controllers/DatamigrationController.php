@@ -937,12 +937,14 @@ class DatamigrationController extends CommunecterController {
 					foreach(@$elt["links"] as $typeLinks => $links){
 
 						foreach(@$links as $keyLink => $link){
-							$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
-							if(empty($eltL)){
-								$find = true;
-			                    unset($links[$keyLink]);
+							if(!empty($link["type"])){
+								$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
+								if(empty($eltL)){
+									$find = true;
+				                    unset($links[$keyLink]);
+								}
+								$newLinks[$typeLinks] = $links;
 							}
-							$newLinks[$typeLinks] = $links;
 						}
 					}
 					if($find == true){
