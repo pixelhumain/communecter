@@ -341,7 +341,10 @@ function smoothScroll(scroolTo){
 
 function modifyNews(idNews){
 	//switchModeEdit(id);
-	var commentContent = $('.newsContent[data-pk="'+idNews+'"] .allText').html();
+	if($('.newsContent[data-pk="'+idNews+'"] .allText').length)
+		var commentContent = $('.newsContent[data-pk="'+idNews+'"] .allText').html();
+	else
+		var commentContent = $('.newsContent[data-pk="'+idNews+'"] .timeline_text').html();
 	var commentTitle = $('.newsTitle[data-pk="'+idNews+'"] .timeline_title').html();
 	console.log("commentTitle", commentTitle);
 	var message = "";
