@@ -2623,10 +2623,10 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
     });
     var getUrl  = $(className); //url to extract from text field
     var appendClassName = appendClassName;
-    getUrl.bind("input keyup",function() { //user types url in text field        
+    getUrl.bind("input keyup",function(e) { //user types url in text field        
         //url to match in the text field
         var $this = $(this);
-        if($this.parents().eq(nbParent).find(appendClassName).html()==""){
+        if($this.parents().eq(nbParent).find(appendClassName).html()=="" || (e.which==32 || e.which==13)){
 	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
 	        if (match_url.test(getUrl.val())) {
 		        console.log(getUrl.val().match(match_url));
@@ -2638,11 +2638,13 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 	                //ajax request to be sent to extract-process.php
 	                //alert(extracted_url);
 	                lastUrl=extracted_url;
+	                extracted_url_send=extracted_url;
+	                if(extracted_url_send.indexOf("http")<0)
+	                	extracted_url_send = "http://"+extracted_url;
 	                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
 	                $.ajax({
 						url: baseUrl+'/'+moduleId+"/news/extractprocess",
-						data: {
-						'url': extracted_url},
+						data: {'url': extracted_url_send},
 						type: 'post',
 						dataType: 'json',
 						success: function(data){        

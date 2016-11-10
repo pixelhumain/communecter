@@ -543,7 +543,7 @@ var contextMap = [];
 <?php } else { ?>
 	var loadAllLinks=true;
 <?php } ?>
-var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextType = <?php echo json_encode($type)?>;
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
 if(contextType == "<?php echo Person::COLLECTION ?>")
@@ -635,7 +635,7 @@ jQuery(document).ready(function() {
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
 			type: 'POST',
-			data:{ "links" : elementLinks },
+			//data:{ "links" : elementLinks },
 			cache: true,
 			dataType: "json",
 			success: function (obj){
@@ -660,15 +660,12 @@ jQuery(document).ready(function() {
 		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		//mapUrl["directory"]["data"] = {"links" : contextMap};
-		Sig.restartMap();
+		//Sig.restartMap();
+		console.log(contextMap);
 		Sig.showMapElements(Sig.map, contextMap);	
 		//$(".communityBtn").removeClass("hide");
 	}
-	// Init Chart
-	if(contextType == "<?php echo Project::COLLECTION ?>"){
-		
-	}
-	console.log(element);
+
 	if(typeof(element.address) != "undefined" && element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");

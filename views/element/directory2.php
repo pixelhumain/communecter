@@ -1013,6 +1013,12 @@ function bindBtnEvents(){
     								if(data.removeMeAsAdmin){
 										loadByHash(location.hash);
     								}
+    								if(typeof(mapUrl) != "undefined"){
+										if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+											mapUrl.detail.load = false;
+										if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+											mapUrl.directory.load = false;
+									}
 									//  $(this).toggleClass('active');
 									//	alert(nbItem);
 						        } else {
