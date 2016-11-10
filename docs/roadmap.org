@@ -43,7 +43,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] modifications page directory
       [X] ajout Debat & Action dans le globalSearch
       [X] création de la page recherche commune
-    [ ] Page commune : modif header btn search
+      [X] integration design notragora
+    [X] Page commune : modif header btn search
+    [X] Dashboard responsive
+
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)
     [X] delete person : 
