@@ -394,8 +394,7 @@ class Menu {
 
         //AROUND ME
         //-----------------------------
-        
-        if (!empty($entity["address"])) {
+        if (!empty($element["geo"])) {
             self::entry("left", 'onclick',
                         Yii::t("common","Voir ce qui se trouve autour"),
                         Yii::t("common","A proximité") ,
