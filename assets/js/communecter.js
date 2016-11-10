@@ -2468,8 +2468,8 @@ function globalSearch(searchValue,types){
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-users'></i>";
 				if(elem.type){
-				typeIco = elem.type;
-				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
+					typeIco = elem.type;
+					htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
 				}
 				where = "";
 				if (elem.address != null) {
@@ -2482,14 +2482,14 @@ function globalSearch(searchValue,types){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
 				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span>  " + elem.name+where+
+							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
 						"</a>";
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
 			
 			if (compt > 0) {
-				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cet élément n'existe pas déjà : </div>"+str);
 				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
