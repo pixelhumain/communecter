@@ -9,7 +9,8 @@ $arrayLabel=array(
 	"description" => Yii::t("common","the description"),
 	"tags" => Yii::t("common","the tags"),
 	"type" => Yii::t("common","the type"),
-	"address" => Yii::t("common","the city"),
+	"address" => Yii::t("common","the main locality"),
+	"addresses" => Yii::t("common","a second locality"),
 	"address.streetAddress" => Yii::t("common","the street"),
 	"address.addressCountry" => Yii::t("common","the country"),
 	"geo" => Yii::t("common","the position"),
@@ -55,6 +56,8 @@ $countries= OpenData::getCountriesList();
 					$action = Yii::t("common", "has added");
 				else if($value["verb"]==ActStr::VERB_CREATE)
 					$action = Yii::t("common", "has created");
+				else if($value["verb"]==ActStr::VERB_DELETE)
+					$action = Yii::t("common", "has deleted");
 			?>
 				<div class='col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">
 					<?php echo "<i class='fa fa-clock-o'></i> ".date("d/m/y H:i",$value["date"]->sec)."<br/>".
@@ -65,8 +68,23 @@ $countries= OpenData::getCountriesList();
 						if ($value["verb"]!=ActStr::VERB_CREATE)
 							echo $contextTypeLabel;
 						echo ": <span style='color: #21b384;'>";
-						if($value["object"]["displayName"]=="address")
-							echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
+						if($value["object"]["displayName"]=="address" || $value["object"]["displayName"]=="addresses"){
+							if(@$value["object"]["displayValue"]){
+								if (@$value["object"]["displayValue"]["address"]){
+									$address = $value["object"]["displayValue"]["address"];
+									$geo = @$value["object"]["displayValue"]["geo"];
+									if(!empty($address["streetAddress"]))
+										echo $address["streetAddress"].", " ;
+									if(!empty($address["postalCode"]))
+										echo $address["postalCode"].", " ;
+									echo $address["addressLocality"] ;
+									echo ", ".OpenData::$phCountries[$address["addressCountry"]] ;
+									echo " <i class='fa fa-globe fa_addressCountry'></i> ( ".@$geo["latitude"]."/".@$geo["longitude"].") ";
+								}
+							}
+						}
+							//echo $value["object"]["displayValue"];
+							//echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
 						else if($value["object"]["displayName"]=="address.addressCountry"){
 							foreach($countries as $country){
 								if($country["value"]==$value["object"]["displayValue"])

@@ -733,6 +733,7 @@ class DatamigrationController extends CommunecterController {
 	}
 
 
+
 	public function actionUpdatePreferences() {
 		$nbUser = 0;
 		$preferencesUsers = array(
@@ -758,6 +759,207 @@ class DatamigrationController extends CommunecterController {
 		}
 
 		echo "Number of user with preferences modified : ".$nbUser;
+	}
+
+	public function actionUpdateCitiesBelgique() {
+		/*$cities = PHDB::find(City::COLLECTION, array("country" => "BEL"));
+
+		foreach ($cities as $key => $city) {
+			$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"country" => "BE",
+												"insee" => substr($city["insee"], 0, 5)."*BE",
+												"dep" => substr($city["dep"], 0, 2)."*BE",
+												"region" => substr($city["region"], 0, 2)."*BE"))
+
+                    );
+		}*/
+
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+
+		foreach ($types as $keyType => $type) {
+			$elts = PHDB::find($type, array("address.addressCountry" => "BEL"));
+
+			foreach ($elts as $key => $elt) {
+				if(!empty($elt["address"]["codeInsee"])){
+					$newAddress = $elt["address"];
+					$newAddress["addressCountry"] = "BE";
+					$newAddress["codeInsee"] = substr($newAddress["codeInsee"], 0, 5)."*BE";
+
+					$res = PHDB::update($type, 
+						  	array("_id"=>new MongoId($key)),
+	                        array('$set' => array(	"address" => $newAddress ))
+	                    );
+				}
+				
+			}
+		}
+		echo "good" ;
+		
+	}
+
+
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) == 1){
+				
+
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					if(trim($cp["name"]) != trim($name)){
+						$find =true;
+						$cp["name"] = $name ;
+						$postalCodes[$keyCP] =  $cp ;
+					}
+
+
+				}
+
+				if($find == true){
+					$nbcities ++ ;
+					$res = PHDB::update( City::COLLECTION, 
+					  	array("_id"=>new MongoId($key)),
+                        array('$set' => array(	"postalCodes" => $postalCodes ))
+
+                    );
+				}
+			}			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+
+	}
+
+
+	public function actionAddGeoPosition(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+
+			$elements = PHDB::find($type, array("geoPosition" => array('$exists' => 0), "geo" => array('$exists' => 1)));
+			foreach ($elements as $key => $elt) {
+				if(!empty($elt["geo"])){
+					if(!empty($elt["geo"]["longitude"]) && !empty($elt["geo"]["latitude"])){
+						$geoPosition = array("type"=>"Point", 
+										"coordinates" => array(floatval($elt["geo"]["longitude"]), floatval($elt["geo"]["latitude"])));
+						$elt["modifiedByBatch"][] = array("addGeoPosition" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($key)),
+	                        array('$set' => array(	"geoPosition" => $geoPosition,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])), 
+	                        array('upsert' => true ));
+	                    $nbelement ++ ;
+					}else{
+						echo  $type." id : " .$key." : pas de longitude ou de latitude<br>" ;
+					}	
+				}else{
+					echo  $type." id : " .$key." : pas de geo <br>" ;
+				}
+
+			}
+
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+
+	}
+
+
+	public function actionDeleteLinksHimSelf(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
+			foreach ($elements as $keyElt => $elt) {
+				if(!empty($elt["links"])){
+					$find = false;
+					$newLinks = array();
+					foreach(@$elt["links"] as $typeLinks => $links){
+						if(array_key_exists ($keyElt , $links)){
+							$find = true;
+		                    unset($links[$keyElt]);
+						}
+						$newLinks[$typeLinks] = $links;
+					}
+
+					if($find == true){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("deleteLinksHimSelf" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($keyElt)),
+	                        array('$set' => array(	"links" => $newLinks,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						echo "Suppression du link pour le type : ".$type." et l'id ".$keyElt;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+
+	public function actionUpdateCitiesBelgiqueGeo() {
+		ini_set('memory_limit', '-1');
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbelement= 0 ;
+		foreach ($cities as $key => $city) {
+			$find = false ;
+			$newCPs = array();
+			foreach ($city["postalCodes"] as $keyPC => $cp) {
+				if(empty($cp["geo"])){
+					$find = true ;
+					$cp["geo"] = $city["geo"];
+					$cp["geoPosition"] = $city["geoPosition"];
+				}
+				$newCPs[] = $cp;
+			}
+			if($find == true){
+				$nbelement ++ ;
+				$res = PHDB::update( City::COLLECTION, 
+			  		array("_id"=>new MongoId($key)),
+                	array('$set' => array("postalCodes" => $newCPs)));
+			}
+		}
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+
+	public function actionDeleteLinksDeprecated(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
+			foreach (@$elements as $keyElt => $elt) {
+				if(!empty($elt["links"])){
+					$find = false;
+					$newLinks = array();
+					foreach(@$elt["links"] as $typeLinks => $links){
+
+						foreach(@$links as $keyLink => $link){
+							if(!empty($link["type"])){
+								$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
+								if(empty($eltL)){
+									$find = true;
+				                    unset($links[$keyLink]);
+								}
+								$newLinks[$typeLinks] = $links;
+							}
+						}
+					}
+					if($find == true){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("deleteLinksDeprecated" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($keyElt)),
+	                        array('$set' => array(	"links" => $newLinks,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						echo "Suppression de link  deprecated pour le type : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
 }

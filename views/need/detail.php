@@ -1,6 +1,6 @@
 <?php 
 if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "need".(string)$need["_id"]));  
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $parentType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "need".(string)$need["_id"]));  
 ?>
 
 <div class="row" id="need<?php echo (string)$need["_id"] ?>">

@@ -1,5 +1,7 @@
 
-<?php  HtmlHelper::registerCssAndScriptsFiles(array('/css/default/live.css','/js/default/live.js'), $this->module->assetsUrl); ?>
+<?php  
+  	HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/live.css'), Yii::app()->theme->baseUrl);
+	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/live.js'), $this->module->assetsUrl); ?>
 
 <div class="row headerHome">
 <?php 
@@ -99,11 +101,15 @@ var liveScopeType = "global";
 	searchType = $.merge(allNewsType, searchType);
 <?php } ?>
 
+var loadContent = '<?php echo @$_GET["content"]; ?>';
 jQuery(document).ready(function() {
+	//$("#falseInput").on('load',function(){
+			//});
+	
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];
-	else liveType = ", la boite à outil citoyenne connecté " + liveType;
+	else liveType = ", la boite à outils citoyenne connectée " + liveType;
 
 	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
@@ -171,7 +177,7 @@ function loadLiveNow () {
       "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
       "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
       "indexMin" : 0, 
-      "indexMax" : 40 
+      "indexMax" : 10 
     };
 
     
@@ -265,7 +271,20 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
 			showTagsScopesMin(".list_tags_scopes");
-			showFormBlock(false);
+			if(loadContent != ''){
+				if(userId){
+					showFormBlock(true);
+					if(loadContent.indexOf("%hash%"))
+						loadContent = loadContent.replace("%hash%", "#");
+					$("#get_url").val(loadContent);
+					$("#get_url").trigger("input");
+				}
+				else {
+					toastr.error('you must be loggued to post on communecter!');
+				}
+			}
+			else
+				showFormBlock(false);
 			bindTags();
 			//$("#newLiveFeedForm").hide();
 	 	},"html");

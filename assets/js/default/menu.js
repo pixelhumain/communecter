@@ -207,7 +207,7 @@ function bindEventMenu(){
     $(".btn-geoloc-auto").click(function(e){
 		//console.log("cookie", $.cookie('inseeCommunexion'));
     	if($.cookie('inseeCommunexion')){
-    		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
+    		//loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
     	}else{
     		if(geolocHTML5Done == false){
 				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		

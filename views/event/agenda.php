@@ -1,7 +1,7 @@
 <?php 
 $cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' , CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' , CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-calendar.js' , CClientScript::POS_END);
 ?>
 

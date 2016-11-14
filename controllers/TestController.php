@@ -614,14 +614,14 @@ db.getCollection('citoyens').find({'geoPosition.coordinates': {
   public function actionHelper() {
   	$cssAnsScriptFiles = array(
 		//dropzone
-		'/assets/plugins/dropzone/downloads/css/ph.css',
-		'/assets/plugins/dropzone/downloads/dropzone.min.js',
+		'/plugins/dropzone/downloads/css/ph.css',
+		'/plugins/dropzone/downloads/dropzone.min.js',
 		//lightbox
-		'/assets/plugins/lightbox2/css/lightbox.css',
-		'/assets/plugins/lightbox2/js/lightbox.min.js'
+		'/plugins/lightbox2/css/lightbox.css',
+		'/plugins/lightbox2/js/lightbox.min.js'
 	);
 
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->baseUrl);
   }  
 
   public function actionAverageComment() {
@@ -1237,6 +1237,75 @@ La vie en santé;Santé;;
 			var_dump(@$value["name"]);
 			echo "<br/>";
 		}
+	}
+
+
+	public function actionCheckGeoShape(){
+		Import::checkGeoShape();
+	}
+
+	public function actionCheckGeo(){
+		Import::checkGeo();
+	}
+
+	public function actionCheckGeoPostalCodes(){
+		Import::checkGeoPostalCode();
+	}
+
+	public function actionDepRegion(){
+		$where = array("country" => "BEL");
+        $cities = PHDB::find(City::COLLECTION, $where);
+
+        $dep = array() ;
+        $region = array() ;
+
+        $depS = "" ;
+        $regionS = "" ;
+
+        foreach ($cities as $key => $value) {
+        	if(!in_array($value["region"], $region)){
+        		$region[] = $value["region"];
+        		$regionS .= '"'.$value["regionName"].'" => array("'.$value["regionName"].'","'.$value["region"].'"), <br/>';
+        	}
+
+        	if(!in_array($value["dep"], $dep)){
+        		$dep[] = $value["dep"];
+        		$depS .= '"'.$value["depName"].'" => array("'.$value["depName"].'","'.$value["dep"].'"), <br/>';
+        	}
+        }
+
+        echo $depS ;
+        echo "<br><br>";
+        echo $regionS;
+	}
+
+
+	public function actionCheckNameBelgique(){
+		$cities = PHDB::find(City::COLLECTION, array("country" => "BE"));
+		$nbcities = 0 ;
+		$str = "" ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$find = false ;
+			if(count($city["postalCodes"]) > 1){
+				foreach ($city["postalCodes"] as $keyCP => $cp) {
+					//echo  $cp["name"]." : " .$name."<br>" ;
+					if(trim($cp["name"]) == trim($name)){
+						$find =true;
+					}
+				}
+
+				if($find == false){
+					$nbcities++;
+					$str .=  $key." : ".$name."<br>" ;
+				}
+			}
+			
+
+			
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+		echo $str;
 	}
 
 }

@@ -10,14 +10,20 @@ class MailmanagementController extends CommunecterController {
   
 
 	protected function beforeAction($action) {
-	    parent::initPage();
+	    //Check hook come from mailgun
+	    $mailgunCheck = true;
+	    if (! $mailgunCheck) {
+	    	//TODO SBAR : add notification for SuperAdmin
+
+	    	throw new CommunecterException("It seems that the hook has been launch by someone else than mailgun");
+	    }
 	    return parent::beforeAction($action);
 	}
 
 	public function actions()
 	{
 	    return array(
-	        'droppedmailaction'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction'
+	        'droppedmail'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction'
 	    );
 	}
 }

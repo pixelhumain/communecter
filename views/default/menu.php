@@ -4,13 +4,8 @@
     	$me = Person::getById(Yii::app()->session['userId']);
     	$newsToModerate = count(News::getNewsToModerate());
 
-
-
-    $cssAnsScriptFilesModule = array(
-		'/css/default/menu.css',
-		'/js/default/menu.js',
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+    HtmlHelper::registerCssAndScriptsFiles(array('/assets/css/default/menu.css', Yii::app()->theme->baseUrl));
+	HtmlHelper::registerCssAndScriptsFiles(array('/js/default/menu.js'), $this->module->assetsUrl);
 ?>
 <?php 
 	$inseeCommunexion = "";

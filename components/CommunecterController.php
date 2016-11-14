@@ -100,8 +100,9 @@ class CommunecterController extends Controller
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
       "createfile" => array("href" => "/ph/communecter/admin/createfile"),
-
+      "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
     ),
+    
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
@@ -405,6 +406,8 @@ class CommunecterController extends Controller
       "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
       "aroundme"    => array("href" => "/ph/communecter/element/aroundme"),
       "save" => array("href" => "/ph/communecter/element/save"),
+      "get" => array("href" => "/ph/communecter/element/get"),
+      "delete" => array("href" => "/ph/communecter/element/delete"),
     ),
   );
 

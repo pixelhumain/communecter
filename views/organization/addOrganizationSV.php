@@ -2,13 +2,13 @@
 <?php 
 $cssAnsScriptFilesTheme = array(
 	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/autosize/jquery.autosize.min.js',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 $cssAnsScriptFilesModule = array(
 	//Data helper
 	'/js/dataHelpers.js'
@@ -323,7 +323,7 @@ var formValidator = function() {
 				required : true
 			},
 			postalCode : {
-				rangelength : [5, 5],
+				rangelength : [4, 5],
 				required : true,
 				validPostalCode : true
 			}
@@ -573,7 +573,7 @@ jQuery(document).ready(function() {
 		});
 
 		var searchValue = $('#organizationForm #postalCode').val();
-		if(searchValue.length == 5) {
+		if(searchValue.length <= 5) {
 			$("#city").empty();
 
 			clearTimeout(timeout);

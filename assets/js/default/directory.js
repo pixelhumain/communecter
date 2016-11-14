@@ -67,12 +67,9 @@ function addSearchType(type){
     //$(".search_"+type).removeClass("active"); //fa-circle-o");
     $(".search_"+type).addClass("active"); //fa-check-circle-o");
   }
-
-  if(type == "persons") { $(".subtitle-search").html('<span class="text-yellow homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-user"></i> Liste des citoyens</span>') }
-  if(type == "organizations") { $(".subtitle-search").html('<span class="text-green homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-group"></i> Liste des organisations</span>') }
-  if(type == "events") { $(".subtitle-search").html('<span class="text-orange homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-calendar"></i> Liste des événements</span>') }
-  if(type == "projects") { $(".subtitle-search").html('<span class="text-purple homestead"><i class="fa fa-angle-down"></i> <i class="fa fa-lightbulb-o"></i> Liste des projets</span>') }
 }
+
+
 function removeSearchType(type){
   var index = searchType.indexOf(type);
   if (index > -1 && searchType.length > 1) {
@@ -129,7 +126,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
       });
    
     $.ajax({
@@ -161,134 +158,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
               //parcours la liste des résultats de la recherche
               console.dir(data);
-              $.each(data, function(i, o) {
-                  var typeIco = i;
-                  var ico = mapIconTop["default"];
-                  var color = mapColorIconTop["default"];
-
-                  mapElements.push(o);
-
-  				        typeIco = o.type;
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-                  
-                  var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
-                 	if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>"
-                  }
-
-                  city="";
-
-                  var postalCode = o.cp
-                  if (o.address != null) {
-                    city = o.address.addressLocality;
-                    postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                  }
-                  
-                  //console.dir(o);
-                  var id = getObjectId(o);
-                  var insee = o.insee ? o.insee : "";
-                  type = typeObj[o.type].col;
-                  // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
-                  //type += "s";
-                  var url = '#news.index.type.'+type+'.id.' + id;
-                  if(type == "citoyens") url += '.viewer.' + userId;
-                  if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
-
-                  //if(type=="citoyen") type = "person";
-                 
-                  var onclick = 'loadByHash("' + url + '");';
-
-                  var onclickCp = "";
-                  var target = " target='_blank'";
-                  var dataId = "";
-                  if(type == "city"){
-                  	url = "javascript:"; //#main-col-search";
-                  	onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                  	onclickCp = 'setScopeValue($(this));';
-                  	target = "";
-                    dataId = o.name; //.replace("'", "\'");
-                  }
-
-                  var tags = "";
-                  if(typeof o.tags != "undefined" && o.tags != null){
-          					$.each(o.tags, function(key, value){
-          						if(value != "")
-  		                tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
-  		              });
-                  }
-
-                  var name = typeof o.name != "undefined" ? o.name : "";
-                  var postalCode = (typeof o.address != "undefined" &&
-                  				  typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-                  
-                  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                  var cityName = (typeof o.address != "undefined" &&
-                  				typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-                  
-                  var fullLocality = postalCode + " " + cityName;
-
-                  var description = (typeof o.shortDescription != "undefined" &&
-                  					o.shortDescription != null) ? o.shortDescription : "";
-                  if(description == "") description = (typeof o.description != "undefined" &&
-                  									 o.description != null) ? o.description : "";
-           
-                  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-
-                  //template principal
-                  str += "<div class='col-md-12 searchEntity no-padding'>";
-
-                    
-                    if(userId != null){
-                        isFollowed=false;
-                        str += "<div class='col-md-1 col-sm-1 col-xs-1' style='max-width:40px;'>";
-                        if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                        if(type!="cities" && id != userId && userId != null && userId != ""){
-                          tip = (type == "events") ? "Participer" : 'Suivre';
-                          str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
-                                'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
-                                " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                                    "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                                  "</a>";
-                        }
-                        str += '</div>';
-                      }
-
-                    
-  	                str += "<div class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>";
-
-                    str += "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
-  	                str += "</div>";
-  					         target = "";
-
-                     
-
-                      
-  	                str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
-  	                	
-                      str += "<a href='"+url+"' "+target+" class='entityName text-dark lbh'>" + name + "</a>";
-                      
-                      if(fullLocality != "" && fullLocality != " ")
-  	                	str += "<a href='"+url+"' "+target+ ' data-id="' + dataId + '"' + "  class='entityLocality lbh'><i class='fa fa-home'></i> " + fullLocality + "</a>";
-  	                	if(startDate != null)
-  	                	str += "<div class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</div>";
-  	                	if(endDate != null)
-  	                	str += "<div  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</div>";
-  	                	if(description != "")
-  	                	str += "<div class='entityDescription'>" + description + "</div>";
-  	                //str += "</div>";
-
-                    //str += "<div class='col-md-8 col-sm-10 entityRight no-padding'>";
-                      
-                      str += tags;
-              
-                    str += "</div>";
-
-                    
-  	                					
-  				        str += "</div>";
-              }); //end each
+              str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
 	              $.unblockUI();
@@ -296,10 +166,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   $(".btn-start-search").html("<i class='fa fa-refresh'></i>"); 
                   if(indexMin == 0){
                     //ajout du footer   
-                    var msg = "Aucun résultat";    
-                    if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>"; 
-                    str += '<div class="center" id="footerDropdown">';
-                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</label><br/>";
+                    var msg = "<i class='fa fa-ban'></i> Aucun résultat";    
+                    if(name == "" && locality == "") msg = "<h3 class='text-dark padding-20'><i class='fa fa-keyboard-o'></i> Préciser votre recherche pour plus de résultats ...</h3>"; 
+                    str += '<div class="pull-left col-md-12 text-left" id="footerDropdown" style="width:100%;">';
+                    str += "<hr style='float:left; width:100%;'/><h3 style='margin-bottom:10px; margin-left:15px;' class='text-dark'>"+msg+"</h3><br/>";
                     str += "</div>";
                     $("#dropdown_search").html(str);
                     $("#searchBarText").focus();
@@ -309,8 +179,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               else
               {       
                 //ajout du footer      	
-                str += '<div class="center" id="footerDropdown">';
-                str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</label><br/>";
+                str += '<div class="pull-left col-md-12 text-center" id="footerDropdown" style="width:100%;">';
+                str += "<hr style='float:left; width:100%;'/><h3 style='margin-bottom:10px; margin-left:15px;' class='text-dark'>" + totalData + " résultats</h3><br/>";
                 str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
                 str += "</div>";
 
@@ -350,7 +220,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 bindLBHLinks();
 
                 $.unblockUI();
-				        showMap(false);
+				        //showMap(false);
                 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
@@ -402,6 +272,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   	$.each($(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
+      console.log("error type :", type);
    		if(type == "person") type = "people";
    		else type = typeObj[type].col;
       //console.log("#floopItem-"+type+"-"+id);
@@ -504,6 +375,246 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   function setSearchValue(value){
     $("#searchBarText").val(value);
     startSearch(0, indexStepInit);
+  }
+
+  
+  function showResultsDirectoryHtml(data){
+    var str = "";
+    $.each(data, function(i, o) {
+        if( notNull(o.type) )
+        {
+          var typeIco = i;
+          
+          mapElements.push(o);
+          itemType=o.type;
+          if(typeof(typeObj[o.type]) == "undefined")
+          	itemType="poi";
+          typeIco = o.type;
+          var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+          var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+          var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
+          var parentColor = ("undefined" != typeof mapColorIconTop[o.parentType]) ? mapColorIconTop[o.parentType] : mapColorIconTop["default"];
+          
+         // var urlImg = "/upload/communecter/color.jpg";
+         // o.profilImageUrl = urlImg;
+
+          var imgProfil ="<i class='fa fa-image fa-2x'></i>";
+          if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
+            imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
+          }
+          if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+            imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
+          
+          var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+          // if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
+          //   htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilImageUrl+"'/>"
+          // }
+
+          city="";
+
+          var postalCode = "";
+          if (o.address != null) {
+            city = o.address.addressLocality;
+            postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+          }
+          
+          console.dir(o);
+          var id = getObjectId(o);
+          var insee = o.insee ? o.insee : "";
+          console.log(o.type);
+          type = typeObj[itemType].col;
+          // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
+          //type += "s";
+
+  		    var urlParent = (notEmpty(o.parentType) && notEmpty(o.parentId)) ? 
+                          '#element.detail.type.'+o.parentType+'.id.' + o.parentId : "";
+
+          var url = '#element.detail.type.'+type+'.id.' + id;
+          if(type == "citoyens") url += '.viewer.' + userId;
+          //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
+          else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
+          else if(type == "surveys") url = "#survey.entry.id."+id;
+          else if(type == "actions") url = "#rooms.action.id."+id;
+
+          //if(type=="citoyen") type = "person";
+         
+          var onclick = 'loadByHash("' + url + '");';
+
+          var onclickCp = "";
+          var target = " target='_blank'";
+          var dataId = "";
+          if(type == "city"){
+            url = "javascript:"; //#main-col-search";
+            onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+            onclickCp = 'setScopeValue($(this));';
+            target = "";
+            dataId = o.name; //.replace("'", "\'");
+          }
+
+          var tags = "";
+          if(typeof o.tags != "undefined" && o.tags != null){
+            $.each(o.tags, function(key, value){
+              if(value != "")
+              tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+            });
+          }
+
+          var name = notEmpty(o.name) ? o.name : "";
+
+          var address = notEmpty(o.address) ? o.address : "";
+
+          var postalCode = notEmpty(address) && notEmpty(address.postalCode) ? address.postalCode : "";
+          if(postalCode == "") postalCode = notEmpty(o.cp) ? o.cp : "";
+          
+          var cityName = notEmpty(address) && notEmpty(address.addressLocality) ? address.addressLocality : "";
+
+
+          var fullLocality = postalCode + " " + cityName;
+
+          var description = notEmpty(o.shortDescription) ? o.shortDescription : "";
+          //if(description == "") description = (notEmpty(o.description)) ? o.description : "";
+          if(description == "") description = (notEmpty(o.message)) ? o.message : "";
+   
+          //console.dir(o);
+          //console.log(typeof o.startDate);
+
+          var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
+          var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
+          if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
+          
+          if(type!="surveys" && type!="actions"){
+            startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+            endDate = notEmpty(endDate) ? "Au " + endDate : endDate;
+          }
+          else{                   
+            startDate = notEmpty(startDate) ? "Du " + startDate : startDate;
+            endDate = notEmpty(endDate) ? "jusqu'au " + endDate : endDate;
+          }
+
+          var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
+          
+          //template principal
+          str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
+          str +=    "<div class='searchEntity'>";
+
+            if(userId != null){
+                    isFollowed=false;
+                    if(typeof o.isFollowed != "undefined" ) isFollowed=true;
+                    if(type!="cities" && type!="poi" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
+                      tip = (type == "events") ? "Participer" : 'Suivre';
+                      str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
+                            'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
+                            " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
+                                "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
+                              "</a>";
+                    }
+                  }
+
+
+              if(updated != null)
+                str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+              
+              if(o.type!="city")  
+              str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
+
+              str += "<div class='padding-10'>";
+
+                if(startDate != null)
+                str += "<div class='entityDate dateFrom bg-"+color+" transparent badge'>" + startDate + "</div>";
+                if(endDate != null)
+                str += "<div  class='entityDate dateTo  bg-"+color+" transparent badge'>" + endDate + "</div>";
+                
+              
+                str += "<div class='entityCenter no-padding'>";
+                str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
+                str += "</div>";
+                
+                  
+                str += "<div class='entityRight no-padding'>";
+                                 
+                  
+                if(notEmpty(o.parent) && notEmpty(o.parent.name))
+                  str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh text-light-weight margin-bottom-5'>" +
+                            "<i class='fa "+parentIcon+"'></i> "
+                            + o.parent.name + 
+                          "</a>";
+
+                var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
+                str += "<a href='"+url+"' class='entityName text-dark lbh'>"+
+                          iconFaReply + name + 
+                       "</a>";
+                
+                var thisLocality = "";
+                if(fullLocality != "" && fullLocality != " ")
+                     thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh'>"+
+                                      "<i class='fa fa-home'></i> " + fullLocality + 
+                                    "</a>";
+                else thisLocality = "<br>";
+                
+                //debat / actions
+                if(notEmpty(o.parentRoom)){
+                  parentUrl = "";
+                  parentIco = "";
+                  if(type == "surveys"){ parentUrl = "#survey.entries.id."+o.survey; parentIco = "archive"; }
+                  else if(type == "actions") {parentUrl = "#rooms.actions.id."+o.room;parentIco = "cogs";}
+                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh'> " + o.parentRoom.name + "</a></div>";
+                  if(notEmpty(o.parentRoom.parentObj)){
+                    var typeIcoParent = o.parentRoom.parentObj.typeSig;
+                    console.log("typeIcoParent", o.parentRoom);
+                    var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
+                    var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
+                    
+
+                    var thisLocality = notEmpty(o.parentRoom) && notEmpty(o.parentRoom.parentObj) && 
+                                  notEmpty(o.parentRoom.parentObj.address) ? 
+                                  o.parentRoom.parentObj.address : null;
+
+                    var postalCode = notEmpty(thisLocality) && notEmpty(thisLocality.postalCode) ? thisLocality.postalCode : "";
+                    var cityName = notEmpty(thisLocality) && notEmpty(thisLocality.addressLocality) ? thisLocality.addressLocality : "";
+
+                    thisLocality = postalCode + " " + cityName;
+                    if(thisLocality != " ") thisLocality = ", <small> " + thisLocality + "</small>";
+                    else thisLocality = "";
+
+                    var ctzCouncil = typeIcoParent=="city" ? "Conseil citoyen de " : "";
+                    str += "<div class='entityDescription text-"+colorParent+"'> <i class='fa "+icoParent+"'></i> <b>" + ctzCouncil + o.parentRoom.parentObj.name + "</b>" + thisLocality+ "</div>";
+                  
+
+                  }
+                }else{
+                  str += thisLocality;
+                }
+                
+                
+                if(o.type == "entry"){
+                  var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
+                  var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
+                  var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";
+                  var vUn   = notEmpty(o.voteUnclearCount)  ? o.voteUnclearCount.toString()   : "0";
+                  var vDown = notEmpty(o.voteDownCount)     ? o.voteDownCount.toString()      : "0";
+                  str += "<div class='pull-left margin-bottom-10 no-padding'>";
+                    str += "<span class='bg-green lbl-res-vote'><i class='fa fa-thumbs-up'></i> " + vUp + "</span>";
+                    str += " <span class='bg-blue lbl-res-vote'><i class='fa fa-pencil'></i> " + vMore + "</span>";
+                    str += " <span class='bg-dark lbl-res-vote'><i class='fa fa-circle'></i> " + vAbs + "</span>";
+                    str += " <span class='bg-purple lbl-res-vote'><i class='fa fa-question-circle'></i> " + vUn + "</span>";
+                    str += " <span class='bg-red lbl-res-vote'><i class='fa fa-thumbs-down'></i> " + vDown + "</span>";
+                  str += "</div>";
+                }
+
+                str += "<div class='entityDescription'>" + description + "</div>";
+             
+                str += "<div class='tagsContainer text-red'>"+tags+"</div>";
+        
+              str += "</div>";
+            str += "</div>";
+          str += "</div>";
+
+            
+                      
+          str += "</div>";
+      }
+    }); //end each
+    return str;
   }
 
   

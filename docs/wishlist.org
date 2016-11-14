@@ -1,3 +1,5 @@
+* Communication 
+[ ] connect Rocket + Github [[https://github.com/RocketChat/Rocket.Chat.Ops]]
 * BUGS
 [ ] repairing localisation HTML5
 
@@ -14,6 +16,11 @@
 * refactor 
 [ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
 
+* Tags
+[ ] section sous la baniere de categorie de tags
+  - sport / alternative/ agriculture /santé ...etc
+  on click on decouvre une selection de tags, facilement ajoutable 
+
 * Elements
 [ ] comptabiliser le temps + type 
 [ ] ecrire noir sur blanc les regles de remuneration de chaque 
@@ -25,10 +32,17 @@
 [ ] dynform evolutif par type 
     [ ] start by name
     [ ] build as you complete the info
+[.17] event + project : change organiser
+  ** dynform 
+    *** Location amélioration 
+    [ ] affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
+    [ ] ajouter une colonne mes lieux préférés, click et rempli
+
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
   [ ] Indicateur du nb de nouveauté depuis dernier login
+  [ ] validation de compte voir openhub
 
   ** Orga
   [ ] donner le choix lorsqu'on est invité a une orga 
@@ -54,10 +68,25 @@
   [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
   [ ] QCM Propriété , common Chart
   [ ] Finir Besoin Ressource compétence
+  [ ] Top 10 projet Locaux , liké ou soutenu par la population
+    [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
+
+  ** Needs
+  [.17] visualisation de la banque des besoins 
+    - section besoin
+    - filtre par type de besoin
+    - par type d'acteur 
+
+  ** POI
+  [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
+  [ ] use Poi as social bookmarking
+    [ ] import from diigo, bookmarks or delicious
+    [ ] btn add to my favorites 
+    [ ] bookmarklet like diigo 
 
 * City 
 [.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[ ] ajouter une photo de votre ville 
+[.17] ajouter une photo de votre ville 
     - baniere 
 [.17] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
@@ -65,9 +94,23 @@
 [ ] Valoriser les communes qui ont signées
 [ ] taper un nom de ville sur le scoper, avec le type region activé, si je tape Bordeau me ressort la REgion correspondante
 [ ] scoper adding a code postal > ajoute toute la chaine
+[ ] add a calendar on city page ???
+[ ] localiser libre : avec le nouvel input 
+  - si la city n'existe pas , panel de creation et on enchaine
+[.17] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
 
+* Ergo 
+[ ] utiliser ce design du dashboard pour afficher notif et mon rep
+  - ca pourrait ouvrir des porte pour trier les section des notifs
+  - moins clostro que les bar vertical actuelle
 
 * Global
+[ ] shortcuts : navigate with 4 btns 
+  [ ] F1 : dashboard
+    - ajouter un champs de recherche qui fera comme le finder linux ou apple
+  [ ] F2 : me or my data dash comme le finder Apple
+  [ ] F3 : my map or my statistic 
+  [ ] F4 : My Society or my game
 [ ] refactor le design du notifier 
 [ ] turn notification list into a header panel
 [ ] Utilisateur qui n'ont cp
@@ -85,13 +128,39 @@
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
+[.17] bouton share (Social) non intrusif 
+[ ] interoperability
+[ ] system de synchronisation between instances : download + upload 
+  - download from OCDB
+  - connect to one or many servers, info new differences
+  - upload from instance
+    - select types for what to upload 
+    - see diffs
+  - id unique : id_sourkeyInstance
+[ ] Post outside : ne pas juste utiliser les mails 
+  - user pourront demander des push sur differentes destination FB, twitter, 
+[.17] point d'entrée thématique sur la page d'acceuil 
+  - pour voir combien d'acteur oeuvre dans une thematique
+[ ] systeme calculant la valeur indirect de communecter basé sur un systeme de valeur economique existant 
+  ex : sur les base des prix des pages jaune calculé la valeur cumulé de l'annuaire 
+[.17] reflechir First Connect , show notifications, hot news ....  
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
 
+* Interop 
+  [ ] possibility de soumettre une url pour connecter un profile externe
+  [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
+  [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
+  [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
+  [ ] intégrer plus d'outil externe 
+    - framasoft
+    - http://www.covoit.net/
+
 * News
   [ ] Améliorer l'affichage de commentaires dans les news
+  [.17] Ajouter dans le journal un post de la creation de l'element qui le porte  
 
 * admin 
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)

@@ -25,33 +25,42 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 * ************************************************************    
 
 ** @Tango 
-    [ ] Simplifier l'invitation à une orga/event/projet avec la popup utilisée avant pour news
     [ ] Recherche par 100, 500, 1000, all
       [X] page recherche
       [ ] page agenda
     [X] synchronize new item menu (on selected)
-    [ ] Finir Orga:Add member
+    [X] Finir Orga:Add member
       [X] refaire marcher la modal
       [X] brancher le save de la modal sur un controller (link/multiConnectAction)
-      [ ] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
-      [??] Project:contributeur
-      [??] People:invitation
-      [??] Event:Participation
+      [X] faire un pod "add membre" plus simple et convivial (directement sur la page orag/detail ?)
+    [X] Around me
+      [X] Liste HTML
+      [X] result on map
+      [X] change radius on map
+      [X] around all element
+      [X] share aroundMe in iframe
+    [X] modification du menu principal (recherche)
+    [X] modifications page directory
+      [X] ajout Debat & Action dans le globalSearch
+      [X] création de la page recherche commune
+      [X] integration design notragora
+    [X] Page commune : modif header btn search
+    [X] Dashboard responsive
 
 ** @Sylvain 
     [X] pb d'images dans en ce moment (ex : Manapany)
-    [ ] delete person : 
+    [X] delete person : 
       [X] on admin : delete simple person (links but no news/votes/comments)
-      [ ] delete with anonymization
-      [ ] delete my account
+      [X] delete with anonymization
+      [X] delete my account
     [ ] rsync on server for upload
     [ ] interface screen shot tutoriel 
       [ ] test d'un guided tour simplifier
     [ ] cannot empty communected location
-    [ ] remove betatester attr
-    [ ] remove empty image attribs
+    [X] remove betatester attr
+    [X] remove empty image attribs
     [ ] mailing + notification + parametre
-      [ ] doc
+      [X] doc
       [ ] faire un mail hebdomadaire
       [ ] invitation event 
       [ ] news privée
@@ -60,14 +69,18 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] faire un mail, special quand invité par l'invitation communEvent 
           faisant reference à l'event , vous etiez ou serez à event xxx
           communecter vous aide ....
-    [ ] Gérer le retour de mail en erreur avec un hook + creation de notif pour super admin
+    [X] Gérer le retour de mail en erreur 
+      [X] créer un hook + erreur dans mailerror
+      [X] creation de notif pour super admin
+      [X] page admin avec les erreurs de mails
     [ ] Stocker les images en S3
-    [ ] passer configDB en externe configdb.example.php
+    [X] passer configDB en externe configdb.example.php
     [ ] mon calendar 
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
-
+    [ ] gljfdlkg
+    {gfdsg}
 
 ** @Tib 
   [ ] finir [[https://docs.google.com/presentation/d/12BBmJfSp2zzQgXFroaKGBpkyOShyjW8H_ZtKcucc944/edit#slide=id.g15729a6b5f_0_66]]
@@ -77,12 +90,25 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   
   [ ] Count requests DB per page
   [ ] moving discussion polling to discussion page instead of communecter.js
-  
+  [ ] desactivate dynForm if not Logged
+  ** wishlist 
+    [ ] dynform : auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+    [ ] check bad sub attributes : address.cococo 
+  ** PROD
+    [ ] no message on debat
+
   [ ] finish fromNow method
+  [ ] HTML5 notifications
   [ ] SEO finir 
     http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
     http://phantomjs.org/
     https://prerender.io/documentation
+  [X] new theme architecture 
+    [X] moving plugins into the ph base
+    [X] front end configuration by configparams
+    [X] activating forms 
+    [X] movins communecter's css into the theme for specific tweaking 
   [X] connected to mention
   [X] generate basic element code
   [X] parse and build post genericaly jsonHelper.stringFormtoJson
@@ -94,54 +120,62 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] personnalisé 
     [X] le scroll marche pas
   [ ] elements to simple dynform
-    [ ] $type::afterSave : connect specific post process for each elem
-      [ ] organization
-      [ ] project
-      [ ] event
+    [X] connect btns 
+      [X] dashboard
+      [X] profile page
+
+    [ ] bugs
+      [X] add to floopdrawer after save
+      [X] [[@Rapha :: location > tape CP > validate , ca passe]] 
+      [X] cancel location is not empty
+      [ ] delete from location liste after having added
+    [X] onclick add spinner on save btn +disable
+    [X] type::afterSave : connect specific post process for each elem
+      [X] organization
+      [X] project
+      [X] event
     [X] dynForm on create project of orga  
       [X] add parentId and TYpe on project.orga
-      [ ] 
-    [ ] desactivate dynForm if not Logged
-    [ ] bugs
-      [ ] add to floopdrawer after save
-      [ ] location > tape CP > validate , ca passe 
-      [ ] no message on debat
-      [ ] check existance click and unfocus
-      [ ] create orga 
-      [ ] texte/description d'une décision n'est pas mis à jour 
-      [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
-        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
-    [ ] switch on map , show / hide POI, point of parent
-    [ ] check bad sub attributes : address.cococo
-    [ ] refactor : move from ACtion to model Element
+    
+    [X] refactor : move from ACtion to model Element
+    [ ] [[affichage des addresses]]
+      [ ] bloquer a une seule addresses
+    [X] wisiwig on desc
     [X] orga simplified to name, type, location btn
       [X] validate exist using globalSearch works on any element
       [X] ajouter les autres champs en activable
+      [ ] link to create subProjects
     [X] project to name, location btn
     [ ] event to organizer, name, type, allday, dates, location btn
       [X] organizer select & parent Id based on myContacts var from index.php
       [X] parent Event : load param ajax
-        [ ] show only ongoing or event to come 
-      [ ] simplify add for sub events: préremplir les dates, lieu
+        [ ] [[ show only ongoing or event to come ]]
+      [ ] simplify add for sub events: [[pré remplir les dates, lieu]]
       [X] connecté l'ajout new subEvent aux neaux formulaires
     [X] connect locality data from copyMapForm2Dynform()
     [ ] POI et Element de base : name,desc, url, location,photo
       periscope,youtube,twitter journal
+      [ ] [[ @Tango :: switch on map , show / hide POI, point of parent]]
       [X] link to parent : can have a parent, Type & Id
       [X] add a btn on any parent add POI
       [X] place avec geoloc 
       [X] Thing sans geoloc
       [X] formulaire evolutif
-      [ ] add photo  
-      [ ] add to news
-      [ ] add text : getUrl
+      [ ] [[ add photo ]]
+      [ ] [[ @Clem :: add POI to news]]
+      [X] add text : getUrl, multiple medias , $.each
       [X] unknown attribute passes the the save 
+      [X] delete POI
+      [X] edit POI
+      [ ] [[view POI in modal], pour @Hord Cadre]
+        [ ] on pourrait alors creer un poi d'abord et ensuite créer dessus des orga , event ,projet ... 
+      [ ] add to favorite
     [ ] debat 
-      [ ] ouvrir une proposition sur un element orga ou projet
+      [X] ouvrir une proposition sur un element orga ou projet
       [ ] ouvrir une proposition une geo scope cp, insee..
       [ ] ouvrir une proposition sans parent room
-      [ ] localiser une propistion 
-    [ ] action
+      [X] localiser une propistion 
+    [X] action
     [X] save process
       [X] Element::save 
         [X] params containing map using a json source base + specific attributes

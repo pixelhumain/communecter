@@ -1,15 +1,16 @@
+
 <?php
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($this->module->assetsUrl.'/js/news/formScope.js' , CClientScript::POS_END);
-	$cs->registerScriptFile($this->module->assetsUrl.'/js/news/formGenreAbout.js' , CClientScript::POS_END);
-	$cs->registerCssFile($this->module->assetsUrl. '/css/news_form.css');
-	
-?>
+$cssAnsScriptFilesModule = array(
+	'/assets/css/news_form.css'	
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 
-
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/news/formScope.js';?>" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo $this->module->assetsUrl.'/js/news/formGenreAbout.js';?>" type="text/javascript"></script>
-<link rel="stylesheet" href="<?php echo $this->module->assetsUrl.'/css/news_form.css';?>" type="text/css" />
+$cssAnsScriptFilesModule = array(
+	'/js/news/formScope.js',
+	'/js/news/formGenreAbout.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,$this->module->assetsUrl);
+?>	
 
 <!-- start: SUBVIEW SAMPLE CONTENTS -->
 <!-- *** NEW NOTE *** -->

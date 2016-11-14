@@ -43,6 +43,8 @@
 			this.Sig.mapPolygon = null;
 			this.Sig.markerFindPlace = null;
 
+			this.Sig.circleAroundMe = null;
+
 			//##
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
@@ -70,7 +72,7 @@
 				if(typeof options.zIndexOffset != "undefined") 
 					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
-				console.log("POPUP CONTENT : " + contentString);
+				//console.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
@@ -135,12 +137,13 @@
 				if(typeof thisData.author != "undefined") thisData = thisData.author;
 
 				this.allowMouseoverMaker = true;
-
+				//console.log("thisData", thisData);
 				var markerName = this.getIcoNameByType(thisData);
-				var iconUrl = assetPath+'/images/sig/markers/'+markerName+'.png';
-				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != "") 
+				//console.log("markerName", markerName);
+				var iconUrl = assetPath+'/images/sig/markers/icons_carto/'+markerName+'.png';
+				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != ""){ 
 					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
-
+				}
 				return L.icon({
 				    iconUrl: iconUrl,
 				    iconSize: [53, 60], //38, 95],
@@ -175,6 +178,9 @@
 				if(this.markerModifyPosition != null) 
 					this.map.removeLayer(this.markerModifyPosition);
 
+				if(notEmpty(this.circleAroundMe)) 
+						this.map.removeLayer(this.circleAroundMe);
+
 				var thisSig = this;
 				if(this.markerSingleList != null)
 				$.each(this.markerSingleList, function(){
@@ -189,7 +195,7 @@
 				
 				$( this.cssModuleName + " #liste_map_element").html("");
 
-				showMe = false;
+				//showMe = false;
 				if(showMe)
 				this.showMyPosition();
 
@@ -217,39 +223,41 @@
 			this.Sig.showMyPosition = function(){
 				var thisSig = this;
 				if(thisSig.myPosition != null){
-					//console.log("MYPOSITION !!");
-					//console.dir(thisSig.myPosition);
-					var center = [thisSig.myPosition.position.latitude, 
-								  thisSig.myPosition.position.longitude];
+					if(thisSig.myPosition.position.latitude != 0 && thisSig.myPosition.position.longitude != 0){
+						//console.log("MYPOSITION !!");
+						//console.dir(thisSig.myPosition);
+						var center = [thisSig.myPosition.position.latitude, 
+									  thisSig.myPosition.position.longitude];
 
-					var popup = Sig.getPopupSimple(Sig.userData);
-					var properties = { 	id : "0",
-										icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
-										type : thisSig.myPosition["type"],
-										typeSig : thisSig.myPosition["typeSig"],
-										faIcon : this.getIcoByType(thisSig.myPosition),
-										zIndexOffset: 10000,
-										content: popup };
+						var popup = Sig.getPopupSimple(Sig.userData);
+						var properties = { 	id : "0",
+											icon : thisSig.getIcoMarkerMap(thisSig.myPosition),
+											type : thisSig.myPosition["type"],
+											typeSig : thisSig.myPosition["typeSig"],
+											faIcon : this.getIcoByType(thisSig.myPosition),
+											zIndexOffset: 10000,
+											content: popup };
 
-					if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
-					thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
-					thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
+						if(typeof thisSig.myMarker != "undefined") thisSig.map.removeLayer(thisSig.myMarker);
+						thisSig.myMarker = thisSig.getMarkerSingle(thisSig.map, properties, center);
+						thisSig.createItemRigthListMap(thisSig.userData, thisSig.myMarker, thisSig.map);
 
-					var objectId = thisSig.getObjectId(thisSig.userData);
-					this.listId = new Array(objectId);
+						var objectId = thisSig.getObjectId(thisSig.userData);
+						this.listId = new Array(objectId);
 
-					$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-					{	thisSig.map.panTo(center, {"animate" : true });
-						thisSig.checkListElementMap(thisSig.map);
-						thisSig.myMarker.openPopup();
-					});
-					
-					$( "#btn-home" ).off().click(function (){ 
-							thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
-					});
-					// $( ".btn-home" ).off().click(function (){ 
-					// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
-					// });
+						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
+						{	thisSig.map.panTo(center, {"animate" : true });
+							thisSig.checkListElementMap(thisSig.map);
+							thisSig.myMarker.openPopup();
+						});
+						
+						$( "#btn-home" ).off().click(function (){ 
+								thisSig.map.setView(center, thisSig.map.getMaxZoom()-1);
+						});
+						// $( ".btn-home" ).off().click(function (){ 
+						// 		thisSig.centerSimple(center, thisSig.maxZoom-1);
+						// });
+					}
 				}
 			}
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
@@ -289,8 +297,9 @@
 			this.Sig.setFullPage = function()
 			{ 
 				var mapHeight = $("#mapCanvasBg").height();
-				var rightPanelHeight = mapHeight - 140;
-
+				var menuTopHeight = $(".main-top-menu").height();// - $(".toolbar").height();
+				var rightPanelHeight = mapHeight - menuTopHeight - 110;
+				
 				$(this.cssModuleName + " #right_tool_map").css({"height":rightPanelHeight});
 				$(this.cssModuleName + " #liste_map_element").css({"height":rightPanelHeight-100});
 				$(this.cssModuleName + " #liste_map_element").css({"maxHeight":rightPanelHeight-100});
@@ -298,11 +307,9 @@
 				$(this.cssModuleName + " .panel_map").css({"max-height":rightPanelHeight - 8*2 /*padding*/ - 45 });
 				
 				var RTM_width =  ($("#right_tool_map").css('display') != 'none') ? $("#right_tool_map").width()+30 : 0;
-				$(this.cssModuleName + " .tools-btn").css( 
-					{"right"://$("#mapCanvas" + this.sigKey).width() - 
-					RTM_width
-					//$(this.cssModuleName + " .tools-btn").width() - 20
-					});// - $(this.cssModuleName + " #right_tool_map").width()});
+				var GAM_width =  ($("#right_tool_map").css('display') != 'none') ? RTM_width+30 : RTM_width+30;
+				$(this.cssModuleName + " .tools-btn").css({"right": RTM_width });
+				$(this.cssModuleName + " .btn-groupe-around-me-km").css({"right": GAM_width });
 				
 				$(this.cssModuleName + " .input-search-place").css( {"left":90} );
 
@@ -390,6 +397,21 @@
 				this.polygonsCollection.push(poly);
 			};
 
+			this.Sig.showCircle = function(center, radius, options)
+			{
+				console.log("showCircle", notEmpty(this.circleAroundMe), radius);
+				if(notEmpty(this.circleAroundMe)) this.map.removeLayer(this.circleAroundMe);
+				this.circleAroundMe = L.circle(center, radius, {
+										color: '#FFF', 
+										opacity:0.7,
+										fillColor: '#71A4B4', 
+										fillOpacity:0.3,  
+										weight:'2px', 
+										smoothFactor:0.5}).addTo(this.map);
+
+				
+			};
+
 			this.Sig.clearPolygon = function()
 			{
 				var thisSig = this;
@@ -456,11 +478,11 @@
 					}
 				}
 				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
-					console.log("thisData.geometry ?");
-					console.dir(thisData);
+					//console.log("thisData.geometry ?");
+					//console.dir(thisData);
 					if(type == "markerSingle"){
 						if(typeof thisData.geometry.location != "undefined"){
-							console.log(thisData.geometry.location.lat);
+							//console.log(thisData.geometry.location.lat);
 							var lat = thisData.geometry.location.lat;
 							var lng = thisData.geometry.location.lng;
 							console.dir(new Array (lat, lng));
@@ -505,6 +527,7 @@
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
 								//préparation du contenu de la bulle
+								//console.log("!!!!!!!!!!!!!!!!!!!!!!showOneElementOnMap", thisData);
 								var content = this.getPopup(thisData);
 								//création de l'icon sur la carte
 								var theIcon = this.getIcoMarkerMap(thisData);
@@ -533,6 +556,23 @@
 									coordinates = this.getCoordinates(thisData, "markerGeoJson");
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
+								}
+								//console.log("content POPUT thisAddr : ", thisData);
+										
+								var thisSig = this;
+
+								if(notEmpty(thisData["addresses"])){
+									$.each(thisData["addresses"], function(key, addr){ 
+										var thisAddr = JSON.parse(JSON.stringify(thisData)); //duplicate value, prevent modifying thisData after this line DO NOT REMOVE IT CAN KILL THE WORLLLLLD ! ARE YOU CRAZY ? 
+										thisAddr["address"] = addr["address"];
+										thisAddr["geo"] = addr["geo"];
+										thisAddr["geoPosition"] = addr["geoPosition"];
+										var popup = thisSig.getPopup(thisAddr);
+										properties.content = popup;
+										coordinates = thisSig.getCoordinates(thisAddr, "markerSingle");
+										var multimarker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
+									});
+									properties.content = content;
 								}
 
 
@@ -729,7 +769,7 @@
 											thisMap.setZoom(15, {"animate" : false });
 											thisMap.panTo(coordinates, {"animate" : false });
 											thisSig.currentParentToOpen = null;
-								
+
 										}
 									}
 								}
@@ -754,13 +794,23 @@
 
 					this.checkListElementMap(thisMap); 
 					
-					//console.log("fitBounds");
+					console.log("fitBounds", typeof noFitBoundAroundMe);
 					//console.dir(this.markersLayer.getBounds());
-					if("undefined" != typeof this.markersLayer.getBounds() &&
-					   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
-						thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-						thisMap.zoomOut();
+					if( typeof noFitBoundAroundMe == "undefined" || noFitBoundAroundMe != true){
+						if("undefined" != typeof this.markersLayer.getBounds() &&
+						   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
+							thisMap.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							//thisMap.zoomOut();
+						}
 					}
+
+					/*
+					thisMap.setZoom(17, {"animate" : false });
+						   thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							// setTimeout(function(){
+							// 	thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
+							// }, 1500);
+							*/
 
 					thisSig.constructUI();
 
@@ -795,13 +845,37 @@
 				$("#"+canvasId).html("");
 				$("#"+canvasId).css({"background-color": this.mapColor});
 
+				console.log("initParams", initParams);
 				//initialisation des variables de départ de la carte
-				if(canvasId != "")
-				var map = L.map(canvasId, { "zoomControl" : false,
-											"scrollWheelZoom":true,
-											"center" : [51.505, -0.09],
-											"zoom" : 4,
-											"worldCopyJump" : false });
+				//TODO not show accessToken here => use conf file or db
+				if(canvasId != ""){
+
+					var options = { "zoomControl" : false,
+									"scrollWheelZoom":true,
+									"center" : [51.505, -0.09],
+									"zoom" : 4,
+									"maxZoom" : 17,
+									"minZoom" : 3,
+									"worldCopyJump" : false };
+
+					if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "mapbox"){
+						L.mapbox.accessToken = initParams["mapboxToken"];
+						var map =  L.mapbox.map(canvasId, 'mapbox.streets', options);
+		    						//.setView([51.505, -0.09], 9);
+	    			}else if(notEmpty(initParams["mapProvider"]) && initParams.mapProvider == "OSM"){
+						var map = L.map(canvasId, options);
+						Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+							//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+							attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
+							//subdomains: 'abc',
+							zIndex:1,
+							minZoom: 3,
+							maxZoom: 17
+						});
+
+						Sig.tileLayer.addTo(map).setOpacity(initParams.mapOpacity);
+					}
+				}
 			}else{
 				var map = this.map;
 			}
@@ -812,16 +886,7 @@
 			Sig.map.minZoom = 3;
 			Sig.map.maxZoom = 17;
 
-			Sig.tileLayer = L.tileLayer(initParams.mapTileLayer, { //'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-				//attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-				attribution: 'Map tiles by ' + initParams.mapAttributions, //'Map tiles by <a href="http://stamen.com">Stamen Design</a>',
-				//subdomains: 'abc',
-				zIndex:1,
-				minZoom: 3,
-				maxZoom: 17
-			});
-
-			Sig.tileLayer.setOpacity(initParams.mapOpacity).addTo(map);
+			
 			
 			//rafraichi les tiles après le redimentionnement du mapCanvas
 			map.invalidateSize(false);
@@ -844,6 +909,56 @@
 				$("#modalItemNotLocated").modal('hide');
 			});
 		}
+
+		//##	addContextMap	##
+		//Ajouter un élément au contextMap
+	 	this.Sig.addContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+			var elementMap = {
+				name : element.name ,
+				username : element.username ,
+				address : element.address ,
+				geo : element.geo ,
+				email : element.email ,
+				id : element.id ,
+				pending : element.pending ,
+				profilImageUrl : element.profilImageUrl ,
+				profilMarkerImageUrl : element.profilMarkerImageUrl ,
+				profilMediumImageUrl : element.profilMediumImageUrl ,
+				profilThumbImageUrl : element.profilThumbImageUrl ,
+				tags : element.tags ,
+				tobeactivated : element.tobeactivated ,
+				type : element.type ,
+			}
+
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+			
+			contextMap[type].push(elementMap);
+			
+			return contextMap;
+		};
+
+		this.Sig.modifLocalityContextMap = function(contextMap, element, type)
+	 	{
+	 		
+			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+
+			if(typeof contextMap[type] == "undefined")
+				contextMap[type] = [];
+
+			$.each(contextMap[type], function(key, elt){
+				if(elt.id == contextData.id){
+					contextMap[type][key]["address"] = element.address;
+					contextMap[type][key]["geo"] = element.geo;
+				}	
+			});
+			return contextMap;
+		};
+
+		
 
 		this.Sig = this.getSigInitializer(this.Sig);
 

@@ -1,17 +1,22 @@
 <?php
 	$cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js',
+	);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
+	$cssAnsScriptFilesModule = array(
 	'/js/pages-gallery.js',
 	);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
 
 $contextIcon = "photo";
+
 if( isset($parent) ){
 	$contextName = $parent["name"];
 	$parentName=$parent["name"];
 }
 if(!@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery")); 
+
 ?>
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
@@ -106,6 +111,7 @@ var images = <?php echo json_encode($images); ?>;
 var contextName = "<?php echo addslashes(@$contextName); ?>";	
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
+ 	activeMenuElement("gallery");
 	setTitle("Galerie photos de " + contextName,contextIcon);
 	initGrid();
 	$(".portfolio-item").mouseenter(function(){
@@ -113,7 +119,7 @@ jQuery(document).ready(function() {
 	}).mouseleave(function(){
 		$(this).find(".tools.tools-bottom").hide();
 	});
- 	activeMenuElement("gallery");
+
 });
 
 function initGrid(){

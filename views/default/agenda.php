@@ -1,10 +1,13 @@
     <?php 
   $cssAnsScriptFilesModule = array(
+    '/assets/css/default/responsive-calendar.css',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+  
+  $cssAnsScriptFilesModule = array(
     //'/css/default/directory.css',
     '/js/default/directory.js',
-    '/css/default/responsive-calendar.css',
     '/js/default/responsive-calendar.js',
-    
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
@@ -121,9 +124,9 @@
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
-  <div class="space20"></div>
+  
   <div class="col-xs-12 no-padding " id="list_filters">
-    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes inline-block"></div>
     <div class='city-name-locked homestead text-red'></div>
   </div>
   
@@ -135,7 +138,8 @@
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 <?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
-       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+       //$cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?> 
 
 <script type="text/javascript">
@@ -254,8 +258,13 @@ function showResultInCalendar(mapElements){
     
     var startDate = exists(thisEvent["startDate"]) ? thisEvent["startDate"].substr(0, 10) : "";
     var endDate = exists(thisEvent["endDate"]) ? thisEvent["endDate"].substr(0, 10) : "";
-
-    var position = thisEvent["address"]["postalCode"] + " " + thisEvent["address"]["addressLocality"];
+    var cp = "";
+    var loc = "";
+	if(thisEvent["address"] != null){
+    	var cp = exists(thisEvent["address"]["postalCode"]) ? thisEvent["address"]["postalCode"] : "" ;
+		var loc = exists(thisEvent["address"]["addressLocality"]) ? thisEvent["address"]["addressLocality"] : "";
+	}
+    var position = cp + " " + loc;
 
     var name = exists(thisEvent["name"]) ? thisEvent["name"] : "";
     var thumb_url = notEmpty(thisEvent["profilThumbImageUrl"]) ? baseUrl+thisEvent["profilThumbImageUrl"] : "";

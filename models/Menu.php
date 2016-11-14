@@ -356,13 +356,17 @@ class Menu {
         //DIRECTORY
         //-----------------------------
         
-        if(($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) && $type != Event::COLLECTION ) {
+        if(($type != Person::COLLECTION || Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) //&& $type != Event::COLLECTION 
+            ) {
             self::entry("left", 'onclick',
                     Yii::t("common","Community of ".$controllerType),
                     Yii::t("common","Community") ,
                     'connectdevelop',
-                    "showElementPad('directory')", $controller, "directory","communityBtn hide btn-menu-element btn-menu-element-directory");
+                    "showElementPad('directory')", $controller, "directory","communityBtn btn-menu-element btn-menu-element-directory");
         }
+        
+        
+
         if( $type == Event::COLLECTION && @$element["links"] && @$element["links"]["subEvents"])
         {
             //DIRECTORY
@@ -388,6 +392,17 @@ class Menu {
                     'photo',
                     "showElementPad('gallery')","gallery", "index", "btn-menu-element btn-menu-element-gallery");
 
+        //AROUND ME
+        //-----------------------------
+        if (!empty($element["geo"])) {
+            self::entry("left", 'onclick',
+                        Yii::t("common","Voir ce qui se trouve autour"),
+                        Yii::t("common","A proximité") ,
+                        'crosshairs',
+                        "loadByHash('#element.aroundme.type.".$type.".id.".$id.".radius.5000')", 
+                        $controller, "aroundme", "btn-menu-element btn-menu-element-around");
+        }
+       
         //ACTION ROOMS
         //-----------------------------
         /*$onclick = "showAjaxPanel( '/rooms/index/type/".Organization::COLLECTION."/id/".$id."', 'ORGANIZATION ACTION ROOM ','legal' )"; 
@@ -400,10 +415,15 @@ class Menu {
         //-----------------------------
 
         if($type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, $id)){
-	        self::entry("right", 'onclick',
+	        /*self::entry("right", 'onclick',
                 Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
                 Yii::t("common",'Add '.$strongLinks),'fa fa-user-plus',
-                "showElementPad('addmembers')",null,null,"btn-menu-element btn-menu-element-addmembers");
+                "showElementPad('addmembers')",null,null,"btn-menu-element btn-menu-element-addmembers","data-toggle='modal' data-target='#modal-scope'");*/
+
+				self::entry("right", 'href',
+                Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
+                Yii::t("common",'Add '.$strongLinks),'user-plus',
+                "javascript:;",null,null,"btn-menu-element btn-menu-element-addmembers","","data-toggle='modal' data-target='#modal-scope'");
         }
         
 
@@ -431,14 +451,14 @@ class Menu {
 	            self::entry("right", 'onclick',
                         Yii::t( "common", "Leave this ".$controllerType),
                         Yii::t( "common", "Leave"),
-                        'fa fa-unlink disconnectBtnIcon',
+                        'unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$strongLinks."')",null,null,"text-red"); 
             } else if (isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
                 isset($element["links"]["followers"][Yii::app()->session["userId"]])){
 	            self::entry("right", 'onclick',
                         Yii::t( "common", "Unfollow this ".$controllerType),
                         Yii::t( "common", "Unfollow"),
-                        'fa fa-unlink disconnectBtnIcon',
+                        'unlink disconnectBtnIcon',
                         "disconnectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','followers')",null,null,"text-red"); 
             } else if(@$element["_id"] 
                         && @Yii::app()->session["userId"] 
@@ -448,7 +468,7 @@ class Menu {
 	                self::entry("right", 'onclick',
 	                        Yii::t( "common", "Follow this ".$controllerType),
 	                        Yii::t( "common", "Follow"),
-	                        'fa fa-link followBtn',
+	                        'link followBtn',
 	                        "follow('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."')",null,null);
             }
 
@@ -464,7 +484,7 @@ class Menu {
                 self::entry("right", 'onclick',
                                 Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
-                                'fa fa-user-plus becomeAdminBtn',
+                                'user-plus becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."', '".$connectAs."','".addslashes($element["name"])."')",null,null);
             }else{
                 //Ask Admin button
@@ -477,7 +497,7 @@ class Menu {
                         self::entry("right", 'onclick',
                                 Yii::t( "common", "Declare me as ".$connectAs." of this ".$controllerType),
                                 Yii::t( "common", "Become ".$connectAs),
-                                'fa fa-user-plus becomeAdminBtn',
+                                'user-circle-o becomeAdminBtn',
                                 "connectTo('".$type."','".$id."','".Yii::app()->session["userId"]."','".Person::COLLECTION."','".$connectAs."','".addslashes($element["name"])."')",null,null);
                     }             
                 }
@@ -758,7 +778,7 @@ class Menu {
                             Yii::t( "common", 'Create a proposal for your community'),
                             Yii::t( "common", 'Add a proposal'), 'plus',
                             //"loadByHash('#survey.editEntry.survey.".$id."')",
-                            "$('#modal-create-proposal').modal('show')",
+                            "openForm('entry','sub')",
                             "addProposalBtn",null);
             self::entry("left", 'onclick', 
                         Yii::t( "rooms", ( @$survey["status"] != ActionRoom::STATE_ARCHIVED ) ? 'Archive' : 'Unarchive'.' this action Room',null,Yii::app()->controller->module->id),
@@ -806,6 +826,7 @@ class Menu {
         {
             // Edit proposal
             //-----------------------------
+            //hide if a vote exist , only show date end date change
             $hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
             if( !$hasVote && Yii::app()->controller->action->id != "editentry"  )
             {
@@ -874,7 +895,7 @@ class Menu {
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
                         //"loadByHash('#rooms.editAction.room.".$id."')",
-                        "$('#modal-create-action').modal('show')",
+                        "openForm('action','sub')",
                         "addActionBtn",null);
 
             /*if ( @$room["organizerId"] == Yii::app()->session["userId"] ) 
@@ -983,7 +1004,7 @@ class Menu {
                     "window.history.back();","backBtn",null);
     }
 
-    public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null)
+    public static function entry($position,$type,$title,$label,$icon,$url,$controllerid,$actionid,$class=null,$badge=null,$moreAttributes=null)
     {
         if( $type == 'showAjaxPanel')
         {
@@ -1025,7 +1046,7 @@ class Menu {
                             "iconClass" => "fa fa-".$icon,
                             "label"     => $label,
                             "badge"     => $badge,
-                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"");
+                            "href"      => "<a  class='tooltips btn btn-default ".$class." ".$active."', target='_blank' href=\"".$onclick."\"".$moreAttributes);
                         
 
         }

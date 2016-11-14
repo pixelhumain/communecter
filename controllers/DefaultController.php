@@ -24,7 +24,6 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    $this->layout = "//layouts/mainSearch";
     $this->render("index");
   }
 
@@ -90,8 +89,12 @@ class DefaultController extends CommunecterController {
     //Get the last global statistics
     $stats = Stat::getWhere(array(),null,1);
     if(is_array($stats)) $stats = array_pop($stats);
-    
-    $this->renderPartial("home", array("stats"=>$stats));
+    $tpl = "home";
+    if(Yii::app()->theme != "ph-dori")
+    	$tpl = "//layouts/default/home";
+
+   // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
+    $this->renderPartial($tpl, array("stats"=>$stats));
   }
   public function actionLogin() 
   {

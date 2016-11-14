@@ -18,7 +18,7 @@
 		font-size: 15px;
 		font-weight: 100 !important;
 		position: absolute;
-		bottom: 23%;
+		bottom: 15%;
 		right: 20%;
 	}
 	.btn-go-home-xs {
@@ -51,6 +51,7 @@
 		padding: 1px 3px;
 	}
 </style>
+<?php if(!@Yii::app()->params["theme"] || Yii::app()->params["theme"]=="ph-dori"){ ?>
 <div class="col-md-8 no-padding header-home">
 	<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
 
@@ -78,7 +79,7 @@
 	</a>
 
 </div>
-
+<?php } ?>
 
 <script type="text/javascript">
 

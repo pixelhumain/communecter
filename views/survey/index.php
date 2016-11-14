@@ -9,10 +9,10 @@
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
   $cssAnsScriptFilesModule = array(
-    //'/assets/plugins/share-button/ShareButton.min.js' , 
-    '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+    //'/plugins/share-button/ShareButton.min.js' , 
+    '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
   );
-  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
   $commentActive = true;
 ?>
@@ -295,12 +295,14 @@
   $count = 0;
   $switchcount = 1;
 
+ 
+
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
     function buildEntryBlock( $entry,$uniqueVoters,$alltags,$parentType,$parentId,$switchcount,$canParticipate, $isArchived){
         $logguedAndValid = Person::logguedAndValid();
-        $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
+        $tagBlock = "";
         $cpBlock = "";
         $name = $entry["name"];
         $message = substr($entry["message"],0,280);
@@ -641,7 +643,7 @@
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
                     <br><br>
-                    <button class="btn btn-success" onclick="$('#modal-create-proposal').modal('show')">
+                    <button class="btn btn-success" onclick='openForm("entry","sub")''>
                       <i class="fa fa-plus"></i> Ajouter une proposition
                     </button>
                   </blockquote>
@@ -717,6 +719,16 @@
 *  Initialisation
 *
 ***************************************** */
+
+ var contextData = {
+    name : "<?php echo addslashes(@$where["survey"]["name"]) ?>",
+    id : "<?php echo (string)@$where["survey"]["_id"] ?>",
+    type : "entry",
+    controller : "survey",
+    otags : "<?php echo addslashes(@$where["survey"]["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$where["survey"]["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$where["survey"]["name"])); ?>
+  };  
+
 var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button

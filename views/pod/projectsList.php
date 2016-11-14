@@ -4,16 +4,16 @@ $cssAnsScriptFilesTheme = array(
 
 	//autosize
 	//Select2
-	'/assets/plugins/select2/select2.css',
-	'/assets/plugins/select2/select2.min.js',
+	'/plugins/select2/select2.css',
+	'/plugins/select2/select2.min.js',
 	//autosize
-	'/assets/plugins/autosize/jquery.autosize.min.js',
+	'/plugins/autosize/jquery.autosize.min.js',
 
-	'/assets/plugins/jQuery-Knob/js/jquery.knob.js',
-	'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
+	'/plugins/jQuery-Knob/js/jquery.knob.js',
+	'/plugins/perfect-scrollbar/src/perfect-scrollbar.css',
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-ligh bg-purple">

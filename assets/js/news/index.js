@@ -36,7 +36,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 
 	if (typeof(searchType) != "undefined") filter.searchType=searchType;
 	//if (typeof(tagSearch) != "undefined") 
-	filter.tagSearch=$('#searchTags').val().split(',');
+	if(isLiveGlobal())
+		filter.tagSearch=$('#searchTags').val().split(',');
 
 	//console.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
@@ -162,14 +163,14 @@ function buildTimeLine (news, indexMin, indexMax)
 			form ="";
 
 			if(canPostNews==true){ //alert($("#month"+date.getMonth()+date.getFullYear()).length );
-				// if(!isLiveGlobal() && $("#month"+date.getMonth()+date.getFullYear()).length < 1){
-				// 	form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
-				//  			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
-				//  		 '</div>'+
-				//  		 "<div class='newsFeed'>"+
-				// 			"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
-				// 		"</div>";
-				// }
+				if(!isLiveGlobal() && $("#month"+date.getMonth()+date.getFullYear()).length < 1){
+					form ='<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
+				 			'<span>'+months[date.getMonth()]+' '+date.getFullYear()+'</span>'+
+				 		 '</div>'+
+				 		 "<div class='newsFeed'>"+
+							"<div id='newFeedForm"+"' class='timeline_element partition-white no-padding newsFeedForm' style='min-width:85%;'></div>"+
+						"</div>";
+				}
 				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
@@ -241,8 +242,33 @@ function bindEvent(){
 		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
 		scopeChange=$(this).data("value");
 		$("input[name='scope']").val(scopeChange);
+		/*if(scopeChange == "public"){
+	  		showTagsScopesMin("#scopeListContainer");
+	  		$(".list_tags_scopes").removeClass("tagOnly");
+	  		liveScopeType = "global";
+	  	} else {
+		  	showTagsScopesMin("#scopeListContainer");
+  			$(".list_tags_scopes").addClass("tagOnly");
+  			liveScopeType = "community";
+	  	}*/
 	});
-	
+	$(".targetIsAuthor").click(function() {
+		console.log(this);
+		srcImg=$(this).find("img").attr("src");
+		$("#btn-toogle-dropdown-targetIsAuthor").html('<img height=20 width=20 src="'+srcImg+'"/> <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
+		authorTargetChange=$(this).data("value");
+		$("#authorIsTarget").val(authorTargetChange);
+		/*if(scopeChange == "public"){
+	  		showTagsScopesMin("#scopeListContainer");
+	  		$(".list_tags_scopes").removeClass("tagOnly");
+	  		liveScopeType = "global";
+	  	} else {
+		  	showTagsScopesMin("#scopeListContainer");
+  			$(".list_tags_scopes").addClass("tagOnly");
+  			liveScopeType = "community";
+	  	}*/
+	});
+
 	$(".date_separator").appear().on('appear', function(event, $all_appeared_elements) {
 		separator = '#' + $(this).attr("id");
 		$('.timeline-scrubber').find("li").removeClass("selected").find("a[href = '" + separator + "']").parent().addClass("selected");
@@ -315,7 +341,10 @@ function smoothScroll(scroolTo){
 
 function modifyNews(idNews){
 	//switchModeEdit(id);
-	var commentContent = $('.newsContent[data-pk="'+idNews+'"] .timeline_text').html();
+	if($('.newsContent[data-pk="'+idNews+'"] .allText').length)
+		var commentContent = $('.newsContent[data-pk="'+idNews+'"] .allText').html();
+	else
+		var commentContent = $('.newsContent[data-pk="'+idNews+'"] .timeline_text').html();
 	var commentTitle = $('.newsTitle[data-pk="'+idNews+'"] .timeline_title').html();
 	console.log("commentTitle", commentTitle);
 	var message = "";
@@ -323,7 +352,7 @@ function modifyNews(idNews){
 		message += "<input type='text' id='textarea-edit-title"+idNews+"' class='form-control margin-bottom-5' style='text-align:left;' placeholder='Titre du message' value='"+commentTitle+"'>";
 	 	
 	 	message += "<div id='container-txtarea-news-"+idNews+"'>";
-		message += 	"<textarea id='textarea-edit-news"+idNews+"' class='form-control' placeholder='modifier votre message'>"+commentContent+"</textarea>"+
+		message += 	"<textarea id='textarea-edit-news"+idNews+"' class='form-control newsContentEdit' placeholder='modifier votre message'>"+commentContent+"</textarea>"+
 				   "</div>";
 	var boxComment = bootbox.dialog({
 	  message: message,
@@ -582,6 +611,7 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").show("fast");
 		$(".form-create-news-container .tools_bar").show("fast");
 		$(".form-create-news-container .scopescope").show("fast");	
+		multiTagScopeLbl("send");
 		$('.extract_url').show();
 		$(".form-create-news-container #falseInput").hide();
 		$('#get_url').focus();
@@ -599,6 +629,8 @@ function showFormBlock(bool){
 		$(".form-create-news-container .publiccheckbox").hide();
 		$(".form-create-news-container .tools_bar").hide();
 		$(".form-create-news-container .scopescope").hide();
+		if(isLiveGlobal())
+			multiTagScopeLbl("search");
 		$('.extract_url').hide();
 		$(".form-create-news-container #falseInput").show();
 		
@@ -639,7 +671,7 @@ function getUrlContent(){
         }
     });
     var getUrl  = $('#get_url'); //url to extract from text field
-    getUrl.keyup(function() { //user types url in text field        
+    getUrl.bind("input keyup", function() { //user types url in text field        
         //url to match in the text field
         var match_url = /\b(https?):\/\/([\-A-Z0-9. \-]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;\-]*)?(\?[A-Z0-9+&@#\/%=~_|!:,.;\-]*)?/i;
         //continue if matched url is found in text field
@@ -945,7 +977,6 @@ function saveNews(){
 						});
 					}
 				}
-
 				if ($("#tags").val() != ""){
 					newNews.tags = $("#form-news #tags").val().split(",");	
 				}
@@ -968,6 +999,8 @@ function saveNews(){
 				newNews.scope = $("input[name='scope']").val(),
 				newNews.type = $("input[name='type']").val(),
 				newNews.text = $("#form-news #get_url").val();
+				if($('#authorIsTarget').length && $('#authorIsTarget').val()==1)
+					newNews.targetIsAuthor = true;
 				console.log("contextParentType", contextParentType);
 				if($("input[name='cityInsee']").length && contextParentType == "city")
 					newNews.codeInsee = $("input[name='cityInsee']").val();
@@ -1029,6 +1062,10 @@ function showAllNews(){
 function initFormImages(){
 	$("#photoAddNews").on('submit',(function(e) {
 		e.preventDefault();
+		if(contextParentType=="city" || contextParentType=="pixels"){
+			contextParentType = "citoyens";
+			contextParentId = idSession;
+		}
 		$.ajax({
 			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextParentType+"/ownerId/"+contextParentId+"/input/newsImage",
 			type: "POST",
@@ -1050,7 +1087,8 @@ function initFormImages(){
 						"date" : new Date() , 
 						"size" : data.size ,
 						"doctype" : docType,
-						"contentKey" : contentKey
+						"contentKey" : contentKey,
+						"formOrigin" : "news"
 					};
 					console.log(doc);
 					path = "/"+data.dir+data.name;

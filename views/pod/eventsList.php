@@ -2,10 +2,10 @@
 
 $cssAnsScriptFilesTheme = array(
 
-'/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
+'/plugins/perfect-scrollbar/src/perfect-scrollbar.css'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-orange">
@@ -56,7 +56,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 
 									$id = array_keys($e["links"]["organizer"])[0];
 									$o = Element::getInfos( @$e["links"]["organizer"][$id]['type'], $id);
-									if ($o["type"]==Person::COLLECTION){
+									if ( $o["type"]==Person::COLLECTION ){
 										$icon='<img height="35" width="35" class="tooltips" data-placement="right" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="right" data-original-title="'.$o['name'].'">';
 										$refIcon="fa-user";
 										$redirect="person";
@@ -119,18 +119,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
 						</tbody>
 					</table>
 					<?php } ?>
-		<?php if( $nbEventVisible == 0 ) { ?>
+		<?php if( $nbEventVisible == 0 && $nbOldEvents== 0) { ?>
 			<div id="infoEventPod" class="padding-10" >
 				<blockquote> 
 					<?php 
 						if($contextType==Event::CONTROLLER)
-							$explain="Create sub-events<br/>To show the event's program<br/>To build the event's calendar<br/>And Organize the event's sequence";
+							$explain="Create sub-events to show the event's program.<br/>And Organize the event's sequence";
 						else
 							$explain="Publiez les événements que vous organisez";
-						//"Create and Attend<br/>Local Events<br/>To build up local activity<br/>To help local culture<br/>To create movement";
-						//echo Yii::t("event",$explain); 
+						echo Yii::t("event",$explain); 
 					?>
-					Publiez les événements que vous organisez en relation avec votre activité
 				</blockquote>
 			</div>
 		<?php } ?>

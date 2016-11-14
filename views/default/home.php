@@ -1,16 +1,9 @@
-<?php 
-	$cs = Yii::app()->getClientScript();
 
-	$cssAnsScriptFilesModule = array(
-		//'js/svg/tonfichier.js'
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
-?>
 <style>
 
 .main-col-search{
 	padding:0px !important;
+	background-color: white !important;
 }
 .home_page h3.subtitle{
 	font-weight: 300;

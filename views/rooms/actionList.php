@@ -9,10 +9,10 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 $cssAnsScriptFilesModule = array(
-  //'/assets/plugins/share-button/ShareButton.min.js' , 
-  '/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+  //'/plugins/share-button/ShareButton.min.js' , 
+  '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 
 $commentActive = true;
 
@@ -348,7 +348,7 @@ border: 1px solid #E4E4E4;
                       " : ".$endDate
                       : "Non défini";
           $ends .= "</div>";
-        }else{
+        } else {
           $ends  = "<div class='text-red lbl-info-survey pull-left' style='color: rgb(228, 108, 108);'>".
                     "<i class='fa fa-clock-o' style='padding:0px 5px 0px 2px;'></i> ";
           $ends .=  (!empty( $endDate )) ? 
@@ -526,7 +526,7 @@ border: 1px solid #E4E4E4;
                   <br>Référencez et partagez <b>une par une</b>,
                   <br>les tâches qui concernent cet espace
                   <br><br>
-                  <button class="btn btn-success" onclick='$(".datepicker").css("zIndex","12000");' data-toggle="modal" data-target="#modal-create-action">
+                  <button class="btn btn-success" onclick='openForm("action","sub"); $(".datepicker").css("zIndex","12000");'>
                     <i class="fa fa-plus"></i> Ajouter une action
                   </button>
                 </blockquote>
@@ -602,6 +602,16 @@ border: 1px solid #E4E4E4;
 *  Initialisation
 *
 ***************************************** */
+
+ var contextData = {
+    name : "<?php echo addslashes(@$room["name"]) ?>",
+    id : "<?php echo (string)@$room["_id"] ?>",
+    type : "action",
+    controller : "room",
+    otags : "<?php echo addslashes(@$room["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$room["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>
+  };  
+
 var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button

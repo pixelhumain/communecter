@@ -257,7 +257,7 @@
 	</div>
 		
 	<div class="col-md-12 commentSection leftInfoSection" >
-		<span class="" ><?php //echo Yii::t("rooms","Add your point of view in the comments",null,Yii::app()->controller->module->id) ?></span>
+		<h2 class='text-dark homestead' style="margin: -20px 0px 15px;"><i class="fa fa-angle-down"></i><br>Discussion</h2>
 		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	

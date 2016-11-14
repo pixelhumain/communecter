@@ -12,7 +12,22 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Notragora
+add params in protected/config/
+-- paramsconfig.php => redirect/filter/logoUrl in $mailConfig 
+                    => front in $params
+----------------------------------------------------
 * Version 0.16
+** @Rapha : Suppression des links en doublons sur les orgas
+/communecter/datamigration/DeleteLinksHimSelf
+
+** @tango : Batch de reprise des geo.Point sur les elements
+exécuter updateGeoPosElement.org sur la base
+Exemple : 
+mongo localhost:10019/bdname --username user --password pass updateGeoPosElements.org > result.txt
+
+**Rapha : Update Geo Belgique sur les codes postal
+/communecter/datamigration/UpdateCitiesBelgiqueGeo
 
 ----------------------------------------------------
 * Version 0.15
@@ -527,31 +542,6 @@ DB lists update documents
     }
 }
 
-----------------------------------------------------
-
-#update cities geo format
-
-Etape 1 : Ouvrir son fichier php_error.log, afin de suivre l'évolution du processus (l'opération peut durer une dixaine de minute)
-
-Etape 2 : Se préparer un thé ou un café allongé, et s'installer confortablement devant son écran.
-
-Etape 3 : Sur la page "login", cliquer sur le bouton "Mettre à jour la bdd" dans le coin en haut à droite de l'écran
-
-Etape 4 : Boire son thé ou son café en scrollant bêtement sur Facebook
-
-Etape 5 : (10 minutes plus tard) Chouette la mise à jour est terminée !
-
-=> Executer la commande suivante dans un terminal Mongo (robotmongo pour ceux qui ont)
-
-=> db.cities.createIndex({"geoPosition.coordinates": "2dsphere"})
-
-Etape 5bis : (10 minutes plus tard) Vous schtroumfez une erreur bisarre ! Mais qu'est-ce qui s'est fichtrement passé ?
-==> https://github.com/pixelhumain/communecter/issues/438
-
-Etape 6 : Applaudir à deux main : vous avez une base de données toute propre !
-
-Etape 7 : https://github.com/pixelhumain/communecter/issues/438
-
 ---------------------------------------------------
 
 Modifier un mail
@@ -564,3 +554,13 @@ db.organizations.find().forEach(function(doc){
     } 
 });
 
+
+
+---------------------------------------------------
+Activer / Désactiver MAPBOX
+
+In file : pixelhumain/ph/protected/config/paramsconfig.php
+Default params :
+  'mapboxActive'      => true, //set to false to disable MapBox on no-local-server = prod || dev || qa (use OSM)
+  'forceMapboxActive' => false,//set to true  to use MapBox on local-server
+  'mapboxToken' => '', //pense à mettre le Token sur QA et prod pour utiliser mapbox

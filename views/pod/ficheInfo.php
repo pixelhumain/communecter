@@ -9,7 +9,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/wysihtml5.js',
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',

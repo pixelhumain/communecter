@@ -8,11 +8,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/js/bootstrap-editable.js' , 
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' ,
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js',
-	'/plugins/moment/min/moment.min.js',
 
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	'/js/dataHelpers.js',
@@ -210,9 +209,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
     </div>
 	<div class="panel-tools">
  		<?php    
-				if ( $canEdit ) { ?>
-					<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
-					<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
+			if ( $canEdit ) { ?>
+				<a href="javascript:;" id="editProfil" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer vos informations" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> Editer</span></a>
+				<a href="javascript:;" id="editGeoPosition" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez votre position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-sm hidden-xs"> Déplacer</span></a>
 		<?php } ?>	
 
 		<?php

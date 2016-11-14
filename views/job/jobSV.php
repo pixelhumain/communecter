@@ -2,20 +2,20 @@
 
 $cssAnsScriptFiles = array(
 	//X-editable
-	'/assets/plugins/x-editable/css/bootstrap-editable.css',
-	'/assets/plugins/x-editable/js/bootstrap-editable.js',
+	'/plugins/x-editable/css/bootstrap-editable.css',
+	'/plugins/x-editable/js/bootstrap-editable.js',
 	//wysihtml
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js',
-	'/assets/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js',
-	'/assets/plugins/wysihtml5/wysihtml5.js',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js',
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js',
+	'/plugins/wysihtml5/wysihtml5.js',
 	//date picker
-	'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-	'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
+	'/plugins/bootstrap-datepicker/css/datepicker.css',
+	'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	//Data helper

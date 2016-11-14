@@ -1,8 +1,8 @@
 <?php 
 $cssAnsScriptFilesModule = array(
-	'/plugins/Chart.js/Chart.min.js'
+	//'/plugins/Chart.js/Chart.min.js'
 );
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
 
 <style>
@@ -25,24 +25,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->th
 		</a>
 		<?php } ?>
 	</div>
-	<?php if(isset($properties) && !empty($properties)){ ?>
-		<div id="infoPodChart" class="padding-10 hide">
+		<div id="infoPodChart" class="padding-10 <?php if(!empty($properties)) echo "hide" ?>">
 			<blockquote> 
 				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
 			</blockquote>
 		</div>
-		<div class="panel-body no-padding">
+		<div class="panel-body no-padding contentChart <?php if(empty($properties)) echo "hide" ?>">
 			<canvas id="myChart" width="" height=""></canvas>
 		</div>
-	<?php } else { ?>
-		<div id="infoPodChart" class="padding-10">
+	<!--	<div id="infoPodChart" class="padding-10">
 			<blockquote> 
 				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
 			</blockquote>
 		</div>
 		<div class="panel-body no-padding contentChart hide">
-		</div>
-	<?php } ?>
+			<canvas id="myChart" width="" height=""></canvas>
+		</div>-->
 </div>
 
 <script type="text/javascript">
@@ -161,8 +159,8 @@ function updateChart(data, nbProperties){
 		if(nbProperties==0){
 			$("#infoPodChart").removeClass("hide");
 			$(".contentChart").addClass("hide");
-			$("#myChart").attr("width","0");
-			$("#myChart").attr("height","0");
+			//$("#myChart").attr("width","0");
+			//$("#myChart").attr("height","0");
 			
 		}
 		else {

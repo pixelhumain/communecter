@@ -2,11 +2,25 @@
 	$cs = Yii::app()->getClientScript();
 	$cssAnsScriptFilesModule = array(
 	  //'/survey/js/highcharts.js',
-	  '/js/dataHelpers.js',
-	  '/css/circle.css'
+	  '/js/dataHelpers.js'
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
+	$cssAnsScriptFiles = array(
+	'/assets/css/circle.css',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
+
+	$cssAnsScriptFilesBase = array(
+		//X-editable
+		'/plugins/x-editable/css/bootstrap-editable.css',
+		'/plugins/x-editable/js/bootstrap-editable.js',
+		//DatePicker
+		'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+		'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+		'/plugins/bootstrap-datepicker/css/datepicker.css',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesBase, Yii::app()->request->baseUrl);
 
 	$logguedAndValid = Person::logguedAndValid();
 	$voteLinksAndInfos = Action::voteLinksAndInfos($logguedAndValid,$survey);
@@ -128,21 +142,30 @@
 				</div>
 				<div class="col-md-6">
 					<div class="box-ajaxTools">					
-						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  { ?>
-							<a class="tooltips btn btn-default  " href="javascript:" 
-							   data-toggle="modal" data-target="#modal-edit-entry"
-							   data-placement="bottom" data-original-title="Editer cette proposition">
-								<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
-							</a>
+						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  
+						{
+							$hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
+				            if( !$hasVote && $voteLinksAndInfos["avoter"] != "closed" )
+				            { ?>
+								<a class="tooltips btn btn-default  " href="javascript:" 
+								   data-toggle="modal" data-target="#modal-edit-entry"
+								   data-placement="bottom" data-original-title="Editer cette proposition">
+									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
+								</a>
+							<?php } ?>
 							<a class="tooltips btn btn-default" href="javascript:;" onclick="$('#modal-select-room5').modal('show')" 
 								data-placement="bottom" data-original-title="Déplacer cette proposition dans un autre espace">
 							<i class="fa fa-share-alt text-grey "></i> <span class="hidden-sm hidden-md hidden-xs">Déplacer</span>
 							</a>
+							<?php 
+							if( !( ( @$survey["dateEnd"] && $survey["dateEnd"] < time()) )   )
+            				{ ?>
 							<a class="tooltips btn btn-default  " href="javascript:;" onclick="closeEntry('<?php echo $survey["_id"]; ?>')" 
 							   data-placement="bottom" data-original-title="Supprimer cette proposition">
 								<i class="fa fa-times text-red "></i> <span class="hidden-sm hidden-md hidden-xs">Fermer</span>
 							</a>
-						<?php } ?>
+						<?php } 
+						} ?>
 						<a href="javascript:;" data-id="explainSurveys" class="tooltips btn btn-default explainLink" 
 						   data-placement="bottom" data-original-title="Comprendre les propositions">
 							<i class="fa fa-question-circle "></i> <span class="hidden-sm hidden-md hidden-xs"></span>
@@ -151,7 +174,7 @@
 				</div>	
 			</div>	
 
-			<div class="col-md-4 no-padding" style="padding-right: 15px !important;">
+			<div class="col-md-4 col-sm-4 col-xs-12 no-padding" style="padding-right: 15px !important;">
 				
 				<?php  $this->renderPartial('../pod/fileupload', 
 											 array("itemId" => $survey["_id"],
@@ -200,19 +223,29 @@
 				</div>
 			</div>
 
-			<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
+			<div class="col-md-8 col-sm-8 col-xs-12 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
 				
 				<span class="text-azure">
 					<i class="fa fa-calendar"></i> 
 					<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
-					<?php echo date("d/m/y",$survey["created"]) ?>
+					<?php echo date("d/m/Y",$survey["created"]) ?>
+					
 				</span>
 				<br>
 				<?php if( @$survey["dateEnd"] ){ ?>
 				<span class="text-red">
-					<i class="fa fa-calendar"></i> 
+					<i class="fa fa-calendar"></i>
 					<?php echo Yii::t("rooms","Ends",null,Yii::app()->controller->module->id) ?> :
-					<?php echo date("d/m/y",@$survey["dateEnd"]) ?>
+					<a href="javascript:" id="endDate" data-type="date" data-title="Date de fin" data-emptytext="Date de cloture de la proposition" class="editable editable-click" >
+					</a>
+				</span>
+				<span>
+					<?php 
+						$canEditEndDate = ( $voteLinksAndInfos["avoter"] != "closed" && isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"]) ? true : false;
+						if ($canEditEndDate) { ?>
+							<a href="javascript:" id="editSurveyEndDate" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer la date de fin de la proposition" alt=""><i class="fa fa-pencil"></i></a>
+						<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
+					<?php } ?>
 				</span>
 				<br><hr>
 				<span>
@@ -231,10 +264,14 @@
 			 	<div class="text-bold text-dark">
 			 		<?php 
 						$canParticipate = Authorisation::canParticipate(Yii::app()->session['userId'],$parentType,$parentId);
-						if( $canParticipate && $voteLinksAndInfos["hasVoted"] ) 
+						if( $canParticipate && $voteLinksAndInfos["hasVoted"] && $voteLinksAndInfos["avoter"] != "closed" ) 
 							echo $voteLinksAndInfos["links"]; 
+						else if( $canParticipate && $voteLinksAndInfos["avoter"] == "closed" )
+							echo '<i class="fa fa-angle-right"></i><span class="text-red"> Cette proposition est cloturé depuis le '.date("d/m/y",@$survey["dateEnd"]).'</span>';
 						else if( $canParticipate && !$voteLinksAndInfos["hasVoted"] )
 							echo '<i class="fa fa-angle-right"></i> Vous n\'avez pas voté';
+						else if( !$canParticipate && isset(Yii::app()->session['userId']) && $parentType == "cities")
+							echo '<i class="fa fa-angle-right"></i> Vous devez habiter cette commune pour voter ici';
 						else if( !$canParticipate && isset(Yii::app()->session['userId']) )
 							echo '<i class="fa fa-angle-right"></i> Devenez membre pour voter ici';
 						else if( !$canParticipate && !isset(Yii::app()->session['userId']) )
@@ -244,32 +281,33 @@
 
 			</div>
 
-			<div class="col-md-12 no-padding">
+			<div class="col-xs-12 no-padding">
 
-				<div class="col-md-12 text-dark" style="font-size:15px">
+				<div class="col-xs-12 text-dark" style="font-size:15px">
 					<hr style="margin-top:0px">
 					<?php echo $survey["message"]; ?>
 					<hr>
 					<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
 				</div>
 
-				<div class="col-md-12 padding-15">
+				<div class="col-xs-12">
 					<?php echo Survey::getChartCircle($survey, $voteLinksAndInfos, $parentType,$parentId); ?>
-					<div class="col-md-12 no-padding margin-top-10"><hr></div>
+					<div class="col-md-12 col-sm-12 no-padding margin-top-10"><hr></div>
 				</div>
 
 				<?php if( @( $survey["urls"] ) ){ ?>
+				<div class="col-md-12 col-xs-12 col-sm-12 center">
 					
-					<h2 class="text-dark" style="border-top:1px solid #eee;"><br>Des liens d'informations ou actions à faire</h2>
+					<h2 class="text-dark"><br><i class="fa fa-link"></i> Informations complémentaires</h2>
 					<?php foreach ( $survey["urls"] as $value) {
 						if( strpos($value, "http://")!==false || strpos($value, "https://")!==false )
 							echo '<a href="'.$value.'" class="text-large" style="word-wrap: break-word;" target="_blank">'.
-									'<i class="fa fa-link"></i> '.$value.
+									''.$value.
 								 '</a><br/> ';
 						else
 							echo '<span class="text-large"><i class="fa fa-angle-right"></i> '.$value.'</span><br/> ';
 					}?>
-					
+				</div>	
 				<?php }	?>
 			</div>
 
@@ -284,7 +322,9 @@
 		</div>
 	</div>
 		
-	<div class="col-md-12 commentSection leftInfoSection" >
+	<div class="col-md-12 col-sm-12 commentSection leftInfoSection" >
+		<hr>
+		<h2 class='text-dark homestead' style="margin: -20px 0px 15px;"><i class="fa fa-angle-down"></i><br>Discussion</h2>
 		<div class="box-vote box-pod margin-10 commentPod"></div>
 	</div>
 	
@@ -336,14 +376,15 @@
 <script type="text/javascript">
 clickedVoteObject = null;
 var images = <?php echo json_encode($images) ?>;
+var mode = "view";
+var itemId = "<?php echo $survey["_id"] ?>";
+var endDate = "<?php echo date("d/m/Y",@$survey["dateEnd"]) ?>";
+
 jQuery(document).ready(function() {
-	
+	$.fn.editable.defaults.container='body';
 	$(".main-col-search").addClass("assemblyHeadSection");
   	setTitle("Propositions, débats, votes","gavel");
   	$('.box-vote').show();
- 	//  	.addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-	// 	$(this).removeClass("animated flipInX");
-	// });
 
   	$(".tooltips").tooltip();
 	
@@ -358,8 +399,67 @@ jQuery(document).ready(function() {
 		showDefinition( $(this).data("id") );
 		return false;
 	});
-	//buildResults (); //old piechart
+
+	editEndDate();
+	manageModeContext();
+
+	$("#editSurveyEndDate").on("click", function(){
+		switchMode();
+	});
 });
+
+function switchMode() {
+	if(mode == "view"){
+		mode = "update";
+		manageModeContext();
+	} else{
+		mode ="view";
+		manageModeContext();
+	}
+}
+
+function manageModeContext() {
+	if (mode == "view") {
+		$('#endDate').editable('toggleDisabled');
+	} else {
+		$('#endDate').editable('option', 'pk', itemId);
+		$('#endDate').editable('toggleDisabled');
+		$("#endDate").click();
+	}
+}
+
+//activate Xedit on endDate (#1177)
+function editEndDate() {
+<?php
+	if( $canEditEndDate ) {
+?>
+	console.log("Init XEdit end date");
+	$('#endDate').editable({
+		url: baseUrl+"/"+moduleId+"/element/updatefields/type/<?php echo Survey::COLLECTION?>", 
+		mode: 'popup',
+		placement: "right",
+		format: 'yyyy-mm-dd',   
+    	viewformat: 'dd/mm/yyyy',
+    	datepicker: {
+            weekStart: 1,
+        },
+        //toggle:'mouseenter',
+        showbuttons: true,
+		success : function(data) {
+			if(data.result) {
+				toastr.success(data.msg);
+				loadActivity=true;	
+			}else 
+				return data.msg;
+	    }
+    });
+
+	//formatDate = "YYYY-MM-DD HH:mm";
+	console.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
+	$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"), true);
+
+<?php } ?>
+}
 
 function saveEditEntry(){ 
 	$('#form-edit-entry #btn-submit-form').click();
@@ -394,7 +494,7 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").code();
+						var voteComment = $("#modalComment .newComment").val();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
@@ -403,7 +503,7 @@ function addaction(id,action)
 				        };
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").code(params.comment);
+				        	$("#modalComment .newComment").val(params.comment);
 				        	validateComment("modalComment","");
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){

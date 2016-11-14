@@ -4,7 +4,7 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/mixitup/src/jquery.mixitup.js' 
 );
 
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->theme->baseUrl."/assets");
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 ?>
 <!-- start: PAGE CONTENT -->
@@ -318,7 +318,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$organizations && count($organizations) > 0){  ?>
+						<?php if(@$organizations && $countOrga > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Organizations") ?></span> 
@@ -326,7 +326,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$events && count($events) > 0){  ?>
+						<?php if(@$events && $countEvent > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Events") ?></span> 
@@ -334,7 +334,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$projects && count($projects) > 0){  ?>
+						<?php if(@$projects && $countProject > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();<?php if($followsProject > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 
@@ -392,7 +392,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					<?php	if (@$manage){ ?> 
 						<input type="hidden" id="parentType" value="<?php echo $type ?>"/>
 						<input type="hidden" id="parentId" value="<?php echo $elementId ?>"/>
-						<input type="hidden" id="connectType" value="<?php echo "members"/*$connectType*/ ?>"/>
+						<input type="hidden" id="connectType" value="<?php echo $connectType ?>"/>
 					<?php } ?>
 					<?php 
 					$memberId = Yii::app()->session["userId"];
@@ -447,7 +447,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($attendees as $e) 
 						{ 
-							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, "attendees", Event::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 					/* ************ GUESTS OF AN EVENT ************************ */
@@ -455,7 +455,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					{ 
 						foreach ($guests as $e) 
 						{ 
-							buildDirectoryLine($e, "guests", Event::CONTROLLER, Event::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage);
+							buildDirectoryLine($e, "guests", Event::CONTROLLER, Person::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,$manage,"attendees", $type, $elementId);
 						}
 					}
 
@@ -526,25 +526,28 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 					
 					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage, $connectType=null, $elementType=null,$elementId=null)
 					{
-						if((!@$e['_id']  && !@$e["id"] )|| !@$e["name"] || $e["name"] == "" )
+						if((!@$e['_id']  && !@$e["id"] ) || !@$e['id'] || !@$e["name"] || $e["name"] == "" )
 							return;
 						$actions = "";
 						if(@$e['id'])
 							$id = $e["id"];
-						else
-							$id = (string)$e["_id"];
+							
+						// Don't consider context element
+						if($id==$elementId && $collection==$elementType)
+							return;
 
 						/* **************************************
 						* TYPE + ICON
 						***************************************** */
-						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+						$img = '';
 						if ($e && !empty($e["profilThumbImageUrl"])){ 
 							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
 						}else{
-							if(!empty($e["profilImageUrl"]))
-								$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/communecter/document/resized/50x50'.$e['profilImageUrl']).'">';
-							else
-							$img = "<div class='thumbnail-profil'></div>";
+							$defaultImg=$collection;
+							$assetsUrl= Yii::app()->controller->module->assetsUrl;
+							if($collection == "followers" || $collection == "attendees" || $collection == "guests")
+								$defaultImg = Person::COLLECTION;
+							$img ='<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.$assetsUrl.'/images/thumb/default_'.$defaultImg.'.png">';
 						}
 						
 						/* **************************************
@@ -738,14 +741,14 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 													'<i class="fa fa-cog text-white"></i>'.
 												'</span>';
 							$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
-												'<a href="#element.detail.type.'.$type.'s.id.'.$id.'" class="btn lbh padding-5 col-xs-12 center no-padding text-left" data-placement="left" data-placement="top">'.
+												'<a href="#element.detail.type.'.$type.'s.id.'.$id.'" class="btn lbh no-padding col-xs-12 center no-padding text-left" data-placement="left" data-placement="top">'.
 													'<i class="fa fa-x fa-eye"></i>'.
 														Yii::t("common","Visualize").
 													'</a>'.
 												'</div>';
 							if(@$e["toBeValidated"]){
 								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="acceptAsMemberBtn btn col-xs-12 center no-padding padding-5 text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
+													'<a href="javascript:;" class="acceptAsMemberBtn btn col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-placement="top" data-original-title="Add this '.$type.' to your '.$collection.'" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-link"></i>'.
 														Yii::t("common","Accept this ".$type."").
 													'</a>'.
@@ -753,15 +756,15 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							}
 							if(@$e["isAdminPending"]){
 								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="acceptAsAdminBtn btn col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
+													'<a href="javascript:;" class="acceptAsAdminBtn btn no-padding col-xs-12 center text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-admin="false" data-placement="top" data-original-title="Add this '.$type.' as admin" style="padding-right:35px;">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Accept as admin").
 													'</a>'.
 												'</div>';
-							} else if($elementType!=Person::COLLECTION){
+							} else if($elementType != Person::COLLECTION && $collection == Person::COLLECTION){
 								if(!@$e["isAdmin"] && !@$e["toBeValidated"] && !@$e["isAdminPending"]){
 								$strBtnHTML .= 	'<div class="listDiv col-xs-12 center no-padding">'.
-													'<a href="javascript:;" class="btn padding-5 col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$type.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
+													'<a href="javascript:;" class="btn no-padding col-xs-12 center text-left" style="padding-right:35px;filter:gray" onclick="connectTo(\''.$elementType.'\',\''.$elementId.'\', \''.$id.'\', \''.Person::COLLECTION.'\', \'admin\',\'\',\'true\')">'.
 														'<i class="confirmPendingUserBtnIcon fa fa-user-plus"></i>'.
 														Yii::t("common","Add as admin").
 													'</a>'.
@@ -770,14 +773,14 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							}
 							if($collection==Person::COLLECTION && @$e["pending"]){
 								$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
-												'<a href="javascript:;" class="btn padding-5 col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\',this)" data-placement="top">'.
+												'<a href="javascript:;" class="btn no-padding col-xs-12 center no-padding text-left" onclick="sendInvitationAgain(\''.$id.'\',\''.$name.'\',this)" data-placement="top">'.
 														'<i class="fa fa-envelope-o"></i>'.
 														Yii::t("common","Send invitation again").
 													'</a>'.
 												'</div>';
 							}
 							$strBtnHTML .=	'<div class="listDiv col-xs-12 center no-padding">'.
-												'<a href="javascript:;" class="disconnectBtn btn padding-5 col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
+												'<a href="javascript:;" class="disconnectBtn btn no-padding col-xs-12 center no-padding text-left" data-placement="left"  data-type="'.$collection.'" data-id="'.$id.'" data-name="'.$name.'" data-connecttype="'.$connectType.'" data-placement="top" data-original-title="Remove this '.$type.'" >'.
 														'<i class="disconnectBtnIcon fa fa-unlink"></i>'.
 														Yii::t("common","Unlink").
 													'</a>'.
@@ -827,15 +830,29 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
     		$projects[$key]["typeSig"] = PHType::TYPE_PROJECTS; }
     
     $contextMap = array();
-    if(@$contextData) $contextMap = array("context" => $contextData);
+    if(@$contextData) 	$contextMap = array("context" => $contextData);
     if(@$people)          $contextMap = array_merge($contextMap, $people);
     if(@$organizations)   $contextMap = array_merge($contextMap, $organizations);
     if(@$events)         $contextMap = array_merge($contextMap, $events);
     if(@$projects)        $contextMap = array_merge($contextMap, $projects);
 ?>
 <script type="text/javascript">
+var contextData = {
+		name : "<?php echo addslashes($element["name"]) ?>",
+		id : "<?php echo (string)$element["_id"] ?>",
+		type : "<?php echo $type ?>",
+		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
+		geo : <?php echo json_encode(@$element["geo"]) ?>,
+		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
+		address : <?php echo json_encode(@$element["address"]) ?>,
+		<?php 
+		if( @$element["startDate"] )
+			echo "'startDate':'".$element["startDate"]."',";
+		if( @$element["endDate"] )
+			echo "'endDate':'".$element["endDate"]."'"; ?>
 
-var contextData = <?php echo json_encode($element)?>;
+	};	
+//var contextData = <?php echo json_encode($element)?>;
 var contextIconTitle = "<?php echo $contextIconTitle; ?>";
 var nameType = <?php echo json_encode(Yii::t("common",ucfirst(Element::getControlerByCollection($type))));?>;
 var activeType = "<?php echo ( isset( $_GET['type'] ) ? $_GET['type'] : "" )  ?>";
@@ -843,7 +860,7 @@ var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'fa
 var show = <?php echo (isset($show) && $show) ? 'true': 'false'; ?>; 
 var elementId = "<?php echo @$elementId ?>";
 jQuery(document).ready(function() {
-
+	activeMenuElement("directory");
 	setTitle(nameType+" : "+contextData.name,contextIconTitle);
 	var tagFilters = <?php echo empty($tagsHTMLFull) ? "''" : json_encode($tagsHTMLFull) ?>;
 	var scopeFilters = <?php echo empty($scopesHTMLFull) ? "''" : json_encode($scopesHTMLFull) ?>;
@@ -864,7 +881,6 @@ jQuery(document).ready(function() {
 		showMap(true);
 	});
 	convertAllStartDateEvent();
- 	activeMenuElement("directory");
 });
 
  function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
@@ -953,7 +969,10 @@ function bindBtnEvents(){
 			    params.fromMyDirectory = true;
 	        }else{
 		        params.childId = $(this).data("id");
-		        params.childType = $(this).data("type");
+		        if($("#parentType").val() == "events")
+		        	params.childType = "citoyens";
+		        else
+		        	params.childType = $(this).data("type");
 		        params.parentType = $("#parentType").val();
 		        params.parentId = $("#parentId").val();
 		        params.connectType = $("#connectType").val();
@@ -975,7 +994,7 @@ function bindBtnEvents(){
 					        	thisParent.find(".toolsLoader").remove();
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");	
-						       	 	$("#"+data.collection+userId).css("background-color","#5f8295 !important").fadeOut(600);
+						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600);
 						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
@@ -994,6 +1013,12 @@ function bindBtnEvents(){
     								if(data.removeMeAsAdmin){
 										loadByHash(location.hash);
     								}
+    								if(typeof(mapUrl) != "undefined"){
+										if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+											mapUrl.detail.load = false;
+										if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+											mapUrl.directory.load = false;
+									}
 									//  $(this).toggleClass('active');
 									//	alert(nbItem);
 						        } else {
@@ -1010,10 +1035,12 @@ function bindBtnEvents(){
 	$(".acceptAsAdminBtn").off().on("click",function () {
 		var childId = $(this).data("id");
         var childType = $(this).data("type");
-		actionAdmin = $(this).data("admin");
+		var actionAdmin = $(this).data("admin");
+		var thisParent=$(this).parents().eq(2);
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as admin") ?> ?", 
 			function(result) {
 				if (result) {
+					thisParent.append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 					linkOption = "<?php echo Link::IS_ADMIN_PENDING; ?>";
 					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
 						function() {
@@ -1033,6 +1060,7 @@ function bindBtnEvents(){
         var linkOption = "<?php echo Link::TO_BE_VALIDATED; ?>";
         bootbox.confirm("<?php echo Yii::t("common","Are you sure you want to confirm") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common","as member") ?> ?", 
 			function(result) {
+				$(this).parents().eq(2).append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
 				if (result) {
 					validateConnection($("#parentType").val(), $("#parentId").val(), childId, childType, linkOption, 
 						function() {
@@ -1052,35 +1080,37 @@ function sendInvitationAgain(id, name, $this){
         bootbox.prompt({
 	        title: "Renvoyer une invitation à "+name,
 	        inputType: 'textarea',
-		    value:"Bonjour, Je te relance pour valider l'inscription au réseau sociétal citoyen appelé Communecter - être connecter à sa commune. Tu peux agir concrétement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.",
+		    value:"Bonjour "+name+", Je te relance pour valider l'inscription au réseau sociétal citoyen appelé Communecter - être connecter à sa commune. Tu peux agir concrètement autour de chez toi et découvrir ce qui s'y passe. Viens rejoindre le réseau sur communecter.org.",
 	        callback: function (result) {
-		        $thisParent.append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
-		        params = new Object;
-		        params.id = id;
-		        params.text = result;
-		        console.log(params);
-				$.ajax({
-					        type: "POST",
-					        url: baseUrl+"/"+moduleId+"/person/sendinvitationagain",
-					       	dataType: "json",
-					       	data: params,
-				        	success: function(data){
-					        	console.log(data);
-					        	$thisParent.find(".toolsLoader").remove();
-					        	if(data && data.result){
-					        	toastr.success("<?php echo Yii::t("common", "Invitation sent again with success") ?>");
-					        	} else{
-						        	toastr.error(data.msg);
-
-					        	}
-				       		},
-				       		error: function (xhr, ajaxOptions, thrownError) {
-						      //  alert(xhr.status);
-						        //alert(thrownError);
-						        console.log(xhr);
-						        toastr.error(xhr.responseText);
-						    }
-				});
+		        if(result){
+			        $thisParent.append("<div class='toolsLoader center padding-20'><i class='fa fa-spinner fa-spin text-white' style=''></i></div>");
+			        params = new Object;
+			        params.id = id;
+			        params.text = result;
+			        console.log(params);
+					$.ajax({
+						        type: "POST",
+						        url: baseUrl+"/"+moduleId+"/person/sendinvitationagain",
+						       	dataType: "json",
+						       	data: params,
+					        	success: function(data){
+						        	console.log(data);
+						        	$thisParent.find(".toolsLoader").remove();
+						        	if(data && data.result){
+						        	toastr.success("<?php echo Yii::t("common", "Invitation sent again with success") ?>");
+						        	} else{
+							        	toastr.error(data.msg);
+	
+						        	}
+					       		},
+					       		error: function (xhr, ajaxOptions, thrownError) {
+							      //  alert(xhr.status);
+							        //alert(thrownError);
+							        console.log(xhr);
+							        toastr.error(xhr.responseText);
+							    }
+					});
+				}
 	        }
     });
      

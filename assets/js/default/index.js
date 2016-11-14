@@ -64,12 +64,14 @@ function resizeInterface()
   $("#ajaxSV").css({"minHeight" : height});
   //$("#menu-container").css({"minHeight" : height});
   var heightDif = $("#search-contact").height() + $("#floopHeader").height() + 60 /* top */ + 0 /* bottom */;
+  var menuTopHeight = $(".main-top-menu").height();// - $(".toolbar").height();
+  
   //console.log("heightDif", heightDif);
   $(".floopScroll").css({"minHeight" : height-heightDif});
   $(".floopScroll").css({"maxHeight" : height-heightDif});
-  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-50);
-  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-50);
-  $(".my-main-container").css("height", $(".sigModuleBg").height()-50);
+  $(".my-main-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".my-main-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".my-main-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -139,7 +141,7 @@ function showMap(show)
 		$("body").addClass("inSig");
 
 		$(".my-main-container").animate({
-     							top: -1000,
+     							//top: -1000,
      							opacity:0,
 						      }, 'slow' );
 
@@ -150,11 +152,14 @@ function showMap(show)
 		isMapEnd =false;
 		hideMapLegende();
 
+		var iconMap = "map-marker";
+		if(typeof ICON_MAP_MENU_TOP != "undefined") iconMap = ICON_MAP_MENU_TOP;
+		//console.log(ICON_MAP_MENU_TOP);
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
 		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
 		$(".panel_map").hide(1);
-		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
+		$("#btn-toogle-map").html("<i class='fa fa-"+iconMap+"'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
 		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 		//$(".lbl-btn-menu").show(400);
@@ -163,7 +168,7 @@ function showMap(show)
 		$(".main-menu-left").removeClass("inSig");
 		$("body").removeClass("inSig");
 		$(".my-main-container").animate({
-     							top: 50,
+     							//top: 50,
      							opacity:1
 						      }, 'slow' );
 		setTimeout(function(){ $(".my-main-container").show(); }, 100);
@@ -224,7 +229,7 @@ function setScopeValue(btn){ console.log("setScopeValue");
 		
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("data-original-title", cityNameCommunexion);
 		$("#btn-geoloc-auto-menu .fa-crosshairs").attr("title", cityNameCommunexion);
-		$("#btn-geoloc-auto-menu").off();//.click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
+		$("#btn-geoloc-auto-menu").off(); //click(function(){ loadByHash("#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion) });
 		$("#btn-geoloc-auto-menu").attr("href", '#city.detail.insee.' + inseeCommunexion+'.'+'postalCode.'+cpCommunexion);
 		$("#btn-geoloc-auto-menu").data("hash", "#city.detail.insee." + inseeCommunexion+"."+"postalCode."+cpCommunexion);
 		//console.log("HASHHHHHHHHHHHHHHHHHHHH", $("#btn-geoloc-auto-menu").data("hash"));

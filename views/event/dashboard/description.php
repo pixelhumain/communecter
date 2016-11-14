@@ -2,31 +2,30 @@
 
 $cssAnsScriptFilesTheme = array(
 //X-editable...
-'/assets/plugins/x-editable/css/bootstrap-editable.css',
-'/assets/plugins/x-editable/js/bootstrap-editable.js',
+'/plugins/x-editable/css/bootstrap-editable.css',
+'/plugins/x-editable/js/bootstrap-editable.js',
 
 //DatePicker
-'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
+'/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
+'/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
+'/plugins/bootstrap-datepicker/css/datepicker.css',
 
 //DateTime Picker
-'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
+'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 
 //Wysihtml5
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-'/assets/plugins/wysihtml5/wysihtml5.js',
-
-'/assets/plugins/moment/min/moment.min.js' , 
-'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
+'/plugins/wysihtml5/wysihtml5.js',
+ 
+'/plugins/jquery.qrcode/jquery-qrcode.min.js'
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
 	//Data helper
@@ -753,7 +752,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd',
+				format: 'dd/mm/yyyy',
 				viewformat: 'dd/mm/yyyy',
 				datepicker: {
 					weekStart: 1
@@ -773,7 +772,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "date",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd',   
+				format: 'dd/mm/yyyy',   
 	        	viewformat: 'dd/mm/yyyy',
 	        	datepicker: {
 	                weekStart: 1
@@ -787,7 +786,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    }
 	        });
 
-			formatDate = "YYYY-MM-DD";
+			formatDate = "DD/MM/YYYY";
 		} else {
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/event/updatefield", 
@@ -795,7 +794,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				type: "datetime",
 				mode: "popup",
 				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
+				format: 'dd/mm/yyyy hh:ii',
 				viewformat: 'dd/mm/yyyy hh:ii',
 				datetimepicker: {
 					weekStart: 1,
@@ -817,7 +816,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				mode: "popup",
 				type: "datetime",
 				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
+				format: 'dd/mm/yyyy hh:ii',
 	        	viewformat: 'dd/mm/yyyy hh:ii',
 	        	datetimepicker: {
 	                weekStart: 1,
@@ -833,11 +832,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			    }
 	        });
 
-			formatDate = "YYYY-MM-DD HH:mm";
+			formatDate = "DD/MM/YYYY HH:mm";
 		}
 
-		$('#startDate').editable('setValue', moment(startDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
-		$('#endDate').editable('setValue', moment(endDate, "YYYY-MM-DD HH:mm").format(formatDate), true);
+		$('#startDate').editable('setValue', moment(startDate, "DD/MM/YYYY HH:mm").format(formatDate), true);
+		$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY HH:mm").format(formatDate), true);
 	}
 
 

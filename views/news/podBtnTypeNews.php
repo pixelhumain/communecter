@@ -26,7 +26,7 @@
 	font-size: 15px !important;
 }
 button.btn-start-search{
-	font-size:13px!important;
+	font-size:12px!important;
 	height:30px!important;
 	width:40px!important;
 }
@@ -131,12 +131,14 @@ input.form-control.input-search{
   		<div class="btn-group btn-group-sm inline-block scope-global-community">
 		  <button class="btn btn-sm btn-default tooltips btn-scope-type text-dark active" data-scope-type="global"
 		    data-msg-info="Live public : retrouvez tous les messages publics selon vos lieux favoris"
+	  		data-write-info="Envoyez un message public en sélectionnant des lieux"
 	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages publics">
 		  	<i class="fa fa-globe"></i> Public
 		  </button>
 		  <button style="margin-right:10px;" 
 		  	class="btn btn-sm btn-default btn-scope-type tooltips text-dark" data-scope-type="community"
 		    data-msg-info="Live communauté : retrouvez tous les messages de vos contacts"
+	  		data-write-info="Envoyez un message à vos contacts"
 	  		data-toggle="tooltip" data-placement="bottom" title="Afficher les messages de ma communauté">
 		  	<i class="fa fa-users"></i> Ma communauté
 		  </button>
@@ -171,7 +173,7 @@ input.form-control.input-search{
 
 </div>
 
-<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div>
+<div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-15"></div>
 
 <div id="toogle_filters">
 	<div class="space-20"></div>
@@ -182,7 +184,7 @@ input.form-control.input-search{
 
 	<div id="scopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 
-	<?php if(@$filterTypeNews!="") && false { ?>
+	<?php if(@$filterTypeNews!="" && false) { ?>
 		<?php $spec = Element::getElementSpecsByType($filterTypeNews); ?>
 		<div class='text-dark col-xs-12 no-padding pull-left margin-bottom-15'>
 			<hr style='margin-top:5px;margin-bottom:0px; width:100%;'>
@@ -194,7 +196,7 @@ input.form-control.input-search{
 
 
 
-	<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4" style="margin-top:15px!important;">
+	<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-4 col-sm-6 col-md-6 col-lg-4 col-xs-12" style="margin-top:15px!important;">
 	  	<div class="input-group col-xs-12 pull-left">	        
 	        <input id="searchBarText" data-searchPage="true" type="text" placeholder="rechercher ..." class="input-search form-control">
 	        <span class="input-group-btn">
@@ -334,6 +336,8 @@ function initSelectTypeNews(){
 
   	$(".btn-scope-type").click(function(){
   		$("#msg_live_type").html($(this).data("msg-info"));
+  		$("#info-write-msg").html($(this).data("write-info"));
+
   	});
 }
 

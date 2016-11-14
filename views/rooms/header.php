@@ -2,9 +2,9 @@
 $cs = Yii::app()->getClientScript();
 
 $cssAnsScriptFilesModule = array(
-  '/css/rooms/header.css'
+  '/assets/css/rooms/header.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl); ?>
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl); ?>
  <style>
 
 .assemblyHeadSection {  
@@ -337,11 +337,18 @@ function createModalRoom($elements, $parentType, $parentId, $index, $title,
 					      $imgIcon = '<img src="'.$urlPhotoProfil.'">';
 						}
 
+						$count = 0;
+						if( @$value["type"] == ActionRoom::TYPE_VOTE )
+							$count = PHDB::count(Survey::COLLECTION,array("survey"=>(string)$value["_id"]));
+						else if( @$value["type"] == ActionRoom::TYPE_ACTIONS )
+							$count = PHDB::count(Survey::COLLECTION,array("room"=>(string)$value["_id"]));
+						else if( @$value["type"] == ActionRoom::TYPE_DISCUSS )
+							$count = (empty($value["commentCount"])?0:$value["commentCount"]);
 						if(!$skip){
 							echo '<a href="javascript:" onclick="'.$onclick.'" class="text-dark room-item" data-dismiss="modal">'.
 									'<i class="fa fa-angle-right"></i> <i class="fa fa-'.$icon.'"></i> '.$value["name"].
 									" <span class='badge badge-success pull-right'>".
-										(empty($value["commentCount"])?0:$value["commentCount"]).
+										$count.
 										//PHDB::count($col,array($attr=>(string)$value["_id"])).
 									"</span>".
 									" <span class='pull-right img-room-modal'>".

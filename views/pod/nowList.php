@@ -13,6 +13,8 @@
     }
     .elemt_date {
         font-weight: 200;
+        padding-top: 2px;
+        font-size: 11px;
     }
     .elemt_name a{
         color:#3C5665;
@@ -20,6 +22,9 @@
     }
     .elemt_name a:hover{
        text-decoration: underline !important;
+    }
+    .elemt_name i.fa{
+        font-size: 19px;
     }
     .col-updated .border-dark {
         border: 0;
@@ -33,8 +38,13 @@
         text-align:center;
         float:left;
         background: #cfcfcf;
+
     }
-    .img-responsive{
+    .elemt_img img{
+        min-height: 150px;
+    }
+
+    .elemt_img .img-responsive{
         display:inline-block;
     }
 </style>
@@ -72,9 +82,9 @@
                 $id = $v["id"];
             echo ($type) ? Element::getLink(@$type."s",$id) : "no type"; //echo @$type;?>
         </div>
-        <div class="elemt_date pull-left no-margin text-red">
-            <i class="fa fa-clock-o"></i>
-            <span class="dateTZ" data-time="<?php echo @$v["updated"];?>"> </span>            
+        <div class="elemt_date pull-left margin-top-5 text-left">
+            <i class="fa fa-flash"></i> actif 
+            <span class="dateTZ"><?php echo @$v["updatedLbl"];?> </span>            
             <?php //DDA : if( @$v["organizerType"] && @$v["organizerId"] ) echo "-".Element::getLink( @$v["organizerType"],@$v["organizerId"] )?>
             <?php //DDA : if( @$v["parentType"] && @$v["parentId"] ) echo ">".Element::getLink( @$v["parentType"],@$v["parentId"] )?>
 
@@ -87,11 +97,11 @@
 <script>
 
 jQuery(document).ready(function() {
-    $(".elemt_date").each(function() {
-        var elementTime = $(this).children(".dateTZ").attr("data-time");
-        var elementDate = new Date(elementTime * 1000);
-        $(this).children(".dateTZ").text(elementDate.toLocaleDateString() + " " + elementDate.toLocaleTimeString());
-    });
+    // $(".elemt_date").each(function() {
+    //     var elementTime = $(this).children(".dateTZ").attr("data-time");
+    //     var elementDate = new Date(elementTime * 1000);
+    //     $(this).children(".dateTZ").text(elementDate.toLocaleDateString() + " " + elementDate.toLocaleTimeString());
+    // });
 });
 
 function enlargeNow() { 

@@ -49,9 +49,6 @@ return array(
 	"Save Processing"=> "Enregistrement en cours",
 	"Understanding newspaper and news stream"=> "Comprendre le journal et le fil d&apos;actualité",
 
-	"Short description" => "Description courte",
-	
-	
-	
+	"Short description" => "Description courte",	
 	
 );

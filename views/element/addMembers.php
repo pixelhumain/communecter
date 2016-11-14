@@ -1,10 +1,10 @@
 <?php
 	
 $cssAnsScriptFilesModule = array(
-	'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
-	'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'
 	);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
 ?>
 <style>
 	#dropdown_search{
@@ -299,13 +299,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	margin: 0;
 	margin-bottom: 10px;
 }
-.tools_bar{
-	border-bottom: 1px solid lightgrey;
-}
 
 #btn-submit-form{
 	display: none;
 }
+
+.tools_bar{
+	border-bottom: 1px solid lightgrey;
+}
+
 <?php 
 if($type == Organization::COLLECTION){
 	$formTitle = Yii::t("organisation","Add a member to this organization",null,Yii::app()->controller->module->id);
@@ -362,7 +364,7 @@ if(!@$_GET["renderPartial"])
 		</div>
 	</a>
 
-	<?php $this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type)); ?>
+	<?php //$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type)); ?>
 
 	<div class="col-md-12 margin-top-15">  
 
@@ -417,7 +419,6 @@ if(!@$_GET["renderPartial"])
 					        		<ul class="dropdown-menu" id="dropdown_search" style="max-height:265px;overflow:scroll;">
 										<li class="li-dropdown-scope">-</li>
 									</ul>
-								</input>
 							</span>
 						</div>
 					</div>
@@ -474,8 +475,8 @@ if(!@$_GET["renderPartial"])
 						    	    	<label class="control-label">
 											Administrateur :
 										</label><br>
-										<input class="hide" id="memberIsAdmin" name="memberIsAdmin"></input>
-										<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+										<input class="hide" id="memberIsAdmin" name="memberIsAdmin">
+										<input type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox">
 									</div>
 								</div>
 							</div>
@@ -496,6 +497,7 @@ if(!@$_GET["renderPartial"])
 		        </form>
 	        </div>
         </div>
+
         <div class="panel panel-white" id="divImportFile">
         	<div class="panel-heading border-light text-dark">
         		<blockquote>
@@ -569,6 +571,8 @@ if(!@$_GET["renderPartial"])
 	var listMails = [];
 	var totalMails = 0;
 	var elementType= "<?php echo $type ?>";
+	var elementId= "<?php echo (string)$element["_id"] ?>";
+	var links= <?php echo json_encode($element["links"]) ;?>;
 	//var element = <?php echo json_encode($element) ?>;
 	
 	jQuery(document).ready(function() {
@@ -576,7 +580,7 @@ if(!@$_GET["renderPartial"])
 		initFormAddMember();
 		
 		bindTEST();
-
+		//removeMembersInMyContact();
 		//buildDynForm();
 	});
 
@@ -806,6 +810,12 @@ if(!@$_GET["renderPartial"])
 						$("[name='my-checkbox']").bootstrapSwitch('state', false);
 						$(".saveBtn").html('<?php echo Yii::t("common","Save") ?>');
 						showSearch();
+						if(typeof(mapUrl) != "undefined"){
+							if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+								mapUrl.detail.load = false;
+							if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+								mapUrl.directory.load = false;
+						}
 	            	}
 	            	console.log(data.result);   
 	            },
@@ -875,7 +885,10 @@ if(!@$_GET["renderPartial"])
 
 	function autoCompleteEmailAddMember(searchValue){
 		console.log("autoCompleteEmailAddMember");
-		var data = {"search" : searchValue};
+		var data = {
+			"search" : searchValue,
+			"elementId" : elementId
+		};
 		if (elementType == "<?php echo Event::COLLECTION ?>")
 			data.searchMode = "personOnly";
 		$.ajax({
@@ -1095,7 +1108,7 @@ function setValidationTable(newMember, newMemberType, multi){
 }
 
 function fadeInView(inView){
-
+	console.log("fadeInView", inView);
 	if(inView == "divSearch")
 	{
 		$("#divSearch").fadeIn("slow", function() {});
@@ -1248,6 +1261,14 @@ function allchecked(bool) {
 		listMails = [];
 
 	setNbContact()	
+}
+
+function removeMembersInMyContact(){
+
+  $("input[value='"+elementId+"']").parent().parent().parent().remove();
+  $.each(links.members, function(key, value){
+    $("input[value='"+key+"']").parent().parent().parent().remove();
+  });
 }
 </script>
 	
