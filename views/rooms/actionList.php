@@ -526,7 +526,7 @@ border: 1px solid #E4E4E4;
                   <br>Référencez et partagez <b>une par une</b>,
                   <br>les tâches qui concernent cet espace
                   <br><br>
-                  <button class="btn btn-success" onclick='$(".datepicker").css("zIndex","12000");' data-toggle="modal" data-target="#modal-create-action">
+                  <button class="btn btn-success" onclick='openForm("action","sub"); $(".datepicker").css("zIndex","12000");'>
                     <i class="fa fa-plus"></i> Ajouter une action
                   </button>
                 </blockquote>
@@ -602,6 +602,16 @@ border: 1px solid #E4E4E4;
 *  Initialisation
 *
 ***************************************** */
+
+ var contextData = {
+    name : "<?php echo addslashes(@$room["name"]) ?>",
+    id : "<?php echo (string)@$room["_id"] ?>",
+    type : "action",
+    controller : "room",
+    otags : "<?php echo addslashes(@$room["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$room["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>
+  };  
+
 var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button

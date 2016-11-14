@@ -895,7 +895,7 @@ class Menu {
                         Yii::t( "common", 'Create an Action for your community'),
                         Yii::t( "rooms", 'Add an Action',null,Yii::app()->controller->module->id), 'plus',
                         //"loadByHash('#rooms.editAction.room.".$id."')",
-                        "$('#modal-create-action').modal('show')",
+                        "openForm('action','sub')",
                         "addActionBtn",null);
 
             /*if ( @$room["organizerId"] == Yii::app()->session["userId"] ) 

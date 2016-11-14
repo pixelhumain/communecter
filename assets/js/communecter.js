@@ -2119,9 +2119,8 @@ var typeObj = {
 				            			    	window.myVotesList[ v.parentType].options = {}
 				            			    }else{
 				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
-				            			    		//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
+				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
 				            			    }
-				            			    
 			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
 			            			    //run through myContacts to fill parent names 
@@ -2129,6 +2128,8 @@ var typeObj = {
 			            			    
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #survey").val( contextData.id );
 								    } );
 			            		}
 			            		/*$("#survey").change(function() { 
@@ -2137,7 +2138,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	//<custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2207,6 +2208,13 @@ var typeObj = {
 			    title : "Ajouter une action",
 			    icon : "gavel",
 			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    		$("#ajaxFormModal #room").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
 			    beforeSave : function(){
 			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
 			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
@@ -2247,13 +2255,13 @@ var typeObj = {
 			            			    console.dir(window.myActionsList);
 			            			    html = buildSelectGroupOptions(window.myActionsList);
 										$("#room").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #room").val( contextData.id );
 								    } );
 			            		}
-
 		            		}
 		            	},
-
-		            	custom : "<br/><span class='text-small'>Vous pouvez créer des thématiques <a href='javascript:toastr.info(\"todo:open create room form\")' class='lbh btn btn-xs'> ici </a> </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace d'action lié à une ville, une organisation ou un projet </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2288,7 +2296,7 @@ var typeObj = {
 		            },
 		            urls : {
 		                "inputType" : "array",
-		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "placeholder" : "url",
 		                "value" : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
@@ -2307,6 +2315,14 @@ var typeObj = {
 		            	inputType : "hidden",
 		            	value : "action"
 		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
 			    }
 			}
 		} },
@@ -2468,8 +2484,8 @@ function globalSearch(searchValue,types){
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-users'></i>";
 				if(elem.type){
-				typeIco = elem.type;
-				htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
+					typeIco = elem.type;
+					htmlIco ="<i class='fa "+mapIconTop[elem.type] +"'></i>";
 				}
 				where = "";
 				if (elem.address != null) {
@@ -2482,14 +2498,14 @@ function globalSearch(searchValue,types){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
 				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span>  " + elem.name+where+
+							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
 						"</a>";
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
 			
 			if (compt > 0) {
-				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cette organisation n'existe pas deja : </div>"+str);
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cet élément n'existe pas déjà : </div>"+str);
 				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
@@ -2627,21 +2643,24 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
         //url to match in the text field
         var $this = $(this);
         if($this.parents().eq(nbParent).find(appendClassName).html()=="" || (e.which==32 || e.which==13)){
+
 	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-	        if (match_url.test(getUrl.val())) {
+	        if (match_url.test(getUrl.val())) 
+	        {
 		        console.log(getUrl.val().match(match_url));
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
 			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
 		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
-	                $this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
-	                $(".loading_indicator").show(); //show loading indicator image
+	                //$this.parent().find(appendClassName).html("<i class='fa fa-spin fa-spinner text-red fa-2x'></i>");//hide();
+	                $this.parents().eq(nbParent).find(".loading_indicator").show(); //show loading indicator image
+
 	                //ajax request to be sent to extract-process.php
 	                //alert(extracted_url);
 	                lastUrl=extracted_url;
 	                extracted_url_send=extracted_url;
 	                if(extracted_url_send.indexOf("http")<0)
 	                	extracted_url_send = "http://"+extracted_url;
-	                $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
+	               // $(appendClassName).html("<i class='fa fa-spin fa-reload'></i>");
 	                $.ajax({
 						url: baseUrl+'/'+moduleId+"/news/extractprocess",
 						data: {'url': extracted_url_send},
@@ -2655,25 +2674,31 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                   //$("#results").html(content); 
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content).slideDown();
 		                    //$this.parents().eq(nbParent).slideDown();
+		                    if($this.parent().find(".dynFormUrlsWarning").length > 0)
+			                   $this.parent().find(".dynFormUrlsWarning").remove(); 
+		                    
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
 							    $trigger.trigger("input");
 							});
-	//append received data into the element
+							//append received data into the element
 		                    //$("#results").slideDown(); //show results with slide down effect
-		                    $(".loading_indicator").hide(); //hide loading indicator image
+		                    $this.parents().eq(nbParent).find(".loading_indicator").hide(); //hide loading indicator image
 	                	},
 						error : function(){
 							$.unblockUI();
 							//toastr.error(trad["wrongwithurl"] + " !");
+
 							//content to be loaded in #results element
 							var content = '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-refresh"></i></a><h4><a href="'+extracted_url+'" target="_blank" class="lastUrl wrongUrl">'+extracted_url+'</a></h4>';
 		                    //load results in the element
 		                    $this.parents().eq(nbParent).find(appendClassName).hide();
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content);
 		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
-		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site");
+		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site ou un problème est survenu à son extraction");
+		                    if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0)
+								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
@@ -2682,10 +2707,12 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 
 		                    //$("#results").html(content); //append received data into the element
 		                    //$("#results").slideDown(); //show results with slide down effect
-		                    $(".loading_indicator").hide(); //hide loading indicator image
+		                    $this.parents().eq(nbParent).find(".loading_indicator").hide(); //hide loading indicator image
 						}	
 	                });
 				}
+        	} else if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0){
+				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
         	}
         }
     }); 
@@ -2700,8 +2727,8 @@ function getMediaCommonHtml(data,action,id){
     if(typeof(data.content) !="undefined" && typeof(data.content.imageSize) != "undefined"){
         if (data.content.videoLink){
             extractClass="extracted_thumb";
-            width="100";
-            height="100";
+            width="100%";
+            height="100%";
 
             aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
             inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
@@ -2725,7 +2752,7 @@ function getMediaCommonHtml(data,action,id){
 		inputToSave+="<input type='hidden' class='size_img' value='"+data.content.imageSize+"'/>"
     }
     if (typeof(data.content) !="undefined" && typeof(data.content.image)!="undefined"){
-        inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo;
+        inc_image = '<div class="'+extractClass+'  col-xs-4 no-padding" id="extracted_thumb">'+aVideo;
         if(data.content.type=="img_link"){
 	        if(typeof(data.content.imageId) != "undefined"){
 		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+id+"' value='"+data.content.imageId+"'/>";

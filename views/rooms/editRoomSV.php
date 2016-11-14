@@ -83,6 +83,7 @@ function editRoomSV (roomObj) {
             if( roomObj ){
               $("#editRoomsContainer #name").val(data.title);
             }
+            $(".mainDynFormCloseBtn").addClass("hidden");
           },
           onSave : function(){
             console.log("saving Room!!");
