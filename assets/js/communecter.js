@@ -1644,7 +1644,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1661,7 +1661,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "URL du site web",
 			            "inputType" : "array",
 			            "value" : [],
@@ -1669,7 +1678,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 			        telephone : {
 			        	placeholder : "Téléphne",
 			            "inputType" : "text",
@@ -1919,7 +1928,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
@@ -1929,7 +1938,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
@@ -1937,7 +1955,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -2017,7 +2035,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -2026,7 +2044,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
@@ -2034,7 +2061,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
