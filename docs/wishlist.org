@@ -24,7 +24,7 @@
 [ ] moving discussion polling to discussion page instead of communecter.js
 
 * Tags
-[ ] section sous la baniere de categorie de tags
+[.2] section sous la baniere de categorie de tags
   - sport / alternative/ agriculture /santé ...etc
   on click on decouvre une selection de tags, facilement ajoutable 
 
