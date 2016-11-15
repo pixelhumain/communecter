@@ -355,7 +355,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 }
 
 
-function searchAdressNewElement(){
+function searchAdressNewElement(){ console.log("searchAdressNewElement");
 	var providerName = "";
 	var requestPart = "";
 
@@ -363,7 +363,8 @@ function searchAdressNewElement(){
 	var city 	= ($('[name="newElement_city"]').val() 	   	  	 != "") ? $('[name="newElement_city"]').val() : "";
 	var cp 		= ($('[name="newElement_cp"]').val() 			 != "") ? $('[name="newElement_cp"]').val() : "";
 	var countryCode = ($('[name="newElement_country"]').val() 	 != "") ? $('[name="newElement_country"]').val() : "";
-	countryCode = changeCountryForNominatim(countryCode);
+
+
 	if($('[name="newElement_streetAddress"]').val() != ""){
 		providerName = "nominatim";
 		typeSearchInternational = "address";
@@ -384,43 +385,57 @@ function searchAdressNewElement(){
 	$("#dropdown-newElement_streetAddress-found").html("<li><a href='javascript:'><i class='fa fa-spin fa-refresh'></i> recherche en cours</a></li>");
 	$("#dropdown-newElement_streetAddress-found").show();
 
-	callGeoWebService(providerName, requestPart, countryCode, 
-		function(objs){
-			//success
-			console.log("success callGeoWebService");
-			console.dir(objs);
-			var res = getCommonGeoObject(objs, providerName);
-			console.dir(res);
-			var html = "";
-			$.each(res, function(key, value){ //console.log(allCities);
-    			if(notEmpty(value.countryCode)){
-    				console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
-    				if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
-    					html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'>"+value.name+"</a></li>";
-    				}
-    			}
-    		});
-    		if(html == "") html = "<i class='fa fa-ban'></i> Aucun résultat";
-    		$("#dropdown-newElement_streetAddress-found").html(html);
-    		$("#dropdown-newElement_streetAddress-found").show();
 
-    		$(".item-street-found").click(function(){
-    			Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
-				Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
-				Sig.map.setZoom(16);
-				console.log("lat lon", $(this).data("lat"), $(this).data("lng"));
-				$("#dropdown-newElement_streetAddress-found").hide();
-				$('[name="newElement_lat"]').val($(this).data("lat"));
-				$('[name="newElement_lng"]').val($(this).data("lng"));
-				NE_lat = $(this).data("lat");
-				NE_lng = $(this).data("lng");
-				updateHtmlInseeLatLon();
-    		});
-		}, 
-		function(){
-			//error
-		}
-	);
+	if(countryCode == "NC"){
+		console.log("countryCode", countryCode);
+		countryCode = changeCountryForNominatim(countryCode);
+		console.log("countryCode", countryCode);
+		callNominatim(requestPart, countryCode);
+	}else{
+		console.log("countryCode", countryCode);
+		countryCode = changeCountryForNominatim(countryCode);
+		console.log("countryCode", countryCode);
+		callDataGouv(requestPart, countryCode);
+	}	
+	
+
+	// callGeoWebService(providerName, requestPart, countryCode, 
+	// 	function(objs){
+	// 		//success
+	// 		console.log("success callGeoWebService");
+	// 		console.dir(objs);
+	// 		var res = getCommonGeoObject(objs, providerName);
+	// 		console.dir(res);
+	// 		var html = "";
+	// 		$.each(res, function(key, value){ //console.log(allCities);
+ //    			if(notEmpty(value.countryCode)){
+ //    				console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
+ //    				if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
+ //    					html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'>"+value.name+"</a></li>";
+ //    				}
+ //    			}
+ //    		});
+ //    		if(html == "") html = "<i class='fa fa-ban'></i> Aucun résultat";
+ //    		$("#dropdown-newElement_streetAddress-found").html(html);
+ //    		$("#dropdown-newElement_streetAddress-found").show();
+
+ //    		$(".item-street-found").click(function(){
+ //    			Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
+	// 			Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
+	// 			Sig.map.setZoom(16);
+	// 			console.log("lat lon", $(this).data("lat"), $(this).data("lng"));
+	// 			$("#dropdown-newElement_streetAddress-found").hide();
+	// 			$('[name="newElement_lat"]').val($(this).data("lat"));
+	// 			$('[name="newElement_lng"]').val($(this).data("lng"));
+	// 			NE_lat = $(this).data("lat");
+	// 			NE_lng = $(this).data("lng");
+	// 			updateHtmlInseeLatLon();
+ //    		});
+	// 	}, 
+	// 	function(){
+	// 		//error
+	// 	}
+	// );
 }
 
 function backToForm(cancel){
@@ -644,9 +659,9 @@ function updateLocalityElement(){
 
 // Pour effectuer une recherche a la Réunion avec Nominatim, il faut choisir le code de la France, pas celui de la Réunion
 function changeCountryForNominatim(country){
-	codeCountry = {
-		"FR" : ["RE"]
-	}
+	var codeCountry = {
+		"FR" : ["RE", "GP", "GF", "MQ", "YT", "NC", "PM"]
+	};
 	$.each(codeCountry, function(key, countries){
 		if(countries.indexOf(country) != -1)
 	 		country = key;

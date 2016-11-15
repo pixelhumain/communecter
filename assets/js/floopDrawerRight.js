@@ -245,7 +245,7 @@ function addFloopEntity(entityId, entityType, entityValue){
 	//Exception with citoyens collection which is managed like people in display
 	if(entityType == "citoyens") entityType = "people";
 
-	//floopContacts[entityType].push(entityValue);
+	floopContacts[entityType].push(entityValue);
 
 	var type = getFloopContactTypes(entityType);
 	//console.log("getFloopContactTypes", entityType, type);
