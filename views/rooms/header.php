@@ -399,7 +399,7 @@ function saveNewRoom(){
 }
 
 function selectRoomType(type){
-  console.log("selectRoomType",type);
+  mylog.log("selectRoomType",type);
   $("#roomType").val(type);
   
   var msg = "Nouvel espace";

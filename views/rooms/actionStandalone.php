@@ -333,7 +333,7 @@ jQuery(document).ready(function() {
 
 function closeAction(id)
 {
-    console.warn("--------------- closeEntry ---------------------");
+    mylog.warn("--------------- closeEntry ---------------------");
     
       bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer cette action ?</strong>",
           function(result) {
@@ -369,7 +369,7 @@ function assignMe(id)
 
 function move( type,destId ){
 	bootbox.hideAll();
-	console.warn("--------------- move ---------------------",type,destId);
+	mylog.warn("--------------- move ---------------------",type,destId);
 	bootbox.confirm("<strong>Êtes-vous sûr de vouloir déplacer cette action ?</strong>",
       function(result) {
         if (result) {

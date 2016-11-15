@@ -211,7 +211,7 @@ jQuery(document).ready(function() {
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
           if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
-            console.log("scroll MAX");
+            mylog.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
         }
@@ -250,8 +250,8 @@ jQuery(document).ready(function() {
 
 var calendarInit = false;
 function showResultInCalendar(mapElements){
-  //console.log("showResultInCalendar");
-  //console.dir(mapElements);
+  //mylog.log("showResultInCalendar");
+  //mylog.dir(mapElements);
 
   var events = new Array();
   $.each(mapElements, function(key, thisEvent){
@@ -278,7 +278,7 @@ function showResultInCalendar(mapElements){
                               "position" : position });
   });
 
-  //console.dir(events);
+  //mylog.dir(events);
 
   if(calendarInit == true) {
     $(".calendar").html("");
@@ -305,7 +305,7 @@ function showResultInCalendar(mapElements){
 
 
 function searchCallback() { 
-  console.log("searchCallback");
+  mylog.log("searchCallback");
   startSearch(0, indexStepInit);
 }
 </script>

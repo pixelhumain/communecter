@@ -713,24 +713,24 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-		console.log(news, news);
+		mylog.log(news, news);
 		buildTimeLine (news, 0, indexStep);
 		bindTags();
-		//console.log(news);
+		//mylog.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;
 		else
 			dateLimit=initLimitDate.created;
 		
-		$(".my-main-container").bind("scroll",function(){ //console.log(loadingData, scrollEnd);
+		$(".my-main-container").bind("scroll",function(){ //mylog.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
 		          if(isLiveGlobal()){
-		          	heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+		          	heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
 		          }
 		          var heightWindow = $(window).height();
 		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-		            console.log("scroll in news/index MAX");
+		            mylog.log("scroll in news/index MAX");
 		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		          }
 		    }
@@ -820,7 +820,7 @@ jQuery(document).ready(function()
 		        	if(!retdata){
 		        		toastr.error(retdata.content);
 		        	}else{
-			        	//console.log(retdata);
+			        	//mylog.log(retdata);
 			        	data = [];
 			        	for(var key in retdata){
 				        	for (var id in retdata[key]){
@@ -841,10 +841,10 @@ jQuery(document).ready(function()
 					 			}
 			        	}
 			        	data=mentionsContact;
-			        	//console.log(data);
+			        	//mylog.log(data);
 			    		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 						callback.call(this, data);
-						console.log(callback);
+						mylog.log(callback);
 		  			}
 				}	
 			})

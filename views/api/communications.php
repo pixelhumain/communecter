@@ -40,7 +40,7 @@
 						    $.each(data,function(k,v){
 						      	list += (list == "") ? v.email : ","+v.email ;
 						    })
-					      	console.log(list);
+					      	mylog.log(list);
 					      	$("#sendMessageemail").val(list);
 						      	
 					    },

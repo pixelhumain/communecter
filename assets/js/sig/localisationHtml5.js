@@ -29,7 +29,7 @@ function initHTML5Localisation(role){ return;
 				// 		 longitude : 55.4859363
 				// 		}
 				// 	};
-				 console.log(position.coords);
+				 mylog.log(position.coords);
 			    
 			},
 			function (error){	//error
@@ -68,7 +68,7 @@ function initHTML5Localisation(role){ return;
 			// 		 longitude : 55.4859363
 			// 		}
 			// 	};
-			// console.log(position.coords);
+			// mylog.log(position.coords);
 		    mapBg.panTo([positionFound.coords.latitude, positionFound.coords.longitude], {animate:false});
 		    mapBg.setZoom(13, {animate:false});
 		    
@@ -89,8 +89,8 @@ function getCityInseeByGeoPos(coords){
 	// coords = { latitude : -20.9190923,
 	// 		   longitude : 55.4859363
 	// 		};
-	// console.log("getCityInseeByGeoPos !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");			
-	// console.log(coords);			
+	// mylog.log("getCityInseeByGeoPos !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");			
+	// mylog.log(coords);			
 	$.ajax({
 		url: baseUrl + "/" + moduleId+"/sig/getinseebylatlng",
 		type: 'POST',
@@ -102,8 +102,8 @@ function getCityInseeByGeoPos(coords){
 				
 					
 				if(currentRoleLoc == "showCityMap" && typeof obj.insee != "undefined"){
-					console.log("donne city : ");
-					console.dir(obj);
+					mylog.log("donne city : ");
+					mylog.dir(obj);
 					//toastr.success("Mapping des acteurs par code insee : " + obj.insee);
 					if($("#main-title-public1").length){
 						showLoadingMsg("Chargement des données en cours");
@@ -143,16 +143,16 @@ function getCityInseeByGeoPos(coords){
 					//searchCity();
 					//showModalSelectScope(obj);
 					$.each(obj, function(key, value){ obj[key]["typeSig"] = "city"; });
-					console.log("cities found : ");
-					console.dir(obj);
+					mylog.log("cities found : ");
+					mylog.dir(obj);
 				
 					$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune en cliquant sur <b>Communecter</b> ...");
 		        	Sig.showMapElements(Sig.map, obj);
 				}
 				else if(currentRoleLoc == "communexion_tsr"){ // && typeof obj.name != "undefined"){
 					$.each(obj, function(key, value){ obj[key]["typeSig"] = "city"; });
-					console.log("cities found : ");
-					console.dir(obj);
+					mylog.log("cities found : ");
+					mylog.dir(obj);
 					showMap(true);
 					//$(".search-loader").html("<i class='fa fa-crosshairs'></i> Sélectionnez une commune ...");
 		        	showMapLegende("crosshairs", "Sélectionnez votre commune en cliquant sur <b>Communecter</b> ...");
@@ -168,7 +168,7 @@ function getCityInseeByGeoPos(coords){
 		        	
 		},
 		error: function (error) {
-			console.dir(error);
+			mylog.dir(error);
 			toastr.error(error.responseText);
 		}
 	});
@@ -176,7 +176,7 @@ function getCityInseeByGeoPos(coords){
 
 //reverse geocoding
 function getCityByLatLngNominatim(latitude, longitude){
-	console.log(latitude, longitude);
+	mylog.log(latitude, longitude);
 	toastr.info("<i class='fa fa-circle-o-notch fa-spin'></i> Recherche approfondie");
 	$.ajax({
 		url: "//nominatim.openstreetmap.org/reverse?lat=" + latitude + "&lon=" + longitude + "&format=json&addressdetails=1",
@@ -190,7 +190,7 @@ function getCityByLatLngNominatim(latitude, longitude){
 			}else{ toastr.error("Impossible de trouver le nom de votre commune"); }
 		},
 		error: function(error){
-			console.dir("error", error);
+			mylog.dir("error", error);
 		}
 	});
 }
@@ -206,8 +206,8 @@ function getInseeByCityName(cityName){
 		complete: function () { },
 		success: function (obj)
 		{
-			console.log("getInseeByCityName ok");
-			console.dir(obj);
+			mylog.log("getInseeByCityName ok");
+			mylog.dir(obj);
 
 			if (typeof obj != "undefined"){
 				if (currentRoleLoc == "showCity"){

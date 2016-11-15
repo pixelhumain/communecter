@@ -9,14 +9,14 @@ var totalData = 0;
 var timeout = null;
 
 function startSearch(indexMin, indexMax){
-    console.log("startSearch", indexMin, indexMax, indexStep);
+    mylog.log("startSearch", indexMin, indexMax, indexStep);
 
-    console.log("loadingData", loadingData);
+    mylog.log("loadingData", loadingData);
     if(loadingData) return;
     loadingData = true;
     
 
-    console.log("loadingData true");
+    mylog.log("loadingData true");
     indexStep = indexStepInit;
 
     var name = $('#searchBarText').val();
@@ -100,7 +100,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	                             4 : "REGION"
 	                           };
 	}
-    console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
+    mylog.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {"name" : name, "locality" : locality, "searchType" : searchType, "searchBy" : levelCommunexionName[levelCommunexion], 
                 "indexMin" : indexMin, "indexMax" : indexMax  };
 
@@ -129,7 +129,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);          
+             mylog.log("error"); mylog.dir(data);          
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
@@ -168,7 +168,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
                   }
                   
-                  //console.dir(o);
+                  //mylog.dir(o);
                   var id = getObjectId(o);
                   var insee = o.insee ? o.insee : "";
                   type = typeObj[o.type].ctrl;
@@ -319,7 +319,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               } //end else (str=="")
 
               //signal que le chargement est terminé
-              console.log("loadingData false");
+              mylog.log("loadingData false");
               loadingData = false;
 
               //quand la recherche est terminé, on remet la couleur normal du bouton search
@@ -327,7 +327,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             }
 			      
             $('.tooltips').tooltip();
-            console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+            mylog.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
             if(indexMax - countData > indexMin){
               $("#btnShowMoreResult").remove(); 
@@ -364,9 +364,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       var type = $(value).attr("data-type");
 	  type = typeObj[type].col;
 
-      //console.log("#floopItem-"+type+"-"+id);
+      //mylog.log("#floopItem-"+type+"-"+id);
       if($("#floopItem-"+type+"-"+id).length){
-        //console.log("I FOLLOW THIS");
+        //mylog.log("I FOLLOW THIS");
         $(value).html("<i class='fa fa-unlink text-green'></i>");
 		$(value).attr("data-ownerlink","unparticipate");
         $(value).attr("data-original-title","Ne plus participer à l\'évènement");
@@ -388,7 +388,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
    		type = type2collection[type];
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-		console.log(formData);
+		mylog.log(formData);
 		if ($(this).attr("data-ownerlink")=="participate"){
 			formData.connectType =  "attendee";
 			$.ajax({
@@ -412,7 +412,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 			});
 		} else if ($(this).attr("data-ownerlink")=="unparticipate"){
 			formData.connectType =  "attendees";
-			console.log(formData);
+			mylog.log(formData);
 			$.ajax({
 				type: "POST",
 				url: baseUrl+"/"+moduleId+"/link/disconnect",

@@ -65,7 +65,7 @@ jQuery(document).ready(function() {
 var directoryTable = null;
 
 function resetDirectoryTable() { 
-	console.log("resetDirectoryTable");
+	mylog.log("resetDirectoryTable");
 
 	if( !$('.directoryTable').hasClass("dataTable") )
 	{
@@ -95,7 +95,7 @@ function resetDirectoryTable() {
 			directoryTable.dataTable().fnDestroy();
 			directoryTable.dataTable().fnDraw();
 		} else {
-			console.log(" directoryTable fnClearTable");
+			mylog.log(" directoryTable fnClearTable");
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
@@ -103,7 +103,7 @@ function resetDirectoryTable() {
 
 
 function bindAdminBtnEvents(){
-	console.log("bindAdminBtnEvents");
+	mylog.log("bindAdminBtnEvents");
 	
 	<?php 
 	/* **************************************
@@ -113,7 +113,7 @@ function bindAdminBtnEvents(){
 
 		$(".deleteThisUserBtn").off().on("click",function () 
 		{
-			console.log("deleteThisUserBtn click");
+			mylog.log("deleteThisUserBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
@@ -150,7 +150,7 @@ function bindAdminBtnEvents(){
 }
 
 function changeButtonName(button, action) {
-	console.log(action);
+	mylog.log(action);
 	var icon = '<span class="fa-stack"> <i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span>';
 	if (action=="addBetaTester") {
 		button.removeClass("addBetaTesterBtn");
@@ -169,7 +169,7 @@ function changeButtonName(button, action) {
 		button.addClass("addSuperAdminBtn");
 		button.html(icon+" Add this super admin");
 	} else {
-		console.warn("Unknown action !");
+		mylog.warn("Unknown action !");
 	}
 }
 

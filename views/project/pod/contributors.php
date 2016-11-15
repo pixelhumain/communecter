@@ -105,8 +105,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
  <script type="text/javascript">
  	<?php $contributors[] = $project; ?>
  	var projectContributors = <?php echo json_encode($contributors)?>;
- 	console.log("projectContributors");
- 	console.dir(projectContributors);
+ 	mylog.log("projectContributors");
+ 	mylog.dir(projectContributors);
 	jQuery(document).ready(function() {
 		bindBtnContributor();
 
@@ -116,7 +116,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	function updateContributor(newContributor,type)
 	{
-		console.log(newContributor, "type", type);
+		mylog.log(newContributor, "type", type);
 		var links ="";
 		var itemId = newContributor["id"];
 		var imgHtml="";
@@ -158,7 +158,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 									'</a>'+
 								'</td>'+
 							'</tr>';
-        console.log(contributorLine);
+        mylog.log(contributorLine);
         $("#tContributor").append(contributorLine);
         bindBtnContributor();
     	}
@@ -171,7 +171,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	        var idContributor = $(this).data("id");
 	        var typeContributor = $(this).data("type");
-	        console.log(typeContributor);
+	        mylog.log(typeContributor);
 	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your contributors ?", 
 				function(result) {
 					if (result) {

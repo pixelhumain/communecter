@@ -82,12 +82,12 @@ jQuery(document).ready(function() {
 	}
 	function afterDocSave(doc){
 		folderPath = folder+"/"+ownerId;
-		console.log("afterDocSave",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
-		console.log("addFileLine",doc); 
+		mylog.log("afterDocSave",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name); 
+		mylog.log("addFileLine",doc); 
 		date = new Date(doc.date);
 
 		name = doc.name.toLowerCase();
-		console.log("name",name); 
+		mylog.log("name",name); 
 		if(doc.name && name.indexOf(".pdf") >= 0)
 			link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';	
 		else if( doc.name && ( name.indexOf(".jpg") >= 0 || name.indexOf(".jpeg") >= 0 || name.indexOf(".gif") >= 0 || name.indexOf(".png") >= 0  ))
@@ -121,14 +121,14 @@ jQuery(document).ready(function() {
 
 	function delDoc (docId) 
 	{ 
-		console.log("delDoc",docId);
+		mylog.log("delDoc",docId);
 		if(documents[docId])
 		{
 			var delname = documents[docId].name;
 			bootbox.confirm("<?php echo Yii::t('project','Are you sure to delete',null,Yii::app()->controller->module->id) ?> : <span class='text-red text-bold'>"+delname+"</span>? ", function(result) {
 				if(result)
 				{
-					console.log("removing doc ", docId, delname);
+					mylog.log("removing doc ", docId, delname);
 					$(".file"+docId).css("background-color","#FF3700").fadeOut(400, function(){
 			            $(".file"+docId).remove();
 			            delete documents[docId];
@@ -147,11 +147,11 @@ jQuery(document).ready(function() {
 					    dataType:"json"})
 				    .done(function (data) {
 				        if (data.result) {               
-				        	console.info("deleted file success!!");
+				        	mylog.info("deleted file success!!");
 				        	if( "undefined" != typeof resetGenericFilesTable )
 								resetGenericFilesTable();
 				        } else {
-				            console.error("deleted file fail");
+				            mylog.error("deleted file fail");
 				        }
 				    });
 				}

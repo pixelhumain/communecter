@@ -883,7 +883,7 @@ jQuery(document).ready(function() {
 	convertAllStartDateEvent();
 });
 
- function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
+ function convertAllStartDateEvent(){ mylog.log("convertAllStartDateEvent");
  	$.each($(".startDateEvent.start"), function(){
  		var date = dateToStr($(this).html(), "fr", true);
  		if($(this).attr("allday") == "true"){
@@ -919,7 +919,7 @@ jQuery(document).ready(function() {
  }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
-	console.log(classId);
+	mylog.log(classId);
 	$("."+classId).removeClass('hide');
 }
 function initGrid(){
@@ -930,7 +930,7 @@ function initGrid(){
 		$('#Grid').mixItUp({
 			callbacks: {
 				onMixEnd: function(state){
-					// console.log(state);
+					// mylog.log(state);
 					if (state.activeFilter != ".followers")
 						$(".followers").hide();
 				}	
@@ -938,7 +938,7 @@ function initGrid(){
 		});
 	}else{
 		var htmlDefault = "";
-		console.log("----------show----------", show);
+		mylog.log("----------show----------", show);
 		if(show == true){
 			htmlDefault = "<div class='center'>"+
 								"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
@@ -981,7 +981,7 @@ function bindBtnEvents(){
 	        var userType = $this.data("type");
 	        var userId = $this.data("id");
 	        var thisParent = $this.parents().eq(2);
-	 	    //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	 	    //mylog.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {
@@ -1094,14 +1094,14 @@ function sendInvitationAgain(id, name, $this){
 			        params = new Object;
 			        params.id = id;
 			        params.text = result;
-			        console.log(params);
+			        mylog.log(params);
 					$.ajax({
 						        type: "POST",
 						        url: baseUrl+"/"+moduleId+"/person/sendinvitationagain",
 						       	dataType: "json",
 						       	data: params,
 					        	success: function(data){
-						        	console.log(data);
+						        	mylog.log(data);
 						        	$thisParent.find(".toolsLoader").remove();
 						        	if(data && data.result){
 						        	toastr.success("<?php echo Yii::t("common", "Invitation sent again with success") ?>");
@@ -1113,7 +1113,7 @@ function sendInvitationAgain(id, name, $this){
 					       		error: function (xhr, ajaxOptions, thrownError) {
 							      //  alert(xhr.status);
 							        //alert(thrownError);
-							        console.log(xhr);
+							        mylog.log(xhr);
 							        toastr.error(xhr.responseText);
 							    }
 					});

@@ -132,7 +132,7 @@
 	jQuery(document).ready(function()
 	{
 		//création de l'objet SIG
-		console.log("load map from networkMap");
+		mylog.log("load map from networkMap");
 		Sig = SigLoader.getSig();
 
 		//affiche l'icone de chargement
@@ -143,8 +143,8 @@
 
 			//chargement la carte
 			mapDashboardOrga = Sig.loadMap("mapCanvas", initParams);
-			console.log("contextMap");
-			console.dir(contextMap);
+			mylog.log("contextMap");
+			mylog.dir(contextMap);
 			/**************************** CHANGER LA SOURCE DES DONNEES EN FONCTION DU CONTEXTE ***************************/
 			var mapData = contextMap;
 			//var mapData = ;
@@ -152,7 +152,7 @@
 			/**************************************************************************************************************/
 
 			//alert(JSON.stringify(mapData));
-			//console.dir(mapData);
+			//mylog.dir(mapData);
 			//affichage des éléments sur la carte
 			Sig.showMapElements(mapDashboardOrga, mapData);//, elementsMap);
 

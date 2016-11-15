@@ -227,7 +227,7 @@ function addSearchType(type){
     $(".search_"+type).removeClass("fa-circle-o");
     $(".search_"+type).addClass("fa-check-circle-o");
   }
-    console.log(searchType);
+    mylog.log(searchType);
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
@@ -236,7 +236,7 @@ function removeSearchType(type){
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
   }
-  console.log(searchType);
+  mylog.log(searchType);
 }
 
 

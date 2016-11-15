@@ -5,7 +5,7 @@
 	function showPanel(box,bgStyle,title){
 		
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
-		console.log("showPanel",box, bgcolorClass );
+		mylog.log("showPanel",box, bgcolorClass );
 		$('.'+activePanel+", .panelTitle").hide();
 		$(".byPHRight").fadeOut();
 		$("body.login").removeClass("bgred bggreen bgblack bgblue");
@@ -52,7 +52,7 @@
 		getAjax('.ajaxForm',baseUrl+'/'+moduleId+url,function(){ $(".ajaxForm").slideDown(); },"html");
 	}
 	function showHideMenu () { 
-		console.log("open showHideMenu" );
+		mylog.log("open showHideMenu" );
 		$("body.login").removeClass("bggreen bgblack bgblue bgyellow bgCity").addClass(bgcolorClass);
 		//$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
 		$('.'+activePanel).hide();
@@ -81,12 +81,12 @@
                     	$('.topLogoAnim').slideDown();
                     	showPanel("box-login");
                     },
-                    /*unstarted: function() { console.log('unstarted') },
-                    onReady: function() { console.log('onready') },
-                    onPlay: function() { console.log('onplay') },
-                    onPause: function() { console.log('pause') },
-                    buffering: function() { console.log('buffering') },
-                    cued: function() { console.log('cued') },*/
+                    /*unstarted: function() { mylog.log('unstarted') },
+                    onReady: function() { mylog.log('onready') },
+                    onPlay: function() { mylog.log('onplay') },
+                    onPause: function() { mylog.log('pause') },
+                    buffering: function() { mylog.log('buffering') },
+                    cued: function() { mylog.log('cued') },*/
                  });
 	}
 	var titleMapIndex = 1;
@@ -104,7 +104,7 @@
 	{ 
 		setTimeout(function()
 		{
-			//console.log("titleAnim",titleMapIndex);
+			//mylog.log("titleAnim",titleMapIndex);
 			var map = titleMap[titleMapIndex];
 			$(".titleRed").html(map.titleRed);
 			$(".titleWhite").html(map.titleWhite);

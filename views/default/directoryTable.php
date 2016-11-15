@@ -259,7 +259,7 @@ var contextMap = {
 };
 function resetDirectoryTable() 
 { 
-	console.log("resetDirectoryTable");
+	mylog.log("resetDirectoryTable");
 
 	if( !$('.directoryTable').hasClass("dataTable") )
 	{
@@ -289,7 +289,7 @@ function resetDirectoryTable()
 			directoryTable.dataTable().fnDestroy();
 			directoryTable.dataTable().fnDraw();
 		} else {
-			console.log(" directoryTable fnClearTable");
+			mylog.log(" directoryTable fnClearTable");
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
@@ -297,7 +297,7 @@ function resetDirectoryTable()
 
 function applyStateFilter(str)
 {
-	console.log("applyStateFilter",str);
+	mylog.log("applyStateFilter",str);
 	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 function clearAllFilters(str){ 
@@ -307,42 +307,42 @@ function clearAllFilters(str){
 }
 function applyTagFilter(str)
 {
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	if(!str){
 		str = "";
 		sep = "";
 		$.each($(".btn-tag.active"), function() { 
-			console.log("applyTagFilter",$(this).data("id"));
+			mylog.log("applyTagFilter",$(this).data("id"));
 			str += sep+$(this).data("id");
 			sep = "|";
 		});
 	} else 
 		clearAllFilters("");
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	directoryTable.DataTable().column( 2 ).search( str , true , false ).draw();
 	return $('.directoryLines tr').length;
 }
 
 function applyScopeFilter(str)
 {
-	//console.log("applyScopeFilter",$(".btn-context-scope.active").length);
+	//mylog.log("applyScopeFilter",$(".btn-context-scope.active").length);
 	if(!str){
 		str = "";
 		sep = "";
 		$.each( $(".btn-context-scope.active"), function() { 
-			console.log("applyScopeFilter",$(this).data("val"));
+			mylog.log("applyScopeFilter",$(this).data("val"));
 			str += sep+$(this).data("val");
 			sep = "|";
 		});
 	} else 
 		clearAllFilters("");
-	console.log("applyScopeFilter",str);
+	mylog.log("applyScopeFilter",str);
 	directoryTable.DataTable().column( 3 ).search( str , true , false ).draw();
 	return $('.directoryLines tr').length;
 }
 
 function bindAdminBtnEvents(){
-	console.log("bindAdminBtnEvents");
+	mylog.log("bindAdminBtnEvents");
 	
 	<?php 
 	/* **************************************
@@ -352,7 +352,7 @@ function bindAdminBtnEvents(){
 
 		$(".validateThisBtn").off().on("click",function () 
 		{
-			console.log("validateThisBtn click");
+			mylog.log("validateThisBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
@@ -424,7 +424,7 @@ function bindAdminBtnEvents(){
 		
 		$(".switch2UserThisBtn").off().on("click",function () 
 		{
-			console.log("switch2UserThisBtn click");
+			mylog.log("switch2UserThisBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
@@ -458,7 +458,7 @@ function bindAdminBtnEvents(){
 
 		$(".deleteThisBtn").off().on("click",function () 
 		{
-			console.log("deleteThisBtn click");
+			mylog.log("deleteThisBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
@@ -494,12 +494,12 @@ function bindAdminBtnEvents(){
 	<?php } ?>
 	$(".banThisBtn").off().on("click",function () 
 		{
-			console.log("banThisBtn click");
+			mylog.log("banThisBtn click");
 		});
 }
 
 function changeRole(button, action) {
-	console.log(button," click");
+	mylog.log(button," click");
     //$(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
     var urlToSend = baseUrl+"/"+moduleId+"/person/changerole/";
     var res = false;
@@ -525,7 +525,7 @@ function changeRole(button, action) {
 }
 
 function changeButtonName(button, action) {
-	console.log(action);
+	mylog.log(action);
 	var icon = '<span class="fa-stack"> <i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span>';
 	if (action=="addBetaTester") {
 		button.removeClass("addBetaTesterBtn");
@@ -544,7 +544,7 @@ function changeButtonName(button, action) {
 		button.addClass("addSuperAdminBtn");
 		button.html(icon+" Add this super admin");
 	} else {
-		console.warn("Unknown action !");
+		mylog.warn("Unknown action !");
 	}
 }
 

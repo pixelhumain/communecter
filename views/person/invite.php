@@ -441,7 +441,7 @@ var tabObject = [];
 
 var listFollows = <?php echo json_encode($follows) ?>;
 var listFollowsId = <?php echo json_encode($listFollowsId) ?>;
-console.log("listFollowsazaza", listFollows);
+mylog.log("listFollowsazaza", listFollows);
 
 
 jQuery(document).ready(function() {
@@ -506,7 +506,7 @@ function bindInviteSubViewInvites() {
 
 
 	/*$('#allchecked').change(function() { 
-		console.log("allchecked");          
+		mylog.log("allchecked");          
         var cases = $("#list-contact").find('[name=mailPersonInvite]'); // on cherche les checkbox qui dépendent de la liste 'list-contact'
         if(this.checked)
         { // si 'allchecked' est coché
@@ -524,7 +524,7 @@ function bindInviteSubViewInvites() {
 	});
 
 	/*$("#buttonContactsGmail").off().on('click', function(){
-		console.log("buttonContactsGmail");
+		mylog.log("buttonContactsGmail");
 		auth();
     	
 	});*/
@@ -577,7 +577,7 @@ function bindInviteSubViewInvites() {
 				var text2 = "" ;
 				listMails = [];
 				$.each(csvval, function(keyMails, valueMails){
-					//console.log("valueMails",valueMails);
+					//mylog.log("valueMails",valueMails);
 					if(valueMails.trim() != ""){
 						if(jQuery.inArray(valueMails.trim(), listFollows) == -1 ){
 	  						nbContact++;
@@ -614,7 +614,7 @@ function bindInviteSubViewInvites() {
 	$(".connectBtn").off().on("click", function() {
 			var thiselement = this;
 			follow("<?php echo Person::COLLECTION ?>", $('#newInvite #inviteId').val(), userId, "<?php echo Person::COLLECTION ?>", function(){
-			console.log('callback connectPerson');
+			mylog.log('callback connectPerson');
 			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-link");			
 			$('.disconnectBtn').show();
 			$('.connectBtn').hide();
@@ -632,7 +632,7 @@ function bindInviteSubViewInvites() {
 		var typeToDisconnect = "<?php echo Person::COLLECTION ?>";
 		var nameToDisconnect = $("#newInvite #ficheName").text();
 		disconnectTo("<?php echo Person::COLLECTION ?>",idToDisconnect,userId,"<?php echo Person::COLLECTION ?>",'followers',function() {
-			console.log('callback disconnectPerson');
+			mylog.log('callback disconnectPerson');
 			$(thiselement).children().removeClass("fa-spinner fa-spin").addClass("fa-unlink");
 			//// Find and remove item from an array
 			var i = listFollowsId.indexOf(idToDisconnect);
@@ -642,7 +642,7 @@ function bindInviteSubViewInvites() {
 			$('.disconnectBtn').hide();
 			$('.connectBtn').show();
 			$('#inviteSearch').val("");
-		console.log(listFollowsId);
+		mylog.log(listFollowsId);
 			backToSearch();
 			//loadByHash( "#person.directory" );
 		});
@@ -669,7 +669,7 @@ function bindInviteSubViewInvites() {
     		toastr.error("Veuillez sélectionner une adresse mail.");
     	else{
     		var nameUtil = "" ;
-    		console.log("listMails", listMails);
+    		mylog.log("listMails", listMails);
     		$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+'/person/follows',
@@ -686,7 +686,7 @@ function bindInviteSubViewInvites() {
 		    	$.unblockUI();
 		        if (data &&  data.result) {               
 		        	toastr.success('L\'invitation a été envoyée avec succès!');
-		        	console.log(data);
+		        	mylog.log(data);
 		        	$.each(data.data, function(key, elt) {
 		        		addFloopEntity(elt.invitedUser.id, <?php echo Person::COLLECTION ?>, elt.invitedUser);
 		        	});
@@ -703,7 +703,7 @@ function bindInviteSubViewInvites() {
 		        }
 		    });
     		/*$.each(listMails, function(key, value) {
-    			console.log("value", value)
+    			mylog.log("value", value)
     			if(value.mail != ""){
     				if(typeof value.name != "undefined" && value.name != "")
     					nameUtil = value.name;
@@ -712,7 +712,7 @@ function bindInviteSubViewInvites() {
 						var name = 	value.mail.split("@");
 						nameUtil = name[0];
 					}	
-				  	console.log("nameUtil", nameUtil);
+				  	mylog.log("nameUtil", nameUtil);
 				  	$.ajax({
 				        type: "POST",
 				        url: baseUrl+"/"+moduleId+'/person/follows',
@@ -729,7 +729,7 @@ function bindInviteSubViewInvites() {
 				    	$.unblockUI();
 				        if (data &&  data.result) {               
 				        	toastr.success('L\'invitation a été envoyée avec succès!');
-				        	console.log(data);
+				        	mylog.log(data);
 				        	addFloopEntity(formData.invitedUser._id.$id, <?php echo Person::COLLECTION ?>, data.invitedUser);
 				        	$('#inviteSearch').val("");
 							//Minus 1 on number of invit
@@ -804,7 +804,7 @@ function runinviteFormValidation(el) {
 			$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 		},
 		submitHandler : function(form) {
-			console.log("submit handler");
+			mylog.log("submit handler");
 			successHandler2.show();
 			errorHandler2.hide();
 			var parentId = $(".form-invite .invite-parentId").val();
@@ -877,7 +877,7 @@ function autoCompleteInviteSearch(search){
 			var city, postalCode = "";
 			$.each(data["citoyens"], function(k, v) { 
 				city = "";
-				console.log(v);
+				mylog.log(v);
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 				if(v.id != userId) {
@@ -908,10 +908,10 @@ function autoCompleteInviteSearch(search){
 }
 
 function setInviteInput(num){
-	console.log(num);
+	mylog.log(num);
 	var person = tabObject[num];
 	var personId = person["id"];
-	console.log(person, personId);
+	mylog.log(person, personId);
 	
 	$('#newInvite #inviteName').val(person["name"]);
 	$('#newInvite #inviteId').val(personId);
@@ -1051,9 +1051,9 @@ function fadeInView(inView){
 
 
 /*function changeFocus(newFocus){
-	console.log("changeFocus", newFocus);
+	mylog.log("changeFocus", newFocus);
 	var nameId = $(".titleInviteSV").attr('id');
-	console.log("nameId", nameId);
+	mylog.log("nameId", nameId);
 	
 	$( "#"+nameId ).removeClass("titleInviteSV");
 	$( "#"+nameId ).removeClass("text-yellow");
@@ -1089,7 +1089,7 @@ function getToken(stop) {
 }
 
 function fetch(token){
-	console.log("fetch", token);
+	mylog.log("fetch", token);
 	rand = Math.floor((Math.random() * 8) + 1);
 	$.blockUI({message : '<div class="title-processing homestead"><i class="fa fa-spinner fa-spin"></i> Processing... </div>'
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
@@ -1104,7 +1104,7 @@ function fetch(token){
   		url: urlGmail,
   		dataType: "jsonp",
   		success:function(data){
-    		console.log("dataFetch", data);
+    		mylog.log("dataFetch", data);
     		$("#list-contact").html("");
     		var nbContact = 0 ;
     		$.each(data.feed.entry, function(key, value){
@@ -1137,7 +1137,7 @@ function fetch(token){
       		$.unblockUI();
   		},
   		error:function(data){
-  			console.log("error",data)
+  			mylog.log("error",data)
   		}
 	});
 	bindInviteSubViewInvites();
@@ -1153,7 +1153,7 @@ function validMail() {
         dataType : "json",
         async : false ,
 		success:function(data){
-			console.log("data", data)
+			mylog.log("data", data)
 
 			$.each(data.follows, function(key, val) {
 				if(typeof val.email != "undefined" && val.email != ""){
@@ -1162,11 +1162,11 @@ function validMail() {
 			});
   		},
   		error:function(data){
-  			console.log("error",data)
+  			mylog.log("error",data)
   		}
     });
 
-	console.log("mails", res);
+	mylog.log("mails", res);
     return res ;
 }
 

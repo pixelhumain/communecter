@@ -314,11 +314,11 @@
 		*/
 
 		var contextMap = <?php echo json_encode($contextMap) ?>; //null;//contextMap;
-		console.log("contextMap");
-		console.dir(contextMap);
+		mylog.log("contextMap");
+		mylog.dir(contextMap);
 		/**************************************************************************************************************/
 		
-		//console.dir(mapData);
+		//mylog.dir(mapData);
 		//affichage des éléments sur la carte
 		Sig.showMapElements(mapCity, contextMap);//, elementsMap); 
 

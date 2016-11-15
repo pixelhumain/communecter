@@ -629,7 +629,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
-	console.log("loadAllLinks-------", loadAllLinks);
+	mylog.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -639,8 +639,8 @@ jQuery(document).ready(function() {
 			cache: true,
 			dataType: "json",
 			success: function (obj){
-				console.log("conntext/////");
-				console.log(obj);
+				mylog.log("conntext/////");
+				mylog.log(obj);
 				//Sig.restartMap();
 				contextMap = obj;
 				//mapUrl["directory"]["data"] = {"links" : contextMap};
@@ -651,7 +651,7 @@ jQuery(document).ready(function() {
 				
 			},
 			error: function (error) {
-				console.log("error findGeoposByInsee");
+				mylog.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
 				$("#iconeChargement").hide();	
 			}
@@ -661,7 +661,7 @@ jQuery(document).ready(function() {
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		//mapUrl["directory"]["data"] = {"links" : contextMap};
 		//Sig.restartMap();
-		console.log(contextMap);
+		mylog.log(contextMap);
 		Sig.showMapElements(Sig.map, contextMap);	
 		//$(".communityBtn").removeClass("hide");
 	}
@@ -735,8 +735,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load");
-		console.log(mapUrl);
+		mylog.log("no ajax load");
+		mylog.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});

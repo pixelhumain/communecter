@@ -87,7 +87,7 @@ jQuery(document).ready(function() {
 			content : "#ajaxSV",
 			onShow : function() 
 			{
-				console.log("build Form about");
+				mylog.log("build Form about");
 				var form = $.dynForm({
 					formId : "#ajaxForm",
 					formObj : formDefinition,
@@ -101,17 +101,17 @@ jQuery(document).ready(function() {
 								var val = fieldObj.value;
 								if(val) {
 									$(field).val(val);
-									console.log("field key",field);
+									mylog.log("field key",field);
 								}
 							}
 						});
 						
 					},
 					onSave : function(){
-						console.log("saving Organization!!");
+						mylog.log("saving Organization!!");
 						var params = {};
 						$.each(dataBind,function(field,fieldObj){
-							console.log("save key ",field,fieldObj.saveTo);
+							mylog.log("save key ",field,fieldObj.saveTo);
 							if(field != "" )
 							{
 								if( $(field) && $(field).val() && $(field).val() != "" )
@@ -126,7 +126,7 @@ jQuery(document).ready(function() {
 								} 
 							}
 							else
-								console.log("save Error",field);
+								mylog.log("save Error",field);
 						});
 						params.id = '<?php echo (string)$organization["_id"] ?>';
 						$.ajax({
@@ -136,7 +136,7 @@ jQuery(document).ready(function() {
 				    	  dataType: "json"
 				    	}).done( function(data){
 				    		if(data.result){
-								console.dir(data);
+								mylog.dir(data);
 								$.unblockUI();
 								$("#ajaxSV").html('');
 								//$.hideSubview();
@@ -152,7 +152,7 @@ jQuery(document).ready(function() {
 						return false;
 					}
 				});
-				console.dir(form);
+				mylog.dir(form);
 			},
 			onHide : function() {
 				$("#ajaxSV").html('');

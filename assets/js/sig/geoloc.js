@@ -32,7 +32,7 @@
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
+		mylog.log("callbackNominatimSuccess");
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
@@ -52,12 +52,12 @@
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError");
+		mylog.log("callbackNominatimError");
 	}
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
+		mylog.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			//récupère les coordonnées
@@ -68,13 +68,13 @@
 			showGeoposFound(coords, contextId, "organizations", contextData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee");
+		mylog.log("erreur getlatlngbyinsee");
 	}
 	
 	*/
@@ -111,7 +111,7 @@
 	//et appel les fonction callback en cas de success/error
 	//il faut définir les callback en fonction du context
 	function findGeoposByNominatim(requestPart){
-		console.log('findGeoposByNominatim');
+		mylog.log('findGeoposByNominatim');
 		showLoadingMsg("Recherche de la position en cours");
 		$("#iconeChargement").css("display", "inline-block");
 
@@ -144,7 +144,7 @@
 	//il faut définir les callback en fonction du context 
 	function findGeoposByInsee(codeInsee, callbackSuccess, postalCode){
 		//toastr.info('<i class="fa fa-spin fa-refresh"></i> Recherche de la position en cours...');
-		console.log("codeInsee", codeInsee);
+		mylog.log("codeInsee", codeInsee);
 		showLoadingMsg("Recherche de la position en cours");
 		$("#iconeChargement").css("display", "inline-block");
 
@@ -156,7 +156,7 @@
 			dataType: "json",
 			complete: function () {},
 			success: function (obj){
-				console.log("success findGeoposByInsee", typeof callbackSuccess);
+				mylog.log("success findGeoposByInsee", typeof callbackSuccess);
 				obj.insee = codeInsee;
 				if(typeof callbackSuccess != "undefined" && callbackSuccess != null){
 					callbackSuccess(obj);
@@ -166,7 +166,7 @@
 				}
 			},
 			error: function (error) {
-				console.log("error findGeoposByInsee");
+				mylog.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
 				$("#iconeChargement").hide();	
 			}
@@ -187,15 +187,15 @@
 			dataType: "json",
 			complete: function () {},
 			success: function (obj){
-				console.log("success showDataByInsee");
-				console.dir(obj);
+				mylog.log("success showDataByInsee");
+				mylog.dir(obj);
 				hideLoadingMsg();
 				Sig.showMapElements(Sig.map, obj);
 				setTimeout(function() { Sig.map.panBy[10,10]; },2000);
 			},
 			error: function (error) {
 				$("#loader-city").html("");
-				console.log("error showDataByInsee");
+				mylog.log("error showDataByInsee");
 			}
 		});
 	}
@@ -228,13 +228,13 @@
 			dataType: "json",
 			complete: function () {},
 			success: function (obj){
-				console.log("success updatecitiesgeoformat");
-				console.dir(obj);
+				mylog.log("success updatecitiesgeoformat");
+				mylog.dir(obj);
 				showLoadingMsg("<span class='text-dark'>Votre base de donnée est à jour</span>");
 				setTimeout( "hideLoadingMsg()", 3000);
 			},
 			error: function (error) {
-				console.log("error updatecitiesgeoformat");
+				mylog.log("error updatecitiesgeoformat");
 				showLoadingMsg("<span class='text-green'>Une erreur s'est produite pendant la MAJ</span>");
 				setTimeout( "hideLoadingMsg()", 3000);
 			}
@@ -245,7 +245,7 @@
 	function findGeoposByGoogleMaps(requestPart, keyApp){
 		//var keyApp = "";
 		var objnominatim = {} ;
-		console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart); // + "&key="+keyApp);
+		mylog.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart); // + "&key="+keyApp);
 		showLoadingMsg("Recherche de la position en cours");
 		$.ajax({
 			url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart,// + "&key="+keyApp,

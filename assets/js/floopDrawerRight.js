@@ -248,11 +248,11 @@ function addFloopEntity(entityId, entityType, entityValue){
 	floopContacts[entityType].push(entityValue);
 
 	var type = getFloopContactTypes(entityType);
-	//console.log("getFloopContactTypes", entityType, type);
+	//mylog.log("getFloopContactTypes", entityType, type);
 
 	//We check if the element is already displayed
 	if($('#floopItem-'+type.name+'-'+entityId).length < 1){
-		console.log("here5");
+		mylog.log("here5");
 		var html = getFloopItem(entityId, type, entityValue);
 		$("ul#floopType-"+entityType).prepend(html);
 	}

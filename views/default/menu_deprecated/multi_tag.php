@@ -80,7 +80,7 @@ var searchTags = "";
 jQuery(document).ready(function() {
 	$('ul.dropdown-menu').click(function(){ return false });
 
-	$(".btn-add-tag").click(function(){ //console.log("btn-add-tag click()");
+	$(".btn-add-tag").click(function(){ //mylog.log("btn-add-tag click()");
 		addTagToMultitag( $("#input-add-multi-tag").val() );
 	});
 

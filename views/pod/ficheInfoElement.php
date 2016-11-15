@@ -886,12 +886,12 @@ if($showOdesc == true){
 
 		buildQRCode(contextData.controller,contextData.id);
 
-		$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+		$(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 			$("#dropdown-content-multi-tag").addClass('open');
 		});
-		$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+		$(".toggle-scope-dropdown").click(function(){ mylog.log("toogle");
 			if(!$("#dropdown-content-multi-scope").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 		});
@@ -901,7 +901,7 @@ if($showOdesc == true){
 			$(".cobtn").click(function () { 
 				updateLocalityEntities();
 			});
-			console.log("modeEdit",modeEdit);
+			mylog.log("modeEdit",modeEdit);
 			if(modeEdit == "true"){
 				switchModeElement();
 			}
@@ -919,7 +919,7 @@ if($showOdesc == true){
 		});
 
 		$("#changePasswordBtn").click(function () {
-			console.log("changePasswordbuttton");
+			mylog.log("changePasswordbuttton");
 			loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
 		});
 
@@ -932,7 +932,7 @@ if($showOdesc == true){
 				crossDomain:true,
 				complete: function () {},
 				success: function (obj){
-					console.log("obj", obj);
+					mylog.log("obj", obj);
 					$("<a/>", {
 					    "download": "profil.json",
 					    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
@@ -965,7 +965,7 @@ if($showOdesc == true){
 		});
 
 		$("#editConfidentialityBtn").on("click", function(){
-	    	console.log("confidentiality", seePreferences);
+	    	mylog.log("confidentiality", seePreferences);
 	    	$("#modal-confidentiality").modal("show");
 	    	if(seePreferences=="true"){
 	    		param = new Object;
@@ -1000,7 +1000,7 @@ if($showOdesc == true){
 	}
 
 	function switchModeElement() {
-		console.log("-------------"+mode);
+		mylog.log("-------------"+mode);
 		if(mode == "view"){
 			mode = "update";
 			$(".editProfilLbl").html(" Enregistrer les changements");
@@ -1020,7 +1020,7 @@ if($showOdesc == true){
 	}
 
 	function manageModeContextElement() {
-		console.log("-----------------manageModeContextElement----------------------", mode);
+		mylog.log("-----------------manageModeContextElement----------------------", mode);
 		listXeditablesContext = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
@@ -1052,7 +1052,7 @@ if($showOdesc == true){
 	}
 
 	function manageDivEditElement() {
-		console.log("-----------------manageDivEditElement----------------------", mode);
+		mylog.log("-----------------manageDivEditElement----------------------", mode);
 		listXeditablesDiv = [ '#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
 			listXeditablesDiv.push('#divInformation');
@@ -1069,7 +1069,7 @@ if($showOdesc == true){
 	}
 
 	function manageSocialNetwork(iconObject, value) {
-		//console.log("-----------------manageSocialNetwork----------------------");
+		//mylog.log("-----------------manageSocialNetwork----------------------");
 		tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
 				"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", 
 				"skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
@@ -1098,11 +1098,11 @@ if($showOdesc == true){
 
 		}
 
-		console.log(iconObject);
+		mylog.log(iconObject);
 	}
 
 	function changeHiddenIconeElement(init) { 
-		console.log("-----------------changeHiddenIconeElement----------------------", mode);
+		mylog.log("-----------------changeHiddenIconeElement----------------------", mode);
 		//
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
@@ -1113,9 +1113,9 @@ if($showOdesc == true){
 							"#detailStreetAddress" , "#detailCity" , "#detailCountry"];
 		if (init == true) {
 			$.each(listIcones, function(i,value) {
-				console.log(listXeditablesId[i], $(listXeditablesId[i]).text().length, $(listXeditablesId[i]).text()) ;
+				mylog.log(listXeditablesId[i], $(listXeditablesId[i]).text().length, $(listXeditablesId[i]).text()) ;
 				if($(listXeditablesId[i]).text().length != 0){
-					//console.log(listXeditables[i], " : ", value);
+					//mylog.log(listXeditables[i], " : ", value);
 					$(value).removeClass("hidden");	
 				}
 					 
@@ -1142,11 +1142,11 @@ if($showOdesc == true){
 			title : $(this).data("title"),
 			onblur: 'submit',
 			/*success: function(response, newValue) {
-				console.log(response, newValue);
+				mylog.log(response, newValue);
 				if(! response.result) return response.msg; //msg will be shown in editable form
     		},*/
     		success : function(data) {
-    			console.log("hello", data);
+    			mylog.log("hello", data);
 				if(data.result) {
 					toastr.success(data.msg);
 					loadActivity=true;
@@ -1168,8 +1168,8 @@ if($showOdesc == true){
 			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
 			mode: 'popup',
 			success : function(data) {
-				console.log("herehehre", data);
-				//console.log(data.telegramAccount, typeof data.telegramAccount);
+				mylog.log("herehehre", data);
+				//mylog.log(data.telegramAccount, typeof data.telegramAccount);
 				if(typeof data.telegramAccount != "undefined" && data.telegramAccount.length > 0){
 					speudoTelegram = data.telegramAccount.trim();
 					$('#telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
@@ -1258,7 +1258,7 @@ if($showOdesc == true){
 		 		dropdownCssClass: 'select2-hidden'
 		 	},
 		 	success : function(data) {
-		 		console.log("TAGS", data);
+		 		mylog.log("TAGS", data);
 				if(data.result) {
 					toastr.success(data.msg);
 					loadActivity=true;
@@ -1327,7 +1327,7 @@ if($showOdesc == true){
 				var result = new Array();
 				var categorySource = null;
 
-				console.log("contextData.type",contextData.type);
+				mylog.log("contextData.type",contextData.type);
 				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
 				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
 				
@@ -1389,7 +1389,7 @@ if($showOdesc == true){
 			},
 			container: 'body',
 			validate: function(value) {
-			    console.log(value);
+			    mylog.log(value);
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
@@ -1456,12 +1456,12 @@ if($showOdesc == true){
 		
 	} 
 	function manageAllDayElement(isAllDay) {
-		console.warn("Manage all day event ", isAllDay);
+		mylog.warn("Manage all day event ", isAllDay);
 
 		$('#startDate').editable('destroy');
 		$('#endDate').editable('destroy');
 		if (isAllDay == "true") {
-			console.log("init Xedit with dd/mm/yyyy");
+			mylog.log("init Xedit with dd/mm/yyyy");
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
 				pk: contextData.id,
@@ -1506,7 +1506,7 @@ if($showOdesc == true){
 
 			formatDate = "YYYY-MM-DD";
 		} else {
-			console.log("init Xedit with dd/mm/yyyy hh:ii");
+			mylog.log("init Xedit with dd/mm/yyyy hh:ii");
 			$('#startDate').editable({
 				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
 				pk: contextData.id,
@@ -1569,7 +1569,7 @@ if($showOdesc == true){
 	}
 
 	function returnttags() {
-		console.log("------------- returnttags -------------------");
+		mylog.log("------------- returnttags -------------------");
 		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
 		//var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
 
@@ -1590,7 +1590,7 @@ if($showOdesc == true){
 	        	
 	    });
 
-	    console.log(tel);
+	    mylog.log(tel);
 		return tel ;
 	}
 	//modification de la position geographique	
@@ -1619,7 +1619,7 @@ if($showOdesc == true){
 
 			request = transformNominatimUrl(request);
 			request = "?q=" + request;
-			console.log(request);
+			mylog.log(request);
 			findGeoposByNominatim(request);
 		}
 	
@@ -1627,14 +1627,14 @@ if($showOdesc == true){
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
+		mylog.log("callbackNominatimSuccess");
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
 			//et on affiche le marker sur la carte à cette position
-			console.log("showGeoposFound coords", coords);
-			console.dir("showGeoposFound obj", obj);
+			mylog.log("showGeoposFound coords", coords);
+			mylog.dir("showGeoposFound obj", obj);
 
 			//si la donné n'est pas geolocalisé
 			//on lui rajoute les coordonées trouvés
@@ -1655,7 +1655,7 @@ if($showOdesc == true){
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
+		mylog.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			//récupère les coordonnées
@@ -1668,19 +1668,19 @@ if($showOdesc == true){
 			showGeoposFound(coords, contextData.id, "organizations", contextData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError", error);
+		mylog.log("callbackNominatimError", error);
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee", error);
+		mylog.log("erreur getlatlngbyinsee", error);
 	}
 
 	function removeAddresses (index){

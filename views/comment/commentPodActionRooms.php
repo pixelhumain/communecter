@@ -82,7 +82,7 @@ jQuery(document).ready(function() {
 });
 
 function checkCommentCount(){ 
-		console.log("check if new comments exist since",latestComments);
+		mylog.log("check if new comments exist since",latestComments);
 		//show refresh button
 		$.ajax({
         type: "POST",
@@ -95,11 +95,11 @@ function checkCommentCount(){
         dataType: "json",
         success: function(data){
           if(data.count>0){
-          	console.log("you have new comments", data.count);
+          	mylog.log("you have new comments", data.count);
           	$(".refreshComments").removeClass('hidden').html("<i class='fa fa-refresh fa-spin'></i> <?php echo Yii::t( "comment", 'New Comment(s) Click to Refresh', Yii::app()->controller->module->id)?> ");
             latestComments = data.time;
           } else {
-          	console.log("nothing new");
+          	mylog.log("nothing new");
           }
           if(userId){
 	        //checkCommentCount();
@@ -109,7 +109,7 @@ function checkCommentCount(){
 }
 
 function archive(collection,id){
-  console.warn("--------------- archive ---------------------",collection,id);
+  mylog.warn("--------------- archive ---------------------",collection,id);
     
   bootbox.confirm("Vous êtes sûr ? ",
       function(result) {

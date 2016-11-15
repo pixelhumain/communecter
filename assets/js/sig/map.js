@@ -49,7 +49,7 @@
 			//créé une donnée GeoJson (pour les cluster)
 			this.Sig.getGeoJsonMarker = function (properties/*json*/, coordinates/*array[lat, lng]*/)
 			{
-				//console.warn("--------------- getGeoJsonMarker ---------------------");
+				//mylog.warn("--------------- getGeoJsonMarker ---------------------");
 				properties.visible = false;
 				//alert(JSON.stringify(properties));
 				return { "type": 'Feature',
@@ -63,7 +63,7 @@
 			//créé un objet L.Marker (sans cluster)
 			this.Sig.getMarkerSingle = function(thisMap, options, coordinates)
 			{
-				console.warn("--------------- getMarkerSingle ---------------------");
+				mylog.warn("--------------- getMarkerSingle ---------------------");
 				var thisSig = this;
 				var contentString = options.content;
 				if(options.content == null) contentString = "";
@@ -72,7 +72,7 @@
 				if(typeof options.zIndexOffset != "undefined") 
 					markerOptions["zIndexOffset"] = options.zIndexOffset;
 
-				//console.log("POPUP CONTENT : " + contentString);
+				//mylog.log("POPUP CONTENT : " + contentString);
 				var marker = L.marker(coordinates, markerOptions)
 								.addTo(thisMap)
 								.bindPopup(contentString);
@@ -95,7 +95,7 @@
 						//https://github.com/hosuaby/Leaflet.SmoothMarkerBouncing : bounce pluggin
 						thisSig.currentMarkerPopupOpen = this;	
 					}						
-				});console.log("MARKER OK");
+				});mylog.log("MARKER OK");
 				
 				return marker;
 			};
@@ -115,7 +115,7 @@
 				}
 
 				i++;
-				//console.log(i);
+				//mylog.log(i);
 				if(i < options.occurence){
 					this.timerbounce = setTimeout(function(){ 
 						if(typeof Sig.markerToBounce != "undefined" && Sig.markerToBounce != null){
@@ -132,14 +132,14 @@
 			//récupère le nom de l'icon en fonction du type de marker souhaité
 			this.Sig.getIcoMarkerMap = function(thisData)
 			{
-				//console.warn("--------------- getIcoMarker *** ---------------------");
-				//console.log(thisData);
+				//mylog.warn("--------------- getIcoMarker *** ---------------------");
+				//mylog.log(thisData);
 				if(typeof thisData.author != "undefined") thisData = thisData.author;
 
 				this.allowMouseoverMaker = true;
-				//console.log("thisData", thisData);
+				//mylog.log("thisData", thisData);
 				var markerName = this.getIcoNameByType(thisData);
-				//console.log("markerName", markerName);
+				//mylog.log("markerName", markerName);
 				var iconUrl = assetPath+'/images/sig/markers/icons_carto/'+markerName+'.png';
 				if(typeof thisData.profilMarkerImageUrl !== "undefined" && thisData.profilMarkerImageUrl != ""){ 
 					iconUrl = baseUrl + thisData.profilMarkerImageUrl;
@@ -154,7 +154,7 @@
 
 			this.Sig.getIcoMarker = function(thisData)
 			{
-				//console.warn("--------------- getIcoMarker ---------------------");
+				//mylog.warn("--------------- getIcoMarker ---------------------");
 				var ico = this.getIcoNameByType(thisData);
 				var color = this.getIcoColorByType(thisData);
 
@@ -168,7 +168,7 @@
 			{
 				if(typeof showMe == "undefined") showMe = true;
 
-				//console.warn("--------------- clearMap ---------------------");
+				//mylog.warn("--------------- clearMap ---------------------");
 				if(this.markersLayer != "")
 					this.markersLayer.clearLayers();
 
@@ -224,8 +224,8 @@
 				var thisSig = this;
 				if(thisSig.myPosition != null){
 					if(thisSig.myPosition.position.latitude != 0 && thisSig.myPosition.position.longitude != 0){
-						//console.log("MYPOSITION !!");
-						//console.dir(thisSig.myPosition);
+						//mylog.log("MYPOSITION !!");
+						//mylog.dir(thisSig.myPosition);
 						var center = [thisSig.myPosition.position.latitude, 
 									  thisSig.myPosition.position.longitude];
 
@@ -263,7 +263,7 @@
 			//gère les dimensions des différentes parties de la carte (carte, panel, etc) en mode full screen
 			this.Sig.setFullScreen = function()
 			{
-				////console.warn("--------------- setFullScreen ---------------------");
+				////mylog.warn("--------------- setFullScreen ---------------------");
 				//full screen map
 				var mapHeight = $(".subviews.subviews-top").height();// - $(".toolbar").height();
 				var rightListHeight = mapHeight - 110;
@@ -334,15 +334,15 @@
 			}
 
 			this.Sig.verifyPanelFilter = function (thisData){
-				//console.warn("--------------- verifyPanelFilter ---------------------");
+				//mylog.warn("--------------- verifyPanelFilter ---------------------");
 
 				if(this.panelFilter == "all") return true;
 
 				var thisSig = this;
-				//console.log("PANELFILTER" + this.panelFilterType);
+				//mylog.log("PANELFILTER" + this.panelFilterType);
 				if(this.panelFilterType == "tags" || this.panelFilterType == "all"){
 					if(this.usePanel == false) return true;
-					//console.log(thisData["tags"] +"=="+ thisSig.panelFilter);
+					//mylog.log(thisData["tags"] +"=="+ thisSig.panelFilter);
 					
 					//si thisData n'a pas de tags
 					if("undefined" == typeof thisData["tags"]){
@@ -385,7 +385,7 @@
 
 			this.Sig.addPolygon = function(polygonPoints, options)
 			{
-				//console.log("addPolygon");
+				//mylog.log("addPolygon");
 				var poly = L.polygon(polygonPoints, {
 										color: '#FFF', 
 										opacity:0.7,
@@ -399,7 +399,7 @@
 
 			this.Sig.showCircle = function(center, radius, options)
 			{
-				console.log("showCircle", notEmpty(this.circleAroundMe), radius);
+				mylog.log("showCircle", notEmpty(this.circleAroundMe), radius);
 				if(notEmpty(this.circleAroundMe)) this.map.removeLayer(this.circleAroundMe);
 				this.circleAroundMe = L.circle(center, radius, {
 										color: '#FFF', 
@@ -423,8 +423,8 @@
 
 			this.Sig.showPolygon = function(polygonPoints, options)
 			{
-				//console.log("showPolygon");
-				//console.dir(polygonPoints);
+				//mylog.log("showPolygon");
+				//mylog.dir(polygonPoints);
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
 				//puis on charge le nouveau polygone
@@ -439,7 +439,7 @@
 
 			this.Sig.inversePolygon = function(polygon){
 				var inversedPoly = new Array();
-				console.log("inversePolygon");
+				mylog.log("inversePolygon");
 				if(typeof polygon != "undefined" && polygon != null){
 					$.each(polygon, function(key, value){
 						var lat = value[0];
@@ -447,14 +447,14 @@
 						inversedPoly.push(new Array(lng, lat));
 					});
 				}
-				console.dir(inversedPoly);
+				mylog.dir(inversedPoly);
 				return inversedPoly;
 			};
 
 			this.Sig.getCoordinates = function(thisData, type)
 			{
-				//console.warn("--------------- getCoordinates ---------------------");
-				//console.dir(thisData);
+				//mylog.warn("--------------- getCoordinates ---------------------");
+				//mylog.dir(thisData);
 				//si la donnée est une news, on doit afficher la position de l'auteur
 				if( typeof thisData.typeSig !== "undefined"){
 					if(thisData.typeSig == "news" && typeof thisData.author !== "undefined"){
@@ -478,14 +478,14 @@
 					}
 				}
 				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
-					//console.log("thisData.geometry ?");
-					//console.dir(thisData);
+					//mylog.log("thisData.geometry ?");
+					//mylog.dir(thisData);
 					if(type == "markerSingle"){
 						if(typeof thisData.geometry.location != "undefined"){
-							//console.log(thisData.geometry.location.lat);
+							//mylog.log(thisData.geometry.location.lat);
 							var lat = thisData.geometry.location.lat;
 							var lng = thisData.geometry.location.lng;
-							console.dir(new Array (lat, lng));
+							mylog.dir(new Array (lat, lng));
 							return new Array (lat, lng);
 						}	
 					} else if(type == "markerGeoJson"){
@@ -503,14 +503,14 @@
 
 
 			this.Sig.showOneElementOnMap = function(thisData, thisMap){
-				//console.warn("--------------- showOneElementOnMap ---------------------");
-				//console.dir(thisData);
+				//mylog.warn("--------------- showOneElementOnMap ---------------------");
+				//mylog.dir(thisData);
 				//var objectId = thisData._id ? thisData._id.$id.toString() : null;
 				var objectId = this.getObjectId(thisData);
 							
-				//console.log("verify id : ", objectId);
+				//mylog.log("verify id : ", objectId);
 				//if(thisData != null && thisData["type"] == "meeting") alert("trouvé !");
-				//console.log(thisData);
+				//mylog.log(thisData);
 				if(objectId != null)
 				{
 					if($.inArray(objectId, this.listId) == -1 || thisData.typeSig == "city")
@@ -527,7 +527,7 @@
 							{
 								var type = (typeof thisData["typeSig"] !== "undefined") ? thisData["typeSig"] : thisData["type"];
 								//préparation du contenu de la bulle
-								//console.log("!!!!!!!!!!!!!!!!!!!!!!showOneElementOnMap", thisData);
+								//mylog.log("!!!!!!!!!!!!!!!!!!!!!!showOneElementOnMap", thisData);
 								var content = this.getPopup(thisData);
 								//création de l'icon sur la carte
 								var theIcon = this.getIcoMarkerMap(thisData);
@@ -545,8 +545,8 @@
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
 								//TODO : refactor notClusteredTag > notClusteredType
-								//console.log("getCoordinates");
-								//console.dir(thisData);
+								//mylog.log("getCoordinates");
+								//mylog.dir(thisData);
 								if($.inArray(type, this.notClusteredTag) > -1){ 
 									coordinates = this.getCoordinates(thisData, "markerSingle");
 									marker = this.getMarkerSingle(thisMap, properties, coordinates);
@@ -557,7 +557,7 @@
 									marker = this.getGeoJsonMarker(properties, coordinates);
 									this.geoJsonCollection['features'].push(marker);
 								}
-								//console.log("content POPUT thisAddr : ", thisData);
+								//mylog.log("content POPUT thisAddr : ", thisData);
 										
 								var thisSig = this;
 
@@ -577,8 +577,8 @@
 
 
 								if(thisData["type"] == "city"){
-									//console.log("geoshapes ?");
-									//console.dir(thisData);	
+									//mylog.log("geoshapes ?");
+									//mylog.dir(thisData);	
 										
 									if(typeof thisData["geoShape"] != "undefined" && typeof thisData["geoShape"]["coordinates"] != "undefined"){
 										var geoShape = Sig.inversePolygon(thisData["geoShape"]["coordinates"][0]);
@@ -599,7 +599,7 @@
 									thisSig.checkListElementMap(thisMap);
 									marker.openPopup();
 								});
-								//console.log("ok888");
+								//mylog.log("ok888");
 
 
 							}
@@ -612,7 +612,7 @@
 								this.createItemRigthListMap(thisData);	
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
 									//toastr.success('click on element not in map');
-									//console.dir(thisData);
+									//mylog.dir(thisData);
 									thisSig.showModalItemNotLocated(thisData);
 								});	
 							}	
@@ -633,11 +633,11 @@
 				}else {
 					if(thisData == null) return false;
 
-					//console.warn("--------------- PAS D'ID ---------------------");
-					//console.dir(thisData);
+					//mylog.warn("--------------- PAS D'ID ---------------------");
+					//mylog.dir(thisData);
 
 					if("undefined" != typeof thisData["chartOptions"]){
-						//console.warn("--------------- LOAD CHART ---------------------");
+						//mylog.warn("--------------- LOAD CHART ---------------------");
 						this.addChart(thisData)
 					}
 					return false;
@@ -646,16 +646,16 @@
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
-				//console.warn("--------------- showFilterOnMap ***%%% ---------------------");
+				//mylog.warn("--------------- showFilterOnMap ***%%% ---------------------");
 				var thisSig = this;
-				//console.dir(data);
-				//console.dir(thisFilter);
+				//mylog.dir(data);
+				//mylog.dir(thisFilter);
 				var dataFilter = data; //(data != null) ? data[thisFilter] : thisFilter;	alert(JSON.stringify(dataFilter));
 				
 				if($.isArray(dataFilter)){
 					$.each(dataFilter, function(i, thisData)  {
-						////console.warn("--------------- show each thisData ---------------------");
-						////console.dir(thisData);
+						////mylog.warn("--------------- show each thisData ---------------------");
+						////mylog.dir(thisData);
 						thisSig.showOneElementOnMap(thisData, thisMap);
 					});
 				}
@@ -667,8 +667,8 @@
 
 			this.Sig.showMapElements = function(thisMap, data)
 			{
-				console.warn("--------------- showMapElements ---------------------");
-				//console.log(data);
+				mylog.warn("--------------- showMapElements ---------------------");
+				//mylog.log(data);
 				if(data == null) return;
 
 				var filterPanelValue = "citoyens";
@@ -695,7 +695,7 @@
 
 				$.each(data, function (key, value){ len++; });//alert("len : " + len);
 				if(len >= 1){
-					$.each(data, function (key, value){ //console.log("type SIG ?"); console.dir(value);
+					$.each(data, function (key, value){ //mylog.log("type SIG ?"); mylog.dir(value);
 						var oneData = value;
 						if((value.typeSig == "news" || 
 							value.typeSig == "idea" || 
@@ -706,22 +706,22 @@
 							) && typeof value.author !== "undefined") {
 							oneData = value.author;
 						}
-						// if(value.type == "activityStream" && typeof value.target !== "undefined") { //console.log("newsStream");
+						// if(value.type == "activityStream" && typeof value.target !== "undefined") { //mylog.log("newsStream");
 						// 	oneData = value.target;
 						// }
 						thisSig.showFilterOnMap(oneData, key, thisMap);
 					});
 					
 				}else{
-					//console.log("showOneElementOnMap");
+					//mylog.log("showOneElementOnMap");
 					thisSig.showOneElementOnMap(data, thisMap);
 				}
 			
-				//console.log("before onEachFeature");
-				//console.dir(this.geoJsonCollection);
+				//mylog.log("before onEachFeature");
+				//mylog.dir(this.geoJsonCollection);
 				var points = L.geoJson(this.geoJsonCollection, {				//Pour les clusters seulement :
 						onEachFeature: function (feature, layer) {				//sur chaque marker
-							//console.log("onEachFeature");
+							//mylog.log("onEachFeature");
 							layer.bindPopup(feature["properties"]["content"]); 	//ajoute la bulle d'info avec les données
 							layer.setIcon(feature["properties"]["icon"]);	   	//affiche l'icon demandé
 							layer.on('mouseover', function(e) {	
@@ -781,7 +781,7 @@
 						}
 
 					});
-					//console.warn("--------------- showMapElements  onEachFeature OK ---------------------");
+					//mylog.warn("--------------- showMapElements  onEachFeature OK ---------------------");
 
 					this.markersLayer.addLayer(points); 		// add it to the cluster group
 					thisMap.addLayer(this.markersLayer);		// add it to the map
@@ -794,8 +794,8 @@
 
 					this.checkListElementMap(thisMap); 
 					
-					console.log("fitBounds", typeof noFitBoundAroundMe);
-					//console.dir(this.markersLayer.getBounds());
+					mylog.log("fitBounds", typeof noFitBoundAroundMe);
+					//mylog.dir(this.markersLayer.getBounds());
 					if( typeof noFitBoundAroundMe == "undefined" || noFitBoundAroundMe != true){
 						if("undefined" != typeof this.markersLayer.getBounds() &&
 						   "undefined" != typeof this.markersLayer.getBounds()._northEast ){
@@ -839,13 +839,13 @@
 	 	this.Sig.loadMap = function(canvasId, initParams)
 	 	{
 	 		
-			console.warn("--------------- loadMap ---------------------");
+			mylog.warn("--------------- loadMap ---------------------");
 			canvasId += initParams.sigKey;
 			if(this.map == null){
 				$("#"+canvasId).html("");
 				$("#"+canvasId).css({"background-color": this.mapColor});
 
-				console.log("initParams", initParams);
+				mylog.log("initParams", initParams);
 				//initialisation des variables de départ de la carte
 				//TODO not show accessToken here => use conf file or db
 				if(canvasId != ""){
@@ -915,7 +915,7 @@
 	 	this.Sig.addContextMap = function(contextMap, element, type)
 	 	{
 	 		
-			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+			mylog.warn("--------------- addContextMap ---------------------", contextMap, element, type);
 			var elementMap = {
 				name : element.name ,
 				username : element.username ,
@@ -944,7 +944,7 @@
 		this.Sig.modifLocalityContextMap = function(contextMap, element, type)
 	 	{
 	 		
-			console.warn("--------------- addContextMap ---------------------", contextMap, element, type);
+			mylog.warn("--------------- addContextMap ---------------------", contextMap, element, type);
 
 			if(typeof contextMap[type] == "undefined")
 				contextMap[type] = [];
@@ -962,7 +962,7 @@
 
 		this.Sig = this.getSigInitializer(this.Sig);
 
-		//console.log("load");
+		//mylog.log("load");
 
 		this.Sig = this.getSigPanel(this.Sig);
 		this.Sig = this.getSigRightList(this.Sig);

@@ -438,8 +438,8 @@
 	var actionBtnCo = "";
 
 	jQuery(document).ready(function() {
-		console.log("userConnected", countryCommunexion);
-		console.dir(userConnected);
+		mylog.log("userConnected", countryCommunexion);
+		mylog.dir(userConnected);
 	
 		if(countryCommunexion != ""){
 			$('#addressCountry option[value="'+countryCommunexion+'"]').prop('selected', true);
@@ -498,7 +498,7 @@
 
 
   	function showTwoStep(id){
-  		console.log("showTwoStep(#TSR-"+id+")");
+  		mylog.log("showTwoStep(#TSR-"+id+")");
   		$("#TSR-begin-zone,#TSR-begin-communexion,#TSR-communexion, #TSR-load-conf-communexion,#TSR-street").hide();
   		$("#TSR-"+id).show(400);
   		$("#my-main-container").scrollTop(0);
@@ -534,8 +534,8 @@
 	    		success: function (obj){
 
 	    			//toastr.success("Votre addresse a été mise à jour avec succès");
-	    			console.log("res getlatlngbyinsee");
-	    			console.dir(obj);
+	    			mylog.log("res getlatlngbyinsee");
+	    			mylog.dir(obj);
 
 	    			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 	    			showMapLegende("info-circle", "Déplacer l'icône sur la position de votre choix,<br><strong>puis cliquez sur \"Valider\"</strong> ...")
@@ -558,9 +558,9 @@
 					$.unblockUI();
 				},
 				error: function(error){
-					console.log("Une erreur est survenue pendant la recherche de la geopos city");
+					mylog.log("Une erreur est survenue pendant la recherche de la geopos city");
 					$.unblockUI();
-					//console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
+					//mylog.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 				}
 			});
 		
@@ -571,7 +571,7 @@
 			//findGeoposByGoogleMaps(requestPart, "<?php echo Yii::app()->params['google']['keyAPP']; ?>");
 			//return;
 
-	  		console.log("requestPart", requestPart);
+	  		mylog.log("requestPart", requestPart);
 	  		$.blockUI({
 				message : "<h1 class='homestead text-dark'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche de votre position ...</span></h1>"
 			});
@@ -584,8 +584,8 @@
 				crossDomain:true,
 				complete: function () {},
 				success: function (result){
-					console.log("nominatim success", result.length);
-					console.dir(obj);
+					mylog.log("nominatim success", result.length);
+					mylog.dir(obj);
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 
 					//var obj = null;
@@ -605,8 +605,8 @@
 					$.unblockUI();
 				},
 				error: function (error) {
-					console.log("nominatim error");
-					console.dir(obj);
+					mylog.log("nominatim error");
+					mylog.dir(obj);
 					$("#error_street").html("Aucun résultat"+$("#addressCountry option:selected" ).text());
 					$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 					$.unblockUI();
@@ -619,7 +619,7 @@
 
   	function achiveTSRAddress(){ 
   		//return;
-  		console.log("achiveTSR", "<?php echo Yii::app()->session['userId']; ?>");
+  		mylog.log("achiveTSR", "<?php echo Yii::app()->session['userId']; ?>");
   		showMap(false);
   		var streetAddress = $(".input-street-twostep").val();
   		var addressCountry = countryCommunexion; //$("#addressCountry").val();
@@ -635,7 +635,7 @@
 				  "&two_steps_register=false",
     		success: function (obj){
     			//$('.btn-menu0').off().click( function(e){ loadByHash("#default.home")} );
-    			console.log("SUCCESS UPDATE ADDRESS");
+    			mylog.log("SUCCESS UPDATE ADDRESS");
     			$("#btn-menu-launch").show();
 		  		$("#logo-main-menu").show();
 		  		$(".menu-button-left, .menu-button, .menu-left-container hr, .menu-left-container .visible-communected, .menuSmall .visible-communected").show(400);
@@ -646,8 +646,8 @@
     			$("#main-btn-co").attr("href", actionBtnCo);
 			},
 			error: function(error){
-				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle addresse");
-				//console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
+				mylog.log("Une erreur est survenue pendant l'enregistrement de la nouvelle addresse");
+				//mylog.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 			}
 		});
   		//showTwoStep("last-step-communexion");
@@ -703,8 +703,8 @@
   	}
 
   	function callbackGoogleMapsSuccess(result){
-  		console.log("callbackGoogleMapsSuccess");
-  		console.dir(result);
+  		mylog.log("callbackGoogleMapsSuccess");
+  		mylog.dir(result);
 
   		if(result.status == "OK"){
   			//showMap(true);
