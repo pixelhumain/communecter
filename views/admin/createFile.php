@@ -1,14 +1,15 @@
 <?php
 $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
-		'/assets/plugins/jsonview/jquery.jsonview.js',
-		'/assets/plugins/jsonview/jquery.jsonview.css',
+		'/plugins/jsonview/jquery.jsonview.js',
+		'/plugins/jsonview/jquery.jsonview.css',
 		//'/assets/js/sig/geoloc.js',
 		/*'/assets/js/dataHelpers.js',
 		'/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 		'/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js'*/
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
+
 
 $userId = Yii::app()->session["userId"] ;
 ?>
@@ -847,6 +848,10 @@ function stepThree(params){
 
         		var importD = "" ;
         		var errorD = "" ;
+
+        		/*var objImport = {} ; jQuery.parseJSON( '{ "name": "John" }' );
+        		var objError = jQuery.parseJSON( '{ "name": "John" }' );*/
+
         		if($("#jsonImport").val() == "")
         			importD = data.elements;
         		else{
@@ -866,6 +871,8 @@ function stepThree(params){
         			else
         				errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.elementsWarnings.substring(1, data.elementsWarnings.length);
         		}
+
+        		
         			
 
         		$("#jsonImport").val(importD);
