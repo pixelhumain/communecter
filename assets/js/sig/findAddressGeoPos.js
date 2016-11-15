@@ -5,7 +5,7 @@
 function getGeoPosInternational(requestPart, countryCode){
 
 	var countryCodes = new Array("FR", "GP", "GF", "MQ", "YT", "NC", "RE", "PM");
-	showMsgListRes("Recherche en cours ...");
+	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours ...");
 	
 	if($.inArray(countryCode, countryCodes) >= 0) callCommunecter(requestPart, countryCode);
 	else
@@ -14,7 +14,7 @@ function getGeoPosInternational(requestPart, countryCode){
 
 function callCommunecter(requestPart, countryCode){ /*countryCode=="FR"*/
 	console.log('callCommunecter');
-	showMsgListRes("Recherche en cours<br><small>Communecter</small>");
+	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Communecter</small>");
 	callGeoWebService("communecter", requestPart, countryCode,
 		function(objs){ /*success nominatim*/
 			console.log("SUCCESS Communecter"); 
@@ -39,12 +39,12 @@ function callCommunecter(requestPart, countryCode){ /*countryCode=="FR"*/
 
 function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
 	console.log('callDataGouv');
-	showMsgListRes("Recherche en cours<br><small>Data Gouv</small>");
+	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Data Gouv</small>");
 	callGeoWebService("data.gouv", requestPart, countryCode,
 		function(objDataGouv){ /*success nominatim*/
 			console.log("SUCCESS DataGouv"); 
 
-			if(objDataGouv.length != 0){
+			if(objDataGouv.features.length != 0){
 				console.log('Résultat trouvé chez DataGouv !'); console.dir(objDataGouv);
 				var commonGeoObj = getCommonGeoObject(objDataGouv.features, "data.gouv");
 				var res = addResultsInForm(commonGeoObj, countryCode);
@@ -64,7 +64,7 @@ function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
 
 function callNominatim(requestPart, countryCode){
 	console.log('callNominatim');
-	showMsgListRes("Recherche en cours<br><small>Nominatim</small>");
+	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Nominatim</small>");
 	callGeoWebService("nominatim", requestPart, countryCode,
 		function(objNomi){ /*success nominatim*/
 			console.log("SUCCESS nominatim"); 
@@ -91,7 +91,7 @@ function callNominatim(requestPart, countryCode){
 
 function callGoogle(requestPart, countryCode){
 	console.log('callGoogle');
-	showMsgListRes("Recherche en cours<br><small>GoogleMap</small>");
+	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>GoogleMap</small>");
 	callGeoWebService("google", requestPart, countryCode,
 		function(objGoo){ /*success google*/
 			console.log("SUCCESS GOOGLE");
@@ -100,16 +100,16 @@ function callGoogle(requestPart, countryCode){
 				var commonGeoObj = getCommonGeoObject(objGoo.results, "google");
 				var res = addResultsInForm(commonGeoObj, countryCode);
 				if(res == 0) 
-					showMsgListRes("Aucun résultat.<br>Précisez votre recherche.");
+					showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
 	
 			}else{
 				console.log('Aucun résultat chez Google');
-				showMsgListRes("Aucun résultat.<br>Précisez votre recherche.");
+				showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
 			}
 
 		}, 
 		function(thisError){ /*error google*/
-			showMsgListRes("Aucun résultat.<br>Précisez votre recherche.");
+			showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
 			console.log("ERROR GOOGLE"); console.dir(thisError);
 		}
 	);
@@ -180,6 +180,13 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 		toastr.error('provider inconnu');
 		return false;
 	}
+}
+
+
+function showMsgListRes(msg){ console.log("showMsgListRes", msg);
+	msg = msg != "" ? "<li class='padding-5'>" + msg + "</li>" : "";
+
+	$("#dropdown-newElement_streetAddress-found").html(msg);
 }
 
 
@@ -255,7 +262,7 @@ function getCommonGeoObject(objs, providerName){
 			$.each(CPS, function(index, value){
 				var oneCity = commonObj;
 				oneCity["postalCode"] = value;
-				oneCity["name"] = oneCity["cityName"] + ", " + value + ", " + oneCity["country"];
+				oneCity["name"] = oneCity["cityName"] + ", " + value + ", " + oneCity["country"];			
 
 				if($.inArray(oneCity["name"], multiCpName) < 0){
 					multiCpName.push(oneCity["name"]);
@@ -340,7 +347,38 @@ function addCoordinates(commonObj, obj, providerName){
 /* affiche les résultat de la recherche dans la div #result (à placer dans l'interface au préalable) */
 var markerListEntity = null;
 function addResultsInForm(commonGeoObj, countryCode){
-	
+	//success
+	console.log("success callGeoWebService");
+	//console.dir(objs);
+	var res = commonGeoObj; //getCommonGeoObject(objs, providerName);
+	console.dir(res);
+	var html = "";
+	$.each(res, function(key, value){ //console.log(allCities);
+		if(notEmpty(value.countryCode)){
+			console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
+			if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
+				html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'><i class='fa fa-marker-map'></i> "+value.name+"</a></li>";
+			}
+		}
+	});
+	if(html == "") html = "<i class='fa fa-ban'></i> Aucun résultat";
+	$("#dropdown-newElement_streetAddress-found").html(html);
+	$("#dropdown-newElement_streetAddress-found").show();
+
+	$(".item-street-found").click(function(){
+		Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
+		Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
+		Sig.map.setZoom(16);
+		console.log("lat lon", $(this).data("lat"), $(this).data("lng"));
+		$("#dropdown-newElement_streetAddress-found").hide();
+		$('[name="newElement_lat"]').val($(this).data("lat"));
+		$('[name="newElement_lng"]').val($(this).data("lng"));
+		NE_lat = $(this).data("lat");
+		NE_lng = $(this).data("lng");
+		updateHtmlInseeLatLon();
+	});
+
+/*	
 	//clear map
 	var thisSig = Sig;
 	if(markerListEntity != null)
@@ -376,6 +414,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 	}
 	console.log("total : " + totalShown);
 	return totalShown;
+*/
 }
 
 function getFullAddress(obj){
