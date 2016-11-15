@@ -621,7 +621,9 @@ function updateLocalityElement(){
 						}else{
 
 							changeMenuCommunextion(locality);
-
+							currentUser.addressCountry = locality.address.addressCountry;
+							currentUser.postalCode = locality.address.postalCode;
+							currentUser.codeInsee = locality.address.codeInsee;
 							Sig.myPosition.position.latitude = locality.geo.latitude;
 							Sig.myPosition.position.longitude = locality.geo.longitude;
 							var url = window.location.href ;
