@@ -726,7 +726,9 @@
     type : "entry",
     controller : "survey",
     otags : "<?php echo addslashes(@$where["survey"]["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$where["survey"]["tags"])) ?>",
-    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$where["survey"]["name"])); ?>
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$where["survey"]["name"])); ?>,
+    parentType : "<?php echo @$where["survey"]["parentType"] ?>",
+    parentId : "<?php echo (string)@$where["survey"]["parentId"] ?>"
   };  
 
 var layout = 'grid', // Store the current layout as a variable

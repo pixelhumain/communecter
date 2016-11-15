@@ -959,27 +959,28 @@ function initGrid(){
 function bindBtnEvents(){
 	$(".disconnectBtn").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	        var $this = $(this);
 	        params =new Object;
 	        if($("#parentType").val() == "citoyens" && elementId==$("#parentId").val()){
 		        params.childId = $("#parentId").val();
 		        params.childType =$("#parentType").val() ;
-		        params.parentType = $(this).data("type") ;
-		        params.parentId = $(this).data("id");
-			    params.connectType = $(this).data("connecttype");
+		        params.parentType = $this.data("type") ;
+		        params.parentId = $this.data("id");
+			    params.connectType = $this.data("connecttype");
 			    params.fromMyDirectory = true;
 	        }else{
-		        params.childId = $(this).data("id");
+		        params.childId = $this.data("id");
 		        if($("#parentType").val() == "events")
 		        	params.childType = "citoyens";
 		        else
-		        	params.childType = $(this).data("type");
+		        	params.childType = $this.data("type");
 		        params.parentType = $("#parentType").val();
 		        params.parentId = $("#parentId").val();
 		        params.connectType = $("#connectType").val();
 	        }
-	        var userType = $(this).data("type");
-	        var userId = $(this).data("id");
-	        var thisParent = $(this).parents().eq(2);
+	        var userType = $this.data("type");
+	        var userId = $this.data("id");
+	        var thisParent = $this.parents().eq(2);
 	 	    //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
@@ -994,7 +995,13 @@ function bindBtnEvents(){
 					        	thisParent.find(".toolsLoader").remove();
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");	
-						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600);
+						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600).remove();
+						       	 	if($("#parentType").val() == "citoyens" && elementId==$("#parentId").val()){
+							       	 	typeToRemove=$this.data("type");
+						       	 		if($this.data("type")=="citoyens")
+						       	 			typeToRemove = "people";	
+						       	 		removeFloopEntity($this.data("id"), typeToRemove);
+						       	 	}
 						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
