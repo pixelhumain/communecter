@@ -178,6 +178,12 @@
 						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
 						  		"contentKey" : contentKey
 						  	};
+
+						if(typeof contextData.parentType != "undefined" && contextData.parentType != null){
+							doc["parentType"] = contextData.parentType ;
+							doc["parentId"] = contextData.parentId ;
+						}
+
 			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else
