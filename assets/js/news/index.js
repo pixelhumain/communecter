@@ -174,7 +174,7 @@ function buildTimeLine (news, indexMin, indexMax)
 				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
-				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message.<br/>Participez à l'activité de ce fil d'actualité<br/>en devenant membre ou contributeur.</div>";
+				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message sur ce journal.</div>";
 			}
 			scrollEnd = true;
 			 // newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+

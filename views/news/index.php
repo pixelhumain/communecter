@@ -54,6 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
 	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
+	$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
 	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
 		Menu::organization( $parent );
 		//$thisOrga = Organization::getById($parent["_id"]);
@@ -69,6 +70,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "lock";
 		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
 		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
@@ -81,6 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
+				$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
 			}	
 			if(Yii::app()->session["userId"] ==$contextParentId){
 				$headerName= "Mon journal";
@@ -88,6 +94,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			}else{
 				$headerName= "Journal de : ".$contextName;
 				$topTitle = $headerName;
+				$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 			}
 		}
 		else{
@@ -96,6 +103,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$headerName= "L'actu de votre réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
+			$textForm = Yii::t("common","Published a message in your wall for your network");
 		}
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
@@ -112,6 +120,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$public = true;
 		$headerName= "Journal du projet";//.$contextName;
 		$topTitle = "Journal du projet";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 	//	Menu::event( $parent );
 		$contextName = addslashes($parent["name"]);
@@ -122,6 +134,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "connectdevelop";
 		$headerName= "Journal de l'événement";//.$contextName;
 		$topTitle = "Journal de l'événement";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
+
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -132,12 +149,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "globe";
 		$headerName= "Actualités de ".$city["name"];
 		$topTitle = ""; //$headerName;
+		$textForm = Yii::t("common","Write a idea, a message in the city wall of")." ".$contextName;
+
 	}
 	else if( isset($type) && $type == "pixels"){
 		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
 		//$contextTitle = Yii::t("common", "Contributors of project");
 		$headerName= " La foire aux bugs";
 		$topTitle = " La foire aux bugs";
+		$textForm = Yii::t("common","Write a bug or an idea to improve the development of communecter");
 	}
 
 	$imgProfil = "";
@@ -336,7 +356,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	<?php } ?>
 
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <span id="info-write-msg"><?php echo "Rédiger un message public en sélectionnant des lieux"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?></span>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <span id="info-write-msg"><?php echo $textForm; ?></span>
 		<a class="btn btn-xs pull-right" style="margin-top: -4px;" onclick="javasctipt:showFormBlock(false);">
 			<i class="fa fa-times"></i>
 		</a>
@@ -345,7 +365,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="user-image-buttons">
 				<form method="post" id="photoAddNews" enctype="multipart/form-data">
 					<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-						<?php if ($authorizedToStock){ ?>
+						<?php if ($authorizedToStock && (@$canManageNews && $canManageNews==true)){ ?>
 							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
 						<?php } ?>
 						

@@ -231,7 +231,7 @@ $controler = Element::getControlerByCollection($type);
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
-							echo Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
+							echo "<br/>".Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
 							//echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";	
 						}
 					?>
