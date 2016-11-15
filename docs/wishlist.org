@@ -4,6 +4,7 @@
 [ ] repairing localisation HTML5
 
 * optim
+[ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
 [ ] reactiver viewport filter sur la carte
 [ ] on person.detail add autocomplete on tags
 [ ] refactor : chgt de carte avec bcp de data
@@ -13,8 +14,14 @@
 [ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
 [ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
 [ ] refactor design recherche a directory et utiliser la page recherche pour communauté
+[ ] HTML5 notifications
+[.17] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
 * refactor 
 [ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
+[ ] moving discussion polling to discussion page instead of communecter.js
 
 * Tags
 [ ] section sous la baniere de categorie de tags
@@ -29,15 +36,19 @@
   [ ] .... autres question
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
 [ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
-[ ] dynform evolutif par type 
-    [ ] start by name
-    [ ] build as you complete the info
+[ ] delete empty element
 [.17] event + project : change organiser
+[ ] add to favorite 
   ** dynform 
     *** Location amélioration 
     [ ] affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
     [ ] ajouter une colonne mes lieux préférés, click et rempli
-
+    [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+    [ ] desactivate dynForm if not Logged
+    [ ] dynform evolutif par type 
+      [ ] start by name
+      [ ] build as you complete the info
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
@@ -63,6 +74,8 @@
   [ ] push back vers Open Agenda
   [ ] Best place calculator : utilisant la position des participants
   [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
+  [.17] pré remplir les dates, lieu
+  [ ] parent Event : load param ajax : show only ongoing or event to come
 
   ** Project
   [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
@@ -70,6 +83,7 @@
   [ ] Finir Besoin Ressource compétence
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
+  [ ] enable create subProjects like subEvents
 
   ** Needs
   [.17] visualisation de la banque des besoins 
@@ -78,6 +92,8 @@
     - par type d'acteur 
 
   ** POI
+  [.17] add photo
+  [.17] add POI to news
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
   [ ] use Poi as social bookmarking
     [ ] import from diigo, bookmarks or delicious
@@ -169,6 +185,8 @@
 [.16] bug : sur archiver , persiste dans les listes 
 [.16] bug : une décision terminé, on peut toujours voté dessus
 [.16] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[ ] ouvrir une proposition une geo scope cp, insee..
+[ ] ouvrir une proposition sans parent room
 [ ] btn archiver afficher si deconnecté
 [ ] changer les lien des DDA sur les parent insee
 [ ] ajouter la proposition de signature du pacte de transition citoyenne
