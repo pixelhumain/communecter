@@ -685,9 +685,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 </div>
 
 <?php
+$emptyAddress = (empty($element["address"]["codeInsee"])?false:true);
 $showOdesc = true ;
-if(Person::COLLECTION == $type)
-	$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "streetAddress"))?true:false);
+if(Person::COLLECTION == $type){
+	$showLocality = (Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])?true:false);
+	$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "locality"))?true:false);	
+}
 $odesc = "" ;
 if($showOdesc == true){
 	$controller = Element::getControlerByCollection($type) ;
@@ -713,20 +716,26 @@ if($showOdesc == true){
 		type : "<?php echo $type ?>",
 		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
-		geo : <?php echo json_encode(@$element["geo"]) ?>,
-		geoPosition : <?php echo json_encode(@$element["geoPosition"]) ?>,
-		address : <?php echo json_encode(@$element["address"]) ?>,
-		addresses : <?php echo json_encode(@$element["addresses"]) ?>,
+		
 		odesc : <?php echo json_encode($odesc) ?>,
 		<?php 
 		if( @$element["startDate"] )
 			echo "'startDate':'".$element["startDate"]."',";
 		if( @$element["endDate"] )
 			echo "'endDate':'".$element["endDate"]."'"; ?>
-
 	};	
 
-	var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
+
+	var showLocality = (( "<?php echo @$showLocality; ?>" == "false")?false:true);
+	if((showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
+		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
+		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
+		contextData.address = <?php echo json_encode(@$element["address"]) ?>;
+		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
+	}
+	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
+	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "false")?false:true);
+
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
 	var countries = <?php echo json_encode($countries) ?>;
