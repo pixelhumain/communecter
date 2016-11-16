@@ -201,6 +201,7 @@ function editEntrySV () {
               $("#editEntryContainer #message").code(proposalObj.message);
              
             }
+            $(".mainDynFormCloseBtn").addClass("hidden");
           },
           onSave : function(){
             mylog.log("saving Survey !!");
