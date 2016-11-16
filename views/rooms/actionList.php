@@ -609,7 +609,9 @@ border: 1px solid #E4E4E4;
     type : "action",
     controller : "room",
     otags : "<?php echo addslashes(@$room["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$room["tags"])) ?>",
-    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>,
+    parentType : "<?php echo @$room["parentType"] ?>",
+    parentId : "<?php echo (string)@$room["parentId"] ?>"
   };  
 
 var layout = 'grid', // Store the current layout as a variable
