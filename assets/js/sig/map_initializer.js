@@ -449,14 +449,8 @@
 		};
 		Sig.getThumbProfil = function (element){
 			defaultType=element['typeSig'];
-			if(element['typeSig']=="people" || element['typeSig']=="citoyen")
+			if(element['typeSig']=="people")
 				defaultType="citoyens";
-			else if(element['typeSig']=="organization")
-				defaultType="organizations";
-			else if(element['typeSig']=="event")
-				defaultType="events";
-			else if(element['typeSig']=="project")
-				defaultType="projects";
 			else if(element['typeSig'].indexOf("poi.") >= 0){
 				defaultType=element['typeSig'].split(".");
 				defaultType=defaultType[1];
