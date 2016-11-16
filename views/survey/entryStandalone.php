@@ -433,7 +433,7 @@ function editEndDate() {
 <?php
 	if( $canEditEndDate ) {
 ?>
-	console.log("Init XEdit end date");
+	mylog.log("Init XEdit end date");
 	$('#endDate').editable({
 		url: baseUrl+"/"+moduleId+"/element/updatefields/type/<?php echo Survey::COLLECTION?>", 
 		mode: 'popup',
@@ -455,7 +455,7 @@ function editEndDate() {
     });
 
 	//formatDate = "YYYY-MM-DD HH:mm";
-	console.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
+	mylog.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
 	$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"), true);
 
 <?php } ?>
@@ -467,7 +467,7 @@ function saveEditEntry(){
 
 function addaction(id,action)
 {
-    console.warn("--------------- addaction ---------------------");
+    mylog.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
     	var message = "<span class='text-dark'>Vous avez choisi de voter <strong>" + trad[action] + "</strong></span><br>";
@@ -528,7 +528,7 @@ function showHidePanels (panel)
 function buildResults () { 
 
 
-		console.log("buildResults");
+		mylog.log("buildResults");
 
 	var getColor = {
 	    'Pou': '#93C22C',
@@ -538,7 +538,7 @@ function buildResults () {
 	    'Plu': '#789289'
 	}; 
 	
-		console.log("setUpGraph");
+		mylog.log("setUpGraph");
 		$('#container2').highcharts({
 		    chart: {
 		        plotBackgroundColor: null,
@@ -587,7 +587,7 @@ function buildResults () {
 
 function closeEntry(id)
 {
-    console.warn("--------------- closeEntry ---------------------");
+    mylog.warn("--------------- closeEntry ---------------------");
     
       bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer cette proposition ?</strong> (fermeture définitive) ",
           function(result) {
@@ -607,7 +607,7 @@ function closeEntry(id)
 
 function move( type,destId ){
 	bootbox.hideAll();
-	console.warn("--------------- move ---------------------",type,destId);
+	mylog.warn("--------------- move ---------------------",type,destId);
 	bootbox.confirm("<strong>Êtes-vous sûr de vouloir déplacer cette proposition ?</strong>",
       function(result) {
         if (result) {

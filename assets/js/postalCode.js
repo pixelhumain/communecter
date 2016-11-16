@@ -25,7 +25,7 @@ $(function(){
     var searchValue;
 
     var searchCity = function () {
-      console.log("search City");
+      mylog.log("search City");
       var timeout;
       searchValue = $('.editableform #postalCode').val();
       if(searchValue.length == 5 || searchValue.length == 4) {
@@ -51,7 +51,7 @@ $(function(){
       }
 
       var oneValue = "";
-      console.table(citiesByPostalCode);
+      mylog.table(citiesByPostalCode);
       $.each(citiesByPostalCode,function(i, value) {
           $("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
           oneValue = value.value;
@@ -69,7 +69,7 @@ $(function(){
     };
     
     var bindPostalCodeAction = function () {
-      console.log("Bind Postal Code");
+      mylog.log("Bind Postal Code");
       $('.editableform #postalCode').keyup(function(e){
         searchCity();
       }).change(function(e){
@@ -105,7 +105,7 @@ $(function(){
                 return; 
             }
             var html = $('<div>').text(value.postalCode).html() + ' ' + $('<div>').text(value.addressLocality).html();
-            console.log("value2html " + html);
+            mylog.log("value2html " + html);
             $(element).html(html); 
         },
         

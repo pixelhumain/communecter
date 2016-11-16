@@ -146,7 +146,7 @@
 	});
 
 	function updateOrganisation(newMember,type) {
-		console.log("UpdateOrganization from network pod !");
+		mylog.log("UpdateOrganization from network pod !");
 		if('undefined' != typeof contextMap["organizations"])
 		{
 			if(type == '<?php echo Person::COLLECTION; ?>')
@@ -154,7 +154,7 @@
 			else if (type == '<?php echo Organization::COLLECTION; ?>')
 				contextMap["organizations"].push(newMember);
 		}
-		console.log(newMember, "type", type);
+		mylog.log(newMember, "type", type);
 		var links ="";
 		var itemId = newMember["_id"]["$id"];
 		if( !$("#"+type+itemId).length > 0 ) 
@@ -209,7 +209,7 @@
 										'</td>'+
 	        						'</tr>';
 
-	        //console.log(networkLine);
+	        //mylog.log(networkLine);
 	        tabObject.append(networkLine);
 	        bindBtnNetwork();
 
@@ -226,7 +226,7 @@
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	        var idMember = $(this).data("id");
 	        var typeMember = $(this).data("type");
-	        console.log(idMember);
+	        mylog.log(idMember);
 	        bootbox.confirm("Are you sure you want to remove <span class='text-red'>"+$(this).data("name")+"</span> from your members ?", 
 				function(result) {
 					if (result) {

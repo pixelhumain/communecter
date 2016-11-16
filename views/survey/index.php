@@ -760,7 +760,7 @@ jQuery(document).ready(function() {
   $('.voteIcon').off().on("click",function() { 
     $(this).addClass("faa-bounce animated");
     clickedVoteObject = $(this).data("vote");
-    console.log(clickedVoteObject);
+    mylog.log(clickedVoteObject);
    });
 
   $('#form-create-proposal #btn-submit-form').addClass("hidden");
@@ -817,12 +817,12 @@ function toogleTags(){
   *
   ***************************************** */
   function entryDetail(url,type){
-    console.warn("--------------- entryDetail ---------------------",url);
+    mylog.warn("--------------- entryDetail ---------------------",url);
     getAjax( "surveyDetails" , url , function(data){
       //$("#surveyDetails").html(data);
-      console.dir(data);
+      mylog.dir(data);
       
-      console.log("type", type);
+      mylog.log("type", type);
       if(type == "edit") 
         loadByHash(url);
       else 
@@ -838,7 +838,7 @@ function toogleTags(){
   ***************************************** */
 function addaction(id,action)
 {
-    console.warn("--------------- addaction ---------------------");
+    mylog.warn("--------------- addaction ---------------------");
     
       bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
           function(result) {
@@ -865,7 +865,7 @@ function addaction(id,action)
 
   function moderateEntry(id,action)
     {
-      console.warn("--------------- moderateEntry ---------------------");
+      mylog.warn("--------------- moderateEntry ---------------------");
       params = { 
         "survey" : id , 
         "action" : action , 
@@ -912,8 +912,8 @@ function addaction(id,action)
     }
 
 function readEntrySV(data,type) { 
-  console.warn("--------------- readEntrySV ---------------------");
-  console.dir(data);
+  mylog.warn("--------------- readEntrySV ---------------------");
+  mylog.dir(data);
   $("#readEntryContainer").html("<div class='col-sm-10 col-sm-offset-1 '>"+
               '<h1 class="homestead text-red center citizenAssembly-header">'+
               '<i class="fa fa-pie-chart "></i>'+
@@ -946,7 +946,7 @@ function toggleGraph(){
 }
 
 function archive(collection,id){
-  console.warn("--------------- archive ---------------------",collection,id);
+  mylog.warn("--------------- archive ---------------------",collection,id);
     
   bootbox.confirm("Vous êtes sûr ? ",
       function(result) {

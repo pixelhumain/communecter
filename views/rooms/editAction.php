@@ -150,7 +150,7 @@ jQuery(document).ready(function() {
 
 function editEntrySV () {
 
-  console.warn("--------------- editEntrySV ---------------------",proposalObj);
+  mylog.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editActionContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t("rooms","Add an Action", null, Yii::app()->controller->module->id); ?></h1>"+
@@ -162,7 +162,7 @@ function editEntrySV () {
           formId : "#editActionContainer #ajaxFormAction",
           formObj : actionFormDefinition,
           onLoad : function() {
-            console.log("onLoad",proposalObj);
+            mylog.log("onLoad",proposalObj);
             if( proposalObj )
             {
                if(proposalObj.startDate)
@@ -186,8 +186,8 @@ function editEntrySV () {
             }
           },
           onSave : function(){
-            console.log("saving Action !!");
-            console.log($("#editActionContainer #name").val());
+            mylog.log("saving Action !!");
+            mylog.log($("#editActionContainer #name").val());
             //one = getRandomInt(0,10);
             //two = getRandomInt(0,10);
             if( $("#editActionContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
@@ -201,8 +201,8 @@ function editEntrySV () {
                  "message" :  $("#editActionContainer #message").code() ,
                  "type" : "<?php echo ActionRoom::TYPE_ACTION ?>"
               };
-              console.log("processingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUi");
-              console.dir(params);
+              mylog.log("processingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUiprocessingBlockUi");
+              mylog.dir(params);
               urls = getUrls();
               if( urls != null )
                 params.urls = urls;
@@ -215,7 +215,7 @@ function editEntrySV () {
               if( $("#editActionContainer #dateEnd").val() )
                 params.dateEnd = $("#editActionContainer #dateEnd").val();
 
-             console.dir(params);
+             mylog.dir(params);
              $.ajax({
                 type: "POST",
                 url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveaction")?>',
@@ -244,7 +244,7 @@ function editEntrySV () {
             return false;
           }
         });
-        console.dir(formAction);
+        mylog.dir(formAction);
       
 }
 
@@ -255,7 +255,7 @@ function getUrls()
         if( $(this).val() != "" )
           urls.push( $( this ).val() );
     });
-    console.log("urls",urls);
+    mylog.log("urls",urls);
     return ( urls.length ) ? urls : null;
 };
 

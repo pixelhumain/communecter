@@ -83,7 +83,7 @@
 					return;
 				}
 
-				console.log(idProject);
+				mylog.log(idProject);
 				$.ajax({
 					type: "POST",
 					url: baseUrl+"/"+moduleId+"/project/removeproject/projectId/"+idProject+"",
@@ -106,7 +106,7 @@
 		});
 	}
 function updateProject( nProject, projectId ){
-		console.log(nProject);
+		mylog.log(nProject);
 		if('undefined' != typeof contextMap){
 			contextMap["projects"].push(nProject);
 		}

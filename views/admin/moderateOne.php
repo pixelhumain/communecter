@@ -33,7 +33,7 @@
 	var htmlSpiner = '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i></h2>';
 	function loadNewsToModerate(idNews){
 		var urlToSend = baseUrl+'/'+moduleId+"/news/detail/id/"+idNews;
-		console.log(urlToSend);
+		mylog.log(urlToSend);
 		getAjax('.toModerateContent',urlToSend,function(handleResponse){
 				
 			$('.buttonBar').show();
@@ -50,7 +50,7 @@
 	}
 
 	function setNextNewsId(){
-		console.log("setNextNewsId");
+		mylog.log("setNextNewsId");
 		$('.toModerateContent').html(htmlSpiner);
 		$('.buttonBar').hide();
         var urlToSend = baseUrl+"/"+moduleId+"/news/moderate/";
@@ -63,7 +63,7 @@
 	        data:params,
 	        dataType : "json",
 	        success:function (data){
-		       console.log(data);
+		       mylog.log(data);
 		       if(data.result == true){
 		       		newsId = data.newsId;
 		       		loadNewsToModerate(newsId);
@@ -90,8 +90,8 @@
 
 		$(".declareAsAbuseBtn, .declareAsAuthorizeBtn").off().on("click",function () 
 		{
-			console.log("declareAsAbuseBtn / declareAsAuthorizeBtn click");
-			console.log("isAnAbuse",$(this).data("value"));
+			mylog.log("declareAsAbuseBtn / declareAsAuthorizeBtn click");
+			mylog.log("isAnAbuse",$(this).data("value"));
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var urlToSend = baseUrl+"/"+moduleId+"/news/moderate/";

@@ -122,7 +122,7 @@
 		var optionChecked = $("#typeOption").val();
 		var CitiesChecked = $("#chooseCities").val();
 
-		console.log("init", insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
+		mylog.log("init", insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
 		bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 		getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 
@@ -141,49 +141,49 @@
 
 function bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked){
 	
-	//console.warn("----------------- bindBtnAction -----------------");
-	//console.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
+	//mylog.warn("----------------- bindBtnAction -----------------");
+	//mylog.log(name_id + "_panel : ", insee, typeData, typeZone, optionChecked);
 	
 	$("#typeData").off().on("change", function() {
-		console.warn("----------------- typeData -----------------");
+		mylog.warn("----------------- typeData -----------------");
 		typeData = $("#typeData").val();
 		modifyListOption(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
 	});
 
 
 	$("#typeZone").off().on("change", function() {
-		console.warn("----------------- typeZone -----------------");
+		mylog.warn("----------------- typeZone -----------------");
 		typeZone = $("#typeZone").val();
 		modifyListCities(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
 	
 	});
 
 	$("#typeGraph").off().on("change", function() {
-		console.warn("----------------- typeGraph -----------------");
+		mylog.warn("----------------- typeGraph -----------------");
 		typeGraph = $("#typeGraph").val();
 		getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 	
 	});
 
 	$("#typeOption").off().on("change", function() {
-		console.warn("----------------- typeOption -----------------");
+		mylog.warn("----------------- typeOption -----------------");
 		optionChecked = $("#typeOption").val();
-		console.log("optionChecked", optionChecked);
+		mylog.log("optionChecked", optionChecked);
 		getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 	
 	});
 
 	$("#chooseCities").off().on("change", function() {
-		console.warn("----------------- chooseCities -----------------");
+		mylog.warn("----------------- chooseCities -----------------");
 		CitiesChecked = $("#chooseCities").val();
-		console.log("CitiesChecked", CitiesChecked);
+		mylog.log("CitiesChecked", CitiesChecked);
 		getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 	
 	});
 
 
 	$("#addPod").off().on("click", function() {
-		console.warn("----------------- addPod -----------------");
+		mylog.warn("----------------- addPod -----------------");
 
 		var title = typeData + " - " + typeGraph  + " - " + typeZone;
 		bootbox.prompt("Donner un titre", function(result){
@@ -209,14 +209,14 @@ function bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, Citi
 					url: urlToGetPod,
 					dataType: "json",
 					success: function(dataPod){
-						console.log("getPod", dataPod.tabPod);
+						mylog.log("getPod", dataPod.tabPod);
 						$.ajax({
 							type: "POST",
 							url: urlToAdd,
 							data:{urlPod: urlPod, titlePod: title, tabPod: dataPod.tabPod},
 							dataType: "json",
 							success: function(data){
-								console.info("ajouterPod", data);
+								mylog.info("ajouterPod", data);
 								if(data.result == false)
 								{
 									toastr.error(data.msgError);
@@ -238,7 +238,7 @@ function bindBtnAction(insee, typeData, typeZone, typeGraph, optionChecked, Citi
 
 
 function modifyListOption(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked){
-	console.warn("----------------- modifyListOption -----------------");
+	mylog.warn("----------------- modifyListOption -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistoption/";
 	$.ajax({
 		type: "POST",
@@ -261,14 +261,14 @@ function modifyListOption(insee, typeData, typeZone, typeGraph, optionChecked, C
 
 
 function modifyListCities(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked){
-	console.warn("----------------- modifyListCities -----------------");
+	mylog.warn("----------------- modifyListCities -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getlistcities/insee/"+insee+"/zone/"+typeZone;
 	$.ajax({
 		type: "POST",
 		url: urlToSend,
 		dataType: "json",
 		success: function(data){
-			console.log("data", data);
+			mylog.log("data", data);
 			if(data.result == true)
 			{
 				//var chaine = "<label for='chooseCities'/>Comparer : </label><select id='chooseCities' class='selectpicker' multiple>";
@@ -291,7 +291,7 @@ function modifyListCities(insee, typeData, typeZone, typeGraph, optionChecked, C
 
 
 function getNameOptionForURL(arrayForURL){
-	console.warn("----------------- getNameOptionOpenData -----------------");
+	mylog.warn("----------------- getNameOptionOpenData -----------------");
 	var objetForURL = {};
 	var i = 0 ;
 	
@@ -307,8 +307,8 @@ function getNameOptionForURL(arrayForURL){
 
 function getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked)
 {
-	console.warn("----------------- getGraph -----------------");
-	console.log(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
+	mylog.warn("----------------- getGraph -----------------");
+	mylog.log(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChecked);
 	//http://127.0.0.1/ph/communecter/city/graphcity/insee/97414
 	var urlToSend = baseUrl+"/"+moduleId+"/city/graphcity/insee/"+insee;
 	urlToSend = urlToSend+"/typeData/"+typeData;
@@ -321,13 +321,13 @@ function getGraph(insee, typeData, typeZone, typeGraph, optionChecked, CitiesChe
 	if(CitiesChecked != null)
 		urlToSend += "/inseeCities/"+ $.param(getNameOptionForURL(CitiesChecked));
 
-	console.log("urlToSend", urlToSend);
+	mylog.log("urlToSend", urlToSend);
 	
 	getAjax("#corpsGraph", urlToSend, function(){}, "html");
 }
 
 function getPod(){
-	console.warn("----------------- getPod -----------------");
+	mylog.warn("----------------- getPod -----------------");
 	
 }
 

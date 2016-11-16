@@ -101,8 +101,8 @@
 			    initFileUpload();
 			}, 1000);
 		}
-		console.log(baseUrl+"/imageTableu:");
-		console.log(image[contentId.toLowerCase()]);
+		mylog.log(baseUrl+"/imageTableu:");
+		mylog.log(image[contentId.toLowerCase()]);
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
 			
@@ -145,7 +145,7 @@
 
 
 		$("#"+contentId+"_photoAdd").off().on('submit',(function(e) {
-			if(debug)console.log("id2", id);
+			if(debug)mylog.log("id2", id);
 			$("."+contentId+"_isSubmit").val("true");
 			e.preventDefault();
 			/*$("#"+contentId+"_fileUpload").css("opacity", "0.4");
@@ -163,7 +163,7 @@
 				processData: false,
 				dataType: "json",
 				success: function(data){
-					if(debug)console.log(data);
+					if(debug)mylog.log(data);
 			  		if(data.success){
 			  			imageName = data.name;
 			  			var doc = { 
@@ -249,7 +249,7 @@
 				$("#"+contentId+"_imgPreview").html(imageUrl);
 
 			}
-			//if(debug)console.log("initFileUpload", images, imagesPath);
+			//if(debug)mylog.log("initFileUpload", images, imagesPath);
 			if(j == 0 || resize ){
 				if(editFile){
 					var textBlock = "<br><?php echo Yii::t('fileUpload','Click on',null,Yii::app()->controller->module->id) ?> <i class='fa fa-plus text-green'></i> <?php echo Yii::t('fileUpload','for share your pictures',null,Yii::app()->controller->module->id) ?>";
@@ -267,7 +267,7 @@
 			}
 		}
 		function saveImage(doc, path){
-			console.log("----------------saveImage------------------");
+			mylog.log("----------------saveImage------------------");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",
@@ -283,7 +283,7 @@
 						$("#"+contentId+"_photoUploading").css("display", "none");
 						$(".btn").removeClass("disabled");*/
 						updateBtnUpload(false);
-						console.log(typeof(updateSlider));
+						mylog.log(typeof(updateSlider));
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 							updateSlider(path, data.id["$id"]);
 				  		}
@@ -306,7 +306,7 @@
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ 
-			console.log("loading new profil");
+			mylog.log("loading new profil");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
@@ -326,10 +326,10 @@
 
 		        }
 
-		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        mylog.log(Sig.userData.profilImageUrl);
+		        mylog.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
 		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
-		        console.log(Sig.userData.profilImageUrl);
+		        mylog.log(Sig.userData.profilImageUrl);
 		        
 		    });
 		}

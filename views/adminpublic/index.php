@@ -60,11 +60,11 @@ var mapData = <?php echo json_encode($contextMap) ?>;
 jQuery(document).ready(function() {
 	setTitle("Espace administrateur : Import de données","cog");
 	var nbWarnings = "<?php echo $nb ?>" ;
-	console.log(nbWarnings);
+	mylog.log(nbWarnings);
 	$("#nbWarnings").html(nbWarnings);
 	bindCheckGeo();
-	console.log("herrerer");
-	console.dir(mapData);
+	mylog.log("herrerer");
+	mylog.dir(mapData);
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
 });

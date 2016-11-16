@@ -147,17 +147,17 @@
 
 		
 		//var mapData = <?php //echo json_encode($contextMap) ?>; //null;//contextMap;
-		//console.log("contextMap");
-		//console.dir(mapData);
+		//mylog.log("contextMap");
+		//mylog.dir(mapData);
 		/**************************************************************************************************************/
 		
-		//console.dir(mapData);
+		//mylog.dir(mapData);
 		//affichage des éléments sur la carte
 		//Sig.showMapElements(mapCity, mapData);//, elementsMap); 
 
 		//var boundingBox = <?php if(isset($city["geo"]["boundingbox"])) echo json_encode($city["geo"]["boundingbox"]); else echo "false"; ?>;
 
-	/*	console.dir(boundingBox);
+	/*	mylog.dir(boundingBox);
 		if(boundingBox != false){
 			var latMin = boundingBox[0];
 	    	var latMax = boundingBox[1];

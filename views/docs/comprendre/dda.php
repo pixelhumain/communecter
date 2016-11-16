@@ -136,7 +136,7 @@ jQuery( document).ready(function() {
 });
 
 function buildTpl () { 
-	console.log("buildTpl");
+	mylog.log("buildTpl");
 
 	$.each(contentData.classes,function(key,val) 
 	{

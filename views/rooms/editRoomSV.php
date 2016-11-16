@@ -53,13 +53,13 @@ var dataBind = {
 };
 
 jQuery(document).ready(function() {
-  console.warn("--------------- newRoom ---------------------");
+  mylog.warn("--------------- newRoom ---------------------");
   
   setTitle("<span class='text-dark'> Créer un nouvel espace coopératif</span>","<i class='fa fa-connectdevelop fa-red'></i> <i class='fa fa-plus fa-red'></i>","Créer un nouvel espace coopératif");
   //getAjax("#editRoomsContainer",baseUrl+"/"+moduleId+"/rooms/editRoom", "html");
   editRoomSV();
   $(".newRoom").off().on("click",function() { 
-    console.warn("--------------- newRoom CLIK---------------------");
+    mylog.warn("--------------- newRoom CLIK---------------------");
     //openSubView('Add a Room', '/communecter/rooms/editRoom',null,function(){editRoomSV ();});
   });
 });
@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
 
 
 function editRoomSV (roomObj) { 
-  console.warn("--------------- editEntrySV ---------------------");
+  mylog.warn("--------------- editEntrySV ---------------------");
   $("#editRoomsContainer").html("<div class=''>"+
               "<div class='space20'></div>"+
               //"<h1 id='proposerloiFormLabel' ><?php echo Yii::t('rooms', 'New Room', null, $moduleId)?></h1>"+
@@ -86,8 +86,8 @@ function editRoomSV (roomObj) {
             $(".mainDynFormCloseBtn").addClass("hidden");
           },
           onSave : function(){
-            console.log("saving Room!!");
-            console.log("type : ", $("#editRoomsContainer #roomType").val());
+            mylog.log("saving Room!!");
+            mylog.log("type : ", $("#editRoomsContainer #roomType").val());
             processingBlockUi();
             var params = { 
                "email" : "<?php echo Yii::app()->session['userEmail']?>" , 
@@ -102,15 +102,15 @@ function editRoomSV (roomObj) {
               params.parentType = $("#editRoomsContainer #type").val();
             if( $("#editRoomsContainer #id").val() != "")
               params.parentId = $("#editRoomsContainer #id").val();
-           console.dir(params);
+           mylog.dir(params);
             $.ajax({
               type: "POST",
               url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
               data: params,
               success: function(data){
                 if(data.result){
-                  console.log("SUCCESS SAVE ROOM :");
-                  console.dir(data);
+                  mylog.log("SUCCESS SAVE ROOM :");
+                  mylog.dir(data);
                     if( data.newInfos.type == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
                       loadByHash("#comment.index.type.actionRooms.id."+data.newInfos["_id"]["$id"]);
                     else if(data.newInfos.type == "<?php echo ActionRoom::TYPE_FRAMAPAD ?>" )
@@ -133,12 +133,12 @@ function editRoomSV (roomObj) {
             return false;
           }
         });
-        console.dir(form);
+        mylog.dir(form);
 }
 
 /*
 function editRoomSV (roomObj) { 
-  console.warn("--------------- editEntrySV ---------------------");
+  mylog.warn("--------------- editEntrySV ---------------------");
   $("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2'>"+
               "<div class='space20'></div>"+
               "<h1 id='proposerloiFormLabel' >New Room</h1>"+
@@ -159,7 +159,7 @@ function editRoomSV (roomObj) {
             }
           },
           onSave : function(){
-            console.log("saving Room!!");
+            mylog.log("saving Room!!");
             one = getRandomInt(0,10);
             two = getRandomInt(0,10);
             if( prompt("combien font "+one+"+"+two+" ?") == one+two )
@@ -185,7 +185,7 @@ function editRoomSV (roomObj) {
                 params.parentType = $("#type").val();
               if( $("#id").val() != "")
                 params.parentId = $("#id").val();
-             console.dir(params);
+             mylog.dir(params);
              $.ajax({
                 type: "POST",
                 url: '<?php echo Yii::app()->createUrl($this->module->id."/rooms/saveroom")?>',
@@ -208,7 +208,7 @@ function editRoomSV (roomObj) {
             return false;
           }
         });
-        console.dir(form);
+        mylog.dir(form);
       },
       onHide : function() {
         $("#ajaxSV").html('');
@@ -234,8 +234,8 @@ function getRandomInt (min, max) {
 }
 
 function readEntrySV(data,type) { 
-  console.warn("--------------- readEntrySV ---------------------");
-  console.dir(data);
+  mylog.warn("--------------- readEntrySV ---------------------");
+  mylog.dir(data);
   $("#editRoomsContainer #ajaxSV").html("<div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               "<h1 id='entryTitle' >Faites une proposition</h1>"+

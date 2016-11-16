@@ -144,7 +144,7 @@ function bind()
 {
 	$("#checkboxAdmin").bootstrapSwitch();
 	$("#checkboxAdmin").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isAdmin").val(state);
 		
 	});
@@ -152,7 +152,7 @@ function bind()
 
 	$("#checkboxLink").bootstrapSwitch();
 	$("#checkboxLink").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isLink").val(state);
 		if(state == true){
 			$("#divLink").show();
@@ -163,20 +163,20 @@ function bind()
 
 	$("#checkboxSendMail").bootstrapSwitch();
 	$("#checkboxSendMail").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isSendMail").val(state);
 	});
 
 	$("#checkboxKissKiss").bootstrapSwitch();
 	$("#checkboxKissKiss").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isKissKiss").val(state);
 	});
 
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-    	console.log("ext", ext, $.inArray(ext, "json"));
+    	mylog.log("ext", ext, $.inArray(ext, "json"));
 		if(ext !=  "json" && ext == "js") {
 			alert('Upload CSV or JSON');
 			return false;
@@ -189,8 +189,8 @@ function bind()
 				reader.onload = function(e) {
 
 					file = e.target.result;
-					console.log(typeof file);
-					console.log(jQuery.parseJSON(file));
+					mylog.log(typeof file);
+					mylog.log(jQuery.parseJSON(file));
 					
 				};
 				reader.readAsText(e.target.files.item(0));
@@ -213,7 +213,7 @@ function bind()
 			+'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'
 			+ '<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>'
 		});
-  		//console.log("file", file);
+  		//mylog.log("file", file);
   		var link = false ;
   		if( $("#isLink").val() == "true" )
   			link = true ;
@@ -251,7 +251,7 @@ function bind()
 	        dataType : 'json',
 	        success: function(data)
 	        {
-	        	console.log("data",data);
+	        	mylog.log("data",data);
 	        	var chaine = "";
 	        	var csv = '"name";"url";"info";définir si c\'est un nouvelle organization ou si c\'est bien la bonne(New ou Yes)";' ;
 	        	if(typeof data.allbranch != "undefined"){
@@ -262,9 +262,9 @@ function bind()
 	        	if(typeof data.resData != "undefined"){
 		        	csv += "\n";
 		        	$.each(data.resData, function(key, value2){
-		        		//console.log("value",value);
+		        		//mylog.log("value",value);
 		  				//$.each(value, function(key2, value2){
-		  					//console.log("value2",value2, value2.name, value2.info);
+		  					//mylog.log("value2",value2, value2.name, value2.info);
 			        		chaine += "<tr>" +
 			        					"<td>"+value2.name+"</td>"+
 			        					"<td>"+value2.info+"</td>"+
@@ -275,7 +275,7 @@ function bind()
 			        		if(key == "error"){*/
 			        			csv += '"'+value2.name+'";;"'+value2.info+'";;' ;
 			        		//}
-			        		//console.log("csv",csv);
+			        		//mylog.log("csv",csv);
 			        		/*if(typeof value2.valueSource != "undefined"){
 			        			$.each(data.allbranch, function(keyBranch, valueBranch){
 			        				if(typeof value2.valueSource[valueBranch] != "undefined")
@@ -287,7 +287,7 @@ function bind()
 			        		csv += "\n";
 
 			        		
-		  					//console.log("chaine",chaine);
+		  					//mylog.log("chaine",chaine);
 			  			//});
 		  			});
 		  		}
@@ -305,7 +305,7 @@ function bind()
 
 	        },
 	  		error:function(data){
-	  			console.log("error",data);
+	  			mylog.log("error",data);
 	  			$.unblockUI();
 	  		}
 		});
@@ -323,7 +323,7 @@ function bind()
 * Check if current user has authorized this application.
 */
 /*function checkAuth() {
-	console.log("checkAuth");
+	mylog.log("checkAuth");
 	gapi.auth.authorize({
 		'client_id': CLIENT_ID,
 		'scope': SCOPES.join(' '),
@@ -337,7 +337,7 @@ function bind()
 * @param {Object} authResult Authorization result.
 */
 /*function handleAuthResult(authResult) {
-	console.log("handleAuthResult", authResult);
+	mylog.log("handleAuthResult", authResult);
 	var authorizeDiv = document.getElementById('authorize-div');
 	if (authResult && !authResult.error) {
 		// Hide auth UI, then load client library.
@@ -357,7 +357,7 @@ function bind()
 * @param {Event} event Button click event.
 */
 /*function handleAuthClick(event) {
-	console.log("handleAuthClick", event);
+	mylog.log("handleAuthClick", event);
 	gapi.auth.authorize({
 		client_id: CLIENT_ID, 
 		scope: SCOPES, 
@@ -369,7 +369,7 @@ function bind()
 * Load Drive API client library.
 */
 /*function loadDriveApi() {
-	console.log("loadDriveApi");
+	mylog.log("loadDriveApi");
 	gapi.client.load('drive', 'v3', listFiles);
 }
 
@@ -377,7 +377,7 @@ function bind()
 * Print files.
 */
 /*function listFiles() {
-	console.log("listFiles");
+	mylog.log("listFiles");
 	var request = gapi.client.drive.files.list({
     	'pageSize': 10,
     	'fields': "nextPageToken, files(id, name)"
@@ -385,7 +385,7 @@ function bind()
 
   	request.execute(function(resp) {
     	appendPre('Files:');
-    	console.log(resp);
+    	mylog.log(resp);
     	var files = resp.files;
     	if (files && files.length > 0) {
       		for (var i = 0; i < files.length; i++) {
@@ -407,7 +407,7 @@ function bind()
 * @param {string} message Text to be placed in pre element.
 */
 /*function appendPre(message) {
-	console.log("appendPre", message);
+	mylog.log("appendPre", message);
 	var pre = document.getElementById('output');
 	var textContent = document.createTextNode(message + '\n');
 	pre.appendChild(textContent);
@@ -432,7 +432,7 @@ function auth() {
 }
 
 function getToken(stop) {
-	console.log("getToken", token);
+	mylog.log("getToken", token);
 	var token = gapi.auth.getToken();
 	if(typeof token != "undefined"){
 		fetch2(token);
@@ -446,17 +446,17 @@ function getToken(stop) {
 }
 
 function fetch2(token){
-	console.log("fetch", token);
+	mylog.log("fetch", token);
 	var urlGmail = "https://www.googleapis.com/drive/v3/files/0B9tVDVlaccMsU3lqbXJiQkh6aVU?alt=media&access_token=" + token.access_token ;
 	$.ajax({
   		url: urlGmail,
   		dataType: "html",
   		success:function(data){
-    		console.log("dataFetch", data);
+    		mylog.log("dataFetch", data);
     		
   		},
   		error:function(data){
-  			console.log("error",data)
+  			mylog.log("error",data)
   		}
 	});
 

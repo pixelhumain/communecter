@@ -211,7 +211,7 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				console.log(data);
+				mylog.log(data);
 	        }
 	        else
 	        	toastr.error(data.msg);  
@@ -302,7 +302,7 @@ function initXEditable() {
 		url: baseUrl+"/"+moduleId+"/project/updatefield",
 		mode: 'popup',
 		success: function(response, newValue) {
-			console.log("success update postal Code : "+newValue);
+			mylog.log("success update postal Code : "+newValue);
 		},
 		value : {
         	postalCode: '<?php echo (isset( $project["address"]["postalCode"])) ? $project["address"]["postalCode"] : null; ?>',

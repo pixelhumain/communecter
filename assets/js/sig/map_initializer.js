@@ -9,8 +9,8 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
-			////console.log("initParams");
-			////console.dir(params);
+			////mylog.log("initParams");
+			////mylog.dir(params);
 
 	    	var thisSig = this;
 	    	thisSig.userData = null;
@@ -56,10 +56,10 @@
 
 			//initialise les boutons zoom-in et zoom-out
 			if(params.useZoomButton){
-				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ mylog.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() < thisSig.maxZoom) thisMap.zoomIn(); 
 				});
-				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ mylog.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() > thisSig.minZoom) thisMap.zoomOut(); 
 				});
 			}
@@ -225,7 +225,7 @@
 							if(thisSig.StamenTonerLabels != null) thisSig.map.removeLayer(thisSig.StamenTonerLabels);
 						}
 					}
-					console.log("maxZoom", thisSig.map.getZoom(), 17);
+					mylog.log("maxZoom", thisSig.map.getZoom(), 17);
 					if(thisSig.map.getZoom() > thisSig.map.maxZoom )
 						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
@@ -371,7 +371,7 @@
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home 
 			var thisSig = this;
-			if(this.initParameters.useHomeButton){ //console.log("init btn home " + baseUrl + "/" + moduleId);
+			if(this.initParameters.useHomeButton){ //mylog.log("init btn home " + baseUrl + "/" + moduleId);
 				$.ajax({
 						url: baseUrl+"/"+moduleId+"/sig/getmyposition",
 						type: "POST",
@@ -401,7 +401,7 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
-			console.log("getIcoNameByType", data);
+			mylog.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
@@ -433,7 +433,7 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //mylog.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if(typeof object == "undefined") return null; //if(object["type"] == "meeting") alert("trouvé !");
 
@@ -469,10 +469,10 @@
 			this.map.panTo(center, {"animate" : false });
 			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
-			//console.log("height" + height);
+			//mylog.log("height" + height);
 			var center = height / 2;
 			var pan = center - 160;
-			//console.log("pan" + pan);
+			//mylog.log("pan" + pan);
 			//alert("yo");
 			//this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
@@ -485,7 +485,7 @@
 									setTimeout(function(){
 										thisSig.map.panTo(coordinates, {"animate" : false });
 										setTimeout(function(){ thisSig.map.panBy([0, -200]);}, 500);
-										console.log("panBy 200");
+										mylog.log("panBy 200");
 									}, 700);
 								}, 2000);
 		};

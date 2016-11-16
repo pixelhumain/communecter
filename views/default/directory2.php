@@ -914,7 +914,7 @@ jQuery(document).ready(function() {
 	
 	
 	convertAllStartDateEvent();
-	console.dir(mapData);
+	mylog.dir(mapData);
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map, mapData);
 
@@ -922,7 +922,7 @@ jQuery(document).ready(function() {
 	
 });
 
- function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
+ function convertAllStartDateEvent(){ mylog.log("convertAllStartDateEvent");
  	$.each($(".startDateEvent.start"), function(){
  		var date = dateToStr($(this).html(), "fr", true);
  		if($(this).attr("allday") == "true"){
@@ -958,7 +958,7 @@ jQuery(document).ready(function() {
  }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
-	console.log(classId);
+	mylog.log(classId);
 	$("."+classId).removeClass('hide');
 }
 function initGrid(){
@@ -970,7 +970,7 @@ function initGrid(){
 		$('#Grid').mixItUp({
 			callbacks: {
 				onMixEnd: function(state){
-					// console.log(state);
+					// mylog.log(state);
 					if (state.activeFilter != ".followers")
 						$(".followers").hide();
 				}	
@@ -1002,7 +1002,7 @@ function bindBtnEvents(){
 	        var parentId = $("#parentId").val();
 	        var connectType = $("#connectType").val();
 
-	        console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	        mylog.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {

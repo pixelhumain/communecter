@@ -283,7 +283,7 @@ function buildComments(commentsLevel, level, withActions,where) {
 	} else {
 		var commentsHTML = '<ul class="level list-unstyled" style="padding-left: 15px">';	
 	}
-	console.log(commentsLevel);
+	mylog.log(commentsLevel);
 	$.each( commentsLevel , function(key,commentObj) {
 		if(commentObj.text && commentObj.created) {
 			var date = new Date( parseInt(commentObj.created)*1000 );
@@ -310,7 +310,7 @@ function buildComments(commentsLevel, level, withActions,where) {
 }
 
 function buildCommentLineHTML(commentObj, withActions,where) {
-//	console.log(commentObj);
+//	mylog.log(commentObj);
 	var id = commentObj["_id"]["$id"];
 	moment.locale('fr');
 	var date = moment(commentObj.created * 1000);
@@ -381,7 +381,7 @@ function commentActions(commentObj) {
 	if (options.tree == true) {
 		res += "<a href='javascript:;' class='commentReply' data-id='"+commentObj._id['$id']+"'><span class='label label-info'><i class='fa fa-reply'></i></span></a> "
 	};
-	console.log(commentObj);
+	mylog.log(commentObj);
 	//Other action button
 	var actionDone = "";
 	var classVoteUp = "commentVoteUp";
@@ -420,7 +420,7 @@ function commentActions(commentObj) {
 	var titleVoteDown = "<?php echo addslashes(Yii::t('comment','Disagree with that'))?>";
 	var titleReportAbuse = "<?php echo addslashes(Yii::t('comment','Report an abuse'))?>";
 
-	// console.log(commentObj.contextId);
+	// mylog.log(commentObj.contextId);
 	res += "<a href='javascript:;' title='"+titleVoteUp+"' class='"+classVoteUp+"' data-count='"+voteUpCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteUp+"'>"+voteUpCount+" <i class='fa fa-thumbs-up'></i></span></a> "+
 		  "<a href='javascript:;' title='"+titleVoteDown+"' class='"+classVoteDown+"' data-count='"+voteDownCount+"' data-id='"+commentObj._id['$id']+"'><span class='label "+colorVoteDown+"'>"+voteDownCount+" <i class='fa fa-thumbs-down'></i></span></a> "+
 		  "<a href='javascript:;' title='"+titleReportAbuse+"' class='"+classReportAbuse+"' data-count='"+reportAbuseCount+"' data-id='"+commentObj._id['$id']+"' data-contextid='"+commentObj.contextId+"'><span class='label "+colorReportAbuse+"'>"+reportAbuseCount+" <i class='fa fa-flag'></i></span></a> ";
@@ -453,7 +453,7 @@ function bindEvent(){
 	
 	//New comment actions
 	$('.saySomething').off().on("focusin",function(){
-		// console.log(backUrl);
+		// mylog.log(backUrl);
 		if (checkIsLoggued("<?php echo Yii::app()->session['userId']?>")) {
 			$('.saySomething').hide();
 			addEmptyCommentOnTop();
@@ -464,7 +464,7 @@ function bindEvent(){
 	$('.newComment').unbind('keydown').keydown(function(event) {
 	  	if ( event.ctrlKey && event.keyCode == 13) {
 			event.preventDefault();
-			console.log($(this).data("id"), $(this).data("parentid"));
+			mylog.log($(this).data("id"), $(this).data("parentid"));
 	        validateComment($(this).data("id"), $(this).data("parentid"));
 	    }
 	});
@@ -571,7 +571,7 @@ function highlight () {
 	toastr.info("<h1>New Feature<br/><span class='text-large'>Highlighting text in discussions, to build quick reading synthesis</span><br/><a class='btn btn-dark-blue' href='alert(\"open communecter public Feature voting\")'>VOTE FOR IT</a></h1>");
 }
 function  fastAdd(url) { 
-	console.log("url",url);
+	mylog.log("url",url);
 	selTxt = selection.toString();
 	if( selection.toString() != "" ){
 		if( url.indexOf("fastaddaction") > 0 )
@@ -625,7 +625,7 @@ function  fastAdd(url) {
  }
 
 function actionOnComment(comment, action, method) {
-	console.log(comment);
+	mylog.log(comment);
 	params=new Object,
 	params.id = comment.data("id"),
 	params.collection = '<?php echo Comment::COLLECTION?>',
@@ -677,7 +677,7 @@ function actionOnComment(comment, action, method) {
 }
 
 function reportAbuse(comment, contextId) {
-	// console.log(contextId);
+	// mylog.log(contextId);
 	var message = "<div id='reason' class='radio'>"+
 		"<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
 		"<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
@@ -696,7 +696,7 @@ function reportAbuse(comment, contextId) {
 	      label: "Annuler",
 	      className: "btn-default",
 	      callback: function() {
-	        console.log("Annuler");
+	        mylog.log("Annuler");
 	      }
 	    },
 	    danger: {
@@ -781,7 +781,7 @@ function actionAbuseComment(comment, action, reason, reasonComment) {
 }
 
 function copyCommentOnAbuseTab(commentAbused) {
-	// console.log("la", commentAbused.data("id"));
+	// mylog.log("la", commentAbused.data("id"));
 	var commentObj = comments[commentAbused.data("id")];
 	abusedComments[commentAbused.data("id")] = commentObj;
 
@@ -823,10 +823,10 @@ function replyComment(parentCommentId) {
 
 	//add a new line under the comment
 	var ulChildren = $('#comment'+parentCommentId).children('ul');
-	// console.log(ulChildren);
+	// mylog.log(ulChildren);
 	
 	if (ulChildren.length == 0) {
-		// console.log("pas de children");
+		// mylog.log("pas de children");
 		//add new ul entry
 		commentsTLLine = '<ul class="level list-unstyled" style="padding-left: 15px">'+commentsTLLine+'</ul>';
 		ulChildren = $('#comment'+parentCommentId);
@@ -882,7 +882,7 @@ function buildNewCommentLine(parentCommentId) {
 
 function cancelComment(commentId) {
 	var parentId = $("#"+commentId).children().children(".bar_tools_post").children(".cancelComment").data("parentid");
-	// console.log('Remove comment '+commentId, parentId);
+	// mylog.log('Remove comment '+commentId, parentId);
 	if (parentId == "") {
 		$('.saySomething').show();
 	} 
@@ -912,7 +912,7 @@ function validateComment(commentId, parentCommentId) {
 					}
 					else { 
 						toastr.success(data.msg);
-						console.log(data);
+						mylog.log(data);
 						$('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
 						if (data.newComment.contextType=="news"){
 							$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
@@ -952,7 +952,7 @@ function switchComment(tempCommentId, comment, parentCommentId) {
 }
 
 function getProfilImageUrl(imageURL) {
-	console.log("imageURL",imageURL);
+	mylog.log("imageURL",imageURL);
 	var iconStr = '<div class="avatar">';
 	
 	if ("undefined" != typeof imageURL && imageURL != "") {
@@ -975,7 +975,7 @@ function deleteComment(id,$this){
 		//data: {"newsId": idNews},
     	success: function(data){
         	if (data.result) {    
-	        	console.log(data);           
+	        	mylog.log(data);           
 				toastr.success("<?php echo Yii::t("common","Comment successfully deleted")?>");
 				liParent=$this.parents().eq(2);
 	        	liParent.fadeOut();
@@ -1038,10 +1038,10 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				console.log(data);
+				mylog.log(data);
 	        	//$(this).text(data.text);
-				console.log(data);
-				console.log("ici");
+				mylog.log(data);
+				mylog.log("ici");
 				//initXEditable();
 				//switchModeCommentEdit(data.id);
 				//$("a[data-id='"+data.id+"']").trigger('click');

@@ -13,64 +13,64 @@ function getGeoPosInternational(requestPart, countryCode){
 }
 
 function callCommunecter(requestPart, countryCode){ /*countryCode=="FR"*/
-	console.log('callCommunecter');
+	mylog.log('callCommunecter');
 	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Communecter</small>");
 	callGeoWebService("communecter", requestPart, countryCode,
 		function(objs){ /*success nominatim*/
-			console.log("SUCCESS Communecter"); 
+			mylog.log("SUCCESS Communecter"); 
 
 			if(objs.length != 0){
-				console.log('Résultat trouvé chez Communecter !'); console.dir(objs);
+				mylog.log('Résultat trouvé chez Communecter !'); mylog.dir(objs);
 				var commonGeoObj = getCommonGeoObject(objs, "communecter");
 				var res = addResultsInForm(commonGeoObj, countryCode);
 				if(res == 0) 
 					callDataGouv(requestPart, countryCode); 
 			}else{
-				console.log('Aucun résultat chez Communecter');
+				mylog.log('Aucun résultat chez Communecter');
 				callDataGouv(requestPart, countryCode);
 			}
 		}, 
 		function(thisError){ /*error nominatim*/
-			console.log("ERROR communecter");
-			console.dir(thisError);
+			mylog.log("ERROR communecter");
+			mylog.dir(thisError);
 		}
 	);
 }
 
 function callDataGouv(requestPart, countryCode){ /*countryCode=="FR"*/
-	console.log('callDataGouv');
+	mylog.log('callDataGouv');
 	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Data Gouv</small>");
 	callGeoWebService("data.gouv", requestPart, countryCode,
 		function(objDataGouv){ /*success nominatim*/
-			console.log("SUCCESS DataGouv"); 
+			mylog.log("SUCCESS DataGouv"); 
 
 			if(objDataGouv.features.length != 0){
-				console.log('Résultat trouvé chez DataGouv !'); console.dir(objDataGouv);
+				mylog.log('Résultat trouvé chez DataGouv !'); mylog.dir(objDataGouv);
 				var commonGeoObj = getCommonGeoObject(objDataGouv.features, "data.gouv");
 				var res = addResultsInForm(commonGeoObj, countryCode);
 				if(res == 0) 
 					callNominatim(requestPart, countryCode);
 			}else{
-				console.log('Aucun résultat chez DataGouv');
+				mylog.log('Aucun résultat chez DataGouv');
 				callNominatim(requestPart, countryCode);
 			}
 		}, 
 		function(thisError){ /*error nominatim*/
-			console.log("ERROR DataGouv");
-			console.dir(thisError);
+			mylog.log("ERROR DataGouv");
+			mylog.dir(thisError);
 		}
 	);
 }
 
 function callNominatim(requestPart, countryCode){
-	console.log('callNominatim');
+	mylog.log('callNominatim');
 	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>Nominatim</small>");
 	callGeoWebService("nominatim", requestPart, countryCode,
 		function(objNomi){ /*success nominatim*/
-			console.log("SUCCESS nominatim"); 
+			mylog.log("SUCCESS nominatim"); 
 
 			if(objNomi.length != 0){
-				console.log('Résultat trouvé chez Nominatim !'); console.dir(objNomi);
+				mylog.log('Résultat trouvé chez Nominatim !'); mylog.dir(objNomi);
 
 				var commonGeoObj = getCommonGeoObject(objNomi, "nominatim");
 				var res = addResultsInForm(commonGeoObj, countryCode);
@@ -78,39 +78,39 @@ function callNominatim(requestPart, countryCode){
 				if(res == 0) 
 					callGoogle(requestPart, countryCode);
 			}else{
-				console.log('Aucun résultat chez Nominatim');
+				mylog.log('Aucun résultat chez Nominatim');
 				callGoogle(requestPart, countryCode);
 			}
 		}, 
 		function(thisError){ /*error nominatim*/
-			console.log("ERROR nominatim");
-			console.dir(thisError);
+			mylog.log("ERROR nominatim");
+			mylog.dir(thisError);
 		}
 	);
 }
 
 function callGoogle(requestPart, countryCode){
-	console.log('callGoogle');
+	mylog.log('callGoogle');
 	showMsgListRes("<i class='fa fa-spin fa-refresh'></i> Recherche en cours <small>GoogleMap</small>");
 	callGeoWebService("google", requestPart, countryCode,
 		function(objGoo){ /*success google*/
-			console.log("SUCCESS GOOGLE");
+			mylog.log("SUCCESS GOOGLE");
 			if(objGoo.results.length != 0){
-				console.log('Résultat trouvé chez Google !'); console.dir(objGoo);
+				mylog.log('Résultat trouvé chez Google !'); mylog.dir(objGoo);
 				var commonGeoObj = getCommonGeoObject(objGoo.results, "google");
 				var res = addResultsInForm(commonGeoObj, countryCode);
 				if(res == 0) 
 					showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
 	
 			}else{
-				console.log('Aucun résultat chez Google');
+				mylog.log('Aucun résultat chez Google');
 				showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
 			}
 
 		}, 
 		function(thisError){ /*error google*/
 			showMsgListRes("<i class='fa fa-ban'></i> Aucun résultat. Précisez votre recherche.");
-			console.log("ERROR GOOGLE"); console.dir(thisError);
+			mylog.log("ERROR GOOGLE"); mylog.dir(thisError);
 		}
 	);
 }
@@ -144,7 +144,7 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 		data = {"name" : requestPart, "country" : countryCode, "searchType" : [ "cities" ], "searchBy" : "ALL"  };
 	}
 
-	console.log("calling : " + url);
+	mylog.log("calling : " + url);
 	if(url != ""){
 		if(providerName != "communecter"){
 			$.ajax({
@@ -183,7 +183,7 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 }
 
 
-function showMsgListRes(msg){ console.log("showMsgListRes", msg);
+function showMsgListRes(msg){ mylog.log("showMsgListRes", msg);
 	msg = msg != "" ? "<li class='padding-5'>" + msg + "</li>" : "";
 
 	$("#dropdown-newElement_streetAddress-found").html(msg);
@@ -228,8 +228,8 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, obj, "placeId", "place_id");
 		}else 
 		if(providerName == "data.gouv"){
-			console.log("details result data.gouv");
-			console.dir(obj);
+			mylog.log("details result data.gouv");
+			mylog.dir(obj);
 			var address = obj["properties"];
 			commonObj = addAttObjNominatim(commonObj, address, "street", "name");
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "city");
@@ -241,8 +241,8 @@ function getCommonGeoObject(objs, providerName){
 		
 		}else 
 		if(providerName == "communecter"){
-			console.log("details result communecter");
-			console.dir(obj);
+			mylog.log("details result communecter");
+			mylog.dir(obj);
 			commonObj = addAttObjNominatim(commonObj, obj, "cityName", "name");
 			commonObj = addAttObjNominatim(commonObj, obj, "countryCode", "country");
 			commonObj = addAttObjNominatim(commonObj, obj, "postalCode", "cp");
@@ -304,7 +304,7 @@ function addCoordinates(commonObj, obj, providerName){
 		lng = (typeof obj["lon"] != "undefined") ? obj["lon"] : null;
 		geoShape = (typeof obj["boundingbox"] != "undefined") ? obj["boundingbox"] : null;
 	}else 
-	if(providerName == "google"){ console.log("coordinates google"); console.dir(obj);
+	if(providerName == "google"){ mylog.log("coordinates google"); mylog.dir(obj);
 		if(typeof obj["geometry"] != "undefined" && typeof obj["geometry"]["location"] != "undefined"){
 			lat = (typeof obj["geometry"]["location"]["lat"] != "undefined") ? obj["geometry"]["location"]["lat"] : null;
 			lng = (typeof obj["geometry"]["location"]["lng"] != "undefined") ? obj["geometry"]["location"]["lng"] : null;
@@ -348,14 +348,14 @@ function addCoordinates(commonObj, obj, providerName){
 var markerListEntity = null;
 function addResultsInForm(commonGeoObj, countryCode){
 	//success
-	console.log("success callGeoWebService");
-	//console.dir(objs);
+	mylog.log("success callGeoWebService");
+	//mylog.dir(objs);
 	var res = commonGeoObj; //getCommonGeoObject(objs, providerName);
-	console.dir(res);
+	mylog.dir(res);
 	var html = "";
-	$.each(res, function(key, value){ //console.log(allCities);
+	$.each(res, function(key, value){ //mylog.log(allCities);
 		if(notEmpty(value.countryCode)){
-			console.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
+			mylog.log("Country Code",value.countryCode.toLowerCase(), countryCode.toLowerCase());
 			if(value.countryCode.toLowerCase() == countryCode.toLowerCase()){ 
 				html += "<li><a href='javascript:' class='item-street-found' data-lat='"+value.geo.latitude+"' data-lng='"+value.geo.longitude+"'><i class='fa fa-marker-map'></i> "+value.name+"</a></li>";
 			}
@@ -369,7 +369,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 		Sig.markerFindPlace.setLatLng([$(this).data("lat"), $(this).data("lng")]);
 		Sig.map.panTo([$(this).data("lat"), $(this).data("lng")]);
 		Sig.map.setZoom(16);
-		console.log("lat lon", $(this).data("lat"), $(this).data("lng"));
+		mylog.log("lat lon", $(this).data("lat"), $(this).data("lng"));
 		$("#dropdown-newElement_streetAddress-found").hide();
 		$('[name="newElement_lat"]').val($(this).data("lat"));
 		$('[name="newElement_lng"]').val($(this).data("lng"));
@@ -396,7 +396,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 	//show objs in map && list
 	var totalShown = 0;
 	$.each(commonGeoObj, function(key, obj){
-		console.log("obj.countryCode > " + obj.countryCode.toLowerCase() 
+		mylog.log("obj.countryCode > " + obj.countryCode.toLowerCase() 
 					+ " == " + countryCode.toLowerCase() + " < countryCode");
 
 		//verifie que le countryCode correspond au choix dans le formulaire, 
@@ -412,7 +412,7 @@ function addResultsInForm(commonGeoObj, countryCode){
 		mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
 		mapEntity.zoomOut();
 	}
-	console.log("total : " + totalShown);
+	mylog.log("total : " + totalShown);
 	return totalShown;
 */
 }
@@ -442,7 +442,7 @@ function checkCityExists(addressData, btn){
 		data += "country=" + addressData.countryCode;
 	}
 
-	console.log("start verify city exists  : " + data);
+	mylog.log("start verify city exists  : " + data);
 
 	$.ajax({
 			url: baseUrl+"/"+moduleId+"/city/cityExists",
@@ -453,21 +453,21 @@ function checkCityExists(addressData, btn){
 			complete: function () {},
 			success: function (thisSuccess){
 				if(thisSuccess.res == true){
-					console.log("cityExists : TRUE");
-					console.dir(thisSuccess.obj);
+					mylog.log("cityExists : TRUE");
+					mylog.dir(thisSuccess.obj);
 					$(".item_map_list").removeClass("bg-success text-white");
 					$(".item_map_list").removeClass("bg-red text-white");
 					$(btn).addClass("bg-success text-white");
 				}else{
-					console.log("cityExists : FLASE");
+					mylog.log("cityExists : FLASE");
 					$(".item_map_list").removeClass("btn-success text-white");
 					$(".item_map_list").removeClass("bg-red text-white");
 					$(btn).addClass("bg-red text-white");
 				}
 			},
 			error: function (thisError) {
-				console.log("cityExists : ERROR");
-				console.dir(thisError);
+				mylog.log("cityExists : ERROR");
+				mylog.dir(thisError);
 				$(btn).addClass("bg-red text-white");
 			}
 		});

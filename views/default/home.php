@@ -645,7 +645,7 @@ var timeoutSearchHome = null;
 
 function showTagOnMap (tag) {
 
-	console.log("showTagOnMap",tag);
+	mylog.log("showTagOnMap",tag);
 
 	var data = { 	 "name" : tag,
 		 			 "locality" : "",
@@ -669,12 +669,12 @@ function showTagOnMap (tag) {
 	          data: data,
 	          dataType: "json",
 	          error: function (data){
-	             console.log("error"); console.dir(data);
+	             mylog.log("error"); mylog.dir(data);
 	          },
 	          success: function(data){
 	            if(!data){ toastr.error(data.content); }
 	            else{
-	            	console.dir(data);
+	            	mylog.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
 	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);

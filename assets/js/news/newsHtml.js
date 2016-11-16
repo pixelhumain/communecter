@@ -121,7 +121,7 @@ function buildLineHTML(newsObj,idSession,update)
 							'</div>'+
 						'</a>';
 	}
-	console.log(newsObj);
+	mylog.log(newsObj);
 	//END Image Background
 	iconStr=builHtmlAuthorImageObject(newsObj);
 	if(newsObj.type == "activityStream" && typeof(newsObj.target) != "undefined"){
@@ -305,7 +305,7 @@ function buildLineHTML(newsObj,idSession,update)
 		// 	scopeClass += city+" ";
 		// 	if( $.inArray(city, contextMap.scopes.addressLocality )  == -1){
 		// 		cityFilter=city.replace(/\s/g, "");
-		// 		console.log(city);
+		// 		mylog.log(city);
 		// 		contextMap.scopes.addressLocality.push(cityFilter);
 		// 		scopesFilterListHTML += ' <a href="javascript:" class="filter btn btn-xs btn-default text-red" data-filter=".'+postalCode+'"><span class="text-red text-xss">'+city+'</span></a>';
 		// 	}
@@ -435,7 +435,7 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 		//affiche en gras les tags qui font parti de mes favoris
 		if(typeof myMultiTags != "undefined"){
-        $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+        $.each(myMultiTags, function(key, value){ //mylog.log("binding bold "+key);
           $("[data-tag-value='"+key+"'].tag").addClass("bold");
         });
       }
@@ -525,7 +525,7 @@ function buildHtmlUrlAndActionObject(obj){
 	object.titleAction= titleAction;
 	return object; 
 }
-function builHtmlAuthorImageObject(obj){ //console.log("[[[[[[[[[[[[[[[[[[[[[[[[[["); console.dir(obj);
+function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[["); mylog.dir(obj);
 	var icon = "fa-rss";
 	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
@@ -596,7 +596,7 @@ function actionOnNews(news,action,method,reason, comment) {
 	if(method){
 		params.unset=method;
 	}
-	console.log(params);
+	mylog.log(params);
 	$.ajax({
 		url: baseUrl+'/'+moduleId+"/action/addaction/",
 		data: params,
@@ -704,7 +704,7 @@ function initXEditable() {
     	success : function(data) {
 	        if(data.result) {
 	        	toastr.success(data.msg);
-				console.log(data);
+				mylog.log(data);
 	        }
 	        else{
 	        	toastr.error(data.msg);  
@@ -762,7 +762,7 @@ function showComments(id){
 			},"html");
 		}else{
 			$("#commentContent"+id).removeClass("hidden");		
-			console.log("scroll TO : ", $('#newsFeed'+id).position().top);
+			mylog.log("scroll TO : ", $('#newsFeed'+id).position().top);
 			
 		}
 }
@@ -816,7 +816,7 @@ function newsReportAbuse($this, id){
 }
 
 function reportNewsAbuse($this,action, method) {
-	// console.log(contextId);
+	// mylog.log(contextId);
 	if (method){
 		toastr.info(trad["alreadyreportedabuse"]+" !");
 	}
@@ -839,7 +839,7 @@ function reportNewsAbuse($this,action, method) {
 		      label: "Annuler",
 		      className: "btn-default",
 		      callback: function() {
-		        console.log("Annuler");
+		        mylog.log("Annuler");
 		      }
 		    },
 		    danger: {
@@ -914,7 +914,7 @@ function getMentionLabel(news){
 function addMentionInText(textNews,mentions){
 	$.each(mentions, function( index, value ){
    		array = textNews.split(value.value);
-   		console.log(array);
+   		mylog.log(array);
    		if(value.type == "organizations")
    			controler = "organization";
    		else

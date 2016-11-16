@@ -204,7 +204,7 @@ jQuery(document).ready(function() {
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
           if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
-            console.log("scroll MAX");
+            mylog.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
         }
@@ -225,7 +225,7 @@ jQuery(document).ready(function() {
   });
 
   
-    $("#stepSearch").change(function(){ console.log("new stepSearch : " + $("#stepSearch").val());
+    $("#stepSearch").change(function(){ mylog.log("new stepSearch : " + $("#stepSearch").val());
       indexStepInit = parseInt($("#stepSearch").val());
     });
   
@@ -240,7 +240,7 @@ jQuery(document).ready(function() {
 });
 
 function searchCallback() { 
-  console.log("searchCallback");
+  mylog.log("searchCallback");
   startSearch(0, indexStepInit);
 }
 

@@ -174,7 +174,7 @@ jQuery(document).ready(function() {
 
 function editEntrySV () {
 
-  console.warn("--------------- editEntrySV ---------------------",proposalObj);
+  mylog.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               //"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
@@ -186,7 +186,7 @@ function editEntrySV () {
           formId : "#editEntryContainer #ajaxFormEntry",
           formObj : proposalFormDefinition,
           onLoad : function() {
-            console.log("onLoad",proposalObj);
+            mylog.log("onLoad",proposalObj);
             $('.btn-annuler').hide();
             if( proposalObj )
             {
@@ -203,8 +203,8 @@ function editEntrySV () {
             }
           },
           onSave : function(){
-            console.log("saving Survey !!");
-            console.log($("#editEntryContainer #name").val());
+            mylog.log("saving Survey !!");
+            mylog.log($("#editEntryContainer #name").val());
             
             if( $("#editEntryContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
@@ -235,7 +235,7 @@ function editEntrySV () {
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
 
-             console.dir(params);
+             mylog.dir(params);
              $.ajax({
                 type: "POST",
                 url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSession")?>',
@@ -267,7 +267,7 @@ function editEntrySV () {
             return false;
           }
         });
-        console.dir(formSurvey);
+        mylog.dir(formSurvey);
       
 }
 
@@ -278,7 +278,7 @@ function getUrls()
         if( $(this).val() != "" )
           urls.push( $( this ).val() );
     });
-    console.log("urls",urls);
+    mylog.log("urls",urls);
     return ( urls.length ) ? urls : null;
 };
 

@@ -45,7 +45,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
-console.log(properties);
+mylog.log(properties);
 var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	Chart.defaults.global = {
@@ -171,15 +171,15 @@ function updateChart(data, nbProperties){
 }
 
 function chartInit(dataProperties){
-	console.log(dataProperties);
+	mylog.log(dataProperties);
 	var labelProperties=[];
 	var valueProperties=[];
 	for (var label in dataProperties){
 		labelProperties.push(label);
 		valueProperties.push(dataProperties[label]);
 	}
-	console.log(labelProperties);
-	console.log(valueProperties);
+	mylog.log(labelProperties);
+	mylog.log(valueProperties);
 	
 	var data = {
 	    labels : labelProperties,
@@ -203,7 +203,7 @@ function chartInit(dataProperties){
 	
 	// This will get the first returned node in the jQuery collection.
 	myNewChart = new Chart(ctx).Radar(data, options);
-	console.log(myNewChart);
+	mylog.log(myNewChart);
 }
 
 function numAttrs(obj) {
