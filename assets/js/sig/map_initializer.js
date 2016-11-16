@@ -285,7 +285,7 @@
 			};
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			this.icoMarkersMap = { 		"default" 			: "",
+			this.icoMarkersMap = { 			"default" 			: "",
 
 										  	"city" 				: "city-marker-default",
 											
@@ -314,6 +314,9 @@
 
 											"poi" 				: "poi-marker-default",
 											"poi.video" 		: "poi-video-marker-default",
+
+											"entry" 			: "entry-marker-default",
+											"action" 			: "action-marker-default",
 
 									  };
 
@@ -351,6 +354,9 @@
 
 											"poi" 				: { ico : "info-circle", color : "dark" 	},
 											"poi.video" 		: { ico : "video-camera", color : "dark" 	},
+
+											"entry" 			: { ico : "gavel", color : "azure" 	},
+											"action" 			: { ico : "cogs", color : "lightblue2" 	},
 
 									  };
 
@@ -401,21 +407,20 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
-			mylog.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (data){ 
+		Sig.getIcoByType = function (data){ //console.log("erzer", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
-		Sig.getIcoColorByType = function (data){
+		Sig.getIcoColorByType = function (data){ //console.log("erzer", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
@@ -447,11 +452,12 @@
 			if("undefined" != typeof object.id) 	return object.id;
 			return null;
 		};
-		Sig.getThumbProfil = function (element){
-			defaultType=element['typeSig'];
+		
+		Sig.getThumbProfil = function (element){ 
+			defaultType=this.getTypeSigOfData(element);
 			if(element['typeSig']=="people")
 				defaultType="citoyens";
-			else if(element['typeSig'].indexOf("poi.") >= 0){
+			else if(notEmpty(element['typeSig']) && element['typeSig'].indexOf("poi.") >= 0){
 				defaultType=element['typeSig'].split(".");
 				defaultType=defaultType[1];
 			}

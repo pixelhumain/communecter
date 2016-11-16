@@ -288,18 +288,22 @@ jQuery(document).ready(function() {
 	});
 });
 
-function excludeMembers(contacts, users){ //console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
+function excludeMembers(contacts, users){ console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
+
 	$.each(users, function(idUser, value){
 		var type = notEmpty(value["typeSig"]) ? value["typeSig"] : null;
 		if(type != null){
 			var found = false; var parentFound = false;
-			$.each(contacts[type], function(key, value){
-				var valueId = notEmpty(value["_id"]) ? value["_id"]["$id"] : notEmpty(value["id"]) ? value["id"] : null;
-				if(idUser == valueId){ //console.log("ID : ", idUser,  valueId);
-					found = key;
+			if(notEmpty(contacts[type]))
+			$.each(contacts[type], function(key, contact){
+				if(notEmpty(contact)){
+					var valueId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
+					if(idUser == valueId){ //console.log("ID : ", idUser,  valueId);
+						found = key;
+					}
+					if(valueId == elementId)
+						parentFound = key;
 				}
-				if(valueId == elementId)
-					parentFound = key;
 			});
 
 			if(notEmpty(contacts[type])){ //console.log("typeof", typeof contacts[type]);
@@ -314,8 +318,8 @@ function excludeMembers(contacts, users){ //console.log("excludeMembers contacts
 		}
 	});
 
-	//console.log("AFTER EFFECT");
-	//console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
+	console.log("AFTER EFFECT");
+	console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
 }
 
 function switchContact(){
@@ -341,9 +345,8 @@ function bindEventScopeModal(){
 				console.log("end reload");
 			}
 
-=======
-			//mylog.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
->>>>>>> cleaning out console logs for prod
+			mylog.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
+
 			$('#list-scroll-type').animate({
 	         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top 
 	         }, 400);
@@ -506,6 +509,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 										'<ul>';
 										if(typeof fieldObj.values[type.name] != "undefined")
 										$.each(fieldObj.values[type.name], function(key2, value){ 
+										if(typeof value != "undefined"){
 											var cp = (typeof value.address != "undefined" && typeof value.address.postalCode != "undefined") ? value.address.postalCode : typeof value.cp != "undefined" ? value.cp : "";
 											var city = (typeof value.address != "undefined" && typeof value.address.addressLocality != "undefined") ? value.address.addressLocality : "";
 											var profilThumbImageUrl = (typeof value.profilThumbImageUrl != "undefined" && value.profilThumbImageUrl != "") ? baseUrl + value.profilThumbImageUrl : assetPath + "/images/news/profile_default_l.png";
@@ -533,6 +537,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 													'</div>' +
 												'</div>' +
 											'</li>';
+										}
 										});									
 	fieldHTML += 						'</ul>' +	
 									'</div>'+
