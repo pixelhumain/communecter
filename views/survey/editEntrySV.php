@@ -242,6 +242,7 @@ function editEntrySV () {
                 data: params,
                 success: function(data){
                   if(data.result){
+                    window.myVotesList = null;
                     if( data.surveyId && data.surveyId["$id"] )
                       loadByHash( "#survey.entry.id."+data.surveyId["$id"] );
                     else if( $("#editEntryContainer #id").val() != "" )
