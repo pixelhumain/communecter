@@ -468,17 +468,17 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").val();
+						var voteComment = $("#modalComment .newComment").code();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
 				           "collection":"surveys",
 				           "action" : action 
 				        };
+				        console.log("voteComment", voteComment);
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").val(params.comment);
-				        	validateComment("modalComment","");
+				        	saveComment(params.comment);
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
 				        	loadByHash(location.hash);

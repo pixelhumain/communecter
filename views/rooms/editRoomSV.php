@@ -109,6 +109,8 @@ function editRoomSV (roomObj) {
               data: params,
               success: function(data){
                 if(data.result){
+                  delete window.myActionsList;
+                  delete window.myVotesList;
                   mylog.log("SUCCESS SAVE ROOM :");
                   mylog.dir(data);
                     if( data.newInfos.type == "<?php echo ActionRoom::TYPE_DISCUSS ?>" )
