@@ -544,14 +544,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					}
 				?>
 			</div>
-			<?php if($type != Event::COLLECTION){ ?>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
-					<?php if($type==Event::COLLECTION){?>
-						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
-					<?php }else{ ?>
-						<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-					<?php } ?>
+				<div class="text-dark lbl-info-details margin-top-10">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
 				</div>
 				
 				<?php if($type==Person::COLLECTION){
@@ -565,7 +560,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				} ?>
 				<?php 
 					//if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
-						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || $type!=Person::COLLECTION){ ?>
+						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || $type!=Person::COLLECTION || $type!=Event::COLLECTION ){ ?>
 							<i class="fa fa-envelope fa_email  hidden"></i> 
 							<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 								<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
@@ -630,8 +625,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</a>
 					<br>
 				<?php } ?>	
-			</div>	
-			<?php } ?>		
+			</div>			
 		</div>
 
 		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
