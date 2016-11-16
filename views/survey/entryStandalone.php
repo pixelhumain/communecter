@@ -242,10 +242,7 @@
 				<span>
 					<?php 
 						$canEditEndDate = ( $voteLinksAndInfos["avoter"] != "closed" && isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"]) ? true : false;
-						if ($canEditEndDate) { ?>
-							<a href="javascript:" id="editSurveyEndDate" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer la date de fin de la proposition" alt=""><i class="fa fa-pencil"></i></a>
-						<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
-					<?php } ?>
+					?>
 				</span>
 				<br><hr>
 				<span>
@@ -401,32 +398,8 @@ jQuery(document).ready(function() {
 	});
 
 	editEndDate();
-	manageModeContext();
 
-	$("#editSurveyEndDate").on("click", function(){
-		switchMode();
-	});
 });
-
-function switchMode() {
-	if(mode == "view"){
-		mode = "update";
-		manageModeContext();
-	} else{
-		mode ="view";
-		manageModeContext();
-	}
-}
-
-function manageModeContext() {
-	if (mode == "view") {
-		$('#endDate').editable('toggleDisabled');
-	} else {
-		$('#endDate').editable('option', 'pk', itemId);
-		$('#endDate').editable('toggleDisabled');
-		$("#endDate").click();
-	}
-}
 
 //activate Xedit on endDate (#1177)
 function editEndDate() {
@@ -435,6 +408,7 @@ function editEndDate() {
 ?>
 	mylog.log("Init XEdit end date");
 	$('#endDate').editable({
+		pk: itemId,
 		url: baseUrl+"/"+moduleId+"/element/updatefields/type/<?php echo Survey::COLLECTION?>", 
 		mode: 'popup',
 		placement: "right",
@@ -494,17 +468,17 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").val();
+						var voteComment = $("#modalComment .newComment").code();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
 				           "collection":"surveys",
 				           "action" : action 
 				        };
+				        console.log("voteComment", voteComment);
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").val(params.comment);
-				        	validateComment("modalComment","");
+				        	saveComment(params.comment);
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
 				        	loadByHash(location.hash);

@@ -387,8 +387,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 		<?php if($type==Event::COLLECTION || $type==Project::COLLECTION){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
-				<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
-					<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
+				<div class="col-md-12 col-lg-12 col-xs-12 no-padding">
+					<div class="text-dark lbl-info-details margin-top-10">
+						<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
+					</div>
 				</div>
 				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
 					<?php if($type==Event::COLLECTION ) { ?>
@@ -408,7 +410,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 		<div class="row info-coordonnees entityDetails text-dark" style="margin-top: 10px !important;">
 			<div class="col-md-6 col-sm-6  no-padding" style="padding-right: 25px !important;">
-				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
+				<div class="text-dark lbl-info-details margin-top-10">
 					<?php if($type==Event::COLLECTION){?>
 						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
 					<?php }else{ ?>
@@ -424,8 +426,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				
 				<div class="col-xs-12 no-padding">
 
-					<div class="col-xs-12 padding-10" style="border-bottom:1px solid #CCC">
-					<i class="fa fa-home"></i>
+					<div class="col-xs-12 padding-10">
+					<?php if(! empty($element["address"])) {?> <i class="fa fa-home"></i> <?php } ?>
 					
 					<?php 
 						$address = "";
@@ -433,7 +435,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						$address .= '<span id="detailStreetAddress">'.
 										(( @$element["address"]["streetAddress"]) ? 
 											$element["address"]["streetAddress"]."</span><br/>" : 
-											"").
+											Yii::t("common","Unknown Locality")).
 									'</span>';
 
 						$address .= '<span id="detailCity">'.
@@ -477,7 +479,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 					</div>
 
-				<?php if($type!=Person::COLLECTION ) { ?>
+				<?php if($type!=Person::COLLECTION && !empty($element["address"])) { ?>
 					<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
 						<i class="fa fa-plus" style="margin:0px !important;"></i> 
 						<span class="hidden-sm"><?php echo Yii::t("common","Add a secondary address"); ?></span>
@@ -544,14 +546,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					}
 				?>
 			</div>
-			<?php if($type != Event::COLLECTION){ ?>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<div class="text-dark lbl-info-details margin-top-10 <?php if($type==Event::COLLECTION){ ?>no-padding<?php } ?>">
-					<?php if($type==Event::COLLECTION){?>
-						<i class="fa fa-map-marker"></i> <?php echo Yii::t("common","Where"); ?> ? 
-					<?php }else{ ?>
-						<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-					<?php } ?>
+				<div class="text-dark lbl-info-details margin-top-10">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
 				</div>
 				
 				<?php if($type==Person::COLLECTION){
@@ -565,7 +562,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				} ?>
 				<?php 
 					//if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
-						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || $type!=Person::COLLECTION){ ?>
+						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || ($type!=Person::COLLECTION && $type!=Event::COLLECTION)){ ?>
 							<i class="fa fa-envelope fa_email  hidden"></i> 
 							<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
 								<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
@@ -630,15 +627,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</a>
 					<br>
 				<?php } ?>	
-			</div>	
-			<?php } ?>		
+			</div>			
 		</div>
 
 		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
-		
-			<div class="col-sm-12 no-padding text-dark lbl-info-details">
-				<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
+			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
+				<div class="text-dark lbl-info-details margin-top-10">
+					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
+				</div>
 			</div>
+			
 			<div class="col-sm-12 entityDetails item_map_list">
 				<?php
 				if(@$organizer["type"]=="project"){ 

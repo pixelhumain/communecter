@@ -163,7 +163,7 @@
 [.2] reflechir First Connect , show notifications, hot news ....  
 
 * API 
-[ ] globaliser le system de Tokens et utilisation API Communecte
+[.2] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
 
 * Interop 
@@ -212,3 +212,6 @@
 * Recherche 
 [ ] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc)
 
+* Dongles 
+  [ ] contribution par mail : https://www.diigo.com/tools/post_by_email
+  [ ] plugin Chrome plugguer avec dynform et l'api pour partage rapide et viral a la diigo 
