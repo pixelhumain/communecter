@@ -388,8 +388,12 @@
 								if(data.profilMarkerExists == true)
 								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;// + "?v="+thisSig.vMarker;
 								thisSig.vMarker++;
+								var lng =  parseFloat(data.position.longitude);
+								//mylog.log("MYPOSITION", data, lng);
+								lng += 0.0004;
+								data.position.longitude = new String(lng);
 								thisSig.myPosition = data;
-
+								//mylog.log("MYPOSITION", data, lng);
 								thisSig.showMyPosition();
 							}
 							else{
@@ -452,7 +456,7 @@
 			if("undefined" != typeof object.id) 	return object.id;
 			return null;
 		};
-		
+
 		Sig.getThumbProfil = function (element){ 
 			defaultType=this.getTypeSigOfData(element);
 			if(element['typeSig']=="people")
