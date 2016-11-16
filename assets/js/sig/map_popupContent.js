@@ -27,6 +27,8 @@
 		Sig.getPopupCitoyen = function(data){
 
 			var type = data['type'] ? data['type'] : "";
+
+			mylog.log("getPopupCitoyen",data) ;
 			var imgProfilPath =  Sig.getThumbProfil(data);
 
 			var popupContent = "";
@@ -148,6 +150,11 @@
 
 			var onclick = "";
 			var url = '#'+typeElement+'.detail.id.'+id;
+
+			if(type == "entry") 		url = "#survey.entry.id."+id;
+			if(type == "action") 		url = "#rooms.action.id."+id;
+			
+
 			onclick = 'loadByHash("'+url+'");';
 			
 			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){

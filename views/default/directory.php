@@ -157,6 +157,8 @@ var typeSelected = <?php echo (@$_GET['type']) ? "'".$_GET['type']."'" : "null" 
 
 jQuery(document).ready(function() {
 
+  currentTypeSearchSend = "search";
+
   $("#searchBarText").val($(".input-global-search").val());
 
   $("#btn-slidup-scopetags").click(function(){

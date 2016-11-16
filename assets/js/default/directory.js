@@ -377,6 +377,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $.each(data, function(i, o) {
         if( notNull(o.type) )
         {
+          mylog.log("showResultsDirectoryHtml", o);
           var typeIco = i;
           
           mapElements.push(o);
@@ -554,7 +555,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                    mylog.log("typeIcoParent", o.parentRoom);
+                    //mylog.log("typeIcoParent", o.parentRoom);
                     var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
                     var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
                     
