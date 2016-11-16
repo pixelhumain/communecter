@@ -246,7 +246,7 @@ var listContact = new Array();
 
 var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
 
-if(elementType != "<?php echo Event::COLLECTION ?>"&& elementType != "<?php echo Organization::COLLECTION ?>")
+if(elementType != "<?php echo Event::COLLECTION ?>")
 	contactTypes.push({ name : "organizations", color: "green", icon:"group", label:"Organisations" });
 
 
@@ -269,9 +269,7 @@ var addLinkDynForm = {
 
 var addLinkSearchMode = "contacts";
 jQuery(document).ready(function() {
-	mylog.log("MES CONTACTS");
-	mylog.dir(myContacts);
-
+	
 	buildModal(addLinkDynForm, "modalDirectoryForm");
 
 	$("#select-type-search-contacts, #a-select-type-search-contacts").click(function(){
@@ -288,38 +286,43 @@ jQuery(document).ready(function() {
 	});
 });
 
-function excludeMembers(contacts, users){ console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
+function excludeMembers(contacts, users){
 
+	//delete mes contacts qui sont déjà membre
 	$.each(users, function(idUser, value){
-		var type = notEmpty(value["typeSig"]) ? value["typeSig"] : null;
+		var type = notEmpty(value["typeSig"]) ? value["typeSig"] : notEmpty(value["type"]) ? value["type"] : null;
 		if(type != null){
 			var found = false; var parentFound = false;
 			if(notEmpty(contacts[type]))
-			$.each(contacts[type], function(key, contact){
+			$.each(contacts[type], function(key, contact){ 
 				if(notEmpty(contact)){
-					var valueId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
-					if(idUser == valueId){ //console.log("ID : ", idUser,  valueId);
+					var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
+					if(idUser == contactId){
 						found = key;
 					}
-					if(valueId == elementId)
-						parentFound = key;
 				}
 			});
 
 			if(notEmpty(contacts[type])){ //console.log("typeof", typeof contacts[type]);
 				if(typeof contacts[type] == "array"){
 					if(found!==false) contacts[type].splice(found,1);
-					if(parentFound!==false) contacts[type].splice(parentFound,1);
 				}else if(typeof contacts[type] == "object"){ 
 					if(found!==false) delete contacts[type][found];
-					if(parentFound!==false) delete contacts[type][parentFound];
 				}
 			}
 		}
 	});
 
-	console.log("AFTER EFFECT");
-	console.log("excludeMembers contacts", contacts);console.log("excludeMembers users", users);
+	//delete le parent qui se trouve aussi dans la liste des contact du floop
+	$.each(contacts[elementType], function(key, contact){ 
+			if(notEmpty(contact)){
+				var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
+				if(contactId == elementId){
+					delete contacts[elementType][key];
+					return;
+				}
+			}
+		});
 }
 
 function switchContact(){
@@ -389,12 +392,13 @@ function bindEventScopeContactsModal(){
 
 	$(".btn-chk-contact").click(function(){ 
 		var id = $(this).attr("idcontact"); 
-		console.log(".btn-chk-contact click", id, !$("#chk-scope-"+id).prop('checked'));
+		var type = $(this).attr("typecontact");
+		//console.log(".btn-chk-contact click", type);
 
 		var check = !$("#chk-scope-"+id).prop('checked');
 		$("#chk-scope-"+id).prop("checked", check);
 		
-		if(check)
+		if(check && type != "organizations")
 		$("[data-id='"+id+"'].btn-is-admin").addClass("selected");
 		else
 		$("[data-id='"+id+"'].btn-is-admin").removeClass("selected");
@@ -402,12 +406,13 @@ function bindEventScopeContactsModal(){
 
 	$(".chk-contact").click(function(){ 
 		var id = $(this).attr("idcontact"); 
-		console.log(".btn-chk-contact click", id);
+		var type = $(this).attr("typecontact");
+		//console.log(".btn-chk-contact click", id);
 
 		var check = $(this).prop('checked');
 		//$("#chk-scope-"+id).prop("checked", check);
 		
-		if(check)
+		if(check && type != "organizations")
 		$("[data-id='"+id+"'].btn-is-admin").addClass("selected");
 		else
 		$("[data-id='"+id+"'].btn-is-admin").removeClass("selected");
@@ -524,7 +529,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 												'</small>'+
 												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
 													'<div class="col-md-1 no-padding"><input type="checkbox" name="scope-'+type.name+'" class="chk-scope-'+type.name+' chk-contact" id="chk-scope-'+thisKey+'" idcontact="'+thisKey+'" value="'+thisValue+'" data-type="'+type.name+'"></div> '+
-													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'">' +
+													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'" typecontact="'+type.name+'">' +
 														'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to" height="35" width="35">'+
 														'<span class="info-contact">' +
 															'<span class="scope-name-contact text-dark text-bold" idcontact="'+thisKey+'">' + value.name + '</span>'+
