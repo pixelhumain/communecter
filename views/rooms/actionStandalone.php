@@ -79,7 +79,7 @@
 		<div class="box-vote box-pod">	
 			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
 				<i class="fa fa-angle-down"></i> 
-				<span class="homestead"><i class="fa fa-archive"></i> Espace d'action :</span> 
+				<span class="homestead"><i class="fa fa-archive"></i><?php echo Yii::t("common","Action room"); ?> :</span> 
 				<a href="javascript:showRoom('actions', '<?php echo $parentSpace["_id"]; ?>')">
 					<?php echo $parentSpace["name"];?> 
 				</a>
@@ -309,6 +309,16 @@
 
 <script type="text/javascript">
 clickedVoteObject = null;
+var contextData = {
+	name : "<?php echo addslashes(@$action["name"]) ?>",
+	id : "<?php echo (string)@$action["_id"] ?>",
+	type : "action",
+	controller : "room",
+	otags : "<?php echo addslashes(@$action["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$action["tags"])) ?>",
+	odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$action["name"])); ?>,
+	parentType : "<?php echo @$room["parentType"] ?>",
+    parentId : "<?php echo (string)@$room["parentId"] ?>"
+};
 
 jQuery(document).ready(function() {
 	

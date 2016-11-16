@@ -919,7 +919,7 @@ function setInviteInput(num){
 	
 	if (person.address != null) {
 		//Address : CP + Locality
-		$("#newInvite #address").text(person.address.postalCode+" "+person.address.addressLocality);
+		$("#newInvite #address").text(((typeof person.address.postalCode == "undefined")?"":person.address.postalCode+" ")+person.address.addressLocality);
 	}
 	
 	if (person.email != null) {

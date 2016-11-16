@@ -344,9 +344,7 @@ function bindEventScopeModal(){
 				switchContact();
 				console.log("end reload");
 			}
-
-			mylog.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
-
+			//mylog.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
 			$('#list-scroll-type').animate({
 	         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top 
 	         }, 400);

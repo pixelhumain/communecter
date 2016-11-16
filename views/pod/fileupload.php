@@ -179,7 +179,7 @@
 						  		"contentKey" : contentKey
 						  	};
 
-						if(typeof contextData.parentType != "undefined" && contextData.parentType != null){
+						if(typeof contextData != "undefined" && contextData != null && typeof contextData.parentType != "undefined" && contextData.parentType != null){
 							doc["parentType"] = contextData.parentType ;
 							doc["parentId"] = contextData.parentId ;
 						}
