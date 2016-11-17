@@ -49,7 +49,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>
 
 <?php 
-	$viewer = isset($_GET["viewer"]) ? true : false;
+	//$isLive = isset($_GET["isLive"]) ? true : false;
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
@@ -76,7 +76,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
-		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
+		if((@$isLive && $isLive==true) || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
 			//Menu::person($parent);
 		
@@ -365,7 +365,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<div class="user-image-buttons">
 				<form method="post" id="photoAddNews" enctype="multipart/form-data">
 					<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-						<?php if ($authorizedToStock && (@$canManageNews && $canManageNews==true)){ ?>
+						<?php if ($authorizedToStock && ((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true))){ ?>
 							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
 						<?php } ?>
 						
@@ -565,14 +565,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
 				</div>
 				<div class="stream-processing center">
-					<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+					<span class="search-loader-news text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
 				</div>
 			</div>
 			<!-- end: TIMELINE PANEL -->
 		</div>
 	</div>
 </div>
-<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$viewer && $viewer != null))))){ 
+<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$isLive && $isLive != true))))){ 
 	// End div .pad-element-container if newspaper of orga, project, event and person 
 	// Present in pod/headerEntity.php
 ?>
@@ -599,9 +599,9 @@ foreach($news as $key => $oneNews){
 	- dateLimit => date to know until when get new news
 */
 <?php if(@$viewer){ ?>
-	viewer="<?php echo $viewer ?>";
+	isLive="<?php echo $isLive ?>";
 <?php } else{ ?>
-	viewer="";
+	isLive="";
 <?php } ?>
 
 <?php if (@$news && !empty($news)){ ?>
@@ -748,19 +748,24 @@ jQuery(document).ready(function()
 	//Sig.restartMap();
 	//Sig.showMapElements(Sig.map, news);
 	initFormImages();
+	console.log(myContacts);
 	if(myContacts != null){
 		$.each(myContacts["people"], function (key,value){
-			avatar="";
-		  	if(value.profilThumbImageUrl!="")
-				avatar = baseUrl+value.profilThumbImageUrl;
-		  	object = new Object;
-		  	object.id = value._id.$id;
-		  	object.name = value.name;
-			object.avatar = avatar;
-			object.type = "citoyens";
-			mentionsContact.push(object);
+			if(typeof(value) != "undefined" ){
+				avatar="";
+				console.log(value);
+			  	if(value.profilThumbImageUrl!="")
+					avatar = baseUrl+value.profilThumbImageUrl;
+			  	object = new Object;
+			  	object.id = value._id.$id;
+			  	object.name = value.name;
+				object.avatar = avatar;
+				object.type = "citoyens";
+				mentionsContact.push(object);
+			}
 	  	});
 	  	$.each(myContacts["organizations"], function (key,value){
+		  	if(typeof(value) != "undefined" ){
 		  	avatar="";
 		  	if(value.profilThumbImageUrl!="")
 				avatar = baseUrl+value.profilThumbImageUrl;
@@ -770,6 +775,7 @@ jQuery(document).ready(function()
 			object.avatar = avatar;
 			object.type = "organizations";
 			mentionsContact.push(object);
+			}
 	  	});
 	}
 	

@@ -23,8 +23,8 @@ var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
       scrollEnd = false;
     }
     else{ if(scrollEnd) return; }
-    if(viewer != "")
-    	simpleUserData="/viewer/"+viewer;
+    if(isLive != "")
+    	simpleUserData="/isLive/true";
     else
     	simpleUserData="";
 
@@ -63,7 +63,7 @@ var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
 	mylog.log("loadStream", dateLimit);
 	mylog.dir(filter);
 	$(".stream-processing").show();
-	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
+	$(".search-loader-news").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
 
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({

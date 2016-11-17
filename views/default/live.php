@@ -237,7 +237,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream");
 	<?php if(@Yii::app()->session["userId"]){ ?>
 	else if(liveScopeType == "community"){
 		thisType = "citoyens";
-		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>";
+		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>/isLive/true";
 	}
 	<?php } ?>
 	

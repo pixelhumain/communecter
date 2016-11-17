@@ -456,7 +456,7 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 		else
 			titleAction="";
-		if((((obj.target.type != contextParentType || obj.target.id != obj.author.id) && contextParentId != obj.target.id) || typeof obj.targetIsAuthor != "undefined") && (contextParentType !="city" || obj.target.type != "citoyens")){
+		if(((((obj.target.type != contextParentType || isLive == true) || obj.target.id != obj.author.id) && (contextParentId != obj.target.id || isLive == true)) || typeof obj.targetIsAuthor != "undefined") && (contextParentType !="city" || obj.target.type != "citoyens")){
 			if(obj.target.type == "organizations"){
 				color="green";
 			}else if (obj.target.type == "projects"){
@@ -479,7 +479,11 @@ function buildHtmlUrlAndActionObject(obj){
 			}
 			if(typeof obj.targetIsAuthor == "undefined")
 				titleAction += ' <i class="fa fa-caret-right"></i> ';
-			titleAction += '<a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" class="lbh"><span class="text-'+color+'">'+namePostOn+"</span></a>";
+			urlPostIn = '<a href="#news.index.type.'+redirectTypeUrl+'s.id.'+obj.target.id+'" class="lbh"><span class="text-'+color+'">'+namePostOn+'</span></a>';
+			if(titleAction != "" && typeof obj.targetIsAuthor != "undefined")
+				titleAction = urlPostIn + " " + titleAction;
+			else
+				titleAction += urlPostIn;
 		} else {
 			if(typeof(obj.text) != "undefined" && obj.text.length == 0 && obj.media.length)
 				titleAction += "a partagé un lien";
