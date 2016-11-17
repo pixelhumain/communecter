@@ -79,6 +79,7 @@ var proposalFormDefinition = {
                 "required" : true
               },
               "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '""' ?>,
+
             },
             "dateEnd" :{
               "inputType" : "date",
@@ -155,10 +156,6 @@ jQuery(document).ready(function() {
     organizerList[optKey] = optVal.name;
   });
 
-  activateSummernote('#editEntryContainer #message');
-
-  editEntrySV ();
- 
 
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -198,8 +195,11 @@ function editEntrySV () {
                 var year = date.getFullYear().toString();
                 $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
+              activateSummernote("#ajaxFormEntry #message");
               $("#editEntryContainer #message").code(proposalObj.message);
              $('.mainDynFormCloseBtn').click(function(){ $('#modal-edit-entry').modal("hide"); });
+              
+
             }
           },
           onSave : function(){

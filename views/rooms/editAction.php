@@ -181,6 +181,7 @@ function editEntrySV () {
                 var year = date.getFullYear().toString();
                 $("#editActionContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
+              activateSummernote("#ajaxFormAction #message");
               $("#editActionContainer #message").code(proposalObj.message);
              
             }
