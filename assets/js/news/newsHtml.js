@@ -286,9 +286,9 @@ function buildLineHTML(newsObj,idSession,update)
 			
 		}else  { //activityStream
 			if (typeof(newsObj.scope.address) != "undefined" && newsObj.scope != null && newsObj.scope.address != null &&  newsObj.scope.address.addressLocality != "Unknown") {
-				postalCode=newsObj.scope.address.postalCode;
-				city=newsObj.scope.address.addressLocality;		
-				scopes += "<span class='label label-danger'>"+postalCode+" , "+city+"</span> ";
+				postalCode=((newsObj.scope.address.postalCode)?newsObj.scope.address.postalCode+" , " : "");
+				city=newsObj.scope.address.addressLocality;
+				scopes += "<span class='label label-danger'>"+postalCode+city+"</span> ";
 			}
 		}
 		// if( typeof postalCode != "undefined" && postalCode!="")
