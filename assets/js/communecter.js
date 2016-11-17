@@ -2270,7 +2270,8 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association<br/>"+
+		                		"Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets</p>",
 		            },
 			        id :{
 		              "inputType" : "hidden",
