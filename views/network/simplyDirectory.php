@@ -67,25 +67,27 @@
   var timeout = null;
   jQuery(document).ready(function() {
 	if  (location.hash == "" || location.hash == "#network.simplydirectory")
-    	showMap(true);
+    	showMapNetwork(true);
     else
-    	showMap(false);
+    	showMapNetwork(false);
     $(".main-menu-left.inSig").hide();
     $("#right_tool_map").remove();
     $('#btn-menu-launch').click(function(){
 
 		if(!$(this).hasClass("active")){
 			$(this).addClass("active");
-			$(".main-menu-left.inSig").show();
+			$(".main-menu-left").show();
 			$(this).find("span").show();
 			$(this).find(".firstIcon").removeClass("fa-filter").addClass("fa-angle-left");
+			//$("#dropdown_params").show( 700 );
 
 			//$(".bgpixeltree").removeClass("col-md-12 col-sm-12 col-xs-12").addClass("col-md-10 col-sm-10 col-xs-10");
 		}else{
 			$(this).removeClass("active");
 			$(this).find("span").hide();
-			$(".main-menu-left.inSig").hide();
+			$(".main-menu-left").hide();
 			$(this).find(".firstIcon").removeClass("fa-angle-left").addClass("fa-filter");
+//$("#dropdown_params").hide( 700 );
 			//$(this).removeClass(".active");
 		}
 		//$('.menu-col-search').toggle("slow");
@@ -99,8 +101,8 @@
     setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
     $(".moduleLabel").html("<i class='fa fa-connectdevelop'></i> <span id='main-title-menu'>Cartographie des Tiers-Lieux </span> <span class='text-red'>MEL</span>");
     $('.tooltips').tooltip();
-    $('.main-btn-toogle-map').click(function(e){ showMap(); });
-    $('#breadcum_search').click(function(e){ showMap();    });
+    $('#btn-toogle-map').click(function(e){ showMapNetwork(); });
+    $('#breadcum_search').click(function(e){ showMapNetwork();    });
     <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
     <?php } else { ?>
       $('#searchBarText').keyup(function(e){
@@ -826,7 +828,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     if(isMapEnd){
 		pathTitle="Cartographie";
 		pathIcon = "map-marker";
-	    showMap();
+	    showMapNetwork();
     }
     else{
 	    pathTitle="Annuaire";
@@ -862,7 +864,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   }
   function reverseToRepertory(){
 	  if(isMapEnd){
-	    showMap();
+	    showMapNetwork();
     }
 	isEntityView=false;
     $("#ficheInfoDetail").addClass("hide");
@@ -875,7 +877,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	$("#right_tool_map").remove();
 
   }
-function showMap(show)
+function showMapNetwork(show)
 {
 	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; }
 	console.log("typeof SIG : ", typeof Sig);
@@ -891,7 +893,7 @@ function showMap(show)
 		$("#mapLegende").html("");
 		$("#mapLegende").hide();
 
-		showTopMenu(true);
+		showMenuNetwork(true);
 		if(Sig.currentMarkerPopupOpen != null){
 			Sig.currentMarkerPopupOpen.fire('click');
 		}
@@ -899,8 +901,6 @@ function showMap(show)
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
 		$(".btn-menu5, .btn-menu-add").hide();
-		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
-		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
 		$("#btn-toogle-map").css("display","inline !important");
 		$("#btn-toogle-map").show();
 		$(".my-main-container").animate({
@@ -908,26 +908,25 @@ function showMap(show)
      							opacity:0,
 						      }, 'slow' );
 
-		setTimeout(function(){ $(".bgpixeltree").hide(); }, 1000);
+		setTimeout(function(){ $(".my-main-container").hide(); }, 1000);
 		var timer = setTimeout("Sig.constructUI()", 1000);
 
 
 	}else{
 		isMapEnd =false;
 		hideMapLegende();
-
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
+		$("#dropdown_params").show( 700 );
+		showMenuNetwork(false);
 		$(".btn-menu5, .btn-menu-add").show();
 		$(".panel_map").hide(1);
-		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
-		$("#btn-toogle-map").attr("data-original-title", "Carte");
 		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 		$(".my-main-container").animate({
-     							top: 0,
+     							top: 50,
      							opacity:1
 						      }, 'slow' );
-		setTimeout(function(){ $(".bgpixeltree").show(); }, 100);
+		setTimeout(function(){ $(".my-main-container").show(); }, 100);
 
 		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
@@ -937,9 +936,36 @@ function showMap(show)
 		if($(".box-add").css("display") == "none" && <?php echo isset(Yii::app()->session['userId']) ? "true" : "false"; ?>)
 			$("#ajaxSV").show( 700 );
 
-		showTopMenu(true);
 		checkScroll();
 	}
 
 }
+var topMenuActivated = true;
+function showMenuNetwork(show){ 
+
+	if(typeof show == "undefined") 
+		show = $("#main-top-menu").css("opacity") == 1;
+	
+	if(show){
+		$("#titleMapTop").show( 700 );
+		$("#btn-menu-launch").show( 700 );
+		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
+		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
+		$(".main-menu-left").hide( 700 );
+		$("#menuTopList").hide( 700 );
+		$(".main-top-menu").removeClass("bg-white");
+		//$(".main-top-menu").animate({ top: 0, opacity:1 }, 500 );
+	}
+	else{
+		$("#titleMapTop").hide( 700 );
+		$("#btn-menu-launch").hide( 700 );
+		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
+		$("#btn-toogle-map").attr("data-original-title", "Carte");
+		$(".main-menu-left").show( 700 );
+		$("#menuTopList").show( 700 );
+		$(".main-top-menu").addClass("bg-white");
+		//$(".main-top-menu").animate({ top: -60, opacity:0 }, 500 );
+	}
+}
+
 </script>
