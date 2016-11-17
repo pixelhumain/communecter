@@ -199,7 +199,7 @@ function editEntrySV () {
                 $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
               $("#editEntryContainer #message").code(proposalObj.message);
-             
+             $('.mainDynFormCloseBtn').click(function(){ $('#modal-edit-entry').modal("hide"); });
             }
           },
           onSave : function(){
@@ -272,10 +272,12 @@ function editEntrySV () {
         mylog.dir(formSurvey);
       
 }
+
 function openEntryForm(){
   editEntrySV ();
   $('#modal-edit-entry').modal("show"); 
 }
+
 function getUrls()
 {
     var urls = [];
