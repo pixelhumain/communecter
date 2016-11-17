@@ -588,6 +588,7 @@ function updateLocalityElement(){
 					
 					if(!addressesIndex){
 						//Header && ficheInfoElement
+						console.log("locality.address.streetAddress", locality.address.streetAddress);
 						$("#detailStreetAddress").html(locality.address.streetAddress);
 						$("#detailCity").html(((locality.address.postalCode)?locality.address.postalCode : "")+" "+((locality.address.addressLocality) ? locality.address.addressLocality : ""));
 						//$("#detailCity").html(locality.address.addressLocality+", "+locality.address.postalCode);

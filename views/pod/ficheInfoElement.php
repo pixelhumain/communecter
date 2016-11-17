@@ -434,8 +434,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						
 						$address .= '<span id="detailStreetAddress">'.
 										(( @$element["address"]["streetAddress"]) ? 
-											$element["address"]["streetAddress"]."</span><br/>" : 
-											Yii::t("common","Unknown Locality")).
+											$element["address"]["streetAddress"]."<br/>": 
+											((@$element["address"]["codeInsee"])?"":Yii::t("common","Unknown Locality"))).
 									'</span>';
 
 						$address .= '<span id="detailCity">'.
