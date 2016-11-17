@@ -201,7 +201,6 @@ function editEntrySV () {
               $("#editEntryContainer #message").code(proposalObj.message);
              
             }
-            $(".mainDynFormCloseBtn").addClass("hidden");
           },
           onSave : function(){
             mylog.log("saving Survey !!");
@@ -249,7 +248,8 @@ function editEntrySV () {
                     else if( $("#editEntryContainer #id").val() != "" )
                       loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() );
                     else
-                      loadByHash( "#survey.entries.id."+data.parentId )
+                      loadByHash( "#survey.entries.id."+data.parentId );
+                    $("#ajaxFormEntry").html('');
                   }
                   else {
                     toastr.error(data.msg);
@@ -272,7 +272,10 @@ function editEntrySV () {
         mylog.dir(formSurvey);
       
 }
-
+function openEntryForm(){
+  editEntrySV ();
+  $('#modal-edit-entry').modal("show"); 
+}
 function getUrls()
 {
     var urls = [];

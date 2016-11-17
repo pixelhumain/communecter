@@ -147,9 +147,7 @@
 							$hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
 				            if( !$hasVote && $voteLinksAndInfos["avoter"] != "closed" )
 				            { ?>
-								<a class="tooltips btn btn-default  " href="javascript:" 
-								   data-toggle="modal" data-target="#modal-edit-entry"
-								   data-placement="bottom" data-original-title="Editer cette proposition">
+								<a class="tooltips btn btn-default  " href="javascript:openEntryForm()" >
 									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 								</a>
 							<?php } ?>
@@ -347,13 +345,7 @@
 				$this->renderPartial('../survey/editEntrySV', $params); 
 			?>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-			<button type="button" class="btn btn-success"
-				    onclick="saveEditEntry()">
-					<i class="fa fa-save"></i> Enregistrer
-			</button>
-		</div>
+		
 	  </div>
 	</div>
   </div>

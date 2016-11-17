@@ -1332,6 +1332,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
             else { 
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
+                //clear the unecessary DOM 
+                $("#ajaxFormModal").html('');
                 if(data.url)
                 	loadByHash( data.url );
                 else if(data.id)
