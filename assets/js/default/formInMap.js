@@ -577,6 +577,9 @@ function updateLocalityElement(){
 		    	
 		    	if(data.result){
 		    		var inMap = true ;
+		    		if(data.firstCitizen == true)
+		    			getAjax(null, baseUrl+'/'+moduleId+'/rooms/index/type/cities/id/'+locality.unikey, null,"norender");
+
 		    		if(contextData != null){
 		    			if(contextData.address == null){
 		    				inMap =false ;
