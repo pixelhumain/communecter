@@ -702,8 +702,6 @@ if($showOdesc == true){
 		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
 }
 	
-
-
 ?>
 
 <script type="text/javascript">
@@ -725,7 +723,7 @@ if($showOdesc == true){
 
 
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "false")?false:true);
-	if((showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
+	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
 		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
 		contextData.address = <?php echo json_encode(@$element["address"]) ?>;
