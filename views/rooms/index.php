@@ -181,7 +181,7 @@ jQuery(document).ready(function() {
 
 function resetDirectoryTable() 
 { 
-	console.log("resetDirectoryTable");
+	mylog.log("resetDirectoryTable");
 
 	if( !$('.directoryTable').hasClass("dataTable") )
 	{
@@ -225,7 +225,7 @@ function resetDirectoryTable()
 			directoryTable.dataTable().fnDestroy();
 			directoryTable.dataTable().fnDraw();
 		} else {
-			console.log(" directoryTable fnClearTable");
+			mylog.log(" directoryTable fnClearTable");
 			directoryTable.dataTable().fnClearTable();
 		}
 	}
@@ -233,7 +233,7 @@ function resetDirectoryTable()
 
 function applyStateFilter(str)
 {
-	console.log("applyStateFilter",str);
+	mylog.log("applyStateFilter",str);
 	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
 }
 function clearAllFilters(str){ 

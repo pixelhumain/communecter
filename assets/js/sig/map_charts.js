@@ -16,9 +16,9 @@ SigLoader.getSigCharts = function (Sig){
 		var FeatureCollection = thisData["chart"];
 		var chartOptions =  thisData["chartOptions"];
 
-		console.log(">>>> BEFORE ADD CHART <<<<< "+name);
-		console.dir(FeatureCollection);
-		console.dir(chartOptions);
+		mylog.log(">>>> BEFORE ADD CHART <<<<< "+name);
+		mylog.dir(FeatureCollection);
+		mylog.dir(chartOptions);
 		
 		this.chartsList[name] = new Array();
 		this.chartsList[name]["FeatureCollection"] = FeatureCollection;
@@ -44,7 +44,7 @@ SigLoader.getSigCharts = function (Sig){
 		//$("#btn-group-charts-map").append(btn);
 		$(this.cssModuleName + " #liste_map_element").append(btn);
 		
-		$("#btn-chart-"+ name).click(function(){ console.log("click on btn chart");
+		$("#btn-chart-"+ name).click(function(){ mylog.log("click on btn chart");
 			var name = $(this).attr("name");
 			thisSig.loadChart(name);
 		});
@@ -58,9 +58,9 @@ SigLoader.getSigCharts = function (Sig){
 		var FeatureCollection = this.chartsList[name]["FeatureCollection"];
 		var chartOptions 	  = this.chartsList[name]["chartOptions"];
 
-		console.log(">>>> LOAD CHART <<<<<");
-		console.dir(FeatureCollection);
-		console.dir(chartOptions);
+		mylog.log(">>>> LOAD CHART <<<<<");
+		mylog.dir(FeatureCollection);
+		mylog.dir(chartOptions);
 		
 		//réinitialise le groupLayer
 		if(this.markersLayer != ""){
@@ -71,10 +71,10 @@ SigLoader.getSigCharts = function (Sig){
 		var thisSig = this;
 		
 		function getToolTip(feature, value, options, chartOptions){//unity, color){
-		console.log(">>> tooltip chartOptions : "); console.dir(chartOptions);
+		mylog.log(">>> tooltip chartOptions : "); mylog.dir(chartOptions);
 
 		var tooltip = ""; //"<div class='twh-tooltip-value' style='color:" + options.color + ";'> " +  value + " " + options.unity + "</div>";
-		$.each(chartOptions, function(i, element)  { console.log("element"); console.warn(element);
+		$.each(chartOptions, function(i, element)  { mylog.log("element"); mylog.warn(element);
 			tooltip +=
 			"<div class='twh-tooltip-element'>" + 
 				"<span class='label label-info' style='font-size:25px; background-color:" + element.fillColor + " !important;'>" + 
@@ -133,7 +133,7 @@ SigLoader.getSigCharts = function (Sig){
 			this.markersLayer.addLayer(geojsonLayer); 
 			this.map.addLayer(this.markersLayer);
 			this.map.fitBounds(this.markersLayer.getBounds(), { 'maxZoom' : 14 });
-			console.warn(">>>> CHART LOADED <<<<<")
+			mylog.warn(">>>> CHART LOADED <<<<<")
 		
 	};
 

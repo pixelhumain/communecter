@@ -95,7 +95,7 @@ Documents à supprimer -- n'a plus lieu d'exister !! a confirmer
 					return;
 				}
 
-				console.log(idMember);
+				mylog.log(idMember);
 				$.ajax({
 					type: "POST",
 					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",

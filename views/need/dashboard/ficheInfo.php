@@ -199,7 +199,7 @@ var needID="<?php echo $need["_id"]; ?>";
 var mode = "update";
 var startDate = '<?php if(isset($need["startDate"])) echo $need["startDate"]; else echo ""; ?>';
 var endDate = '<?php if(isset($need["endDate"])) echo $need["endDate"]; else echo ""; ?>';
-console.log(startDate+" / "+endDate);
+mylog.log(startDate+" / "+endDate);
 jQuery(document).ready(function() 
 {
     bindAboutPodneeds();
@@ -226,7 +226,7 @@ function initNeedXEditable() {
 	        	toastr.success(data.msg);
 	        else
 	        	toastr.error(data.msg);  
-	     console.log(data);
+	     mylog.log(data);
 	    }
 	});
     //make jobTitle required
@@ -319,7 +319,7 @@ function initNeedXEditable() {
 		        } else { 
 					return data.msg;
 				}
-				console.log(data);
+				mylog.log(data);
 	    	}
 	});
 	$('#description').editable({
@@ -360,7 +360,7 @@ function manageNeedModeContext() {
 			$(value).editable('toggleDisabled');
 		})
 	} else if (mode == "update") {
-		console.log(needID);
+		mylog.log(needID);
 		// Add a pk to make the update process available on X-Editable
 		$('.editable-need').editable('option', 'pk', needID);
 		$('.editable-need').editable('toggleDisabled');

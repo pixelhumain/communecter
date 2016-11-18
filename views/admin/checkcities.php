@@ -40,7 +40,7 @@ jQuery(document).ready(function() {
 function bindCheck(){
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-    	//console.log("ext", ext, $.inArray(ext, "json"));
+    	//mylog.log("ext", ext, $.inArray(ext, "json"));
 		if(ext != "csv" && ext !=  "json" && ext == "js" && ext !=  "geojson") {
 			alert('Upload CSV or JSON');
 			return false;
@@ -51,14 +51,14 @@ function bindCheck(){
 				var reader = new FileReader();
 				file = [];
 				reader.onload = function(e) {
-					//console.log("csv : ", e.target.result );
+					//mylog.log("csv : ", e.target.result );
 					var csvval=e.target.result.split("\n");
-					//console.log("csv : ", csvval );
+					//mylog.log("csv : ", csvval );
 					$.each(csvval, function(key, value){
 						var ligne = value.split(";");
 						var newLigne = [];
 						$.each(ligne, function(keyLigne, valueLigne){
-							//console.log("valueLigne", valueLigne);
+							//mylog.log("valueLigne", valueLigne);
 							if(valueLigne.charAt(0) == '"' && valueLigne.charAt(valueLigne.length-1) == '"'){
 								var elt = valueLigne.substr(1,valueLigne.length-2);
 								newLigne.push(elt);
@@ -69,8 +69,8 @@ function bindCheck(){
 						
 		  				file.push(newLigne);
 		  			});
-		  			console.log("file :", file.length );
-		  			console.log("file :", file );
+		  			mylog.log("file :", file.length );
+		  			mylog.log("file :", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -96,7 +96,7 @@ function bindCheck(){
 
   		while(fin == false){
   			subFile = file.slice(indexStart,indexEnd);
-  			console.log("subFile", subFile.length);
+  			mylog.log("subFile", subFile.length);
   			params["file"] = subFile;
   			visualisation(params);
 			indexStart = indexEnd ;
@@ -119,7 +119,7 @@ function visualisation(params){
 		data:{ params },
 		async : false,
 		success: function (obj){
-			console.log('obj', obj);
+			mylog.log('obj', obj);
 			var ligne = "";
 			$.each(obj, function(key, value){
 
@@ -130,21 +130,21 @@ function visualisation(params){
 
 		},
 		error: function (error) {
-			console.log('error', error);
+			mylog.log('error', error);
 		}
 	});
 
 }
 /*function init(){
-	//console.log("cities", jQuery.parseJSON(cities));
+	//mylog.log("cities", jQuery.parseJSON(cities));
 
 	var obj = jQuery.parseJSON(cities) ;
 	chaine = "";
-	console.log("obj", obj.length, obj);
+	mylog.log("obj", obj.length, obj);
 	$.each(obj, function(key, value){
 		var address = transformNominatimUrl(value["alternateName"]);
 		var addressName = transformNominatimUrl(value["name"]);
-		console.log('--------------------------------------------------------');
+		mylog.log('--------------------------------------------------------');
 		var elt = findGeoposByDataGouv(value["cp"], value["insee"], address, "village");
 		
 		if(elt.length == 0)
@@ -153,7 +153,7 @@ function visualisation(params){
 			elt = findGeoposByDataGouv(value["cp"], value["insee"], address, "city");
 		
 
-		console.log("RESULT", elt);
+		mylog.log("RESULT", elt);
 		if(elt.length == 0){
 			chaine += "<tr><td>"+ value["insee"]+" : "+ value["insee"]+" : "+ value["alternateName"]+"</td>";
 			chaine += "<td>Introuvable sur DataGouv</td></tr>";
@@ -172,13 +172,13 @@ function findGeoposByDataGouv(cp, insee, city, type){
 		async:false,
 		complete: function () {},
 		success: function (obj){
-			//console.log('success', type, obj.features);
+			//mylog.log('success', type, obj.features);
 			if(typeof obj.features != "undefined"){
 				elt = obj.features ;
 			}
 		},
 		error: function (error) {
-			console.log('error', error);	
+			mylog.log('error', error);	
 		}
 	});
 

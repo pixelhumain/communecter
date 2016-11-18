@@ -147,7 +147,7 @@ $(".new-proposal").off().on("click",function () {
 					        url: baseUrl+"/"+moduleId+"/need/addhelpervalidation/needId/"+needId+"/booleanState/0/",
 					       	dataType: "json",
 				        	success: function(data){
-					        	console.log(data);
+					        	mylog.log(data);
 					        	if ( data && data.result ) {               
 						       	 	toastr.info(data.msg);
 						       	 	addAttentConfirmBox(data.helper, 0);
@@ -174,7 +174,7 @@ $(".acceptHelp").off().on("click",function () {
 					        url: baseUrl+"/"+moduleId+"/need/addhelpervalidation/needId/"+needId+"/helperId/"+idHelper+"/booleanState/1/",
 					       	dataType: "json",
 				        	success: function(data){
-					        	console.log(data);
+					        	mylog.log(data);
 					        	if ( data && data.result ) {               
 						       	 	toastr.info(data.msg);
 						       	 	addAttentConfirmBox(data.helper,1);
@@ -191,7 +191,7 @@ $(".acceptHelp").off().on("click",function () {
 }
 function addAttentConfirmBox(helper, bool){
 	if(bool == 0){
-		console.log(helper);
+		mylog.log(helper);
 		divHelper = '<div class="col-md-3 col-xs-4 center padding-10 helperBox'+helper._id["$id"]+'">'+
 						'<a class="lbh" href="#person.detail.id.'+helper._id["$id"]+'" title="wait for validation">';
 						if(typeof(helper.imagePath) != "undefined") { 

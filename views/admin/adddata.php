@@ -219,11 +219,12 @@ function bindAddData(){
 			reader.readAsText(e.target.files.item(0));
 		}
 		return false;
+
 	});
 
 	$("#checkboxLink").bootstrapSwitch();
 	$("#checkboxLink").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isLink").val(state);
 		if(state == true){
 			$("#searchLink").removeClass("hide");
@@ -246,6 +247,7 @@ function bindAddData(){
       	//signal que le chargement est terminé
       	startSearch(0, 15, callBackSearch);
   	});
+
 
 	$("#sumitVerification").off().on('click', function(e)
   	{
@@ -273,7 +275,7 @@ function bindAddData(){
         	params["idLink"] = $("#idSearchEntity").val();
         	params["roleLink"] = $("#roleLink").val();
         }
-        	
+
   			
   		$.ajax({
 	        type: 'POST',
@@ -310,7 +312,7 @@ function bindAddData(){
 
 	        },
 	  		error:function(data){
-	  			console.log("error",data);
+	  			mylog.log("error",data);
 	  			$.unblockUI();
 	  		}
 		});
@@ -325,7 +327,6 @@ function bindAddData(){
 
 function callBackSearch(data){
 	console.log("callBackSearch", data);
-	
 	str = "";
     var city, postalCode = "";
 	$.each(data, function(key, element) {
@@ -420,6 +421,7 @@ function callBackSearch(data){
 	});
 	//$("#dropdown_searchInvite").html(str);
 	$("#dropdown_searchInvite").css({"display" : "inline" });
+
 
 
 	

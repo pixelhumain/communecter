@@ -248,7 +248,7 @@ jQuery(document).ready(function() {
 	<?php $contextMap = array("types"=>$types, "parentOrganization"=>$parentOrganization, "tags"=>$tags); ?>
 
  	var contextMap = <?php echo json_encode($contextMap)?>;
- 	console.log(contextMap);
+ 	mylog.log(contextMap);
 	addCustomValidators();
 	$('.box-join').show().addClass("animated flipInX").on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).removeClass("animated flipInX");
@@ -266,7 +266,7 @@ jQuery(document).ready(function() {
 					var val = jsonHelper.getValueByPath( organizationInitData, path );
 					if(val){
 						$(field).val(val);
-						console.log("field key",field);
+						mylog.log("field key",field);
 					}
 				}
 			});
@@ -282,10 +282,10 @@ jQuery(document).ready(function() {
 	            '</blockquote> '
 			});
 
-			console.log("saving Organization!!");
+			mylog.log("saving Organization!!");
 			var params = {};
 			$.each(dataBindOrganization,function(field,path){
-				console.log("save key ",field,path);
+				mylog.log("save key ",field,path);
 				if(field != "" )
 				{
 					if( $(field) && $(field).val() && $(field).val() != "" )
@@ -295,12 +295,12 @@ jQuery(document).ready(function() {
 					} 
 				}
 				else {
-					console.log("save Error",field);
+					mylog.log("save Error",field);
 					alert("Erreur là");
 				}
 				
 			});
-			console.dir(params);
+			mylog.dir(params);
 	    	$.ajax({
 	    	  type: "POST",
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/organization/addNewOrganizationAsMember",
@@ -309,7 +309,7 @@ jQuery(document).ready(function() {
 	    	})
 	    	.done(function(data){
 	    		if(data.result) {
-	    			console.log("Resultat", data);
+	    			mylog.log("Resultat", data);
 	    			toastr.info(data.msg);
 	    			$.unblockUI();
 	    			$("#form-join").html("<a href='"+baseUrl+"/<?php echo $this->module->id?>/organization/dashboardMember/id/<?php echo $_GET['id'] ?>'>Back to <?php echo $parentOrganization['name']?></a>");
@@ -326,7 +326,7 @@ jQuery(document).ready(function() {
 	$(".personCityselect").hide();
 	bindPostalCodeAction("#postalCode", "#city", ".cityselect");
 	bindPostalCodeAction("#personPostalCode", "#personCity", ".personCityselect");
-	console.dir(form);
+	mylog.dir(form);
 });
 
 function manageAjaxError(data) {
@@ -344,7 +344,7 @@ function runShowCity(searchValue, idSelect, classDiv) {
 	$(idSelect).empty();
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	var oneValue = "";
-	console.table(citiesByPostalCode);
+	mylog.table(citiesByPostalCode);
 	$.each(citiesByPostalCode,function(i, value) {
     	$(idSelect).append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;

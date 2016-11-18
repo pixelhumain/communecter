@@ -13,10 +13,10 @@ function startSearch(indexMin, indexMax, callBack){
     if(loadingData) return;
     loadingData = true;
     
-    //console.log("loadingData true");
+    //mylog.log("loadingData true");
     indexStep = indexStepInit;
 
-    console.log("startSearch", indexMin, indexMax, indexStep);
+    mylog.log("startSearch", indexMin, indexMax, indexStep);
 
 	  var name = $('#searchBarText').val();
     
@@ -98,7 +98,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 	                             4 : "REGION"
 	                           };
 	}
-    //console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
+    //mylog.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {
       "name" : name, 
       "locality" : "",//locality, 
@@ -135,17 +135,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error autocomplete search"); console.dir(data);     
+             mylog.log("error autocomplete search"); mylog.dir(data);     
              //signal que le chargement est terminé
             loadingData = false;     
           },
-          success: function(data){ console.log("success autocomplete search"); //console.dir(data);
-            if(!data){ 
-              toastr.error(data.content); 
-            }
-            else if(typeof callBack == "function"){ 
-              callBack(data);
-            }
+          success: function(data){ mylog.log("success autocomplete search"); //mylog.dir(data);
+            if(!data){ toastr.error(data.content); }
             else
             {
               var countData = 0;
@@ -157,7 +152,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
-              console.dir(data);
+              mylog.dir(data);
               str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
@@ -206,7 +201,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   $("#dropdown_search").html(str);
 
                   if(typeof myMultiTags != "undefined"){
-                    $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+                    $.each(myMultiTags, function(key, value){ //mylog.log("binding bold "+key);
                       $("[data-tag-value='"+key+"'].btn-tag").addClass("bold");
                     });
                   }
@@ -243,10 +238,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
     	        $(".btn-start-search").removeClass("bg-azure");
         	  }
 
-            //console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+            //mylog.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
-            //console.log("SHOW MORE ?", indexMax, indexMin, indexMax - indexMin, countData);
-            console.log("SHOW MORE ?", countData, indexStep);
+            //mylog.log("SHOW MORE ?", indexMax, indexMin, indexMax - indexMin, countData);
+            mylog.log("SHOW MORE ?", countData, indexStep);
             //if(indexMax - countData > indexMin){ 
             if(countData < indexStep){
               $("#btnShowMoreResult").remove(); 
@@ -272,12 +267,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   	$.each($(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
-      console.log("error type :", type);
+      mylog.log("error type :", type);
    		if(type == "person") type = "people";
    		else type = typeObj[type].col;
-      //console.log("#floopItem-"+type+"-"+id);
+      //mylog.log("#floopItem-"+type+"-"+id);
    		if($("#floopItem-"+type+"-"+id).length){
-   			//console.log("I FOLLOW THIS");
+   			//mylog.log("I FOLLOW THIS");
    			if(type=="people"){
 	   			$(value).html("<i class='fa fa-unlink text-green'></i>");
 	   			$(value).attr("data-original-title", "Ne plus suivre cette personne");
@@ -322,7 +317,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-		//console.log(formData);
+		//mylog.log(formData);
     var linkType = (type == "events") ? "connect" : "follow";
 		if ($(this).attr("data-ownerlink")=="follow"){
 			$.ajax({
@@ -344,7 +339,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 			});
 		} else if ($(this).attr("data-ownerlink")=="unfollow"){
 			formData.connectType =  "followers";
-			//console.log(formData);
+			//mylog.log(formData);
 			$.ajax({
 				type: "POST",
 				url: baseUrl+"/"+moduleId+"/link/disconnect",
@@ -383,6 +378,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
     $.each(data, function(i, o) {
         if( notNull(o.type) )
         {
+          mylog.log("showResultsDirectoryHtml", o);
           var typeIco = i;
           
           mapElements.push(o);
@@ -418,10 +414,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
             postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
           }
           
-          console.dir(o);
+          mylog.dir(o);
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
-          console.log(o.type);
+          mylog.log(o.type);
           type = typeObj[itemType].col;
           // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
           //type += "s";
@@ -475,8 +471,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           //if(description == "") description = (notEmpty(o.description)) ? o.description : "";
           if(description == "") description = (notEmpty(o.message)) ? o.message : "";
    
-          //console.dir(o);
-          //console.log(typeof o.startDate);
+          //mylog.dir(o);
+          //mylog.log(typeof o.startDate);
 
           var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
           var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
@@ -560,7 +556,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                    console.log("typeIcoParent", o.parentRoom);
+                    //mylog.log("typeIcoParent", o.parentRoom);
                     var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
                     var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
                     

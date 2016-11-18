@@ -27,6 +27,8 @@
 		Sig.getPopupCitoyen = function(data){
 
 			var type = data['type'] ? data['type'] : "";
+
+			mylog.log("getPopupCitoyen",data) ;
 			var imgProfilPath =  Sig.getThumbProfil(data);
 
 			var popupContent = "";
@@ -134,7 +136,7 @@
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
-			//console.log("type de donnée sig : ",type);
+			//mylog.log("type de donnée sig : ",type);
 			
 			var typeElement = type;
 			if(type == "people") 		typeElement = "person";
@@ -142,12 +144,17 @@
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			console.log("type", type);
+			mylog.log("type", type);
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
 			var url = '#'+typeElement+'.detail.id.'+id;
+
+			if(type == "entry") 		url = "#survey.entry.id."+id;
+			if(type == "action") 		url = "#rooms.action.id."+id;
+			
+
 			onclick = 'loadByHash("'+url+'");';
 			
 			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){
@@ -272,7 +279,7 @@
 					// 		var hour1 = start.substr(start.indexOf("-")+2, start.length);
 					// 		var hour2 = end.substr(end.indexOf("-")+2, end.length);
 					// 		popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
-					// 		//console.log('hour1', hour1, "hour2", hour2);
+					// 		//mylog.log('hour1', hour1, "hour2", hour2);
 					// 		if(data["allDay"] == true) {
 					// 			popupContent += "</br><i class='fa fa-caret-right'></i> Toute la journée";
 					// 		}
@@ -300,7 +307,7 @@
 
 			var allData = data;
 			data = data.author;
-			//console.log("typeSig : " + allData['typeSig']);
+			//mylog.log("typeSig : " + allData['typeSig']);
 			var type = allData['typeSig'] ? allData['typeSig'] : allData['type'];
 			var id = this.getObjectId(allData);
 			var popupContent = "<div class='popup-marker'>";
@@ -312,7 +319,7 @@
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
 
 			//var prop = feature.properties;
-			//console.log("PROPRIETES : ");
+			//mylog.log("PROPRIETES : ");
 			
 			//showMap(false);
 
@@ -538,7 +545,7 @@
 
 		Sig.getPopupCity = function(dataTxt, insee){
 			var localActors = "";
-			if($("#local-actors-popup-sig").length > 0){ //console.log("try to catch local actors");
+			if($("#local-actors-popup-sig").length > 0){ //mylog.log("try to catch local actors");
 				localActors = $("#local-actors-popup-sig").html();
 			}
 			var showAjaxPanel = 'showAjaxPanel("/city/detail?insee='+insee+'", "Commune : '+dataTxt+'", "fa-university");';
@@ -556,7 +563,7 @@
 		};
 
 		Sig.getPopupSimpleCity = function(data){
-			console.log(data);
+			mylog.log(data);
 			var city = data["name"].replace("'", "\'");;
 			var insee = data["insee"];
 			var cp = data["cp"];
@@ -593,7 +600,7 @@
 		};
 
 		Sig.getPopupAddress = function(data, label){
-			console.log(data);
+			mylog.log(data);
 			var city = data["name"].replace("'", "\'");;
 			var cp = data["postalCode"];
 			if(typeof(data["countCpByInsee"]) != "undefined"){
@@ -614,7 +621,7 @@
 		};
 
 		Sig.getPopupModifyPosition = function(data){
-			//console.dir(data);
+			//mylog.dir(data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
 			var id = data["_id"]["$id"];
 			var popupContent = "<div class='popup-marker'>";
@@ -629,7 +636,7 @@
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			//console.log("type", type);
+			//mylog.log("type", type);
 			
 			var icon = 'fa-'+ this.getIcoByType(data);
 
@@ -684,7 +691,7 @@
 			var allCountries = getCountries("select2");
 			countries ="";
 			$.each(allCountries, function(key, country){
-				console.log(country.id, country.text);
+				mylog.log(country.id, country.text);
 			 	countries += "<option value='"+country.id+"'>"+country.text+"</option>";
 			});
 			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +

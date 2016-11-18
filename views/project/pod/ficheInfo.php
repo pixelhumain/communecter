@@ -510,8 +510,8 @@ jQuery(document).ready(function()
 	initXEditable();
 	manageModeContext();
 	debugMap.push(projectData);
-	console.log("endDate",$('#endDate').val());
-	console.dir(projectData);
+	mylog.log("endDate",$('#endDate').val());
+	mylog.dir(projectData);
 	$("#btn-update-geopos").click(function(){
 		findGeoPosByAddress();
 	});
@@ -543,7 +543,7 @@ function bindAboutPodProjects() {
 	});
 
 	$(".editConfidentialityBtn").click(function(){
-    	console.log("confidentiality");
+    	mylog.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
     });
 
@@ -613,7 +613,7 @@ function initXEditable() {
 				table : false
 			},
 			validate: function(value) {
-			    console.log(value);
+			    mylog.log(value);
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
@@ -691,12 +691,12 @@ function initXEditable() {
 	$('#address').editable({
 		validate: function(value) {
                 value.streetAddress=$("#streetAddress").text();
-                console.log(value);
+                mylog.log(value);
         },
 		url: baseUrl+"/"+moduleId+"/project/updatefield",
 		mode: 'popup',
 		// success: function(response, newValue) {
-		// 	console.log("success update postal Code : "+newValue);
+		// 	mylog.log("success update postal Code : "+newValue);
 			
 		// },
 		value : {
@@ -838,7 +838,7 @@ function manageModeContext() {
 
 			request = transformNominatimUrl(request);
 			request = "?q=" + request;
-			console.log(request);
+			mylog.log(request);
 			findGeoposByNominatim(request);
 		}
 	
@@ -846,8 +846,8 @@ function manageModeContext() {
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
-		console.log(obj);
+		mylog.log("callbackNominatimSuccess");
+		mylog.log(obj);
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
@@ -864,7 +864,7 @@ function manageModeContext() {
 				var insee = $("#entity-insee-value").attr("insee-val");
 				var postalCode = $("#entity-cp-value").attr("cp-val");
 			}
-			//console.log(postalCode);
+			//mylog.log(postalCode);
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
 			if(insee != "") findGeoposByInsee(insee, null,postalCode);
 		}
@@ -872,31 +872,31 @@ function manageModeContext() {
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError");
+		mylog.log("callbackNominatimError");
 	}
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
+		mylog.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			//récupère les coordonnées
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
 			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
-			console.log(obj);
+			mylog.log(obj);
 			projectData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
 			//on affiche le marker sur la carte
 			showGeoposFound(coords, projectId, "projects", projectData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee");
+		mylog.log("erreur getlatlngbyinsee");
 	}
 	
 </script>

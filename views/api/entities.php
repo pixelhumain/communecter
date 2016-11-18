@@ -42,7 +42,7 @@
 					ajaxPost("saveGroupResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/savegroup',params);
 				}
 				function typeChanged(){
-					console.log( $("#typesaveGroup").val() );
+					mylog.log( $("#typesaveGroup").val() );
 					if ($("#typesaveGroup").val() == "event") {
 						$(".whensaveGroup").show();
 					} else {

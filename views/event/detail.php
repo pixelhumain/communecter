@@ -90,7 +90,7 @@
 		
 		setTitle("<?php echo addslashes($event["name"]) ?>","<i class='fa fa-circle text-orange'></i> <i class='fa fa-calendar'></i>",null,contextData.otags, contextData.odesc);
 
-		console.dir(contextMap);
+		mylog.dir(contextMap);
 		
 		Sig.restartMap();
 		Sig.showMapElements(Sig.map, contextMap);

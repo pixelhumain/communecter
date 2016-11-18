@@ -252,7 +252,7 @@
 		?>
 
 		<?php if($addLink) 
-				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$contentType, "parentId" =>@$parentId)); ?>
+				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$contentType, "parentId" =>@$parentId, "users"=>@$users)); ?>
 		
 	</div>
 

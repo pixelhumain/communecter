@@ -145,10 +145,10 @@
 			emptySlide = false;
 			var endDate = v.endDate;
 			var startDate = v.startDate;
-			console.log(startDate,endDate);
+			mylog.log(startDate,endDate);
 			if('undefined' != typeof startDate && 'undefined' != typeof endDate){	
-				console.log("evenAgenda", v.imageUrl);
-				console.log("date", startDate, endDate);
+				mylog.log("evenAgenda", v.imageUrl);
+				mylog.log("date", startDate, endDate);
 				var period = formatPeriodValue(startDate, endDate);
 				var date = new Date(endDate.split("-")[2].split(" ")[0], parseInt(endDate.split("-")[1])-1, endDate.split("-")[0]);
 				notEmptySlide = true;
@@ -225,7 +225,7 @@
 	//Return true if the date d < date f
 	function compareDate(d, f){
 		var res = false;
-		console.log(d, f, d<= f)
+		mylog.log(d, f, d<= f)
 		if(d <= f){
 			res= true;
 		}
@@ -234,7 +234,7 @@
 
 	//convert a period to a string
 	function formatPeriodValue(d, f){
-		console.log("getStringPeriodValue : ",d,f);
+		mylog.log("getStringPeriodValue : ",d,f);
 		var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MAI", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
 		var strPeriod = [];
 		var dTab = [];
@@ -269,7 +269,7 @@
 			strPeriod[0] = parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" "+dTab[0]+" au ";
 			strPeriod[1] = parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[2];
 		}
-//		console.table(strPeriod);
+//		mylog.table(strPeriod);
 		return strPeriod;
 	}
 

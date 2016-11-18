@@ -98,7 +98,7 @@ jQuery(document).ready(function() {
   $("#element-name").html(elementName);
   //$("#element-name").addClass("text-"+colorTitle);
 
-  //console.log(elementsMap);
+  //mylog.log(elementsMap);
 
   //showMap(true);
 	if(notEmpty(elementsMap)){ 
@@ -234,12 +234,12 @@ function initBtnLink(){
   $.each($(".followBtn"), function(index, value){
     var id = $(value).attr("data-id");
     var type = $(value).attr("data-type");
-    //console.log("error type :", type);
+    //mylog.log("error type :", type);
     if(type == "person") type = "people";
     else type = typeObj[type].col;
-    //console.log("#floopItem-"+type+"-"+id);
+    //mylog.log("#floopItem-"+type+"-"+id);
     if($("#floopItem-"+type+"-"+id).length){
-      //console.log("I FOLLOW THIS");
+      //mylog.log("I FOLLOW THIS");
       if(type=="people"){
         $(value).html("<i class='fa fa-unlink text-green'></i>");
         $(value).attr("data-original-title", "Ne plus suivre cette personne");
@@ -284,7 +284,7 @@ function initBtnLink(){
 
   var thiselement = this;
   $(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-  //console.log(formData);
+  //mylog.log(formData);
   var linkType = (type == "events") ? "connect" : "follow";
   if ($(this).attr("data-ownerlink")=="follow"){
     $.ajax({
@@ -306,7 +306,7 @@ function initBtnLink(){
     });
   } else if ($(this).attr("data-ownerlink")=="unfollow"){
     formData.connectType =  "followers";
-    //console.log(formData);
+    //mylog.log(formData);
     $.ajax({
       type: "POST",
       url: baseUrl+"/"+moduleId+"/link/disconnect",

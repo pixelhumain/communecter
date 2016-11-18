@@ -39,7 +39,7 @@ jQuery(document).ready(function() {
 
 function bindUpdate() {
 	$("#btnUpdate").off().on('click', function(e){
-		console.log("btnUpdate");
+		mylog.log("btnUpdate");
 		$.ajax({
 	        type: 'POST',
 	        data: {
@@ -50,10 +50,10 @@ function bindUpdate() {
 	        async : false,
 	        success: function(data)
 	        {
-	        	console.log("btnUpdate data",data);
+	        	mylog.log("btnUpdate data",data);
 	        	var chaine = "" ;
 	        	$.each(data, function(key, value){
-	        		console.log("value",value.result);
+	        		mylog.log("value",value.result);
 	        		if(value.result == true)
 	  					chaine += "<tr><td>"+value.personFieldName+"</td><td>Mis à jour</td><tr>";
 	  			});
@@ -66,7 +66,7 @@ function bindUpdate() {
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-    	//console.log("ext", ext, $.inArray(ext, "json"));
+    	//mylog.log("ext", ext, $.inArray(ext, "json"));
 		if(ext !=  "json" && ext == "js" && ext !=  "geojson") {
 			alert('Upload CSV or JSON');
 			return false;
@@ -78,7 +78,7 @@ function bindUpdate() {
 				file = [];
 				reader.onload = function(e) {
 					file.push(e.target.result);
-		  			console.log("file : ", file );
+		  			mylog.log("file : ", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}

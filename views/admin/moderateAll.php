@@ -326,7 +326,7 @@ jQuery(document).ready(function() {
 	bindModalEvent();
 
 	$(".linkComment").off().on("click",function () {
-		console.log("linkComment click "+$(this).data("contextid"));
+		mylog.log("linkComment click "+$(this).data("contextid"));
 	    var contextId = $(this).data("contextid");
 	    var urlToSend = baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+contextId;
 		$.blockUI({
@@ -354,7 +354,7 @@ var contextMap = {
 
 function resetModerateTable() 
 { 
-	console.log("resetModerateTable");
+	mylog.log("resetModerateTable");
 
 	if( !$('.moderateTable').hasClass("dataTable") )
 	{
@@ -386,7 +386,7 @@ function resetModerateTable()
 			moderateTable.dataTable().fnDestroy();
 			moderateTable.dataTable().fnDraw();
 		} else {
-			console.log(" moderateTable fnClearTable");
+			mylog.log(" moderateTable fnClearTable");
 			moderateTable.dataTable().fnClearTable();
 		}
 	}
@@ -394,7 +394,7 @@ function resetModerateTable()
 
 function applyStateFilter(str)
 {
-	console.log("applyStateFilter",str);
+	mylog.log("applyStateFilter",str);
 	moderateTable.DataTable().column( <?php echo $colCorrespondance['type']; ?> ).search(str , true , false).draw();
 }
 
@@ -404,13 +404,13 @@ function applyTypeFilter(str)
 		str = "";
 		sep = "";
 		$.each($("."+str), function() { 
-			console.log("applyTypeFilter",$(this).data("id"));
+			mylog.log("applyTypeFilter",$(this).data("id"));
 			str += sep+$(this).data("id");
 			sep = "|";
 		});
 	} else 
 		clearAllFilters("");
-	console.log("applyTypeFilter",str);
+	mylog.log("applyTypeFilter",str);
 	moderateTable.DataTable().column( <?php echo $colCorrespondance['type']; ?> ).search( str , true , false ).draw();
 	return $('.directoryLines tr').length;
 }
@@ -435,18 +435,18 @@ function clearScopeFilters(){
 
 function applyTagFilter(str)
 {
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	if(!str){
 		str = "";
 		sep = "";
 		$.each($(".btn-tag.active"), function() { 
-			console.log("applyTagFilter",$(this).data("id"));
+			mylog.log("applyTagFilter",$(this).data("id"));
 			str += sep+$(this).data("id");
 			sep = "|";
 		});
 	} else 
 		clearTagFilters();
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	moderateTable.DataTable().column( <?php echo $colCorrespondance['tags']; ?> ).search( str, true , false ).draw();
 	$('#filterTag').html('<a href="#" onclick="clearTagFilters()"><span class="label label-inverse">'+str+'</span></a>');
 	return $('.directoryLines tr').length;
@@ -454,25 +454,25 @@ function applyTagFilter(str)
 
 function applyScopeFilter(str)
 {
-	//console.log("applyScopeFilter",$(".btn-context-scope.active").length);
+	//mylog.log("applyScopeFilter",$(".btn-context-scope.active").length);
 	if(!str){
 		str = "";
 		sep = "";
 		$.each( $(".btn-context-scope.active"), function() { 
-			console.log("applyScopeFilter",$(this).data("val"));
+			mylog.log("applyScopeFilter",$(this).data("val"));
 			str += sep+$(this).data("val");
 			sep = "|";
 		});
 	} else 
 		clearScopeFilters();
-	console.log("applyScopeFilter",str);
+	mylog.log("applyScopeFilter",str);
 	$('#filterScope').html('<a href="#" onclick="clearScopeFilters()"><span class="label label-inverse">'+str+'</span></a>');
 	moderateTable.DataTable().column( <?php echo $colCorrespondance['scope']; ?> ).search( str , true , false ).draw();
 	return $('.directoryLines tr').length;
 }
 
 function bindAdminBtnEvents(){
-	console.log("bindAdminBtnEvents");
+	mylog.log("bindAdminBtnEvents");
 	<?php 
 	/* **************************************
 	* ADMIN STUFF
@@ -481,8 +481,8 @@ function bindAdminBtnEvents(){
 
 		$(".declareAsAbuseBtn, .declareAsAuthorizeBtn").off().on("click",function () 
 		{
-			console.log("declareAsAbuseBtn / declareAsAuthorizeBtn click");
-			console.log("isAnAbuse",$(this).data("value"));
+			mylog.log("declareAsAbuseBtn / declareAsAuthorizeBtn click");
+			mylog.log("isAnAbuse",$(this).data("value"));
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var urlToSend = baseUrl+"/"+moduleId+"/news/moderate/news/";
@@ -530,8 +530,8 @@ function bindAdminBtnEvents(){
 
 		$(".declareCommentAsAbuseBtn, .declareCommentAsAuthorizeBtn").off().on("click",function () 
 		{
-			console.log("declareCommentAsAbuseBtn / declareCommentAsAuthorizeBtn click");
-			console.log("isAnAbuse",$(this).data("value"));
+			mylog.log("declareCommentAsAbuseBtn / declareCommentAsAuthorizeBtn click");
+			mylog.log("isAnAbuse",$(this).data("value"));
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var urlToSend = baseUrl+"/"+moduleId+"/comment/moderate/";
@@ -579,14 +579,14 @@ function bindAdminBtnEvents(){
 	<?php } ?>
 	$(".banThisBtn").off().on("click",function () 
 		{
-			console.log("banThisBtn click");
+			mylog.log("banThisBtn click");
 		});
 }
 
 function bindModalEvent(){
 	//To dispkay abuse texts
 	$('.modalAbuseContentsBtn').off().on("click",function (e) {
-		console.log("modalAbuseContentsBtn click");
+		mylog.log("modalAbuseContentsBtn click");
 		var context = $(this).data("context");
 		var urlToSend = baseUrl+"/"+moduleId+"/"+context+"/moderate/";
 		var id = $(this).data("id");
@@ -632,7 +632,7 @@ function bindModalEvent(){
 
 		$(document).off("click", ".declareAsAbuseModalBtn declareAsAuthorizeModalBtn");
 		$(document).on("click", ".declareAsAbuseModalBtn, .declareAsAuthorizeModalBtn", function(event){
-			console.log("isAnAbuse",$(this).data("value"), $(this).data("id"));
+			mylog.log("isAnAbuse",$(this).data("value"), $(this).data("id"));
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var context = $(this).data("context");
