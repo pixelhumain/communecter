@@ -662,7 +662,8 @@ var element = null;
 jQuery(document).ready(function() 
 {
  	activeMenuElement("news");
-
+ 	if(!isLiveGlobal())
+	 	selectAllTags(false);
 	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
 		//$("#cityInsee").val(inseeCommunexion);
 		//$("#cityPostalCode").val(cpCommunexion);

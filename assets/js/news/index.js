@@ -41,9 +41,9 @@ var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
 
 	//mylog.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
-    	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
+    	 //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
-	      "tagSearch" : tagSearch, 
+	      //"tagSearch" : tagSearch, 
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
@@ -54,7 +54,8 @@ var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
 	    };
 	    //contextParentType = "city";
     }	
-
+	//var tagSearch = $('#searchTags').val().split(',');
+	filter.tagSearch = $('#searchTags').val().split(',');
     filter.textSearch=$('#searchBarText').val();
 
     var thisParentId = "";
