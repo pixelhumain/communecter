@@ -357,7 +357,7 @@ $controler = Element::getControlerByCollection($type);
 								"0"; 
 					?> pts
 					</a>
-				</span>
+				</span><br>
 				<?php } ?>
 				<div id="divTagsHeader" class="badgePH pull-right">
 					<?php if(isset($entity["tags"])){ ?>

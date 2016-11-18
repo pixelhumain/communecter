@@ -4,6 +4,7 @@
 [ ] repairing localisation HTML5
 
 * optim
+[ ]  XSS filtering [[https://www.owasp.org/index.php/Content_Security_Policy]]
 [ ] reactiver viewport filter sur la carte
 [ ] on person.detail add autocomplete on tags
 [ ] refactor : chgt de carte avec bcp de data
@@ -13,8 +14,14 @@
 [ ] passing sessions to DB [[http://www.yiiframework.com/doc-2.0/yii-mongodb-session.html]]
 [ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
 [ ] refactor design recherche a directory et utiliser la page recherche pour communauté
+[ ] HTML5 notifications
+[.2] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
 * refactor 
 [ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
+[ ] moving discussion polling to discussion page instead of communecter.js
 
 * Tags
 [ ] section sous la baniere de categorie de tags
@@ -29,15 +36,20 @@
   [ ] .... autres question
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
 [ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
-[ ] dynform evolutif par type 
-    [ ] start by name
-    [ ] build as you complete the info
-[.17] event + project : change organiser
+[ ] delete empty element
+[.2] event + project : change organiser
+[ ] add to favorite 
+[ ] Quick Add Bookmarklets
   ** dynform 
     *** Location amélioration 
-    [ ] affichant la carte , click sur la carte cahce le panel , hover effect montre les geoshape + click ajoute multi scope
-    [ ] ajouter une colonne mes lieux préférés, click et rempli
-
+      [ ] affichant la carte , click sur la carte cache le panel , hover effect montre les geoshape + click ajoute multi scope
+      [.2] ajouter une colonne mes lieux préférés, click et rempli
+    [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+    [ ] desactivate dynForm if not Logged
+    [ ] dynform evolutif par type 
+      [ ] start by name
+      [ ] build as you complete the info
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
@@ -49,7 +61,7 @@
       [ ] inviter les gens a suivre
 
   ** Event ideas 
-  [.17] agenda : les events prennent pas la durée sur plusieurs jours
+  [.2] agenda : les events prennent pas la durée sur plusieurs jours
   [ ] affiché les event mois precedent et suivant
   [ ] tester : calendrier full calendar sur agenda 
   [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
@@ -59,10 +71,12 @@
               [ ] doodle : pour comparer facilement les dispo 
               [ ] covoit : décrire les trajet pour les partagers
   [ ] Event intérrsant pour moi, moteur d'affinité
-  [.17] connecter a des sources events externes 
+  [.2] connecter a des sources events externes 
   [ ] push back vers Open Agenda
   [ ] Best place calculator : utilisant la position des participants
   [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
+  [.2] pré remplir les dates, lieu
+  [ ] parent Event : load param ajax : show only ongoing or event to come
 
   ** Project
   [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
@@ -70,14 +84,17 @@
   [ ] Finir Besoin Ressource compétence
   [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
+  [ ] enable create subProjects like subEvents
 
   ** Needs
-  [.17] visualisation de la banque des besoins 
+  [.2] visualisation de la banque des besoins 
     - section besoin
     - filtre par type de besoin
     - par type d'acteur 
 
   ** POI
+  [.2] add photo
+  [.2] add POI to news
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
   [ ] use Poi as social bookmarking
     [ ] import from diigo, bookmarks or delicious
@@ -85,10 +102,10 @@
     [ ] bookmarklet like diigo 
 
 * City 
-[.17] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[.17] ajouter une photo de votre ville 
+[.2] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
+[.2] ajouter une photo de votre ville 
     - baniere 
-[.17] refactor péi_insee-cp en péi_insee_cp
+[.2] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
 [ ] ajouter la gestion des quartier Isis dans les scope
 [ ] Valoriser les communes qui ont signées
@@ -97,7 +114,7 @@
 [ ] add a calendar on city page ???
 [ ] localiser libre : avec le nouvel input 
   - si la city n'existe pas , panel de creation et on enchaine
-[.17] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
+[.2] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
 
 * Ergo 
 [ ] utiliser ce design du dashboard pour afficher notif et mon rep
@@ -119,7 +136,7 @@
 [ ] synchroniser le scopper et la carto 
 [ ] profile de tags , ou categorisation de tags ajouter dans le tagger
 [ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
-[.16] internationalisation avec la Belgique
+[.2] internationalisation avec la Belgique
 [ ] Finance Transparente
 [ ] Module FAQ : posez une questions a cette entité
 [ ] rapatrier les docs module
@@ -128,7 +145,7 @@
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
         - peut etre tracer les perimtres de chaque zone
-[.17] bouton share (Social) non intrusif 
+[.2] bouton share (Social) non intrusif 
 [ ] interoperability
 [ ] system de synchronisation between instances : download + upload 
   - download from OCDB
@@ -139,11 +156,11 @@
   - id unique : id_sourkeyInstance
 [ ] Post outside : ne pas juste utiliser les mails 
   - user pourront demander des push sur differentes destination FB, twitter, 
-[.17] point d'entrée thématique sur la page d'acceuil 
+[.2] point d'entrée thématique sur la page d'acceuil 
   - pour voir combien d'acteur oeuvre dans une thematique
 [ ] systeme calculant la valeur indirect de communecter basé sur un systeme de valeur economique existant 
   ex : sur les base des prix des pages jaune calculé la valeur cumulé de l'annuaire 
-[.17] reflechir First Connect , show notifications, hot news ....  
+[.2] reflechir First Connect , show notifications, hot news ....  
 
 * API 
 [ ] globaliser le system de Tokens et utilisation API Communecte
@@ -160,15 +177,17 @@
 
 * News
   [ ] Améliorer l'affichage de commentaires dans les news
-  [.17] Ajouter dans le journal un post de la creation de l'element qui le porte  
+  [.2] Ajouter dans le journal un post de la creation de l'element qui le porte  
 
 * admin 
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
 
 * DDA
-[.16] bug : sur archiver , persiste dans les listes 
-[.16] bug : une décision terminé, on peut toujours voté dessus
-[.16] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[.2] bug : sur archiver , persiste dans les listes 
+[.2] bug : une décision terminé, on peut toujours voté dessus
+[.2] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+[ ] ouvrir une proposition une geo scope cp, insee..
+[ ] ouvrir une proposition sans parent room
 [ ] btn archiver afficher si deconnecté
 [ ] changer les lien des DDA sur les parent insee
 [ ] ajouter la proposition de signature du pacte de transition citoyenne

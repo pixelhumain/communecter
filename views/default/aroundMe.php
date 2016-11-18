@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
 			 "Autour de "+parentName);
 
   $("#element-name").html(elementName);
-  $("#element-name").addClass("text-"+colorTitle);
+  //$("#element-name").addClass("text-"+colorTitle);
 
   //console.log(elementsMap);
 
