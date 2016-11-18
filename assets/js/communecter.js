@@ -881,7 +881,7 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
+		 getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
@@ -2272,8 +2272,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association<br/>"+
-		                		"Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
 		            },
 			        id :{
 		              "inputType" : "hidden",
@@ -2312,7 +2311,7 @@ var typeObj = {
 			            		}
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace d'action lié à une ville, une organisation ou un projet </span>"
+		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
