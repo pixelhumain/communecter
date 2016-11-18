@@ -721,8 +721,7 @@ if($showOdesc == true){
 			echo "'endDate':'".$element["endDate"]."'"; ?>
 	};	
 
-
-	var showLocality = (( "<?php echo @$showLocality; ?>" == "false")?false:true);
+	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
 	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
 		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
@@ -730,7 +729,7 @@ if($showOdesc == true){
 		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
 	}
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
-	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "false")?false:true);
+	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "<?php echo false; ?>")?false:true);
 
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
