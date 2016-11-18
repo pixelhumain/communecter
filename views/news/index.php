@@ -361,18 +361,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			<i class="fa fa-times"></i>
 		</a>
 		</h5>
+
 		<div class="tools_bar bg-white">
+			<?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
 			<div class="user-image-buttons">
 				<form method="post" id="photoAddNews" enctype="multipart/form-data">
 					<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-						<?php if ($authorizedToStock && ((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true))){ ?>
+						<?php if ($authorizedToStock){ ?>
 							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
 						<?php } ?>
 						
 					</span>
 				</form>
 			</div>
+			<?php } ?>
 		</div>
+
 		<form id='form-news' class="col-sm-12 no-padding">
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
