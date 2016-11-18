@@ -783,7 +783,7 @@ if($showOdesc == true){
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
-			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ;?>" ;
+			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
 				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
 			/*bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
@@ -1690,45 +1690,8 @@ if($showOdesc == true){
 
 	function removeAddresses (index){
 
-		/*bootbox.confirm({
-			message:  "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?",
-			buttons: {
-				confirm: {
-					label: 'Yes',
-					className: 'btn-success'
-				},
-				cancel: {
-					label: 'No',
-					className: 'btn-danger'
-				}
-			},
-			callback: function(result) {
-				if (!result) {
-					return;
-				} else {
-					var addresses = { addressesIndex : index };
-					var param = new Object;
-					param.name = "addresses";
-					param.value = addresses;
-					param.pk = contextData.id;
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-				        data: param,
-				       	dataType: "json",
-				    	success: function(data){
-					    	if(data.result){
-								toastr.success(data.msg);
-								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-					    	}
-					    }
-					});
-				}
-			});
-		});*/
-
 		bootbox.confirm({
-			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ?><span class='text-red'></span>",
+			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span>",
 			buttons: {
 				confirm: {
 					label: "<?php echo Yii::t('common','Yes');?>",
