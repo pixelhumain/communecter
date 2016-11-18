@@ -1,9 +1,9 @@
 <div class="col-md-12 no-padding" id="repertory" >
   <div id="dropdown_search" class="col-md-12 container list-group-item"></div>
 </div>
-<div class="col-md-12 no-padding hide" id="ficheInfoDetail" style="top: 0px;
+<div class="col-md-12 padding-10" id="ficheInfoDetail" style="top: 0px;
     opacity: 1;
-    display: block;">
+    display: block;display:none;">
 </div>
 
 <?php
@@ -14,7 +14,7 @@
   //Icons by default categories
   var linksTagImages = new Object();
   var params = <?php echo json_encode($params) ?>;
-  var contextMap = [];
+  var contextMapNetwork = [];
   console.log("Params //////////////////");
   console.log(params);
   <?php
@@ -502,7 +502,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     });
                   }
                   mapElements.push(o);
-                  contextMap.push(o);
+                  contextMapNetwork.push(o);
                   // console.log(tagsClasses);
                   var name = typeof o.name != "undefined" ? o.name : "";
                   var website = typeof o.url != "undefined" ? o.url : "";
@@ -739,12 +739,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       breadcum = breadcum+"<span class='label label-danger categoryFilter' value='"+value+"'>"+value+"</span> ";
       // manageCollapse(value,true);
     });
-    if(breadcum != ""){
+    /*if(breadcum != ""){
       $('#breadcum').html('<i id="breadcum_search" class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i>'+breadcum+'<i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><label id="countResult" class="text-dark"></label>');
     }
     else{
       $('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><label id="countResult" class="text-dark"></label>');
-    }
+    }*/
 
     $(".tagFilter").off().click(function(e){
       var tag = $(this).attr("value");
@@ -820,7 +820,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   //   });
   //   loadClientFeatures();
   // }
-  function getAjaxFiche(url, breadcrumb){
+  function breadcrumGuide(level, url){
+	  newLevel=$(".breadcrumAnchor").length;
+	  if(level==0){
+		reverseToRepertory();
+	  }
+	  else{
+		getAjaxFiche(url, newLevel) 
+	  }
+  }
+  function getAjaxFiche(url, breadcrumbLevel){
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
 	    history.pushState(null, "New Title", url);
@@ -835,18 +844,26 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	    pathIcon = "list";
     }
     isEntityView=true;
+    urlHash=url;
 	url='/'+url.replace( "#","" ).replace( /\./g,"/" );
-    $("#ficheInfoDetail").removeClass("hide");
-    $("#repertory").fadeOut();
+	$("#repertory").hide( 700 );
+    $(".main-menu-left").hide( 700 );
+    $("#ficheInfoDetail").show( 700 );
+	$(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
     $.blockUI({
 				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
 	});
     getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url,
     	function(){
 	    $.unblockUI();
-	    $(".panel-group .panel-default").fadeOut();
+	    //$("#repertory").hide( 700 );
+	   // $("").fadeOut();
 	    console.log(contextData);
-	    if(breadcrumb){
+	    //Construct breadcrumb
+	    $html= '<i class="fa fa-chevron-right fa-1x text-red" style="padding: 0px 10px 0px 10px;"></i>'+
+	    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumbLevel+',"'+urlHash+'")" class="breadcrumAnchor text-dark">'+contextData.name+'</a>';
+	    $("#breadcrum").append($html);
+	    /*if(breadcrumb){
 		    if($(".lastElementBreadcrumb").length > 0)
 		    	$(".lastElementBreadcrumb").remove();
 		    $html= "<li class='lastElementBreadcrumb' style='margin-left:15px;'><i class='fa fa-level-up' style='transform:rotate(90deg);'></i> <a href='javascript:;' onclick='getAjaxFiche(\"#element.detail.type."+contextData.typeSig+".id."+contextData._id.$id+"\")'>"+contextData.name+"</a></li>"+
@@ -859,7 +876,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						"<li><i class='fa fa-level-up' style='transform:rotate(90deg);'></i> <a href='javascript:;' onclick='getAjaxFiche(\"#element.detail.type."+contextData.typeSig+".id."+contextData._id.$id+"\", true)'>"+contextData.name+"</a></li>"+
 					"</div>";
 			$(".panel-group").append($html);
-		}
+		}*/
     },"html");
   }
   function reverseToRepertory(){
@@ -867,13 +884,17 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	    showMapNetwork();
     }
 	isEntityView=false;
-    $("#ficheInfoDetail").addClass("hide");
-    $("#repertory").fadeIn();
-    $(".panel-group .panel-default").fadeIn();
-    $(".panel-group .panel-back").hide();
+    $("#ficheInfoDetail").hide( 700 );
+    $(".main-col-search").removeClass("col-md-12 col-sm-12").addClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3");
+    $("#repertory").show( 700 );
+    $(".main-menu-left").show( 700 );
+   // $(".panel-group .panel-default").fadeIn();
+   // $(".panel-group .panel-back").hide();
+	$html = ' <a href="#network.simplydirectory" onclick="breadcrumGuide(0)" class="breadcrumbAnchor text-dark" style="font-size:20px;">Liste</a>';
+	$("#breadcrum").html($html);
 	history.replaceState(null, '', window.location.href.split('#')[0]);
     Sig.restartMap();
-	Sig.showMapElements(Sig.map, contextMap);
+	Sig.showMapElements(Sig.map, contextMapNetwork);
 	$("#right_tool_map").remove();
 
   }
