@@ -50,6 +50,11 @@
     [ ] dynform evolutif par type 
       [ ] start by name
       [ ] build as you complete the info
+    [.2] selecteur de target utilisant mon repertoire et le design du dashboard
+      - switcher from form to selection dash
+      - onSelect == onclick fill form fields and switch back to form
+      [ ] create dashbord design monrep , mode browsing > convert flood to dash design 
+      [ ] 2 modes selector or browsing
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
@@ -183,6 +188,7 @@
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
 
 * DDA
+[.2] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
 [.2] bug : sur archiver , persiste dans les listes 
 [.2] bug : une décision terminé, on peut toujours voté dessus
 [.2] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3

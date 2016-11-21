@@ -2188,7 +2188,7 @@ var typeObj = {
 
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2311,7 +2311,7 @@ var typeObj = {
 			            		}
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets </span>"
+		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2377,95 +2377,7 @@ var typeObj = {
 			}
 		} },
 	"actions" : {col:"actions",ctrl:"room"},
-	"discuss" : {col:"actionRooms",ctrl:"room"},
-	"samples":{ 
-		//col:"poi",
-		//ctrl:"poi",
-		dynForm : {
-		    jsonSchema : {
-			    title : "All possible inputs",
-			    icon : "map-marker",
-			    type : "object",
-			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            }
-			        },
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-			        location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags",
-		              "values" : tagsList
-		            },
-		            urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-			            	$(".urlsarray").addClass("hidden");	 
-			            }
-			        },
-			        select :{
-		            	"inputType" : "select",
-		            	"placeholder" : "type select",
-		            	"options" : {
-		            		"person":"Person",
-		            		"organization":"Organisation",
-	                    	"event":"Event",
-	                    	"project":"Project"
-		            	}
-		            },
-		            selectMultiple :{
-		            	"inputType" : "selectMultiple",
-		            	"placeholder" : "Thematique",
-		            	"options" : {
-		            		"sport":"Sport",
-	                    	"agriculture":"Agricutlture",
-	                    	"culture":"Culture",
-	                    	"urbanisme":"Urbanisme",
-		            	}
-		            },
-
-		            date : {
-		                "inputType" : "date",
-		                "icon" : "fa fa-calendar",
-		                "placeholder":"Input Type Date"
-		            },
-
-		            daterange : {
-		                "inputType" : "daterange",
-		                "icon" : "fa fa-clock-o",
-		                "placeholder":"Input Type daterange"
-		            },
-		            properties : {
-		                "inputType" : "properties",
-		                "placeholder" : "Key",
-		                "placeholder2" : "Value",
-		                "value":[]
-		            },
-			    }
-			}
-		} },
+	"discuss" : {col:"actionRooms",ctrl:"room"}
 };
 
 function  firstOptions() { 
@@ -2906,6 +2818,11 @@ var keyMapCombo = {
 	"65" : function(){openForm('action')},//a
 	"86" : function(){openForm('entry')}//v
 };
+var keyMapCtrlCombo = {
+	"83" : function(){$(".menu-name-profil").trigger('click')},//s save an element > open dashboard
+	"80" : function(){showMap(true)},//p switch view 
+	"70" : function(){openForm('person')},//f open finder
+};
 
 function checkKeycode(e) {
 	e.preventDefault();
@@ -2915,6 +2832,10 @@ function checkKeycode(e) {
 	//mylog.log("keycode: ",keycode);
 	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
 		mylog.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+		keyMapCombo[keycode]();
+	}
+	if(e.ctrlKey && keyMapCtrlCombo[keycode] ){
+		mylog.warn("keyMapCtrlCombo",keycode);//shiftKey ctrlKey altKey
 		keyMapCombo[keycode]();
 	}
 	else if( keyMap[keycode] ){
