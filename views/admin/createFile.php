@@ -434,10 +434,10 @@ function bindCreateFile(){
   	});
 
   	$("#btnNextStep2").off().on('click', function(){
-  		/*alert("yo");
+  		
   		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Processing ...</h1>"
-		});*/
+		});
 
 
   		cleanVisualisation();
@@ -717,7 +717,7 @@ function showStep3(){
 	$("#menu-step-mapping").hide(400);
 	$("#menu-step-source").hide(400);
 	$("#menu-step-visualisation").show(400);
-	//$.unblockUI();
+	$.unblockUI();
 }
 
 function returnStep2(){

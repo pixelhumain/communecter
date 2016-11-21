@@ -249,8 +249,7 @@ function bindAddData(){
   	});
 
 
-	$("#sumitVerification").off().on('click', function(e)
-  	{
+	$("#sumitVerification").off().on('click', function(e){
   		if($("#chooseElement").val() == "-1"){
   			toastr.error("Vous devez sélectionner un élément");
   			return false ;
@@ -259,6 +258,7 @@ function bindAddData(){
   			toastr.error("Vous devez sélectionner un fichier");
   			return false ;
   		}
+
   		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Processing ...</h1>"
 		});
