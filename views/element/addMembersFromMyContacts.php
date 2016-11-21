@@ -524,7 +524,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 											var thisValue = getObjectId(value);
 											if(name != "")
 	fieldHTML += 							'<li>' +
-												'<small class="btn-is-admin pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
+												'<small id="isAdmin'+getObjectId(value)+'" class="btn-is-admin pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
 													'<a href="javascript:">admin <i class="fa fa-user-secret"></i></a>'+
 												'</small>'+
 												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
@@ -653,8 +653,9 @@ function sendInvitation(){
 			var type = $(this).data("type");// == "people" ? "citoyens" : $(this).data("type"); 
 			var name = "";
 			var contactPublicFound = new Array();
+			var connectType = "";
 
-			if(addLinkSearchMode == "all"){ contactPublicFound = listContact;
+			if(addLinkSearchMode == "all") { contactPublicFound = listContact;
 			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContacts; }
 
 			$.each(contactPublicFound[type], function(k, contact){
@@ -666,18 +667,20 @@ function sendInvitation(){
 					}
 				}
 			});
-		
+			
+			if ($("#isAdmin"+id).hasClass("isAdmin")) {
+				connectType = "admin";
+			}
+
 			mylog.log("add this element ?", email, type, id, name);
 			if(type != "" && id != "" && name != "")
-			params["childs"].push({
-				"childId" : id,
-				"childName" : name,
-				"childEmail" : email,
-				"childType" : type, 
-			})
-
-			
-
+				params["childs"].push({
+					"childId" : id,
+					"childName" : name,
+					"childEmail" : email,
+					"childType" : type, 
+					"connectType" : connectType
+				})
 		}
 	});
 	mylog.log("params constructed");
