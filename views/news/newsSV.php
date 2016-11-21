@@ -11,7 +11,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 	//préchargement des contacts pour la modal Scope
 	$myContacts = array();
 	if(isset(Yii::app()->session['userId']))
-		$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId']);
+		$myContacts = Person::getPersonLinksByPersonId(Yii::app()->session['userId'], Yii::app()->session['userId']);
 	$getType = (isset($_GET["type"]) && $_GET["type"] != "citoyens") ? $_GET["type"] : "citoyens";
 ?>
 <script type="text/javascript">

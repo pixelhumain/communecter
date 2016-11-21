@@ -657,7 +657,8 @@ function sendInvitation(){
 			if(addLinkSearchMode == "all"){ contactPublicFound = listContact;
 			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContacts; }
 
-			$.each(contactPublicFound[type], function(k, contact){ 
+			$.each(contactPublicFound[type], function(k, contact){
+				if (typeof contact == undefined || contact == null) break;
 				var idObj = getObjectId(contact);mylog.log("azioueaoziueiazue : ", idObj, id);
 				if(idObj == id){mylog.log("azioueaoziueiazue XXX : ", idObj);
 					name = notEmpty(contact['name']) ? contact['name'] : "";
