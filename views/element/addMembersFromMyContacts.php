@@ -522,12 +522,14 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 											var thisKey = key+''+key2;
 											//var thisValue = notEmpty(value["_id"]['$id']) ? value["_id"]['$id'] : "";
 											var thisValue = getObjectId(value);
-											if(name != "")
-	fieldHTML += 							'<li>' +
-												'<small class="btn-is-admin pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
+											if(name != "") {
+	fieldHTML += 							'<li>';
+												if (type.name == "people") {
+	fieldHTML +=									'<small id="isAdmin'+getObjectId(value)+'" class="btn-is-admin 													pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
 													'<a href="javascript:">admin <i class="fa fa-user-secret"></i></a>'+
-												'</small>'+
-												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
+													'</small>';
+												}
+	fieldHTML +=								'<div class="btn btn-default btn-scroll-type btn-select-contact"  												id="contact'+thisKey+'">' +
 													'<div class="col-md-1 no-padding"><input type="checkbox" name="scope-'+type.name+'" class="chk-scope-'+type.name+' chk-contact" id="chk-scope-'+thisKey+'" idcontact="'+thisKey+'" value="'+thisValue+'" data-type="'+type.name+'"></div> '+
 													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'" typecontact="'+type.name+'">' +
 														'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to" height="35" width="35">'+
@@ -540,6 +542,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 													'</div>' +
 												'</div>' +
 											'</li>';
+											}
 										}
 										});									
 	fieldHTML += 						'</ul>' +	
@@ -653,29 +656,34 @@ function sendInvitation(){
 			var type = $(this).data("type");// == "people" ? "citoyens" : $(this).data("type"); 
 			var name = "";
 			var contactPublicFound = new Array();
+			var connectType = "";
 
-			if(addLinkSearchMode == "all"){ contactPublicFound = listContact;
+			if(addLinkSearchMode == "all") { contactPublicFound = listContact;
 			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContacts; }
 
-			$.each(contactPublicFound[type], function(k, contact){ 
-				var idObj = getObjectId(contact);mylog.log("azioueaoziueiazue : ", idObj, id);
-				if(idObj == id){mylog.log("azioueaoziueiazue XXX : ", idObj);
-					name = notEmpty(contact['name']) ? contact['name'] : "";
-					email = notEmpty(contact['email']) ? contact['email'] : "";
+			$.each(contactPublicFound[type], function(k, contact){
+				if (typeof contact != undefined && contact != null) {
+					var idObj = getObjectId(contact);mylog.log("azioueaoziueiazue : ", idObj, id);
+					if(idObj == id){mylog.log("azioueaoziueiazue XXX : ", idObj);
+						name = notEmpty(contact['name']) ? contact['name'] : "";
+						email = notEmpty(contact['email']) ? contact['email'] : "";
+					}
 				}
 			});
-		
+			
+			if ($("#isAdmin"+id).hasClass("isAdmin")) {
+				connectType = "admin";
+			}
+
 			mylog.log("add this element ?", email, type, id, name);
 			if(type != "" && id != "" && name != "")
-			params["childs"].push({
-				"childId" : id,
-				"childName" : name,
-				"childEmail" : email,
-				"childType" : type, 
-			})
-
-			
-
+				params["childs"].push({
+					"childId" : id,
+					"childName" : name,
+					"childEmail" : email,
+					"childType" : type, 
+					"connectType" : connectType
+				})
 		}
 	});
 	mylog.log("params constructed");

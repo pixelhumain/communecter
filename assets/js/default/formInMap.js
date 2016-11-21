@@ -631,6 +631,7 @@ function updateLocalityElement(){
 							Sig.myPosition.position.latitude = locality.geo.latitude;
 							Sig.myPosition.position.longitude = locality.geo.longitude;
 							var url = window.location.href ;
+							$('.showIfCommucted').removeClass("hidden");
 							if(url.indexOf("#person.detail.id."+userId) == -1) {
 								loadByHash("#person.detail.id."+userId);
 							}else{

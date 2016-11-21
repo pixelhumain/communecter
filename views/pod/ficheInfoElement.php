@@ -465,7 +465,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 										<span class="hidden-sm">'.Yii::t("common","Add a primary address").'</span>
 									</a>' ;
 						}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) {
-							echo '<a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
+							echo '<br/><a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
 						}else{
 							echo '<a href="javascript:;" id="btn-remove-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
 										<i class="fa text-red fa-trash-o"></i>
@@ -683,7 +683,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 </div>
 
 <?php
-$emptyAddress = (empty($element["address"]["codeInsee"])?false:true);
+$emptyAddress = (empty($element["address"]["codeInsee"])?true:false);
 $showOdesc = true ;
 if(Person::COLLECTION == $type){
 	$showLocality = (Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])?true:false);
@@ -785,44 +785,6 @@ if($showOdesc == true){
 			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
 				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
-			/*bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
-				if (!result) {
-					return;
-				} else {
-					param = new Object;
-			    	param.name = "locality";
-			    	param.value = "";
-			    	param.pk = contextData.id;
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-				        data: param,
-				       	dataType: "json",
-				    	success: function(data){
-					    	//
-					    	if(data.result){
-								if(contextData.type == "<?php echo Person::COLLECTION ;?>"){
-									//Menu Left
-									$("#btn-geoloc-auto-menu").attr("href", "javascript:");
-									$('#btn-geoloc-auto-menu > span.lbl-btn-menu').html("Communectez-vous");
-									$("#btn-geoloc-auto-menu").attr("onclick", "communecterUser()");
-									$("#btn-geoloc-auto-menu").off().removeClass("lbh");
-									//Dashbord
-									$("#btn-menuSmall-mycity").attr("href", "javascript:");
-									$("#btn-menuSmall-citizenCouncil").attr("href", "javascript:");
-									//Multiscope
-									$(".msg-scope-co").html("<i class='fa fa-cogs'></i> Paramétrer mon code postal</a>");
-									//MenuSmall
-									$(".hide-communected").show();
-									$(".visible-communected").hide();
-								}
-								toastr.success(data.msg);
-								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-					    	}
-					    }
-					});
-				}
-			});*/
 
 			bootbox.confirm({
 				message: msg + "<span class='text-red'></span>",
@@ -1009,7 +971,8 @@ if($showOdesc == true){
 			mode = "update";
 			$(".editProfilLbl").html(" Enregistrer les changements");
 			$("#editElementDetail").addClass("btn-red");
-			$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").addClass("hidden");
+			if(!emptyAddress)
+				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").addClass("hidden");
 		}else{
 			mode ="view";
 			$(".editProfilLbl").html(" Éditer");
