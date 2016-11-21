@@ -423,7 +423,7 @@ class Menu {
 				self::entry("right", 'href',
                 Yii::t('common','Add '.$strongLinks.' to this '.$controllerType.''), 
                 Yii::t("common",'Add '.$strongLinks),'user-plus',
-                "javascript:;",null,null,"btn-menu-element btn-menu-element-addmembers","","data-toggle='modal' data-target='#modal-scope'");
+                "",null,null,"btn-menu-element btn-menu-element-addmembers","","data-toggle='modal' data-target='#modal-scope'");
         }
         
 
