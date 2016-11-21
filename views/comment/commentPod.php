@@ -72,6 +72,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->
 .commentContent{
 	padding:10px;
 }
+.text-comment{
+	white-space: pre-line;
+}
 </style>
 
 <?php 
@@ -462,7 +465,7 @@ function bindEvent(){
 		}
 	});
 	$('.newComment').unbind('keydown').keydown(function(event) {
-	  	if ( event.ctrlKey && event.keyCode == 13) {
+	  	if ( event.ctrlKey && event.keyCode == 13 && !event.shiftKey) {
 			event.preventDefault();
 			mylog.log($(this).data("id"), $(this).data("parentid"));
 	        validateComment($(this).data("id"), $(this).data("parentid"));
