@@ -522,12 +522,14 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 											var thisKey = key+''+key2;
 											//var thisValue = notEmpty(value["_id"]['$id']) ? value["_id"]['$id'] : "";
 											var thisValue = getObjectId(value);
-											if(name != "")
-	fieldHTML += 							'<li>' +
-												'<small id="isAdmin'+getObjectId(value)+'" class="btn-is-admin pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
+											if(name != "") {
+	fieldHTML += 							'<li>';
+												if (type.name == "people") {
+	fieldHTML +=									'<small id="isAdmin'+getObjectId(value)+'" class="btn-is-admin 													pull-right text-grey margin-top-10" data-id="'+thisKey+'">'+
 													'<a href="javascript:">admin <i class="fa fa-user-secret"></i></a>'+
-												'</small>'+
-												'<div class="btn btn-default btn-scroll-type btn-select-contact"  id="contact'+thisKey+'">' +
+													'</small>';
+												}
+	fieldHTML +=								'<div class="btn btn-default btn-scroll-type btn-select-contact"  												id="contact'+thisKey+'">' +
 													'<div class="col-md-1 no-padding"><input type="checkbox" name="scope-'+type.name+'" class="chk-scope-'+type.name+' chk-contact" id="chk-scope-'+thisKey+'" idcontact="'+thisKey+'" value="'+thisValue+'" data-type="'+type.name+'"></div> '+
 													'<div class="btn-chk-contact col-md-11 no-padding" idcontact="'+thisKey+'" typecontact="'+type.name+'">' +
 														'<img src="'+ profilThumbImageUrl+'" class="thumb-send-to" height="35" width="35">'+
@@ -540,6 +542,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 													'</div>' +
 												'</div>' +
 											'</li>';
+											}
 										}
 										});									
 	fieldHTML += 						'</ul>' +	
