@@ -721,8 +721,7 @@ if($showOdesc == true){
 			echo "'endDate':'".$element["endDate"]."'"; ?>
 	};	
 
-
-	var showLocality = (( "<?php echo @$showLocality; ?>" == "false")?false:true);
+	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
 	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
 		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
@@ -730,7 +729,7 @@ if($showOdesc == true){
 		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
 	}
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
-	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "false")?false:true);
+	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "<?php echo false; ?>")?false:true);
 
 	var mode = "view";
 	var types = <?php echo json_encode(@$elementTypes) ?>;
@@ -783,7 +782,7 @@ if($showOdesc == true){
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
-			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ;?>" ;
+			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
 				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
 			/*bootbox.confirm(msg + "<span class='text-red'></span> ?", function(result) {
@@ -1690,45 +1689,8 @@ if($showOdesc == true){
 
 	function removeAddresses (index){
 
-		/*bootbox.confirm({
-			message:  "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span> ?",
-			buttons: {
-				confirm: {
-					label: 'Yes',
-					className: 'btn-success'
-				},
-				cancel: {
-					label: 'No',
-					className: 'btn-danger'
-				}
-			},
-			callback: function(result) {
-				if (!result) {
-					return;
-				} else {
-					var addresses = { addressesIndex : index };
-					var param = new Object;
-					param.name = "addresses";
-					param.value = addresses;
-					param.pk = contextData.id;
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-				        data: param,
-				       	dataType: "json",
-				    	success: function(data){
-					    	if(data.result){
-								toastr.success(data.msg);
-								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-					    	}
-					    }
-					});
-				}
-			});
-		});*/
-
 		bootbox.confirm({
-			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality?') ?><span class='text-red'></span>",
+			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span>",
 			buttons: {
 				confirm: {
 					label: "<?php echo Yii::t('common','Yes');?>",
