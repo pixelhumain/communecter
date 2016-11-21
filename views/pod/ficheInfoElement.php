@@ -684,7 +684,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 <?php
 $emptyAddress = (empty($element["address"]["codeInsee"])?true:false);
-var_dump($emptyAddress);
 $showOdesc = true ;
 if(Person::COLLECTION == $type){
 	$showLocality = (Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])?true:false);
