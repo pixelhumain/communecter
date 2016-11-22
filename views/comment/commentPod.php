@@ -351,7 +351,6 @@ function buildCommentLineHTML(commentObj, withActions,where) {
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
 						'<div class="commentContent-'+commentObj.status+'">'+
-							//tags+
 							objectLink+
 							'<div class="commentline_title">'+
 								'<span class="text-bold light-text no-margin">'+name+'</span>'+
