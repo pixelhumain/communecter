@@ -111,6 +111,7 @@ return array(
 	"It's time for action" => "Prendre le temps d'agir",
 
 	'Add an Action' => "Ajouter une action",
+	"Your action has been Saved" => "Votre action est enregistré",
 	'Get some Actions going' => "Lancer quelques actions",
 	'Acts speak louder than words' => "Vivre, ce n'est pas respirer, c'est agir",
 	'Break up Big actions into smaller ones' => "Découpez les grandes actions, en plusieurs plus petites",
