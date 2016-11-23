@@ -304,7 +304,6 @@ function excludeMembers(contacts, users){
 							}
 						}
 					});
-		
 					if(notEmpty(contacts[type])){ //console.log("typeof", typeof contacts[type]);
 						if(typeof contacts[type] == "array"){
 							if(found!==false) contacts[type].splice(found,1);
@@ -318,12 +317,14 @@ function excludeMembers(contacts, users){
 	}
 	//delete le parent qui se trouve aussi dans la liste des contact du floop
 	if(elementType != "<?php echo Event::COLLECTION ?>" && elementType != "<?php echo Project::COLLECTION ?>"){
-		$.each(contacts[elementType], function(key, contact){ 
+		typeElt = elementType ;
+		if(elementType == "citoyens") typeElt = "people" ;
+		$.each(contacts[typeElt], function(key, contact){ 
 			if(typeof contact != "undefined"){
 				if(notEmpty(contact)){
 					var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
 					if(contactId == elementId){
-						delete contacts[elementType][key];
+						delete contacts[typeElt][key];
 						return;
 					}
 				}
@@ -502,13 +503,14 @@ function buildModal(fieldObj, idUi){
 }
 
 function showMyContactInModalAddMembers(fieldObj, jqElement){
-	mylog.log("showMyContactInModalAddMembers", fieldObj);
+	mylog.log("showMyContactInModalAddMembers1", fieldObj);
     
 	var contacts = fieldObj.values;
 	excludeMembers(contacts, users);
 	fieldObj.values = contacts;
 
     var fieldHTML = "";
+   
 	$.each(fieldObj.contactTypes, function(key, type){
 	fieldHTML += 			'<div class="panel panel-default" id="scroll-type-'+type.name+'">  '+	
 								'<div class="panel-heading">'+
@@ -556,7 +558,7 @@ function showMyContactInModalAddMembers(fieldObj, jqElement){
 									'</div>'+
 								'</div>'+
 							'</div>';
-	});	
+	});
 	$(jqElement).html(fieldHTML);
 	bindEventScopeContactsModal();
 }
