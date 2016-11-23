@@ -289,40 +289,47 @@ jQuery(document).ready(function() {
 function excludeMembers(contacts, users){
 
 	//delete mes contacts qui sont déjà membre
-	$.each(users, function(idUser, value){
-		var type = notEmpty(value["typeSig"]) ? value["typeSig"] : notEmpty(value["type"]) ? value["type"] : null;
-		if(type != null){
-			var found = false; var parentFound = false;
-			if(notEmpty(contacts[type]))
-			$.each(contacts[type], function(key, contact){ 
-				if(notEmpty(contact)){
-					var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
-					if(idUser == contactId){
-						found = key;
+	if(users != null){
+		$.each(users, function(idUser, value){
+			if(typeof value != "undefined"){
+				var type = notEmpty(value["typeSig"]) ? value["typeSig"] : notEmpty(value["type"]) ? value["type"] : null;
+				if(type != null){
+					var found = false; var parentFound = false;
+					if(notEmpty(contacts[type]))
+					$.each(contacts[type], function(key, contact){ 
+						if(notEmpty(contact)){
+							var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
+							if(idUser == contactId){
+								found = key;
+							}
+						}
+					});
+		
+					if(notEmpty(contacts[type])){ //console.log("typeof", typeof contacts[type]);
+						if(typeof contacts[type] == "array"){
+							if(found!==false) contacts[type].splice(found,1);
+						}else if(typeof contacts[type] == "object"){ 
+							if(found!==false) delete contacts[type][found];
+						}
 					}
-				}
-			});
-
-			if(notEmpty(contacts[type])){ //console.log("typeof", typeof contacts[type]);
-				if(typeof contacts[type] == "array"){
-					if(found!==false) contacts[type].splice(found,1);
-				}else if(typeof contacts[type] == "object"){ 
-					if(found!==false) delete contacts[type][found];
-				}
-			}
-		}
-	});
-
-	//delete le parent qui se trouve aussi dans la liste des contact du floop
-	$.each(contacts[elementType], function(key, contact){ 
-			if(notEmpty(contact)){
-				var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
-				if(contactId == elementId){
-					delete contacts[elementType][key];
-					return;
 				}
 			}
 		});
+	}
+	//delete le parent qui se trouve aussi dans la liste des contact du floop
+	if(elementType != "<?php echo Event::COLLECTION ?>" && elementType != "<?php echo Project::COLLECTION ?>"){
+		$.each(contacts[elementType], function(key, contact){ 
+			if(typeof contact != "undefined"){
+				if(notEmpty(contact)){
+					var contactId = notEmpty(contact["_id"]) ? contact["_id"]["$id"] : notEmpty(contact["id"]) ? contact["id"] : null;
+					if(contactId == elementId){
+						delete contacts[elementType][key];
+						return;
+					}
+				}
+			}
+		});
+	}
 }
 
 function switchContact(){

@@ -66,6 +66,9 @@
 		margin-left:5px;
 
 	}
+	.text-comment{
+		white-space: pre-line;
+	}
 </style>
 <?php if($contextType == "actionRooms"){ ?>
 <div class='row'>
@@ -296,7 +299,7 @@
 		autosize($(idTextArea));
 
 		$(idTextArea).on('keyup ', function(e){
-			if(e.which == 13 && $(idTextArea).val() != "" && $(idTextArea).val() != " ") {
+			if(e.which == 13 && !e.shiftKey && $(idTextArea).val() != "" && $(idTextArea).val() != " ") {
 	            //submit form via ajax, this is not JS but server side scripting so not showing here
 	            saveComment($(idTextArea).val(), parentCommentId);
 	            $(idTextArea).val("");
@@ -377,7 +380,7 @@
 					
 						'<span class="pull-left content-comment">'+						
 						'	<span class="text-black">'+
-						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span> '+
+						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span><br>'+
 						'		<span class="text-comment">'	+ textComment + "</span>" +
 						'	</span><br>'+
 							'<span class="">' +

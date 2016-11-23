@@ -83,21 +83,21 @@
 					</a>								
 
 			<?php } 
-			if ($contentType == Event::COLLECTION && $addLink == true){ ?>
+			if ($contentType == Event::COLLECTION && $admin == true){ ?>
 				<a href="javascript:" class=" btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t("event","Invite attendees to the event") ?>" 
 				 data-toggle="modal" data-target="#modal-scope">
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Send invitations") ; ?>
 				</a>			
 			<?php } 
 			
-			if ($contentType == Organization::COLLECTION && $addLink == true){ ?>
+			if ($contentType == Organization::COLLECTION && $admin == true){ ?>
 				<a href="javascript:" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a member to this organization'); ?>" 
 				 data-toggle="modal" data-target="#modal-scope">
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add member') ; ?>
 				</a>			
 			<?php }
 
-			if ($contentType == Project::COLLECTION && $addLink == true){ ?>
+			if ($contentType == Project::COLLECTION && $admin == true){ ?>
 				<a href="javascript:" class="btn btn-xs btn-default tooltips" data-placement="bottom" data-original-title="<?php echo Yii::t('common','Add a contributor to this project'); ?>" 				 data-toggle="modal" data-target="#modal-scope">
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common",'Add contributor') ; ?>
 				</a>			
@@ -251,9 +251,7 @@
 			}
 		?>
 
-		<?php if($addLink) 
-				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$contentType, "parentId" =>@$parentId, "users"=>@$users)); ?>
-		
+				
 	</div>
 
  <script type="text/javascript">

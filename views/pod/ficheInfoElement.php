@@ -850,7 +850,7 @@ if($showOdesc == true){
 			showMap(true);
 		});
 
-		buildQRCode(contextData.controller,contextData.id);
+		buildQRCode(contextData.type,contextData.id);
 
 		$(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))

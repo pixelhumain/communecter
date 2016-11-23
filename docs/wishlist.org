@@ -100,6 +100,7 @@
   ** POI
   [.2] add photo
   [.2] add POI to news
+  [.2] affiché sur la carte un type geoJson 
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
   [ ] use Poi as social bookmarking
     [ ] import from diigo, bookmarks or delicious

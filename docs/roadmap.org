@@ -86,8 +86,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [ ] filtrer par type d'event
     [ ] event modifier l'organisateur
     [ ] améliorer la verification d'existence d'elements
-    [ ] gljfdlkg
-    {gfdsg}
+
 
 ** @Tib 
   [X] new theme architecture 

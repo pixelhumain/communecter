@@ -72,6 +72,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->
 .commentContent{
 	padding:10px;
 }
+.text-comment{
+	white-space: pre-line;
+}
 </style>
 
 <?php 
@@ -348,7 +351,6 @@ function buildCommentLineHTML(commentObj, withActions,where) {
 	commentsTLLine = '<hr style="border-width: 2px; margin-bottom: 10px; margin-top: 10px">'+
 					'<li id="comment'+id+'" class="comment">'+
 						'<div class="commentContent-'+commentObj.status+'">'+
-							//tags+
 							objectLink+
 							'<div class="commentline_title">'+
 								'<span class="text-bold light-text no-margin">'+name+'</span>'+
@@ -462,7 +464,7 @@ function bindEvent(){
 		}
 	});
 	$('.newComment').unbind('keydown').keydown(function(event) {
-	  	if ( event.ctrlKey && event.keyCode == 13) {
+	  	if ( event.ctrlKey && event.keyCode == 13 && !event.shiftKey) {
 			event.preventDefault();
 			mylog.log($(this).data("id"), $(this).data("parentid"));
 	        validateComment($(this).data("id"), $(this).data("parentid"));
