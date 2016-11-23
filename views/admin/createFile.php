@@ -73,9 +73,6 @@ $userId = Yii::app()->session["userId"] ;
 		<div class="homestead text-white" id="menu-step-3">
 			<i class="fa fa-2x fa-circle-o"></i><br/><?php echo Yii::t("common", "Visualisation"); ?>
 		</div>
-		<div class="homestead text-white" id="menu-step-4">
-			<i class="fa fa-2x fa-circle-o"></i><br/><?php echo Yii::t("common", "Création"); ?>
-		</div>
 	</div>
 
 	<!-- SOURCE -->
@@ -163,18 +160,16 @@ $userId = Yii::app()->session["userId"] ;
 				</tr>
 			</tbody>
 		</table>
-		<div class="col-sm-6 col-xs-12">
-			<label for="inputKey">Key : </label>
-			<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
-		</div>
-		<!-- <div class="col-sm-6 col-xs-12">
-			<label for="inputBadge">Badge : </label>
-			<input class="" placeholder="Badge a attribuer à l'ensemble des données importer" id="inputBadge" name="inputBadge" value="">
-		</div> -->
-		<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
-			<label>
-				Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
-			</label>
+		<div class="col-sm-12 col-xs-12">
+			<div class="col-sm-6 col-xs-12">
+				<label for="inputKey">Key : </label>
+				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
+			</div>
+			<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
+				<label>
+					Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
+				</label>
+			</div>
 		</div>
 		<div class="col-sm-12 col-xs-12">
 			<div class="col-sm-6 col-xs-12">
@@ -182,15 +177,12 @@ $userId = Yii::app()->session["userId"] ;
 					Test : <input class="hide" id="isTest" name="isTest"></input>
 				<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
 				</label>
-				
 			</div>
 			<div class="col-sm-6 col-xs-12" id="divNbTest">
 				<label for="inputNbTest">Nombre d'entités à tester max(900) : </label>
 				<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="5">
 			</div>
 		</div>
-
-		
 		<div class="col-sm-2 col-xs-12"  id="divInvite">
 			<div class="col-sm-12 col-xs-12" id="divAuthor">
 				<label for="nameInvitor">Author Invite: </label>
@@ -200,8 +192,6 @@ $userId = Yii::app()->session["userId"] ;
 				<textarea id="msgInvite" class="" rows="3">Message Invite</textarea>
 			</div>
 		</div>
-		
-
 		<div class="col-sm-12 col-xs-12">
 			<a href="javascript:;" id="btnPreviousStep" class="btn btn-danger margin-top-15"><?php echo Yii::t("common", "Previous step"); ?></a>
 			<a href="javascript:;" id="btnNextStep2" class="btn btn-success margin-top-15"><?php echo Yii::t("common", "Next step"); ?></a>

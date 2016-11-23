@@ -99,7 +99,7 @@ $userId = Yii::app()->session["userId"] ;
 
 </style>
 
-<div class="col-md-12 no-padding ">
+<div class="col-xs-12 no-padding ">
 	<h4>Obligatoire</h4>
 	<div class="col-sm-4 col-xs-12">
 		<label for="chooseElement"><?php echo Yii::t("common", "Element"); ?> : </label>
@@ -116,17 +116,19 @@ $userId = Yii::app()->session["userId"] ;
 		<input type="file" id="fileImport" name="fileImport" accept=".json,.js">
 	</div>
 </div>
-<div class="col-md-12 no-padding">
+<div class="col-xs-12 no-padding">
 	<h4>Option</h4>
 	<div class="col-xs-12">
 		<label for="checkboxLink">Lier les entités : <input type="hidden" id="isLink" value=""/></label>
 		<input id="checkboxLink" name="checkboxLink" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>"></input>
 		<br/>
-		<div id="searchLink" class="input-group col-md-8 col-sm-8 col-xs-8 pull-left hide">
+		<div id="searchLink" class="input-group col-xs-8 pull-left hide">
 			<span class="input-group-btn">
 				<select id="chooseElementLink" name="chooseElementLink" class="">
 					<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>
 					<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>
+					<option value="<?php echo Event::COLLECTION; ?>"><?php echo Yii::t("common", "Event"); ?></option>
+					<option value="<?php echo Project::COLLECTION; ?>"><?php echo Yii::t("common", "Project"); ?></option>
 				</select>
 			</span>
 			<input id="searchBarText" data-searchPage="true" type="text" placeholder="Chercher le citoyen ou l'organisation pour lier les données importer" class="input-search form-control">
@@ -136,10 +138,11 @@ $userId = Yii::app()->session["userId"] ;
 	           	</a>
 	      	</span>
 	      	<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
-				<li class="li-dropdown-scope">-</li>
+				<li class="li-dropdown-scope"></li>
 			</ul>
 		</div>
-		<div id="resultSearchEntity" class='col-md-5 no-padding hide' onclick='addElementLink("name","name")'>
+		<!-- onclick='addElementLink("name","name")' -->
+		<div id="resultSearchEntity" class='col-xs-8 no-padding hide'>
 			Link :
 			<span id="nameSearchEntity" class='vcenter entityName text-dark'></span>
 			<img id="imgSearchEntity" width='40' height='40' class='img-circle' src=''/>			
@@ -151,10 +154,9 @@ $userId = Yii::app()->session["userId"] ;
 		</div>
 	</div>
 </div>
-<div class="col-xs-12">
-	<div class="col-sm-5 col-xs-12">
-		<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
-	</div>
+<br/><br/>
+<div class="col-xs-12 center">
+	<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 </div>
 
 <div id="resultAddData">
@@ -167,6 +169,7 @@ $userId = Yii::app()->session["userId"] ;
 		    		<tr>
 		    			<th class="col-sm-5">Entité</th>
 		    			<th class="col-sm-5">Result</th>
+		    			<th class="col-sm-5">Url</th>
 		    		</tr>
 	    		</thead>
 		    	<tbody class="directoryLines" id="bodyResult">
@@ -239,6 +242,34 @@ function bindAddData(){
 			searchType = [ "persons" ];
 		else if($("#chooseElementLink").val() == "<?php echo Organization::COLLECTION; ?>")
 			searchType = [ "organizations" ];
+		else if($("#chooseElement").val() == "<?php echo Project::COLLECTION; ?>")
+			searchType = [ "projects" ];
+		else if($("#chooseElement").val() == "<?php echo Event::COLLECTION; ?>")
+			searchType = [ "events" ];
+		initLink();
+    });
+
+    $("#chooseElement").change(function(){ 
+		console.log("chooseElement : " + $("#chooseElement").val());
+		var options = "" ;
+		if($("#chooseElement").val() == "<?php echo Person::COLLECTION; ?>"){
+			options = '<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>';
+		}
+		else if($("#chooseElement").val() == "<?php echo Organization::COLLECTION; ?>"){
+			options = '<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>'+
+						'<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>';
+		}else if($("#chooseElement").val() == "<?php echo Project::COLLECTION; ?>"){
+			options = '<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>'+
+						'<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>';
+		}else if($("#chooseElement").val() == "<?php echo Event::COLLECTION; ?>"){
+			options = '<option value="<?php echo Person::COLLECTION; ?>"><?php echo Yii::t("common", "Person"); ?></option>'+
+						'<option value="<?php echo Organization::COLLECTION; ?>"><?php echo Yii::t("common", "Organization"); ?></option>'+
+						'<option value="<?php echo Event::COLLECTION; ?>"><?php echo Yii::t("common", "Event"); ?></option>'+
+						'<option value="<?php echo Project::COLLECTION; ?>"><?php echo Yii::t("common", "Project"); ?></option>';
+		}
+		$("#chooseElementLink").html(options);
+		initLink();
+		
     });
 
 	$('#btn-start-search').off().on('click', function(e){
@@ -342,7 +373,7 @@ function callBackSearch(data){
 		htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
 
 		if("undefined" != typeof element.profilThumbImageUrl && element.profilThumbImageUrl != ""){
-			var htmlIco= "<img width='80' height='80' class='img-circle bg-"+color+"' src='"+baseUrl+element.profilThumbImageUrl+"'/>";
+			var htmlIco= "<img width='60' height='60' class='img-circle bg-"+color+"' src='"+baseUrl+element.profilThumbImageUrl+"'/>";
 		}
 		city="";
 		var postalCode = element.cp
@@ -393,9 +424,9 @@ function callBackSearch(data){
 		str = "";
 		str += "<li class='li-dropdown-scope'>";
 			str += "<div class='col-md-12 searchEntity' id='elementSearch"+id+"' >";
-				str += "<div id='elementImgSearch"+id+"' class='col-md-2 col-sm-2 col-xs-3 entityCenter no-padding'>"+ htmlIco + "</div>";
+				str += "<div id='elementImgSearch"+id+"' class='col-md-2 col-sm-2 col-xs-3 no-padding'>"+ htmlIco + "</div>";
 				target = "";
-				str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight no-padding'>";
+				str += "<div class='col-md-8 col-sm-9 col-xs-6 entityRight'>";
 					str += "<span id='elementNameSearch"+id+"' class='entityName text-dark'>" + name + "</span>";
 		      	if(fullLocality != "" && fullLocality != " ")
 		        	str += "<span class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</span>";
@@ -405,7 +436,7 @@ function callBackSearch(data){
 			str += "</div>";
 	    str += "</li>";
 
-	    $("#dropdown_searchInvite").append(str);
+	    $("#dropdown_searchInvite").html(str);
 	    $('#elementSearch'+id).off().on('click', function(e){
 			$("#resultSearchEntity").removeClass("hide");
 			$("#nameSearchEntity").html(name);
@@ -426,4 +457,123 @@ function callBackSearch(data){
 
 	
 }
+
+function startSearch(indexMin, indexMax, callBack){
+    console.log("startSearch", typeof callBack, callBack);
+    if(loadingData) return;
+    loadingData = true;
+    
+    //mylog.log("loadingData true");
+    indexStep = 0;
+
+    mylog.log("startSearch", indexMin, indexMax, indexStep);
+
+	  var name = $('#searchBarText').val();
+    
+    if(name == "" && searchType.indexOf("cities") > -1) return;  
+
+    if(typeof indexMin == "undefined") indexMin = 0;
+    if(typeof indexMax == "undefined") indexMax = indexStep;
+
+    mapElements = new Array(); 
+
+    mylog.log("name", name, name.length);
+    if(name.length>=3 || name.length == 0){
+      var locality = "";
+      if(communexionActivated){
+	    if(typeof(cityInseeCommunexion) != "undefined"){
+			if(levelCommunexion == 1) locality = cpCommunexion;
+			if(levelCommunexion == 2) locality = inseeCommunexion;
+		}else{
+			if(levelCommunexion == 1) locality = inseeCommunexion;
+			if(levelCommunexion == 2) locality = cpCommunexion;
+		}
+        //if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+        if(levelCommunexion == 3) locality = inseeCommunexion;
+        if(levelCommunexion == 4) locality = inseeCommunexion;
+        if(levelCommunexion == 5) locality = "";
+      } 
+      autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
+    }else{
+      
+    }   
+}
+
+
+
+function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
+  console.log("autoCompleteSearch", typeof callBack, callBack);
+	if(typeof(cityInseeCommunexion) != "undefined"){
+	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
+	                             2 : "INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}else{
+		var levelCommunexionName = { 1 : "INSEE",
+	                             2 : "CODE_POSTAL_INSEE",
+	                             3 : "DEPARTEMENT",
+	                             4 : "REGION"
+	                           };
+	}
+    //mylog.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
+    var data = {
+      "name" : name, 
+      "locality" : "",//locality, 
+      "searchType" : searchType, 
+      "searchTag" : $('#searchTags').val().split(','), //is an array
+      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
+      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
+      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
+      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchBy" : levelCommunexionName[levelCommunexion], 
+      "indexMin" : indexMin, 
+      "indexMax" : indexMax  };
+				
+    loadingData = true;
+    
+    str = "<i class='fa fa-circle-o-notch fa-spin'></i>";
+    $(".btn-start-search").html(str);
+    $(".btn-start-search").addClass("bg-azure");
+    $(".btn-start-search").removeClass("bg-dark");
+    
+    if(indexMin > 0)
+      $("#btnShowMoreResult").html("<i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...");
+    else
+      $("#dropdown_search").html("<span class='search-loader text-dark' style='font-size:20px;'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span>");
+      
+    if(isMapEnd)
+      $.blockUI({
+        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
+      });
+   
+    $.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+          data: data,
+          dataType: "json",
+          error: function (data){
+             mylog.log("error autocomplete search"); mylog.dir(data);     
+             //signal que le chargement est terminé
+            loadingData = false;     
+          },
+          success: function(data){ 
+          	mylog.log("success autocomplete search"); //mylog.dir(data);
+            callBackSearch(data);
+          }
+    });                
+ }
+
+
+ function initLink(){
+	$("#resultSearchEntity").addClass("hide");
+	$("#nameSearchEntity").html("");
+	$("#idSearchEntity").val("");
+	$("#imgSearchEntity").attr('src',baseUrl+element.profilThumbImageUrl);
+	
+	$.each(mapColorIconTop, function(key, color){
+		$("#imgSearchEntity").removeClass("bg-"+color);
+	});
+	$('#searchBarText').val("");
+ }
 </script>
