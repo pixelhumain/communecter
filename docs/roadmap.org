@@ -28,7 +28,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] Count requests DB per page
   
 * ************************************************************    
-* Version 0.16 (début oct) : livré en QA
+* Version 0.16 (début oct) : en PROD
 * ************************************************************    
 
 ** @Tango 
