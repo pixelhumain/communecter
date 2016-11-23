@@ -962,5 +962,70 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
+
+	public function actionFixBugCoutryReunion(){
+		$nbelement = 0 ;
+		$elements = PHDB::find(Organization::COLLECTION, array("address.addressCountry" => "Réunion"));
+		foreach (@$elements as $keyElt => $elt) {
+			if(!empty($elt["address"]["postalCode"]) || !empty($elt["address"]["cp"])){
+				$cpElt = (!empty($elt["address"]["postalCode"])?$elt["address"]["postalCode"]:$elt["address"]["cp"]);
+				$where = array("postalCodes.postalCode" => $cpElt);
+				$cities = PHDB::find("cities",$where);
+				foreach (@$cities as $keyCity => $city) {
+						$address = array(
+					        "@type" => "PostalAddress",
+					        "codeInsee" => $city["insee"],
+					        "addressCountry" => $city["country"],
+					        "postalCode" => $cpElt,
+					        "streetAddress" => ((@$elt["address"]["streetAddress"])?trim(@$fieldValue["address"]["streetAddress"]):""),
+					        "depName" => $city["depName"],
+					        "regionName" => $city["regionName"],
+					    	);
+
+						$find = false;
+				   		foreach ($city["postalCodes"] as $keyCp => $cp) {
+				   			if($cp["postalCode"] == $cpElt){
+				   				$address["addressLocality"] = $cp["name"];
+				   				$geo = $cp["geo"];
+				   				$geoPosition = $cp["geoPosition"];
+				   				$find = true;
+				   				break;
+				   			}
+				   		}
+
+				   		if($find == false){
+				   			$address["addressLocality"] = $city["alternateName"];
+				   			$geo = $city["geo"];
+				   			$geoPosition = $city["geoPosition"];
+				   		}
+					break;  	
+				}
+				
+				$nbelement ++ ;
+				$elt["modifiedByBatch"][] = array("fixBugCoutryReunion" => new MongoDate(time()));
+				$res = PHDB::update( Organization::COLLECTION, 
+				  	array("_id"=>new MongoId($keyElt)),
+                    array('$set' => array(	"address" => $address,
+                    						"geo" => $geo,
+                    						"geoPosition" => $geoPosition,
+                    						"modifiedByBatch" => $elt["modifiedByBatch"])));
+				echo "Update orga : l'id ".$keyElt."<br>" ;
+				
+			}else{
+				$nbelement ++ ;
+				$elt["modifiedByBatch"][] = array("fixBugCoutryReunion" => new MongoDate(time()));
+				$res = PHDB::update( Organization::COLLECTION, 
+				  	array("_id"=>new MongoId($keyElt)),
+                    array('$unset' => array("address" => ""),
+                    		'$set' => array( "modifiedByBatch" => $elt["modifiedByBatch"])));
+				echo "Update orga : l'id ".$keyElt."<br>" ;
+			}
+			
+		
+		}
+				
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 

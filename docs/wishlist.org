@@ -128,8 +128,15 @@
   - moins clostro que les bar vertical actuelle
 
 * Global
+[.2] Ne plus etre bloquer pour ouvrir des pays 
+  - utilisant le localiseur et une validation que tout est bon pour ajouter une city
+[.2] PPT des 25 use cases
+[.2] la charte ethique en 10 pts 
+  - Liberté 
+  - respect total de l'autre 
+  - un outil pur faire société 
 [ ] shortcuts : navigate with 4 btns 
-  [ ] F1 : dashboard
+  [X] F1 : dashboard
     - ajouter un champs de recherche qui fera comme le finder linux ou apple
   [ ] F2 : me or my data dash comme le finder Apple
   [ ] F3 : my map or my statistic 
