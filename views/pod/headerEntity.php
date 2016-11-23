@@ -528,7 +528,7 @@ $controler = Element::getControlerByCollection($type);
 	      </div>
 	      <?php
 		      //$addLink = (empty($users[Yii::app()->session["userId"]])?false:true); 
-		      if($edit) 
+		      if($edit && $type != Person::COLLECTION) 
 				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$entity['_id'], "users"=>@$users)); ?>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
