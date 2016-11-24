@@ -461,7 +461,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
                   var url = baseUrl+'/'+moduleId+ "/default/dir#" + type + ".simply.id." + id;
                  // var onclick = 'loadByHash("#organization.simply.id.' + id + '");';
-                  var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'");';
+                  var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'",1);';
                   var onclickCp = "";
                   var target = " target='_blank'";
                   var dataId = "";
@@ -861,7 +861,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	    console.log(contextData);
 	    //Construct breadcrumb
 	    $html= '<i class="fa fa-chevron-right fa-1x text-red" style="padding: 0px 10px 0px 10px;"></i>'+
-	    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumbLevel+',"'+urlHash+'")" class="breadcrumAnchor text-dark">'+contextData.name+'</a>';
+	    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumbLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark">'+contextData.name+'</a>';
 	    $("#breadcrum").append($html);
 	    /*if(breadcrumb){
 		    if($(".lastElementBreadcrumb").length > 0)

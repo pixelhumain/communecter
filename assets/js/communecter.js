@@ -625,16 +625,23 @@ function loadByHash( hash , back ) {
 	// console.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
-	if( hash.indexOf("#network.simplydirectory") >= 0 &&
-		location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
-		//var n = hash.indexOf("type=")+5;
-		//var type = hash.substr(n);
-		//console.log("CHANGE directory", type);
-		//searchType = [type];
-		//setHeaderDirectory(type);
-		//loadingData = false;
-		//startSearch(0, indexStepInit);
-		//location.hash = hash;
+	if(typeof globalTheme != "undefined" && globalTheme=="network"){
+		if( hash.indexOf("#network.simplydirectory") >= 0 &&
+			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
+			//var n = hash.indexOf("type=")+5;
+			//var type = hash.substr(n);
+			//console.log("CHANGE directory", type);
+			//searchType = [type];
+			//setHeaderDirectory(type);
+			//loadingData = false;
+			//startSearch(0, indexStepInit);
+			//location.hash = hash;
+		
+		}
+		else{
+			count=$(".breadcrumAnchor").length;
+			getAjaxFiche(hash,count);
+		}
 		return;
 	}
 	if( hash.indexOf("#default.directory") >= 0 &&
