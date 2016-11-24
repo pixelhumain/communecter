@@ -117,6 +117,7 @@ function buildTimeLine (news, indexMin, indexMax)
 	//mylog.log(news);
 	$.each( news , function(key,newsObj)
 	{
+		console.log(newsObj);
 		if(newsObj.created)
 		{
 			if(typeof(newsObj.created) == "object")

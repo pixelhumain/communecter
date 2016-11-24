@@ -242,7 +242,7 @@ $controler = Element::getControlerByCollection($type);
 						<i id="iconLocalityyHeader" class="fa fa-globe <?php echo (empty($entity['address'])?'hidden':'');?>"></i>
 						<label class="text-red" id="localityHeader"><?php echo (empty($entity["address"]["addressLocality"])?"":$entity["address"]["addressLocality"].","); ?></label> 
 						<label class="text-red" id="pcHeader"><?php echo (empty($entity["address"]["postalCode"])?"":($entity["address"]["postalCode"].",")); ?></label>
-						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]].","); ?></label> 
+						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]]); ?></label> 
 						<?php } ?>	
 					</span>
 				</div>
@@ -528,7 +528,7 @@ $controler = Element::getControlerByCollection($type);
 	      </div>
 	      <?php
 		      //$addLink = (empty($users[Yii::app()->session["userId"]])?false:true); 
-		      if($edit) 
+		      if($edit && $type != Person::COLLECTION) 
 				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$entity['_id'], "users"=>@$users)); ?>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

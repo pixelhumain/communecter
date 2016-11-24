@@ -1160,7 +1160,7 @@ maybe movebale into Element.js
 function  buildQRCode(type,id) { 
 		
 	$(".qrCode").qrcode({
-	    text: baseUrl+"/"+moduleId+"#"+type+".detail.id"+id,//'{type:"'+type+'",_id:"'+id+'"}',
+	    text: baseUrl+"/#"+typeObj[type].ctrl+".detail.id."+id,//'{type:"'+type+'",_id:"'+id+'"}',
 	    render: 'image',
 		minVersion: 8,
 	    maxVersion: 40,
@@ -1315,7 +1315,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 			formData.medias.push(mediaObject);
 		}
 	});
-	$.ajax( {
+	/*$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
@@ -1343,7 +1343,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	        		addFloopEntity(data.id, collection, data.map);
             }
     	}
-    });
+    });*/
 }
 
 function editElement(type,id){
@@ -1410,7 +1410,7 @@ function openForm (type, afterLoad,data) {
 }
 
 function buildDynForm(elementObj, afterLoad,data) { 
-	mylog.warn("--------------- buildDynForm", afterLoad,data);
+	mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 	if(userId)
 	{
 		var form = $.dynForm({
@@ -1759,7 +1759,7 @@ var typeObj = {
 			    			}
 			    			
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( typeObj[contextData.type].ctrl ); 
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
 
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
@@ -1775,7 +1775,7 @@ var typeObj = {
 			    			else if( contextData && contextData.id )
 				    			$("#ajaxFormModal #organizerId").val( contextData.id );
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( typeObj[contextData.type].ctrl );
+			    				$("#ajaxFormModal #organizerType").val( contextData.type);
 			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
 			    		}
 			    	}
@@ -1820,7 +1820,7 @@ var typeObj = {
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
-			            	$("#ajaxFormModal #organizerId ").off().on("change",function(){
+			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
 			            		
 			            		organizerId = $(this).val();
 			            		if(organizerId == "dontKnow" )
