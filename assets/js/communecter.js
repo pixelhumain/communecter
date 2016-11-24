@@ -1758,7 +1758,7 @@ var typeObj = {
 			    			}
 			    			
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( typeObj[contextData.type].ctrl ); 
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
 
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
@@ -1774,7 +1774,7 @@ var typeObj = {
 			    			else if( contextData && contextData.id )
 				    			$("#ajaxFormModal #organizerId").val( contextData.id );
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( typeObj[contextData.type].ctrl );
+			    				$("#ajaxFormModal #organizerType").val( contextData.type);
 			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
 			    		}
 			    	}
@@ -1819,7 +1819,7 @@ var typeObj = {
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
-			            	$("#ajaxFormModal #organizerId ").off().on("change",function(){
+			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
 			            		
 			            		organizerId = $(this).val();
 			            		if(organizerId == "dontKnow" )
