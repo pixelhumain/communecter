@@ -87,12 +87,12 @@ ul.notifList {
           $("#nowListevents,#nowListDDA,#nowListprojects,#nowListorga").html("");
         }
         if($('*[data-searchPage]').length > 0 && searchPage ){
-          console.log("startSearch");
+          mylog.log("startSearch");
           $('#searchBarText').val( $('.input-global-search').val() );
           timeoutGS = setTimeout(function(){startSearch(false); }, 800);
         }
         else {*/
-          console.log("startGlobalSearch");
+          mylog.log("startGlobalSearch");
           timeoutGS = setTimeout(function(){ startGlobalSearch(0, indexStepGS); }, 800);
         //}
     });

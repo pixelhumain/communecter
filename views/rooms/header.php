@@ -16,7 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
   background-size: 100% 400px !important;
   background-position: 0px 0px !important;
  }
- .modal .modal-header{
+ .bgDDA .modal .modal-header{
   background-image:url(<?php echo $this->module->assetsUrl; ?>/images/city/dda-connexion-lines.jpg); 
   background-repeat: no-repeat !important;
   background-size: auto;
@@ -399,7 +399,7 @@ function saveNewRoom(){
 }
 
 function selectRoomType(type){
-  console.log("selectRoomType",type);
+  mylog.log("selectRoomType",type);
   $("#roomType").val(type);
   
   var msg = "Nouvel espace";

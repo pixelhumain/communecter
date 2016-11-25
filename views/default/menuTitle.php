@@ -8,7 +8,7 @@
 	
 	lastUrl = null;
 	$("body.login").removeClass("bgred bggreen bgblack bgblue");
-	console.log("showPanel",box, bgcolorClass );
+	mylog.log("showPanel",box, bgcolorClass );
 	$('.'+activePanel+", .panelTitle, .box-ajax").hide();
 	$(".byPHRight").fadeOut();
 	$("body.login").removeClass("bgred bggreen bgblack bgblue");
@@ -65,7 +65,7 @@ function openAjaxPanel (url,title,icon)  {
 }
 function showAjaxPanel (url,title,icon) 
 { 
-	console.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
+	mylog.log("showAjaxPanel",baseUrl+'/'+moduleId+url,title,icon);
 	rand = Math.floor((Math.random() * 8) + 1);
 	
 	if(typeof showFloopDrawer != "undefined")
@@ -111,7 +111,7 @@ function showAjaxPanel (url,title,icon)
 }
 function gotToPrevNav()
 {
-	console.dir( prevNav );
+	mylog.dir( prevNav );
 	if(prevNav != null)
 	{
 		if( prevNav.func == "showAjaxPanel" )
@@ -121,7 +121,7 @@ function gotToPrevNav()
 	}
 }
 	function showHideMenu () { 
-		console.log("open showHideMenu" );
+		mylog.log("open showHideMenu" );
 		$("body.login").removeClass("bggreen bgblack bgblue bgyellow bgCity").addClass(bgcolorClass);
 		//$(".menuBtn").removeClass("fa-bars").addClass("fa-times");
 		$('.'+activePanel).hide();
@@ -152,12 +152,12 @@ function gotToPrevNav()
                     	$('.topLogoAnim').slideDown();
                     	showPanel("box-login");
                     },
-                    /*unstarted: function() { console.log('unstarted') },
-                    onReady: function() { console.log('onready') },
-                    onPlay: function() { console.log('onplay') },
-                    onPause: function() { console.log('pause') },
-                    buffering: function() { console.log('buffering') },
-                    cued: function() { console.log('cued') },*/
+                    /*unstarted: function() { mylog.log('unstarted') },
+                    onReady: function() { mylog.log('onready') },
+                    onPlay: function() { mylog.log('onplay') },
+                    onPause: function() { mylog.log('pause') },
+                    buffering: function() { mylog.log('buffering') },
+                    cued: function() { mylog.log('cued') },*/
                  });
 	}
 	var titleMapIndex = 1;
@@ -175,7 +175,7 @@ function gotToPrevNav()
 	{ 
 		setTimeout(function()
 		{
-			//console.log("titleAnim",titleMapIndex);
+			//mylog.log("titleAnim",titleMapIndex);
 			var map = titleMap[titleMapIndex];
 			$(".titleRed").html(map.titleRed);
 			$(".titleWhite").html(map.titleWhite);

@@ -119,7 +119,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 					return;
 				}
 
-				console.log(idProject);
+				mylog.log(idProject);
 				$.ajax({
 					type: "POST",
 					url: baseUrl+"/"+moduleId+"/project/removeproject/projectId/"+idProject+"",

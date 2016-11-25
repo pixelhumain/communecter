@@ -604,8 +604,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	var contextId = "<?php echo isset($organization["_id"]) ? $organization["_id"] : ""; ?>";
 	var contextMap = <?php echo json_encode($contextMap)?>;
 	
-	console.log("conteXTMAP");
-	console.dir(contextMap);
+	mylog.log("conteXTMAP");
+	mylog.dir(contextMap);
 
 	//By default : view mode
 	var mode = "view";
@@ -749,8 +749,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	function changeHiddenIcone() 
 	{ 
-		/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
-		console.log("------------", mode);
+		/*mylog.log("------------", $("#fax").text().length, $("#fax").val());*/
+		mylog.log("------------", mode);
 		if(mode == "view"){
 			if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
 			if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
@@ -784,7 +784,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			title : $(this).data("title"),
 			onblur: 'submit',
 			success: function(response, newValue) {
-				console.log("yo");
+				mylog.log("yo");
 		        if(response.result) {
 		        	toastr.success(response.msg);
 					loadActivity=true;	
@@ -821,7 +821,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				table : false
 			},
 			validate: function(value) {
-			    console.log(value);
+			    mylog.log(value);
 			    if($.trim(value).length > 140) {
 			        return 'La description courte ne doit pas dépasser 140 caractères.';
 			    }
@@ -928,7 +928,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 				var result = new Array();
 				var categorySource = null;
 
-				console.log("contextData.type",contextData.type);
+				mylog.log("contextData.type",contextData.type);
 				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
 				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
 				
@@ -967,13 +967,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		$('#address').editable({
 			validate: function(value) {
                 value.streetAddress=$("#streetAddress").text();
-                console.log(value);
+                mylog.log(value);
             },
 			url: baseUrl+"/"+moduleId+"/organization/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
-				console.log("success update postal Code : "+newValue);
-				console.dir(newValue);
+				mylog.log("success update postal Code : "+newValue);
+				mylog.dir(newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				loadActivity=true;	
@@ -1034,7 +1034,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		var tel = <?php echo (isset($organization["tags"])) ? json_encode(implode(",", $organization["tags"])) : "''"; ?>;
 		
 
-	    console.log("trefreevfre", tel);
+	    mylog.log("trefreevfre", tel);
 		return tel ;
 	}
 
@@ -1052,7 +1052,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 	        	
 	    });
 
-	    console.log(tel);
+	    mylog.log(tel);
 		return tel ;
 	}
 	//modification de la position geographique	
@@ -1083,7 +1083,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 			request = transformNominatimUrl(request);
 			request = "?q=" + request;
-			console.log(request);
+			mylog.log(request);
 			findGeoposByNominatim(request);
 		}
 	
@@ -1091,19 +1091,19 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
+		mylog.log("callbackNominatimSuccess");
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
 			var coords = L.latLng(obj[0].lat, obj[0].lon);
 			//et on affiche le marker sur la carte à cette position
-			console.log("showGeoposFound coords", coords);
-			console.dir("showGeoposFound obj", obj);
+			mylog.log("showGeoposFound coords", coords);
+			mylog.dir("showGeoposFound obj", obj);
 
 			//si la donné n'est pas geolocalisé
 			//on lui rajoute les coordonées trouvés
 			//if(typeof contextData["geo"] == "undefined")
-			console.log(obj);
+			mylog.log(obj);
 			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
 			showGeoposFound(coords, contextId, "organizations", contextData);
@@ -1122,11 +1122,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
-		console.log(obj);
+		mylog.log("callbackFindByInseeSuccess");
+		mylog.log(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
-			console.log(obj);
+			mylog.log(obj);
 			//récupère les coordonnées
 			var coords = Sig.getCoordinates(obj, "markerSingle");
 			//si on a une geoShape on l'affiche
@@ -1137,24 +1137,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 			showGeoposFound(coords, contextId, "organizations", contextData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError", error);
+		mylog.log("callbackNominatimError", error);
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee", error);
+		mylog.log("erreur getlatlngbyinsee", error);
 	}
 	
 	function bindFicheInfoBtn() {
 		/*$("#disableOrganization").off().on("click",function () {
-			console.warn("disableOrganization",$(this).data("id"));
+			mylog.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
 			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !').' '.Yii::t('organization','Are you sure you want to delete the organization : ') ?><span class='text-red'>"+$(this).data('name')+"</span> ?", 
 				function(result) {
@@ -1182,7 +1182,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module
 		});*/
 
 		$(".editConfidentialityBtn").click(function(){
-	    	console.log("confidentiality");
+	    	mylog.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
 	    });
 

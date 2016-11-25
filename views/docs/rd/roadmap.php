@@ -14,12 +14,35 @@
            La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
 
 			<div class="col-sm-12" style="margin-top: 20px">
+	
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.16 INTERACTION SIMPLIFIÉ</h2>
+					<ul>
+						<li><i class="fa fa-angle-right"></i> Nouvel interface Ajout de membres d'une orga</li>
+						<li><i class="fa fa-angle-right"></i> Fonctionalité : Autour de moi </li>
+						<li><i class="fa fa-angle-right"></i> Simplification des formulaire , intégration de dynForm</li>
+						<li><i class="fa fa-angle-right"></i> Refactor Element : unification du code, Element devient le parent de tous nos types standards</li>
+						<li><i class="fa fa-angle-right"></i> Refonte du menu de gauche</li>
+						<li><i class="fa fa-angle-right"></i> Refonte de la recherche, et recherche par type </li>
+						<li><i class="fa fa-angle-right"></i> Amélioration d'architecture, utilisation des themes et SOC (separation des concerns) un ex : Notragora </li>
+						<li><i class="fa fa-angle-right"></i> Générateur d'iframe pour sortir une carto personnalisée</li>
+						<li><i class="fa fa-angle-right"></i> New Element Type : POI : point of interest</li>
+						<li><i class="fa fa-angle-right"></i> Moteur de Recherche sur DDA : débat et actions</li>
+						<li><i class="fa fa-angle-right"></i> Refactor de la localisation </li>
+						<li><i class="fa fa-angle-right"></i> Pouvoir ajouter plusieur Localité sur un élément</li>
+						<li><i class="fa fa-angle-right"></i> Ajout des QR codes pour interagir avec communEvent</li>
+					</ul>
+				</div>
 
 				<div class="col-sm-12">
 					<h2 class="text-red homestead">version 0.15 INTERACT</h2>
 					<ul>
-						<li><i class="fa fa-angle-right"></i> </li>
-						
+						<li><i class="fa fa-angle-right"></i> Refonte interface basé sur les propositions pertinentes Nuit Debout </li>
+						<li><i class="fa fa-angle-right"></i> Page Live</li>
+						<li><i class="fa fa-angle-right"></i> Section "En ce moment"</li>
+						<li><i class="fa fa-angle-right"></i> Multi Tag : Moteur de recherche par tags globalisé et personnalisé</li>
+						<li><i class="fa fa-angle-right"></i> Multi Scope : Moteur de recherche par localité géographique globalisé et personnalisé</li>
+						<li><i class="fa fa-angle-right"></i> Moteur de recherche : croisement multi scope et multi tags</li>
 					</ul>
 				</div>
 

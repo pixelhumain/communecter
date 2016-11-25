@@ -87,7 +87,7 @@ jQuery(document).ready(function() {
 	/*
 	$(".btn-geoloc-auto").click( function(e){
 		e.preventDefault();
-		console.log("cookie", $.cookie('inseeCommunexion'));
+		mylog.log("cookie", $.cookie('inseeCommunexion'));
     	if($.cookie('inseeCommunexion')){
     		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
     	}else{
@@ -100,13 +100,13 @@ jQuery(document).ready(function() {
 
     })*/
 
-    $(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+    $(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
 	});
 
-	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-scope-dropdown").click(function(){ mylog.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});

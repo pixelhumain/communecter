@@ -8,7 +8,7 @@ function isLiveGlobal(){
 * @param string contextParentId indicates the precise parent id 
 * @param strotime dateLimite indicates the date to load news
 */
-var loadStream = function(indexMin, indexMax){ console.log("loadStream");
+var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
 	loadingData = true;
     indexStep = 5;
     if(typeof indexMin == "undefined") indexMin = 0;
@@ -23,8 +23,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
       scrollEnd = false;
     }
     else{ if(scrollEnd) return; }
-    if(viewer != "")
-    	simpleUserData="/viewer/"+viewer;
+    if(isLive != "")
+    	simpleUserData="/isLive/true";
     else
     	simpleUserData="";
 
@@ -39,11 +39,11 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	if(isLiveGlobal())
 		filter.tagSearch=$('#searchTags').val().split(',');
 
-	//console.log("index.js liveScopeType", liveScopeType);
+	//mylog.log("index.js liveScopeType", liveScopeType);
     if(isLiveGlobal() && liveScopeType == "global"){ 
-    	var tagSearch = $('#searchTags').val().split(','); //getMultiTagList(); //$('#searchBarText').val();
+    	 //getMultiTagList(); //$('#searchBarText').val();
 		filter = {
-	      "tagSearch" : tagSearch, 
+	      //"tagSearch" : tagSearch, 
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
@@ -54,16 +54,17 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	    };
 	    //contextParentType = "city";
     }	
-
+	//var tagSearch = $('#searchTags').val().split(',');
+	filter.tagSearch = $('#searchTags').val().split(',');
     filter.textSearch=$('#searchBarText').val();
 
     var thisParentId = "";
     if(contextParentType != "city") thisParentId = "/id/"+contextParentId;
 
-	console.log("loadStream", dateLimit);
-	console.dir(filter);
+	mylog.log("loadStream", dateLimit);
+	mylog.dir(filter);
 	$(".stream-processing").show();
-	$(".search-loader").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
+	$(".search-loader-news").html('<i class="fa fa-spin fa-circle-o-notch"></i>');
 
     if(typeof(dateLimit)!="undefined"){
 		$.ajax({
@@ -72,8 +73,8 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 	       	dataType: "json",
 	       	data: filter,
 	    	success: function(data){
-		    	console.log("LOAD NEWS BY AJAX");
-		    	//console.log(data.news);
+		    	mylog.log("LOAD NEWS BY AJAX");
+		    	//mylog.log(data.news);
 		    	if(data){
 					buildTimeLine (data.news, indexMin, indexMax);
 					bindTags();
@@ -82,7 +83,7 @@ var loadStream = function(indexMin, indexMax){ console.log("loadStream");
 					else
 						dateLimit=data.limitDate.created;
 
-					console.log(dateLimit);
+					mylog.log(dateLimit);
 				}
 				loadingData = false;
 				$(".stream-processing").hide();
@@ -99,7 +100,7 @@ var tagsFilterListHTML = "";
 var scopesFilterListHTML = "";
 function buildTimeLine (news, indexMin, indexMax)
 {
-	console.log("-----------------buildTimeLine----------------------");
+	mylog.log("-----------------buildTimeLine----------------------");
 	if (dateLimit==0){
 		//$(".newsTL").html('<div class="spine"></div>');
 		$(".newsFeedNews, #backToTop, #footerDropdown").remove();
@@ -113,9 +114,10 @@ function buildTimeLine (news, indexMin, indexMax)
 	totalEntries += countEntries;
 	
 	str = "";
-	//console.log(news);
+	//mylog.log(news);
 	$.each( news , function(key,newsObj)
 	{
+		console.log(newsObj);
 		if(newsObj.created)
 		{
 			if(typeof(newsObj.created) == "object")
@@ -139,7 +141,7 @@ function buildTimeLine (news, indexMin, indexMax)
 	$( ".newsFeed:gt(-6)" ).each(function(){
 		if($i!=0){
 			if(typeof(offsetLastNews)!="undefined" && typeof(offsetLastNews.top)!="undefined")
-			console.log(offsetLastNews.top+" // VS // "+$(this).offset().top);
+			mylog.log(offsetLastNews.top+" // VS // "+$(this).offset().top);
 			if($(this).offset().top == offsetLastNews.top){
 				$(this).css("margin-top","20px");
 			}
@@ -174,7 +176,7 @@ function buildTimeLine (news, indexMin, indexMax)
 				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message ne correspond à vos critères de recherche.</div>";
 			}
 			else{
-				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message.<br/>Participez à l'activité de ce fil d'actualité<br/>en devenant membre ou contributeur.</div>";
+				msg = "<div class='newsFeed newsFeedNews'><i class='fa fa-ban'></i> Aucun message sur ce journal.</div>";
 			}
 			scrollEnd = true;
 			 // newsTLLine = '<div class="date_separator" id="'+'month'+date.getMonth()+date.getFullYear()+'" data-appear-top-offset="-400">'+
@@ -200,7 +202,7 @@ function buildTimeLine (news, indexMin, indexMax)
 					$("#formCreateNewsTemp").css("display", "inline");
 					$(".newsFeedForm").css("display", "none");
 
-				}else{ console.log("newFeedForm");
+				}else{ mylog.log("newFeedForm");
 					//$("#newLiveFeedForm").append($("#formCreateNewsTemp"));
 					$("#newFeedForm").append($("#formCreateNewsTemp"));
 					$("#formCreateNewsTemp").css("display", "inline");
@@ -237,7 +239,7 @@ function bindEvent(){
 	$("#get_url").elastic();
 	
 	$(".scopeShare").click(function() {
-		console.log(this);
+		mylog.log(this);
 		replaceText=$(this).find("h4").html();
 		$("#btn-toogle-dropdown-scope").html(replaceText+' <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
 		scopeChange=$(this).data("value");
@@ -253,7 +255,7 @@ function bindEvent(){
 	  	}*/
 	});
 	$(".targetIsAuthor").click(function() {
-		console.log(this);
+		mylog.log(this);
 		srcImg=$(this).find("img").attr("src");
 		$("#btn-toogle-dropdown-targetIsAuthor").html('<img height=20 width=20 src="'+srcImg+'"/> <i class="fa fa-caret-down" style="font-size:inherit;"></i>');
 		authorTargetChange=$(this).data("value");
@@ -278,7 +280,7 @@ function bindEvent(){
 	});
 	$('.newsShare').off().on("click",function(){
 		toastr.info('TODO : SHARE this news Entry');
-		console.log("newsShare",$(this).data("id"));
+		mylog.log("newsShare",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
@@ -290,7 +292,7 @@ function bindEvent(){
 		 	htmlMessage +=	'<a class="thumb-info" href="'+proverbs[rand]+'" data-title="Proverbs, Culture, Art, Thoughts"  data-lightbox="all">'+
 			 		'<img src="'+proverbs[rand]+'" style="border:0px solid #666; border-radius:3px;"/></a><br/><br/>';
 			
-			console.log(newsReferror);
+			mylog.log(newsReferror);
 			if(dateLimit==0){
 				$.blockUI({message : htmlMessage});
 				loadStream();
@@ -310,7 +312,7 @@ function bindEvent(){
 			}
 		}
 		else{
-			console.warn("filter",$(this).data("filter"));
+			mylog.warn("filter",$(this).data("filter"));
 			filter = $(this).data("filter");
 			$(".newsFeed").hide();
 			$(filter).show();
@@ -346,7 +348,7 @@ function modifyNews(idNews){
 	else
 		var commentContent = $('.newsContent[data-pk="'+idNews+'"] .timeline_text').html();
 	var commentTitle = $('.newsTitle[data-pk="'+idNews+'"] .timeline_title').html();
-	console.log("commentTitle", commentTitle);
+	mylog.log("commentTitle", commentTitle);
 	var message = "";
 	if(notEmpty(commentTitle))
 		message += "<input type='text' id='textarea-edit-title"+idNews+"' class='form-control margin-bottom-5' style='text-align:left;' placeholder='Titre du message' value='"+commentTitle+"'>";
@@ -362,7 +364,7 @@ function modifyNews(idNews){
 	      label: "Annuler",
 	      className: "btn-default",
 	      callback: function() {
-	        console.log("Annuler");
+	        mylog.log("Annuler");
 	      }
 	    },
 	    enregistrer: {
@@ -498,8 +500,8 @@ function initXEditable() {
 
 	        	//$('.editable-news').editable('toggleDisabled');
 				switchModeEdit(data.id);
-				console.log(data);
-				console.log("ici");
+				mylog.log(data);
+				mylog.log("ici");
 				//$("a[data-id='"+data.id+"']").trigger('click');
 	        }
 	        else{
@@ -524,7 +526,7 @@ function initXEditable() {
 		       // $('.newsContent').editable('toggleDisabled');
 		       	switchModeEdit(data.id);
 	        	toastr.success(data.msg);
-	        	console.log(data);
+	        	mylog.log(data);
 	        	}
 	        else
 	        	toastr.error(data.msg);  
@@ -569,7 +571,7 @@ function applyTagFilter(str)
 		} else
 			str = ".newsFeed";
 	} 
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	$(str).fadeIn();
 	return $(".newsFeed").length;
 }
@@ -588,7 +590,7 @@ function applyScopeFilter(str)
 		} else
 			str = ".newsFeed";
 	} 
-	console.log("applyScopeFilter",str);
+	mylog.log("applyScopeFilter",str);
 	$(str).fadeIn();
 	return $(".newsFeed").length;
 }
@@ -691,7 +693,7 @@ function getUrlContent(){
 					type: 'post',
 					dataType: 'json',
 					success: function(data){        
-		                console.log(data); 
+		                mylog.log(data); 
 	                    content = getMediaHtml(data,"save");
 	                    //load results in the element
 	                    $("#results").html(content); //append received data into the element
@@ -731,7 +733,7 @@ function getUrlContent(){
 		        	}else{
 		        		
 						str = "";
-						console.log(data);
+						mylog.log(data);
 						if(data.citoyens.length != 0){
 							$("#dropdown_search").show();
 				 			$.each(data, function(key, value) {
@@ -739,7 +741,7 @@ function getUrlContent(){
 				 				$.each(value, function(i, v){
 				 					var imageSearch = '<i class="fa fa-user fa-2x"></i>';
 				 					var logoSearch = "";
-				 					console.log(v);
+				 					mylog.log(v);
 				 					if("undefined" != typeof v.profilThumbImageUrl && v.profilThumbImageUrl!=""){
 				 						var imageSearch = '<img alt="image" class="" src="'+baseUrl+v.profilThumbImageUrl+'" style="height:25px;padding-right:5px;"/>'
 				 					}
@@ -944,8 +946,8 @@ function saveNews(){
 				/*if(element){
 					alert(element);
 					jsonHelper.stringFormtoJson( $("#form-news #get_url").val(), element+"Form" );
-				    console.warn("------------ form serialised as JSON ------------------");
-				    console.dir( $("#"+element+"Form").serializeFormJSON() );
+				    mylog.warn("------------ form serialised as JSON ------------------");
+				    mylog.dir( $("#"+element+"Form").serializeFormJSON() );
 				    elementValidation (element+"Form", typeObj[element].rules, typeObj[element].save);
 					$("#"+element+"Form").submit();
 					return false;
@@ -1001,7 +1003,7 @@ function saveNews(){
 				newNews.text = $("#form-news #get_url").val();
 				if($('#authorIsTarget').length && $('#authorIsTarget').val()==1)
 					newNews.targetIsAuthor = true;
-				console.log("contextParentType", contextParentType);
+				mylog.log("contextParentType", contextParentType);
 				if($("input[name='cityInsee']").length && contextParentType == "city")
 					newNews.codeInsee = $("input[name='cityInsee']").val();
 				if($("input[name='cityPostalCode']").length && contextParentType == "city")
@@ -1009,7 +1011,7 @@ function saveNews(){
 				if (mentionsInput.length != 0){
 					newNews.mentions=mentionsInput;
 				}
-				console.log(newNews);
+				mylog.log(newNews);
 				$.ajax({
 			        type: "POST",
 			        url: baseUrl+"/"+moduleId+"/news/save",
@@ -1075,7 +1077,7 @@ function initFormImages(){
 			processData: false,
 			dataType: "json",
 			success: function(data){
-				if(debug)console.log(data);
+				if(debug)mylog.log(data);
 		  		if(data.success){
 		  			imageName = data.name;
 					var doc = { 
@@ -1090,7 +1092,7 @@ function initFormImages(){
 						"contentKey" : contentKey,
 						"formOrigin" : "news"
 					};
-					console.log(doc);
+					mylog.log(doc);
 					path = "/"+data.dir+data.name;
 					$.ajax({
 					  	type: "POST",
@@ -1242,7 +1244,7 @@ function getMediaImages(o,newsId,authorId,targetName){
 			}
 		}
 	}
-	console.log(html);
+	mylog.log(html);
 	return html;
 }
 function deleteImage(id,name,hideMsg,communevent){

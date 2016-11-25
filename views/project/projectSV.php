@@ -262,7 +262,7 @@ jQuery(document).ready(function() {
 	$("textarea.autosize").autosize();
 
     $(".daterangepicker").on("hide.daterangepicker", function(){
- 		console.log("ok");
+ 		mylog.log("ok");
  	});
 
  	setTitle("Créer un projet","<i class='fa fa-plus'></i> <i class='fa fa-lightbulb-o'></i>");
@@ -363,7 +363,7 @@ function runProjectFormValidation(el) {
 			else
 				newProject.description="";
 
-			console.log(newProject);
+			mylog.log(newProject);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
@@ -378,7 +378,7 @@ function runProjectFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success("<?php echo Yii::t("common",'Project created successfully') ?>");
 		        	$.unblockUI();
-		        	//console.dir(data);
+		        	//mylog.dir(data);
 	        		addFloopEntity(data.id.$id, "projects", newProject);
 	        		loadByHash("#project.detail.id."+data.id.$id);
 	      	} else {
@@ -522,11 +522,11 @@ function searchCity() {
 
 function convertDate2(date, num){
 	var dateTab = date.split("-");
-	//console.log(dateTab, dateTab[num]);
+	//mylog.log(dateTab, dateTab[num]);
 	var hour = dateTab[num].split(" ")[1+num];
 	var hourRes ="";
 	var hourUnit = dateTab[num].split(" ")[2+num];
-	//console.log(hourUnit);
+	//mylog.log(hourUnit);
 	if(hourUnit = "PM"){
 		hours = hour.split(":");
 		var newhour = parseInt(hours[0])+12;
@@ -537,14 +537,14 @@ function convertDate2(date, num){
 	}else{
 		hourRes = hour;
 	}
-	//console.log(hourRes);
+	//mylog.log(hourRes);
 	return dateTab[num].split(" ")[0+num]+" "+hourRes;
 }
 
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
-		console.log("callback ok");
-		console.dir(resultNominatim);
+		mylog.log("callback ok");
+		mylog.dir(resultNominatim);
 		var show = Sig.showCityOnMap(resultNominatim, true, "project");
 		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, true, "project");
@@ -567,10 +567,10 @@ function convertDate2(date, num){
 					data: "insee="+insee+"&postalCode="+postalCode,
 		    		success: function (obj){
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
-		    			console.log("res getlatlngbyinsee");
-		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
-		  				console.dir(obj);
+		    			mylog.log("res getlatlngbyinsee");
+		    			mylog.dir(obj);
+		  				if(typeof obj["geo"] != "undefined"){ mylog.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				mylog.dir(obj);
 		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
 								if(typeof obj.geoShape != "undefined") {
 									//on recherche avec une limit bounds
@@ -592,7 +592,7 @@ function convertDate2(date, num){
 					},
 					error: function(error){
 						$("#iconeChargement").hide();
-						console.log("Une erreur est survenue pendant la recherche de la geopos city");
+						mylog.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
 			
@@ -601,7 +601,7 @@ function convertDate2(date, num){
 				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
-		  		console.log("requestPart", requestPart);
+		  		mylog.log("requestPart", requestPart);
 		  		
 		  		$.ajax({
 					url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
@@ -611,8 +611,8 @@ function convertDate2(date, num){
 					crossDomain:true,
 					complete: function () {},
 					success: function (result){
-						console.log("nominatim success", result.length);
-						console.dir(result);
+						mylog.log("nominatim success", result.length);
+						mylog.dir(result);
 						if(result.length > 0){ 
 							var result = result[0];
 							var coords = Sig.getCoordinates(result, "markerSingle");
@@ -626,8 +626,8 @@ function convertDate2(date, num){
 						}
 					},
 					error: function (error) {
-						console.log("nominatim error");
-						console.dir(obj);
+						mylog.log("nominatim error");
+						mylog.dir(obj);
 						$("#error_street").html("Aucun résultat");
 						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 						$.unblockUI();
@@ -643,8 +643,8 @@ function convertDate2(date, num){
 	}
 
 	function callbackFindByInseeSuccessAdd(obj){
-		console.log("callbackFindByInseeSuccessAdd");
-		console.dir(obj);
+		mylog.log("callbackFindByInseeSuccessAdd");
+		mylog.dir(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			currentCityByInsee = obj;
@@ -669,13 +669,13 @@ function convertDate2(date, num){
 			}
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 	function callbackGoogleMapsSuccess(result){
-		console.log("callbackGoogleMapsSuccess");
-		console.dir(result);
+		mylog.log("callbackGoogleMapsSuccess");
+		mylog.dir(result);
 		if(result.status == "OK"){
   			//showMap(true);
   			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');

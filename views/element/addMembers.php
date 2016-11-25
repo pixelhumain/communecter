@@ -595,7 +595,7 @@ if(!@$_GET["renderPartial"])
  	function bindTEST() {
 
  		$('#checkboxAll').change(function() { 
- 			console.log("checkboxAll");
+ 			mylog.log("checkboxAll");
 			if(this.checked)
 	        { 
 	        	allchecked(true);
@@ -622,16 +622,16 @@ if(!@$_GET["renderPartial"])
 					var csvval=e.target.result.split("\n");
 					file = [];
 					var csvval=e.target.result.split("\n");
-					console.log("csv : ", csvval );
+					mylog.log("csv : ", csvval );
 					$.each(csvval, function(key, value){
 		  				file.push(value.split(";"));
 		  			});
-		  			console.log("file : ", file );
+		  			mylog.log("file : ", file );
 
 					var text2 = "" ;
 					listMails = [];
 					$.each(file, function(keyContacts, valueContacts){
-						//console.log("valueMails",valueMails);
+						//mylog.log("valueMails",valueMails);
 						text2 = "" ;
 						if(valueContacts[0].trim() != ""){
 							//var res = validMail(valueMails.trim());
@@ -679,7 +679,7 @@ if(!@$_GET["renderPartial"])
 
 		          			$("#listEmailGrid").append(text2);	
 							$("#"+idMail+"organizationType").hide();
-							console.log(valueContacts[0], valueContacts[1], valueContacts[2], valueContacts[3]);
+							mylog.log(valueContacts[0], valueContacts[1], valueContacts[2], valueContacts[3]);
 							//if(typeof valueContacts[2] != "undefined"){
 							if(typeof valueContacts[2] == "undefined" || valueContacts[2].trim() != "organizations")
 								switchTypeImport('citoyens', idMail, valueContacts[0].trim());
@@ -746,7 +746,7 @@ if(!@$_GET["renderPartial"])
 		$("#addMembers #memberIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			console.log("state = "+state );
+			mylog.log("state = "+state );
 			if (state == true) {
 				$("#addMembers #memberIsAdmin").val(1);
 			} else {
@@ -769,7 +769,7 @@ if(!@$_GET["renderPartial"])
 				"parentId" : $("#addMembers #parentOrganisation").val(),
 				"connectType" : connectType
 			};
-			console.log(params);
+			mylog.log(params);
 	    	
 	    	$.ajax({
 	            type: "POST",
@@ -785,7 +785,7 @@ if(!@$_GET["renderPartial"])
 	            	else
 	            	{
 	            		toastr.success(data.msg);
-	            		console.log(data);
+	            		mylog.log(data);
 	            		//if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
 		        		//	updateOrganisation( data.member,  $("#addMembers #memberType").val());
 		               	setValidationTable(data.newElement,data.newElementType, false);
@@ -817,7 +817,7 @@ if(!@$_GET["renderPartial"])
 								mapUrl.directory.load = false;
 						}
 	            	}
-	            	console.log(data.result);   
+	            	mylog.log(data.result);   
 	            },
 	            error:function (xhr, ajaxOptions, thrownError){
 	              toastr.error( thrownError );
@@ -884,7 +884,7 @@ if(!@$_GET["renderPartial"])
 	}
 
 	function autoCompleteEmailAddMember(searchValue){
-		console.log("autoCompleteEmailAddMember");
+		mylog.log("autoCompleteEmailAddMember");
 		var data = {
 			"search" : searchValue,
 			"elementId" : elementId
@@ -1020,7 +1020,7 @@ if(!@$_GET["renderPartial"])
 	}
 
 function checkedMail(id, mail) {
-	console.log("checkedMail",id, mail);
+	mylog.log("checkedMail",id, mail);
 	var contact = {} ;
 	contact["mail"] = mail ;
 	contact["id"] = id ;
@@ -1049,7 +1049,7 @@ function checkedMail(id, mail) {
 		$( "#"+id ).addClass("item_map_list_blue");
 		listMails.push(contact);
 	}
-	console.log("checkedMail",listMails);
+	mylog.log("checkedMail",listMails);
 	setNbContact()
 	//bindInviteSubViewInvites();
 };
@@ -1057,7 +1057,7 @@ function checkedMail(id, mail) {
 
 
 function checkedDiv(id, mail) {
-	console.log("checkedDiv",id, mail);
+	mylog.log("checkedDiv",id, mail);
 	var contact = {} ;
 	contact["mail"] = mail ;
 	contact["id"] = id ;
@@ -1075,7 +1075,7 @@ function checkedDiv(id, mail) {
 		$( "#"+id ).removeClass("item_map_list");
 		$( "#"+id ).addClass("item_map_list_blue");
 	}
-	console.log("checkedDiv",listMails);
+	mylog.log("checkedDiv",listMails);
 	setNbContact();	
 };
 
@@ -1108,7 +1108,7 @@ function setValidationTable(newMember, newMemberType, multi){
 }
 
 function fadeInView(inView){
-	console.log("fadeInView", inView);
+	mylog.log("fadeInView", inView);
 	if(inView == "divSearch")
 	{
 		$("#divSearch").fadeIn("slow", function() {});
@@ -1133,11 +1133,11 @@ function getIdByMail(mail) {
         },
         async : false ,
 		success:function(data){
-			console.log(data.userId.$id);
+			mylog.log(data.userId.$id);
 			res =  data.userId.$id ;
   		},
   		error:function(data){
-  			console.log("error",data)
+  			mylog.log("error",data)
   		}
     });
 
@@ -1155,11 +1155,11 @@ function inviteImportFile(){
 			});
     		var name = "";
     		var connectType = "member";
-    		console.log("listMails", listMails);
+    		mylog.log("listMails", listMails);
     		$.each(listMails, function(key, value) {
-    			console.log("value", value)
+    			mylog.log("value", value)
     			if(value.mail != ""){
-					console.log("name", $("#"+value.id+"name").val());
+					mylog.log("name", $("#"+value.id+"name").val());
     				if($("#"+value.id+"name").val() == "")
 					{
 						var nom = value.mail.split("@") ;
@@ -1183,7 +1183,7 @@ function inviteImportFile(){
 						"parentId" : $("#addMembers #parentOrganisation").val(),
 						"connectType" : connectType
 					};
-				  	console.log("params", params);
+				  	mylog.log("params", params);
 				  	$.ajax({
 			            type: "POST",
 			            url: baseUrl+"/communecter/link/connect",
@@ -1200,7 +1200,7 @@ function inviteImportFile(){
 								$("#numberOfInvit").data("count", count);
 								setValidationTable(data.newElement,data.newElementType, false);
 			            	}
-			            	console.log(data.result);
+			            	mylog.log(data.result);
 			            	$.unblockUI();   
 			            },
 			            error:function (xhr, ajaxOptions, thrownError){
@@ -1218,10 +1218,10 @@ function inviteImportFile(){
 
 function checkboxAdmin() {
 	
-	console.log("checkboxAdmin");
+	mylog.log("checkboxAdmin");
 	$("[name='my-checkboxAdmin']").bootstrapSwitch();
 	$("[name='my-checkboxAdmin']").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		if (state == true) {
 			$("#addMembers #memberIsAdmin").val(1);
 		} else {
@@ -1238,13 +1238,13 @@ function setNbContact(total) {
 }
 
 function allchecked(bool) {
-	console.log("allchecked");
+	mylog.log("allchecked");
 
 	var lesLI = $("#listEmailGrid li").each(function(){
 		var elt = $(this) ;
 
-		console.log( elt[0].id);
-		console.log($("#"+elt[0].id+"mail").val());
+		mylog.log( elt[0].id);
+		mylog.log($("#"+elt[0].id+"mail").val());
 		if(bool == true){
 			checkedDiv(elt[0].id, $("#"+elt[0].id+"mail").val());
 		}

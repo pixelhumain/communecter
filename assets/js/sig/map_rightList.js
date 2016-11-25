@@ -14,7 +14,7 @@
 			this.paginationMin = (this.paginationNumPage - 1) * this.paginationBy;
 			this.paginationMax = this.paginationMin + this.paginationBy;
 			this.checkListElementMap(this.map);
-			//console.log("change pagination : " + this.paginationMin + " - " + this.paginationMax + " - by : " + this.paginationBy + " - max : " + this.paginationNumPageMax);
+			//mylog.log("change pagination : " + this.paginationMin + " - " + this.paginationMax + " - by : " + this.paginationBy + " - max : " + this.paginationNumPageMax);
 			//alert("stop");
 		};
 		Sig.previousPagination = function (){
@@ -38,7 +38,7 @@
 			var thisSig = this;
     		//rend invisible tous les éléments de la liste (mais ne les supprime pas)
 			$.each(this.elementsMap, function() {
-				var objectId = thisSig.getObjectId(this);//console.log(objectId);
+				var objectId = thisSig.getObjectId(this);//mylog.log(objectId);
 				$(thisSig.cssModuleName + " #element-right-list-" + objectId).css({ "display" : "none" });
 			});
 
@@ -62,8 +62,8 @@
 								if(this.name != null && $(thisSig.cssModuleName + ' #input_name_filter').val() != "") {
 									//on affiche l'élément seulement s'il correspond à la recherche
 										
-										//console.log("SEARCH IN RIGHT LIST", nbVisible, nbElement);
-										//console.dir(this);
+										//mylog.log("SEARCH IN RIGHT LIST", nbVisible, nbElement);
+										//mylog.dir(this);
 
 										if(this.name.search(new RegExp($(thisSig.cssModuleName + ' #input_name_filter').val(), "i")) >= 0){
 											showThis = true;
@@ -84,7 +84,7 @@
 											});
 										}
 
-										//console.log("showThis", showThis);
+										//mylog.log("showThis", showThis);
 
 										if(showThis == true){
 											if(thisSig.inPagination(nbElement)){
@@ -111,7 +111,7 @@
 			var maxPaginationBtn = 5;
 			var nbTotal = nbElement; //thisSig.elementsMap.length;
 			$(".right_tool_map_header_info").html(nbVisible + " / " + nbTotal);
-			//console.log("nbTotalEment : " + nbTotal);
+			//mylog.log("nbTotalEment : " + nbTotal);
 			if(nbTotal > this.paginationBy){
 
 				var nbPage = nbTotal / this.paginationBy;
@@ -170,7 +170,7 @@
 		//renvoi un item (html) pour la liste de droite
 		Sig.createItemRigthListMap = function(element, thisMarker, thisMap){
 
-			//console.dir(element);
+			//mylog.dir(element);
 
 			var thisSig = this;
 			var objectId = thisSig.getObjectId(this);

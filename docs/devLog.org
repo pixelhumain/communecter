@@ -26,7 +26,7 @@ exécuter updateGeoPosElement.org sur la base
 Exemple : 
 mongo localhost:10019/bdname --username user --password pass updateGeoPosElements.org > result.txt
 
-**Rapha : Update Geo Belgique sur les codes postal
+** @Rapha : Update Geo Belgique sur les codes postal
 /communecter/datamigration/UpdateCitiesBelgiqueGeo
 
 ----------------------------------------------------

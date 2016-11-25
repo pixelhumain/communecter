@@ -117,7 +117,7 @@ function buildTimeLine ()
 {
 	$(".newsTL").html('<div class="spine"></div>');
 	$(".newsTLmonthsList").html('');
-	console.log("buildTimeLine",Object.keys(news).length);
+	mylog.log("buildTimeLine",Object.keys(news).length);
 	
 	var formCreateNews = $("#formCreateNewsTemp").html();
 	$("#formCreateNewsTemp").html("");		
@@ -128,11 +128,11 @@ function buildTimeLine ()
 	{
 		if(newsObj.text && (newsObj.created || newsObj.created) && newsObj.name)
 		{
-			//console.dir(newsObj);
+			//mylog.dir(newsObj);
 			var date = new Date( parseInt(newsObj.created)*1000 );
 			//if(newsObj.date != null) 
 			//	date = new Date( parseInt(newsObj.date)*1000 ) ;
-			//console.dir(newsObj);
+			//mylog.dir(newsObj);
 			var newsTLLine = buildLineHTML(newsObj);
 			if(countEntries == 0)
 			$(".newsTL"+date.getMonth()).append(
@@ -159,7 +159,7 @@ function buildLineHTML(newsObj)
 	var hour = (date.getHours() < 10) ?  "0"+date.getHours() : date.getHours();
 	var min = (date.getMinutes() < 10) ?  "0"+date.getMinutes() : date.getMinutes();
 	var dateStr = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
-	//console.log("date",dateStr);
+	//mylog.log("date",dateStr);
 	if( currentMonth != date.getMonth() )
 	{
 		currentMonth = date.getMonth();
@@ -307,28 +307,28 @@ function bindEvent(){
 	$('.newsAddComment').off().on("click",function(){
 		window.location.href = baseUrl+"/<?php echo $this->module->id?>/comment/index/type/news/id/"+$(this).data("id");
 		/*toastr.info('TODO : COMMENT this news Entry');
-		console.log("newsAddComment",$(this).data("id"));
+		mylog.log("newsAddComment",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-comment'></i>");*/
 	});
 	$('.newsVoteUp').off().on("click",function(){
 		toastr.info('TODO : VOTE UP this news Entry');
-		console.log("newsVoteUp",$(this).data("id"));
+		mylog.log("newsVoteUp",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-up'></i>");
 	});
 	$('.newsVoteDown').off().on("click",function(){
 		toastr.info('TODO : VOTE DOWN this news Entry');
-		console.log("newsVoteDown",$(this).data("id"));
+		mylog.log("newsVoteDown",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-thumbs-down'></i>");
 	});
 	$('.newsShare').off().on("click",function(){
 		toastr.info('TODO : SHARE this news Entry');
-		console.log("newsShare",$(this).data("id"));
+		mylog.log("newsShare",$(this).data("id"));
 		count = parseInt($(this).data("count"));
 		$(this).data( "count" , count+1 );
 		$(this).children(".label").html($(this).data("count")+" <i class='fa fa-share-alt'></i>");
@@ -362,7 +362,7 @@ function applyTagFilter(str)
 		} else
 			str = ".newsFeed";
 	} 
-	console.log("applyTagFilter",str);
+	mylog.log("applyTagFilter",str);
 	$(str).fadeIn();
 	return $(".newsFeed").length;
 }
@@ -381,7 +381,7 @@ function applyScopeFilter(str)
 		} else
 			str = ".newsFeed";
 	} 
-	console.log("applyScopeFilter",str);
+	mylog.log("applyScopeFilter",str);
 	$(str).fadeIn();
 	return $(".newsFeed").length;
 }

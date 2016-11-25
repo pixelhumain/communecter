@@ -31,12 +31,12 @@ jQuery(document).ready(function() {
 function bindBtnActionOpenData(tabPod)
 {
 	$(".deletePod").off().on("click", function(){
-		console.warn("----------------- deletePod -----------------");
+		mylog.warn("----------------- deletePod -----------------");
 		var idPod_delete = $(this).attr("id").split("_");
 		newTabPod = {};
 		var i = 1 ;
 		$.each(tabPod, function(keyNamePod,valuesPod){
-			console.log("idPod_delete[0]", idPod_delete[0],"keyNamePod", keyNamePod);
+			mylog.log("idPod_delete[0]", idPod_delete[0],"keyNamePod", keyNamePod);
 			if(idPod_delete[0] != keyNamePod)
 			{
 				newTabPod['pod'+i] = valuesPod;
@@ -51,7 +51,7 @@ function bindBtnActionOpenData(tabPod)
 			data:{tabPod: newTabPod},
 			dataType: "json",
 			success: function(data){
-				//console.info("ajouterPod", data);
+				//mylog.info("ajouterPod", data);
 				if(data.result == false)
 				{
 					toastr.error(data.msgError);
@@ -68,7 +68,7 @@ function bindBtnActionOpenData(tabPod)
 }
 
 function getPod(){
-	console.warn("----------------- getPod -----------------");
+	mylog.warn("----------------- getPod -----------------");
 	var urlToSend = baseUrl+"/"+moduleId+"/city/getpodopendata/";
 	$.ajax({
 		type: "POST",

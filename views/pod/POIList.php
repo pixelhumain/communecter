@@ -84,7 +84,7 @@
 		
 		$(".deleteThisBtn").off().on("click",function () 
 		{
-			console.log("deleteThisBtn click");
+			mylog.log("deleteThisBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");

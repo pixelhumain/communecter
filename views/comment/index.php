@@ -256,10 +256,10 @@ function replyComment(parentCommentId) {
 
 	//add a new line under the comment
 	var ulChildren = $('#comment'+parentCommentId).children('ul');
-	console.log(ulChildren);
+	mylog.log(ulChildren);
 	
 	if (ulChildren.length == 0) {
-		console.log("pas de children");
+		mylog.log("pas de children");
 		//add new ul entry
 		commentsTLLine = '<ul class="level">'+commentsTLLine+'</ul>';
 		ulChildren = $('#comment'+parentCommentId);
@@ -309,7 +309,7 @@ function buildNewCommentLine(parentCommentId) {
 }
 
 function cancelComment(commentId) {
-	console.log('Remove comment '+commentId);
+	mylog.log('Remove comment '+commentId);
 	$('#'+commentId).remove();
 }
 

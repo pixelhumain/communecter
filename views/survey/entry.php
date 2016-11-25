@@ -132,7 +132,7 @@ jQuery(document).ready(function()
 	$('.voteIcon').off().on("click",function() { 
 		$(this).addClass("faa-bounce animated");
 		clickedVoteObject = $(this).data("vote");
-		console.log(clickedVoteObject);
+		mylog.log(clickedVoteObject);
 	 });
 	$(".voteUp").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Pour</strong><br>Je suis d'accord avec la proposition"); });
 	$(".voteUnclear").off().on( "mouseover",function() { $(".voteInfoBox").html("<strong>Amender</strong><br>Je souhaite que la proposition soit complétée"); });

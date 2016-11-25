@@ -609,7 +609,9 @@ border: 1px solid #E4E4E4;
     type : "action",
     controller : "room",
     otags : "<?php echo addslashes(@$room["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$room["tags"])) ?>",
-    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$room["name"])); ?>,
+    parentType : "<?php echo @$room["parentType"] ?>",
+    parentId : "<?php echo (string)@$room["parentId"] ?>"
   };  
 
 var layout = 'grid', // Store the current layout as a variable
@@ -716,12 +718,12 @@ function reduceInfo(){
   *
   ***************************************** */
   function entryDetail(url,type){
-    console.warn("--------------- entryDetail ---------------------",url);
+    mylog.warn("--------------- entryDetail ---------------------",url);
     getAjax( "surveyDetails" , url , function(data){
       //$("#surveyDetails").html(data);
-      console.dir(data);
+      mylog.dir(data);
       
-      console.log("type", type);
+      mylog.log("type", type);
       if(type == "edit") 
         loadByHash(url);
       else 
@@ -732,7 +734,7 @@ function reduceInfo(){
 
   function moderateEntry(id,action)
     {
-      console.warn("--------------- moderateEntry ---------------------");
+      mylog.warn("--------------- moderateEntry ---------------------");
 
       params = { 
         "survey" : id , 
@@ -778,8 +780,8 @@ function reduceInfo(){
     }
     
 function readEntrySV(data,type) { 
-  console.warn("--------------- readEntrySV ---------------------");
-  console.dir(data);
+  mylog.warn("--------------- readEntrySV ---------------------");
+  mylog.dir(data);
   $("#readEntryContainer").html("<div class='col-sm-10 col-sm-offset-1 '>"+
               '<h1 class="homestead text-red center citizenAssembly-header">'+
               '<i class="fa fa-pie-chart "></i>'+
@@ -810,7 +812,7 @@ function toggleGraph(){
 }
 
 function archive(collection,id){
-  console.warn("--------------- archive ---------------------",collection,id);
+  mylog.warn("--------------- archive ---------------------",collection,id);
     
   bootbox.confirm("Vous êtes sûr ? ",
       function(result) {

@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
 
 
 function archive(collection,id){
-  console.warn("--------------- archive ---------------------",collection,id);
+  mylog.warn("--------------- archive ---------------------",collection,id);
     
   bootbox.confirm("Vous êtes sûr ? ",
       function(result) {

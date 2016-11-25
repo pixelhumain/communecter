@@ -30,13 +30,13 @@ var totalDataGS = 0;
 var mapElementsGS = new Array(); 
 
 function startGlobalSearch(indexMin, indexMax){
-    console.log("startGlobalSearch", indexMin, indexMax, indexStepGS, loadingDataGS);
+    mylog.log("startGlobalSearch", indexMin, indexMax, indexStepGS, loadingDataGS);
 
     if(loadingDataGS) return;
 
     setTimeout(function(){ loadingDataGS = false; }, 10000);
 
-    console.log("loadingDataGS true");
+    mylog.log("loadingDataGS true");
     loadingDataGS = true;
     
     var search = $('.input-global-search').val();
@@ -52,7 +52,7 @@ function startGlobalSearch(indexMin, indexMax){
       totalDataGS = 0;
       mapElementsGS = new Array(); 
     }
-    else{ console.log("scrollEndGS ? ", scrollEndGS); if(scrollEndGS) return; }
+    else{ mylog.log("scrollEndGS ? ", scrollEndGS); if(scrollEndGS) return; }
     
     if(search.length>=3){
       autoCompleteSearchGS(search, indexMin, indexMax);
@@ -68,7 +68,7 @@ function startGlobalSearch(indexMin, indexMax){
 
 
 function autoCompleteSearchGS(search, indexMin, indexMax){
-    console.log("autoCompleteSearchGS");
+    mylog.log("autoCompleteSearchGS");
 
     var data = {"name" : search, "locality" : "", "searchType" : searchTypeGS, "searchBy" : "ALL",
                 "indexMin" : indexMin, "indexMax" : indexMax  };
@@ -87,14 +87,14 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);          
+             mylog.log("error"); mylog.dir(data);          
           },
           success: function(data){
             if(!data){ toastr.error(data.content); }
             else
             {
-              console.log("DATA GS");
-              console.dir(data);
+              mylog.log("DATA GS");
+              mylog.dir(data);
 
               var countData = 0;
               $.each(data, function(i, v) { if(v.length!=0){ countData++; } });
@@ -254,14 +254,14 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
               } //end else (str=="")
 
               //signal que le chargement est terminé
-              console.log("loadingDataGS false");
+              mylog.log("loadingDataGS false");
               loadingDataGS = false;
 
               //quand la recherche est terminé, on remet la couleur normal du bouton search
               //$(".btn-start-search").removeClass("bg-azure");
             }
 
-            //console.log("scrollEndGS ? ", scrollEnd, indexMax, countData , indexMin);
+            //mylog.log("scrollEndGS ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
             if(indexMax - countData > indexMin){
               $("#btnShowMoreResultGS").remove(); 

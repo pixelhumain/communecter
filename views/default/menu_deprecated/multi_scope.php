@@ -195,7 +195,7 @@ jQuery(document).ready(function() {
 	// });
 
 
-	$('#dropdown-multi-scope').click(function(){ //console.log("$('#dropdown-multi-scope').click");
+	$('#dropdown-multi-scope').click(function(){ //mylog.log("$('#dropdown-multi-scope').click");
 		$("#dropdown-multi-scope-found").hide();
 	});
 	$('#input-add-multi-scope').filter_input({regex:'[^@#\'\"\`\\\\]'}); //[a-zA-Z0-9_] 
@@ -206,7 +206,7 @@ jQuery(document).ready(function() {
 			timeoutAddScope = setTimeout(function(){ autocompleteMultiScope(); }, 500);
 		}
 	});
-	$('#input-add-multi-scope').click(function(){ //console.log("$('#input-add-multi-scope').click");
+	$('#input-add-multi-scope').click(function(){ //mylog.log("$('#input-add-multi-scope').click");
 		if($('#input-add-multi-scope').val()!="")
 			setTimeout(function(){$("#dropdown-multi-scope-found").show();}, 500);
 	});
@@ -215,14 +215,14 @@ jQuery(document).ready(function() {
 		currentScopeType = $(this).data("scope-type");
 		$(".btn-group-scope-type .btn-default").removeClass("active");
 		$(this).addClass("active");
-		//console.log("change scope type :", currentScopeType);
+		//mylog.log("change scope type :", currentScopeType);
 		if(currentScopeType == "city") $('#input-add-multi-scope').attr("placeholder", "Ajouter une commune ...");
 		if(currentScopeType == "cp") $('#input-add-multi-scope').attr("placeholder", "Ajouter un code postal ...");
 		if(currentScopeType == "dep") $('#input-add-multi-scope').attr("placeholder", "Ajouter un département ...");
 		if(currentScopeType == "region") $('#input-add-multi-scope').attr("placeholder", "Ajouter une région ...");
 	});
 
-	$(".toggle-scope-dropdown").click(function(){ //console.log("toogle");
+	$(".toggle-scope-dropdown").click(function(){ //mylog.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});

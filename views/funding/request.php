@@ -475,7 +475,7 @@ var Login = function() {
 function runShowCity(searchValue) {
 	var citiesByPostalCode = getCitiesByPostalCode(searchValue);
 	var oneValue = "";
-	console.table(citiesByPostalCode);
+	mylog.table(citiesByPostalCode);
 	$.each(citiesByPostalCode,function(i, value) {
     	$("#city").append('<option value=' + value.value + '>' + value.text + '</option>');
     	oneValue = value.value;

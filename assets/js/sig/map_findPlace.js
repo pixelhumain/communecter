@@ -16,7 +16,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	//initialisation de l'interface et des événements (click, etc)
 	/*	>>>>>>>>>>>>>> MAP <<<<<<<<<<<<<<< */
 	Sig.initFindPlace = function (){
-		console.warn("--------------- initFindPlace ---------------------");
+		mylog.warn("--------------- initFindPlace ---------------------");
 		var thisSig = this;
 
 		//##
@@ -51,7 +51,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		});
 
 		$(thisSig.cssModuleName + ' #btn-find-more').click(function(event) {
-			//console.warn("--------------- findMORE ---------------------");
+			//mylog.warn("--------------- findMORE ---------------------");
 			if($(thisSig.cssModuleName + ' #full-research').hasClass("hidden")){
 				$(thisSig.cssModuleName + ' #full-research').removeClass("hidden");
 				$(thisSig.cssModuleName + ' #txt-find-place').addClass("hidden");
@@ -62,7 +62,7 @@ SigLoader.getSigFindPlace = function (Sig){
 				$(thisSig.cssModuleName + ' #txt-find-place').removeClass("hidden");
 				this.fullTextResearch = true;
 			}
-			//console.log("fullTextResearch = " + this.fullTextResearch);
+			//mylog.log("fullTextResearch = " + this.fullTextResearch);
 			//$(thisSig.cssModuleName + ' #full-research').toggle();
 		});
 
@@ -78,7 +78,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	//##
 	//recherche un lieu par nominatim
 	Sig.findPlace = function (nbTentative){ //alert(address);
-		console.warn("--------------- findPlace ---------------------");
+		mylog.warn("--------------- findPlace ---------------------");
 		var thisSig = this;
 
 		//affiche le message "recherche en cours"
@@ -87,7 +87,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			$(thisSig.cssModuleName + ' #list-dropdown-find-place').css({'display':'block'});
 		}
 		var urlRequest = this.getNominatimRequest(nbTentative);
-		//console.log(urlRequest);
+		//mylog.log(urlRequest);
 		$.ajax({
 			//url: "http://nominatim.openstreetmap.org/search?q=" + address + "&format=json&polygon=0&addressdetails=1",
 			url: "//nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
@@ -106,8 +106,8 @@ SigLoader.getSigFindPlace = function (Sig){
 					thisSig.currentResultResearch = obj;
 					var i = 0;
 
-					console.log("reponse nominatim : ");
-					console.dir(obj);
+					mylog.log("reponse nominatim : ");
+					mylog.dir(obj);
 
 					//affichage des résultats de la recherche
 					$.each(obj, function (){
@@ -204,7 +204,7 @@ SigLoader.getSigFindPlace = function (Sig){
 						}
 					}
 				}
-				console.log("nominatim external research : " + "?q=" + transform(str));
+				mylog.log("nominatim external research : " + "?q=" + transform(str));
 				return "?q=" + transform(str);
 			}
 			else{
@@ -251,7 +251,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			if(state != "") 	request += ",+" + state;
 		}
 
-		console.warn("--------------- request nominatim ("+nbTentative+") : " + request);
+		mylog.warn("--------------- request nominatim ("+nbTentative+") : " + request);
 
 		return request;
 	};
@@ -264,7 +264,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			return str;
 		};
 
-		console.warn("-------" + JSON.stringify(thisResult.address));
+		mylog.warn("-------" + JSON.stringify(thisResult.address));
 
 		var itemDropbox = "";
 		if(thisResult.address !== undefined){
@@ -359,7 +359,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		this.useExternalSearchPlace = false;
 		return res;
 	*/
-		console.warn("--------------- execFullSearchNominatim ---------------------");
+		mylog.warn("--------------- execFullSearchNominatim ---------------------");
 		var thisSig = this;
 
 		$("#alert-city-found").addClass("hidden");
@@ -372,7 +372,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			urlRequest += "&viewbox="+geoShape.getWest()+","+geoShape.getNorth()+","
 									 +geoShape.getEast()+","+geoShape.getSouth();
 		}
-		console.log("urlRequest", urlRequest);
+		mylog.log("urlRequest", urlRequest);
 		$.ajax({
 			url: "//nominatim.openstreetmap.org/search" + urlRequest + "&format=json&polygon=1&addressdetails=1",
 			type: 'POST',
@@ -381,7 +381,7 @@ SigLoader.getSigFindPlace = function (Sig){
 			success: function (obj)
 			{
 				if (obj.length > 0) {
-					//console.log("search success");
+					//mylog.log("search success");
 					//déclarer cette fonction avant d'executer Sig.execFullSearchNominatim
 					callBackFullSearch(obj);
 					//return obj;
@@ -399,15 +399,15 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.showCityOnMap = function(geoPosition, isNotSV, type){ 
-		console.log(geoPosition);
+		mylog.log(geoPosition);
 		var thisSig = this;
 
 		var cp = $("#postalCode").val();
 		if(typeof cp == "undefined") cp = $("#cp").val();
 
-		console.dir(geoPosition);
+		mylog.dir(geoPosition);
 		var position = null;
-		console.log("typof geoPosition.geo", typeof geoPosition.geo);
+		mylog.log("typof geoPosition.geo", typeof geoPosition.geo);
 		if(typeof geoPosition.lat != "undefined"){
 			var lat=geoPosition.lat;
 			var lon=geoPosition.lon;
@@ -420,17 +420,17 @@ SigLoader.getSigFindPlace = function (Sig){
 
 				var addressCp = typeof value.address.postcode != "undefined" ? value.address.postcode : "";
 					
-				//console.log((citiesByPostalCode));
+				//mylog.log((citiesByPostalCode));
 				//$.each(citiesByPostalCode, function (key2, value2){
 
 					var city =  typeof value.address.city 	 != "undefined" ? value.address.city : 
 								typeof value.address.village != "undefined" ? value.address.village : "";
 					var countryCode = typeof value.address.country_code != "undefined" ? value.address.country_code : "";
 					
-					console.log("cp", cp, "addressCp", addressCp);
+					mylog.log("cp", cp, "addressCp", addressCp);
 					if(cp == addressCp && countryCode == "fr" && position == null)  position = value;
 					// if(city != "" && value2.text != null){				
-					// 	//console.log(value2.text); console.log(value.address.city);
+					// 	//mylog.log(value2.text); mylog.log(value.address.city);
 					// 	if(//thisSig.clearStr(value2.text) == thisSig.clearStr(city) 
 					// 		//|| 
 					// 		cp == addressCp
@@ -440,19 +440,19 @@ SigLoader.getSigFindPlace = function (Sig){
 				//});
 			});
 		}else{
-			console.log("pos geo found");
+			mylog.log("pos geo found");
 			position = { "lat" : geoPosition.geo.latitude,
 						 "lon" : geoPosition.geo.longitude
 					    };
 		}
 
-		console.log('position found ? ', position);
+		mylog.log('position found ? ', position);
 		if(position == null) {
 			$("#iconeChargement").hide();
 			return false; //position = geoPosition.geo;
 		}
 
-		//console.log("position"); console.dir(position);
+		//mylog.log("position"); mylog.dir(position);
 		 
 		$("#geoPosLongitude").attr("value", position["lon"]);
 		$("#geoPosLatitude").attr("value", position["lat"]);
@@ -461,21 +461,21 @@ SigLoader.getSigFindPlace = function (Sig){
 		//thisSig.map.setView(latlng, 15);
 
 		thisSig.centerSimple(latlng, 15);
-		//console.log("center ok");
+		//mylog.log("center ok");
 
 		var content = thisSig.getPopupNewData();
-		console.log("this type", type);
+		mylog.log("this type", type);
 		if(type=="person") content = thisSig.getPopupNewPerson();
 
 		var properties = { 	id : "0",
 							icon : thisSig.getIcoMarkerMap({"type" : type}),
 							content: content };
 
-		//console.dir(properties);
-		//console.log("before getMarkerSingle");
+		//mylog.dir(properties);
+		//mylog.log("before getMarkerSingle");
 		thisSig.clearMap(thisSig.map, false);
 		var markerNewData = thisSig.getMarkerSingle(thisSig.map, properties, latlng);
-		//console.dir(markerNewData);
+		//mylog.dir(markerNewData);
 		thisSig.map.panTo(markerNewData.getLatLng(), {animate:false});
 		thisSig.map.setZoom(15, {animate:false});
 		Sig.centerSimple(markerNewData.getLatLng(), 15);
@@ -531,7 +531,7 @@ SigLoader.getSigFindPlace = function (Sig){
 		if(!isNotSV) $(".form-add-data").css("top" , "200px");
 
 		function btnValidateClick(isNotSV){ //alert("yepaé");
-			console.log("btnValidateClick");
+			mylog.log("btnValidateClick");
 			Sig.markerNewData.closePopup();
 			Sig.map.panTo(Sig.markerNewData.getLatLng());
 			Sig.map.panBy([260, 0]);
@@ -568,8 +568,8 @@ SigLoader.getSigFindPlace = function (Sig){
 		//vérifie si l'entité donné à bien une position geo
 		var coordinates = this.getCoordinates(entity, "markerSingle");
 		//si elle n'en a pas on sort
-		console.log("startModifyGeoposition coordinates", coordinates);
-		console.dir(entity);
+		mylog.log("startModifyGeoposition coordinates", coordinates);
+		mylog.dir(entity);
 
 		if(typeof coordinates == "undefined" || coordinates == null) {
 			//findGeoPosByAddress();
@@ -660,7 +660,7 @@ SigLoader.getSigFindPlace = function (Sig){
 	};
 
 	Sig.saveNewGeoposition = function (entityId, entityType, latitude, longitude){
-		console.log("start save geopos");
+		mylog.log("start save geopos");
 		clearTimeout(Sig.timerbounce);
 		$("#lbl-loading-saving").removeClass("hidden");
 		$("#lbl-loading-saving").html("<center><i class='fa fa-refresh fa-2x center fa-spin'></i></br>Enregistrement de la nouvelle position...<br>Merci de patienter...</center>");
@@ -691,8 +691,8 @@ SigLoader.getSigFindPlace = function (Sig){
     			toastr.success("La position a été mise à jour avec succès");
 			},
 			error: function(error){
-				console.log("Une erreur est survenue pendant l'enregistrement de la nouvelle position");
-				console.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
+				mylog.log("Une erreur est survenue pendant l'enregistrement de la nouvelle position");
+				mylog.log("entityType="+entityType+"&entityId="+entityId+"&latitude="+latitude+"&longitude="+longitude);
 			}
 		});
 	};

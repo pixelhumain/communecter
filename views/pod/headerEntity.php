@@ -231,7 +231,7 @@ $controler = Element::getControlerByCollection($type);
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
-							echo Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
+							echo "<br/>".Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
 							//echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";	
 						}
 					?>
@@ -242,7 +242,7 @@ $controler = Element::getControlerByCollection($type);
 						<i id="iconLocalityyHeader" class="fa fa-globe <?php echo (empty($entity['address'])?'hidden':'');?>"></i>
 						<label class="text-red" id="localityHeader"><?php echo (empty($entity["address"]["addressLocality"])?"":$entity["address"]["addressLocality"].","); ?></label> 
 						<label class="text-red" id="pcHeader"><?php echo (empty($entity["address"]["postalCode"])?"":($entity["address"]["postalCode"].",")); ?></label>
-						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]].","); ?></label> 
+						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]]); ?></label> 
 						<?php } ?>	
 					</span>
 				</div>
@@ -526,6 +526,10 @@ $controler = Element::getControlerByCollection($type);
 	      <div class="modal-footer">
 	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
+	      <?php
+		      //$addLink = (empty($users[Yii::app()->session["userId"]])?false:true); 
+		      if($edit && $type != Person::COLLECTION) 
+				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$entity['_id'], "users"=>@$users)); ?>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
@@ -629,7 +633,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
-	console.log("loadAllLinks-------", loadAllLinks);
+	mylog.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -639,8 +643,8 @@ jQuery(document).ready(function() {
 			cache: true,
 			dataType: "json",
 			success: function (obj){
-				console.log("conntext/////");
-				console.log(obj);
+				mylog.log("conntext/////");
+				mylog.log(obj);
 				//Sig.restartMap();
 				contextMap = obj;
 				//mapUrl["directory"]["data"] = {"links" : contextMap};
@@ -651,7 +655,7 @@ jQuery(document).ready(function() {
 				
 			},
 			error: function (error) {
-				console.log("error findGeoposByInsee");
+				mylog.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
 				$("#iconeChargement").hide();	
 			}
@@ -661,7 +665,7 @@ jQuery(document).ready(function() {
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		//mapUrl["directory"]["data"] = {"links" : contextMap};
 		//Sig.restartMap();
-		console.log(contextMap);
+		mylog.log(contextMap);
 		Sig.showMapElements(Sig.map, contextMap);	
 		//$(".communityBtn").removeClass("hide");
 	}
@@ -735,8 +739,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load");
-		console.log(mapUrl);
+		mylog.log("no ajax load");
+		mylog.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});

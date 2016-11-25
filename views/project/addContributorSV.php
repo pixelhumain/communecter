@@ -228,7 +228,7 @@ if(!@$_GET["renderPartial"])
 		var successHandler2 = $('.successHandler', formProject);
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			console.log("state = "+state );
+			mylog.log("state = "+state );
 			if (state == true) {
 				$("#newContributors #contributorIsAdmin").val(1);
 			} else {
@@ -302,7 +302,7 @@ if(!@$_GET["renderPartial"])
 					"parentId" : projectId,
 					"connectType" : connectType
 				};
-				console.log(params);
+				mylog.log(params);
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 		            '<blockquote>'+
@@ -390,7 +390,7 @@ if(!@$_GET["renderPartial"])
 		$("#newContributors #searchMemberSection").css("display", "none");
 	}
 	function autoCompleteEmailAddContributor(searchValue){
-		//console.log("autoCompleteEmailAddMember");
+		//mylog.log("autoCompleteEmailAddMember");
 		var data = {"search" : searchValue};
 		$.ajax({
 			type: "POST",

@@ -36,7 +36,7 @@ jQuery(document).ready(function() {
 		el = $(e);
 		$(".home_page").append( el[0] );
 		$(".home_page .explain").last().removeClass("explain");
-		//console.dir($(e)[0]);
+		//mylog.dir($(e)[0]);
 	});
 	*/
 
