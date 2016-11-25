@@ -24,6 +24,12 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
+    if(@$_GET["network"] || @Yii::app()->session["network"]){
+      if(!@Yii::app()->session["network"])
+        Yii::app()->session["network"] = $_GET["network"];
+      Yii::app()->theme = "network";
+      Yii::app()->params['networkParams'] = Yii::app()->session["network"];
+    }
     $this->render("index");
   }
 
