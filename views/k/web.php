@@ -9,6 +9,18 @@
                                 "placeholderMainSearch"=>$placeholderMainSearch) ); 
 ?>
 
+<style>
+    #sectionSearchResults{
+        min-height:1000px;
+        margin-left:80px;
+    }
+</style>
+<section class="padding-top-15 margin-bottom-50 hidden" id="sectionSearchResults">
+        <div class="row">
+            <div class="col-md-12" id="searchResults"></div>
+        </div>
+</section>
+
 <div id="mainCategories"></div>
 
 <?php $this->renderPartial($layoutPath.'footer'); ?>
@@ -16,8 +28,48 @@
 <script>
 jQuery(document).ready(function() {
     initKInterface();
+    initWebInterface();
     buildListCategories();
 });
+
+function initWebInterface(){
+    $("#main-btn-start-search, #menu-btn-start-search").click(function(){
+        var search = $("#main-search-bar").val();
+        startWebSearch(search);
+    });
+}
+
+function startWebSearch(search, category){
+    $("#second-search-bar").val(search);
+    $("#mainCategories").hide();
+    $("#searchResults").html("recherche en cours. Merci de patienter quelques instants...");
+
+    var params = {
+        search:search,
+        category:category
+    };
+
+    $.ajax({ 
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/k/websearch/",
+        data: params,
+        //dataType: "json",
+        success:
+            function(html) {
+                $("#searchResults").html(html);
+                $("#sectionSearchResults").removeClass("hidden");
+                KScrollTo("#titleWebSearch");
+            },
+        error:function(xhr, status, error){
+            $("#searchResults").html("erreur");
+        },
+        statusCode:{
+                404: function(){
+                    $("#searchResults").html("not found");
+            }
+        }
+    });
+}
 
 function buildListCategories(){
     console.log(mainCategories);
@@ -41,14 +93,14 @@ function buildListCategories(){
         $.each(params.items, function(keyC, val){
             console.log(keyC, val);
             html +=             '<div class="col-sm-4 portfolio-item">'+
-                                    '<a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">'+
+                                    '<button class="portfolio-link category-search-link" data-category="'+val.name+'">'+
                                         '<div class="caption">'+
                                             '<div class="caption-content">'+
                                             '</div>'+
                                         '</div>'+
                                         '<i class="fa fa-'+val.faIcon+' fa-3x"></i>'+
                                         '<h3>'+val.name+'</h3>'+
-                                    '</a>'+
+                                    '</button>'+
                                 '</div>'
         });
 
@@ -59,5 +111,10 @@ function buildListCategories(){
     });
 
     $("#mainCategories").html(html);
+
+    $(".category-search-link").click(function(){
+        var cat = $(this).data("category");
+        startWebSearch("", cat);
+    });
 }
 </script>

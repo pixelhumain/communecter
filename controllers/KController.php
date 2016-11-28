@@ -18,6 +18,7 @@ class KController extends CommunecterController {
 	{
 	    return array(
 	        'web'     		=> 'citizenToolKit.controllers.k.WebAction',
+	        'websearch'     => 'citizenToolKit.controllers.k.WebSearchAction',
 	        'live'    		=> 'citizenToolKit.controllers.k.LiveAction',
 	        'referencement' => 'citizenToolKit.controllers.k.ReferencementAction',
 	        'savereferencement' => 'citizenToolKit.controllers.k.SaveReferencementAction',

@@ -410,6 +410,7 @@ class CommunecterController extends Controller
     ),
     "k" => array(
       "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),
+      "websearch"         => array('href' => "/ph/communecter/k/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
       "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),

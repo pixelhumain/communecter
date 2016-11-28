@@ -800,7 +800,7 @@ function getAddressObj(){ console.log("GET ADDRESS OBJ INSEE : ", NE_insee);
 				address : {
 					"@type" : "PostalAddress",
 					addressCountry : NE_country,
-					streetLocality : NE_city,
+					addressLocality : NE_city,
 					streetAddress : NE_street,
 					postalCode : NE_cp,
 					codeInsee : NE_insee,

@@ -318,6 +318,8 @@
 											"entry" 			: "entry-marker-default",
 											"action" 			: "action-marker-default",
 
+											"siteurl" 			: "action-marker-default",
+
 									  };
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
@@ -357,6 +359,8 @@
 
 											"entry" 			: { ico : "gavel", color : "azure" 	},
 											"action" 			: { ico : "cogs", color : "lightblue2" 	},
+
+											"siteurl" 			: { ico : "desktop", color : "blue" 	},
 
 									  };
 
