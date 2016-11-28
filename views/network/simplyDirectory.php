@@ -826,10 +826,25 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		reverseToRepertory();
 	  }
 	  else{
+		if(level < newLevel){
+			newLevel=false;
+			$(".breadcrumAnchor").each(function(){
+				value=$(this).data("value");
+				if(value > level){
+					$(this).remove();
+					$(".breadcrumChevron[data-value='"+value+"']").remove();
+				}
+			});
+		}
+		if(newLevel == 5){
+			$(".breadcrumChevron[data-value='4']").remove();
+			$(".breadcrumAnchor[data-value='4']").remove();
+			newLevel=4;
+		}
 		getAjaxFiche(url, newLevel) 
 	  }
   }
-  function getAjaxFiche(url, breadcrumbLevel){
+  function getAjaxFiche(url, breadcrumLevel){
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
 	    history.pushState(null, "New Title", url);
@@ -845,6 +860,15 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     }
     isEntityView=true;
     urlHash=url;
+    if(urlHash.indexOf("type") < 0){
+	    urlSplit=urlHash.replace( "#","" ).split(".");
+	    console.log(urlHash);
+	    if(urlSplit[0]=="person")
+	    	urlType="citoyens";
+	    else
+	    	urlType=urlSplit[0]+"s";
+	    urlHash="#element.detail.type."+urlType+".id."+urlSplit[3];
+    }
 	url='/'+url.replace( "#","" ).replace( /\./g,"/" );
 	$("#repertory").hide( 700 );
     $(".main-menu-left").hide( 700 );
@@ -860,9 +884,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	   // $("").fadeOut();
 	    console.log(contextData);
 	    //Construct breadcrumb
-	    $html= '<i class="fa fa-chevron-right fa-1x text-red" style="padding: 0px 10px 0px 10px;"></i>'+
-	    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumbLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark">'+contextData.name+'</a>';
-	    $("#breadcrum").append($html);
+	    if(breadcrumLevel != false){
+		    $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+
+		    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
+		    $("#breadcrum").append($html);
+		}
 	    /*if(breadcrumb){
 		    if($(".lastElementBreadcrumb").length > 0)
 		    	$(".lastElementBreadcrumb").remove();
@@ -890,7 +916,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $(".main-menu-left").show( 700 );
    // $(".panel-group .panel-default").fadeIn();
    // $(".panel-group .panel-back").hide();
-	$html = ' <a href="#network.simplydirectory" onclick="breadcrumGuide(0)" class="breadcrumbAnchor text-dark" style="font-size:20px;">Liste</a>';
+	$html = ' <a href="#network.simplydirectory" onclick="breadcrumGuide(0)" class="breadcrumAnchor text-dark" style="font-size:20px;">Liste</a>';
 	$("#breadcrum").html($html);
 	history.replaceState(null, '', window.location.href.split('#')[0]);
     Sig.restartMap();

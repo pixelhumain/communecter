@@ -661,7 +661,7 @@ function loadByHash( hash , back ) {
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
-			getAjaxFiche(hash,count);
+			breadcrumGuide(count, hash);
 		}
 		return;
 	}
