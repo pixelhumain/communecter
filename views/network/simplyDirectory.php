@@ -920,7 +920,8 @@ function showMapNetwork(show)
 		}
 
 		$(".btn-group-map").show( 700 );
-		$("#right_tool_map").show(700);
+		$("#right_tool_map").show( 700 );
+		$(".main-bottom-menu").show( 700 );
 		$(".btn-menu5, .btn-menu-add").hide();
 		$("#btn-toogle-map").css("display","inline !important");
 		$("#btn-toogle-map").show();
@@ -938,6 +939,7 @@ function showMapNetwork(show)
 		hideMapLegende();
 		$(".btn-group-map").hide( 700 );
 		$("#right_tool_map").hide(700);
+		$(".main-bottom-menu").hide( 700 );
 		$("#dropdown_params").show( 700 );
 		showMenuNetwork(false);
 		$(".btn-menu5, .btn-menu-add").show();
