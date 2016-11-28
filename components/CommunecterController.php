@@ -408,6 +408,13 @@ class CommunecterController extends Controller
       "get" => array("href" => "/ph/communecter/element/get"),
       "delete" => array("href" => "/ph/communecter/element/delete"),
     ),
+    "k" => array(
+      "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),
+      "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
+      "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
+      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
+      ),
   );
 
   function initPage(){

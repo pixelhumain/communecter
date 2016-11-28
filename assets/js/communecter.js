@@ -42,6 +42,7 @@ function checkPoll(){
 	//returning multple server checks in a unique ajax call
 	if(userId){
 		_checkLoggued();
+		if(typeof refreshNotifications != "undefined")
 		refreshNotifications();
 	}
 	
@@ -1451,6 +1452,7 @@ function buildDynForm(elementObj, afterLoad,data) {
 		toastr.error('Vous devez etre loggué');
 }
 
+
 var contextData = null;
 var typeObj = {
 	"person" : {
@@ -1555,7 +1557,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
 		            type :{
 		            	"inputType" : "select",
@@ -1595,6 +1597,81 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			    }
+			}
+		}},
+		"siteurl":{ 
+		col:"siteurl",
+		ctrl:"siteurl",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	mylog.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une url.</p>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	//$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true }
+			        },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList
+		            },
+		            
 		            parentId :{
 		            	"inputType" : "hidden"
 		            },
@@ -1850,6 +1927,7 @@ var typeObj = {
 			            		
 			            		parentId = $(this).val();
 			            		if( parentId != "" ){
+			            			if(typeof myContacts != "undefined")
 			            			$.each(myContacts.events,function (i,evObj) { 
 			            				//mylog.log("event : ",evObj["_id"]["$id"]);
 			            				if( evObj["_id"]["$id"] == parentId){
@@ -2232,7 +2310,7 @@ var typeObj = {
 		            },
 		            email:{
 		            	inputType : "hidden",
-		            	value : (userId) ? userConnected.email : ""
+		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
 		            },
 		            organizer:{
 		            	inputType : "hidden",
@@ -2355,7 +2433,7 @@ var typeObj = {
 		            },
 		            email:{
 		            	inputType : "hidden",
-		            	value : (userId) ? userConnected.email : ""
+		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
 		            },
 		            organizer:{
 		            	inputType : "hidden",
@@ -2400,6 +2478,7 @@ function myAdminList (ctypes) {
 		$.each( ctypes, function(i,ctype) {
 			var connectionType = connectionTypes[ctype];
 			myList[ ctype ] = { label: ctype, options:{} };
+			if(typeof myContacts != "undefined" && myContacts != null)
 			$.each( myContacts[ ctype ],function(id,elemObj){
 				//mylog.log(ctype+"-"+id+"-"+elemObj.name);
 				if( elemObj.links && elemObj.links[connectionType] && elemObj.links[connectionType][userId] && elemObj.links[connectionType][userId].isAdmin) {
@@ -2775,7 +2854,7 @@ function getMediaCommonHtml(data,action,id){
 }
 
 function myContactLabel (type,id) { 
-	if(myContacts && myContacts[type]){
+	if(typeof myContacts != "undefined" && myContacts[type]){
 		$.each( myContacts[type], function( key,val ){
 			if( id == val["_id"]["$id"] ){
 				return val;

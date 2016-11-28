@@ -696,12 +696,12 @@
 			});
 			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +
 								"</style>"+
-								"<div class='form-group inline-block padding-15'>"+
+								"<div class='form-group inline-block padding-15 form-in-map'>"+
 									"<h3 class='margin-top-5'><i class='fa fa-angle-down'></i> <i class='fa fa-home'></i> Adresse</h3>"+
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez une adresse pour un placement automatique</div>"+
 									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
 									"<hr class='col-md-12'>"+
-									"<select class='form-group col-md-12 col-xs-12' name='newElement_country'>"+
+									"<select class='form-group col-md-12 col-xs-12' name='newElement_country' id='newElement_country'>"+
 									"<option value=''>"+trad.chooseCountry+"</option>"+countries+
 									"</select>"+
 									"<div id='divCity' class='hidden dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
