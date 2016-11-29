@@ -35,10 +35,14 @@ function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 		NE_country = currentUser.addressCountry;
 		mylog.log("NE_country", NE_country);
 	}
-
+	console.log("coordinatesPreLoadedFormMap", coordinatesPreLoadedFormMap);
 	var coordinates = new Array(0, 0);
 	if(typeof contextData != "undefined" && contextData != null && typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
-		var coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
+		coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
+	
+	if(typeof coordinatesPreLoadedFormMap != "undefined")
+		coordinates = coordinatesPreLoadedFormMap;
+	console.log("coordinates", coordinates);
 	
 	//efface le marker s'il existe
 	if(Sig.markerFindPlace != null) Sig.map.removeLayer(Sig.markerFindPlace);
@@ -466,6 +470,7 @@ function backToForm(cancel){
 			copyMapForm2Dynform(locationObj);
 			addLocationToForm(locationObj);
 		}
+		$("#form-street").val($("[name='newElement_streetAddress']").val());
 		showMap(false);
 		Sig.clearMap();
 		$('#ajax-modal').modal("show");
@@ -753,3 +758,66 @@ function updateHtmlInseeLatLon(){
 	);
 }
 
+function preLoadAddress(hide, country, insee, city, postalCode, lat, lng, street){
+
+	if(country != "") 	{ NE_country = country; }
+	if(insee != "") 	{ NE_insee = insee; }
+	if(city != "") 		{ NE_city = city; }
+	if(postalCode != ""){ NE_cp = postalCode; }
+	if(lat != "") 		{ NE_lat = lat; }
+	if(lng != "")		{ NE_lng = lng; }
+	if(street != "")	{ NE_street = street; }
+
+
+	if(country == "NC"){
+		NE_dep = "Nouvelle-Calédonie";
+		NE_region = "Nouvelle-Calédonie";
+	}
+
+	$('[name="newElement_country"]').val(NE_country);
+	$('[name="newElement_insee"]').val(NE_insee);
+	$('[name="newElement_city"]').val(NE_city);
+	$('[name="newElement_cp"]').val(NE_cp);
+	$('[name="newElement_dep"]').val(NE_dep);
+	$('[name="newElement_region"]').val(NE_region);
+	$('[name="newElement_lat"]').val(NE_lat);
+	$('[name="newElement_lng"]').val(NE_lng);
+	$('[name="newElement_streetAddress"]').val(NE_street);
+
+	$("#divStreetAddress").removeClass("hidden");
+	$("#divPostalCode").removeClass("hidden");
+	$("#divCity").removeClass("hidden");
+
+	$("#newElement_btnValidateAddress").prop('disabled', (NE_insee==""?true:false));
+
+	Sig.markerFindPlace.setLatLng([NE_lat, NE_lng]);
+}
+
+
+function getAddressObj(){ console.log("GET ADDRESS OBJ INSEE : ", NE_insee);
+	if(notEmpty(NE_insee)){
+		var	locationObj = {
+				address : {
+					"@type" : "PostalAddress",
+					addressCountry : NE_country,
+					addressLocality : NE_city,
+					streetAddress : NE_street,
+					postalCode : NE_cp,
+					codeInsee : NE_insee,
+					depName : NE_dep,
+					regionName : NE_region
+				},
+				geo : {
+					"@type" : "GeoCoordinates",
+					latitude : NE_lat,
+					longitude : NE_lng
+				},
+				geoPosition : {
+					"type" : "Point",
+					"coordinates" : [ parseFloat(NE_lat), parseFloat(NE_lng) ]
+				}
+			};
+		return locationObj;
+	}
+	return false;
+}
