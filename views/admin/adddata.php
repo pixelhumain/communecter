@@ -323,9 +323,11 @@ function bindAddData(){
 		        					"<td>"+value2.name+"</td>"+
 		        					"<td>"+value2.info+"</td>"+
 		        					"<td>"+baseUrl+value2.url+"</td>"+
+		        					"<td>"+value2.type+"</td>"+
+		        					"<td>"+value2.id+"</td>"+
 		        				"</tr>";
 		        		csv += "\n";
-		        		csv += '"'+value2.name+'";"'+value2.info+'";"'+baseUrl+value2.url+'";' ;
+		        		csv += '"'+value2.name+'";"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
 		        		
 					});
 		  		}
@@ -569,7 +571,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 	$("#resultSearchEntity").addClass("hide");
 	$("#nameSearchEntity").html("");
 	$("#idSearchEntity").val("");
-	$("#imgSearchEntity").attr('src',baseUrl+element.profilThumbImageUrl);
+	$("#imgSearchEntity").attr('src',"");
 	
 	$.each(mapColorIconTop, function(key, color){
 		$("#imgSearchEntity").removeClass("bg-"+color);

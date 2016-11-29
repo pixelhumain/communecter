@@ -630,7 +630,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>			
 		</div>
 
-		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
+		<?php var_dump($organizer) ;
+		if($type == Event::COLLECTION && @$organizer["type"]){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
@@ -670,7 +671,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
 				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
 			</a>	
-			
 		</div>
 
 		<div class="col-xs-12 no-padding margin-top-10">

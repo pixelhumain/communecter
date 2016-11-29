@@ -484,7 +484,7 @@ function bindCreateFile(){
 	  				if(typeFile == "csv"){
 	  					var fin = false ;
 				  		var indexStart = 1 ;
-				  		var limit = 10 ;
+				  		var limit = 90 ;
 				  		var indexEnd = limit;
 				  		var head = file.slice(0,1);
 
@@ -841,17 +841,23 @@ function stepThree(params){
 
         		/*var objImport = {} ; jQuery.parseJSON( '{ "name": "John" }' );
         		var objError = jQuery.parseJSON( '{ "name": "John" }' );*/
-
+        		console.log("data.elements",typeof data.elements);
         		if($("#jsonImport").val() == "")
         			importD = data.elements;
         		else{
         			if(data.elements == "[]")
         				importD = $("#jsonImport").val();
-        			else
-        				importD = $("#jsonImport").val().substring(0, $("#jsonImport").val().length-1) + "," + data.elements.substring(1, data.elements.length);
+        			else{
+        				var elt1 = jQuery.parseJSON($("#jsonImport").val());
+        				var elt2 = jQuery.parseJSON(data.elements);
+        				var elt3 = elt1.concat(elt2);
+        				importD = jQuery.parseJSON(elt3);
+        				//importD = $("#jsonImport").val().substring(0, $("#jsonImport").val().length-1) + "," + data.elements.substring(1, data.elements.length);
+        			}
 
         		}
-        			
+        		
+        		console.log("data.elementsWarnings", typeof data.elementsWarnings);	
         		if($("#jsonError").val() == "")
         			errorD = data.elementsWarnings;
         		else{
@@ -859,11 +865,16 @@ function stepThree(params){
         			if(data.elementsWarnings == "[]")
         				errorD = $("#jsonError").val();
         			else
-        				errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.elementsWarnings.substring(1, data.elementsWarnings.length);
+        				var elt1 = jQuery.parseJSON($("#jsonError").val());
+        				var elt2 = jQuery.parseJSON(data.elementsWarnings);
+        				var elt3 = elt1.concat(elt2);
+        				errorD = jQuery.parseJSON(elt3);
+        				//errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.elementsWarnings.substring(1, data.elementsWarnings.length);
         		}
 
         		
-        			
+        		console.log("importD",typeof importD);		
+        		console.log("errorD",typeof errorD);
 
         		$("#jsonImport").val(importD);
         		$("#jsonError").val(errorD);
