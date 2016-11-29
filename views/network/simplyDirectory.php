@@ -478,7 +478,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                     $.each(o.tags, function(key, value){
                       if(value != ""){
                         //Display info in item
-                        tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter' value='"+ value +"'>#" + value + "</a>";
+                        tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' value='"+ value +"'>#" + value + "</a>";
                         // manageTagFilter("#"+value);
                         //Consolidate tags
                         // if(typeof allTags[value] != "undefined"){
@@ -860,7 +860,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     }
     isEntityView=true;
     urlHash=url;
-    if(urlHash.indexOf("type") < 0){
+    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0){
 	    urlSplit=urlHash.replace( "#","" ).split(".");
 	    console.log(urlHash);
 	    if(urlSplit[0]=="person")

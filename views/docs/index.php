@@ -2,19 +2,22 @@
 $this->renderPartial("../docs/assets");
 ?>
 
-<div class="panel-heading border-light center text-dark partition-white radius-10">
-    <span class=" text-red homestead tpl_title"><i class="fa fa-binoculars"></i> Documentation</span>
-    <br/>
-    <span class="tpl_shortDesc"> Tout ce qu'il faut savoir sur le réseau Communecter ...
-     </span>
-</div>
 
 <style type="text/css">
     .tpl_title{font-size: 38px!important;}
 </style>
 <div class="col-sm-12 ">
+	<div class="panel-heading border-light center text-dark partition-white radius-10 getDocHeader">
+	    <span class=" text-red homestead tpl_title"><i class="fa fa-binoculars"></i> Documentation</span>
+	    <br/>
+	    <?php if(@$_GET["network"]){ 
+	 $this->renderPartial("../docs/network/".$_GET["network"]); 
+	    } ?>
+	    <span class="tpl_shortDesc"> Tout ce qu'il faut savoir sur le réseau Communecter ...
+	    </span>
+	</div>
 
-    <div class="panel panel-white ">
+    <div class="panel-white">
         
         <div class="col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 no-padding">
         	<?php $this->renderPartial("../docs/docPattern/player"); ?>

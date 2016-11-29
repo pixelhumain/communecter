@@ -649,18 +649,12 @@ function loadByHash( hash , back ) {
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
 		if( hash.indexOf("#network.simplydirectory") >= 0 &&
 			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
-			//var n = hash.indexOf("type=")+5;
-			//var type = hash.substr(n);
-			//console.log("CHANGE directory", type);
-			//searchType = [type];
-			//setHeaderDirectory(type);
-			//loadingData = false;
-			//startSearch(0, indexStepInit);
-			//location.hash = hash;
-		
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
+			//case on reload view
+			if(count==0)
+				count=1;
 			breadcrumGuide(count, hash);
 		}
 		return;

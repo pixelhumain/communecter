@@ -560,7 +560,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 		
 					<div id="timeline" class="col-md-12">
-						<div class="timeline">
+						<div class="timeline col-md-12 no-padding">
 							<div class="newsTL">
 								<div class="spine"></div>
 							</div>
