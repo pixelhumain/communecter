@@ -630,8 +630,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>			
 		</div>
 
-		<?php var_dump($organizer) ;
-		if($type == Event::COLLECTION && @$organizer["type"]){ ?>
+		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>

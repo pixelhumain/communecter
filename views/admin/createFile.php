@@ -484,7 +484,7 @@ function bindCreateFile(){
 	  				if(typeFile == "csv"){
 	  					var fin = false ;
 				  		var indexStart = 1 ;
-				  		var limit = 90 ;
+				  		var limit = 30 ;
 				  		var indexEnd = limit;
 				  		var head = file.slice(0,1);
 
