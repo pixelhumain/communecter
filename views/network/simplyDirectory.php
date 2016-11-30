@@ -602,13 +602,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                       isFollowed=false;
                       if(typeof o.isFollowed != "undefined" )
                         isFollowed=true;
-                      if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
+                      /*if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
                       str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" +
                             'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
                             " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
                                 "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
                               "</a>";
-                      <?php } ?>
+                      <?php } ?>*/
                       str += "<hr>";
                       if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
                       str += tags;
