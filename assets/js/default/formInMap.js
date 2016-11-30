@@ -35,13 +35,13 @@ function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 		NE_country = currentUser.addressCountry;
 		mylog.log("NE_country", NE_country);
 	}
-	console.log("coordinatesPreLoadedFormMap", coordinatesPreLoadedFormMap);
+	//console.log("coordinatesPreLoadedFormMap", coordinatesPreLoadedFormMap);
 	var coordinates = new Array(0, 0);
 	if(typeof contextData != "undefined" && contextData != null && typeof contextData.geo != "undefined" && contextData.geo != null && updateLocality == true)
 		coordinates = new Array(contextData.geo.latitude, contextData.geo.longitude);
 	
-	if(typeof coordinatesPreLoadedFormMap != "undefined")
-		coordinates = coordinatesPreLoadedFormMap;
+	/*if(typeof coordinatesPreLoadedFormMap != "undefined")
+		coordinates = coordinatesPreLoadedFormMap;*/
 	console.log("coordinates", coordinates);
 	
 	//efface le marker s'il existe

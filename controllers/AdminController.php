@@ -42,7 +42,8 @@ class AdminController extends CommunecterController {
 	        'checkcities' => 'citizenToolKit.controllers.admin.CheckCitiesAction',
 	        'checkcedex' => 'citizenToolKit.controllers.admin.CheckCedexAction',
 	        'downloadfile' => 'citizenToolKit.controllers.admin.DownloadFileAction',
-			'statistics' => 'citizenToolKit.controllers.admin.StatisticsAction'
+			'statistics' => 'citizenToolKit.controllers.admin.StatisticsAction',
+			'createfile' => 'citizenToolKit.controllers.admin.CreateFileAction'
 
 	    );
 	}

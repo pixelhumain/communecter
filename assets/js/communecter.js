@@ -537,6 +537,7 @@ var loadableUrls = {
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.mailerrordashboard" : {title:'MAIL ERROR ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
+    "#admin.createfile" : {title:'IMPORT DATA', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
@@ -1327,7 +1328,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 			formData.medias.push(mediaObject);
 		}
 	});
-	/*$.ajax( {
+	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
@@ -1355,7 +1356,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	        		addFloopEntity(data.id, collection, data.map);
             }
     	}
-    });*/
+    });
 }
 
 function editElement(type,id){

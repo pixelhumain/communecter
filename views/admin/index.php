@@ -30,6 +30,14 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
+          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.createfile')">
+              <i class="fa fa-upload fa-2x"></i>
+                
+              Refactor Import
+              
+            </div>
+          </li>
           <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.openagenda')">
               <i class="fa fa-calendar fa-2x"></i>

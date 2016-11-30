@@ -1,0 +1,39 @@
+{
+    "name" : "STRING",
+    "type" : "STRING",
+    "address" : {
+        "postalCode" : "STRING",
+        "addressLocality" : "STRING",
+        "codeInsee" : "STRING",
+        "streetAddress" : "STRING",
+        "addressCountry" : "STRING"
+    },
+    "geo" : {
+        "latitude" : "FLOAT",
+        "longitude" : "FLOAT"
+    },
+    "description" : "STRING",
+    "url" : "STRING",
+    "tags" : [ 
+        "STRING"
+    ],
+    "telephone" : {
+        "fixe" : [ 
+            "STRING"
+        ],
+        "mobile" : [ 
+            "STRING"
+        ],
+        "fax" : [ 
+            "STRING"
+        ]
+    },
+    "url" : "STRING",
+    "allDay" : "STRING",
+    "startDate" : "STRING",
+    "endDate" : "STRING",
+    "organizerType" : "STRING",
+    "organizerId" : "STRING",
+    "parentId" : "STRING",
+    "duree" : "STRING"    
+}

@@ -79,7 +79,7 @@ a h1.text-azure:hover{
 
 		        foreach ($elements as $key => $value) {
 		        	$created = ( @$value["created"] ) ? date("d/m/y h:i",$value["created"]) : ""; 
-		        	$updated = (@$value["updated"]) ? "<span class='text-extra-small'>(".round(abs(time() - $value["updated"]) / 60).")</span>" : "";
+		        	$updated = (@$value["updated"]) ? "<span class='text-extra-small fromNowDDA'>(".DateHelper::fromNow($value["updated"]).")</span>" : "";
 		        	$col = Survey::COLLECTION;
 			        $attr = 'survey';
 		        	if( @$value["type"] == ActionRoom::TYPE_ACTIONS ){
