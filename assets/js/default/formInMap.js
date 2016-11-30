@@ -77,7 +77,7 @@ function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 		$('[name="newElement_lng"]').val(NE_lng);
 		$('[name="newElement_city"]').val(NE_city);
 		$('[name="newElement_cp"]').val(NE_cp);
-		$('[name="newElement_streetAddress"]').val(NE_street);
+		$('[name="newElement_streetAddress"]').val(NE_street.trim());
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$("#newElement_btnValidateAddress").prop('disabled', (NE_insee==""?true:false));
@@ -94,7 +94,7 @@ function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 		$('[name="newElement_lng"]').val(NE_lng);
 		$('[name="newElement_city"]').val(NE_city);
 		$('[name="newElement_cp"]').val(NE_cp);
-		$('[name="newElement_streetAddress"]').val(NE_street);
+		$('[name="newElement_streetAddress"]').val(NE_street.trim());
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
@@ -140,7 +140,7 @@ function bindEventFormSig(){
 
 	$('[name="newElement_streetAddress"]').keyup(function(){ 
 		$("#dropdown-cp-found").show();
-		NE_street = $('[name="newElement_streetAddress"]').val();
+		NE_street = $('[name="newElement_streetAddress"]').val().trim();
 	});
 
 	$('[name="newElement_cp"]').focusout(function(){
@@ -493,7 +493,7 @@ function initUpdateLocality(address, geo, type, index){
 		NE_lng = geo.longitude;
 		NE_city = address.addressLocality;
 		NE_cp = address.postalCode;
-		NE_street = address.streetAddress;
+		NE_street = address.streetAddress.trim();
 		NE_country = address.addressCountry;
 		NE_dep = address.depName;
 		NE_region = address.regionName;
@@ -531,7 +531,7 @@ function updateLocalityElement(){
 		address : {
 			"@type" : "PostalAddress",
 			codeInsee : NE_insee,
-			streetAddress : NE_street,
+			streetAddress : NE_street.trim(),
 			postalCode : NE_cp,
 			addressLocality : NE_city,
 			depName : NE_dep,
@@ -766,7 +766,7 @@ function preLoadAddress(hide, country, insee, city, postalCode, lat, lng, street
 	if(postalCode != ""){ NE_cp = postalCode; }
 	if(lat != "") 		{ NE_lat = lat; }
 	if(lng != "")		{ NE_lng = lng; }
-	if(street != "")	{ NE_street = street; }
+	if(street != "")	{ NE_street = street.trim(); }
 
 
 	if(country == "NC"){
@@ -801,7 +801,7 @@ function getAddressObj(){ console.log("GET ADDRESS OBJ INSEE : ", NE_insee);
 					"@type" : "PostalAddress",
 					addressCountry : NE_country,
 					addressLocality : NE_city,
-					streetAddress : NE_street,
+					streetAddress : NE_street.trim(),
 					postalCode : NE_cp,
 					codeInsee : NE_insee,
 					depName : NE_dep,
