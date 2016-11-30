@@ -71,28 +71,51 @@
     else
     	showMapNetwork(false);
     $(".main-menu-left.inSig").hide();
-    $("#right_tool_map").remove();
+    $("#right_tool_map").removeClass("hidden-sm").hide( 700 );
+    btnSearch = '<div class="btn-group btn-group-lg tooltips" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Recherche par nom">'+
+					'<button type="button" class="btn btn-map " id="btn-search">'+
+					'<i class="fa fa-chevron-left"></i></button>'+
+				'</div>';
+	$("#btn-back").parent().replaceWith(btnSearch);
+    $("#btn-search").click(function(){
+	    if(!$("#right_tool_map").is(":visible")){
+		    $("#right_tool_map").show( 700 );
+		    $("#btn-search").find("i").removeClass("fa-chevron-left").addClass("fa-chevron-right");
+	    }else {
+		    $("#right_tool_map").hide( 700 );
+		    $("#btn-search").find("i").removeClass("fa-chevron-right").addClass("fa-chevron-left");
+	    }
+	    	
+    });
     $('#btn-menu-launch').click(function(){
-
 		if(!$(this).hasClass("active")){
 			$(this).addClass("active");
 			$(".main-menu-left").show();
 			$(this).find("span").show();
 			$(this).find(".firstIcon").removeClass("fa-filter").addClass("fa-angle-left");
-			//$("#dropdown_params").show( 700 );
-
-			//$(".bgpixeltree").removeClass("col-md-12 col-sm-12 col-xs-12").addClass("col-md-10 col-sm-10 col-xs-10");
 		}else{
 			$(this).removeClass("active");
 			$(this).find("span").hide();
 			$(".main-menu-left").hide();
 			$(this).find(".firstIcon").removeClass("fa-angle-left").addClass("fa-filter");
-//$("#dropdown_params").hide( 700 );
-			//$(this).removeClass(".active");
 		}
-		//$('.menu-col-search').toggle("slow");
 	});
-    // selectScopeLevelCommunexion(levelCommunexion);
+	
+	$(".showHideMoreTitleMap").click(function(){
+	  	if($(this).find("i").hasClass("fa-angle-down")){
+	  		$(".contentShortInformationMap").show("slow");
+	  		$(".contentTitleMap").addClass("active");	
+	  		$(this).addClass("active");
+	  		$(this).find("i").removeClass("fa-angle-down").addClass("fa-angle-up");
+	  	}else{
+	  		$(this).removeClass("active");
+			$(this).find("i").removeClass("fa-angle-up").addClass("fa-angle-down");
+			$(".contentShortInformationMap").hide("slow");
+			$(".contentTitleMap").removeClass("active");	
+	  	}
+	  	
+  	});
+  	
     topMenuActivated = true;
     hideScrollTop = true;
     checkScroll();
@@ -859,17 +882,22 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	    pathIcon = "list";
     }
     isEntityView=true;
+    window.location.hash = url;
     urlHash=url;
-    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0){
+    console.log("oui");
+    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0){
 	    urlSplit=urlHash.replace( "#","" ).split(".");
 	    console.log(urlHash);
 	    if(urlSplit[0]=="person")
 	    	urlType="citoyens";
 	    else
 	    	urlType=urlSplit[0]+"s";
-	    urlHash="#element.detail.type."+urlType+".id."+urlSplit[3];
+	    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
     }
-	url='/'+url.replace( "#","" ).replace( /\./g,"/" );
+    if(urlHash.indexOf("news") >= 0){
+	    urlHash=urlHash+"&isFirst=1";
+    }
+	url='/'+urlHash.replace( "#","" ).replace( /\./g,"/" );
 	$("#repertory").hide( 700 );
     $(".main-menu-left").hide( 700 );
     $("#ficheInfoDetail").show( 700 );
@@ -946,7 +974,6 @@ function showMapNetwork(show)
 		}
 
 		$(".btn-group-map").show( 700 );
-		$("#right_tool_map").show( 700 );
 		$(".main-bottom-menu").show( 700 );
 		$(".btn-menu5, .btn-menu-add").hide();
 		$("#btn-toogle-map").css("display","inline !important");
@@ -964,7 +991,6 @@ function showMapNetwork(show)
 		isMapEnd =false;
 		hideMapLegende();
 		$(".btn-group-map").hide( 700 );
-		$("#right_tool_map").hide(700);
 		$(".main-bottom-menu").hide( 700 );
 		$("#dropdown_params").show( 700 );
 		showMenuNetwork(false);
@@ -975,7 +1001,10 @@ function showMapNetwork(show)
      							top: 50,
      							opacity:1
 						      }, 'slow' );
-		setTimeout(function(){ $(".my-main-container").show(); }, 100);
+		setTimeout(function(){ $(".my-main-container").show();
+			if(!$('#ficheInfoDetail').is(":visible"))
+				$(".main-menu-left").show( 700 );
+ 		}, 100);
 
 		if(typeof Sig != "undefined")
 		if(Sig.currentMarkerPopupOpen != null){
@@ -1010,9 +1039,16 @@ function showMenuNetwork(show){
 		$("#btn-menu-launch").hide( 700 );
 		$("#btn-toogle-map").html("<i class='fa fa-map-marker'></i>");
 		$("#btn-toogle-map").attr("data-original-title", "Carte");
-		$(".main-menu-left").show( 700 );
 		$("#menuTopList").show( 700 );
 		$(".main-top-menu").addClass("bg-white");
+		if($("#btn-menu-launch").hasClass("active"))
+			$("#btn-menu-launch").trigger("click");
+		if($(".contentTitleMap").hasClass("active"))
+			$(".showHideMoreTitleMap").trigger("click");
+		if($("#right_tool_map").is(":visible"))
+			$("#btn-search").trigger("click");
+
+			
 		//$(".main-top-menu").animate({ top: -60, opacity:0 }, 500 );
 	}
 }
