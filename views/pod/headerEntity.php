@@ -219,7 +219,12 @@ $controler = Element::getControlerByCollection($type);
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
 								<label id="typeHeader" class="text-dark">
-									<?php echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); ?>
+									<?php
+									if($type == Event::COLLECTION)
+										echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
+									else
+										echo Yii::t("common", @$entity["type"]); 
+									?>
 								</label>
 						</h2>
 					<?php } ?>
