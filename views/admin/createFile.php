@@ -831,17 +831,9 @@ function stepThree(params){
         	console.log("stepThree data",data);
         	if(data.result){
         		
-        		/*if($("#checkboxTest").is(':checked')){
-        			$("#divJsonImportView").JSONView(data.jsonImport);
-        			$("#divJsonErrorView").JSONView(data.jsonError);
-        		}*/
-
         		var importD = "" ;
         		var errorD = "" ;
 
-        		/*var objImport = {} ; jQuery.parseJSON( '{ "name": "John" }' );
-        		var objError = jQuery.parseJSON( '{ "name": "John" }' );*/
-        		console.log("data.elements",typeof data.elements);
         		if($("#jsonImport").val() == "")
         			importD = data.elements;
         		else{
@@ -850,26 +842,26 @@ function stepThree(params){
         			else{
         				var elt1 = jQuery.parseJSON($("#jsonImport").val());
         				var elt2 = jQuery.parseJSON(data.elements);
-        				var elt3 = elt1.concat(elt2);
-        				importD = jQuery.parseJSON(elt3);
-        				//importD = $("#jsonImport").val().substring(0, $("#jsonImport").val().length-1) + "," + data.elements.substring(1, data.elements.length);
+        				$.each(elt2, function(key, val){
+		        			elt1.push(val)
+		        		});
+        				importD = JSON.stringify(elt1);
         			}
 
         		}
         		
-        		console.log("data.elementsWarnings", typeof data.elementsWarnings);	
         		if($("#jsonError").val() == "")
         			errorD = data.elementsWarnings;
         		else{
-
         			if(data.elementsWarnings == "[]")
         				errorD = $("#jsonError").val();
         			else
-        				var elt1 = jQuery.parseJSON($("#jsonError").val());
-        				var elt2 = jQuery.parseJSON(data.elementsWarnings);
-        				var elt3 = elt1.concat(elt2);
-        				errorD = jQuery.parseJSON(elt3);
-        				//errorD = $("#jsonError").val().substring(0, $("#jsonError").val().length-1) + "," + data.elementsWarnings.substring(1, data.elementsWarnings.length);
+        				var elt1E = jQuery.parseJSON($("#jsonError").val());
+        				var elt2E = jQuery.parseJSON(data.elementsWarnings);
+        				$.each(elt2E, function(key, val){
+		        			elt1E.push(val)
+		        		});
+        				errorD = JSON.stringify(elt1E);
         		}
 
         		
