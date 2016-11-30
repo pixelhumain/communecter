@@ -1316,7 +1316,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 			formData.medias.push(mediaObject);
 		}
 	});
-	/*$.ajax( {
+	$.ajax( {
     	type: "POST",
     	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
     	data: formData,
@@ -1344,7 +1344,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	        		addFloopEntity(data.id, collection, data.map);
             }
     	}
-    });*/
+    });
 }
 
 function editElement(type,id){
