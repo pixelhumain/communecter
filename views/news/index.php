@@ -662,9 +662,12 @@ var mentionsContact = [];
 
 var stopMention = false;
 var element = null;
-
+	
 jQuery(document).ready(function() 
 {
+
+	currentTypeSearchSend = "search";
+	multiTagScopeLbl(currentTypeSearchSend);
  	activeMenuElement("news");
  	if(!isLiveGlobal())
 	 	selectAllTags(false);
