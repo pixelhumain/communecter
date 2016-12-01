@@ -516,7 +516,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                           // $.each(linksTagImages[value], function(key2, value2){
                           //   o[key2] = value2;
                           // });
-                          o.typeSig = value;
+                          o.typeSig = "organizations";
                           o.type = "organizations";
                         }
                         //Filter Client (Attention erreur firefox js)
@@ -910,7 +910,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		}*/
     },"html");
   }
-  function reverseToRepertory(){
+function reverseToRepertory(){
 	  if(isMapEnd){
 	    showMapNetwork();
     }
@@ -926,9 +926,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	history.replaceState(null, '', window.location.href.split('#')[0]);
     Sig.restartMap();
 	Sig.showMapElements(Sig.map, contextMapNetwork);
-	$("#right_tool_map").remove();
+}
 
-  }
 function showMapNetwork(show)
 {
 	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; }
