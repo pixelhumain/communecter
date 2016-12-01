@@ -585,31 +585,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                        <?php } ?>
 
                     target = "";
-                    // str += "<div class='row entityMiddle fullLocality'>";
-
-                    //   <?php if(isset($params['result']['datesEvent']) && $params['result']['datesEvent']) { ?>
-                    //     // str += "<hr>";
-                    //     str += "<div class='row entityMiddle datesEvent'>";
-                    //     if(startDate != null)
-                    //     str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + startDate + "</a>";
-                    //     if(endDate != null)
-                    //     str += "<a href='"+url+"' onclick='"+onclick+"'"+target+"  class='entityDate bg-azure badge'><i class='fa fa-caret-right'></i> " + endDate + "</a>";
-                    //     str += "</div>";
-                    //   <?php } ?>
-                    // str += "</div>";
-                    str += "<div class='entityBottom col-md-5'>";
-                      <?php if( isset( Yii::app()->session['userId'] ) ) { ?>
-                      isFollowed=false;
-                      if(typeof o.isFollowed != "undefined" )
-                        isFollowed=true;
-                      /* if(type!="city" && id != "<?php echo Yii::app()->session['userId']; ?>")
-                      str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" +
-                            'data-toggle="tooltip" data-placement="left" data-original-title="Suivre"'+
-                            " data-ownerlink='follow' data-id='"+id+"' data-type='"+type+"' data-name='"+name+"' data-isFollowed='"+isFollowed+"'>"+
-                                "<i class='fa fa-chain'></i>"+ //fa-bookmark fa-rotate-270
-                              "</a>";
-                      <?php } ?> */
-                      str += "<hr>";
+                            str += "<div class='entityBottom col-md-5'>";
+                                   str += "<hr>";
                       if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
                       str += tags;
                     str += "</div>";
