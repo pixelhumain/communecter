@@ -62,7 +62,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->request->
 var context = <?php echo json_encode($context)?>;
 var contextType = <?php echo json_encode($contextType)?>;
 var comments = <?php echo json_encode($comments); ?>;
-var currentUser = <?php echo json_encode(Yii::app()->session["user"])?>;
+var currentUser = <?php echo json_encode(@Yii::app()->session["user"])?>;
 var options = <?php echo json_encode($options)?>;
 var canUserComment = <?php echo json_encode($canComment)?>;
 

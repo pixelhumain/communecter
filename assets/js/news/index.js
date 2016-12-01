@@ -55,7 +55,8 @@ var loadStream = function(indexMin, indexMax){ mylog.log("loadStream");
 	    //contextParentType = "city";
     }	
 	//var tagSearch = $('#searchTags').val().split(',');
-	filter.tagSearch = $('#searchTags').val().split(',');
+	if($('#searchTags').length >= 0)
+		filter.tagSearch = $('#searchTags').val().split(',');
     filter.textSearch=$('#searchBarText').val();
 
     var thisParentId = "";

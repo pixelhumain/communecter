@@ -705,21 +705,7 @@ if($showOdesc == true){
 
 <script type="text/javascript">
 	
-	var contextData = {
-		name : "<?php echo addslashes($element["name"]) ?>",
-		id : "<?php echo (string)$element["_id"] ?>",
-		type : "<?php echo $type ?>",
-		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
-		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
-		
-		odesc : <?php echo json_encode($odesc) ?>,
-		<?php 
-		if( @$element["startDate"] )
-			echo "'startDate':'".$element["startDate"]."',";
-		if( @$element["endDate"] )
-			echo "'endDate':'".$element["endDate"]."'"; ?>
-	};	
-
+	
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
 	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
