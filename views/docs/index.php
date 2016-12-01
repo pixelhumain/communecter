@@ -45,21 +45,23 @@ $this->renderPartial("../docs/assets");
 				    </div>
 				</div>
 			</div>
+
 			<div class="col-sm-6 hidden">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter lbh" href="#default.view.page.pourquoi.dir.docs">
-							<h4 class="panel-title homestead text-red"><i class="fa fa-cogs"></i> Pour quoi faire ?</h4>
+							<h4 class="panel-title homestead text-red"><i class="fa fa-cogs"></i> Cas d'utilisation</h4>
 						</a>
 					</div> 
 					<div class="panel-body">
 						
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> Connaître les alternatives locales </li>
-				        	<li><i class='fa fa-arrow-right'></i> Discuter et débattre localement </li>
-				        	<li><i class='fa fa-arrow-right'></i> Participer au conseil citoyen </li>
-				        	<li><i class='fa fa-arrow-right'></i> Faire connaître ses projets, et trouver du soutient</li>
-				        	<li><i class='fa fa-arrow-right'></i> Devenir un acteur responsable de son territoire</li>
+				        	<li><i class='fa fa-arrow-right'></i> Organiser, référencer son Organisation </li>
+				        	<li><i class='fa fa-arrow-right'></i> Valoriser un évènement et ces sous évènnements</li>
+				        	<li><i class='fa fa-arrow-right'></i> Partager vos points d'intérets</li>
+				        	<li><i class='fa fa-arrow-right'></i> Trouver de l'aide pour vos projets</li>
+				        	<li><i class='fa fa-arrow-right'></i> Faire des Propositions et des votes </li>
+				        	<li><i class='fa fa-arrow-right'></i>  </li>
 				        </ul>
 				    </div>
 				</div>
@@ -90,7 +92,7 @@ $this->renderPartial("../docs/assets");
 		<div class="col-sm-12">
 			
 			
-			<div class="col-sm-6 hidden">
+			<div class="col-sm-6 ">
 		        <div class="panel panel-white user-list ">
 					<div class="panel-heading border-light">
 						<a class="btn-chapter" href="#default.view.page.comprendre.dir.docs">
@@ -103,7 +105,7 @@ $this->renderPartial("../docs/assets");
 						<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.openSystem.dir.docs">Open System (Code Social)</a></li>
 						<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.import.dir.docs">Import Export API</a></li>
 						<i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.explain">Les gros mots</a>
-						<li class="hidden"><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.financement.dir.docs">Financement</a> </li>
+						<li class=""><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.financement.dir.docs|comprendre">Transparence Financière</a> </li>
 			        </ul>
 			    </div>
 				</div>
