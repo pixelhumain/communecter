@@ -585,8 +585,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                        <?php } ?>
 
                     target = "";
-                            str += "<div class='entityBottom col-md-5'>";
-                                   str += "<hr>";
+                         str += "<div class='entityBottom col-md-5'>";
+                         str += "<hr>";
                       if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
                       str += tags;
                     str += "</div>";
