@@ -134,7 +134,7 @@ $userId = Yii::app()->session["userId"] ;
 			<input id="searchBarText" data-searchPage="true" type="text" placeholder="Chercher le citoyen ou l'organisation pour lier les données importer" class="input-search form-control">
 			<span class="input-group-btn">
 	            <a href="javascript:;" class="btn btn-success btn-start-search tooltips" id="btn-start-search">
-	            	<i class="fa fa-refresh"></i>
+	            	<i class="fa fa-search"></i>
 	           	</a>
 	      	</span>
 	      	<ul class="dropdown-menu" id="dropdown_searchInvite" style="">
@@ -154,13 +154,13 @@ $userId = Yii::app()->session["userId"] ;
 		</div>
 	</div>
 </div>
-<br/><br/>
+
 <div class="col-xs-12 center">
-	<a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
+	<br/><a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
 </div>
 
 <div id="resultAddData">
-	<h4 class="panel-title">Résultat</h4>
+	<br/><h4 class="panel-title">Résultat</h4>
 
 	<div class="panel-body">
 		<div id="divtab" class="table-responsive">
@@ -170,6 +170,8 @@ $userId = Yii::app()->session["userId"] ;
 		    			<th class="col-sm-5">Entité</th>
 		    			<th class="col-sm-5">Result</th>
 		    			<th class="col-sm-5">Url</th>
+		    			<th class="col-sm-5">Type</th>
+		    			<th class="col-sm-5">Id</th>
 		    		</tr>
 	    		</thead>
 		    	<tbody class="directoryLines" id="bodyResult">
