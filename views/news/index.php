@@ -742,7 +742,6 @@ jQuery(document).ready(function()
 		          console.log(heightContainer - 200);
 		          console.log($(this).scrollTop() + "///" + heightContainer - 200)
 		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-			         alert();
 		            mylog.log("scroll in news/index MAX");
 		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		          }
