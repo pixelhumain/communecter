@@ -20,13 +20,137 @@ De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout S
 A la base j'avais mis une date de fin qui avait été dépassée, 
 j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 
+* ************************************************************   
+
+* optim
+[.2] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
+
+* Global
+[.2] Ne plus etre bloquer pour ouvrir des pays => #1261, #323
+  - utilisant le localiseur et une validation que tout est bon pour ajouter une city 
+  - ouverture par pays validé en amont 
+
+[.2] internationalisation traduction
+[.2] la charte ethique en 10 pts 
+  - Liberté 
+  - respect total de l'autre 
+  - un outil pur faire société 
+[.2] bouton share (Social) non intrusif 
+[.2 spec] reflechir First Connect , show notifications, hot news ....  
+[.2] pouvoir ajouter des url d'image plutôt que d'uploader les photos ou le copier coller
+[.2] code cleaning : => #634, #961, #755, #419
+  - typeSIG=ctrl=collection 
+  - Vocabulaire (proposal = action = rooms = action rooms...)
+  - theme => suppression des anciennes vues
+Refactor Directory2 vers Résultat de recherche
+ - normaliser l'affichage de Directory2 (communauté) pour le mettre comme les resultats de recherche
+ => #275, #493
+
+ * Elements
+[.2] event + project : change organiser #632
+ *** Location amélioration 
+      [.2] ajouter une colonne mes lieux préférés, click et rempli
+      [.2] ajouter par element  
+    [.2] selecteur de target utilisant mon repertoire et le design du dashboard
+      - switcher from form to selection dash
+      - onSelect == onclick fill form fields and switch back to form
+    [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+Report Abuse on element
+
+** Event ideas 
+  [.2] agenda : les events prennent pas la durée sur plusieurs jours
+  [.2] affiché les event mois precedent et suivant
+
+  [.2] Duplication d'event
+  [.21] Best place calculator : utilisant la position des participants
+  [.2] parent Event : load param ajax : show only ongoing or event to come 
+  When subevent , prefill location => #1017
+  Type d'événement : liste ouverte #663
+  Pouvoir choisir en lieu Online pour les events #663
+
+** Needs
+  [.2 spéc] Finir Besoin Ressource compétence () 
+  [.2 spec] visualisation de la banque des besoins =>#1260 + #490
+
+** POI
+  [.2] affiché sur la carte un type geoJson 
+
+* City 
+[.2] city bread crumb ( cp, insee, agglo, departement, region)  
+[.2] ajouter une photo de votre ville 
+    - baniere 
+[.2] refactor péi_insee-cp en péi_insee_cp
+[.2] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
+
+** Notifications
+Notification intelligentes => 685
+Liste des notifications déjà lues => #370 #453
+
 * ************************************************************    
 * Version 0.2  : en cours
 * ************************************************************  
 
+** @Clem 
+  [.2] interoperability : communecrter + wikidata +@Tib
+  [.2] add POI to news
+
+** @Rapha 
+  [.2] connecter a des sources events externes (RSS)  => #523, #986
+  [.2] globaliser le system de Tokens et utilisation API Communecter =>#341 (Auth) + #1262
+  [.2] page city : ajouter quartier isis , maison et conseil de quartier =>#1258, #277
+  [.2] finir la belgique => #1259
+  * Import / Export 
+  [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
+
+
+** @Tango 
+   * Tags
+  [.2] suggestion de tag : section sous la baniere de categorie de tags => #1255, #1018, #350, #989
+    - sport / alternative/ agriculture /santé ...etc 
+    on click on decouvre une selection de tags, facilement ajoutable 
+    - pour voir combien d'acteur oeuvre dans une thematique
+  * Recherche 
+  [.2] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc) =>1256
+  [.2] Ctrl+F : recherche type finder dans un design dashboard =>1257
+
+** @Sylvain 
+  [.2] delete element : avec regle stricte  => #1061, #1026, #268, #757
+  * API 
+  [.2] replicaset dédié aux utilisateur de l'api 
+
+
 ** @Tib 
+  [X] Finance Transparente
+  [X] add to favorite 
+    [X] favorites.{type}.id on persons data
+    [X] increment element favoriteCount
+    [X] add btn on elements
+    [ ] maybe use right click, on any link > add to fav
+  [ ] POI kanban viewer
+  [ ] my POIs
+  [ ] add photo
   [ ] Count requests DB per page
-  
+  [ ] header du live ou dans en ce moment
+    - les events favoris du territoire
+  [ ] PPT explication des 25 use cases
+    [X] use runSlide()
+    [ ] finish use cases scenario 
+    [ ] activate pourquoi btn in header
+  [ ] interoperability : communecrter + wikidata +@CLEM 
+  [ ] Quick Add Bookmarklets
+  [ ] Element Trombinoscope 
+  [ ] INTEGRATTE MARKDOWN wisiwig
+
+  * DDA
+  [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
+  [ ] bug : sur archiver , persiste dans les listes 
+  [ ] bug : une décision terminé, on peut toujours voté dessus
+  [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+
 * ************************************************************    
 * Version 0.16 (début oct) : livré en QA
 * ************************************************************    
