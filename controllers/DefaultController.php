@@ -24,21 +24,13 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    if(@$_GET["network"] == "666"){
-      unset ($_GET["network"]);
-      unset (Yii::app()->session["network"]);
-      Yii::app()->theme = "ph-dori";      
-    }
-
-    if(@$_GET["network"] || @Yii::app()->session["network"]){
-      
-      if(!@Yii::app()->session["network"] || (@Yii::app()->session["network"] && @$_GET["network"] && $_GET["network"] != Yii::app()->session["network"]))
-        Yii::app()->session["network"] = $_GET["network"];
-      Yii::app()->theme = "network";
-      Yii::app()->params['networkParams'] = Yii::app()->session["network"];
-    }
-    $this->render("index");
-  }
+    	Yii::app()->theme = "ph-dori";      
+	    if(@$_GET["network"]){
+	      Yii::app()->theme = "network";
+	      Yii::app()->params['networkParams'] = Yii::app()->session["network"];
+	    }
+	    $this->render("index");
+  	}
 
   public function actionTwoStepRegister() 
   {

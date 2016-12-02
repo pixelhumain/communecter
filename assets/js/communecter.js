@@ -1038,6 +1038,13 @@ function openMenuSmall () {
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	// If network, check width of menu small
+	if(typeof globalTheme != "undefined" && globalTheme == "network"){
+		if($("#ficheInfoDetail").is(":visible"))
+			$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
+		else
+			$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+	}
 	bindLBHLinks();
 }
 
