@@ -55,6 +55,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
 		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
 		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
+		"LoginFirst" : "<?php echo Yii::t("common","Please Login First") ?>",
 };
 
 var tradCountry = {

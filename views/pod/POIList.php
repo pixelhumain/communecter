@@ -33,7 +33,7 @@
 						if(@$p["geo"]){?>
 						<a href="javascript:showMap(true);"><i class="fa fa-map-marker"></i></a>
 						<?php }?>
-						<a href="javascript:add2fav('poi','<?php echo (string)$p["_id"] ?>')" class="pull-right star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
+						<a href="javascript:favorite.add2fav('poi','<?php echo (string)$p["_id"] ?>')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right poiStar star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
 						
 						<div class="padding-10 poiPanel poi<?php echo InflectorHelper::slugify($p["name"])?> hide">
 
@@ -82,24 +82,10 @@
 	</div>
 
 	<script type="text/javascript">
-		function add2fav(what,id){
-			var params = {id : id, type : what};
-			var el = ".star_"+what+"_"+id;
-			
-			ajaxPost(null,baseUrl+"/"+moduleId+"/link/favorite",params,function(data) { 
-				console.warn(params.action);
-				if(data.result){
-					if(data.action == '$unset')
-						$(el).children("i").removeClass("fa-star text-red").addClass('fa-star-o');
-					else
-						$(el).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
-					toastr.success(data.msg);
-				}
-				else
-					toastr.error(data.msg);
-			},"none");
-		}
-
+		
+		$(".poiStar").each(function(i,el){
+			favorite.applyColor("poi",$(el).data('id'));
+		})
 		$(".deleteThisBtn").off().on("click",function () 
 		{
 			console.log("deleteThisBtn click");

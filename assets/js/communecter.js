@@ -3,7 +3,7 @@ var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
-	document.onkeyup = checkKeycode;
+	document.onkeyup = keyboardNav.checkKeycode;
 });
 
 var prevStep = 0;
@@ -2833,45 +2833,46 @@ function shadowOnHeader() {
 /* ************************************
 Keyboard Shortcuts
 *************************************** */
-var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
-"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
-"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
-"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
-"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
-"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
-"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
+var keyboardNav = {
+	keycodeObj : {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
+	"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
+	"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
+	"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
+	"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
+	"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
+	"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222},
 
-var keyMap = {
-	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
-	"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
-	"114" : function(){ showMap(true); },//f3
-	"115" : function(){ console.clear();console.warn("repair society") },//f4
-	"117" : function(){ console.clear();loadByHash(location.hash) },//f6
-};
-var keyMapCombo = {
-	"69" : function(){openForm('event')}, //e
-	"79" : function(){openForm('organization')},//o
-	"80" : function(){openForm('project')},//p
-	"73" : function(){openForm('person')},//i
-	"65" : function(){openForm('action')},//a
-	"86" : function(){openForm('entry')}//v
-};
-
-function checkKeycode(e) {
-	e.preventDefault();
-	var keycode;
-	if (window.event) {keycode = window.event.keyCode;e=event;}
-	else if (e){ keycode = e.which;}
-	//console.log("keycode: ",keycode);
-	if(e.ctrlKey && e.altKey && keyMapCombo[keycode] ){
-		console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
-		keyMapCombo[keycode]();
+	keyMap : {
+		"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+		"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
+		"114" : function(){ showMap(true); },//f3
+		"115" : function(){ console.clear();console.warn("repair society") },//f4
+		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
+	},
+	keyMapCombo : {
+		"69" : function(){openForm('event')}, //e
+		"79" : function(){openForm('organization')},//o
+		"80" : function(){openForm('project')},//p
+		"73" : function(){openForm('person')},//i
+		"65" : function(){openForm('action')},//a
+		"86" : function(){openForm('entry')}//v
+	},
+	checkKeycode : function(e) {
+		e.preventDefault();
+		var keycode;
+		if (window.event) {keycode = window.event.keyCode;e=event;}
+		else if (e){ keycode = e.which;}
+		//console.log("keycode: ",keycode);
+		if(e.ctrlKey && e.altKey && keyboardNav.keyMapCombo[keycode] ){
+			console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+			keyboardNav.keyMapCombo[keycode]();
+		}
+		else if( keyboardNav.keyMap[keycode] ){
+			console.warn("keyMap",keycode);
+			keyboardNav.keyMap[keycode]();
+		}
 	}
-	else if( keyMap[keycode] ){
-		console.warn("keyMap",keycode);
-		keyMap[keycode]();
-	}
-}
+};
 
 function autoCompleteInviteSearch(search){
 	if (search.length < 3) { return }
@@ -2964,71 +2965,41 @@ function cityKeyPart(unikey, part){
 	if(part == "cp") return unikey.substr(e+1, len);
 	if(part == "country") return unikey.substr(e+1, len);
 }
-/*
-elementJson = {
-    //reuired
-    "name" : "",
-    "email" : "",
-    "creator" :"" ,
 
-    "url":"",
-    "shortDescription" : "",	
-	"description" : "",
-
-	"address" : {
-        "@type" : "PostalAddress",
-        "codeInsee" : "",
-        "addressCountry" : "",
-        "postalCode" : "",
-        "addressLocality" : "",
-        "streetAddress" : ""
-    },
-    "geo" : {
-        "@type" : "GeoCoordinates",
-        "latitude" : "-21",
-        "longitude" : "55"
-    },
-    "geoPosition" : {
-        "type" : "Point",
-        "coordinates" : [ 55,  -21]
-    },
-
-    "tags" : [],
-    "scopes" : [],
-
-    "profilImageUrl" : "",
-    "profilThumbImageUrl" : "",
-    "profilMarkerImageUrl" : "",
-    "profilMediumImageUrl" : "",
-
-    "isOpenData":"",
-
-    //generated
-    "updated" :"" ,
-    "modified" :"" ,
-    "created" :"",
-    
-}
-
-organizationJson = {
-	"telephone":"",
-    "mobile":"",
-    "fixe":"",
-    "fax":"",
-    "type":"",
-}
-
-eventJson = {
-    "type" : "",
-    "allDay" : true,
-    "public" : true,
-    "startDate" : "",
-    "endDate" : "",
-}
-
-var projectJson = {
-    "startDate" : "",
-    "endDate" :"" 
-}
-
-*/
+var favorite = {
+	applyColor:function (what,id) {
+		console.log("applyColor",what,id)
+		if(userConnected && userConnected.favorites && userConnected.favorites[what] && userConnected.favorites[what][id] ){
+			$(".star_"+what+"_"+id).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
+			console.warn("applying Color",what,id)
+		}
+	},
+	add2fav:function (what,id){
+		if(userId){
+			var params = {id : id, type : what};
+			var el = ".star_"+what+"_"+id;
+			
+			ajaxPost(null,baseUrl+"/"+moduleId+"/link/favorite",params,function(data) { 
+				console.warn(params.action);
+				if(data.result){
+					if(data.action == '$unset'){
+						$(el).children("i").removeClass("fa-star text-red").addClass('fa-star-o');
+						delete userConnected.favorites[what][id];
+					}
+					else{
+						$(el).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
+						if(!userConnected.favorites)
+							userConnected.favorites = {};
+						if(!userConnected.favorites[what])
+							userConnected.favorites[what] = {};
+						userConnected.favorites[what][id] = new Date();	
+					}
+					toastr.success(data.msg);
+				}
+				else
+					toastr.error(data.msg);
+			},"none");
+		} else
+			toastr.error(trad.LoginFirst);
+	}
+};
