@@ -670,7 +670,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
 				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
 			</a>	
-			
 		</div>
 
 		<div class="col-xs-12 no-padding margin-top-10">
@@ -706,21 +705,7 @@ if($showOdesc == true){
 
 <script type="text/javascript">
 	
-	var contextData = {
-		name : "<?php echo addslashes($element["name"]) ?>",
-		id : "<?php echo (string)$element["_id"] ?>",
-		type : "<?php echo $type ?>",
-		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
-		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
-		
-		odesc : <?php echo json_encode($odesc) ?>,
-		<?php 
-		if( @$element["startDate"] )
-			echo "'startDate':'".$element["startDate"]."',";
-		if( @$element["endDate"] )
-			echo "'endDate':'".$element["endDate"]."'"; ?>
-	};	
-
+	
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
 	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;

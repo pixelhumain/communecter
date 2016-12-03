@@ -1308,4 +1308,18 @@ La vie en santé;Santé;;
 		echo $str;
 	}
 
+	/*"latitude": "46.493621",
+"longitude": 
+"62301"*/
+
+	public function actionTestCityByLatLngGeoShape(){
+		$lat = "48.873479";
+		$lon = "2.3302237";
+		$cp = "75599";
+		$city = SIG::getCityByLatLngGeoShape($lat, $lon,$cp);
+		$city2 = SIG::getCityByLatLngGeoShape($lat, $lon,null);
+        var_dump($city);
+        echo "<br><br>--------------------------<br><br>";
+        var_dump($city2);
+	}
 }

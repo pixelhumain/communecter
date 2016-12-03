@@ -99,6 +99,7 @@ class CommunecterController extends Controller
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
+      "createfile" => array("href" => "/ph/communecter/admin/createfile"),
       "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
     ),
     
@@ -159,6 +160,10 @@ class CommunecterController extends Controller
       "index"                 => array("href" => "/ph/communecter/search/index"),
       "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
+    "network" => array(
+      "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
+    ),
+
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),

@@ -1,0 +1,28 @@
+{
+    "name" : "STRING",
+    "created" : "STRING",
+    "startDate" : "DATETIME",
+    "endDate" : "DATETIME",
+    "description" : "STRING",
+    "address" : {
+        "postalCode" : "STRING",
+        "addressLocality" : "STRING",
+        "codeInsee" : "STRING",
+        "streetAddress" : "STRING",
+        "addressCountry" : "STRING"
+    },
+    "geo" : {
+        "latitude" : "FLOAT",
+        "longitude" : "FLOAT"
+    },
+    "tags" : [ 
+        "STRING"
+    ],
+    "url" : "STRING",
+    "source" : {
+        "id" : "STRING",
+        "url" : "STRING",
+        "key" : "STRING"
+    }
+    
+}
