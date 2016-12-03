@@ -586,7 +586,11 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 	return iconStr;
 }
 function actionOnNews(news,action,method,reason, comment) {
-	type="news";
+	
+	var type="news";
+	if(typeof parentTypeComment != "undefined")
+		type = parentTypeComment;
+	
 	params=new Object,
 	params.id=news.data("id"),
 	params.collection=type,

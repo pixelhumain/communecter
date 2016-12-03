@@ -53,7 +53,7 @@
 	}
 	
 	.portfolio-item.selected button{
-		color:white;
+		color:white!important;
 	}
 	.portfolio-item{
 		border: white 2px solid;
@@ -311,7 +311,7 @@ jQuery(document).ready(function() {
     $("#btn-validate-information").click(function(){
     	$("#refMainCategories").removeClass("hidden");
     	buildListCategoriesForm();
-	    $("#btn-send-ref").click(function(){
+	    $("#btn-send-ref").off().click(function(){
 	    	sendReferencement();
 	    });
     	KScrollTo("#refMainCategories");
@@ -519,16 +519,16 @@ function refUrl(siteurl){
 					checkAllInfo();
 			   	});
 
-			   	checkAllInfo();
-
-				$("#status-ref").html("<span class='letter-green'><i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
+			   	$("#status-ref").html("<span class='letter-green'><i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
     			$("#refResult").removeClass("hidden");
 			   
 			   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");
 			   	urlValidated = siteurl;
 
-			    
-			   
+			    $('<output>').remove();
+			    tempDom = "";
+
+			    checkAllInfo();			   
 			},
 		error:function(xhr, status, error){
 			$("#lbl-url").removeClass("letter-green").addClass("letter-red");
