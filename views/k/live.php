@@ -114,8 +114,8 @@
 	
 	<ul class="timeline inline-block" id="timeline-live">
 		<?php  
-				if(@$medias && sizeOf($medias) > 0)
-				$this->renderPartial('liveStream', array("medias"=>$medias)); 
+			if(@$medias && sizeOf($medias) > 0)
+			$this->renderPartial('liveStream', array("medias"=>$medias)); 
 		?>
 	</ul>
 	</div>
@@ -125,7 +125,7 @@
 
 
 
-<?php $this->renderPartial($layoutPath.'footer'); ?>
+<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
 
 <script>
 var loadingData = false;
@@ -136,7 +136,7 @@ var currentIndexMax = 10;
 
 var indexStep = currentIndexMax;
 
-var medias = <?php echo json_encode($medias); ?>;
+//var medias = <?php //echo json_encode($medias); ?>;
 
 var idSession = "<?php echo Yii::app()->session["userId"] ?>";
 
@@ -161,13 +161,13 @@ jQuery(document).ready(function() {
 		initStream();
 	});
 
-	initCommentsTools();
+	//initCommentsTools(medias);
 
 });
 
-function initCommentsTools(){
+function initCommentsTools(thisMedias){
 	//ajoute la barre de commentaire & vote up down signalement sur tous les medias
-	$.each(medias, function(key, media){
+	$.each(thisMedias, function(key, media){
 		media.target = "media";
 		
 		var commentCount = 0;

@@ -49,3 +49,12 @@
       </li>
 
 <?php } ?>
+
+<script>
+var medias = <?php echo json_encode($medias); ?>;
+
+jQuery(document).ready(function() {
+  initCommentsTools(medias);
+});
+
+</script>
