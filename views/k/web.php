@@ -13,9 +13,10 @@
     #sectionSearchResults{
         min-height:1000px;
         margin-left:80px;
+        padding-bottom:50px;
     }
 </style>
-<section class="padding-top-15 margin-bottom-50 hidden" id="sectionSearchResults">
+<section class="padding-top-15 hidden" id="sectionSearchResults">
         <div class="row">
             <div class="col-md-12" id="searchResults"></div>
         </div>
@@ -23,13 +24,15 @@
 
 <div id="mainCategories"></div>
 
-<?php $this->renderPartial($layoutPath.'footer'); ?>
+<?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>$subdomain ) ); ?>
 
 <script>
 jQuery(document).ready(function() {
     initKInterface();
     initWebInterface();
     buildListCategories();
+
+    location.hash = "#k.web";
 });
 
 function initWebInterface(){

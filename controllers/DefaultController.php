@@ -24,7 +24,7 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    	Yii::app()->theme = "ph-dori";      
+    	Yii::app()->theme = "kgougle"; //"ph-dori";      
 	    if(@$_GET["network"]){
 	      Yii::app()->theme = "network";
 	      Yii::app()->params['networkParams'] = Yii::app()->session["network"];
