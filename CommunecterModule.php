@@ -60,11 +60,11 @@ class CommunecterModule extends CWebModule
 	}
 
 	public function getTheme() {
-		$theme = "kgougle";
+		$theme = "ph-dori";
 		if (!empty(Yii::app()->params['theme'])) {
 			$theme = Yii::app()->params['theme'];
 		} else if (empty(Yii::app()->theme)) {
-			$theme = "kgougle";
+			$theme = "ph-dori";
 		}
 
 		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
