@@ -10,8 +10,8 @@ $this->renderPartial("../docs/assets");
 	<div class="panel-heading border-light center text-dark partition-white radius-10 getDocHeader">
 	    <span class=" text-red homestead tpl_title"><i class="fa fa-binoculars"></i> Documentation</span>
 	    <br/>
-	    <?php if(@$_GET["network"]){ 
-	 $this->renderPartial("../docs/network/".$_GET["network"]); 
+	    <?php if(@Yii::app()->params['networkParams']){
+			$this->renderPartial("../docs/network/".Yii::app()->params['networkParams']); 
 	    } ?>
 	    <span class="tpl_shortDesc"> Tout ce qu'il faut savoir sur le réseau Communecter ...
 	    </span>
