@@ -46,7 +46,28 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [ ] bug : une décision terminé, on peut toujours voté dessus
   [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
 
+** @Rapha 
+  *** Import
+  [ ] Supprimer les anciens fichiers
 
+  *** API
+
+  [ ] GET
+    [ ] Checker : Person, Orga, Event, Projet.
+    [ ] A faire : News, City, DDA, POI.
+  [ ] POST
+    [ ] Implémenter les tokens
+    [ ] Ajouter les url POST
+      [ ] ADD Element (Person, Orga, Event, Projet)
+      [ ] ADD  (News, City, DDA, POI)
+  [ ] DOC
+    [ ] Ecrire entierement la doc en Anglais
+      [ ] GET
+      [ ] POST
+    [ ] Tester l'API via Swagger
+      [ ] GET
+      [ ] POST
+    [ ] refaire le design
 
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
