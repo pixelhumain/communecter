@@ -424,13 +424,35 @@ function bindCreateFile(){
   	});
 
   	$("#btnNextStep2").off().on('click', function(){
-  		
-  		$.blockUI({
-			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Processing ...</h1>"
-		});
+  		processingBlockUi();
+		setTimeout(function(){ preStep2(); }, 2000);
+  		return false;
+  	});
 
 
-  		cleanVisualisation();
+	$("#btnImport").off().on('click', function(){
+  		$("<a />", {
+		    "download": nameFile+"_StandardForCommunecter.json",
+		    "href" : "data:application/json," + encodeURIComponent($('#jsonImport').val())
+		  }).appendTo("body")
+		  .click(function() {
+		     $(this).remove()
+		  })[0].click() ;
+  	});
+
+  	$("#btnError").off().on('click', function(){
+  		$("<a />", {
+		    "download": nameFile+"_NotStandardForCommunecter.json",
+		    "href" : "data:application/json," + encodeURIComponent($('#jsonError').val())
+		  }).appendTo("body")
+		  .click(function() {
+		     $(this).remove()
+		  })[0].click() ;
+  	});
+}
+
+function preStep2(){
+	cleanVisualisation();
 		var nbLigneMapping = $("#nbLigneMapping").val();
 		var infoCreateData = [] ;
 
@@ -508,7 +530,6 @@ function bindCreateFile(){
 				  		stepThree(params);
 				  		showStep3();
 			  		}
-	  				
 	  			}
 	  		}
 	  		else{
@@ -516,33 +537,7 @@ function bindCreateFile(){
 				toastr.error("Vous devez ajouter des éléments au mapping.");
 			}
 		}
-		
-  		return false;
-  	});
-
-
-	$("#btnImport").off().on('click', function(){
-  		$("<a />", {
-		    "download": nameFile+"_StandardForCommunecter.json",
-		    "href" : "data:application/json," + encodeURIComponent($('#jsonImport').val())
-		  }).appendTo("body")
-		  .click(function() {
-		     $(this).remove()
-		  })[0].click() ;
-  	});
-
-  	$("#btnError").off().on('click', function(){
-  		$("<a />", {
-		    "download": nameFile+"_NotStandardForCommunecter.json",
-		    "href" : "data:application/json," + encodeURIComponent($('#jsonError').val())
-		  }).appendTo("body")
-		  .click(function() {
-		     $(this).remove()
-		  })[0].click() ;
-  	});
 }
-
-
 
 function stepTwo(idMapping){
 	
@@ -699,7 +694,7 @@ function displayStepTwo(){
 
 
 function showStep3(){
-	console.log("showStep3")
+	console.log("showStep3");
 	$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
 	$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
 	$('#menu-step-2').removeClass("selected");
@@ -707,6 +702,7 @@ function showStep3(){
 	$("#menu-step-mapping").hide(400);
 	$("#menu-step-source").hide(400);
 	$("#menu-step-visualisation").show(400);
+	//alert("hello");
 	$.unblockUI();
 }
 
@@ -902,12 +898,7 @@ function stepThree(params){
         			$("#btnImport").show();
         			$("#btnError").show();
         		}
-        			
-        		
         		//$("#verifBeforeImport").show();
-
-				
-        	
         	}
         }
     });
