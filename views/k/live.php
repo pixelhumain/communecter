@@ -98,12 +98,12 @@
 
 	<div class="col-md-12 col-sm-12 page-header text-center margin-top-50">
 	    <h3 id="timeline"><i class="fa fa-newspaper-o"></i><br>L'Actu locale en direct<br><i class="fa fa-angle-down"></i></h3>
-	    <?php if(!@$medias || sizeOf($medias) <= 0){ ?>
+	    <?php //if(!@$medias || sizeOf($medias) <= 0){ ?>
 	    	<div class="initStream">
-		    	<button class="btn btn-success" id="btn-init-stream">Initialiser le fil d'actu</button></br>
+		    	<button class="btn btn-success" id="btn-init-stream">Actualiser le fil d'actu</button></br>
 		    	<span>lancer le processus d'import de données</span>
 	    	</div>
-	    <?php } ?>
+	    <?php //} ?>
 	</div>
 
 	<div class="col-md-2 col-sm-1 hidden-xs no-padding">
@@ -165,38 +165,6 @@ jQuery(document).ready(function() {
 
 });
 
-function initCommentsTools(thisMedias){
-	//ajoute la barre de commentaire & vote up down signalement sur tous les medias
-	$.each(thisMedias, function(key, media){
-		media.target = "media";
-		
-		var commentCount = 0;
-		idMedia=media._id['$id'];
-		if ("undefined" != typeof media.commentCount) 
-			commentCount = media.commentCount;
-		
-		idSession = typeof idSession != "undefined" ? idSession : false;
-
-		var lblCommentCount = '';
-		if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
-		if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
-		if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
-		if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
-
-		lblCommentCount = '<a href="javascript:" class="newsAddComment letter-blue" data-media-id="'+idMedia+'">' + lblCommentCount + '</a>';
-
-		var voteTools = voteCheckAction(media._id['$id'], media);
-
-		voteTools = lblCommentCount + voteTools;
-
-		$("#footer-media-"+media._id['$id']).html(voteTools);
-	});
-
-	$(".newsAddComment").click(function(){
-		var id = $(this).data("media-id");
-		showMediaComments(id);
-	});
-}
 
 function loadStream(indexMin, indexMax){
 	loadingData = true;

@@ -418,9 +418,11 @@ class CommunecterController extends Controller
       "websearch"         => array('href' => "/ph/communecter/k/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
       "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
-      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement"                  ),
+      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
       "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
       "mediacrawler"      => array('href' => "/ph/communecter/k/mediacrawler",      "public" => true),
+      "page"              => array('href' => "/ph/communecter/k/page",              "public" => true),
+      "social"            => array('href' => "/ph/communecter/k/social",            "public" => true),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")

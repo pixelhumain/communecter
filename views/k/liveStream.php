@@ -57,4 +57,38 @@ jQuery(document).ready(function() {
   initCommentsTools(medias);
 });
 
+
+function initCommentsTools(thisMedias){
+  //ajoute la barre de commentaire & vote up down signalement sur tous les medias
+  $.each(thisMedias, function(key, media){
+    media.target = "media";
+    
+    var commentCount = 0;
+    idMedia=media._id['$id'];
+    if ("undefined" != typeof media.commentCount) 
+      commentCount = media.commentCount;
+    
+    idSession = typeof idSession != "undefined" ? idSession : false;
+
+    var lblCommentCount = '';
+    if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
+    if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
+    if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
+    if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
+
+    lblCommentCount = '<a href="javascript:" class="newsAddComment letter-blue" data-media-id="'+idMedia+'">' + lblCommentCount + '</a>';
+
+    var voteTools = voteCheckAction(media._id['$id'], media);
+
+    voteTools = lblCommentCount + voteTools;
+
+    $("#footer-media-"+media._id['$id']).html(voteTools);
+  });
+
+  $(".newsAddComment").click(function(){
+    var id = $(this).data("media-id");
+    showMediaComments(id);
+  });
+}
+
 </script>

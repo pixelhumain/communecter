@@ -23,7 +23,9 @@ class KController extends CommunecterController {
 	        'referencement' => 'citizenToolKit.controllers.k.ReferencementAction',
 	        'savereferencement' => 'citizenToolKit.controllers.k.SaveReferencementAction',
 	        'agenda'  		=> 'citizenToolKit.controllers.k.AgendaAction',
-	        'mediacrawler'  => 'citizenToolKit.controllers.k.MediaCrawlerAction'
+	        'mediacrawler'  => 'citizenToolKit.controllers.k.MediaCrawlerAction',
+	        'page' 			=> 'citizenToolKit.controllers.k.PageAction',
+	        'social' 		=> 'citizenToolKit.controllers.k.SocialAction'
 	    );
 	}
 }
