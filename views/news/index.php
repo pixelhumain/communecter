@@ -602,7 +602,7 @@ foreach($news as $key => $oneNews){
 	- lastOffset => avoid repetition of scrolling event (unstable behavior)
 	- dateLimit => date to know until when get new news
 */
-<?php if(@$viewer){ ?>
+<?php if(@$isLive){ ?>
 	isLive="<?php echo $isLive ?>";
 <?php } else{ ?>
 	isLive="";
