@@ -314,8 +314,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php 
-	//if($type != City::CONTROLLER)
-	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
+	if($isLive)
+		$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
 ?>
 
 <!-- <div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div> -->
@@ -560,7 +560,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 		
 					<div id="timeline" class="col-md-12">
-						<div class="timeline">
+						<div class="timeline col-md-12 no-padding">
 							<div class="newsTL">
 								<div class="spine"></div>
 							</div>
@@ -667,9 +667,10 @@ jQuery(document).ready(function()
 {
 
 	currentTypeSearchSend = "search";
-	multiTagScopeLbl(currentTypeSearchSend);
+	if(typeof globalTheme =="undefined")
+		multiTagScopeLbl(currentTypeSearchSend);
  	activeMenuElement("news");
- 	if(!isLiveGlobal())
+ 	if(!isLiveGlobal() && typeof globalTheme =="undefined")
 	 	selectAllTags(false);
 	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
 		//$("#cityInsee").val(inseeCommunexion);
@@ -737,6 +738,9 @@ jQuery(document).ready(function()
 		          	heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
 		          }
 		          var heightWindow = $(window).height();
+		          console.log($(this).scrollTop());
+		          console.log(heightContainer - 200);
+		          console.log($(this).scrollTop() + "///" + heightContainer - 200)
 		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
 		            mylog.log("scroll in news/index MAX");
 		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);

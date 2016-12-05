@@ -289,9 +289,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "links" => $links, "firstView" => "directory")); 
 ?>
-<div class="row pull-left" id="directoryPad">
+<div class="" id="directoryPad">
 	<div class="col-md-12">
-		<div class="panel panel-transparent">
+		<div class="panel">
 			<div class="panel-body">
 				<!-- <div class="col-md-12">
 					Details proprietaire directory

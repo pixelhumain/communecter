@@ -160,6 +160,10 @@ class CommunecterController extends Controller
       "index"                 => array("href" => "/ph/communecter/search/index"),
       "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
+    "network" => array(
+      "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
+    ),
+
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
@@ -416,7 +420,13 @@ class CommunecterController extends Controller
       "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
       "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
+      "mediacrawler"      => array('href' => "/ph/communecter/k/mediacrawler",      "public" => true),
+      "page"              => array('href' => "/ph/communecter/k/page",              "public" => true),
+      "social"            => array('href' => "/ph/communecter/k/social",            "public" => true),
       ),
+    "siteurl" => array(
+      "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
+    ),
   );
 
   function initPage(){

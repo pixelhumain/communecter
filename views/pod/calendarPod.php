@@ -107,6 +107,7 @@ function buildCalObj(eventObj)
     var sdv = sd.split("-");
     var shv = sh.split(":");
     var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
+
     var endDate = null;
     if(eventObj.endDate && eventObj.endDate != "" )
     {
@@ -114,8 +115,10 @@ function buildCalObj(eventObj)
       var eh = eventObj.endDate.split(" ")[1];
       var edv = ed.split("-");
       var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,edv[2], ehv[0], ehv[1]);
+      endDate = new Date(edv[0],parseInt(edv[1])-1,parseInt(edv[2])+1, ehv[0], ehv[1]); //year month day hour sec
+
      }
+     //alert(startDate+" | "+endDate);
      //mylog.log("taskCalObj",eventObj['_id']['$id']);
     var organiser = "";
     
@@ -171,9 +174,9 @@ function showCalendar() {
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
-		left : 'prev,next',
-		center : 'title',
-		right : 'today, month, agendaWeek, agendaDay'
+  		left : 'prev,next',
+  		center : 'title',
+  		right : 'today, month, agendaWeek, agendaDay'
     },
     lang : 'fr',
     year : dateToShow.getFullYear(),

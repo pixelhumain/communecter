@@ -270,10 +270,10 @@
 	
 	var context = <?php echo json_encode($context)?>;
 
-	mylog.log("context");
-	mylog.dir(context);
-	mylog.log("comments");
-	mylog.dir(comments);
+	// mylog.log("context");
+	// mylog.dir(context);
+	// mylog.log("comments");
+	// mylog.dir(comments);
 
 	jQuery(document).ready(function() {
 

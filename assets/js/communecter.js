@@ -648,7 +648,19 @@ function loadByHash( hash , back ) {
 	// mylog.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
-
+	if(typeof globalTheme != "undefined" && globalTheme=="network"){
+		if( hash.indexOf("#network.simplydirectory") >= 0 &&
+			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
+		}
+		else{
+			count=$(".breadcrumAnchor").length;
+			//case on reload view
+			if(count==0)
+				count=1;
+			breadcrumGuide(count, hash);
+		}
+		return;
+	}
 	if( hash.indexOf("#default.directory") >= 0 &&
 		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
 		var n = hash.indexOf("type=")+5;
@@ -1026,6 +1038,13 @@ function openMenuSmall () {
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	// If network, check width of menu small
+	if(typeof globalTheme != "undefined" && globalTheme == "network"){
+		if($("#ficheInfoDetail").is(":visible"))
+			$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
+		else
+			$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+	}
 	bindLBHLinks();
 }
 
@@ -1382,13 +1401,7 @@ function openForm (type, afterLoad,data) {
     updateLocality = false;
     formType = type;
     specs = typeObj[type];
-    if(specs.lbh){
-    	loadByHash(specs.lbh);
-    }
-	else if( specs.form && specs.form.url ) {
-		//charge le resultat d'une requete en Ajax
-		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
-	} else if( specs.dynForm )
+    if(userId)
 	{
 		mylog.dir(specs);
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
@@ -1450,7 +1463,7 @@ function buildDynForm(elementObj, afterLoad,data) {
 		});
 		mylog.dir(form);
 	} else 
-		toastr.error('Vous devez etre loggué');
+		alert('Vous devez etre loggué');
 }
 
 

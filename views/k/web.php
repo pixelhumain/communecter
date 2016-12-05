@@ -13,9 +13,10 @@
     #sectionSearchResults{
         min-height:1000px;
         margin-left:80px;
+        padding-bottom:50px;
     }
 </style>
-<section class="padding-top-15 margin-bottom-50 hidden" id="sectionSearchResults">
+<section class="padding-top-15 hidden" id="sectionSearchResults">
         <div class="row">
             <div class="col-md-12" id="searchResults"></div>
         </div>
@@ -23,23 +24,62 @@
 
 <div id="mainCategories"></div>
 
-<?php $this->renderPartial($layoutPath.'footer'); ?>
+<?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>$subdomain ) ); ?>
 
 <script>
 jQuery(document).ready(function() {
     initKInterface();
     initWebInterface();
     buildListCategories();
+
+    location.hash = "#k.web";
 });
 
 function initWebInterface(){
-    $("#main-btn-start-search, #menu-btn-start-search").click(function(){
+    $("#main-btn-start-search, .menu-btn-start-search").click(function(){
         var search = $("#main-search-bar").val();
         startWebSearch(search);
+    });
+    $(".menu-btn-back-category").click(function(){
+        $("#mainCategories").show();
+        $("#searchResults").html("");
+        $("#sectionSearchResults").addClass("hidden");
+        KScrollTo("#mainCategories");
+    });
+
+    $("#second-search-bar").keyup(function(e){
+        $("#main-search-bar").val($("#second-search-bar").val());
+        $("#input-search-map").val($("#second-search-bar").val());
+        if(e.keyCode == 13){
+            var search = $(this).val();
+            startWebSearch(search);
+         }
+    });
+    $("#main-search-bar").keyup(function(e){
+        $("#second-search-bar").val($("#main-search-bar").val());
+        $("#input-search-map").val($("#main-search-bar").val());
+        if(e.keyCode == 13){
+            var search = $(this).val();
+            startWebSearch(search);
+         }
+    });
+    $("#input-search-map").keyup(function(e){
+        $("#second-search-bar").val($("#input-search-map").val());
+        $("#main-search-bar").val($("#input-search-map").val());
+        if(e.keyCode == 13){
+            var search = $(this).val();
+            startWebSearch(search);
+         }
     });
 }
 
 function startWebSearch(search, category){
+
+    if(!notEmpty(search) && !notEmpty(category)) {
+        toastr.info("Champ de recherche vide !");
+        return;
+    }
+
     $("#second-search-bar").val(search);
     $("#mainCategories").hide();
     $("#searchResults").html("recherche en cours. Merci de patienter quelques instants...");
@@ -58,7 +98,7 @@ function startWebSearch(search, category){
             function(html) {
                 $("#searchResults").html(html);
                 $("#sectionSearchResults").removeClass("hidden");
-                KScrollTo("#titleWebSearch");
+                KScrollTo("#sectionSearchResults");
             },
         error:function(xhr, status, error){
             $("#searchResults").html("erreur");
@@ -72,7 +112,7 @@ function startWebSearch(search, category){
 }
 
 function buildListCategories(){
-    console.log(mainCategories);
+    //console.log(mainCategories);
     var html = "";
     $.each(mainCategories, function(name, params){
         var classe="";
@@ -91,7 +131,7 @@ function buildListCategories(){
                             '<div class="row text-'+params.color+'">';
 
         $.each(params.items, function(keyC, val){
-            console.log(keyC, val);
+            //console.log(keyC, val);
             html +=             '<div class="col-sm-4 portfolio-item">'+
                                     '<button class="portfolio-link category-search-link" data-category="'+val.name+'">'+
                                         '<div class="caption">'+

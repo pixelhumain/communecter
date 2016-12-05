@@ -24,8 +24,13 @@ class DefaultController extends CommunecterController {
      */
 	public function actionIndex() 
 	{
-    $this->render("index");
-  }
+    	Yii::app()->theme = "ph-dori"; //"ph-dori";      
+	    if(@$_GET["network"]){
+	      Yii::app()->theme = "network";
+	      Yii::app()->params['networkParams'] = Yii::app()->session["network"];
+	    }
+	    $this->render("index");
+  	}
 
   public function actionTwoStepRegister() 
   {
