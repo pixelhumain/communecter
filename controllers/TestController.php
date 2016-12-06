@@ -1322,4 +1322,16 @@ La vie en santé;Santé;;
         echo "<br><br>--------------------------<br><br>";
         var_dump($city2);
 	}
+
+	public function actionWikidata(){
+		$cities = PHDB::find(City::COLLECTION, array("wikidataID" => array('$exists' => false) , 'country' => array('$ne' => "BE")));
+		$nbcities = count($cities) ;
+		$str = "id;name;insee;country" ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$str .=  $key." ; ".$name." ; ".$city["insee"]." ; ".$city["country"]."<br>" ;
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+		echo $str;
+	}
 }
