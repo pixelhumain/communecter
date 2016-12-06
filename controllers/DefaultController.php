@@ -26,8 +26,8 @@ class DefaultController extends CommunecterController {
 	{
     	Yii::app()->theme = "ph-dori"; //"ph-dori";      
 	    if(@$_GET["network"]){
-	      Yii::app()->theme = "network";
-	      Yii::app()->params['networkParams'] = $_GET["network"];
+			Yii::app()->theme = "network";
+			Yii::app()->params['networkParams'] = $_GET["network"];
 	    }
 	    $this->render("index");
   	}
