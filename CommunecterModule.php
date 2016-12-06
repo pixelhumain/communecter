@@ -21,11 +21,7 @@ class CommunecterModule extends CWebModule
 		));
 		
 		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
-		if (!empty(Yii::app()->params['theme'])) {
-			Yii::app()->theme = Yii::app()->params['theme'];
-		} else if (empty(Yii::app()->theme)) {
-			Yii::app()->theme = "ph-dori";
-		}
+		Yii::app()->theme = $this->getTheme();
 
 		Yii::app()->language = (isset(Yii::app()->session["lang"])) ? Yii::app()->session["lang"] : 'fr';
 		
@@ -61,5 +57,19 @@ class CommunecterModule extends CWebModule
 	        $this->_assetsUrl = Yii::app()->getAssetManager()->publish(
 	            Yii::getPathOfAlias($this->id.'.assets') );
 	    return $this->_assetsUrl;
+	}
+
+	public function getTheme() {
+		$theme = "ph-dori";
+		//$theme = "kgougle";
+		if (!empty(Yii::app()->params['theme'])) {
+			$theme = Yii::app()->params['theme'];
+		} else if (empty(Yii::app()->theme)) {
+			$theme = "ph-dori";
+			//$theme = "kgougle";
+		}
+
+		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
+		return $theme;
 	}
 }

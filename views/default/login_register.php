@@ -278,6 +278,7 @@ var buttonLabel = {
 var timeout;
 var emailType;
 
+
 jQuery(document).ready(function() {
 	//Remove parameters from URLs in case of invitation without reloading the page
 	removeParametersWithoutReloading();

@@ -10,7 +10,7 @@
 	}
 	.btn-go-home {
 	    position: absolute;
-		bottom: 54%;
+		bottom: 59%;
 		right: -36%;
 	    font-size: 20px;
 	}
@@ -31,7 +31,7 @@
 	}
 	.btn-co {
 	    position: absolute;
-		bottom: 30%;
+		bottom: 35%;
 		right: -36%;
 	    font-size: 20px;
 	}
@@ -50,10 +50,32 @@
 		left: 2%;
 		padding: 1px 3px;
 	}
+
+	.btn-why {
+	    position: absolute;
+		bottom: 10%;
+		right: -36%;
+	    font-size: 20px;
+	}
+	.btn-why-sm {
+		font-size: 15px;
+		font-weight: 100 !important;
+		position: absolute;
+		bottom: 45%;
+		left: 41%;
+	}
+	.btn-why-xs {
+		font-size: 11px;
+		font-weight: 100 !important;
+		position: absolute;
+		bottom: 45%;
+		left: 41%;
+		padding: 1px 3px;
+	}
 </style>
 <?php if(!@Yii::app()->params["theme"] || Yii::app()->params["theme"]=="ph-dori"){ ?>
 <div class="col-md-8 no-padding header-home">
-	<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
+	<img class="img-responsive headBgImg" src="<?php echo $this->module->assetsUrl; ?>/images/headmug.png">
 
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home-sm homestead visible-sm">
 		<i class="fa fa-angle-right"></i> En savoir plus
@@ -61,6 +83,11 @@
 	<a href="javascript:;" class="toggle-scope-dropdown btn btn-xs bg-red btn-co-sm homestead btn-geoloc-auto visible-sm tooltips"
 		data-toggle="tooltip" data-placement="right" title="Communectez-moi">
 		<i class="fa fa-crosshairs"></i>
+	</a>
+
+	<a href="javascript:runslide();" class="hidden toggle-scope-dropdown btn btn-xs btn-default btn-why-sm homestead visible-sm tooltips"
+		data-toggle="tooltip" data-placement="right" title="Pourquoi">
+		<i class="fa fa-question"></i>
 	</a>
 	
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home-xs homestead visible-xs">
@@ -71,11 +98,20 @@
 		<i class="fa fa-home"></i>
 	</a>
 
+	<a href="javascript:runslide();" class="hidden toggle-scope-dropdown btn btn-xs btn-default btn-why-xs homestead visible-xs tooltips"
+		data-toggle="tooltip" data-placement="right" title="Pourquoi">
+		<i class="fa fa-question"></i>
+	</a>
+
 	<a href="#default.home" class="lbh btn bg-azure btn-go-home homestead hidden-sm hidden-xs">
 		<i class="fa fa-angle-right"></i> En savoir plus
 	</a>
 	<a href="javascript:;" class="toggle-scope-dropdown btn bg-red btn-co homestead btn-geoloc-auto hidden-sm hidden-xs">
 		<i class="fa fa-angle-right"></i> Communectez-vous <i class="fa fa-home"></i>
+	</a>
+
+	<a href="javascript:runslide();" class="hidden toggle-scope-dropdown btn btn-default btn-why homestead hidden-sm hidden-xs">
+		<i class="fa fa-angle-right"></i> Pourquoi <i class="fa fa-question"></i>
 	</a>
 
 </div>
@@ -111,4 +147,5 @@ jQuery(document).ready(function() {
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
 });
+
 </script>

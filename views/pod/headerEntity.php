@@ -542,9 +542,44 @@ $controler = Element::getControlerByCollection($type);
 <?php 
 Menu::element($entity,$type);
 $this->renderPartial('../default/panels/toolbar');
+
+$emptyAddress = (empty($entity["address"]["codeInsee"])?true:false);
+$showOdesc = true ;
+if(Person::COLLECTION == $type){
+	$showLocality = (Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])?true:false);
+	$showOdesc = ((Preference::isOpenData($entity["preferences"]) && Preference::isPublic($entity, "locality"))?true:false);	
+}
+$odesc = "" ;
+if($showOdesc == true){
+	$controller = Element::getControlerByCollection($type) ;
+	if($type == Person::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"] ;
+	else if($type == Organization::COLLECTION)
+		$odesc = $controller." : ".@$entity["type"].", ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"];
+	else if($type == Event::COLLECTION)
+		$odesc = $controller." : ".@$entity["startDate"].",".@$entity["endDate"].",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",". @$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$entity["shortDescription"])));
+	else if($type == Project::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"];
+}
+	
 ?>
 
 <script type="text/javascript">
+var contextData = {
+		name : "<?php echo addslashes($entity["name"]) ?>",
+		id : "<?php echo (string)$entity["_id"] ?>",
+		type : "<?php echo $type ?>",
+		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
+		otags : "<?php echo addslashes($entity["name"]).",".$type.",communecter,".@$entity["type"].",".addslashes(@implode(",", $entity["tags"])) ?>",
+		
+		odesc : <?php echo json_encode($odesc) ?>,
+		<?php 
+		if( @$entity["startDate"] )
+			echo "'startDate':'".$entity["startDate"]."',";
+		if( @$entity["endDate"] )
+			echo "'endDate':'".$entity["endDate"]."'"; ?>
+};	
+
 var contextMap = [];
 // If come from directoryAction => contextMap is already load
 <?php if(@$links){ ?>

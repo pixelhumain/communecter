@@ -25,8 +25,50 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 * ************************************************************  
 
 ** @Tib 
+  [X] Finance Transparente
+  [ ] add to favorite 
   [ ] Count requests DB per page
-  
+  [ ] header du live ou dans en ce moment
+    - les events favoris du territoire
+  [ ] PPT explication des 25 use cases
+    [X] use runSlide()
+    [ ] finish use cases scenario 
+    [ ] activate pourquoi btn in header
+  [ ] interoperability : communecrter + wikidata +@CLEM 
+  [ ] Quick Add Bookmarklets
+  [ ] add photo
+  [ ] Element Trombinoscope 
+  [ ] INTEGRATTE MARKDOWN wisiwig
+
+  * DDA
+  [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
+  [ ] bug : sur archiver , persiste dans les listes 
+  [ ] bug : une décision terminé, on peut toujours voté dessus
+  [ ] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
+
+** @Rapha 
+  *** Import
+  [ ] Supprimer les anciens fichiers
+
+  *** API
+
+  [ ] GET
+    [ ] Checker : Person, Orga, Event, Projet.
+    [ ] A faire : News, City, DDA, POI.
+  [ ] POST
+    [ ] Implémenter les tokens
+    [ ] Ajouter les url POST
+      [ ] ADD Element (Person, Orga, Event, Projet)
+      [ ] ADD  (News, City, DDA, POI)
+  [ ] DOC
+    [ ] Ecrire entierement la doc en Anglais
+      [ ] GET
+      [ ] POST
+    [ ] Tester l'API via Swagger
+      [ ] GET
+      [ ] POST
+    [ ] refaire le design
+
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    
@@ -55,37 +97,37 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
     [X] Dashboard responsive
 
 ** @Sylvain 
-    [X] pb d'images dans en ce moment (ex : Manapany)
-    [X] delete person : 
-      [X] on admin : delete simple person (links but no news/votes/comments)
-      [X] delete with anonymization
-      [X] delete my account
-    [ ] rsync on server for upload
-    [ ] interface screen shot tutoriel 
-      [ ] test d'un guided tour simplifier
-    [ ] cannot empty communected location
-    [X] remove betatester attr
-    [X] remove empty image attribs
-    [ ] mailing + notification + parametre
-      [X] doc
-      [ ] faire un mail hebdomadaire
-      [ ] invitation event 
-      [ ] news privée
-      [ ] nouveau DDA
-      [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
-      [ ] faire un mail, special quand invité par l'invitation communEvent 
-          faisant reference à l'event , vous etiez ou serez à event xxx
-          communecter vous aide ....
-    [X] Gérer le retour de mail en erreur 
-      [X] créer un hook + erreur dans mailerror
-      [X] creation de notif pour super admin
-      [X] page admin avec les erreurs de mails
-    [ ] Stocker les images en S3
-    [X] passer configDB en externe configdb.example.php
-    [ ] mon calendar 
-    [ ] filtrer par type d'event
-    [ ] event modifier l'organisateur
-    [ ] améliorer la verification d'existence d'elements
+[X] pb d'images dans en ce moment (ex : Manapany)
+[X] delete person : 
+  [X] on admin : delete simple person (links but no news/votes/comments)
+  [X] delete with anonymization
+  [X] delete my account
+[ ] rsync on server for upload
+[ ] interface screen shot tutoriel 
+  [ ] test d'un guided tour simplifier
+[ ] cannot empty communected location
+[X] remove betatester attr
+[X] remove empty image attribs
+[ ] mailing + notification + parametre
+  [X] doc
+  [ ] faire un mail hebdomadaire
+  [ ] invitation event 
+  [ ] news privée
+  [ ] nouveau DDA
+  [ ] création d'une organisation (mail à l'orga => envoi sur un formulaire de type join ?)
+  [ ] faire un mail, special quand invité par l'invitation communEvent 
+      faisant reference à l'event , vous etiez ou serez à event xxx
+      communecter vous aide ....
+[X] Gérer le retour de mail en erreur 
+  [X] créer un hook + erreur dans mailerror
+  [X] creation de notif pour super admin
+  [X] page admin avec les erreurs de mails
+[ ] Stocker les images en S3
+[X] passer configDB en externe configdb.example.php
+[ ] mon calendar 
+[ ] filtrer par type d'event
+[ ] event modifier l'organisateur
+[ ] améliorer la verification d'existence d'elements
 
 
 ** @Tib 
