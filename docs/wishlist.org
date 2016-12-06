@@ -15,18 +15,12 @@
 [ ] redirection après 404 : home ? live ? "la page que vous demandez est introuvable" + btn retour ?
 [ ] refactor design recherche a directory et utiliser la page recherche pour communauté
 [ ] HTML5 notifications
-[.2] SEO finir 
-    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
-    http://phantomjs.org/
-    https://prerender.io/documentation
+
 * refactor 
 [ ] passer les listes non dynamique dans OpenDAta plutot que collection lists ex : orgaType
 [ ] moving discussion polling to discussion page instead of communecter.js
 
 * Tags
-[.2] section sous la baniere de categorie de tags
-  - sport / alternative/ agriculture /santé ...etc
-  on click on decouvre une selection de tags, facilement ajoutable 
 
 * Elements
 [ ] comptabiliser le temps + type 
@@ -36,20 +30,17 @@
   [ ] .... autres question
 [ ] Faire un Sitemap designé comme un village avec toute les fonctionalité de communecter
 [ ] le répertoire : ordonner les échanges/ressources les plus courant mis en premier
-[ ] delete empty element
-[.2] event + project : change organiser
-[ ] add to favorite 
-[ ] Quick Add Bookmarklets
   ** dynform 
     *** Location amélioration 
       [ ] affichant la carte , click sur la carte cache le panel , hover effect montre les geoshape + click ajoute multi scope
-      [.2] ajouter une colonne mes lieux préférés, click et rempli
     [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
         [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
     [ ] desactivate dynForm if not Logged
     [ ] dynform evolutif par type 
       [ ] start by name
       [ ] build as you complete the info
+      [ ] create dashbord design monrep , mode browsing > convert flood to dash design 
+      [ ] 2 modes selector or browsing
   ** Person 
   [ ] citoyen recoltant
   [ ] pouvoir supprimer son compte
@@ -61,8 +52,6 @@
       [ ] inviter les gens a suivre
 
   ** Event ideas 
-  [.2] agenda : les events prennent pas la durée sur plusieurs jours
-  [ ] affiché les event mois precedent et suivant
   [ ] tester : calendrier full calendar sur agenda 
   [ ] utiliser action Rooms pour les salles des events et les relier aux subs events
       [ ] affichage triable en mode mixitup
@@ -71,30 +60,22 @@
               [ ] doodle : pour comparer facilement les dispo 
               [ ] covoit : décrire les trajet pour les partagers
   [ ] Event intérrsant pour moi, moteur d'affinité
-  [.2] connecter a des sources events externes 
   [ ] push back vers Open Agenda
-  [ ] Best place calculator : utilisant la position des participants
+  [ ] Pouvoir ajouter plusieur date à un event 
   [ ] Inviter les invités de l'événement parent à la création d'un sous évent.
-  [.2] pré remplir les dates, lieu
-  [ ] parent Event : load param ajax : show only ongoing or event to come
 
   ** Project
   [ ] préremplir la date d'une task d'un projet avec la date de fin du projet
-  [ ] QCM Propriété , common Chart
-  [ ] Finir Besoin Ressource compétence
-  [ ] Top 10 projet Locaux , liké ou soutenu par la population
+    [ ] Top 10 projet Locaux , liké ou soutenu par la population
     [ ] inspiré de openhub, pour la valorisation de projet locaux et communs
   [ ] enable create subProjects like subEvents
 
   ** Needs
-  [.2] visualisation de la banque des besoins 
     - section besoin
     - filtre par type de besoin
     - par type d'acteur 
 
   ** POI
-  [.2] add photo
-  [.2] add POI to news
   [ ] type umap type geojson : dans ce cas on mouline chaque point ou à la demande du mapEnd on get et on affiche le geoJson sur notre carte
   [ ] use Poi as social bookmarking
     [ ] import from diigo, bookmarks or delicious
@@ -102,10 +83,6 @@
     [ ] bookmarklet like diigo 
 
 * City 
-[.2] city bread crumb (quartier isis , cp, insee, agglo, departement, region)  
-[.2] ajouter une photo de votre ville 
-    - baniere 
-[.2] refactor péi_insee-cp en péi_insee_cp
 [ ] faire des appels a projets 
 [ ] ajouter la gestion des quartier Isis dans les scope
 [ ] Valoriser les communes qui ont signées
@@ -114,12 +91,13 @@
 [ ] add a calendar on city page ???
 [ ] localiser libre : avec le nouvel input 
   - si la city n'existe pas , panel de creation et on enchaine
-[.2] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
+
 
 * Ergo 
-[ ] utiliser ce design du dashboard pour afficher notif et mon rep
+[1.1] utiliser ce design du dashboard pour afficher notif
   - ca pourrait ouvrir des porte pour trier les section des notifs
   - moins clostro que les bar vertical actuelle
+  - turn notification list into a header panel
 
 * Global
 [ ] shortcuts : navigate with 4 btns 
@@ -128,25 +106,17 @@
   [ ] F2 : me or my data dash comme le finder Apple
   [ ] F3 : my map or my statistic 
   [ ] F4 : My Society or my game
-[ ] refactor le design du notifier 
-[ ] turn notification list into a header panel
-[ ] Utilisateur qui n'ont cp
+[ ] Utilisateur qui n'ont cp 
   [ ]  en mode carto : indiquer qu'il ne sont pas sur la carte et leur proposer de se communecter. 
   [ ]  Dans le header : a la place du cp , proposer de ce communecter.
 [ ] synchroniser le scopper et la carto 
-[ ] profile de tags , ou categorisation de tags ajouter dans le tagger
-[ ] pouvoir ajouter des url d'image plutôt que d'uploader les photos
-[.2] internationalisation avec la Belgique
-[ ] Finance Transparente
 [ ] Module FAQ : posez une questions a cette entité
 [ ] rapatrier les docs module
 [ ] repair fluidlog
 [ ] declaration de pb contextualisé 
   - bug idée ... sur chaque page , persistent et en mode votable
 [ ] representation du multi scoping sur la carte
-        - peut etre tracer les perimtres de chaque zone
-[.2] bouton share (Social) non intrusif 
-[ ] interoperability
+    - peut etre tracer les perimtres de chaque zone
 [ ] system de synchronisation between instances : download + upload 
   - download from OCDB
   - connect to one or many servers, info new differences
@@ -156,18 +126,18 @@
   - id unique : id_sourkeyInstance
 [ ] Post outside : ne pas juste utiliser les mails 
   - user pourront demander des push sur differentes destination FB, twitter, 
-[.2] point d'entrée thématique sur la page d'acceuil 
-  - pour voir combien d'acteur oeuvre dans une thematique
 [ ] systeme calculant la valeur indirect de communecter basé sur un systeme de valeur economique existant 
   ex : sur les base des prix des pages jaune calculé la valeur cumulé de l'annuaire 
-[.2] reflechir First Connect , show notifications, hot news ....  
 
 * API 
-[ ] globaliser le system de Tokens et utilisation API Communecte
 [ ] integrate France Connect
 
+* Import / Export 
+[ ] ical
+
 * Interop 
-  [ ] possibility de soumettre une url pour connecter un profile externe
+  [.2] ajouter un RSS , systeme fondant 
+  [1.1] possibility de soumettre une url pour connecter un profile externe
   [ ] creer un editeur minimal de profile ou de data , utilisable sur nimporte quel site
   [ ] on login , si profile externe , loader celui ci pour que ca tourne sur CO 
   [ ] faire une system de persistance , pour que les element puissent etre recherché dans CO ou n'importe quel agregateur
@@ -176,39 +146,39 @@
     - http://www.covoit.net/
 
 * News
+  [.2] Ajouter DDA, POI
   [ ] Améliorer l'affichage de commentaires dans les news
-  [.2] Ajouter dans le journal un post de la creation de l'element qui le porte  
 
 * admin 
   [ ] Gérer la pagination de admin (essayer de faire un proto duplicable)
 
 * DDA
-[.2] bug : sur archiver , persiste dans les listes 
-[.2] bug : une décision terminé, on peut toujours voté dessus
-[.2] bug : j'ai créé cet espace de discussion, je ne peux pas le modifier : https://www.communecter.org/communecter#comment.index.type.actionRooms.id.57b5981b40bb4e631ce9f6e3
 [ ] ouvrir une proposition une geo scope cp, insee..
 [ ] ouvrir une proposition sans parent room
 [ ] btn archiver afficher si deconnecté
 [ ] changer les lien des DDA sur les parent insee
-[ ] ajouter la proposition de signature du pacte de transition citoyenne
-[ ] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
-[ ] Discussion externe : Roket Chat, Gitter or Slack with url 
+[1.1] Decision externe par lien : Loomio, pétition, reference juste une url pour agir
+[1.1] Discussion externe : Roket Chat, Gitter or Slack with url 
 [ ] Réunion privée pour avancement interne organisation
 [ ] ajouter des pièces jointes (doc, pdf...) associées aux DDA
 [ ] optim : pour eviter les count propositions, dans les boucles ajouter le propalCount on the actionRoom
 
 * Notifications :
-    [ ] Un subevent a été ajouté sur un event auquel je suis participant
+    [.2] Un subevent a été ajouté sur un event auquel je suis participant
     [ ] Un nouveau message privé (écrit sur votre journal) vous a été adressé.
     [ ] ajouter des acceptation dans le notif, pour pas etre obligé d'aller sur le post
     [ ] Améliorer la notification de report d'abus
 
 * Financement 
-[ ] jauge de tarification proportionnel et prix libre de contribution au commun 
+[1.1] jauge de tarification proportionnel et prix libre de contribution au commun 
     [ ] avec analyse de consommation et prix adapté à la conso
     [ ] vision disk dur : en fonction de la consommation de chacun 
 
 
 * Recherche 
-[ ] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc)
+
+
+* Dongles 
+[ ] contribution par mail : https://www.diigo.com/tools/post_by_email
+[ ] plugin Chrome plugguer avec dynform et l'api pour partage rapide et viral a la diigo 
 

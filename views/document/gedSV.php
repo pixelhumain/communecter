@@ -102,7 +102,7 @@ genericDocCategoryData = genericDocCategoryData.sort();
 
 function initDropZoneData(docs)
 {
-	console.log("initDropZoneData");
+	mylog.log("initDropZoneData");
 	$(".genericFiles").html("");
 
 	if(!genericDropzone){
@@ -123,7 +123,7 @@ function initDropZoneData(docs)
   			});
 		  },
 		  complete: function(response) {
-		  	//console.log(file.name);
+		  	//mylog.log(file.name);
 		  	$(".loader-subviews").hide();
 		  	var category = $("#genericDocCategory").val();
 		  	if(response.xhr)
@@ -131,7 +131,7 @@ function initDropZoneData(docs)
 		  		docObj = JSON.parse(response.xhr.responseText);
 		  		if( docObj.result ){
 				  	$.unblockUI();
-				  	console.log(docObj.result);
+				  	mylog.log(docObj.result);
 
 				  	var doc = {
 				  		"id":ownerId,
@@ -144,7 +144,7 @@ function initDropZoneData(docs)
 				  		"size" : docObj.size ,
 				  		"category" : category
 				  	};
-				  	console.dir(doc);
+				  	mylog.dir(doc);
 
 				  	/*if( saveDoc != undefined && typeof saveDoc == "function" )
 						saveDoc(doc);
@@ -210,7 +210,7 @@ function initDropZoneData(docs)
 
 function resetGenericFilesTable()
 {
-	console.log("resetGenericFilesTable");
+	mylog.log("resetGenericFilesTable");
 
 	if( !$('.genericFilesTable').hasClass("dataTable") ){
 		genericFilesTable = $('.genericFilesTable').dataTable({
@@ -236,7 +236,7 @@ function resetGenericFilesTable()
 			genericFilesTable.dataTable().fnDestroy();
 			genericFilesTable.dataTable().fnDraw();
 		} else {
-			console.log(" projectFilesTable fnClearTable");
+			mylog.log(" projectFilesTable fnClearTable");
 			genericFilesTable.dataTable().fnClearTable();
 		}
 	}
@@ -245,8 +245,8 @@ function resetGenericFilesTable()
 function addFileLine(id,doc,docId)
 {
 	folderPath = folder+"/"+ownerId;
-	console.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name);
-	console.log("addFileLine",doc);
+	mylog.log("addFileLine",'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name);
+	mylog.log("addFileLine",doc);
 	date = new Date(doc.date);
 	if(doc.name && doc.name.indexOf(".pdf") >= 0)
 		link = '<a href="'+baseUrl+'/upload/'+destinationFolder+'/'+folderPath+'/'+doc.name+'" target="_blank"><i class="fa fa-file-pdf-o fa-3x icon-big"></i></a>';
@@ -280,7 +280,7 @@ function addFileLine(id,doc,docId)
 
 function genericSaveDoc(doc, callback)
 {
-	console.log("genericSaveDoc",doc);
+	mylog.log("genericSaveDoc",doc);
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/document/save",

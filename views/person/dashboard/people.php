@@ -100,7 +100,7 @@ function bindConnectEvent() {
 		
 		disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, 
 			function(idToDisconnect, typeToDisconnect, nameToDisconnect) {
-				console.log('callback disconnectPerson');
+				mylog.log('callback disconnectPerson');
 				updateInvite(idToDisconnect, typeToDisconnect, nameToDisconnect)
 			}
 		);
@@ -111,7 +111,7 @@ function bindConnectEvent() {
 }
 
 function updateInvite(user, isPending, isLineToRemove) {
-	console.log("updateInvite", user);
+	mylog.log("updateInvite", user);
 	var newLine = "";
 
 	if (isLineToRemove) {

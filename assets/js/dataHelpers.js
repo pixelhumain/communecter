@@ -67,7 +67,7 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 		global: false,
 		async: false,
 		dataType: 'json',
-		success: function(data) { //console.dir(data);
+		success: function(data) { //mylog.dir(data);
 			result.push(data);
 		}
 	});
@@ -86,7 +86,7 @@ function isUniqueUsername(username) {
 		    response = data;
 		}
 	});
-	console.log("isUniqueUsername=", response);
+	mylog.log("isUniqueUsername=", response);
 	return response;
 }
 
@@ -145,7 +145,7 @@ function addCustomValidators() {
 	},'Doit ètre aprés {1}.');
 
 	jQuery.validator.addMethod("greaterThanNow", function(value, element, params) {   
-		console.log(value," < ",new Date()); 
+		mylog.log(value," < ",new Date()); 
 	    return moment(value, params[0]).isAfter(moment()); 
 	},"Doit être après la date d'aujourd'hui.");
 
@@ -182,7 +182,7 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 	if(typeof date == "undefined") return;
 	if(fullMonth != true) fullMonth = false;
 
-	//console.log("convert format date 1", date);
+	//mylog.log("convert format date 1", date);
 	if(typeof date.sec != "undefined"){
 		date = new Date(date.sec);
 		date = dateSecToString(date);
@@ -191,10 +191,10 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		date = new Date(date);
 		date = dateSecToString(date);
 	}
-	//console.log(date);
+	//mylog.log(date);
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
-		//console.log("convert format date", date);
+		//mylog.log("convert format date", date);
 		var year 	= date.substr(0, 4);
 		var month 	= date.substr(5, 2);//getMonthStr(date.substr(5, 2), lang);
 		var day 	= date.substr(8, 2);

@@ -1,4 +1,3 @@
-var debug = true;
 var countPoll = 0;
 $(document).ready(function() { 
 	initSequence();
@@ -11,60 +10,12 @@ var steps = ["explain1","live","explain2","event","explain3","orga","explain4","
 var slides = {
 	explain1 : function() { showDefinition("explainCommunectMe")},
 	live : function() { loadByHash("#default.live")},
-	explain2 : function() { showDefinition("explainCartographiedeReseau")},
-	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	explain2 : function() { showDefinitient.detail.id.57bb4078f6ca47cb6c8b457d")}, 
 	explain3 : function() { showDefinition("explainDemoPart")},
 	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
 	explain4 : function() { showDefinition("explainCommunecter")},
 	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
-	explain5 : function() { showDefinition("explainProxicity")},
-	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
-};
-function runslide(cmd)
-{
-	if(cmd == 0){
-		prevStep = null;
-		loadByHash("#default.live");
-	}
-
-	if( prevStep != null ){
-		slides[ steps[prevStep] ]();
-		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
-		setTimeout( function () { 
-			runslide();
-		 }, 8000);
-	}
-}
-
-function checkPoll(){
-	countPoll++;
-	console.log("countPoll",countPoll,"currentUrl",currentUrl);
-	//refactor check Log to use only one call with pollParams 
-	//returning multple server checks in a unique ajax call
-	if(userId){
-		_checkLoggued();
-		refreshNotifications();
-	}
-	
-	//according to the loaded page 
-	//certain checks can be made  
-	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
-		checkCommentCount();
-
-	if(countPoll < 100){
-		setTimeout( function () { checkPoll() }, 300000); //every5min
-		countPoll++;
-	}
-}
-/* *************************** */
-/* instance du menu questionnaire*/
-/* *************************** */
-function DropDown(el) {
-	this.dd = el;
-	this.placeholder = this.dd.children('span');
-	this.opts = this.dd.find('ul.dropdown > li');
-	this.val = '';
-	this.index = -1;
+	explain5 : function() { showDefiniti
 	this.initEvents();
 }
 DropDown.prototype = {
@@ -134,25 +85,47 @@ function updateField(type,id,name,value,reload){
 /* *************************** */
 /* global JS tools */
 /* *************************** */
-function log(msg,type){
-	if(debug){
-	   try {
-	    if(type){
-	      switch(type){
-	        case 'info': console.info(msg); break;
-	        case 'warn': console.warn(msg); break;
-	        case 'debug': console.debug(msg); break;
-	        case 'error': console.error(msg); break;
-	        case 'dir': console.dir(msg); break;
-	        default : console.log(msg);
-	      }
-	    } else
-	          console.log(msg);
-	  } catch (e) { 
-	     //alert(msg);
-	  }
-	}
-}
+var mylog = (function () {
+    
+    return {
+        log: function() {
+          if(debug){
+          	var args = Array.prototype.slice.call(arguments);
+            console.log.apply(console, args);
+        	}
+        },
+        warn: function() {
+            if( debug){
+	          	var args = Array.prototype.slice.call(arguments);
+	            console.warn.apply(console, args);
+	        }
+        },
+        debug: function() {
+            if(debug){
+	          	var args = Array.prototype.slice.call(arguments);
+	            console.debug.apply(console, args);
+	        }
+        },
+        info: function() {
+            if(debug){
+	          	var args = Array.prototype.slice.call(arguments);
+	            console.info.apply(console, args);
+	        }
+        },
+        dir: function() {
+            if(debug){
+	          	var args = Array.prototype.slice.call(arguments);
+	            console.warn.apply(console, args);
+	        }
+        },
+        error: function() {
+            if(debug){
+		      	var args = Array.prototype.slice.call(arguments);
+		        console.error.apply(console, args);
+		    }
+        }
+    }
+}());
 /* ------------------------------- */
 
 function initSequence(){
@@ -176,7 +149,7 @@ function showEvent(id){
 //Calling Actions in ajax. Can be used easily on views
 function connectPerson(connectUserId, callback) 
 {
-	console.log("connect Person");
+	mylog.log("connect Person");
 	$.ajax({
 		type: "POST",
 		url: baseUrl+"/"+moduleId+'/person/follows',
@@ -351,7 +324,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
-	console.log(formData);
+	mylog.log(formData);
 	
 	if(connectType!="admin" && connectType !="attendee"){
 		bootbox.dialog({
@@ -382,7 +355,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 	                            formData.roles=role;
                             }
                             formData.connectType=answer;
-                            console.log(formData);
+                            mylog.log(formData);
                             $.ajax({
 								type: "POST",
 								url: baseUrl+"/"+moduleId+"/link/connect",
@@ -515,6 +488,7 @@ var loadableUrls = {
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.mailerrordashboard" : {title:'MAIL ERROR ', icon : 'download'},
     "#admin.moderate" : {title:'MODERATE ', icon : 'download'},
+    "#admin.createfile" : {title:'IMPORT DATA', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
@@ -542,18 +516,18 @@ var loadableUrls = {
 };
 
 function jsController(hash){
-	console.log("jsController",hash);
+	mylog.log("jsController",hash);
 	res = false;
 	$(".menuShortcuts").addClass("hide");
 	$.each( loadableUrls, function(urlIndex,urlObj)
 	{
-		//console.log("replaceAndShow2",urlIndex);
+		//mylog.log("replaceAndShow2",urlIndex);
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			checkMenu(urlObj, hash);
 		
 			endPoint = loadableUrls[urlIndex];
-			console.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
+			mylog.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
 				//alises are renaming of urls example default.home could be #home
 				if( endPoint.alias ){
@@ -590,7 +564,7 @@ function jsController(hash){
 						hash = endPoint.hash;
 					if(hash.indexOf("?") >= 0){
 						hashT=hash.split("?");
-						console.log(hashT);
+						mylog.log(hashT);
 						hash=hashT[0];
 						extraParams = "?"+hashT[1];
 					}
@@ -606,7 +580,7 @@ function jsController(hash){
 				res = true;
 				return false;
 			} else {
-				console.warn("PRIVATE SECTION LOGIN FIRST",hash);
+				mylog.warn("PRIVATE SECTION LOGIN FIRST",hash);
 				showPanel( "box-login" );
 				resetUnlogguedTopBar();
 				res = true;
@@ -622,15 +596,27 @@ function jsController(hash){
 function loadByHash( hash , back ) { 
 
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
-	// console.log("IS DIRECTORY ? ", 
+	// mylog.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
-
+	if(typeof globalTheme != "undefined" && globalTheme=="network"){
+		if( hash.indexOf("#network.simplydirectory") >= 0 &&
+			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
+		}
+		else{
+			count=$(".breadcrumAnchor").length;
+			//case on reload view
+			if(count==0)
+				count=1;
+			breadcrumGuide(count, hash);
+		}
+		return;
+	}
 	if( hash.indexOf("#default.directory") >= 0 &&
 		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
 		var n = hash.indexOf("type=")+5;
 		var type = hash.substr(n);
-		console.log("CHANGE directory", type);
+		mylog.log("CHANGE directory", type);
 		searchType = [type];
 		setHeaderDirectory(type);
 		loadingData = false;
@@ -653,9 +639,9 @@ function loadByHash( hash , back ) {
 	
 
 	//alert("loadByHash"+hash);
-    console.warn("loadByHash",hash,back);
+    mylog.warn("loadByHash",hash,back);
     if( jsController(hash) ){
-    	console.log("loadByHash >>> jsController",hash);
+    	mylog.log("loadByHash >>> jsController",hash);
     }
     else if( hash.indexOf("#panel") >= 0 ){
     	panelName = hash.substr(7);
@@ -696,7 +682,7 @@ function loadByHash( hash , back ) {
 
     /*if(!back){
     	history.replaceState( { "hash" :location.hash} , null, location.hash ); //changes the history.state
-	    console.warn("replaceState history.state",history.state);
+	    mylog.warn("replaceState history.state",history.state);
 	}*/
 }
 
@@ -740,7 +726,7 @@ function searchByHash (hash)
 		else if( searchT[2] == "quartier" )
 			scopeBtn = ".btn-scope-niv-2" ;
 	}
-	console.log("search : "+search,searchT, scopeBtn);
+	mylog.log("search : "+search,searchT, scopeBtn);
 	$(".input-global-search").val(search);
 	//startGlobalSearch();
 	if( scopeBtn )
@@ -752,10 +738,10 @@ function searchByHash (hash)
 }
 
 function checkMenu(urlObj, hash){
-	console.log("checkMenu *******************", hash);
-	console.dir(urlObj);
+	mylog.log("checkMenu *******************", hash);
+	mylog.dir(urlObj);
 	$(".menu-button-left").removeClass("selected");
-	if(typeof urlObj.menuId != "undefined"){ console.log($("#"+urlObj.menuId).data("hash"));
+	if(typeof urlObj.menuId != "undefined"){ mylog.log($("#"+urlObj.menuId).data("hash"));
 		if($("#"+urlObj.menuId).attr("href") == hash)
 			$("#"+urlObj.menuId).addClass("selected");
 	}
@@ -764,7 +750,7 @@ function checkMenu(urlObj, hash){
 var backUrl = null;
 function checkIsLoggued(uId){
 	if( uId == "" ||  typeof uId == "undefined" ){
-		console.warn("");
+		mylog.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
 		
 		setTitle("Section Sécuriser", "user-secret");
@@ -809,7 +795,7 @@ function showPanel(box,callback){
   	
   	if(isMapEnd) showMap(false);
 			
-	console.log("showPanel");
+	mylog.log("showPanel");
 	//showTopMenu(false);
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
 
@@ -835,7 +821,7 @@ function  processingBlockUi() {
 }
 function showAjaxPanel (url,title,icon, mapEnd) { 
 	//$(".main-col-search").css("opacity", 0);
-	console.log("showAjaxPanel",url,"TITLE",title);
+	mylog.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
 
 	showNotif(false);
@@ -855,12 +841,12 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 	//showPanel('box-ajax');
 	icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 	$(".panelTitle").html(icon+title).fadeIn();
-	console.log("GETAJAX",icon+title);
+	mylog.log("GETAJAX",icon+title);
 	
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
+		 getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
@@ -877,12 +863,12 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 			if(mapEnd)
 				showMap(true);
 			// setTimeout(function(){
-			// 	console.log("call timeout MAP MAP");
+			// 	mylog.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
 			// 		toastr.info('<i class="fa fa-check"></i> Cartographie activée');
 			// 		showMap(false); 
 			// 		$("#btn-toogle-map").show(400);
-			// 		//console.log("getAJAX OK timeout MAIN MAP");
+			// 		//mylog.log("getAJAX OK timeout MAIN MAP");
 					
 			// 	},"html");
 			// }, 2000);
@@ -895,7 +881,7 @@ visualize all tagged elements on a map
 **************/
 function showTagOnMap (tag) { 
 
-	console.log("showTagOnMap",tag);
+	mylog.log("showTagOnMap",tag);
 
 	var data = { 	 "name" : tag, 
 		 			 "locality" : "",
@@ -919,12 +905,12 @@ function showTagOnMap (tag) {
 	          data: data,
 	          dataType: "json",
 	          error: function (data){
-	             console.log("error"); console.dir(data);          
+	             mylog.log("error"); mylog.dir(data);          
 	          },
 	          success: function(data){
 	            if(!data){ toastr.error(data.content); }
 	            else{
-	            	console.dir(data);
+	            	mylog.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
 	            	//setTitle("", "");$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
@@ -944,7 +930,7 @@ show a definition in the focus menu panel
 function showDefinition( id,copySection ){ 
 
 	setTimeout(function(){
-		console.log("showDefinition",id,copySection);
+		mylog.log("showDefinition",id,copySection);
 		$(".hover-info,.hover-info2").hide();
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
 		
@@ -969,7 +955,7 @@ var hoverPersist = false;
 var positionMouseMenu = "out";
 
 function activateHoverMenu () { 
-	//console.log("enter all");
+	//mylog.log("enter all");
 	positionMouseMenu = "in";
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
 	$(".lbl-btn-menu-name").show(200);
@@ -1003,14 +989,21 @@ function openMenuSmall () {
 		overlayCSS: { backgroundColor: '#000'}
 	});
 	$(".blockPage").addClass("menuSmallBlockUI");
+	// If network, check width of menu small
+	if(typeof globalTheme != "undefined" && globalTheme == "network"){
+		if($("#ficheInfoDetail").is(":visible"))
+			$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
+		else
+			$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+	}
 	bindLBHLinks();
 }
 
 var selection;
 function  bindHighlighter() { 
-	//console.clear();  
-	console.log("bindHighlighter");
-  	console.dir(window.getSelection());
+	//mylog.clear();  
+	mylog.log("bindHighlighter");
+  	mylog.dir(window.getSelection());
 	$(".my-main-container").bind('mouseup', function(e){
 		if (window.getSelection) {
 	      selection = window.getSelection();
@@ -1033,7 +1026,7 @@ function  bindHighlighter() {
 }
 
 function  bindTags() { 
-	console.log("bindTags");
+	mylog.log("bindTags");
 	//var tagClasses = ".tag,.label tag_item_map_list"
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
 		//if(userId){
@@ -1063,9 +1056,9 @@ function  bindExplainLinks() {
 function  bindLBHLinks() { 
 	$(".lbh").off().on("click",function(e) {  		
 		e.preventDefault();
-		console.warn("***************************************");
-		console.warn("bindLBHLinks",$(this).attr("href"));
-		console.warn("***************************************");
+		mylog.warn("***************************************");
+		mylog.warn("bindLBHLinks",$(this).attr("href"));
+		mylog.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
 	}).on("contextmenu", function(e){
@@ -1082,7 +1075,7 @@ function  bindLBHLinks() {
 
 }
 
-function bindRefreshBtns() { console.log("bindRefreshBtns");
+function bindRefreshBtns() { mylog.log("bindRefreshBtns");
 	if( $("#dropdown_search").length || $(".newsTL").length)
 	{
 		var searchFeed = "#dropdown_search";
@@ -1092,12 +1085,12 @@ function bindRefreshBtns() { console.log("bindRefreshBtns");
 			method = "reloadNewsSearch();"
 		}
 	    $('#scopeListContainer .item-scope-checker, #scopeListContainer .item-tag-checker, .btn-filter-type').click(function(e){
-	          //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+	          //mylog.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
 	          var str = getFooterScopeChanged(method);
-	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+	          if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  mylog.log("vide news stream perso");
 		          $(".newsFeedNews, #backToTop, #footerDropdown").remove();
 		          $(searchFeed).append( str );
-		      }else { console.log("vide autre news stream perso", searchFeed);
+		      }else { mylog.log("vide autre news stream perso", searchFeed);
 		          $(searchFeed).html( str );
 		      }
 		      $(".search-loader").html("<i class='fa fa-ban'></i>");
@@ -1111,12 +1104,12 @@ function hideSearchResults(){
 			searchFeed = ".newsTL";
 			method = "reloadNewsSearch();"
 		}
-      //console.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
+      //mylog.warn( ">>>>>>>",$(this).data("scope-value"), $(this).data("tag-value"), $(this).attr("type"));
       str = getFooterScopeChanged(method);
-      if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  console.log("vide news stream perso");
+      if(location.hash.indexOf("#news.index")==0 || location.hash.indexOf("#city.detail")==0){  mylog.log("vide news stream perso");
           $(".newsFeedNews, #backToTop, #footerDropdown").remove();
           $(searchFeed).append( str );
-      }else { console.log("vide autre news stream perso", searchFeed);
+      }else { mylog.log("vide autre news stream perso", searchFeed);
           $(searchFeed).html( str );
       }
       $(".search-loader").html("<i class='fa fa-ban'></i>");
@@ -1149,7 +1142,7 @@ maybe movebale into Element.js
 function  buildQRCode(type,id) { 
 		
 	$(".qrCode").qrcode({
-	    text: baseUrl+"/"+moduleId+"#"+type+".detail.id"+id,//'{type:"'+type+'",_id:"'+id+'"}',
+	    text: baseUrl+"/#"+typeObj[type].ctrl+".detail.id."+id,//'{type:"'+type+'",_id:"'+id+'"}',
 	    render: 'image',
 		minVersion: 8,
 	    maxVersion: 40,
@@ -1178,10 +1171,10 @@ function activateSummernote(elem) {
 		   href: baseUrl+"/plugins/summernote/dist/summernote.css"
 		}).appendTo("head");
 		$.getScript( baseUrl+"/plugins/summernote/dist/summernote.min.js", function( data, textStatus, jqxhr ) {
-		  //console.log( data ); // Data returned
-		  //console.log( textStatus ); // Success
-		  //console.log( jqxhr.status ); // 200
-		  //console.log( "Load was performed." );
+		  //mylog.log( data ); // Data returned
+		  //mylog.log( textStatus ); // Success
+		  //mylog.log( jqxhr.status ); // 200
+		  //mylog.log( "Load was performed." );
 		  
 		  $(".btnEditAdv").hide();
 		  $(elem).summernote({
@@ -1211,7 +1204,7 @@ function activateSummernote(elem) {
 
 
 function formatData(formData, collection,ctrl) { 
-	console.warn("formatData");
+	mylog.warn("formatData");
 	formData.collection = collection;
 	formData.key = ctrl;
 	
@@ -1264,15 +1257,15 @@ function formatData(formData, collection,ctrl) {
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
 
-	console.dir(formData);
+	mylog.dir(formData);
 	return formData;
 }
 
 function saveElement ( formId,collection,ctrl,saveUrl ) 
 { 
-	console.warn("saveElement",formId,collection);
+	mylog.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
-	console.log("before",formData);
+	mylog.log("before",formData);
 	formData = formatData(formData,collection,ctrl);
 	formData.medias = [];
 	$(".resultGetUrl").each(function(){
@@ -1310,8 +1303,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     	data: formData,
     	dataType: "json",
     	success: function(data){
-    		console.warn("saveElement ajax result");
-    		console.dir(data);
+    		mylog.warn("saveElement ajax result");
+    		mylog.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
                 //reset save btn 
@@ -1322,6 +1315,8 @@ function saveElement ( formId,collection,ctrl,saveUrl )
             else { 
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
+                //clear the unecessary DOM 
+                $("#ajaxFormModal").html('');
                 if(data.url)
                 	loadByHash( data.url );
                 else if(data.id)
@@ -1334,7 +1329,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 }
 
 function editElement(type,id){
-	console.warn("--------------- editElement "+type+" ---------------------",id);
+	mylog.warn("--------------- editElement "+type+" ---------------------",id);
 	//get ajax of the elemetn content
 	$.ajax({
         type: "GET",
@@ -1349,7 +1344,7 @@ function editElement(type,id){
 			//will be sued in the dynform  as update 
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
-			//console.dir(data);
+			//mylog.dir(data);
 			openForm(type,null, data.map);
         } else {
            toastr.error("something went wrong!! please try again.");
@@ -1358,25 +1353,19 @@ function editElement(type,id){
 }
 
 function openForm (type, afterLoad,data) { 
-    //console.clear();
+    //mylog.clear();
     $.unblockUI();
-    console.warn("--------------- Open Form "+type+" ---------------------",data);
-    console.dir(data);
+    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
+    mylog.dir(data);
     elementLocation = null;
     elementLocations = [];
     centerLocation = null;
     updateLocality = false;
     formType = type;
     specs = typeObj[type];
-    if(specs.lbh){
-    	loadByHash(specs.lbh);
-    }
-	else if( specs.form && specs.form.url ) {
-		//charge le resultat d'une requete en Ajax
-		getModal( { title : specs.form.title , icon : "fa-"+specs.icon } , specs.form.url );
-	} else if( specs.dynForm )
+    if(userId)
 	{
-		console.dir(specs);
+		mylog.dir(specs);
 		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
 		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
@@ -1397,7 +1386,7 @@ function openForm (type, afterLoad,data) {
 }
 
 function buildDynForm(elementObj, afterLoad,data) { 
-	console.warn("--------------- buildDynForm", afterLoad,data);
+	mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 	if(userId)
 	{
 		var form = $.dynForm({
@@ -1434,10 +1423,11 @@ function buildDynForm(elementObj, afterLoad,data) {
 		        return false;
 		    }
 		});
-		console.dir(form);
+		mylog.dir(form);
 	} else 
-		toastr.error('Vous devez etre loggué');
+		alert('Vous devez etre loggué');
 }
+
 
 var contextData = null;
 var typeObj = {
@@ -1533,7 +1523,7 @@ var typeObj = {
 			    		
 			    	}/*,
 			    	loadData : function(data){
-				    	console.warn("--------------- loadData ---------------------",data);
+				    	mylog.warn("--------------- loadData ---------------------",data);
 				    	$('#ajaxFormModal #name').val(data.name);
 				    	$('#ajaxFormModal #type').val(data.type);
 				    	$('#ajaxFormModal #parentId').val(data.parentId);
@@ -1543,7 +1533,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
 		            type :{
 		            	"inputType" : "select",
@@ -1583,6 +1573,81 @@ var typeObj = {
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			    }
+			}
+		}},
+		"siteurl":{ 
+		col:"siteurl",
+		ctrl:"siteurl",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	mylog.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une url.</p>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	//$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true }
+			        },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList
+		            },
+		            
 		            parentId :{
 		            	"inputType" : "hidden"
 		            },
@@ -1655,7 +1720,7 @@ var typeObj = {
 		            formshowers : {
 		                "inputType" : "custom",
 		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -1672,7 +1737,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "URL du site web",
 			            "inputType" : "array",
 			            "value" : [],
@@ -1680,7 +1754,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 			        telephone : {
 			        	placeholder : "Téléphne",
 			            "inputType" : "text",
@@ -1737,7 +1811,7 @@ var typeObj = {
 			    			}
 			    			
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( typeObj[contextData.type].ctrl ); 
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
 
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
@@ -1753,7 +1827,7 @@ var typeObj = {
 			    			else if( contextData && contextData.id )
 				    			$("#ajaxFormModal #organizerId").val( contextData.id );
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( typeObj[contextData.type].ctrl );
+			    				$("#ajaxFormModal #organizerType").val( contextData.type);
 			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
 			    		}
 			    	}
@@ -1765,10 +1839,10 @@ var typeObj = {
 			    		$("#ajaxFormModal #allDay").val(false);
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	console.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
 					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
-					console.log($("#ajaxFormModal #startDate").val());
+					mylog.log($("#ajaxFormModal #startDate").val());
 			    },
 			    properties : {
 			    	info : {
@@ -1798,7 +1872,7 @@ var typeObj = {
 		            	"options" : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
-			            	$("#ajaxFormModal #organizerId ").off().on("change",function(){
+			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
 			            		
 			            		organizerId = $(this).val();
 			            		if(organizerId == "dontKnow" )
@@ -1808,7 +1882,7 @@ var typeObj = {
 			            		else
 			            			organizerType = typeObj["person"].col;
 
-			            		console.warn( "organizer",organizerId,organizerType );
+			            		mylog.warn( "organizer",organizerId,organizerType );
 			            		$("#ajaxFormModal #organizerType ").val( organizerType );
 			            	});
 			            }
@@ -1829,10 +1903,11 @@ var typeObj = {
 			            		
 			            		parentId = $(this).val();
 			            		if( parentId != "" ){
+			            			if(typeof myContacts != "undefined")
 			            			$.each(myContacts.events,function (i,evObj) { 
-			            				//console.log("event : ",evObj["_id"]["$id"]);
+			            				//mylog.log("event : ",evObj["_id"]["$id"]);
 			            				if( evObj["_id"]["$id"] == parentId){
-			            					console.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
+			            					mylog.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
 				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
 				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
 				    					}
@@ -1854,7 +1929,7 @@ var typeObj = {
 		            	"inputType" : "checkbox",
 		            	init : function(){
 			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
-			            		console.log("toto",$("#ajaxFormModal #allDay").val());
+			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
 			            	})
 			            },
 		            	"switch" : {
@@ -1930,7 +2005,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
@@ -1940,7 +2015,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
@@ -1948,7 +2032,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -2028,7 +2112,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urlsarray\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
@@ -2037,7 +2121,16 @@ var typeObj = {
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
-		            urls : {
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
 			        	placeholder : "url",
 			            "inputType" : "array",
 			            "value" : [],
@@ -2045,7 +2138,7 @@ var typeObj = {
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
-			        },
+			        },*/
 		            "preferences[publicFields]" : {
 		                inputType : "hidden",
 		                value : []
@@ -2135,7 +2228,7 @@ var typeObj = {
 			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
 			            			    //run through myContacts to fill parent names 
-			            			    console.dir(window.myVotesList);
+			            			    mylog.dir(window.myVotesList);
 			            			    
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
@@ -2144,12 +2237,12 @@ var typeObj = {
 								    } );
 			            		}
 			            		/*$("#survey").change(function() { 
-			            			console.dir( $(this).val().split("_"));
+			            			mylog.dir( $(this).val().split("_"));
 			            		});*/
 
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet </span>"
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2193,7 +2286,7 @@ var typeObj = {
 		            },
 		            email:{
 		            	inputType : "hidden",
-		            	value : (userId) ? userConnected.email : ""
+		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
 		            },
 		            organizer:{
 		            	inputType : "hidden",
@@ -2253,7 +2346,7 @@ var typeObj = {
 			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
 			            			    window.myActionsList = {};
 			            			    $.each( data.actions , function( k,v ) 
-			            			    { console.log(v.parentType,v.parentId);
+			            			    { mylog.log(v.parentType,v.parentId);
 			            			    	if(v.parentType){
 					            			    if( !window.myActionsList[ v.parentType] ){
 					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
@@ -2263,7 +2356,7 @@ var typeObj = {
 				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
 				            			    }
 			            			    }); 
-			            			    console.dir(window.myActionsList);
+			            			    mylog.dir(window.myActionsList);
 			            			    html = buildSelectGroupOptions(window.myActionsList);
 										$("#room").append(html);
 										if(contextData && contextData.id)
@@ -2272,7 +2365,7 @@ var typeObj = {
 			            		}
 		            		}
 		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace d'action lié à une ville, une organisation ou un projet </span>"
+		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
 		            },
 		            name :{
 		              "inputType" : "text",
@@ -2316,7 +2409,7 @@ var typeObj = {
 		            },
 		            email:{
 		            	inputType : "hidden",
-		            	value : (userId) ? userConnected.email : ""
+		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
 		            },
 		            organizer:{
 		            	inputType : "hidden",
@@ -2338,95 +2431,7 @@ var typeObj = {
 			}
 		} },
 	"actions" : {col:"actions",ctrl:"room"},
-	"discuss" : {col:"actionRooms",ctrl:"room"},
-	"samples":{ 
-		//col:"poi",
-		//ctrl:"poi",
-		dynForm : {
-		    jsonSchema : {
-			    title : "All possible inputs",
-			    icon : "map-marker",
-			    type : "object",
-			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet et un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            }
-			        },
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-			        location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags",
-		              "values" : tagsList
-		            },
-		            urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-			            	$(".urlsarray").addClass("hidden");	 
-			            }
-			        },
-			        select :{
-		            	"inputType" : "select",
-		            	"placeholder" : "type select",
-		            	"options" : {
-		            		"person":"Person",
-		            		"organization":"Organisation",
-	                    	"event":"Event",
-	                    	"project":"Project"
-		            	}
-		            },
-		            selectMultiple :{
-		            	"inputType" : "selectMultiple",
-		            	"placeholder" : "Thematique",
-		            	"options" : {
-		            		"sport":"Sport",
-	                    	"agriculture":"Agricutlture",
-	                    	"culture":"Culture",
-	                    	"urbanisme":"Urbanisme",
-		            	}
-		            },
-
-		            date : {
-		                "inputType" : "date",
-		                "icon" : "fa fa-calendar",
-		                "placeholder":"Input Type Date"
-		            },
-
-		            daterange : {
-		                "inputType" : "daterange",
-		                "icon" : "fa fa-clock-o",
-		                "placeholder":"Input Type daterange"
-		            },
-		            properties : {
-		                "inputType" : "properties",
-		                "placeholder" : "Key",
-		                "placeholder2" : "Value",
-		                "value":[]
-		            },
-			    }
-			}
-		} },
+	"discuss" : {col:"actionRooms",ctrl:"room"}
 };
 
 function  firstOptions() { 
@@ -2449,15 +2454,16 @@ function myAdminList (ctypes) {
 		$.each( ctypes, function(i,ctype) {
 			var connectionType = connectionTypes[ctype];
 			myList[ ctype ] = { label: ctype, options:{} };
+			if(typeof myContacts != "undefined" && myContacts != null)
 			$.each( myContacts[ ctype ],function(id,elemObj){
-				//console.log(ctype+"-"+id+"-"+elemObj.name);
+				//mylog.log(ctype+"-"+id+"-"+elemObj.name);
 				if( elemObj.links && elemObj.links[connectionType] && elemObj.links[connectionType][userId] && elemObj.links[connectionType][userId].isAdmin) {
-					//console.warn(ctype+"-"+id+"-"+elemObj.name);
+					//mylog.warn(ctype+"-"+id+"-"+elemObj.name);
 					myList[ ctype ]["options"][ elemObj["_id"]["$id"] ] = elemObj.name;
 				}
 			});
 		});
-		console.dir(myList);
+		mylog.dir(myList);
 	}
 	return myList;
 }
@@ -2482,7 +2488,7 @@ function globalSearch(searchValue,types){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error"); console.dir(data);
+             mylog.log("error"); mylog.dir(data);
              $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
           },
           success: function(data){
@@ -2490,7 +2496,7 @@ function globalSearch(searchValue,types){
  			var compt = 0;
  			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
  			$.each(data, function(id, elem) {
-  				console.log(elem);
+  				mylog.log(elem);
   				city = "";
 				postalCode = "";
 				var htmlIco ="<i class='fa fa-users'></i>";
@@ -2535,23 +2541,23 @@ var countLocation = 0;
 function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
-	console.log("locationObj", locationObj);
+	mylog.log("locationObj", locationObj);
 	elementLocation = locationObj;
-	console.log("elementLocation", elementLocation);
+	mylog.log("elementLocation", elementLocation);
 	elementLocations.push(elementLocation);
-	console.log("elementLocations", elementLocations);
+	mylog.log("elementLocations", elementLocations);
 	if(!centerLocation || locationObj.center == true){
 		centerLocation = elementLocation;
 		elementLocation.center = true;
 	}
-	console.dir(elementLocations);
+	mylog.dir(elementLocations);
 	//elementLocation.push(positionObj);
 }
 
 function addLocationToForm(locationObj)
 {
-	console.warn("---------------addLocationToForm----------------");
-	console.dir(locationObj);
+	mylog.warn("---------------addLocationToForm----------------");
+	mylog.dir(locationObj);
 	var strHTML = "";
 	if( locationObj.address.addressCountry)
 		strHTML += locationObj.address.addressCountry;
@@ -2577,7 +2583,7 @@ function addLocationToForm(locationObj)
 
 
 function removeLocation(ix){
-	console.log("removeLocation", ix, elementLocations);
+	mylog.log("removeLocation", ix, elementLocations);
 	elementLocation = null;
 	elementLocations.splice(ix,1);
 	//TODO check if this center then apply on first
@@ -2606,7 +2612,7 @@ function notEmpty(val){
 }
 
 function activeMenuElement(page) {
-	console.log("-----------------activeMenuElement----------------------");
+	mylog.log("-----------------activeMenuElement----------------------");
 	listBtnMenu = [	'detail', 'news', 'directory', 'gallery', 'addmembers', 'calendar'];
 	$.each(listBtnMenu, function(i,value) {
 		$(".btn-menu-element-"+value).removeClass("active");
@@ -2658,7 +2664,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
 	        if (match_url.test(getUrl.val())) 
 	        {
-		        console.log(getUrl.val().match(match_url));
+		        mylog.log(getUrl.val().match(match_url));
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
 			       // alert(lastUrl+"///"+getUrl.val().match(match_url)[0]);
 		        	var extracted_url = getUrl.val().match(match_url)[0]; //extracted first url from text filed
@@ -2678,7 +2684,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 						type: 'post',
 						dataType: 'json',
 						success: function(data){        
-			                console.log(data); 
+			                mylog.log(data); 
 		                    content = getMediaCommonHtml(data,"save");
 		                    //load results in the element
 		                    //return content;
@@ -2824,7 +2830,7 @@ function getMediaCommonHtml(data,action,id){
 }
 
 function myContactLabel (type,id) { 
-	if(myContacts && myContacts[type]){
+	if(typeof myContacts != "undefined" && myContacts[type]){
 		$.each( myContacts[type], function( key,val ){
 			if( id == val["_id"]["$id"] ){
 				return val;
@@ -2897,14 +2903,14 @@ function autoCompleteInviteSearch(search){
 	
 	ajaxPost("", moduleId+'/search/searchmemberautocomplete', data,
 		function (data){
-			console.log(data);
+			mylog.log(data);
 			var str = "<li class='li-dropdown-scope'><a href='javascript:newInvitation()'>Pas trouvé ? Lancer une invitation à rejoindre votre réseau !</li>";
 			var compt = 0;
 			var city, postalCode = "";
 			if(data["citoyens"].length > 0){
 				$.each(data["citoyens"], function(k, v) { 
 					city = "";
-					console.log(v);
+					mylog.log(v);
 					postalCode = "";
 					var htmlIco ="<i class='fa fa-user fa-2x'></i>"
 					if(v.id != userId) {
@@ -2936,7 +2942,7 @@ function autoCompleteInviteSearch(search){
 }
 
 function communecterUser(){
-	console.warn("communecterUser");
+	mylog.warn("communecterUser");
 	if(typeof contextData == "undefined" || contextData == null || contextData.id != userId){
 		contextData = {
 			id : userId,
@@ -2948,7 +2954,7 @@ function communecterUser(){
 }
 
 function updateLocalityEntities(addressesIndex, addressesLocality){
-	console.warn("updateLocalityEntities");
+	mylog.warn("updateLocalityEntities");
 	$("#ajax-modal").modal("hide");
 	showMap(true);
 	if(typeof initUpdateLocality != "undefined"){
@@ -2961,7 +2967,7 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 			address = null ;
 			geo = null ;
 		}
-		console.log(address, geo, contextData.type, addressesIndex);
+		mylog.log(address, geo, contextData.type, addressesIndex);
 		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
 	}
 }

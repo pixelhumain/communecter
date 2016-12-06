@@ -337,6 +337,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script>
 
+
+
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
@@ -347,6 +349,9 @@ var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
 
 jQuery(document).ready(function() {
+
+  
+  
 
   $(".main-col-search").addClass("cityHeadSection");
 
@@ -397,7 +402,7 @@ jQuery(document).ready(function() {
 		var scroller_anchor = $("#pod-local-actors").offset().top;
 		scroller_anchor += $("#pod-local-actors").height();
 		topScroll=$(this).scrollTop();
-		console.log(window.scrollY+" // "+lastValue );
+		mylog.log(window.scrollY+" // "+lastValue );
 		
 		if (topScroll > (scroller_anchor-100)) {
 			$("#pod-local-actors").css("margin-bottom","550px");
@@ -460,12 +465,12 @@ function initCityMap(){
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
   
-  console.log("city");
-  console.dir(city.geo);
+  mylog.log("city");
+  mylog.dir(city.geo);
   
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [parseFloat(city.geo.latitude)+0.0003, parseFloat(city.geo.longitude)+0.0003];
-   console.dir(latlng);
+   mylog.dir(latlng);
  
   var content = Sig.getPopupSimpleCity(city);
   var properties = {  id : "0",
@@ -482,8 +487,8 @@ function initCityMap(){
   Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
-  console.log("geoShape");
-  console.dir(city["geoShape"]);
+  mylog.log("geoShape");
+  mylog.dir(city["geoShape"]);
   if(typeof city["geoShape"] != "undefined"){
     var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
     Sig.showPolygon(geoShape);

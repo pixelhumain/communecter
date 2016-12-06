@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
 	<?php $contextMap = array("jobList"=>$jobList); ?>
 	bindJobEvents();
  	var contextMap = <?php echo json_encode($contextMap)?>;
- 	console.log(contextMap);
+ 	mylog.log(contextMap);
  	debugMap.push(contextMap);
  	initTableStyle();
 });
@@ -71,12 +71,12 @@ function bindJobEvents() {
 	});
 
 	$(".viewJobButton").off().on("click", function() {
-		console.log($(this).data('id'));
+		mylog.log($(this).data('id'));
 		openJobSV("view", $(this).data('id'));
 	});
 
 	$(".delJobButton").off().on("click", function() {
-		console.log("Delete the jobId : "+$(this).data('id'));
+		mylog.log("Delete the jobId : "+$(this).data('id'));
 		var id = $(this).data('id');
 		bootbox.confirm("Are you sure you want to delete <span class='text-red'>"+$(this).data("name")+"</span> Job Offer ?", 
 			function(result) {
@@ -89,7 +89,7 @@ function bindJobEvents() {
 				    	.done(function (data) {
 				            if (data && data.result) {               
 				                toastr.success("The job offer has been removed successfully!!");
-								console.log("Remove the line "+"#job"+id);
+								mylog.log("Remove the line "+"#job"+id);
 								$("#job"+id).remove();
 				            } else {
 				              toastr.error((data.msg) ? data.msg : "bug happened");
@@ -102,7 +102,7 @@ function bindJobEvents() {
 }
 
 function openJobSV(mode, id) {
-	console.log("openJobSV");
+	mylog.log("openJobSV");
 	$("#ajaxSV").html("<div class='col-sm-8 col-sm-offset-2 jobContainer'>"+
 		  	"</div>");
 	$.subview({
@@ -140,7 +140,7 @@ function openJobSV(mode, id) {
 }
 
 function updateJob(njob, jobId) {
-    console.log("updateJob func");
+    mylog.log("updateJob func");
     var jobLink = '<a href="#" class="viewJobButton" data-id="'+jobId+'" data-original-title="View">';
     var jobLine  = '<tr id="job'+jobId+'">'+
                 '<td class="center">'+jobLink+'<i class="fa fa-briefcase fa-2x"></i></a></td>'+

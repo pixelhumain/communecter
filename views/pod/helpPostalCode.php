@@ -237,7 +237,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	var idCountryInput = "#<?php echo $idCountryInput; ?>";
 	
-	//console.dir(allCountries);
+	//mylog.dir(allCountries);
 	$.each(allCountries, function(key, country){
 	 	$("#country-geolocInternational").append("<option value='"+country.id+"'>"+country.text+"</option>");
 	 });
@@ -299,7 +299,7 @@ function showMsgListRes(msg){
 
 function loadMap(canvasId, initParams)
 {
-	console.warn("--------------- loadMap ENTITY ---------------------");
+	mylog.warn("--------------- loadMap ENTITY ---------------------");
 	canvasId += initParams.sigKey;
 	
 	$("#"+canvasId).html("");
@@ -330,9 +330,9 @@ function loadMap(canvasId, initParams)
 function showOneElementOnMap(thisData, thisMap){
 				
 	var objectId = Sig.getObjectId(thisData);
-	console.log("showOneElementOnMap");
-	console.dir(thisData);
-	console.dir(objectId);
+	mylog.log("showOneElementOnMap");
+	mylog.dir(thisData);
+	mylog.dir(objectId);
 
 	if(objectId != null){
 					
@@ -343,8 +343,8 @@ function showOneElementOnMap(thisData, thisMap){
 				var content = Sig.getPopupAddress(thisData, "Utiliser ce code postal");
 				//création de l'icon sur la carte
 				var theIcon = Sig.getIcoMarkerMap(thisData);
-				console.log("theIcon");
-				console.dir(theIcon);
+				mylog.log("theIcon");
+				mylog.dir(theIcon);
 				var properties = { 	id : objectId,
 									icon : theIcon,
 									type : thisData["type"],
@@ -376,7 +376,7 @@ function showOneElementOnMap(thisData, thisMap){
 					thisMap.panBy([0, -80], {"animate" : false });
 
 					
-					console.log("onclick " + thisData.cityName);
+					mylog.log("onclick " + thisData.cityName);
 					//checkCityExists(thisData, this);
 
 					$(".btn-communecter-city").click(function(){
@@ -432,11 +432,11 @@ function askNominatimCp(cityName){
 		crossDomain:true,
 		complete: function () {},
 		success: function (obj){
-			console.log("askNominatimCp success");
-			console.dir(obj);
+			mylog.log("askNominatimCp success");
+			mylog.dir(obj);
 		},
 		error: function (thisError) {
-			console.log("askNominatimCp error");
+			mylog.log("askNominatimCp error");
 			toastr.error(thisError);
 		}
 	});

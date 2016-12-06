@@ -533,7 +533,7 @@ function bindEvents()
 
 	$("#checkboxTest").bootstrapSwitch();
 	$("#checkboxTest").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isTest").val(state);
 		if(state == true){
 			$("#divNbTest").show();
@@ -544,7 +544,7 @@ function bindEvents()
 
 	$("#checkboxInvite").bootstrapSwitch();
 	$("#checkboxInvite").on("switchChange.bootstrapSwitch", function (event, state) {
-		console.log("state = "+state );
+		mylog.log("state = "+state );
 		$("#isInvite").val(state);
 		if(state == true){
 			$("#divAuthor").show();
@@ -560,7 +560,7 @@ function bindEvents()
 
 	$("#fileImport").change(function(e) {
     	var ext = $("input#fileImport").val().split(".").pop().toLowerCase();
-    	//console.log("ext", ext, $.inArray(ext, "json"));
+    	//mylog.log("ext", ext, $.inArray(ext, "json"));
 		if(ext != "csv" && ext !=  "json" && ext == "js" && ext !=  "geojson") {
 			alert('Upload CSV or JSON');
 			return false;
@@ -571,14 +571,14 @@ function bindEvents()
 				var reader = new FileReader();
 				file = [];
 				reader.onload = function(e) {
-					//console.log("csv : ", e.target.result );
+					//mylog.log("csv : ", e.target.result );
 					var csvval=e.target.result.split("\n");
-					//console.log("csv : ", csvval );
+					//mylog.log("csv : ", csvval );
 					$.each(csvval, function(key, value){
 						var ligne = value.split(";");
 						var newLigne = [];
 						$.each(ligne, function(keyLigne, valueLigne){
-							//console.log("valueLigne", valueLigne);
+							//mylog.log("valueLigne", valueLigne);
 							if(valueLigne.charAt(0) == '"' && valueLigne.charAt(valueLigne.length-1) == '"'){
 								var elt = valueLigne.substr(1,valueLigne.length-2);
 								newLigne.push(elt);
@@ -589,8 +589,8 @@ function bindEvents()
 						
 		  				file.push(newLigne);
 		  			});
-		  			console.log("file :", file.length );
-		  			console.log("file :", file );
+		  			mylog.log("file :", file.length );
+		  			mylog.log("file :", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -600,9 +600,9 @@ function bindEvents()
 				var reader = new FileReader();
 				file = [];
 				reader.onload = function(e) {
-					//console.log("json : ", e.target.result );
+					//mylog.log("json : ", e.target.result );
 					file.push(e.target.result);
-		  			console.log("file : ", file );
+		  			mylog.log("file : ", file );
 				};
 				reader.readAsText(e.target.files.item(0));
 			}
@@ -633,7 +633,7 @@ function bindEvents()
 				data:{ url : $("#textUrl").val() },
 				async : false,
 				success: function (obj){
-					console.log('success');
+					mylog.log('success');
 					file.push(obj.data) ;
 
 					$.ajax({
@@ -651,7 +651,7 @@ function bindEvents()
 				        async : false,
 				        success: function(data)
 				        {
-				        	console.log("btnVerification data",data.createLink);
+				        	mylog.log("btnVerification data",data.createLink);
 				        	if(data.createLink){
 				        		resultAssignData(data);
 				        		
@@ -664,14 +664,14 @@ function bindEvents()
 					});
 				},
 				error: function (error) {
-					console.log('error', error);
+					mylog.log('error', error);
 				}
 			});
 		}	
 		else if(typeDate == "file")
 		{
 			var nameFile = $("#fileImport").val().split("."); 
-	  		console.log("type",nameFile[nameFile.length-1]);
+	  		mylog.log("type",nameFile[nameFile.length-1]);
 	  		if(nameFile[nameFile.length-1] != "csv" && nameFile[nameFile.length-1] != "json" && nameFile[nameFile.length-1] != "js"  && nameFile[nameFile.length-1] != "geojson"){
 	  			toastr.error("Vous devez sélectionner un fichier en CSV ou JSON");
 	  			return false ;
@@ -679,7 +679,7 @@ function bindEvents()
 
 	  		nameF = nameFile[0];
   			typeF = nameFile[nameFile.length-1];
-  			console.log("file2 :", file.length );
+  			mylog.log("file2 :", file.length );
   			assignData($("#chooseCollection").val(), typeF, $("#chooseMapping").val());
 	  		
 		}	
@@ -834,7 +834,7 @@ function bindEvents()
 	  			{
 	  				var valuesCreateData = {};
 					valuesCreateData['valueLinkCollection'] = $("#valueLinkCollection"+i).text();
-					console.log($("#idHeadCSV"+i).val());
+					mylog.log($("#idHeadCSV"+i).val());
 					valuesCreateData['idHeadCSV'] = $("#idHeadCSV"+i).val();
 					infoCreateData.push(valuesCreateData);
 	  			}
@@ -888,7 +888,7 @@ function bindEvents()
 
 				  		while(fin == false){
 				  			subFile = head.concat(file.slice(indexStart,indexEnd));
-				  			console.log("subFile", subFile.length);
+				  			mylog.log("subFile", subFile.length);
 
 				  			params["file"] = subFile;
 				  			visualisation(params);
@@ -910,7 +910,7 @@ function bindEvents()
 			{
 				toastr.error("Vous devez ajouter des éléments au mapping.");
 			}
-	  		console.log("infoCreateData", infoCreateData);
+	  		mylog.log("infoCreateData", infoCreateData);
 		}
 		$.unblockUI();
   		return false;
@@ -919,8 +919,8 @@ function bindEvents()
 
 	$("#btnImport").off().on('click', function()
   	{
-  		console.log("jsonImport" , $('#jsonImport').val());
-  		console.log("jsonError" , $('#jsonError').val());
+  		mylog.log("jsonImport" , $('#jsonImport').val());
+  		mylog.log("jsonError" , $('#jsonError').val());
   		$.ajax({
 	        type: 'POST', 
 	        data: { jsonImport : $('#jsonImport').val(), 
@@ -930,7 +930,7 @@ function bindEvents()
 	        url: baseUrl+'/communecter/admin/importinmongo/',
 	        dataType : 'json',
 	        success: function(data) {
-	            //console.dir(data);
+	            //mylog.dir(data);
 	            if(data.result)
 	              	toastr.success("Les fichiers ont été crée.");
 	            else
@@ -963,15 +963,15 @@ function bindEvents()
 
   		var dataGood = [];
   		var dataBad = jQuery.parseJSON($('#jsonError').val()) ;
-  		console.log(dataBad);
+  		mylog.log(dataBad);
   		var json = jQuery.parseJSON($('#jsonImport').val()) ;
   		$.each( json, function( key, org ) {
-  			console.log("org", org);
-  			console.log("typeof org.geo", typeof org.geo);
+  			mylog.log("org", org);
+  			mylog.log("typeof org.geo", typeof org.geo);
 			if(typeof org.geo == "undefined"){
 
 				org = getGeo(org) ;
-			  	console.log("getGeoFINI", org["msgError"]);
+			  	mylog.log("getGeoFINI", org["msgError"]);
 
 				if(typeof org["msgError"] == "undefined")
 			  		org = getInsee(org) ;
@@ -1056,7 +1056,7 @@ function bindEvents()
 
 function resultAssignData(data){
 
-	console.log("resultAssignData");
+	mylog.log("resultAssignData");
 	var chaineSelectCSVHidden = "" ;
 	if(data.typeFile == "csv"){
 		$.each(file[0], function(key, value){
@@ -1112,7 +1112,7 @@ function getInseeWithLatLon(lat, lon, cp){
 		url: baseUrl+'/communecter/sig/getinseebylatlng/',
 		dataType : 'json',
 		success: function(data){
-			console.log("data.insee",data.insee);
+			mylog.log("data.insee",data.insee);
 			insee = data.insee ;
 		}
 	});
@@ -1156,9 +1156,9 @@ function getInfoAdressByInsee(insee,cp){
 		url: baseUrl+'/communecter/city/getinfoadressbyinsee/',
 		dataType : 'json',
 		success: function(data){
-			//console.log(data);
+			//mylog.log(data);
 			$.each(data, function( key, val ) {
-				console.log(val);
+				mylog.log(val);
 				alternateName = val.alternateName ;
 			});
 			
@@ -1180,7 +1180,7 @@ function callbackNominatimSuccess(obj){
 function findGeoposByGoogleMaps(requestPart){
 	var keyApp = "<?php echo Yii::app()->params['google']['keyAPP']; ?>";
 	var objnominatim = {} ;
-	console.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
+	mylog.log('findGeoposByGoogleMaps',"https://maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp);
 	showLoadingMsg("Recherche de la position en cours");
 	$.ajax({
 		url: "//maps.googleapis.com/maps/api/geocode/json?address=" + requestPart + "&key="+keyApp,
@@ -1190,12 +1190,12 @@ function findGeoposByGoogleMaps(requestPart){
 		crossDomain:true,
 		complete: function () {},
 		success: function (obj){
-			//console.log('success');	
+			//mylog.log('success');	
 			hideLoadingMsg();
 			objnominatim = callbackNominatimSuccess(obj);
 		},
 		error: function (error) {
-			//console.log('error');	
+			//mylog.log('error');	
 			return callbackNominatimError(error);
 		}
 	});
@@ -1207,7 +1207,7 @@ function findGeoposByGoogleMaps(requestPart){
 
 function findGeoposByNominatim(requestPart){
 	var objnominatim = {} ;
-	//console.log('findGeoposByNominatim');
+	//mylog.log('findGeoposByNominatim');
 	showLoadingMsg("Recherche de la position en cours");
 	$.ajax({
 		url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
@@ -1217,12 +1217,12 @@ function findGeoposByNominatim(requestPart){
 		crossDomain:true,
 		complete: function () {},
 		success: function (obj){
-			//console.log('success');	
+			//mylog.log('success');	
 			hideLoadingMsg();
 			objnominatim = callbackNominatimSuccess(obj);
 		},
 		error: function (error) {
-			//console.log('error');	
+			//mylog.log('error');	
 			return callbackNominatimError(error);
 		}
 	});
@@ -1284,7 +1284,7 @@ function addNewMappingForSelecte(arrayMap, subArray)
 }
 
 function callbackNominatimSuccess(obj){
-	//console.log("obj" , obj);
+	//mylog.log("obj" , obj);
 	return obj ;
 }
 
@@ -1328,7 +1328,7 @@ function verifBeforeAddSelect(arrayMap)
 	  	var position = jQuery.inArray( option, arrayMap);
 	  	if(position != -1)
 	  		arrayMap.splice(position, 1);
-		//console.log("option", option);
+		//mylog.log("option", option);
 	});
 }
 
@@ -1340,7 +1340,7 @@ function autoCompleteInviteSearch(search){
 		"searchMode" : "personOnly"
 	};
 	var urlurl = baseUrl+"/communecter/search/searchmemberautocomplete" ;
-	console.log("url", urlurl);
+	mylog.log("url", urlurl);
 
 	ajaxPost("", urlurl, data,
 		function (data){
@@ -1367,7 +1367,7 @@ function autoCompleteInviteSearch(search){
 	  				compt++;
   				}
 			});
-			console.log("str : ", str);
+			mylog.log("str : ", str);
 			$("#dropdown_searchInvite").html(str);
 			$("#dropdown_searchInvite").css({"display" : "inline" });
 		}
@@ -1380,7 +1380,7 @@ function selectPeopleForLink(num){
 	var person = tabObject[num];
 	var personId = person["id"];
 
-	console.log(person, personId, person["name"]);
+	mylog.log(person, personId, person["name"]);
 	$("#memberId").html(personId);
 	$("#namePeople").html(person["name"]);
 	$("#dropdown_searchInvite").css({"display" : "none" });	
@@ -1390,7 +1390,7 @@ function selectPeopleForLink(num){
 
 
 function getInsee(org){
-	console.log("getInsee");
+	mylog.log("getInsee");
 	var address = org.address;
 	address.codeInsee = getInseeWithLatLon(org.geo.latitude, org.geo.longitude, org.address.postalCode);
 	
@@ -1428,12 +1428,12 @@ function getInsee(org){
 
 
 function getAddress(org){
-	console.log("getInsee");
+	mylog.log("getInsee");
 	var address = org.address;
 	data = getInseeWithLatLon2(org.geo.latitude, org.geo.longitude, org.address.postalCode);
 	
 
-	console.log("getAddress", data)
+	mylog.log("getAddress", data)
 
 	return org ;
 	
@@ -1443,7 +1443,7 @@ function getAddress(org){
 
 
 function getGeo(org){
-	console.log("getGeo");
+	mylog.log("getGeo");
 	var adressLong = "" ;
    	var adressShort = "" ;
 
@@ -1487,14 +1487,14 @@ function getGeo(org){
 		nbNominatim = nbNominatim + 1 ;	
 	}else{
 		objGoogleMaps = findGeoposByGoogleMaps(addressLongTransform);
-		console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
+		mylog.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
 		if(objGoogleMaps.results.length != 0){	
 			var valGoogleMaps = objGoogleMaps.results[0] ;
 			geo["latitude"] = valGoogleMaps.geometry.location.lat;
 			geo["longitude"] = valGoogleMaps.geometry.location.lng;
 			nbGoogle = nbGoogle + 1 ;
 		}else{
-			console.log("objNominatim");
+			mylog.log("objNominatim");
 			var adressShortTransform = transformNominatimUrl(adressShort);
 			objNominatim = findGeoposByNominatim(adressShortTransform);
 			if(objNominatim.length != 0){
@@ -1506,7 +1506,7 @@ function getGeo(org){
 
 			}else{
 				objGoogleMaps = findGeoposByGoogleMaps(adressShortTransform);
-				console.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
+				mylog.log("objGoogleMaps", objGoogleMaps, objGoogleMaps.results.length);
 				if(objGoogleMaps.results.length != 0 && objGoogleMaps.status != "ZERO_RESULTS"){	
 					var valGoogleMaps = objGoogleMaps.results[0] ;
 					geo["latitude"] = valGoogleMaps.geometry.location.lat;
@@ -1553,7 +1553,7 @@ function assignData(idMicroformat, typeFile, idMapping){
         async : false,
         success: function(data)
         {
-        	console.log("assignData data",data);
+        	mylog.log("assignData data",data);
         	if(data.createLink){
         		resultAssignData(data);
         		$("#createLink").show();
@@ -1576,7 +1576,7 @@ function visualisation(params){
         async : true,
         success: function(data)
         {
-        	console.log("visualisation data",data.result);
+        	mylog.log("visualisation data",data.result);
         	if(data.result){
         		
         		if($("#checkboxTest").is(':checked')){
@@ -1670,17 +1670,17 @@ function createJson(params){
         dataType : 'json',
         success: function(data)
         {
-        	console.log("createfileforimport",data);
+        	mylog.log("createfileforimport",data);
         	$("#verifBeforeImport").show();
         	if(data.result)
         	{
-        		//console.log("data.jsonImport",data.jsonImport);
+        		//mylog.log("data.jsonImport",data.jsonImport);
         		//$("#divJsonImportView").JSONView(data.jsonImport);
         		//$("#divJsonImportView").JSON.stringify(data.jsonImport)
         		$("#jsonImport").val(data.jsonImport);
         		$("#jsonError").val(data.jsonError);
         		//$("#divJsonErrorView").JSONView(data.jsonError);
-        		console.log("listEntite", data.listEntite);
+        		mylog.log("listEntite", data.listEntite);
 				var chaine = "" ;
         		$.each(data.listEntite, function(keyListEntite, valueListEntite){
         			chaine += "<tr>" ;
@@ -1707,7 +1707,7 @@ function createJson(params){
 }
 
 function showStep2(){
-	console.log("showStep2")
+	mylog.log("showStep2")
 	$('#menu-step-2 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
 	$('#menu-step-1 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
 	$('#menu-step-1').removeClass("selected");
@@ -1719,7 +1719,7 @@ function showStep2(){
 
 
 function showStep3(){
-	console.log("showStep3")
+	mylog.log("showStep3")
 	$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
 	$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
 	$('#menu-step-2').removeClass("selected");
@@ -1730,7 +1730,7 @@ function showStep3(){
 }
 
 function returnStep2(){
-	console.log("returnStep2")
+	mylog.log("returnStep2")
 	$('#menu-step-3 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
 	$('#menu-step-2 i.fa').removeClass("fa-check-circle").addClass("fa-circle");
 	$('#menu-step-3').removeClass("selected");

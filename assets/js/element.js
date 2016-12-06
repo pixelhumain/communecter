@@ -2,7 +2,7 @@
 			EVENTS
 ********************************** */
 function runEventFormValidation(el) {
-	console.log("runEventFormValidation");
+	mylog.log("runEventFormValidation");
 	var formEvent = $('.form-event');
 	var errorHandler2 = $('.errorHandler', formEvent);
 	var successHandler2 = $('.successHandler', formEvent);
@@ -65,13 +65,13 @@ function runEventFormValidation(el) {
 			// set error class to the control group
 		},
 		success : function(label, element) {
-			console.log("success");
+			mylog.log("success");
 			label.addClass('help-block valid');
 			// mark the current input as valid and display OK icon
 			$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 		},
 		submitHandler : function(form) {
-			console.log("submitHandler");
+			mylog.log("submitHandler");
 			successHandler2.show();
 			errorHandler2.hide();
 
@@ -99,8 +99,8 @@ function runEventFormValidation(el) {
 			if( $("#newEventParentId").val() )
 				newEvent.parentId = $("#newEventParentId").val();
 			
-			console.log("newEvent");
-			console.dir(newEvent);
+			mylog.log("newEvent");
+			mylog.dir(newEvent);
 			$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> Save Processing ...</span>' });
 			
 			$.ajax(
@@ -117,7 +117,7 @@ function runEventFormValidation(el) {
 		        if (data &&  data.result) {
 		        	toastr.success("Event Created success");
 		        	$("#newEventId").val(data.id["$id"]);
-		        	console.log(data);
+		        	mylog.log(data);
 	        		addFloopEntity(data.id["$id"], "events", data.event);
 	        		loadByHash("#event.detail.id."+data.id["$id"]);
 						
@@ -214,7 +214,7 @@ function runProjectFormValidation(el) {
 			newProject.geoPosLatitude = $(".form-project #geoPosLatitude").val(),			
 			newProject.geoPosLongitude = $(".form-project #geoPosLongitude").val(),				
 			newProject.tags = $(".form-project #tagsProject").val();
-			console.log(newProject);
+			mylog.log(newProject);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
@@ -229,7 +229,7 @@ function runProjectFormValidation(el) {
 		        if (data &&  data.result) {               
 		        	toastr.success("Project created successfully");
 		        	$.unblockUI();
-		        	//console.dir(data);
+		        	//mylog.dir(data);
 	        		addFloopEntity(data.id.$id, "projects", newProject);
 	        		loadByHash("#project.detail.id."+data.id.$id);
 	      	} else {

@@ -49,11 +49,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 ?>
 
 <?php 
-	$viewer = isset($_GET["viewer"]) ? true : false;
+	//$isLive = isset($_GET["isLive"]) ? true : false;
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
 	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
+	$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
 	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
 		Menu::organization( $parent );
 		//$thisOrga = Organization::getById($parent["_id"]);
@@ -69,9 +70,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "lock";
 		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}
 	else if((isset($type) && $type == Person::COLLECTION) || (isset($parent) && !@$type)){
-		if(@$viewer || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
+		if((@$isLive && $isLive==true) || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
 			//Menu::person($parent);
 		
@@ -81,6 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			if(@Yii::app()->session["userId"] && $contextParentId==Yii::app()->session["userId"]){
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
+				$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
 			}	
 			if(Yii::app()->session["userId"] ==$contextParentId){
 				$headerName= "Mon journal";
@@ -88,6 +94,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			}else{
 				$headerName= "Journal de : ".$contextName;
 				$topTitle = $headerName;
+				$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 			}
 		}
 		else{
@@ -96,6 +103,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$headerName= "L'actu de votre réseau";
 			$restricted = Yii::t("common","Visible to all on my wall and published on my network");
 			$private = Yii::t("common","Visible only to me");
+			$textForm = Yii::t("common","Published a message in your wall for your network");
 		}
 		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
 		$iconBegin= "connectdevelop";
@@ -112,6 +120,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$public = true;
 		$headerName= "Journal du projet";//.$contextName;
 		$topTitle = "Journal du projet";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}else if( isset($type) && $type == Event::COLLECTION && isset($parent) ){
 	//	Menu::event( $parent );
 		$contextName = addslashes($parent["name"]);
@@ -122,6 +134,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "connectdevelop";
 		$headerName= "Journal de l'événement";//.$contextName;
 		$topTitle = "Journal de l'événement";//.$contextName;
+		if(@$canManageNews && $canManageNews==true)
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
+		else
+			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
+
 	}
 
 	else if( isset($type) && $type == City::COLLECTION && isset($city) ){
@@ -132,12 +149,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$iconBegin= "globe";
 		$headerName= "Actualités de ".$city["name"];
 		$topTitle = ""; //$headerName;
+		$textForm = Yii::t("common","Write a idea, a message in the city wall of")." ".$contextName;
+
 	}
 	else if( isset($type) && $type == "pixels"){
 		//$contextName = "<i class='fa fa-rss'></i> Signaler un bug";
 		//$contextTitle = Yii::t("common", "Contributors of project");
 		$headerName= " La foire aux bugs";
 		$topTitle = " La foire aux bugs";
+		$textForm = Yii::t("common","Write a bug or an idea to improve the development of communecter");
 	}
 
 	$imgProfil = "";
@@ -294,8 +314,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 <?php 
-	//if($type != City::CONTROLLER)
-	$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
+	if($isLive)
+		$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
 ?>
 
 <!-- <div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div> -->
@@ -336,12 +356,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	<?php } ?>
 
-		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <span id="info-write-msg"><?php echo "Rédiger un message public en sélectionnant des lieux"; //Yii::t("news","Share a thought, an idea, a link",null,Yii::app()->controller->module->id) ?></span>
+		<h5 class='padding-10 partition-light no-margin text-left header-form-create-news' style="margin-bottom:-40px !important;"><i class='fa fa-angle-down'></i> <i class="fa fa-file-text-o"></i> <span id="info-write-msg"><?php echo $textForm; ?></span>
 		<a class="btn btn-xs pull-right" style="margin-top: -4px;" onclick="javasctipt:showFormBlock(false);">
 			<i class="fa fa-times"></i>
 		</a>
 		</h5>
+
 		<div class="tools_bar bg-white">
+			<?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
 			<div class="user-image-buttons">
 				<form method="post" id="photoAddNews" enctype="multipart/form-data">
 					<span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
@@ -352,7 +374,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					</span>
 				</form>
 			</div>
+			<?php } ?>
 		</div>
+
 		<form id='form-news' class="col-sm-12 no-padding">
 			
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
@@ -536,7 +560,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 		
 					<div id="timeline" class="col-md-12">
-						<div class="timeline">
+						<div class="timeline col-md-12 no-padding">
 							<div class="newsTL">
 								<div class="spine"></div>
 							</div>
@@ -545,14 +569,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<ul class="timeline-scrubber inner-element newsTLmonthsList col-md-2"></ul>
 				</div>
 				<div class="stream-processing center">
-					<span class="search-loader text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
+					<span class="search-loader-news text-dark" style="font-size:20px;"><i class="fa fa-circle-o-notch fa-spin"></i></span>
 				</div>
 			</div>
 			<!-- end: TIMELINE PANEL -->
 		</div>
 	</div>
 </div>
-<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$viewer && $viewer != null))))){ 
+<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$isLive && $isLive != true))))){ 
 	// End div .pad-element-container if newspaper of orga, project, event and person 
 	// Present in pod/headerEntity.php
 ?>
@@ -578,10 +602,10 @@ foreach($news as $key => $oneNews){
 	- lastOffset => avoid repetition of scrolling event (unstable behavior)
 	- dateLimit => date to know until when get new news
 */
-<?php if(@$viewer){ ?>
-	viewer="<?php echo $viewer ?>";
+<?php if(@$isLive){ ?>
+	isLive="<?php echo $isLive ?>";
 <?php } else{ ?>
-	viewer="";
+	isLive="";
 <?php } ?>
 
 <?php if (@$news && !empty($news)){ ?>
@@ -638,11 +662,16 @@ var mentionsContact = [];
 
 var stopMention = false;
 var element = null;
-
+	
 jQuery(document).ready(function() 
 {
- 	activeMenuElement("news");
 
+	currentTypeSearchSend = "search";
+	if(typeof globalTheme =="undefined")
+		multiTagScopeLbl(currentTypeSearchSend);
+ 	activeMenuElement("news");
+ 	if(!isLiveGlobal() && typeof globalTheme =="undefined")
+	 	selectAllTags(false);
 	if(location.hash.indexOf("#default.live") == 0){//contextParentType=="city"){
 		//$("#cityInsee").val(inseeCommunexion);
 		//$("#cityPostalCode").val(cpCommunexion);
@@ -693,24 +722,27 @@ jQuery(document).ready(function()
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-		console.log(news, news);
+		mylog.log(news, news);
 		buildTimeLine (news, 0, indexStep);
 		bindTags();
-		//console.log(news);
+		//mylog.log(news);
 		if(typeof(initLimitDate.created) == "object")
 			dateLimit=initLimitDate.created.sec;
 		else
 			dateLimit=initLimitDate.created;
 		
-		$(".my-main-container").bind("scroll",function(){ //console.log(loadingData, scrollEnd);
+		$(".my-main-container").bind("scroll",function(){ //mylog.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
 		          if(isLiveGlobal()){
-		          	heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+		          	heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
 		          }
 		          var heightWindow = $(window).height();
+		          console.log($(this).scrollTop());
+		          console.log(heightContainer - 200);
+		          console.log($(this).scrollTop() + "///" + heightContainer - 200)
 		          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-		            console.log("scroll in news/index MAX");
+		            mylog.log("scroll in news/index MAX");
 		            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 		          }
 		    }
@@ -728,19 +760,24 @@ jQuery(document).ready(function()
 	//Sig.restartMap();
 	//Sig.showMapElements(Sig.map, news);
 	initFormImages();
+	console.log(myContacts);
 	if(myContacts != null){
 		$.each(myContacts["people"], function (key,value){
-			avatar="";
-		  	if(value.profilThumbImageUrl!="")
-				avatar = baseUrl+value.profilThumbImageUrl;
-		  	object = new Object;
-		  	object.id = value._id.$id;
-		  	object.name = value.name;
-			object.avatar = avatar;
-			object.type = "citoyens";
-			mentionsContact.push(object);
+			if(typeof(value) != "undefined" ){
+				avatar="";
+				console.log(value);
+			  	if(value.profilThumbImageUrl!="")
+					avatar = baseUrl+value.profilThumbImageUrl;
+			  	object = new Object;
+			  	object.id = value._id.$id;
+			  	object.name = value.name;
+				object.avatar = avatar;
+				object.type = "citoyens";
+				mentionsContact.push(object);
+			}
 	  	});
 	  	$.each(myContacts["organizations"], function (key,value){
+		  	if(typeof(value) != "undefined" ){
 		  	avatar="";
 		  	if(value.profilThumbImageUrl!="")
 				avatar = baseUrl+value.profilThumbImageUrl;
@@ -750,6 +787,7 @@ jQuery(document).ready(function()
 			object.avatar = avatar;
 			object.type = "organizations";
 			mentionsContact.push(object);
+			}
 	  	});
 	}
 	
@@ -800,7 +838,7 @@ jQuery(document).ready(function()
 		        	if(!retdata){
 		        		toastr.error(retdata.content);
 		        	}else{
-			        	//console.log(retdata);
+			        	//mylog.log(retdata);
 			        	data = [];
 			        	for(var key in retdata){
 				        	for (var id in retdata[key]){
@@ -821,10 +859,10 @@ jQuery(document).ready(function()
 					 			}
 			        	}
 			        	data=mentionsContact;
-			        	//console.log(data);
+			        	//mylog.log(data);
 			    		data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
 						callback.call(this, data);
-						console.log(callback);
+						mylog.log(callback);
 		  			}
 				}	
 			})

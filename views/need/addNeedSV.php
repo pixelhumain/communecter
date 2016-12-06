@@ -271,7 +271,7 @@ if(!@$_GET["renderPartial"])
 		// INITIALIZATION OF SWITCH
 		$("[name='my-checkbox'],[name='benefits-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			console.log("state = "+state );
+			mylog.log("state = "+state );
 			if (state == true) {
 				$("#newNeed #needIsPonctual").val("Ponctuel");
 				$("#newNeed .rangeDatePonctual").slideDown();
@@ -283,7 +283,7 @@ if(!@$_GET["renderPartial"])
 			}
 		});
 		$("[name='benefits-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			console.log("state = "+state );
+			mylog.log("state = "+state );
 			if (state == true) {
 				$("#newNeed #needIsRemunerate").val("Rémunéré");
 				$("#newNeed .rangeRemunaration").slideDown();
@@ -361,7 +361,7 @@ if(!@$_GET["renderPartial"])
 		              '<cite title="Hegel">Jimy Hendrix</cite>'+
 		            '</blockquote> '
 				});
-				console.log(newNeed);
+				mylog.log(newNeed);
 				//if ($(".form-contributor .contributor-id").val() !== "") {
 					el = $(".form-contributor .contributor-id").val();
 					//mockjax simulates an ajax call
@@ -385,7 +385,7 @@ if(!@$_GET["renderPartial"])
 				    {
 				    	$.unblockUI();
 				        if (data &&  data.result) {  
-					        console.log(data);           
+					        mylog.log(data);           
 				        	toastr.success('Le besoin a été ajouté');
 				        	loadByHash("#need.detail.id."+data.idNeed.$id);				        		
 				        } else {

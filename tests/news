@@ -138,7 +138,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>console.log(&quot;comments----------------&quot;, comments);</td>
+	<td>mylog.log(&quot;comments----------------&quot;, comments);</td>
 	<td></td>
 </tr>
 <tr>

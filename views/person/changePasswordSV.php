@@ -135,7 +135,7 @@ jQuery(document).ready(function() {
 });
 
 function changePassword() {
-	console.log("change Password !");
+	mylog.log("change Password !");
 	$('#passwordForm').submit();
 }
 

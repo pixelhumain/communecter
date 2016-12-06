@@ -14,7 +14,15 @@
            La road map définit la liste des fonctionnalités qui vont être développées dans les futures versions. Comme dans tout projet open source, elle est mouvante et s'adapte au contexte et à la demande de la communauté.
 
 			<div class="col-sm-12" style="margin-top: 20px">
-	
+				
+				<div class="col-sm-12">
+					<h2 class="text-red homestead">version 0.2 : OBJECTIF 1.0</h2>
+					<ul>
+						<li><i class="fa fa-angle-right"></i> PPT explication des 25 use cases </li>
+						<li><i class="fa fa-angle-right"></i> Transparence des finances </li>
+					</ul>
+				</div>
+
 				<div class="col-sm-12">
 					<h2 class="text-red homestead">version 0.16 INTERACTION SIMPLIFIÉ</h2>
 					<ul>

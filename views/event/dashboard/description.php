@@ -495,7 +495,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			showMap(true);
 		});
 
-		$("#btn-update-geopos").click(function(){ console.log("findGeoPosByAddress");
+		$("#btn-update-geopos").click(function(){ mylog.log("findGeoPosByAddress");
 			findGeoPosByAddress();
 		});
 
@@ -525,7 +525,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 
 		$(".editConfidentialityBtn").click(function(){
-	    	console.log("confidentiality");
+	    	mylog.log("confidentiality");
 	    	$("#modal-confidentiality").modal("show");
 	    });
 
@@ -613,12 +613,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$('#address').editable({
 			validate: function(value) {
                 value.streetAddress=$("#streetAddress").text();
-                console.log(value);
+                mylog.log(value);
             },
 			url: baseUrl+"/"+moduleId+"/event/updatefield",
 			mode: 'popup',
 			success: function(response, newValue) {
-				if(debug)console.log("success update postal Code",newValue);
+				if(debug)mylog.log("success update postal Code",newValue);
 				$("#entity-insee-value").attr("insee-val", newValue.codeInsee);
 				$("#entity-cp-value").attr("cp-val", newValue.postalCode);
 				loadActivity=true;	
@@ -741,7 +741,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	}
 
 	function manageAllDayEvent(isAllDay) {
-		console.warn("Manage all day event ", isAllDay);
+		mylog.warn("Manage all day event ", isAllDay);
 
 		$('#startDate').editable('destroy');
 		$('#endDate').editable('destroy');
@@ -842,10 +842,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	//modification de la position geographique	
 
-	function findGeoPosByAddress(){ //console.log("allo 1");
+	function findGeoPosByAddress(){ //mylog.log("allo 1");
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
-			//console.log("allo 2");
+			//mylog.log("allo 2");
 			//on récupère la valeur du code insee s'il existe
 			if ($("#entity-insee-value").attr("insee-val") != ""){
 				var insee = $("#entity-insee-value").attr("insee-val");
@@ -853,10 +853,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
 			if(insee != "") findGeoposByInsee(insee, null, postalCode);
-			console.log(insee);
+			mylog.log(insee);
 		//si on a une streetAddress
 		}else{
-			//console.log("allo 3");
+			//mylog.log("allo 3");
 			var request = "";
 
 			//recuperation des données de l'addresse
@@ -871,7 +871,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 			request = transformNominatimUrl(request);
 			request = "?q=" + request;
-			console.log(request);
+			mylog.log(request);
 			findGeoposByNominatim(request);
 		}
 	
@@ -879,7 +879,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
+		mylog.log("callbackNominatimSuccess");
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
@@ -887,8 +887,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			//met à jour la nouvelle position dans la donnée
 			eventData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 			//et on affiche le marker sur la carte à cette position
-			console.log("-------obj lenght ok ---------");
-			console.log(eventData);
+			mylog.log("-------obj lenght ok ---------");
+			mylog.log(eventData);
 			showGeoposFound(coords, itemId, "events", eventData);
 		}
 		//si nominatim n'a pas trouvé de résultat
@@ -905,7 +905,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
+		mylog.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			//récupère les coordonnées
@@ -918,19 +918,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			showGeoposFound(coords, itemId, "events", eventData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError", error);
+		mylog.log("callbackNominatimError", error);
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee", error);
+		mylog.log("erreur getlatlngbyinsee", error);
 	}
 	function getHistoryOfActivities(id,type){
 		$("#contentGeneralInfos").hide();
@@ -954,7 +954,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	function returnttag() {
 		var tag = <?php echo (isset($event["tags"])) ? json_encode(implode(",", $event["tags"])) : "''"; ?>;
-		console.log("tag", tag);
+		mylog.log("tag", tag);
 		return tag ;
 	}
 </script>

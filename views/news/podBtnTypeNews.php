@@ -281,7 +281,7 @@ jQuery(document).ready(function()
 		$(".btn-scope-type").removeClass("active");
 		$(this).addClass("active");
 
-		console.log("liveScopeType", liveScopeType);
+		mylog.log("liveScopeType", liveScopeType);
 		//scrollEnd = false;
 		showNewsStream(false);
   	});

@@ -296,7 +296,7 @@ jQuery(document).ready(function() {
 		$(".btn-select-type-orga").removeClass("bg-green");
 		$(this).addClass("bg-green");
 		$("#type").val(val);
-		console.log("TYPE : ", val);
+		mylog.log("TYPE : ", val);
 		//$('#type option[value="'+val+'"]').prop('selected', true);
 		
 	});
@@ -329,12 +329,12 @@ var formValidator = function() {
 			}
 		},
 		submitHandler : function(form) {
-			//console.log(typeof($("#description").code()));
+			//mylog.log(typeof($("#description").code()));
 			if($(".note-editor").length != 0)
 				$("#description").val($("#description").code());
 
 			var newOrganization = $("#organizationForm").serialize();
-			console.log(newOrganization);
+			mylog.log(newOrganization);
 			$.blockUI({
 				message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>'
 			});
@@ -384,7 +384,7 @@ jQuery(document).ready(function() {
 	var countries = getCountries("select2");
 	var NGOcategories = formatDataForSelect(<?php echo empty($NGOCategories) ? "[]" : json_encode($NGOCategories); ?>, "select2");
 	var localBusinessCategories = formatDataForSelect(<?php echo empty($localBusinessCategories) ? "[]" : json_encode($localBusinessCategories); ?>, "select2");
-	console.log(countries, NGOcategories);
+	mylog.log(countries, NGOcategories);
 	$('#tagsOrganization').select2({ tags: <?php echo empty($tags) ? "''" : $tags; ?> });
 
 	$('#categoryNGO').select2({ 
@@ -448,7 +448,7 @@ jQuery(document).ready(function() {
 	 			var compt = 0;
 
 	 			$.each(data.organizations, function(idOrga, orga) {
-	  				console.log(orga);
+	  				mylog.log(orga);
 	  				city = "";
 					postalCode = "";
 					var htmlIco ="<i class='fa fa-users fa-2x'></i>";
@@ -506,7 +506,7 @@ jQuery(document).ready(function() {
 	function runShowCity(searchValue) {
 		
 		citiesByPostalCode = getCitiesByPostalCode(searchValue);
-		console.log(citiesByPostalCode);
+		mylog.log(citiesByPostalCode);
 		citiesByPostalCode;
 		Sig.citiesByPostalCode = citiesByPostalCode;
 		
@@ -563,7 +563,7 @@ jQuery(document).ready(function() {
 		});
 	}
 
-	function searchCity() { console.log("searchCity");
+	function searchCity() { mylog.log("searchCity");
 		
 		$("#alert-city-found").addClass("hidden");
 		
@@ -590,7 +590,7 @@ jQuery(document).ready(function() {
 
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
-		console.log("callback ok");
+		mylog.log("callback ok");
 		var show = Sig.showCityOnMap(resultNominatim, true, "organization");
 		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, true, "organization");	
@@ -613,10 +613,10 @@ jQuery(document).ready(function() {
 					data: "insee="+insee+"&postalCode="+postalCode,
 		    		success: function (obj){
 		    			//toastr.success("Votre addresse a été mise à jour avec succès");
-		    			console.log("res getlatlngbyinsee");
-		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
-		  				console.dir(obj);
+		    			mylog.log("res getlatlngbyinsee");
+		    			mylog.dir(obj);
+		  				if(typeof obj["geo"] != "undefined"){ mylog.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				mylog.dir(obj);
 		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
 								if(typeof obj.geoShape != "undefined") {
 									//on recherche avec une limit bounds
@@ -638,7 +638,7 @@ jQuery(document).ready(function() {
 					},
 					error: function(error){
 						$("#iconeChargement").hide();
-						console.log("Une erreur est survenue pendant la recherche de la geopos city");
+						mylog.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
 			
@@ -647,7 +647,7 @@ jQuery(document).ready(function() {
 				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
-		  		console.log("requestPart", requestPart);
+		  		mylog.log("requestPart", requestPart);
 		  		
 		  		$.ajax({
 					url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
@@ -657,8 +657,8 @@ jQuery(document).ready(function() {
 					crossDomain:true,
 					complete: function () {},
 					success: function (result){
-						console.log("nominatim success", result.length);
-						console.dir(result);
+						mylog.log("nominatim success", result.length);
+						mylog.dir(result);
 						if(result.length > 0){ 
 							var result = result[0];
 							var coords = Sig.getCoordinates(result, "markerSingle");
@@ -673,8 +673,8 @@ jQuery(document).ready(function() {
 						}
 					},
 					error: function (error) {
-						console.log("nominatim error");
-						console.dir(obj);
+						mylog.log("nominatim error");
+						mylog.dir(obj);
 						$("#error_street").html("Aucun résultat");
 						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 						$("#iconeChargement").hide();
@@ -687,8 +687,8 @@ jQuery(document).ready(function() {
 	}
 
 	function callbackFindByInseeSuccessAdd(obj){
-		console.log("callbackFindByInseeSuccessAdd");
-		console.dir(obj);
+		mylog.log("callbackFindByInseeSuccessAdd");
+		mylog.dir(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			currentCityByInsee = obj;
@@ -713,13 +713,13 @@ jQuery(document).ready(function() {
 			}
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 	function callbackGoogleMapsSuccess(result){
-		console.log("callbackGoogleMapsSuccess");
-		console.dir(result);
+		mylog.log("callbackGoogleMapsSuccess");
+		mylog.dir(result);
 		if(result.status == "OK"){
   			//showMap(true);
   			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');

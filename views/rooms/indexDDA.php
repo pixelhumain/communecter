@@ -135,7 +135,7 @@ a h1.text-azure:hover{
 			        if(@$value["type"] == "action") $onclick = 'loadByHash(\'#room.action.id.'.(string)$value["_id"].'\')';
 			        if(@$fromView == "entity.detail") $onclick = 'loadRoom(\''.$typeNew.'\', \''.(string)$value["_id"].'\')';
 			        
-			        $updated = (@$value["updated"]) ? "<span class='text-extra-small'>(".DateHelper::fromNow($value["updated"]).")</span>" : "";
+			        $updated = (@$value["updated"]) ? "<span class='text-extra-small fromNowDDA'>(".DateHelper::fromNow($value["updated"]).")</span>" : "";
 			        $parentContext = ( @$_GET['type'] == Person::COLLECTION && @$value["parentType"] && @$value["parentId"] ) ? "<div class='pr10 btn btn-default pull-right'>".Element::getLink( $value["parentType"], $value["parentId"])."</div>" : "";
 			        $count = 0;
 					if( @$value["type"] == ActionRoom::TYPE_VOTE )

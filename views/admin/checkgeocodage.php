@@ -55,7 +55,7 @@ function bindCheckGeo(){
 	        dataType : 'json',
 	        success: function(data)                                                   
 	        {
-	        	console.log("data",data);
+	        	mylog.log("data",data);
 	        	textHTML = "<tr><th>Type</th><th>Entité</th><th>Msg Error</th></tr>";
 	        	$.each(data, function(typeEntity, listEntity){
 	  				$.each(listEntity, function(key, entity){

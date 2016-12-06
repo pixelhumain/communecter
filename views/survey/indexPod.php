@@ -264,7 +264,7 @@ jQuery(document).ready(function() {
   *
   ***************************************** */
   function entryDetail(url,type){
-    console.warn("--------------- entryDetail ---------------------",url);
+    mylog.warn("--------------- entryDetail ---------------------",url);
     getAjax( null , url , function(data){
       if(type == "edit") 
         editEntrySV (data);
@@ -279,7 +279,7 @@ jQuery(document).ready(function() {
   *
   ***************************************** */
   function addaction(id,action){
-    console.warn("--------------- addaction ---------------------");
+    mylog.warn("--------------- addaction ---------------------");
     if(confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote")){
       params = { 
            "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
@@ -299,7 +299,7 @@ jQuery(document).ready(function() {
 
   function moderateEntry(id,action)
     {
-      console.warn("--------------- moderateEntry ---------------------");
+      mylog.warn("--------------- moderateEntry ---------------------");
       params = { 
         "survey" : id , 
         "action" : action , 

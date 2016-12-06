@@ -14,11 +14,12 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
 	'/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
 	//Wysihtml5
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
+	'/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
 	'/plugins/wysihtml5/wysihtml5.js',
+	
 	//SELECT2
 	'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
@@ -48,7 +49,7 @@ if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
 <style>
-	.videoWrapper {
+.videoWrapper {
 	position: relative;
 	padding-bottom: 56.25%; /* 16:9 */
 	padding-top: 25px;
@@ -307,7 +308,7 @@ if($('#breadcum').length)
 			</div>
 			<?php } ?>
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
-	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
+	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"]==true)){ ?>
 				<div class="col-xs-12">
 					<?php 
 						$organizerImg=false;
@@ -349,7 +350,9 @@ if($('#breadcum').length)
 
 
 
-			<?php if ($type==Organization::COLLECTION){ ?>
+			<?php if ($type==Organization::COLLECTION){ 
+				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["project"]))					{ 
+			?>
 			<div class="col-xs-12">
 	 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
 														"contextId" => (String) $element["_id"],
@@ -358,14 +361,19 @@ if($('#breadcum').length)
 														"openEdition" => $openEdition
 				)); ?>
 			</div>
-			<?php } ?>
-			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ ?> 
+			<?php }
+			} ?>
+			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ 
+				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["poi"]))					{ 
+			?> 
 			<div class="col-xs-12">
 				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
 						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
 				?>
 	    	</div>	
-	    	<?php if( !$type==Event::COLLECTION && ( !@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"]))){ ?>
+	    	<?php }
+		    } ?>
+	    	<?php if( !$type==Event::COLLECTION && ( !@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"]==true))){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],
@@ -377,14 +385,13 @@ if($('#breadcum').length)
 
 			</div>
 			<?php } ?>
-		<?php } ?>
 		</div>
 
 		<div class="col-md-8 col-xs-12 no-padding pull-left">
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 			
 			<?php 
-				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"])){ 
+				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"]==true)){ 
 				$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 				$this->renderPartial('../pod/activityList2',array(    
 	   					"parent" => $element, 

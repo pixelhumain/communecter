@@ -203,7 +203,7 @@ jQuery(document).ready(function() {
 });
 
 function getDataContext(dataMap) {
-  console.log("getDataFile");
+  mylog.log("getDataFile");
   var map = null;
   if (typeof dataMap != "undefined") {
     map = dataMap;
@@ -234,10 +234,10 @@ function searchIndexOfNodeId(o, searchTerm) {
 
 
 function createFluidGraph(type, contextId, datafile) {
-  console.log("createFluidGraph");
-  console.log("type = " + type);
-  console.log("contextid = " + contextId);
-  console.log("datafile = " + datafile);
+  mylog.log("createFluidGraph");
+  mylog.log("type = " + type);
+  mylog.log("contextid = " + contextId);
+  mylog.log("datafile = " + datafile);
 
   var nodes= [];
   var edges= [];
@@ -273,7 +273,7 @@ function createFluidGraph(type, contextId, datafile) {
         obj.forEach(function(objChild, i)
         {
           nodes.push({id : index, type : typeMap[objChild.type], label : objChild.name, identifier : objChild["_id"]["$id"]})
-          console.log("objChild.type : " + objChild.type + " move to : " + typeMap[objChild.type]);
+          mylog.log("objChild.type : " + objChild.type + " move to : " + typeMap[objChild.type]);
           index++;
         });
       }
@@ -283,13 +283,13 @@ function createFluidGraph(type, contextId, datafile) {
   var index = 0;
   //links
   $.each(datafile, function(type, obj) {
-    // console.log("Début type : " + type);
+    // mylog.log("Début type : " + type);
 
     if (!obj["_id"] && obj.length)
     {
       obj.forEach(function(objChild, i)
       {
-        console.log("Début objChild : " + objChild.name);
+        mylog.log("Début objChild : " + objChild.name);
 
         var linkIndex = {};
         var indexSource = searchIndexOfNodeId(nodes,objChild._id.$id)
@@ -315,15 +315,15 @@ function createFluidGraph(type, contextId, datafile) {
               if (indexTarget != -1)
               {
                 edges.push({source : indexSource, target : indexTarget});
-                console.log("source = " + indexSource + " ,target = " + indexTarget + ", obj = " + objChild);
+                mylog.log("source = " + indexSource + " ,target = " + indexTarget + ", obj = " + objChild);
               }
             });
           });
         }
-        console.log("Fin objChild : " + objChild.name);
+        mylog.log("Fin objChild : " + objChild.name);
       });
     }
-    console.log("Fin type : " + type);
+    mylog.log("Fin type : " + type);
   });
 
   d3data.nodes = nodes;

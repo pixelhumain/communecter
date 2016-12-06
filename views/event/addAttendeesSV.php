@@ -148,7 +148,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 		$("#attendeeIsAdmin").val("false");
 		$("[name='my-checkbox']").bootstrapSwitch();
 		$("[name='my-checkbox']").on("switchChange.bootstrapSwitch", function (event, state) {
-			console.log("state = "+state );
+			mylog.log("state = "+state );
 			if (state == true) {
 				$("#attendeeIsAdmin").val(1);
 			} else {
@@ -238,7 +238,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 				//newAttendee.id = $(".form-attendees .attendees-id").val();
 				//newAttendee.name = $(".form-attendees .attendees-name ").val(), 
 				//newAttendee.email = $('.form-attendees .attendees-email').val(),
-				//console.log(newAttendee);
+				//mylog.log(newAttendee);
 				//idEvent = $(".attendees-parentId").val();
 				$.blockUI({
 					message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
@@ -274,7 +274,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 
 				    	$.unblockUI();
 				        if (data &&  data.result) { 
-					        console.log(data);      
+					        mylog.log(data);      
 					        setValidationTable(); 
 					        if ($(".form-attendees .attendees-id").val().length==0){
 			               		var count = parseInt($("#numberOfInvit").data("count")) - 1;
@@ -319,7 +319,7 @@ if(isset(Yii::app()->session["userId"]) && isset($event["_id"])){
 
 
 	function autoCompleteEmailAddAttendees(searchValue){
-		console.log("autoCompleteEmailAddAttendees");
+		mylog.log("autoCompleteEmailAddAttendees");
 		var data = {"search" : searchValue,"searchMode":"personOnly"};
 		$.ajax({
 			type: "POST",

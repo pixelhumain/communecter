@@ -147,9 +147,7 @@
 							$hasVote = (@$survey["voteUpCount"] || @$survey["voteAbstainCount"] || @$survey["voteUnclearCount"] || @$survey["voteMoreInfoCount"] || @$survey["voteDownCount"] ) ? true : false;
 				            if( !$hasVote && $voteLinksAndInfos["avoter"] != "closed" )
 				            { ?>
-								<a class="tooltips btn btn-default  " href="javascript:" 
-								   data-toggle="modal" data-target="#modal-edit-entry"
-								   data-placement="bottom" data-original-title="Editer cette proposition">
+								<a class="tooltips btn btn-default  " href="javascript:openEntryForm()" >
 									<i class="fa fa-pencil "></i> <span class="hidden-sm hidden-md hidden-xs">Éditer</span>
 								</a>
 							<?php } ?>
@@ -242,10 +240,7 @@
 				<span>
 					<?php 
 						$canEditEndDate = ( $voteLinksAndInfos["avoter"] != "closed" && isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"]) ? true : false;
-						if ($canEditEndDate) { ?>
-							<a href="javascript:" id="editSurveyEndDate" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Editer la date de fin de la proposition" alt=""><i class="fa fa-pencil"></i></a>
-						<!--<a href="javascript:" id="editGeoPosition" class="btn btn-sm btn-light-blue tooltips" data-toggle="tooltip" data-placement="bottom" title="Modifiez la position sur la carte" alt=""><i class="fa fa-map-marker"></i><span class="hidden-xs"> Modifier la position</span></a>-->
-					<?php } ?>
+					?>
 				</span>
 				<br><hr>
 				<span>
@@ -350,13 +345,7 @@
 				$this->renderPartial('../survey/editEntrySV', $params); 
 			?>
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-			<button type="button" class="btn btn-success"
-				    onclick="saveEditEntry()">
-					<i class="fa fa-save"></i> Enregistrer
-			</button>
-		</div>
+		
 	  </div>
 	</div>
   </div>
@@ -401,40 +390,17 @@ jQuery(document).ready(function() {
 	});
 
 	editEndDate();
-	manageModeContext();
 
-	$("#editSurveyEndDate").on("click", function(){
-		switchMode();
-	});
 });
-
-function switchMode() {
-	if(mode == "view"){
-		mode = "update";
-		manageModeContext();
-	} else{
-		mode ="view";
-		manageModeContext();
-	}
-}
-
-function manageModeContext() {
-	if (mode == "view") {
-		$('#endDate').editable('toggleDisabled');
-	} else {
-		$('#endDate').editable('option', 'pk', itemId);
-		$('#endDate').editable('toggleDisabled');
-		$("#endDate").click();
-	}
-}
 
 //activate Xedit on endDate (#1177)
 function editEndDate() {
 <?php
 	if( $canEditEndDate ) {
 ?>
-	console.log("Init XEdit end date");
+	mylog.log("Init XEdit end date");
 	$('#endDate').editable({
+		pk: itemId,
 		url: baseUrl+"/"+moduleId+"/element/updatefields/type/<?php echo Survey::COLLECTION?>", 
 		mode: 'popup',
 		placement: "right",
@@ -455,7 +421,7 @@ function editEndDate() {
     });
 
 	//formatDate = "YYYY-MM-DD HH:mm";
-	console.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
+	mylog.log("End Date : "+moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"));
 	$('#endDate').editable('setValue', moment(endDate, "DD/MM/YYYY").format("YYYY-MM-DD"), true);
 
 <?php } ?>
@@ -467,7 +433,7 @@ function saveEditEntry(){
 
 function addaction(id,action)
 {
-    console.warn("--------------- addaction ---------------------");
+    mylog.warn("--------------- addaction ---------------------");
     if( checkIsLoggued( "<?php echo Yii::app()->session['userId']?>" ))
     {
     	var message = "<span class='text-dark'>Vous avez choisi de voter <strong>" + trad[action] + "</strong></span><br>";
@@ -494,17 +460,17 @@ function addaction(id,action)
 					label: "Confirmer",
 					className: "btn-info",
 					callback: function() {
-						var voteComment = $("#modalComment .newComment").val();
+						var voteComment = $("#modalComment .newComment").code();
 						params = { 
 				           "userId" : '<?php echo Yii::app()->session["userId"]?>' , 
 				           "id" : id ,
 				           "collection":"surveys",
 				           "action" : action 
 				        };
+				        console.log("voteComment", voteComment);
 				        if(voteComment != ""){
 				        	params.comment = trad[action]+' : '+voteComment;
-				        	$("#modalComment .newComment").val(params.comment);
-				        	validateComment("modalComment","");
+				        	saveComment(params.comment);
 				        } 
 				      	ajaxPost(null,'<?php echo Yii::app()->createUrl($this->module->id."/survey/addaction")?>',params,function(data){
 				        	loadByHash(location.hash);
@@ -528,7 +494,7 @@ function showHidePanels (panel)
 function buildResults () { 
 
 
-		console.log("buildResults");
+		mylog.log("buildResults");
 
 	var getColor = {
 	    'Pou': '#93C22C',
@@ -538,7 +504,7 @@ function buildResults () {
 	    'Plu': '#789289'
 	}; 
 	
-		console.log("setUpGraph");
+		mylog.log("setUpGraph");
 		$('#container2').highcharts({
 		    chart: {
 		        plotBackgroundColor: null,
@@ -587,7 +553,7 @@ function buildResults () {
 
 function closeEntry(id)
 {
-    console.warn("--------------- closeEntry ---------------------");
+    mylog.warn("--------------- closeEntry ---------------------");
     
       bootbox.confirm("<strong>Êtes-vous sûr de vouloir fermer cette proposition ?</strong> (fermeture définitive) ",
           function(result) {
@@ -607,7 +573,7 @@ function closeEntry(id)
 
 function move( type,destId ){
 	bootbox.hideAll();
-	console.warn("--------------- move ---------------------",type,destId);
+	mylog.warn("--------------- move ---------------------",type,destId);
 	bootbox.confirm("<strong>Êtes-vous sûr de vouloir déplacer cette proposition ?</strong>",
       function(result) {
         if (result) {
