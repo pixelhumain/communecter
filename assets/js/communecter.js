@@ -1043,9 +1043,9 @@ function  bindTags() {
 			//$('#btn-modal-multi-tag').trigger("click");
 			//$('.tags-count').html( $(".item-tag-name").length );
 			if(addTagToMultitag(tag))
-				toastr.success("Le tag \""+tag+"\" ajouté à vos favoris");
+				toastr.success("Le tag \""+tag+"\" ajouté à vos is");
 			else
-				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags favoris");
+				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags is");
 			
 		//} else {
 		//	toastr.error("must be loggued");
@@ -1068,7 +1068,18 @@ function  bindLBHLinks() {
 		console.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
-	});
+	}).on("contextmenu", function(e){
+		var href = $(this).attr("href").split(".");
+		console.log($(this).attr("href"),href[0])
+		if($.inArray(href[0],["#organization","#project","#event","#person","#element"])){
+			alert('Context Menu event has fired!'+$(this).attr("href"));
+						
+		}
+   
+   return false;
+});
+
+
 }
 
 function bindRefreshBtns() { console.log("bindRefreshBtns");

@@ -509,5 +509,4 @@ function initCityMap(){
   Sig.allowMouseoverMaker = true;
 }
 
-	
 </script>
