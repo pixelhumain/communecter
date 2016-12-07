@@ -630,7 +630,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>			
 		</div>
 
-		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
+		<?php if($type == Event::COLLECTION){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo ucfirst(Yii::t("common","organizer")) ?>
@@ -639,30 +639,34 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			
 			<div class="col-sm-6 entityDetails item_map_list">
 				<?php
-				if(@$organizer["type"]=="project"){ 
-					 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
-					 $icon="fa-lightbulb-o";
-				} else if(@$organizer["type"]=="organization"){
-					 	$icon="fa-users";
-				} else {
-					 	$icon="fa-user";
-				}
+				if (!empty($organizer["type"])) {
+					if(@$organizer["type"]=="project"){ 
+						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
+						 $icon="fa-lightbulb-o";
+					} else if(@$organizer["type"]=="organization"){
+						 	$icon="fa-users";
+					} else {
+						 	$icon="fa-user";
+					}
 
-				$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-				if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
-					$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
-				}else{
-					$img = "<div class='thumbnail-profil'></div>";
-				}
-				$color = "";
-				if($icon == "fa-users") $color = "green";
-				if($icon == "fa-user") $color = "yellow";
-				if($icon == "fa-lightbulb-o") $color = "purple";
-				$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
-					echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-				 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
-				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+					$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+					if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
+						$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
+					}else{
+						$img = "<div class='thumbnail-profil'></div>";
+					}
+					$color = "";
+					if($icon == "fa-users") $color = "green";
+					if($icon == "fa-user") $color = "yellow";
+					if($icon == "fa-lightbulb-o") $color = "purple";
+					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
+						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
+					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
+					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				<?php
+					} else {
+						echo "Inconnu";
+					}
 					if (! @$organizer["type"]) {
 						echo '	<a href="javascript:;" class="hidden btn btn-danger btn-sm col-xs-12" style="margin: 10px 0px;" id="btn-add-organizer">
 									<i class="fa fa-vcard"></i>
