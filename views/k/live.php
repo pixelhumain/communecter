@@ -5,7 +5,8 @@
                 								  '/css/timeline2.css',
 											) , Yii::app()->theme->baseUrl. '/assets');
 
-
+	
+	    
 	$cssAnsScriptFilesModule = array(
 		'/js/news/autosize.js',
 		'/js/news/newsHtml.js',

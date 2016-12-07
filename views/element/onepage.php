@@ -81,7 +81,8 @@
 
                     <div class="col-md-12 col-sm-12">		                
 	                    <div class="tags">
-	                    	<?php foreach ($element["tags"]  as $key => $tag) { ?>
+	                    	<?php if(@$element["tags"])
+	                    			foreach ($element["tags"]  as $key => $tag) { ?>
 	                    		<span class="badge bg-red"><?php echo $tag; ?></span>
 	                    	<?php } ?>
 	                    </div>

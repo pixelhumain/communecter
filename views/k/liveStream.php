@@ -1,4 +1,6 @@
 <?php 
+
+    $timezone = 'Pacific/Noumea';
 		$pair = false;
 		foreach($medias as $key => $media){ 
 			$class = $pair ? "timeline-inverted" : "";
@@ -11,9 +13,9 @@
           <div class="timeline-heading text-center">
             
                	<h5 class="text-left srcMedia">
-              		<small class="ilyaL"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date"); ?></small>
+              		<small class="ilyaL"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date", $timezone); ?></small>
                   <img src="<?php echo Yii::app()->theme->baseUrl."/assets/img/medias/".$media["srcMedia"]; ?>.png" height=40>
-              	  <small class="ilyaR"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date"); ?></small>
+              	  <small class="ilyaR"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date", $timezone); ?></small>
                   <a href="<?php echo $media["href"]; ?>" target="_blank" class="link-read-media margin-top-10"><i class="fa fa-angle-right"></i> Lire</a>
                 </h5>
               
