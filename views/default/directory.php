@@ -107,6 +107,9 @@
 var headerParams = {
   "persons"       : { color: "yellow",  icon: "user",         name: "citoyens" },
   "organizations" : { color: "green",   icon: "group",        name: "organisations" },
+  "NGO"           : { color: "green",   icon: "group",        name: "associations" },
+  "LocalBusiness" : { color: "azure",   icon: "industry",     name: "entreprises" },
+  "Group"         : { color: "black",   icon: "group",        name: "Groupes" },
   "projects"      : { color: "purple",  icon: "lightbulb-o",  name: "projets" },
   "events"        : { color: "orange",  icon: "calendar",     name: "événements" },
   "vote"          : { color: "azure",   icon: "gavel",        name: "Propositions, Questions, Votes" },

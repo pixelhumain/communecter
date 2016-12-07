@@ -41,14 +41,20 @@
 </style>
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
-	<div class="col-md-10 col-md-offset-1" style="margin-top:-20px;" id="page"></div>
+    <div class="col-md-10 col-md-offset-1" style="margin-top:-20px;">
+        
+    </div>
+</div>
+
+<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding" style="min-height:700px;">
+	<div class="col-md-10 col-md-offset-1" id="page"></div>
 </div>
 
 <?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
 
 <script>
 
-var type = "<?php echo $type; ?>";
+var type = "<?php echo @$type ? $type : 'persons'; ?>";
 
 var TPL = "kgougle";
 
@@ -56,9 +62,18 @@ var TPL = "kgougle";
 jQuery(document).ready(function() {
 	initKInterface();
 
-	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directory?type="+type,function(){ 
+    if(type!='') type = "?type="+type;
+	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directory"+type,function(){ 
 				
-			},"html");
+        $(".btn-directory-type").click(function(){
+            var type = $(this).data("type");
+            searchType = [ type ];
+            setHeaderDirectory(type);
+            loadingData = false;
+            startSearch(0, indexStepInit);
+        });
+
+	},"html");
 });
 
 </script>
