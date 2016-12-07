@@ -36,6 +36,7 @@
 }
 #page #dropdown_search{
 	min-height:500px;
+    margin-top:30px;
 }
 
 </style>
@@ -74,6 +75,13 @@ jQuery(document).ready(function() {
         });
 
 	},"html");
+
+    $("#main-search-bar").keyup(function(){
+        $("#searchBarText").val($(this).val());
+    });
+    $("#main-search-bar").change(function(){
+        $("#searchBarText").val($(this).val());
+    });
 });
 
 </script>

@@ -26,7 +26,7 @@
      <?php } ?>
 
 <div class="row headerDirectory bg-white padding-15">
-  <div class="col-md-12 no-padding pull-left" style="margin-top:0px; width:100%;">
+  <div class="col-md-12 no-padding pull-left" id="bar-tools-search" style="margin-top:0px; width:100%;">
   <?php $placeholder = ($typeSelected != "cities") ? "rechercher par #tag ou mots clés..." : "rechercher une ville, un code postal..."; ?> 
     <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
       <input id="searchBarText" data-searchPage="true" type="text" placeholder="<?php echo $placeholder; ?>" class="input-search form-control">
@@ -109,7 +109,7 @@ var headerParams = {
   "organizations" : { color: "green",   icon: "group",        name: "organisations" },
   "NGO"           : { color: "green",   icon: "group",        name: "associations" },
   "LocalBusiness" : { color: "azure",   icon: "industry",     name: "entreprises" },
-  "Group"         : { color: "black",   icon: "group",        name: "Groupes" },
+  "Group"         : { color: "black",   icon: "circle-o",        name: "Groupes" },
   "projects"      : { color: "purple",  icon: "lightbulb-o",  name: "projets" },
   "events"        : { color: "orange",  icon: "calendar",     name: "événements" },
   "vote"          : { color: "azure",   icon: "gavel",        name: "Propositions, Questions, Votes" },

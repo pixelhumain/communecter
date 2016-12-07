@@ -383,9 +383,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           
           mapElements.push(o);
           itemType=o.type;
+
           if(typeof(typeObj[o.type]) == "undefined")
           	itemType="poi";
           typeIco = o.type;
+
+          if(typeof(o.typeOrga) != "undefined")
+            typeIco = o.typeOrga;
+          
           var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
           var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
           var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
