@@ -3,19 +3,85 @@ $(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = keyboardNav.checkKeycode;
+	$.contextMenu({
+	    // define which elements trigger this menu
+	    selector: ".lbh",
+	    // define the elements of the menu
+	    items: {
+	        add2fav: {name: "Ajouter à vos favoris", callback: function(key, opt){ 
+	        	href = opt.$trigger[0].hash.split(".");
+	        	//alert(href);
+	        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
+		        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
+					var	id = ( href[0] == "#element" ) ? href[5] : href[3];
+					//alert( what+id );
+					favorite.add2fav(what,id);
+				}
+	         }}
+	    }
+	    // there's more, have a look at the demos and docs...
+	});
 });
-
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
 var slides = {
 	explain1 : function() { showDefinition("explainCommunectMe")},
 	live : function() { loadByHash("#default.live")},
-	explain2 : function() { showDefinitient.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	explain2 : function() { showDefinition("explainCartographiedeReseau")},
+	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
 	explain3 : function() { showDefinition("explainDemoPart")},
 	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
 	explain4 : function() { showDefinition("explainCommunecter")},
 	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
-	explain5 : function() { showDefiniti
+	explain5 : function() { showDefinition("explainProxicity")},
+	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
+};
+function runslide(cmd)
+{
+	if(cmd == 0){
+		prevStep = null;
+		loadByHash("#default.live");
+	}
+
+	if( prevStep != null ){
+		slides[ steps[prevStep] ]();
+		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
+		setTimeout( function () { 
+			runslide();
+		 }, 8000);
+	}
+}
+
+function checkPoll(){
+	countPoll++;
+	mylog.log("countPoll",countPoll,"currentUrl",currentUrl);
+	//refactor check Log to use only one call with pollParams 
+	//returning multple server checks in a unique ajax call
+	if(userId){
+		_checkLoggued();
+		if(typeof refreshNotifications != "undefined")
+		refreshNotifications();
+	}
+	
+	//according to the loaded page 
+	//certain checks can be made  
+	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
+		checkCommentCount();
+
+	if(countPoll < 100){
+		setTimeout( function () { checkPoll() }, 300000); //every5min
+		countPoll++;
+	}
+}
+/* *************************** */
+/* instance du menu questionnaire*/
+/* *************************** */
+function DropDown(el) {
+	this.dd = el;
+	this.placeholder = this.dd.children('span');
+	this.opts = this.dd.find('ul.dropdown > li');
+	this.val = '';
+	this.index = -1;
 	this.initEvents();
 }
 DropDown.prototype = {
@@ -1061,18 +1127,42 @@ function  bindLBHLinks() {
 		mylog.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
-	}).on("contextmenu", function(e){
+	})/*.on("contextmenu", function(e){
 		var href = $(this).attr("href").split(".");
 		console.log($(this).attr("href"),href[0])
-		if($.inArray(href[0],["#organization","#project","#event","#person","#element"])){
-			alert('Context Menu event has fired!'+$(this).attr("href"));
-						
+		if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
+			var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
+			var	id = ( href[0] == "#element" ) ? href[5] : href[3];
+			//alert( what+id+$(this).attr("href") );
+			//favorite.add2fav(what,id);
 		}
-   
-   return false;
-});
+	   return false;
+	});*/
+}
 
 
+function mouseX(evt) {
+    if (evt.pageX) {
+        return evt.pageX;
+    } else if (evt.clientX) {
+       return evt.clientX + (document.documentElement.scrollLeft ?
+           document.documentElement.scrollLeft :
+           document.body.scrollLeft);
+    } else {
+        return null;
+    }
+}
+
+function mouseY(evt) {
+    if (evt.pageY) {
+        return evt.pageY;
+    } else if (evt.clientY) {
+       return evt.clientY + (document.documentElement.scrollTop ?
+       document.documentElement.scrollTop :
+       document.body.scrollTop);
+    } else {
+        return null;
+    }
 }
 
 function bindRefreshBtns() { mylog.log("bindRefreshBtns");
@@ -2300,6 +2390,7 @@ var typeObj = {
 			}
 		}},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"survey" : {col:"actionRooms",ctrl:"survey"},
 	"action" : {
 		col:"actions",
 		ctrl:"room",
@@ -2431,6 +2522,7 @@ var typeObj = {
 			}
 		} },
 	"actions" : {col:"actions",ctrl:"room"},
+	"rooms" : {col:"actions",ctrl:"room"},
 	"discuss" : {col:"actionRooms",ctrl:"room"}
 };
 
