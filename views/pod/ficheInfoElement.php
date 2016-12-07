@@ -1221,7 +1221,8 @@ if($showOdesc == true){
 							str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
 										'<i class="fa fa-tag"></i>'+tag+
 									'</div>';
-							addTagToMultitag(tag);
+							if(typeof globalTheme == "undefined" || globalTheme != "network")
+								addTagToMultitag(tag);
 						});
 						
 					}

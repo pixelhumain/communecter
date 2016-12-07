@@ -39,7 +39,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 // Initialize $front array()
 // - Define which element is visible following current theme (communecter, network, notragora)
 if(@Yii::app()->params["front"]) $front = Yii::app()->params["front"];
-else if(@$networkJson) $front = $networkJson["skin"]["front"];
+else if(@$networkJson && @$networkJson["skin"]["front"]) $front = $networkJson["skin"]["front"];
+if(@Yii::app()->params["menu"]) $menuConfig = Yii::app()->params["menu"];
+else if(@$networkJson && @$networkJson["skin"]["menu"]) $menuConfig = $networkJson["skin"]["menu"];
 ?>
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
@@ -68,7 +70,7 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig)); 
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
