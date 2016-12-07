@@ -427,6 +427,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
           var url = '#element.detail.type.'+type+'.id.' + id;
           if(type == "citoyens") url += '.viewer.' + userId;
+
+          if(typeof TPL != "undefined")
+            if(TPL == "kgougle") url = '#k.page.type.'+type+'.id.' + id;
+
+
           //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
           else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
           else if(type == "surveys") url = "#survey.entry.id."+id;

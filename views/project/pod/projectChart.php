@@ -1,6 +1,6 @@
 <?php 
 $cssAnsScriptFilesModule = array(
-	//'/plugins/Chart.js/Chart.min.js'
+	'/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 ?>
@@ -12,6 +12,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 </style>
 
+<?php if(!isset($chartAlone)) { ?>
 <div class="panel panel-white">
 
 	<div class="panel-heading border-light bg-dark">
@@ -42,6 +43,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<canvas id="myChart" width="" height=""></canvas>
 		</div>-->
 </div>
+<?php }else if($chartAlone == true){ ?>
+	<canvas id="myChart" width="" height=""></canvas>
+<?php } ?>
 
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
@@ -67,7 +71,7 @@ jQuery(document).ready(function() {
 		    // Number - The scale starting value
 		    scaleStartValue: null,
 		    // String - Colour of the scale line
-		    scaleLineColor: "rgba(0,0,0,.1)",
+		    scaleLineColor: "rgba(0,0,0,.3)",
 		    // Number - Pixel width of the scale line
 		    scaleLineWidth: 1,
 		    // Boolean - Whether to show labels on the scale

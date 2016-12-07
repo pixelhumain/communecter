@@ -50,6 +50,9 @@
 
 var type = "<?php echo $type; ?>";
 
+var TPL = "kgougle";
+
+
 jQuery(document).ready(function() {
 	initKInterface();
 

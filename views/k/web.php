@@ -118,7 +118,8 @@ function buildListCategories(){
         var classe="";
         if(params.color == "green") classe="search-eco";
 
-        html    += '<section id="portfolio" class="'+classe+'">'+
+        html    += '<section class="portfolio '+classe+'">'+
+
                         '<div class="container">'+
                             '<div class="row">'+
                                 '<div class="col-lg-12 text-center">'+

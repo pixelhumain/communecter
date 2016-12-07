@@ -19,10 +19,9 @@
 
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
-	<div class="container" style="margin-top:90px;" id="page"></div>
+	<div class="" id="onepage"></div>
 </div>
 
-<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
 
 <script>
 
@@ -32,7 +31,7 @@ var id = "<?php echo $id; ?>";
 jQuery(document).ready(function() {
 	initKInterface();
 
-	getAjax('#page' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id,function(){ 
+	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl=kgougle",function(){ 
 				
 			},"html");
 });
