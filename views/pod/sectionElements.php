@@ -27,7 +27,7 @@
 <style>
         
         section#<?php echo @$sectionKey; ?>{
-            background-color: <?php echo @$styleParams["bgColor"]; ?>
+            background-color: <?php echo @$styleParams["bgColor"]; ?>;
         }
 
         <?php if($nbItem >=  8){ ?>
