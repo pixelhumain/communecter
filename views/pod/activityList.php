@@ -100,9 +100,13 @@ $countries= OpenData::getCountriesList();
 									echo ", ";
 								echo $tel;
 							}
-						} else if (@$value["object"]["displayName"] == "organizer"){
-							$organizer = Element::getInfos(@$value["object"]["displayValue"]["organizerType"], @$value["object"]["displayValue"]["organizerId"]);
-							echo empty($organizer["name"]) ? "Inconnu" : $organizer["name"];
+						} else if (@$value["object"]["displayName"] == "organizer") {
+							if ($value["object"]["displayValue"]["organizerType"] == "dontKnow") {
+								$organizer = "";
+							} else {
+								$organizer = Element::getInfos(@$value["object"]["displayValue"]["organizerType"], @$value["object"]["displayValue"]["organizerId"]);	
+							}
+							echo empty($organizer["name"]) ? "Inconnu" : @$value["object"]["displayValue"]["organizerType"]." / ".$organizer["name"];
 						} else
 							echo Yii::t("common",$value["object"]["displayValue"]);
 						
