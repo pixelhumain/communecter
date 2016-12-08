@@ -373,20 +373,20 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   }
 
   
-  function showResultsDirectoryHtml(data){
+  function showResultsDirectoryHtml(data,contentType){
     var str = "";
     $.each(data, function(i, o) {
-        if( notNull(o.type) )
+        itemType=(contentType) ? contentType :o.type;
+        if( itemType )
         {
           mylog.log("showResultsDirectoryHtml", o);
           var typeIco = i;
           
           mapElements.push(o);
-          itemType=o.type;
 
-          if(typeof(typeObj[o.type]) == "undefined")
+          if(typeof(typeObj[itemType]) == "undefined")
           	itemType="poi";
-          typeIco = o.type;
+          typeIco = itemType;
 
           if(typeof(o.typeOrga) != "undefined")
             typeIco = o.typeOrga;
@@ -422,7 +422,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           mylog.dir(o);
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
-          mylog.log(o.type);
+          mylog.log(itemType);
           type = typeObj[itemType].col;
           // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
           //type += "s";
@@ -520,7 +520,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               if(updated != null)
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
               
-              if(o.type!="city")  
+              if(itemType!="city")  
               str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
               str += "<div class='padding-10'>";
@@ -592,7 +592,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 }
                 
                 
-                if(o.type == "entry"){
+                if(itemType == "entry"){
                   var vUp   = notEmpty(o.voteUpCount)       ? o.voteUpCount.toString()        : "0";
                   var vMore = notEmpty(o.voteMoreInfoCount) ? o.voteMoreInfoCount.toString()  : "0";
                   var vAbs  = notEmpty(o.voteAbstainCount)  ? o.voteAbstainCount.toString()   : "0";

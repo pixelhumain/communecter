@@ -50,11 +50,11 @@
 </style>
 <div class="col-xs-12 no-padding col-nowList"  data-tpl="pod.nowList">
     <?php foreach ($result as $key => $v) { 
-                $specs = Element::getElementSpecsByType(@$v["type"]."s");
+        $specs = Element::getElementSpecsByType(@$v["type"]."s");
 
-                $type = null;
-                if(@$specs) $type = @$v["type"];
-                else if(@$v["typeSig"]) $type = $v["typeSig"];
+        $type = null;
+        if(@$specs) $type = @$v["type"];
+        else if(@$v["typeSig"]) $type = $v["typeSig"];
     ?>
     <div class="border-dark margin-bottom-15 col-xs-12 no-padding el-nowList <?php echo $type?>">
         <div class="pull-left col-xs-12 no-padding">

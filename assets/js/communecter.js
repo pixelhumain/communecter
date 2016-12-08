@@ -1037,10 +1037,33 @@ function activateHoverMenu () {
 	}, 1000);
 }
 
-function openMenuSmall () { 
-	menuContent = $(".menuSmall").html();
+function openSmallMenuAjax (url,title) { 
+	getAjax( null , baseUrl+"/" + moduleId + "/favorites/list" , function(data){
+		content = "<div class='col-md-12 col-sm-12 padding-5 center no-padding bg-dark'><h1 class='homestead'> ";
+		if( data.count == 0 )
+			content += " No Favorites available <i class='fa fa-star text-yellow'></i> </h1></div>";
+		else {
+			content += title+" <i class='fa fa-star text-yellow'></i> <br/><input name='toto' placeholder='vous cherchez quoi ?'><br/>"+
+						"<span class='text-extra-small helvetica'>filtre : #tag, §organisations, §citoyens, §projects, §events, §poi </span></h1></div>";
+			
+			$.each( data.list,function(key,list)
+			{
+				var subContent = showResultsDirectoryHtml(list,key);
+				if( notEmpty(subContent) ) 
+					content += "<div class='col-md-12 col-sm-12 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"
+								+subContent;
+			});
+		}
+		
+	    openMenuSmall( content );
+
+    } );
+}
+
+function openMenuSmall (content) { 
+	menuContent = (content) ? content : $(".menuSmall").html();
 	$.blockUI({ 
-		title:    'Welcome to your page', 
+		title : 'Welcome to your page', 
 		message : menuContent,
 		onOverlayClick: $.unblockUI,
         css: { 
@@ -1064,6 +1087,7 @@ function openMenuSmall () {
 	}
 	bindLBHLinks();
 }
+
 
 var selection;
 function  bindHighlighter() { 
@@ -1593,10 +1617,13 @@ var typeObj = {
 	},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
-	"citoyens" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
+		color:"azure",
+		icon:"info-circle",
+
 		dynForm : {
 		    jsonSchema : {
 			    title : "Point of interest Form",
@@ -1875,7 +1902,7 @@ var typeObj = {
 			url : "/"+moduleId+"/organization/addorganizationform",
 			title : "Ajouter une Organisation"
 		}*/	},
-	"organizations" : {col:"organizations",ctrl:"organization"},
+	"organizations" : {col:"organizations",ctrl:"organization",color:"green",icon:"users"},
 	"event" : {
 		col:"events",
 		ctrl:"event",
@@ -2146,8 +2173,8 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
+	"events" : {col:"events",ctrl:"event",color:"orange"},
+	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"project" : {
 		col:"projects",
 		ctrl:"project",
@@ -2390,7 +2417,7 @@ var typeObj = {
 			}
 		}},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"survey" : {col:"actionRooms",ctrl:"survey"},
+	"survey" : {col:"actionRooms",ctrl:"survey",color:"lightblue2",icon:"cog"},
 	"action" : {
 		col:"actions",
 		ctrl:"room",
@@ -2522,7 +2549,7 @@ var typeObj = {
 			}
 		} },
 	"actions" : {col:"actions",ctrl:"room"},
-	"rooms" : {col:"actions",ctrl:"room"},
+	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
 	"discuss" : {col:"actionRooms",ctrl:"room"}
 };
 
@@ -3076,19 +3103,19 @@ function cityKeyPart(unikey, part){
 }
 
 var favorite = {
-	applyColor:function (what,id) {
+	applyColor : function (what,id) {
 		console.log("applyColor",what,id)
 		if(userConnected && userConnected.favorites && userConnected.favorites[what] && userConnected.favorites[what][id] ){
 			$(".star_"+what+"_"+id).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
 			console.warn("applying Color",what,id)
 		}
 	},
-	add2fav:function (what,id){
+	add2fav : function (what,id){
 		if(userId){
 			var params = {id : id, type : what};
 			var el = ".star_"+what+"_"+id;
 			
-			ajaxPost(null,baseUrl+"/"+moduleId+"/link/favorite",params,function(data) { 
+			ajaxPost(null,baseUrl+"/"+moduleId+"/favorites/add",params,function(data) { 
 				console.warn(params.action);
 				if(data.result){
 					if(data.action == '$unset'){

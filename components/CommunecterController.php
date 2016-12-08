@@ -106,6 +106,10 @@ class CommunecterController extends Controller
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
+    "favorites" => array(
+      "add"    => array("href" => "/ph/communecter/favorites/add"),
+      "list"    => array("href" => "/ph/communecter/favorites/list"),
+    ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
