@@ -311,7 +311,7 @@ else if( @$type == Person::CONTROLLER && @$person ){
 	$contextData = $person;
 	$parentType=Person::COLLECTION;
 }
-else if( @$type == PROJECT::CONTROLLER && @$project ){
+else if( @$type == Project::CONTROLLER && @$project ){
 	//Menu::project( $person );
 	$contextName = Yii::t("common","Project")." : ".$project["name"];
 	$contextIcon = "lightbulb-o";
@@ -328,6 +328,11 @@ else if( @$type == PROJECT::CONTROLLER && @$project ){
 	$contextData = $project;
 	$projects=array();
 	$events=array();
+}else if( @$type == "favorites"  ){
+	$contextName = Yii::t("common","My Favorites");
+	$contextIcon = "star";
+	$contextTitle =  Yii::t("common", "MY FAVORITES");
+	$connectType="star";
 }
 $this->renderPartial('../default/panels/toolbar'); 
 

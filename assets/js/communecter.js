@@ -1038,7 +1038,7 @@ function activateHoverMenu () {
 }
 
 function openSmallMenuAjax (url,title) { 
-	getAjax( null , baseUrl+"/" + moduleId + "/favorites/list" , function(data){
+	getAjax( null , url , function(data){
 		content = "<div class='col-md-12 col-sm-12 padding-5 center no-padding bg-dark'><h1 class='homestead'> ";
 		if( data.count == 0 )
 			content += " No Favorites available <i class='fa fa-star text-yellow'></i> </h1></div>";
@@ -1060,6 +1060,11 @@ function openSmallMenuAjax (url,title) {
 	    openMenuSmall( content );
 	    showTagsScopesMin(".tagsScopeTool");
     } );
+}
+
+function openSmallMenuAjaxBuild (id,url,title) { 
+	openMenuSmall( );
+	getAjax( ".menuSmallBlockUI" , url , null,"html" );
 }
 
 function openMenuSmall (content) { 
@@ -2994,7 +2999,7 @@ var keyboardNav = {
 		"73" : function(){openForm('person')},//i
 		"65" : function(){openForm('action')},//a
 		"86" : function(){openForm('entry')},//v
-		"70" : function(){ openSmallMenuAjax(baseUrl+'/'+moduleId+'/favorites/list','Mes Favoris') }//f
+		"70" : function(){ openSmallMenuAjaxBuild('.menuSmallBlockUI' , baseUrl+'/'+moduleId+'/favorites/list/tpl/directory2' , 'Mes Favoris') }//f
 	},
 	checkKeycode : function(e) {
 		e.preventDefault();
