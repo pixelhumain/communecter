@@ -650,7 +650,7 @@ function loadByHash( hash , back ) {
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
 		if( hash.indexOf("#network.simplydirectory") >= 0 &&
-			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
+			location.hash.indexOf("#network.simplydirectory") >= 0 || hash=="#" || hash==""){ 
 		}
 		else{
 			count=$(".breadcrumAnchor").length;

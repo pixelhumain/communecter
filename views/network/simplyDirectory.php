@@ -862,7 +862,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     window.location.hash = url;
     urlHash=url;
     console.log("oui");
-    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0){
+    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
 	    urlSplit=urlHash.replace( "#","" ).split(".");
 	    console.log(urlHash);
 	    if(urlSplit[0]=="person")
@@ -874,7 +874,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     if(urlHash.indexOf("news") >= 0){
 	    urlHash=urlHash+"&isFirst=1";
     }
-	url='/'+urlHash.replace( "#","" ).replace( /\./g,"/" );
+	url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
 	$("#repertory").hide( 700 );
     $(".main-menu-left").hide( 700 );
     $("#ficheInfoDetail").show( 700 );
@@ -882,7 +882,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $.blockUI({
 				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
 	});
-    getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url,
+    getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams,
     	function(){
 	    $.unblockUI();
 	    //$("#repertory").hide( 700 );

@@ -337,6 +337,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script>
 
+
+
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
@@ -347,6 +349,9 @@ var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
 
 jQuery(document).ready(function() {
+
+  
+  
 
   $(".main-col-search").addClass("cityHeadSection");
 
@@ -509,5 +514,30 @@ function initCityMap(){
   Sig.allowMouseoverMaker = true;
 }
 
-	
+//wget("https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18") 
+// https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q90&props=claims&languages=fr 
+// https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18
+var wikidata = null;
+function wget(url){
+  $.ajax({
+        url:url,
+        type:"GET",
+        dataType: "jsonp",
+        /*data: {
+            q: "select title,abstract,url from search.news where query=\"cat\"",
+            format: "json"
+        },*/
+        success:function(data) {
+          if( notNull(data) ){
+            wikidata = data;
+            imgName = wikidata.entities.Q90.claims.P18[0].mainsnak.datavalue.value;
+            var hash = md5(imgName);
+            console.log(hash[0]+"/"+hash[0]+hash[1]+"/"+imgName);
+          }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+          alert("error");
+        } 
+    });
+}
 </script>
