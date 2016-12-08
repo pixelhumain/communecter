@@ -399,9 +399,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           
          // var urlImg = "/upload/communecter/color.jpg";
          // o.profilImageUrl = urlImg;
-
+         var useMinSize = typeof size != "undefined" && size == "min";
             var imgProfil = ""; 
-            if(typeof size == "undefined" || size != "min")
+            if(!useMinSize)
               imgProfil = "<i class='fa fa-image fa-2x'></i>";
             
             if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
@@ -509,7 +509,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
           str +=    "<div class='searchEntity'>";
 
-          if(itemType!="city" && (typeof size != "undefined" && size == "min"))
+          if(itemType!="city" && (useMinSize))
               str += "<div class='imgHover'>" + imgProfil + "</div>"+
                       "<div class='contentMin'>";
 
@@ -544,6 +544,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
               str += "<div class='padding-10 informations'>";
 
+
+              if(!useMinSize){
                 if(startDate != null)
                 str += "<div class='entityDate dateFrom bg-"+color+" transparent badge'>" + startDate + "</div>";
                 if(endDate != null)
@@ -554,7 +556,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
                   str += "</div>";
                 }
-                
+              }  
                   
                 str += "<div class='entityRight no-padding'>";
                                  
@@ -630,7 +632,21 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 str += "<div class='entityDescription'>" + description + "</div>";
              
                 str += "<div class='tagsContainer text-red'>"+tags+"</div>";
-            if(o.type!="city" && (typeof size != "undefined" && size == "min"))
+
+                if(useMinSize){
+                  if(startDate != null)
+                  str += "<div class='entityDate dateFrom bg-"+color+" transparent badge'>" + startDate + "</div>";
+                  if(endDate != null)
+                  str += "<div  class='entityDate dateTo  bg-"+color+" transparent badge'>" + endDate + "</div>";
+                  
+                  if(typeof size == "undefined" || size == "max"){
+                    str += "<div class='entityCenter no-padding'>";
+                    str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
+                    str += "</div>";
+                  }
+                }  
+
+            if(o.type!="city" && (useMinSize))
               str += "</div>";
               str += "</div>";
             str += "</div>";

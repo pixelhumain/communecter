@@ -1050,7 +1050,7 @@ function openSmallMenuAjax (url,title) {
 			
 			$.each( data.list,function(key,list)
 			{
-				var subContent = showResultsDirectoryHtml(list,key);
+				var subContent = showResultsDirectoryHtml(list,key, "min");
 				if( notEmpty(subContent) ) 
 					content += "<div class='col-md-12 col-sm-12 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"
 								+subContent;
