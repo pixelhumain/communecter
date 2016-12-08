@@ -1709,11 +1709,11 @@ if($showOdesc == true){
 	function updateOrganizer() {
 		bootbox.confirm({
 			message: 
-				"<?php echo Yii::t('common','Update the organizer') ?>"+
+				"<?php echo Yii::t("event","Update the organizer") ?>"+
 				buildSelect("organizerId", "organizerId", {"inputType" : "select", "options" : firstOptions(), "groupOptions":myAdminList( ["organizations","projects"] )}, ""),
 			buttons: {
 				confirm: {
-					label: "<?php echo Yii::t('common','Update the organizer');?>",
+					label: "<?php echo Yii::t("event","Update the organizer");?>",
 					className: 'btn-success'
 				},
 				cancel: {
