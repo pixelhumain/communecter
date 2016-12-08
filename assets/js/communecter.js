@@ -1044,7 +1044,9 @@ function openSmallMenuAjax (url,title) {
 			content += " No Favorites available <i class='fa fa-star text-yellow'></i> </h1></div>";
 		else {
 			content += title+" <i class='fa fa-star text-yellow'></i> <br/><input name='toto' placeholder='vous cherchez quoi ?'><br/>"+
-						"<span class='text-extra-small helvetica'>filtre : #tag, §organisations, §citoyens, §projects, §events, §poi </span></h1></div>";
+						"<span class='text-extra-small helvetica'>filtre : #tag, §organisations, §citoyens, §projects, §events, §poi </span><br/>"+
+						"<div class='tagsScopeTool bg-white'></div>"+
+						"</h1></div>";
 			
 			$.each( data.list,function(key,list)
 			{
@@ -1056,7 +1058,7 @@ function openSmallMenuAjax (url,title) {
 		}
 		
 	    openMenuSmall( content );
-
+	    showTagsScopesMin(".tagsScopeTool");
     } );
 }
 
@@ -2991,7 +2993,8 @@ var keyboardNav = {
 		"80" : function(){openForm('project')},//p
 		"73" : function(){openForm('person')},//i
 		"65" : function(){openForm('action')},//a
-		"86" : function(){openForm('entry')}//v
+		"86" : function(){openForm('entry')},//v
+		"70" : function(){ openSmallMenuAjax(baseUrl+'/'+moduleId+'/favorites/list','Mes Favoris') }//f
 	},
 	checkKeycode : function(e) {
 		e.preventDefault();
