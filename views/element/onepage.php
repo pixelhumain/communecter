@@ -193,7 +193,7 @@
 											"useDesc" => false,
 
 											"styleParams" => array(	"bgColor"=>"#222E2F",
-															  		"textBright"=>"dark",
+															  		"textBright"=>"light",
 															  		"fontScale"=>3),
 											));
 	?>

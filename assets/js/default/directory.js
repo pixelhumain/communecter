@@ -373,7 +373,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   }
 
   
-  function showResultsDirectoryHtml(data,contentType){
+  function showResultsDirectoryHtml(data,contentType, size){ //size == null || min || max
     var str = "";
     $.each(data, function(i, o) {
         itemType=(contentType) ? contentType :o.type;
@@ -390,7 +390,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
           if(typeof(o.typeOrga) != "undefined")
             typeIco = o.typeOrga;
-          
+
           var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
           var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
           var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
@@ -399,14 +399,19 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
          // var urlImg = "/upload/communecter/color.jpg";
          // o.profilImageUrl = urlImg;
 
-          var imgProfil ="<i class='fa fa-image fa-2x'></i>";
-          if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
-            imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
-          }
-          if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
-            imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
+            var imgProfil = ""; 
+            if(typeof size == "undefined" || size != "min")
+              imgProfil = "<i class='fa fa-image fa-2x'></i>";
+            
+            if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
+              imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>";
+            }
+            if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+              imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
+            
+            var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
           
-          var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
+
           // if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
           //   htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilImageUrl+"'/>"
           // }
@@ -503,6 +508,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
           str +=    "<div class='searchEntity'>";
 
+          if(o.type!="city" && (typeof size != "undefined" && size == "min"))
+              str += "<div class='imgHover'>" + imgProfil + "</div>"+
+                      "<div class='contentMin'>";
+
             if(userId != null){
                     isFollowed=false;
                     if(typeof o.isFollowed != "undefined" ) isFollowed=true;
@@ -520,20 +529,25 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               if(updated != null)
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
               
+<<<<<<< 7322a6abe0260e95c6a98a4759c7fcc6485d1d79
               if(itemType!="city")  
+=======
+              if(o.type!="city" && (typeof size == "undefined" || size == "max"))
+>>>>>>> pu directory for favorites
               str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
-              str += "<div class='padding-10'>";
+              str += "<div class='padding-10 informations'>";
 
                 if(startDate != null)
                 str += "<div class='entityDate dateFrom bg-"+color+" transparent badge'>" + startDate + "</div>";
                 if(endDate != null)
                 str += "<div  class='entityDate dateTo  bg-"+color+" transparent badge'>" + endDate + "</div>";
                 
-              
-                str += "<div class='entityCenter no-padding'>";
-                str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
-                str += "</div>";
+                if(typeof size == "undefined" || size == "max"){
+                  str += "<div class='entityCenter no-padding'>";
+                  str +=    "<a href='"+url+"' class='lbh'>" + htmlIco + "</a>";
+                  str += "</div>";
+                }
                 
                   
                 str += "<div class='entityRight no-padding'>";
@@ -610,7 +624,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 str += "<div class='entityDescription'>" + description + "</div>";
              
                 str += "<div class='tagsContainer text-red'>"+tags+"</div>";
-        
+            if(o.type!="city" && (typeof size != "undefined" && size == "min"))
+              str += "</div>";
               str += "</div>";
             str += "</div>";
           str += "</div>";

@@ -39,7 +39,10 @@
     margin-top:30px;
 }
 
+
+
 </style>
+
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
     <div class="col-md-10 col-md-offset-1" style="margin-top:-20px;">
