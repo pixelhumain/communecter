@@ -632,38 +632,55 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			</div>			
 		</div>
 
-		<?php if($type == Event::COLLECTION && @$organizer["type"]){ ?>
+		<?php if($type == Event::COLLECTION){ ?>
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
-					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Organisateur") ?>
+					<i class="fa fa-angle-down"></i> <?php echo ucfirst(Yii::t("common","organizer")) ?>
 				</div>
 			</div>
 			
-			<div class="col-sm-12 entityDetails item_map_list">
+			<div class="col-sm-6 entityDetails item_map_list">
 				<?php
-				if(@$organizer["type"]=="project"){ 
-					 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
-					 $icon="fa-lightbulb-o";
-				} else if(@$organizer["type"]=="organization"){
-					 	$icon="fa-users";
-				} else {
-					 	$icon="fa-user";
-				}
+				if (!empty($organizer["type"])) {
+					if(@$organizer["type"]=="project"){ 
+						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
+						 $icon="fa-lightbulb-o";
+					} else if(@$organizer["type"]=="organization"){
+						 	$icon="fa-users";
+					} else {
+						 	$icon="fa-user";
+					}
 
-				$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-				if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
-					$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
-				}else{
-					$img = "<div class='thumbnail-profil'></div>";
-				}
-				$color = "";
-				if($icon == "fa-users") $color = "green";
-				if($icon == "fa-user") $color = "yellow";
-				if($icon == "fa-lightbulb-o") $color = "purple";
-				$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
-					echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-				 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
-				<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+					$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+					if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
+						$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
+					}else{
+						$img = "<div class='thumbnail-profil'></div>";
+					}
+					$color = "";
+					if($icon == "fa-users") $color = "green";
+					if($icon == "fa-user") $color = "yellow";
+					if($icon == "fa-lightbulb-o") $color = "purple";
+					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
+						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
+					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
+					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+				<?php
+					} else {
+						echo "Inconnu";
+					}
+					if (! @$organizer["type"]) {
+						echo '	<a href="javascript:;" class="hidden btn btn-danger btn-sm col-xs-12" style="margin: 10px 0px;" id="btn-add-organizer">
+									<i class="fa fa-vcard"></i>
+									<span class="hidden-sm">'.Yii::t("event","Add an organizer").'</span>
+								</a>' ;
+					} else {
+						echo '	<a href="javascript:;" class="hidden btn btn-danger btn-sm col-xs-12" style="margin: 10px 0px;" id="btn-update-organizer">
+									<i class="fa fa-vcard"></i>
+									<span class="hidden-sm">'.Yii::t("event","Update the organizer").'</span>
+								</a>' ;
+					}
+				?>
 			</div>
 		<?php } ?>
 		<div id="divShortDescription" class="col-xs-12 no-padding">
@@ -733,6 +750,7 @@ if($showOdesc == true){
 	var color = '<?php echo Element::getColorIcon($type); ?>';
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
+	var organizer = <?php echo json_encode($organizer) ?>;
 	//var tags = <?php echo json_encode($tags)?>;
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
@@ -766,6 +784,13 @@ if($showOdesc == true){
 
 		$("#btn-add-geopos").off().on( "click", function(){
 			updateLocalityEntities();
+		});
+
+		$("#btn-update-organizer").off().on( "click", function(){
+			updateOrganizer();
+		});
+		$("#btn-add-organizer").off().on( "click", function(){
+			updateOrganizer();
 		});
 
 		$("#btn-remove-geopos").off().on( "click", function(){
@@ -987,6 +1012,8 @@ if($showOdesc == true){
 			$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
 			$("#btn-add-geopos").addClass("hidden");
+			$("#btn-update-organizer").addClass("hidden");
+			$("#btn-add-organizer").addClass("hidden");
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 		} else if (mode == "update") {
@@ -1002,6 +1029,8 @@ if($showOdesc == true){
 			$("#btn-remove-geopos").removeClass("hidden");
 			$("#btn-add-geopos").removeClass("hidden");
 			$("#btn-view-map").addClass("hidden");
+			$("#btn-update-organizer").removeClass("hidden");
+			$("#btn-add-organizer").removeClass("hidden");
 		}
 	}
 
@@ -1676,7 +1705,94 @@ if($showOdesc == true){
 			}
 		});		
 	}
+
+	function updateOrganizer() {
+		bootbox.confirm({
+			message: 
+				"<?php echo Yii::t('common','Update the organizer') ?>"+
+				buildSelect("organizerId", "organizerId", {"inputType" : "select", "options" : firstOptions(), "groupOptions":myAdminList( ["organizations","projects"] )}, ""),
+			buttons: {
+				confirm: {
+					label: "<?php echo Yii::t('common','Update the organizer');?>",
+					className: 'btn-success'
+				},
+				cancel: {
+					label: "<?php echo Yii::t('common','Annuler');?>",
+					className: 'btn-danger'
+				}
+			},
+			
+			callback: function (result) {
+				if (!result) {
+					return;
+				} else {
+					var organizer = { "organizerId" : organizerId, "organizerType" : organizerType };
+
+					var param = new Object;
+					param.name = "organizer";
+					param.value = organizer;
+					param.pk = contextData.id;
+					$.ajax({
+				        type: "POST",
+				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+				        data: param,
+				       	dataType: "json",
+				    	success: function(data){
+					    	if(data.result){
+								toastr.success(data.msg);
+								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+					    	} else {
+					    		toastr.error(data.msg);
+					    	}
+					    }
+					});
+				}
+			}
+		}).init(function(){
+        	console.log("init de la bootbox !");
+        	$("#organizerId").off().on("change",function(){
+        		organizerId = $(this).val();
+        		if(organizerId == "dontKnow" )
+        			organizerType = "dontKnow";
+        		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
+        			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
+        		else
+        			organizerType = typeObj["person"].col;
+
+        		mylog.warn( "organizer",organizerId,organizerType );
+        		$("#ajaxFormModal #organizerType ").val( organizerType );
+        	});
+        })
+	}
 	
+	function buildSelect(id, field, fieldObj,formValues) {
+		var fieldClass = (fieldObj.class) ? fieldObj.class : '';
+		var placeholder = (fieldObj.placeholder) ? fieldObj.placeholder+required : '';
+		var fieldHTML = "";
+		if ( fieldObj.inputType == "select" || fieldObj.inputType == "selectMultiple" ) 
+        {
+       		var multiple = (fieldObj.inputType == "selectMultiple") ? 'multiple="multiple"' : '';
+       		mylog.log("build field "+field+">>>>>> select selectMultiple");
+       		var isSelect2 = (fieldObj.isSelect2) ? "select2Input" : "";
+       		fieldHTML += '<select class="'+isSelect2+' '+fieldClass+'" '+multiple+' name="'+field+'" id="'+field+'" style="width: 100%;height:30px;" data-placeholder="'+placeholder+'">';
+			if(placeholder)
+				fieldHTML += '<option class="text-red" style="font-weight:bold" disabled selected>'+placeholder+'</option>';
+			else
+				fieldHTML += '<option></option>';
+
+			var selected = "";
+			
+			//initialize values
+			if(fieldObj.options)
+				fieldHTML += buildSelectOptions(fieldObj.options, fieldObj.value);
+			
+			if( fieldObj.groupOptions ){
+				fieldHTML += buildSelectGroupOptions(fieldObj.groupOptions, fieldObj.value);
+			} 
+			fieldHTML += '</select>';
+        }
+        return fieldHTML;
+	}
 	
 
 </script>
