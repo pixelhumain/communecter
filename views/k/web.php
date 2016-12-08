@@ -123,7 +123,7 @@ function buildListCategories(){
                         '<div class="container">'+
                             '<div class="row">'+
                                 '<div class="col-lg-12 text-center">'+
-                                    '<h2 class="text-'+params.color+'">'+
+                                    '<h2 class="letter-'+params.color+'">'+
                                         'Recherche '+name+
                                     '</h2>'+
                                     '<hr class="angle-down">'+

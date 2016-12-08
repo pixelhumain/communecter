@@ -529,18 +529,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
               if(updated != null)
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
-<<<<<<< c54f9520e2bfdfc3f68512378a4469fd54381fe4
-              
-<<<<<<< 7322a6abe0260e95c6a98a4759c7fcc6485d1d79
-              if(itemType!="city")  
-=======
-              if(o.type!="city" && (typeof size == "undefined" || size == "max"))
->>>>>>> pu directory for favorites
-=======
 
               if(itemType!="city" && (typeof size == "undefined" || size == "max"))
->>>>>>> up directory
-              str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
+                str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
               str += "<div class='padding-10 informations'>";
 
