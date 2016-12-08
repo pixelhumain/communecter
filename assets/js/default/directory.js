@@ -374,6 +374,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
   
   function showResultsDirectoryHtml(data,contentType, size){ //size == null || min || max
+
     var str = "";
     $.each(data, function(i, o) {
         itemType=(contentType) ? contentType :o.type;
@@ -508,7 +509,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
           str +=    "<div class='searchEntity'>";
 
-          if(o.type!="city" && (typeof size != "undefined" && size == "min"))
+          if(itemType!="city" && (typeof size != "undefined" && size == "min"))
               str += "<div class='imgHover'>" + imgProfil + "</div>"+
                       "<div class='contentMin'>";
 
@@ -528,12 +529,17 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
               if(updated != null)
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
+<<<<<<< c54f9520e2bfdfc3f68512378a4469fd54381fe4
               
 <<<<<<< 7322a6abe0260e95c6a98a4759c7fcc6485d1d79
               if(itemType!="city")  
 =======
               if(o.type!="city" && (typeof size == "undefined" || size == "max"))
 >>>>>>> pu directory for favorites
+=======
+
+              if(itemType!="city" && (typeof size == "undefined" || size == "max"))
+>>>>>>> up directory
               str += "<a href='"+url+"' class='container-img-profil lbh'>" + imgProfil + "</a>";
 
               str += "<div class='padding-10 informations'>";
