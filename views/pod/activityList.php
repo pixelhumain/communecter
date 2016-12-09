@@ -30,7 +30,8 @@ $arrayLabel=array(
 	"licence" => Yii::t("common", "the licence"),
 	"properties.avancement" => Yii::t("common", "the maturity"),
 	"isOpenData" => Yii::t("common", "open data"),
-	"isOpenEdition" => Yii::t("common", "open edition")
+	"isOpenEdition" => Yii::t("common", "open edition"),
+	"state" => Yii::t("common", "state")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
