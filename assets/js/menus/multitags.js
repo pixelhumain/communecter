@@ -31,7 +31,7 @@ function saveCookieMultitags(){ //mylog.log("saveCookieMultitags", myMultiTags);
 }
 
 function loadMultiTags(){
-	$.each(myMultiTags, function(key, value){ mylog.log("each myMultiTags", myMultiTags);
+	$.each(myMultiTags, function(key, value){ //mylog.log("each myMultiTags", myMultiTags);
 		showTagInMultitag(key);
 	});
 	showCountTag();
@@ -215,11 +215,11 @@ function showTagsMin(htmlId){
 }
 
 function loadTagSuggestion(tagsSuggest){
-	$.each(tagsSuggest, function(key, value){ mylog.log("each tagsSuggest");
+	$.each(tagsSuggest, function(key, value){ //mylog.log("each tagsSuggest");
 		showTagSuggestion(key, value);
 	});
 }
-function showTagSuggestion(tagValue, tagSpec){ mylog.log("showTagSuggestion()", tagValue);
+function showTagSuggestion(tagValue, tagSpec){ //mylog.log("showTagSuggestion()", tagValue);
 	var html = "";
 	if(!tagExists(tagValue)){
 		var faActive = tagSpec.active == true ? "check-circle" : "circle-o";

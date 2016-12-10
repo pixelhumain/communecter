@@ -13,19 +13,17 @@
     if($nbItem == 2) $col = "col-sm-6";
     if($nbItem == 3) $col = "col-sm-4 col-xs-4";
     if($nbItem == 4) $col = "col-sm-3 col-xs-3";
-    if($nbItem == 5) $col = "col-sm-6 col-xs-6";
+    if($nbItem == 5) $col = "col-sm-2 col-xs-4";
     if($nbItem == 6) $col = "col-sm-2 col-xs-4";
-    if($nbItem >  6) $col = "col-sm-1 col-xs-2";
+    if($nbItem >  6) $col = "col-sm-1 col-xs-4";
 
     $align = $nbItem > 2 && $imgShape == "square" ? "left" : "center";
-
+    $align = "center";
     $textBright = @$styleParams["textBright"] ? @$styleParams["textBright"] : "light";
 
 ?>
 
-
 <style>
-        
         section#<?php echo @$sectionKey; ?>{
             background-color: <?php echo @$styleParams["bgColor"]; ?>;
         }
@@ -42,13 +40,16 @@
 
 
 <section id="<?php echo @$sectionKey; ?>" class="portfolio <?php echo $textBright; ?> <?php if(@$sectionShadow==true) echo 'shadow'; ?>">
+    <button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section" data-id="#<?php echo @$sectionKey; ?>">
+        <i class="fa fa-cog"></i>
+    </button>
     <div class="container">
 
         <?php if(@$sectionTitle != ""){ ?>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-title">
-                    <?php echo $sectionTitle; ?><br>
+                    <span class="sec-title"><?php echo $sectionTitle; ?></span><br>
                     <i class="fa fa-angle-down"></i>
                 </h2>
             </div>

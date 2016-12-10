@@ -1,6 +1,11 @@
 
 <?php 
-	HtmlHelper::registerCssAndScriptsFiles( array('/css/onepage.css') , Yii::app()->theme->baseUrl. '/assets');
+	HtmlHelper::registerCssAndScriptsFiles( 
+		array(  '/css/onepage.css',
+				'/vendor/colorpicker/js/colorpicker.js',
+				'/vendor/colorpicker/css/colorpicker.css',
+			  ) , 
+		Yii::app()->theme->baseUrl. '/assets');
 
 	$imgDefault = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 	
@@ -8,14 +13,80 @@
     $typeItem = (@$element["typeSig"] && $element["typeSig"] != "") ? $element["typeSig"] : "";
     if($typeItem == "") $typeItem = @$element["type"] ? $element["type"] : "item";
     if($typeItem == "people") $typeItem = "citoyens";
+    
+    $typeItemHead = $typeItem;
+    if($typeItem == "organizations" && @$element["type"]) $typeItemHead = $element["type"];
 
     //icon et couleur de l'element
-    $icon = Element::getFaIcon($typeItem) ? Element::getFaIcon($typeItem) : "";
-    $iconColor = Element::getColorIcon($typeItem) ? Element::getColorIcon($typeItem) : "";
+    $icon = Element::getFaIcon($typeItemHead) ? Element::getFaIcon($typeItemHead) : "";
+    $iconColor = Element::getColorIcon($typeItemHead) ? Element::getColorIcon($typeItemHead) : "";
 ?>
+<style>
+	#btn-onepage-main-menu{
+		position: fixed;
+		top:85px;
+		left:20px;
+		border-radius: 1px;
+		letter-spacing: 2px;
+	}
 
+	.dropdown .dropdown-onepage-main-menu{
+		display:none;
+	}
+	.dropdown.open .dropdown-onepage-main-menu{
+		display:block;
+	}
+
+	.dropdown-onepage-main-menu{
+		position: fixed;
+		top:130px;
+		left:20px;
+		max-height:400px;
+		/*width:200px;*/
+		background-color:transparent;
+		z-index:5;
+	}
+
+	.dropdown-onepage-main-menu .dropdown-menu{
+		margin:0px;
+		border:none;
+		display: inline;
+		-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3) ;
+	    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3) ;
+	    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+	}
+
+	.dropdown-onepage-main-menu .dropdown-menu li a {
+		text-transform: uppercase;
+	}
+
+	.arrow_box:after, .arrow_box:before {
+		left: 19px;
+	}
+</style>
+
+	<div class="dropdown">
+		<button class="btn bg-red text-white btn font-blackoutM dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
+			<i class="fa fa-bars"></i> Menu
+		</button>
+		<div class="dropdown-onepage-main-menu font-montserrat " aria-labelledby="btn-onepage-main-menu">
+			<ul class="dropdown-menu arrow_box">
+			    <li><a href="javascript:" data-target="#description"><i class="fa fa-angle-right"></i> Présentation</a></li>
+			    <li><a href="javascript:" data-target="#events"><i class="fa fa-angle-right"></i> Événements</a></li>
+			    <li><a href="javascript:" data-target="#projects"><i class="fa fa-angle-right"></i> Nos projets</a></li>
+			    <li><a href="javascript:" data-target="#directory"><i class="fa fa-angle-right"></i> Communauté</a></li>
+			    <li><a href="javascript:" data-target="#projects-values"><i class="fa fa-angle-right"></i> Nos valeurs</a></li>
+			    <li><a href="javascript:" data-target="#freep"><i class="fa fa-angle-right"></i> Free</a></li>
+			    <li role="separator" class="divider"></li>
+			    <li><a href="javascript:" data-target="#footer"><i class="fa fa-angle-right"></i> Infos</a></li>
+			  </ul>
+		</div>
+	</div>
     <!-- Header -->
-    <header>
+    <section class="header" id="header">
+    	<button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section margin-top-70" data-id="#header">
+	        <i class="fa fa-cog"></i>
+	    </button>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -30,17 +101,18 @@
 		                    <?php } ?>
 	                    </div>
 	                    <div class="col-md-6 col-sm-4 col-xs-12 text-center" style="margin-top:-20px;">
-
-	                    	<?php if(@$typeItem){ ?>
-	                    		<span class="col-md-12 col-sm-12 name bold">
-	                    			<?php echo ucfirst(Yii::t("common", @$typeItem)); 
-	                    				  if (@$element["typeSig"]=="organizations") 
-	                    				  	echo " - ".Yii::t("common", $element["type"]); ?>
-	                    		</span><br>
-	                    	<?php } ?>
-
 	                    	<?php if(@$element['profilMediumImageUrl'] && @$element['profilMediumImageUrl'] != "") { ?>
-	                        
+	                        	<?php if(@$typeItem){ ?>
+		                    		<span class="col-md-12 col-sm-12 bold">
+		                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
+		                    					echo ucfirst(Yii::t("common", @$typeItem)); 
+		                    				  }
+		                    				  if (@$element["typeSig"]=="organizations") 
+		                    				  	echo Yii::t("common", $element["type"]);  
+		                    			?>
+		                    		</span><br>
+		                    	<?php } ?>
+
 	                        	<img class="img-responsive thumbnail thumb-type-color-<?php echo $iconColor; ?>" 
 	                    		 src="<?php echo @$element['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>" 
 	                    		 alt="">
@@ -50,7 +122,6 @@
 			                        <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
 			                    </div>
 			                    <?php } ?>
-
 		                    <?php } ?>
 	                    </div>
 	                    <div class="col-md-3 col-sm-4 col-xs-12 text-left btn-tools pull-right">
@@ -71,7 +142,20 @@
 	                    	<button class="btn btn-default"><i class="fa fa-star"></i> <span class="hidden-xs">Favoris</span></button>
 	                    </div>
 	                    <div class="col-md-12 col-sm-12 intro-text">
-	                        <span class="name"><?php echo @$element["name"]; ?></span>
+	                    	<?php if(!@$element['profilMediumImageUrl'] || @$element['profilMediumImageUrl'] == "") { ?>
+	                        	<?php if(@$typeItem){ ?>
+		                    		<span class="col-md-12 col-sm-12 bold">
+		                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
+		                    					echo ucfirst(Yii::t("common", @$typeItem)); 
+		                    				  }
+		                    				  if (@$element["typeSig"]=="organizations") 
+		                    				  	echo Yii::t("common", $element["type"]);  
+		                    			?>
+		                    		</span><br>
+		                    	<?php } ?>
+		                    <?php } ?>
+
+	                        <span class="name"><?php echo @$element["name"]; ?></span><br>
 	                        <span class="email"><?php echo @$element["email"]; ?></span>
 	                        <hr class="bold-hr">
 	                        <span class="skills"><?php echo @$element["shortDescription"]; ?></span>
@@ -100,11 +184,11 @@
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- About Section -->
     <?php if(isset($element["description"])){ ?>
-    <section class="darkblue padding-bottom-50 shadow hidden" id="description">
+    <!-- <section class="darkblue padding-bottom-50 shadow hidden" id="description">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -118,7 +202,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <?php } ?>
 
     <!-- COMMUNAUTE Section -->
@@ -131,7 +215,7 @@
     		$this->renderPartial('../pod/sectionElements', 
     								array(  "items" => $desc,
 											"sectionKey" => "description",
-											"sectionTitle" => "DESCRIPTION",
+											"sectionTitle" => "PRÉSENTATION",
 											"sectionShadow" => true,
 											"msgNoItem" => "Aucune description",
 											"imgShape" => "square",
@@ -144,24 +228,6 @@
 											));
     ?>
 
-    <!-- COMMUNAUTE Section -->
-
-    <?php   if(@$members && sizeOf(@$members)>0)
-    		$this->renderPartial('../pod/sectionElements', 
-    								array(  "items" => $members,
-											"sectionKey" => "directory",
-											"sectionTitle" => "COMMUNAUTÉ",
-											"sectionShadow" => true,
-											"msgNoItem" => "Aucun contact à afficher",
-											"imgShape" => "square",
-											"useDesc" => false,
-
-											"styleParams" => array(	"bgColor"=>"#94D4DA",
-															  		"textBright"=>"dark",
-															  		"fontScale"=>3),
-											));
-    ?>
-
     <!-- EVENTS Section -->
 
     <?php   if(@$events && sizeOf(@$events)>0)
@@ -169,12 +235,12 @@
     								array(  "items" => $events,
 											"sectionKey" => "events",
 											"sectionTitle" => "ÉVÉNEMENTS À VENIR",
-											"sectionShadow" => false,
+											"sectionShadow" => true,
 											"msgNoItem" => "Aucun événement à afficher",
 											"imgShape" => "square",
 											"useDesc" => true,
 
-											"styleParams" => array(	"bgColor"=>"#60BCC5",
+											"styleParams" => array(	"bgColor"=>"#f1f2f6",
 															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
@@ -192,47 +258,32 @@
 											"imgShape" => "square",
 											"useDesc" => false,
 
-											"styleParams" => array(	"bgColor"=>"#222E2F",
-															  		"textBright"=>"light",
+											"styleParams" => array(	"bgColor"=>"#FFF",
+															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
 	?>
 
-	<!-- PROJETS Section -->
+	
+	<!-- COMMUNAUTE Section -->
 
-    <?php  
-    	$items = array( array("name"=>"Lorem enim", "shortDescription"=>"Ut enim ad minima oemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet veniam, quis nostrum exercitationem"),
-    						array("name"=>"Utiliser les POI ?", "shortDescription"=>"Pour construire les block libres ?<br>Textes<br>Images<br>Video<br>GeoPos<br>Url<br>etc"),
-    						array("name"=>"Lorem ratione", "shortDescription"=>"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet"),
-    					);
-
+    <?php   if(@$members && sizeOf(@$members)>0)
     		$this->renderPartial('../pod/sectionElements', 
-    								array(  "items" => $items,
-											"sectionKey" => "freep",
-											"sectionTitle" => "Un paragraphe libre",
-											"sectionShadow" => false,
-											"msgNoItem" => "Aucun projet à afficher",
-											"imgShape" => "circle",
-											"useImg" => false,
+    								array(  "items" => $members,
+											"sectionKey" => "directory",
+											"sectionTitle" => "COMMUNAUTÉ",
+											"sectionShadow" => true,
+											"msgNoItem" => "Aucun contact à afficher",
+											"imgShape" => "square",
+											"useDesc" => false,
 
-											"styleParams" => array(	"bgColor"=>"#222E2F",
-															  		"textBright"=>"light",
+											"styleParams" => array(	"bgColor"=>"#FFF",
+															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
-	/*  
-		$items2 = array( array("name"=>"Lorem enim", "shortDescription"=>"Ut enim ad minima oemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet veniam, quis nostrum exercitationem"),
-    							);
-			$items = array_merge($items, $items2);
-    		$this->renderPartial('../pod/sectionElements', 
-    								array(  "items" => $items,
-											"sectionTitle" => "",
-											"sectionShadow" => false,
-											"msgNoItem" => "Aucun projet à afficher",
-											"imgShape" => "circle",
-											"useImg" => false,
-											));
-		*/
-	?>
+    ?>
+
+    
 
 	<?php if (($type==Project::COLLECTION) && !empty($element["properties"]["chart"])){ ?>
 	<section id="projects-values" class="portfolio shadow">
@@ -262,7 +313,30 @@
 	</section>
 	<?php } ?>
 
-    
+    <!-- FREE Section -->
+
+    <?php  
+    	$items = array( array("name"=>"Lorem enim", "shortDescription"=>"Ut enim ad minima oemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet veniam, quis nostrum exercitationem"),
+    						array("name"=>"Utiliser les POI ?", "shortDescription"=>"Pour construire les block libres ?<br>Textes<br>Images<br>Video<br>GeoPos<br>Url<br>etc"),
+    						array("name"=>"Lorem ratione", "shortDescription"=>"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet"),
+    					);
+
+    		$this->renderPartial('../pod/sectionElements', 
+    								array(  "items" => $items,
+											"sectionKey" => "freep",
+											"sectionTitle" => "Un paragraphe libre",
+											"sectionShadow" => true,
+											"msgNoItem" => "Aucun projet à afficher",
+											"imgShape" => "circle",
+											"useImg" => false,
+
+											"styleParams" => array(	"bgColor"=>"#f1f2f6",
+															  		"textBright"=>"dark",
+															  		"fontScale"=>3),
+											));
+	
+	?>
+
 
     <!-- Contact Section -->
     <section id="contact" class="hidden">
@@ -320,12 +394,15 @@
     </section>
 
     <!-- Footer -->
-    <footer class="text-center">
-        <div class="footer-above bg-section-dark2">
+    <section class="text-center footer bg-section-dark2 light" id="footer">
+    	<button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section margin-top-10" data-id="#footer">
+	        <i class="fa fa-cog"></i>
+	    </button>
+        <div class="footer-above">
             <div class="container">
                 <div class="row">
                     <div class="footer-col col-md-4">
-                        <h3>Nous trouver</h3>
+                        <h3>Addresse</h3>
                         <p>
                         	<?php if(@$element["address"] && @$element["address"]["streetAddress"]) 
 	                			  	echo $element["address"]["streetAddress"]."<br>";
@@ -345,7 +422,7 @@
                         </p>
                     </div>
                     <div class="footer-col col-md-4">
-                        <h3>Contacts</h3>
+                        <h3>Sur le web</h3>
                         <ul class="list-inline">
                         	<?php if(@$element["socialNetwork"]){ ?>
 	                            <?php if(@$element["socialNetwork"]["facebook"] && @$element["socialNetwork"]["facebook"] != ""){ ?>
@@ -372,14 +449,14 @@
                         </ul>
                     </div>
                     <div class="footer-col col-md-4">
-                        <h3>A propos</h3>
+                        <h3>A propos de nous</h3>
                         <p><?php echo @$element["shortDescription"]; ?></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-below">
-            <div class="container">
+            <div class="container padding-15">
                 <div class="row">
                     <div class="col-md-12">
 	                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/kgougle_social.png" height=50><br><br>
@@ -389,239 +466,7 @@
                 </div>
             </div>
         </div>
-    </footer>
-
-    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
-    <div class="scroll-top page-scroll hidden-sm hidden-xs hidden-lg hidden-md">
-        <a class="btn btn-primary" href="#page-top">
-            <i class="fa fa-chevron-up"></i>
-        </a>
-    </div>
-
-    <!-- Portfolio Modals -->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/cabin.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/cake.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/circus.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/game.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/safe.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Project Title</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/submarine.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    </section>
     <?php 
     	$mapData = array();
     	$mapData = array_merge($members, $mapData);
@@ -634,10 +479,31 @@
     var elementName = "<?php echo @$element["name"]; ?>";
     var mapData = <?php echo json_encode(@$mapData) ?>;
 
+    var currentIdSection = "";
 	jQuery(document).ready(function() {
+		//$(".dropdown-onepage-main-menu").hide();
 		$("#main-page-name, title").html(elementName);
+
+		$(".dropdown-onepage-main-menu li a").click(function(e){
+			e.stopPropagation();
+			var target = $(this).data("target");
+			console.log(target);
+			KScrollTo(target);
+		});
+		// $("#btn-onepage-main-menu").click(function(){
+		// 	if($(".dropdown-onepage-main-menu").hasClass("openn")){
+		// 		$(".dropdown-onepage-main-menu").hide(500);
+		// 		$(".dropdown-onepage-main-menu").removeClass("openn");
+		// 	}
+		// 	else{
+		// 		$(".dropdown-onepage-main-menu").addClass("openn");
+		// 		$(".dropdown-onepage-main-menu").show(1500);
+		// 	}
+		// });
 
 		Sig.showMapElements(Sig.map, mapData);
 	});
-    	
-    </script>
+	
+	</script>
+
+    <?php $this->renderPartial('sectionEditTools');?>
