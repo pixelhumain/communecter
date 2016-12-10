@@ -107,9 +107,12 @@ $this->renderPartial('../default/panels/toolbar');
     </a>
   <?php } ?>
   <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
+
       <h1 class="homestead text-red text-center cityName-header">
         <span class="margin-bottom-10" style="">
-
+        <a href="javascript:getWiki('<?php echo $city["wikidataID"]; ?>')" class="pull-right">
+          <img width=50 src="<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png">
+        </a>
         <i class="fa fa-university"></i><br>
         <?php if($cityGlobal == false) echo $city["cp"]; ?> 
         <?php
@@ -350,9 +353,6 @@ var liveScopeType = "global";
 
 jQuery(document).ready(function() {
 
-  
-  
-
   $(".main-col-search").addClass("cityHeadSection");
 
 
@@ -514,4 +514,54 @@ function initCityMap(){
   Sig.allowMouseoverMaker = true;
 }
 
+
+//wget("https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18") 
+// https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q90&props=claims&languages=fr 
+// https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18
+var wikidata = null;
+function getWiki(q){
+  url = "https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids="+q+"&props=claims&languages=fr"; 
+  $.ajax({
+        url:url,
+        type:"GET",
+        dataType: "jsonp",
+        /*data: {
+            q: "select title,abstract,url from search.news where query=\"cat\"",
+            format: "json"
+        },*/
+        success:function(data) {
+          if( notNull(data) ){
+            wikidata = data;
+            name = wikidata.entities[q].claims.P373[0].mainsnak.datavalue.value;
+            imgName = wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value;
+            /*$.ajax({
+                url:"https://www.wikidata.org/w/api.php?action=query&prop=imageinfo&iiprop=url&titles=File:"+imgName,
+                type:"GET",
+                dataType: "jsonp",
+                success:function(data) {
+                  console.dir(data)
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                  alert("error 2");
+                } 
+            });*/
+            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> "+name);
+              $("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+                                "<div class='col-sm-10 col-sm-offset-1'>"+
+                                      "<div id='P18'>image : "+wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>coat of arms image : "+wikidata.entities[q].claims.P94[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>located in time zone : "+wikidata.entities[q].claims.P421[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>area : "+wikidata.entities[q].claims.P2046[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>shared borders : "+wikidata.entities[q].claims.P47[0].mainsnak.datavalue.value+"</div>"+
+                                      "</div>"+
+                                    "</div>");
+              $('.modal-footer').show();
+              $('#ajax-modal').modal("show");
+          }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+          alert("error");
+        } 
+    });
+}
 </script>
