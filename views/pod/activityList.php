@@ -31,7 +31,8 @@ $arrayLabel=array(
 	"properties.avancement" => Yii::t("common", "the maturity"),
 	"isOpenData" => Yii::t("common", "open data"),
 	"isOpenEdition" => Yii::t("common", "open edition"),
-	"state" => Yii::t("common", "state")
+	"state" => Yii::t("common", "state"),
+	"organizer" => Yii::t("common", "organizer")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
@@ -81,7 +82,7 @@ $countries= OpenData::getCountriesList();
 									echo $address["addressLocality"] ;
 									echo ", ".OpenData::$phCountries[$address["addressCountry"]] ;
 									echo " <i class='fa fa-globe fa_addressCountry'></i> ( ".@$geo["latitude"]."/".@$geo["longitude"].") ";
-								}
+								} 
 							}
 						}
 							//echo $value["object"]["displayValue"];
@@ -100,7 +101,14 @@ $countries= OpenData::getCountriesList();
 									echo ", ";
 								echo $tel;
 							}
-						}else
+						} else if (@$value["object"]["displayName"] == "organizer") {
+							if ($value["object"]["displayValue"]["organizerType"] == "dontKnow") {
+								$organizer = "";
+							} else {
+								$organizer = Element::getInfos(@$value["object"]["displayValue"]["organizerType"], @$value["object"]["displayValue"]["organizerId"]);	
+							}
+							echo empty($organizer["name"]) ? "Inconnu" : @$value["object"]["displayValue"]["organizerType"]." / ".$organizer["name"];
+						} else
 							echo Yii::t("common",$value["object"]["displayValue"]);
 						
 							
