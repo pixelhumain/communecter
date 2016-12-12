@@ -4,6 +4,8 @@
 		array(  '/css/onepage.css',
 				'/vendor/colorpicker/js/colorpicker.js',
 				'/vendor/colorpicker/css/colorpicker.css',
+				'/css/news/index.css',	
+				'/css/timeline2.css',	
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
 
@@ -20,6 +22,8 @@
     //icon et couleur de l'element
     $icon = Element::getFaIcon($typeItemHead) ? Element::getFaIcon($typeItemHead) : "";
     $iconColor = Element::getColorIcon($typeItemHead) ? Element::getColorIcon($typeItemHead) : "";
+
+    $useBorderElement = false;
 ?>
 <style>
 	#btn-onepage-main-menu{
@@ -69,7 +73,7 @@
 		<button class="btn bg-red text-white btn font-blackoutM dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
 			<i class="fa fa-bars"></i> Menu
 		</button>
-		<div class="dropdown-onepage-main-menu font-montserrat " aria-labelledby="btn-onepage-main-menu">
+		<div class="dropdown-onepage-main-menu font-montserrat" aria-labelledby="btn-onepage-main-menu">
 			<ul class="dropdown-menu arrow_box">
 			    <li><a href="javascript:" data-target="#description"><i class="fa fa-angle-right"></i> Présentation</a></li>
 			    <li><a href="javascript:" data-target="#events"><i class="fa fa-angle-right"></i> Événements</a></li>
@@ -113,11 +117,12 @@
 		                    		</span><br>
 		                    	<?php } ?>
 
-	                        	<img class="img-responsive thumbnail thumb-type-color-<?php echo $iconColor; ?>" 
+	                        	<img class="img-responsive thumbnail 
+	                        				<?php if(@$useBorderElement==true){ ?>thumb-type-color-<?php echo $iconColor; ?><?php } ?>" 
 	                    		 src="<?php echo @$element['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>" 
 	                    		 alt="">
 
-		                    	<?php if($icon != "" && $iconColor != ""){ ?>
+		                    	<?php if(@$useBorderElement==true && $icon != "" && $iconColor != ""){ ?>
 			                    <div class="col-md-12 col-sm-12 no-padding text-center i-item">
 			                        <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
 			                    </div>
@@ -221,6 +226,7 @@
 											"imgShape" => "square",
 											"useImg" => false,
 											"fullWidth" => true, //only for 1 element
+											"useBorderElement"=>$useBorderElement,
 
 											"styleParams" => array(	"bgColor"=>"#FFF",
 															  		"textBright"=>"dark",
@@ -239,6 +245,7 @@
 											"msgNoItem" => "Aucun événement à afficher",
 											"imgShape" => "square",
 											"useDesc" => true,
+											"useBorderElement"=>$useBorderElement,
 
 											"styleParams" => array(	"bgColor"=>"#f1f2f6",
 															  		"textBright"=>"dark",
@@ -257,6 +264,7 @@
 											"msgNoItem" => "Aucun projet à afficher",
 											"imgShape" => "square",
 											"useDesc" => false,
+											"useBorderElement"=>$useBorderElement,
 
 											"styleParams" => array(	"bgColor"=>"#FFF",
 															  		"textBright"=>"dark",
@@ -267,15 +275,23 @@
 	
 	<!-- COMMUNAUTE Section -->
 
-    <?php   if(@$members && sizeOf(@$members)>0)
+    <?php
+    		$sectionTitle = "COMMUNAUTÉ";
+    	    if(@$typeItem == "organizations") $sectionTitle = "NOS MEMBRES";
+    	    if(@$typeItem == "projects") $sectionTitle = "ILS CONTRIBUENT AU PROJET";
+    	    if(@$typeItem == "events") $sectionTitle = "LES PARTICIPANTS";
+
+    	    if(@$members && sizeOf(@$members)>0)
     		$this->renderPartial('../pod/sectionElements', 
     								array(  "items" => $members,
 											"sectionKey" => "directory",
-											"sectionTitle" => "COMMUNAUTÉ",
+											"sectionTitle" => $sectionTitle,
 											"sectionShadow" => true,
 											"msgNoItem" => "Aucun contact à afficher",
 											"imgShape" => "square",
 											"useDesc" => false,
+											"useBorderElement"=>$useBorderElement,
+											"countStrongLinks"=>$countStrongLinks,
 
 											"styleParams" => array(	"bgColor"=>"#FFF",
 															  		"textBright"=>"dark",
@@ -316,27 +332,33 @@
     <!-- FREE Section -->
 
     <?php  
-    	$items = array( array("name"=>"Lorem enim", "shortDescription"=>"Ut enim ad minima oemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet veniam, quis nostrum exercitationem"),
-    						array("name"=>"Utiliser les POI ?", "shortDescription"=>"Pour construire les block libres ?<br>Textes<br>Images<br>Video<br>GeoPos<br>Url<br>etc"),
-    						array("name"=>"Lorem ratione", "shortDescription"=>"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet"),
+    	/*$items = array( array("name"=>"", "shortDescription"=>" Le 8 septembre dernier, LA MAISON DES CITOYENS est née pour permettre à tous les Français qui ne comptent pas de compter tous ensemble, et être en capacité de défendre trois valeurs essentielles : nos territoires et ceux qui agissent, la démocratie citoyenne, la diversité et la fraternité."),
+    						// array("name"=>"Utiliser les POI ?", "shortDescription"=>"Pour construire les block libres ?<br>Textes<br>Images<br>Video<br>GeoPos<br>Url<br>etc"),
+    						// array("name"=>"Lorem ratione", "shortDescription"=>"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet"),
     					);
 
     		$this->renderPartial('../pod/sectionElements', 
     								array(  "items" => $items,
 											"sectionKey" => "freep",
-											"sectionTitle" => "Un paragraphe libre",
+											"sectionTitle" => "Le manifeste",
 											"sectionShadow" => true,
 											"msgNoItem" => "Aucun projet à afficher",
 											"imgShape" => "circle",
 											"useImg" => false,
+											"fullWidth" => true, //only for 1 element
 
 											"styleParams" => array(	"bgColor"=>"#f1f2f6",
 															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
-	
+	*/
 	?>
 
+	<section id="timeline" class="bg-white inline-block">
+		<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+			<ul class="timeline inline-block" id="timeline-page">
+		</ul>
+	</section>
 
     <!-- Contact Section -->
     <section id="contact" class="hidden">
@@ -472,12 +494,15 @@
     	$mapData = array_merge($members, $mapData);
     	$mapData = array_merge($projects, $mapData);
     	$mapData = array_merge($events, $mapData);
+
+    	$controler = Element::getControlerByCollection($typeItem) ;
     ?>
 
     <script>
     
     var elementName = "<?php echo @$element["name"]; ?>";
     var mapData = <?php echo json_encode(@$mapData) ?>;
+
 
     var currentIdSection = "";
 	jQuery(document).ready(function() {
@@ -490,20 +515,36 @@
 			console.log(target);
 			KScrollTo(target);
 		});
-		// $("#btn-onepage-main-menu").click(function(){
-		// 	if($(".dropdown-onepage-main-menu").hasClass("openn")){
-		// 		$(".dropdown-onepage-main-menu").hide(500);
-		// 		$(".dropdown-onepage-main-menu").removeClass("openn");
-		// 	}
-		// 	else{
-		// 		$(".dropdown-onepage-main-menu").addClass("openn");
-		// 		$(".dropdown-onepage-main-menu").show(1500);
-		// 	}
-		// });
+
+		$("#btn-onepage-main-menu").trigger("click");
+
+
+        $(".btn-full-desc").click(function(){
+            var sectionKey = $(this).data("sectionkey");
+            if($("section#"+sectionKey+" .item-desc").hasClass("fullheight")){
+                $("section#"+sectionKey+" .item-desc").removeClass("fullheight");
+                $(this).html("<i class='fa fa-plus-circle'></i>");
+            }else{
+                $("section#"+sectionKey+" .item-desc").addClass("fullheight");
+                $(this).html("<i class='fa fa-minus-circle'></i>");
+            }
+        });
 
 		Sig.showMapElements(Sig.map, mapData);
+
+		//showElementPad('news');
+		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
+		console.log("URL", url);
+		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=kgougle", 
+			null,
+			function(){ 
+				
+		},"html");
 	});
 	
+
+
+
 	</script>
 
     <?php $this->renderPartial('sectionEditTools');?>

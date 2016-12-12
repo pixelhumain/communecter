@@ -417,12 +417,7 @@ function buildListCategoriesForm(){
     });
 }
 
-
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-function refUrl(siteurl){
-=======
 function refUrl(url){
->>>>>>> merge kgougle to dev
 
 	$("#status-ref").html("<span class='letter-blue'><i class='fa fa-spin fa-refresh'></i> recherche en cours</span>");
 	$("#refResult").addClass("hidden");
@@ -439,11 +434,7 @@ function refUrl(url){
 	});
 
     $.ajax({ 
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-    	url: siteurl, // 'http://google.fr', 
-=======
     	url: url, // 'http://google.fr', 
->>>>>>> merge kgougle to dev
     	//crossOrigin: true,
     	timeout:10000,
         success:
@@ -530,11 +521,7 @@ function refUrl(url){
     			$("#refResult").removeClass("hidden");
 			   
 			   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-			   	urlValidated = siteurl;
-=======
 			   	urlValidated = url;
->>>>>>> merge kgougle to dev
 
 			    $('<output>').remove();
 			    tempDom = "";
@@ -565,10 +552,6 @@ function checkAllInfo(){
 
 
 function sendReferencement(){
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-=======
-
->>>>>>> merge kgougle to dev
 	console.log("start referencement");
 
 	var hostname = (new URL(urlValidated)).hostname;
@@ -595,27 +578,14 @@ function sendReferencement(){
 
 		var address = getAddressObj(); //formInMap.js
 
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-		var siteUrlObj = {
-=======
+
 		var urlObj = {
                 collection: "url",
                 key: "url",
->>>>>>> merge kgougle to dev
         		url: urlValidated, 
         		hostname: hostname, 
         		title: title, 
         		description: description,
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-        		keywords: keywords,
-        		categories : categoriesSelected
-        };
-
-        if(address != false) {
-        	siteUrlObj["address"] = address.address;
-        	siteUrlObj["geo"] = address.geo;
-        	siteUrlObj["geoPosition"] = address.geoPosition;
-=======
         		tags: keywords,
         		categories : categoriesSelected,
                 status: "active"
@@ -625,27 +595,17 @@ function sendReferencement(){
         	urlObj["address"] = address.address;
         	urlObj["geo"] = address.geo;
         	urlObj["geoPosition"] = address.geoPosition;
->>>>>>> merge kgougle to dev
         }
         console.log("address", address);
 
 		$.ajax({
 	        type: "POST",
-<<<<<<< 0d49bb2fa6b67415b94ec7c73426d0e86f5b3f59
-	        url: baseUrl+"/"+moduleId+"/k/savereferencement",
-	        data: siteUrlObj,
-	       	dataType: "json",
-	    	success: function(data){
-	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
-	    		else toastr.error("Une erreur est survenue pendant le référencement");
-=======
 	        url: baseUrl+"/"+moduleId+"/element/save",
 	        data: urlObj,
 	       	dataType: "json",
 	    	success: function(data){
 	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
 	    		//else toastr.error("Une erreur est survenue pendant le référencement");
->>>>>>> merge kgougle to dev
 	    		console.log("save referencement success");
 	    	},
 	    	error: function(data){

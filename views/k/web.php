@@ -129,17 +129,17 @@ function buildListCategories(){
                                     '<hr class="angle-down">'+
                                 '</div>'+
                             '</div>'+
-                            '<div class="row text-'+params.color+'">';
+                            '<div class="text-'+params.color+'">';
 
         $.each(params.items, function(keyC, val){
             //console.log(keyC, val);
-            html +=             '<div class="col-sm-4 portfolio-item">'+
+            html +=             '<div class="col-sm-3 col-xs-6 portfolio-item">'+
                                     '<button class="portfolio-link category-search-link" data-category="'+val.name+'">'+
                                         '<div class="caption">'+
                                             '<div class="caption-content">'+
                                             '</div>'+
                                         '</div>'+
-                                        '<i class="fa fa-'+val.faIcon+' fa-3x"></i>'+
+                                        '<i class="fa fa-'+val.faIcon+' fa-2x"></i>'+
                                         '<h3>'+val.name+'</h3>'+
                                     '</button>'+
                                 '</div>'

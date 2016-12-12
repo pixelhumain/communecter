@@ -610,6 +610,7 @@ foreach($news as $key => $oneNews){
 
 <?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
+console.log("NEWSSS", news);
 <?php }else { ?>
 var news = "";
 <?php } ?>

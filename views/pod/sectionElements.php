@@ -39,10 +39,16 @@
 
 
 
-<section id="<?php echo @$sectionKey; ?>" class="portfolio <?php echo $textBright; ?> <?php if(@$sectionShadow==true) echo 'shadow'; ?>">
+<section id="<?php echo @$sectionKey; ?>" 
+         class="portfolio <?php echo $textBright; ?> 
+                <?php if(@$sectionShadow==true) echo 'shadow'; ?>">
+    
+    <?php //if(@$sectionKey!="description"){ ?>
     <button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section" data-id="#<?php echo @$sectionKey; ?>">
         <i class="fa fa-cog"></i>
     </button>
+    <?php //} ?>
+
     <div class="container">
 
         <?php if(@$sectionTitle != ""){ ?>
@@ -50,6 +56,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-title">
                     <span class="sec-title"><?php echo $sectionTitle; ?></span><br>
+                    <?php if($sectionKey == "directory") echo "<small>(".@$countStrongLinks.")</small><br>"; ?>
                     <i class="fa fa-angle-down"></i>
                 </h2>
             </div>
@@ -83,29 +90,40 @@
                         </div>
                     </div> -->
                     <?php if(!isset($useImg) || @$useImg == true){ ?>
-                    <img src="<?php echo @$item['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$item['profilMediumImageUrl']) : $imgDefault; ?>" 
-                    	 class="img-responsive thumbnail img-<?php echo $imgShape; ?> thumb-type-color-<?php echo $iconColor; ?> inline" alt=""><br>
+                        <img src="<?php echo @$item['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$item['profilMediumImageUrl']) : $imgDefault; ?>" 
+                        	 class="img-responsive thumbnail img-<?php echo $imgShape; ?> 
+                                    <?php if(@$useBorderElement==true){ ?>thumb-type-color-<?php echo $iconColor; ?><?php } ?> inline" 
+                                    alt=""><br>
                     <?php } ?>
 
-                    <?php if($icon != "" && $iconColor != ""){ ?>
-                    <div class="col-md-12 col-sm-12 no-padding text-center i-item">
-                        <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
-                    </div>
+                    <?php if(@$useBorderElement==true && $icon != "" && $iconColor != ""){ ?>
+                        <div class="col-md-12 col-sm-12 no-padding text-center i-item">
+                            <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
+                        </div>
                     <?php } ?>
 
                     <?php if($nbItem <= $nbMax){ ?>
-                    <div class="col-md-12 col-sm-12 no-padding item-name"><?php echo @$item['name']; ?></div>
-                    <div class="col-md-12 col-sm-12 no-padding item-address text-red">
-                        <?php echo @$item['address']['addressLocality'] ?  '<i class="fa fa-map-marker"></i> '.$item['address']['addressLocality'] : ""; ?>
-                    </div>
-                    </a>
+                        <div class="col-md-12 col-sm-12 no-padding item-name"><?php echo @$item['name']; ?></div>
+                        <div class="col-md-12 col-sm-12 no-padding item-address text-red">
+                            <?php echo @$item['address']['addressLocality'] ?  '<i class="fa fa-map-marker"></i> '.$item['address']['addressLocality'] : ""; ?>
+                        </div>
+                        </a>
                     <?php } ?>
 
                     <?php if($nbItem <= 4 && (!isset($useDesc) || @$useDesc == true)){ ?>
-                    <div class="col-md-12 col-sm-12 no-padding item-desc <?php if(@$fullWidth && @$fullWidth == true) echo "text-left"; ?>">
-                        <?php echo @$item['shortDescription'] ? @$item['shortDescription'] :
-                                            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae."; ?>
-                    </div>
+                        <div class="col-md-12 col-sm-12 no-padding item-desc  <?php if(@$fullWidth && @$fullWidth == true) echo "text-left"; ?>">
+                            <?php echo @$item['shortDescription'] ? @$item['shortDescription'] :
+                                                "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae."; ?>
+                            
+                        </div>
+                        <?php if($sectionKey == "description"){ ?>
+                            <div class="col-md-12 no-padding"></div>
+                            <center>
+                                <button class="btn btn-default btn-full-desc" data-sectionkey="<?php echo @$sectionKey; ?>">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
+                            </center>
+                        <?php } ?>
                     <?php } ?>
 
                 <?php if($typeItem != "item"){ ?>
@@ -119,5 +137,12 @@
     	<?php } ?>
 
         </div>
+        
     </div>
 </section>
+
+<script>
+    
+    jQuery(document).ready(function() {
+    });
+</script>
