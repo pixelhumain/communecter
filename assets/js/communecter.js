@@ -5,10 +5,10 @@ $(document).ready(function() {
 	document.onkeyup = keyboardNav.checkKeycode;
 	$.contextMenu({
 	    // define which elements trigger this menu
-	    selector: ".lbh",
+	    selector: ".lbhEl",
 	    // define the elements of the menu
 	    items: {
-	        add2fav: {name: "Ajouter à vos favoris", callback: function(key, opt){ 
+	        add2fav: {name: "Ajouter à vos favoris",icon: "fa-star", callback: function(key, opt){ 
 	        	href = opt.$trigger[0].hash.split(".");
 	        	//alert(href);
 	        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
@@ -21,6 +21,8 @@ $(document).ready(function() {
 	    }
 	    // there's more, have a look at the demos and docs...
 	});
+
+	   
 });
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];

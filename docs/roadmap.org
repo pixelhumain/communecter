@@ -125,13 +125,13 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [X] Finance Transparente
-  [X] add to favorite 
+  [ ] add to favorite 
     [X] favorites.{type}.id on persons data
     [X] increment element favoriteCount
     [X] add btn on elements
     [X] maybe use right click, on any link > add to fav
     [ ] bugs 
-      [ ] onclick left menu
+      [X] onclick left menu
       [ ] add survey
   [ ] POI kanban viewer
   [ ] my POIs
