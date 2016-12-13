@@ -16,7 +16,7 @@ var typeSearchInternational = "";
 var formType = "";
 var updateLocality = false;
 var addressesIndex = false;
-
+var saveCities = new Array();
 
 function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 
@@ -227,7 +227,26 @@ function bindEventFormSig(){
 
 	/* TODO TIB */
 	$("#newElement_btnValidateAddress").click(function(){
-		backToForm();
+		if(notEmpty(saveCities[NE_insee])){
+			saveCities[NE_insee]["geoShape"] = 1;
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/city/save",
+		        data: {
+		        		city: saveCities[NE_insee]
+		        },
+		       	dataType: "json",
+		    	success: function(data){
+		    		if(data.result)
+		    			backToForm();
+		    	},
+				error: function(error){
+		    		$("#dropdown-newElement_"+currentScopeType+"-found").html("error");
+					mylog.log("Une erreur est survenue pendant l'enregistrement de la commune");
+				}
+			});
+		}else
+			backToForm();
 	});
 }
 
@@ -246,36 +265,31 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
         },
        	dataType: "json",
     	success: function(data){
-    		//mylog.log("autocompleteMultiScope() success");
+
     		//mylog.dir(data);
     		html="";
     		var allCP = new Array();
     		var allCities = new Array();
     		var inseeGeoSHapes = new Array();
+    		saveCities = new Array();
     		$.each(data.cities, function(key, value){
     			var insee = value.insee;
     			var country = value.country;
     			var dep = value.depName;
     			var region = value.regionName;
+    			if(notEmpty(value.save))
+    				saveCities[insee] = value;
+    			
     			if(currentScopeType == "city") { mylog.log("in scope city"); mylog.dir(value);
-    				// val = value.country + '_' + value.insee; 
-		    		// lbl = (typeof value.name!= "undefined") ? value.name : ""; //value.name ;
-		    		// var cp = (typeof value.postalCode!= "undefined") ? value.postalCode : ""; //value.name ;
-		    		// lblList = lbl + " (" +value.depName + ")";
-		    		// html += "<li><a href='javascript:' onclick='selectThisAdressElement(\""+currentScopeType+"\", \""+val+"\",\""+cp+"\" )'>"+lblList+"</a></li>";
-    				
-		    		$.each(value.postalCodes, function(key, valueCP){
-    					//if($.inArray(valueCP.postalCode, allCP)<0){ 
-	    				//	allCP.push(valueCP.postalCode);
-	    					if(notEmpty(value.geoShape))
+    				$.each(value.postalCodes, function(key, valueCP){
+    					if(notEmpty(value.geoShape))
 		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
-		    				var val = valueCP.name; 
-		    				var lbl = valueCP.postalCode ;
-		    				var lat = valueCP.geo.latitude;
-		    				var lng = valueCP.geo.longitude;
-		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
-		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
-	    			//}
+	    				var val = valueCP.name; 
+	    				var lbl = valueCP.postalCode ;
+	    				var lat = valueCP.geo.latitude;
+	    				var lng = valueCP.geo.longitude;
+	    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
+	    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
 	    			});
     			}; 
     			if(currentScopeType == "cp") { 
@@ -283,7 +297,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
 		    				if(notEmpty(value.geoShape))
-		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
+		    					inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
 		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;
