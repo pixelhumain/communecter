@@ -5,7 +5,7 @@ $(document).ready(function() {
 	document.onkeyup = keyboardNav.checkKeycode;
 	$.contextMenu({
 	    // define which elements trigger this menu
-	    selector: ".lbhEl",
+	    selector: ".add2fav",
 	    // define the elements of the menu
 	    items: {
 	        add2fav: {name: "Ajouter à vos favoris",icon: "fa-star", callback: function(key, opt){ 

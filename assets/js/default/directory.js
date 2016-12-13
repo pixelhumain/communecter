@@ -531,7 +531,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
 
               if(itemType!="city" && (typeof size == "undefined" || size == "max"))
-                str += "<a href='"+url+"' class='container-img-profil lbh lbhEl'>" + imgProfil + "</a>";
+                str += "<a href='"+url+"' class='container-img-profil lbh add2fav'>" + imgProfil + "</a>";
 
               str += "<div class='padding-10 informations'>";
 
@@ -544,7 +544,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 
                 if(typeof size == "undefined" || size == "max"){
                   str += "<div class='entityCenter no-padding'>";
-                  str +=    "<a href='"+url+"' class='lbh lbhEl'>" + htmlIco + "</a>";
+                  str +=    "<a href='"+url+"' class='lbh add2fav'>" + htmlIco + "</a>";
                   str += "</div>";
                 }
               }  
@@ -553,19 +553,19 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                                  
                   
                 if(notEmpty(o.parent) && notEmpty(o.parent.name))
-                  str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh lbhEl text-light-weight margin-bottom-5'>" +
+                  str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh add2fav text-light-weight margin-bottom-5'>" +
                             "<i class='fa "+parentIcon+"'></i> "
                             + o.parent.name + 
                           "</a>";
 
                 var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
-                str += "<a href='"+url+"' class='entityName text-dark lbh lbhEl'>"+
+                str += "<a href='"+url+"' class='entityName text-dark lbh add2fav'>"+
                           iconFaReply + name + 
                        "</a>";
                 
                 var thisLocality = "";
                 if(fullLocality != "" && fullLocality != " ")
-                     thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh lbhEl'>"+
+                     thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh add2fav'>"+
                                       "<i class='fa fa-home'></i> " + fullLocality + 
                                     "</a>";
                 else thisLocality = "<br>";
@@ -576,7 +576,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   parentIco = "";
                   if(type == "surveys"){ parentUrl = "#survey.entries.id."+o.survey; parentIco = "archive"; }
                   else if(type == "actions") {parentUrl = "#rooms.actions.id."+o.room;parentIco = "cogs";}
-                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh lbhEl'> " + o.parentRoom.name + "</a></div>";
+                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh add2fav'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
                     //mylog.log("typeIcoParent", o.parentRoom);
@@ -632,7 +632,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   
                   if(typeof size == "undefined" || size == "max"){
                     str += "<div class='entityCenter no-padding'>";
-                    str +=    "<a href='"+url+"' class='lbh lbhEl'>" + htmlIco + "</a>";
+                    str +=    "<a href='"+url+"' class='lbh add2fav'>" + htmlIco + "</a>";
                     str += "</div>";
                   }
                 }  
