@@ -1029,6 +1029,7 @@ class DatamigrationController extends CommunecterController {
 
 
 	public function actionRefactorSource(){
+		ini_set('memory_limit', '-1');
 		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
