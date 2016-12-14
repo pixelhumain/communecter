@@ -1290,7 +1290,15 @@ function formatData(formData, collection,ctrl) {
 			formData.medias.push(mediaObject);
 		}
 	});
-	
+	if( typeof formData.source != "undefined" && formData.source != "" ){
+		formData.source = { insertOrign : "network",
+							keys : [ 
+								formData.source
+							],
+							key : formData.source
+						}
+	}
+									
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
@@ -1465,8 +1473,6 @@ function buildDynForm(elementObj, afterLoad,data) {
 	} else 
 		alert('Vous devez etre loggué');
 }
-
-
 var contextData = null;
 var typeObj = {
 	"person" : {
