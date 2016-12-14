@@ -1027,5 +1027,42 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
+
+	public function actionRefactorSource(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
+			foreach (@$elements as $keyElt => $elt) {
+				if(!empty($elt["source"])){
+					$newsource = $elt["source"];
+					if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
+						$newsource["insertOrign"] = "import" ;
+						$newsource["key"] = $elt["source"]["key"];
+						$newsource["keys"][] = $elt["source"]["key"];
+
+						if(!empty($elt["source"]["url"]))
+							$newsource["url"] = $elt["source"]["url"];
+						if(!empty($elt["source"]["id"]))
+							$newsource["id"] = $elt["source"]["id"];
+						if(!empty($elt["source"]["update"]))
+							$newsource["update"] = $elt["source"]["update"];
+						
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+						$res = PHDB::update( $type, 
+						  	array("_id"=>new MongoId($keyElt)),
+	                        array('$set' => array(	"source" => $newsource,
+	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+					
+					
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 
