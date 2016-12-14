@@ -54,6 +54,7 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 
   [ ] GET
     [ ] Checker : Person, Orga, Event, Projet.
+      [ ] All element, mettre seulement name, url communecter et api 
     [ ] A faire : News, City, DDA, POI.
   [ ] POST
     [ ] Implémenter les tokens
